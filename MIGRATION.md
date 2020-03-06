@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 5.3.x to 6.0.x](#from-version-53x-to-60x)
+  - [React prop tables with Typescript](#react-prop-tables-with-typescript)
   - [New addon presets](#new-addon-presets)
   - [Client API changes](#client-api-changes)
     - [Removed Legacy Story APIs](#removed-legacy-story-apis)
@@ -87,6 +88,55 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 5.3.x to 6.0.x
+
+### React prop tables with Typescript
+
+Starting in 6.0 we are changing our recommended setup for extracting prop tables in `addon-docs` for React projects using TypeScript.
+
+In earlier versions, we recommended `react-docgen-typescript-loader` (`RDTL`) and bundled it with `@storybook/preset-create-react-app` and `@storybook/preset-typescript` for this reason. We now recommend `babel-plugin-react-docgen`, which is already bundled as part of `@storybook/react`.
+
+As a consequence we've removed `RDTL` from the presets, which is a breaking change. We made this change because `react-docgen` now supports TypeScript natively, and fewer dependencies simplifies things for everybody.
+
+We will be updating this section with migration information as we collect information from our users, and fixing issues as they come up throughout the 6.0 prerelease process. We are cataloging known issues [here](https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/props-tables.md#known-limitations).
+
+The biggest known issue is https://github.com/reactjs/react-docgen/issues/387, which means that the following common pattern **DOESN'T WORK**:
+
+```tsx
+import React, { FC } from 'react';
+interface IProps { ... };
+const MyComponent: FC<IProps> = ({ ... }) => ...
+```
+
+The following workaround is needed:
+
+```tsx
+const MyComponent: FC<IProps> = ({ ... }: IProps) => ...
+```
+
+Please upvote https://github.com/reactjs/react-docgen/issues/387 if this is affecting your productivity, or better yet, submit a fix!
+
+In the meantime, if you're not ready to make the move you have two options:
+
+1. Pin your to a specific preset version: `preset-create-react-app@1.5.2` or `preset-typescript@1.2.2`
+
+2. OR: Manually configure your setup to add back `react-docgen-typescript-loader`, add the following to your `.storybook/main.js`:
+
+```js
+module.exports = {
+  webpack: async (config, { configType }) => ({
+    ...config,
+    module: {
+      ...config.module,
+      rules: [
+        ...config.module.rules,
+        {
+          loader: require.resolve('react-docgen-typescript-loader'),
+          options: {}, // your options here
+        },
+    }
+  }
+}
+```
 
 ### New addon presets
 
