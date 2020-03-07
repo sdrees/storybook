@@ -88,7 +88,6 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
           borderRadius: 0,
         }
       : {
-          background: theme.background.content,
           borderRadius: theme.appBorderRadius,
           overflow: 'hidden',
           boxShadow: '0 1px 5px 0 rgba(0, 0, 0, 0.1)',
@@ -510,7 +509,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
             onDrag={this.resizeNav}
             onStop={this.unsetDrag}
           >
-            <Handle shadow="left" axis="x" isDragging={isDragging === 'nav'} />
+            <Handle axis="x" isDragging={isDragging === 'nav'} />
           </Draggable>
         )}
 
@@ -539,7 +538,6 @@ class Layout extends Component<LayoutProps, LayoutState> {
           >
             <Handle
               isDragging={isDragging === 'panel'}
-              shadow={isPanelBottom ? 'top' : 'left'}
               style={
                 isPanelBottom
                   ? {
