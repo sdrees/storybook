@@ -4,7 +4,7 @@ import { sanitize, parseKind } from '@storybook/csf';
 
 import { Args } from '../index';
 import merge from './merge';
-import { Provider } from '../init-provider-api';
+import { Provider } from '../modules/provider';
 
 export type StoryId = string;
 
@@ -12,6 +12,7 @@ export interface Root {
   id: StoryId;
   depth: 0;
   name: string;
+  refId?: string;
   children: StoryId[];
   isComponent: false;
   isRoot: true;
@@ -28,6 +29,7 @@ export interface Group {
   depth: number;
   name: string;
   children: StoryId[];
+  refId?: string;
   parent?: StoryId;
   isComponent: boolean;
   isRoot: false;
@@ -45,6 +47,7 @@ export interface Story {
   parent: StoryId;
   name: string;
   kind: string;
+  refId?: string;
   children?: StoryId[];
   isComponent: boolean;
   isRoot: false;
@@ -66,6 +69,7 @@ export interface Story {
 export interface StoryInput {
   id: StoryId;
   name: string;
+  refId?: string;
   kind: string;
   children: string[];
   parameters: {
@@ -80,6 +84,7 @@ export interface StoryInput {
     [parameterName: string]: any;
   };
   isLeaf: boolean;
+  args: Args;
 }
 
 export interface StoriesHash {
@@ -218,7 +223,7 @@ export const transformStoriesRawToStoriesHash = (
         return soFar.concat([result]);
       }, [] as GroupsList);
 
-    const paths = [...rootAndGroups.map(g => g.id), item.id];
+    const paths = [...rootAndGroups.map((g) => g.id), item.id];
 
     // Ok, now let's add everything to the store
     rootAndGroups.forEach((group, index) => {
@@ -230,8 +235,15 @@ export const transformStoriesRawToStoriesHash = (
       });
     });
 
-    const story = { ...item, parent: rootAndGroups[rootAndGroups.length - 1].id, isLeaf: true };
-    acc[item.id] = story as Story;
+    const story: Story = {
+      ...item,
+      depth: rootAndGroups.length,
+      parent: rootAndGroups[rootAndGroups.length - 1].id,
+      isLeaf: true,
+      isComponent: false,
+      isRoot: false,
+    };
+    acc[item.id] = story;
 
     return acc;
   }, {} as StoriesHash);
@@ -242,9 +254,9 @@ export const transformStoriesRawToStoriesHash = (
       acc[item.id] = item;
       const { children } = item;
       if (children) {
-        const childNodes = children.map(id => storiesHashOutOfOrder[id]) as (Story | Group)[];
-        acc[item.id].isComponent = childNodes.every(childNode => childNode.isLeaf);
-        childNodes.forEach(childNode => addItem(acc, childNode));
+        const childNodes = children.map((id) => storiesHashOutOfOrder[id]) as (Story | Group)[];
+        acc[item.id].isComponent = childNodes.every((childNode) => childNode.isLeaf);
+        childNodes.forEach((childNode) => addItem(acc, childNode));
       }
     }
     return acc;

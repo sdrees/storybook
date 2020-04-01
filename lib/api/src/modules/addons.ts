@@ -1,10 +1,10 @@
 import { ReactElement } from 'react';
 
 import { WindowLocation } from '@reach/router';
-import { Module } from '../index';
+import { ModuleFn } from '../index';
 import { Options } from '../store';
 
-export type ViewMode = 'story' | 'info' | 'settings' | undefined | string;
+export type ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
 
 export enum types {
   TAB = 'tab',
@@ -85,9 +85,9 @@ export function ensurePanel(panels: Panels, selectedPanel?: string, currentPanel
   return currentPanel;
 }
 
-export default ({ provider, store, fullAPI }: Module) => {
+export const init: ModuleFn = ({ provider, store, fullAPI }) => {
   const api: SubAPI = {
-    getElements: type => provider.getElements(type),
+    getElements: (type) => provider.getElements(type),
     getPanels: () => api.getElements(types.PANEL),
     getStoryPanels: () => {
       const allPanels = api.getPanels();
@@ -115,7 +115,7 @@ export default ({ provider, store, fullAPI }: Module) => {
       const { selectedPanel } = store.getState();
       return ensurePanel(api.getPanels(), selectedPanel, selectedPanel);
     },
-    setSelectedPanel: panelName => {
+    setSelectedPanel: (panelName) => {
       store.setState({ selectedPanel: panelName }, { persistence: 'session' });
     },
     setAddonState<S>(
@@ -135,7 +135,7 @@ export default ({ provider, store, fullAPI }: Module) => {
         .setState({ addons: { ...existing, [addonId]: nextState } }, options)
         .then(() => api.getAddonState(addonId));
     },
-    getAddonState: addonId => {
+    getAddonState: (addonId) => {
       return store.getState().addons[addonId];
     },
   };

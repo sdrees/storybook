@@ -3,7 +3,7 @@ import { styled } from '@storybook/theming';
 import { rotate360 } from '../shared/animation';
 
 const LoaderWrapper = styled.div<{ size?: number }>(({ size = 32 }) => ({
-  borderRadius: '3em',
+  borderRadius: '50%',
   cursor: 'progress',
   display: 'inline-block',
   overflow: 'hidden',
@@ -25,6 +25,6 @@ const LoaderWrapper = styled.div<{ size?: number }>(({ size = 32 }) => ({
   mixBlendMode: 'difference',
 }));
 
-export const Loader: FunctionComponent<ComponentProps<typeof LoaderWrapper>> = props => (
+export const Loader: FunctionComponent<ComponentProps<typeof LoaderWrapper>> = (props) => (
   <LoaderWrapper aria-label="Content is loading ..." aria-live="polite" role="status" {...props} />
 );

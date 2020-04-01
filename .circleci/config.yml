@@ -1,10 +1,10 @@
 version: 2.1
-
+  
 aliases:
   - &defaults
     working_directory: /tmp/storybook
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:10-browsers
 
 jobs:
   install:
@@ -14,7 +14,7 @@ jobs:
       - restore_cache:
           name: Restore core dependencies cache
           keys:
-            - core-dependencies-v4-{{ checksum "yarn.lock" }}
+            - core-dependencies-v5-{{ checksum "yarn.lock" }}
       - run:
           name: Install dependencies
           command: yarn install
@@ -23,7 +23,7 @@ jobs:
           command: yarn repo-dirty-check
       - save_cache:
           name: Cache core dependencies
-          key: core-dependencies-v4-{{ checksum "yarn.lock" }}
+          key: core-dependencies-v5-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
             - node_modules
@@ -106,7 +106,7 @@ jobs:
           command: yarn cypress install
       - save_cache:
           name: Cache core dependencies
-          key: core-dependencies-v4-{{ checksum "yarn.lock" }}
+          key: core-dependencies-v5-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
             - node_modules
@@ -195,7 +195,7 @@ jobs:
       - restore_cache:
           name: Restore core dependencies cache
           keys:
-            - core-dependencies-v4-{{ checksum "yarn.lock" }}
+            - core-dependencies-v5-{{ checksum "yarn.lock" }}
       - run:
           name: Install dependencies
           command: yarn bootstrap --install
@@ -209,7 +209,7 @@ jobs:
       - restore_cache:
           name: Restore docs dependencies cache
           keys:
-            - docs-dependencies-v2-{{ checksum "docs/yarn.lock" }}
+            - docs-dependencies-v3-{{ checksum "docs/yarn.lock" }}
       - run:
           name: Install dependencies
           command: |
@@ -222,7 +222,7 @@ jobs:
             yarn build
       - save_cache:
           name: Cache docs dependencies
-          key: docs-dependencies-v2-{{ checksum "docs/yarn.lock" }}
+          key: docs-dependencies-v3-{{ checksum "docs/yarn.lock" }}
           paths:
             - ~/.cache
   lint:

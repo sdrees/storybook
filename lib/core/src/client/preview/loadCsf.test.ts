@@ -16,7 +16,7 @@ beforeEach(() => {
 });
 
 function doHMRDispose() {
-  cbs.forEach(cb => cb(mod.hot.data));
+  cbs.forEach((cb) => cb(mod.hot.data));
   cbs = [];
 }
 
@@ -252,28 +252,6 @@ describe('core.preview.loadCsf', () => {
       __id: 'a--x',
       args: { b: 1 },
       argTypes: { b: 'string' },
-    });
-  });
-
-  it('allows passing decorators on parameters (deprecated)', () => {
-    const { configure, clientApi } = makeMocks();
-
-    const decorator = jest.fn();
-    const input = {
-      a: {
-        default: {
-          title: 'a',
-        },
-        x: Object.assign(() => 0, { story: { parameters: { decorators: [decorator] } } }),
-      },
-    };
-    configure(makeRequireContext(input), mod, 'react');
-
-    const mockedStoriesOf = clientApi.storiesOf as jest.Mock;
-    const aApi = mockedStoriesOf.mock.results[0].value;
-    expect(aApi.add).toHaveBeenCalledWith('X', input.a.x, {
-      decorators: [decorator],
-      __id: 'a--x',
     });
   });
 
