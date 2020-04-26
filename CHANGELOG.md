@@ -1,3 +1,51 @@
+## 6.0.0-alpha.43 (April 24, 2020)
+
+### Features
+
+- Addon-a11y: Use channel to highlight elements in preview ([#10456](https://github.com/storybookjs/storybook/pull/10456))
+- Storyshots: Support react hooks ([#10529](https://github.com/storybookjs/storybook/pull/10529))
+
+### Bug Fixes
+
+- Core: Transform for/of in dlls for IE11 compatibility ([#10471](https://github.com/storybookjs/storybook/pull/10471))
+
+### Maintenance
+
+- Addon-contexts: Move to deprecated-addons repo ([#10479](https://github.com/storybookjs/storybook/pull/10479))
+
+## 6.0.0-alpha.42 (April 23, 2020)
+
+### Bug Fixes
+
+- Build: Fix misc warnings that trip up Chromatic ([#10521](https://github.com/storybookjs/storybook/pull/10521))
+- Composition: Update UI for refs ([#10504](https://github.com/storybookjs/storybook/pull/10504))
+
+### Maintenance
+
+- Addon-docs: Rename `formatSource` to `transformSource` ([#10503](https://github.com/storybookjs/storybook/pull/10503))
+
+## 6.0.0-alpha.41 (April 21, 2020)
+
+### Features
+
+- Addon-docs: Reset styles in Preview component ([#10274](https://github.com/storybookjs/storybook/pull/10274))
+
+### Bug Fixes
+
+- Addon-docs: Port Vue to ArgsTable ([#10482](https://github.com/storybookjs/storybook/pull/10482))
+- Addon-docs: Fix Props controls to point to primary story ([#10480](https://github.com/storybookjs/storybook/pull/10480))
+- Core: Fix addon tab in react-native-server ([#10468](https://github.com/storybookjs/storybook/pull/10468))
+
+### Dependency Upgrades
+
+- Misc upgrades ([#10460](https://github.com/storybookjs/storybook/pull/10460))
+
+## 6.0.0-alpha.40 (April 20, 2020)
+
+### Bug Fixes
+
+- Addon-docs: Fix controls column display logic ([#10473](https://github.com/storybookjs/storybook/pull/10473))
+
 ## 6.0.0-alpha.39 (April 18, 2020)
 
 ### Breaking Changes
