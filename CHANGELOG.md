@@ -1,3 +1,43 @@
+## 6.0.0-beta.4 (May 8, 2020)
+
+### Features
+
+- React: Add `argsStory` convenience function ([#10685](https://github.com/storybookjs/storybook/pull/10685))
+
+### Dependency Upgrades
+
+- Build: Upgrade jest to 26 ([#10669](https://github.com/storybookjs/storybook/pull/10669))
+
+## 6.0.0-beta.3 (May 7, 2020)
+
+### Breaking Changes
+
+- Addon-backgrounds: Simplified parameters API ([#10634](https://github.com/storybookjs/storybook/pull/10634))
+
+### Bug Fixes
+
+- Core: Fix `globalArgs` initialization from global parameters ([#10566](https://github.com/storybookjs/storybook/pull/10566))
+- Core: Fix DLL context for IE11 ([#106444]https://github.com/storybookjs/storybook/pull/10644))
+
+### Dependency Upgrades
+
+- Addon-storyshots: Upgrade to jest 26 ([#10642](https://github.com/storybookjs/storybook/pull/10642))
+- Bump terser-webpack-plugin from 2.3.6 to 3.0.0 ([#10650](https://github.com/storybookjs/storybook/pull/10650))
+
+## 6.0.0-beta.2 (May 4, 2020)
+
+### Bug Fixes
+
+- Addon-docs: Fix broken props logic for no-args stories ([#10633](https://github.com/storybookjs/storybook/pull/10633))
+- Addon-docs: Fix custom source manual override ([#10632](https://github.com/storybookjs/storybook/pull/10632))
+- Addon-docs: Fix MDX stories with multiple children ([#9531](https://github.com/storybookjs/storybook/pull/9531))
+- Addon-docs: Fix object array in Props ([#10621](https://github.com/storybookjs/storybook/pull/10621))
+- Actions: Fix import of `uuid` ([#10625](https://github.com/storybookjs/storybook/pull/10625))
+
+### Maintenance
+
+- Core: Fix Args test to not use different code path ([#10607](https://github.com/storybookjs/storybook/pull/10607))
+
 ## 6.0.0-beta.1 (May 2, 2020)
 
 ### Features
