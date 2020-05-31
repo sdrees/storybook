@@ -110,8 +110,6 @@ export default class StoryStore {
 
   _argTypesEnhancers: ArgTypesEnhancer[];
 
-  _revision: number;
-
   _selection: Selection;
 
   constructor(params: { channel: Channel }) {
@@ -123,7 +121,6 @@ export default class StoryStore {
     this._kinds = {};
     this._stories = {};
     this._argTypesEnhancers = [];
-    this._revision = 0;
     this._selection = {} as any;
     this._error = undefined;
     this._channel = params.channel;
@@ -154,8 +151,6 @@ export default class StoryStore {
 
   finishConfiguring() {
     this._configuring = false;
-    this.pushToManager();
-    if (this._channel) this._channel.emit(Events.RENDER_CURRENT_STORY);
 
     const { globalArgs: initialGlobalArgs, globalArgTypes } = this._globalMetadata.parameters;
 
@@ -181,6 +176,11 @@ export default class StoryStore {
       },
       { ...defaultGlobalArgs, ...initialGlobalArgs }
     );
+
+    this.pushToManager();
+    if (this._channel) {
+      this._channel.emit(Events.RENDER_CURRENT_STORY);
+    }
   }
 
   addGlobalMetadata({ parameters, decorators }: StoryMetadata) {
@@ -472,7 +472,6 @@ export default class StoryStore {
 
   setError = (err: ErrorLike) => {
     this._error = err;
-    if (this._channel) this._channel.emit(Events.RENDER_CURRENT_STORY);
   };
 
   getError = (): ErrorLike | undefined => this._error;
@@ -485,7 +484,9 @@ export default class StoryStore {
 
       // If the selection is set while configuration is in process, we are guaranteed
       // we'll emit RENDER_CURRENT_STORY at the end of the process, so we shouldn't do it now.
-      if (!this._configuring) this._channel.emit(Events.RENDER_CURRENT_STORY);
+      if (!this._configuring) {
+        this._channel.emit(Events.RENDER_CURRENT_STORY);
+      }
     }
   }
 
@@ -495,6 +496,8 @@ export default class StoryStore {
     return {
       v: 2,
       globalParameters: this._globalMetadata.parameters,
+      globalArgs: this._globalArgs,
+      error: this.getError(),
       kindParameters: mapValues(this._kinds, (metadata) => metadata.parameters),
       stories: this.extract({ includeDocsOnly: true, normalizeParameters: true }),
     };
@@ -517,14 +520,6 @@ export default class StoryStore {
 
   getRawStory(kind: string, name: string) {
     return this.getStoriesForKind(kind).find((s) => s.name === name);
-  }
-
-  getRevision() {
-    return this._revision;
-  }
-
-  incrementRevision() {
-    this._revision += 1;
   }
 
   cleanHooks(id: string) {
