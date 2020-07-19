@@ -7,6 +7,8 @@ export interface ControlProps<T> {
   defaultValue?: T;
   argType?: ArgType;
   onChange: (name: string, value: T) => T | void;
+  onFocus?: (evt: any) => void;
+  onBlur?: (evt: any) => void;
 }
 
 export type ArrayValue = string[] | readonly string[];
@@ -51,12 +53,11 @@ export type OptionsControlType =
 
 export interface OptionsConfig {
   options: Options;
-  controlType: OptionsControlType;
+  type: OptionsControlType;
 }
 
 export interface NormalizedOptionsConfig {
   options: OptionsObject;
-  controlType: OptionsControlType;
 }
 
 export type TextValue = string;

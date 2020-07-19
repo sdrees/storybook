@@ -9,7 +9,7 @@ const fromDeps = (...args: string[]): string =>
     .filter(Boolean)
     .join(' && ');
 
-export const angular: Parameters = {
+const baseAngular: Parameters = {
   name: 'angular',
   version: 'latest',
   generator: [
@@ -18,6 +18,32 @@ export const angular: Parameters = {
   ].join(' && '),
   additionalDeps: ['react', 'react-dom'],
 };
+
+// export const angularv6: Parameters = {
+//   ...baseAngular,
+//   version: 'v6-lts',
+//   additionalDeps: [...baseAngular.additionalDeps, 'core-js'],
+// };
+
+export const angularv7: Parameters = {
+  ...baseAngular,
+  version: 'v7-lts',
+  additionalDeps: [...baseAngular.additionalDeps, 'core-js'],
+};
+
+export const angularv8: Parameters = {
+  ...baseAngular,
+  version: 'v8-lts',
+  additionalDeps: [...baseAngular.additionalDeps, 'core-js'],
+};
+
+export const angularv9: Parameters = {
+  ...baseAngular,
+  version: 'v9-lts',
+  additionalDeps: [...baseAngular.additionalDeps, 'core-js'],
+};
+
+export const angular: Parameters = baseAngular;
 
 // TODO: not working yet, help needed
 // export const ember: Parameters = {
@@ -90,6 +116,13 @@ export const react: Parameters = {
   generator: fromDeps('react', 'react-dom'),
 };
 
+export const react_typescript: Parameters = {
+  name: 'react_typescript',
+  version: 'latest',
+  generator: fromDeps('react'),
+  typescript: true,
+};
+
 // export const reactNative: Parameters = {
 //   name: 'reactNative',
 //   version: 'latest',
@@ -138,17 +171,31 @@ export const web_components: Parameters = {
   additionalDeps: ['react', 'react-dom'],
 };
 
-export const webpackReact: Parameters = {
-  name: 'webpackReact',
+export const webpack_react: Parameters = {
+  name: 'webpack_react',
   version: 'latest',
   generator: fromDeps('react', 'react-dom', 'webpack'),
 };
 
-export const yarn2Cra: Parameters = {
-  name: 'yarn-2-cra',
+export const yarn_2_cra: Parameters = {
+  name: 'yarn_2_cra',
   version: 'latest',
   generator: [
     `yarn set version 2`,
+    // ⚠️ Need to set registry because Yarn 2 is not using the conf of Yarn 1
+    `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6000/" } }'`,
+    // Some required magic to be able to fetch deps from local registry
+    `yarn config set unsafeHttpWhitelist --json '["localhost"]'`,
     `yarn dlx create-react-app@{{version}} {{name}}-v{{version}}`,
+  ].join(' && '),
+};
+
+export const react_in_yarn_workspace: Parameters = {
+  name: 'react_in_yarn_workspace',
+  version: 'latest',
+  generator: [
+    'cd {{name}}-v{{version}}',
+    'echo "{ \\"name\\": \\"workspace-root\\", \\"private\\": true, \\"workspaces\\": [] }" > package.json',
+    `yarn add react react-dom --silent -W`,
   ].join(' && '),
 };

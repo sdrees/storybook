@@ -28,15 +28,19 @@ Controls replaces [Storybook Knobs](https://github.com/storybookjs/storybook/tre
   - [Auto-generated args](#auto-generated-args)
   - [Custom controls args](#custom-controls-args)
   - [Fully custom args](#fully-custom-args)
+    - [Angular](#angular)
   - [Template stories](#template-stories)
 - [Configuration](#configuration)
   - [Control annotations](#control-annotations)
   - [Parameters](#parameters)
     - [Expanded: show property documentation](#expanded-show-property-documentation)
+    - [Hide NoControls warning](#hide-nocontrols-warning)
 - [Framework support](#framework-support)
 - [FAQs](#faqs)
   - [How will this replace addon-knobs?](#how-will-this-replace-addon-knobs)
   - [How do I migrate from addon-knobs?](#how-do-i-migrate-from-addon-knobs)
+  - [My controls aren't being auto-generated. What should I do?](#my-controls-arent-being-auto-generated-what-should-i-do)
+  - [How can I disable controls for certain fields on a particular story?](#how-can-i-disable-controls-for-certain-fields-on-a-particular-story)
 
 ## Installation
 
@@ -186,7 +190,7 @@ export default {
   title: 'Button',
   component: Button,
   argTypes: {
-    background: { control: { type: 'color' } },
+    background: { control: 'color' },
   },
 };
 
@@ -199,6 +203,8 @@ This generates the following UI, which is what we wanted in the first place:
 <center>
   <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/addons/controls/docs/media/addon-controls-args-background-color.png" width="80%" />
 </center>
+
+> **NOTE:** `@storybook/addon-docs` provide shorthand for `type` and `control` fields, so in the previous example, `control: 'color'` is shorthand `control: { type: 'color' }`. Similarly, `type: 'number'` can be written as shorthand for `type: { name: 'number' }`.
 
 ### Fully custom args
 
@@ -242,6 +248,23 @@ This generates the following UI with a custom range slider:
   <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/addons/controls/docs/media/addon-controls-args-reflow-slider.png" width="80%" />
 </center>
 
+**Note:** If you set a `component` for your stories, these `argTypes` will always be added automatically. If you ONLY want to use custom `argTypes`, don't set a `component`. You can still show metadata about your component by adding it to `subcomponents`.
+
+#### Angular
+
+To achieve this within an angular-cli build.
+
+```jsx
+export const Reflow = ({ count, label, ...args }) => ({
+  props: {
+    label: label,
+    count: [...Array(count).keys()],
+  },
+  template: `<Button *ngFor="let i of count">{{label}} {{i}}</Button>`,
+});
+Reflow.args = { count: 3, label: 'reflow' };
+```
+
 ### Template stories
 
 Suppose you've created the `Basic` story from above, but now we want to create a second story with a different state, such as how the button renders with the label is really long.
@@ -253,17 +276,22 @@ export const VeryLongLabel = (args) => <Button {...args} />;
 VeryLongLabel.args = { label: 'this is a very long string', background: '#ff0' };
 ```
 
-This works, but it repeats code. What we want is to reuse the `Basic` story, but with a different initial state. In Storybook we do this idiomatically for Args stories:
+This works, but it repeats code. What we want is to reuse the `Basic` story, but with a different initial state. In Storybook we do this idiomatically for Args stories by refactoring the first story into a reusable story function and then `.bind`ing it to create a duplicate object on which to hang `args`:
 
 ```jsx
-export const VeryLongLabel = Basic.bind();
+const Template = (args) => <Button {...args} />;
+
+export const Basic = Template.bind({});
+Basic.args = { label: 'hello', background: '#ff0' };
+
+export const VeryLongLabel = Template.bind({});
 VeryLongLabel.args = { label: 'this is a very long string', background: '#ff0' };
 ```
 
 We can even reuse initial args from other stories:
 
 ```jsx
-export const VeryLongLabel = Basic.bind();
+export const VeryLongLabel = Template.bind({});
 VeryLongLabel.args = { ...Basic.args, label: 'this is a very long string' };
 ```
 
@@ -288,24 +316,53 @@ Here is the full list of available controls:
 | ----------- | ------------ | -------------------------------------------------------------- | -------------- |
 | **array**   | array        | serialize array into a comma-separated string inside a textbox | separator      |
 | **boolean** | boolean      | checkbox input                                                 | -              |
-| **number**  | number       | a numberic text box input                                      | min, max, step |
+| **number**  | number       | a numeric text box input                                       | min, max, step |
 |             | range        | a range slider input                                           | min, max, step |
-| **object**  | object       | json editor text input                                         |                |
-| **options** | radio        | radio buttons input                                            |                |
-|             | inline-radio | inline radio buttons input                                     |                |
-|             | check        | multi-select checkbox input                                    |                |
-|             | inline-check | multi-select inline checkbox input                             |                |
-|             | select       | select dropdown input                                          |                |
-|             | multi-select | multi-select dropdown input                                    |                |
+| **object**  | object       | json editor text input                                         | -              |
+| **enum**    | radio        | radio buttons input                                            | options        |
+|             | inline-radio | inline radio buttons input                                     | options        |
+|             | check        | multi-select checkbox input                                    | options        |
+|             | inline-check | multi-select inline checkbox input                             | options        |
+|             | select       | select dropdown input                                          | options        |
+|             | multi-select | multi-select dropdown input                                    | options        |
 | **string**  | text         | simple text input                                              | -              |
 |             | color        | color picker input that assumes strings are color values       | -              |
 |             | date         | date picker input                                              | -              |
+
+Example customizing a control for an `enum` data type (defaults to `select` control type):
+
+```js
+export default {
+  title: 'Widget',
+  component: Widget,
+  argTypes: {
+    loadingState: {
+      control: { type: 'inline-radio', options: ['loading', 'error', 'ready'] },
+    },
+  },
+};
+```
+
+Example customizing a `number` data type (defaults to `number` control type):
+
+```js
+export default {
+  title: 'Gizmo',
+  component: Gizmo,
+  argTypes: {
+    width: {
+      control: { type: 'range', min: 400, max: 1200, step: 50 },
+    },
+  },
+};
+```
 
 ### Parameters
 
 Controls supports the following configuration parameters, either [globally or on a per-story basis](https://storybook.js.org/docs/basics/writing-stories/#parameters):
 
 - [Expanded: show property documentation](#expanded-show-property-documentation)
+- [Hide NoControls warning](#hide-nocontrols-warning)
 
 #### Expanded: show property documentation
 
@@ -324,6 +381,16 @@ And here's what the resulting UI looks like:
 <center>
   <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/addons/controls/docs/media/addon-controls-expanded.png" width="80%" />
 </center>
+
+#### Hide NoControls warning
+
+If you don't plan to handle the control args inside your Story, you can remove the warning with:
+
+```jsx
+Basic.parameters = {
+  controls: { hideNoControlsWarning: true },
+};
+```
 
 ## Framework support
 
@@ -407,5 +474,61 @@ export const Reflow = ({ count, label, ...args }) => (
   <>{range(count).map((i) => <Button label={`${label} ${i}` {...args}} />)}</>
 );
 Reflow.args = { count: 3, label: 'reflow' };
-Reflow.argTypes = { count: { control: { type: 'range', min: 0, max: 20 } } };
+Reflow.argTypes = {
+  count: { control: { type: 'range', min: 0, max: 20 } }
+};
 ```
+
+### My controls aren't being auto-generated. What should I do?
+
+There are a few known cases where controls can't be auto-generated:
+
+- You're using a framework for which automatic generation [isn't supported](#framework-support)
+- You're trying to generate controls for a component defined in an external library
+
+With a little manual work you can still use controls in such cases. Consider the following example:
+
+```js
+import { Button } from 'some-external-library';
+
+export default {
+  title: 'Button',
+  argTypes: {
+    label: { control: 'text' },
+    borderWidth: { control: { type: 'number', min: 0, max: 10 }},
+  },
+};
+
+export const Basic = (args) => <Button {...args} />;
+Basic.args = {
+  label: 'hello';
+  borderWidth: 1;
+};
+```
+
+The `argTypes` annotation (which can also be applied to individual stories if needed), gives Storybook the hints it needs to generate controls in these unsupported cases. See [control annotations](#control-annotations) for a full list of control types.
+
+It's also possible that your Storybook is misconfigured. If you think this might be the case, please search through Storybook's [Github issues](https://github.com/storybookjs/storybook/issues), and file a new issue if you don't find one that matches your use case.
+
+### How can I disable controls for certain fields on a particular story?
+
+The `argTypes` annotation annotation can be used to hide controls for a particular row, or even hide rows.
+
+Suppose you have a `Button` component with `borderWidth` and `label` properties (auto-generated or otherwise) and you want to hide the `borderWidth` row completely and disable controls for the `label` row on a specific story. Here's how you'd do that:
+
+```js
+import { Button } from 'button';
+
+export default {
+  title: 'Button',
+  component: Button,
+};
+
+export const CustomControls = (args) => <Button {...args} />;
+CustomControls.argTypes = {
+  borderWidth: { table: { disable: true } },
+  label: { control: { disable: true } },
+};
+```
+
+Like [story parameters](https://github.com/storybookjs/storybook/blob/next/docs/src/pages/basics/writing-stories/index.md#parameters), `args` and `argTypes` annotations are hierarchically merged, so story-level annotations overwrite component-level annotations.

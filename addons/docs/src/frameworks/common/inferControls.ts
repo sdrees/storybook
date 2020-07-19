@@ -1,7 +1,7 @@
 import mapValues from 'lodash/mapValues';
 import { ArgTypes, ArgType } from '@storybook/addons';
 import { Control } from '@storybook/components';
-import { SBEnumType } from '../../lib/sbtypes';
+import { SBEnumType } from '@storybook/client-api';
 
 const inferControl = (argType: ArgType): Control => {
   const { type } = argType;
@@ -28,7 +28,7 @@ const inferControl = (argType: ArgType): Control => {
       return { type: 'number' };
     case 'enum': {
       const { value } = type as SBEnumType;
-      return { type: 'options', controlType: 'select', options: value };
+      return { type: 'select', options: value };
     }
     case 'function':
     case 'symbol':
