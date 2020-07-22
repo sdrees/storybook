@@ -3,6 +3,7 @@ import memoize from 'memoizerific';
 import dedent from 'ts-dedent';
 import stable from 'stable';
 import mapValues from 'lodash/mapValues';
+import pick from 'lodash/pick';
 import store from 'store2';
 
 import { Channel } from '@storybook/channels';
@@ -219,7 +220,9 @@ export default class StoryStore {
         // '*' means select the first story. If there is none, we have no selection.
         [foundStory] = stories;
       } else if (typeof storySpecifier === 'string') {
-        foundStory = Object.values(stories).find((s) => s.id.startsWith(storySpecifier));
+        // Find the story with the shortest id that matches the specifier (see #11571)
+        const foundStories = Object.values(stories).filter((s) => s.id.startsWith(storySpecifier));
+        [foundStory] = foundStories.sort((a, b) => a.id.length - b.id.length);
       } else {
         // Try and find a story matching the name/kind, setting no selection if they don't exist.
         const { name, kind } = storySpecifier;
@@ -252,7 +255,13 @@ export default class StoryStore {
 
     this._globalMetadata.parameters = combineParameters(globalParameters, parameters);
 
-    this._globalMetadata.decorators.push(...decorators);
+    decorators.forEach((decorator) => {
+      if (this._globalMetadata.decorators.includes(decorator)) {
+        logger.warn('You tried to add a duplicate decorator, this is not expected', decorator);
+      } else {
+        this._globalMetadata.decorators.push(decorator);
+      }
+    });
   }
 
   clearGlobalDecorators() {
@@ -574,6 +583,21 @@ export default class StoryStore {
     };
   };
 
+  getStoriesJsonData = () => {
+    const value = this.getDataForManager();
+    const allowed = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
+
+    return {
+      v: 2,
+      globalParameters: pick(value.globalParameters, allowed),
+      kindParameters: mapValues(value.kindParameters, (v) => pick(v, allowed)),
+      stories: mapValues(value.stories, (v: any) => ({
+        ...pick(v, ['id', 'name', 'kind', 'story']),
+        parameters: pick(v.parameters, allowed),
+      })),
+    };
+  };
+
   pushToManager = () => {
     if (this._channel) {
       // send to the parent frame.
@@ -603,7 +627,7 @@ export default class StoryStore {
     this.getStoriesForKind(kind).map((story) => this.cleanHooks(story.id));
   }
 
-  // This API is a reimplementation of Storybook's original getStorybook() API.
+  // This API is a re-implementation of Storybook's original getStorybook() API.
   // As such it may not behave *exactly* the same, but aims to. Some notes:
   //  - It is *NOT* sorted by the user's sort function, but remains sorted in "insertion order"
   //  - It does not include docs-only stories
