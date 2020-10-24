@@ -17,7 +17,7 @@ const baseAngular: Parameters = {
   version: 'latest',
   generator: [
     `yarn add @angular/cli@{{version}} --no-lockfile --non-interactive --silent --no-progress`,
-    `npx ng new {{name}}-{{version}} --routing=true --minimal=true --style=scss --skipInstall=true`,
+    `yarn ng new {{name}}-{{version}} --routing=true --minimal=true --style=scss --skipInstall=true --strict`,
   ].join(' && '),
   additionalDeps: ['react', 'react-dom'],
 };
@@ -58,14 +58,13 @@ export const angular: Parameters = baseAngular;
 //   preBuildCommand: 'ember build',
 // };
 
-// TODO: Example stories used in CLI need to be updated
-// export const html: Parameters = {
-//   name: 'html',
-//   version: 'latest',
-//   generator: fromDeps(),
-//   autoDetect: false,
-//   additionalDeps: ['react', 'react-dom'],
-// };
+export const html: Parameters = {
+  name: 'html',
+  version: 'latest',
+  generator: fromDeps(),
+  autoDetect: false,
+  additionalDeps: ['react', 'react-dom'],
+};
 
 // TODO: broken
 // export const marionette: Parameters = {
@@ -138,7 +137,11 @@ export const react_typescript: Parameters = {
 export const cra: Parameters = {
   name: 'cra',
   version: 'latest',
-  generator: 'npx create-react-app@{{version}} {{name}}-{{version}}',
+  generator: [
+    'npx create-react-app@{{version}} {{name}}-{{version}}',
+    'cd {{name}}-{{version}}',
+    'echo "FAST_REFRESH=true" > .env',
+  ].join(' && '),
 };
 
 export const cra_typescript: Parameters = {
@@ -158,7 +161,13 @@ export const sfcVue: Parameters = {
   name: 'sfcVue',
   version: 'latest',
   generator: fromDeps('vue', 'vue-loader', 'vue-template-compiler'),
-  additionalDeps: ['react', 'react-dom'],
+  additionalDeps: [
+    'react',
+    'react-dom',
+    'webpack@webpack-4',
+    // TODO: remove when https://github.com/storybookjs/storybook/issues/11255 is solved
+    'core-js',
+  ],
 };
 
 export const svelte: Parameters = {
@@ -185,7 +194,7 @@ export const web_components: Parameters = {
 export const webpack_react: Parameters = {
   name: 'webpack_react',
   version: 'latest',
-  generator: fromDeps('react', 'react-dom', 'webpack'),
+  generator: fromDeps('react', 'react-dom', 'webpack@webpack-4'),
 };
 
 export const react_in_yarn_workspace: Parameters = {
@@ -195,5 +204,16 @@ export const react_in_yarn_workspace: Parameters = {
     'cd {{name}}-{{version}}',
     'echo "{ \\"name\\": \\"workspace-root\\", \\"private\\": true, \\"workspaces\\": [] }" > package.json',
     `yarn add react react-dom --silent -W`,
+  ].join(' && '),
+};
+
+// View results at: https://datastudio.google.com/reporting/c34f64ee-400f-4d06-ad4f-5c2133e226da
+export const cra_bench: Parameters = {
+  name: 'cra_bench',
+  version: 'latest',
+  generator: [
+    'npx create-react-app@{{version}} {{name}}-{{version}}',
+    'cd {{name}}-{{version}}',
+    "npx @storybook/bench 'npx sb init' --label cra",
   ].join(' && '),
 };
