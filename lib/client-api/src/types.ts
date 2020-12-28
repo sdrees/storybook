@@ -79,7 +79,7 @@ export interface ClientApiParams {
 
 export type ClientApiReturnFn<StoryFnReturnType> = (...args: any[]) => StoryApi<StoryFnReturnType>;
 
-export { StoryApi, DecoratorFunction };
+export type { StoryApi, DecoratorFunction };
 
 export interface ClientApiAddon<StoryFnReturnType = unknown> extends Addon {
   apply: (a: StoryApi<StoryFnReturnType>, b: any[]) => any;
@@ -102,12 +102,16 @@ export interface GetStorybookKind {
 
 // This really belongs in lib/core, but that depends on lib/ui which (dev) depends on app/react
 // which needs this type. So we put it here to avoid the circular dependency problem.
-export type RenderContext = StoreItem & {
+export type RenderContextWithoutStoryContext = StoreItem & {
   forceRender: boolean;
 
   showMain: () => void;
   showError: (error: { title: string; description: string }) => void;
   showException: (err: Error) => void;
+};
+
+export type RenderContext = RenderContextWithoutStoryContext & {
+  storyContext: StoryContext;
 };
 
 interface SBBaseType {
