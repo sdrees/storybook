@@ -1,3 +1,48 @@
+## 6.1.16 (February 2, 2021)
+
+### Bug Fixes
+
+- Addon-docs/Svelte: Fix component name in docgen-loader ([#13760](https://github.com/storybookjs/storybook/pull/13760))
+- UI: Fix copy to clipboard for insecure deployments ([#13777](https://github.com/storybookjs/storybook/pull/13777))
+
+## 6.2.0-alpha.20 (February 2, 2021)
+
+### Features
+
+- Vue: Add Vue 3 support ([#13775](https://github.com/storybookjs/storybook/pull/13775))
+- CLI: Add try/catch on readFileAsJson to improve error message ([#13730](https://github.com/storybookjs/storybook/pull/13730))
+- Core: Generate manager cache in smoke test, but don't use/clear any cache ([#13784](https://github.com/storybookjs/storybook/pull/13784))
+
+### Bug Fixes
+
+- Addon-docs/Svelte: Fix component name in docgen-loader ([#13760](https://github.com/storybookjs/storybook/pull/13760))
+- Addon-docs/Svelte: Fix component description ([#13659](https://github.com/storybookjs/storybook/pull/13659))
+- UI: Fix copy to clipboard for insecure deployments ([#13777](https://github.com/storybookjs/storybook/pull/13777))
+
+### Maintenance
+
+- CLI: Handle package versions in package strings for generators ([#13774](https://github.com/storybookjs/storybook/pull/13774))
+- Build: Do not recompile packages in publish step of the CI ([#13786](https://github.com/storybookjs/storybook/pull/13786))
+- CI: Remove generic cache key from Circle CI ([#13787](https://github.com/storybookjs/storybook/pull/13787))
+- CI: Upgrade cache GH Action & remove fallback caches ([#13752](https://github.com/storybookjs/storybook/pull/13752))
+
+## 6.2.0-alpha.19 (January 29, 2021)
+
+### Features
+
+- Addon-docs/Angular: Inline rendering support with angular-elements ([#13525](https://github.com/storybookjs/storybook/pull/13525))
+- CLI: Add version matcher functions for framework detection ([#13738](https://github.com/storybookjs/storybook/pull/13738))
+
+### Bug Fixes
+
+- CLI: Fix handling of version ranges in dependency checks ([#13759](https://github.com/storybookjs/storybook/pull/13759))
+
+### Maintenance
+
+- Build: Enable deepscan in workspace ([#13716](https://github.com/storybookjs/storybook/pull/13716))
+- Chore: Increase node version minimums to 10.13 ([#13725](https://github.com/storybookjs/storybook/pull/13725))
+- Fixes smoke-test on svelte-kitchen-sink ([#13705](https://github.com/storybookjs/storybook/pull/13705))
+
 ## 6.1.15 (January 22, 2021)
 
 ### Bug Fixes
