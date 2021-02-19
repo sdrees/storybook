@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "6.2.0-alpha.20",
+  "version": "6.2.0-alpha.29",
   "private": true,
   "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
   "keywords": [
@@ -69,8 +69,9 @@
     "publish:next": "npm run publish:latest -- --npm-tag=next",
     "run-chromatics": "node -r esm ./scripts/run-chromatics.js",
     "serve-storybooks": "http-server ./built-storybooks -p 8001",
-    "start": "yarn --cwd examples/official-storybook storybook",
-    "test": "node ./scripts/test.js",
+    "start": "yarn --cwd examples/official-storybook storybook --no-manager-cache",
+    "test": "NODE_OPTIONS=--max_old_space_size=4096 jest",
+    "test-puppeteer": "jest --projects examples/official-storybook/storyshots-puppeteer",
     "test:cli": "npm --prefix lib/cli run test",
     "test:e2e-examples": "cypress run",
     "test:e2e-examples-gui": "concurrently --success first --kill-others \"cypress open\" \"yarn serve-storybooks\"",
@@ -187,6 +188,7 @@
     "node-fetch": "^2.6.1",
     "npmlog": "^4.1.2",
     "p-limit": "^2.3.0",
+    "postcss-loader": "^4.2.0",
     "prettier": "~2.2.1",
     "prompts": "^2.4.0",
     "raf": "^3.4.1",

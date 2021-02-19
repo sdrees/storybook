@@ -1,11 +1,14 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "6.2.0-alpha.20",
+  "version": "6.2.0-alpha.29",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
     "notes",
-    "storybook"
+    "documentation",
+    "storybook",
+    "essentials",
+    "organize"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/docs",
   "bugs": {
@@ -55,18 +58,18 @@
     "@mdx-js/loader": "^1.6.22",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
-    "@storybook/addons": "6.2.0-alpha.20",
-    "@storybook/api": "6.2.0-alpha.20",
-    "@storybook/client-api": "6.2.0-alpha.20",
-    "@storybook/client-logger": "6.2.0-alpha.20",
-    "@storybook/components": "6.2.0-alpha.20",
-    "@storybook/core": "6.2.0-alpha.20",
-    "@storybook/core-events": "6.2.0-alpha.20",
+    "@storybook/addons": "6.2.0-alpha.29",
+    "@storybook/api": "6.2.0-alpha.29",
+    "@storybook/client-api": "6.2.0-alpha.29",
+    "@storybook/client-logger": "6.2.0-alpha.29",
+    "@storybook/components": "6.2.0-alpha.29",
+    "@storybook/core": "6.2.0-alpha.29",
+    "@storybook/core-events": "6.2.0-alpha.29",
     "@storybook/csf": "0.0.1",
-    "@storybook/node-logger": "6.2.0-alpha.20",
-    "@storybook/postinstall": "6.2.0-alpha.20",
-    "@storybook/source-loader": "6.2.0-alpha.20",
-    "@storybook/theming": "6.2.0-alpha.20",
+    "@storybook/node-logger": "6.2.0-alpha.29",
+    "@storybook/postinstall": "6.2.0-alpha.29",
+    "@storybook/source-loader": "6.2.0-alpha.29",
+    "@storybook/theming": "6.2.0-alpha.29",
     "acorn": "^7.4.1",
     "acorn-jsx": "^5.3.1",
     "acorn-walk": "^7.2.0",
@@ -77,6 +80,7 @@
     "global": "^4.4.0",
     "html-tags": "^3.1.0",
     "js-string-escape": "^1.0.1",
+    "loader-utils": "^2.0.0",
     "lodash": "^4.17.20",
     "prettier": "~2.2.1",
     "prop-types": "^15.7.2",
@@ -88,19 +92,20 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@angular/core": "^11.0.9",
+    "@angular/core": "^11.2.0",
     "@babel/core": "^7.12.10",
     "@emotion/core": "^10.1.1",
     "@emotion/styled": "^10.0.27",
-    "@storybook/angular": "6.2.0-alpha.20",
-    "@storybook/react": "6.2.0-alpha.20",
-    "@storybook/vue": "6.2.0-alpha.20",
-    "@storybook/web-components": "6.2.0-alpha.20",
+    "@storybook/angular": "6.2.0-alpha.29",
+    "@storybook/react": "6.2.0-alpha.29",
+    "@storybook/vue": "6.2.0-alpha.29",
+    "@storybook/web-components": "6.2.0-alpha.29",
     "@types/cross-spawn": "^6.0.2",
     "@types/doctrine": "^0.0.3",
     "@types/enzyme": "^3.10.8",
     "@types/estree": "^0.0.44",
     "@types/jest": "^25.2.3",
+    "@types/loader-utils": "^2.0.0",
     "@types/prop-types": "^15.7.3",
     "@types/tmp": "^0.1.0",
     "@types/util-deprecate": "^1.0.0",
@@ -125,13 +130,15 @@
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
-    "@storybook/angular": "6.2.0-alpha.20",
-    "@storybook/vue": "6.2.0-alpha.20",
+    "@storybook/angular": "6.2.0-alpha.29",
+    "@storybook/vue": "6.2.0-alpha.29",
+    "@storybook/vue3": "6.2.0-alpha.29",
     "babel-loader": "^8.0.0",
     "react": "^16.8.0 || ^17.0.0",
     "react-dom": "^16.8.0 || ^17.0.0",
+    "svelte": "^3.31.2",
     "sveltedoc-parser": "^3.0.4",
-    "vue": "^2.6.10",
+    "vue": "^2.6.10 || ^3.0.0",
     "webpack": ">=4"
   },
   "peerDependenciesMeta": {
@@ -141,10 +148,16 @@
     "@storybook/vue": {
       "optional": true
     },
+    "@storybook/vue3": {
+      "optional": true
+    },
     "react": {
       "optional": true
     },
     "react-dom": {
+      "optional": true
+    },
+    "svelte": {
       "optional": true
     },
     "sveltedoc-parser": {
@@ -160,5 +173,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "20db16edcd0c76c54f0d80970a288ec94ebd19e6"
+  "gitHead": "66dbae1b4f46f0a654cca2a32410f4654ca48821",
+  "storybook": {
+    "displayName": "Docs",
+    "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",
+    "unsupportedFrameworks": [
+      "react-native"
+    ]
+  }
 }

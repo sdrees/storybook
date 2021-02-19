@@ -187,11 +187,12 @@ describe('preview.story_store', () => {
           arg3: { defaultValue: { complex: { object: ['type'] } } },
           arg4: {},
           arg5: {},
+          arg6: { defaultValue: 0 }, // See https://github.com/storybookjs/storybook/issues/12767
         },
         args: {
           arg2: 3,
           arg4: 'foo',
-          arg6: false,
+          arg7: false,
         },
       });
       expect(store.getRawStory('a', '1').args).toEqual({
@@ -199,7 +200,8 @@ describe('preview.story_store', () => {
         arg2: 3,
         arg3: { complex: { object: ['type'] } },
         arg4: 'foo',
-        arg6: false,
+        arg6: 0,
+        arg7: false,
       });
     });
 
@@ -875,6 +877,30 @@ describe('preview.story_store', () => {
         store.finishConfiguring();
 
         expect(store.getSelection()).toEqual({ storyId: 'a--3', viewMode: 'story' });
+      });
+    });
+
+    describe('with args', () => {
+      it('overrides args on the story', () => {
+        const store = new StoryStore({ channel });
+        const argTypes = {
+          a: { type: { name: 'number' }, defaultValue: 1 },
+          b: { type: { name: 'number' }, defaultValue: 2 },
+          c: { type: { name: 'boolean' } },
+        };
+        store.setSelectionSpecifier({
+          storySpecifier: 'a--1',
+          viewMode: 'story',
+          args: {
+            a: 2,
+            b: 'two',
+            c: 'true',
+          },
+        });
+        addStoryToStore(store, 'a', '1', () => 0, { argTypes });
+        store.finishConfiguring();
+
+        expect(store._stories['a--1'].args).toEqual({ a: 2, b: NaN, c: true });
       });
     });
 

@@ -229,7 +229,7 @@ const startManager = async ({
       outputDir,
       configDir,
       cache,
-      corePresets: [require.resolve('./manager/manager-preset.js')],
+      corePresets: [require.resolve(`./manager/manager-preset`)],
       ...options,
     });
 
@@ -253,7 +253,6 @@ const startManager = async ({
       }
     }
   }
-
   if (!managerConfig) {
     return {};
   }
@@ -316,8 +315,8 @@ const startPreview = async ({
     configType,
     outputDir,
     cache,
-    corePresets: [require.resolve('./preview/preview-preset.js')],
-    overridePresets: [require.resolve('./preview/custom-webpack-preset.js')],
+    corePresets: [require.resolve('./preview/preview-preset')],
+    overridePresets: [require.resolve('./preview/custom-webpack-preset')],
     ...options,
   });
 
@@ -420,7 +419,7 @@ export async function storybookDevServer(options: any) {
   ]);
 
   // TODO #13083 Remove this when compiling the preview is fast enough
-  if (!options.ci && !options.smokeTest) openInBrowser(networkAddress);
+  if (!options.ci && !options.smokeTest) openInBrowser(host ? networkAddress : address);
 
   return { ...previewResult, ...managerResult, address, networkAddress };
 }
