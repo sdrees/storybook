@@ -1,7 +1,7 @@
-import webpack, { Stats, Configuration } from 'webpack';
+import webpack, { Stats, Configuration, ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import { logger } from '@storybook/node-logger';
-import { Builder } from '@storybook/core-common';
+import { Builder, useProgressReporting } from '@storybook/core-common';
 import { pathExists } from 'fs-extra';
 import express from 'express';
 import { getManagerWebpackConfig } from './manager-config';
@@ -19,12 +19,7 @@ export const executor = {
   get: webpack,
 };
 
-export const start: WebpackBuilder['start'] = async ({
-  startTime,
-  options,
-  useProgressReporting,
-  router,
-}) => {
+export const start: WebpackBuilder['start'] = async ({ startTime, options, router }) => {
   const prebuiltDir = await getPrebuiltDir(options);
   const config = await getConfig(options);
 
@@ -55,7 +50,8 @@ export const start: WebpackBuilder['start'] = async ({
     return;
   }
 
-  await useProgressReporting(compiler, options, startTime);
+  const { handler, modulesCount } = await useProgressReporting(router, startTime, options);
+  new ProgressPlugin({ handler, modulesCount }).apply(compiler);
 
   const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
     publicPath: config.output?.publicPath as string,
@@ -122,8 +118,8 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
         if (stats && (stats.hasErrors() || stats.hasWarnings())) {
           const { warnings, errors } = stats.toJson(statsOptions);
 
-          errors.forEach((e) => logger.error(e.message));
-          warnings.forEach((e) => logger.error(e.message));
+          errors.forEach((e) => logger.error(e));
+          warnings.forEach((e) => logger.error(e));
         }
 
         process.exitCode = 1;
@@ -133,7 +129,7 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
         const statsData = stats.toJson(
           typeof statsOptions === 'string' ? statsOptions : { ...statsOptions, warnings: true }
         );
-        statsData?.warnings?.forEach((e) => logger.warn(e.message));
+        statsData?.warnings?.forEach((e) => logger.warn(e));
 
         succeed();
       }

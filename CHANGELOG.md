@@ -1,17 +1,64 @@
+## 6.2.0-beta.1 (February 23, 2021)
+
+### Bug Fixes
+
+- Core: Refactor ProgressPlugin handling ([#14016](https://github.com/storybookjs/storybook/pull/14016))
+
+### Dependency Upgrades
+
+- Deps: upgrade react-dev-utils to get newer immer ([#14015](https://github.com/storybookjs/storybook/pull/14015))
+
+## 6.1.19 (February 23, 2021)
+
+### Bug Fixes
+
+- Components: Add missing `regenerator-runtime` dependency ([#13991](https://github.com/storybookjs/storybook/pull/13991))
+
+## 6.2.0-beta.0 (February 22, 2021)
+
+Storybook 6.2 is in beta. 🎉🎉🎉
+
+Hundreds of improvements and fixes, including:
+
+- **Vue 3** - Official support for the latest version of Vue.
+- **Webpack 5** - Experimental support for the latest version of Webpack.
+- **Controls** - Controls improvements including URL sync, filtering, sorting, and more.
+- **Angular** - Overhauled Angular support.
+- **Svelte** - Overhauled Svelte support.
+
+Track the release in the Github: [Storybook 6.2 Release ⚡️](https://github.com/storybookjs/storybook/issues/13160)
+
+## 6.2.0-alpha.35 (February 22, 2021)
+
+### Bug Fixes
+
+- Webpack5: Fix progress plugin version conflict ([#14007](https://github.com/storybookjs/storybook/pull/14007))
+
+## 6.2.0-alpha.34 (February 22, 2021)
+
+### Maintenance
+
+- Core: Use webpack4 to build Manager UI instead of webpack5 ([#14001](https://github.com/storybookjs/storybook/pull/14001))
+- Yarn PnP: Add missing dependencies for Webpack 4/5 work ([#13992](https://github.com/storybookjs/storybook/pull/13992))
+
+### Dependency Upgrades
+
+- Core: Fix core/builder dependencies ([#13999](https://github.com/storybookjs/storybook/pull/13999))
+
 ## 6.2.0-alpha.33 (February 22, 2021)
 
 ### Features
 
-* Addon-docs: Support story.mdx, stories.mdx ([#13996](https://github.com/storybookjs/storybook/pull/13996))
+- Addon-docs: Support story.mdx, stories.mdx ([#13996](https://github.com/storybookjs/storybook/pull/13996))
 
 ### Bug Fixes
 
-* Webpack5: Remove outdated html-webpack-plugin types ([#13986](https://github.com/storybookjs/storybook/pull/13986))
+- Webpack5: Remove outdated html-webpack-plugin types ([#13986](https://github.com/storybookjs/storybook/pull/13986))
 
 ### Dependency Upgrades
 
-* Move to a fork of react-sizeme with updated React peer dependency ([#13733](https://github.com/storybookjs/storybook/pull/13733))
-* Webpack4: Upgrade html-webpack-plugin and remove external types ([#13993](https://github.com/storybookjs/storybook/pull/13993))
+- Move to a fork of react-sizeme with updated React peer dependency ([#13733](https://github.com/storybookjs/storybook/pull/13733))
+- Webpack4: Upgrade html-webpack-plugin and remove external types ([#13993](https://github.com/storybookjs/storybook/pull/13993))
 
 ## 6.2.0-alpha.32 (February 21, 2021)
 
