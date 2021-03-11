@@ -1,6 +1,6 @@
 {
   "name": "storybook",
-  "version": "6.2.0-beta.13",
+  "version": "6.2.0-beta.14",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -23,10 +23,10 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/cli": "6.2.0-beta.13"
+    "@storybook/cli": "6.2.0-beta.14"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "9b7aad4bda5a705ae6faaaaae64c0eaee4cf99c5"
+  "gitHead": "45957443c70b308214c9eb52cb048e7e488153c6"
 }
