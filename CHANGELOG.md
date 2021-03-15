@@ -1,3 +1,23 @@
+## 6.2.0-rc.0 (March 15, 2021)
+
+### Features
+
+- Svelte: Improve default webpack config ([#14235](https://github.com/storybookjs/storybook/pull/14235))
+
+## 6.2.0-beta.15 (March 15, 2021)
+
+### Features
+
+- Controls: Add ArgsTable sorting ([#13125](https://github.com/storybookjs/storybook/pull/13125))
+
+### Bug Fixes
+
+- Addon-docs: Fix source block error on dynamically-generated stories ([#14217](https://github.com/storybookjs/storybook/pull/14217))
+
+### Dependency Upgrades
+
+- [Security] Bump react-dev-utils from 11.0.3 to 11.0.4 ([#14210](https://github.com/storybookjs/storybook/pull/14210))
+
 ## 6.2.0-beta.14 (March 11, 2021)
 
 ### Bug Fixes
