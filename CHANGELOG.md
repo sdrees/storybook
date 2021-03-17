@@ -1,3 +1,20 @@
+## 6.2.0-rc.2 (March 17, 2021)
+
+### Bug Fixes
+
+- Addon-docs/Vue,Vue3: Fix preset options for vue-docgen-api ([#14227](https://github.com/storybookjs/storybook/pull/14227))
+- Webpack5: Fix hash => fullhash ([#14255](https://github.com/storybookjs/storybook/pull/14255))
+
+### Maintenance
+
+- Core: Check webpack version ([#14256](https://github.com/storybookjs/storybook/pull/14256))
+
+## 6.2.0-rc.1 (March 16, 2021)
+
+### Features
+
+- CLI: Improve init for svelte ([#14161](https://github.com/storybookjs/storybook/pull/14161))
+
 ## 6.2.0-rc.0 (March 15, 2021)
 
 ### Features
