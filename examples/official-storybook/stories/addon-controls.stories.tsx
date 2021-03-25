@@ -15,6 +15,19 @@ export default {
       control: { type: 'select', labels: { Bold: 'BOLD' } },
       mapping: { Bold: <b>Bold</b> },
     },
+    background: {
+      name: 'Background color',
+      control: {
+        type: 'color',
+        presetColors: [
+          '#fe4a49',
+          '#FED766',
+          'rgba(0, 159, 183, 1)',
+          'HSLA(240,11%,91%,0.5)',
+          'slategray',
+        ],
+      },
+    },
   },
   parameters: { chromatic: { disable: true } },
 };
