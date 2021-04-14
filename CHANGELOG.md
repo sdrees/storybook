@@ -1,3 +1,41 @@
+## 6.3.0-alpha.7 (April 14, 2021)
+
+### Features
+
+- Angular: Improve story rendering mode ([#14226](https://github.com/storybookjs/storybook/pull/14226))
+
+### Bug Fixes
+
+- Angular: set the @ViewChild with a non-empty value in StorybookWrapperComponent ([#14586](https://github.com/storybookjs/storybook/pull/14586))
+
+### Maintenance
+
+- CI: Remove Travis, fix TeamCity, rework E2E on CircleCI ([#14522](https://github.com/storybookjs/storybook/pull/14522))
+- Core: Resolve builders relatively to config file ([#14576](https://github.com/storybookjs/storybook/pull/14576))
+
+## 6.3.0-alpha.6 (April 13, 2021)
+
+### Bug Fixes
+
+- Core: Fix build config inconsistency ([#14566](https://github.com/storybookjs/storybook/pull/14566))
+- CLI: Fix vuetify3 detection ([#14552](https://github.com/storybookjs/storybook/pull/14552))
+
+### Maintenance
+
+- Build: Disable yarn immutable install by default during E2E tests ([#14568](https://github.com/storybookjs/storybook/pull/14568))
+- Build: Fix `dev:babel` and `dev:tsc` NPM scripts ([#14560](https://github.com/storybookjs/storybook/pull/14560))
+
+### Dependency Upgrades
+
+- Bump vue-docgen-api to 4.38.0 ([#14567](https://github.com/storybookjs/storybook/pull/14567))
+- Upgrade react-colorful to latest ([#14553](https://github.com/storybookjs/storybook/pull/14553))
+
+## 6.3.0-alpha.5 (April 11, 2021)
+
+### Features
+
+- Core: Enable community builders ([#14545](https://github.com/storybookjs/storybook/pull/14545))
+
 ## 6.3.0-alpha.4 (April 10, 2021)
 
 ### Features
