@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ember",
-  "version": "6.3.0-alpha.10",
+  "version": "6.3.0-alpha.11",
   "description": "Storybook for Ember: Develop Ember Component in isolation with Hot Reloading.",
   "homepage": "https://github.com/storybookjs/storybook/tree/master/app/ember",
   "bugs": {
@@ -10,6 +10,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "app/ember"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "main": "dist/cjs/client/index.js",
@@ -39,8 +43,8 @@
   },
   "dependencies": {
     "@ember/test-helpers": "^2.1.4",
-    "@storybook/core": "6.3.0-alpha.10",
-    "@storybook/core-common": "6.3.0-alpha.10",
+    "@storybook/core": "6.3.0-alpha.11",
+    "@storybook/core-common": "6.3.0-alpha.11",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
@@ -61,5 +65,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "080babf6d75b17cd3fa95923858408cafa1eb374"
+  "gitHead": "7620a2978c6c85168b5d922f4d994cb57526998f"
 }

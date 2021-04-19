@@ -1,6 +1,6 @@
 {
   "name": "@storybook/aurelia",
-  "version": "6.3.0-alpha.10",
+  "version": "6.3.0-alpha.11",
   "description": "Storybook for Aurelia: Develop Aurelia Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -13,6 +13,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "app/aurelia"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "main": "dist/cjs/client/index.js",
@@ -35,11 +39,11 @@
   },
   "dependencies": {
     "@aurelia/webpack-loader": "^0.7.0",
-    "@storybook/addon-knobs": "6.3.0-alpha.10",
-    "@storybook/addons": "6.3.0-alpha.10",
-    "@storybook/core": "6.3.0-alpha.10",
-    "@storybook/core-common": "6.3.0-alpha.10",
-    "@storybook/node-logger": "6.3.0-alpha.10",
+    "@storybook/addon-knobs": "6.3.0-alpha.11",
+    "@storybook/addons": "6.3.0-alpha.11",
+    "@storybook/core": "6.3.0-alpha.11",
+    "@storybook/core-common": "6.3.0-alpha.11",
+    "@storybook/node-logger": "6.3.0-alpha.11",
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "global": "^4.4.0",
     "react": "16.14.0",
@@ -70,5 +74,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "080babf6d75b17cd3fa95923858408cafa1eb374"
+  "gitHead": "7620a2978c6c85168b5d922f4d994cb57526998f"
 }
