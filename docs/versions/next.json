@@ -1,1 +1,1 @@
-{"version":"6.3.0-beta.12","info":{"plain":"### Features\n\n- Essentials: Update measure/outline addons to support ESM and vite builder ([#15144](https://github.com/storybookjs/storybook/pull/15144))"}}
+{"version":"6.4.0-alpha.1","info":{"plain":"### Bug Fixes\n\n- Essentials: Update addon measure and outline ([#15354](https://github.com/storybookjs/storybook/pull/15354))\n- UI: Fix navigation after no story error ([#15349](https://github.com/storybookjs/storybook/pull/15349))"}}

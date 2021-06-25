@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "6.3.0-beta.12",
+  "version": "6.4.0-alpha.1",
   "description": "Storybook for Angular: Develop Angular Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -45,18 +45,18 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.3.0-beta.12",
-    "@storybook/api": "6.3.0-beta.12",
-    "@storybook/core": "6.3.0-beta.12",
-    "@storybook/core-common": "6.3.0-beta.12",
-    "@storybook/core-events": "6.3.0-beta.12",
-    "@storybook/node-logger": "6.3.0-beta.12",
+    "@storybook/addons": "6.4.0-alpha.1",
+    "@storybook/api": "6.4.0-alpha.1",
+    "@storybook/core": "6.4.0-alpha.1",
+    "@storybook/core-common": "6.4.0-alpha.1",
+    "@storybook/core-events": "6.4.0-alpha.1",
+    "@storybook/node-logger": "6.4.0-alpha.1",
     "@types/webpack-env": "^1.16.0",
     "autoprefixer": "^9.8.6",
     "core-js": "^3.8.2",
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "global": "^4.4.0",
-    "postcss": "^7.0.35",
+    "postcss": "^7.0.36",
     "postcss-loader": "^4.2.0",
     "raw-loader": "^4.0.2",
     "react": "16.14.0",
@@ -128,5 +128,5 @@
     "access": "public"
   },
   "builders": "dist/ts3.9/builders/builders.json",
-  "gitHead": "38d2cd7f9c33fcaa3bb52effcad385700e25c750"
+  "gitHead": "5604eea750442c054348faefc9a35aa6d25b1797"
 }
