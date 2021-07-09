@@ -1,11 +1,11 @@
 {
   "name": "@storybook/preact",
-  "version": "6.4.0-alpha.1",
+  "version": "6.4.0-alpha.12",
   "description": "Storybook for Preact: Develop Preact Component in isolation.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/app/preact",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/app/preact",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -46,9 +46,9 @@
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.12",
-    "@storybook/addons": "6.4.0-alpha.1",
-    "@storybook/core": "6.4.0-alpha.1",
-    "@storybook/core-common": "6.4.0-alpha.1",
+    "@storybook/addons": "6.4.0-alpha.12",
+    "@storybook/core": "6.4.0-alpha.12",
+    "@storybook/core-common": "6.4.0-alpha.12",
     "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -72,6 +72,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "5604eea750442c054348faefc9a35aa6d25b1797",
+  "gitHead": "417958f6d40b4ac7d361c706d9b96dd4123231cd",
   "sbmodern": "dist/modern/client/index.js"
 }

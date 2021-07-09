@@ -1,11 +1,11 @@
 {
   "name": "@storybook/builder-webpack4",
-  "version": "6.4.0-alpha.1",
+  "version": "6.4.0-alpha.12",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/core",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -61,20 +61,20 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
-    "@storybook/addons": "6.4.0-alpha.1",
-    "@storybook/api": "6.4.0-alpha.1",
-    "@storybook/channel-postmessage": "6.4.0-alpha.1",
-    "@storybook/channels": "6.4.0-alpha.1",
-    "@storybook/client-api": "6.4.0-alpha.1",
-    "@storybook/client-logger": "6.4.0-alpha.1",
-    "@storybook/components": "6.4.0-alpha.1",
-    "@storybook/core-common": "6.4.0-alpha.1",
-    "@storybook/core-events": "6.4.0-alpha.1",
-    "@storybook/node-logger": "6.4.0-alpha.1",
-    "@storybook/router": "6.4.0-alpha.1",
+    "@storybook/addons": "6.4.0-alpha.12",
+    "@storybook/api": "6.4.0-alpha.12",
+    "@storybook/channel-postmessage": "6.4.0-alpha.12",
+    "@storybook/channels": "6.4.0-alpha.12",
+    "@storybook/client-api": "6.4.0-alpha.12",
+    "@storybook/client-logger": "6.4.0-alpha.12",
+    "@storybook/components": "6.4.0-alpha.12",
+    "@storybook/core-common": "6.4.0-alpha.12",
+    "@storybook/core-events": "6.4.0-alpha.12",
+    "@storybook/node-logger": "6.4.0-alpha.12",
+    "@storybook/router": "6.4.0-alpha.12",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "6.4.0-alpha.1",
-    "@storybook/ui": "6.4.0-alpha.1",
+    "@storybook/theming": "6.4.0-alpha.12",
+    "@storybook/ui": "6.4.0-alpha.12",
     "@types/node": "^14.0.10",
     "@types/webpack": "^4.41.26",
     "autoprefixer": "^9.8.6",
@@ -132,6 +132,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "5604eea750442c054348faefc9a35aa6d25b1797",
+  "gitHead": "417958f6d40b4ac7d361c706d9b96dd4123231cd",
   "sbmodern": "dist/modern/index.js"
 }
