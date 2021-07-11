@@ -1,3 +1,25 @@
+## 6.4.0-alpha.14 (July 11, 2021)
+
+### Features
+
+- Web-components: Dynamic source snippets ([#15337](https://github.com/storybookjs/storybook/pull/15337))
+
+### Maintenance
+
+- Essentials: Add measure addon to monorepo ([#15545](https://github.com/storybookjs/storybook/pull/15545))
+
+## 6.4.0-alpha.13 (July 9, 2021)
+
+### Bug Fixes
+
+- Addon-docs/Angular: Add unique id to Angular stories ([#15501](https://github.com/storybookjs/storybook/pull/15501))
+- Composition: Fix refs ordering ([#15527](https://github.com/storybookjs/storybook/pull/15527))
+
+### Maintenance
+
+- Essentials: Add outline addon to monorepo ([#15526](https://github.com/storybookjs/storybook/pull/15526))
+- Build: Fix cache setup in GitHub Actions workflow ([#15523](https://github.com/storybookjs/storybook/pull/15523))
+
 ## 6.3.4 (July 8, 2021)
 
 ### Maintenance
