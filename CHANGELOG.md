@@ -1,3 +1,29 @@
+## 6.3.5 (July 22, 2021)
+
+### Bug Fixes
+
+- Controls: Don't set arg in validateOptions if it would be `undefined` ([#15654](https://github.com/storybookjs/storybook/pull/15654))
+- Trailing comma handling for "-s" command line paramenter ([#15615](https://github.com/storybookjs/storybook/pull/15615))
+- Controls: Fix color matching behavior for non-string types ([#15549](https://github.com/storybookjs/storybook/pull/15549))
+- Composition: Fix refs ordering ([#15527](https://github.com/storybookjs/storybook/pull/15527))
+
+## 6.4.0-alpha.19 (July 22, 2021)
+
+### Features
+
+- Controls: Don't set arg in validateOptions if it would be `undefined` ([#15654](https://github.com/storybookjs/storybook/pull/15654))
+- Vue: Add support for tsx ([#11936](https://github.com/storybookjs/storybook/pull/11936))
+
+### Bug Fixes
+
+- CLI: Fix trailing comma handling for "-s" command line paramenter ([#15615](https://github.com/storybookjs/storybook/pull/15615))
+- Components: Lazy-load syntax highlighter ([#15607](https://github.com/storybookjs/storybook/pull/15607))
+
+### Maintenance
+
+- Controls: Clean up arg unboxing and switch statements ([#14394](https://github.com/storybookjs/storybook/pull/14394))
+- Examples: Fix react-ts to be runnable standalone ([#15621](https://github.com/storybookjs/storybook/pull/15621))
+
 ## 6.4.0-alpha.18 (July 16, 2021)
 
 ### Features
