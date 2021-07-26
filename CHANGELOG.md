@@ -1,3 +1,18 @@
+## 6.3.6 (July 26, 2021)
+
+### Bug Fixes
+
+- CLI: Fix debug webpack output in static build ([#15674](https://github.com/storybookjs/storybook/pull/15674))
+- CSF3: Fix custom render function ([#15668](https://github.com/storybookjs/storybook/pull/15668))
+
+## 6.4.0-alpha.21 (July 26, 2021)
+
+### Bug Fixes
+
+- CLI: Fix debug webpack output in static build ([#15674](https://github.com/storybookjs/storybook/pull/15674))
+- Controls: Fix boolean toggle style to match underlying value ([#15676](https://github.com/storybookjs/storybook/pull/15676))
+- Components: Fix Button to accept href attribute ([#15671](https://github.com/storybookjs/storybook/pull/15671))
+
 ## 6.4.0-alpha.20 (July 24, 2021)
 
 ### Bug Fixes
