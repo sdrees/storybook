@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "6.4.0-alpha.26",
+  "version": "6.4.0-alpha.28",
   "description": "",
   "keywords": [
     "storybook"
@@ -65,6 +65,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6962d573023a8c779b676c3221b14b9d89c20cfc",
+  "gitHead": "921d1b75b7bf5876088fd6c5870122474df28190",
   "sbmodern": "dist/modern/index.js"
 }
