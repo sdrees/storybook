@@ -1,1 +1,1 @@
-{"version":"6.4.0-alpha.28","info":{"plain":"Fix bad publish of `6.4.0-alpha.27` to the `latest` tag"}}
+{"version":"6.4.0-alpha.30","info":{"plain":"### Maintenance\n\n- CLI: Improve typings of Angular components ([#15832](https://github.com/storybookjs/storybook/pull/15832))\n- Controls: Fix `esm is not defined` error with built Storybook ([#15812](https://github.com/storybookjs/storybook/pull/15812))"}}
