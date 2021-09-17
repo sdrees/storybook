@@ -1,3 +1,21 @@
+## 6.4.0-alpha.38 (September 16, 2021)
+
+### Bug Fixes
+
+- Angular: Fix ng selector issue and dynamically show templates in stories ([#15976](https://github.com/storybookjs/storybook/pull/15976))
+- Core: Fix issue with more complex `stories` paths. ([#16078](https://github.com/storybookjs/storybook/pull/16078))
+
+### Maintenance
+
+- Main.js config: Fix Builder type ([#16013](https://github.com/storybookjs/storybook/pull/16013))
+
+## 6.4.0-alpha.37 (September 16, 2021)
+
+### Bug Fixes
+
+- Angular: Fix error handling for angular builder standalone builds ([#15978](https://github.com/storybookjs/storybook/pull/15978))
+- Addon-docs: Fix `useStories` to correctly respond to change in `storyId` ([#16046](https://github.com/storybookjs/storybook/pull/16046))
+
 ## 6.4.0-alpha.36 (September 15, 2021)
 
 ### Bug Fixes
