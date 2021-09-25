@@ -1,3 +1,32 @@
+## 6.4.0-beta.0 (September 22, 2021)
+
+Storybook 6.4 is in beta! 🎊
+
+SB6.4 adds interaction testing and performance re-architecture in preparation for a huge 7.0 release.
+
+Track the release in the Github: [Storybook 6.4 Release 🛠](https://github.com/storybookjs/storybook/issues/15355)
+
+## 6.4.0-alpha.41 (September 22, 2021)
+
+### Bug Fixes
+
+- Core: Fix `./stories.json` requests in manager for relative paths ([#16114](https://github.com/storybookjs/storybook/pull/16114))
+- Core: Fix dotenv handling ([#16105](https://github.com/storybookjs/storybook/pull/16105))
+- Addon-docs: Fix embedding selected story in canvas block ([#15915](https://github.com/storybookjs/storybook/pull/15915))
+
+### Maintenance
+
+- Story index server: Add story sorting ([#16102](https://github.com/storybookjs/storybook/pull/16102))
+- Refactor `stories-json` to use a caching class ([#16106](https://github.com/storybookjs/storybook/pull/16106))
+
+## 6.4.0-alpha.40 (September 20, 2021)
+
+### Bug Fixes
+
+- Webpack5: Fix output paths ([#16074](https://github.com/storybookjs/storybook/pull/16074))
+- Core: Infer docs only stories ([#16101](https://github.com/storybookjs/storybook/pull/16101))
+- CSF3: Fix story type back-compat ([#16107](https://github.com/storybookjs/storybook/pull/16107))
+
 ## 6.4.0-alpha.39 (September 18, 2021)
 
 ### Features
