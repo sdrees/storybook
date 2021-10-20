@@ -106,7 +106,9 @@ export class PreviewWeb<TFramework extends AnyFramework> {
     importFn: ModuleImportFn;
     getProjectAnnotations: () => WebProjectAnnotations<TFramework>;
   }): MaybePromise<void> {
-    const projectAnnotations = this.getProjectAnnotationsOrRenderError(getProjectAnnotations) || {};
+    this.storyStore.setProjectAnnotations(
+      this.getProjectAnnotationsOrRenderError(getProjectAnnotations) || {}
+    );
 
     this.setupListeners();
 
@@ -114,11 +116,10 @@ export class PreviewWeb<TFramework extends AnyFramework> {
       this.indexClient = new StoryIndexClient();
       return this.indexClient
         .fetch()
-        .then((fetchedStoryIndex: StoryIndex) => {
+        .then((storyIndex: StoryIndex) => {
           this.storyStore.initialize({
-            getStoryIndex: () => fetchedStoryIndex,
+            storyIndex,
             importFn,
-            projectAnnotations,
             cache: false,
           });
           return this.setGlobalsAndRenderSelection();
@@ -133,9 +134,8 @@ export class PreviewWeb<TFramework extends AnyFramework> {
       throw new Error('No `getStoryIndex` passed defined in v6 mode');
     }
     this.storyStore.initialize({
-      getStoryIndex,
+      storyIndex: getStoryIndex(),
       importFn,
-      projectAnnotations,
       cache: true,
     });
     this.channel.emit(Events.SET_STORIES, this.storyStore.getSetStoriesPayload());
@@ -297,7 +297,7 @@ export class PreviewWeb<TFramework extends AnyFramework> {
       return;
     }
 
-    this.storyStore.updateProjectAnnotations(projectAnnotations);
+    this.storyStore.setProjectAnnotations(projectAnnotations);
     this.renderSelection();
   }
 
@@ -402,10 +402,16 @@ export class PreviewWeb<TFramework extends AnyFramework> {
     const Page: ComponentType = docs.page || NoDocs;
 
     const render = () => {
+      const fullDocsContext = {
+        ...docsContext,
+        // Put all the storyContext fields onto the docs context for back-compat
+        ...(!FEATURES.breakingChangesV7 && this.storyStore.getStoryContext(story)),
+      };
+
       // Use `componentId` as a key so that we force a re-render every time
       // we switch components
       const docsElement = (
-        <DocsContainer key={componentId} context={docsContext}>
+        <DocsContainer key={componentId} context={fullDocsContext}>
           <Page />
         </DocsContainer>
       );
@@ -548,6 +554,13 @@ export class PreviewWeb<TFramework extends AnyFramework> {
       };
 
       try {
+        if (!this.renderToDOM) {
+          throw new Error(dedent`
+            Expected 'framework' in your main.js to export 'renderToDOM', but none found.
+        
+            More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field          
+          `);
+        }
         await runPhase('rendering', () => this.renderToDOM(renderContext, element));
         if (ctrl.signal.aborted) return;
 
