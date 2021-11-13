@@ -24,8 +24,6 @@ import {
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 
-const { STORIES = [] } = global;
-
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
   render: StoryFn<TFramework>;
@@ -155,10 +153,12 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       title ||
       autoTitle(
         fileName,
-        STORIES.map((specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
-          ...specifier,
-          importPathMatcher: new RegExp(specifier.importPathMatcher),
-        }))
+        (global.STORIES || []).map(
+          (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
+            ...specifier,
+            importPathMatcher: new RegExp(specifier.importPathMatcher),
+          })
+        )
       );
     if (!title) {
       logger.info(
@@ -174,7 +174,20 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       default: { ...defaultExport, title },
     };
 
-    Object.entries(namedExports)
+    let sortedExports = namedExports;
+
+    // prefer a user/loader provided `__namedExportsOrder` array if supplied
+    // we do this as es module exports are always ordered alphabetically
+    // see https://github.com/storybookjs/storybook/issues/9136
+    if (Array.isArray(__namedExportsOrder)) {
+      sortedExports = {};
+      __namedExportsOrder.forEach((name) => {
+        const namedExport = namedExports[name];
+        if (namedExport) sortedExports[name] = namedExport;
+      });
+    }
+
+    Object.entries(sortedExports)
       .filter(([key]) => isExportStory(key, defaultExport))
       .forEach(([key, storyExport]: [string, any]) => {
         const exportName = storyNameFromExport(key);
