@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-outline",
-  "version": "6.5.0-alpha.14",
+  "version": "6.5.0-alpha.15",
   "description": "Outline all elements with CSS to help with layout placement and alignment",
   "keywords": [
     "storybook-addons",
@@ -47,11 +47,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-alpha.14",
-    "@storybook/api": "6.5.0-alpha.14",
-    "@storybook/client-logger": "6.5.0-alpha.14",
-    "@storybook/components": "6.5.0-alpha.14",
-    "@storybook/core-events": "6.5.0-alpha.14",
+    "@storybook/addons": "6.5.0-alpha.15",
+    "@storybook/api": "6.5.0-alpha.15",
+    "@storybook/client-logger": "6.5.0-alpha.15",
+    "@storybook/components": "6.5.0-alpha.15",
+    "@storybook/core-events": "6.5.0-alpha.15",
     "@storybook/csf": "0.0.2--canary.87bc651.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -76,7 +76,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "24b50ac6f5f3f5e03e020144f5e0fb5dfe2e0dbe",
+  "gitHead": "090804c9eb7638d6c3b39dc6d7610ef186a7642a",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Outline",
