@@ -1,3 +1,17 @@
+## 6.5.0-alpha.21 (January 18, 2022)
+
+### Features
+
+* Webpack5: Switch to using `import.meta.webpackHot.accept` ([#17270](https://github.com/storybookjs/storybook/pull/17270))
+
+## 6.5.0-alpha.20 (January 18, 2022)
+
+### Dependency Upgrades
+
+- Upgrade compodoc for colors.js bug ([#17266](https://github.com/storybookjs/storybook/pull/17266))
+- Upgrade jscodeshift dependency for colors.js bug ([#17265](https://github.com/storybookjs/storybook/pull/17265))
+- Restore prettier >= 2.2.1 to satisfy previous constraints ([#17257](https://github.com/storybookjs/storybook/pull/17257))
+
 ## 6.5.0-alpha.19 (January 17, 2022)
 
 ### Features
