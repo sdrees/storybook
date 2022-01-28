@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-events",
-  "version": "6.5.0-alpha.24",
+  "version": "6.5.0-alpha.26",
   "description": "Event names used in storybook core",
   "keywords": [
     "storybook"
@@ -45,6 +45,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "9630a513a02d0faaa812d0761db396468cf8f3ca",
+  "gitHead": "80fb653cad6cda80f1982c413f95f2f966d94e01",
   "sbmodern": "dist/modern/index.js"
 }
