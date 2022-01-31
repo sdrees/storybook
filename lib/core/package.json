@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core",
-  "version": "6.5.0-alpha.29",
+  "version": "6.5.0-alpha.30",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -40,11 +40,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/core-client": "6.5.0-alpha.29",
-    "@storybook/core-server": "6.5.0-alpha.29"
+    "@storybook/core-client": "6.5.0-alpha.30",
+    "@storybook/core-server": "6.5.0-alpha.30"
   },
   "peerDependencies": {
-    "@storybook/builder-webpack5": "6.5.0-alpha.29",
+    "@storybook/builder-webpack5": "6.5.0-alpha.30",
     "react": "^16.8.0 || ^17.0.0",
     "react-dom": "^16.8.0 || ^17.0.0",
     "webpack": "*"
@@ -60,6 +60,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "a8c2388d04deb833ac39c40f27b0585c47456615",
+  "gitHead": "4dc5ec5956f3a8cfb07e3c4b3442fb3f6ac95662",
   "sbmodern": "dist/modern/index.js"
 }
