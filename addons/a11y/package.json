@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "6.5.0-alpha.36",
+  "version": "6.5.0-alpha.38",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -45,14 +45,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-alpha.36",
-    "@storybook/api": "6.5.0-alpha.36",
-    "@storybook/channels": "6.5.0-alpha.36",
-    "@storybook/client-logger": "6.5.0-alpha.36",
-    "@storybook/components": "6.5.0-alpha.36",
-    "@storybook/core-events": "6.5.0-alpha.36",
+    "@storybook/addons": "6.5.0-alpha.38",
+    "@storybook/api": "6.5.0-alpha.38",
+    "@storybook/channels": "6.5.0-alpha.38",
+    "@storybook/client-logger": "6.5.0-alpha.38",
+    "@storybook/components": "6.5.0-alpha.38",
+    "@storybook/core-events": "6.5.0-alpha.38",
     "@storybook/csf": "0.0.2--canary.87bc651.0",
-    "@storybook/theming": "6.5.0-alpha.36",
+    "@storybook/theming": "6.5.0-alpha.38",
     "axe-core": "^4.2.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -81,7 +81,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "7332caf9f83fe7ab1bb1e80fb52747fb4cf4cdf1",
+  "gitHead": "b0dd637a70b6b24fbd3b8d9f9df7299511f6ba62",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Accessibility",
