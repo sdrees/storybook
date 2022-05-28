@@ -7689,7 +7689,7 @@ __metadata:
     fs-extra: ^9.0.1
     global: ^4.4.0
     globby: ^11.0.2
-    ip: ^1.1.5
+    ip: ^2.0.0
     jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
     node-fetch: ^2.6.7
@@ -26450,6 +26450,13 @@ __metadata:
   version: 1.1.5
   resolution: "ip@npm:1.1.5"
   checksum: 877e98d676cd8d0ca01fee8282d11b91fb97be7dd9d0b2d6d98e161db2d4277954f5b55db7cfc8556fe6841cb100d13526a74f50ab0d83d6b130fe8445040175
+  languageName: node
+  linkType: hard
+
+"ip@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "ip@npm:2.0.0"
+  checksum: 8d186cc5585f57372847ae29b6eba258c68862055e18a75cc4933327232cb5c107f89800ce29715d542eef2c254fbb68b382e780a7414f9ee7caf60b7a473958
   languageName: node
   linkType: hard
 

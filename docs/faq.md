@@ -472,3 +472,7 @@ export default {
   },
 };
 ```
+
+### Why isn't Storybook's test runner working?
+
+There's an issue with Storybook's test runner and the latest version of Jest (i.e., version 28), which prevents it from running effectively. As a workaround, you can downgrade Jest to the previous stable version (i.e., version 27), and you'll be able to run it. See the following [issue](https://github.com/storybookjs/test-runner/issues/99) for more information.
