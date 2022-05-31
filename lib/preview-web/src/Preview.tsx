@@ -1,7 +1,18 @@
 import dedent from 'ts-dedent';
 import global from 'global';
 import { SynchronousPromise } from 'synchronous-promise';
-import Events from '@storybook/core-events';
+import {
+  CONFIG_ERROR,
+  FORCE_REMOUNT,
+  FORCE_RE_RENDER,
+  GLOBALS_UPDATED,
+  RESET_STORY_ARGS,
+  SET_GLOBALS,
+  STORY_ARGS_UPDATED,
+  STORY_INDEX_INVALIDATED,
+  UPDATE_GLOBALS,
+  UPDATE_STORY_ARGS,
+} from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, Channel } from '@storybook/addons';
 import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/csf';
@@ -80,13 +91,13 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   setupListeners() {
-    this.serverChannel?.on(Events.STORY_INDEX_INVALIDATED, this.onStoryIndexChanged.bind(this));
+    this.serverChannel?.on(STORY_INDEX_INVALIDATED, this.onStoryIndexChanged.bind(this));
 
-    this.channel.on(Events.UPDATE_GLOBALS, this.onUpdateGlobals.bind(this));
-    this.channel.on(Events.UPDATE_STORY_ARGS, this.onUpdateArgs.bind(this));
-    this.channel.on(Events.RESET_STORY_ARGS, this.onResetArgs.bind(this));
-    this.channel.on(Events.FORCE_RE_RENDER, this.onForceReRender.bind(this));
-    this.channel.on(Events.FORCE_REMOUNT, this.onForceRemount.bind(this));
+    this.channel.on(UPDATE_GLOBALS, this.onUpdateGlobals.bind(this));
+    this.channel.on(UPDATE_STORY_ARGS, this.onUpdateArgs.bind(this));
+    this.channel.on(RESET_STORY_ARGS, this.onResetArgs.bind(this));
+    this.channel.on(FORCE_RE_RENDER, this.onForceReRender.bind(this));
+    this.channel.on(FORCE_REMOUNT, this.onForceRemount.bind(this));
   }
 
   getProjectAnnotationsOrRenderError(
@@ -144,7 +155,7 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   emitGlobals() {
-    this.channel.emit(Events.SET_GLOBALS, {
+    this.channel.emit(SET_GLOBALS, {
       globals: this.storyStore.globals.get() || {},
       globalTypes: this.storyStore.projectAnnotations.globalTypes || {},
     });
@@ -227,7 +238,7 @@ export class Preview<TFramework extends AnyFramework> {
 
     await Promise.all(this.storyRenders.map((r) => r.rerender()));
 
-    this.channel.emit(Events.GLOBALS_UPDATED, {
+    this.channel.emit(GLOBALS_UPDATED, {
       globals: this.storyStore.globals.get(),
       initialGlobals: this.storyStore.globals.initialGlobals,
     });
@@ -238,7 +249,7 @@ export class Preview<TFramework extends AnyFramework> {
 
     await Promise.all(this.storyRenders.filter((r) => r.id === storyId).map((r) => r.rerender()));
 
-    this.channel.emit(Events.STORY_ARGS_UPDATED, {
+    this.channel.emit(STORY_ARGS_UPDATED, {
       storyId,
       args: this.storyStore.args.get(storyId),
     });
@@ -344,6 +355,6 @@ export class Preview<TFramework extends AnyFramework> {
     this.previewEntryError = err;
     logger.error(reason);
     logger.error(err);
-    this.channel.emit(Events.CONFIG_ERROR, err);
+    this.channel.emit(CONFIG_ERROR, err);
   }
 }

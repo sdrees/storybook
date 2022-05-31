@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import pickBy from 'lodash/pickBy';
-import { styled, ignoreSsrWarning } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
@@ -111,20 +111,20 @@ export const TableWrapper = styled.table<{
       marginLeft: inAddonPanel ? 0 : 1,
       marginRight: inAddonPanel ? 0 : 1,
 
-      [`tr:first-child${ignoreSsrWarning}`]: {
-        [`td:first-child${ignoreSsrWarning}, th:first-child${ignoreSsrWarning}`]: {
+      [`tr:first-child`]: {
+        [`td:first-child, th:first-child`]: {
           borderTopLeftRadius: inAddonPanel ? 0 : theme.appBorderRadius,
         },
-        [`td:last-child${ignoreSsrWarning}, th:last-child${ignoreSsrWarning}`]: {
+        [`td:last-child, th:last-child`]: {
           borderTopRightRadius: inAddonPanel ? 0 : theme.appBorderRadius,
         },
       },
 
-      [`tr:last-child${ignoreSsrWarning}`]: {
-        [`td:first-child${ignoreSsrWarning}, th:first-child${ignoreSsrWarning}`]: {
+      [`tr:last-child`]: {
+        [`td:first-child, th:first-child`]: {
           borderBottomLeftRadius: inAddonPanel ? 0 : theme.appBorderRadius,
         },
-        [`td:last-child${ignoreSsrWarning}, th:last-child${ignoreSsrWarning}`]: {
+        [`td:last-child, th:last-child`]: {
           borderBottomRightRadius: inAddonPanel ? 0 : theme.appBorderRadius,
         },
       },
@@ -172,7 +172,7 @@ export const TableWrapper = styled.table<{
                     : lighten(0.05, theme.background.content),
               }
             : {
-                [`&:not(:first-child${ignoreSsrWarning})`]: {
+                [`&:not(:first-child)`]: {
                   borderTopWidth: 1,
                   borderTopStyle: 'solid',
                   borderTopColor:

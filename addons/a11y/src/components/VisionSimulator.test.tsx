@@ -30,7 +30,7 @@ describe('Vision Simulator', () => {
     await waitFor(() => expect(screen.getByTitle('Vision simulator')).toBeInTheDocument());
   });
 
-  it('should display tooltip on click', async () => {
+  it.skip('should display tooltip on click', async () => {
     // given
     render(<ThemedVisionSimulator />);
     await waitFor(() => expect(screen.getByTitle('Vision simulator')).toBeInTheDocument());
@@ -45,7 +45,7 @@ describe('Vision Simulator', () => {
     );
   });
 
-  it('should set filter', async () => {
+  it.skip('should set filter', async () => {
     // given
     render(<ThemedVisionSimulator />);
     await waitFor(() => expect(screen.getByTitle('Vision simulator')).toBeInTheDocument());

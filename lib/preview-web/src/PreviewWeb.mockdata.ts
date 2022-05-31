@@ -1,5 +1,12 @@
 import { EventEmitter } from 'events';
-import Events from '@storybook/core-events';
+import {
+  DOCS_RENDERED,
+  STORY_ERRORED,
+  STORY_MISSING,
+  STORY_RENDERED,
+  STORY_RENDER_PHASE_CHANGED,
+  STORY_THREW_EXCEPTION,
+} from '@storybook/core-events';
 import { StoryIndex } from '@storybook/store';
 import { RenderPhase } from './PreviewWeb';
 
@@ -99,15 +106,15 @@ export const waitForEvents = (
 // the async parts, so we need to listen for the "done" events
 export const waitForRender = () =>
   waitForEvents([
-    Events.STORY_RENDERED,
-    Events.DOCS_RENDERED,
-    Events.STORY_THREW_EXCEPTION,
-    Events.STORY_ERRORED,
-    Events.STORY_MISSING,
+    STORY_RENDERED,
+    DOCS_RENDERED,
+    STORY_THREW_EXCEPTION,
+    STORY_ERRORED,
+    STORY_MISSING,
   ]);
 
 export const waitForRenderPhase = (phase: RenderPhase) =>
-  waitForEvents([Events.STORY_RENDER_PHASE_CHANGED], ({ newPhase }) => newPhase === phase);
+  waitForEvents([STORY_RENDER_PHASE_CHANGED], ({ newPhase }) => newPhase === phase);
 
 // A little trick to ensure that we always call the real `setTimeout` even when timers are mocked
 const realSetTimeout = setTimeout;

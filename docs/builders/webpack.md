@@ -193,7 +193,7 @@ When working with TypeScript projects, the default Webpack configuration may fai
 <!-- prettier-ignore-end -->
 
 <div class="aside">
-💡 Learn more about Storybook's <a href="./typescript">built-in TypeScript support</a> or see <a href="https://github.com/storybookjs/storybook/issues/14087">this issue</a> for more information.
+💡 Learn more about Storybook's <a href="../configure/typescript">built-in TypeScript support</a> or see <a href="https://github.com/storybookjs/storybook/issues/14087">this issue</a> for more information.
 </div>
 
 #### Learn more about builders
