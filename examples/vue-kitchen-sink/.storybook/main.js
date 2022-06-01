@@ -20,5 +20,6 @@ module.exports = {
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: true,
+    storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
   },
 };
