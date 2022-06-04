@@ -18,13 +18,16 @@ If you ran `sb init` to include Storybook in your project, the Essentials addon 
 
 If you're upgrading from a previous Storybook version, you'll need to run the following command in your terminal:
 
-```shell
-#With npm
-npm install -D @storybook/addon-essentials
+<!-- prettier-ignore-start -->
 
-#With yarn
-yarn add -D @storybook/addon-essentials
-```
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-essentials-install.yarn.js.mdx',
+    'common/storybook-addon-essentials-install.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 Update your Storybook configuration (in [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)) to include the Essentials addon.
 
@@ -44,14 +47,16 @@ Essentials is "zero-config”. It comes with a recommended configuration out of 
 
 If you need to reconfigure any of the [individual Essentials addons](https://storybook.js.org/addons/tag/essentials), install them manually by following the installation instructions, register them in your Storybook configuration file (i.e., [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)) and adjust the configuration to suit your needs. For example:
 
-```shell
-#With npm
-npm install -D @storybook/addon-actions
+<!-- prettier-ignore-start -->
 
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-actions-install.yarn.js.mdx',
+    'common/storybook-addon-actions-install.npm.js.mdx',
+  ]}
+/>
 
-#With yarn
-yarn add -D @storybook/addon-actions
-```
+<!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 

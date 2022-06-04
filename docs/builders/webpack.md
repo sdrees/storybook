@@ -40,16 +40,34 @@ You can import `.json` files and have them expanded to a JavaScript object:
 
 <!-- prettier-ignore-end -->
 
-If you want to know the exact details of the Webpack config, the best way is to run either of the following:
+If you want to know the exact details of the Webpack config, the best way is to run either of the following commands:
 
-```shell
+For development mode:
 
-## Development mode
-yarn start-storybook --debug-webpack
+<!-- prettier-ignore-start -->
 
-## Production mode
-yarn build-storybook --debug-webpack
-```
+<CodeSnippets
+  paths={[
+    'common/storybook-debug-webpack-dev.yarn.js.mdx',
+    'common/storybook-debug-webpack-dev.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+For production mode:
+
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-debug-webpack-prod.yarn.js.mdx',
+    'common/storybook-debug-webpack-prod.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ### Code splitting
 
@@ -199,5 +217,5 @@ When working with TypeScript projects, the default Webpack configuration may fai
 #### Learn more about builders
 
 - [Vite builder](./vite.md) for bundling with Vite
-- [Webpack builder](./webpack.md) for bundling with Webpack
+- Webpack builder for bundling with Webpack
 - [Builder API](./builder-api.md) for building a Storybook builder
