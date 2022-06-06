@@ -476,3 +476,12 @@ export default {
 ### Why isn't Storybook's test runner working?
 
 There's an issue with Storybook's test runner and the latest version of Jest (i.e., version 28), which prevents it from running effectively. As a workaround, you can downgrade Jest to the previous stable version (i.e., version 27), and you'll be able to run it. See the following [issue](https://github.com/storybookjs/test-runner/issues/99) for more information.
+
+
+### How does Storybook handles enviroment variables?
+
+Storybook has built-in support for [environment variables](./configure/environment-variables.md). By default, environment variables are only available in Node.js code and are not available in the browser as some variables should be kept secret (e.g., API keys) and **not** exposed to anyone visiting the published Storybook.
+
+To expose a variable, you must preface its name with `STORYBOOK_`. So `STORYBOOK_API_URL` will be available in browser code but `API_KEY` will not. Additionally you can also customize which variables are exposed by setting the [`env`](./configure/environment-variables.md#using-storybook-configuration) field in the `.storybook/main.js` file.
+
+Variables are set when JavaScript is compiled so when the development server is started or you build your Storybook. Environment variable files should not be committed to Git as they often contain secrets which are not safe to add to Git. Instead, add `.env.*` to your `.gitignore` file and set up the environment variables manually on your hosting provider (e.g., [GitHub](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository)).
