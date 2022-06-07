@@ -169,11 +169,7 @@ async function dts({ input, externals, cwd, ...options }: Options) {
 
     // await fs.remove(path.join(cwd, 'dist/ts-tmp'));
 
-    await execa('node', [
-      path.join(__dirname, '../node_modules/.bin/downlevel-dts'),
-      'dist/ts3.9',
-      'dist/ts3.4',
-    ]);
+    await execa.command('yarn run -T downlevel-dts dist/ts3.9 dist/ts3.4');
   }
 }
 
