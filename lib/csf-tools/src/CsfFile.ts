@@ -268,6 +268,10 @@ export class CsfFile {
                         __isArgsStory = isArgsStory(p.value as t.Expression, parent, self);
                       } else if (p.key.name === 'name' && t.isStringLiteral(p.value)) {
                         name = p.value.value;
+                      } else if (p.key.name === 'storyName' && t.isStringLiteral(p.value)) {
+                        logger.warn(
+                          `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
+                        );
                       }
                       self._storyAnnotations[exportName][p.key.name] = p.value;
                     }
