@@ -43,8 +43,9 @@ Start your Storybook with:
 <CodeSnippets
   paths={[
     'angular/storybook-run-dev.with-builder.js.mdx',
-    'common/storybook-run-dev.npm.js.mdx',
     'common/storybook-run-dev.yarn.js.mdx',
+    'common/storybook-run-dev.npm.js.mdx',
+
   ]}
 />
 

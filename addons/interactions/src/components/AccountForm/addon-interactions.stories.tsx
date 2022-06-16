@@ -131,7 +131,7 @@ export const StandardEmailFailed: CSF3Story = {
     await userEvent.click(canvas.getByRole('button', { name: /create account/i }));
 
     await canvas.findByText('Please enter a correctly formatted email address');
-    expect(args.onSubmit).not.toHaveBeenCalled();
+    await expect(args.onSubmit).not.toHaveBeenCalled();
   },
 };
 
