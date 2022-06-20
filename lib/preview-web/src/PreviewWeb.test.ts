@@ -44,6 +44,7 @@ import {
   waitForRender,
   waitForQuiescence,
   waitForRenderPhase,
+  teardownRenderToDOM,
 } from './PreviewWeb.mockdata';
 
 jest.mock('./WebView');
@@ -120,7 +121,8 @@ beforeEach(() => {
   componentOneExports.default.loaders[0].mockReset().mockImplementation(async () => ({ l: 7 }));
   componentOneExports.default.parameters.docs.container.mockClear();
   componentOneExports.a.play.mockReset();
-  projectAnnotations.renderToDOM.mockReset();
+  teardownRenderToDOM.mockReset();
+  projectAnnotations.renderToDOM.mockReset().mockReturnValue(teardownRenderToDOM);
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
   (ReactDOM.render as any as jest.Mock<typeof ReactDOM.render>)
@@ -470,7 +472,7 @@ describe('PreviewWeb', () => {
 
       it('renders exception if renderToDOM throws', async () => {
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+        projectAnnotations.renderToDOM.mockImplementation(() => {
           throw error;
         });
 
@@ -519,9 +521,7 @@ describe('PreviewWeb', () => {
 
       it('renders error if the story calls showError', async () => {
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
-          context.showError(error)
-        );
+        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
 
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
@@ -535,7 +535,7 @@ describe('PreviewWeb', () => {
 
       it('renders exception if the story calls showException', async () => {
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+        projectAnnotations.renderToDOM.mockImplementation((context) =>
           context.showException(error)
         );
 
@@ -562,7 +562,7 @@ describe('PreviewWeb', () => {
 
       it('does not show error display if the render function throws IGNORED_EXCEPTION', async () => {
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+        projectAnnotations.renderToDOM.mockImplementation(() => {
           throw IGNORED_EXCEPTION;
         });
 
@@ -837,7 +837,7 @@ describe('PreviewWeb', () => {
         const [gate, openGate] = createGate();
 
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementationOnce(async () => gate);
+        projectAnnotations.renderToDOM.mockImplementation(async () => gate);
 
         await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
         await waitForRenderPhase('rendering');
@@ -876,7 +876,7 @@ describe('PreviewWeb', () => {
 
       it('works if it is called directly from inside non async renderToDOM', async () => {
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+        projectAnnotations.renderToDOM.mockImplementation(() => {
           emitter.emit(UPDATE_STORY_ARGS, {
             storyId: 'component-one--a',
             updatedArgs: { new: 'arg' },
@@ -912,7 +912,7 @@ describe('PreviewWeb', () => {
         componentOneExports.a.play.mockImplementationOnce(async () => gate);
 
         const renderToDOMCalled = new Promise((resolve) => {
-          projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+          projectAnnotations.renderToDOM.mockImplementation(() => {
             resolve(null);
           });
         });
@@ -1296,7 +1296,7 @@ describe('PreviewWeb', () => {
       const [gate, openGate] = createGate();
 
       document.location.search = '?id=component-one--a';
-      projectAnnotations.renderToDOM.mockImplementationOnce(async () => gate);
+      projectAnnotations.renderToDOM.mockImplementation(async () => gate);
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
       await waitForRenderPhase('rendering');
 
@@ -1463,6 +1463,20 @@ describe('PreviewWeb', () => {
         expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
       });
 
+      it('does NOT call renderToDOMs teardown', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        projectAnnotations.renderToDOM.mockClear();
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--a',
+          viewMode: 'story',
+        });
+        await waitForSetCurrentStory();
+
+        expect(teardownRenderToDOM).not.toHaveBeenCalled();
+      });
+
       // For https://github.com/storybookjs/storybook/issues/17214
       it('does NOT render a second time if preparing', async () => {
         document.location.search = '?id=component-one--a';
@@ -1510,6 +1524,20 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing story in story viewMode', () => {
+      it('calls renderToDOMs teardown', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        projectAnnotations.renderToDOM.mockClear();
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--b',
+          viewMode: 'story',
+        });
+        await waitForSetCurrentStory();
+
+        expect(teardownRenderToDOM).toHaveBeenCalled();
+      });
+
       it('updates URL', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -1645,7 +1673,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+        projectAnnotations.renderToDOM.mockImplementation(() => {
           throw error;
         });
 
@@ -1666,9 +1694,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
-          context.showError(error)
-        );
+        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
 
         mockChannel.emit.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
@@ -1690,7 +1716,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+        projectAnnotations.renderToDOM.mockImplementation((context) =>
           context.showException(error)
         );
 
@@ -1811,7 +1837,7 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
 
           document.location.search = '?id=component-one--a';
-          projectAnnotations.renderToDOM.mockImplementationOnce(async () => gate);
+          projectAnnotations.renderToDOM.mockImplementation(async () => gate);
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('rendering');
 
@@ -1937,6 +1963,19 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing from story viewMode to docs', () => {
+      it('calls renderToDOMs teardown', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--a',
+          viewMode: 'docs',
+        });
+        await waitForSetCurrentStory();
+
+        expect(teardownRenderToDOM).toHaveBeenCalled();
+      });
+
       it('updates URL', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -2199,7 +2238,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+        projectAnnotations.renderToDOM.mockImplementation(() => {
           throw error;
         });
 
@@ -2217,9 +2256,7 @@ describe('PreviewWeb', () => {
 
       it('renders error if the story calls showError', async () => {
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
-          context.showError(error)
-        );
+        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
 
         document.location.search = '?id=component-one--a&viewMode=docs';
         const preview = await createAndRenderPreview();
@@ -2241,7 +2278,7 @@ describe('PreviewWeb', () => {
 
       it('renders exception if the story calls showException', async () => {
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+        projectAnnotations.renderToDOM.mockImplementation((context) =>
           context.showException(error)
         );
 
@@ -2345,6 +2382,17 @@ describe('PreviewWeb', () => {
         return path === './src/ComponentOne.stories.js'
           ? newComponentOneExports
           : componentTwoExports;
+      });
+
+      it('calls renderToDOMs teardown', async () => {
+        document.location.search = '?id=component-one--a';
+        const preview = await createAndRenderPreview();
+        mockChannel.emit.mockClear();
+
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await waitForRender();
+
+        expect(teardownRenderToDOM).toHaveBeenCalled();
       });
 
       it('does not emit STORY_UNCHANGED', async () => {
@@ -2491,7 +2539,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+        projectAnnotations.renderToDOM.mockImplementation(() => {
           throw error;
         });
 
@@ -2508,9 +2556,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
-          context.showError(error)
-        );
+        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
 
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
@@ -2528,7 +2574,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+        projectAnnotations.renderToDOM.mockImplementation((context) =>
           context.showException(error)
         );
 
@@ -2627,6 +2673,17 @@ describe('PreviewWeb', () => {
         return path === './src/ComponentOne.stories.js'
           ? componentOneExports
           : newComponentTwoExports;
+      });
+
+      it('does NOT call renderToDOMs teardown', async () => {
+        document.location.search = '?id=component-one--a';
+        const preview = await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await waitForEvents([STORY_UNCHANGED]);
+
+        expect(teardownRenderToDOM).not.toHaveBeenCalled();
       });
 
       it('emits STORY_UNCHANGED', async () => {
@@ -2753,6 +2810,17 @@ describe('PreviewWeb', () => {
           'component-one--b': storyIndex.stories['component-one--b'],
         },
       };
+
+      it('calls renderToDOMs teardown', async () => {
+        document.location.search = '?id=component-one--a';
+        const preview = await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        preview.onStoriesChanged({ importFn: newImportFn, storyIndex: newStoryIndex });
+        await waitForEvents([STORY_MISSING]);
+
+        expect(teardownRenderToDOM).toHaveBeenCalled();
+      });
 
       it('renders loading error', async () => {
         document.location.search = '?id=component-one--a';
@@ -2918,6 +2986,18 @@ describe('PreviewWeb', () => {
         storyId: 'component-one--a',
         args: { foo: 'a', global: 'added' },
       });
+    });
+
+    it('calls renderToDOMs teardown', async () => {
+      document.location.search = '?id=component-one--a';
+      const preview = await createAndRenderPreview();
+
+      projectAnnotations.renderToDOM.mockClear();
+      mockChannel.emit.mockClear();
+      preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
+      await waitForRender();
+
+      expect(teardownRenderToDOM).toHaveBeenCalled();
     });
 
     it('rerenders the current story with new global meta-generated context', async () => {

@@ -23,6 +23,7 @@ import {
   StoryIndex,
   PromiseLike,
   WebProjectAnnotations,
+  RenderToDOM,
 } from '@storybook/store';
 
 import { StoryRender } from './StoryRender';
@@ -45,7 +46,7 @@ export class Preview<TFramework extends AnyFramework> {
 
   importFn?: ModuleImportFn;
 
-  renderToDOM: WebProjectAnnotations<TFramework>['renderToDOM'];
+  renderToDOM: RenderToDOM<TFramework>;
 
   storyRenders: StoryRender<TFramework>[] = [];
 
