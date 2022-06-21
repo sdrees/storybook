@@ -23,10 +23,13 @@ export class NPMProxy extends JsPackageManager {
   }
 
   hasLegacyPeerDeps() {
-    return (
-      this.executeCommand('npm', ['config', 'get', 'legacy-peer-deps', '--location=project']) ===
-      'true'
-    );
+    const result = this.executeCommand('npm', [
+      'config',
+      'get',
+      'legacy-peer-deps',
+      '--location=project',
+    ]);
+    return result.trim() === 'true';
   }
 
   setLegacyPeerDeps() {
