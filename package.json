@@ -185,7 +185,7 @@
     "@storybook/store": "workspace:*",
     "@storybook/svelte": "workspace:*",
     "@storybook/telemetry": "workspace:*",
-    "@storybook/testing-library": "^0.0.7",
+    "@storybook/testing-library": "0.0.14-next.0",
     "@storybook/theming": "workspace:*",
     "@storybook/ui": "workspace:*",
     "@storybook/vue": "workspace:*",
