@@ -7763,7 +7763,6 @@ __metadata:
     commander: ^6.2.1
     compression: ^1.7.4
     core-js: ^3.8.2
-    cpy: ^8.1.2
     detect-port: ^1.3.0
     express: ^4.17.1
     fs-extra: ^9.0.1
@@ -18123,35 +18122,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cp-file@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "cp-file@npm:7.0.0"
-  dependencies:
-    graceful-fs: ^4.1.2
-    make-dir: ^3.0.0
-    nested-error-stacks: ^2.0.0
-    p-event: ^4.1.0
-  checksum: db3ef3e3e466742f392ae71edb9b2cdbb314e855d97630a65de57bc1097bacf6e844f6d9d44882b8678c0de26ba7e656c2c915960435970067823372e807eafa
-  languageName: node
-  linkType: hard
-
-"cpy@npm:^8.1.2":
-  version: 8.1.2
-  resolution: "cpy@npm:8.1.2"
-  dependencies:
-    arrify: ^2.0.1
-    cp-file: ^7.0.0
-    globby: ^9.2.0
-    has-glob: ^1.0.0
-    junk: ^3.1.0
-    nested-error-stacks: ^2.1.0
-    p-all: ^2.1.0
-    p-filter: ^2.1.0
-    p-map: ^3.0.0
-  checksum: 84611fdd526a0582ae501a0fa1e1d55e16348c69110eb17be5fc0c087b7b2aa6caec014286b669e4f123750d01e0c4db77d32fdcdb9840c3df4d161a137a345a
-  languageName: node
-  linkType: hard
-
 "cra-kitchen-sink@workspace:examples/cra-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "cra-kitchen-sink@workspace:examples/cra-kitchen-sink"
@@ -24894,15 +24864,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"has-glob@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "has-glob@npm:1.0.0"
-  dependencies:
-    is-glob: ^3.0.0
-  checksum: 2546d20b7a667304d8b2e490c2d5a4e20e799a43eb6d97c0d47c0c737bbde082a73731001c791d445b904b3f408d584477df7d2d301183e13c4b3f0a3c81787b
-  languageName: node
-  linkType: hard
-
 "has-symbols@npm:^1.0.1, has-symbols@npm:^1.0.2":
   version: 1.0.2
   resolution: "has-symbols@npm:1.0.2"
@@ -26982,7 +26943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-glob@npm:^3.0.0, is-glob@npm:^3.1.0":
+"is-glob@npm:^3.1.0":
   version: 3.1.0
   resolution: "is-glob@npm:3.1.0"
   dependencies:
@@ -29704,13 +29665,6 @@ __metadata:
     readable-stream: ~2.3.6
     set-immediate-shim: ~1.0.1
   checksum: c43156811a3f6eb002b4e8d6d4be3191bd756191f63b1b01a38ecd860f3dd8cf451729bb3dcdae68003a93719ceed051a3de34356eabb3b7ec7d3ed834f42895
-  languageName: node
-  linkType: hard
-
-"junk@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "junk@npm:3.1.0"
-  checksum: 820174b9fa9a3af09aeeeeb1022df2481a2b10752ce5f65ac63924a79cb9bba83ea7c288e8d5b448951109742da5ea69a230846f4bf3c17c5c6a1d0603b63db4
   languageName: node
   linkType: hard
 
@@ -33162,13 +33116,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nested-error-stacks@npm:^2.0.0, nested-error-stacks@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "nested-error-stacks@npm:2.1.0"
-  checksum: 8d4e8f81a66be0910d766b3a5972117b0a65bade2f18b2dcb414489e73f93d84dd2b88d5cbf3550b7f427c2f2bbfe2e6e2945b228eefe3328b1fde335df220d1
-  languageName: node
-  linkType: hard
-
 "next-tick@npm:~1.0.0":
   version: 1.0.0
   resolution: "next-tick@npm:1.0.0"
@@ -34464,15 +34411,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p-all@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "p-all@npm:2.1.0"
-  dependencies:
-    p-map: ^2.0.0
-  checksum: 874eafa2e3f38b258f8beed34549befbc8a52a63818e0981b8beff03f592e1e1f47b8aab2483f844f2745815ffa010def58bf1edbc95614466c55411f02f3049
-  languageName: node
-  linkType: hard
-
 "p-cancelable@npm:^1.0.0":
   version: 1.1.0
   resolution: "p-cancelable@npm:1.1.0"
@@ -34507,24 +34445,6 @@ __metadata:
   version: 2.2.0
   resolution: "p-each-series@npm:2.2.0"
   checksum: 32a7cce1312bf70f99079db2ff070fc3ee2ed6efe0fa0444616fa38f79730ad09b461d009127d25254c4c865c40b6664e2c656b1a7b2c4781756d9173c974269
-  languageName: node
-  linkType: hard
-
-"p-event@npm:^4.1.0":
-  version: 4.2.0
-  resolution: "p-event@npm:4.2.0"
-  dependencies:
-    p-timeout: ^3.1.0
-  checksum: f1b6a2fb13d47f2a8afc00150da5ece0d28940ce3d8fa562873e091d3337d298e78fee9cb18b768598ff1d11df608b2ae23868309ff6405b864a2451ccd6d25a
-  languageName: node
-  linkType: hard
-
-"p-filter@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "p-filter@npm:2.1.0"
-  dependencies:
-    p-map: ^2.0.0
-  checksum: 5ac34b74b3b691c04212d5dd2319ed484f591c557a850a3ffc93a08cb38c4f5540be059c6b10a185773c479ca583a91ea00c7d6c9958c815e6b74d052f356645
   languageName: node
   linkType: hard
 
@@ -34675,15 +34595,6 @@ __metadata:
   dependencies:
     retry: ^0.12.0
   checksum: 4fbec30cb0d8d10c5d9d1787a2d2c2b5ee60ddfa1897e86ec4e556ca1dff0901859872d7a7ecc33dd94af6e1c3a92ed79cc828161bbd221a2a1e464971c51b1b
-  languageName: node
-  linkType: hard
-
-"p-timeout@npm:^3.1.0":
-  version: 3.2.0
-  resolution: "p-timeout@npm:3.2.0"
-  dependencies:
-    p-finally: ^1.0.0
-  checksum: 524b393711a6ba8e1d48137c5924749f29c93d70b671e6db761afa784726572ca06149c715632da8f70c090073afb2af1c05730303f915604fd38ee207b70a61
   languageName: node
   linkType: hard
 
