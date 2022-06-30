@@ -10,4 +10,3 @@ export default {
 };
 
 export const Basic = () => <Button label="Click me" />;
-

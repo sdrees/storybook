@@ -6947,7 +6947,7 @@ __metadata:
     estraverse: ^5.2.0
     loader-utils: ^2.0.0
     prop-types: ^15.7.2
-    react-syntax-highlighter: ^15.4.5
+    react-syntax-highlighter: ^15.5.0
     regenerator-runtime: ^0.13.7
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -37087,6 +37087,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prismjs@npm:^1.27.0":
+  version: 1.28.0
+  resolution: "prismjs@npm:1.28.0"
+  checksum: bf879309e74188b424cf8bb3962f9df9e7004a71f44f82a3cfbd26f884c9a0bb91f529db79503c1bc0b570ed7b94a10c3303153642da533c1e10f51779c0617f
+  languageName: node
+  linkType: hard
+
 "private@npm:^0.1.6, private@npm:^0.1.8, private@npm:~0.1.5":
   version: 0.1.8
   resolution: "private@npm:0.1.8"
@@ -38581,6 +38588,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-syntax-highlighter@npm:^15.5.0":
+  version: 15.5.0
+  resolution: "react-syntax-highlighter@npm:15.5.0"
+  dependencies:
+    "@babel/runtime": ^7.3.1
+    highlight.js: ^10.4.1
+    lowlight: ^1.17.0
+    prismjs: ^1.27.0
+    refractor: ^3.6.0
+  peerDependencies:
+    react: ">= 0.14.0"
+  checksum: 2bf57a1ea151f688efc7eba355677577c9bb55f05f9df7ef86627aae42f63f505486cddf3f4a628aecc51ec75e89beb9533201570d03201c4bf7d69d61d2545d
+  languageName: node
+  linkType: hard
+
 "react-test-renderer@npm:^16.0.0-0, react-test-renderer@npm:^16.2.0":
   version: 16.14.0
   resolution: "react-test-renderer@npm:16.14.0"
@@ -39090,7 +39112,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"refractor@npm:^3.2.0":
+"refractor@npm:^3.2.0, refractor@npm:^3.6.0":
   version: 3.6.0
   resolution: "refractor@npm:3.6.0"
   dependencies:

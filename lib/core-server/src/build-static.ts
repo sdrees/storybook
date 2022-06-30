@@ -221,7 +221,9 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
   try {
     await buildStaticStandalone(options);
   } catch (error) {
-    logger.error(error);
+    if (error instanceof Error) {
+      logger.error(error.stack || error.message);
+    }
 
     const presets = loadAllPresets({
       corePresets: [require.resolve('./presets/common-preset')],

@@ -88,7 +88,7 @@ export class StoryIndexGenerator {
       const importPath = slash(normalizeStoryPath(relativePath));
       const makeTitle = (userTitle?: string) => {
         return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
-      }
+      };
       const csf = (await readCsfOrMdx(absolutePath, { makeTitle })).parse();
       csf.stories.forEach(({ id, name }) => {
         fileStories[id] = {

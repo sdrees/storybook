@@ -18,18 +18,25 @@ const winOptions = {
 };
 
 describe('userOrAutoTitleFromSpecifier', () => {
-
   describe('user title', () => {
     it('no match', () => {
       expect(
-        userOrAuto('./ path / to / file.stories.js', normalizeStoriesEntry({ directory: './ other' }, options), 'title')
+        userOrAuto(
+          './ path / to / file.stories.js',
+          normalizeStoriesEntry({ directory: './ other' }, options),
+          'title'
+        )
       ).toBeFalsy();
     });
 
     describe('no trailing slash', () => {
       it('match with no titlePrefix', () => {
         expect(
-          userOrAuto('./path/to/file.stories.js', normalizeStoriesEntry({ directory: './path' }, options), 'title')
+          userOrAuto(
+            './path/to/file.stories.js',
+            normalizeStoriesEntry({ directory: './path' }, options),
+            'title'
+          )
         ).toMatchInlineSnapshot(`title`);
       });
 
@@ -77,7 +84,11 @@ describe('userOrAutoTitleFromSpecifier', () => {
     describe('trailing slash', () => {
       it('match with no titlePrefix', () => {
         expect(
-          userOrAuto('./path/to/file.stories.js', normalizeStoriesEntry({ directory: './path/' }, options), 'title')
+          userOrAuto(
+            './path/to/file.stories.js',
+            normalizeStoriesEntry({ directory: './path/' }, options),
+            'title'
+          )
         ).toMatchInlineSnapshot(`title`);
       });
 
@@ -126,14 +137,22 @@ describe('userOrAutoTitleFromSpecifier', () => {
   describe('auto title', () => {
     it('no match', () => {
       expect(
-        userOrAuto('./ path / to / file.stories.js', normalizeStoriesEntry({ directory: './ other' }, options), undefined)
+        userOrAuto(
+          './ path / to / file.stories.js',
+          normalizeStoriesEntry({ directory: './ other' }, options),
+          undefined
+        )
       ).toBeFalsy();
     });
 
     describe('no trailing slash', () => {
       it('match with no titlePrefix', () => {
         expect(
-          userOrAuto('./path/to/file.stories.js', normalizeStoriesEntry({ directory: './path' }, options), undefined)
+          userOrAuto(
+            './path/to/file.stories.js',
+            normalizeStoriesEntry({ directory: './path' }, options),
+            undefined
+          )
         ).toMatchInlineSnapshot(`to/file`);
       });
 
@@ -201,7 +220,11 @@ describe('userOrAutoTitleFromSpecifier', () => {
     describe('trailing slash', () => {
       it('match with no titlePrefix', () => {
         expect(
-          userOrAuto('./path/to/file.stories.js', normalizeStoriesEntry({ directory: './path/' }, options), undefined)
+          userOrAuto(
+            './path/to/file.stories.js',
+            normalizeStoriesEntry({ directory: './path/' }, options),
+            undefined
+          )
         ).toMatchInlineSnapshot(`to/file`);
       });
 
