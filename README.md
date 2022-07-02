@@ -42,8 +42,8 @@
   </a>
 </p>
 
-[Storybook](https://storybook.js.org) is a development environment for UI components.
-It allows you to browse a component library, view the different states of each component, and interactively develop and test components. Find out more at https://storybook.js.org.
+<p align="center">Storybook is a development environment for UI components.<br/>
+It allows you to browse a component library, view the different states of each component, and interactively develop and test components.<br/>Find out more at https://storybook.js.org.</p>
 
 <center>
   <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/media/storybook-intro.gif" width="100%" />
@@ -51,8 +51,9 @@ It allows you to browse a component library, view the different states of each c
 
 <p align="center">
   View README for:<br/>
-  <a href="https://github.com/storybookjs/storybook/blob/main/README.md" title="latest"><img alt="latest" src="https://img.shields.io/npm/v/@storybook/core/latest?style=for-the-badge&logo=storybook&logoColor=ffffff&color=ff4785" /></a>
-  <a href="https://github.com/storybookjs/storybook/blob/next/README.md" title="next"><img alt="next" src="https://img.shields.io/npm/v/@storybook/core/next?style=for-the-badge&logo=storybook&logoColor=ffffff&color=purple" /></a>
+  <a href="https://github.com/storybookjs/storybook/blob/main/README.md" title="latest"><img alt="latest" src="https://img.shields.io/npm/v/@storybook/core/latest?style=for-the-badge&logo=storybook&logoColor=ffffff&color=66BF3C" /></a>
+  <a href="https://github.com/storybookjs/storybook/blob/next/README.md" title="next"><img alt="next" src="https://img.shields.io/npm/v/@storybook/core/next?style=for-the-badge&logo=storybook&logoColor=ffffff&color=1EA7FD" /></a>
+  <a href="https://github.com/storybookjs/storybook/blob/future/base/README.md" title="future"><img alt="future" src="https://img.shields.io/npm/v/@storybook/core-common/future?style=for-the-badge&logo=storybook&logoColor=ffffff&color=FF4785" /></a>
 </p>
 
 ## Table of contents
