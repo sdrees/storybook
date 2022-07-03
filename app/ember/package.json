@@ -56,9 +56,10 @@
   },
   "peerDependencies": {
     "@babel/core": "*",
+    "@types/ember__component": "4.0.8",
     "babel-plugin-ember-modules-api-polyfill": "^2.12.0",
     "babel-plugin-htmlbars-inline-precompile": "2 || 3",
-    "ember-source": "^3.16.0"
+    "ember-source": "~3.28.1"
   },
   "engines": {
     "node": ">=10.13.0"
