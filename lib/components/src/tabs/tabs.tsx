@@ -139,6 +139,7 @@ const childrenToList = (children: any, selected: string) =>
   );
 
 export interface TabsProps {
+  children?: FuncChildren[] | ReactNode;
   id?: string;
   tools?: ReactNode;
   selected?: string;
@@ -202,10 +203,10 @@ Tabs.displayName = 'Tabs';
   bordered: false,
 };
 
-type FuncChildren = () => void;
+type FuncChildren = ({ active }: { active: boolean }) => JSX.Element;
 
 export interface TabsStateProps {
-  children: (ReactNode | FuncChildren)[];
+  children: FuncChildren[] | ReactNode;
   initial: string;
   absolute: boolean;
   bordered: boolean;

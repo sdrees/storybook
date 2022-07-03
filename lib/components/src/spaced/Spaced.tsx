@@ -53,6 +53,7 @@ const Container = styled.div<ContainerProps>(
 );
 
 export interface SpacedProps {
+  children?: React.ReactNode;
   col?: number;
   row?: number;
   outer?: number | boolean;

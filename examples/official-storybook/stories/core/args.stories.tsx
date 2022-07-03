@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useArgs } from '@storybook/client-api';
 
-// eslint-disable-next-line react/prop-types
-const ArgUpdater = ({ args, updateArgs, resetArgs }) => {
+interface CustomArgs {
+  first?: string;
+  last?: string;
+  foo?: string;
+}
+
+type UpdateArgs = ReturnType<typeof useArgs>[1];
+type ResetArgs = ReturnType<typeof useArgs>[2];
+
+const ArgUpdater: FC<{ args: CustomArgs; updateArgs: UpdateArgs; resetArgs: ResetArgs }> = ({
+  args,
+  updateArgs,
+  resetArgs,
+}) => {
   const [argsInput, updateArgsInput] = useState(JSON.stringify(args));
 
   return (
@@ -30,7 +42,7 @@ export default {
   title: 'Core/Args',
   decorators: [
     (story) => {
-      const [args, updateArgs, resetArgs] = useArgs();
+      const [args, updateArgs, resetArgs] = useArgs<CustomArgs>();
 
       return (
         <>
@@ -63,14 +75,14 @@ export const DifferentSet = Template.bind({});
 DifferentSet.args = {
   foo: 'bar',
   bar: 2,
-};
+} as CustomArgs;
 
 export const TestUndefinedArgs = Template.bind({});
 TestUndefinedArgs.args = {
   first: 'Bob',
   last: 'Miller',
   foo: 'bar',
-};
+} as CustomArgs;
 TestUndefinedArgs.argTypes = {
   first: {
     control: { type: 'select' },

@@ -191,11 +191,15 @@ export const ColorItem: FunctionComponent<ColorItemProps> = ({ title, subtitle, 
   );
 };
 
+interface ColorPaletteProps {
+  children?: React.ReactNode;
+}
+
 /**
  * Styleguide documentation for colors, including names, captions, and color swatches,
  * all specified as `ColorItem` children of this wrapper component.
  */
-export const ColorPalette: FunctionComponent = ({ children, ...props }) => (
+export const ColorPalette: FunctionComponent<ColorPaletteProps> = ({ children, ...props }) => (
   <ResetWrapper>
     <List {...props} className="docblock-colorpalette">
       <ListHeading>

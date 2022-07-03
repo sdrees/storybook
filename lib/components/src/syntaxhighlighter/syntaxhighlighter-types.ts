@@ -25,15 +25,16 @@ export type SyntaxHighlighterFormatTypes = boolean | 'dedent' | BuiltInParserNam
 // which will not match one we've localized type-definitions
 type lineTagPropsFunction = (lineNumber: number) => React.HTMLProps<HTMLElement>;
 export interface SyntaxHighlighterBaseProps {
-  language?: string;
-  style?: any;
-  customStyle?: any;
-  lineProps?: lineTagPropsFunction | React.HTMLProps<HTMLElement>;
+  children?: React.ReactNode;
   codeTagProps?: React.HTMLProps<HTMLElement>;
-  useInlineStyles?: boolean;
+  customStyle?: any;
+  language?: string;
+  lineNumberStyle?: any;
+  lineProps?: lineTagPropsFunction | React.HTMLProps<HTMLElement>;
   showLineNumbers?: boolean;
   startingLineNumber?: number;
-  lineNumberStyle?: any;
+  style?: any;
+  useInlineStyles?: boolean;
 }
 
 export type SyntaxHighlighterProps = SyntaxHighlighterBaseProps & SyntaxHighlighterCustomProps;

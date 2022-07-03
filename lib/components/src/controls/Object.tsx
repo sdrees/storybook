@@ -250,7 +250,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
 
   const [showRaw, setShowRaw] = useState(!hasData);
   const [parseError, setParseError] = useState<Error>(null);
-  const updateRaw = useCallback(
+  const updateRaw: (raw: string) => void = useCallback(
     (raw) => {
       try {
         if (raw) onChange(JSON.parse(raw));

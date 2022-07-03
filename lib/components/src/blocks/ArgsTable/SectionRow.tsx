@@ -6,6 +6,7 @@ import { Icons } from '../../icon/icon';
 type Level = 'section' | 'subsection';
 
 export interface SectionRowProps {
+  children?: React.ReactNode;
   label: string;
   level: Level;
   initialExpanded?: boolean;

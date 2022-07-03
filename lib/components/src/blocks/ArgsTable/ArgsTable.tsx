@@ -261,6 +261,7 @@ const sortFns: Record<SortType, SortFn | null> = {
 };
 
 export interface ArgsTableOptionProps {
+  children?: React.ReactNode;
   updateArgs?: (args: Args) => void;
   resetArgs?: (argNames?: string[]) => void;
   compact?: boolean;

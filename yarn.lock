@@ -7583,9 +7583,13 @@ __metadata:
     "@storybook/client-logger": 6.5.0-rc.1
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/theming": 6.5.0-rc.1
+    "@testing-library/jest-dom": ^5.16.4
     "@types/color-convert": ^2.0.0
+    "@types/lodash": ^4.14.182
     "@types/overlayscrollbars": ^1.12.0
+    "@types/qs": ^6.9.7
     "@types/react-syntax-highlighter": 11.0.5
+    "@types/util-deprecate": ^1.0.0
     color-convert: ^2.0.1
     core-js: ^3.8.2
     css: ^3.0.0
@@ -9576,6 +9580,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/jest-dom@npm:^5.16.4":
+  version: 5.16.4
+  resolution: "@testing-library/jest-dom@npm:5.16.4"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+    "@types/testing-library__jest-dom": ^5.9.1
+    aria-query: ^5.0.0
+    chalk: ^3.0.0
+    css: ^3.0.0
+    css.escape: ^1.5.1
+    dom-accessibility-api: ^0.5.6
+    lodash: ^4.17.15
+    redent: ^3.0.0
+  checksum: c34016bbc4865f8f9912d62ac63b409b87e785ff281a50f6eae8c1bc2364963c0831541da8a185bbd8b5964a6e3371fb623c339e8128d84706eb06f93f145801
+  languageName: node
+  linkType: hard
+
 "@testing-library/react@npm:12.1.2":
   version: 12.1.2
   resolution: "@testing-library/react@npm:12.1.2"
@@ -10259,6 +10280,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4.14.182":
+  version: 4.14.182
+  resolution: "@types/lodash@npm:4.14.182"
+  checksum: d6bd4789dfb3be631d5e3277e6a1be5becb21440f3364f5d15b982c2e6b6bb1f8048d46fc5bff5ef0f90bebaf4d07c49b2919ba369d07af72d3beb3fea70c61a
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^3.0.0":
   version: 3.0.10
   resolution: "@types/mdast@npm:3.0.10"
@@ -10523,7 +10551,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/qs@npm:*, @types/qs@npm:^6, @types/qs@npm:^6.9.5":
+"@types/qs@npm:*, @types/qs@npm:^6, @types/qs@npm:^6.9.5, @types/qs@npm:^6.9.7":
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
   checksum: 157eb05f4c75790b0ebdcf7b0547ff117feabc8cda03c3cac3d3ea82bb19a1912e76a411df3eb0bdd01026a9770f07bc0e7e3fbe39ebb31c1be4564c16be35f1

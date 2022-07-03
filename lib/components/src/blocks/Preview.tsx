@@ -28,6 +28,7 @@ export interface PreviewProps {
   withToolbar?: boolean;
   className?: string;
   additionalActions?: ActionItem[];
+  children?: ReactNode;
 }
 
 type layout = 'padded' | 'fullscreen' | 'centered';

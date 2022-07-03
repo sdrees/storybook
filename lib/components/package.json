@@ -37,6 +37,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
@@ -51,9 +52,13 @@
   },
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
+    "@testing-library/jest-dom": "^5.16.4",
     "@types/color-convert": "^2.0.0",
+    "@types/lodash": "^4.14.182",
     "@types/overlayscrollbars": "^1.12.0",
+    "@types/qs": "^6.9.7",
     "@types/react-syntax-highlighter": "11.0.5",
+    "@types/util-deprecate": "^1.0.0",
     "color-convert": "^2.0.1",
     "css": "^3.0.0",
     "fast-deep-equal": "^3.1.3",

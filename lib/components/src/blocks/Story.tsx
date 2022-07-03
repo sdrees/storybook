@@ -76,12 +76,9 @@ const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ id, title, height = 
  * A story element, either rendered inline or in an iframe,
  * with configurable height.
  */
-const Story: FunctionComponent<StoryProps & { inline?: boolean; error?: StoryError }> = ({
-  children,
-  error,
-  inline,
-  ...props
-}) => {
+const Story: FunctionComponent<
+  StoryProps & { inline?: boolean; error?: StoryError; children?: React.ReactNode }
+> = ({ children, error, inline, ...props }) => {
   const { id, title, height } = props;
 
   if (error) {

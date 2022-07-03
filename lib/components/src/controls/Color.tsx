@@ -285,7 +285,7 @@ const usePresets = (
     return initialPresets.concat(selectedColors).filter(Boolean).slice(-27);
   }, [presetColors, selectedColors]);
 
-  const addPreset = useCallback(
+  const addPreset: (color: ParsedColor) => void = useCallback(
     (color) => {
       if (!color?.valid) return;
       if (presets.some((preset) => id(preset[colorSpace]) === id(color[colorSpace]))) return;

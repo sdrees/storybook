@@ -4,6 +4,7 @@ import memoize from 'memoizerific';
 import { transparentize } from 'polished';
 
 export interface TitleProps {
+  children?: ReactNode;
   active?: boolean;
   loading?: boolean;
   disabled?: boolean;
