@@ -146,9 +146,7 @@ This feature is experimental, and it has some limitations on what you can and ca
 
 ## Configure your project with TypeScript
 
-If you need, you can also configure your Storybook using TypeScript. To get started, add a `.babelrc` file inside your project and include the following Babel presets:
-
-Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
+If you would like, you can also write your Storybook configuration using TypeScript. To get started, add a `.babelrc` file inside your project and include the following Babel presets:
 
 <!-- prettier-ignore-start -->
 
@@ -160,9 +158,13 @@ Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storyb
 
 <!-- prettier-ignore-end -->
 
-### Using Storybook API
+This babel config will only be used to process files in the `.storybook/` directory, and will not affect your stories.
 
-You can also use Storybook's API to configure your project with TypeScript. Under the hood, it mirrors the exact configuration you get by default. Below is an abridged Storybook configuration with TypeScript and additional information about each configuration element.
+Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
+
+### Using Storybook Types in Your Configuration
+
+You can also use Storybook's TypeScript types to ensure you are using valid options and get autocompletion in your editor. Below is an abridged Storybook configuration with TypeScript types and additional information about each configuration element.
 
 <!-- prettier-ignore-start -->
 
@@ -171,6 +173,8 @@ You can also use Storybook's API to configure your project with TypeScript. Unde
     'common/storybook-main-default-setup.ts.mdx',
   ]}
 />
+
+See the vite builder [TypeScript documentation](https://github.com/storybookjs/builder-vite#typescript) if using `@storybook/builder-vite`.
 
 <!-- prettier-ignore-end -->
 
@@ -186,6 +190,7 @@ You can also use Storybook's API to configure your project with TypeScript. Unde
 | `refs`                | Configures [Storybook composition](../sharing/storybook-composition.md) <br/> `refs:{ example: { title: 'ExampleStorybook', url:'https://your-url.com' } }`                      |
 | `logLevel`            | Configures Storybook's logs in the browser terminal. Useful for debugging <br/> `logLevel: 'debug'`                                                                              |
 | `webpackFinal`        | Customize Storybook's [Webpack](../builders/webpack.md) setup <br/> `webpackFinal: async (config:any) => { return config; }`                                                     |
+| `viteFinal`           | Customize Storybook's Vite setup when using the [vite builder](https://github.com/storybookjs/builder-vite) <br/> `viteFinal: async (config: Vite.InlineConfig, options: Options) => { return config; }` |
 | `env`                 | Defines custom Storybook [environment variables](./environment-variables.md#using-storybook-configuration). <br/> `env: (config) => ({...config, EXAMPLE_VAR: 'Example var' }),` |
 
 ## Configure story rendering
