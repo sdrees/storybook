@@ -56,8 +56,9 @@ export const createArgTypes = (docgen: SvelteComponentDoc) => {
   docgen.events.forEach((item) => {
     results[`event_${item.name}`] = {
       name: item.name,
+      action: item.name,
+      control: false,
       description: item.description,
-      type: { name: 'other', value: 'void' },
       table: {
         category: 'events',
       },
@@ -67,10 +68,10 @@ export const createArgTypes = (docgen: SvelteComponentDoc) => {
   docgen.slots.forEach((item) => {
     results[`slot_${item.name}`] = {
       name: item.name,
+      control: false,
       description: [item.description, item.params?.map((p) => `\`${p.name}\``).join(' ')]
         .filter((p) => p)
         .join('\n\n'),
-      type: { name: 'other', value: 'void' },
       table: {
         category: 'slots',
       },

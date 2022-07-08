@@ -60,7 +60,6 @@ Then you can access this environment variable anywhere, even within your stories
     'angular/my-component-with-env-variables.mdx.mdx',
     'web-components/my-component-with-env-variables.js.mdx',
     'svelte/my-component-with-env-variables.js.mdx',
-    'svelte/my-component-with-env-variables.native-format.mdx',
     'svelte/my-component-with-env-variables.mdx.mdx',
   ]}
 />

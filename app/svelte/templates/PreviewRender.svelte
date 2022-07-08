@@ -6,6 +6,7 @@
   export let kind;
   export let storyFn;
   export let showError;
+  export let storyContext;
 
   const {
     /** @type {SvelteComponent} */
@@ -17,6 +18,12 @@
     Wrapper,
     WrapperData = {},
   } = storyFn(); 
+
+   const eventsFromArgTypes = Object.fromEntries(Object.entries(storyContext.argTypes)
+      .filter(([k, v]) => v.action && props[k] != null)
+      .map(([k, v]) => [v.action, props[k]]));
+    
+  const events = {...eventsFromArgTypes, ...on};
 
   if (!Component) {
     showError({
@@ -34,4 +41,4 @@
   decoratorProps={WrapperData}
   component={Component}
   props={props}
-  {on}/>
+  on={events}/>

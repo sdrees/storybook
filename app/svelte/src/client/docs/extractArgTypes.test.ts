@@ -66,25 +66,21 @@ describe('Extracting Arguments', () => {
     expect(results).toMatchInlineSnapshot(`
       Object {
         "event_afterUpdate": Object {
+          "action": "afterUpdate",
+          "control": false,
           "description": "After Update",
           "name": "afterUpdate",
           "table": Object {
             "category": "events",
           },
-          "type": Object {
-            "name": "other",
-            "value": "void",
-          },
         },
         "event_click": Object {
+          "action": "click",
+          "control": false,
           "description": "Click Event",
           "name": "click",
           "table": Object {
             "category": "events",
-          },
-          "type": Object {
-            "name": "other",
-            "value": "void",
           },
         },
         "rounded": Object {
@@ -108,16 +104,13 @@ describe('Extracting Arguments', () => {
           },
         },
         "slot_default": Object {
+          "control": false,
           "description": "Default Slot
 
       \`{rounded}\`",
           "name": "default",
           "table": Object {
             "category": "slots",
-          },
-          "type": Object {
-            "name": "other",
-            "value": "void",
           },
         },
         "text": Object {

@@ -90,7 +90,7 @@ export async function baseGenerator(
   // make sure to update `canUsePrebuiltManager` in dev-server.js and build-manager-config/main.js when this list changes
   const addons = ['@storybook/addon-links', '@storybook/addon-essentials'];
   // added to package.json
-  const addonPackages = [...addons, '@storybook/addon-actions'];
+  const addonPackages = [...addons];
 
   if (hasInteractiveStories(framework)) {
     addons.push('@storybook/addon-interactions');

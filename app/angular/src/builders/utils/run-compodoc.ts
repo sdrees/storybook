@@ -30,8 +30,6 @@ export const runCompodoc = (
       context.logger.info(finalCompodocArgs.join(' '));
       const child = spawn('npx', finalCompodocArgs, {
         cwd: context.workspaceRoot,
-        env: process.env,
-        shell: true,
       });
 
       child.stdout.on('data', (data) => {

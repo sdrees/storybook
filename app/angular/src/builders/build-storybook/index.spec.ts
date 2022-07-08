@@ -177,8 +177,6 @@ describe('Build Storybook Builder', () => {
       ['compodoc', '-p', './storybook/tsconfig.ts', '-d', '', '-e', 'json'],
       {
         cwd: '',
-        env: process.env,
-        shell: true,
       }
     );
     expect(buildStandaloneMock).toHaveBeenCalledWith({
