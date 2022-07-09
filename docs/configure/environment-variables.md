@@ -3,7 +3,7 @@ title: 'Environment variables'
 ---
 
 You can use environment variables in Storybook to change its behavior in different “modes”.
-If you supply an environment variable prefixed with `STORYBOOK_`, it will be available in `process.env`:
+If you supply an environment variable prefixed with `STORYBOOK_`, it will be available in `process.env` when using webpack, or `import.meta.env` when using the vite builder:
 
 ```shell
 STORYBOOK_THEME=red STORYBOOK_DATA_KEY=12345 npm run storybook
