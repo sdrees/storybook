@@ -1,19 +1,38 @@
-import { Meta, DocsContainer, Story } from '@storybook/addon-docs';
+import { useRef } from 'react';
+import { Meta, DocsContainer, Story, ArgsTable } from '@storybook/addon-docs';
 
 <Meta
   title="Addons/Docs/container-override"
   parameters={{
     docs: {
       // eslint-disable-next-line react/prop-types
-      container: ({ children, context }) => (
-        <DocsContainer context={context}>
-          <div style={{ border: '5px solid red' }}>{children}</div>
-        </DocsContainer>
-      ),
+      container: ({ children, context }) => {
+        const countRef = useRef();
+        countRef.current = (countRef.current || 0) + 1;
+        return (
+          <DocsContainer context={context}>
+            <div style={{ border: '5px solid red' }}>{children}</div>
+            <p>Container rendered {countRef.current} times</p>
+            <p>Try changing:</p>
+            <ul>
+              <li>the arg - story should rerender but container should not</li>
+              <li>a global (eg theme) - both should rerender</li>
+            </ul>
+          </DocsContainer>
+        );
+      },
     },
   }}
 />
 
+export const Component = () => {
+  const countRef = useRef();
+  countRef.current = (countRef.current || 0) + 1;
+  return <div>Story rendered {countRef.current} times</div>;
+};
+
 <Story name="dummy" parameters={{ layout: 'fullscreen' }}>
-  <div>some content</div>
+  <Component />
 </Story>
+
+<ArgsTable story="." />
