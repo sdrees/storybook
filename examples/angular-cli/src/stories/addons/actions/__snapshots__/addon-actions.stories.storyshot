@@ -3,12 +3,9 @@
 exports[`Storyshots Addons/Actions Component Output with ArgsTypes 1`] = `
 <storybook-wrapper>
   <storybook-button-component
-    _nghost-a-c46=""
     ng-reflect-text="Button 🥁"
   >
-    <button
-      _ngcontent-a-c46=""
-    >
+    <button>
       Button 🥁
     </button>
   </storybook-button-component>
@@ -18,12 +15,9 @@ exports[`Storyshots Addons/Actions Component Output with ArgsTypes 1`] = `
 exports[`Storyshots Addons/Actions Component Output with EventEmitter 1`] = `
 <storybook-wrapper>
   <storybook-button-component
-    _nghost-a-c46=""
     ng-reflect-text="Button 🥁"
   >
-    <button
-      _ngcontent-a-c46=""
-    >
+    <button>
       Button 🥁
     </button>
   </storybook-button-component>
@@ -41,12 +35,9 @@ exports[`Storyshots Addons/Actions Story with template 1`] = `
 exports[`Storyshots Addons/Actions Use action in method 1`] = `
 <storybook-wrapper>
   <storybook-button-component
-    _nghost-a-c46=""
     ng-reflect-text="Button 🥁"
   >
-    <button
-      _ngcontent-a-c46=""
-    >
+    <button>
       Button 🥁
     </button>
   </storybook-button-component>

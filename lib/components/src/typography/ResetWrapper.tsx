@@ -9,4 +9,4 @@ import { withReset } from './lib/common';
  * easily override child elements that are not expecting it.
  */
 
-export const ResetWrapper = styled.div<{}>(withReset);
+export const ResetWrapper = styled.div(withReset);

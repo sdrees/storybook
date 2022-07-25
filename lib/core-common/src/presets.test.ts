@@ -64,7 +64,7 @@ describe('presets', () => {
     let presets;
 
     async function testPresets() {
-      presets = wrapPreset(getPresets());
+      presets = wrapPreset(await getPresets());
       await presets.webpack();
       await presets.babel();
     }
@@ -76,7 +76,7 @@ describe('presets', () => {
 
   it('does not throw when presets are empty', async () => {
     const { getPresets } = jest.requireActual('./presets');
-    const presets = wrapPreset(getPresets([]));
+    const presets = wrapPreset(await getPresets([]));
 
     async function testPresets() {
       await presets.webpack();
@@ -88,7 +88,7 @@ describe('presets', () => {
 
   it('does not throw when preset can not be loaded', async () => {
     const { getPresets } = jest.requireActual('./presets');
-    const presets = wrapPreset(getPresets(['preset-foo']));
+    const presets = wrapPreset(await getPresets(['preset-foo']));
 
     async function testPresets() {
       await presets.webpack();
@@ -121,7 +121,7 @@ describe('presets', () => {
     });
 
     const { getPresets } = jest.requireActual('./presets');
-    const presets = getPresets(['preset-foo', 'preset-got', 'preset-bar'], {});
+    const presets = await getPresets(['preset-foo', 'preset-got', 'preset-bar'], {});
 
     const result = await presets.apply('foo', []);
 
@@ -141,7 +141,7 @@ describe('presets', () => {
     });
 
     const { getPresets } = jest.requireActual('./presets');
-    const presets = wrapPreset(getPresets(['preset-foo', 'preset-bar'], {}));
+    const presets = wrapPreset(await getPresets(['preset-foo', 'preset-bar'], {}));
 
     async function testPresets() {
       await presets.webpack();
@@ -167,7 +167,9 @@ describe('presets', () => {
     });
 
     const { getPresets } = jest.requireActual('./presets');
-    const presets = wrapPreset(getPresets([{ name: 'preset-foo' }, { name: 'preset-bar' }], {}));
+    const presets = wrapPreset(
+      await getPresets([{ name: 'preset-foo' }, { name: 'preset-bar' }], {})
+    );
 
     async function testPresets() {
       await presets.webpack();
@@ -194,7 +196,7 @@ describe('presets', () => {
 
     const { getPresets } = jest.requireActual('./presets');
     const presets = wrapPreset(
-      getPresets(
+      await getPresets(
         [
           { name: 'preset-foo', options: { foo: 1 } },
           { name: 'preset-bar', options: { bar: 'a' } },
@@ -236,7 +238,7 @@ describe('presets', () => {
 
     const { getPresets } = jest.requireActual('./presets');
     const presets = wrapPreset(
-      getPresets(
+      await getPresets(
         [
           'preset-foo',
           {
@@ -282,7 +284,7 @@ describe('presets', () => {
 
     const { getPresets } = jest.requireActual('./presets');
     const presets = wrapPreset(
-      getPresets(
+      await getPresets(
         [
           'preset-foo',
           {
@@ -332,7 +334,7 @@ describe('presets', () => {
       bar: mockPresetBar,
     });
 
-    const presets = getPresets(['preset-foo'], {});
+    const presets = await getPresets(['preset-foo'], {});
 
     const output = await presets.apply('bar');
 
@@ -357,7 +359,7 @@ describe('presets', () => {
       bar: mockPresetBar,
     });
 
-    const presets = getPresets([{ name: 'preset-foo', options: { b: 2 } }], storybookOptions);
+    const presets = await getPresets([{ name: 'preset-foo', options: { b: 2 } }], storybookOptions);
 
     const output = await presets.apply('bar');
 
@@ -454,8 +456,8 @@ describe('loadPreset', () => {
 
   const { loadPreset } = jest.requireActual('./presets');
 
-  it('should prepend framework field to list of presets', () => {
-    const loaded = loadPreset(
+  it('should prepend framework field to list of presets', async () => {
+    const loaded = await loadPreset(
       {
         name: '',
         type: 'virtual',
@@ -469,17 +471,7 @@ describe('loadPreset', () => {
     expect(loaded).toMatchInlineSnapshot(`
       Array [
         Object {
-          "name": "@storybook/react",
-          "options": Object {},
-          "preset": Object {},
-        },
-        Object {
           "name": "@storybook/preset-typescript",
-          "options": Object {},
-          "preset": Object {},
-        },
-        Object {
-          "name": "@storybook/react",
           "options": Object {},
           "preset": Object {},
         },
@@ -501,14 +493,16 @@ describe('loadPreset', () => {
             "type": "virtual",
           },
           "options": Object {},
-          "preset": Object {},
+          "preset": Object {
+            "framework": "@storybook/react",
+          },
         },
       ]
     `);
   });
 
-  it('should resolve all addons & presets in correct order', () => {
-    const loaded = loadPreset(
+  it('should resolve all addons & presets in correct order', async () => {
+    const loaded = await loadPreset(
       {
         name: '',
         type: 'virtual',

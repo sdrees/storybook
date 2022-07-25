@@ -1,6 +1,5 @@
 import path, { resolve } from 'path';
-import { bold, gray, greenBright } from 'chalk';
-import execa from 'execa';
+import chalk from 'chalk';
 import { rollup, OutputOptions, watch, RollupOptions } from 'rollup';
 import readPkgUp from 'read-pkg-up';
 import fs from 'fs-extra';
@@ -13,6 +12,8 @@ import { terser } from 'rollup-plugin-terser';
 import { generateDtsBundle } from 'dts-bundle-generator';
 import * as dtsLozalize from './dts-localize';
 
+const { bold, gray, greenBright } = chalk;
+
 interface Options {
   input: string;
   externals: string[];
@@ -21,6 +22,53 @@ interface Options {
   watch?: boolean;
 }
 
+async function dts({ input, externals, cwd, ...options }: Options) {
+  if (options.watch) {
+    try {
+      const [out] = await generateDtsBundle(
+        [
+          {
+            filePath: input,
+            output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
+          },
+        ],
+        { followSymlinks: false }
+      );
+
+      await fs.outputFile('dist/types/index.d.ts', out);
+    } catch (e) {
+      console.log(e.message);
+    }
+  } else {
+    const [out] = await generateDtsBundle(
+      [
+        {
+          filePath: input,
+          output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
+        },
+      ],
+      { followSymlinks: false }
+    );
+
+    const bundledDTSfile = path.join(cwd, 'dist/ts-tmp/index.d.ts');
+    const localizedDTSout = path.join(cwd, 'dist/types');
+    await fs.outputFile(bundledDTSfile, out);
+
+    await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
+  }
+}
+
+async function removeDist() {
+  await fs.remove('dist');
+}
+
+async function mapper() {
+  await fs.emptyDir(path.join(process.cwd(), 'dist', 'types'));
+  await fs.writeFile(
+    path.join(process.cwd(), 'dist', 'types', 'index.d.ts'),
+    `export * from '../../src/index';`
+  );
+}
 const makeExternalPredicate = (externals: string[]) => {
   if (externals.length === 0) {
     return () => false;
@@ -42,6 +90,7 @@ async function build(options: Options) {
       babel({
         babelHelpers: 'external',
         skipPreflightCheck: true,
+        compact: false,
       }),
       json(),
       rollupTypescript({ lib: ['es2015', 'dom', 'esnext'], target: 'es6' }),
@@ -50,12 +99,13 @@ async function build(options: Options) {
 
   const outputs: OutputOptions[] = [
     {
-      dir: resolve(cwd, './dist/modern'),
+      dir: resolve(cwd, './dist/esm'),
       format: 'es',
       sourcemap: optimized,
       preferConst: true,
       plugins: [
         getBabelOutputPlugin({
+          compact: false,
           presets: [
             [
               '@babel/preset-env',
@@ -64,28 +114,7 @@ async function build(options: Options) {
                 useBuiltIns: 'usage',
                 corejs: '3',
                 modules: false,
-                targets: { chrome: '94' },
-              },
-            ],
-          ],
-        }),
-        optimized ? terser({ output: { comments: false }, module: true }) : null,
-      ].filter(Boolean),
-    },
-    {
-      dir: resolve(cwd, './dist/esm'),
-      format: 'es',
-      sourcemap: optimized,
-      plugins: [
-        getBabelOutputPlugin({
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                shippedProposals: true,
-                useBuiltIns: 'usage',
-                modules: false,
-                corejs: '3',
+                targets: { chrome: '100' },
               },
             ],
           ],
@@ -98,6 +127,7 @@ async function build(options: Options) {
       format: 'commonjs',
       plugins: [
         getBabelOutputPlugin({
+          compact: false,
           presets: [
             [
               '@babel/preset-env',
@@ -121,8 +151,6 @@ async function build(options: Options) {
 
     watcher.on('change', (event) => {
       console.log(`${greenBright('changed')}: ${event.replace(path.resolve(cwd, '../..'), '.')}`);
-
-      dts(options);
     });
   } else {
     const bundler = await rollup(setting);
@@ -133,56 +161,18 @@ async function build(options: Options) {
   }
 }
 
-async function dts({ input, externals, cwd, ...options }: Options) {
-  if (options.watch) {
-    try {
-      const [out] = await generateDtsBundle(
-        [
-          {
-            filePath: input,
-            output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
-          },
-        ],
-        { followSymlinks: false }
-      );
-
-      await fs.outputFile('dist/ts3.9/index.d.ts', out);
-    } catch (e) {
-      console.log(e.message);
-    }
-  } else {
-    const [out] = await generateDtsBundle(
-      [
-        {
-          filePath: input,
-          output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
-        },
-      ],
-      { followSymlinks: false }
-    );
-
-    const bundledDTSfile = path.join(cwd, 'dist/ts-tmp/index.d.ts');
-    const localizedDTSout = path.join(cwd, 'dist/ts3.9');
-    await fs.outputFile(bundledDTSfile, out);
-
-    await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
-
-    // await fs.remove(path.join(cwd, 'dist/ts-tmp'));
-
-    await execa.command('yarn run -T downlevel-dts dist/ts3.9 dist/ts3.4');
-  }
-}
-
-async function removeDist() {
-  await fs.remove('dist');
-}
+const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
 export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
   const { packageJson: pkg } = await readPkgUp({ cwd });
   const message = gray(`Built: ${bold(`${pkg.name}@${pkg.version}`)}`);
   console.time(message);
 
-  if (flags.includes('--reset')) {
+  const reset = hasFlag(flags, 'reset');
+  const watch = hasFlag(flags, 'watch');
+  const optimized = hasFlag(flags, 'optimized');
+
+  if (reset) {
     await removeDist();
   }
 
@@ -193,14 +183,18 @@ export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
     cwd,
     externals,
     input,
-    optimized: flags.includes('--optimized'),
-    watch: flags.includes('--watch'),
+    optimized,
+    watch,
   };
+
+  if (!optimized) {
+    console.log(`skipping generating types for ${process.cwd()}`);
+  }
 
   await Promise.all([
     //
     build(options),
-    dts(options),
+    ...(options.optimized ? [dts(options)] : [mapper()]),
   ]);
 
   console.timeEnd(message);

@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useCallback, SyntheticEvent } from 'react';
+import React, { FC, useCallback, SyntheticEvent } from 'react';
 import { styled } from '@storybook/theming';
 
 import ListItem, { LinkWrapperType, ListItemProps } from './ListItem';
 
-const List = styled.div<{}>(
+const List = styled.div(
   {
     minWidth: 180,
     overflow: 'hidden',
@@ -26,7 +26,7 @@ export interface TooltipLinkListProps {
   LinkWrapper?: LinkWrapperType;
 }
 
-const Item: FunctionComponent<TooltipLinkListProps['links'][number]> = (props) => {
+const Item: FC<TooltipLinkListProps['links'][number]> = (props) => {
   const { LinkWrapper, onClick: onClickFromProps, ...rest } = props;
   const { title, href, active } = rest;
   const onClick = useCallback(
@@ -50,10 +50,7 @@ const Item: FunctionComponent<TooltipLinkListProps['links'][number]> = (props) =
   );
 };
 
-export const TooltipLinkList: FunctionComponent<TooltipLinkListProps> = ({
-  links,
-  LinkWrapper,
-}) => (
+export const TooltipLinkList: FC<TooltipLinkListProps> = ({ links, LinkWrapper }) => (
   <List>
     {links.map(({ isGatsby, ...p }) => (
       <Item key={p.id} LinkWrapper={isGatsby ? LinkWrapper : null} {...p} />

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { ModuleFn } from '../index';
 
 export interface Notification {

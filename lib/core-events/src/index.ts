@@ -6,6 +6,8 @@ enum events {
   STORY_INDEX_INVALIDATED = 'storyIndexInvalidated',
   // When the preview boots, the first story is chosen via a selection specifier
   STORY_SPECIFIED = 'storySpecified',
+  // Emitted by Provider.setOptions is called from an manager-addon or manager.js file
+  SET_CONFIG = 'setConfig',
   // Emitted by the preview whenever the list of stories changes (in batches)
   SET_STORIES = 'setStories',
   // Set the current story selection in the preview
@@ -29,6 +31,8 @@ enum events {
   STORY_THREW_EXCEPTION = 'storyThrewException',
   // Emitted at various times during rendering
   STORY_RENDER_PHASE_CHANGED = 'storyRenderPhaseChanged',
+  // Emitted when the play function throws
+  PLAY_FUNCTION_THREW_EXCEPTION = 'playFunctionThrewException',
   // Tell the story store to update (a subset of) a stories arg values
   UPDATE_STORY_ARGS = 'updateStoryArgs',
   // The values of a stories args just changed
@@ -66,6 +70,7 @@ export const {
   STORY_INDEX_INVALIDATED,
   STORY_SPECIFIED,
   SET_STORIES,
+  SET_CONFIG,
   SET_CURRENT_STORY,
   CURRENT_STORY_WAS_SET,
   FORCE_RE_RENDER,
@@ -79,6 +84,7 @@ export const {
   STORY_ERRORED,
   STORY_THREW_EXCEPTION,
   STORY_RENDER_PHASE_CHANGED,
+  PLAY_FUNCTION_THREW_EXCEPTION,
   UPDATE_STORY_ARGS,
   STORY_ARGS_UPDATED,
   RESET_STORY_ARGS,

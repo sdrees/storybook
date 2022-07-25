@@ -35,8 +35,6 @@ export const getStorybookPreview = () => {
     const content: Document | null = (iframe[0] as HTMLIFrameElement).contentDocument;
     const element: HTMLElement | null = content !== null ? content.documentElement : null;
 
-    console.log({ element, content, iframe });
-
     return cy
       .wrap(iframe)
       .should(() => {

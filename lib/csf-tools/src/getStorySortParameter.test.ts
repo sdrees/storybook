@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { getStorySortParameter } from './getStorySortParameter';
 
 describe('getStorySortParameter', () => {

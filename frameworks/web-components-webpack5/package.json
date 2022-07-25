@@ -1,0 +1,87 @@
+{
+  "name": "@storybook/web-components-webpack5",
+  "version": "7.0.0-alpha.16",
+  "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
+  "keywords": [
+    "lit-html",
+    "storybook",
+    "web-components"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/web-components-webpack5",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "frameworks/web-components-webpack5"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit",
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@storybook/builder-webpack5": "7.0.0-alpha.16",
+    "@storybook/core-common": "7.0.0-alpha.16",
+    "@storybook/preset-web-components-webpack": "7.0.0-alpha.16",
+    "@storybook/web-components": "7.0.0-alpha.16",
+    "@types/node": "^14.14.20 || ^16.0.0",
+    "core-js": "^3.8.2",
+    "react": "16.14.0",
+    "react-dom": "16.14.0"
+  },
+  "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
+    "lit-html": "2.0.2",
+    "typescript": "~4.6.3"
+  },
+  "peerDependencies": {
+    "lit-html": "^1.4.1 || ^2.0.0"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
+}

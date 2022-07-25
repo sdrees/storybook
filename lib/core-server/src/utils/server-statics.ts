@@ -7,7 +7,7 @@ import { pathExists } from 'fs-extra';
 import path from 'path';
 import favicon from 'serve-favicon';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.ico');
 

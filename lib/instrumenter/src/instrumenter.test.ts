@@ -170,7 +170,7 @@ describe('Instrumenter', () => {
       fn1(true),
       fn1('foo'),
       fn1(1),
-      fn1(BigInt(1)), // eslint-disable-line no-undef
+      fn1(BigInt(1)),
       fn1({}),
       fn1([]),
       fn1(() => {}),
@@ -186,7 +186,7 @@ describe('Instrumenter', () => {
           /* call 2 */ true,
           /* call 3 */ 'foo',
           /* call 4 */ 1,
-          /* call 5 */ BigInt(1), // eslint-disable-line no-undef
+          /* call 5 */ BigInt(1),
           { __callId__: callSpy.mock.calls[6][0].id, retain: false },
           { __callId__: callSpy.mock.calls[7][0].id, retain: false },
           { __callId__: callSpy.mock.calls[8][0].id, retain: false },

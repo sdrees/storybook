@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/react/types';
+import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
   stories: [
@@ -9,11 +9,11 @@ const config: StorybookConfig = {
     {
       directory: '../src',
       titlePrefix: 'Demo',
-      files: '*.stories.(js|ts|tsx|mdx)',
+      files: '*.stories.(js|ts|tsx)',
     },
     {
-      directory: '../src/addon-docs',
-      files: '*.stories.mdx',
+      directory: '../src',
+      files: '**/*.mdx',
     },
   ],
   logLevel: 'debug',
@@ -23,6 +23,11 @@ const config: StorybookConfig = {
     '@storybook/addon-storyshots',
     '@storybook/addon-a11y',
   ],
+  docs: {
+    // enabled: false,
+    defaultName: 'Info',
+    // docsPage: false,
+  },
   typescript: {
     check: true,
     checkOptions: {},
@@ -31,19 +36,18 @@ const config: StorybookConfig = {
     },
   },
   core: {
-    builder: { name: 'webpack4' },
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   features: {
     postcss: false,
-    modernInlineRender: true,
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
+    breakingChangesV7: true,
   },
-  framework: '@storybook/react',
+  framework: '@storybook/react-webpack5',
 };
 module.exports = config;

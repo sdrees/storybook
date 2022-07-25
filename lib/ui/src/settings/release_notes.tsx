@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, Fragment, ComponentProps } from 'react';
+import React, { FC, useEffect, useState, Fragment, ComponentProps } from 'react';
 import { styled } from '@storybook/theming';
 import { Icons, Loader } from '@storybook/components';
 
@@ -40,7 +40,7 @@ const Iframe = styled.iframe<{ isLoaded: boolean }>(
   ({ isLoaded }) => ({ visibility: isLoaded ? 'visible' : 'hidden' })
 );
 
-const AlertIcon = styled(((props) => <Icons icon="alert" {...props} />) as FunctionComponent<
+const AlertIcon = styled(((props) => <Icons icon="alert" {...props} />) as FC<
   Omit<ComponentProps<typeof Icons>, 'icon'>
 >)(({ theme }) => ({
   color: theme.color.mediumdark,
@@ -53,7 +53,7 @@ const getIframeUrl = (version: string) => {
   return `https://storybook.js.org/releases/iframe/${major}.${minor}`;
 };
 
-const ReleaseNotesLoader: FunctionComponent = () => (
+const ReleaseNotesLoader: FC = () => (
   <Centered>
     <LoaderWrapper>
       <Loader />
@@ -62,7 +62,7 @@ const ReleaseNotesLoader: FunctionComponent = () => (
   </Centered>
 );
 
-const MaxWaitTimeMessaging: FunctionComponent = () => (
+const MaxWaitTimeMessaging: FC = () => (
   <Centered>
     <AlertIcon />
     <Message>
@@ -78,7 +78,7 @@ export interface ReleaseNotesProps {
   version: string;
 }
 
-const PureReleaseNotesScreen: FunctionComponent<ReleaseNotesProps> = ({
+const PureReleaseNotesScreen: FC<ReleaseNotesProps> = ({
   didHitMaxWaitTime,
   isLoaded,
   setLoaded,
@@ -101,7 +101,7 @@ const PureReleaseNotesScreen: FunctionComponent<ReleaseNotesProps> = ({
 
 const MAX_WAIT_TIME = 10000; // 10 seconds
 
-const ReleaseNotesScreen: FunctionComponent<
+const ReleaseNotesScreen: FC<
   Omit<ReleaseNotesProps, 'isLoaded' | 'setLoaded' | 'didHitMaxWaitTime'>
 > = ({ version }) => {
   const [isLoaded, setLoaded] = useState(false);

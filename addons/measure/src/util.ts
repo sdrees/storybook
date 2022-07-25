@@ -5,7 +5,8 @@ export const deepElementFromPoint = (x: number, y: number) => {
 
   const crawlShadows = (node: Element): Element => {
     if (node && node.shadowRoot) {
-      const nestedElement = node.shadowRoot.elementFromPoint(x, y);
+      // elementFromPoint() doesn't exist in ShadowRoot type
+      const nestedElement = (node.shadowRoot as any).elementFromPoint(x, y);
 
       // Nested node is same as the root one
       if (node.isEqualNode(nestedElement)) {

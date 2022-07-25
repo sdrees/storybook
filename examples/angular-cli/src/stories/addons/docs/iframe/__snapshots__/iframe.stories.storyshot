@@ -3,12 +3,9 @@
 exports[`Storyshots Addons/Docs/Iframe Basic 1`] = `
 <storybook-wrapper>
   <storybook-button-component
-    _nghost-a-c46=""
     ng-reflect-text="Add 👾"
   >
-    <button
-      _ngcontent-a-c46=""
-    >
+    <button>
       Add 👾
     </button>
   </storybook-button-component>

@@ -1,4 +1,11 @@
-import React, { ClipboardEvent, FunctionComponent, MouseEvent, useCallback, useState } from 'react';
+import React, {
+  ClipboardEvent,
+  ComponentProps,
+  FC,
+  MouseEvent,
+  useCallback,
+  useState,
+} from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 import global from 'global';
@@ -94,11 +101,15 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const Scroller = styled(({ children, className }) => (
+const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({
+  children,
+  className,
+}): JSX.Element => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>
-))(
+);
+const Scroller = styled(UnstyledScroller)(
   {
     position: 'relative',
   },
@@ -133,7 +144,7 @@ export interface SyntaxHighlighterState {
 
 // copied from @types/react-syntax-highlighter/index.d.ts
 
-export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
+export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
   children,
   language = 'jsx',
   copyable = false,

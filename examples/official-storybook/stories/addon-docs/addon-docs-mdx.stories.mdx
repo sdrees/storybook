@@ -9,10 +9,9 @@ import {
   Meta,
 } from '@storybook/addon-docs';
 import { action } from '@storybook/addon-actions';
-import { Button } from '@storybook/react/demo';
 import styled from 'styled-components';
+import { Button } from '../../components/react-demo';
 import TsButton from '../../components/TsButton';
-import FlowTypeButton from '../../components/FlowTypeButton';
 import { DocgenButton } from '../../components/DocgenButton';
 import MdNotes from '../notes/notes.md';
 import MdxNotes from '../notes/notes.mdx';
@@ -184,12 +183,6 @@ Fixed layout requires custom `height` since it can't be determined.
 ### Docgen
 
 <ArgsTable of={DocgenButton} />
-
-### Flow
-
-Flow types are not officially supported
-
-<ArgsTable of={FlowTypeButton} />
 
 ### withSource="none"
 

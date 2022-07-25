@@ -1,5 +1,5 @@
 import slash from 'slash';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { once } from '@storybook/client-logger';
 
 // FIXME: types duplicated type from `core-common', to be

@@ -1,5 +1,5 @@
 import { within, userEvent } from '@storybook/testing-library';
-import { StoryFn, Meta } from '@storybook/html';
+import type { Meta, StoryFn } from '@storybook/html';
 import { createPage } from './Page';
 
 export default {

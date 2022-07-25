@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -99,7 +99,7 @@ export const getStorySortParameter = (previewCode: string) => {
   if (t.isArrowFunctionExpression(storySort)) {
     const { code: sortCode } = generate(storySort, {});
     // eslint-disable-next-line no-eval
-    return eval(sortCode);
+    return (0, eval)(sortCode);
   }
 
   if (t.isFunctionExpression(storySort)) {
@@ -111,7 +111,7 @@ export const getStorySortParameter = (previewCode: string) => {
       return ${functionName}(a, b)
     }`;
     // eslint-disable-next-line no-eval
-    return eval(wrapper);
+    return (0, eval)(wrapper);
   }
 
   if (t.isLiteral(storySort) || t.isArrayExpression(storySort) || t.isObjectExpression(storySort)) {

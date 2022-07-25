@@ -56,7 +56,6 @@ describe('Vision Simulator', () => {
     fireEvent.click(screen.getByText('blurred vision'));
 
     // then
-    // eslint-disable-next-line no-undef
     const rule = Object.values(document.styleSheets)
       .filter(({ cssRules }) => cssRules)
       .map(({ cssRules }) => Object.values(cssRules))

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FC, useRef } from 'react';
 
 import { Ref } from './Refs';
 import { CombinedDataset, Selection } from './types';
@@ -12,7 +12,7 @@ export interface ExplorerProps {
   selected: Selection;
 }
 
-export const Explorer: FunctionComponent<ExplorerProps> = React.memo(
+export const Explorer: FC<ExplorerProps> = React.memo(
   ({ isLoading, isBrowsing, dataset, selected }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 

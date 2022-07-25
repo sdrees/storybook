@@ -1,5 +1,5 @@
 import qs from 'qs';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { Args } from '@storybook/addons';
 import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
@@ -25,7 +25,8 @@ const validateArgs = (key = '', value: unknown): boolean => {
     );
   }
   if (Array.isArray(value)) return value.every((v) => validateArgs(key, v));
-  if (isPlainObject(value)) return Object.entries(value).every(([k, v]) => validateArgs(k, v));
+  if (isPlainObject(value))
+    return Object.entries(value as object).every(([k, v]) => validateArgs(k, v));
   return false;
 };
 

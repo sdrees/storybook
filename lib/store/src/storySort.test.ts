@@ -1,25 +1,31 @@
+import { expect } from '@jest/globals';
+import { StoryId } from '@storybook/csf';
+import { StoryIndexEntry } from '@storybook/store';
+
 import { storySort } from './storySort';
 
 describe('preview.storySort', () => {
-  const fixture = {
-    a: { title: 'a' },
-    á: { title: 'á' },
-    A: { title: 'A' },
-    b: { title: 'b' },
-    a_a: { title: 'a / a' },
-    a_b: { title: 'a / b' },
-    a_c: { title: 'a / c' },
-    b_a_a: { title: 'b / a / a' },
-    b_b: { title: 'b / b' },
-    c: { title: 'c' },
-    locale1: { title: 'Б' },
-    locale2: { title: 'Г' },
-    c__a: { title: 'c', name: 'a' },
-    c_b__a: { title: 'c / b', name: 'a' },
-    c_b__b: { title: 'c / b', name: 'b' },
-    c_b__c: { title: 'c / b', name: 'c' },
-    c__c: { title: 'c', name: 'c' },
-  };
+  const fixture: Record<StoryId, StoryIndexEntry> = Object.fromEntries(
+    Object.entries({
+      a: { title: 'a' },
+      á: { title: 'á' },
+      A: { title: 'A' },
+      b: { title: 'b' },
+      a_a: { title: 'a / a' },
+      a_b: { title: 'a / b' },
+      a_c: { title: 'a / c' },
+      b_a_a: { title: 'b / a / a' },
+      b_b: { title: 'b / b' },
+      c: { title: 'c' },
+      locale1: { title: 'Б' },
+      locale2: { title: 'Г' },
+      c__a: { title: 'c', name: 'a' },
+      c_b__a: { title: 'c / b', name: 'a' },
+      c_b__b: { title: 'c / b', name: 'b' },
+      c_b__c: { title: 'c / b', name: 'c' },
+      c__c: { title: 'c', name: 'c' },
+    }).map(([id, entry]) => [id, { type: 'story', name: 'name', ...entry, id, importPath: id }])
+  );
 
   it('uses configure order by default', () => {
     const sortFn = storySort();

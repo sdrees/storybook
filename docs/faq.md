@@ -16,8 +16,11 @@ module.exports = {
   addons: [
     /* ... */
   ],
-  angularOptions: {
-    enableIvy: false,
+  framework: {
+    name: '@storybook/angular',
+    options: {
+      enableIvy: false,
+    }
   },
 };
 ```
@@ -73,8 +76,11 @@ FAST_REFRESH=true
 
 ```js
 module.exports = {
-  reactOptions: {
-    fastRefresh: true,
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      fastRefresh: true,
+    },
   },
 };
 ```
@@ -91,8 +97,11 @@ You can opt-out from the new React Root API by setting the following property in
 
 ```js
 module.exports = {
-  reactOptions: {
-    legacyRootApi: true,
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      legacyRootApi: true,
+    },
   },
 };
 ```
@@ -410,7 +419,7 @@ We're aware that the default Typescript story construct might seem outdated and 
 // Button.stories.ts | tsx
 
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 const StoryMeta: ComponentMeta<typeof Button> = {
   /* 👇 The title prop is optional.

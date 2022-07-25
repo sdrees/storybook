@@ -1,4 +1,4 @@
-import { StoryFn, Meta } from '@storybook/html';
+import type { Meta, StoryFn } from '@storybook/html';
 import { createHeader, HeaderProps } from './Header';
 
 export default {

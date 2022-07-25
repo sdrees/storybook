@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { colors } from '@storybook/node-logger';
 import boxen from 'boxen';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import Table from 'cli-table3';
 import prettyTime from 'pretty-hrtime';
 import type { VersionCheck } from '@storybook/core-common';

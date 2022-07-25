@@ -5,7 +5,7 @@ const execa = require('execa');
 
 function getCommand(watch) {
   const args = [
-    '--outDir ./dist/ts3.9',
+    '--outDir ./dist/types',
     '--listEmittedFiles false',
     '--declaration true',
     '--noErrorTruncation',
@@ -17,7 +17,7 @@ function getCommand(watch) {
    * Currently, angular and storyshots (that contains an angular component) need to be compiled
    * with tsc. (see comments in compile-babel.js)
    */
-  const isAngular = process.cwd().includes(path.join('app', 'angular'));
+  const isAngular = process.cwd().includes(path.join('frameworks', 'angular'));
   const isStoryshots = process.cwd().includes(path.join('addons', 'storyshots'));
   if (!isAngular && !isStoryshots) {
     args.push('--emitDeclarationOnly');
@@ -27,7 +27,7 @@ function getCommand(watch) {
     args.push('-w', '--preserveWatchOutput');
   }
 
-  return `yarn run -T tsc ${args.join(' ')}`;
+  return [`yarn run -T tsc ${args.join(' ')}`, isAngular || isStoryshots];
 }
 
 function handleExit(code, stderr, errorCallback) {
@@ -40,36 +40,45 @@ function handleExit(code, stderr, errorCallback) {
   }
 }
 
-async function run({ watch, silent, errorCallback }) {
+async function run({ optimized, watch, silent, errorCallback }) {
   return new Promise((resolve, reject) => {
-    const command = getCommand(watch);
+    const [command, tscOnly] = getCommand(watch);
 
-    const child = execa.command(command, {
-      buffer: false,
-    });
-    let stderr = '';
+    if (tscOnly || optimized) {
+      const child = execa.command(command, {
+        buffer: false,
+      });
+      let stderr = '';
 
-    if (watch) {
-      child.stdout.pipe(process.stdout);
-      child.stderr.pipe(process.stderr);
+      if (watch) {
+        child.stdout.pipe(process.stdout);
+        child.stderr.pipe(process.stderr);
+      } else {
+        child.stderr.on('data', (data) => {
+          stderr += data.toString();
+        });
+        child.stdout.on('data', (data) => {
+          stderr += data.toString();
+        });
+      }
+
+      child.on('exit', (code) => {
+        resolve();
+        handleExit(code, stderr, errorCallback);
+      });
     } else {
-      child.stderr.on('data', (data) => {
-        stderr += data.toString();
-      });
-      child.stdout.on('data', (data) => {
-        stderr += data.toString();
-      });
+      console.log(`skipping generating types for ${process.cwd()}`);
+      const loc = path.join(process.cwd(), 'dist', 'types');
+      Promise.resolve()
+        .then(() => fs.emptyDir(loc))
+        .then(() => fs.writeFile(path.join(loc, 'index.d.ts'), `export * from '../../src/index';`))
+        .then(resolve);
     }
-
-    child.on('exit', (code) => {
-      resolve();
-      handleExit(code, stderr, errorCallback);
-    });
   });
 }
 
 async function tscfy(options = {}) {
-  const { watch = false, silent = false, errorCallback } = options;
+  const { watch = false, silent = false, errorCallback, optimized = false } = options;
   const tsConfigFile = 'tsconfig.json';
 
   if (!(await fs.pathExists(tsConfigFile))) {
@@ -82,11 +91,7 @@ async function tscfy(options = {}) {
   const tsConfig = await fs.readJSON(tsConfigFile);
 
   if (!(tsConfig && tsConfig.lerna && tsConfig.lerna.disabled === true)) {
-    await run({ watch, silent, errorCallback });
-  }
-
-  if (!watch) {
-    await execa.command('yarn run -T downlevel-dts dist/ts3.9 dist/ts3.4');
+    await run({ watch, silent, errorCallback, optimized });
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { Component, FunctionComponent } from 'react';
+import React, { Component, FC } from 'react';
 
 import { API, useStorybookApi } from '@storybook/api';
 
@@ -17,7 +17,7 @@ class NotificationClearer extends Component<{ api: API; notificationId: string }
   }
 }
 
-const AboutPage: FunctionComponent<{}> = () => {
+const AboutPage: FC = () => {
   const api = useStorybookApi();
 
   return (

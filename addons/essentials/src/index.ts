@@ -3,7 +3,7 @@ import { logger } from '@storybook/node-logger';
 import { serverRequire } from '@storybook/core-common';
 
 interface PresetOptions {
-  configDir?: string;
+  configDir: string;
   docs?: boolean;
   controls?: boolean;
   actions?: boolean;
@@ -23,7 +23,7 @@ const requireMain = (configDir: string) => {
   return serverRequire(mainFile) ?? {};
 };
 
-export function addons(options: PresetOptions = {}) {
+export function addons(options: PresetOptions) {
   const checkInstalled = (addon: string, main: any) => {
     const existingAddon = main.addons?.find((entry: string | { name: string }) => {
       const name = typeof entry === 'string' ? entry : entry.name;
@@ -37,7 +37,17 @@ export function addons(options: PresetOptions = {}) {
 
   const main = requireMain(options.configDir);
   return (
-    ['docs', 'controls', 'actions', 'backgrounds', 'viewport', 'toolbars', 'measure', 'outline']
+    [
+      'docs',
+      'controls',
+      'actions',
+      'backgrounds',
+      'viewport',
+      'toolbars',
+      'measure',
+      'outline',
+      'highlight',
+    ]
       .filter((key) => (options as any)[key] !== false)
       .map((key) => `@storybook/addon-${key}`)
       .filter((addon) => !checkInstalled(addon, main))

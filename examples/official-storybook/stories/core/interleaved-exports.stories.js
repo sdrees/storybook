@@ -7,10 +7,10 @@ export default {
   parameters: { chromatic: { disable: true } },
 };
 
-import { Welcome } from '@storybook/react/demo';
+import { Welcome } from '../../components/react-demo';
 
 export const First = () => <Welcome showApp={action('show')} />;
 
-import { Button } from '@storybook/react/demo';
+import { Button } from '../../components/react-demo';
 
 export const Second = () => <Button onClick={action('click')}>Second</Button>;

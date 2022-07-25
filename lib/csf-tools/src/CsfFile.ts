@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
@@ -160,9 +160,12 @@ export class CsfFile {
 
   _namedExportsOrder?: string[];
 
+  imports: string[];
+
   constructor(ast: t.File, { fileName, makeTitle }: CsfOptions) {
     this._ast = ast;
     this._fileName = fileName;
+    this.imports = [];
     this._makeTitle = makeTitle;
   }
 
@@ -374,6 +377,16 @@ export class CsfFile {
 
               More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-v7
             `);
+          }
+        },
+      },
+      ImportDeclaration: {
+        enter({ node }) {
+          const { source } = node;
+          if (t.isStringLiteral(source)) {
+            self.imports.push(source.value);
+          } else {
+            throw new Error('CSF: unexpected import source');
           }
         },
       },

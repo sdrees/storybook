@@ -1,20 +1,18 @@
-import global from 'global';
 import React, { FunctionComponent, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
-import type { StoriesHash, State, ComposedRef } from '@storybook/api';
+import type { StoriesHash, State } from '@storybook/api';
 
 import { Heading } from './Heading';
 
-import { DEFAULT_REF_ID, collapseAllStories, collapseDocsOnlyStories } from './data';
 import { Explorer } from './Explorer';
 import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
 
-const { DOCS_MODE } = global;
+export const DEFAULT_REF_ID = 'storybook_internal';
 
 const Container = styled.nav({
   position: 'absolute',
@@ -92,7 +90,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
   ({
     storyId = null,
     refId = DEFAULT_REF_ID,
-    stories: storiesHash,
+    stories,
     storiesConfigured,
     storiesFailed,
     menu,
@@ -100,25 +98,9 @@ export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
     enableShortcuts = true,
     refs = {},
   }) => {
-    const collapseFn = DOCS_MODE ? collapseAllStories : collapseDocsOnlyStories;
     const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
-    const stories = useMemo(() => collapseFn(storiesHash), [DOCS_MODE, storiesHash]);
 
-    const adaptedRefs = useMemo(() => {
-      return Object.entries(refs).reduce((acc: Refs, [id, ref]: [string, ComposedRef]) => {
-        if (ref.stories) {
-          acc[id] = {
-            ...ref,
-            stories: collapseFn(ref.stories),
-          };
-        } else {
-          acc[id] = ref;
-        }
-        return acc;
-      }, {});
-    }, [DOCS_MODE, refs]);
-
-    const dataset = useCombination(stories, storiesConfigured, storiesFailed, adaptedRefs);
+    const dataset = useCombination(stories, storiesConfigured, storiesFailed, refs);
     const isLoading = !dataset.hash[DEFAULT_REF_ID].ready;
     const lastViewedProps = useLastViewed(selected);
 

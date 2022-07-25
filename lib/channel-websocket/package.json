@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-websocket",
-  "version": "6.5.0-rc.1",
+  "version": "7.0.0-alpha.16",
   "description": "",
   "keywords": [
     "storybook"
@@ -22,14 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -37,18 +30,21 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/channels": "6.5.0-rc.1",
-    "@storybook/client-logger": "6.5.0-rc.1",
+    "@storybook/channels": "7.0.0-alpha.16",
+    "@storybook/client-logger": "7.0.0-alpha.16",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "telejson": "^6.0.8"
   },
+  "devDependencies": {
+    "typescript": "~4.6.3"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
 }

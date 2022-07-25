@@ -23,7 +23,7 @@ addons.register(ADDON_ID, (api) => {
       return `Actions${suffix}`;
     },
     type: types.PANEL,
-    render: ({ active, key }) => <ActionLogger key={key} api={api} active={active} />,
+    render: ({ active, key }) => <ActionLogger key={key} api={api} active={!!active} />,
     paramKey: PARAM_KEY,
   });
 });

@@ -1,6 +1,5 @@
 /// <reference types="node" />
-
-import type { StorybookConfig } from '@storybook/react/types';
+import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
   stories: [
@@ -9,16 +8,12 @@ const config: StorybookConfig = {
       titlePrefix: 'Custom Prefix',
     },
     // FIXME: Breaks e2e tests './intro.stories.mdx',
-    '../../lib/ui/src/**/*.stories.@(js|tsx|mdx)',
-    '../../lib/components/src/**/*.stories.@(js|tsx|mdx)',
-    './stories/**/*.stories.@(js|ts|tsx|mdx)',
-    './../../addons/docs/**/*.stories.tsx',
-    './../../addons/interactions/**/*.stories.(tsx|mdx)',
+    '../../lib/ui/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    '../../lib/components/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    './stories/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    './../../addons/docs/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    './../../addons/interactions/**/*.stories.@(ts|tsx|js|jsx|mdx)',
   ],
-  reactOptions: {
-    fastRefresh: true,
-    strictMode: true,
-  },
   addons: [
     {
       name: '@storybook/addon-docs',
@@ -37,20 +32,32 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
   ],
   core: {
-    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   logLevel: 'debug',
   features: {
-    modernInlineRender: true,
     interactionsDebugger: true,
+    breakingChangesV7: false,
+    storyStoreV7: false,
   },
   staticDirs: [
     './statics/public',
-    { from: './statics/examples/example1', to: '/example1' },
-    { from: './statics/examples/example2', to: '/example2' },
+    {
+      from: './statics/examples/example1',
+      to: '/example1',
+    },
+    {
+      from: './statics/examples/example2',
+      to: '/example2',
+    },
   ],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      fastRefresh: true,
+      strictMode: true,
+    },
+  },
 };
-
 module.exports = config;

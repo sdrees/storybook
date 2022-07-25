@@ -24,7 +24,7 @@ Each configuration has a similar signature, accepting a base configuration objec
 
 ### Babel
 
-The babel functions `babel`, `babelDefault`, and `managerBabel` all configure babel in different ways.
+The babel functions `babel` and `babelDefault` all configure babel in different ways.
 
 All functions take a [Babel configuration object](https://babeljs.io/docs/en/configuration) as their argument and can modify it or return a new object.
 
@@ -42,7 +42,6 @@ For example, Storybook's Mihtril support uses plugins internally and here's how 
 
 - `babel` is applied to the preview config, after it has been initialized by storybook
 - `babelDefault` is applied to the preview config before any user presets have been applied
-- `managerBabel` is applied to the manager.
 
 ### Webpack
 

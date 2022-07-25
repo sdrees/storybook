@@ -1,5 +1,5 @@
 import path from 'path';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { getInterpretedFile } from './interpret-files';
 

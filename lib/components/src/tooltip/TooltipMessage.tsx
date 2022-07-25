@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { styled } from '@storybook/theming';
 
 import { Link } from '../typography/link/link';
@@ -40,7 +40,7 @@ export interface TooltipMessageProps {
   }[];
 }
 
-export const TooltipMessage: FunctionComponent<TooltipMessageProps> = ({ title, desc, links }) => {
+export const TooltipMessage: FC<TooltipMessageProps> = ({ title, desc, links }) => {
   return (
     <MessageWrapper>
       <Message>

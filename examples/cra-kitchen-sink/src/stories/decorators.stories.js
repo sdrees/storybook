@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { Button } from '@storybook/react/demo';
 import PropTypes from 'prop-types';
+import { Button } from '../components/react-demo';
 
 const Bold = ({ children }) => {
   return <b>{children}</b>;

@@ -10,7 +10,7 @@ export * from './storybook-metadata';
 export const telemetry = async (
   eventType: EventType,
   payload: Payload = {},
-  options?: Partial<Options>
+  options: Partial<Options> = {}
 ) => {
   await notify();
   const telemetryData: TelemetryData = {
@@ -18,7 +18,7 @@ export const telemetry = async (
     payload,
   };
   try {
-    telemetryData.metadata = await getStorybookMetadata(options.configDir);
+    telemetryData.metadata = await getStorybookMetadata(options?.configDir);
   } catch (error) {
     if (!telemetryData.payload.error) telemetryData.payload.error = error;
   } finally {

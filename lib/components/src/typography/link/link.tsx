@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, FunctionComponent, MouseEvent } from 'react';
+import React, { AnchorHTMLAttributes, FC, MouseEvent } from 'react';
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
 
@@ -183,7 +183,7 @@ export interface LinkProps extends LinkInnerProps, LinkStylesProps {
   href?: string;
 }
 
-export const Link: FunctionComponent<LinkProps & AProps> = ({
+export const Link: FC<LinkProps & AProps> = ({
   cancel,
   children,
   onClick,

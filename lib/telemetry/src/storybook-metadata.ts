@@ -58,7 +58,7 @@ export const computeStorybookMetadata = async ({
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
     generatedAt: new Date().getTime(),
-    builder: { name: 'webpack4' },
+    builder: { name: 'webpack5' },
     hasCustomBabel: false,
     hasCustomWebpack: false,
     hasStaticDirs: false,
@@ -190,15 +190,19 @@ export const computeStorybookMetadata = async ({
 };
 
 let cachedMetadata: StorybookMetadata;
-export const getStorybookMetadata = async (_configDir: string) => {
+export const getStorybookMetadata = async (_configDir?: string) => {
   if (cachedMetadata) {
     return cachedMetadata;
   }
 
-  const packageJson = readPkgUp.sync({ cwd: process.cwd() }).packageJson as PackageJson;
+  const { packageJson = {} as PackageJson } = readPkgUp.sync({ cwd: process.cwd() }) || {};
   const configDir =
     (_configDir ||
-      (getStorybookConfiguration(packageJson.scripts.storybook, '-c', '--config-dir') as string)) ??
+      (getStorybookConfiguration(
+        packageJson?.scripts?.storybook || '',
+        '-c',
+        '--config-dir'
+      ) as string)) ??
     '.storybook';
   const mainConfig = loadMainConfig({ configDir });
   cachedMetadata = await computeStorybookMetadata({ mainConfig, packageJson });

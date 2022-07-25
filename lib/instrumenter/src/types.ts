@@ -55,9 +55,10 @@ export interface LogItem {
   parentId?: Call['id'];
 }
 
-export interface Payload {
+export interface SyncPayload {
   controlStates: ControlStates;
   logItems: LogItem[];
+  pausedAt?: Call['id'];
 }
 
 export interface State {

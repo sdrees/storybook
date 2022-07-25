@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { scan } from 'picomatch';
 import slash from 'slash';
 
@@ -10,11 +10,12 @@ import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 
 const DEFAULT_TITLE_PREFIX = '';
-const DEFAULT_FILES = '**/*.stories.@(mdx|tsx|ts|jsx|js)';
+const DEFAULT_FILES = '**/*.(stories|docs).@(mdx|tsx|ts|jsx|js)';
 
-// LEGACY support for bad glob patterns we had in SB 5 - remove in SB7
+// TODO: remove - LEGACY support for bad glob patterns we had in SB 5 - remove in SB7
 const fixBadGlob = deprecate(
   (match: RegExpMatchArray) => {
+    // @ts-ignore this will get removed later anyway
     return match.input.replace(match[1], `@${match[1]}`);
   },
   dedent`

@@ -15,6 +15,8 @@ export interface Test {
   name: string;
   result: {
     status: string;
+    startTime?: number;
+    endTime?: number;
     assertionResults: AssertionResult[];
   };
 }

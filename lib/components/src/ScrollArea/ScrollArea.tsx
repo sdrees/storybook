@@ -1,10 +1,10 @@
-import React, { FunctionComponent, lazy, Suspense } from 'react';
+import React, { FC, lazy, Suspense } from 'react';
 import { styled } from '@storybook/theming';
 
 const GlobalScrollAreaStyles = lazy(() => import('./GlobalScrollAreaStyles'));
 const OverlayScrollbars = lazy(() => import('./OverlayScrollbars'));
 
-const Scroller: FunctionComponent<ScrollAreaProps> = ({ horizontal, vertical, ...props }) => (
+const Scroller: FC<ScrollAreaProps> = ({ horizontal, vertical, ...props }) => (
   <Suspense fallback={<div {...props} />}>
     <GlobalScrollAreaStyles />
     <OverlayScrollbars options={{ scrollbars: { autoHide: 'leave' } }} {...props} />
@@ -18,7 +18,7 @@ export interface ScrollAreaProps {
   className?: string;
 }
 
-export const ScrollArea: FunctionComponent<ScrollAreaProps> = styled(Scroller)<ScrollAreaProps>(
+export const ScrollArea: FC<ScrollAreaProps> = styled(Scroller)<ScrollAreaProps>(
   ({ vertical }) => (!vertical ? { overflowY: 'hidden' } : { overflowY: 'auto', height: '100%' }),
   ({ horizontal }) => (!horizontal ? { overflowX: 'hidden' } : { overflowX: 'auto', width: '100%' })
 );

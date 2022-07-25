@@ -1,8 +1,8 @@
-import React, { forwardRef, FunctionComponent, ComponentProps, ReactNode } from 'react';
+import React, { forwardRef, FC, ComponentProps, ReactNode } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 
-export interface ButtonProps {
+const ButtonWrapper = styled.button<{
   isLink?: boolean;
   primary?: boolean;
   secondary?: boolean;
@@ -15,11 +15,7 @@ export interface ButtonProps {
   containsIcon?: boolean;
   children?: ReactNode;
   href?: string;
-}
-
-type ButtonWrapperProps = ButtonProps;
-
-const ButtonWrapper = styled.button<ButtonWrapperProps>(
+}>(
   ({ small, theme }) => ({
     border: 0,
     borderRadius: '3em',
@@ -238,8 +234,24 @@ const ButtonWrapper = styled.button<ButtonWrapperProps>(
 
 const ButtonLink = ButtonWrapper.withComponent('a');
 
-export const Button: FunctionComponent<ComponentProps<typeof ButtonWrapper>> = Object.assign(
-  forwardRef<any, ButtonProps>(({ isLink, children, ...props }, ref) => {
+export const Button: FC<ComponentProps<typeof ButtonWrapper>> = Object.assign(
+  forwardRef<
+    any,
+    {
+      isLink?: boolean;
+      primary?: boolean;
+      secondary?: boolean;
+      tertiary?: boolean;
+      gray?: boolean;
+      inForm?: boolean;
+      disabled?: boolean;
+      small?: boolean;
+      outline?: boolean;
+      containsIcon?: boolean;
+      children?: ReactNode;
+      href?: string;
+    }
+  >(({ isLink, children, ...props }, ref) => {
     if (isLink) {
       return (
         <ButtonLink {...props} ref={ref}>

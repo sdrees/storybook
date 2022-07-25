@@ -1,4 +1,4 @@
-import React, { useMemo, FunctionComponent } from 'react';
+import React, { useMemo, FC } from 'react';
 
 import { Badge } from '@storybook/components';
 import type { API } from '@storybook/api';
@@ -29,7 +29,7 @@ const Key = styled.code(({ theme }) => ({
   },
 }));
 
-const Shortcut: FunctionComponent<{ keys: string[] }> = ({ keys }) => (
+const Shortcut: FC<{ keys: string[] }> = ({ keys }) => (
   <>
     {keys.map((key, index) => (
       // eslint-disable-next-line react/no-array-index-key

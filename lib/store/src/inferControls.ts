@@ -11,13 +11,13 @@ type ControlsMatchers = {
 
 const inferControl = (argType: StrictInputType, name: string, matchers: ControlsMatchers): any => {
   const { type, options } = argType;
-  if (!type && !options) {
+  if (!type) {
     return undefined;
   }
 
   // args that end with background or color e.g. iconColor
   if (matchers.color && matchers.color.test(name)) {
-    const controlType = argType.type.name;
+    const controlType = type.name;
 
     if (controlType === 'string') {
       return { control: { type: 'color' } };

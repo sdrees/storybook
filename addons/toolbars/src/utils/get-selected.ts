@@ -12,10 +12,16 @@ export const getSelectedItem = ({ currentValue, items }: GetSelectedItemProps) =
 
 export const getSelectedIcon = ({ currentValue, items }: GetSelectedItemProps) => {
   const selectedItem = getSelectedItem({ currentValue, items });
-  return selectedItem?.icon;
+  if (selectedItem) {
+    return selectedItem.icon;
+  }
+  return undefined;
 };
 
 export const getSelectedTitle = ({ currentValue, items }: GetSelectedItemProps) => {
   const selectedItem = getSelectedItem({ currentValue, items });
-  return selectedItem?.title;
+  if (selectedItem) {
+    return selectedItem.title;
+  }
+  return undefined;
 };

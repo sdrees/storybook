@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import deepEqual from 'fast-deep-equal';
+import { dequal as deepEqual } from 'dequal';
 
-import { API } from '@storybook/api';
+import type { API } from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';
 
 import { ActionLogger as ActionLoggerComponent } from '../../components/ActionLogger';
@@ -30,6 +30,8 @@ export default class ActionLogger extends Component<ActionLoggerProps, ActionLog
 
   constructor(props: ActionLoggerProps) {
     super(props);
+
+    this.mounted = false;
 
     this.state = { actions: [] };
   }

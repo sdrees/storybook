@@ -1,7 +1,7 @@
 import chalk from 'chalk';
-import fs from 'fs-extra';
-import path from 'path';
-import dedent from 'ts-dedent';
+import { copy, emptyDir, ensureDir } from 'fs-extra';
+import { dirname, isAbsolute, join, resolve } from 'path';
+import { dedent } from 'ts-dedent';
 import global from 'global';
 
 import { logger } from '@storybook/node-logger';
@@ -11,25 +11,30 @@ import type {
   CLIOptions,
   BuilderOptions,
   Options,
-  Builder,
   StorybookConfig,
   CoreConfig,
+  DocsOptions,
 } from '@storybook/core-common';
-import { normalizeStories, loadAllPresets, cache, logConfig } from '@storybook/core-common';
+import {
+  loadAllPresets,
+  normalizeStories,
+  logConfig,
+  loadMainConfig,
+} from '@storybook/core-common';
 
-import { getProdCli } from './cli';
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
-import { getPreviewBuilder } from './utils/get-preview-builder';
-import { getManagerBuilder } from './utils/get-manager-builder';
-import { extractStoriesJson } from './utils/stories-json';
+import { getBuilders } from './utils/get-builders';
+import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
-export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
+export async function buildStaticStandalone(
+  options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
+) {
   /* eslint-disable no-param-reassign */
   options.configType = 'PRODUCTION';
 
@@ -41,37 +46,64 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     throw new Error("Won't copy root directory. Check your staticDirs!");
   }
 
-  options.outputDir = path.isAbsolute(options.outputDir)
+  options.outputDir = isAbsolute(options.outputDir)
     ? options.outputDir
-    : path.join(process.cwd(), options.outputDir);
-  options.configDir = path.resolve(options.configDir);
+    : join(process.cwd(), options.outputDir);
+  options.configDir = resolve(options.configDir);
   /* eslint-enable no-param-reassign */
 
-  const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.ico');
-
-  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir}}`);
+  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir.replace(process.cwd(), '')}}`);
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
-  await fs.emptyDir(options.outputDir);
+  await emptyDir(options.outputDir);
+  await ensureDir(options.outputDir);
 
-  await fs.copyFile(defaultFavIcon, path.join(options.outputDir, path.basename(defaultFavIcon)));
+  const { framework } = loadMainConfig(options);
+  const corePresets = [];
 
-  const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
-  const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
+  const frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  if (frameworkName) {
+    corePresets.push(join(frameworkName, 'preset'));
+  } else {
+    logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
+  }
 
-  const presets = loadAllPresets({
-    corePresets: [
-      require.resolve('./presets/common-preset'),
-      ...managerBuilder.corePresets,
-      ...previewBuilder.corePresets,
-      require.resolve('./presets/babel-cache-preset'),
-    ],
-    overridePresets: previewBuilder.overridePresets,
+  logger.info('=> Loading presets');
+  let presets = await loadAllPresets({
+    corePresets: [require.resolve('./presets/common-preset'), ...corePresets],
+    overridePresets: [],
     ...options,
   });
 
-  const staticDirs = await presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+
+  presets = await loadAllPresets({
+    corePresets: [
+      require.resolve('./presets/common-preset'),
+      ...(managerBuilder.corePresets || []),
+      ...(previewBuilder.corePresets || []),
+      ...corePresets,
+      require.resolve('./presets/babel-cache-preset'),
+    ],
+    overridePresets: previewBuilder.overridePresets || [],
+    ...options,
+  });
+
+  const [features, core, staticDirs, storyIndexers, stories, docsOptions] = await Promise.all([
+    presets.apply<StorybookConfig['features']>('features'),
+    presets.apply<CoreConfig>('core'),
+    presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
+    presets.apply('storyIndexers', []),
+    presets.apply('stories'),
+    presets.apply<DocsOptions>('docs', {}),
+  ]);
+
+  const fullOptions: Options = {
+    ...options,
+    presets,
+    features,
+  };
 
   if (staticDirs && options.staticDir) {
     throw new Error(dedent`
@@ -83,167 +115,110 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     `);
   }
 
-  if (staticDirs) {
-    await copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir);
-  }
-  if (options.staticDir) {
-    await copyAllStaticFiles(options.staticDir, options.outputDir);
-  }
+  const effects: Promise<void>[] = [];
 
-  const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
-  const extractTasks = [];
+  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
+
+  if (staticDirs) {
+    effects.push(
+      copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir)
+    );
+  }
+  if (options.staticDir) {
+    effects.push(copyAllStaticFiles(options.staticDir, options.outputDir));
+  }
+
+  const coreServerPublicDir = join(
+    dirname(require.resolve('@storybook/core-server/package.json')),
+    'public'
+  );
+  effects.push(copy(coreServerPublicDir, options.outputDir));
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
+  if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
     const workingDir = process.cwd();
     const directories = {
       configDir: options.configDir,
       workingDir,
     };
-    const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
-
+    const normalizedStories = normalizeStories(stories, directories);
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
+      storyIndexers,
+      docs: docsOptions,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-      storyStoreV7: features?.storyStoreV7,
+      storyStoreV7: !!features?.storyStoreV7,
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-    extractTasks.push(
+    effects.push(
       extractStoriesJson(
-        path.join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator
+        join(options.outputDir, 'stories.json'),
+        initializedStoryIndexGenerator,
+        convertToIndexV3
       )
+    );
+    effects.push(
+      extractStoriesJson(join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
     );
   }
 
-  const core = await presets.apply<CoreConfig>('core');
   if (!core?.disableTelemetry) {
-    initializedStoryIndexGenerator.then(async (generator) => {
-      if (!generator) {
-        return;
-      }
+    effects.push(
+      initializedStoryIndexGenerator.then(async (generator) => {
+        if (!generator) {
+          return;
+        }
 
-      const storyIndex = await generator.getIndex();
-      const payload = storyIndex
-        ? {
-            storyIndex: {
-              storyCount: Object.keys(storyIndex.stories).length,
-              version: storyIndex.v,
-            },
-          }
-        : undefined;
-      telemetry('build', payload, { configDir: options.configDir });
-    });
+        const storyIndex = await generator.getIndex();
+        const payload = storyIndex
+          ? {
+              storyIndex: {
+                storyCount: Object.keys(storyIndex.entries).length,
+                version: storyIndex.v,
+              },
+            }
+          : undefined;
+        await telemetry('build', payload, { configDir: options.configDir });
+      })
+    );
   }
 
   if (!core?.disableProjectJson) {
-    extractTasks.push(
-      extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir)
+    effects.push(
+      extractStorybookMetadata(join(options.outputDir, 'project.json'), options.configDir)
     );
   }
 
-  const fullOptions: Options = {
-    ...options,
-    presets,
-    features,
-  };
-
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
-    logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
-
-  const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
-  const { getPrebuiltDir } =
-    builderName === 'webpack5'
-      ? // eslint-disable-next-line import/no-extraneous-dependencies
-        await import('@storybook/manager-webpack5/prebuilt-manager')
-      : await import('@storybook/manager-webpack4/prebuilt-manager');
-
-  const prebuiltDir = await getPrebuiltDir(fullOptions);
-
-  const startTime = process.hrtime();
-  // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
-  const manager = prebuiltDir
-    ? fs.copy(prebuiltDir, options.outputDir, { dereference: true }).then(() => {})
-    : managerBuilder.build({ startTime, options: fullOptions });
 
   if (options.ignorePreview) {
     logger.info(`=> Not building preview`);
   }
 
-  const preview = options.ignorePreview
-    ? Promise.resolve()
-    : previewBuilder.build({
-        startTime,
-        options: fullOptions,
-      });
-
-  const [managerStats, previewStats] = await Promise.all([
-    manager.catch(async (err) => {
-      await previewBuilder.bail();
-      throw err;
-    }),
-    preview.catch(async (err) => {
-      await managerBuilder.bail();
-      throw err;
-    }),
-    ...extractTasks,
+  await Promise.all([
+    ...(options.ignorePreview
+      ? []
+      : [
+          previewBuilder
+            .build({
+              startTime: process.hrtime(),
+              options: fullOptions,
+            })
+            .then(async (previewStats) => {
+              if (options.webpackStatsJson) {
+                const target =
+                  options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+                await outputStats(target, previewStats);
+              }
+            }),
+        ]),
+    ...effects,
   ]);
 
-  if (options.webpackStatsJson) {
-    const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
-    await outputStats(target, previewStats, managerStats);
-  }
-
   logger.info(`=> Output directory: ${options.outputDir}`);
-}
-
-export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) {
-  const cliOptions = getProdCli(packageJson);
-
-  const options: CLIOptions & LoadOptions & BuilderOptions = {
-    ...cliOptions,
-    ...loadOptions,
-    packageJson,
-    configDir: loadOptions.configDir || cliOptions.configDir || './.storybook',
-    outputDir: loadOptions.outputDir || cliOptions.outputDir || './storybook-static',
-    ignorePreview:
-      (!!loadOptions.ignorePreview || !!cliOptions.previewUrl) && !cliOptions.forceBuildPreview,
-    docsMode: !!cliOptions.docs,
-    configType: 'PRODUCTION',
-    cache,
-  };
-
-  try {
-    await buildStaticStandalone(options);
-  } catch (error) {
-    if (error instanceof Error) {
-      logger.error(error.stack || error.message);
-    }
-
-    const presets = loadAllPresets({
-      corePresets: [require.resolve('./presets/common-preset')],
-      overridePresets: [],
-      ...options,
-    });
-
-    const core = await presets.apply<CoreConfig>('core');
-    if (!core?.disableTelemetry) {
-      await telemetry(
-        'error-build',
-        { error },
-        {
-          immediate: true,
-          configDir: options.configDir,
-          enableCrashReports: options.enableCrashReports,
-        }
-      );
-    }
-
-    process.exit(1);
-  }
 }

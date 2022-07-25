@@ -1,29 +1,34 @@
 import React from 'react';
 import { DocsContainer } from '@storybook/addon-docs';
 import { themes } from '@storybook/theming';
+import { MDXProvider } from '@mdx-js/react';
+import { Channel } from '@storybook/channels';
+
 import markdown from './markdown.stories.mdx';
+import { defaultComponents } from '../../../../addons/docs/src/DocsRenderer';
 
 export default {
   title: 'Addons/Docs/mdx-in-story',
-  decorators: [
-    (storyFn) => (
-      <DocsContainer
-        context={{ componentStories: () => [], storyById: () => ({ parameters: {} }) }}
-      >
-        {storyFn()}
-      </DocsContainer>
-    ),
-  ],
-  parameters: {
-    layout: 'fullscreen',
-  },
+  parameters: { layout: 'fullscreen' },
 };
 
-// This renders the contents of the docs panel into story content
+const context = { channel: new Channel(), componentStories: () => [], storyById: () => ({}) };
+
+// The purpose of these stories are to document that MDX renders properly in docs itself
+// As tools like Chromatic cannot capture docs entries, we need to create a story that
+// actually renders it's own docs, much like the DocsRenderer might.
 export const Typography = () => {
   const Docs = markdown.parameters.docs.page;
   return <Docs />;
 };
+
+Typography.decorators = [
+  (storyFn) => (
+    <MDXProvider components={defaultComponents}>
+      <DocsContainer context={context}>{storyFn()}</DocsContainer>
+    </MDXProvider>
+  ),
+];
 
 export const DarkModeDocs = () => {
   const Docs = markdown.parameters.docs.page;
@@ -32,13 +37,10 @@ export const DarkModeDocs = () => {
 
 DarkModeDocs.decorators = [
   (storyFn) => (
-    <DocsContainer
-      context={{
-        componentStories: () => [],
-        storyById: () => ({ parameters: { docs: { theme: themes.dark } } }),
-      }}
-    >
-      {storyFn()}
-    </DocsContainer>
+    <MDXProvider components={defaultComponents}>
+      <DocsContainer context={context} theme={themes.dark}>
+        {storyFn()}
+      </DocsContainer>
+    </MDXProvider>
   ),
 ];

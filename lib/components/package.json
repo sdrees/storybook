@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "6.5.0-rc.1",
+  "version": "7.0.0-alpha.16",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -20,16 +20,26 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./html": {
+      "require": "./dist/html.js",
+      "import": "./dist/html.mjs",
+      "types": "./dist/html.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
     }
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -38,19 +48,19 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "ts-node ../../scripts/prebundle.ts"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "6.5.0-rc.1",
+    "@storybook/client-logger": "7.0.0-alpha.16",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/theming": "6.5.0-rc.1",
+    "@storybook/theming": "7.0.0-alpha.16",
     "core-js": "^3.8.2",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
-    "regenerator-runtime": "^0.13.7",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@popperjs/core": "^2.6.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/color-convert": "^2.0.0",
@@ -61,7 +71,7 @@
     "@types/util-deprecate": "^1.0.0",
     "color-convert": "^2.0.1",
     "css": "^3.0.0",
-    "fast-deep-equal": "^3.1.3",
+    "dequal": "^2.0.2",
     "global": "^4.4.0",
     "jest": "^26.6.3",
     "lodash": "^4.17.21",
@@ -75,7 +85,7 @@
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",
     "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0"
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -84,7 +94,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
-  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js"
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/html.tsx"
+    ],
+    "platform": "neutral"
+  },
+  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
 }

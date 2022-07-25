@@ -10,7 +10,10 @@ export function loadCustomPresets({ configDir }: { configDir: string }): PresetC
   const main = serverRequire(path.resolve(configDir, 'main'));
 
   if (main) {
-    return [serverResolve(path.resolve(configDir, 'main'))];
+    const resolved = serverResolve(path.resolve(configDir, 'main'));
+    if (resolved) {
+      return [resolved];
+    }
   }
 
   return presets || [];

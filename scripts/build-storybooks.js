@@ -144,8 +144,9 @@ const handleExamples = async (deployables) => {
     await exec(`yarn`, [`build-storybook`, `--output-dir=${out}`, '--quiet'], { cwd });
 
     // If the example uses `storyStoreV7` or `buildStoriesJson`, stories.json already exists
+    // It can fail on local machines if puppeteer fails to install, that's not critical, it will work without it
     if (!existsSync(`${out}/stories.json`)) {
-      await exec(`npx`, [`sb`, 'extract', out, `${out}/stories.json`], { cwd });
+      await exec(`npx`, [`sb`, 'extract', out, `${out}/stories.json`], { cwd }).catch(() => {});
     }
 
     logger.log('-------');

@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FC } from 'react';
 import semver from '@storybook/semver';
 import { styled } from '@storybook/theming';
 import { State } from '@storybook/api';
@@ -80,7 +80,7 @@ const Container = styled.div({
   margin: '0 auto',
 });
 
-const AboutScreen: FunctionComponent<{
+const AboutScreen: FC<{
   latest: State['versions']['latest'];
   current: State['versions']['current'];
 }> = ({ latest = null, current }) => {

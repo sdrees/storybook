@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/api';
 import { Consumer } from '@storybook/api';
@@ -8,7 +8,7 @@ import { useMenu } from './menu';
 
 export type Item = StoriesHash[keyof StoriesHash];
 
-const Sidebar: FunctionComponent<{}> = React.memo(() => {
+const Sidebar = React.memo(() => {
   const mapper = ({ state, api }: Combo) => {
     const {
       ui: { name, url, enableShortcuts },

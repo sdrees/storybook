@@ -319,6 +319,67 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/stories/addons/interactions/counter.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Counter",
+          "members": [
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "privacy": "public",
+              "attribute": "count"
+            },
+            {
+              "kind": "field",
+              "name": "decrement"
+            },
+            {
+              "kind": "field",
+              "name": "increment"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "count",
+              "fieldName": "count"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "sb-counter",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Counter",
+          "declaration": {
+            "name": "Counter",
+            "module": "src/stories/addons/interactions/counter.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "sb-counter",
+          "declaration": {
+            "name": "Counter",
+            "module": "src/stories/addons/interactions/counter.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/stories/misc/to-update/DemoWcCard.js",
       "declarations": [
         {

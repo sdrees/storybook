@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FC } from 'react';
 import { styled } from '@storybook/theming';
 
 const positiveConsoleRegex = /\[32m(.*?)\[39m/;
@@ -20,7 +20,7 @@ class TestDetail {
 
   stackTrace: string;
 }
-const StackTrace = styled.pre<{}>(({ theme }) => ({
+const StackTrace = styled.pre(({ theme }) => ({
   background: theme.color.lighter,
   paddingTop: 4,
   paddingBottom: 4,
@@ -37,7 +37,7 @@ const Results = styled.div({
   marginRight: 30,
 });
 
-const Description = styled.div<{}>(({ theme }) => ({
+const Description = styled.div(({ theme }) => ({
   paddingBottom: 10,
   paddingTop: 10,
   borderBottom: theme.appBorderColor,
@@ -136,7 +136,7 @@ interface MessageProps {
   msg: string;
 }
 
-export const Message: FunctionComponent<MessageProps> = (props) => {
+export const Message: FC<MessageProps> = (props) => {
   const { msg } = props;
 
   const detail: TestDetail = getTestDetail(msg);

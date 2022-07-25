@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
 
 const deprecatedHtmlEndpoint = deprecate(

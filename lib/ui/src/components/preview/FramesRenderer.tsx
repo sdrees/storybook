@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, useMemo, useEffect, useState } from 'react';
+import React, { Fragment, FC, useMemo, useEffect, useState } from 'react';
 import type { Combo } from '@storybook/api';
 import { Consumer } from '@storybook/api';
 import { Button, getStoryHref } from '@storybook/components';
@@ -39,9 +39,9 @@ const whenSidebarIsVisible = ({ state }: Combo) => ({
   selectedStoryId: state.storyId,
 });
 
-export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
+export const FramesRenderer: FC<FramesRendererProps> = ({
   refs,
-  story,
+  entry,
   scale,
   viewMode = 'story',
   refId,
@@ -85,7 +85,7 @@ export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
         if (r.type === 'auto-inject') {
           return true;
         }
-        if (story && r.id === story.refId) {
+        if (entry && r.id === entry.refId) {
           return true;
         }
 
@@ -99,7 +99,7 @@ export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
       }, frames);
 
     setFrames(newFrames);
-  }, [storyId, story, refs]);
+  }, [storyId, entry, refs]);
 
   return (
     <Fragment>

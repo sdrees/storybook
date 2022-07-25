@@ -1,5 +1,5 @@
 import global from 'global';
-import React, { FunctionComponent, useMemo, ComponentProps, useCallback, forwardRef } from 'react';
+import React, { FC, useMemo, ComponentProps, useCallback, forwardRef } from 'react';
 
 import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
@@ -148,7 +148,7 @@ const Version = styled.div(({ theme }) => ({
   },
 }));
 
-const CurrentVersion: FunctionComponent<CurrentVersionProps> = ({ url, versions }) => {
+const CurrentVersion: FC<CurrentVersionProps> = ({ url, versions }) => {
   const currentVersionId = useMemo(() => {
     const c = Object.entries(versions).find(([k, v]) => v === url);
     return c && c[0] ? c[0] : 'current';
@@ -167,8 +167,14 @@ export const RefIndicator = React.memo(
     ({ state, ...ref }, forwardedRef) => {
       const api = useStorybookApi();
       const list = useMemo(() => Object.values(ref.stories || {}), [ref.stories]);
-      const componentCount = useMemo(() => list.filter((v) => v.isComponent).length, [list]);
-      const leafCount = useMemo(() => list.filter((v) => v.isLeaf).length, [list]);
+      const componentCount = useMemo(
+        () => list.filter((v) => v.type === 'component').length,
+        [list]
+      );
+      const leafCount = useMemo(
+        () => list.filter((v) => v.type === 'docs' || v.type === 'story').length,
+        [list]
+      );
 
       const changeVersion = useCallback(
         ((event, item) => {
@@ -232,7 +238,7 @@ export const RefIndicator = React.memo(
   )
 );
 
-const ReadyMessage: FunctionComponent<{
+const ReadyMessage: FC<{
   url: string;
   componentCount: number;
   leafCount: number;
@@ -248,7 +254,7 @@ const ReadyMessage: FunctionComponent<{
   </Message>
 );
 
-const LoginRequiredMessage: FunctionComponent<RefType> = ({ loginUrl, id }) => {
+const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
   const open = useCallback((e) => {
     e.preventDefault();
     const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
@@ -275,7 +281,7 @@ const LoginRequiredMessage: FunctionComponent<RefType> = ({ loginUrl, id }) => {
   );
 };
 
-const ReadDocsMessage: FunctionComponent = () => (
+const ReadDocsMessage: FC = () => (
   <Message href="https://storybook.js.org" target="_blank">
     <GreenIcon icon="document" />
     <div>
@@ -285,7 +291,7 @@ const ReadDocsMessage: FunctionComponent = () => (
   </Message>
 );
 
-const ErrorOccurredMessage: FunctionComponent<{ url: string }> = ({ url }) => (
+const ErrorOccurredMessage: FC<{ url: string }> = ({ url }) => (
   <Message href={url.replace(/\/?$/, '/index.html')} target="_blank">
     <RedIcon icon="alert" />
     <div>
@@ -295,7 +301,7 @@ const ErrorOccurredMessage: FunctionComponent<{ url: string }> = ({ url }) => (
   </Message>
 );
 
-const LoadingMessage: FunctionComponent<{ url: string }> = ({ url }) => (
+const LoadingMessage: FC<{ url: string }> = ({ url }) => (
   <Message href={url.replace(/\/?$/, '/index.html')} target="_blank">
     <BlueIcon icon="time" />
     <div>
@@ -305,7 +311,7 @@ const LoadingMessage: FunctionComponent<{ url: string }> = ({ url }) => (
   </Message>
 );
 
-const PerformanceDegradedMessage: FunctionComponent = () => (
+const PerformanceDegradedMessage: FC = () => (
   <Message href="https://storybook.js.org/docs" target="_blank">
     <YellowIcon icon="lightning" />
     <div>

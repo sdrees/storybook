@@ -3,12 +3,9 @@
 exports[`Storyshots Addons/Links button with link to another story 1`] = `
 <storybook-wrapper>
   <storybook-button-component
-    _nghost-a-c46=""
     ng-reflect-text="Go to Welcome Story"
   >
-    <button
-      _ngcontent-a-c46=""
-    >
+    <button>
       Go to Welcome Story
     </button>
   </storybook-button-component>

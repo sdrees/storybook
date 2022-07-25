@@ -48,7 +48,7 @@ const generator = async (
     installServer && '@storybook/react-native-server',
   ].filter(Boolean);
 
-  const resolvedPackages = await packageManager.getVersionedPackages(...packagesToResolve);
+  const resolvedPackages = await packageManager.getVersionedPackages(packagesToResolve);
 
   const babelDependencies = await getBabelDependencies(packageManager, packageJson);
 

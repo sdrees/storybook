@@ -20,6 +20,7 @@ const isReactSyntheticEvent = (e: unknown): e is SyntheticEvent =>
 const serializeArg = <T>(a: T) => {
   if (isReactSyntheticEvent(a)) {
     const e: SyntheticEvent = Object.create(
+      // @ts-ignore
       a.constructor.prototype,
       Object.getOwnPropertyDescriptors(a)
     );

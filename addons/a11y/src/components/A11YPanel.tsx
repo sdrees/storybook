@@ -25,23 +25,23 @@ const Icon = styled(Icons)({
   marginRight: 4,
 });
 
-const RotatingIcon = styled(Icon)<{}>(({ theme }) => ({
+const RotatingIcon = styled(Icon)(({ theme }) => ({
   animation: `${theme.animation.rotate360} 1s linear infinite;`,
 }));
 
-const Passes = styled.span<{}>(({ theme }) => ({
+const Passes = styled.span(({ theme }) => ({
   color: theme.color.positive,
 }));
 
-const Violations = styled.span<{}>(({ theme }) => ({
+const Violations = styled.span(({ theme }) => ({
   color: theme.color.negative,
 }));
 
-const Incomplete = styled.span<{}>(({ theme }) => ({
+const Incomplete = styled.span(({ theme }) => ({
   color: theme.color.warning,
 }));
 
-const Centered = styled.span<{}>({
+const Centered = styled.span({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

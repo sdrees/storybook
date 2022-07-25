@@ -1,7 +1,8 @@
 import fse from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 
-import { baseGenerator, Generator } from '../baseGenerator';
+import { baseGenerator } from '../baseGenerator';
+import { Generator } from '../types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   let extraMain;

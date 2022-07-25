@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { render, screen } from '@testing-library/react';
 
 import { composeStories, composeStory } from '@storybook/react';

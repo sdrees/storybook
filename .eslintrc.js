@@ -7,6 +7,7 @@ module.exports = {
       'error',
       { additionalTestBlockFunctions: ['it.skipWindows', 'it.onWindows'] },
     ],
+    'no-use-before-define': 'off',
   },
   overrides: [
     {
@@ -14,6 +15,14 @@ module.exports = {
       files: ['**/addons/docs/**/*'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
+      },
+    },
+    {
+      // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
+      files: ['**/*.ts', '**/*.tsx'],
+      rules: {
+        'no-shadow': 'off',
+        '@typescript-eslint/ban-types': 'warn', // should become error, in the future
       },
     },
     {

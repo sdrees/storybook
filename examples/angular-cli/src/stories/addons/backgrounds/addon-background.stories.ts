@@ -1,5 +1,5 @@
-import { Story, Meta } from '@storybook/angular';
-import { Button } from '@storybook/angular/demo';
+import type { Meta, StoryFn } from '@storybook/angular';
+import { Button } from '../../angular-demo';
 
 export default {
   title: 'Addons / Backgrounds',
@@ -15,11 +15,11 @@ export default {
   },
 } as Meta;
 
-export const WithComponent: Story = () => ({
+export const WithComponent: StoryFn = () => ({
   props: { text: 'Button' },
 });
 
-export const WithTemplate: Story = () => ({
+export const WithTemplate: StoryFn = () => ({
   template: `<storybook-button-component [text]="text" (onClick)="onClick($event)"></storybook-button-component>`,
   props: { text: 'Button' },
 });

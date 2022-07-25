@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import type { State } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
@@ -24,7 +24,7 @@ const List = styled.div<{ placement?: CSSObject }>(
     }
 );
 
-const NotificationList: FunctionComponent<{
+const NotificationList: FC<{
   placement: CSSObject;
   notifications: State['notifications'];
   clearNotification: (id: string) => void;

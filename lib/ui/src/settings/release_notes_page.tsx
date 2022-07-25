@@ -1,9 +1,9 @@
 import { useStorybookApi } from '@storybook/api';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { ReleaseNotesScreen } from './release_notes';
 
-const ReleaseNotesPage: FunctionComponent<{}> = () => {
+const ReleaseNotesPage: FC = () => {
   const api = useStorybookApi();
 
   useEffect(() => {

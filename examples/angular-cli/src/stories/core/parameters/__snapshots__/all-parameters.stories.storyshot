@@ -3,14 +3,11 @@
 exports[`Storyshots Core / Parameters / All parameters All parameters passed to story 1`] = `
 <storybook-wrapper>
   <storybook-button-component
-    _nghost-a-c46=""
     ng-reflect-text="Parameters are {
     \\"docs\\": {
    "
   >
-    <button
-      _ngcontent-a-c46=""
-    >
+    <button>
       Parameters are {
     "docs": {
       "inlineStories": true
@@ -29,60 +26,7 @@ exports[`Storyshots Core / Parameters / All parameters All parameters passed to 
     "globalParameter": "globalParameter",
     "chapterParameter": "chapterParameter",
     "storyParameter": "storyParameter",
-    "__isArgsStory": true,
-    "__id": "core-parameters-all-parameters--passed-to-story",
-    "globalTypes": {
-      "theme": {
-        "name": "Theme",
-        "description": "Global theme for components",
-        "defaultValue": "light",
-        "toolbar": {
-          "icon": "paintbrush",
-          "items": [
-            {
-              "value": "light",
-              "title": "Light theme"
-            },
-            {
-              "value": "dark",
-              "title": "Dark theme"
-            }
-          ]
-        }
-      },
-      "locale": {
-        "name": "Locale",
-        "description": "Internationalization locale",
-        "defaultValue": "en",
-        "toolbar": {
-          "icon": "globe",
-          "items": [
-            {
-              "value": "en",
-              "right": "🇺🇸",
-              "title": "English"
-            },
-            {
-              "value": "es",
-              "right": "🇪🇸",
-              "title": "Español"
-            },
-            {
-              "value": "zh",
-              "right": "🇨🇳",
-              "title": "中文"
-            },
-            {
-              "value": "kr",
-              "right": "🇰🇷",
-              "title": "한국어"
-            }
-          ]
-        }
-      }
-    },
-    "args": {},
-    "argTypes": {}
+    "__isArgsStory": true
   }
     </button>
   </storybook-button-component>

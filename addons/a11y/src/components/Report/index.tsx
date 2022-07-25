@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FC } from 'react';
 import { Placeholder } from '@storybook/components';
 import { Result } from 'axe-core';
 import { Item } from './Item';
@@ -10,7 +10,7 @@ export interface ReportProps {
   type: RuleType;
 }
 
-export const Report: FunctionComponent<ReportProps> = ({ items, empty, type }) => (
+export const Report: FC<ReportProps> = ({ items, empty, type }) => (
   <Fragment>
     {items && items.length ? (
       items.map((item) => <Item item={item} key={`${type}:${item.id}`} type={type} />)

@@ -13,7 +13,7 @@ export type EventType =
   | 'error-metadata';
 
 export interface Dependency {
-  version: string;
+  version: string | undefined;
 }
 
 export interface StorybookAddon extends Dependency {

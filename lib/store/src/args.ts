@@ -1,8 +1,8 @@
-import deepEqual from 'fast-deep-equal';
+import { dequal as deepEqual } from 'dequal';
 import type { SBType, Args, InputType, ArgTypes, StoryContext, AnyFramework } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 const INCOMPATIBLE = Symbol('incompatible');
 const map = (arg: unknown, argType: InputType): any => {
@@ -151,7 +151,7 @@ export function groupArgsByTarget<TArgs = Args>({
 }: StoryContext<AnyFramework, TArgs>) {
   const groupedArgs: Record<string, Partial<TArgs>> = {};
   (Object.entries(args) as [keyof TArgs, any][]).forEach(([name, value]) => {
-    const { target = NO_TARGET_NAME } = (argTypes[name] || {}) as { target: string };
+    const { target = NO_TARGET_NAME } = (argTypes[name] || {}) as { target?: string };
 
     groupedArgs[target] = groupedArgs[target] || {};
     groupedArgs[target][name] = value;

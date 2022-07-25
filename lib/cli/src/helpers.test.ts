@@ -2,7 +2,7 @@ import fs from 'fs';
 import fse from 'fs-extra';
 
 import * as helpers from './helpers';
-import { SupportedLanguage, SupportedFrameworks } from './project_types';
+import { SupportedLanguage, SupportedRenderers } from './project_types';
 
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
@@ -10,8 +10,10 @@ jest.mock('fs', () => ({
 
 jest.mock('fs-extra', () => ({
   copySync: jest.fn(() => ({})),
+  copy: jest.fn(() => ({})),
   ensureDir: jest.fn(() => {}),
   existsSync: jest.fn(),
+  pathExists: jest.fn(),
 }));
 
 jest.mock('path', () => ({
@@ -56,22 +58,17 @@ describe('Helpers', () => {
     ${'typescript'} | ${[]}           | ${''}
   `(
     `should copy $expected when folder $exists exists for language $language`,
-    ({ language, exists, expected }) => {
+    async ({ language, exists, expected }) => {
       const componentsDirectory = exists.map((folder: string) => `frameworks/react/${folder}`);
       const expectedDirectory = `frameworks/react${expected}`;
-      (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
+      (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
         return componentsDirectory.includes(filePath) || filePath === 'frameworks/react';
       });
-      helpers.copyComponents('react', language);
+      await helpers.copyComponents('react', language);
 
-      const copySyncSpy = jest.spyOn(fse, 'copySync');
-      expect(copySyncSpy).toHaveBeenNthCalledWith(
-        1,
-        expectedDirectory,
-        './stories',
-        expect.anything()
-      );
-      expect(copySyncSpy).toHaveBeenNthCalledWith(
+      const copySpy = jest.spyOn(fse, 'copy');
+      expect(copySpy).toHaveBeenNthCalledWith(1, expectedDirectory, './stories', expect.anything());
+      expect(copySpy).toHaveBeenNthCalledWith(
         2,
         'frameworks/common',
         './stories',
@@ -80,31 +77,27 @@ describe('Helpers', () => {
     }
   );
 
-  it(`should copy to src folder when exists`, () => {
-    (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
+  it(`should copy to src folder when exists`, async () => {
+    (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
       return filePath === 'frameworks/react' || filePath === './src';
     });
-    helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
-    expect(fse.copySync).toHaveBeenCalledWith(
-      expect.anything(),
-      './src/stories',
-      expect.anything()
-    );
+    await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+    expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './src/stories', expect.anything());
   });
 
-  it(`should copy to root folder when src doesn't exist`, () => {
-    (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
+  it(`should copy to root folder when src doesn't exist`, async () => {
+    (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
       return filePath === 'frameworks/react';
     });
-    helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
-    expect(fse.copySync).toHaveBeenCalledWith(expect.anything(), './stories', expect.anything());
+    await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+    expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './stories', expect.anything());
   });
 
-  it(`should throw an error for unsupported framework`, () => {
-    const framework = 'unknown framework' as SupportedFrameworks;
+  it(`should throw an error for unsupported framework`, async () => {
+    const framework = 'unknown framework' as SupportedRenderers;
     const expectedMessage = `Unsupported framework: ${framework}`;
-    expect(() => {
-      helpers.copyComponents(framework, SupportedLanguage.JAVASCRIPT);
-    }).toThrowError(expectedMessage);
+    await expect(
+      helpers.copyComponents(framework, SupportedLanguage.JAVASCRIPT)
+    ).rejects.toThrowError(expectedMessage);
   });
 });

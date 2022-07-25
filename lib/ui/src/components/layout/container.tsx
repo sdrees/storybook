@@ -1,4 +1,4 @@
-import React, { Component, Fragment, FunctionComponent, CSSProperties, ReactNode } from 'react';
+import React, { Component, Fragment, FC, CSSProperties, ReactNode } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 import type { State } from '@storybook/api';
@@ -101,7 +101,7 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
         }
 );
 
-export const Sidebar: FunctionComponent<{ hidden: boolean; position: CSSProperties }> = ({
+export const Sidebar: FC<{ hidden: boolean; position: CSSProperties }> = ({
   hidden = false,
   children,
   position = undefined,
@@ -113,7 +113,7 @@ export const Sidebar: FunctionComponent<{ hidden: boolean; position: CSSProperti
     </Pane>
   );
 
-export const Main: FunctionComponent<{ isFullscreen: boolean; position: CSSProperties }> = ({
+export const Main: FC<{ isFullscreen: boolean; position: CSSProperties }> = ({
   isFullscreen = false,
   children,
   position = undefined,
@@ -124,7 +124,7 @@ export const Main: FunctionComponent<{ isFullscreen: boolean; position: CSSPrope
   </Pane>
 );
 
-export const Preview: FunctionComponent<{ hidden: boolean; position: CSSProperties }> = ({
+export const Preview: FC<{ hidden: boolean; position: CSSProperties }> = ({
   hidden = false,
   children,
   position = undefined,
@@ -135,7 +135,7 @@ export const Preview: FunctionComponent<{ hidden: boolean; position: CSSProperti
   </Pane>
 );
 
-export const Panel: FunctionComponent<{
+export const Panel: FC<{
   hidden: boolean;
   position: CSSProperties;
   align: 'bottom' | 'right';
@@ -299,7 +299,6 @@ export interface BasePanelRenderProps {
 export interface LayoutRenderProps {
   mainProps: BasePanelRenderProps;
   previewProps: BasePanelRenderProps & {
-    docsOnly: boolean;
     showToolbar: boolean;
   };
   navProps: BasePanelRenderProps & {
@@ -333,14 +332,12 @@ export interface LayoutProps {
     showToolbar: boolean;
   };
   viewMode: State['viewMode'];
-  docsOnly: boolean;
   theme: Theme;
 }
 
 class Layout extends Component<LayoutProps, LayoutState> {
   static defaultProps: Partial<LayoutProps> = {
     viewMode: undefined,
-    docsOnly: false,
   };
 
   constructor(props: LayoutProps) {
@@ -361,7 +358,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
     };
   }
 
-  static getDerivedStateFromProps(props: LayoutProps, state: LayoutState) {
+  static getDerivedStateFromProps(props: Readonly<LayoutProps>, state: LayoutState): LayoutState {
     const { bounds, options } = props;
     const { resizerPanel, resizerNav } = state;
 
@@ -492,17 +489,13 @@ class Layout extends Component<LayoutProps, LayoutState> {
   };
 
   render() {
-    const { children, bounds, options, theme, viewMode, docsOnly, panelCount } = this.props;
+    const { children, bounds, options, theme, viewMode, panelCount } = this.props;
     const { isDragging, resizerNav, resizerPanel } = this.state;
 
     const margin = theme.layoutMargin;
     const isNavHidden = options.isFullscreen || !options.showNav;
     const isPanelHidden =
-      options.isFullscreen ||
-      !options.showPanel ||
-      docsOnly ||
-      viewMode !== 'story' ||
-      panelCount === 0;
+      options.isFullscreen || !options.showPanel || viewMode !== 'story' || panelCount === 0;
     const isFullscreen = options.isFullscreen || (isNavHidden && isPanelHidden);
     const { showToolbar } = options;
 
@@ -588,7 +581,6 @@ class Layout extends Component<LayoutProps, LayoutState> {
           },
           previewProps: {
             viewMode,
-            docsOnly,
             animate: !isDragging,
             isFullscreen,
             showToolbar,
@@ -635,6 +627,6 @@ class Layout extends Component<LayoutProps, LayoutState> {
   }
 }
 
-const ThemedLayout = withTheme(Layout);
+const ThemedLayout = withTheme(Layout) as unknown as typeof Layout;
 
 export { ThemedLayout as Layout };

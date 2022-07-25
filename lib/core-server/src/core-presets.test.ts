@@ -5,24 +5,18 @@ import os from 'os';
 import { promisify } from 'util';
 import type { Configuration } from 'webpack';
 import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/core-common';
-import { executor as previewExecutor } from '@storybook/builder-webpack4';
-import { executor as managerExecutor } from '@storybook/manager-webpack4';
+import { executor as previewExecutor } from '@storybook/builder-webpack5';
+import { executor as managerExecutor } from '@storybook/builder-manager';
 
+import { sync as readUpSync } from 'read-pkg-up';
 import { buildDevStandalone } from './build-dev';
 import { buildStaticStandalone } from './build-static';
 
-// nx-ignore-next-line
-import reactOptions from '../../../app/react/src/server/options';
-// nx-ignore-next-line
-import vue3Options from '../../../app/vue3/src/server/options';
-// nx-ignore-next-line
-import htmlOptions from '../../../app/html/src/server/options';
-// nx-ignore-next-line
-import webComponentsOptions from '../../../app/web-components/src/server/options';
 import { outputStats } from './utils/output-stats';
 
 const { SNAPSHOT_OS } = global;
 const mkdtemp = promisify(mkdtempCb);
+const { packageJson } = readUpSync({ cwd: __dirname });
 
 // this only applies to this file
 jest.setTimeout(10000);
@@ -30,18 +24,36 @@ jest.setTimeout(10000);
 // FIXME: this doesn't work
 const skipStoriesJsonPreset = [{ features: { buildStoriesJson: false, storyStoreV7: false } }];
 
-jest.mock('@storybook/builder-webpack4', () => {
-  const value = jest.fn();
-  const actualBuilder = jest.requireActual('@storybook/builder-webpack4');
+jest.mock('@storybook/builder-webpack5', () => {
+  const value = jest.fn(() => false);
+  const actualBuilder = jest.requireActual('@storybook/builder-webpack5');
   // MUTATION! we couldn't mock webpack5, so we added a level of indirection instead
   actualBuilder.executor.get = () => value;
   actualBuilder.overridePresets = [...actualBuilder.overridePresets, skipStoriesJsonPreset];
   return actualBuilder;
 });
 
+jest.mock('@storybook/builder-manager', () => {
+  const value = jest.fn();
+  const actualBuilder = jest.requireActual('@storybook/builder-manager');
+  // MUTATION!
+  actualBuilder.executor.get = () => value;
+  return actualBuilder;
+});
+
 jest.mock('@storybook/telemetry', () => ({
   getStorybookMetadata: jest.fn(() => ({})),
   telemetry: jest.fn(() => ({})),
+}));
+jest.mock('fs-extra', () => ({
+  copy: jest.fn(() => undefined),
+  writeFile: jest.fn(() => undefined),
+  readFile: jest.fn((f) => ''),
+  emptyDir: jest.fn(() => undefined),
+  ensureDir: jest.fn(() => undefined),
+  writeJSON: jest.fn(() => undefined),
+  readJSON: jest.fn(() => ({})),
+  pathExists: jest.fn(() => true),
 }));
 
 jest.mock('./utils/StoryIndexGenerator', () => {
@@ -64,14 +76,6 @@ jest.mock('./utils/stories-json', () => ({
   useStoriesJson: () => {},
 }));
 
-jest.mock('@storybook/manager-webpack4', () => {
-  const value = jest.fn();
-  const actualBuilder = jest.requireActual('@storybook/manager-webpack4');
-  // MUTATION!
-  actualBuilder.executor.get = () => value;
-  return actualBuilder;
-});
-
 // we're not in the right directory for auto-title to work, so just
 // stub it out
 jest.mock('@storybook/store', () => {
@@ -83,11 +87,6 @@ jest.mock('@storybook/store', () => {
   };
 });
 
-jest.mock('fs-extra', () => ({
-  ...jest.requireActual('fs-extra'),
-  copyFile: jest.fn().mockResolvedValue(Promise.resolve()),
-  copy: jest.fn().mockResolvedValue(Promise.resolve()),
-}));
 jest.mock('http', () => ({
   ...jest.requireActual('http'),
   createServer: () => ({ listen: (_options, cb) => cb(), on: jest.fn() }),
@@ -99,6 +98,7 @@ jest.mock('@storybook/node-logger', () => ({
     warn: jest.fn(),
     error: jest.fn(),
     line: jest.fn(),
+    trace: jest.fn(),
   },
 }));
 jest.mock('./utils/output-startup-information', () => ({
@@ -106,6 +106,9 @@ jest.mock('./utils/output-startup-information', () => ({
 }));
 
 jest.mock('./utils/output-stats');
+jest.mock('./utils/open-in-browser', () => ({
+  openInBrowser: jest.fn(),
+}));
 
 const cache = createFileSystemCache({
   basePath: resolvePathInStorybookCache('dev-server'),
@@ -147,13 +150,17 @@ const cleanRoots = (obj): any => {
 
 const getConfig = (fn: any, name): Configuration | null => {
   const call = fn.mock.calls.find((c) => c[0].name === name);
-  if (!call) return null;
+  if (!call) {
+    return null;
+  }
   return call[0];
 };
 
 const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | 'plugins'> => {
   const config = getConfig(get(), name);
-  if (!config) return null;
+  if (!config) {
+    return null;
+  }
 
   const keys = Object.keys(config);
   const { module, entry, plugins } = config;
@@ -164,11 +171,11 @@ const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | '
 const snap = (name: string) => `__snapshots__/${name}`;
 
 describe.each([
-  ['cra-ts-essentials', reactOptions],
-  ['vue-3-cli', vue3Options],
-  ['web-components-kitchen-sink', webComponentsOptions],
-  ['html-kitchen-sink', htmlOptions],
-])('%s', (example, frameworkOptions) => {
+  ['cra-ts-essentials'],
+  ['vue-3-cli'],
+  ['web-components-kitchen-sink'],
+  ['html-kitchen-sink'],
+])('%s', (example) => {
   describe.each([
     ['manager', managerExecutor],
     ['preview', previewExecutor],
@@ -182,16 +189,15 @@ describe.each([
       ['prod', buildStaticStandalone],
       ['dev', buildDevStandalone],
     ])('%s', async (mode, builder) => {
-      console.log('running for ', mode, builder);
       const options = {
         ...baseOptions,
-        ...frameworkOptions,
         configDir: path.resolve(`${__dirname}/../../../examples/${example}/.storybook`),
         // Only add an outputDir in production mode.
         outputDir:
           mode === 'prod' ? await mkdtemp(path.join(os.tmpdir(), 'storybook-static-')) : undefined,
         ignorePreview: component === 'manager',
         managerCache: component === 'preview',
+        packageJson,
       };
       await builder(options);
       const config = prepareSnap(executor.get, component);
@@ -211,7 +217,7 @@ describe('dev cli flags', () => {
     await cache.clear();
   });
 
-  const cliOptions = { ...reactOptions, ...baseOptions };
+  const cliOptions = { ...baseOptions, packageJson };
 
   // eslint-disable-next-line jest/no-disabled-tests
   it.skip('baseline', async () => {
@@ -235,7 +241,6 @@ describe('dev cli flags', () => {
     await buildDevStandalone({ ...cliOptions, webpackStatsJson: '/tmp/dir' });
     expect(outputStats).toHaveBeenCalledWith(
       '/tmp/dir',
-      expect.objectContaining({ toJson: expect.any(Function) }),
       expect.objectContaining({ toJson: expect.any(Function) })
     );
   });
@@ -278,13 +283,12 @@ describe('build cli flags', () => {
     await cache.clear();
   });
   const cliOptions = {
-    ...reactOptions,
     ...baseOptions,
     outputDir: `${__dirname}/storybook-static`,
+    packageJson,
   };
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('does not call output-stats', async () => {
+  it('does not call output-stats', async () => {
     await buildStaticStandalone(cliOptions);
     expect(outputStats).not.toHaveBeenCalled();
   });
@@ -293,7 +297,6 @@ describe('build cli flags', () => {
     await buildStaticStandalone({ ...cliOptions, webpackStatsJson: '/tmp/dir' });
     expect(outputStats).toHaveBeenCalledWith(
       '/tmp/dir',
-      expect.objectContaining({ toJson: expect.any(Function) }),
       expect.objectContaining({ toJson: expect.any(Function) })
     );
   });

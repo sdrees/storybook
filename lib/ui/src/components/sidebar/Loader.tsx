@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment } from 'react';
+import React, { FC, Fragment } from 'react';
 import { styled } from '@storybook/theming';
 
 const LOADER_SEQUENCE = [0, 0, 1, 1, 2, 3, 3, 3, 1, 1, 1, 2, 2, 2, 3];
@@ -40,7 +40,7 @@ interface LoaderProps {
   size: number;
 }
 
-export const Loader: FunctionComponent<LoaderProps> = ({ size }) => {
+export const Loader: FC<LoaderProps> = ({ size }) => {
   const repeats = Math.ceil(size / LOADER_SEQUENCE.length);
   // Creates an array that repeats LOADER_SEQUENCE depths in order, until the size is reached.
   const sequence = Array.from(Array(repeats)).fill(LOADER_SEQUENCE).flat().slice(0, size);

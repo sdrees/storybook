@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 /*
   From pesticide v1.3.0 . @mrmrs . MIT

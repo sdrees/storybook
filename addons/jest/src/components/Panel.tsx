@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { FC, Fragment } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
 import { SizeMe } from 'react-sizeme';
@@ -41,7 +41,11 @@ const SuiteHead = styled.div({
   marginTop: 15,
 });
 
-const SuiteTotals = styled(({ result, className, width }) => (
+const UnstyledSuiteTotals: FC<{
+  result: Test['result'];
+  className?: string;
+  width: number;
+}> = ({ result, className, width }) => (
   <div className={className}>
     <Fragment>
       {width > 325 && result.assertionResults ? (
@@ -57,7 +61,8 @@ const SuiteTotals = styled(({ result, className, width }) => (
       ) : null}
     </Fragment>
   </div>
-))(({ theme }) => ({
+);
+const SuiteTotals = styled(UnstyledSuiteTotals)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   color: theme.color.dark,
@@ -69,7 +74,7 @@ const SuiteTotals = styled(({ result, className, width }) => (
 }));
 
 const SuiteProgressPortion = styled.div<{ color: any; progressPercent: number }>(
-  ({ theme, color, progressPercent }) => ({
+  ({ color, progressPercent }) => ({
     height: 6,
     top: 3,
     width: `${progressPercent}%`,

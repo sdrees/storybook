@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
 import { Consumer } from '@storybook/api';
 
 import { ShortcutsScreen } from './shortcuts';
 
-const ShortcutsPage: FunctionComponent<{}> = () => (
+const ShortcutsPage: FC = () => (
   <Consumer>
     {({
       api: {

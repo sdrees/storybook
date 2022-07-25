@@ -12,15 +12,16 @@ const withTests = {
   ],
 };
 
-// type BabelMode = 'cjs' | 'esm' | 'modern';
+// type BabelMode = 'cjs' | 'esm';
 
 const modules = process.env.BABEL_MODE === 'cjs' ? 'auto' : false;
 
 // FIXME: optional chaining introduced in chrome 80, not supported by wepback4
 // https://github.com/webpack/webpack/issues/10227#issuecomment-642734920
-const targets = process.env.BABEL_MODE === 'modern' ? { chrome: '79' } : 'defaults';
+const targets = process.env.BABEL_MODE === 'esm' ? { chrome: '100' } : { node: 'current' };
 
 module.exports = {
+  compact: false,
   ignore: [
     './lib/codemod/src/transforms/__testfixtures__',
     './lib/postinstall/src/__testfixtures__',
@@ -103,7 +104,6 @@ module.exports = {
         './lib/core',
         './lib/core-common',
         './lib/core-server',
-        './lib/builder-webpack4',
         './lib/builder-webpack5',
         './lib/codemod',
         './addons/storyshots',

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { JsPackageManager } from '../../js-package-manager';
 import { eslintPlugin } from './eslint-plugin';
 

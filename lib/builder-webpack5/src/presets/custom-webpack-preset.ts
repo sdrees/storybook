@@ -1,9 +1,10 @@
 import * as webpackReal from 'webpack';
 import { logger } from '@storybook/node-logger';
-import { loadCustomWebpackConfig, Options, CoreConfig } from '@storybook/core-common';
+import type { Options, CoreConfig } from '@storybook/core-common';
 import type { Configuration } from 'webpack';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
+import { loadCustomWebpackConfig } from '@storybook/core-webpack';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
 
 export async function webpack(config: Configuration, options: Options) {
@@ -24,7 +25,7 @@ export async function webpack(config: Configuration, options: Options) {
     return deprecate(
       webpackConfig,
       dedent`
-        You've provided a webpack config directly in CallOptions, this is not recommended. Please use presets instead. This feature will be removed in 7.0
+      You've provided a webpack config directly in CallOptions, this is not recommended. Please use presets instead. This feature will be removed in 7.0
       `
     )(finalDefaultConfig);
   }

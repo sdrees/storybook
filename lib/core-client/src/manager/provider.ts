@@ -2,8 +2,8 @@ import global from 'global';
 import { Provider } from '@storybook/ui';
 import { addons, AddonStore, Channel } from '@storybook/addons';
 import type { Config, Types } from '@storybook/addons';
-import createPostMessageChannel from '@storybook/channel-postmessage';
-import createWebSocketChannel from '@storybook/channel-websocket';
+import * as postMessage from '@storybook/channel-postmessage';
+import * as webSocket from '@storybook/channel-websocket';
 import Events from '@storybook/core-events';
 
 const { FEATURES, SERVER_CHANNEL_URL } = global;
@@ -18,7 +18,7 @@ export default class ReactProvider extends Provider {
   constructor() {
     super();
 
-    const channel = createPostMessageChannel({ page: 'manager' });
+    const channel = postMessage.createChannel({ page: 'manager' });
 
     addons.setChannel(channel);
     channel.emit(Events.CHANNEL_CREATED);
@@ -27,7 +27,7 @@ export default class ReactProvider extends Provider {
     this.channel = channel;
 
     if (FEATURES?.storyStoreV7 && SERVER_CHANNEL_URL) {
-      const serverChannel = createWebSocketChannel({ url: SERVER_CHANNEL_URL });
+      const serverChannel = webSocket.createChannel({ url: SERVER_CHANNEL_URL });
       this.serverChannel = serverChannel;
       addons.setServerChannel(this.serverChannel);
     }

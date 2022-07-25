@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import semver from '@storybook/semver';
 import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
@@ -96,16 +96,15 @@ export const webpack5: Fix<Webpack5RunOptions> & CheckBuilder = {
     return builderInfo ? { webpackVersion, ...builderInfo } : null;
   },
 
-  prompt({ webpackVersion, storybookVersion }) {
+  prompt({ webpackVersion }) {
     const webpackFormatted = chalk.cyan(`webpack ${webpackVersion}`);
-    const sbFormatted = chalk.cyan(`Storybook ${storybookVersion}`);
 
     return dedent`
       We've detected you're running ${webpackFormatted}.
-      ${sbFormatted} runs webpack4 by default, which may not be compatible.
+      Your Storybook's main.js files specifies webpack4, which is incompatible.
       
       To run Storybook in webpack5-mode, we can install Storybook's ${chalk.cyan(
-        'webpack5 builder'
+        '@storybook/builder-webpack5'
       )} for you.
 
       More info: ${chalk.yellow(
@@ -115,10 +114,7 @@ export const webpack5: Fix<Webpack5RunOptions> & CheckBuilder = {
   },
 
   async run({ result: { main, storybookVersion, webpackVersion }, packageManager, dryRun }) {
-    const deps = [
-      `@storybook/manager-webpack5@${storybookVersion}`,
-      `@storybook/builder-webpack5@${storybookVersion}`,
-    ];
+    const deps = [`@storybook/builder-webpack5@${storybookVersion}`];
     // this also gets called by 'cra5' fix so we need to add
     // webpack5 at the project root so that it gets hoisted
     if (!webpackVersion) {
@@ -127,9 +123,9 @@ export const webpack5: Fix<Webpack5RunOptions> & CheckBuilder = {
     logger.info(`✅ Adding dependencies: ${deps}`);
     if (!dryRun) packageManager.addDependencies({ installAsDevDependencies: true }, deps);
 
-    logger.info('✅ Setting `core.builder` to `webpack5` in main.js');
+    logger.info('✅ Setting `core.builder` to `@storybook/builder-webpack5` in main.js');
     if (!dryRun) {
-      main.setFieldValue(['core', 'builder'], 'webpack5');
+      main.setFieldValue(['core', 'builder'], '@storybook/builder-webpack5');
       await writeConfig(main);
     }
   },

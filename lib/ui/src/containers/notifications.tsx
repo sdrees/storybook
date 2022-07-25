@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
 import { Consumer, Combo, useStorybookApi } from '@storybook/api';
 
@@ -14,7 +14,7 @@ export const mapper = ({ state }: Combo) => {
   };
 };
 
-const NotificationConnect: FunctionComponent<any> = (props) => (
+const NotificationConnect: FC<any> = (props) => (
   <Consumer filter={mapper}>
     {(fromState) => <NotificationList {...props} {...fromState} />}
   </Consumer>

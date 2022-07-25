@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Sidebar } from './Sidebar';
+import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import { mockDataset } from './mockdata';
-import { DEFAULT_REF_ID } from './data';
 import { RefType } from './types';
 
 export default {
@@ -19,7 +18,7 @@ export default {
 const { menu } = standardHeaderData;
 const stories = mockDataset.withRoot;
 const refId = DEFAULT_REF_ID;
-const storyId = '1-12-121';
+const storyId = 'root-1-child-a2--grandchild-a1-1';
 
 export const simpleData = { menu, stories, storyId };
 export const loadingData = { menu, stories: {} };

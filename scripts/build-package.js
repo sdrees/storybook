@@ -2,20 +2,11 @@
 
 /* eslint-disable global-require */
 const { resolve } = require('path');
-const execa = require('execa');
-const terminalSize = require('window-size');
+const { readJSON } = require('fs-extra');
 
 const getStorybookPackages = async () => {
-  const { stdout } = await execa.command(`yarn workspaces list --json`);
-
-  const packages = stdout
-    .toString()
-    .split('\n')
-    .map((v) => JSON.parse(v))
-    .filter((v) => v.name.match(/@storybook\/(.)*/g))
-    .sort();
-
-  return packages;
+  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'workspace.json'));
+  return Object.entries(workspaceJSON.projects).map(([k, v]) => ({ location: v.root, name: k }));
 };
 
 async function run() {
@@ -45,6 +36,12 @@ async function run() {
       suffix: '--watch',
       helpText: 'build on watch mode',
     },
+    prod: {
+      name: `prod`,
+      defaultValue: false,
+      suffix: '--prod',
+      helpText: 'build on production mode',
+    },
     ...packageTasks,
   };
 
@@ -62,6 +59,7 @@ async function run() {
 
   let selection;
   let watchMode = false;
+  let prodMode = false;
   if (
     !Object.keys(tasks)
       .map((key) => tasks[key].value)
@@ -70,8 +68,16 @@ async function run() {
     selection = await prompts([
       {
         type: 'toggle',
-        name: 'mode',
+        name: 'watch',
         message: 'Start in watch mode',
+        initial: false,
+        active: 'yes',
+        inactive: 'no',
+      },
+      {
+        type: 'toggle',
+        name: 'prod',
+        message: 'Start in production mode',
         initial: false,
         active: 'yes',
         inactive: 'no',
@@ -82,30 +88,41 @@ async function run() {
         name: 'todo',
         min: 1,
         hint: 'You can also run directly with package name like `yarn build core`, or `yarn build --all` for all packages!',
-        optionsPerPage: terminalSize.height - 3, // 3 lines for extra info
+        optionsPerPage: require('window-size').height - 3, // 3 lines for extra info
         choices: packages.map(({ name: key }) => ({
           value: key,
           title: tasks[key].name || key,
           selected: (tasks[key] && tasks[key].defaultValue) || false,
         })),
       },
-    ]).then(({ mode, todo }) => {
-      watchMode = mode;
+    ]).then(({ watch, prod, todo }) => {
+      watchMode = watch;
+      prodMode = prod;
       return todo?.map((key) => tasks[key]);
     });
   } else {
     // hits here when running yarn build --packagename
     watchMode = process.argv.includes('--watch');
+    prodMode = process.argv.includes('--prod');
     selection = Object.keys(tasks)
       .map((key) => tasks[key])
-      .filter((item) => item.name !== 'watch' && item.value === true);
+      .filter((item) => !['watch', 'prod'].includes(item.name) && item.value === true);
   }
 
-  selection?.filter(Boolean).forEach((v) => {
-    const sub = execa.command(`yarn prepare${watchMode ? ' --watch' : ''}`, {
-      cwd: resolve(__dirname, '..', v.location),
-      buffer: false,
-    });
+  selection?.filter(Boolean).forEach(async (v) => {
+    const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.prepare;
+    const cwd = resolve(__dirname, '..', v.location);
+    const sub = require('execa').command(
+      `yarn ${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
+      {
+        cwd,
+        buffer: false,
+        shell: true,
+        env: {
+          NODE_ENV: 'production',
+        },
+      }
+    );
 
     sub.stdout.on('data', (data) => {
       process.stdout.write(`${chalk.cyan(v.name)}:\n${data}`);

@@ -1,11 +1,11 @@
-import React, { FunctionComponent, memo } from 'react';
+import React, { FC, memo } from 'react';
 
 import { useGlobals, useParameter } from '@storybook/api';
 import { Icons, IconButton } from '@storybook/components';
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 
-export const GridSelector: FunctionComponent = memo(() => {
+export const GridSelector: FC = memo(() => {
   const [globals, updateGlobals] = useGlobals();
 
   const { grid } = useParameter(BACKGROUNDS_PARAM_KEY, {

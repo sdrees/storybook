@@ -1,7 +1,7 @@
 import global from 'global';
 import memoize from 'memoizerific';
 
-import { ModuleFn } from '../index';
+import type { ModuleFn } from '../index';
 
 const { RELEASE_NOTES_DATA } = global;
 
@@ -29,7 +29,7 @@ export interface SubState {
   releaseNotesViewed: string[];
 }
 
-export const init: ModuleFn = ({ store }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ store }) => {
   const releaseNotesData = getReleaseNotesData();
   const getReleaseNotesViewed = () => {
     const { releaseNotesViewed: persistedReleaseNotesViewed } = store.getState();
@@ -58,7 +58,5 @@ export const init: ModuleFn = ({ store }) => {
     },
   };
 
-  const initModule = () => {};
-
-  return { init: initModule, api };
+  return { state: { releaseNotesViewed: [] }, api };
 };

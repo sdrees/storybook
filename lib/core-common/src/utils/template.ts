@@ -37,26 +37,6 @@ export function getPreviewHeadTemplate(
   return interpolate(result, interpolations);
 }
 
-export function getManagerHeadTemplate(
-  configDirPath: string,
-  interpolations: Record<string, string>
-) {
-  const base = fs.readFileSync(`${sync(__dirname)}/templates/base-manager-head.html`, 'utf8');
-  const scriptPath = path.resolve(configDirPath, 'manager-head.html');
-
-  let result = base;
-
-  if (fs.existsSync(scriptPath)) {
-    result += fs.readFileSync(scriptPath, 'utf8');
-  }
-
-  return interpolate(result, interpolations);
-}
-
-export function getManagerMainTemplate() {
-  return `${sync(__dirname)}/templates/index.ejs`;
-}
-
 export function getPreviewMainTemplate() {
-  return `${sync(__dirname)}/templates/index.ejs`;
+  return `${sync(__dirname)}/templates/preview.ejs`;
 }

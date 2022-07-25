@@ -1,8 +1,9 @@
-import { Meta, Story } from '@storybook/web-components';
+import type { Meta, Story } from '@storybook/web-components';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
-import { SbButton } from './sb-button';
+import './sb-button';
+import type { SbButton } from './sb-button';
 
 export default {
   title: 'Example/Button',
@@ -17,7 +18,6 @@ export default {
     },
   },
 } as Meta;
-
 const Template: Story<SbButton> = ({ primary, backgroundColor, size, label }) =>
   html`<sb-button
     ?primary="${primary}"

@@ -1,5 +1,5 @@
 /* eslint-disable no-fallthrough */
-import React, { Fragment, ReactNode, useEffect, useRef, FunctionComponent, memo } from 'react';
+import React, { Fragment, ReactNode, useEffect, useRef, FC, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { styled, Global, Theme, withTheme } from '@storybook/theming';
@@ -82,7 +82,7 @@ const ActiveViewportSize = styled.div(() => ({
   display: 'inline-flex',
 }));
 
-const ActiveViewportLabel = styled.div<{}>(({ theme }) => ({
+const ActiveViewportLabel = styled.div(({ theme }) => ({
   display: 'inline-block',
   textDecoration: 'none',
   padding: 10,
@@ -101,7 +101,7 @@ const IconButtonWithLabel = styled(IconButton)(() => ({
   alignItems: 'center',
 }));
 
-const IconButtonLabel = styled.div<{}>(({ theme }) => ({
+const IconButtonLabel = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2 - 1,
   marginLeft: 10,
 }));
@@ -123,7 +123,7 @@ const getStyles = (
   return isRotated ? flip(result) : result;
 };
 
-export const ViewportTool: FunctionComponent = memo(
+export const ViewportTool: FC = memo(
   withTheme(({ theme }: { theme: Theme }) => {
     const {
       viewports = MINIMAL_VIEWPORTS,

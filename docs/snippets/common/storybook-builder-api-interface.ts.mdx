@@ -6,7 +6,7 @@ export interface Builder<Config, Stats> {
     router: Router;
     server: Server;
   }) => Promise<void | {
-    stats: Stats;
+    stats?: Stats;
     totalTime: ReturnType<typeof process.hrtime>;
     bail: (e?: Error) => Promise<void>;
   }>;

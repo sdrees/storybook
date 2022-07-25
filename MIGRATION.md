@@ -1,5 +1,19 @@
 <h1>Migration</h1>
 
+- [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
+  - [Alpha release notes](#alpha-release-notes)
+  - [Breaking changes](#breaking-changes)
+    - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
+    - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
+    - [Webpack4 support discontinued](#webpack4-support-discontinued)
+    - [Modern ESM / IE11 support discontinued](#modern-esm--ie11-support-discontinued)
+    - [Framework field mandatory](#framework-field-mandatory)
+    - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [Framework standalone build moved](#framework-standalone-build-moved)
+    - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
+    - [Babel mode v7 by default](#babel-mode-v7-by-default)
+    - [7.0 feature flags removed](#70-feature-flags-removed)
+    - [Removed docs.getContainer and getPage parameters](#removed-docs-getcontainer-and-getpage-parameters)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -201,6 +215,189 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+## From version 6.5.x to 7.0.0
+
+### Alpha release notes
+
+Storybook 7.0 is in early alpha. During the alpha, we are making a large number of breaking changes. We may also break the breaking changes based on what we learn during the development cycle. When 7.0 goes to beta, we will start stabilizing and adding various auto-migrations to help users upgrade more easily.
+
+In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
+
+### Breaking changes
+
+#### start-storybook / build-storybook binaries removed
+
+SB6.x framework packages shipped binaries called `start-storybook` and `build-storybook`.
+
+In SB7.0, we've removed these binaries and replaced them with new commands in Storybook's CLI: `sb dev` and `sb build`. These commands will look for the `framework` field in your `.storybook/main.js` config--[which is now required](#framework-field-mandatory)--and use that to determine how to start/build your storybook. The benefit of this change is that it is now possible to install multiple frameworks in a project without having to worry about hoisting issues.
+
+A typical storybook project includes two scripts in your projects `package.json`:
+
+```json
+{
+  "scripts": {
+    "storybook": "start-storybook <some flags>",
+    "build-storybook": "build-storybook <some flags>"
+  }
+}
+```
+
+To convert this project to 7.0:
+
+```json
+{
+  "scripts": {
+    "storybook": "storybook dev <some flags>",
+    "build-storybook": "storybook build <some flags>"
+  },
+  "devDependencies": {
+    "storybook": "future"
+  }
+}
+```
+
+The new CLI commands remove the following flags:
+
+| flag     | migration                                                                                     |
+| -------- | --------------------------------------------------------------------------------------------- |
+| --modern | No migration needed. [All ESM code is modern in SB7](#modern-esm--ie11-support-discontinued). |
+
+#### storyStoreV7 enabled by default
+
+SB6.4 introduced [Story Store V7](#story-store-v7), an optimization which allows code splitting for faster build and load times. This was an experimental, opt-in change and you can read more about it in [the migration notes below](#story-store-v7). TLDR: you can't use the legacy `storiesOf` API or dynamic titles in CSF.
+
+Now in 7.0, Story Store V7 is the default. You can opt-out of it by setting the feature flag in `.storybook/main.js`:
+
+```js
+module.exports = {
+  features: {
+    storyStoreV7: false,
+  },
+};
+```
+
+During the 7.0 dev cycle we will be preparing recommendations and utilities to make it easier for `storiesOf` users to upgrade.
+
+#### Webpack4 support discontinued
+
+SB7.0 no longer supports Webpack4.
+
+Depending on your project specifics, it might be possible to run your Storybook using the webpack5 builder without error.
+
+If you are running into errors, you can upgrade your project to Webpack5 or you can try debugging those errors.
+
+To upgrade:
+
+- If you're configuring webpack directly, see the Webpack5 [release announcement](https://webpack.js.org/blog/2020-10-10-webpack-5-release/) and [migration guide](https://webpack.js.org/migrate/5).
+- If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to ugprade from V4 (Webpack4) to 5
+
+During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
+
+#### Modern ESM / IE11 support discontinued
+
+SB7.0 compiles to modern ESM, meaning that IE11 is no longer supported. Over the course of the 7.0 dev cycle we will create recommendations for users who still require IE support.
+
+#### Framework field mandatory
+
+In 6.4 we introduced a new `main.js` field called [`framework`](#mainjs-framework-field). Starting in 7.0, this field is mandatory.
+The value of the `framework` field has also changed.
+
+In 6.4, valid values included `@storybook/react`, `@storybook/vue`, etc.
+
+In 7.0, frameworks also specify the builder to be used. For example, The current list of frameworks include:
+
+- `@storybook/angular`
+- `@storybook/html-webpack5`
+- `@storybook/preact-webpack5`
+- `@storybook/react-webpack5`
+- `@storybook/server-webpack5`
+- `@storybook/svelte-webpack5`
+- `@storybook/vue-webpack5`
+- `@storybook/vue3-webpack5`
+- `@storybook/web-components-webpack5`
+
+We will be expanding this list over the course of the 7.0 development cycle. More info on the rationale here: [Frameworks RFC](https://www.notion.so/chromatic-ui/Frameworks-RFC-89f8aafe3f0941ceb4c24683859ed65c).
+
+#### frameworkOptions renamed
+
+In 7.0, the `main.js` fields `reactOptions` and `angularOptions` have been renamed. They are now options on the `framework` field:
+
+```js
+module.exports = {
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: { fastRefresh: true };
+  }
+}
+```
+
+#### Framework standalone build moved
+
+In 7.0 the location of the standalone node API has moved to `@storybook/core-server`.
+
+If you used the React standalone API, for example, you might have written:
+
+```js
+const { buildStandalone } = require('@storybook/react/standalone');
+const options = {};
+buildStandalone(options).then(() => console.log('done'));
+```
+
+In 7.0, you would now use:
+
+```js
+const build = require('@storybook/core-server/standalone');
+const options = {};
+build(options).then(() => console.log('done'));
+```
+
+#### Docs modern inline rendering by default
+
+Storybook docs has a new rendering mode called "modern inline rendering" which unifies the way stories are rendered in Docs mode and in the canvas (aka story mode). It is still being stabilized in 7.0 dev cycle. If you run into trouble with inline rendering in docs, you can opt out of modern inline rendering in your `.storybook/main.js`:
+
+```js
+module.exports = {
+  features: {
+    modernInlineRender: false,
+  },
+};
+```
+
+#### Babel mode v7 by default
+
+Storybook now uses your project babel configuration differently as [described below in Babel Mode v7](#babel-mode-v7). This is now the default. To opt-out:
+
+```js
+module.exports = {
+  features: {
+    babelModeV7: false,
+  },
+};
+```
+
+#### 7.0 feature flags removed
+
+Storybook uses temporary feature flags to opt-in to future breaking changes or opt-in to legacy behaviors. For example:
+
+```js
+module.exports = {
+  features: {
+    emotionAlias: false,
+  },
+};
+```
+
+In 7.0 we've removed the following feature flags:
+
+| flag                | migration instructions                               |
+| ------------------- | ---------------------------------------------------- |
+| `emotionAlias`      | This flag is no longer needed and should be deleted. |
+| `breakingChangesV7` | This flag is no longer needed and should be deleted. |
+
+#### Removed docs.getContainer and getPage parameters
+
+It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
+
 ## From version 6.4.x to 6.5.0
 
 ### Vue 3 upgrade
@@ -366,6 +563,7 @@ In 6.5, the final titles would be:
 - `Title.stories.js` => `Custom/Bar`
 
 <!-- markdown-link-check-disable -->
+
 ## From version 6.3.x to 6.4.0
 
 ### Automigrate
@@ -2909,4 +3107,5 @@ If you **are** using these addons, it takes two steps to migrate:
   import { action } from '@storybook/addon-actions';
   import { linkTo } from '@storybook/addon-links';
   ```
-<!-- markdown-link-check-enable -->
+
+  <!-- markdown-link-check-enable -->

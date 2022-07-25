@@ -56,7 +56,7 @@ export interface Brand {
   target: string | null | undefined;
 }
 
-export interface Theme {
+export interface StorybookTheme {
   color: Color;
   background: Background;
   typography: Typography;

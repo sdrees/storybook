@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { Fragment, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -26,7 +27,7 @@ const canvasMapper = ({ state, api }: Combo) => ({
   customCanvas: api.renderPreview,
   queryParams: state.customQueryParams,
   getElements: api.getElements,
-  story: api.getData(state.storyId, state.refId),
+  entry: api.getData(state.storyId, state.refId),
   storiesConfigured: state.storiesConfigured,
   storiesFailed: state.storiesFailed,
   refs: state.refs,
@@ -42,7 +43,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
     return (
       <Consumer filter={canvasMapper}>
         {({
-          story,
+          entry,
           refs,
           customCanvas,
           storyId,
@@ -59,7 +60,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
             [getElements, ...defaultWrappers]
           );
 
-          const isLoading = story
+          const isLoading = entry
             ? !!refs[refId] && !refs[refId].ready
             : !storiesFailed && !storiesConfigured;
 
@@ -87,7 +88,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
                           baseUrl={baseUrl}
                           refs={refs}
                           scale={scale}
-                          story={story}
+                          entry={entry}
                           viewMode={viewMode}
                           refId={refId}
                           queryParams={queryParams}
@@ -111,7 +112,7 @@ const useTabs = (
   baseUrl: PreviewProps['baseUrl'],
   withLoader: PreviewProps['withLoader'],
   getElements: API['getElements'],
-  story: PreviewProps['story']
+  entry: PreviewProps['entry']
 ) => {
   const canvas = useMemo(() => {
     return createCanvas(id, baseUrl, withLoader);
@@ -122,12 +123,12 @@ const useTabs = (
   }, [getElements]);
 
   return useMemo(() => {
-    if (story?.parameters) {
-      return filterTabs([canvas, ...tabsFromConfig], story.parameters);
+    if (entry?.type === 'story' && entry.parameters) {
+      return filterTabs([canvas, ...tabsFromConfig], entry.parameters);
     }
 
     return [canvas, ...tabsFromConfig];
-  }, [story, canvas, ...tabsFromConfig]);
+  }, [entry, canvas, ...tabsFromConfig]);
 };
 
 const Preview = React.memo<PreviewProps>((props) => {
@@ -137,31 +138,29 @@ const Preview = React.memo<PreviewProps>((props) => {
     options,
     viewMode,
     storyId,
-    story = undefined,
+    entry = undefined,
     description,
     baseUrl,
     withLoader = true,
   } = props;
   const { getElements } = api;
 
-  const tabs = useTabs(previewId, baseUrl, withLoader, getElements, story);
+  const tabs = useTabs(previewId, baseUrl, withLoader, getElements, entry);
 
   const shouldScale = viewMode === 'story';
   const { showToolbar, showTabs = true } = options;
   const visibleTabsInToolbar = showTabs ? tabs : [];
 
   const previousStoryId = useRef(storyId);
-  const previousViewMode = useRef(viewMode);
 
   useEffect(() => {
-    if (story && viewMode) {
-      // Don't emit the event on first ("real") render, only when story or mode changes
-      if (storyId !== previousStoryId.current || viewMode !== previousViewMode.current) {
+    if (entry && viewMode) {
+      // Don't emit the event on first ("real") render, only when entry changes
+      if (storyId !== previousStoryId.current) {
         previousStoryId.current = storyId;
-        previousViewMode.current = viewMode;
 
         if (viewMode.match(/docs|story/)) {
-          const { refId, id } = story;
+          const { refId, id } = entry;
           api.emit(SET_CURRENT_STORY, {
             storyId: id,
             viewMode,
@@ -172,7 +171,7 @@ const Preview = React.memo<PreviewProps>((props) => {
         }
       }
     }
-  }, [story, viewMode]);
+  }, [entry, viewMode]);
 
   return (
     <Fragment>
@@ -184,7 +183,7 @@ const Preview = React.memo<PreviewProps>((props) => {
       <ZoomProvider shouldScale={shouldScale}>
         <ToolbarComp
           key="tools"
-          story={story}
+          entry={entry}
           api={api}
           isShown={showToolbar}
           tabs={visibleTabsInToolbar}

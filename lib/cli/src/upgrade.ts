@@ -5,7 +5,7 @@ import { logger } from '@storybook/node-logger';
 import {
   getPackageDetails,
   JsPackageManagerFactory,
-  PackageJsonWithDepsAndDevDeps,
+  PackageJsonWithMaybeDeps,
 } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
@@ -116,7 +116,7 @@ const EXTRA_FLAGS: ExtraFlags = {
 export const addExtraFlags = (
   extraFlags: ExtraFlags,
   flags: string[],
-  { dependencies, devDependencies }: PackageJsonWithDepsAndDevDeps
+  { dependencies, devDependencies }: PackageJsonWithMaybeDeps
 ) => {
   return Object.entries(extraFlags).reduce(
     (acc, entry) => {

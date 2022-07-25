@@ -1,40 +1,42 @@
 {
   "name": "cra-kitchen-sink",
-  "version": "6.5.0-rc.1",
+  "version": "7.0.0-alpha.16",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "build-storybook": "build-storybook",
+    "build-storybook": "storybook build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 9010 --no-manager-cache",
+    "storybook": "storybook dev -p 9010 --no-manager-cache",
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "@storybook/client-logger": "6.5.0-rc.1",
+    "@storybook/client-logger": "7.0.0-alpha.16",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-lifecycles-compat": "^3.0.4",
-    "react-scripts": "^4.0.2"
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
-    "@storybook/addon-a11y": "6.5.0-rc.1",
-    "@storybook/addon-actions": "6.5.0-rc.1",
-    "@storybook/addon-backgrounds": "6.5.0-rc.1",
-    "@storybook/addon-docs": "6.5.0-rc.1",
-    "@storybook/addon-ie11": "0.0.7--canary.5e87b64.0",
-    "@storybook/addon-jest": "6.5.0-rc.1",
-    "@storybook/addon-links": "6.5.0-rc.1",
-    "@storybook/addon-storyshots": "6.5.0-rc.1",
-    "@storybook/addons": "6.5.0-rc.1",
-    "@storybook/builder-webpack4": "6.5.0-rc.1",
-    "@storybook/preset-create-react-app": "^3.1.6",
-    "@storybook/react": "6.5.0-rc.1",
-    "@storybook/theming": "6.5.0-rc.1",
-    "webpack": "4"
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "@storybook/addon-a11y": "7.0.0-alpha.16",
+    "@storybook/addon-actions": "7.0.0-alpha.16",
+    "@storybook/addon-backgrounds": "7.0.0-alpha.16",
+    "@storybook/addon-docs": "7.0.0-alpha.16",
+    "@storybook/addon-highlight": "7.0.0-alpha.16",
+    "@storybook/addon-jest": "7.0.0-alpha.16",
+    "@storybook/addon-links": "7.0.0-alpha.16",
+    "@storybook/addon-storyshots": "7.0.0-alpha.16",
+    "@storybook/addons": "7.0.0-alpha.16",
+    "@storybook/builder-webpack5": "7.0.0-alpha.16",
+    "@storybook/preset-create-react-app": "^4.1.0",
+    "@storybook/react": "7.0.0-alpha.16",
+    "@storybook/react-webpack5": "7.0.0-alpha.16",
+    "@storybook/theming": "7.0.0-alpha.16",
+    "storybook": "7.0.0-alpha.16",
+    "webpack": "5"
   },
   "storybook": {
     "chromatic": {

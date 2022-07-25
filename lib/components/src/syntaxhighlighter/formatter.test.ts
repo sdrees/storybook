@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { formatter } from './formatter';
 
@@ -102,7 +102,6 @@ describe('prettier (babel)', () => {
   test('handles single line', () => {
     const input = 'console.log("hello world")';
     const result = formatter('angular', input);
-    console.log({ result });
 
     expect(result).toBe(input);
   });

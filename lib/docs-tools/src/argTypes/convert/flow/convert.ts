@@ -43,6 +43,7 @@ export const convert = (type: FlowType): SBType | void => {
       return { ...base, ...convertSig(type) };
     case 'union':
       if (type.elements.every(isLiteral)) {
+        // @ts-ignore
         return { ...base, name: 'enum', value: type.elements.map(toEnumOption) };
       }
       return { ...base, name, value: type.elements.map(convert) };

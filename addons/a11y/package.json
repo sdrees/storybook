@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "6.5.0-rc.1",
+  "version": "7.0.0-alpha.16",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -25,16 +25,32 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./register.js": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -42,29 +58,31 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "check": "tsc --noEmit",
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-rc.1",
-    "@storybook/api": "6.5.0-rc.1",
-    "@storybook/channels": "6.5.0-rc.1",
-    "@storybook/client-logger": "6.5.0-rc.1",
-    "@storybook/components": "6.5.0-rc.1",
-    "@storybook/core-events": "6.5.0-rc.1",
+    "@digitak/esrun": "^3.2.2",
+    "@storybook/addon-highlight": "7.0.0-alpha.16",
+    "@storybook/addons": "7.0.0-alpha.16",
+    "@storybook/api": "7.0.0-alpha.16",
+    "@storybook/channels": "7.0.0-alpha.16",
+    "@storybook/client-logger": "7.0.0-alpha.16",
+    "@storybook/components": "7.0.0-alpha.16",
+    "@storybook/core-events": "7.0.0-alpha.16",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/theming": "6.5.0-rc.1",
+    "@storybook/theming": "7.0.0-alpha.16",
     "axe-core": "^4.2.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "react-sizeme": "^3.0.1",
-    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.2",
-    "@types/webpack-env": "^1.16.0"
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -81,8 +99,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx",
+      "./src/preview.tsx"
+    ]
+  },
+  "gitHead": "df30e7db2b251418af106345e5722477f057ec36",
   "storybook": {
     "displayName": "Accessibility",
     "icon": "https://user-images.githubusercontent.com/263385/101991665-47042f80-3c7c-11eb-8f00-64b5a18f498a.png",

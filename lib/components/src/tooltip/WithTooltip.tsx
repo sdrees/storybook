@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useCallback, useState, useEffect } from 'react';
+import React, { FC, ReactNode, useCallback, useState, useEffect } from 'react';
 import { styled } from '@storybook/theming';
 import global from 'global';
 
@@ -37,7 +37,7 @@ export interface WithTooltipPureProps {
 }
 
 // Pure, does not bind to the body
-const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
+const WithTooltipPure: FC<WithTooltipPureProps> = ({
   svg,
   trigger,
   closeOnClick,
@@ -119,7 +119,7 @@ WithTooltipPure.defaultProps = {
   tooltipShown: false,
 };
 
-const WithToolTipState: FunctionComponent<
+const WithToolTipState: FC<
   WithTooltipPureProps & {
     startOpen?: boolean;
   }

@@ -1,4 +1,13 @@
-import qs from 'qs';
+function parseQuery(queryString: string) {
+  const query: Record<string, string> = {};
+  const pairs = queryString.split('&');
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < pairs.length; i++) {
+    const pair = pairs[i].split('=');
+    query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+  }
+  return query;
+}
 
 export const getStoryHref = (
   baseUrl: string,
@@ -8,7 +17,7 @@ export const getStoryHref = (
   const [url, paramsStr] = baseUrl.split('?');
   const params = paramsStr
     ? {
-        ...qs.parse(paramsStr),
+        ...parseQuery(paramsStr),
         ...additionalParams,
         id: storyId,
       }
@@ -16,5 +25,7 @@ export const getStoryHref = (
         ...additionalParams,
         id: storyId,
       };
-  return `${url}${qs.stringify(params, { addQueryPrefix: true, encode: false })}`;
+  return `${url}?${Object.entries(params)
+    .map((item) => `${item[0]}=${item[1]}`)
+    .join('&')}`;
 };

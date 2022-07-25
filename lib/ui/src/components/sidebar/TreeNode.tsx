@@ -1,11 +1,9 @@
 import { styled } from '@storybook/theming';
 import type { Color, Theme } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import global from 'global';
 import { transparentize } from 'polished';
 import React, { FunctionComponent, ComponentProps } from 'react';
-
-const { DOCS_MODE } = global;
+import { Combo, Consumer } from '@storybook/api';
 
 export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
   display: 'inline-block',
@@ -24,13 +22,15 @@ export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExp
 
 const iconColors = {
   light: {
-    document: DOCS_MODE ? 'secondary' : '#ff8300',
+    document: '#ff8300',
+    docsModeDocument: 'secondary',
     bookmarkhollow: 'seafoam',
     component: 'secondary',
     folder: 'ultraviolet',
   },
   dark: {
-    document: DOCS_MODE ? 'secondary' : 'gold',
+    document: 'gold',
+    docsModeDocument: 'secondary',
     bookmarkhollow: 'seafoam',
     component: 'secondary',
     folder: 'primary',
@@ -46,9 +46,11 @@ const TypeIcon = styled(Icons)(
     marginRight: 5,
     flex: '0 0 auto',
   },
-  ({ theme, icon, symbol = icon }) => {
+  ({ theme, icon, symbol = icon, docsMode }) => {
     const colors = theme.base === 'dark' ? iconColors.dark : iconColors.light;
-    const color = colors[symbol as keyof typeof colors];
+    const colorKey: keyof typeof colors =
+      docsMode && symbol === 'document' ? 'docsModeDocument' : symbol;
+    const color = colors[colorKey];
     return { color: isColor(theme, color) ? theme.color[color] : color };
   }
 );
@@ -164,10 +166,14 @@ export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>>
 
 export const DocumentNode: FunctionComponent<ComponentProps<typeof LeafNode>> = React.memo(
   ({ theme, children, ...props }) => (
-    <LeafNode tabIndex={-1} {...props}>
-      <TypeIcon symbol="document" />
-      {children}
-    </LeafNode>
+    <Consumer filter={({ state }: Combo) => ({ docsMode: state.docsMode })}>
+      {({ docsMode }) => (
+        <LeafNode tabIndex={-1} {...props}>
+          <TypeIcon symbol="document" docsMode={docsMode} />
+          {children}
+        </LeafNode>
+      )}
+    </Consumer>
   )
 );
 

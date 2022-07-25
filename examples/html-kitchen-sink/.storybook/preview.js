@@ -1,6 +1,4 @@
-import { addParameters } from '@storybook/html';
-
-addParameters({
+export const parameters = {
   a11y: {
     config: {},
     options: {
@@ -11,4 +9,4 @@ addParameters({
   docs: {
     iframeHeight: '200px',
   },
-});
+};

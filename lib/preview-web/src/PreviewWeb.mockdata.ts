@@ -18,7 +18,7 @@ export const componentOneExports = {
     },
     loaders: [jest.fn()],
     parameters: {
-      docs: { container: jest.fn() },
+      docs: { page: jest.fn(), container: jest.fn() },
     },
   },
   a: { args: { foo: 'a' }, play: jest.fn() },
@@ -28,10 +28,33 @@ export const componentTwoExports = {
   default: { title: 'Component Two' },
   c: { args: { foo: 'c' } },
 };
-export const importFn = jest.fn(async (path) => {
-  return path === './src/ComponentOne.stories.js' ? componentOneExports : componentTwoExports;
-});
+export const standaloneDocsExports = {
+  default: jest.fn(),
+};
+// If a second file defines stories for componentOne
+export const extraComponentOneExports = {
+  default: {
+    title: 'Component One',
+    parameters: {
+      docs: { page: jest.fn() },
+    },
+  },
+  e: {},
+};
+export const importFn = jest.fn(
+  async (path) =>
+    ({
+      './src/ComponentOne.stories.js': componentOneExports,
+      './src/ComponentTwo.stories.js': componentTwoExports,
+      './src/Introduction.mdx': standaloneDocsExports,
+      './src/ExtraComponentOne.stories.js': extraComponentOneExports,
+    }[path])
+);
 
+export const docsRenderer = {
+  render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
+  unmount: jest.fn(),
+};
 export const teardownRenderToDOM: jest.Mock<TeardownRenderToDOM> = jest.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
@@ -39,29 +62,67 @@ export const projectAnnotations = {
   decorators: [jest.fn((s) => s())],
   render: jest.fn(),
   renderToDOM: jest.fn().mockReturnValue(teardownRenderToDOM),
+  parameters: { docs: { renderer: () => docsRenderer } },
 };
 export const getProjectAnnotations = () => projectAnnotations;
 
 export const storyIndex: StoryIndex = {
-  v: 3,
-  stories: {
+  v: 4,
+  entries: {
+    'component-one--docs': {
+      type: 'docs',
+      id: 'component-one--docs',
+      title: 'Component One',
+      name: 'Docs',
+      importPath: './src/ComponentOne.stories.js',
+      storiesImports: ['./src/ExtraComponentOne.stories.js'],
+      standalone: false,
+    },
     'component-one--a': {
+      type: 'story',
       id: 'component-one--a',
       title: 'Component One',
       name: 'A',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-one--b': {
+      type: 'story',
       id: 'component-one--b',
       title: 'Component One',
       name: 'B',
       importPath: './src/ComponentOne.stories.js',
     },
+    'component-one--e': {
+      type: 'story',
+      id: 'component-one--e',
+      title: 'Component One',
+      name: 'E',
+      importPath: './src/ExtraComponentOne.stories.js',
+    },
+    'component-two--docs': {
+      type: 'docs',
+      id: 'component-two--docs',
+      title: 'Component Two',
+      name: 'Docs',
+      importPath: './src/ComponentTwo.stories.js',
+      storiesImports: [],
+      standalone: false,
+    },
     'component-two--c': {
+      type: 'story',
       id: 'component-two--c',
       title: 'Component Two',
       name: 'C',
       importPath: './src/ComponentTwo.stories.js',
+    },
+    'introduction--docs': {
+      type: 'docs',
+      id: 'introduction--docs',
+      title: 'Introduction',
+      name: 'Docs',
+      importPath: './src/Introduction.mdx',
+      storiesImports: ['./src/ComponentTwo.stories.js'],
+      standalone: true,
     },
   },
 };
@@ -78,7 +139,8 @@ export const mockChannel = {
 
 export const waitForEvents = (
   events: string[],
-  predicate: (...args: any[]) => boolean = () => true
+  predicate: (...args: any[]) => boolean = () => true,
+  debugLabel?: string
 ) => {
   // We've already emitted a render event. NOTE if you want to test a second call,
   // ensure you call `mockChannel.emit.mockClear()` before `waitFor...`
@@ -99,7 +161,9 @@ export const waitForEvents = (
     events.forEach((event) => mockChannel.on(event, listener));
 
     // Don't wait too long
-    waitForQuiescence().then(() => reject(new Error('Event was not emitted in time')));
+    waitForQuiescence().then(() =>
+      reject(new Error(`Event was not emitted in time: ${debugLabel || events}`))
+    );
   });
 };
 
@@ -114,8 +178,10 @@ export const waitForRender = () =>
     STORY_MISSING,
   ]);
 
-export const waitForRenderPhase = (phase: RenderPhase) =>
-  waitForEvents([STORY_RENDER_PHASE_CHANGED], ({ newPhase }) => newPhase === phase);
+export const waitForRenderPhase = (phase: RenderPhase) => {
+  const label = `${STORY_RENDER_PHASE_CHANGED} to ${phase}`;
+  return waitForEvents([STORY_RENDER_PHASE_CHANGED], ({ newPhase }) => newPhase === phase, label);
+};
 
 // A little trick to ensure that we always call the real `setTimeout` even when timers are mocked
 const realSetTimeout = setTimeout;

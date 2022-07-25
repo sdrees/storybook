@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ui",
-  "version": "6.5.0-rc.1",
+  "version": "7.0.0-alpha.16",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -19,17 +19,28 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/runtime": {
+      "require": "./dist/runtime.js",
+      "import": "./dist/runtime.mjs",
+      "types": "./dist/runtime.d.ts"
+    },
+    "./dist/globals": {
+      "require": "./dist/globals.js",
+      "import": "./dist/globals.mjs",
+      "types": "./dist/globals.d.ts"
+    },
+    "./paths": "./paths.js",
+    "./package.json": "./package.json"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -37,52 +48,62 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "ts-node ../../scripts/prebundle.ts"
-  },
-  "dependencies": {
-    "@storybook/addons": "6.5.0-rc.1",
-    "@storybook/api": "6.5.0-rc.1",
-    "@storybook/channels": "6.5.0-rc.1",
-    "@storybook/client-logger": "6.5.0-rc.1",
-    "@storybook/components": "6.5.0-rc.1",
-    "@storybook/core-events": "6.5.0-rc.1",
-    "@storybook/router": "6.5.0-rc.1",
-    "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "6.5.0-rc.1",
-    "core-js": "^3.8.2",
-    "memoizerific": "^1.11.3",
-    "qs": "^6.10.0",
-    "regenerator-runtime": "^0.13.7",
-    "resolve-from": "^5.0.0"
+    "check": "tsc --noEmit",
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
+    "@digitak/esrun": "^3.2.2",
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+    "@storybook/addons": "7.0.0-alpha.16",
+    "@storybook/api": "7.0.0-alpha.16",
+    "@storybook/channel-postmessage": "7.0.0-alpha.16",
+    "@storybook/channel-websocket": "7.0.0-alpha.16",
+    "@storybook/channels": "7.0.0-alpha.16",
+    "@storybook/client-logger": "7.0.0-alpha.16",
+    "@storybook/components": "7.0.0-alpha.16",
+    "@storybook/core-events": "7.0.0-alpha.16",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/router": "7.0.0-alpha.16",
+    "@storybook/semver": "^7.3.2",
+    "@storybook/theming": "7.0.0-alpha.16",
     "@testing-library/react": "^11.2.2",
     "copy-to-clipboard": "^3.3.1",
+    "core-js": "^3.8.2",
     "core-js-pure": "^3.8.2",
     "downshift": "^6.0.15",
     "enzyme": "^3.11.0",
     "flush-promises": "^1.0.2",
+    "fs-extra": "^9.0.1",
     "fuse.js": "^3.6.1",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "markdown-to-jsx": "^7.1.3",
+    "memoizerific": "^1.11.3",
     "polished": "^4.2.2",
+    "qs": "^6.10.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "react-draggable": "^4.4.3",
     "react-helmet-async": "^1.0.7",
     "react-sizeme": "^3.0.1",
+    "resolve-from": "^5.0.0",
+    "shelljs": "^0.8.5",
     "store2": "^2.12.0",
-    "ts-node": "^10.4.0",
-    "webpack": "4"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "ts-dedent": "^2.0.0",
+    "typescript": "~4.6.3",
+    "util": "^0.12.4"
   },
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.tsx",
-  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js"
+  "bundler": {
+    "pre": "./scripts/generate-exports-file.ts",
+    "entries": [
+      "./src/index.tsx",
+      "./src/globals.ts",
+      "./src/runtime.ts"
+    ]
+  },
+  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { forceReRender } from '@storybook/react';
-import { Button } from '@storybook/react/demo';
+import { Button } from '../components/react-demo';
 
 let count = 0;
 const increment = () => {

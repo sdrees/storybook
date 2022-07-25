@@ -2,8 +2,8 @@ import fs from 'fs';
 
 import { getBowerJson } from './helpers';
 import { isStorybookInstalled, detectFrameworkPreset, detect, detectLanguage } from './detect';
-import { ProjectType, SUPPORTED_FRAMEWORKS, SupportedLanguage } from './project_types';
-import { readPackageJson } from './js-package-manager';
+import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
+import { PackageJsonWithMaybeDeps, readPackageJson } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
   getBowerJson: jest.fn(),
@@ -25,13 +25,10 @@ jest.mock('path', () => ({
   join: jest.fn((_, p) => p),
 }));
 
-const MOCK_FRAMEWORK_FILES = [
-  {
-    name: ProjectType.METEOR,
-    files: {
-      '.meteor': 'file content',
-    },
-  },
+const MOCK_FRAMEWORK_FILES: {
+  name: string;
+  files: Record<'package.json', PackageJsonWithMaybeDeps> | Record<string, string>;
+}[] = [
   {
     name: ProjectType.SFC_VUE,
     files: {
@@ -310,7 +307,7 @@ describe('Detect', () => {
       expect(isStorybookInstalled({}, false)).toBe(false);
     });
 
-    SUPPORTED_FRAMEWORKS.forEach((framework) => {
+    SUPPORTED_RENDERERS.forEach((framework) => {
       it(`true if devDependencies has ${framework} Storybook version`, () => {
         const devDependencies = {
           [`@storybook/${framework}`]: '4.0.0-alpha.21',
@@ -337,14 +334,6 @@ describe('Detect', () => {
         })
       ).toBe(ProjectType.ALREADY_HAS_STORYBOOK);
     });
-
-    it('UPDATE_PACKAGE_ORGANIZATIONS if legacy lib is detected', () => {
-      expect(
-        isStorybookInstalled({
-          devDependencies: { '@kadira/storybook': '4.0.0-alpha.21' },
-        })
-      ).toBe(ProjectType.UPDATE_PACKAGE_ORGANIZATIONS);
-    });
   });
 
   describe('detectFrameworkPreset should return', () => {
@@ -358,7 +347,9 @@ describe('Detect', () => {
           return Object.keys(structure.files).includes(filePath);
         });
 
-        const result = detectFrameworkPreset(structure.files['package.json']);
+        const result = detectFrameworkPreset(
+          structure.files['package.json'] as PackageJsonWithMaybeDeps
+        );
 
         expect(result).toBe(structure.name);
       });

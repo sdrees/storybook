@@ -1,6 +1,6 @@
 import path from 'path';
 import { mount } from 'enzyme';
-import initStoryshots from '../dist/ts3.9';
+import initStoryshots from '../dist/types';
 
 initStoryshots({
   framework: 'react',

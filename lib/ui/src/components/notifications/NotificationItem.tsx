@@ -1,4 +1,4 @@
-import React, { FunctionComponent, SyntheticEvent } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 import { State } from '@storybook/api';
 import { Link } from '@storybook/router';
 import { styled } from '@storybook/theming';
@@ -75,7 +75,7 @@ const SubHeadline = styled.div(({ theme }) => ({
   marginTop: 2,
 }));
 
-const ItemContent: FunctionComponent<Pick<State['notifications'][0], 'icon' | 'content'>> = ({
+const ItemContent: FC<Pick<State['notifications'][0], 'icon' | 'content'>> = ({
   icon,
   content: { headline, subHeadline },
 }) => (
@@ -104,7 +104,7 @@ const DismissButtonWrapper = styled(IconButton)(({ theme }) => ({
   color: theme.base === 'light' ? 'rgba(255,255,255,0.7)' : ' #999999',
 }));
 
-const DismissNotificationItem: FunctionComponent<{
+const DismissNotificationItem: FC<{
   onDismiss: () => void;
 }> = ({ onDismiss }) => (
   <DismissButtonWrapper
@@ -122,13 +122,15 @@ export const NotificationItemSpacer = styled.div({
   height: 48,
 });
 
-const NotificationItem: FunctionComponent<{
+const NotificationItem: FC<{
   notification: State['notifications'][0];
   onDismissNotification: (id: string) => void;
 }> = ({ notification: { content, link, onClear, id, icon }, onDismissNotification }) => {
   const dismissNotificationItem = () => {
     onDismissNotification(id);
-    onClear();
+    if (onClear) {
+      onClear();
+    }
   };
   return link ? (
     <NotificationLink to={link}>

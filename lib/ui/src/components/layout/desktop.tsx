@@ -1,4 +1,4 @@
-import React, { Fragment, ComponentType, FunctionComponent } from 'react';
+import React, { Fragment, ComponentType, FC } from 'react';
 
 import { State } from '@storybook/api';
 import * as S from './container';
@@ -13,12 +13,11 @@ export interface DesktopProps {
   Notifications: ComponentType<any>;
   pages: {
     key: string;
-    route: FunctionComponent;
+    route: FC;
     render: ComponentType;
   }[];
   options: State['layout'];
   viewMode: string;
-  docsOnly: boolean;
 }
 
 const Desktop = Object.assign(
@@ -34,7 +33,6 @@ const Desktop = Object.assign(
       width = 0,
       height = 0,
       panelCount,
-      docsOnly = false,
     }) => (
       <Fragment>
         <Notifications
@@ -49,7 +47,6 @@ const Desktop = Object.assign(
             options={options}
             bounds={{ width, height, top: 0, left: 0 }}
             viewMode={viewMode}
-            docsOnly={!!docsOnly}
             panelCount={panelCount}
           >
             {({ navProps, mainProps, panelProps, previewProps }) => (
@@ -62,7 +59,7 @@ const Desktop = Object.assign(
                     <Preview id="main" />
                   </S.Preview>
 
-                  <S.Panel {...panelProps} hidden={viewMode !== 'story' || docsOnly}>
+                  <S.Panel {...panelProps} hidden={viewMode !== 'story'}>
                     <Panel />
                   </S.Panel>
 

@@ -1,7 +1,5 @@
-import { addParameters } from '@storybook/svelte';
-
-addParameters({
+export const parameters = {
   docs: {
     iframeHeight: 300,
   },
-});
+};

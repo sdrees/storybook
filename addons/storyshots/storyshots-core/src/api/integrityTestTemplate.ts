@@ -2,7 +2,7 @@
 import fs from 'fs';
 import glob from 'glob';
 import global from 'global';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 const { describe, it } = global;
 

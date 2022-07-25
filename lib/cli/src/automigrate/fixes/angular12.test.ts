@@ -106,20 +106,6 @@ describe('angular12 fix', () => {
         ).resolves.toBeFalsy();
       });
     });
-    describe('angular11 dependency', () => {
-      it('should no-op', async () => {
-        await expect(
-          checkAngular12({
-            packageJson: {
-              dependencies: {
-                '@angular/core': '11',
-              },
-            },
-            main: {},
-          })
-        ).resolves.toBeFalsy();
-      });
-    });
   });
   describe('sb 7.0+', () => {
     describe('angular12 dependency', () => {

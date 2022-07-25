@@ -1,5 +1,5 @@
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 const warnBlocksImport = deprecate(
   () => {},

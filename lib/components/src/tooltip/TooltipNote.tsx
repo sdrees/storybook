@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 
 const Note = styled.div(({ theme }) => ({
@@ -20,6 +20,6 @@ export interface TooltipNoteProps {
   note: string;
 }
 
-export const TooltipNote: FunctionComponent<TooltipNoteProps> = ({ note, ...props }) => {
+export const TooltipNote: FC<TooltipNoteProps> = ({ note, ...props }) => {
   return <Note {...props}>{note}</Note>;
 };

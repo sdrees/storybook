@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
 import { useMemo, useEffect } from '@storybook/addons';
 import type { AnyFramework, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/csf';

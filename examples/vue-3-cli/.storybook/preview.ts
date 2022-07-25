@@ -1,9 +1,16 @@
-import { Parameters, Decorators, app } from '@storybook/vue3';
+import { Parameters, setup } from '@storybook/vue3';
 // @ts-ignore
 import Button from '../src/stories/Button.vue';
 
-// This adds a component that can be used globally in stories
-app.component('GlobalButton', Button);
+// TODO: I'd like to be able to export rather than imperatively calling an imported function
+// export const setup = (app) => {
+//   app.component('GlobalButton', Button);
+// };
+
+setup((app) => {
+  // This adds a component that can be used globally in stories
+  app.component('GlobalButton', Button);
+});
 
 export const parameters: Parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -25,7 +32,7 @@ export const globalTypes = {
   },
 };
 
-export const decorators: Decorators = [
+export const decorators = [
   () => ({
     template: '<div id="test-div"><story /></div>',
   }),

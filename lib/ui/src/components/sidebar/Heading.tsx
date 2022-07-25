@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ComponentProps } from 'react';
+import React, { FC, ComponentProps } from 'react';
 import { styled } from '@storybook/theming';
 import { Button } from '@storybook/components';
 
@@ -53,7 +53,7 @@ const SkipToCanvasLink = styled(Button)(({ theme }) => ({
   },
 }));
 
-export const Heading: FunctionComponent<HeadingProps & ComponentProps<typeof HeadingWrapper>> = ({
+export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> = ({
   menuHighlighted = false,
   menu,
   skipLinkHref,

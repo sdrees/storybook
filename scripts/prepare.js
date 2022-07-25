@@ -64,6 +64,8 @@ function logError(type, packageJson, errorLogs) {
   );
 }
 
+const hasFlag = (flags, name) => !!flags.find((s) => s.startsWith(`--${name}`));
+
 const modules = true;
 
 async function prepare({ cwd, flags }) {
@@ -71,18 +73,23 @@ async function prepare({ cwd, flags }) {
   const message = chalk.gray(`Built: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`);
   console.time(message);
 
-  if (flags.includes('--reset')) {
+  const reset = hasFlag(flags, 'reset');
+  const watch = hasFlag(flags, 'watch');
+  const optimized = hasFlag(flags, 'optimized');
+
+  if (reset) {
     await removeDist();
   }
 
   await Promise.all([
     babelify({
       modules,
-      watch: flags.includes('--watch'),
+      watch,
       errorCallback: (errorLogs) => logError('js', packageJson, errorLogs),
     }),
     tscfy({
-      watch: flags.includes('--watch'),
+      optimized,
+      watch,
       errorCallback: (errorLogs) => logError('ts', packageJson, errorLogs),
     }),
   ]);

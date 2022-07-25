@@ -1,6 +1,6 @@
 import { SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import deepEqual from 'fast-deep-equal';
+import { dequal as deepEqual } from 'dequal';
 import type { Globals, GlobalTypes } from '@storybook/csf';
 
 import type { ModuleFn } from '../index';

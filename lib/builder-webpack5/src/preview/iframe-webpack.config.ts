@@ -1,79 +1,92 @@
 import path from 'path';
+import { dedent } from 'ts-dedent';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+// @ts-ignore // -- this has typings for webpack4 in it, won't work
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import themingPaths from '@storybook/theming/paths';
-
 import type { Options, CoreConfig } from '@storybook/core-common';
 import {
-  toRequireContextString,
-  es6Transpiler,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
-  toImportFn,
   normalizeStories,
   readTemplate,
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
+import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
-import { useBaseTsSupport } from './useBaseTsSupport';
+const storybookPaths: Record<string, string> = {
+  global: path.dirname(require.resolve(`global/package.json`)),
+  ...[
+    'addons',
+    'api',
+    'store',
+    'channels',
+    'channel-postmessage',
+    'channel-websocket',
+    'components',
+    'core-events',
+    'router',
+    'theming',
+    'semver',
+    'preview-web',
+    'client-api',
+    'client-logger',
+  ].reduce(
+    (acc, sbPackage) => ({
+      ...acc,
+      [`@storybook/${sbPackage}`]: path.dirname(
+        require.resolve(`@storybook/${sbPackage}/package.json`)
+      ),
+    }),
+    {}
+  ),
+};
 
-const storybookPaths: Record<string, string> = [
-  'addons',
-  'api',
-  'channels',
-  'channel-postmessage',
-  'components',
-  'core-events',
-  'router',
-  'theming',
-  'semver',
-  'client-api',
-  'client-logger',
-].reduce(
-  (acc, sbPackage) => ({
-    ...acc,
-    [`@storybook/${sbPackage}`]: path.dirname(
-      require.resolve(`@storybook/${sbPackage}/package.json`)
-    ),
-  }),
-  {}
-);
-
-export default async (options: Options & Record<string, any>): Promise<Configuration> => {
+export default async (
+  options: Options & Record<string, any> & { typescriptOptions: TypescriptOptions }
+): Promise<Configuration> => {
   const {
-    babelOptions,
     outputDir = path.join('.', 'public'),
     quiet,
     packageJson,
     configType,
-    framework,
-    frameworkPath,
     presets,
     previewUrl,
+    babelOptions,
     typescriptOptions,
-    modern,
     features,
     serverChannelUrl,
   } = options;
+
+  const framework = await presets.apply('framework', undefined);
+  if (!framework) {
+    throw new Error(dedent`
+      You must to specify a framework in '.storybook/main.js' config.
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory
+    `);
+  }
+  const { name: frameworkName, options: frameworkOptions } =
+    typeof framework === 'string' ? { name: framework, options: {} } : framework;
+
+  const isProd = configType === 'PRODUCTION';
   const envs = await presets.apply<Record<string, string>>('env');
   const logLevel = await presets.apply('logLevel', undefined);
-  const frameworkOptions = await presets.apply(`${framework}Options`, {});
 
   const headHtmlSnippet = await presets.apply('previewHead');
   const bodyHtmlSnippet = await presets.apply('previewBody');
   const template = await presets.apply<string>('previewMainTemplate');
   const coreOptions = await presets.apply<CoreConfig>('core');
-
-  const babelLoader = createBabelLoader(babelOptions, framework);
-  const isProd = configType === 'PRODUCTION';
+  const builderOptions: BuilderOptions =
+    typeof coreOptions.builder === 'string' ? {} : coreOptions.builder?.options || {};
 
   const configs = [
     ...(await presets.apply('config', [], options)),
@@ -91,7 +104,8 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     const storiesFilename = 'storybook-stories.js';
     const storiesPath = path.resolve(path.join(workingDir, storiesFilename));
 
-    virtualModuleMapping[storiesPath] = toImportFn(stories);
+    const needPipelinedImport = !!builderOptions.lazyCompilation && !isProd;
+    virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
     const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(
       await readTemplate(
@@ -110,8 +124,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     const frameworkInitEntry = path.resolve(
       path.join(workingDir, 'storybook-init-framework-entry.js')
     );
-    const frameworkImportPath = frameworkPath || `@storybook/${framework}`;
-    virtualModuleMapping[frameworkInitEntry] = `import '${frameworkImportPath}';`;
+    virtualModuleMapping[frameworkInitEntry] = `import '${frameworkName}';`;
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
@@ -142,14 +155,16 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       // in the user's webpack mode, which may be strict about the use of require/import.
       // See https://github.com/storybookjs/storybook/issues/14877
       const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.cjs`));
-      virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, { frameworkImportPath })
+      virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
+        frameworkName,
+      })
         // Make sure we also replace quotes for this one
         .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
       entries.push(storiesFilename);
     }
   }
 
-  const shouldCheckTs = useBaseTsSupport(framework) && typescriptOptions.check;
+  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   return {
@@ -192,7 +207,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
             CONFIG_TYPE: configType,
             LOGLEVEL: logLevel,
             FRAMEWORK_OPTIONS: frameworkOptions,
-            CHANNEL_OPTIONS: coreOptions?.channelOptions,
+            CHANNEL_OPTIONS: coreOptions.channelOptions,
             FEATURES: features,
             PREVIEW_URL: previewUrl,
             STORIES: stories.map((specifier) => ({
@@ -225,8 +240,17 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     ].filter(Boolean),
     module: {
       rules: [
-        babelLoader,
-        es6Transpiler() as any,
+        {
+          test: /\.m?js$/,
+          type: 'javascript/auto',
+        },
+        {
+          test: /\.m?js$/,
+          resolve: {
+            fullySpecified: false,
+          },
+        },
+        createBabelLoader(babelOptions, typescriptOptions),
         {
           test: /\.md$/,
           type: 'asset/source',
@@ -236,16 +260,12 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
-      mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
-      alias: {
-        ...(features?.emotionAlias ? themingPaths : {}),
-        ...storybookPaths,
-        react: path.dirname(require.resolve('react/package.json')),
-        'react-dom': path.dirname(require.resolve('react-dom/package.json')),
-      },
+      mainFields: ['browser', 'module', 'main'].filter(Boolean),
+      alias: storybookPaths,
       fallback: {
         path: require.resolve('path-browserify'),
         assert: require.resolve('browser-assert'),
+        util: require.resolve('util'),
       },
     },
     optimization: {
@@ -265,9 +285,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
                 mangle: false,
                 keep_fnames: true,
               },
-              // It looks like the types from `@types/terser-webpack-plugin` are not matching the latest version of
-              // Webpack yet
-            }) as any,
+            }),
           ]
         : [],
     },

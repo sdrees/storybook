@@ -1,50 +1,18 @@
 {
   "version": 2,
   "projects": {
-    "@storybook/addon-a11y": {
-      "root": "addons/a11y",
-      "type": "library"
-    },
-    "@storybook/addon-actions": {
-      "root": "addons/actions",
-      "type": "library"
-    },
-    "@storybook/addon-backgrounds": {
-      "root": "addons/backgrounds",
-      "type": "library"
-    },
-    "@storybook/addon-controls": {
-      "root": "addons/controls",
-      "type": "library"
-    },
-    "@storybook/addon-docs": {
-      "root": "addons/docs",
-      "type": "library"
-    },
-    "@storybook/addon-essentials": {
-      "root": "addons/essentials",
-      "type": "library"
-    },
-    "@storybook/addon-interactions": {
-      "root": "addons/interactions",
-      "type": "library"
-    },
-    "@storybook/addon-jest": {
-      "root": "addons/jest",
-      "type": "library"
-    },
-    "@storybook/addon-links": {
-      "root": "addons/links",
-      "type": "library"
-    },
-    "@storybook/addon-measure": {
-      "root": "addons/measure",
-      "type": "library"
-    },
-    "@storybook/addon-outline": {
-      "root": "addons/outline",
-      "type": "library"
-    },
+    "@storybook/addon-a11y": { "root": "addons/a11y", "type": "library" },
+    "@storybook/addon-actions": { "root": "addons/actions", "type": "library" },
+    "@storybook/addon-backgrounds": { "root": "addons/backgrounds", "type": "library" },
+    "@storybook/addon-controls": { "root": "addons/controls", "type": "library" },
+    "@storybook/addon-docs": { "root": "addons/docs", "type": "library" },
+    "@storybook/addon-essentials": { "root": "addons/essentials", "type": "library" },
+    "@storybook/addon-highlight": { "root": "addons/highlight", "type": "library" },
+    "@storybook/addon-interactions": { "root": "addons/interactions", "type": "library" },
+    "@storybook/addon-jest": { "root": "addons/jest", "type": "library" },
+    "@storybook/addon-links": { "root": "addons/links", "type": "library" },
+    "@storybook/addon-measure": { "root": "addons/measure", "type": "library" },
+    "@storybook/addon-outline": { "root": "addons/outline", "type": "library" },
     "@storybook/addon-storyshots": {
       "root": "addons/storyshots/storyshots-core",
       "type": "library"
@@ -53,265 +21,98 @@
       "root": "addons/storyshots/storyshots-puppeteer",
       "type": "library"
     },
-    "@storybook/addon-storysource": {
-      "root": "addons/storysource",
+    "@storybook/addon-storysource": { "root": "addons/storysource", "type": "library" },
+    "@storybook/addon-toolbars": { "root": "addons/toolbars", "type": "library" },
+    "@storybook/addon-viewport": { "root": "addons/viewport", "type": "library" },
+
+    "@storybook/angular": { "root": "frameworks/angular", "type": "library" },
+    "@storybook/docs-tools": { "root": "lib/docs-tools", "type": "library" },
+    "@storybook/ember": { "root": "frameworks/ember", "type": "library" },
+    "@storybook/html-webpack5": { "root": "frameworks/html-webpack5", "type": "library" },
+    "@storybook/builder-manager": { "root": "lib/builder-manager", "type": "library" },
+    "@storybook/preact-webpack5": { "root": "frameworks/preact-webpack5", "type": "library" },
+    "@storybook/react-webpack5": { "root": "frameworks/react-webpack5", "type": "library" },
+    "@storybook/server-webpack5": { "root": "frameworks/server-webpack5", "type": "library" },
+    "@storybook/svelte-webpack5": { "root": "frameworks/svelte-webpack5", "type": "library" },
+    "@storybook/vue-webpack5": { "root": "frameworks/vue-webpack5", "type": "library" },
+    "@storybook/vue3-webpack5": { "root": "frameworks/vue3-webpack5", "type": "library" },
+    "@storybook/web-components-webpack5": {
+      "root": "frameworks/web-components-webpack5",
       "type": "library"
     },
-    "@storybook/addon-toolbars": {
-      "root": "addons/toolbars",
-      "type": "library"
-    },
-    "@storybook/addon-viewport": {
-      "root": "addons/viewport",
-      "type": "library"
-    },
-    "@storybook/angular": {
-      "root": "app/angular",
-      "type": "library"
-    },
-    "@storybook/docs-tools": {
-      "root": "lib/docs-tools",
-      "type": "library"
-    },
-    "@storybook/ember": {
-      "root": "app/ember",
-      "type": "library"
-    },
-    "@storybook/html": {
-      "root": "app/html",
-      "type": "library"
-    },
-    "@storybook/manager-webpack4": {
-      "root": "lib/manager-webpack4",
-      "type": "library"
-    },
-    "@storybook/manager-webpack5": {
-      "root": "lib/manager-webpack5",
-      "type": "library"
-    },
-    "@storybook/preact": {
-      "root": "app/preact",
-      "type": "library"
-    },
-    "@storybook/react": {
-      "root": "app/react",
-      "type": "library"
-    },
-    "@storybook/server": {
-      "root": "app/server",
-      "type": "library"
-    },
-    "@storybook/svelte": {
-      "root": "app/svelte",
-      "type": "library"
-    },
-    "@storybook/vue": {
-      "root": "app/vue",
-      "type": "library"
-    },
-    "@storybook/vue3": {
-      "root": "app/vue3",
-      "type": "library"
-    },
-    "@storybook/web-components": {
-      "root": "app/web-components",
-      "type": "library"
-    },
-    "angular-cli": {
-      "root": "examples/angular-cli",
-      "type": "library"
-    },
-    "cra-kitchen-sink": {
-      "root": "examples/cra-kitchen-sink",
-      "type": "library"
-    },
-    "cra-react15": {
-      "root": "examples/cra-react15",
-      "type": "library"
-    },
-    "cra-ts-essentials": {
-      "root": "examples/cra-ts-essentials",
-      "type": "library"
-    },
-    "cra-ts-kitchen-sink": {
-      "root": "examples/cra-ts-kitchen-sink",
-      "type": "library"
-    },
-    "ember-example": {
-      "root": "examples/ember-cli",
-      "type": "library"
-    },
-    "html-kitchen-sink": {
-      "root": "examples/html-kitchen-sink",
-      "type": "library"
-    },
-    "official-storybook": {
-      "root": "examples/official-storybook",
-      "type": "library"
-    },
-    "preact-example": {
-      "root": "examples/preact-kitchen-sink",
-      "type": "library"
-    },
-    "@storybook/example-react-ts": {
-      "root": "examples/react-ts",
-      "type": "library"
-    },
-    "@storybook/example-react-ts-webpack4": {
-      "root": "examples/react-ts-webpack4",
-      "type": "library"
-    },
-    "@storybook/external-docs": {
-      "root": "examples/external-docs",
-      "type": "library"
-    },
-    "server-kitchen-sink": {
-      "root": "examples/server-kitchen-sink",
-      "type": "library"
-    },
-    "standalone-preview": {
-      "root": "examples/standalone-preview",
-      "type": "library"
-    },
-    "svelte-example": {
-      "root": "examples/svelte-kitchen-sink",
-      "type": "library"
-    },
-    "vue-3-cli-example": {
-      "root": "examples/vue-3-cli",
-      "type": "library"
-    },
-    "vue-cli-example": {
-      "root": "examples/vue-cli",
-      "type": "library"
-    },
-    "vue-example": {
-      "root": "examples/vue-kitchen-sink",
-      "type": "library"
-    },
+    "@storybook/core-webpack": { "root": "lib/core-webpack", "type": "library" },
+
+    "angular-cli": { "root": "examples/angular-cli", "type": "library" },
+    "cra-kitchen-sink": { "root": "examples/cra-kitchen-sink", "type": "library" },
+    "cra-ts-essentials": { "root": "examples/cra-ts-essentials", "type": "library" },
+    "cra-ts-kitchen-sink": { "root": "examples/cra-ts-kitchen-sink", "type": "library" },
+    "ember-example": { "root": "examples/ember-cli", "type": "library" },
+    "html-kitchen-sink": { "root": "examples/html-kitchen-sink", "type": "library" },
+    "official-storybook": { "root": "examples/official-storybook", "type": "library" },
+    "preact-example": { "root": "examples/preact-kitchen-sink", "type": "library" },
+    "@storybook/example-react-ts": { "root": "examples/react-ts", "type": "library" },
+    "server-kitchen-sink": { "root": "examples/server-kitchen-sink", "type": "library" },
+    "standalone-preview": { "root": "examples/standalone-preview", "type": "library" },
+    "svelte-example": { "root": "examples/svelte-kitchen-sink", "type": "library" },
+    "vue-3-cli-example": { "root": "examples/vue-3-cli", "type": "library" },
+    "vue-cli-example": { "root": "examples/vue-cli", "type": "library" },
+    "vue-example": { "root": "examples/vue-kitchen-sink", "type": "library" },
     "web-components-kitchen-sink": {
       "root": "examples/web-components-kitchen-sink",
       "type": "library"
     },
-    "@storybook/addons": {
-      "root": "lib/addons",
+    "@storybook/external-docs": { "root": "examples/external-docs", "type": "library" },
+    "@storybook/example-doc-blocks": { "root": "examples/doc-blocks", "type": "library" },
+
+    "@storybook/addons": { "root": "lib/addons", "type": "library" },
+    "@storybook/api": { "root": "lib/api", "type": "library" },
+    "@storybook/builder-webpack5": { "root": "lib/builder-webpack5", "type": "library" },
+    "@storybook/channel-postmessage": { "root": "lib/channel-postmessage", "type": "library" },
+    "@storybook/channel-websocket": { "root": "lib/channel-websocket", "type": "library" },
+    "@storybook/channels": { "root": "lib/channels", "type": "library" },
+    "@storybook/cli": { "root": "lib/cli", "type": "library" },
+    "sb": { "root": "lib/cli-sb", "type": "library" },
+    "storybook": { "root": "lib/cli-storybook", "type": "library" },
+    "@storybook/client-api": { "root": "lib/client-api", "type": "library" },
+    "@storybook/client-logger": { "root": "lib/client-logger", "type": "library" },
+    "@storybook/codemod": { "root": "lib/codemod", "type": "library" },
+    "@storybook/components": { "root": "lib/components", "type": "library" },
+    "@storybook/core-client": { "root": "lib/core-client", "type": "library" },
+    "@storybook/core-common": { "root": "lib/core-common", "type": "library" },
+    "@storybook/core-events": { "root": "lib/core-events", "type": "library" },
+    "@storybook/core-server": { "root": "lib/core-server", "type": "library" },
+    "@storybook/instrumenter": { "root": "lib/instrumenter", "type": "library" },
+    "@storybook/node-logger": { "root": "lib/node-logger", "type": "library" },
+    "@storybook/postinstall": { "root": "lib/postinstall", "type": "library" },
+    "@storybook/router": { "root": "lib/router", "type": "library" },
+    "@storybook/source-loader": { "root": "lib/source-loader", "type": "library" },
+    "@storybook/store": { "root": "lib/store", "type": "library" },
+    "@storybook/telemetry": { "root": "lib/telemetry", "type": "library" },
+    "@storybook/theming": { "root": "lib/theming", "type": "library" },
+    "@storybook/csf-tools": { "root": "lib/csf-tools", "type": "library" },
+    "@storybook/ui": { "root": "lib/ui", "type": "library" },
+    "@storybook/preview-web": { "root": "lib/preview-web", "type": "library" },
+    "@storybook/blocks": { "root": "lib/blocks", "type": "library" },
+
+    "@storybook/preset-html-webpack": { "root": "presets/html-webpack", "type": "library" },
+    "@storybook/preset-preact-webpack": { "root": "presets/preact-webpack", "type": "library" },
+    "@storybook/preset-react-webpack": { "root": "presets/react-webpack", "type": "library" },
+    "@storybook/preset-server-webpack": { "root": "presets/server-webpack", "type": "library" },
+    "@storybook/preset-svelte-webpack": { "root": "presets/svelte-webpack", "type": "library" },
+    "@storybook/preset-vue-webpack": { "root": "presets/vue-webpack", "type": "library" },
+    "@storybook/preset-vue3-webpack": { "root": "presets/vue3-webpack", "type": "library" },
+    "@storybook/preset-web-components-webpack": {
+      "root": "presets/web-components-webpack",
       "type": "library"
     },
-    "@storybook/api": {
-      "root": "lib/api",
-      "type": "library"
-    },
-    "@storybook/builder-webpack4": {
-      "root": "lib/builder-webpack4",
-      "type": "library"
-    },
-    "@storybook/builder-webpack5": {
-      "root": "lib/builder-webpack5",
-      "type": "library"
-    },
-    "@storybook/channel-postmessage": {
-      "root": "lib/channel-postmessage",
-      "type": "library"
-    },
-    "@storybook/channel-websocket": {
-      "root": "lib/channel-websocket",
-      "type": "library"
-    },
-    "@storybook/channels": {
-      "root": "lib/channels",
-      "type": "library"
-    },
-    "@storybook/cli": {
-      "root": "lib/cli",
-      "type": "library"
-    },
-    "sb": {
-      "root": "lib/cli-sb",
-      "type": "library"
-    },
-    "storybook": {
-      "root": "lib/cli-storybook",
-      "type": "library"
-    },
-    "@storybook/client-api": {
-      "root": "lib/client-api",
-      "type": "library"
-    },
-    "@storybook/client-logger": {
-      "root": "lib/client-logger",
-      "type": "library"
-    },
-    "@storybook/codemod": {
-      "root": "lib/codemod",
-      "type": "library"
-    },
-    "@storybook/components": {
-      "root": "lib/components",
-      "type": "library"
-    },
-    "@storybook/core": {
-      "root": "lib/core",
-      "type": "library"
-    },
-    "@storybook/core-client": {
-      "root": "lib/core-client",
-      "type": "library"
-    },
-    "@storybook/core-common": {
-      "root": "lib/core-common",
-      "type": "library"
-    },
-    "@storybook/core-events": {
-      "root": "lib/core-events",
-      "type": "library"
-    },
-    "@storybook/core-server": {
-      "root": "lib/core-server",
-      "type": "library"
-    },
-    "@storybook/instrumenter": {
-      "root": "lib/instrumenter",
-      "type": "library"
-    },
-    "@storybook/node-logger": {
-      "root": "lib/node-logger",
-      "type": "library"
-    },
-    "@storybook/postinstall": {
-      "root": "lib/postinstall",
-      "type": "library"
-    },
-    "@storybook/router": {
-      "root": "lib/router",
-      "type": "library"
-    },
-    "@storybook/source-loader": {
-      "root": "lib/source-loader",
-      "type": "library"
-    },
-    "@storybook/store": {
-      "root": "lib/store",
-      "type": "library"
-    },
-    "@storybook/telemetry": {
-      "root": "lib/telemetry",
-      "type": "library"
-    },
-    "@storybook/theming": {
-      "root": "lib/theming",
-      "type": "library"
-    },
-    "@storybook/csf-tools": {
-      "root": "lib/csf-tools",
-      "type": "library"
-    },
-    "@storybook/ui": {
-      "root": "lib/ui",
-      "type": "library"
-    },
-    "@storybook/preview-web": {
-      "root": "lib/preview-web",
-      "type": "library"
-    }
+
+    "@storybook/html": { "root": "renderers/html", "type": "library" },
+    "@storybook/preact": { "root": "renderers/preact", "type": "library" },
+    "@storybook/react": { "root": "renderers/react", "type": "library" },
+    "@storybook/server": { "root": "renderers/server", "type": "library" },
+    "@storybook/svelte": { "root": "renderers/svelte", "type": "library" },
+    "@storybook/vue": { "root": "renderers/vue", "type": "library" },
+    "@storybook/vue3": { "root": "renderers/vue3", "type": "library" },
+    "@storybook/web-components": { "root": "renderers/web-components", "type": "library" }
   }
 }

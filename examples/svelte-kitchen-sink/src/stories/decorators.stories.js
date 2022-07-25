@@ -19,6 +19,6 @@ export const Decorators = () => ({
 });
 Decorators.decorators = [
   () => {
-    setContext('storybook/test', 'setted from decorator');
+    setContext('storybook/test', 'settled from decorator');
   },
 ];

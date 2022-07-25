@@ -92,7 +92,9 @@ jobs:
           command: yarn install --immutable
       - run:
           name: Bootstrap
-          command: yarn bootstrap --build --manager
+          command: |
+            yarn bootstrap --build
+            git diff --exit-code
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v3--{{ checksum "yarn.lock" }}
@@ -104,25 +106,27 @@ jobs:
             - examples
             - node_modules
             - addons
-            - app
+            - frameworks
             - lib
+            - renderers
+            - presets
   chromatic:
     executor: sb_node_14_browsers
-    parallelism: 4
+    parallelism: 15
     steps:
       # Keep using default checkout because Chromatic needs some git history to work properly
       - checkout
       - attach_workspace:
           at: .
       - run:
-          name: examples
+          name: chromatic
           command: |
             yarn run-chromatics
   examples:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 17
+    parallelism: 15
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -181,7 +185,7 @@ jobs:
           command: yarn wait-on http://localhost:6000
       - run:
           name: Run E2E (extended) tests
-          command: yarn test:e2e-framework --clean --all --skip angular11 --skip angular --skip angular12 --skip vue3 --skip web_components_typescript --skip cra --skip react
+          command: yarn test:e2e-framework --clean --all --skip angular --skip angular12 --skip vue3 --skip web_components_typescript --skip cra --skip react
           no_output_timeout: 5m
       - store_artifacts:
           path: /tmp/cypress-record
@@ -207,32 +211,42 @@ jobs:
           name: Run E2E (core) tests
           # Do not test CRA here because it's done in PnP part
           # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
-          command: yarn test:e2e-framework vue3 angular130 angular13 angular12 angular11 web_components_typescript web_components_lit2 react react_legacy_root_api vite_react
+          command: yarn test:e2e-framework vue3 angular130 angular13 angular12 web_components_typescript web_components_lit2 react react_legacy_root_api
           no_output_timeout: 5m
+      - run:
+          name: prep artifacts
+          when: always
+          command: zip -r /tmp/storybook-e2e-testing-out.zip /tmp/storybook-e2e-testing
       - store_artifacts:
           path: /tmp/cypress-record
           destination: cypress
-  e2e-tests-sb-docs:
-    executor:
-      class: large
-      name: sb_cypress_8_node_14
-    parallelism: 2
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Running local registry
-          command: yarn local-registry --port 6000 --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: yarn wait-on http://localhost:6000
-      - run:
-          name: Run smoke tests
-          command: yarn test:e2e-framework angular_modern_inline_rendering --test-runner --docs-mode
-          no_output_timeout: 5m
+      - store_artifacts:
+          path: /tmp/storybook-e2e-testing-out.zip
+          destination: e2e
+  # NOTE: this currently tests each story in docs mode, which doesn't make sense any more as stories
+  #   can no longer run in docs mode. Instead we should probably change the test runner to test each
+  #   docs entry if you run it in `VIEW_MODE=docs`
+  # e2e-tests-sb-docs:
+  #   executor:
+  #     class: large
+  #     name: sb_cypress_8_node_14
+  #   parallelism: 2
+  #   steps:
+  #     - git-shallow-clone/checkout_advanced:
+  #         clone_options: '--depth 1 --verbose'
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Running local registry
+  #         command: yarn local-registry --port 6000 --open
+  #         background: true
+  #     - run:
+  #         name: Wait for registry
+  #         command: yarn wait-on http://localhost:6000
+  #     - run:
+  #         name: Run smoke tests
+  #         command: yarn test:e2e-framework angular_modern_inline_rendering --test-runner --docs-mode
+  #         no_output_timeout: 5m
   cra-bench:
     executor:
       class: medium
@@ -244,6 +258,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: install playright
+          command: npx playwright install
+      - run:
           name: Running local registry
           command: yarn local-registry --port 6000 --open
           background: true
@@ -251,12 +268,13 @@ jobs:
           name: Wait for registry
           command: yarn wait-on http://localhost:6000
       - run:
-          name: Run @storybook/bench on a CRA project
+          name: set up cra repro, skip tests
+          command: node ./lib/cli/bin/index.js repro -t cra --e2e ../cra-bench
+      - run:
+          name: Run @storybook/bench on repro
           command: |
-            cd ..
-            npx create-react-app cra-bench
-            cd cra-bench
-            npx @storybook/bench@latest 'npx sb init' --label cra --extra-flags "--modern"
+            cd ../cra-bench
+            npx @storybook/bench@1.0.0--canary.11.52d1ee7.1 'echo noop' --label cra
   e2e-tests-pnp:
     executor:
       class: medium
@@ -314,65 +332,25 @@ jobs:
           destination: cypress
   smoke-tests:
     executor:
-      class: medium
+      class: medium+
       name: sb_node_14_browsers
     environment:
       # Disable ESLint when running smoke tests to improve perf + As of CRA 4.0.3, CRA kitchen sinks are throwing
       # because of some ESLint warnings, related to: https://github.com/facebook/create-react-app/pull/10590
       DISABLE_ESLINT_PLUGIN: 'true'
+    parallelism: 16
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
-          name: Run react kitchen-sink (smoke test)
+          name: smoke tests
           command: |
-            cd examples/cra-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run react typescript kitchen-sink (smoke test)
-          command: |
-            cd examples/cra-ts-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run vue kitchen-sink (smoke test)
-          command: |
-            cd examples/vue-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run svelte kitchen-sink (smoke test)
-          command: |
-            cd examples/svelte-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run angular-cli (smoke test)
-          command: |
-            cd examples/angular-cli
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run ember-cli (smoke test)
-          command: |
-            cd examples/ember-cli
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run official-storybook (smoke test)
-          command: |
-            cd examples/official-storybook
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run preact kitchen-sink (smoke test)
-          command: |
-            cd examples/preact-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run cra react15 (smoke test)
-          command: |
-            cd examples/cra-react15
-            yarn storybook --smoke-test --quiet
+            yarn smoketest-storybooks --all
   lint:
     executor:
-      class: small
+      class: medium
       name: sb_node_14_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -443,9 +421,6 @@ workflows:
           requires:
             - publish
       - e2e-tests-core:
-          requires:
-            - publish
-      - e2e-tests-sb-docs:
           requires:
             - publish
       - e2e-tests-pnp:

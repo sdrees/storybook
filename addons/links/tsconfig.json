@@ -1,11 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "types": [
-      "webpack-env",
-      "@testing-library/jest-dom"
-    ]
+    "strict": true
   },
   "include": [
     "src/**/*"

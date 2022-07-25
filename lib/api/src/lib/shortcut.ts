@@ -1,7 +1,7 @@
 import global from 'global';
 
 // The shortcut is our JSON-ifiable representation of a shortcut combination
-import { KeyCollection, Event } from '../modules/shortcuts';
+import type { KeyCollection, Event } from '../modules/shortcuts';
 
 const { navigator } = global;
 

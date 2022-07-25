@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import semver from '@storybook/semver';
 import { ConfigFile } from '@storybook/csf-tools';
 import { Fix } from '../types';

@@ -2,8 +2,11 @@ import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'web
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
-import { useProgressReporting, checkWebpackVersion } from '@storybook/core-common';
+import { useProgressReporting } from '@storybook/core-common';
 import type { Builder, Options } from '@storybook/core-common';
+import { checkWebpackVersion } from '@storybook/core-webpack';
+
+export * from './types';
 
 let compilation: ReturnType<typeof webpackDevMiddleware>;
 let reject: (reason?: any) => void;
@@ -11,17 +14,17 @@ let reject: (reason?: any) => void;
 type WebpackBuilder = Builder<Configuration, Stats>;
 type Unpromise<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 
-type BuilderStartOptions = Partial<Parameters<WebpackBuilder['start']>['0']>;
+type BuilderStartOptions = Parameters<WebpackBuilder['start']>['0'];
 type BuilderStartResult = Unpromise<ReturnType<WebpackBuilder['start']>>;
 type StarterFunction = (
   options: BuilderStartOptions
 ) => AsyncGenerator<unknown, BuilderStartResult, void>;
 
-type BuilderBuildOptions = Partial<Parameters<WebpackBuilder['build']>['0']>;
+type BuilderBuildOptions = Parameters<WebpackBuilder['build']>['0'];
 type BuilderBuildResult = Unpromise<ReturnType<WebpackBuilder['build']>>;
 type BuilderFunction = (
   options: BuilderBuildOptions
-) => AsyncGenerator<Stats, BuilderBuildResult, void>;
+) => AsyncGenerator<Stats | undefined, BuilderBuildResult, void>;
 
 export const executor = {
   get: async (options: Options) => {
@@ -38,7 +41,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
   const typescriptOptions = await presets.apply('typescript', {}, options);
   const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
-  const frameworkOptions = await presets.apply(`${options.framework}Options`, {}, options);
+  const framework = await presets.apply<any>('framework', {}, options);
 
   return presets.apply(
     'webpack',
@@ -47,7 +50,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
       ...options,
       babelOptions,
       typescriptOptions,
-      [`${options.framework}Options`]: frameworkOptions,
+      frameworkOptions: typeof framework === 'string' ? {} : framework?.options,
     }
   ) as any;
 };
@@ -69,6 +72,7 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
+    // @ts-ignore
     if (process && compilation) {
       try {
         compilation.close(() => res());
@@ -130,7 +134,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(webpackHotMiddleware(compiler as any));
 
   const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready);
+    compilation.waitUntilValid(ready as any);
     reject = stop;
   });
   yield;
@@ -163,9 +167,19 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const config = await getConfig(options);
   yield;
 
-  return new Promise<Stats>((succeed, fail) => {
-    const compiler = webpackInstance(config);
+  const compiler = webpackInstance(config);
 
+  if (!compiler) {
+    const err = `${config.name}: missing webpack compiler at runtime!`;
+    logger.error(err);
+    return {
+      hasErrors: () => true,
+      hasWarnings: () => false,
+      toJson: () => ({ warnings: [] as any[], errors: [err] }),
+    } as any as Stats;
+  }
+
+  return new Promise<Stats>((succeed, fail) => {
     compiler.run((error, stats) => {
       if (error || !stats || stats.hasErrors()) {
         logger.error('=> Failed to build the preview');
@@ -205,7 +219,10 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
       logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
       if (stats && stats.hasWarnings()) {
-        stats.toJson({ warnings: true }).warnings.forEach((e) => logger.warn(e.message));
+        // @ts-ignore
+        stats
+          .toJson({ warnings: true } as StatsOptions)
+          .warnings.forEach((e) => logger.warn(e.message));
       }
 
       // https://webpack.js.org/api/node/#run
@@ -215,7 +232,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
           return fail(closeErr);
         }
 
-        return succeed(stats);
+        return succeed(stats as Stats);
       });
     });
   });

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 
 const toNumber = (input: any) => (typeof input === 'number' ? input : Number(input));
@@ -59,7 +59,7 @@ export interface SpacedProps {
   outer?: number | boolean;
 }
 
-export const Spaced: FunctionComponent<SpacedProps> = ({ col, row, outer, children, ...rest }) => {
+export const Spaced: FC<SpacedProps> = ({ col, row, outer, children, ...rest }) => {
   const outerAmount = toNumber(typeof outer === 'number' || !outer ? outer : col || row);
 
   return (

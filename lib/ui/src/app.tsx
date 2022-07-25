@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import sizeMe from 'react-sizeme';
 
 import { State } from '@storybook/api';
@@ -24,7 +24,6 @@ const View = styled.div({
 
 export interface AppProps {
   viewMode: State['viewMode'];
-  docsOnly: boolean;
   layout: State['layout'];
   panelCount: number;
   size: {
@@ -34,7 +33,7 @@ export interface AppProps {
 }
 
 const App = React.memo<AppProps>(
-  ({ viewMode, docsOnly, layout, panelCount, size: { width, height } }) => {
+  ({ viewMode, layout, panelCount, size: { width, height } }) => {
     let content;
 
     const props = useMemo(
@@ -51,7 +50,7 @@ const App = React.memo<AppProps>(
               <Route path="/settings/" startsWith>
                 {children}
               </Route>
-            )) as FunctionComponent,
+            )) as FC,
           },
         ],
       }),
@@ -61,14 +60,13 @@ const App = React.memo<AppProps>(
     if (!width || !height) {
       content = <div />;
     } else if (width < 600) {
-      content = <Mobile {...props} viewMode={viewMode} options={layout} docsOnly={docsOnly} />;
+      content = <Mobile {...props} viewMode={viewMode} options={layout} />;
     } else {
       content = (
         <Desktop
           {...props}
           viewMode={viewMode}
           options={layout}
-          docsOnly={docsOnly}
           {...{ width, height }}
           panelCount={panelCount}
         />

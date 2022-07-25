@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import path from 'path';
 import program from 'commander';
 import detectFreePort from 'detect-port';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import fs from 'fs';
 import yaml from 'js-yaml';
 import nodeCleanup from 'node-cleanup';

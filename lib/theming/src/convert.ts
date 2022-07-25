@@ -1,7 +1,6 @@
 import { opacify } from 'polished';
-
 import { background, typography, color } from './base';
-import { Theme, Color, ThemeVars } from './types';
+import { StorybookTheme, Color, ThemeVars } from './types';
 import { easing, animation } from './animation';
 import { create as createSyntax, chromeLight, chromeDark } from './modules/syntax';
 import { getPreferredColorScheme } from './utils';
@@ -72,7 +71,7 @@ const createColors = (vars: ThemeVars): Color => ({
   inverseText: vars.textInverseColor || color.lightest,
 });
 
-export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]): Theme => {
+export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]): StorybookTheme => {
   const {
     base,
     colorPrimary,

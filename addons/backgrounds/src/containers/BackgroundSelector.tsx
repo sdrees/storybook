@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, useCallback, useMemo, memo } from 'react';
+import React, { FC, Fragment, useCallback, useMemo, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { useParameter, useGlobals } from '@storybook/api';
@@ -71,7 +71,7 @@ const DEFAULT_BACKGROUNDS_CONFIG: BackgroundsParameter = {
   values: [],
 };
 
-export const BackgroundSelector: FunctionComponent = memo(() => {
+export const BackgroundSelector: FC = memo(() => {
   const backgroundsConfig = useParameter<BackgroundsParameter>(
     BACKGROUNDS_PARAM_KEY,
     DEFAULT_BACKGROUNDS_CONFIG

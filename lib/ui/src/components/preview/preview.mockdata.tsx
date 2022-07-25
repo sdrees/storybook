@@ -4,6 +4,7 @@ import { PreviewProps } from './utils/types';
 
 export const previewProps: PreviewProps = {
   id: 'string',
+  storyId: 'story--id',
   api: {
     on: () => {},
     emit: () => {},
@@ -22,22 +23,24 @@ export const previewProps: PreviewProps = {
           ]
         : []) as API['getElements'],
   } as any as API,
-  story: {
+  entry: {
+    type: 'story',
     id: 'story--id',
-    depth: 1,
-    isComponent: false,
-    isLeaf: true,
-    isRoot: false,
-    kind: 'kind',
-    name: 'story name',
     parent: 'root',
-    children: [],
+    depth: 1,
+    title: 'kind',
+    name: 'story name',
+    importPath: './story.stories.tsx',
+    prepared: true,
     parameters: {
       fileName: '',
       options: {},
-      docsOnly: false,
     },
     args: {},
+    kind: 'kind',
+    isRoot: false,
+    isComponent: false,
+    isLeaf: true,
   },
   path: 'string',
   viewMode: 'story',
@@ -50,7 +53,6 @@ export const previewProps: PreviewProps = {
     showToolbar: true,
   },
   withLoader: false,
-  docsOnly: false,
   description: '',
   refs: {},
 };

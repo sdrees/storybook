@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '@storybook/react/demo';
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
+import { Button } from './react-demo';
 
 export default {
   title: 'Button',
@@ -8,7 +8,7 @@ export default {
   argTypes: { onClick: { action: 'clicked' } },
 } as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+const Template: ComponentStoryFn<typeof Button> = (args) => <Button {...args} />;
 
 export const Text = Template.bind({});
 Text.args = {

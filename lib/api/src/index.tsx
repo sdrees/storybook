@@ -1,7 +1,7 @@
 import React, {
   Component,
   Fragment,
-  FunctionComponent,
+  FC,
   ReactElement,
   ReactNode,
   useCallback,
@@ -19,15 +19,23 @@ import {
   SHARED_STATE_SET,
   SET_STORIES,
 } from '@storybook/core-events';
-import { RouterData } from '@storybook/router';
-import { Listener } from '@storybook/channels';
+import type { RouterData } from '@storybook/router';
+import type { Listener } from '@storybook/channels';
 
 import { createContext } from './context';
 import Store, { Options } from './store';
 import getInitialState from './initial-state';
-import type { StoriesHash, Story, Root, Group } from './lib/stories';
+import type {
+  StoriesHash,
+  RootEntry,
+  GroupEntry,
+  ComponentEntry,
+  DocsEntry,
+  StoryEntry,
+  HashEntry,
+  LeafEntry,
+} from './lib/stories';
 import type { ComposedRef, Refs } from './modules/refs';
-import { isGroup, isRoot, isStory } from './lib/stories';
 
 import * as provider from './modules/provider';
 import * as addons from './modules/addons';
@@ -98,11 +106,11 @@ export interface Combo {
 
 interface ProviderData {
   provider: provider.Provider;
+  docsMode: boolean;
 }
 
 export type ManagerProviderProps = RouterData &
   ProviderData & {
-    docsMode: boolean;
     children: ReactNode | ((props: Combo) => ReactNode);
   };
 
@@ -139,18 +147,27 @@ export const combineParameters = (...parameterSets: Parameters[]) =>
     return undefined;
   });
 
-export type ModuleFn = (m: ModuleArgs) => Module;
-
-interface Module {
-  init?: () => void;
-  api?: unknown;
-  state?: unknown;
+interface ModuleWithInit<APIType = unknown, StateType = unknown> {
+  init: () => void | Promise<void>;
+  api: APIType;
+  state: StateType;
 }
+
+type ModuleWithoutInit<APIType = unknown, StateType = unknown> = Omit<
+  ModuleWithInit<APIType, StateType>,
+  'init'
+>;
+
+export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
+  m: ModuleArgs
+) => HasInit extends true
+  ? ModuleWithInit<APIType, StateType>
+  : ModuleWithoutInit<APIType, StateType>;
 
 class ManagerProvider extends Component<ManagerProviderProps, State> {
   api: API = {} as API;
 
-  modules: Module[];
+  modules: (ModuleWithInit | ModuleWithoutInit)[];
 
   static displayName = 'Manager';
 
@@ -172,22 +189,9 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback),
     });
 
-    const routeData = { location, path, viewMode, singleStory, storyId, refId };
+    const routeData = { location, path, viewMode, singleStory, storyId, refId, docsMode };
 
-    // Initialize the state to be the initial (persisted) state of the store.
-    // This gives the modules the chance to read the persisted state, apply their defaults
-    // and override if necessary
-    const docsModeState = {
-      layout: { showToolbar: false, showPanel: false },
-      ui: { docsMode: true },
-    };
-
-    this.state = store.getInitialState(
-      getInitialState({
-        ...routeData,
-        ...(docsMode ? docsModeState : null),
-      })
-    );
+    this.state = store.getInitialState(getInitialState(routeData));
 
     const apiData = {
       navigate,
@@ -221,22 +225,21 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     this.api = api;
   }
 
-  static getDerivedStateFromProps(props: ManagerProviderProps, state: State) {
+  static getDerivedStateFromProps(props: ManagerProviderProps, state: State): State {
     if (state.path !== props.path) {
       return {
         ...state,
         location: props.location,
         path: props.path,
         refId: props.refId,
-        // if its a docsOnly page, even the 'story' view mode is considered 'docs'
-        viewMode: (props.docsMode && props.viewMode) === 'story' ? 'docs' : props.viewMode,
+        viewMode: props.viewMode,
         storyId: props.storyId,
       };
     }
     return null;
   }
 
-  shouldComponentUpdate(nextProps: ManagerProviderProps, nextState: State) {
+  shouldComponentUpdate(nextProps: ManagerProviderProps, nextState: State): boolean {
     const prevState = this.state;
     const prevProps = this.props;
 
@@ -252,9 +255,9 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
   initModules = () => {
     // Now every module has had a chance to set its API, call init on each module which gives it
     // a chance to do things that call other modules' APIs.
-    this.modules.forEach(({ init }) => {
-      if (init) {
-        init();
+    this.modules.forEach((module) => {
+      if ('init' in module) {
+        module.init();
       }
     });
   };
@@ -281,7 +284,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 // of our modules) does not cause Reach Router's LocationProvider to update with
 // the correct path. Calling navigate inside on an effect does not have the
 // same problem. See https://github.com/reach/router/issues/404
-const EffectOnMount: FunctionComponent<{
+const EffectOnMount: FC<{
   children: ReactElement;
   effect: () => void;
 }> = ({ children, effect }) => {
@@ -291,7 +294,7 @@ const EffectOnMount: FunctionComponent<{
 
 interface ManagerConsumerProps<P = unknown> {
   filter?: (combo: Combo) => P;
-  children: FunctionComponent<P> | ReactNode;
+  children: FC<P> | ReactNode;
 }
 
 const defaultFilter = (c: Combo) => c;
@@ -316,7 +319,7 @@ function ManagerConsumer<P = Combo>({
   }, [c.state]);
 
   return useMemo(() => {
-    const Child = renderer.current as FunctionComponent<P>;
+    const Child = renderer.current as FC<P>;
 
     return <Child {...data} />;
   }, l);
@@ -331,8 +334,19 @@ export function useStorybookApi(): API {
   return api;
 }
 
-export type { StoriesHash, Story, Root, Group, ComposedRef, Refs };
-export { ManagerConsumer as Consumer, ManagerProvider as Provider, isGroup, isRoot, isStory };
+export type {
+  StoriesHash,
+  RootEntry,
+  GroupEntry,
+  ComponentEntry,
+  DocsEntry,
+  StoryEntry,
+  HashEntry,
+  LeafEntry,
+  ComposedRef,
+  Refs,
+};
+export { ManagerConsumer as Consumer, ManagerProvider as Provider };
 
 export interface EventMap {
   [eventId: string]: Listener;
@@ -446,15 +460,14 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
-  const args = isStory(data) ? data.args : {};
-  const { id, refId } = data;
+  const args = data.type === 'story' ? data.args : {};
   const updateArgs = useCallback(
-    (newArgs: Args) => updateStoryArgs({ id, refId }, newArgs),
-    [id, refId, updateStoryArgs]
+    (newArgs: Args) => updateStoryArgs(data as StoryEntry, newArgs),
+    [data, updateStoryArgs]
   );
   const resetArgs = useCallback(
-    (argNames?: string[]) => resetStoryArgs({ id, refId }, argNames),
-    [id, refId, resetStoryArgs]
+    (argNames?: string[]) => resetStoryArgs(data as StoryEntry, argNames),
+    [data, resetStoryArgs]
   );
 
   return [args, updateArgs, resetArgs];
@@ -469,12 +482,13 @@ export function useGlobalTypes(): ArgTypes {
   return useStorybookApi().getGlobalTypes();
 }
 
-function useCurrentStory(): Story {
+function useCurrentStory(): StoryEntry | DocsEntry {
   const { getCurrentStoryData } = useStorybookApi();
 
-  return getCurrentStoryData() as Story;
+  return getCurrentStoryData();
 }
 
 export function useArgTypes(): ArgTypes {
-  return useCurrentStory()?.argTypes || {};
+  const current = useCurrentStory();
+  return (current?.type === 'story' && current.argTypes) || {};
 }

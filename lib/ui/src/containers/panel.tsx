@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import memoize from 'memoizerific';
 import { Consumer, Combo } from '@storybook/api';
 
@@ -18,7 +18,7 @@ const mapper = ({ state, api }: Combo) => ({
   shortcuts: api.getShortcutKeys(),
 });
 
-const Panel: FunctionComponent<any> = (props) => (
+const Panel: FC<any> = (props) => (
   <Consumer filter={mapper}>{(customProps) => <AddonPanel {...props} {...customProps} />}</Consumer>
 );
 

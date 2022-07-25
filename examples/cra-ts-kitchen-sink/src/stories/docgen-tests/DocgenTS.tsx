@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { FC, FunctionComponent, SyntheticEvent } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 
 interface ButtonProps {
   /**
@@ -33,7 +33,7 @@ ButtonFC.defaultProps = {
 /**
  * Button functional component (FunctionComponent)
  */
-export const ButtonFunctionComponent: FunctionComponent<ButtonProps> = ({ onClick, children }) => (
+export const ButtonFunctionComponent: FC<ButtonProps> = ({ onClick, children }) => (
   <button onClick={onClick}>{children}</button>
 );
 ButtonFunctionComponent.defaultProps = {

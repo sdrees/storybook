@@ -1,5 +1,5 @@
 import mapValues from 'lodash/mapValues';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/client-logger';
 import type { AnyFramework, SBType, ArgTypesEnhancer } from '@storybook/csf';
 import { combineParameters } from './parameters';
