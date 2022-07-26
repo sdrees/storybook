@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '2 2 */1 * *'
   workflow_dispatch:
-# To remove when the branch will be merged
+  # To remove when the branch will be merged
   push:
     branches:
       - generate-repros
@@ -20,6 +20,8 @@ jobs:
         run: |
           git config --global user.name "Storybook Bot"
           git config --global user.email "bot@storybook.js.org"
+      - name: Change directory
+        run: cd code
       - name: Install dependencies
         run: yarn install
       - name: Generate repros with Latest Storybook CLI

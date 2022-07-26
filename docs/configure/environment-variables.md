@@ -11,7 +11,7 @@ STORYBOOK_THEME=red STORYBOOK_DATA_KEY=12345 npm run storybook
 
 <div class="aside">
 
- 💡 Do not store any secrets (e.g., private API keys) or other types of sensitive information in your Storybook. Environment variables are embedded into the build, meaning anyone can view them by inspecting your files. 
+💡 Do not store any secrets (e.g., private API keys) or other types of sensitive information in your Storybook. Environment variables are embedded into the build, meaning anyone can view them by inspecting your files.
 
 </div>
 
@@ -73,7 +73,6 @@ You can also use specific files for specific modes. Add a <code>.env.development
 You can also pass these environment variables when you are [building your Storybook](../sharing/publish-storybook.md) with `build-storybook`.
 
 Then they'll be hardcoded to the static version of your Storybook.
-
 
 ### Using Storybook configuration
 

@@ -65,7 +65,10 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
   const host = ts.createCompilerHost(compilerOptions);
   const cwd = options.cwd || process.cwd();
   const pkg = sync({ cwd }).packageJson;
-  const externals = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies });
+  const externals = Object.keys({
+    ...pkg.dependencies,
+    ...pkg.peerDependencies,
+  });
 
   // this to make paths for local packages as they are in node_modules because of yarn
   // but it depends on the way you handle "flatting of files"
@@ -73,7 +76,10 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
   host.realpath = (p: string) => p;
 
   const program = ts.createProgram(entrySourceFiles, compilerOptions, host);
-  const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed, removeComments: false });
+  const printer = ts.createPrinter({
+    newLine: ts.NewLineKind.LineFeed,
+    removeComments: false,
+  });
 
   const typeChecker = program.getTypeChecker();
   const sourceFiles = program.getSourceFiles();

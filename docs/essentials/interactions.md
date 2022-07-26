@@ -47,7 +47,6 @@ Next, update [`.storybook/main.js`](../configure/overview.md#configure-story-ren
 
 </div>
 
-
 Now when you run Storybook, the Interactions addon will be enabled.
 
 ![Storybook Interactions installed and registered](./addon-interactions-installed-registered.png)

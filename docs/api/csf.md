@@ -113,7 +113,6 @@ Now consider the same example, re-written with args:
 
 <!-- prettier-ignore-end -->
 
-
 Or even more simply:
 
 <!-- prettier-ignore-start -->

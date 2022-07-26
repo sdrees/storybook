@@ -1,6 +1,5 @@
-
-* MDX: Upgrade csf-mdx libraries ([#18300](https://github.com/storybookjs/storybook/pull/18300))
-* security: update x-default-browser ([#18157](https://github.com/storybookjs/storybook/pull/18157))
+- MDX: Upgrade csf-mdx libraries ([#18300](https://github.com/storybookjs/storybook/pull/18300))
+- security: update x-default-browser ([#18157](https://github.com/storybookjs/storybook/pull/18157))
 
 ## 6.5.0-rc.1 (May 18, 2022)
 
@@ -6753,5 +6752,3 @@ Failed NPM publish
 - Bump @babel/runtime from 7.7.4 to 7.7.7 ([#9277](https://github.com/storybookjs/storybook/pull/9277))
 - Bump corejs-upgrade-webpack-plugin from 2.2.0 to 3.0.1 ([#9427](https://github.com/storybookjs/storybook/pull/9427))
 - Bump terser-webpack-plugin from 2.2.1 to 2.3.2 ([#9386](https://github.com/storybookjs/storybook/pull/9386))
-
-

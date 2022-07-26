@@ -1,7 +1,7 @@
 import { statSync } from 'fs';
 import { join } from 'path';
 
-const p = (l) => join(__dirname, '..', '..', ...l);
+const p = (l) => join(__dirname, '..', '..', 'code', ...l);
 
 export const getDeployables = (files, extraFilter) => {
   return files.filter((f) => {

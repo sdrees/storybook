@@ -2,7 +2,7 @@ name: Markdown Links Check
 # runs every monday at 9 am
 on:
   schedule:
-    - cron: "0 9 * * 1"
+    - cron: '0 9 * * 1'
 
 jobs:
   check-links:

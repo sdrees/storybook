@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": false,
+    "strict": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/**.test.ts"]
+}

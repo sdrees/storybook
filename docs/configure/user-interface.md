@@ -2,7 +2,6 @@
 title: 'User interface'
 ---
 
-
 Storybook's UI is a highly customizable one and full of rich features to help you with your development process.
 
 Read more about the Storybook's features below:

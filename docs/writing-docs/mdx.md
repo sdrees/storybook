@@ -227,17 +227,18 @@ First, ensure that `transcludeMarkdown` is set to `true` in `main.js`:
 
 <!-- prettier-ignore-end -->
 
-Then, import the markdown and treat the imported file as a component in the MDX file: 
+Then, import the markdown and treat the imported file as a component in the MDX file:
 
 ```mdx
-import { Meta } from "@storybook/addon-docs";
+import { Meta } from '@storybook/addon-docs';
 
-import Changelog from "../CHANGELOG.md";
+import Changelog from '../CHANGELOG.md';
 
 <Meta title="Changelog" />
 
 <Changelog />
 ```
+
 ![Changelog markdown in an MDX story](./changelog-mdx-md-transcludemarkdown-optimized.png)
 
 ## Linking to other stories and pages

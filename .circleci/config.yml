@@ -10,7 +10,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:14.19
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -23,7 +23,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: circleci/node:14-browsers
+      - image: cimg/node:14.19-browsers
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -45,6 +45,7 @@ executors:
 
 orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
+  browser-tools: circleci/browser-tools@1.4.0
 
 commands:
   ensure-pr-is-labeled-with:
@@ -86,30 +87,40 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v3--{{ checksum "yarn.lock" }}
+            - build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
       - run:
           name: Install dependencies
-          command: yarn install --immutable
+          command: |
+            cd code
+            yarn install --immutable
+      - run:
+          name: Install script dependencies
+          command: |
+            cd scripts
+            yarn install --immutable
       - run:
           name: Bootstrap
           command: |
+            cd code
             yarn bootstrap --build
             git diff --exit-code
       - save_cache:
           name: Save Yarn cache
-          key: build-yarn-2-cache-v3--{{ checksum "yarn.lock" }}
+          key: build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
       - persist_to_workspace:
           root: .
           paths:
-            - examples
-            - node_modules
-            - addons
-            - frameworks
-            - lib
-            - renderers
-            - presets
+            - code/node_modules
+            - scripts/node_modules
+            - code/examples
+            - code/node_modules
+            - code/addons
+            - code/frameworks
+            - code/lib
+            - code/renderers
+            - code/presets
   chromatic:
     executor: sb_node_14_browsers
     parallelism: 15
@@ -121,6 +132,7 @@ jobs:
       - run:
           name: chromatic
           command: |
+            cd code
             yarn run-chromatics
   examples:
     executor:
@@ -135,11 +147,12 @@ jobs:
       - run:
           name: examples
           command: |
+            cd code
             yarn build-storybooks --all
       - persist_to_workspace:
           root: .
           paths:
-            - built-storybooks
+            - code/built-storybooks
   publish:
     executor:
       class: medium
@@ -151,7 +164,9 @@ jobs:
           at: .
       - run:
           name: running local registry
-          command: yarn local-registry --publish
+          command: |
+            cd code
+            yarn local-registry --publish
       - persist_to_workspace:
           root: .
           paths:
@@ -178,14 +193,20 @@ jobs:
           at: .
       - run:
           name: running local registry
-          command: yarn local-registry --port 6000 --open
+          command: |
+            cd code
+            yarn local-registry --port 6000 --open
           background: true
       - run:
           name: Wait for registry
-          command: yarn wait-on http://localhost:6000
+          command: |
+            cd code
+            yarn wait-on http://localhost:6000
       - run:
           name: Run E2E (extended) tests
-          command: yarn test:e2e-framework --clean --all --skip angular --skip angular12 --skip vue3 --skip web_components_typescript --skip cra --skip react
+          command: |
+            cd code
+            yarn test:e2e-framework --clean --all --skip angular --skip angular12 --skip vue3 --skip web_components_typescript --skip cra --skip react
           no_output_timeout: 5m
       - store_artifacts:
           path: /tmp/cypress-record
@@ -202,16 +223,22 @@ jobs:
           at: .
       - run:
           name: Running local registry
-          command: yarn local-registry --port 6000 --open
+          command: |
+            cd code
+            yarn local-registry --port 6000 --open
           background: true
       - run:
           name: Wait for registry
-          command: yarn wait-on http://localhost:6000
+          command: |
+            cd code
+            yarn wait-on http://localhost:6000
       - run:
           name: Run E2E (core) tests
           # Do not test CRA here because it's done in PnP part
           # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
-          command: yarn test:e2e-framework vue3 angular130 angular13 angular12 web_components_typescript web_components_lit2 react react_legacy_root_api
+          command: |
+            cd code
+            yarn test:e2e-framework vue3 angular130 angular13 angular12 web_components_typescript web_components_lit2 react react_legacy_root_api
           no_output_timeout: 5m
       - run:
           name: prep artifacts
@@ -259,21 +286,29 @@ jobs:
           at: .
       - run:
           name: install playright
-          command: npx playwright install
+          command: |
+            cd code
+            npx playwright install
       - run:
           name: Running local registry
-          command: yarn local-registry --port 6000 --open
+          command: |
+            cd code
+            yarn local-registry --port 6000 --open
           background: true
       - run:
           name: Wait for registry
-          command: yarn wait-on http://localhost:6000
+          command: |
+            cd code
+            yarn wait-on http://localhost:6000
       - run:
           name: set up cra repro, skip tests
-          command: node ./lib/cli/bin/index.js repro -t cra --e2e ../cra-bench
+          command: |
+            cd code
+            node ./lib/cli/bin/index.js repro -t cra --e2e ../cra-bench
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ../cra-bench
+            cd ./cra-bench
             npx @storybook/bench@1.0.0--canary.11.52d1ee7.1 'echo noop' --label cra
   e2e-tests-pnp:
     executor:
@@ -287,14 +322,20 @@ jobs:
           at: .
       - run:
           name: Running local registry
-          command: yarn local-registry --port 6000 --open
+          command: |
+            cd code
+            yarn local-registry --port 6000 --open
           background: true
       - run:
           name: Wait for registry
-          command: yarn wait-on http://localhost:6000
+          command: |
+            cd code
+            yarn wait-on http://localhost:6000
       - run:
           name: run e2e tests cra
-          command: yarn test:e2e-framework --pnp cra
+          command: |
+            cd code
+            yarn test:e2e-framework --pnp cra
       # - run:
       #     name: run e2e tests vue
       #     command: yarn test:e2e-framework --pnp sfcVue
@@ -319,14 +360,20 @@ jobs:
           at: .
       - run:
           name: running example
-          command: yarn serve-storybooks
+          command: |
+            cd code
+            yarn serve-storybooks
           background: true
       - run:
           name: await running examples
-          command: yarn await-serve-storybooks
+          command: |
+            cd code
+            yarn await-serve-storybooks
       - run:
           name: cypress run
-          command: yarn test:e2e-examples
+          command: |
+            cd code
+            yarn test:e2e-examples
       - store_artifacts:
           path: /tmp/cypress-record
           destination: cypress
@@ -347,6 +394,7 @@ jobs:
       - run:
           name: smoke tests
           command: |
+            cd code
             yarn smoketest-storybooks --all
   lint:
     executor:
@@ -359,7 +407,9 @@ jobs:
           at: .
       - run:
           name: Lint
-          command: yarn lint
+          command: |
+            cd code
+            yarn lint
   unit-tests:
     executor: sb_node_14_browsers
     steps:
@@ -369,13 +419,15 @@ jobs:
           at: .
       - run:
           name: Test
-          command: yarn test --coverage --runInBand --ci
+          command: |
+            cd code
+            yarn test --coverage --runInBand --ci
       - store_test_results:
-          path: junit.xml
+          path: code/junit.xml
       - persist_to_workspace:
           root: .
           paths:
-            - coverage
+            - code/coverage
   coverage:
     executor:
       class: small
@@ -387,7 +439,9 @@ jobs:
           at: .
       - run:
           name: Upload coverage
-          command: yarn coverage
+          command: |
+            cd code
+            yarn coverage
 
 workflows:
   test:

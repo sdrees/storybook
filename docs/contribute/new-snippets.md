@@ -87,7 +87,7 @@ Go through the rest of the documentation and repeat the process.
 
 Before submitting your contribution, we advise you to check your work against the Storybook website. Doing this prevents last-minute issues with the documentation and is also an excellent way for the maintainers to merge faster once you submit the pull request. However, failing to do so will lead one of the maintainers to notify you that your contribution has an issue.
 
-Start by forking [frontpage repo](https://github.com/storybookjs/frontpage) and cloning it locally. 
+Start by forking [frontpage repo](https://github.com/storybookjs/frontpage) and cloning it locally.
 
 ```shell
 git clone https://github.com/your-username/frontpage.git

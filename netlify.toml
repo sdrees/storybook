@@ -1,6 +1,6 @@
 [build]
-  publish = "built-storybooks"
-  command = "yarn bootstrap --core && yarn build-storybooks --all"
+  publish = "code/built-storybooks"
+  command = "cd scripts && yarn && cd ../code && yarn && yarn bootstrap --core && yarn build-storybooks --all"
 [build.environment]
   NODE_VERSION = "14"
   YARN_VERSION = "1.22.10"

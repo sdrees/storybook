@@ -1,16 +1,16 @@
-import path from 'path';
+import path, { join } from 'path';
 import { ensureDir, pathExists, remove } from 'fs-extra';
 import prompts from 'prompts';
 import program from 'commander';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getInterpretedFile } from '@storybook/core-common';
+import { readConfig, writeConfig } from '../code/lib/csf-tools';
+import { getInterpretedFile } from '../code/lib/core-common';
 import { serve } from './utils/serve';
 // @ts-ignore
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
-import * as configs from '../lib/cli/src/repro-generators/configs';
-import { Parameters } from '../lib/cli/src/repro-generators/configs';
-import { exec } from '../lib/cli/src/repro-generators/scripts';
+import * as configs from '../code/lib/cli/src/repro-generators/configs';
+import { Parameters } from '../code/lib/cli/src/repro-generators/configs';
+import { exec } from '../code/lib/cli/src/repro-generators/scripts';
 
 const logger = console;
 let openCypressInUIMode = !process.env.CI;
@@ -100,7 +100,10 @@ const buildStorybook = async ({ cwd }: Options) => {
   await exec(
     `yarn build-storybook --quiet`,
     { cwd },
-    { startMessage: `👷 Building Storybook`, errorMessage: `🚨 Storybook build failed` }
+    {
+      startMessage: `👷 Building Storybook`,
+      errorMessage: `🚨 Storybook build failed`,
+    }
   );
 };
 
@@ -115,7 +118,7 @@ const runCypress = async (location: string, name: string) => {
   const cypressCommand = openCypressInUIMode ? 'open' : 'run';
   await exec(
     `CYPRESS_ENVIRONMENT=${name} yarn cypress ${cypressCommand} --config pageLoadTimeout=4000,execTimeout=4000,taskTimeout=4000,responseTimeout=4000,defaultCommandTimeout=4000,integrationFolder="cypress/generated",videosFolder="/tmp/cypress-record/${name}" --env location="${location}"`,
-    { cwd: rootDir },
+    { cwd: join(rootDir, 'code') },
     {
       startMessage: `🤖 Running Cypress tests`,
       errorMessage: `🚨 E2E tests fails`,
@@ -149,17 +152,18 @@ const runTests = async ({ name, ...rest }: Parameters) => {
   logger.log();
 
   if (!(await prepareDirectory(options))) {
-    // Call repro cli
-    const sbCLICommand = useLocalSbCli
-      ? `node ${__dirname}/../lib/cli/bin/index.js repro --local`
-      : // Need to use npx because at this time we don't have Yarn 2 installed
-        'npx -p @storybook/cli sb repro';
+    let sbCLICommand = `node ${__dirname}/../code/lib/cli/bin/index.js repro`;
+
+    if (useLocalSbCli) {
+      sbCLICommand += ' --local';
+    }
 
     const targetFolder = path.join(siblingDir, `${name}`);
     const commandArgs = [
       targetFolder,
       `--renderer ${options.renderer}`,
       `--template ${options.name}`,
+      `--registry http://localhost:6000`,
       '--e2e',
     ];
 

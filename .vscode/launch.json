@@ -8,7 +8,7 @@
     "request": "launch",
     "name": "official-storybook",
     "runtimeExecutable": "npm",
-    "cwd": "${workspaceFolder}/examples/official-storybook",
+    "cwd": "${workspaceFolder}/code/examples/official-storybook",
     "runtimeArgs": [
       "run-script",
       "debug"
@@ -21,10 +21,10 @@
     "type": "node",
     "request": "launch",
     "name": "cli html",
-    "cwd": "${workspaceFolder}/lib/cli/stories",
+    "cwd": "${workspaceFolder}/code/lib/cli/stories",
     "runtimeArgs": [
       "--inspect-brk",
-      "${workspaceFolder}/lib/cli/bin/index.js",
+      "${workspaceFolder}/code/lib/cli/bin/index.js",
       "init",
       "--type",
       "html"

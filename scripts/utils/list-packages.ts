@@ -1,4 +1,5 @@
 import { exec } from 'child_process';
+import { join } from 'path';
 
 export interface Package {
   name: string;
@@ -10,7 +11,7 @@ export interface Package {
 export const listOfPackages = (): Promise<Package[]> =>
   new Promise((res, rej) => {
     const command = `npx lerna list --json`;
-    exec(command, (e, result) => {
+    exec(command, { cwd: join(__dirname, '..', '..', 'code') }, (e, result) => {
       if (e) {
         rej(e);
       } else {

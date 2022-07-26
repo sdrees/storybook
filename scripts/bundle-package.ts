@@ -29,7 +29,11 @@ async function dts({ input, externals, cwd, ...options }: Options) {
         [
           {
             filePath: input,
-            output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
+            output: {
+              inlineDeclareGlobals: false,
+              sortNodes: true,
+              noBanner: true,
+            },
           },
         ],
         { followSymlinks: false }
@@ -44,7 +48,11 @@ async function dts({ input, externals, cwd, ...options }: Options) {
       [
         {
           filePath: input,
-          output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
+          output: {
+            inlineDeclareGlobals: false,
+            sortNodes: true,
+            noBanner: true,
+          },
         },
       ],
       { followSymlinks: false }
@@ -54,7 +62,10 @@ async function dts({ input, externals, cwd, ...options }: Options) {
     const localizedDTSout = path.join(cwd, 'dist/types');
     await fs.outputFile(bundledDTSfile, out);
 
-    await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
+    await dtsLozalize.run([bundledDTSfile], localizedDTSout, {
+      externals,
+      cwd,
+    });
   }
 }
 
@@ -168,26 +179,29 @@ export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
   const message = gray(`Built: ${bold(`${pkg.name}@${pkg.version}`)}`);
   console.time(message);
 
-  const reset = hasFlag(flags, 'reset');
-  const watch = hasFlag(flags, 'watch');
-  const optimized = hasFlag(flags, 'optimized');
+  const shouldReset = hasFlag(flags, 'reset');
+  const shouldWatch = hasFlag(flags, 'watch');
+  const shouldOptimize = hasFlag(flags, 'optimized');
 
-  if (reset) {
+  if (shouldReset) {
     await removeDist();
   }
 
   const input = path.join(cwd, pkg.bundlerEntrypoint);
-  const externals = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies });
+  const externals = Object.keys({
+    ...pkg.dependencies,
+    ...pkg.peerDependencies,
+  });
 
   const options: Options = {
     cwd,
     externals,
     input,
-    optimized,
-    watch,
+    optimized: shouldOptimize,
+    watch: shouldWatch,
   };
 
-  if (!optimized) {
+  if (!shouldOptimize) {
     console.log(`skipping generating types for ${process.cwd()}`);
   }
 

@@ -3,38 +3,10 @@ node_modules
 .idea
 *.iml
 *.sw*
-npm-shrinkwrap.json
 dist
-.tern-port
 *.DS_Store
 .cache
-.parcel-cache
-coverage/
-*.lerna_backup
-build
-packages/examples/automated-*
-/**/LICENSE
-docs/public
-packs/*.tgz
-package-lock.json
-.nvmrc
-storybook-static
-integration/__image_snapshots__/__diff_output__
-.jest-test-results.json
-/examples/cra-kitchen-sink/src/__image_snapshots__/__diff_output__/
-lib/*.jar
-lib/**/dll
-/false
-/addons/docs/common/config-*
-built-storybooks
-cypress/videos
-cypress/screenshots
-examples/ember-cli/ember-output
-.verdaccio-cache
-tsconfig.tsbuildinfo
-examples/angular-cli/addon-jest.testresults.json
 junit.xml
-.next
 
 # Yarn stuff
 /**/.yarn/*
@@ -43,3 +15,4 @@ junit.xml
 !/**/.yarn/sdks
 !/**/.yarn/versions
 /**/.pnp.*
+/yarn.lock

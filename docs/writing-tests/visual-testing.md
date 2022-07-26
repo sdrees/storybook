@@ -31,8 +31,6 @@ Next, install the [chromatic](https://www.npmjs.com/package/chromatic) CLI packa
 
 <!-- prettier-ignore-end -->
 
-
-
 Run the following command after the package finishes installing:
 
 ```shell

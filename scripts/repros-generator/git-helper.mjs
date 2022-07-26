@@ -1,4 +1,4 @@
-import { $ } from "zx";
+import { $ } from 'zx';
 
 /**
  * Git add everything in the directory this method is called and commit all the files

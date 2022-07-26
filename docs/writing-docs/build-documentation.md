@@ -11,7 +11,7 @@ At any point during your development, you can preview the documentation you've w
 ```json
 {
   "scripts": {
-    "storybook-docs": "start-storybook --docs --no-manager-cache",
+    "storybook-docs": "start-storybook --docs --no-manager-cache"
   }
 }
 ```
@@ -39,7 +39,7 @@ You can also publish your documentation, the same you would [publish](../sharing
 ```json
 {
   "scripts": {
-    "build-storybook-docs": "build-storybook --docs",
+    "build-storybook-docs": "build-storybook --docs"
   }
 }
 ```

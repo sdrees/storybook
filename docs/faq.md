@@ -20,7 +20,7 @@ module.exports = {
     name: '@storybook/angular',
     options: {
       enableIvy: false,
-    }
+    },
   },
 };
 ```
@@ -356,7 +356,7 @@ This is a known issue with MDX 2. We're working to fix it. For now you can apply
 
 import { Story } from '@storybook/addon-docs';
 
-import * as stories from './Button.stories.jsx';
+import \* as stories from './Button.stories.jsx';
 
 <Story name="Basic" story={stories.Basic} />
 ```

@@ -1,0 +1,50 @@
+{
+  "name": "@storybook/core-webpack",
+  "version": "7.0.0-alpha.16",
+  "description": "Storybook framework-agnostic API",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core-webpack",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/core-webpack"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "types/**/*",
+    "templates/**/*",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit",
+    "prepare": "node ../../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/core-common": "7.0.0-alpha.16",
+    "@storybook/node-logger": "7.0.0-alpha.16",
+    "@types/node": "^14.0.10 || ^16.0.0",
+    "core-js": "^3.8.2",
+    "ts-dedent": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
+}

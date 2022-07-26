@@ -15,5 +15,5 @@ export async function createTmpDir() {
  * @return {Promise<void>}
  */
 export async function copy(sourceFile, targetDirectory) {
-  return await $`cp ${sourceFile} ${targetDirectory}`;
+  return $`cp ${sourceFile} ${targetDirectory}`;
 }

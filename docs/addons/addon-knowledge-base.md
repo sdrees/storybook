@@ -68,11 +68,11 @@ Use the components listed below with your next addon.
 
 Complementing the components, also included is a set of UI primitives. Use the content listed below as a reference for styling your addon.
 
-| Component                       | Source                                                                                                       | Story                                                                                                         |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Component                      | Source                                                                                                       | Story                                                                                                         |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
 | Color Palette (see note below) | [See implementation](https://github.com/storybookjs/storybook/tree/master/lib/components/src/Colors)         | [See story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-colorpalette--page) |
-| Icon                            | [See implementation](https://github.com/storybookjs/storybook/blob/master/lib/components/src/icon/icons.tsx) | [See story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-icon--labels)       |
-| Typography                      | [See implementation](https://github.com/storybookjs/storybook/tree/master/lib/components/src/typography)     | [See story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-typography--all)    |
+| Icon                           | [See implementation](https://github.com/storybookjs/storybook/blob/master/lib/components/src/icon/icons.tsx) | [See story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-icon--labels)       |
+| Typography                     | [See implementation](https://github.com/storybookjs/storybook/tree/master/lib/components/src/typography)     | [See story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-typography--all)    |
 
 <div class="aside">
 The color palette implemented by <code>@storybook/components</code> is a high-level abstraction of the <a href="https://github.com/storybookjs/storybook/tree/next/lib/theming/src"><code>@storybook/theming</code></a> package.

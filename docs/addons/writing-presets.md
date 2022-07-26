@@ -77,7 +77,6 @@ As of Storybook 6.3, Storybook can run with either `webpack4` or `webpack5` buil
 
 <!-- prettier-ignore-end -->
 
-
 ### Manager entries
 
 The addon config `managerEntries` allows you to add addons to Storybook from within a preset. For addons that require custom Webpack/Babel configuration, it is easier to install the preset, and it will take care of everything.
@@ -121,7 +120,6 @@ For example, the Backgrounds preset contains the following code:
 />
 
 <!-- prettier-ignore-end -->
-
 
 Which in turn invokes:
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { $, cd } from 'zx';
 import { commitEverythingInDirectory, initRepo } from './git-helper.mjs';
 import { copy, createTmpDir } from './fs-helper.mjs';
@@ -21,10 +22,10 @@ const tmpFolder = await createTmpDir();
 const scriptPath = __dirname;
 const templatesFolderPath = `${scriptPath}/templates`;
 
-const useNextVersion = argv.next;
-const remote = argv.remote;
-const push = argv.push;
-const forcePush = argv['force-push'];
+const useNextVersion = process.argv.next;
+const { remote } = process.argv;
+const { push } = process.argv;
+const forcePush = process.argv['force-push'];
 const gitBranch = useNextVersion ? 'next' : 'main';
 const sbCliVersion = useNextVersion ? 'next' : 'latest';
 
@@ -33,13 +34,14 @@ cd(tmpFolder);
 await initRepo(gitBranch);
 await copy(`${templatesFolderPath}/${gitBranch}/README.md`, tmpFolder);
 
+// eslint-disable-next-line no-restricted-syntax
 for (const framework of frameworks) {
   await $`npx sb@${sbCliVersion} repro --template ${framework} ${framework}`;
   await $`rm -rf ${framework}/.git`;
   await copy(`${templatesFolderPath}/${gitBranch}/.stackblitzrc`, `${tmpFolder}/${framework}`);
 }
 
-let commitMessage = `Storybook Examples - ${new Date().toDateString()}`;
+const commitMessage = `Storybook Examples - ${new Date().toDateString()}`;
 await commitEverythingInDirectory(commitMessage);
 
 logger.info(`

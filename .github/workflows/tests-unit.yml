@@ -31,8 +31,10 @@ jobs:
           cache: yarn
       - name: install, bootstrap
         run: |
+          cd code
           yarn install --immutable
           yarn bootstrap --core
       - name: test
         run: |
+          cd code
           yarn test --runInBand --ci

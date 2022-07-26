@@ -21,7 +21,6 @@ We can set a parameter for a single story with the `parameters` key on a CSF exp
 
 <!-- prettier-ignore-end -->
 
-
 ## Component parameters
 
 We can set the parameters for all stories of a component using the `parameters` key on the default CSF export:

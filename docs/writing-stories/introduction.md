@@ -163,7 +163,6 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
 
 <!-- prettier-ignore-end -->
 
-
 By introducing args into your component's stories, you're not only reducing the amount of code you need to write, but you're also decreasing data duplication, as shown by spreading the `Primary` story's args into the other stories.
 
 What’s more, you can import `args` to reuse when writing stories for other components, and it's helpful when you’re building composite components. For example, if we make a `ButtonGroup` story, we might remix two stories from its child component `Button`.

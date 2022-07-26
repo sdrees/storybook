@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 import fs from 'fs-extra';
 import path, { join } from 'path';
 import { build } from 'tsup';
@@ -17,7 +19,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const isThemingPackage = name === '@storybook/theming';
 
   if (pre) {
-    shelljs.exec(`esrun ${pre}`, { cwd });
+    shelljs.exec(`esrun ${pre}`, { cwd: join(__dirname, '..') });
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -32,23 +34,27 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await Promise.all(
       entries.map(async (file: string) => {
         console.log(`skipping generating types for ${file}`);
-        const { name } = path.parse(file);
+        const { name: entryName } = path.parse(file);
 
-        const pathName = join(process.cwd(), 'dist', `${name}.d.ts`);
+        const pathName = join(process.cwd(), 'dist', `${entryName}.d.ts`);
         // throw new Error('test');
         await fs.ensureFile(pathName);
         const footer = isThemingPackage
-          ? `export { StorybookTheme as Theme } from '../src/${name}';\n`
+          ? `export { StorybookTheme as Theme } from '../src/${entryName}';\n`
           : '';
-        await fs.writeFile(pathName, `export * from '../src/${name}';\n${footer}`);
+        await fs.writeFile(pathName, `export * from '../src/${entryName}';\n${footer}`);
       })
     );
   }
 
+  const tsConfigPath = join(cwd, 'tsconfig.json');
+  const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([
     build({
-      entry: entries,
+      entry: entries.map((e: string) => join(cwd, e)),
       watch,
+      ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
+      outDir: join(process.cwd(), 'dist'),
       // sourcemap: optimized,
       format: ['esm'],
       target: 'chrome100',
@@ -58,27 +64,36 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       esbuildPlugins: [
         aliasPlugin({
           process: path.resolve(
-            '../../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
+            '../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
           ),
-          util: path.resolve('../../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
+          util: path.resolve('../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
         }),
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
-      dts: optimized
-        ? {
-            entry: entries,
-            resolve: true,
-            footer: isThemingPackage
-              ? `interface Theme extends StorybookTheme {};\nexport type { Theme };`
-              : '',
-          }
-        : false,
+      dts:
+        optimized && tsConfigExists
+          ? {
+              entry: entries,
+              resolve: true,
+              footer: isThemingPackage
+                ? `interface Theme extends StorybookTheme {};\nexport type { Theme };`
+                : '',
+            }
+          : false,
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
         c.define = optimized
-          ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}', global: 'window' }
-          : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}', global: 'window' };
+          ? {
+              'process.env.NODE_ENV': "'production'",
+              'process.env': '{}',
+              global: 'window',
+            }
+          : {
+              'process.env.NODE_ENV': "'development'",
+              'process.env': '{}',
+              global: 'window',
+            };
         c.platform = platform || 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
@@ -88,8 +103,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
     build({
-      entry: entries,
+      entry: entries.map((e: string) => join(cwd, e)),
       watch,
+      outDir: join(process.cwd(), 'dist'),
+      ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       format: ['cjs'],
       target: 'node14',
       platform: 'node',

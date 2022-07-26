@@ -9,12 +9,16 @@ import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
 const readdir = promisify(readdirRaw);
 
-const p = (l) => join(__dirname, '..', ...l);
+const p = (l) => join(__dirname, '..', 'code', ...l);
 const logger = console;
 
 const exec = async (command, args = [], options = {}) =>
   new Promise((resolve, reject) => {
-    const child = spawn(command, args, { ...options, stdio: 'inherit', shell: true });
+    const child = spawn(command, args, {
+      ...options,
+      stdio: 'inherit',
+      shell: true,
+    });
 
     child
       .on('close', (code) => {

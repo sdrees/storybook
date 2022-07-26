@@ -2,7 +2,7 @@
 title: 'Story layout'
 ---
 
-The `layout` [parameter](../writing-stories/parameters.md) allows you to configure how stories are positioned in Storybook's Canvas tab. 
+The `layout` [parameter](../writing-stories/parameters.md) allows you to configure how stories are positioned in Storybook's Canvas tab.
 
 ## Global layout
 

@@ -26,7 +26,6 @@ Use this boilerplate code to add a new `Panel` to Storybook's UI:
 
 <!-- prettier-ignore-end -->
 
-
 ### Toolbars
 
 Toolbar addons allow you to add your own custom tools in Storybook's Toolbar. For example the official [@storybook/backgrounds](../essentials/backgrounds.md) and the [storybook-addon-outline](https://github.com/chromaui/storybook-outline) use this pattern.
@@ -68,7 +67,6 @@ Use this boilerplate code to add a new `Tab` to Storybook's UI:
 />
 
 <!-- prettier-ignore-end -->
-
 
 <div class="aside">
 Learn how to write your own addon that include these UI elements <a href="./writing-addons">here</a>.

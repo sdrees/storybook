@@ -2,8 +2,17 @@
 
 /* eslint-disable global-require */
 
+const { spawnSync } = require('child_process');
+const { join } = require('path');
 const { maxConcurrentTasks } = require('./utils/concurrency');
-const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
+
+const spawn = (command, options = {}) => {
+  return spawnSync(`${command}`, {
+    shell: true,
+    stdio: 'inherit',
+    ...options,
+  });
+};
 
 function run() {
   const prompts = require('prompts');
@@ -66,7 +75,9 @@ function run() {
       option: '--prep',
       command: () => {
         log.info(prefix, 'prepare');
-        spawn(`nx run-many --target="prepare" --all --parallel -- --reset`);
+        spawn(
+          `nx run-many --target="prepare" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
+        );
       },
       order: 2,
     }),
@@ -99,7 +110,7 @@ function run() {
       option: '--reset',
       command: () => {
         log.info(prefix, 'git clean');
-        spawn('node -r esm ./scripts/reset.js');
+        spawn(`node -r esm ${join(__dirname, 'reset.js')}`);
       },
       order: 0,
     }),
@@ -244,4 +255,4 @@ function run() {
     });
 }
 
-checkDependenciesAndRun(run);
+run();
