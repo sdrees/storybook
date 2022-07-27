@@ -1,0 +1,14 @@
+# group-name/instance-name. Should always be two levels deep.
+cra/default-js:
+  script: "yarn create react-app ."
+  expected:
+    framework: "@storybook/cra"
+    renderer: "@storybook/react"
+    builder: "@storybook/builder-webpack5"
+
+cra/default-ts:
+  script: "yarn create react-app . --template typescript"
+  expected:
+    framework: "@storybook/cra"
+    renderer: "@storybook/react"
+    builder: "@storybook/builder-webpack5"

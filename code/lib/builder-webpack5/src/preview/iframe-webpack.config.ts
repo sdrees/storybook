@@ -9,7 +9,7 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig } from '@storybook/core-common';
+import type { Options, CoreConfig, DocsOptions } from '@storybook/core-common';
 import {
   stringifyProcessEnvs,
   handlebars,
@@ -87,6 +87,7 @@ export default async (
   const coreOptions = await presets.apply<CoreConfig>('core');
   const builderOptions: BuilderOptions =
     typeof coreOptions.builder === 'string' ? {} : coreOptions.builder?.options || {};
+  const docsOptions = await presets.apply<DocsOptions>('docs');
 
   const configs = [
     ...(await presets.apply('config', [], options)),
@@ -214,6 +215,7 @@ export default async (
               ...specifier,
               importPathMatcher: specifier.importPathMatcher.source,
             })),
+            DOCS_OPTIONS: docsOptions,
             SERVER_CHANNEL_URL: serverChannelUrl,
           },
           headHtmlSnippet,

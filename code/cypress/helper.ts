@@ -20,7 +20,7 @@ export const visit = (route = '') => {
       expect(element).not.null;
 
       if (element !== null) {
-        expect(element.querySelector('#root > *')).not.null;
+        expect(element.querySelector('#root > *, #docs-root > *')).not.null;
       }
     });
   });

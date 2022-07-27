@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-client",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-alpha.17",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -34,16 +34,16 @@
     "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.16",
-    "@storybook/channel-postmessage": "7.0.0-alpha.16",
-    "@storybook/channel-websocket": "7.0.0-alpha.16",
-    "@storybook/client-api": "7.0.0-alpha.16",
-    "@storybook/client-logger": "7.0.0-alpha.16",
-    "@storybook/core-events": "7.0.0-alpha.16",
+    "@storybook/addons": "7.0.0-alpha.17",
+    "@storybook/channel-postmessage": "7.0.0-alpha.17",
+    "@storybook/channel-websocket": "7.0.0-alpha.17",
+    "@storybook/client-api": "7.0.0-alpha.17",
+    "@storybook/client-logger": "7.0.0-alpha.17",
+    "@storybook/core-events": "7.0.0-alpha.17",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/preview-web": "7.0.0-alpha.16",
-    "@storybook/store": "7.0.0-alpha.16",
-    "@storybook/ui": "7.0.0-alpha.16",
+    "@storybook/preview-web": "7.0.0-alpha.17",
+    "@storybook/store": "7.0.0-alpha.17",
+    "@storybook/ui": "7.0.0-alpha.17",
     "ansi-to-html": "^0.6.11",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -64,5 +64,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
+  "gitHead": "7d44bfd3e759c6f17b75029ee2e067fab811f27b"
 }

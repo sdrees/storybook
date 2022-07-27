@@ -122,7 +122,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
   provider,
   storyId: initialStoryId,
   viewMode: initialViewMode,
-  docsOptions: { docsMode } = {},
+  docsOptions = {},
 }) => {
   const api: SubAPI = {
     storyId: toId,
@@ -211,7 +211,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       // Now create storiesHash by reordering the above by group
       const hash = transformSetStoriesStoryDataToStoriesHash(input, {
         provider,
-        docsMode,
+        docsOptions,
       });
 
       await store.setState({
@@ -359,7 +359,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     setStoryList: async (storyIndex: StoryIndex) => {
       const hash = transformStoryIndexToStoriesHash(storyIndex, {
         provider,
-        docsMode,
+        docsOptions,
       });
 
       await store.setState({

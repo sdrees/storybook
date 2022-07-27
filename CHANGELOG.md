@@ -1,3 +1,26 @@
+## 7.0.0-alpha.17 (July 27, 2022)
+
+#### Features
+
+-   Addon-docs: Support DocsPage in v6 store [#18763](https://github.com/storybooks/storybook/pull/18763)
+
+#### Bug Fixes
+
+-   Preact: Typescript pragma fix [#15564](https://github.com/storybooks/storybook/pull/15564)
+-   Core: Clear addon cache directory before starting the manager [#18731](https://github.com/storybooks/storybook/pull/18731)
+-   UI: Pass full docs options to manager [#18762](https://github.com/storybooks/storybook/pull/18762)
+-   Preview: Fix standalone MDX files not HMR-ing [#18747](https://github.com/storybooks/storybook/pull/18747)
+
+#### Maintenance
+
+-   CLI: Add next-repro command [#18787](https://github.com/storybooks/storybook/pull/18787)
+-   Build: Remove old scripts that are no longer used [#18790](https://github.com/storybooks/storybook/pull/18790)
+-   Build: Addon-backgrounds with ts-up [#18784](https://github.com/storybooks/storybook/pull/18784)
+-   Build: Addon-controls with tsup [#18786](https://github.com/storybooks/storybook/pull/18786)
+-   Build: Use updated circleci node images [#18785](https://github.com/storybooks/storybook/pull/18785)
+-   Build: Move all code into a `code` directory [#18759](https://github.com/storybooks/storybook/pull/18759)
+-   Build: Lint css, html, json, md, mdx, yml files [#18735](https://github.com/storybooks/storybook/pull/18735)
+
 ## 7.0.0-alpha.16 (July 25, 2022)
 
 #### Bug Fixes

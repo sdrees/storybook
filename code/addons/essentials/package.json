@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-alpha.17",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -33,25 +33,25 @@
     "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.16",
-    "@storybook/addon-backgrounds": "7.0.0-alpha.16",
-    "@storybook/addon-controls": "7.0.0-alpha.16",
-    "@storybook/addon-docs": "7.0.0-alpha.16",
-    "@storybook/addon-highlight": "7.0.0-alpha.16",
-    "@storybook/addon-measure": "7.0.0-alpha.16",
-    "@storybook/addon-outline": "7.0.0-alpha.16",
-    "@storybook/addon-toolbars": "7.0.0-alpha.16",
-    "@storybook/addon-viewport": "7.0.0-alpha.16",
-    "@storybook/addons": "7.0.0-alpha.16",
-    "@storybook/api": "7.0.0-alpha.16",
-    "@storybook/core-common": "7.0.0-alpha.16",
-    "@storybook/node-logger": "7.0.0-alpha.16",
+    "@storybook/addon-actions": "7.0.0-alpha.17",
+    "@storybook/addon-backgrounds": "7.0.0-alpha.17",
+    "@storybook/addon-controls": "7.0.0-alpha.17",
+    "@storybook/addon-docs": "7.0.0-alpha.17",
+    "@storybook/addon-highlight": "7.0.0-alpha.17",
+    "@storybook/addon-measure": "7.0.0-alpha.17",
+    "@storybook/addon-outline": "7.0.0-alpha.17",
+    "@storybook/addon-toolbars": "7.0.0-alpha.17",
+    "@storybook/addon-viewport": "7.0.0-alpha.17",
+    "@storybook/addons": "7.0.0-alpha.17",
+    "@storybook/api": "7.0.0-alpha.17",
+    "@storybook/core-common": "7.0.0-alpha.17",
+    "@storybook/node-logger": "7.0.0-alpha.17",
     "core-js": "^3.8.2",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/vue": "7.0.0-alpha.16",
+    "@storybook/vue": "7.0.0-alpha.17",
     "@types/jest": "^26.0.16",
     "typescript": "~4.6.3"
   },
@@ -99,5 +99,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
+  "gitHead": "7d44bfd3e759c6f17b75029ee2e067fab811f27b"
 }

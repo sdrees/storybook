@@ -133,7 +133,7 @@ const map = (
 };
 
 export const init: ModuleFn<SubAPI, SubState, void> = (
-  { store, provider, singleStory, docsOptions: { docsMode } = {} },
+  { store, provider, singleStory, docsOptions = {} },
   { runCheck = true } = {}
 ) => {
   const api: SubAPI = {
@@ -249,10 +249,10 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       if (setStoriesData) {
         storiesHash = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),
-          { provider, docsMode }
+          { provider, docsOptions }
         );
       } else if (storyIndex) {
-        storiesHash = transformStoryIndexToStoriesHash(storyIndex, { provider, docsMode });
+        storiesHash = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
       }
       if (storiesHash) storiesHash = addRefIds(storiesHash, ref);
 

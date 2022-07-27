@@ -430,6 +430,79 @@ describe('stories API', () => {
         children: ['b--1'],
       });
     });
+
+    it('adds docs entries when docsPage is enabled', () => {
+      const navigate = jest.fn();
+      const store = createMockStore({});
+
+      const {
+        api: { setStories },
+      } = initStories({
+        store,
+        navigate,
+        provider,
+        docsOptions: { docsPage: true, defaultName: 'Docs' },
+      } as any as any);
+
+      provider.getConfig.mockReturnValue({ sidebar: { showRoots: false } });
+      setStories(setStoriesData);
+
+      const { storiesHash: storedStoriesHash } = store.getState();
+
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(storedStoriesHash)).toEqual([
+        'a',
+        'a--docs',
+        'a--1',
+        'a--2',
+        'b',
+        'b-c',
+        'b-c--docs',
+        'b-c--1',
+        'b-d',
+        'b-d--docs',
+        'b-d--1',
+        'b-d--2',
+        'b-e',
+        'b-e--docs',
+        'custom-id--1',
+      ]);
+      expect(storedStoriesHash['a--docs']).toMatchObject({
+        type: 'docs',
+        id: 'a--docs',
+        parent: 'a',
+        title: 'a',
+        name: 'Docs',
+        storiesImports: [],
+      });
+
+      expect(storedStoriesHash['b-c--docs']).toMatchObject({
+        type: 'docs',
+        id: 'b-c--docs',
+        parent: 'b-c',
+        title: 'b/c',
+        name: 'Docs',
+        storiesImports: [],
+      });
+
+      expect(storedStoriesHash['b-d--docs']).toMatchObject({
+        type: 'docs',
+        id: 'b-d--docs',
+        parent: 'b-d',
+        title: 'b/d',
+        name: 'Docs',
+        storiesImports: [],
+      });
+
+      expect(storedStoriesHash['b-e--docs']).toMatchObject({
+        type: 'docs',
+        id: 'b-e--docs',
+        parent: 'b-e',
+        title: 'b/e',
+        name: 'Docs',
+        storiesImports: [],
+      });
+    });
   });
 
   // Can't currently run these tests as cannot set this on the events

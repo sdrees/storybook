@@ -5,6 +5,7 @@ import { dedent } from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
 import global from 'global';
+import { toId, sanitize } from '@storybook/csf';
 import type {
   StoryId,
   ComponentTitle,
@@ -13,8 +14,9 @@ import type {
   Args,
   ArgTypes,
   Parameters,
+  ComponentId,
 } from '@storybook/csf';
-import { sanitize } from '@storybook/csf';
+import type { DocsOptions } from '@storybook/core-common';
 
 import { combineParameters } from '../index';
 import merge from './merge';
@@ -145,6 +147,7 @@ export interface SetStoriesStory {
   id: StoryId;
   name: string;
   refId?: string;
+  componentId?: ComponentId;
   kind: StoryKind;
   parameters: {
     fileName: string;
@@ -268,16 +271,21 @@ export interface PreparedStoryIndex {
 
 export const transformSetStoriesStoryDataToStoriesHash = (
   data: SetStoriesStoryData,
-  { provider, docsMode }: { provider: Provider; docsMode: boolean }
+  { provider, docsOptions }: { provider: Provider; docsOptions: DocsOptions }
 ) =>
-  transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
-    provider,
-    docsMode,
-  });
+  transformStoryIndexToStoriesHash(
+    transformSetStoriesStoryDataToPreparedStoryIndex(data, { docsOptions }),
+    {
+      provider,
+      docsOptions,
+    }
+  );
 
 const transformSetStoriesStoryDataToPreparedStoryIndex = (
-  stories: SetStoriesStoryData
+  stories: SetStoriesStoryData,
+  { docsOptions }: { docsOptions: DocsOptions }
 ): PreparedStoryIndex => {
+  const seenTitles = new Set<ComponentTitle>();
   const entries: PreparedStoryIndex['entries'] = Object.entries(stories).reduce(
     (acc, [id, story]) => {
       if (!story) return acc;
@@ -296,6 +304,19 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
           ...base,
         };
       } else {
+        if (!seenTitles.has(base.title) && docsOptions.docsPage) {
+          const name = docsOptions.defaultName;
+          const docsId = toId(story.componentId || base.title, name);
+          seenTitles.add(base.title);
+          acc[docsId] = {
+            type: 'docs',
+            storiesImports: [],
+            ...base,
+            id: docsId,
+            name,
+          };
+        }
+
         const { argTypes, args, initialArgs } = story;
         acc[id] = {
           type: 'story',
@@ -340,10 +361,10 @@ export const transformStoryIndexToStoriesHash = (
   index: PreparedStoryIndex,
   {
     provider,
-    docsMode,
+    docsOptions,
   }: {
     provider: Provider;
-    docsMode: boolean;
+    docsOptions: DocsOptions;
   }
 ): StoriesHash => {
   if (!index.v) throw new Error('Composition: Missing stories.json version');
@@ -364,7 +385,7 @@ export const transformStoryIndexToStoriesHash = (
   }
 
   const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
-    if (docsMode && item.type !== 'docs') return acc;
+    if (docsOptions.docsMode && item.type !== 'docs') return acc;
 
     // First, split the title into a set of names, separated by '/' and trimmed.
     const { title } = item;

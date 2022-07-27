@@ -2,7 +2,13 @@
 import global from 'global';
 import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
-import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
+import {
+  toId,
+  isExportStory,
+  storyNameFromExport,
+  ComponentTitle,
+  ComponentId,
+} from '@storybook/csf';
 import type { StoryId, AnyFramework, Parameters, StoryFn } from '@storybook/csf';
 import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import type {
@@ -16,6 +22,7 @@ import type {
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 import deprecate from 'util-deprecate';
+import type { DocsOptions } from '@storybook/core-common';
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
@@ -34,7 +41,7 @@ const docs2Warning = deprecate(() => {},
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: NormalizedProjectAnnotations<TFramework>;
 
-  entries: StoryIndex['entries'];
+  entries: Record<StoryId, IndexEntry & { componentId?: ComponentId }>;
 
   csfExports: Record<Path, ModuleExports>;
 
@@ -71,19 +78,27 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
     const sortableV6: [StoryId, Story<TFramework>, Parameters, Parameters][] = storyEntries.map(
-      ([storyId, { importPath }]) => {
+      ([storyId, { type, importPath, ...entry }]) => {
         const exports = this.csfExports[importPath];
         const csfFile = store.processCSFFileWithCache<TFramework>(
           exports,
           importPath,
           exports.default.title
         );
-        return [
-          storyId,
-          store.storyFromCSFFile({ storyId, csfFile }),
-          csfFile.meta.parameters,
-          this.projectAnnotations.parameters,
-        ];
+
+        let storyLike: Story<TFramework>;
+        if (type === 'story') {
+          storyLike = store.storyFromCSFFile({ storyId, csfFile });
+        } else {
+          storyLike = {
+            ...entry,
+            story: entry.name,
+            kind: entry.title,
+            componentId: toId(entry.componentId || entry.title),
+            parameters: { fileName: importPath },
+          } as any;
+        }
+        return [storyId, storyLike, csfFile.meta.parameters, this.projectAnnotations.parameters];
       }
     );
 
@@ -188,6 +203,8 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       });
     }
 
+    const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
+    const seenTitles = new Set<ComponentTitle>();
     Object.entries(sortedExports)
       .filter(([key]) => isExportStory(key, defaultExport))
       .forEach(([key, storyExport]: [string, any]) => {
@@ -199,12 +216,29 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           storyExport.story?.name ||
           exportName;
 
+        if (!seenTitles.has(title) && docsOptions.docsPage) {
+          const name = docsOptions.defaultName;
+          const docsId = toId(componentId || title, name);
+          seenTitles.add(title);
+          this.entries[docsId] = {
+            type: 'docs',
+            standalone: false,
+            id: docsId,
+            title,
+            name,
+            importPath: fileName,
+            storiesImports: [],
+            componentId,
+          };
+        }
+
         this.entries[id] = {
+          type: 'story',
           id,
           name,
           title,
           importPath: fileName,
-          type: 'story',
+          componentId,
         };
       });
   }

@@ -3334,6 +3334,7 @@ __metadata:
     npmlog: ^5.0.1
     p-limit: ^3.1.0
     prettier: ">=2.2.1 <=2.3.0"
+    pretty-hrtime: ^1.0.0
     prompts: ^2.4.0
     puppeteer: ^2.1.1
     react: 16.14.0
@@ -15636,6 +15637,13 @@ __metadata:
     ansi-styles: ^5.0.0
     react-is: ^18.0.0
   checksum: 596d8b459b6fdac7dcbd70d40169191e889939c17ffbcc73eebe2a9a6f82cdbb57faffe190274e0a507d9ecdf3affadf8a9b43442a625eecfbd2813b9319660f
+  languageName: node
+  linkType: hard
+
+"pretty-hrtime@npm:^1.0.0":
+  version: 1.0.3
+  resolution: "pretty-hrtime@npm:1.0.3"
+  checksum: 67cb3fc283a72252b49ac488647e6a01b78b7aa1b8f2061834aa1650691229081518ef3ca940f77f41cc8a8f02ba9eeb74b843481596670209e493062f2e89e0
   languageName: node
   linkType: hard
 

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-alpha.17",
   "private": true,
   "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
   "keywords": [
@@ -73,6 +73,7 @@
     "lint:other": "prettier --write '**/*.{css,html,json,md,yml}'",
     "lint:package": "sort-package-json",
     "local-registry": "ts-node --project=../scripts/tsconfig.json ../scripts/run-registry.ts --port 6000",
+    "next-repro": "ts-node ../scripts/next-repro-generators/index.ts",
     "publish:debug": "npm run publish:latest -- --npm-tag=debug --no-push",
     "publish:latest": "lerna publish --exact --concurrency 1 --force-publish",
     "publish:next": "npm run publish:latest -- --npm-tag=next",

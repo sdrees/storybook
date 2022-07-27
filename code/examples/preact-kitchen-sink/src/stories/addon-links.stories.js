@@ -1,9 +1,4 @@
-/** @jsx h */
-
-import { h } from 'preact';
-
 import { linkTo } from '@storybook/addon-links';
-
 import Button from '../Button';
 
 export default {
