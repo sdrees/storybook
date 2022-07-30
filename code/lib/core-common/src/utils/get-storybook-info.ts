@@ -35,7 +35,7 @@ const logger = console;
 
 const findDependency = (
   { dependencies, devDependencies, peerDependencies }: PackageJson,
-  predicate: (entry: [string, string]) => string
+  predicate: (entry: [string, string | undefined]) => string
 ) => [
   Object.entries(dependencies || {}).find(predicate),
   Object.entries(devDependencies || {}).find(predicate),

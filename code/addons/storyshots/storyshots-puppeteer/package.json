@@ -34,14 +34,13 @@
   },
   "dependencies": {
     "@axe-core/puppeteer": "^4.2.0",
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@storybook/node-logger": "7.0.0-alpha.17",
     "@types/jest-image-snapshot": "^4.1.3",
     "core-js": "^3.8.2",
     "jest-image-snapshot": "^4.3.0"
   },
   "devDependencies": {
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "@types/puppeteer": "^5.4.0",
     "puppeteer": "^2.0.0 || ^3.0.0"
   },

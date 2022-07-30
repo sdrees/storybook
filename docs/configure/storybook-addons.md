@@ -21,5 +21,5 @@ Finally, addons can affect the build setup of Storybook by injecting their own w
 There are many, many Storybook addons, but they can be roughly categorized into three areas:
 
 - **Essential** addons are core-team developed addons that are considered a part of the out-of-the-box user experience. These ship by default with new Storybook installations.
-- **Core** addons are developed by the core team. They are kept in sync with the development of Storybook itself and written in idiomatic ways as templates for other addons. They can be found within the [Storybook monorepo](https://github.com/storybookjs/storybook/tree/next/addons).
+- **Core** addons are developed by the core team. They are kept in sync with the development of Storybook itself and written in idiomatic ways as templates for other addons. They can be found within the [Storybook monorepo](https://github.com/storybookjs/storybook/tree/next/code/addons).
 - **Community** addons are addons written by the massive Storybook community. They can be found on our [website](https://storybook.js.org/addons/), [GitHub](https://github.com/), and [npm](https://www.npmjs.com/).

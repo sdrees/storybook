@@ -4,7 +4,7 @@ Storybook addon for inspecting Jest unit test results.
 
 [Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
-[![Storybook Jest Addon Demo](https://raw.githubusercontent.com/storybookjs/storybook/next/addons/jest/docs/storybook-addon-jest.gif)](http://storybooks-official.netlify.com/?selectedKind=Addons%7Cjest&selectedStory=withTests&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Ftests%2Fpanel)
+[![Storybook Jest Addon Demo](https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/jest/docs/storybook-addon-jest.gif)](http://storybooks-official.netlify.com/?selectedKind=Addons%7Cjest&selectedStory=withTests&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Ftests%2Fpanel)
 
 > Check out the above [Live Storybook](http://storybooks-official.netlify.com/?selectedKind=Addons%7Cjest&selectedStory=withTests&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Ftests%2Fpanel).
 
@@ -87,7 +87,7 @@ Assuming that you have already created a test file for your component (e.g., `My
 In your story file, add a [decorator](https://storybook.js.org/docs/react/writing-stories/decorators) to your story's default export to display the results:
 
 ```js
-// MyComponent.stories.js |  MyComponent.stories.jsx
+// MyComponent.stories.js|jsx
 
 import MyComponent from './MyComponent';
 
@@ -105,7 +105,7 @@ export default {
 You can also add multiple tests results within your story by including the `jest` [parameter](https://storybook.js.org/docs/react/writing-stories/parameters), for example:
 
 ```js
-// MyComponent.stories.js |  MyComponent.stories.jsx
+// MyComponent.stories.js|jsx
 
 import MyComponent from './MyComponent';
 
@@ -152,7 +152,7 @@ export const decorators = [
 Then in your story file:
 
 ```js
-// MyComponent.stories.js |  MyComponent.stories.jsx
+// MyComponent.stories.js|jsx
 
 import MyComponent from './MyComponent';
 
@@ -180,6 +180,8 @@ then "MyComponent" will be used to find your test file results. It currently doe
 You can disable the addon for a single story by setting the `jest` parameter to `{disable: true}`:
 
 ```js
+// MyComponent.stories.js|jsx
+
 import MyComponent from './MyComponent';
 
 export default {
@@ -206,6 +208,8 @@ Using this addon with Angular will require some additional configuration. You'll
 Then, in your `.storybook/preview.js`, you'll need to add a decorator with the following:
 
 ```js
+// .storybook/preview.js
+
 import { withTests } from '@storybook/addon-jest';
 
 import results from '../.jest-test-results.json';
@@ -221,6 +225,8 @@ export const decorators = [
 Finally, in your story, you'll need to include the following:
 
 ```ts
+// MyComponent.stories.ts
+
 import type { Meta, StoryFn } from '@storybook/angular';
 
 import MyComponent from './MyComponent.component';

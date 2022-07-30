@@ -4,7 +4,7 @@ import global from 'global';
 import {
   CURRENT_STORY_WAS_SET,
   IGNORED_EXCEPTION,
-  PRELOAD_STORIES,
+  PRELOAD_ENTRIES,
   PREVIEW_KEYDOWN,
   SET_CURRENT_STORY,
   SET_STORIES,
@@ -93,7 +93,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
     this.channel.on(SET_CURRENT_STORY, this.onSetCurrentStory.bind(this));
     this.channel.on(UPDATE_QUERY_PARAMS, this.onUpdateQueryParams.bind(this));
-    this.channel.on(PRELOAD_STORIES, this.onPreloadStories.bind(this));
+    this.channel.on(PRELOAD_ENTRIES, this.onPreloadStories.bind(this));
   }
 
   initializeWithProjectAnnotations(projectAnnotations: WebProjectAnnotations<TFramework>) {
@@ -240,8 +240,14 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     super.onUpdateArgs({ storyId, updatedArgs });
   }
 
-  async onPreloadStories(ids: string[]) {
-    await Promise.all(ids.map((id) => this.storyStore.loadEntry(id)));
+  async onPreloadStories({ ids }: { ids: string[] }) {
+    /**
+     * It's possible that we're trying to preload a story in a ref we haven't loaded the iframe for yet.
+     * Because of the way the targeting works, if we can't find the targeted iframe,
+     * we'll use the currently active iframe which can cause the event to be targeted
+     * to the wrong iframe, causing an error if the storyId does not exists there.
+     */
+    await Promise.allSettled(ids.map((id) => this.storyStore.loadEntry(id)));
   }
 
   // RENDERING

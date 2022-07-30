@@ -10,7 +10,7 @@ UI-based addons allow you to customize Storybook's UI with the following element
 
 ### Panels
 
-Panel addons allow you to add your own UI in Storybook's addon panel. This is the most common type of addon in the ecosystem. For example the official [@storybook/actions](../essentials/actions.md) and [@storybook/a11y](https://github.com/storybookjs/storybook/tree/next/addons/a11y) use this pattern.
+Panel addons allow you to add your own UI in Storybook's addon panel. This is the most common type of addon in the ecosystem. For example the official [@storybook/actions](../essentials/actions.md) and [@storybook/a11y](https://github.com/storybookjs/storybook/tree/next/code/addons/a11y) use this pattern.
 
 ![Storybook panel](./storybook-panel.png)
 
@@ -28,7 +28,7 @@ Use this boilerplate code to add a new `Panel` to Storybook's UI:
 
 ### Toolbars
 
-Toolbar addons allow you to add your own custom tools in Storybook's Toolbar. For example the official [@storybook/backgrounds](../essentials/backgrounds.md) and the [storybook-addon-outline](https://github.com/chromaui/storybook-outline) use this pattern.
+Toolbar addons allow you to add your own custom tools in Storybook's Toolbar. For example the official [@storybook/backgrounds](../essentials/backgrounds.md) and the [@storybook/addon-outline/](../essentials/measure-and-outline.md#outline-addon) use this pattern.
 
 ![Storybook toolbar addon](./storybook-toolbar.png)
 

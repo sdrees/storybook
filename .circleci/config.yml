@@ -175,7 +175,7 @@ jobs:
     executor:
       class: medium
       name: sb_cypress_8_node_14
-    parallelism: 4
+    parallelism: 14
     steps:
       - when:
           condition:

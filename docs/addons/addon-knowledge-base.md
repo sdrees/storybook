@@ -75,7 +75,7 @@ Complementing the components, also included is a set of UI primitives. Use the c
 | Typography                     | [See implementation](https://github.com/storybookjs/storybook/tree/master/lib/components/src/typography)     | [See story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-typography--all)    |
 
 <div class="aside">
-The color palette implemented by <code>@storybook/components</code> is a high-level abstraction of the <a href="https://github.com/storybookjs/storybook/tree/next/lib/theming/src"><code>@storybook/theming</code></a> package.
+The color palette implemented by <code>@storybook/components</code> is a high-level abstraction of the <a href="https://github.com/storybookjs/storybook/tree/next/code/lib/theming/src"><code>@storybook/theming</code></a> package.
 </div>
 
 ### Build system

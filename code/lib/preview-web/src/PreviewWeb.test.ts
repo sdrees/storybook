@@ -1104,7 +1104,7 @@ describe('PreviewWeb', () => {
       await waitForRender();
 
       importFn.mockClear();
-      await preview.onPreloadStories(['component-two--c']);
+      await preview.onPreloadStories({ ids: ['component-two--c'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
     });
 
@@ -1114,7 +1114,7 @@ describe('PreviewWeb', () => {
       await waitForRender();
 
       importFn.mockClear();
-      await preview.onPreloadStories(['component-one--docs']);
+      await preview.onPreloadStories({ ids: ['component-one--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentOne.stories.js');
     });
 
@@ -1124,7 +1124,7 @@ describe('PreviewWeb', () => {
       await waitForRender();
 
       importFn.mockClear();
-      await preview.onPreloadStories(['introduction--docs']);
+      await preview.onPreloadStories({ ids: ['introduction--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/Introduction.mdx');
     });
     it('loads imports of modern docs entries', async () => {
@@ -1133,7 +1133,7 @@ describe('PreviewWeb', () => {
       await waitForRender();
 
       importFn.mockClear();
-      await preview.onPreloadStories(['introduction--docs']);
+      await preview.onPreloadStories({ ids: ['introduction--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
     });
   });

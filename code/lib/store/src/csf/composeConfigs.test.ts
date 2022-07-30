@@ -14,6 +14,7 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      runStep: expect.any(Function),
     });
   });
 
@@ -37,6 +38,7 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      runStep: expect.any(Function),
     });
   });
 
@@ -66,6 +68,7 @@ describe('composeConfigs', () => {
       globals: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
       globalTypes: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
       loaders: [],
+      runStep: expect.any(Function),
     });
   });
 
@@ -95,6 +98,7 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: ['1', '2', '3', '4'],
+      runStep: expect.any(Function),
     });
   });
 
@@ -119,6 +123,7 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      runStep: expect.any(Function),
     });
   });
 
@@ -149,6 +154,7 @@ describe('composeConfigs', () => {
       render: 'render-2',
       renderToDOM: 'renderToDOM-2',
       applyDecorators: 'applyDecorators-2',
+      runStep: expect.any(Function),
     });
   });
 });

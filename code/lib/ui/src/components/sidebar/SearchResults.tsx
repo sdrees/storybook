@@ -4,6 +4,8 @@ import global from 'global';
 import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect } from 'react';
 import { ControllerStateAndHelpers } from 'downshift';
 
+import { useStorybookApi } from '@storybook/api';
+import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import {
   Match,
@@ -121,6 +123,17 @@ const Result: FC<
     [onClick]
   );
 
+  const api = useStorybookApi();
+  useEffect(() => {
+    if (api && props.isHighlighted && item.isComponent) {
+      api.emit(
+        PRELOAD_ENTRIES,
+        { ids: [item.isLeaf ? item.id : item.children[0]] },
+        { options: { target: item.refId } }
+      );
+    }
+  }, [props.isHighlighted, item]);
+
   const nameMatch = matches.find((match: Match) => match.key === 'name');
   const pathMatches = matches.filter((match: Match) => match.key === 'path');
   const label = (
@@ -175,6 +188,7 @@ export const SearchResults: FC<{
     isLoading = false,
     enableShortcuts = true,
   }) => {
+    const api = useStorybookApi();
     useEffect(() => {
       const handleEscape = (event: KeyboardEvent) => {
         if (!enableShortcuts || isLoading || event.repeat) return;
@@ -189,6 +203,20 @@ export const SearchResults: FC<{
       document.addEventListener('keydown', handleEscape);
       return () => document.removeEventListener('keydown', handleEscape);
     }, [enableShortcuts, isLoading]);
+
+    const mouseOverHandler = useCallback((event: MouseEvent) => {
+      const currentTarget = event.currentTarget as HTMLElement;
+      const storyId = currentTarget.getAttribute('data-id');
+      const refId = currentTarget.getAttribute('data-refid');
+      const item = api.getData(storyId, refId === 'storybook_internal' ? undefined : refId);
+
+      if (item.isComponent) {
+        api.emit(PRELOAD_ENTRIES, {
+          ids: [item.isLeaf ? item.id : item.children[0]],
+          options: { target: refId },
+        });
+      }
+    }, []);
 
     return (
       <ResultsList {...getMenuProps()}>
@@ -255,6 +283,9 @@ export const SearchResults: FC<{
               {...result}
               {...getItemProps({ key, index, item: result })}
               isHighlighted={highlightedIndex === index}
+              data-id={result.item.id}
+              data-refid={result.item.refId}
+              onMouseOver={mouseOverHandler}
               className="search-result-item"
             />
           );

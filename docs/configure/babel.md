@@ -28,7 +28,7 @@ We have added ES2016 support with Babel for transpiling your JS code.
 
 In addition to that, we've added a few additional features, like [object spreading](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) and [`async` `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function).
 
-Check out our [source](https://github.com/storybookjs/storybook/blob/next/lib/core-common/src/utils/babel.ts) to learn more about these plugins.
+Check out our [source](https://github.com/storybookjs/storybook/blob/main/lib/core-common/src/utils/babel.ts) to learn more about these plugins.
 
 ### Custom config file
 

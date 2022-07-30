@@ -4,7 +4,7 @@ StoryShots adds automatic Jest Snapshot Testing for [Storybook](https://storyboo
 
 [Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
-![StoryShots In Action](https://raw.githubusercontent.com/storybookjs/storybook/HEAD/addons/storyshots/storyshots-core/docs/storyshots-fail.png)
+![StoryShots In Action](https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/storyshots/storyshots-core/docs/storyshots-fail.png)
 
 To use StoryShots, you must use your existing Storybook stories as the input for Jest Snapshot Testing.
 
@@ -31,7 +31,7 @@ That's all.
 
 Now run your Jest test command. (Usually, `npm test`.) Then you can see all of your stories are converted as Jest snapshot tests.
 
-![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/HEAD/addons/storyshots/storyshots-core/docs/storyshots.png)
+![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/storyshots/storyshots-core/docs/storyshots.png)
 
 ### Testing stories that rely on addon-added decorators
 

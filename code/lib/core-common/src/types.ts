@@ -3,6 +3,7 @@ import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
 import type { Parameters } from '@storybook/csf';
+import type { PackageJson } from 'type-fest';
 import type { FileSystemCache } from './utils/file-cache';
 
 /**
@@ -109,18 +110,7 @@ export interface BuilderResult {
   stats?: Stats;
 }
 
-// TODO: this is a generic interface that we can share across multiple SB packages (like @storybook/cli)
-export interface PackageJson {
-  name: string;
-  version: string;
-  dependencies?: Record<string, string>;
-  devDependencies?: Record<string, string>;
-  peerDependencies?: Record<string, string>;
-  scripts?: Record<string, string>;
-  eslintConfig?: Record<string, any>;
-  type?: 'module';
-  [key: string]: any;
-}
+export { PackageJson };
 
 // TODO: This could be exported to the outside world and used in `options.ts` file of each `@storybook/APP`
 // like it's described in docs/api/new-frameworks.md

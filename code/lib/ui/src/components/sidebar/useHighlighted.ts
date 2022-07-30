@@ -8,6 +8,8 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useStorybookApi } from '@storybook/api';
+import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
 import { CombinedDataset, Highlight, Selection } from './types';
@@ -40,6 +42,7 @@ export const useHighlighted = ({
   const initialHighlight = fromSelection(selected);
   const highlightedRef = useRef<Highlight>(initialHighlight);
   const [highlighted, setHighlighted] = useState<Highlight>(initialHighlight);
+  const api = useStorybookApi();
 
   const updateHighlighted = useCallback(
     (highlight) => {
@@ -109,6 +112,17 @@ export const useHighlighted = ({
         const nextIndex = cycle(highlightable, currentIndex, isArrowUp ? -1 : 1);
         const didRunAround = isArrowUp ? nextIndex === highlightable.length - 1 : nextIndex === 0;
         highlightElement(highlightable[nextIndex], didRunAround);
+
+        if (highlightable[nextIndex].getAttribute('data-nodetype') === 'component') {
+          const { itemId, refId } = highlightedRef.current;
+          const item = api.getData(itemId, refId === 'storybook_internal' ? undefined : refId);
+          if (item.isComponent) {
+            api.emit(PRELOAD_ENTRIES, {
+              ids: [item.isLeaf ? item.id : item.children[0]],
+              options: { target: refId },
+            });
+          }
+        }
       });
     };
 

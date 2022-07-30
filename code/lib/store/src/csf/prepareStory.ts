@@ -12,6 +12,9 @@ import type {
   AnyFramework,
   StrictArgTypes,
   StoryContextForLoaders,
+  PlayFunctionContext,
+  StepLabel,
+  PlayFunction,
 } from '@storybook/csf';
 import { includeConditionalArg } from '@storybook/csf';
 
@@ -69,6 +72,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     applyDecorators = defaultDecorateStory,
     argTypesEnhancers = [],
     argsEnhancers = [],
+    runStep,
   } = projectAnnotations;
 
   const loaders = [
@@ -197,7 +201,18 @@ export function prepareStory<TFramework extends AnyFramework>(
 
     return decoratedStoryFn(finalContext);
   };
-  const playFunction = storyAnnotations.play;
+  const { play } = storyAnnotations;
+  const playFunction =
+    play &&
+    (async (storyContext: StoryContext<TFramework>) => {
+      const playFunctionContext: PlayFunctionContext<TFramework> = {
+        ...storyContext,
+        step: (label: StepLabel, play: PlayFunction<TFramework>) =>
+          // TODO: We know runStep is defined, we need a proper normalized annotations type
+          runStep!(label, play, playFunctionContext),
+      };
+      return play(playFunctionContext);
+    });
 
   return Object.freeze({
     ...contextForEnhancers,

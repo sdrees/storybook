@@ -8,7 +8,7 @@ The Toolbars addon controls global story rendering options from [Storybook's](ht
 
 [Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
-![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/next/addons/toolbars/docs/hero.gif)
+![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/toolbars/docs/hero.gif)
 
 ## Installation
 

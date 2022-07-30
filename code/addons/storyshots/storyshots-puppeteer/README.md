@@ -228,7 +228,7 @@ import { axeTest } from '@storybook/addon-storyshots-puppeteer';
 initStoryshots({ suite: 'A11y checks', test: axeTest() });
 ```
 
-For configuration, it uses the same `story.parameters.a11y` parameter as [`@storybook/addon-a11y`](https://github.com/storybookjs/storybook/tree/next/addons/a11y#parameters)
+For configuration, it uses the same `story.parameters.a11y` parameter as [`@storybook/addon-a11y`](https://github.com/storybookjs/storybook/tree/next/code/addons/a11y#parameters)
 
 ### Specifying options to `axeTest`
 

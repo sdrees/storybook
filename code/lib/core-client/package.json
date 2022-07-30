@@ -40,7 +40,7 @@
     "@storybook/client-api": "7.0.0-alpha.17",
     "@storybook/client-logger": "7.0.0-alpha.17",
     "@storybook/core-events": "7.0.0-alpha.17",
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@storybook/preview-web": "7.0.0-alpha.17",
     "@storybook/store": "7.0.0-alpha.17",
     "@storybook/ui": "7.0.0-alpha.17",

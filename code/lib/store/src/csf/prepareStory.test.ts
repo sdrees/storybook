@@ -4,9 +4,9 @@ import { addons, HooksContext } from '@storybook/addons';
 import type {
   AnyFramework,
   ArgsEnhancer,
+  PlayFunctionContext,
   SBObjectType,
   SBScalarType,
-  StoryContext,
 } from '@storybook/csf';
 
 import { NO_TARGET_NAME } from '../args';
@@ -630,9 +630,30 @@ describe('playFunction', () => {
       { render }
     );
 
-    await playFunction({} as StoryContext<AnyFramework>);
+    await playFunction!({} as PlayFunctionContext);
     expect(play).toHaveBeenCalled();
     expect(inner).toHaveBeenCalled();
+  });
+
+  it('provides step via runStep', async () => {
+    const stepPlay = jest.fn((context) => {
+      expect(context).not.toBeUndefined();
+      expect(context.step).toEqual(expect.any(Function));
+    });
+    const play = jest.fn(async ({ step }) => {
+      step('label', stepPlay);
+    });
+    const runStep = jest.fn((label, p, c) => p(c));
+    const { playFunction } = prepareStory(
+      { id, name, play, moduleExport },
+      { id, title },
+      { render, runStep }
+    );
+
+    await playFunction!({} as PlayFunctionContext);
+    expect(play).toHaveBeenCalled();
+    expect(stepPlay).toHaveBeenCalled();
+    expect(runStep).toBeCalledWith('label', stepPlay, expect.any(Object));
   });
 });
 

@@ -195,7 +195,7 @@ export const getStorybookMetadata = async (_configDir?: string) => {
     return cachedMetadata;
   }
 
-  const { packageJson = {} as PackageJson } = readPkgUp.sync({ cwd: process.cwd() }) || {};
+  const { packageJson = {} } = readPkgUp.sync({ cwd: process.cwd(), normalize: false }) || {};
   const configDir =
     (_configDir ||
       (getStorybookConfiguration(

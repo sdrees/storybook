@@ -54,7 +54,7 @@
     "@storybook/addons": "7.0.0-alpha.17",
     "@storybook/client-logger": "7.0.0-alpha.17",
     "@storybook/core-client": "7.0.0-alpha.17",
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@storybook/docs-tools": "7.0.0-alpha.17",
     "@storybook/store": "7.0.0-alpha.17",
     "@types/estree": "^0.0.51",

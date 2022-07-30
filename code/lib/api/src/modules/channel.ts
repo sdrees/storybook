@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import { Channel } from '@storybook/channels';
 import type { Listener } from '@storybook/channels';
@@ -26,7 +27,19 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
     },
     off: (type, cb) => provider.channel.removeListener(type, cb),
     once: (type, cb) => provider.channel.once(type, cb),
-    emit: (type, ...args) => provider.channel.emit(type, ...args),
+    emit: (type, data, ...args) => {
+      if (
+        data?.options?.target &&
+        data.options.target !== 'storybook-preview-iframe' &&
+        !data.options.target.startsWith('storybook-ref-')
+      ) {
+        data.options.target =
+          data.options.target !== 'storybook_internal'
+            ? `storybook-ref-${data.options.target}`
+            : 'storybook-preview-iframe';
+      }
+      provider.channel.emit(type, data, ...args);
+    },
 
     collapseAll: () => {
       provider.channel.emit(STORIES_COLLAPSE_ALL, {});

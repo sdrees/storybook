@@ -43,7 +43,7 @@
     "@storybook/core-events": "link:../../lib/core-events",
     "@storybook/core-server": "link:../../lib/core-server",
     "@storybook/core-webpack": "link:../../lib/core-webpack",
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@storybook/csf-tools": "link:../../lib/csf-tools",
     "@storybook/docs-tools": "link:../../lib/docs-tools",
     "@storybook/jest": "^0.0.10",

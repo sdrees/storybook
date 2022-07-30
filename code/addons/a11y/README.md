@@ -4,7 +4,7 @@ This Storybook addon can be helpful to make your UI components more accessible.
 
 [Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
-![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/next/addons/a11y/docs/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/a11y/docs/screenshot.png)
 
 ## Getting started
 

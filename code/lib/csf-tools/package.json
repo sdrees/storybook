@@ -41,7 +41,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/traverse": "^7.12.11",
     "@babel/types": "^7.12.11",
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "core-js": "^3.8.2",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",

@@ -1,9 +1,11 @@
+import { useStorybookApi } from '@storybook/api';
 import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Button, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
 import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react';
 
+import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import {
   ComponentNode,
   DocumentNode,
@@ -147,6 +149,7 @@ const Node = React.memo<NodeProps>(
     setExpanded,
     onSelectStoryId,
   }) => {
+    const api = useStorybookApi();
     if (!isDisplayed) return null;
 
     const id = createId(item.id, refId);
@@ -245,6 +248,14 @@ const Node = React.memo<NodeProps>(
           event.preventDefault();
           setExpanded({ ids: [item.id], value: !isExpanded });
           if (item.type === 'component' && !isExpanded) onSelectStoryId(item.id);
+        }}
+        onMouseEnter={() => {
+          if (item.isComponent) {
+            api.emit(PRELOAD_ENTRIES, {
+              ids: [item.children[0]],
+              options: { target: refId },
+            });
+          }
         }}
       >
         {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}

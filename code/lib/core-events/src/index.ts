@@ -19,7 +19,7 @@ enum events {
   // Force the current story to re-render from scratch, with its initial args
   FORCE_REMOUNT = 'forceRemount',
   // Request the story has been loaded into the store, ahead of time, before it's actually
-  PRELOAD_STORIES = 'preloadStories',
+  PRELOAD_ENTRIES = 'preloadStories',
   // The story has been loaded into the store, we have parameters/args/etc
   STORY_PREPARED = 'storyPrepared',
   // The next 6 events are emitted by the StoryRenderer when rendering the current story
@@ -78,7 +78,7 @@ export const {
   STORY_PREPARED,
   STORY_CHANGED,
   STORY_UNCHANGED,
-  PRELOAD_STORIES,
+  PRELOAD_ENTRIES,
   STORY_RENDERED,
   STORY_MISSING,
   STORY_ERRORED,
