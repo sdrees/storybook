@@ -7,9 +7,10 @@ import { exec } from './repro-generators/scripts';
 interface LinkOptions {
   target: string;
   local?: boolean;
+  start: boolean;
 }
 
-export const link = async ({ target, local }: LinkOptions) => {
+export const link = async ({ target, local, start }: LinkOptions) => {
   const storybookDir = process.cwd();
   try {
     const packageJson = JSON.parse(fse.readFileSync('package.json', 'utf8'));
@@ -58,6 +59,8 @@ export const link = async ({ target, local }: LinkOptions) => {
   );
   await exec(`yarn add -D webpack-hot-middleware`, { cwd: reproDir });
 
-  logger.info(`Running ${reproName} storybook`);
-  await exec(`yarn run storybook`, { cwd: reproDir });
+  if (start) {
+    logger.info(`Running ${reproName} storybook`);
+    await exec(`yarn run storybook`, { cwd: reproDir });
+  }
 };

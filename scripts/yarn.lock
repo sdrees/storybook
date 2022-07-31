@@ -3240,6 +3240,7 @@ __metadata:
     "@cypress/webpack-preprocessor": ^5.9.1
     "@emotion/babel-plugin": ^11.7.2
     "@emotion/jest": ^11.8.0
+    "@jest/globals": ^26.6.2
     "@linear/sdk": ^1.21.0
     "@nicolo-ribaudo/chokidar-2": ^2.1.8
     "@nrwl/cli": 12.3.4
@@ -3269,6 +3270,7 @@ __metadata:
     "@types/fs-extra": ^9.0.6
     "@types/jest": ^26.0.16
     "@types/js-yaml": ^3.12.6
+    "@types/lodash": ^4
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/node-cleanup": ^2.1.1
     "@types/node-fetch": ^2.5.7
@@ -3327,6 +3329,7 @@ __metadata:
     jest-watch-typeahead: ^0.6.1
     js-yaml: ^3.14.1
     lint-staged: ^10.5.4
+    lodash: ^4.17.21
     mocha-list-tests: ^1.0.5
     node-cleanup: ^2.1.2
     node-fetch: ^2.6.1
@@ -3811,6 +3814,13 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 6bf5337bc447b706bb5b4431d37686aa2ea6d07cfd6f79cc31de80170d6ff9b1c7384a9c0ccbc45b3f512bae9e9f75c2e12109806a15331dc94e8a8db6dbb4ac
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4":
+  version: 4.14.182
+  resolution: "@types/lodash@npm:4.14.182"
+  checksum: d6bd4789dfb3be631d5e3277e6a1be5becb21440f3364f5d15b982c2e6b6bb1f8048d46fc5bff5ef0f90bebaf4d07c49b2919ba369d07af72d3beb3fea70c61a
   languageName: node
   linkType: hard
 

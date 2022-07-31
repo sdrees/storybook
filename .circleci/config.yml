@@ -410,6 +410,20 @@ jobs:
           command: |
             cd code
             yarn lint
+  script-unit-tests:
+    executor: sb_node_14_browsers
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Test
+          command: |
+            cd scripts
+            yarn test --coverage --runInBand --ci
+      - store_test_results:
+          path: scripts/junit.xml
   unit-tests:
     executor: sb_node_14_browsers
     steps:
@@ -460,6 +474,9 @@ workflows:
           requires:
             - build
       - unit-tests:
+          requires:
+            - build
+      - script-unit-tests:
           requires:
             - build
       - coverage:
