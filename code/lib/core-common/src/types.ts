@@ -3,7 +3,7 @@ import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
 import type { Parameters } from '@storybook/csf';
-import type { PackageJson } from 'type-fest';
+import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 import type { FileSystemCache } from './utils/file-cache';
 
 /**
@@ -110,7 +110,7 @@ export interface BuilderResult {
   stats?: Stats;
 }
 
-export { PackageJson };
+export type PackageJson = PackageJsonFromTypeFest & Record<string, any>;
 
 // TODO: This could be exported to the outside world and used in `options.ts` file of each `@storybook/APP`
 // like it's described in docs/api/new-frameworks.md

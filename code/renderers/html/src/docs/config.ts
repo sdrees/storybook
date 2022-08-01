@@ -1,4 +1,4 @@
-import { SourceType } from '@storybook/docs-tools';
+import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
 import { sourceDecorator } from './sourceDecorator';
 
 export const decorators = [sourceDecorator];
@@ -15,3 +15,5 @@ export const parameters = {
     },
   },
 };
+
+export const argTypesEnhancers = [enhanceArgTypes];

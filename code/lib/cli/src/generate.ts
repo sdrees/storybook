@@ -13,6 +13,7 @@ import { migrate } from './migrate';
 import { extract } from './extract';
 import { upgrade } from './upgrade';
 import { repro } from './repro';
+import { reproNext } from './repro-next';
 import { link } from './link';
 import { automigrate } from './automigrate';
 import { generateStorybookBabelConfigInCWD } from './babel-config';
@@ -141,6 +142,18 @@ program
   .option('--e2e', 'Used in e2e context')
   .action((outputDirectory, { renderer, template, list, e2e, generator, pnp, local }) =>
     repro({ outputDirectory, renderer, template, list, e2e, local, generator, pnp }).catch((e) => {
+      logger.error(e);
+      process.exit(1);
+    })
+  );
+
+program
+  .command('repro-next [filterValue]')
+  .description('Create a reproduction from a set of possible templates')
+  .option('-o --output <outDir>', 'Define an output directory')
+  .option('-b --branch <branch>', 'Define the branch to degit from', 'next')
+  .action((filterValue, options) =>
+    reproNext({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
