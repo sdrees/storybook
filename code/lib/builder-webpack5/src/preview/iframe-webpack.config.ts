@@ -74,8 +74,8 @@ export default async (
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory
     `);
   }
-  const { name: frameworkName, options: frameworkOptions } =
-    typeof framework === 'string' ? { name: framework, options: {} } : framework;
+  const frameworkName = typeof framework === 'string' ? framework : framework.name;
+  const frameworkOptions = await presets.apply('frameworkOptions');
 
   const isProd = configType === 'PRODUCTION';
   const envs = await presets.apply<Record<string, string>>('env');
@@ -167,6 +167,10 @@ export default async (
 
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
+
+  const { NODE_OPTIONS, NODE_PRESERVE_SYMLINKS } = process.env;
+  const isPreservingSymlinks =
+    !!NODE_PRESERVE_SYMLINKS || NODE_OPTIONS?.includes('--preserve-symlinks');
 
   return {
     name: 'preview',
@@ -269,6 +273,9 @@ export default async (
         assert: require.resolve('browser-assert'),
         util: require.resolve('util'),
       },
+      // Set webpack to resolve symlinks based on whether the user has asked node to.
+      // This feels like it should be default out-of-the-box in webpack :shrug:
+      symlinks: !isPreservingSymlinks,
     },
     optimization: {
       splitChunks: {

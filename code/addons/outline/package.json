@@ -27,9 +27,32 @@
   },
   "license": "MIT",
   "author": "winkerVSbecks",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/preset/preview.js",
+      "import": "./dist/preset/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./register.js": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -38,7 +61,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.17",
@@ -68,6 +91,13 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx",
+      "./src/preset/preview.tsx"
+    ]
   },
   "gitHead": "7d44bfd3e759c6f17b75029ee2e067fab811f27b",
   "storybook": {

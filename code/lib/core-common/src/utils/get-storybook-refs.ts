@@ -50,7 +50,23 @@ export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>
 
 const checkRef = (url: string) =>
   fetch(`${url}/iframe.html`).then(
-    ({ ok }) => ok,
+    async ({ ok, status }) => {
+      if (ok) {
+        if (status !== 200) {
+          return false;
+        }
+
+        // so the status is ok, but if we'd ask for JSON we might get a response saying we need to authenticate.
+        const data = await fetch(`${url}/iframe.html`, {
+          headers: { Accept: 'application/json' },
+        });
+        // we might receive non-JSON as a response, because the service ignored our request for JSON response type.
+        if (data.ok && (await data.json().catch((e) => ({}))).loginUrl) {
+          return false;
+        }
+      }
+      return ok;
+    },
     () => false
   );
 

@@ -122,6 +122,28 @@ export const storyIndexers = async (indexers?: StoryIndexer[]) => {
   ];
 };
 
+export const frameworkOptions = async (
+  _: never,
+  options: Options
+): Promise<StorybookConfig['framework']> => {
+  const config = await options.presets.apply<StorybookConfig['framework']>('framework');
+
+  if (typeof config === 'string') {
+    return {
+      name: config,
+      options: {},
+    };
+  }
+  if (typeof config === 'undefined') {
+    return null;
+  }
+
+  return {
+    name: config.name,
+    options: config.options,
+  };
+};
+
 export const docs = (
   docsOptions: StorybookConfig['docs'],
   { docs: docsMode }: CLIOptions

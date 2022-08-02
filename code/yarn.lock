@@ -9009,6 +9009,7 @@ __metadata:
     enzyme: ^3.11.0
     enzyme-adapter-react-16: ^1.15.5
     esbuild: ^0.14.48
+    esbuild-loader: ^2.19.0
     esbuild-plugin-alias: ^0.2.1
     eslint: ^7.17.0
     eslint-plugin-cypress: ^2.11.2
@@ -20471,6 +20472,22 @@ __metadata:
   version: 0.14.49
   resolution: "esbuild-linux-s390x@npm:0.14.49"
   conditions: os=linux & cpu=s390x
+  languageName: node
+  linkType: hard
+
+"esbuild-loader@npm:^2.19.0":
+  version: 2.19.0
+  resolution: "esbuild-loader@npm:2.19.0"
+  dependencies:
+    esbuild: ^0.14.39
+    joycon: ^3.0.1
+    json5: ^2.2.0
+    loader-utils: ^2.0.0
+    tapable: ^2.2.0
+    webpack-sources: ^2.2.0
+  peerDependencies:
+    webpack: ^4.40.0 || ^5.0.0
+  checksum: 309b4bd169ffd1d743ad7099182323a179dec789cd5eb4f5f0258c1c13034a154917679e2402bfcedd90c9b03d06d773e97fe4aa1056274dc43d30633c5707e1
   languageName: node
   linkType: hard
 

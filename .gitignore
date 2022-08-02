@@ -8,6 +8,7 @@ dist
 .cache
 junit.xml
 /repros
+/sandbox
 
 # Yarn stuff
 /**/.yarn/*
@@ -17,4 +18,3 @@ junit.xml
 !/**/.yarn/versions
 /**/.pnp.*
 /yarn.lock
-./examples/

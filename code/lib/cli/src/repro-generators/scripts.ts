@@ -77,7 +77,6 @@ export const exec = async (
     });
 
     child.stderr.pipe(process.stderr);
-    child.stdout.pipe(process.stdout);
 
     child.on('exit', (code) => {
       if (code === 0) {
