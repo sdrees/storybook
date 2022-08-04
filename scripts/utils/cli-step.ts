@@ -1,5 +1,5 @@
 import { getCommand, OptionSpecifier, OptionValues } from './options';
-import { exec } from '../../code/lib/cli/src/repro-generators/scripts';
+import { exec } from './exec';
 
 const cliExecutable = require.resolve('../../code/lib/cli/bin/index.js');
 

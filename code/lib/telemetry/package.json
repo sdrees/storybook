@@ -1,6 +1,6 @@
 {
   "name": "@storybook/telemetry",
-  "version": "7.0.0-alpha.17",
+  "version": "7.0.0-alpha.18",
   "description": "Telemetry logging for crash reports and usage statistics",
   "keywords": [
     "storybook"
@@ -34,8 +34,8 @@
     "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.17",
-    "@storybook/core-common": "7.0.0-alpha.17",
+    "@storybook/client-logger": "7.0.0-alpha.18",
+    "@storybook/core-common": "7.0.0-alpha.18",
     "chalk": "^4.1.0",
     "core-js": "^3.8.2",
     "detect-package-manager": "^2.0.1",
@@ -52,5 +52,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "7d44bfd3e759c6f17b75029ee2e067fab811f27b"
+  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }

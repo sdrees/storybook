@@ -11,9 +11,11 @@ const SECTIONS = ['props', 'events', 'slots', 'methods'];
 function isEnum(propDef: PropDef, docgenInfo: DocgenInfo): false | PropDef {
   // cast as any, since "values" doesn't exist in DocgenInfo type
   const { type, values } = docgenInfo as any;
-  const matched = Array.isArray(values) && values.length && type.name !== 'enum';
+  const matched = Array.isArray(values) && values.length && type?.name !== 'enum';
 
-  if (!matched) return false;
+  if (!matched) {
+    return false;
+  }
 
   const enumString = values.join(', ');
   let { summary } = propDef.type;

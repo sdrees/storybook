@@ -14,12 +14,18 @@ interface ReproOptions {
   filterValue?: string;
   output?: string;
   branch?: string;
+  init?: boolean;
 }
 type Choice = keyof typeof TEMPLATES;
 
 const toChoices = (c: Choice): prompts.Choice => ({ title: TEMPLATES[c].name, value: c });
 
-export const reproNext = async ({ output: outputDirectory, filterValue, branch }: ReproOptions) => {
+export const reproNext = async ({
+  output: outputDirectory,
+  filterValue,
+  branch,
+  init,
+}: ReproOptions) => {
   const keys = Object.keys(TEMPLATES) as Choice[];
   // get value from template and reduce through TEMPLATES to filter out the correct template
   const choices = keys.reduce<Choice[]>((acc, group) => {
@@ -123,9 +129,10 @@ export const reproNext = async ({ output: outputDirectory, filterValue, branch }
 
     logger.log('📦 Downloading repro template...');
     try {
+      const templateType = init ? 'after-storybook' : 'before-storybook';
       // Download the repro based on subfolder "after-storybook" and selected branch
       await degit(
-        `storybookjs/repro-templates-temp/${selectedTemplate}/after-storybook#${branch}`,
+        `storybookjs/repro-templates-temp/${selectedTemplate}/${templateType}#${branch}`,
         {
           force: true,
         }
@@ -135,13 +142,17 @@ export const reproNext = async ({ output: outputDirectory, filterValue, branch }
       return;
     }
 
+    const initMessage = init
+      ? chalk.yellow(`yarn storybook`)
+      : `Recreate your setup, then ${chalk.yellow(`run npx storybook init`)}`;
+
     logger.info(
       boxen(
         dedent`
         🎉 Your Storybook reproduction project is ready to use! 🎉
 
         ${chalk.yellow(`cd ${selectedDirectory}`)}
-        ${chalk.yellow(`yarn storybook`)}
+        ${initMessage}
 
         Once you've recreated the problem you're experiencing, please:
         

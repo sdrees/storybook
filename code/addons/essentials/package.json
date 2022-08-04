@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.0.0-alpha.17",
+  "version": "7.0.0-alpha.18",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -33,25 +33,25 @@
     "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.17",
-    "@storybook/addon-backgrounds": "7.0.0-alpha.17",
-    "@storybook/addon-controls": "7.0.0-alpha.17",
-    "@storybook/addon-docs": "7.0.0-alpha.17",
-    "@storybook/addon-highlight": "7.0.0-alpha.17",
-    "@storybook/addon-measure": "7.0.0-alpha.17",
-    "@storybook/addon-outline": "7.0.0-alpha.17",
-    "@storybook/addon-toolbars": "7.0.0-alpha.17",
-    "@storybook/addon-viewport": "7.0.0-alpha.17",
-    "@storybook/addons": "7.0.0-alpha.17",
-    "@storybook/api": "7.0.0-alpha.17",
-    "@storybook/core-common": "7.0.0-alpha.17",
-    "@storybook/node-logger": "7.0.0-alpha.17",
+    "@storybook/addon-actions": "7.0.0-alpha.18",
+    "@storybook/addon-backgrounds": "7.0.0-alpha.18",
+    "@storybook/addon-controls": "7.0.0-alpha.18",
+    "@storybook/addon-docs": "7.0.0-alpha.18",
+    "@storybook/addon-highlight": "7.0.0-alpha.18",
+    "@storybook/addon-measure": "7.0.0-alpha.18",
+    "@storybook/addon-outline": "7.0.0-alpha.18",
+    "@storybook/addon-toolbars": "7.0.0-alpha.18",
+    "@storybook/addon-viewport": "7.0.0-alpha.18",
+    "@storybook/addons": "7.0.0-alpha.18",
+    "@storybook/api": "7.0.0-alpha.18",
+    "@storybook/core-common": "7.0.0-alpha.18",
+    "@storybook/node-logger": "7.0.0-alpha.18",
     "core-js": "^3.8.2",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/vue": "7.0.0-alpha.17",
+    "@storybook/vue": "7.0.0-alpha.18",
     "@types/jest": "^26.0.16",
     "typescript": "~4.6.3"
   },
@@ -99,5 +99,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "7d44bfd3e759c6f17b75029ee2e067fab811f27b"
+  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }

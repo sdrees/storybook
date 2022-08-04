@@ -1,3 +1,35 @@
+## 7.0.0-alpha.18 (August 2, 2022)
+
+#### Features
+
+-   CLI: Add temporary sb repro-next command that only degits repros [#18834](https://github.com/storybooks/storybook/pull/18834)
+-   Interactions: Add step function to play context [#18673](https://github.com/storybooks/storybook/pull/18673)
+-   UI: Add preloading to stories highlighted in the sidebar [#17964](https://github.com/storybooks/storybook/pull/17964)
+
+#### Bug Fixes
+
+-   UI: Fix refs with authentication being broken if the fetch for `iframe.html` succeeds (but with a request to authenticate) [#18160](https://github.com/storybooks/storybook/pull/18160)
+-   HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
+-   React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
+-   CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
+-   CLI: Fix package.json version detection [#18806](https://github.com/storybooks/storybook/pull/18806)
+
+#### Maintenance
+
+-   Build: Use ts-up to build `addon-outline` [#18842](https://github.com/storybooks/storybook/pull/18842)
+-   Core: Fix default framework options handling [#18676](https://github.com/storybooks/storybook/pull/18676)
+-   Build: Use tsup to build `addon-measure` and fix related imports in `examples/official-storybook` [#18837](https://github.com/storybooks/storybook/pull/18837)
+-   Build: Use tsup to build addon-jest [#18836](https://github.com/storybooks/storybook/pull/18836)
+-   Examples: Use `repro-next` in the example script! [#18839](https://github.com/storybooks/storybook/pull/18839)
+-   Examples: Rename `example` => `sandbox` [#18838](https://github.com/storybooks/storybook/pull/18838)
+-   Examples: Use a set of test components in addon stories [#18825](https://github.com/storybooks/storybook/pull/18825)
+-   Examples: Copy example stories over from renderer + addons [#18824](https://github.com/storybooks/storybook/pull/18824)
+-   Examples: Set `resolve.symlinks` based on node option [#18827](https://github.com/storybooks/storybook/pull/18827)
+-   Examples: Add command to publish repros + GH action [#18800](https://github.com/storybooks/storybook/pull/18800)
+-   Examples: Create a new `yarn example` command [#18781](https://github.com/storybooks/storybook/pull/18781)
+-   Build: Fix yarn build command [#18817](https://github.com/storybooks/storybook/pull/18817)
+-   Build: Use tsup to build core-event [#18798](https://github.com/storybooks/storybook/pull/18798)
+
 ## 7.0.0-alpha.17 (July 27, 2022)
 
 #### Features

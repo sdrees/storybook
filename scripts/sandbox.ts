@@ -5,7 +5,8 @@ import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
-import { exec } from '../code/lib/cli/src/repro-generators/scripts';
+import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from './utils/yarn';
+import { exec } from './utils/exec';
 import { getInterpretedFile } from '../code/lib/core-common';
 import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
@@ -134,7 +135,7 @@ async function addPackageScripts({
   cwd: string;
   scripts: Record<string, string>;
 }) {
-  logger.info(`🔢 Adding package resolutions:`);
+  logger.info(`🔢 Adding package scripts:`);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   packageJson.scripts = {
@@ -159,7 +160,7 @@ const webpackFinalCode = `
       ...config.modules,
       rules: [
         {
-          test: [/\\/node_modules\\/@storybook\\/[^/]*\\/template\\/stories\\//],
+          test: [/\\/code\\/[^/]*\\/[^/]*\\/template\\/stories\\//],
           loader: '${loaderPath}',
           options: {
             loader: 'tsx',
@@ -171,7 +172,7 @@ const webpackFinalCode = `
     },
   })`;
 
-// paths are of the form 'node_modules/@storybook/react'
+// paths are of the form 'renderers/react', 'addons/actions'
 async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
   const extraStoryDirsAndExistence = await Promise.all(
@@ -180,9 +181,10 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
       .map(async (p) => [p, await pathExists(path.resolve(codeDir, p))] as const)
   );
 
+  const relativeCodeDir = path.join('..', '..', '..', 'code');
   const extraStories = extraStoryDirsAndExistence
     .filter(([, exists]) => exists)
-    .map(([p]) => path.join('..', p, '*.stories.@(js|jsx|ts|tsx)'));
+    .map(([p]) => path.join(relativeCodeDir, p, '*.stories.@(js|jsx|ts|tsx)'));
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
 
   mainConfig.setFieldNode(
@@ -228,7 +230,8 @@ async function main() {
     const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
     // Link in the template/components/index.js from the renderer
-    const rendererPath = path.join('node_modules', templateConfig.expected.renderer);
+    const rendererName = templateConfig.expected.renderer.split('/')[1];
+    const rendererPath = path.join('renderers', rendererName);
     await ensureSymlink(
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
@@ -252,34 +255,53 @@ async function main() {
     }
 
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
-      storiesToAdd.push(path.join('node_modules', '@storybook', `addon-${addon}`));
+      storiesToAdd.push(path.join('addons', addon));
     }
     await addStories(storiesToAdd, { mainConfig });
 
     await writeConfig(mainConfig);
 
+    await installYarn2({ cwd, dryRun });
     if (link) {
-      await exec('yarn set version berry', { cwd }, { dryRun });
-      await exec('yarn config set enableGlobalCache true', { cwd }, { dryRun });
-      await exec('yarn config set nodeLinker node-modules', { cwd }, { dryRun });
-
       await executeCLIStep(steps.link, {
         argument: cwd,
         cwd: codeDir,
         dryRun,
         optionValues: { local: true, start: false },
       });
+    } else {
+      await exec('yarn local-registry --publish', { cwd: codeDir }, { dryRun });
 
-      await addPackageScripts({
-        cwd,
-        scripts: {
-          storybook:
-            'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook dev -p 6006',
-          'build-storybook':
-            'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook build',
-        },
-      });
+      // NOTE: this is a background task and will run forever (TODO: sort out logging/exiting)
+      exec('CI=true yarn local-registry --open', { cwd: codeDir }, { dryRun });
+      await exec('yarn wait-on http://localhost:6000', { cwd: codeDir }, { dryRun });
+
+      // We need to add package resolutions to ensure that we only ever install the latest version
+      // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
+      // the top. In theory this could mask issues where different versions cause problems.
+      await addPackageResolutions({ cwd, dryRun });
+      await configureYarn2ForVerdaccio({ cwd, dryRun });
+
+      await exec(
+        'yarn install',
+        { cwd },
+        {
+          dryRun,
+          startMessage: `⬇️ Installing local dependencies`,
+          errorMessage: `🚨 Installing local dependencies failed`,
+        }
+      );
     }
+
+    await addPackageScripts({
+      cwd,
+      scripts: {
+        storybook:
+          'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook dev -p 6006',
+        'build-storybook':
+          'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook build',
+      },
+    });
   }
 
   const { start } = optionValues;

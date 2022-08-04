@@ -601,8 +601,19 @@ export function instrument<TObj extends Record<string, any>>(
   options: Options = {}
 ): TObj {
   try {
-    // Don't do any instrumentation if not loaded in an iframe.
-    if (global.window.parent === global.window) return obj;
+    let forceInstrument = false;
+    let skipInstrument = false;
+
+    if (global.window.location?.search?.includes('instrument=true')) {
+      forceInstrument = true;
+    } else if (global.window.location?.search?.includes('instrument=false')) {
+      skipInstrument = true;
+    }
+
+    // Don't do any instrumentation if not loaded in an iframe unless it's forced - instrumentation can also be skipped.
+    if ((global.window.parent === global.window && !forceInstrument) || skipInstrument) {
+      return obj;
+    }
 
     // Only create an instance if we don't have one (singleton) yet.
     if (!global.window.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER__) {
