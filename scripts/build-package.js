@@ -116,7 +116,7 @@ async function run() {
     const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.prepare;
     const cwd = resolve(__dirname, '..', 'code', v.location);
     const sub = require('execa').command(
-      `yarn ${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
+      `${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
       {
         cwd,
         buffer: false,
