@@ -2,7 +2,7 @@
 title: 'CLI options'
 ---
 
-Storybook comes with two CLI utilities: `start-storybook` and `build-storybook`.
+Storybook comes with two CLI utilities: [`start-storybook`](#start-storybook) and [`build-storybook`](#build-storybook).
 
 <div class="aside">
   
