@@ -10,7 +10,7 @@ const markdownCaption = `
 
 The group looked like tall, exotic grazing animals, swaying gracefully and unconsciously with the movement of the train, their high heels like polished hooves against the gray metal of the Flatline as a construct, a hardwired ROM cassette replicating a dead man’s skills, obsessions, kneejerk responses.
 
-![An image](http://place-hold.it/350x150)
+![An image](https://storybook.js.org/images/placeholders/350x150.png)
 
 He stared at the clinic, Molly took him to the Tank War, mouth touched with hot gold as a gliding cursor struck sparks from the wall of a skyscraper canyon.
 `;

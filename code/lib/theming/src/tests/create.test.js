@@ -74,14 +74,14 @@ describe('create brand', () => {
   it('should accept values', () => {
     const result = create({
       base: 'light',
-      brandImage: 'https://place-hold.it/350x150',
+      brandImage: 'https://storybook.js.org/images/placeholders/350x150.png',
       brandTitle: 'my custom storybook',
       brandUrl: 'https://example.com',
       brandTarget: '_top',
     });
 
     expect(result).toMatchObject({
-      brandImage: 'https://place-hold.it/350x150',
+      brandImage: 'https://storybook.js.org/images/placeholders/350x150.png',
       brandTitle: 'my custom storybook',
       brandUrl: 'https://example.com',
       brandTarget: '_top',

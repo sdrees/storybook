@@ -98,7 +98,7 @@ storiesOf('Button').addWithInfo(
       </a>
     </p>
     <p>
-      <img src="http://place-hold.it/350x150" />
+      <img src="https://storybook.js.org/images/placeholders/350x150.png" />
     </p>
   </div>,
   () => (
@@ -128,7 +128,7 @@ storiesOf('Button').addWithInfo(
       </a>
     </p>
     <p>
-      <img src="http://place-hold.it/350x150" />
+      <img src="https://storybook.js.org/images/placeholders/350x150.png" />
     </p>
   </div>,
   () => <Button label="The Button" onClick={action('onClick')} />,

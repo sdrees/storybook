@@ -21,10 +21,10 @@ export const DefaultStyle = () => (
       <ExampleIcon icon="facehappy" />
     </IconItem>
     <IconItem name="bar">
-      <img src="https://place-hold.it/50x50" alt="example" />
+      <img src="https://storybook.js.org/images/placeholders/50x50.png" alt="example" />
     </IconItem>
     <IconItem name="bar">
-      <img src="https://place-hold.it/50x50" alt="example" />
+      <img src="https://storybook.js.org/images/placeholders/50x50.png" alt="example" />
     </IconItem>
   </IconGallery>
 );

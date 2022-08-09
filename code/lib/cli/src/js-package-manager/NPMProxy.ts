@@ -6,6 +6,8 @@ export class NPMProxy extends JsPackageManager {
 
   installArgs: string[] | undefined;
 
+  uninstallArgs: string[] | undefined;
+
   initPackageJson() {
     return this.executeCommand('npm', ['init', '-y']);
   }
@@ -49,6 +51,15 @@ export class NPMProxy extends JsPackageManager {
     return this.installArgs;
   }
 
+  getUninstallArgs(): string[] {
+    if (!this.uninstallArgs) {
+      this.uninstallArgs = this.needsLegacyPeerDeps(this.getNpmVersion())
+        ? ['uninstall', '--legacy-peer-deps']
+        : ['uninstall'];
+    }
+    return this.uninstallArgs;
+  }
+
   protected runInstall(): void {
     this.executeCommand('npm', this.getInstallArgs(), 'inherit');
   }
@@ -61,6 +72,12 @@ export class NPMProxy extends JsPackageManager {
     }
 
     this.executeCommand('npm', [...this.getInstallArgs(), ...args], 'inherit');
+  }
+
+  protected runRemoveDeps(dependencies: string[]): void {
+    const args = [...dependencies];
+
+    this.executeCommand('npm', [...this.getUninstallArgs(), ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

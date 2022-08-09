@@ -131,6 +131,45 @@ export abstract class JsPackageManager {
   }
 
   /**
+   * Remove dependencies from a project using `yarn remove` or `npm uninstall`.
+   *
+   * @param {Object} options contains `skipInstall`, `packageJson` and `installAsDevDependencies` which we use to determine how we install packages.
+   * @param {Array} dependencies contains a list of packages to remove.
+   * @example
+   * removeDependencies(options, [
+   *   `@storybook/react`,
+   *   `@storybook/addon-actions`,
+   * ]);
+   */
+  public removeDependencies(
+    options: {
+      skipInstall?: boolean;
+      packageJson?: PackageJson;
+    },
+    dependencies: string[]
+  ): void {
+    const { skipInstall } = options;
+
+    if (skipInstall) {
+      const { packageJson } = options;
+
+      dependencies.forEach((dep) => {
+        delete packageJson[dep];
+      }, {});
+
+      writePackageJson(packageJson);
+    } else {
+      try {
+        this.runRemoveDeps(dependencies);
+      } catch (e) {
+        logger.error('An error occurred while removing dependencies.');
+        logger.log(e.message);
+        process.exit(1);
+      }
+    }
+  }
+
+  /**
    * Return an array of strings matching following format: `<package_name>@<package_latest_version>`
    *
    * @param packages
@@ -267,6 +306,8 @@ export abstract class JsPackageManager {
   protected abstract runInstall(): void;
 
   protected abstract runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void;
+
+  protected abstract runRemoveDeps(dependencies: string[]): void;
 
   /**
    * Get the latest or all versions of the input package available on npmjs.com

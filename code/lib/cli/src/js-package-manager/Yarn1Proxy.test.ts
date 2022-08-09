@@ -45,6 +45,22 @@ describe('Yarn 1 Proxy', () => {
     });
   });
 
+  describe('removeDependencies', () => {
+    it('should run `yarn remove --ignore-workspace-root-check @storybook/addons`', () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
+
+      yarn1Proxy.removeDependencies({}, ['@storybook/addons']);
+
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        'yarn',
+        ['remove', '--ignore-workspace-root-check', '@storybook/addons'],
+        expect.any(String)
+      );
+    });
+
+    it.todo('with devDep it should update package json without running yarn remove');
+  });
+
   describe('latestVersion', () => {
     it('without constraint it returns the latest version', async () => {
       const executeCommandSpy = jest

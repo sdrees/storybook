@@ -1,17 +1,22 @@
-import shell, { ExecOptions } from 'shelljs';
+/* eslint-disable no-await-in-loop, no-restricted-syntax */
+import execa, { Options } from 'execa';
 import chalk from 'chalk';
 
 const logger = console;
 
+type StepOptions = {
+  startMessage?: string;
+  errorMessage?: string;
+  dryRun?: boolean;
+  debug?: boolean;
+};
+
 export const exec = async (
-  command: string,
-  options: ExecOptions = {},
-  {
-    startMessage,
-    errorMessage,
-    dryRun,
-  }: { startMessage?: string; errorMessage?: string; dryRun?: boolean } = {}
-) => {
+  command: string | string[],
+  options: Options = {},
+  { startMessage, errorMessage, dryRun, debug }: StepOptions = {}
+): Promise<void> => {
+  logger.info();
   if (startMessage) logger.info(startMessage);
 
   if (dryRun) {
@@ -19,28 +24,24 @@ export const exec = async (
     return undefined;
   }
 
-  logger.debug(command);
-  return new Promise((resolve, reject) => {
-    const defaultOptions: ExecOptions = {
-      silent: false,
-    };
-    const child = shell.exec(command, {
-      ...defaultOptions,
-      ...options,
-      async: true,
-      silent: false,
-    });
-
-    child.stderr.pipe(process.stderr);
-
-    child.on('exit', (code) => {
-      if (code === 0) {
-        resolve(undefined);
-      } else {
-        logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
-        logger.log(errorMessage);
-        reject(new Error(`command exited with code: ${code}: `));
+  const defaultOptions: Options = {
+    stdout: debug ? 'inherit' : 'ignore',
+  };
+  try {
+    if (typeof command === 'string') {
+      logger.debug(`> ${command}`);
+      await execa.command(command, { ...defaultOptions, ...options });
+    } else {
+      for (const subcommand of command) {
+        logger.debug(`> ${subcommand}`);
+        await execa.command(subcommand, { ...defaultOptions, ...options });
       }
-    });
-  });
+    }
+  } catch (err) {
+    logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
+    logger.log(errorMessage);
+    throw err;
+  }
+
+  return undefined;
 };

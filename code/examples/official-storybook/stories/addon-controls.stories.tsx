@@ -98,7 +98,7 @@ Action.args = {
 
 export const ImageFileControl = (args) => <img src={args.imageUrls[0]} alt="Your Example Story" />;
 ImageFileControl.args = {
-  imageUrls: ['http://place-hold.it/350x150'],
+  imageUrls: ['https://storybook.js.org/images/placeholders/350x150.png'],
 };
 
 export const CustomControls = Template.bind({});

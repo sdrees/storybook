@@ -29,6 +29,12 @@ export class Yarn1Proxy extends JsPackageManager {
     this.executeCommand('yarn', ['add', ...args], 'inherit');
   }
 
+  protected runRemoveDeps(dependencies: string[]): void {
+    const args = ['--ignore-workspace-root-check', ...dependencies];
+
+    this.executeCommand('yarn', ['remove', ...args], 'inherit');
+  }
+
   protected runGetVersions<T extends boolean>(
     packageName: string,
     fetchAllVersions: T

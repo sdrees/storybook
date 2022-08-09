@@ -1,11 +1,11 @@
 import prompts from 'prompts';
-import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 import degit from 'degit';
 
+import { existsSync } from 'fs-extra';
 import TEMPLATES from './repro-templates';
 
 const logger = console;
@@ -56,9 +56,10 @@ export const reproNext = async ({
       boxen(
         dedent`
           🔎 You filtered out all templates. 🔍
+          
           After filtering all the templates with "${chalk.yellow(
             filterValue
-          )}", we found no templates.
+          )}", we found no results. Please try again with a different filter.
 
           Available templates:
           ${keys.map((key) => chalk.blue`- ${key}`).join('\n')}
@@ -66,7 +67,7 @@ export const reproNext = async ({
         { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
       )
     );
-    return;
+    process.exit(1);
   }
 
   let selectedTemplate: Choice | null = null;
@@ -106,14 +107,19 @@ export const reproNext = async ({
   }
 
   let selectedDirectory = outputDirectory;
+  const outputDirectoryName = outputDirectory || selectedTemplate;
+  if (selectedDirectory && existsSync(`${selectedDirectory}`)) {
+    logger.info(`⚠️  ${selectedDirectory} already exists! Overwriting...`);
+  }
+
   if (!selectedDirectory) {
     const { directory } = await prompts({
       type: 'text',
       message: 'Enter the output directory',
       name: 'directory',
-      initial: selectedTemplate,
-      validate: (directoryName) =>
-        fs.existsSync(directoryName)
+      initial: outputDirectoryName,
+      validate: async (directoryName) =>
+        existsSync(directoryName)
           ? `${directoryName} already exists. Please choose another name.`
           : true,
     });
@@ -121,11 +127,11 @@ export const reproNext = async ({
   }
 
   try {
-    const cwd = path.isAbsolute(selectedDirectory)
+    const templateDestination = path.isAbsolute(selectedDirectory)
       ? selectedDirectory
       : path.join(process.cwd(), selectedDirectory);
 
-    logger.info(`🏃 Adding ${selectedConfig.name} into ${cwd}`);
+    logger.info(`🏃 Adding ${selectedConfig.name} into ${templateDestination}`);
 
     logger.log('📦 Downloading repro template...');
     try {
@@ -136,10 +142,10 @@ export const reproNext = async ({
         {
           force: true,
         }
-      ).clone(selectedTemplate.replace('/', '-'));
+      ).clone(templateDestination);
     } catch (err) {
       logger.error(`🚨 Failed to download repro template: ${err.message}`);
-      return;
+      throw err;
     }
 
     const initMessage = init

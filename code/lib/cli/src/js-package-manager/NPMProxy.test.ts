@@ -75,6 +75,35 @@ describe('NPM Proxy', () => {
     });
   });
 
+  describe('removeDependencies', () => {
+    describe('npm6', () => {
+      it('with devDep it should run `npm uninstall @storybook/addons`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('6.0.0');
+
+        npmProxy.removeDependencies({}, ['@storybook/addons']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['uninstall', '@storybook/addons'],
+          expect.any(String)
+        );
+      });
+    });
+    describe('npm7', () => {
+      it('with devDep it should run `npm uninstall @storybook/addons`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
+
+        npmProxy.removeDependencies({}, ['@storybook/addons']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['uninstall', '--legacy-peer-deps', '@storybook/addons'],
+          expect.any(String)
+        );
+      });
+    });
+  });
+
   describe('latestVersion', () => {
     it('without constraint it returns the latest version', async () => {
       const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('"5.3.19"');

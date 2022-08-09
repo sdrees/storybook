@@ -1,6 +1,6 @@
 import { Yarn2Proxy } from './Yarn2Proxy';
 
-describe('Yarn 1 Proxy', () => {
+describe('Yarn 2 Proxy', () => {
   let yarn2Proxy: Yarn2Proxy;
 
   beforeEach(() => {
@@ -43,6 +43,21 @@ describe('Yarn 1 Proxy', () => {
         expect.any(String)
       );
     });
+  });
+
+  describe('removeDependencies', () => {
+    it('it should run `yarn remove @storybook/addons`', () => {
+      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
+
+      yarn2Proxy.removeDependencies({}, ['@storybook/addons']);
+
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        'yarn',
+        ['remove', '@storybook/addons'],
+        expect.any(String)
+      );
+    });
+    it.todo('with devDep it should update package json without running yarn remove');
   });
 
   describe('latestVersion', () => {

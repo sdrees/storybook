@@ -5,6 +5,8 @@
 import prompts, { Falsy, PrevCaller, PromptType } from 'prompts';
 import type { PromptObject } from 'prompts';
 import program from 'commander';
+import dedent from 'ts-dedent';
+import chalk from 'chalk';
 import kebabCase from 'lodash/kebabCase';
 
 // Option types
@@ -125,8 +127,14 @@ export function getOptions<TOptions extends OptionSpecifier>(
       if (isBooleanOption(option)) return acc.option(flags, option.description, !!option.inverse);
 
       const checkStringValue = (raw: string) => {
-        if (!option.values.includes(raw))
-          throw new Error(`Unexpected value '${raw}' for option '${key}'`);
+        if (!option.values.includes(raw)) {
+          const possibleOptions = chalk.cyan(option.values.join(', '));
+          throw new Error(
+            dedent`Unexpected value '${chalk.yellow(raw)}' for option '${chalk.magenta(key)}'.
+            
+            These are the possible options: ${possibleOptions}\n\n`
+          );
+        }
         return raw;
       };
 

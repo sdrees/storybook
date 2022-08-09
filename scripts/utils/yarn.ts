@@ -7,7 +7,8 @@ import storybookVersions from '../../code/lib/cli/src/versions';
 
 export type YarnOptions = {
   cwd: string;
-  dryRun?: boolean;
+  dryRun: boolean;
+  debug: boolean;
 };
 
 const logger = console;
@@ -22,7 +23,7 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
-export const installYarn2 = async ({ cwd, dryRun }: YarnOptions) => {
+export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   const command = [
     `yarn set version berry`,
     // Use the global cache so we aren't re-caching dependencies each time we run sandbox
@@ -31,13 +32,18 @@ export const installYarn2 = async ({ cwd, dryRun }: YarnOptions) => {
   ];
 
   await exec(
-    command.join(' && '),
+    command,
     { cwd },
-    { dryRun, startMessage: `🧶 Installing Yarn 2`, errorMessage: `🚨 Installing Yarn 2 failed` }
+    {
+      dryRun,
+      debug,
+      startMessage: `🧶 Installing Yarn 2`,
+      errorMessage: `🚨 Installing Yarn 2 failed`,
+    }
   );
 };
 
-export const configureYarn2ForVerdaccio = async ({ cwd, dryRun }: YarnOptions) => {
+export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOptions) => {
   const command = [
     // We don't want to use the cache or we might get older copies of our built packages
     // (with identical versions), as yarn (correctly I guess) assumes the same version hasn't changed
@@ -53,11 +59,16 @@ export const configureYarn2ForVerdaccio = async ({ cwd, dryRun }: YarnOptions) =
     `yarn config set enableImmutableInstalls false`,
     // Discard all YN0013 - FETCH_NOT_CACHED messages
     `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`,
-  ].join(' && ');
+  ];
 
   await exec(
     command,
     { cwd },
-    { startMessage: `🎛 Configuring Yarn 2`, errorMessage: `🚨 Configuring Yarn 2 failed`, dryRun }
+    {
+      dryRun,
+      debug,
+      startMessage: `🎛 Configuring Yarn 2`,
+      errorMessage: `🚨 Configuring Yarn 2 failed`,
+    }
   );
 };

@@ -21,7 +21,7 @@ const fakemenu = [
   { title: 'has icon', left: <MenuItemIcon icon="check" />, id: 'icon' },
   {
     title: 'has imgSrc',
-    left: <MenuItemIcon imgSrc="https://via.placeholder.com/20" />,
+    left: <MenuItemIcon imgSrc="https://storybook.js.org/images/placeholders/20x20.png" />,
     id: 'img',
   },
   { title: 'has neither', left: <MenuItemIcon />, id: 'non' },
