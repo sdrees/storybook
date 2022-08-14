@@ -1,6 +1,6 @@
 import { opacify } from 'polished';
 import { background, typography, color } from './base';
-import { StorybookTheme, Color, ThemeVars } from './types';
+import type { Color, ThemeVars, StorybookTheme } from './types';
 import { easing, animation } from './animation';
 import { create as createSyntax, chromeLight, chromeDark } from './modules/syntax';
 import { getPreferredColorScheme } from './utils';

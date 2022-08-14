@@ -3,6 +3,8 @@ import { dedent } from 'ts-dedent';
 import semver from '@storybook/semver';
 import { getStorybookInfo } from '@storybook/core-common';
 import { Fix } from '../types';
+import { getStorybookVersionSpecifier } from '../../helpers';
+import { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 
 interface SbScriptsRunOptions {
   storybookScripts: {
@@ -10,6 +12,7 @@ interface SbScriptsRunOptions {
     official: Record<string, string>;
   };
   storybookVersion: string;
+  packageJson: PackageJsonWithDepsAndDevDeps;
 }
 
 const logger = console;
@@ -76,7 +79,9 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
         .replace('build-storybook', 'storybook build');
     });
 
-    return semver.gte(storybookCoerced, '6.0.0') ? { storybookScripts, storybookVersion } : null;
+    return semver.gte(storybookCoerced, '7.0.0')
+      ? { packageJson, storybookScripts, storybookVersion }
+      : null;
   },
 
   prompt({ storybookVersion }) {
@@ -104,13 +109,16 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
       .join('\n\n');
   },
 
-  async run({ result: { storybookScripts }, packageManager, dryRun }) {
+  async run({ result: { storybookScripts, packageJson }, packageManager, dryRun }) {
     logger.log();
     logger.info(`Adding 'storybook' as dev dependency`);
     logger.log();
 
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, ['storybook']);
+      const versionToInstall = getStorybookVersionSpecifier(packageJson);
+      packageManager.addDependencies({ installAsDevDependencies: true }, [
+        `storybook@${versionToInstall}`,
+      ]);
     }
 
     logger.info(`Updating scripts in package.json`);

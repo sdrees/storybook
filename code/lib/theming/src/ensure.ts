@@ -4,7 +4,7 @@ import { deletedDiff } from 'deep-object-diff';
 import { dedent } from 'ts-dedent';
 
 import light from './themes/light';
-import { StorybookTheme, ThemeVars } from './types';
+import type { ThemeVars, StorybookTheme } from './types';
 import { convert } from './convert';
 
 export const ensure = (input: ThemeVars): StorybookTheme => {

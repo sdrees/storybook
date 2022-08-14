@@ -1,4 +1,4 @@
-import { create } from '@storybook/theming';
+import { create } from '@storybook/theming/create';
 import { addons } from '@storybook/addons';
 
 addons.setConfig({

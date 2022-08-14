@@ -1,1 +1,1 @@
-export * from './dist/index.mjs';
+module.exports = require('./dist/create');

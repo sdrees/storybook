@@ -88,16 +88,18 @@ describe('sb scripts fix', () => {
           checkSbScripts({
             packageJson,
           })
-        ).resolves.toEqual({
-          storybookScripts: {
-            official: {
-              storybook: 'storybook dev -p 6006',
-              'build-storybook': 'storybook build -o build/storybook',
+        ).resolves.toEqual(
+          expect.objectContaining({
+            storybookScripts: {
+              official: {
+                storybook: 'storybook dev -p 6006',
+                'build-storybook': 'storybook build -o build/storybook',
+              },
+              custom: {},
             },
-            custom: {},
-          },
-          storybookVersion: '^7.0.0-alpha.0',
-        });
+            storybookVersion: '^7.0.0-alpha.0',
+          })
+        );
       });
     });
 
@@ -122,18 +124,20 @@ describe('sb scripts fix', () => {
           checkSbScripts({
             packageJson,
           })
-        ).resolves.toEqual({
-          storybookScripts: {
-            custom: {
-              'sb:start': 'start-storybook -p 6006',
-              'sb:build': 'build-storybook -o buid/storybook',
-              'test-storybook:ci':
-                'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
+        ).resolves.toEqual(
+          expect.objectContaining({
+            storybookScripts: {
+              custom: {
+                'sb:start': 'start-storybook -p 6006',
+                'sb:build': 'build-storybook -o buid/storybook',
+                'test-storybook:ci':
+                  'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
+              },
+              official: {},
             },
-            official: {},
-          },
-          storybookVersion: '^7.0.0-alpha.0',
-        });
+            storybookVersion: '^7.0.0-alpha.0',
+          })
+        );
       });
 
       describe('with old official and custom scripts', () => {
@@ -156,19 +160,21 @@ describe('sb scripts fix', () => {
             checkSbScripts({
               packageJson,
             })
-          ).resolves.toEqual({
-            storybookScripts: {
-              custom: {
-                'storybook:build': 'build-storybook -o buid/storybook',
-                'test-storybook:ci':
-                  'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
+          ).resolves.toEqual(
+            expect.objectContaining({
+              storybookScripts: {
+                custom: {
+                  'storybook:build': 'build-storybook -o buid/storybook',
+                  'test-storybook:ci':
+                    'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
+                },
+                official: {
+                  storybook: 'storybook dev -p 6006',
+                },
               },
-              official: {
-                storybook: 'storybook dev -p 6006',
-              },
-            },
-            storybookVersion: '^7.0.0-alpha.0',
-          });
+              storybookVersion: '^7.0.0-alpha.0',
+            })
+          );
         });
       });
 

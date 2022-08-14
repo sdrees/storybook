@@ -108,4 +108,28 @@ describe('Helpers', () => {
       helpers.copyComponents(framework, SupportedLanguage.JAVASCRIPT)
     ).rejects.toThrowError(expectedMessage);
   });
+
+  describe('getStorybookVersionSpecifier', () => {
+    it(`should return the specifier if storybook lib exists in package.json`, () => {
+      expect(
+        helpers.getStorybookVersionSpecifier({
+          dependencies: {},
+          devDependencies: {
+            '@storybook/react': '^x.x.x',
+          },
+        })
+      ).toEqual('^x.x.x');
+    });
+
+    it(`should throw an error if no package is found`, () => {
+      expect(() => {
+        helpers.getStorybookVersionSpecifier({
+          dependencies: {},
+          devDependencies: {
+            'something-else': '^x.x.x',
+          },
+        });
+      }).toThrowError("Couldn't find any official storybook packages in package.json");
+    });
+  });
 });

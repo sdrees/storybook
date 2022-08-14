@@ -11,6 +11,7 @@ import type { StorybookConfig, PackageJson } from '@storybook/core-common';
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
 import { getMonorepoType } from './get-monorepo-type';
+import { cleanPaths } from './sanitize';
 
 export const metaFrameworks = {
   next: 'Next',
@@ -45,6 +46,15 @@ const getFrameworkOptions = (mainConfig: any) => {
   }
 
   return undefined;
+};
+
+export const sanitizeAddonName = (name: string) => {
+  return cleanPaths(name)
+    .replace(/\/dist\/.*/, '')
+    .replace(/\.[mc]?[tj]?s[x]?$/, '')
+    .replace(/\/register$/, '')
+    .replace(/\/manager$/, '')
+    .replace(/\/preset$/, '');
 };
 
 // Analyze a combination of information from main.js and package.json
@@ -128,16 +138,17 @@ export const computeStorybookMetadata = async ({
   const addons: Record<string, StorybookAddon> = {};
   if (mainConfig.addons) {
     mainConfig.addons.forEach((addon) => {
-      let result;
+      let addonName;
       let options;
+
       if (typeof addon === 'string') {
-        result = addon.replace('/register', '').replace('/preset', '');
+        addonName = sanitizeAddonName(addon);
       } else {
         options = addon.options;
-        result = addon.name;
+        addonName = sanitizeAddonName(addon.name);
       }
 
-      addons[result] = {
+      addons[addonName] = {
         options,
         version: undefined,
       };

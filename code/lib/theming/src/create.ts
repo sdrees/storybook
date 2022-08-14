@@ -2,7 +2,7 @@
 import lightThemeVars from './themes/light';
 import darkThemeVars from './themes/dark';
 
-import { ThemeVars } from './types';
+import type { ThemeVars } from './types';
 import { getPreferredColorScheme } from './utils';
 
 export const themes: { light: ThemeVars; dark: ThemeVars; normal: ThemeVars } = {

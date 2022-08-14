@@ -154,8 +154,13 @@ export abstract class JsPackageManager {
       const { packageJson } = options;
 
       dependencies.forEach((dep) => {
-        delete packageJson[dep];
-      }, {});
+        if (packageJson.devDependencies) {
+          delete packageJson.devDependencies[dep];
+        }
+        if (packageJson.dependencies) {
+          delete packageJson.dependencies[dep];
+        }
+      });
 
       writePackageJson(packageJson);
     } else {

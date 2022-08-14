@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-links",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-alpha.19",
   "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",
@@ -21,9 +21,37 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./react": {
+      "require": "./dist/react/index.js",
+      "import": "./dist/react/index.mjs",
+      "types": "./dist/react.d.ts"
+    },
+    "./register.js": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -32,14 +60,14 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.18",
-    "@storybook/client-logger": "7.0.0-alpha.18",
-    "@storybook/core-events": "7.0.0-alpha.18",
+    "@storybook/addons": "7.0.0-alpha.19",
+    "@storybook/client-logger": "7.0.0-alpha.19",
+    "@storybook/core-events": "7.0.0-alpha.19",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/router": "7.0.0-alpha.18",
+    "@storybook/router": "7.0.0-alpha.19",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
@@ -63,7 +91,15 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.ts",
+      "./src/preview.ts",
+      "./src/react/index.ts"
+    ]
+  },
+  "gitHead": "74bdb53f67dd59bae2661c668d2d5d4296113281",
   "storybook": {
     "displayName": "Links",
     "icon": "https://user-images.githubusercontent.com/263385/101991673-48355c80-3c7c-11eb-9b6e-b627c96a75f6.png",

@@ -55,7 +55,7 @@ import { Badge } from './Badge';
 storiesOf('Path/to/Badge', module).addParameters({ component: Badge });
 ```
 
-If you're coming from the `storiesOf` format, there's [a codemod that adds it for you](https://github.com/storybookjs/storybook/blob/next/lib/codemod/README.md#add-component-parameters).
+If you're coming from the `storiesOf` format, there's [a codemod that adds it for you](https://github.com/storybookjs/storybook/blob/next/code/lib/codemod/README.md#add-component-parameters).
 
 ## Subcomponents parameter
 
@@ -145,7 +145,7 @@ export default {
 };
 ```
 
-You can interleave your own components to customize the auto-generated contents of the page, or pass in different options to the blocks to customize their appearance. For more info see the examples in [official-storybook](https://github.com/storybookjs/storybook/blob/next/examples/official-storybook/stories/addon-docs/addon-docs-blocks.stories.js).
+You can interleave your own components to customize the auto-generated contents of the page, or pass in different options to the blocks to customize their appearance. For more info see the examples in [official-storybook](https://github.com/storybookjs/storybook/blob/next/code/examples/official-storybook/stories/addon-docs/addon-docs-blocks.stories.js).
 
 ## Story file names
 

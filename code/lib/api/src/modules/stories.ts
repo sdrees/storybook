@@ -162,8 +162,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         if (parameters) {
           return parameterName ? parameters[parameterName] : parameters;
         }
-
-        return {};
       }
 
       return null;

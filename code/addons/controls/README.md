@@ -210,4 +210,4 @@ export const Template = (args) => <Button {...args} />
 </Story>
 ```
 
-For more info, see a full [Controls example in MDX for Vue](https://raw.githubusercontent.com/storybookjs/storybook/next/examples/vue-kitchen-sink/src/stories/addon-controls.stories.mdx).
+For more info, see a full [Controls example in MDX for Vue](https://raw.githubusercontent.com/storybookjs/storybook/next/code/examples/vue-kitchen-sink/src/stories/addon-controls.stories.mdx).

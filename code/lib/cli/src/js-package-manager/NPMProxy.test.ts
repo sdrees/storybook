@@ -1,4 +1,5 @@
 import { NPMProxy } from './NPMProxy';
+import * as PackageJsonHelper from './PackageJsonHelper';
 
 describe('NPM Proxy', () => {
   let npmProxy: NPMProxy;
@@ -100,6 +101,34 @@ describe('NPM Proxy', () => {
           ['uninstall', '--legacy-peer-deps', '@storybook/addons'],
           expect.any(String)
         );
+      });
+    });
+    describe('skipInstall', () => {
+      it('should only change package.json without running install', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
+        const writePackageSpy = jest
+          .spyOn(PackageJsonHelper, 'writePackageJson')
+          .mockImplementation(jest.fn);
+
+        npmProxy.removeDependencies(
+          {
+            skipInstall: true,
+            packageJson: {
+              devDependencies: {
+                '@storybook/manager-webpack5': 'x.x.x',
+                '@storybook/react': 'x.x.x',
+              },
+            },
+          },
+          ['@storybook/manager-webpack5']
+        );
+
+        expect(writePackageSpy).toHaveBeenCalledWith({
+          devDependencies: {
+            '@storybook/react': 'x.x.x',
+          },
+        });
+        expect(executeCommandSpy).not.toHaveBeenCalled();
       });
     });
   });

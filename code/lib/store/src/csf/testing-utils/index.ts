@@ -27,9 +27,8 @@ let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = {};
 export function setProjectAnnotations<TFramework extends AnyFramework = AnyFramework>(
   projectAnnotations: ProjectAnnotations<TFramework> | ProjectAnnotations<TFramework>[]
 ) {
-  GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = Array.isArray(projectAnnotations)
-    ? composeConfigs(projectAnnotations)
-    : projectAnnotations;
+  const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
+  GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs(annotations);
 }
 
 interface ComposeStory<TFramework extends AnyFramework = AnyFramework, TArgs extends Args = Args> {

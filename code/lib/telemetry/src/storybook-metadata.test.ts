@@ -1,6 +1,7 @@
 import type { PackageJson, StorybookConfig } from '@storybook/core-common';
 
-import { computeStorybookMetadata, metaFrameworks } from './storybook-metadata';
+import path from 'path';
+import { computeStorybookMetadata, metaFrameworks, sanitizeAddonName } from './storybook-metadata';
 
 const packageJsonMock: PackageJson = {
   name: 'some-user-project',
@@ -37,6 +38,60 @@ jest.mock('detect-package-manager', () => ({
   detect: () => 'Yarn',
   getNpmVersion: () => '3.1.1',
 }));
+
+describe('sanitizeAddonName', () => {
+  const originalSep = path.sep;
+  beforeEach(() => {
+    // @ts-expect-error the property is read only but we can change it for testing purposes
+    path.sep = originalSep;
+  });
+
+  test('special addon names', () => {
+    const addonNames = [
+      '@storybook/preset-create-react-app',
+      'storybook-addon-deprecated/register',
+      'storybook-addon-ends-with-js/register.js',
+      '@storybook/addon-knobs/preset',
+      '@storybook/addon-ends-with-js/preset.js',
+      '@storybook/addon-postcss/dist/index.js',
+      '../local-addon/register.js',
+      '../../',
+    ].map(sanitizeAddonName);
+
+    expect(addonNames).toEqual([
+      '@storybook/preset-create-react-app',
+      'storybook-addon-deprecated',
+      'storybook-addon-ends-with-js',
+      '@storybook/addon-knobs',
+      '@storybook/addon-ends-with-js',
+      '@storybook/addon-postcss',
+      '../local-addon',
+      '../../',
+    ]);
+  });
+
+  test('Windows paths', () => {
+    // @ts-expect-error the property is read only but we can change it for testing purposes
+    path.sep = '\\';
+    const cwdMockPath = `C:\\Users\\username\\storybook-app`;
+    jest.spyOn(process, `cwd`).mockImplementationOnce(() => cwdMockPath);
+
+    expect(sanitizeAddonName(`${cwdMockPath}\\local-addon\\themes.js`)).toEqual(
+      '$SNIP\\local-addon\\themes'
+    );
+  });
+
+  test('Linux paths', () => {
+    // @ts-expect-error the property is read only but we can change it for testing purposes
+    path.sep = '/';
+    const cwdMockPath = `/Users/username/storybook-app`;
+    jest.spyOn(process, `cwd`).mockImplementationOnce(() => cwdMockPath);
+
+    expect(sanitizeAddonName(`${cwdMockPath}/local-addon/themes.js`)).toEqual(
+      '$SNIP/local-addon/themes'
+    );
+  });
+});
 
 describe('await computeStorybookMetadata', () => {
   test('should return frameworkOptions from mainjs', async () => {

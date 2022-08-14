@@ -14,7 +14,7 @@ So you can develop UI components in isolation without worrying about app specifi
 
 ```sh
 cd my-app
-npx sb init -t server
+npx storybook init -t server
 ```
 
 To configure the server that Storybook will connect to, export a global parameter `parameters.server.url` in `.storybook/preview.js`:

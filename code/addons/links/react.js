@@ -1,3 +1,3 @@
-import LinkTo from './dist/esm/react';
+import LinkTo from './dist/react';
 
 export default LinkTo;

@@ -1,3 +1,33 @@
+## 7.0.0-alpha.19 (August 12, 2022)
+
+#### Features
+
+-   CLI: add "storybook scripts 7.0" automigrate command [#18769](https://github.com/storybooks/storybook/pull/18769)
+-   Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
+
+#### Bug Fixes
+
+-   API: Return defaultValue in useParameter if story is not prepared [#18887](https://github.com/storybooks/storybook/pull/18887)
+-   Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
+-   CLI: install the same version as the user in sb-scripts automigration [#18917](https://github.com/storybooks/storybook/pull/18917)
+-   Theming: Add `create` export for lib/theming [#18906](https://github.com/storybooks/storybook/pull/18906)
+-   Telemetry: Improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
+-   UI: Add image support to builder-manager [#18857](https://github.com/storybooks/storybook/pull/18857)
+-   ArgTypes: Fix check for undefined before [#18710](https://github.com/storybooks/storybook/pull/18710)
+
+#### Maintenance
+
+-   Build: use ts-up to build addon-toolbars [#18847](https://github.com/storybooks/storybook/pull/18847)
+-   Build: Use ts-up to build channels [#18882](https://github.com/storybooks/storybook/pull/18882)
+-   Build: Use ts-up to build addon-links [#18908](https://github.com/storybooks/storybook/pull/18908)
+-   CLI: Fix remove dependencies logic [#18905](https://github.com/storybooks/storybook/pull/18905)
+-   CLI: Add uninstall deps to jsPackageManager [#18900](https://github.com/storybooks/storybook/pull/18900)
+-   Examples: Improve sandbox command error handling and debugging [#18869](https://github.com/storybooks/storybook/pull/18869)
+-   Examples: Change to self-hosted placeholder images [#18878](https://github.com/storybooks/storybook/pull/18878)
+-   CLI: add --no-init to repro-next command [#18866](https://github.com/storybooks/storybook/pull/18866)
+-   Build: Got verdaccio working, borrowing heavily from the old repro command [#18844](https://github.com/storybooks/storybook/pull/18844)
+-   Core-server: Move webpack to be a devDependency [#18856](https://github.com/storybooks/storybook/pull/18856)
+
 ## 7.0.0-alpha.18 (August 2, 2022)
 
 #### Features

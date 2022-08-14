@@ -12,7 +12,10 @@ export type WithRequiredProperty<Type, Key extends keyof Type> = Type &
     [Property in Key]-?: Type[Property];
   };
 
-export type ManagerBuilder = Builder<WithRequiredProperty<BuildOptions, 'outdir'>, Stats>;
+export type ManagerBuilder = Builder<
+  WithRequiredProperty<BuildOptions, 'outdir'> & { entryPoints: string[] },
+  Stats
+>;
 export type Unpromise<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 
 export type BuilderStartOptions = Parameters<ManagerBuilder['start']>['0'];

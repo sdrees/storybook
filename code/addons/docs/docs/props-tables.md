@@ -83,7 +83,7 @@ export const WithControls = (args) => <MyComponent {...args} />;
 <ArgsTable story="Controls" />
 ```
 
-For a very detailed walkthrough of how to write stories that use controls, see the [addon-controls README](https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#writing-stories).
+For a very detailed walkthrough of how to write stories that use controls, read the [documentation](https://storybook.js.org/docs/react/essentials/controls).
 
 ## Customization
 
@@ -187,20 +187,20 @@ This would render a row with a modified description, a type display with a dropd
 > - `type: 'number'` is shorthand for `type: { name: 'number' }`
 > - `control: 'radio'` is shorthand for `control: { type: 'radio' }`
 
-Controls customization has an entire section in the [`addon-controls` README](https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#configuration).
+Controls customization has an entire section in the [documentation](https://storybook.js.org/docs/react/essentials/controls#configuration).
 
 Here are the possible customizations for the rest of the prop table:
 
-| Field                        | Description                                                                                                               |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `name`                       | The name of the property                                                                                                  |
-| `type.required`              | Whether or not the property is required                                                                                   |
-| `description`                | A markdown description for the property                                                                                   |
-| `table.type.summary`         | A short version of the type                                                                                               |
-| `table.type.detail`          | A longer version of the type (if it's a complex type)                                                                     |
-| `table.defaultValue.summary` | A short version of the default value                                                                                      |
-| `table.defaultValue.detail`  | A longer version of the default value (if it's a complex value)                                                           |
-| `control`                    | See [`addon-controls` README](https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#configuration) |
+| Field                        | Description                                                                                          |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `name`                       | The name of the property                                                                             |
+| `type.required`              | Whether or not the property is required                                                              |
+| `description`                | A markdown description for the property                                                              |
+| `table.type.summary`         | A short version of the type                                                                          |
+| `table.type.detail`          | A longer version of the type (if it's a complex type)                                                |
+| `table.defaultValue.summary` | A short version of the default value                                                                 |
+| `table.defaultValue.detail`  | A longer version of the default value (if it's a complex value)                                      |
+| `control`                    | See [`addon-controls` README](https://storybook.js.org/docs/react/essentials/controls#configuration) |
 
 ### Custom ArgTypes in MDX
 
