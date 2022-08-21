@@ -23,6 +23,7 @@ interface InteractionsPanelProps {
   interactions: (Call & {
     status?: CallStates;
     childCallIds: Call['id'][];
+    isHidden: boolean;
     isCollapsed: boolean;
     toggleCollapsed: () => void;
   })[];
@@ -118,6 +119,7 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
               controls={controls}
               controlStates={controlStates}
               childCallIds={call.childCallIds}
+              isHidden={call.isHidden}
               isCollapsed={call.isCollapsed}
               toggleCollapsed={call.toggleCollapsed}
               pausedAt={pausedAt}

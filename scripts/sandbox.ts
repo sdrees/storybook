@@ -8,10 +8,13 @@ import {
   ensureSymlink,
   ensureDir,
   existsSync,
+  copy,
 } from 'fs-extra';
 import prompts from 'prompts';
+import type { AbortController } from 'node-abort-controller';
+import command from 'execa';
 
-import { getOptionsOrPrompt } from './utils/options';
+import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from './utils/yarn';
 import { exec } from './utils/exec';
@@ -19,6 +22,8 @@ import { getInterpretedFile } from '../code/lib/core-common';
 import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
+import { servePackages } from './utils/serve-packages';
+import dedent from 'ts-dedent';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
@@ -38,56 +43,85 @@ const defaultAddons = [
 ];
 const sandboxDir = path.resolve(__dirname, '../sandbox');
 const codeDir = path.resolve(__dirname, '../code');
+const reprosDir = path.resolve(__dirname, '../repros');
+
+export const options = createOptions({
+  template: {
+    type: 'string',
+    description: 'Which template would you like to use?',
+    values: templates,
+    required: true as const,
+  },
+  addon: {
+    type: 'string[]',
+    description: 'Which extra addons (beyond the CLI defaults) would you like installed?',
+    values: addons,
+  },
+  includeStories: {
+    type: 'boolean',
+    description: "Include Storybook's own stories?",
+    promptType: (_, { template }) => template === 'react',
+  },
+  fromLocalRepro: {
+    type: 'boolean',
+    description: 'Create the template from a local repro (rather than degitting it)?',
+  },
+  forceDelete: {
+    type: 'boolean',
+    description: 'Always delete an existing sandbox, even if it has the same configuration?',
+    promptType: false,
+  },
+  forceReuse: {
+    type: 'boolean',
+    description: 'Always reuse an existing sandbox, even if it has a different configuration?',
+    promptType: false,
+  },
+  link: {
+    type: 'boolean',
+    description: 'Link the storybook to the local code?',
+    inverse: true,
+  },
+  publish: {
+    type: 'boolean',
+    description: 'Publish local code to verdaccio and start before installing?',
+    inverse: true,
+    promptType: (_, { link }) => !link,
+  },
+  startVerdaccio: {
+    type: 'boolean',
+    description: 'Start Verdaccio before installing?',
+    inverse: true,
+    promptType: (_, { publish }) => !publish,
+  },
+  start: {
+    type: 'boolean',
+    description: 'Start the Storybook?',
+    inverse: true,
+  },
+  build: {
+    type: 'boolean',
+    description: 'Build the Storybook?',
+    promptType: (_, { start }) => !start,
+  },
+  watch: {
+    type: 'boolean',
+    description: 'Start building used packages in watch mode as well as the Storybook?',
+    promptType: (_, { start }) => start,
+  },
+  dryRun: {
+    type: 'boolean',
+    description: "Don't execute commands, just list them (dry run)?",
+    promptType: false,
+  },
+  debug: {
+    type: 'boolean',
+    description: 'Print all the logs to the console',
+    promptType: false,
+  },
+});
 
 async function getOptions() {
-  return getOptionsOrPrompt('yarn sandbox', {
-    template: {
-      description: 'Which template would you like to use?',
-      values: templates,
-      required: true as const,
-    },
-    addon: {
-      description: 'Which extra addons (beyond the CLI defaults) would you like installed?',
-      values: addons,
-      multiple: true as const,
-    },
-    includeStories: {
-      description: "Include Storybook's own stories?",
-      promptType: (_, { framework }) => framework === 'react',
-    },
-    create: {
-      description: 'Create the template from scratch (rather than degitting it)?',
-    },
-    forceDelete: {
-      description: 'Always delete an existing sandbox, even if it has the same configuration?',
-      promptType: false,
-    },
-    forceReuse: {
-      description: 'Always reuse an existing sandbox, even if it has a different configuration?',
-      promptType: false,
-    },
-    link: {
-      description: 'Link the storybook to the local code?',
-      inverse: true,
-    },
-    start: {
-      description: 'Start the Storybook?',
-      inverse: true,
-    },
-    build: {
-      description: 'Build the Storybook?',
-    },
-    watch: {
-      description: 'Start building used packages in watch mode as well as the Storybook?',
-    },
-    dryRun: {
-      description: "Don't execute commands, just list them (dry run)?",
-    },
-    debug: {
-      description: 'Print all the logs to the console',
-      promptType: false,
-    },
-  });
+  return getOptionsOrPrompt('yarn sandbox', options);
 }
 
 const steps = {
@@ -96,38 +130,40 @@ const steps = {
     description: 'Bootstrapping Template',
     icon: '👷',
     hasArgument: true,
-    options: {
-      // TODO allow string valued options without fixed values
-      output: { values: [] as string[] },
+    options: createOptions({
+      output: { type: 'string' },
       // TODO allow default values for strings
-      branch: { values: ['next'] },
-    },
+      branch: { type: 'string', values: ['next'] },
+    }),
   },
   add: {
     command: 'add',
     description: 'Adding addon',
     icon: '+',
     hasArgument: true,
-    options: {},
+    options: createOptions({}),
   },
   link: {
     command: 'link',
     description: 'Linking packages',
     icon: '🔗',
     hasArgument: true,
-    options: { local: {}, start: { inverse: true } },
+    options: createOptions({
+      local: { type: 'boolean' },
+      start: { type: 'boolean', inverse: true },
+    }),
   },
   build: {
     command: 'build',
     description: 'Building Storybook',
     icon: '🔨',
-    options: {},
+    options: createOptions({}),
   },
   dev: {
     command: 'dev',
     description: 'Starting Storybook',
     icon: '🖥 ',
-    options: {},
+    options: createOptions({}),
   },
 };
 
@@ -212,18 +248,20 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
   );
 }
 
-async function main() {
-  const optionValues = await getOptions();
-
-  const { template, forceDelete, forceReuse, link, dryRun, debug } = optionValues;
+export async function sandbox(optionValues: OptionValues<typeof options>) {
+  const { template, forceDelete, forceReuse, dryRun, debug, fromLocalRepro } = optionValues;
 
   await ensureDir(sandboxDir);
+  let publishController: AbortController;
 
   const cwd = path.join(sandboxDir, template.replace('/', '-'));
 
   const exists = await pathExists(cwd);
   let shouldDelete = exists && !forceReuse;
   if (exists && !forceDelete && !forceReuse) {
+    if (process.env.CI)
+      throw new Error(`yarn sandbox needed to prompt for options, this is not possible in CI!`);
+
     const relativePath = path.relative(process.cwd(), cwd);
     ({ shouldDelete } = await prompts({
       type: 'toggle',
@@ -238,13 +276,29 @@ async function main() {
   if (exists && shouldDelete && !dryRun) await remove(cwd);
 
   if (!exists || shouldDelete) {
-    await executeCLIStep(steps.repro, {
-      argument: template,
-      optionValues: { output: cwd, branch: 'next' },
-      cwd: sandboxDir,
-      dryRun,
-      debug,
-    });
+    if (fromLocalRepro) {
+      const srcDir = path.join(reprosDir, template, 'after-storybook');
+      if (!existsSync(srcDir)) {
+        throw new Error(dedent`
+          Missing repro directory '${srcDir}'!
+
+          To run sandbox against a local repro, you must have already generated
+          the repro template in the /repros directory using:
+
+          yarn generate-repros-next --template ${template}
+        `);
+      }
+      const destDir = cwd;
+      await copy(srcDir, destDir);
+    } else {
+      await executeCLIStep(steps.repro, {
+        argument: template,
+        optionValues: { output: cwd, branch: 'next' },
+        cwd: sandboxDir,
+        dryRun,
+        debug,
+      });
+    }
 
     const mainConfig = await readMainConfig({ cwd });
 
@@ -252,8 +306,19 @@ async function main() {
     const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
     // Link in the template/components/index.js from the renderer
-    const rendererName = templateConfig.expected.renderer.split('/')[1];
-    const rendererPath = path.join('renderers', rendererName);
+    const { stdout } = await command('yarn workspaces list --json', {
+      cwd: process.cwd(),
+      shell: true,
+    });
+    const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`) as [
+      { name: string; location: string }
+    ];
+    const { renderer } = templateConfig.expected;
+    const rendererWorkspace = workspaces.find((workspace) => workspace.name === renderer);
+    if (!rendererWorkspace) {
+      throw new Error(`Unknown renderer '${renderer}', not in yarn workspace!`);
+    }
+    const rendererPath = rendererWorkspace.location;
     await ensureSymlink(
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
@@ -262,6 +327,7 @@ async function main() {
       ['previewEntries'],
       [`.${path.sep}${path.join(storiesPath, 'components')}`]
     );
+    mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
 
     const storiesToAdd = [] as string[];
     storiesToAdd.push(rendererPath);
@@ -284,6 +350,8 @@ async function main() {
     await writeConfig(mainConfig);
 
     await installYarn2({ cwd, dryRun, debug });
+
+    const { link, publish, startVerdaccio } = optionValues;
     if (link) {
       await executeCLIStep(steps.link, {
         argument: cwd,
@@ -293,11 +361,13 @@ async function main() {
         debug,
       });
     } else {
-      await exec('yarn local-registry --publish', { cwd: codeDir }, { dryRun, debug });
+      if (publish) {
+        await exec('yarn local-registry --publish', { cwd: codeDir }, { dryRun, debug });
+      }
 
-      // NOTE: this is a background task and will run forever (TODO: sort out logging/exiting)
-      exec('CI=true yarn local-registry --open', { cwd: codeDir }, { dryRun, debug });
-      await exec('yarn wait-on http://localhost:6000', { cwd: codeDir }, { dryRun, debug });
+      if (publish || startVerdaccio) {
+        publishController = await servePackages({ dryRun, debug });
+      }
 
       // We need to add package resolutions to ensure that we only ever install the latest version
       // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
@@ -327,7 +397,7 @@ async function main() {
     });
   }
 
-  const { start } = optionValues;
+  const { start, build } = optionValues;
   if (start) {
     await exec(
       'yarn storybook',
@@ -339,12 +409,27 @@ async function main() {
         debug: true,
       }
     );
-  } else {
+  } else if (build) {
     await executeCLIStep(steps.build, { cwd, dryRun, debug });
     // TODO serve
   }
 
   // TODO start dev
+
+  // Cleanup
+  publishController?.abort();
 }
 
-main().catch((err) => console.error(err));
+async function main() {
+  const optionValues = await getOptions();
+  return sandbox(optionValues);
+}
+
+if (require.main === module) {
+  main().catch((err) => {
+    logger.error('🚨 An error occurred when executing "sandbox":');
+
+    logger.error(err);
+    process.exit(1);
+  });
+}

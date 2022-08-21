@@ -45,7 +45,7 @@ const SkipToCanvasLink = styled(Button)(({ theme }) => ({
     width: '100%',
     padding: '10px 15px',
     fontSize: theme.typography.size.s1,
-    zIndex: 1,
+    zIndex: 3,
     transform: 'translate(0,-100px)',
     '&:focus': {
       transform: 'translate(0)',

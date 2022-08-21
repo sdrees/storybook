@@ -65,7 +65,7 @@ export function Result(props: ResultProps) {
         <HeaderBar onClick={onToggle} role="button" status={status}>
           {status === `failed` ? (
             <Icon
-              icon="chevrondown"
+              icon="arrowdown"
               color={convert(themes.light).color.mediumdark}
               style={{
                 transform: `rotate(${isOpen ? 0 : -90}deg)`,

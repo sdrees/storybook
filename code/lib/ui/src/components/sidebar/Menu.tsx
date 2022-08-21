@@ -1,6 +1,7 @@
-import React, { useMemo, ComponentProps, FC } from 'react';
+import React, { useMemo, useState, ComponentProps, FC } from 'react';
 
 import { styled } from '@storybook/theming';
+import { transparentize } from 'polished';
 import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storybook/components';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
@@ -16,6 +17,44 @@ const sharedStyles = {
 const Icon = styled(Icons)(sharedStyles, ({ theme }) => ({
   color: theme.color.secondary,
 }));
+
+export const SidebarIconButton: FC<ComponentProps<typeof Button> & { highlighted: boolean }> =
+  styled(IconButton)<
+    ComponentProps<typeof Button> & {
+      highlighted: boolean;
+    }
+  >(({ highlighted, theme }) => ({
+    position: 'relative',
+    overflow: 'visible',
+    color: theme.color.mediumdark,
+    marginTop: 0,
+    zIndex: 1,
+
+    ...(highlighted && {
+      '&:before, &:after': {
+        content: '""',
+        position: 'absolute',
+        top: 6,
+        right: 6,
+        width: 5,
+        height: 5,
+        zIndex: 2,
+        borderRadius: '50%',
+        background: theme.background.app,
+        border: `1px solid ${theme.background.app}`,
+        boxShadow: `0 0 0 2px ${theme.background.app}`,
+      },
+      '&:after': {
+        background: theme.color.positive,
+        border: `1px solid rgba(0, 0, 0, 0.1)`,
+        boxShadow: `0 0 0 2px ${theme.background.app}`,
+      },
+
+      '&:hover:after, &:focus-visible:after': {
+        boxShadow: `0 0 0 2px ${transparentize(0.88, theme.color.secondary)}`,
+      },
+    }),
+  }));
 
 const Img = styled.img(sharedStyles);
 const Placeholder = styled.div(sharedStyles);
@@ -35,50 +74,9 @@ export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   return <Placeholder />;
 };
 
-export const MenuButton: FC<ComponentProps<typeof Button> & { highlighted: boolean }> = styled(
-  Button
-)<
-  ComponentProps<typeof Button> & {
-    highlighted: boolean;
-  }
->(({ highlighted, theme }) => ({
-  position: 'relative',
-  overflow: 'visible',
-  padding: 7,
-  transition: 'none', // prevents button border from flashing when focused/blurred
-  '&:focus': {
-    background: theme.barBg,
-    boxShadow: 'none',
-  },
-  // creates a pseudo border that does not affect the box model, but is accessible in high contrast mode
-  '&:focus:before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    borderRadius: '100%',
-    border: `1px solid ${theme.color.secondary}`,
-  },
-
-  ...(highlighted && {
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      width: 8,
-      height: 8,
-      borderRadius: 8,
-      background: theme.color.positive,
-    },
-  }),
-}));
-
 type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
 
-export const SidebarMenuList: FC<{
+const SidebarMenuList: FC<{
   menu: MenuList;
   onHide: () => void;
 }> = ({ menu, onHide }) => {
@@ -98,8 +96,8 @@ export const SidebarMenuList: FC<{
 
 export const SidebarMenu: FC<{
   menu: MenuList;
-  isHighlighted: boolean;
-}> = ({ isHighlighted, menu }) => {
+  isHighlighted?: boolean;
+}> = ({ menu, isHighlighted }) => {
   return (
     <WithTooltip
       placement="top"
@@ -107,9 +105,9 @@ export const SidebarMenu: FC<{
       closeOnClick
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
-      <MenuButton outline small containsIcon highlighted={isHighlighted} title="Shortcuts">
-        <Icons icon="ellipsis" />
-      </MenuButton>
+      <SidebarIconButton title="Shortcuts" aria-label="Shortcuts" highlighted={isHighlighted}>
+        <Icons icon="cog" />
+      </SidebarIconButton>
     </WithTooltip>
   );
 };

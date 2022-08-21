@@ -1,8 +1,8 @@
 import { render } from 'ejs';
 import { readFile } from 'fs-extra';
-import yml from 'js-yaml';
 import { format } from 'prettier';
 import { GeneratorConfig } from './types';
+import reproTemplates from '../../../code/lib/cli/src/repro-templates';
 
 export async function renderTemplate(templatePath: string, templateData: Record<string, any>) {
   const template = await readFile(templatePath, 'utf8');
@@ -13,14 +13,11 @@ export async function renderTemplate(templatePath: string, templateData: Record<
   return output;
 }
 
-export const getStackblitzUrl = (path: string) => {
-  return `https://stackblitz.com/github/storybookjs/repro-templates-temp/tree/main/${path}/after-storybook?preset=node`;
+export const getStackblitzUrl = (path: string, branch = 'next') => {
+  return `https://stackblitz.com/github/storybookjs/repro-templates-temp/tree/${branch}/${path}/after-storybook?preset=node`;
 };
 
-export async function getTemplatesData(filePath: string) {
-  const configContents = await readFile(filePath, 'utf8');
-  const ymlData: Record<string, GeneratorConfig> = yml.load(configContents);
-
+export async function getTemplatesData() {
   type TemplatesData = Record<
     string,
     Record<
@@ -31,17 +28,20 @@ export async function getTemplatesData(filePath: string) {
     >
   >;
 
-  const templatesData = Object.keys(ymlData).reduce<TemplatesData>((acc, next) => {
-    const [dirName, templateName] = next.split('/');
-    const groupName =
-      dirName === 'cra' ? 'CRA' : dirName.slice(0, 1).toUpperCase() + dirName.slice(1);
-    const generatorData = ymlData[next];
-    acc[groupName] = acc[groupName] || {};
-    acc[groupName][templateName] = {
-      ...generatorData,
-      stackblitzUrl: getStackblitzUrl(next),
-    };
-    return acc;
-  }, {});
+  const templatesData = Object.keys(reproTemplates).reduce<TemplatesData>(
+    (acc, curr: keyof typeof reproTemplates) => {
+      const [dirName, templateName] = curr.split('/');
+      const groupName =
+        dirName === 'cra' ? 'CRA' : dirName.slice(0, 1).toUpperCase() + dirName.slice(1);
+      const generatorData = reproTemplates[curr];
+      acc[groupName] = acc[groupName] || {};
+      acc[groupName][templateName] = {
+        ...generatorData,
+        stackblitzUrl: getStackblitzUrl(curr),
+      };
+      return acc;
+    },
+    {}
+  );
   return templatesData;
 }

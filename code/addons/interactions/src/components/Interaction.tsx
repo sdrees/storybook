@@ -32,7 +32,7 @@ const RowContainer = styled('div', {
           ? transparentize(0.93, theme.color.negative)
           : theme.background.warning,
     }),
-    paddingLeft: call.parentId ? 20 : 0,
+    paddingLeft: call.ancestors.length * 20,
   }),
   ({ theme, call, pausedAt }) =>
     pausedAt === call.id && {
@@ -56,9 +56,9 @@ const RowContainer = styled('div', {
     }
 );
 
-const RowHeader = styled.div<{ disabled: boolean }>(({ theme, disabled }) => ({
+const RowHeader = styled.div<{ isInteractive: boolean }>(({ theme, isInteractive }) => ({
   display: 'flex',
-  '&:hover': disabled ? {} : { background: theme.background.hoverable },
+  '&:hover': isInteractive ? {} : { background: theme.background.hoverable },
 }));
 
 const RowLabel = styled('button', {
@@ -130,6 +130,7 @@ export const Interaction = ({
   controls,
   controlStates,
   childCallIds,
+  isHidden,
   isCollapsed,
   toggleCollapsed,
   pausedAt,
@@ -139,18 +140,23 @@ export const Interaction = ({
   controls: Controls;
   controlStates: ControlStates;
   childCallIds?: Call['id'][];
+  isHidden: boolean;
   isCollapsed: boolean;
   toggleCollapsed: () => void;
   pausedAt?: Call['id'];
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
+  const isInteractive = !controlStates.goto || !call.interceptable || !!call.ancestors.length;
+
+  if (isHidden) return null;
+
   return (
     <RowContainer call={call} pausedAt={pausedAt}>
-      <RowHeader disabled={!controlStates.goto || !call.interceptable || !!call.parentId}>
+      <RowHeader isInteractive={isInteractive}>
         <RowLabel
           call={call}
           onClick={() => controls.goto(call.id)}
-          disabled={!controlStates.goto || !call.interceptable || !!call.parentId}
+          disabled={isInteractive}
           onMouseEnter={() => controlStates.goto && setIsHovered(true)}
           onMouseLeave={() => controlStates.goto && setIsHovered(false)}
         >
@@ -163,11 +169,7 @@ export const Interaction = ({
           {childCallIds?.length > 0 && (
             <WithTooltip
               hasChrome={false}
-              tooltip={
-                <Note
-                  note={`${isCollapsed ? 'Show' : 'Hide'} interactions (${childCallIds.length})`}
-                />
-              }
+              tooltip={<Note note={`${isCollapsed ? 'Show' : 'Hide'} interactions`} />}
             >
               <StyledIconButton containsIcon onClick={toggleCollapsed}>
                 <Icons icon="listunordered" />

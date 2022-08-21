@@ -99,6 +99,10 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
+  '@storybook/babel-plugin-require-context-hook':
+    access: $all
+    publish: $all
+    proxy: npmjs
 
   # storybook packages are NOT proxied to global registry
   # allowing us to republish any version during tests

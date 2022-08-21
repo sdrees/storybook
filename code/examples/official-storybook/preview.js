@@ -72,6 +72,25 @@ const ThemeStack = styled.div(
   })
 );
 
+const PlayFnNotice = styled.div(
+  {
+    position: 'absolute',
+    bottom: '1rem',
+    right: '1rem',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    padding: '1rem',
+    fontSize: '12px',
+    '> *': {
+      display: 'block',
+    },
+  },
+  ({ theme }) => ({
+    background: theme.background.app,
+    color: theme.color.defaultText,
+  })
+);
+
 const ThemedSetRoot = () => {
   const theme = useTheme();
 
@@ -87,8 +106,9 @@ const ThemedSetRoot = () => {
 };
 
 export const decorators = [
-  (StoryFn, { globals, parameters }) => {
-    const theme = globals.theme || parameters.theme || (isChromatic() ? 'stacked' : 'light');
+  (StoryFn, { globals, parameters, playFunction }) => {
+    const defaultTheme = isChromatic() && !playFunction ? 'stacked' : 'light';
+    const theme = globals.theme || parameters.theme || defaultTheme;
 
     switch (theme) {
       case 'side-by-side': {
@@ -137,6 +157,12 @@ export const decorators = [
             <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
             <Global styles={createReset} />
             <ThemedSetRoot />
+            {!parameters.theme && isChromatic() && playFunction && (
+              <PlayFnNotice>
+                <span>Detected play function.</span>
+                <span>Rendering in a single theme</span>
+              </PlayFnNotice>
+            )}
             <StoryFn />
           </ThemeProvider>
         );

@@ -1,5 +1,6 @@
 import semver from '@storybook/semver';
 import { JsPackageManager } from './JsPackageManager';
+import type { PackageJson } from './PackageJson';
 
 export class NPMProxy extends JsPackageManager {
   readonly type = 'npm';
@@ -58,6 +59,28 @@ export class NPMProxy extends JsPackageManager {
         : ['uninstall'];
     }
     return this.uninstallArgs;
+  }
+
+  setRegistryURL(url: string) {
+    if (url) {
+      this.executeCommand('npm', ['config', 'set', 'registry', url]);
+    } else {
+      this.executeCommand('npm', ['config', 'delete', 'registry']);
+    }
+  }
+
+  getRegistryURL() {
+    const url = this.executeCommand('npm', ['config', 'get', 'registry']).trim();
+    return url === 'undefined' ? undefined : url;
+  }
+
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+    return {
+      overrides: {
+        ...packageJson.overrides,
+        ...versions,
+      },
+    };
   }
 
   protected runInstall(): void {

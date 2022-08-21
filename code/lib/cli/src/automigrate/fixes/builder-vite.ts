@@ -5,7 +5,7 @@ import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
 
 import { Fix } from '../types';
-import { PackageJson, writePackageJson } from '../../js-package-manager';
+import { PackageJson } from '../../js-package-manager';
 
 const logger = console;
 
@@ -70,7 +70,7 @@ export const builderVite: Fix<BuilderViteOptions> = {
     if (!dryRun) {
       delete dependencies['storybook-builder-vite'];
       delete devDependencies['storybook-builder-vite'];
-      writePackageJson(packageJson);
+      packageManager.writePackageJson(packageJson);
     }
 
     logger.info(`Adding '@storybook/builder-vite' as dev dependency`);

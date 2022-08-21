@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop, no-restricted-syntax */
-import execa, { Options } from 'execa';
+import execa, { ExecaChildProcess, Options } from 'execa';
 import chalk from 'chalk';
 
 const logger = console;
@@ -9,12 +9,13 @@ type StepOptions = {
   errorMessage?: string;
   dryRun?: boolean;
   debug?: boolean;
+  signal?: AbortSignal;
 };
 
 export const exec = async (
   command: string | string[],
   options: Options = {},
-  { startMessage, errorMessage, dryRun, debug }: StepOptions = {}
+  { startMessage, errorMessage, dryRun, debug, signal }: StepOptions = {}
 ): Promise<void> => {
   logger.info();
   if (startMessage) logger.info(startMessage);
@@ -25,21 +26,35 @@ export const exec = async (
   }
 
   const defaultOptions: Options = {
+    shell: true,
     stdout: debug ? 'inherit' : 'ignore',
   };
+  let currentChild: ExecaChildProcess;
+
+  // Newer versions of execa have explicit support for abort signals, but this works
+  if (signal) {
+    signal.addEventListener('abort', () => currentChild.kill());
+  }
+
   try {
     if (typeof command === 'string') {
       logger.debug(`> ${command}`);
-      await execa.command(command, { ...defaultOptions, ...options });
+      currentChild = execa.command(command, { ...defaultOptions, ...options });
+      await currentChild;
     } else {
       for (const subcommand of command) {
         logger.debug(`> ${subcommand}`);
-        await execa.command(subcommand, { ...defaultOptions, ...options });
+        currentChild = execa.command(subcommand, { ...defaultOptions, ...options });
+        await currentChild;
       }
     }
   } catch (err) {
-    logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
-    logger.log(errorMessage);
+    if (!err.killed) {
+      logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
+      logger.error(err);
+      logger.log(errorMessage);
+    }
+
     throw err;
   }
 

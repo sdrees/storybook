@@ -26,7 +26,7 @@ export interface NormalizedToolbarConfig {
   /** The label to show for this toolbar item */
   title?: string;
   /** Choose an icon to show for this toolbar item */
-  icon?: IconsProps['icon'];
+  icon: IconsProps['icon'];
   /** Set to true to prevent default update of icon to match any present selected items icon */
   preventDynamicIcon?: boolean;
   items: ToolbarItem[];

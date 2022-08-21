@@ -3,9 +3,22 @@ import { CallStates, Call } from '@storybook/instrumenter';
 export const getCalls = (finalStatus: CallStates) => {
   const calls: Call[] = [
     {
-      id: 'story--id [3] within',
+      id: 'story--id [3] step',
+      storyId: 'story--id',
+      cursor: 1,
+      ancestors: [],
+      path: [],
+      method: 'step',
+      args: ['Click button', { __function__: { name: '' } }],
+      interceptable: true,
+      retain: false,
+      status: CallStates.DONE,
+    },
+    {
+      id: 'story--id [3] step [1] within',
       storyId: 'story--id',
       cursor: 3,
+      ancestors: ['story--id [3] step'],
       path: [],
       method: 'within',
       args: [{ __element__: { localName: 'div', id: 'root' } }],
@@ -14,10 +27,11 @@ export const getCalls = (finalStatus: CallStates) => {
       status: CallStates.DONE,
     },
     {
-      id: 'story--id [4] findByText',
+      id: 'story--id [3] step [2] findByText',
       storyId: 'story--id',
       cursor: 4,
-      path: [{ __callId__: 'story--id [3] within' }],
+      ancestors: ['story--id [3] step'],
+      path: [{ __callId__: 'story--id [3] step [1] within' }],
       method: 'findByText',
       args: ['Click'],
       interceptable: true,
@@ -25,9 +39,10 @@ export const getCalls = (finalStatus: CallStates) => {
       status: CallStates.DONE,
     },
     {
-      id: 'story--id [5] click',
+      id: 'story--id [3] step [3] click',
       storyId: 'story--id',
       cursor: 5,
+      ancestors: ['story--id [3] step'],
       path: ['userEvent'],
       method: 'click',
       args: [{ __element__: { localName: 'button', innerText: 'Click' } }],
@@ -39,6 +54,7 @@ export const getCalls = (finalStatus: CallStates) => {
       id: 'story--id [6] waitFor',
       storyId: 'story--id',
       cursor: 6,
+      ancestors: [],
       path: [],
       method: 'waitFor',
       args: [{ __function__: { name: '' } }],
@@ -48,9 +64,9 @@ export const getCalls = (finalStatus: CallStates) => {
     },
     {
       id: 'story--id [6] waitFor [0] expect',
-      parentId: 'story--id [6] waitFor',
       storyId: 'story--id',
       cursor: 1,
+      ancestors: ['story--id [6] waitFor'],
       path: [],
       method: 'expect',
       args: [{ __function__: { name: 'handleSubmit' } }],
@@ -60,9 +76,9 @@ export const getCalls = (finalStatus: CallStates) => {
     },
     {
       id: 'story--id [6] waitFor [1] stringMatching',
-      parentId: 'story--id [6] waitFor',
       storyId: 'story--id',
       cursor: 2,
+      ancestors: ['story--id [6] waitFor'],
       path: ['expect'],
       method: 'stringMatching',
       args: [{ __regexp__: { flags: 'gi', source: '([A-Z])w+' } }],
@@ -72,9 +88,9 @@ export const getCalls = (finalStatus: CallStates) => {
     },
     {
       id: 'story--id [6] waitFor [2] toHaveBeenCalledWith',
-      parentId: 'story--id [6] waitFor',
       storyId: 'story--id',
       cursor: 3,
+      ancestors: ['story--id [6] waitFor'],
       path: [{ __callId__: 'story--id [6] waitFor [0] expect' }],
       method: 'toHaveBeenCalledWith',
       args: [{ __callId__: 'story--id [6] waitFor [1] stringMatching', retain: false }],
@@ -86,6 +102,7 @@ export const getCalls = (finalStatus: CallStates) => {
       id: 'story--id [7] expect',
       storyId: 'story--id',
       cursor: 7,
+      ancestors: [],
       path: [],
       method: 'expect',
       args: [{ __function__: { name: 'handleReset' } }],
@@ -97,6 +114,7 @@ export const getCalls = (finalStatus: CallStates) => {
       id: 'story--id [8] toHaveBeenCalled',
       storyId: 'story--id',
       cursor: 8,
+      ancestors: [],
       path: [{ __callId__: 'story--id [7] expect' }, 'not'],
       method: 'toHaveBeenCalled',
       args: [],
@@ -121,9 +139,4 @@ export const getCalls = (finalStatus: CallStates) => {
 export const getInteractions = (finalStatus: CallStates) =>
   getCalls(finalStatus)
     .filter((call) => call.interceptable)
-    .map((call, _, calls) => ({
-      ...call,
-      childCallIds: calls.filter((c) => c.parentId === call.id).map((c) => c.id),
-      isCollapsed: false,
-      toggleCollapsed: () => {},
-    }));
+    .map((call) => ({ ...call, childCallIds: [], isCollapsed: false, toggleCollapsed: () => {} }));

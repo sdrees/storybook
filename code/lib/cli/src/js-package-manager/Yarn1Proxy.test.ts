@@ -1,5 +1,4 @@
 import { Yarn1Proxy } from './Yarn1Proxy';
-import * as PackageJsonHelper from './PackageJsonHelper';
 
 describe('Yarn 1 Proxy', () => {
   let yarn1Proxy: Yarn1Proxy;
@@ -19,6 +18,21 @@ describe('Yarn 1 Proxy', () => {
       yarn1Proxy.initPackageJson();
 
       expect(executeCommandSpy).toHaveBeenCalledWith('yarn', ['init', '-y']);
+    });
+  });
+
+  describe('setRegistryUrl', () => {
+    it('should run `yarn config set npmRegistryServer https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
+
+      yarn1Proxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
+        'config',
+        'set',
+        'npmRegistryServer',
+        'https://foo.bar',
+      ]);
     });
   });
 
@@ -62,7 +76,7 @@ describe('Yarn 1 Proxy', () => {
     it('skipInstall should only change package.json without running install', () => {
       const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('7.0.0');
       const writePackageSpy = jest
-        .spyOn(PackageJsonHelper, 'writePackageJson')
+        .spyOn(yarn1Proxy, 'writePackageJson')
         .mockImplementation(jest.fn);
 
       yarn1Proxy.removeDependencies(
@@ -124,6 +138,34 @@ describe('Yarn 1 Proxy', () => {
       jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('NOT A JSON');
 
       await expect(yarn1Proxy.latestVersion('@storybook/addons')).rejects.toThrow();
+    });
+  });
+
+  describe('addPackageResolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', () => {
+      const writePackageSpy = jest
+        .spyOn(yarn1Proxy, 'writePackageJson')
+        .mockImplementation(jest.fn);
+
+      jest.spyOn(yarn1Proxy, 'retrievePackageJson').mockImplementation(
+        jest.fn(() => ({
+          resolutions: {
+            bar: 'x.x.x',
+          },
+        }))
+      );
+
+      const versions = {
+        foo: 'x.x.x',
+      };
+      yarn1Proxy.addPackageResolutions(versions);
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        resolutions: {
+          ...versions,
+          bar: 'x.x.x',
+        },
+      });
     });
   });
 });

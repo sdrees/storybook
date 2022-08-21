@@ -4,7 +4,7 @@ import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import { logger } from '@storybook/client-logger';
-import { toId, sanitize } from '@storybook/csf';
+import { toId, sanitize, StepRunner } from '@storybook/csf';
 import type {
   Args,
   ArgTypes,
@@ -20,7 +20,12 @@ import type {
   GlobalTypes,
   LegacyStoryFn,
 } from '@storybook/csf';
-import { combineParameters, StoryStore, normalizeInputTypes } from '@storybook/store';
+import {
+  combineParameters,
+  composeStepRunners,
+  StoryStore,
+  normalizeInputTypes,
+} from '@storybook/store';
 import type { NormalizedComponentAnnotations, Path, ModuleImportFn } from '@storybook/store';
 import type { ClientApiAddons, StoryApi } from '@storybook/addons';
 
@@ -68,7 +73,7 @@ const checkMethod = (method: string, deprecationWarning: boolean) => {
   if (global.FEATURES?.storyStoreV7) {
     throw new Error(
       dedent`You cannot use \`${method}\` with the new Story Store.
-      
+
       ${warningAlternatives[method as keyof typeof warningAlternatives]}`
     );
   }
@@ -118,6 +123,11 @@ export const addArgsEnhancer = (enhancer: ArgsEnhancer<AnyFramework>) => {
 export const addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<AnyFramework>) => {
   checkMethod('addArgTypesEnhancer', false);
   singleton.addArgTypesEnhancer(enhancer);
+};
+
+export const addStepRunner = (stepRunner: StepRunner) => {
+  checkMethod('addStepRunner', false);
+  singleton.addStepRunner(stepRunner);
 };
 
 export const getGlobalRender = () => {
@@ -213,6 +223,12 @@ export class ClientApi<TFramework extends AnyFramework> {
         ...normalizeInputTypes(globalTypes),
       };
     }
+  };
+
+  addStepRunner = (stepRunner: StepRunner) => {
+    this.facade.projectAnnotations.runStep = composeStepRunners(
+      [this.facade.projectAnnotations.runStep, stepRunner].filter(Boolean)
+    );
   };
 
   addLoader = (loader: LoaderFunction<TFramework>) => {

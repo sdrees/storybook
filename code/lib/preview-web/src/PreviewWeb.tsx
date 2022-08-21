@@ -30,7 +30,7 @@ import type {
   WebProjectAnnotations,
 } from '@storybook/store';
 
-import { Preview } from './Preview';
+import { MaybePromise, Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
@@ -45,7 +45,6 @@ function focusInInput(event: Event) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-type MaybePromise<T> = Promise<T> | T;
 type PossibleRender<TFramework extends AnyFramework> =
   | StoryRender<TFramework>
   | TemplateDocsRender<TFramework>

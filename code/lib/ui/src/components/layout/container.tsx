@@ -7,11 +7,11 @@ import * as persistence from './persist';
 import { Draggable, Handle, DraggableData, DraggableEvent } from './draggers';
 
 const MIN_NAV_WIDTH = 200; // visually there's an additional 10px due to the canvas' left margin
-const MIN_CANVAS_WIDTH = 200; // visually it's 10px less due to the canvas' left margin
+const MIN_CANVAS_WIDTH = 200;
 const MIN_CANVAS_HEIGHT = 200; // visually it's 50px less due to the canvas toolbar and top margin
-const MIN_PANEL_WIDTH = 200; // visually it's 10px less due to the canvas' right margin
-const MIN_PANEL_HEIGHT = 200; // visually it's 50px less due to the panel toolbar and bottom margin
-const DEFAULT_NAV_WIDTH = 220;
+const MIN_PANEL_WIDTH = 220;
+const MIN_PANEL_HEIGHT = 200; // visually it's 50px less due to the panel toolbar
+const DEFAULT_NAV_WIDTH = 230;
 const DEFAULT_PANEL_WIDTH = 400;
 
 const Pane = styled.div<{
@@ -95,9 +95,13 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
           borderRadius: 0,
         }
       : {
-          borderRadius: theme.appBorderRadius,
+          borderTopLeftRadius:
+            theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
+          borderBottomLeftRadius:
+            theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
           overflow: 'hidden',
-          boxShadow: '0 1px 5px 0 rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 1px 3px 1px rgba(0, 0, 0, 0.05), 0px 0 0px 1px rgba(0, 0, 0, 0.05)',
+          transform: 'translateZ(0)',
         }
 );
 
@@ -492,7 +496,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
     const { children, bounds, options, theme, viewMode, panelCount } = this.props;
     const { isDragging, resizerNav, resizerPanel } = this.state;
 
-    const margin = theme.layoutMargin;
+    const margin = 0;
     const isNavHidden = options.isFullscreen || !options.showNav;
     const isPanelHidden =
       options.isFullscreen || !options.showPanel || viewMode !== 'story' || panelCount === 0;
@@ -559,14 +563,13 @@ class Layout extends Component<LayoutProps, LayoutState> {
                   ? {
                       left: navX + margin,
                       width: bounds.width - navX - 2 * margin,
-                      marginTop: -margin,
+                      marginTop: -10,
                     }
                   : {
-                      marginLeft: 1,
+                      marginLeft: -10,
                     }
               }
               axis={isPanelBottom ? 'y' : 'x'}
-              reverse
             />
           </Draggable>
         )}

@@ -36,6 +36,7 @@ export function composeConfigs<TFramework extends AnyFramework>(
   moduleExportList: ModuleExports[]
 ): WebProjectAnnotations<TFramework> {
   const allArgTypeEnhancers = getArrayField(moduleExportList, 'argTypesEnhancers');
+  const stepRunners = getField(moduleExportList, 'runStep');
 
   return {
     parameters: combineParameters(...getField(moduleExportList, 'parameters')),
@@ -53,6 +54,6 @@ export function composeConfigs<TFramework extends AnyFramework>(
     render: getSingletonField(moduleExportList, 'render'),
     renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'),
     applyDecorators: getSingletonField(moduleExportList, 'applyDecorators'),
-    runStep: composeStepRunners<TFramework>(getArrayField(moduleExportList, 'runStep')),
+    runStep: composeStepRunners<TFramework>(stepRunners),
   };
 }

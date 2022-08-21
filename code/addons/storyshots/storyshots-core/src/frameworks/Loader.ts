@@ -15,6 +15,7 @@ export interface ClientApi<TFramework extends AnyFramework>
   setAddon: ClientApiClass<TFramework>['setAddon'];
   addArgsEnhancer: ClientApiClass<TFramework>['addArgsEnhancer'];
   addArgTypesEnhancer: ClientApiClass<TFramework>['addArgTypesEnhancer'];
+  addStepRunner: ClientApiClass<TFramework>['addStepRunner'];
   raw: ClientApiClass<TFramework>['raw'];
 }
 

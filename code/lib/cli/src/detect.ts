@@ -13,12 +13,7 @@ import {
   CoreBuilder,
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
-import {
-  PackageJson,
-  readPackageJson,
-  JsPackageManager,
-  PackageJsonWithMaybeDeps,
-} from './js-package-manager';
+import { PackageJson, JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
 import { detectNextJS } from './detect-nextjs';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
@@ -153,14 +148,9 @@ export function isStorybookInstalled(
   return false;
 }
 
-export function detectLanguage() {
+export function detectLanguage(packageJson?: PackageJson) {
   let language = SupportedLanguage.JAVASCRIPT;
-  let packageJson;
-  try {
-    packageJson = readPackageJson();
-  } catch (err) {
-    //
-  }
+
   const bowerJson = getBowerJson();
   if (!packageJson && !bowerJson) {
     return language;
@@ -173,13 +163,10 @@ export function detectLanguage() {
   return language;
 }
 
-export function detect(options: { force?: boolean; html?: boolean } = {}) {
-  let packageJson;
-  try {
-    packageJson = readPackageJson();
-  } catch (err) {
-    //
-  }
+export function detect(
+  packageJson: PackageJson,
+  options: { force?: boolean; html?: boolean } = {}
+) {
   const bowerJson = getBowerJson();
 
   if (!packageJson && !bowerJson) {

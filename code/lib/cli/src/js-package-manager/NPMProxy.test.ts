@@ -1,5 +1,4 @@
 import { NPMProxy } from './NPMProxy';
-import * as PackageJsonHelper from './PackageJsonHelper';
 
 describe('NPM Proxy', () => {
   let npmProxy: NPMProxy;
@@ -19,6 +18,21 @@ describe('NPM Proxy', () => {
       npmProxy.initPackageJson();
 
       expect(executeCommandSpy).toHaveBeenCalledWith('npm', ['init', '-y']);
+    });
+  });
+
+  describe('setRegistryUrl', () => {
+    it('should run `npm config set registry https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('');
+
+      npmProxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
+        'config',
+        'set',
+        'registry',
+        'https://foo.bar',
+      ]);
     });
   });
 
@@ -107,7 +121,7 @@ describe('NPM Proxy', () => {
       it('should only change package.json without running install', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
         const writePackageSpy = jest
-          .spyOn(PackageJsonHelper, 'writePackageJson')
+          .spyOn(npmProxy, 'writePackageJson')
           .mockImplementation(jest.fn);
 
         npmProxy.removeDependencies(
@@ -203,6 +217,32 @@ describe('NPM Proxy', () => {
         '--json',
       ]);
       expect(version).toEqual(`^${packageVersion}`);
+    });
+  });
+
+  describe('addPackageResolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', () => {
+      const writePackageSpy = jest.spyOn(npmProxy, 'writePackageJson').mockImplementation(jest.fn);
+
+      jest.spyOn(npmProxy, 'retrievePackageJson').mockImplementation(
+        jest.fn(() => ({
+          overrides: {
+            bar: 'x.x.x',
+          },
+        }))
+      );
+
+      const versions = {
+        foo: 'x.x.x',
+      };
+      npmProxy.addPackageResolutions(versions);
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        overrides: {
+          ...versions,
+          bar: 'x.x.x',
+        },
+      });
     });
   });
 });

@@ -226,41 +226,9 @@ With the release of version 5.3, we've updated how you can write your stories mo
 ### What icons are available for my toolbar or my addon?
 
 With the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package, you get a set of icons that you can use to customize your UI. Use the table below as a reference while writing your addon or defining your Storybook global types.
-Go through this [story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-icon--labels) to see how the icons look.
+Go through this [story](https://main--5a375b97f4b14f0020b0cda3.chromatic.com/?path=/story/basics-icon--labels) to see how the icons look.
 
-| accessibility  | accessibilityalt | add          | admin        | alert         |
-| -------------- | ---------------- | ------------ | ------------ | ------------- |
-| arrowdown      | arrowleft        | arrowleftalt | arrowright   | arrowrightalt |
-| arrowup        | back             | basket       | batchaccept  | batchdeny     |
-| beaker         | bell             | bitbucket    | book         | bookmark      |
-| bookmarkhollow | bottombar        | box          | branch       | browser       |
-| button         | calendar         | camera       | category     | certificate   |
-| check          | chevrondown      | chromatic    | circle       | circlehollow  |
-| close          | closeAlt         | cog          | collapse     | comment       |
-| commit         | compass          | component    | contrast     | copy          |
-| cpu            | credit           | cross        | dashboard    | database      |
-| delete         | discord          | docchart     | doclist      | document      |
-| download       | edit             | ellipsis     | email        | expand        |
-| expandalt      | eye              | eyeclose     | facebook     | facehappy     |
-| faceneutral    | facesad          | filter       | flag         | folder        |
-| form           | gdrive           | github       | gitlab       | globe         |
-| google         | graphbar         | graphline    | graphql      | grid          |
-| grow           | heart            | hearthollow  | home         | hourglass     |
-| info           | key              | lightning    | lightningoff | link          |
-| listunordered  | location         | lock         | markup       | medium        |
-| memory         | menu             | merge        | mirror       | mobile        |
-| nut            | outbox           | outline      | paintbrush   | paperclip     |
-| paragraph      | phone            | photo        | pin          | play          |
-| plus           | power            | print        | proceed      | profile       |
-| pullrequest    | question         | redirect     | redux        | reply         |
-| repository     | requestchange    | rss          | search       | share         |
-| sharealt       | shield           | sidebar      | sidebaralt   | speaker       |
-| star           | starhollow       | stop         | structure    | subtract      |
-| support        | switchalt        | sync         | tablet       | thumbsup      |
-| time           | timer            | transfer     | trash        | twitter       |
-| undo           | unfold           | unlock       | upload       | user          |
-| useradd        | useralt          | users        | video        | watch         |
-| wrench         | youtube          | zoom         | zoomout      | zoomreset     |
+<iframe src="https://main--5a375b97f4b14f0020b0cda3.chromatic.com/iframe.html?args=&id=basics-icon--labels&viewMode=story&shortcuts=false&singleStory=true" width="100%" height="600"></iframe>
 
 ### I see a "No Preview" error with a Storybook production build
 

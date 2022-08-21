@@ -1,4 +1,5 @@
 import { JsPackageManager } from './JsPackageManager';
+import type { PackageJson } from './PackageJson';
 
 export class Yarn2Proxy extends JsPackageManager {
   readonly type = 'yarn2';
@@ -13,6 +14,28 @@ export class Yarn2Proxy extends JsPackageManager {
 
   getRunCommand(command: string): string {
     return `yarn ${command}`;
+  }
+
+  setRegistryURL(url: string) {
+    if (url) {
+      this.executeCommand('yarn', ['config', 'set', 'npmRegistryServer', url]);
+    } else {
+      this.executeCommand('yarn', ['config', 'delete', 'npmRegistryServer']);
+    }
+  }
+
+  getRegistryURL() {
+    const url = this.executeCommand('yarn', ['config', 'get', 'npmRegistryServer']).trim();
+    return url === 'undefined' ? undefined : url;
+  }
+
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+    return {
+      resolutions: {
+        ...packageJson.resolutions,
+        ...versions,
+      },
+    };
   }
 
   protected runInstall(): void {

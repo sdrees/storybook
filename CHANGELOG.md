@@ -1,3 +1,45 @@
+## 7.0.0-alpha.23 (August 18, 2022)
+
+#### Features
+
+-   UI: Polish canvas and sidebar for 7.0 [#18894](https://github.com/storybooks/storybook/pull/18894)
+
+#### Maintenance
+
+-   Sandbox: Add ability to run from local repro [#18950](https://github.com/storybooks/storybook/pull/18950)
+-   Repros: Add ability to generate repros using local registry [#18948](https://github.com/storybooks/storybook/pull/18948)
+-   CLI: Move write/read package json into JsPackageManager [#18942](https://github.com/storybooks/storybook/pull/18942)
+
+
+## 7.0.0-alpha.22 (August 18, 2022)
+
+Failed publish to npm
+
+## 7.0.0-alpha.21 (August 17, 2022)
+
+#### Maintenance
+
+-   UI: Update every icon for v7 design [#18809](https://github.com/storybooks/storybook/pull/18809)
+
+## 7.0.0-alpha.20 (August 16, 2022)
+
+#### Features
+
+-   CLI: Automigration for new frameworks [#18919](https://github.com/storybooks/storybook/pull/18919)
+
+#### Bug Fixes
+
+-   UI: Fix the order of addons appearing in prebuilt manager [#18918](https://github.com/storybooks/storybook/pull/18918)
+
+#### Maintenance
+
+-   Exit sandbox gracefully on cancel [#18936](https://github.com/storybooks/storybook/pull/18936)
+-   Disable telemetry in monorepo and CI [#18935](https://github.com/storybooks/storybook/pull/18935)
+-   Convert cypress e2e tests to playwright [#18932](https://github.com/storybooks/storybook/pull/18932)
+-   CI: Refactor to use tasks [#18922](https://github.com/storybooks/storybook/pull/18922)
+-   Angular: Add renderer components / stories [#18934](https://github.com/storybooks/storybook/pull/18934)
+-   Examples: Add angular repro template and refactor [#18931](https://github.com/storybooks/storybook/pull/18931)
+
 ## 7.0.0-alpha.19 (August 12, 2022)
 
 #### Features

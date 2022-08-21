@@ -8,10 +8,11 @@ import addHeadWarning from './head-warning';
 addHeadWarning('manager-head-not-loaded', 'Manager head not loaded');
 
 const PrefixIcon = styled(Icons)(({ theme }) => ({
-  marginRight: 8,
+  marginRight: 5,
   fontSize: 'inherit',
-  height: '1em',
-  width: '1em',
+  height: 12,
+  width: 12,
+  paddingTop: 1,
   display: 'inline',
   alignSelf: 'center',
 }));

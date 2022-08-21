@@ -7,6 +7,7 @@ import {
   addArgTypes,
   addArgsEnhancer,
   addArgTypesEnhancer,
+  addStepRunner,
   setGlobalRender,
 } from './ClientApi';
 
@@ -24,6 +25,7 @@ export {
   addArgs,
   addArgTypes,
   addParameters,
+  addStepRunner,
   setGlobalRender,
   ClientApi,
 };

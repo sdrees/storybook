@@ -1,6 +1,5 @@
 import { baseGenerator } from '../baseGenerator';
 import { Generator } from '../types';
-import { writePackageJson } from '../../js-package-manager';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const [latestRaxVersion] = await packageManager.getVersions('rax');
@@ -17,7 +16,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   packageJson.dependencies['rax-text'] = packageJson.dependencies['rax-text'] || raxVersion;
   packageJson.dependencies['rax-view'] = packageJson.dependencies['rax-view'] || raxVersion;
 
-  writePackageJson(packageJson);
+  packageManager.writePackageJson(packageJson);
 
   await baseGenerator(packageManager, npmOptions, options, 'rax', {
     extraPackages: ['rax'],

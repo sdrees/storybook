@@ -9,4 +9,4 @@ export default {
   component: Button,
 };
 
-export const Basic = () => <Button label="Click me" />;
+export const Basic = () => <Button>Click me</Button>;

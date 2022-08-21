@@ -46,12 +46,12 @@ exports[`Storyshots Custom Prefix/AutoTitle Basic 1`] = `
 
 .emotion-0 svg {
   display: inline-block;
-  height: 14px;
-  width: 14px;
+  height: 12px;
+  width: 12px;
   vertical-align: top;
   margin-right: 4px;
-  margin-top: -1px;
-  margin-bottom: -1px;
+  margin-top: 0;
+  margin-bottom: 0;
   pointer-events: none;
 }
 
@@ -81,8 +81,9 @@ exports[`Storyshots Custom Prefix/AutoTitle Basic 1`] = `
 
 <button
   className="emotion-0"
-  label="Click me"
-/>
+>
+  Click me
+</button>
 `;
 
 exports[`Storyshots Custom Prefix/CustomTitle Basic 1`] = `
@@ -131,12 +132,12 @@ exports[`Storyshots Custom Prefix/CustomTitle Basic 1`] = `
 
 .emotion-0 svg {
   display: inline-block;
-  height: 14px;
-  width: 14px;
+  height: 12px;
+  width: 12px;
   vertical-align: top;
   margin-right: 4px;
-  margin-top: -1px;
-  margin-bottom: -1px;
+  margin-top: 0;
+  margin-bottom: 0;
   pointer-events: none;
 }
 
@@ -166,8 +167,9 @@ exports[`Storyshots Custom Prefix/CustomTitle Basic 1`] = `
 
 <button
   className="emotion-0"
-  label="Click me"
-/>
+>
+  Click me
+</button>
 `;
 
 exports[`Storyshots Demo/AccountForm Standard 1`] = `

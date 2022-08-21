@@ -2,7 +2,12 @@ name: Generate and push repros to the next branch
 
 on:
   schedule:
-    - cron: '2 2 */1 * *'
+    - cron: "2 2 */1 * *"
+  workflow_dispatch:
+  # To remove when the branch will be merged
+  push:
+    branches:
+      - shilman/add-angular-repro-template
 
 jobs:
   generate:
@@ -21,7 +26,7 @@ jobs:
         run: yarn bootstrap --prep
         working-directory: ./code
       - name: Generate repros
-        run: yarn next-repro
+        run: yarn generate-repros-next
         working-directory: ./code
       - name: Publish repros to GitHub
         run: yarn publish-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates-temp.git --push

@@ -85,6 +85,7 @@ const ItemContent: FC<Pick<State['notifications'][0], 'icon' | 'content'>> = ({
         <Icons
           icon={icon.name as IconsProps['icon']}
           width={16}
+          height={16}
           color={icon.color || DEFAULT_ICON_COLOUR}
         />
       </NotificationIconWrapper>

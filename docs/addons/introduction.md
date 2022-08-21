@@ -9,7 +9,7 @@ Browse our [addon catalog](https://storybook.js.org/addons) to install an existi
 
 ## Storybook basics
 
-Before writing your first addon, let’s take a look at the basics of Storybook’s architecture. While Storybook presents a unified user interface, under the hood it’s divided down the middle into **Manager** and **Preview**.
+Before writing your first [addon](https://storybook.js.org/addons), let’s take a look at the basics of Storybook’s architecture. While Storybook presents a unified user interface, under the hood it’s divided down the middle into **Manager** and **Preview**.
 
 The **Manager** is the UI responsible for rendering the:
 

@@ -7,10 +7,10 @@
 
 # Generating reproductions
 
-The monorepo has a script that generates Storybook reproductions based on configurations set in the `scripts/next-repro-generators/repro-config.yml` file. This makes it possible to quickly bootstrap examples with and without Storybook, for given configurations (e.g. CRA, Angular, Vue, etc.)
+The monorepo has a script that generates Storybook reproductions based on configurations set in the `code/lib/cli/src/repro-templates.ts` file. This makes it possible to quickly bootstrap examples with and without Storybook, for given configurations (e.g. CRA, Angular, Vue, etc.)
 
 To do so:
-- Check the `scripts/next-repro-generators/repro-config.yml` if you want to see what will be generated
+- Check the `code/lib/cli/src/repro-templates.ts` if you want to see what will be generated
 - Run `./generate-repros.sh`
 - Check the result in the `repros` directory
 

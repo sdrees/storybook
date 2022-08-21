@@ -20,13 +20,18 @@ export default {
 };
 
 export const Submitted = {
-  play: async () => {
+  play: async ({ args, canvasElement, step }) => {
     // Starts querying the component from its root element
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('email'), 'hi@example.com');
-    await userEvent.type(canvas.getByTestId('password'), 'supersecret');
-    await userEvent.click(canvas.getByRole('button'));
+    await step('Enter credentials', async () => {
+      await userEvent.type(canvas.getByTestId('email'), 'hi@example.com');
+      await userEvent.type(canvas.getByTestId('password'), 'supersecret');
+    });
+
+    await step('Submit form', async () => {
+      await userEvent.click(canvas.getByRole('button'));
+    });
 
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },

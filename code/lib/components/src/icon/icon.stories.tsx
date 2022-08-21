@@ -1,77 +1,89 @@
 import React from 'react';
-import { styled } from '@storybook/theming';
-import { storiesOf } from '@storybook/react';
+import { styled, css } from '@storybook/theming';
 
 import { Icons } from './icon';
 import { icons, IconKey } from './icons';
 
-const Meta = styled.div({
-  color: '#333',
-  fontSize: 12,
-});
+const Meta = styled.div`
+  color: #666;
+  font-size: 12px;
+`;
 
-interface ItemProps {
-  minimal?: boolean;
-}
+const Item = styled.li<{ minimal?: boolean }>`
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0 1 16%;
+  min-width: 120px;
+  margin: 16px;
 
-const Item = styled.div<ItemProps>(
-  {
-    display: 'inline-flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: '0 1 20%',
-    minWidth: 120,
+  svg {
+    margin-right: 6px;
+    width: 14px;
+    height: 14px;
+  }
 
-    padding: '0px 7.5px 20px',
+  ${(props) =>
+    props.minimal &&
+    css`
+      flex: none;
+      min-width: auto;
+      padding: 0;
+      margin: 16px;
 
-    '& svg': {
-      marginRight: 10,
-      width: 24,
-      height: 24,
-    },
-  },
-  ({ minimal }) =>
-    minimal
-      ? {
-          flex: 'none',
-          minWidth: 'auto',
-          padding: 0,
-          background: '#fff',
-          border: '1px solid #666',
+      svg {
+        display: block;
+        margin-right: 0;
+        width: 14px;
+        height: 14px;
+      }
+    `};
+`;
 
-          '& svg': {
-            display: 'block',
-            marginRight: 0,
-            width: 48,
-            height: 48,
-          },
-        }
-      : {}
+const List = styled.ul`
+  display: flex;
+  flex-flow: row wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const Header = styled.h2`
+  font-size: 16px;
+  margin: 16px;
+`;
+
+export default {
+  title: 'Basics/Icon',
+  component: Icons,
+};
+
+export const Basic = (args) => <Icons {...args} />;
+Basic.args = { icon: 'watch' };
+
+export const Labels = () => (
+  <>
+    <Header>{Object.keys(icons).length} icons</Header>
+    <List>
+      {Object.keys(icons).map((key) => (
+        <Item key={key}>
+          <Icons icon={key as IconKey} aria-hidden />
+          <Meta>{key}</Meta>
+        </Item>
+      ))}
+    </List>
+  </>
 );
 
-const List = styled.div({
-  display: 'flex',
-  flexFlow: 'row wrap',
-});
-
-const list = Object.keys(icons).sort() as IconKey[];
-
-storiesOf('Basics/Icon', module)
-  .add('labels', () => (
+export const NoLabels = () => (
+  <>
+    <Header>{Object.keys(icons).length} icons</Header>
     <List>
-      {list.map((key) => (
-        <Item key={key}>
-          <Icons icon={key} /> <Meta>{key}</Meta>
-        </Item>
-      ))}
-    </List>
-  ))
-  .add('no labels', () => (
-    <List>
-      {list.map((key) => (
+      {Object.keys(icons).map((key) => (
         <Item minimal key={key}>
-          <Icons icon={key} />
+          <Icons icon={key as IconKey} aria-label={key} />
         </Item>
       ))}
     </List>
-  ));
+  </>
+);

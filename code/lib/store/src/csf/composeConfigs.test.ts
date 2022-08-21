@@ -157,4 +157,22 @@ describe('composeConfigs', () => {
       runStep: expect.any(Function),
     });
   });
+
+  it('composes step runners', () => {
+    const fn = jest.fn();
+
+    const { runStep } = composeConfigs([
+      { runStep: (label, play, context) => fn(`${label}1`, play(context)) },
+      { runStep: (label, play, context) => fn(`${label}2`, play(context)) },
+      { runStep: (label, play, context) => fn(`${label}3`, play(context)) },
+    ]);
+
+    // @ts-expect-error We don't care about the context value here
+    runStep('Label', () => {}, {});
+
+    expect(fn).toHaveBeenCalledTimes(3);
+    expect(fn).toHaveBeenNthCalledWith(1, 'Label3', expect.anything());
+    expect(fn).toHaveBeenNthCalledWith(2, 'Label2', expect.anything());
+    expect(fn).toHaveBeenNthCalledWith(3, 'Label1', expect.anything());
+  });
 });

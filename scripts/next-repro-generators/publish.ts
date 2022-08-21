@@ -24,7 +24,7 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   const scriptPath = __dirname;
   const gitBranch = useNextVersion ? 'next' : 'main';
 
-  const templatesData = await getTemplatesData(join(scriptPath, 'repro-config.yml'));
+  const templatesData = await getTemplatesData();
 
   logger.log(`👯‍♂️ Cloning the repository ${remote} in branch ${gitBranch}`);
   await command(`git clone ${remote} .`, { cwd: tmpFolder });

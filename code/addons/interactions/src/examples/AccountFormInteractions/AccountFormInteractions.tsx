@@ -490,7 +490,7 @@ const ErrorIcon = styled(Icons)(({ theme }) => ({
   opacity: 0.8,
   marginRight: 6,
   marginLeft: 2,
-  marginTop: 1,
+  marginTop: 4,
 }));
 
 const ErrorTooltip = styled.div(({ theme }) => ({

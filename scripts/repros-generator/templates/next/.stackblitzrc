@@ -1,4 +1,4 @@
 {
   "installDependencies": true,
-  "startCommand": "yarn storybook"
+  "startCommand": "STORYBOOK_DISABLE_TELEMETRY=1 yarn storybook"
 }

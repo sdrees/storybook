@@ -7,19 +7,22 @@ describe('Panel', () => {
       {
         callId: 'story--id [4] findByText',
         status: CallStates.DONE,
+        ancestors: [],
       },
       {
         callId: 'story--id [5] click',
         status: CallStates.DONE,
+        ancestors: [],
       },
       {
         callId: 'story--id [6] waitFor',
         status: CallStates.DONE,
+        ancestors: [],
       },
       {
         callId: 'story--id [6] waitFor [2] toHaveBeenCalledWith',
-        parentId: 'story--id [6] waitFor',
         status: CallStates.DONE,
+        ancestors: ['story--id [6] waitFor'],
       },
     ];
     const calls = new Map<Call['id'], Call>(
@@ -27,6 +30,7 @@ describe('Panel', () => {
         {
           id: 'story--id [0] action',
           storyId: 'story--id',
+          ancestors: [],
           cursor: 0,
           path: [],
           method: 'action',
@@ -37,6 +41,7 @@ describe('Panel', () => {
         {
           id: 'story--id [1] action',
           storyId: 'story--id',
+          ancestors: [],
           cursor: 1,
           path: [],
           method: 'action',
@@ -47,6 +52,7 @@ describe('Panel', () => {
         {
           id: 'story--id [2] action',
           storyId: 'story--id',
+          ancestors: [],
           cursor: 2,
           path: [],
           method: 'action',
@@ -57,6 +63,7 @@ describe('Panel', () => {
         {
           id: 'story--id [3] within',
           storyId: 'story--id',
+          ancestors: [],
           cursor: 3,
           path: [],
           method: 'within',
@@ -67,6 +74,7 @@ describe('Panel', () => {
         {
           id: 'story--id [4] findByText',
           storyId: 'story--id',
+          ancestors: [],
           cursor: 4,
           path: [{ __callId__: 'story--id [3] within' }],
           method: 'findByText',
@@ -77,6 +85,7 @@ describe('Panel', () => {
         {
           id: 'story--id [5] click',
           storyId: 'story--id',
+          ancestors: [],
           cursor: 5,
           path: ['userEvent'],
           method: 'click',
@@ -86,8 +95,8 @@ describe('Panel', () => {
         },
         {
           id: 'story--id [6] waitFor [0] expect',
-          parentId: 'story--id [6] waitFor',
           storyId: 'story--id',
+          ancestors: ['story--id [6] waitFor'],
           cursor: 0,
           path: [],
           method: 'expect',
@@ -97,8 +106,8 @@ describe('Panel', () => {
         },
         {
           id: 'story--id [6] waitFor [1] stringMatching',
-          parentId: 'story--id [6] waitFor',
           storyId: 'story--id',
+          ancestors: ['story--id [6] waitFor'],
           cursor: 1,
           path: ['expect'],
           method: 'stringMatching',
@@ -108,8 +117,8 @@ describe('Panel', () => {
         },
         {
           id: 'story--id [6] waitFor [2] toHaveBeenCalledWith',
-          parentId: 'story--id [6] waitFor',
           storyId: 'story--id',
+          ancestors: ['story--id [6] waitFor'],
           cursor: 2,
           path: [{ __callId__: 'story--id [6] waitFor [0] expect' }],
           method: 'toHaveBeenCalledWith',
@@ -120,6 +129,7 @@ describe('Panel', () => {
         {
           id: 'story--id [6] waitFor',
           storyId: 'story--id',
+          ancestors: [],
           cursor: 6,
           path: [],
           method: 'waitFor',
@@ -138,6 +148,7 @@ describe('Panel', () => {
           ...calls.get('story--id [4] findByText'),
           status: CallStates.DONE,
           childCallIds: undefined,
+          isHidden: false,
           isCollapsed: false,
           toggleCollapsed: expect.any(Function),
         },
@@ -145,6 +156,7 @@ describe('Panel', () => {
           ...calls.get('story--id [5] click'),
           status: CallStates.DONE,
           childCallIds: undefined,
+          isHidden: false,
           isCollapsed: false,
           toggleCollapsed: expect.any(Function),
         },
@@ -152,6 +164,7 @@ describe('Panel', () => {
           ...calls.get('story--id [6] waitFor'),
           status: CallStates.DONE,
           childCallIds: ['story--id [6] waitFor [2] toHaveBeenCalledWith'],
+          isHidden: false,
           isCollapsed: false,
           toggleCollapsed: expect.any(Function),
         },
@@ -159,13 +172,14 @@ describe('Panel', () => {
           ...calls.get('story--id [6] waitFor [2] toHaveBeenCalledWith'),
           status: CallStates.DONE,
           childCallIds: undefined,
+          isHidden: false,
           isCollapsed: false,
           toggleCollapsed: expect.any(Function),
         },
       ]);
     });
 
-    it('omits calls for which the parent is collapsed', () => {
+    it('hides calls for which the parent is collapsed', () => {
       const withCollapsed = new Set<Call['id']>(['story--id [6] waitFor']);
 
       expect(getInteractions({ log, calls, collapsed: withCollapsed, setCollapsed })).toEqual([
@@ -173,16 +187,25 @@ describe('Panel', () => {
           ...calls.get('story--id [4] findByText'),
           childCallIds: undefined,
           isCollapsed: false,
+          isHidden: false,
         }),
         expect.objectContaining({
           ...calls.get('story--id [5] click'),
           childCallIds: undefined,
           isCollapsed: false,
+          isHidden: false,
         }),
         expect.objectContaining({
           ...calls.get('story--id [6] waitFor'),
           childCallIds: ['story--id [6] waitFor [2] toHaveBeenCalledWith'],
           isCollapsed: true,
+          isHidden: false,
+        }),
+        expect.objectContaining({
+          ...calls.get('story--id [6] waitFor [2] toHaveBeenCalledWith'),
+          childCallIds: undefined,
+          isCollapsed: false,
+          isHidden: true,
         }),
       ]);
     });

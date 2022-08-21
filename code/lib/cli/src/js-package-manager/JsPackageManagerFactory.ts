@@ -6,35 +6,35 @@ import { Yarn2Proxy } from './Yarn2Proxy';
 import { Yarn1Proxy } from './Yarn1Proxy';
 
 export class JsPackageManagerFactory {
-  public static getPackageManager(forceNpmUsage = false): JsPackageManager {
+  public static getPackageManager(forceNpmUsage = false, cwd?: string): JsPackageManager {
     if (forceNpmUsage) {
-      return new NPMProxy();
+      return new NPMProxy({ cwd });
     }
 
-    const yarnVersion = getYarnVersion();
-    const hasYarnLockFile = findUpSync('yarn.lock');
+    const yarnVersion = getYarnVersion(cwd);
+    const hasYarnLockFile = findUpSync('yarn.lock', { cwd });
 
-    const hasNPMCommand = hasNPM();
+    const hasNPMCommand = hasNPM(cwd);
 
     if (yarnVersion && (hasYarnLockFile || !hasNPMCommand)) {
-      return yarnVersion === 1 ? new Yarn1Proxy() : new Yarn2Proxy();
+      return yarnVersion === 1 ? new Yarn1Proxy({ cwd }) : new Yarn2Proxy({ cwd });
     }
 
     if (hasNPMCommand) {
-      return new NPMProxy();
+      return new NPMProxy({ cwd });
     }
 
     throw new Error('Unable to find a usable package manager within NPM, Yarn and Yarn 2');
   }
 }
 
-function hasNPM() {
-  const npmVersionCommand = spawnSync('npm', ['--version']);
+function hasNPM(cwd?: string) {
+  const npmVersionCommand = spawnSync('npm', ['--version'], { cwd });
   return npmVersionCommand.status === 0;
 }
 
-function getYarnVersion(): 1 | 2 | undefined {
-  const yarnVersionCommand = spawnSync('yarn', ['--version']);
+function getYarnVersion(cwd?: string): 1 | 2 | undefined {
+  const yarnVersionCommand = spawnSync('yarn', ['--version'], { cwd });
 
   if (yarnVersionCommand.status !== 0) {
     return undefined;

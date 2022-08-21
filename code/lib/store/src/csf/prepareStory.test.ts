@@ -641,7 +641,7 @@ describe('playFunction', () => {
       expect(context.step).toEqual(expect.any(Function));
     });
     const play = jest.fn(async ({ step }) => {
-      step('label', stepPlay);
+      await step('label', stepPlay);
     });
     const runStep = jest.fn((label, p, c) => p(c));
     const { playFunction } = prepareStory(

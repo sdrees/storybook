@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { move, remove } from 'fs-extra';
-import { runCommand } from '../generate';
+import { runCommand } from '../generate-repros';
 
 interface SetupYarnOptions {
   cwd: string;

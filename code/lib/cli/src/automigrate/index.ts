@@ -57,7 +57,7 @@ export const automigrate = async ({ fixId, dryRun, yes }: FixOptions = {}) => {
           logger.info(`✅ ran ${chalk.cyan(f.id)} migration`);
         } catch (error) {
           logger.info(`❌ error when running ${chalk.cyan(f.id)} migration:`);
-          logger.info(error.message);
+          logger.info(error);
           logger.info();
         }
       } else {

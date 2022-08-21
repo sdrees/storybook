@@ -457,6 +457,114 @@ jobs:
             cd code
             yarn coverage
 
+  ## new workflow
+  create-sandboxes:
+    executor:
+      class: medium+
+      name: sb_node_14_browsers
+    parallelism: 2
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Creating Sandboxes
+          command: yarn task --task create --template $(yarn get-template ci) --force --no-before --junit
+          working_directory: code
+      - persist_to_workspace:
+          root: .
+          paths:
+            - sandbox
+      - store_test_results:
+          path: code/test-results
+  smoke-test-sandboxes:
+    executor:
+      class: medium+
+      name: sb_node_14_browsers
+    parallelism: 2
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Smoke Testing Sandboxes
+          command: yarn task --task smoke-test --template $(yarn get-template ci) --force --no-before --junit
+          working_directory: code
+      - store_test_results:
+          path: code/test-results
+  build-sandboxes:
+    executor:
+      class: medium+
+      name: sb_node_14_browsers
+    parallelism: 2
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Building Sandboxes
+          command: yarn task --task build --template $(yarn get-template ci) --force --no-before --junit
+          working_directory: code
+      - store_test_results:
+          path: code/test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - sandbox
+  test-runner-sandboxes:
+    executor:
+      class: medium+
+      name: sb_node_14_browsers
+    parallelism: 2
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running Test Runner
+          command: yarn task --task test-runner --template $(yarn get-template ci) --force --no-before --junit
+          working_directory: code
+      - store_test_results:
+          path: code/test-results
+  chromatic-sandboxes:
+    executor:
+      class: medium+
+      name: sb_node_14_browsers
+    parallelism: 2
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running Chromatic
+          command: yarn task --task chromatic --template $(yarn get-template ci) --force --no-before --junit
+          working_directory: code
+      - store_test_results:
+          path: code/test-results
+  e2e-sandboxes:
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.24.0-focal
+    parallelism: 2
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running E2E Tests
+          command: yarn task --task e2e-tests --template $(yarn get-template ci) --force --no-before --junit
+          working_directory: code
+      - store_test_results:
+          path: code/test-results
+      - store_artifacts: # this is where playwright puts more complex stuff
+          path: code/playwright-results/
+          destination: playwright
+
 workflows:
   test:
     jobs:
@@ -500,3 +608,23 @@ workflows:
       - cra-bench:
           requires:
             - publish
+
+      ## new workflow
+      - create-sandboxes:
+          requires:
+            - publish
+      - smoke-test-sandboxes:
+          requires:
+            - create-sandboxes
+      - build-sandboxes:
+          requires:
+            - create-sandboxes
+      - test-runner-sandboxes:
+          requires:
+            - build-sandboxes
+      - chromatic-sandboxes:
+          requires:
+            - build-sandboxes
+      - e2e-sandboxes:
+          requires:
+            - build-sandboxes

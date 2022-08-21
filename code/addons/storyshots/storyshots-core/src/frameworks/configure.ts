@@ -113,8 +113,15 @@ function configure<TFramework extends AnyFramework>(
 
   if (preview) {
     // This is essentially the same code as lib/core/src/server/preview/virtualModuleEntry.template
-    const { parameters, decorators, globals, globalTypes, argsEnhancers, argTypesEnhancers } =
-      jest.requireActual(preview);
+    const {
+      parameters,
+      decorators,
+      globals,
+      globalTypes,
+      argsEnhancers,
+      argTypesEnhancers,
+      runStep,
+    } = jest.requireActual(preview);
 
     if (decorators) {
       decorators.forEach((decorator: DecoratorFunction<TFramework>) =>
@@ -123,6 +130,9 @@ function configure<TFramework extends AnyFramework>(
     }
     if (parameters || globals || globalTypes) {
       storybook.addParameters({ ...parameters, globals, globalTypes });
+    }
+    if (runStep) {
+      storybook.addStepRunner(runStep);
     }
     if (argsEnhancers) {
       argsEnhancers.forEach((enhancer: ArgsEnhancer<TFramework>) =>

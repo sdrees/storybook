@@ -34,7 +34,12 @@ export async function executeCLIStep<TOptions extends OptionSpecifier>(
 
   await exec(
     command,
-    { cwd: options.cwd },
+    {
+      cwd: options.cwd,
+      env: {
+        STORYBOOK_DISABLE_TELEMETRY: 'true',
+      },
+    },
     {
       startMessage: `${cliStep.icon} ${cliStep.description}`,
       errorMessage: `🚨 ${cliStep.description} failed`,

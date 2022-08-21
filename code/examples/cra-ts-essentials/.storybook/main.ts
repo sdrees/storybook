@@ -12,6 +12,7 @@ const mainConfig: StorybookConfig = {
         viewport: false,
       },
     },
+    '@storybook/addon-interactions',
   ],
   logLevel: 'debug',
   // add monorepo root as a valid directory to import modules from

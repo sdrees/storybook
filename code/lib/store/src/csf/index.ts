@@ -6,4 +6,5 @@ export * from './normalizeComponentAnnotations';
 export * from './normalizeProjectAnnotations';
 export * from './getValuesFromArgTypes';
 export * from './composeConfigs';
+export * from './stepRunners';
 export * from './testing-utils';

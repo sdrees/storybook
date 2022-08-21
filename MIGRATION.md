@@ -17,6 +17,13 @@
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
+    - [Icons API changed](#icons-api-changed)
+  - [Docs Changes](#docs-changes)
+    - [Standalone docs files](#standalone-docs-files)
+    - [Referencing stories in docs files](#referencing-stories-in-docs-files)
+    - [Docs Page](#docs-page)
+    - [Configuring the Docs Container](#configuring-the-docs-container)
+    - [External Docs](#external-docs)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -228,7 +235,6 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### Breaking changes
 
-
 #### No more default export from `@storybook/addons`
 
 The default export from `@storybook/addons` has been removed. Please use the named exports instead:
@@ -238,6 +244,7 @@ import { addons } from '@storybook/addons';
 ```
 
 The named export has been available since 6.0 or earlier, so your updated code will be backwards-compatible with older versions of Storybook.
+
 #### Modern browser support
 
 Starting in storybook 7.0, storybook will no longer support IE11, amongst other legacy browser versions.
@@ -247,10 +254,13 @@ This means code-features such as (but not limited to) `async/await`, arrow-funct
 Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example certain versions of webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
 
 Some addons or libraries might depended on this legacy browser support, and thus might break. You might get an error like:
+
 ```
 regeneratorRuntime is not defined
 ```
+
 To fix these errors, the addon will have to be re-released with a newer browser-target for transpilation. This often looks something like this (but it's dependent on the build system the addon uses):
+
 ```js
 // babel.config.js
 module.exports = {
@@ -266,7 +276,7 @@ module.exports = {
       },
     ],
   ],
-}
+};
 ```
 
 Here's an example PR to one of the storybook addons: https://github.com/storybookjs/addon-coverage/pull/3 doing just that.
@@ -462,6 +472,159 @@ In 7.0 we've removed the following feature flags:
 
 It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
 
+#### Icons API changed
+
+For addon authors who use the `Icons` component, its API has been udpated in Storybook 7.
+
+```diff
+export interface IconsProps extends ComponentProps<typeof Svg> {
+-  icon?: IconKey;
+-  symbol?: IconKey;
++  icon: IconType;
++  useSymbol?: boolean;
+}
+```
+
+Full change here: https://github.com/storybookjs/storybook/pull/18809
+
+### Docs Changes
+
+The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry, rather than attached to individual stories.
+
+These changes are encapsulated in the following:
+
+#### Standalone docs files
+
+In Storybook 6.x, to create a standalone docs MDX file, you'd have to create a `.stories.mdx` file, and describe its location with the `Meta` doc block:
+
+```mdx
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Introduction" />
+```
+
+In 7.0, things are a little simpler -- you should call the file `.mdx` (drop the `.stories`). This will mean behind the scenes there is no story attached to this entry. You may also drop the `title` and use autotitle (and leave the `Meta` component out entirely).
+
+Additionally, you can attach a standalone docs entry to a component, using the new `of={}` syntax on the `Meta` component:
+
+```mdx
+import { Meta } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+```
+
+You can create as many docs entries as you like for a given component. Note that if you attach a docs entry to a component it will replace the automatically generated entry from `DocsPage` (See below).
+
+By default docs entries are listed first for the component. You can sort them using story sorting.
+
+#### Referencing stories in docs files
+
+To reference a story in a MDX file, you should reference it with `of`:
+
+```mdx
+import { Meta, Story } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Story of={ComponentStories.standard} />
+```
+
+You can also reference a story from a different component:
+
+```mdx
+import { Meta, Story } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+import * as SecondComponentStories from './second-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Story of={SecondComponentStories.standard} meta={SecondComponentStories} />
+```
+
+#### Docs Page
+
+In 7.0, rather than rendering each story in "docs view mode", Docs Page operates by adding additional sidebar entries for each component. By default it uses the same template as was used in 6.x, and the entries are entitled `Docs`.
+
+You can configure Docs Page in `main.js`:
+
+```js
+module.exports = {
+  docs: {
+    docsPage: true, // set to false to disable docs page entirely
+    defaultTitle: 'Docs', // set to change the title of generated docs entries
+  },
+};
+```
+
+You can change the default template in the same way as in 6.x, using the `docs.page` parameter.
+
+#### Configuring the Docs Container
+
+As in 6.x, you can override the docs container to configure docs further. This the container that each docs entry is rendered inside:
+
+```js
+// in preview.js
+
+export const parameters = {
+  docs: {
+    container: // your container
+  }
+}
+```
+
+You likely want to use the `DocsContainer` component exported by `@storybook/blocks` and consider the following examples:
+
+**Overriding theme**:
+
+To override the theme, you can continue to use the `docs.theme` parameter.
+
+**Overriding MDX components**
+
+If you want to override the MDX components supplied to your docs page, use the `MDXProvider` from `@mdx-js/react`:
+
+```js
+import { MDXProvider } from '@mdx-js/react';
+import { DocsContainer } from '@storybook/blocks';
+import * as DesignSystem from 'your-design-system';
+
+export const MyDocsContainer = (props) => (
+  <MDXProvider
+    components={{
+      h1: DesignSystem.H1,
+      h2: DesignSystem.H2,
+    }}
+  >
+    <DocsContainer {...props} />
+  </MDXProvider>
+);
+```
+
+#### External Docs
+
+Storybook 7.0 can be used in the above way in externally created projects (i.e. custom docs sites). Your `.mdx` files defined as above should be portable to other contexts. You simply need to render them in an `ExternalDocs` component:
+
+```js
+// In your project somewhere:
+import { ExternalDocs } from '@storybook/blocks';
+
+// Import all the preview entries from addons that need to operate in your external docs,
+// at a minimum likely your project's and your renderer's.
+import * as reactAnnotations from '@storybook/react/preview';
+import * as previewAnnotations from '../.storybook/preview';
+
+export default function App({ Component, pageProps }) {
+  return (
+    <ExternalDocs
+      projectAnnotationsList={[reactAnnotations, previewAnnotations]}
+    >
+      <Component {...pageProps} />
+    </ExternalDocs>
+  );
+}
+```
+
 ## From version 6.4.x to 6.5.0
 
 ### Vue 3 upgrade
@@ -579,7 +742,8 @@ import startCase from 'lodash/startCase';
 
 addons.setConfig({
   sidebar: {
-    renderLabel: ({ name, type }) => (type === 'story' ? name : startCase(name)),
+    renderLabel: ({ name, type }) =>
+      type === 'story' ? name : startCase(name),
   },
 });
 ```
@@ -1006,7 +1170,11 @@ After:
 ```js
 // .storybook/main.js
 module.exports = {
-  staticDirs: ['../public', '../static', { from: '../foo/assets', to: '/assets' }],
+  staticDirs: [
+    '../public',
+    '../static',
+    { from: '../foo/assets', to: '/assets' },
+  ],
 };
 ```
 
@@ -1554,13 +1722,17 @@ This breaking change only affects you if your stories actually use the context, 
 Consider the following story that uses the context:
 
 ```js
-export const Dummy = ({ parameters }) => <div>{JSON.stringify(parameters)}</div>;
+export const Dummy = ({ parameters }) => (
+  <div>{JSON.stringify(parameters)}</div>
+);
 ```
 
 Here's an updated story for 6.0 that ignores the args object:
 
 ```js
-export const Dummy = (_args, { parameters }) => <div>{JSON.stringify(parameters)}</div>;
+export const Dummy = (_args, { parameters }) => (
+  <div>{JSON.stringify(parameters)}</div>
+);
 ```
 
 Alternatively, if you want to opt out of the new behavior, you can add the following to your `.storybook/preview.js` config:
@@ -2350,7 +2522,9 @@ For example, here's how to sort by story ID using `storySort`:
 addParameters({
   options: {
     storySort: (a, b) =>
-      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
+      a[1].kind === b[1].kind
+        ? 0
+        : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
   },
 });
 ```
@@ -2396,7 +2570,9 @@ Storybook 5.1 relies on `core-js@^3.0.0` and therefore causes a conflict with An
 {
   "compilerOptions": {
     "paths": {
-      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
+      "core-js/es7/reflect": [
+        "node_modules/core-js/proposals/reflect-metadata"
+      ],
       "core-js/es6/*": ["node_modules/core-js/es"]
     }
   }

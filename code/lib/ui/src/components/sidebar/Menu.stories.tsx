@@ -1,8 +1,10 @@
+import { expect } from '@storybook/jest';
 import React, { Fragment, FunctionComponent } from 'react';
 
 import { WithTooltip, TooltipLinkList, Icons } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { MenuItemIcon, SidebarMenu, ToolbarMenu, MenuButton, SidebarMenuList } from './Menu';
+import { within, userEvent, screen } from '@storybook/testing-library';
+import { MenuItemIcon, SidebarMenu, ToolbarMenu } from './Menu';
 import { useMenu } from '../../containers/menu';
 
 export default {
@@ -39,22 +41,6 @@ const DoubleThemeRenderingHack = styled.div({
   },
 });
 
-const ExpandedMenu: FunctionComponent<{ menu: any }> = ({ menu }) => (
-  <DoubleThemeRenderingHack>
-    <WithTooltip
-      placement="bottom"
-      trigger="click"
-      closeOnClick
-      startOpen
-      tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
-    >
-      <MenuButton outline small containsIcon highlighted={false} title="Shortcuts">
-        <Icons icon="ellipsis" />
-      </MenuButton>
-    </WithTooltip>
-  </DoubleThemeRenderingHack>
-);
-
 export const Expanded = () => {
   const menu = useMenu(
     {
@@ -70,7 +56,18 @@ export const Expanded = () => {
     false,
     false
   );
-  return <ExpandedMenu menu={menu} />;
+  return (
+    <DoubleThemeRenderingHack>
+      <SidebarMenu menu={menu} isHighlighted />
+    </DoubleThemeRenderingHack>
+  );
+};
+Expanded.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const menuButton = await canvas.findByRole('button');
+  await userEvent.click(menuButton);
+  const aboutStorybookBtn = await screen.findByText(/About your Storybook/);
+  await expect(aboutStorybookBtn).toBeInTheDocument();
 };
 
 export const ExpandedWithoutReleaseNotes = () => {
@@ -88,5 +85,16 @@ export const ExpandedWithoutReleaseNotes = () => {
     false,
     false
   );
-  return <ExpandedMenu menu={menu} />;
+
+  return (
+    <DoubleThemeRenderingHack>
+      <SidebarMenu menu={menu} />
+    </DoubleThemeRenderingHack>
+  );
+};
+ExpandedWithoutReleaseNotes.play = async (context) => {
+  const canvas = within(context.canvasElement);
+  await Expanded.play(context);
+  const releaseNotes = await canvas.queryByText(/Release notes/);
+  await expect(releaseNotes).not.toBeInTheDocument();
 };

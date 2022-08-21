@@ -275,22 +275,23 @@ const MOCK_FRAMEWORK_FILES: {
 describe('Detect', () => {
   it(`should return type HTML if html option is passed`, () => {
     (readPackageJson as jest.Mock).mockImplementation(() => true);
-    expect(detect({ html: true })).toBe(ProjectType.HTML);
+    expect(detect({ dependencies: {} }, { html: true })).toBe(ProjectType.HTML);
   });
 
   it(`should return type UNDETECTED if neither packageJson or bowerJson exist`, () => {
     (readPackageJson as jest.Mock).mockImplementation(() => false);
     (getBowerJson as jest.Mock).mockImplementation(() => false);
-    expect(detect()).toBe(ProjectType.UNDETECTED);
+    expect(detect(undefined)).toBe(ProjectType.UNDETECTED);
   });
 
   it(`should return language typescript if the dependency is present`, () => {
-    (readPackageJson as jest.Mock).mockImplementation(() => ({
-      dependencies: {
-        typescript: '1.0.0',
-      },
-    }));
-    expect(detectLanguage()).toBe(SupportedLanguage.TYPESCRIPT);
+    expect(
+      detectLanguage({
+        dependencies: {
+          typescript: '1.0.0',
+        },
+      })
+    ).toBe(SupportedLanguage.TYPESCRIPT);
   });
 
   it(`should return language javascript by default`, () => {

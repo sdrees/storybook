@@ -157,7 +157,7 @@ const CurrentVersion: FC<CurrentVersionProps> = ({ url, versions }) => {
   return (
     <Version>
       <span>{currentVersionId}</span>
-      <Icons icon="chevrondown" />
+      <Icons icon="arrowdown" />
     </Version>
   );
 };

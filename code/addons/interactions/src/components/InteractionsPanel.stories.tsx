@@ -122,7 +122,7 @@ export const Failed: Story = {
   },
 };
 
-export const WithDebuggingDisabled: Story = {
+export const NoDebugger: Story = {
   args: { controlStates: { ...SubnavStories.args.controlStates, debugger: false } },
 };
 

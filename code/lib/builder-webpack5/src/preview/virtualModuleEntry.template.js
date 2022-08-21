@@ -5,6 +5,7 @@ import {
   addLoader,
   addArgs,
   addArgTypes,
+  addStepRunner,
   addArgsEnhancer,
   addArgTypesEnhancer,
   setGlobalRender,
@@ -48,6 +49,9 @@ Object.keys(config).forEach((key) => {
     case 'decorateStory':
     case 'renderToDOM': {
       return null; // This key is not handled directly in v6 mode.
+    }
+    case 'runStep': {
+      return addStepRunner(value);
     }
     default: {
       // eslint-disable-next-line prefer-template
