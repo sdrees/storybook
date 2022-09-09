@@ -19,3 +19,5 @@ export interface Render<TFramework extends AnyFramework> {
   torndown: boolean;
   renderToElement: (canvasElement: HTMLElement, renderStoryToElement?: any) => Promise<void>;
 }
+
+export const PREPARE_ABORTED = new Error('prepareAborted');

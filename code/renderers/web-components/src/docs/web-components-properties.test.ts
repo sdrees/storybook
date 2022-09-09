@@ -13,6 +13,7 @@ const runWebComponentsAnalyzer = (inputPath: string) => {
   const customElementsFile = `${tmpDir}/custom-elements.json`;
   spawnSync('yarn', ['wca', 'analyze', inputPath, '--outFile', customElementsFile], {
     stdio: 'inherit',
+    shell: true,
   });
   const output = fs.readFileSync(customElementsFile, 'utf8');
   try {

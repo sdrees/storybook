@@ -6,7 +6,7 @@ import { sync as spawnSync } from 'cross-spawn';
 
 import { findComponentByName, extractArgTypesFromData } from './compodoc';
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 const { SNAPSHOT_OS } = global;
 
 // File hierarchy: __testfixtures__ / some-test-case / input.*
@@ -21,6 +21,7 @@ const runCompodoc = (inputPath: string) => {
   // (and screwed around with relative paths as well, but couldn't get it working)
   spawnSync('yarn', ['compodoc', '-p', `${testDir}/tsconfig.json`, '-e', 'json', '-d', tmpDir], {
     stdio: 'inherit',
+    shell: true,
   });
   const output = fs.readFileSync(`${tmpDir}/documentation.json`, 'utf8');
   try {

@@ -37,7 +37,7 @@ export default defineComponent({
 
   emits: ['click'],
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   setup(props, { emit }) {
     props = reactive(props);
     return {

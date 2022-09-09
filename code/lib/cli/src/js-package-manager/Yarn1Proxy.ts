@@ -16,19 +16,6 @@ export class Yarn1Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
-  setRegistryURL(url: string) {
-    if (url) {
-      this.executeCommand('yarn', ['config', 'set', 'npmRegistryServer', url]);
-    } else {
-      this.executeCommand('yarn', ['config', 'delete', 'npmRegistryServer']);
-    }
-  }
-
-  getRegistryURL() {
-    const url = this.executeCommand('yarn', ['config', 'get', 'npmRegistryServer']).trim();
-    return url === 'undefined' ? undefined : url;
-  }
-
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
     return {
       resolutions: {

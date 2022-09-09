@@ -8,7 +8,7 @@ import {
   emitter,
   mockChannel,
 } from '@storybook/preview-web/dist/cjs/PreviewWeb.mockdata';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
 import { setGlobalRender } from '@storybook/client-api';
 
@@ -19,7 +19,7 @@ jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
 jest.spyOn(WebView.prototype, 'prepareForStory').mockReturnValue('story-root');
 
 jest.mock('global', () => ({
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {

@@ -23,7 +23,7 @@ export default {
     },
   },
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   setup(props, { emit }) {
     const classes = {
       'storybook-button': true,

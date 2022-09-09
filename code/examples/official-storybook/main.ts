@@ -3,10 +3,6 @@ import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
   stories: [
-    {
-      directory: './stories/title',
-      titlePrefix: 'Custom Prefix',
-    },
     // FIXME: Breaks e2e tests './intro.stories.mdx',
     '../../lib/ui/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
     '../../lib/components/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',

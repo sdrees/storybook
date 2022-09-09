@@ -17,10 +17,10 @@ export function getPrettyIdentifier(inferredType: InspectionIdentifiableInferedT
 
   switch (type) {
     case InspectionType.FUNCTION:
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       return getPrettyFuncIdentifier(identifier, (inferredType as InspectionFunction).hasParams);
     case InspectionType.ELEMENT:
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       return getPrettyElementIdentifier(identifier);
     default:
       return identifier;

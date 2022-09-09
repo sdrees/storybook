@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.0.0-alpha.23",
+  "version": "7.0.0-alpha.31",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -44,18 +44,18 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.23",
-    "core-js": "^3.8.2",
+    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
+    "@storybook/client-logger": "7.0.0-alpha.31",
     "memoizerific": "^1.11.3"
   },
   "devDependencies": {
-    "@emotion/cache": "^11.7.1",
-    "@emotion/is-prop-valid": "^1.1.2",
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/cache": "^11.10.3",
+    "@emotion/is-prop-valid": "^1.2.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@types/fs-extra": "^9.0.6",
     "@types/node": "^14.14.20 || ^16.0.0",
     "deep-object-diff": "^1.1.0",
@@ -63,7 +63,6 @@
     "global": "^4.4.0",
     "polished": "^4.2.2",
     "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {
@@ -80,5 +79,5 @@
     ],
     "post": "./scripts/fix-theme-type-export.ts"
   },
-  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }

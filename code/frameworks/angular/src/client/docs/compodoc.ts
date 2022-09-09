@@ -21,11 +21,11 @@ export const isMethod = (methodOrProp: Method | Property): methodOrProp is Metho
 };
 
 export const setCompodocJson = (compodocJson: CompodocJson) => {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   window.__STORYBOOK_COMPODOC_JSON__ = compodocJson;
 };
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 export const getCompodocJson = (): CompodocJson => window.__STORYBOOK_COMPODOC_JSON__;
 
 export const checkValidComponentOrDirective = (component: Component | Directive) => {
@@ -191,7 +191,6 @@ const extractDefaultValueFromComments = (property: Property, value: any) => {
   let commentValue = value;
   property.jsdoctags.forEach((tag: JsDocTag) => {
     if (['default', 'defaultvalue'].includes(tag.tagName.escapedText)) {
-      // @ts-ignore
       const dom = new window.DOMParser().parseFromString(tag.comment, 'text/html');
       commentValue = dom.body.textContent;
     }

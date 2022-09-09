@@ -27,7 +27,7 @@ describe('defineJestParameter', () => {
   });
 
   test('returns null if filename is a module ID that cannot be inferred from', () => {
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     expect(defineJestParameter({ fileName: 1234 })).toBeNull();
   });
 });

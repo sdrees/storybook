@@ -35,7 +35,7 @@ describe('sourceDecorator', () => {
   let mockChannel: { on: jest.Mock; emit?: jest.Mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     mockedUseEffect.mockImplementation((cb) => setTimeout(cb, 0));
 
     mockChannel = { on: jest.fn(), emit: jest.fn() };

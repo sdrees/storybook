@@ -81,12 +81,12 @@ export class JsonAddValue extends Component<JsonAddValueProps, JsonAddValueState
   }
 
   refInputKey(node: any) {
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.state.inputRefKey = node;
   }
 
   refInputValue(node: any) {
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.state.inputRefValue = node;
   }
 
@@ -144,7 +144,7 @@ interface JsonAddValueProps {
   onSubmitValueParser: (...args: any) => any;
 }
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 JsonAddValue.defaultProps = {
   onlyValue: false,
   addButtonElement: <button>+</button>,
@@ -193,7 +193,7 @@ export class JsonArray extends Component<JsonArrayProps, JsonArrayState> {
   onChildUpdate(childKey: string, childData: any) {
     const { data, keyPath } = this.state;
     // Update data
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     data[childKey] = childData;
     // Put new data
     this.setState({
@@ -484,7 +484,7 @@ interface JsonArrayProps {
   onSubmitValueParser: (...args: any) => any;
 }
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 JsonArray.defaultProps = {
   keyPath: [],
   deep: 0,
@@ -586,7 +586,7 @@ export class JsonFunctionValue extends Component<JsonFunctionValueProps, JsonFun
   }
 
   refInput(node: any) {
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.state.inputRef = node;
   }
 
@@ -693,7 +693,7 @@ interface JsonFunctionValueProps {
   onSubmitValueParser: (...args: any) => any;
 }
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 JsonFunctionValue.defaultProps = {
   keyPath: [],
   deep: 0,
@@ -1036,7 +1036,7 @@ interface JsonNodeProps {
   onSubmitValueParser: (...args: any) => any;
 }
 
-/// @ts-ignore
+/// @ts-expect-error (Converted from ts-ignore)
 JsonNode.defaultProps = {
   keyPath: [],
   deep: 0,
@@ -1085,7 +1085,7 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
   onChildUpdate(childKey: string, childData: any) {
     const { data, keyPath } = this.state;
     // Update data
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     data[childKey] = childData;
     // Put new data
     this.setState({
@@ -1116,7 +1116,7 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
     beforeAddAction(key, keyPath, deep, newValue)
       .then(() => {
         // Update data
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         data[key] = newValue;
         this.setState({
           data,
@@ -1142,7 +1142,7 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
     return () => {
       const { beforeRemoveAction, logger } = this.props;
       const { data, keyPath, nextDeep: deep } = this.state;
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       const oldValue = data[key];
       // Before Remove Action
       beforeRemoveAction(key, keyPath, deep, oldValue)
@@ -1155,7 +1155,7 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
             type: deltaTypes.REMOVE_DELTA_TYPE,
           };
 
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           delete data[key];
           this.setState({ data });
 
@@ -1181,14 +1181,14 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
       const { data, keyPath, nextDeep: deep } = this.state;
 
       // Old value
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       const oldValue = data[key];
 
       // Before update action
       beforeUpdateAction(key, keyPath, deep, oldValue, value)
         .then(() => {
           // Update value
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           data[key] = value;
           // Set state
           this.setState({
@@ -1385,7 +1385,7 @@ interface JsonObjectProps {
   onSubmitValueParser: (...args: any) => any;
 }
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 JsonObject.defaultProps = {
   keyPath: [],
   deep: 0,
@@ -1487,7 +1487,7 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
   }
 
   refInput(node: any) {
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.state.inputRef = node;
   }
 
@@ -1585,7 +1585,7 @@ interface JsonValueProps {
   onSubmitValueParser: (...args: any) => any;
 }
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 JsonValue.defaultProps = {
   keyPath: [],
   deep: 0,

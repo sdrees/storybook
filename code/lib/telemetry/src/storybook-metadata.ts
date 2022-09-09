@@ -181,6 +181,8 @@ export const computeStorybookMetadata = async ({
 
   const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
 
+  // FIXME: resolve framework/renderer split in 7.0
+  //        OR should be getting this from mainConfig instead?
   const storybookInfo = getStorybookInfo(packageJson);
 
   const storybookVersion =

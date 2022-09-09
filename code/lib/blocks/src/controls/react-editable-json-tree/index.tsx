@@ -74,12 +74,12 @@ export class JsonTree extends Component<JsonTreeProps, JsonTreeState> {
     }
     let inputElementFunction = inputElement;
     if (inputElement && getObjectType(inputElement) !== 'Function') {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       inputElementFunction = () => inputElement;
     }
     let textareaElementFunction = textareaElement;
     if (textareaElement && getObjectType(textareaElement) !== 'Function') {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       textareaElementFunction = () => textareaElement;
     }
 
@@ -140,7 +140,7 @@ interface JsonTreeProps {
   onSubmitValueParser?: (...args: any) => any;
 }
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 JsonTree.defaultProps = {
   rootName: 'root',
   isCollapsed: (keyPath, deep) => deep !== -1,

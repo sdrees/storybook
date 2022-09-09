@@ -2,7 +2,7 @@ import { describe } from '@jest/globals';
 import { dedent } from 'ts-dedent';
 import _transform from '../csf-2-to-3';
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 expect.addSnapshotSerializer({
   print: (val: any) => val,
   test: (val) => true,

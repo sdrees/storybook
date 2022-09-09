@@ -43,7 +43,7 @@ const createHandlers = (actionsFn: (...arg: any[]) => object, ...handles: any[])
 
 const applyEventHandlers = deprecate(
   (actionsFn: any, ...handles: any[]) => {
-    const root = document && document.getElementById('root');
+    const root = document && document.getElementById('storybook-root');
     useEffect(() => {
       if (root != null) {
         const handlers = createHandlers(actionsFn, ...handles);

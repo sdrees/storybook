@@ -128,7 +128,6 @@ export async function baseGenerator(
   const {
     packages: frameworkPackages,
     type,
-    // @ts-ignore
     renderer: rendererInclude, // deepscan-disable-line UNUSED_DECL
     rendererId,
     framework: frameworkInclude,
@@ -176,6 +175,7 @@ export async function baseGenerator(
 
   const packages = [
     'storybook',
+    `@storybook/${renderer}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
@@ -208,11 +208,11 @@ export async function baseGenerator(
   await configurePreview(renderer, options.commonJs);
 
   if (addComponents) {
-    copyComponents(renderer, language);
+    await copyComponents(renderer, language);
   }
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
-  if (frameworkPackages.includes('@storybook/builder-vite')) {
+  if (frameworkPackages.find((pkg) => pkg.match(/^@storybook\/.*-vite$/))) {
     const previewHead = dedent`
       <script>
         window.global = window;
@@ -221,7 +221,10 @@ export async function baseGenerator(
     await fse.writeFile(`.storybook/preview-head.html`, previewHead, { encoding: 'utf8' });
   }
 
-  const babelDependencies = addBabel ? await getBabelDependencies(packageManager, packageJson) : [];
+  const babelDependencies =
+    addBabel && builder !== CoreBuilder.Vite
+      ? await getBabelDependencies(packageManager, packageJson)
+      : [];
   const isNewFolder = !files.some(
     (fname) => fname.startsWith('.babel') || fname.startsWith('babel') || fname === 'package.json'
   );

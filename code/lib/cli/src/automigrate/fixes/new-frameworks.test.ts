@@ -84,9 +84,35 @@ describe('new-frameworks fix', () => {
       ).resolves.toBeFalsy();
     });
 
-    // TODO: once we have vite frameworks e.g. @storybook/react-vite, then we should remove this test
-    it('in sb 7 with vite', async () => {
-      const packageJson = { dependencies: { '@storybook/react': '^7.0.0' } };
+    // TODO: once we have a @storybook/vue-vite framework, we should remove this test
+    it('in sb 7 with vue and vite', async () => {
+      const packageJson = {
+        dependencies: {
+          '@storybook/vue': '^7.0.0',
+          '@storybook/builder-vite': 'x.y.z',
+        },
+      };
+      await expect(
+        checkNewFrameworks({
+          packageJson,
+          main: {
+            framework: '@storybook/vue',
+            core: {
+              builder: '@storybook/builder-vite',
+            },
+          },
+        })
+      ).resolves.toBeFalsy();
+    });
+
+    it('in sb 7 with vite < 3', async () => {
+      const packageJson = {
+        dependencies: {
+          '@storybook/react': '^7.0.0',
+          '@storybook/builder-vite': 'x.y.z',
+          vite: '^2.0.0',
+        },
+      };
       await expect(
         checkNewFrameworks({
           packageJson,
@@ -97,7 +123,7 @@ describe('new-frameworks fix', () => {
             },
           },
         })
-      ).resolves.toBeFalsy();
+      ).rejects.toBeTruthy();
     });
   });
 
@@ -150,6 +176,7 @@ describe('new-frameworks fix', () => {
           })
         );
       });
+
       it('should update only builders in @storybook/angular', async () => {
         const packageJson = {
           dependencies: {
@@ -193,37 +220,33 @@ describe('new-frameworks fix', () => {
           })
         );
       });
-    });
 
-    // TODO: enable this once Vite is supported
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('should update to @storybook/react-vite', async () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
-          '@storybook/builder-vite': '^0.0.2',
-        },
-      };
-      await expect(
-        checkNewFrameworks({
-          packageJson,
-          main: {
-            framework: '@storybook/react',
-            core: {
-              builder: '@storybook/builder-vite',
-            },
+      it('should update to @storybook/react-vite', async () => {
+        const packageJson = {
+          dependencies: {
+            '@storybook/react': '^7.0.0-alpha.0',
+            '@storybook/builder-vite': '^0.0.2',
+            vite: '3.0.0',
           },
-        })
-      ).resolves.toEqual(
-        expect.objectContaining({
-          dependenciesToAdd: '@storybook/react-vite',
-          dependenciesToRemove: [
-            '@storybook/react',
-            'storybook-builder-vite',
-            '@storybook/builder-vite',
-          ],
-        })
-      );
+        };
+        await expect(
+          checkNewFrameworks({
+            packageJson,
+            main: {
+              framework: '@storybook/react',
+              core: {
+                builder: '@storybook/builder-vite',
+              },
+            },
+          })
+        ).resolves.toEqual(
+          expect.objectContaining({
+            frameworkPackage: '@storybook/react-vite',
+            dependenciesToAdd: ['@storybook/react-vite'],
+            dependenciesToRemove: ['@storybook/builder-vite', '@storybook/react'],
+          })
+        );
+      });
     });
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-webpack",
-  "version": "7.0.0-alpha.23",
+  "version": "7.0.0-alpha.31",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -19,9 +19,17 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "types/**/*",
@@ -31,20 +39,26 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-common": "7.0.0-alpha.23",
-    "@storybook/node-logger": "7.0.0-alpha.23",
+    "@storybook/core-common": "7.0.0-alpha.31",
+    "@storybook/node-logger": "7.0.0-alpha.31",
     "@types/node": "^14.0.10 || ^16.0.0",
-    "core-js": "^3.8.2",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3"
+    "typescript": "~4.6.3",
+    "webpack": "5"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }

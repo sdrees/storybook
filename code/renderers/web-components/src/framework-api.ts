@@ -30,16 +30,16 @@ export function isValidMetaData(customElements: any) {
  * @param customElements any for now as spec is not super stable yet
  */
 export function setCustomElements(customElements: any) {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   window.__STORYBOOK_CUSTOM_ELEMENTS__ = customElements;
 }
 
 export function setCustomElementsManifest(customElements: any) {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   window.__STORYBOOK_CUSTOM_ELEMENTS_MANIFEST__ = customElements;
 }
 
 export function getCustomElements() {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   return window.__STORYBOOK_CUSTOM_ELEMENTS__ || window.__STORYBOOK_CUSTOM_ELEMENTS_MANIFEST__;
 }

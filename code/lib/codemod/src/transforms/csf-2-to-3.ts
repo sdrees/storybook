@@ -128,7 +128,7 @@ function transform({ source }: { source: string }, api: any, options: { parser?:
       }
 
       const keyId = t.identifier(key);
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       const { typeAnnotation } = id;
       if (typeAnnotation) {
         keyId.typeAnnotation = typeAnnotation;

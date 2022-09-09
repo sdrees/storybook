@@ -4,7 +4,7 @@ describe('Main API', () => {
   it('should fail if provider is not extended from the base Provider', () => {
     const run = () => {
       const fakeProvider = {};
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       renderStorybookUI(null, fakeProvider);
     };
 

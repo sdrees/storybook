@@ -13,7 +13,7 @@ export const Props = deprecate(
   `
 );
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 Props.defaultProps = {
   of: PRIMARY_STORY,
 };

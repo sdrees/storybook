@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import { Button } from '../components/react-demo';
 
 export default {
@@ -7,7 +6,7 @@ export default {
   component: Button,
 };
 
-export const Story1 = () => <Button onClick={action('clicked', { depth: 1 })}>Hello Button</Button>;
+export const Story1 = () => <Button>Hello Button</Button>;
 Story1.storyName = 'with text';
 
 Story1.parameters = {
@@ -15,7 +14,7 @@ Story1.parameters = {
 };
 
 export const Story2 = () => (
-  <Button onClick={action('clicked')}>
+  <Button>
     <span role="img" aria-label="yolo">
       😀 😎 👍 💯
     </span>

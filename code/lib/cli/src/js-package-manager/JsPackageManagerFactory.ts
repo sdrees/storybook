@@ -29,12 +29,12 @@ export class JsPackageManagerFactory {
 }
 
 function hasNPM(cwd?: string) {
-  const npmVersionCommand = spawnSync('npm', ['--version'], { cwd });
+  const npmVersionCommand = spawnSync('npm', ['--version'], { cwd, shell: true });
   return npmVersionCommand.status === 0;
 }
 
 function getYarnVersion(cwd?: string): 1 | 2 | undefined {
-  const yarnVersionCommand = spawnSync('yarn', ['--version'], { cwd });
+  const yarnVersionCommand = spawnSync('yarn', ['--version'], { cwd, shell: true });
 
   if (yarnVersionCommand.status !== 0) {
     return undefined;

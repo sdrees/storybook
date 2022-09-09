@@ -10,6 +10,7 @@ const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 test.describe('addon-docs', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
+    await new SbPage(page).waitUntilLoaded();
   });
 
   test('should provide source snippet', async ({ page }) => {

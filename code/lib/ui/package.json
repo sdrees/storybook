@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ui",
-  "version": "7.0.0-alpha.23",
+  "version": "7.0.0-alpha.31",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -49,30 +49,26 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.0.0-alpha.23",
-    "@storybook/api": "7.0.0-alpha.23",
-    "@storybook/channel-postmessage": "7.0.0-alpha.23",
-    "@storybook/channel-websocket": "7.0.0-alpha.23",
-    "@storybook/channels": "7.0.0-alpha.23",
-    "@storybook/client-logger": "7.0.0-alpha.23",
-    "@storybook/components": "7.0.0-alpha.23",
-    "@storybook/core-events": "7.0.0-alpha.23",
+    "@storybook/addons": "7.0.0-alpha.31",
+    "@storybook/api": "7.0.0-alpha.31",
+    "@storybook/channel-postmessage": "7.0.0-alpha.31",
+    "@storybook/channel-websocket": "7.0.0-alpha.31",
+    "@storybook/channels": "7.0.0-alpha.31",
+    "@storybook/client-logger": "7.0.0-alpha.31",
+    "@storybook/components": "7.0.0-alpha.31",
+    "@storybook/core-events": "7.0.0-alpha.31",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/router": "7.0.0-alpha.23",
+    "@storybook/router": "7.0.0-alpha.31",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "7.0.0-alpha.23",
+    "@storybook/theming": "7.0.0-alpha.31",
     "@testing-library/react": "^11.2.2",
     "copy-to-clipboard": "^3.3.1",
-    "core-js": "^3.8.2",
-    "core-js-pure": "^3.8.2",
     "downshift": "^6.0.15",
     "enzyme": "^3.11.0",
-    "flush-promises": "^1.0.2",
     "fs-extra": "^9.0.1",
     "fuse.js": "^3.6.1",
     "global": "^4.4.0",
@@ -90,8 +86,7 @@
     "shelljs": "^0.8.5",
     "store2": "^2.12.0",
     "ts-dedent": "^2.0.0",
-    "typescript": "~4.6.3",
-    "util": "^0.12.4"
+    "typescript": "~4.6.3"
   },
   "publishConfig": {
     "access": "public"
@@ -104,5 +99,5 @@
       "./src/runtime.ts"
     ]
   },
-  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }

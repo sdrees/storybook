@@ -52,7 +52,7 @@ function integrityTest(integrityOptions: any, stories2snapsConverter: any) {
       const snapshotExtension = stories2snapsConverter.getSnapshotExtension();
       const storyshots = glob.sync(`**/*${snapshotExtension}`, integrityOptions);
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       expect(storyshots).notToBeAbandoned(stories2snapsConverter);
     });
   });

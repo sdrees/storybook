@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
-import { action } from '@storybook/addon-actions';
 
 import { DocgenButton } from '../components/DocgenButton';
 import FlowTypeButton from '../components/FlowTypeButton';
@@ -13,19 +12,19 @@ storiesOf('Addons|Info.React Docgen', module)
     'Comments from PropType declarations',
     withInfo(
       'Comments above the PropType declarations should be extracted from the React component file itself and rendered in the Info Addon prop table'
-    )(() => <DocgenButton onClick={action('clicked')} label="Docgen Button" />)
+    )(() => <DocgenButton label="Docgen Button" />)
   )
   .add(
     'Comments from Flow declarations',
     withInfo(
       'Comments above the Flow declarations should be extracted from the React component file itself and rendered in the Info Addon prop table'
-    )(() => <FlowTypeButton onClick={action('clicked')} label="Flow Typed Button" />)
+    )(() => <FlowTypeButton label="Flow Typed Button" />)
   )
   .add(
     'Comments from component declaration',
     withInfo(
       'Comments above the component declaration should be extracted from the React component file itself and rendered below the Info Addon heading'
-    )(() => <BaseButton onClick={action('clicked')} label="Button" />)
+    )(() => <BaseButton label="Button" />)
   );
 
 const markdownDescription = `
@@ -41,7 +40,7 @@ Maybe include a [link](http://storybook.js.org) to your project as well.
 
 storiesOf('Addons|Info.Markdown', module).add(
   'Displays Markdown in description',
-  withInfo(markdownDescription)(() => <BaseButton onClick={action('clicked')} label="Button" />)
+  withInfo(markdownDescription)(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.inline', module).add(

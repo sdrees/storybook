@@ -19,26 +19,12 @@ const mainConfig: import('@storybook/angular').StorybookConfig = {
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
-  // These are just here to test composition. They could be added to any storybook example project
-  refs: {
-    react: {
-      title: 'ReactTS',
-      url: 'http://localhost:9011',
-    },
-    first: {
-      title: 'Composition test one',
-      url: 'https://storybookjs.netlify.app/cra-ts-essentials',
-    },
-    second: {
-      title: 'Composition test two',
-      url: 'https://storybookjs.netlify.app/cra-ts-essentials',
-    },
-    third: {
-      title: 'Composition test three',
-      url: 'https://storybookjs.netlify.app/cra-ts-essentials',
-    },
-  },
-  staticDirs: ['../src/assets'],
+  staticDirs: [
+    '../src/assets',
+    // reproduction of https://github.com/storybookjs/storybook/issues/16732
+    { from: '../src/assets/a', to: 'assets' },
+    { from: '../src/assets/b', to: 'assets/b' },
+  ],
   features: {
     buildStoriesJson: false,
     breakingChangesV7: false,

@@ -57,7 +57,7 @@ export function renderToDOM(
   showMain();
 
   if (map.has(domElement)) {
-    map.get(domElement).unmount(domElement);
+    map.get(domElement).unmount();
   }
 
   storybookApp.mount(domElement);

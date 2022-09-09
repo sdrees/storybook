@@ -16,9 +16,9 @@ export async function transform(inputSource) {
   const preamble = `
     /* eslint-disable */
     // @ts-nocheck
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     var __STORY__ = ${sourceJson};
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     var __LOCATIONS_MAP__ = ${JSON.stringify(addsMap)};
     `;
   return `${preamble}\n${source}`;

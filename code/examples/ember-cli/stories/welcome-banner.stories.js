@@ -1,5 +1,4 @@
 import { hbs } from 'ember-cli-htmlbars';
-import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'welcome-banner',
@@ -23,7 +22,6 @@ export const Basic = (args) => ({
         subTitleColor=subTitleColor
         title=title
         subtitle=subtitle
-        click=(action onClick)
       }}
     `,
   context: args,
@@ -34,5 +32,4 @@ Basic.args = {
   subTitleColor: '#B8854F',
   title: 'Welcome to storybook',
   subtitle: 'This environment is completely editable',
-  onClick: action('clicked'),
 };

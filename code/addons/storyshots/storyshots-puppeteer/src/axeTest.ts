@@ -10,7 +10,7 @@ export const axeTest = (customConfig: Partial<AxeConfig> = {}) => {
     ...extendedConfig,
     async testBody(page, testOptions) {
       const {
-        element = '#root',
+        element = '#storybook-root',
         exclude,
         disabledRules,
         options,

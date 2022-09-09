@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { action } from '@storybook/addon-actions';
 import { Button } from '../../components/react-demo';
 
 export default {
@@ -16,11 +15,11 @@ export default {
   },
 };
 
-export const WithText = () => <Button onClick={action('clicked')}>Hello Button</Button>;
+export const WithText = () => <Button>Hello Button</Button>;
 WithText.storyName = 'with text';
 
 export const WithSomeEmoji = () => (
-  <Button onClick={action('clicked')}>
+  <Button>
     <span role="img" aria-label="so cool">
       😀 😎 👍 💯
     </span>

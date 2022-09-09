@@ -8,6 +8,7 @@ test.describe('addon-controls', () => {
   test('should change component when changing controls', async ({ page }) => {
     await page.goto(storybookUrl);
     const sbPage = new SbPage(page);
+    await sbPage.waitUntilLoaded();
 
     await sbPage.navigateToStory('example-button', 'primary');
     await sbPage.viewAddonPanel('Controls');
@@ -62,6 +63,7 @@ test.describe('addon-controls', () => {
     await page.goto(`${storybookUrl}?path=/story/example-button--primary&args=label:Hello+world`);
 
     const sbPage = new SbPage(page);
+    await sbPage.waitUntilLoaded();
     await expect(sbPage.previewRoot().locator('button')).toContainText('Hello world');
 
     await sbPage.viewAddonPanel('Controls');

@@ -123,6 +123,7 @@ const postinstallAddon = async (addonName: string, isOfficialAddon: boolean) => 
         }
         spawnSync('npx', ['jscodeshift', '-t', codemod, configFile], {
           stdio: 'inherit',
+          shell: true,
         });
         skipMsg = null;
       } catch (err) {

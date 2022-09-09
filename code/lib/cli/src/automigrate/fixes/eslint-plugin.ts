@@ -36,9 +36,8 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
       return null;
     }
 
-    const config = getStorybookInfo(packageJson);
+    const { mainConfig } = getStorybookInfo(packageJson);
 
-    const { mainConfig } = config;
     if (!mainConfig) {
       logger.warn('Unable to find storybook main.js config, skipping');
       return null;

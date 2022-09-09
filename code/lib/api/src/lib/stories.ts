@@ -519,6 +519,21 @@ export const transformStoryIndexToStoriesHash = (
     .reduce(addItem, orphanHash);
 };
 
+export const addPreparedStories = (newHash: StoriesHash, oldHash?: StoriesHash) => {
+  if (!oldHash) return newHash;
+
+  return Object.fromEntries(
+    Object.entries(newHash).map(([id, newEntry]) => {
+      const oldEntry = oldHash[id];
+      if (newEntry.type === 'story' && oldEntry?.type === 'story' && oldEntry.prepared) {
+        return [id, { ...oldEntry, ...newEntry, prepared: true }];
+      }
+
+      return [id, newEntry];
+    })
+  );
+};
+
 export const getComponentLookupList = memoize(1)((hash: StoriesHash) => {
   return Object.entries(hash).reduce((acc, i) => {
     const value = i[1];

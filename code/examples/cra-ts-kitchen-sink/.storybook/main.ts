@@ -20,7 +20,7 @@ const mainConfig: StorybookConfig = {
     const resolvePlugins = config.resolve?.plugins;
     if (Array.isArray(resolvePlugins)) {
       resolvePlugins.forEach((p) => {
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         const appSrcs = p.appSrcs as unknown as string[];
         if (Array.isArray(appSrcs)) {
           appSrcs.push(path.join(__dirname, '..', '..', '..'));

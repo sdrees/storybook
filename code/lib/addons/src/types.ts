@@ -36,11 +36,10 @@ export interface ArgType<TArg = unknown> extends InputType {
 
 export type ArgTypes<TArgs = Args> = {
   [key in keyof Partial<TArgs>]: ArgType<TArgs[key]>;
-} &
-  {
-    // for custom defined args
-    [key in string]: ArgType<unknown>;
-  };
+} & {
+  // for custom defined args
+  [key in string]: ArgType<unknown>;
+};
 
 export type Comparator<T> = ((a: T, b: T) => boolean) | ((a: T, b: T) => number);
 export type StorySortMethod = 'configure' | 'alphabetical';
@@ -77,7 +76,8 @@ export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 
 // The `any` here is the story store's `StoreItem` record. Ideally we should probably only
 // pass a defined subset of that full data, but we pass it all so far :shrug:
-export type StorySortComparator = Comparator<[StoryId, any, Parameters, Parameters]>;
+export type IndexEntryLegacy = [StoryId, any, Parameters, Parameters];
+export type StorySortComparator = Comparator<IndexEntryLegacy>;
 export type StorySortParameter = StorySortComparator | StorySortObjectParameter;
 export type StorySortComparatorV7 = Comparator<IndexEntry>;
 export type StorySortParameterV7 = StorySortComparatorV7 | StorySortObjectParameter;

@@ -5,7 +5,7 @@ import program from 'commander';
 import { readConfig, writeConfig } from '../code/lib/csf-tools';
 import { getInterpretedFile } from '../code/lib/core-common';
 import { serve } from './utils/serve';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
 import * as configs from '../code/lib/cli/src/repro-generators/configs';
@@ -163,7 +163,7 @@ const runTests = async ({ name, ...rest }: Parameters) => {
       targetFolder,
       `--renderer ${options.renderer}`,
       `--template ${options.name}`,
-      `--registry http://localhost:6000`,
+      `--registry http://localhost:6001`,
       '--e2e',
     ];
 
@@ -292,10 +292,10 @@ const getConfig = async (): Promise<Parameters[]> => {
         min: 1,
         hint: 'You can also run directly with package name like `test:e2e-framework react`, or `yarn test:e2e-framework --all` for all packages!',
         choices: Object.keys(configs).map((key) => {
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           const { name, version } = configs[key];
           return {
-            // @ts-ignore
+            // @ts-expect-error (Converted from ts-ignore)
             value: configs[key],
             title: `${name}@${version}`,
             selected: false,

@@ -37,10 +37,10 @@ describe('Yarn 2 Proxy', () => {
 
       yarn2Proxy.setRegistryURL('https://foo.bar');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
+      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
         'config',
         'set',
-        'npmRegistryServer',
+        'registry',
         'https://foo.bar',
       ]);
     });

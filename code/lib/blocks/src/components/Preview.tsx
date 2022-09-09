@@ -215,7 +215,7 @@ export const Preview: FC<PreviewProps> = ({
   );
   const actionItems = [...defaultActionItems, ...additionalActionItems];
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   const layout = getLayout(Children.count(children) === 1 ? [children] : children);
 
   const { window: globalWindow } = global;

@@ -8,10 +8,6 @@ const config: StorybookConfig = {
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
-  typescript: {
-    check: true,
-    checkOptions: {},
-  },
   features: {
     postcss: false,
     storyStoreV7: true,

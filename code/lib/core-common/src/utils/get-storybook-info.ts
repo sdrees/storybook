@@ -4,16 +4,21 @@ import { getStorybookConfiguration } from './get-storybook-configuration';
 import { PackageJson } from '../types';
 
 interface StorybookInfo {
-  framework: string;
   version: string;
+  // FIXME: these are renderers for now,
+  // need to update with framework OR fix
+  // the calling code
+  framework: string;
   frameworkPackage: string;
+  renderer: string;
+  rendererPackage: string;
   configDir?: string;
   mainConfig?: string;
   previewConfig?: string;
   managerConfig?: string;
 }
 
-const viewLayers: Record<string, string> = {
+const rendererPackages: Record<string, string> = {
   '@storybook/react': 'react',
   '@storybook/vue': 'vue',
   '@storybook/vue3': 'vue3',
@@ -42,11 +47,11 @@ const findDependency = (
   Object.entries(peerDependencies || {}).find(predicate),
 ];
 
-const getFrameworkInfo = (packageJson: PackageJson) => {
+const getRendererInfo = (packageJson: PackageJson) => {
   // Pull the viewlayer from dependencies in package.json
-  const [dep, devDep, peerDep] = findDependency(packageJson, ([key]) => viewLayers[key]);
+  const [dep, devDep, peerDep] = findDependency(packageJson, ([key]) => rendererPackages[key]);
   const [pkg, version] = dep || devDep || peerDep || [];
-  const framework = pkg ? viewLayers[pkg] : undefined;
+  const renderer = pkg ? rendererPackages[pkg] : undefined;
 
   if (dep && devDep && dep[0] === devDep[0]) {
     logger.warn(
@@ -59,7 +64,13 @@ const getFrameworkInfo = (packageJson: PackageJson) => {
     );
   }
 
-  return { framework, version, frameworkPackage: pkg };
+  return {
+    version,
+    framework: renderer,
+    frameworkPackage: pkg,
+    renderer,
+    rendererPackage: pkg,
+  };
 };
 
 const validConfigExtensions = ['ts', 'js', 'tsx', 'jsx', 'mjs', 'cjs'];
@@ -89,11 +100,11 @@ const getConfigInfo = (packageJson: PackageJson) => {
 };
 
 export const getStorybookInfo = (packageJson: PackageJson) => {
-  const frameworkInfo = getFrameworkInfo(packageJson);
+  const rendererInfo = getRendererInfo(packageJson);
   const configInfo = getConfigInfo(packageJson);
 
   return {
-    ...frameworkInfo,
+    ...rendererInfo,
     ...configInfo,
   } as StorybookInfo;
 };

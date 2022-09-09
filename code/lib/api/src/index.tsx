@@ -309,7 +309,7 @@ interface ManagerConsumerProps<P = unknown> {
 const defaultFilter = (c: Combo) => c;
 
 function ManagerConsumer<P = Combo>({
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   filter = defaultFilter,
   children,
 }: ManagerConsumerProps<P>): ReactElement {

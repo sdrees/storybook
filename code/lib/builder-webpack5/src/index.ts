@@ -41,7 +41,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
   const typescriptOptions = await presets.apply('typescript', {}, options);
   const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
-  const framework = await presets.apply<any>('framework', {}, options);
+  const frameworkOptions = await presets.apply<any>('frameworkOptions');
 
   return presets.apply(
     'webpack',
@@ -50,7 +50,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
       ...options,
       babelOptions,
       typescriptOptions,
-      frameworkOptions: typeof framework === 'string' ? {} : framework?.options,
+      frameworkOptions,
     }
   ) as any;
 };
@@ -72,7 +72,7 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     if (process && compilation) {
       try {
         compilation.close(() => res());
@@ -219,7 +219,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
       logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
       if (stats && stats.hasWarnings()) {
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         stats
           .toJson({ warnings: true } as StatsOptions)
           .warnings.forEach((e) => logger.warn(e.message));

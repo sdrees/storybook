@@ -25,6 +25,7 @@ import {
   getStoriesLookupList,
   HashEntry,
   LeafEntry,
+  addPreparedStories,
 } from '../lib/stories';
 
 import type {
@@ -351,13 +352,16 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     },
     setStoryList: async (storyIndex: StoryIndex) => {
-      const hash = transformStoryIndexToStoriesHash(storyIndex, {
+      const newHash = transformStoryIndexToStoriesHash(storyIndex, {
         provider,
         docsOptions,
       });
 
+      // Now we need to patch in the existing prepared stories
+      const oldHash = store.getState().storiesHash;
+
       await store.setState({
-        storiesHash: hash,
+        storiesHash: addPreparedStories(newHash, oldHash),
         storiesConfigured: true,
         storiesFailed: null,
       });

@@ -5,9 +5,9 @@ import { linkTo, hrefTo } from './utils';
 
 jest.mock('@storybook/addons');
 jest.mock('global', () => ({
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   document: global.document,
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   window: global,
 }));
 

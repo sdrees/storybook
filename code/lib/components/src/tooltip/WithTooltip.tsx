@@ -81,7 +81,7 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
       )}
     >
       {({ getTriggerProps, triggerRef }) => (
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         <Container ref={triggerRef} {...getTriggerProps()} {...props}>
           {children}
         </Container>

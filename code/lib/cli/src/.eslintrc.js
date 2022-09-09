@@ -23,7 +23,7 @@ module.exports = {
       },
     },
     {
-      files: 'frameworks/**/*',
+      files: 'rendererAssets/**/*',
       env: {
         browser: true,
       },

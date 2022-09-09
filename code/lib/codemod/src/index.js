@@ -62,6 +62,7 @@ export async function runCodemod(codemod, { glob, logger, dryRun, rename, parser
       ['jscodeshift', '-t', `${TRANSFORM_DIR}/${codemod}.js`, ...parserArgs, ...files],
       {
         stdio: 'inherit',
+        shell: true,
       }
     );
   }

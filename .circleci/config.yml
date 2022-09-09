@@ -42,6 +42,19 @@ executors:
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
+  sb_playwright:
+    parameters:
+      class:
+        description: The Resource class
+        type: enum
+        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
+        default: 'medium'
+    working_directory: /tmp/storybook
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.25.1-focal
+        environment:
+          NODE_OPTIONS: --max_old_space_size=3076
+    resource_class: <<parameters.class>>
 
 orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
@@ -195,13 +208,13 @@ jobs:
           name: running local registry
           command: |
             cd code
-            yarn local-registry --port 6000 --open
+            yarn local-registry --port 6001 --open
           background: true
       - run:
           name: Wait for registry
           command: |
             cd code
-            yarn wait-on http://localhost:6000
+            yarn wait-on http://localhost:6001
       - run:
           name: Run E2E (extended) tests
           command: |
@@ -225,13 +238,13 @@ jobs:
           name: Running local registry
           command: |
             cd code
-            yarn local-registry --port 6000 --open
+            yarn local-registry --port 6001 --open
           background: true
       - run:
           name: Wait for registry
           command: |
             cd code
-            yarn wait-on http://localhost:6000
+            yarn wait-on http://localhost:6001
       - run:
           name: Run E2E (core) tests
           # Do not test CRA here because it's done in PnP part
@@ -257,7 +270,7 @@ jobs:
   #   executor:
   #     class: large
   #     name: sb_cypress_8_node_14
-  #   parallelism: 2
+  #   parallelism: 8
   #   steps:
   #     - git-shallow-clone/checkout_advanced:
   #         clone_options: '--depth 1 --verbose'
@@ -265,19 +278,19 @@ jobs:
   #         at: .
   #     - run:
   #         name: Running local registry
-  #         command: yarn local-registry --port 6000 --open
+  #         command: yarn local-registry --port 6001 --open
   #         background: true
   #     - run:
   #         name: Wait for registry
-  #         command: yarn wait-on http://localhost:6000
+  #         command: yarn wait-on http://localhost:6001
   #     - run:
   #         name: Run smoke tests
   #         command: yarn test:e2e-framework angular_modern_inline_rendering --test-runner --docs-mode
   #         no_output_timeout: 5m
   cra-bench:
     executor:
-      class: medium
-      name: sb_cypress_8_node_14
+      class: medium+
+      name: sb_playwright
     working_directory: /tmp/storybook
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -285,21 +298,16 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: install playright
-          command: |
-            cd code
-            npx playwright install
-      - run:
           name: Running local registry
           command: |
             cd code
-            yarn local-registry --port 6000 --open
+            yarn local-registry --port 6001 --open
           background: true
       - run:
           name: Wait for registry
           command: |
             cd code
-            yarn wait-on http://localhost:6000
+            yarn wait-on http://localhost:6001
       - run:
           name: set up cra repro, skip tests
           command: |
@@ -309,7 +317,14 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ./cra-bench
-            npx @storybook/bench@1.0.0--canary.11.52d1ee7.1 'echo noop' --label cra
+            npx -p @storybook/bench@1.0.0--canary.12.7cccdee.0 sb-bench 'echo noop' --label cra
+      - run:
+          name: prep artifacts
+          when: always
+          command: tar cvzf /tmp/sb-bench.tar.gz ./cra-bench
+      - store_artifacts:
+          path: /tmp/sb-bench.tar.gz
+          destination: sb-bench.tar.gz
   e2e-tests-pnp:
     executor:
       class: medium
@@ -324,13 +339,13 @@ jobs:
           name: Running local registry
           command: |
             cd code
-            yarn local-registry --port 6000 --open
+            yarn local-registry --port 6001 --open
           background: true
       - run:
           name: Wait for registry
           command: |
             cd code
-            yarn wait-on http://localhost:6000
+            yarn wait-on http://localhost:6001
       - run:
           name: run e2e tests cra
           command: |
@@ -462,7 +477,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 2
+    parallelism: 7
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -482,7 +497,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 2
+    parallelism: 7
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -498,7 +513,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 2
+    parallelism: 7
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -518,7 +533,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 2
+    parallelism: 7
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -534,7 +549,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 2
+    parallelism: 7
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -547,9 +562,10 @@ jobs:
       - store_test_results:
           path: code/test-results
   e2e-sandboxes:
-    docker:
-      - image: mcr.microsoft.com/playwright:v1.24.0-focal
-    parallelism: 2
+    executor:
+      class: medium+
+      name: sb_playwright
+    parallelism: 7
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'

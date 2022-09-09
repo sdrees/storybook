@@ -3,7 +3,7 @@ import { dedent } from 'ts-dedent';
 import yaml from 'js-yaml';
 import { loadCsf } from './CsfFile';
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 expect.addSnapshotSerializer({
   print: (val: any) => yaml.dump(val).trimEnd(),
   test: (val) => typeof val !== 'string',

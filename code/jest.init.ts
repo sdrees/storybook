@@ -3,11 +3,10 @@ import '@testing-library/jest-dom';
 
 // setup file
 import { configure } from 'enzyme';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import Adapter from 'enzyme-adapter-react-16';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import regeneratorRuntime from 'regenerator-runtime';
-// @ts-ignore
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
 import EventEmitter from 'events';
 
@@ -25,9 +24,9 @@ const localStorageMock = {
   setItem: jest.fn().mockName('setItem'),
   clear: jest.fn().mockName('clear'),
 };
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 global.localStorage = localStorageMock;
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 global.regeneratorRuntime = regeneratorRuntime;
 
 configure({ adapter: new Adapter() });

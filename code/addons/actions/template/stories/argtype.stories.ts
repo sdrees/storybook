@@ -1,0 +1,26 @@
+import globalThis from 'global';
+
+export default {
+  component: globalThis.Components.Button,
+  args: {
+    children: 'Click Me!',
+  },
+  argTypes: {
+    onClick: {},
+  },
+  parameters: {
+    chromatic: { disable: true },
+    actions: { argTypesRegex: '^on.*' },
+  },
+};
+
+export const String = {
+  argTypes: {
+    onClick: { action: 'clicked!' },
+  },
+};
+export const Boolean = {
+  argTypes: {
+    onClick: { action: true },
+  },
+};

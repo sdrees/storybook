@@ -1,6 +1,11 @@
 module.exports = {
   toc: [
     {
+      title: '💭 Why',
+      pathSegment: 'why-storybook',
+      type: 'link',
+    },
+    {
       title: '🚀 Get started',
       pathSegment: 'get-started',
       type: 'menu',

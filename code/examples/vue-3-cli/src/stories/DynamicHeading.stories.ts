@@ -15,7 +15,6 @@ export default {
       const story = storyFn();
       // Vue 3 "Functional" component as decorator
       return () => {
-        // @ts-ignore // this is an unfortunate side-effect of having vue & vue3 in 1 repo
         return h('div', { style: 'border: 2px solid red' }, h(story));
       };
     },
@@ -27,7 +26,6 @@ export default {
 
   Make sure to pass the `args` the component expects  to receive as the props!
  */
-// @ts-ignore // this is an unfortunate side-effect of having vue & vue3 in 1 repo
 const Template: StoryFn<Props> = (args, { argTypes }) => {
   const component: FunctionalComponent<Props> = () => h(DynamicHeading, args, 'Hello World!');
   component.props = Object.keys(argTypes);

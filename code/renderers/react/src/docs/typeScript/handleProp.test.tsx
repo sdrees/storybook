@@ -47,7 +47,7 @@ function createComponent({ propTypes = {}, defaultProps = {}, docgenInfo = {} })
   component.propTypes = propTypes;
   component.defaultProps = defaultProps;
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   component.__docgenInfo = createDocgenSection(docgenInfo);
 
   return component;
@@ -408,7 +408,7 @@ describe('enhanceTypeScriptProp', () => {
       it('should support React element with props', () => {
         const component = createTestComponent(null);
 
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         const defaultProp = <ReactComponent className="toto" />;
         // Simulate babel-plugin-add-react-displayname.
         defaultProp.type.displayName = 'ReactComponent';

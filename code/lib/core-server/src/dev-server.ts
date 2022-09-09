@@ -23,7 +23,7 @@ import { openInBrowser } from './utils/open-in-browser';
 import { getBuilders } from './utils/get-builders';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 export const router: Router = new Router();
 
 export const DEBOUNCE = 100;
@@ -137,7 +137,7 @@ export async function storybookDevServer(options: Options) {
 
   await new Promise<void>((resolve, reject) => {
     // FIXME: Following line doesn't match TypeScript signature at all 🤔
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 

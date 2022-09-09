@@ -96,7 +96,7 @@ export const SectionRow: FC<SectionRowProps> = ({
 }) => {
   const [expanded, setExpanded] = useState(initialExpanded);
   const Level = level === 'subsection' ? Subsection : Section;
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   const itemCount = children?.length || 0;
   const caption = level === 'subsection' ? `${itemCount} item${itemCount !== 1 ? 's' : ''}` : '';
   const icon = expanded ? 'arrowdown' : 'arrowright';

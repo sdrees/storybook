@@ -1,5 +1,4 @@
 import { FormsModule } from '@angular/forms';
-import { action } from '@storybook/addon-actions';
 import { moduleMetadata, Meta, StoryFn } from '@storybook/angular';
 import { CustomCvaComponent } from './custom-cva.component';
 
@@ -21,7 +20,7 @@ export default {
 export const SimpleInput: StoryFn = () => ({
   props: {
     ngModel: 'Type anything',
-    ngModelChange: action('ngModelChange'),
+    ngModelChange: () => {},
   },
 });
 

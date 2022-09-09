@@ -6,7 +6,7 @@ import type { StoryFnPreactReturnType, PreactFramework } from './types';
 let renderedStory: Element;
 
 function preactRender(story: StoryFnPreactReturnType | null, domElement: Element): void {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   if (preact.Fragment) {
     // Preact 10 only:
     preact.render(story, domElement);

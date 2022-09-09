@@ -30,7 +30,7 @@ function defaultTransformSource(source: string) {
 function applyTransformSource(source: string, context: StoryContext): string {
   const docs = context.parameters.docs ?? {};
   const transformSource = docs.transformSource ?? defaultTransformSource;
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   return transformSource(source, context);
 }
 

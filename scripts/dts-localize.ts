@@ -173,7 +173,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) &&
       node.moduleSpecifier !== undefined
     ) {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       const target: string = node.moduleSpecifier.text;
       let currentSourceFile = '';
       let referencedSourceFile = '';
@@ -198,7 +198,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
         referencedSourceFile
       );
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       node.moduleSpecifier = ts.factory.createStringLiteral(replacementPath);
 
       return true;
@@ -231,7 +231,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
         referencedSourceFile
       );
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       node.argument = ts.factory.createStringLiteral(replacementPath);
 
       return true;

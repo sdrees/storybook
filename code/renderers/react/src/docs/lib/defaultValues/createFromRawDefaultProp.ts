@@ -2,7 +2,6 @@
 import isPlainObject from 'lodash/isPlainObject';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
-// @ts-ignore
 import reactElementToJSXString from 'react-element-to-jsx-string';
 import {
   PropDef,
@@ -138,7 +137,7 @@ const functionResolver: TypeResolver = (rawDefaultProp, propDef) => {
       inspectionResult = inspectValue(rawDefaultProp.toString());
     }
 
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     const { hasParams } = inspectionResult.inferredType as InspectionFunction;
 
     return createSummaryValue(getPrettyFuncIdentifier(funcName, hasParams));

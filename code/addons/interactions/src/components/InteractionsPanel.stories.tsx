@@ -1,6 +1,5 @@
 /* eslint-disable jest/no-standalone-expect */
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
@@ -48,7 +47,7 @@ export default {
     fileName: 'addon-interactions.stories.tsx',
     hasException: false,
     isPlaying: false,
-    onScrollToEnd: action('onScrollToEnd'),
+    onScrollToEnd: () => {},
     endRef: null,
     // prop for the AddonPanel used as wrapper of Panel
     active: true,

@@ -190,7 +190,7 @@ export class CsfFile {
         if (p.key.name === 'title') {
           meta.title = this._parseTitle(p.value);
         } else if (['includeStories', 'excludeStories'].includes(p.key.name)) {
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           meta[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
           const { code } = generate(p.value, {});

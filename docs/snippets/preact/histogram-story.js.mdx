@@ -1,0 +1,32 @@
+```js
+// Histogram.stories.js|jsx
+
+/** @jsx h */
+import { h } from 'preact';
+
+import { Histogram } from './Histogram';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/preact/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Histogram',
+  component: Histogram,
+};
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/preact/api/csf
+ * to learn how to use render functions.
+ */
+export const Default = {
+  render: (args) => <Histogram {...args} />,
+  args: {
+    dataType: 'latency',
+    showHistogramLabels: true,
+    histogramAccentColor: '#1EA7FD',
+    label: 'Latency distribution',
+  },
+};
+```

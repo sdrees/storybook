@@ -22,22 +22,22 @@ function prepare(
     return null;
   }
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   // eslint-disable-next-line no-underscore-dangle
   if (!story._isVue) {
     if (innerStory) {
       story.components = { ...(story.components || {}), story: innerStory };
     }
     story = Vue.extend(story);
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
+    // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
   } else if (story.options[WRAPS]) {
     return story as VueConstructor;
   }
 
   return Vue.extend({
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307985279
+    // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307985279
     [WRAPS]: story,
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
+    // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
     [VALUES]: { ...(innerStory ? innerStory.options[VALUES] : {}), ...extractProps(story) },
     functional: true,
     render(h, { data, parent, children }) {
@@ -45,7 +45,7 @@ function prepare(
         story,
         {
           ...data,
-          // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307986196
+          // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307986196
           props: { ...(data.props || {}), ...parent.$root[VALUES] },
         },
         children

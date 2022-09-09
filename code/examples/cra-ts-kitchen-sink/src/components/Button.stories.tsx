@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import Button, { Type } from './Button';
 
 export default {
@@ -9,7 +8,7 @@ export default {
 
 export const SimpleButton = () => {
   const x = 0;
-  return <Button onClick={action('button clicked')}>OK {x}</Button>;
+  return <Button>OK {x}</Button>;
 };
 
 const typeOptions = {

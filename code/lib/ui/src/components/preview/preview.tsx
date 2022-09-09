@@ -188,7 +188,7 @@ const Preview = React.memo<PreviewProps>((props) => {
         />
         <S.FrameWrap key="frame" offset={showToolbar ? 40 : 0}>
           {tabs.map(({ render: Render, match, ...t }, i) => {
-            // @ts-ignore
+            // @ts-expect-error (Converted from ts-ignore)
             const key = t.id || t.key || i;
             return (
               <Fragment key={key}>
@@ -224,10 +224,10 @@ function filterTabs(panels: Addon[], parameters: Record<string, any>) {
       .map((panel, index) => ({ ...panel, index } as Addon))
       .sort((p1, p2) => {
         const tab_1 = arrTabs.find((tab) => tab.id === p1.id);
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         const index_1 = tab_1 ? tab_1.index : arrTabs.length + p1.index;
         const tab_2 = arrTabs.find((tab) => tab.id === p2.id);
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         const index_2 = tab_2 ? tab_2.index : arrTabs.length + p2.index;
         return index_1 - index_2;
       })

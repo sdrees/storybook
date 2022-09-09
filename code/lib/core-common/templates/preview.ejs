@@ -16,8 +16,8 @@
     <% }); %>
 
     <style>
-      #root[hidden],
-      #docs-root[hidden] {
+      #storybook-root[hidden],
+      #storybook-docs[hidden] {
         display: none !important;
       }
     </style>
@@ -25,8 +25,8 @@
   <body>
     <% if (typeof bodyHtmlSnippet !== 'undefined') { %> <%= bodyHtmlSnippet %> <% } %>
 
-    <div id="root"></div>
-    <div id="docs-root"></div>
+    <div id="storybook-root"></div>
+    <div id="storybook-docs"></div>
 
     <% if (typeof globals !== 'undefined' && Object.keys(globals).length) { %>
     <script>

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-alpha.23",
+  "version": "7.0.0-alpha.31",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -48,40 +48,39 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.23",
-    "@storybook/client-logger": "7.0.0-alpha.23",
-    "@storybook/core-client": "7.0.0-alpha.23",
+    "@storybook/addons": "7.0.0-alpha.31",
+    "@storybook/client-logger": "7.0.0-alpha.31",
+    "@storybook/core-client": "7.0.0-alpha.31",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/docs-tools": "7.0.0-alpha.23",
-    "@storybook/store": "7.0.0-alpha.23",
+    "@storybook/docs-tools": "7.0.0-alpha.31",
+    "@storybook/store": "7.0.0-alpha.31",
     "@types/estree": "^0.0.51",
     "@types/node": "^14.14.20 || ^16.0.0",
     "acorn": "^7.4.1",
     "acorn-jsx": "^5.3.1",
     "acorn-walk": "^7.2.0",
-    "core-js": "^3.8.2",
     "escodegen": "^2.0.0",
     "global": "^4.4.0",
     "html-tags": "^3.1.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
-    "react-element-to-jsx-string": "^14.3.4",
+    "react-element-to-jsx-string": "^15.0.0",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",
     "@types/util-deprecate": "^1.0.0",
+    "jest-specific-snapshot": "^4.0.0",
+    "require-from-string": "^2.0.2",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {
-    "jest-specific-snapshot": "^4.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "require-from-string": "^2.0.2"
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "typescript": {
@@ -101,5 +100,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }

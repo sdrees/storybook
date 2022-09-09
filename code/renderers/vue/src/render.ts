@@ -32,21 +32,17 @@ const getRoot = (domElement: Element): Instance => {
     },
     data() {
       return {
-        // @ts-ignore
         [COMPONENT]: undefined,
         [VALUES]: {},
       };
     },
-    // @ts-ignore
     render(h) {
-      // @ts-ignore
       map.set(domElement, instance);
       const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
-      return h('div', { attrs: { id: 'root' } }, children);
+      return h('div', { attrs: { id: 'storybook-root' } }, children);
     },
   });
 
-  // @ts-ignore
   return instance;
 };
 
@@ -67,8 +63,7 @@ export const render: ArgsStoryFn<VueFramework> = (props, context) => {
 
   // if there is a name property, we either use it or preprend with sb- in case it's an invalid name
   if (component.name) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore isReservedTag is an internal function from Vue, might be changed in future releases
+    // @ts-expect-error isReservedTag is an internal function from Vue, might be changed in future releases
     const isReservedTag = Vue.config.isReservedTag && Vue.config.isReservedTag(component.name);
 
     componentName = isReservedTag ? `sb-${component.name}` : component.name;
@@ -117,7 +112,7 @@ export function renderToDOM(
     root[COMPONENT] = element;
   }
 
-  // @ts-ignore https://github.com/storybookjs/storrybook/pull/7578#discussion_r307986139
+  // @ts-expect-error https://github.com/storybookjs/storrybook/pull/7578#discussion_r307986139
   root[VALUES] = { ...element.options[VALUES], ...args };
 
   if (!map.has(domElement)) {

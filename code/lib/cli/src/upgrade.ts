@@ -73,7 +73,7 @@ const warnPackages = (pkgs: Package[]) =>
   pkgs.forEach((pkg) => logger.warn(`- ${formatPackage(pkg)}`));
 
 export const checkVersionConsistency = () => {
-  const lines = spawnSync('npm', ['ls'], { stdio: 'pipe' }).output.toString().split('\n');
+  const lines = spawnSync('npm', ['ls'], { stdio: 'pipe', shell: true }).output.toString().split('\n');
   const storybookPackages = lines
     .map(getStorybookVersion)
     .filter(Boolean)
@@ -165,6 +165,7 @@ export const upgrade = async ({
   flags = addExtraFlags(EXTRA_FLAGS, flags, packageManager.retrievePackageJson());
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
+    shell: true,
   }).output.toString();
   logger.info(check);
 

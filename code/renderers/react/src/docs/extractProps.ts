@@ -14,7 +14,7 @@ export interface PropDefMap {
 const propTypesMap = new Map();
 
 Object.keys(PropTypes).forEach((typeName) => {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   const type = PropTypes[typeName];
 
   propTypesMap.set(type, typeName);

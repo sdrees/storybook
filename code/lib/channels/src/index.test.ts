@@ -103,7 +103,7 @@ describe('Channel', () => {
         listenerOutputData = data;
       });
       const sendSpy = jest.fn();
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       channel.transport.send = sendSpy;
       channel.emit(eventName, ...listenerInputData);
       expect(listenerOutputData).toEqual(listenerInputData);

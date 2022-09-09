@@ -1,9 +1,8 @@
 import path from 'path';
-import { dedent } from 'ts-dedent';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-// @ts-ignore // -- this has typings for webpack4 in it, won't work
+// @ts-expect-error // -- this has typings for webpack4 in it, won't work
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
@@ -17,6 +16,8 @@ import {
   normalizeStories,
   readTemplate,
   loadPreviewOrConfigFile,
+  isPreservingSymlinks,
+  getFrameworkName,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import type { BuilderOptions, TypescriptOptions } from '../types';
@@ -66,15 +67,7 @@ export default async (
     serverChannelUrl,
   } = options;
 
-  const framework = await presets.apply('framework', undefined);
-  if (!framework) {
-    throw new Error(dedent`
-      You must to specify a framework in '.storybook/main.js' config.
-
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory
-    `);
-  }
-  const frameworkName = typeof framework === 'string' ? framework : framework.name;
+  const frameworkName = await getFrameworkName(options);
   const frameworkOptions = await presets.apply('frameworkOptions');
 
   const isProd = configType === 'PRODUCTION';
@@ -167,10 +160,6 @@ export default async (
 
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
-
-  const { NODE_OPTIONS, NODE_PRESERVE_SYMLINKS } = process.env;
-  const isPreservingSymlinks =
-    !!NODE_PRESERVE_SYMLINKS || NODE_OPTIONS?.includes('--preserve-symlinks');
 
   return {
     name: 'preview',
@@ -275,7 +264,7 @@ export default async (
       },
       // Set webpack to resolve symlinks based on whether the user has asked node to.
       // This feels like it should be default out-of-the-box in webpack :shrug:
-      symlinks: !isPreservingSymlinks,
+      symlinks: !isPreservingSymlinks(),
     },
     optimization: {
       splitChunks: {

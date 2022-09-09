@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import PropTypes from 'prop-types';
 
 export const PRESET_SHAPE = {

@@ -1,5 +1,4 @@
 import global from 'global';
-import { action } from '@storybook/addon-actions';
 import { useEffect } from '@storybook/client-api';
 
 const { document } = global;
@@ -15,7 +14,6 @@ export const Headings = () =>
 export const Button = () => {
   const btn = document.createElement('button');
   btn.innerHTML = 'Hello Button';
-  btn.addEventListener('click', action('Click'));
   return btn;
 };
 

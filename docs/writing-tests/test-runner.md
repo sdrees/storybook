@@ -13,7 +13,7 @@ These tests run in a live browser and can be executed via the [command line](#cl
 
 The test-runner is a standalone, framework-agnostic utility that runs parallel to your Storybook. You will need to take some additional steps to set it up properly. Detailed below is our recommendation to configure and execute it.
 
-Run the following command to install it and the required dependencies.
+Run the following command to install it.
 
 <!-- prettier-ignore-start -->
 

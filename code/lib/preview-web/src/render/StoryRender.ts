@@ -20,7 +20,7 @@ import {
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { Render, RenderType } from './Render';
+import { Render, RenderType, PREPARE_ABORTED } from './Render';
 
 const { AbortController } = global;
 
@@ -40,7 +40,7 @@ function createController(): AbortController {
   return {
     signal: { aborted: false },
     abort() {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       this.signal.aborted = true;
     },
   } as AbortController;
@@ -59,8 +59,6 @@ export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
   RenderContext<TFramework>,
   'showMain' | 'showError' | 'showException'
 >;
-
-export const PREPARE_ABORTED = new Error('prepareAborted');
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
   public type: RenderType = 'story';
@@ -275,7 +273,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     this.abortController?.abort();
   }
 
-  async teardown(options: {} = {}) {
+  async teardown() {
     this.torndown = true;
     this.cancelRender();
 

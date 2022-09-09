@@ -1,10 +1,9 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import { Button } from '../components/react-demo';
 
 export default {
   title: 'Some really long story kind description',
 };
 
-export const Story1 = () => <Button onClick={action('clicked')}>Hello Button</Button>;
+export const Story1 = () => <Button>Hello Button</Button>;
 Story1.storyName = 'with text';

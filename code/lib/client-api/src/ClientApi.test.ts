@@ -17,7 +17,7 @@ describe('ClientApi', () => {
         },
       });
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       clientApi.storiesOf('none', module).aa();
       expect(data).toBe('foo');
     });
@@ -38,7 +38,7 @@ describe('ClientApi', () => {
         },
       });
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       clientApi.storiesOf('none', module).aa().bb();
       expect(data).toEqual(['foo', 'bar']);
     });
@@ -53,7 +53,7 @@ describe('ClientApi', () => {
         },
       });
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       clientApi.storiesOf('none', module).aa();
       expect(data).toBe('function');
     });
@@ -74,7 +74,7 @@ describe('ClientApi', () => {
         },
       });
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       clientApi.storiesOf('none', module).bb();
       expect(data).toBe('foo');
     });
@@ -90,7 +90,7 @@ describe('ClientApi', () => {
         },
       });
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       clientApi.storiesOf(kind, module).aa();
       expect(data).toBe(kind);
     });

@@ -17,7 +17,7 @@ function resolveDefault({ type, default: def }: any) {
 }
 
 export function extractProps(component: VueConstructor) {
-  // @ts-ignore this options business seems not good according to the types
+  // @ts-expect-error this options business seems not good according to the types
   return Object.entries(component.options.props || {})
     .map(([name, prop]) => ({ [name]: resolveDefault(prop) }))
     .reduce((wrap, prop) => ({ ...wrap, ...prop }), {});

@@ -9,7 +9,7 @@ import yaml from 'js-yaml';
 
 import startVerdaccioServer from 'verdaccio';
 import pLimit from 'p-limit';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages } from './utils/list-packages';
 
@@ -43,7 +43,7 @@ const startVerdaccio = (port: number): Promise<any> => {
         });
       };
 
-      startVerdaccioServer(config, 6000, cache, '1.0.0', 'verdaccio', onReady);
+      startVerdaccioServer(config, 6001, cache, '1.0.0', 'verdaccio', onReady);
     }),
     new Promise((_, rej) => {
       setTimeout(() => {
@@ -94,18 +94,18 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
   );
 };
 
-// const addUser = (url: string) =>
-//   new Promise((res, rej) => {
-//     logger.log(`👤 add temp user to verdaccio`);
+const addUser = (url: string) =>
+  new Promise((res, rej) => {
+    logger.log(`👤 add temp user to verdaccio`);
 
-//     exec(`npx npm-cli-adduser -r "${url}" -a -u user -p password -e user@example.com`, (e) => {
-//       if (e) {
-//         rej(e);
-//       } else {
-//         res();
-//       }
-//     });
-//   });
+    exec(`npx npm-cli-adduser -r "${url}" -a -u user -p password -e user@example.com`, (e) => {
+      if (e) {
+        rej(e);
+      } else {
+        res();
+      }
+    });
+  });
 
 const run = async () => {
   const port = await freePort(program.port);
@@ -135,8 +135,12 @@ const run = async () => {
 
   logger.log(`🌿 verdaccio running on ${verdaccioUrl}`);
 
-  // first time running, you might need to enable this
-  // await addUser(verdaccioUrl);
+  // in some environments you need to add a dummy user. always try to add & catch on failure
+  try {
+    await addUser(verdaccioUrl);
+  } catch (e) {
+    //
+  }
 
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 

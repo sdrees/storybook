@@ -39,7 +39,7 @@ export function outputStartupInformation(options: {
       'right-mid': '',
       middle: '',
     },
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: 0,

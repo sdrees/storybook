@@ -113,6 +113,12 @@ If you publish your Storybook to Chromatic, you can use the [UI Review](https://
 
 ![UI review in Chromatic](./workflow-uireview.png)
 
+### Versioning and history
+
+When you publish Storybook, you also get component history and versioning down to the commit. That's useful during implementation review for comparing components between branches/commits to past versions.
+
+![Library history in Chromatic](./workflow-history-versioning.png)
+
 ## Publish Storybook to other services
 
 You can publish the static Storybook web app to many hosts. We maintain [`storybook-deployer`](https://github.com/storybookjs/storybook-deployer), a handy tool to help you publish to AWS or GitHub pages.

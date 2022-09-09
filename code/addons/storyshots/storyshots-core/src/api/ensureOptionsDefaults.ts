@@ -25,7 +25,6 @@ function getIntegrityOptions({ integrityOptions }: StoryshotsOptions) {
   };
 }
 
-// @ts-ignore
 function ensureOptionsDefaults(options: StoryshotsOptions) {
   const {
     suite = 'Storyshots',

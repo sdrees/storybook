@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 const { window, EventSource } = global;

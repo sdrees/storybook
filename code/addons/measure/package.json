@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-measure",
-  "version": "7.0.0-alpha.23",
+  "version": "7.0.0-alpha.31",
   "description": "Inspect layouts by visualizing the box model",
   "keywords": [
     "storybook-addons",
@@ -40,7 +40,7 @@
       "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
-    "./register.js": {
+    "./register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -58,16 +58,15 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.23",
-    "@storybook/api": "7.0.0-alpha.23",
-    "@storybook/client-logger": "7.0.0-alpha.23",
-    "@storybook/components": "7.0.0-alpha.23",
-    "@storybook/core-events": "7.0.0-alpha.23",
+    "@storybook/addons": "7.0.0-alpha.31",
+    "@storybook/api": "7.0.0-alpha.31",
+    "@storybook/client-logger": "7.0.0-alpha.31",
+    "@storybook/components": "7.0.0-alpha.31",
+    "@storybook/core-events": "7.0.0-alpha.31",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "core-js": "^3.8.2",
     "global": "^4.4.0"
   },
   "devDependencies": {
@@ -95,7 +94,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a",
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f",
   "storybook": {
     "displayName": "Measure",
     "unsupportedFrameworks": [

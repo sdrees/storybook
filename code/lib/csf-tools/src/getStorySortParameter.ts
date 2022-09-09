@@ -31,7 +31,7 @@ const parseValue = (expr: t.Expression): any => {
     }, {} as any);
   }
   if (t.isLiteral(expr)) {
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     return expr.value;
   }
   throw new Error(`Unknown node type ${expr}`);

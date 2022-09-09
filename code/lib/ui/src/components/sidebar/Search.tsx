@@ -291,7 +291,7 @@ export const Search = React.memo<{
       <Downshift<DownshiftItem>
         initialInputValue={initialQuery}
         stateReducer={stateReducer}
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         itemToString={(result) => result?.item?.name || ''}
       >
         {({

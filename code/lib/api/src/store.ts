@@ -4,7 +4,6 @@ import storeSetup from './lib/store-setup';
 import type { State } from './index';
 
 // setting up the store, overriding set and get to use telejson
-// @ts-ignore
 storeSetup(store._);
 
 export const STORAGE_KEY = '@storybook/ui/store';

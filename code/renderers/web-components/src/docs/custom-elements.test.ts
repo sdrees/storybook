@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import { extractArgTypes } from './custom-elements';

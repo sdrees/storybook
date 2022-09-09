@@ -145,7 +145,7 @@ export async function webpack(
 export const storyIndexers = async (indexers: StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     const { compile } = global.FEATURES?.previewMdx2
       ? await import('@storybook/mdx2-csf')
       : await import('@storybook/mdx1-csf');

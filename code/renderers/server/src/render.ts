@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import { dedent } from 'ts-dedent';

@@ -1,6 +1,10 @@
-import stable from 'stable';
 import { dedent } from 'ts-dedent';
-import type { Comparator, StorySortParameter, StorySortParameterV7 } from '@storybook/addons';
+import type {
+  Comparator,
+  IndexEntryLegacy,
+  StorySortParameter,
+  StorySortParameterV7,
+} from '@storybook/addons';
 import { storySort } from './storySort';
 import type { Story, StoryIndexEntry, IndexEntry, Path, Parameters } from './types';
 
@@ -16,10 +20,9 @@ const sortStoriesCommon = (
     } else {
       sortFn = storySort(storySortParameter);
     }
-    stable.inplace(stories, sortFn);
+    stories.sort(sortFn as (a: IndexEntry, b: IndexEntry) => number);
   } else {
-    stable.inplace(
-      stories,
+    stories.sort(
       (s1, s2) => fileNameOrder.indexOf(s1.importPath) - fileNameOrder.indexOf(s2.importPath)
     );
   }
@@ -57,7 +60,7 @@ export const sortStoriesV6 = (
   fileNameOrder: Path[]
 ) => {
   if (storySortParameter && typeof storySortParameter === 'function') {
-    stable.inplace(stories, storySortParameter);
+    stories.sort(storySortParameter as (a: IndexEntryLegacy, b: IndexEntryLegacy) => number);
     return stories.map((s) => toIndexEntry(s[1]));
   }
 

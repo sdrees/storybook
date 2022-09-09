@@ -44,17 +44,17 @@ export class RendererFactory {
 }
 
 export const getRenderType = (targetDOMNode: HTMLElement): RenderType => {
-  return targetDOMNode.id === 'root' ? 'canvas' : 'docs';
+  return targetDOMNode.id === 'storybook-root' ? 'canvas' : 'docs';
 };
 
 export function clearRootHTMLElement(renderType: RenderType) {
   switch (renderType) {
     case 'canvas':
-      global.document.getElementById('docs-root').innerHTML = '';
+      global.document.getElementById('storybook-docs').innerHTML = '';
       break;
 
     case 'docs':
-      global.document.getElementById('root').innerHTML = '';
+      global.document.getElementById('storybook-root').innerHTML = '';
       break;
     default:
       break;

@@ -1,5 +1,5 @@
 import { Parameters, setup } from '@storybook/vue3';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import Button from '../src/stories/Button.vue';
 
 // TODO: I'd like to be able to export rather than imperatively calling an imported function

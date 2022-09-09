@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "7.0.0-alpha.23",
+  "version": "7.0.0-alpha.31",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -31,30 +31,23 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.23",
-    "@storybook/channel-postmessage": "7.0.0-alpha.23",
-    "@storybook/channels": "7.0.0-alpha.23",
-    "@storybook/client-logger": "7.0.0-alpha.23",
-    "@storybook/core-events": "7.0.0-alpha.23",
+    "@storybook/addons": "7.0.0-alpha.31",
+    "@storybook/client-logger": "7.0.0-alpha.31",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/store": "7.0.0-alpha.23",
+    "@storybook/store": "7.0.0-alpha.31",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
-    "core-js": "^3.8.2",
-    "dequal": "^2.0.2",
     "global": "^4.4.0",
-    "lodash": "^4.17.21",
-    "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
-    "store2": "^2.12.0",
     "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@storybook/core-common": "7.0.0-alpha.31",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {
@@ -64,5 +57,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }

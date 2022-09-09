@@ -101,5 +101,11 @@ module.exports = {
         'jest/no-test-callback': 'off', // These aren't jest tests
       },
     },
+    {
+      files: ['**/builder-vite/input/iframe.html'],
+      rules: {
+        'no-undef': 'off', // ignore "window" undef errors
+      },
+    },
   ],
 };

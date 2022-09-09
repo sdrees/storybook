@@ -125,23 +125,18 @@ export const storyIndexers = async (indexers?: StoryIndexer[]) => {
 export const frameworkOptions = async (
   _: never,
   options: Options
-): Promise<StorybookConfig['framework']> => {
+): Promise<Record<string, any> | null> => {
   const config = await options.presets.apply<StorybookConfig['framework']>('framework');
 
   if (typeof config === 'string') {
-    return {
-      name: config,
-      options: {},
-    };
+    return {};
   }
+
   if (typeof config === 'undefined') {
     return null;
   }
 
-  return {
-    name: config.name,
-    options: config.options,
-  };
+  return config.options;
 };
 
 export const docs = (

@@ -1,5 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
+import { dirname } from 'path';
 import {
   CLIOptions,
   LoadedPreset,
@@ -71,8 +72,8 @@ export const resolveAddonName = (
   name: string,
   options: any
 ): ResolvedAddonPreset | ResolvedAddonVirtual | undefined => {
-  const r = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
-  const resolved = r(name);
+  const resolve = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
+  const resolved = resolve(name);
 
   if (resolved) {
     if (name.match(/\/(manager|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
@@ -90,13 +91,35 @@ export const resolveAddonName = (
     }
   }
 
+  const absolutePackageJson = resolved && resolve(`${name}/package.json`);
+
+  // We want to absolutize the package name part to a path on disk
+  //   (i.e. '/Users/foo/.../node_modules/@addons/foo') as otherwise
+  // we may not be able to import the package in certain module systems (eg. pnpm, yarn pnp)
+  const absoluteDir = absolutePackageJson && dirname(absolutePackageJson);
+
+  // If the package has an export (e.g. `/preview`), absolutize it, eg. to
+  //    /Users/foo/.../node_modules/@addons/foo/preview
+  // NOTE: this looks like the path of an absolute file, but it DOES NOT exist.
+  //  - However it is importable by webpack.
+  //  - Vite needs to strip off the absolute part to import it though
+  //     (vite cannot import absolute files: https://github.com/vitejs/vite/issues/5494
+  //      this also means vite suffers issues with pnpm etc)
+  const absolutizeExport = (exportName: string) => {
+    if (resolve(`${name}${exportName}`)) return `${absoluteDir}${exportName}`;
+    return undefined;
+  };
+
   const path = name;
 
-  // when user provides full path, we don't need to do anything!
-  const managerFile = r(`${path}/manager`);
-  const registerFile = r(`${path}/register`) || r(`${path}/register-panel`);
-  const previewFile = r(`${path}/preview`);
-  const presetFile = r(`${path}/preset`);
+  // We don't want to resolve an import path (e.g. '@addons/foo/preview') to the file on disk,
+  // because you are not allowed to import arbitrary files in packages in Vite.
+  // Instead we check if the export exists and "absolutize" it.
+  const managerFile = absolutizeExport(`/manager`);
+  const registerFile = absolutizeExport(`/register`) || absolutizeExport(`/register-panel`);
+  const previewFile = absolutizeExport(`/preview`);
+  // Presets are imported by node, so therefore fine to be a path on disk (at this stage anyway)
+  const presetFile = resolve(`${path}/preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
     return {
@@ -170,9 +193,9 @@ export async function loadPreset(
   storybookOptions: InterPresetOptions
 ): Promise<LoadedPreset[]> {
   try {
-    // @ts-ignores
+    // @ts-expect-error (Converted from ts-ignore)
     const name: string = input.name ? input.name : input;
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     const presetOptions = input.options ? input.options : {};
 
     let contents = await getContent(input);

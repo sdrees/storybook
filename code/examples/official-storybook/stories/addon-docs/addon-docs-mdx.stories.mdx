@@ -8,7 +8,6 @@ import {
   ColorItem,
   Meta,
 } from '@storybook/addon-docs';
-import { action } from '@storybook/addon-actions';
 import styled from 'styled-components';
 import { Button } from '../../components/react-demo';
 import TsButton from '../../components/TsButton';
@@ -78,22 +77,22 @@ export const nonStory2 = () => <Button>Not a story</Button>; // another one
 
 <Canvas>
   <Story name="hello story">
-    <Button onClick={action('clicked')}>hello world</Button>
+    <Button>hello world</Button>
   </Story>
   <Story name="goodbye">
-    <Button onClick={action('clicked')}>goodbye world</Button>
+    <Button>goodbye world</Button>
   </Story>
   <Story name="with icons">
-    <Button onClick={action('clicked')}>🤘🚀💯</Button>
+    <Button>🤘🚀💯</Button>
   </Story>
   <Story name="notes" parameters={{ notes: 'story notes' }}>
-    <Button onClick={action('clicked')}>goodbye world</Button>
+    <Button>goodbye world</Button>
   </Story>
   <Story name="plaintext">Plain text</Story>
 </Canvas>
 
 <Story name="solo story">
-  <Button onClick={action('clicked')}>solo</Button>
+  <Button>solo</Button>
 </Story>
 
 <Story name="iframe story" inline={false} height="100px">
@@ -120,7 +119,7 @@ export const nonStory2 = () => <Button>Not a story</Button>; // another one
 <Source name="hello story" />
 
 <Canvas>
-  <Button onClick={action('clicked')}>view source in Canvas</Button>
+  <Button>view source in Canvas</Button>
 </Canvas>
 
 ## Configurable height
@@ -192,8 +191,14 @@ Fixed layout requires custom `height` since it can't be determined.
 
 <Canvas withSource="none">
   <Story name="no source Canvas">
-    <Button onClick={action('clicked')}>solo</Button>
+    <Button>solo</Button>
   </Story>
+</Canvas>
+
+### withSource="open"
+
+<Canvas withSource="open">
+  <h2>source open</h2>
 </Canvas>
 
 ## Docs Disable

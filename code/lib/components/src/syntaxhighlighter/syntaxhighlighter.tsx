@@ -1,46 +1,45 @@
-import React, {
-  ClipboardEvent,
-  ComponentProps,
-  FC,
-  MouseEvent,
-  useCallback,
-  useState,
-} from 'react';
+import React, { ComponentProps, FC, MouseEvent, useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 import global from 'global';
 import memoize from 'memoizerific';
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import jsExtras from 'react-syntax-highlighter/dist/esm/languages/prism/js-extras';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import graphql from 'react-syntax-highlighter/dist/esm/languages/prism/graphql';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import html from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import md from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import yml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
+// @ts-expect-error (Converted from ts-ignore)
+import { createElement } from 'react-syntax-highlighter/dist/esm/index';
 
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
-import type { SyntaxHighlighterProps } from './syntaxhighlighter-types';
+import type {
+  SyntaxHighlighterProps,
+  SyntaxHighlighterRenderer,
+  SyntaxHighlighterRendererProps,
+} from './syntaxhighlighter-types';
 
 const { navigator, document, window: globalWindow } = global;
 
@@ -83,6 +82,7 @@ export function createCopyToClipboardFunction() {
 export interface WrapperProps {
   bordered?: boolean;
   padded?: boolean;
+  showLineNumbers?: boolean;
 }
 
 const Wrapper = styled.div<WrapperProps>(
@@ -97,6 +97,15 @@ const Wrapper = styled.div<WrapperProps>(
           border: `1px solid ${theme.appBorderColor}`,
           borderRadius: theme.borderRadius,
           background: theme.background.content,
+        }
+      : {},
+  ({ showLineNumbers }) =>
+    showLineNumbers
+      ? {
+          // use the before pseudo element to display line numbers
+          '.react-syntax-highlighter-line-number::before': {
+            content: 'attr(data-line-number)',
+          },
         }
       : {}
 );
@@ -138,6 +147,52 @@ const Code = styled.div(({ theme }) => ({
   opacity: 1,
 }));
 
+const processLineNumber = (row: any) => {
+  const children = [...row.children];
+  const lineNumberNode = children[0];
+  const lineNumber = lineNumberNode.children[0].value;
+  const processedLineNumberNode = {
+    ...lineNumberNode,
+    // empty the line-number element
+    children: [],
+    properties: {
+      ...lineNumberNode.properties,
+      // add a data-line-number attribute to line-number element, so we can access the line number with `content: attr(data-line-number)`
+      'data-line-number': lineNumber,
+      // remove the 'userSelect: none' style, which will produce extra empty lines when copy-pasting in firefox
+      style: { ...lineNumberNode.properties.style, userSelect: 'auto' },
+    },
+  };
+  children[0] = processedLineNumberNode;
+  return { ...row, children };
+};
+
+/**
+ * A custom renderer for handling `span.linenumber` element in each line of code,
+ * which is enabled by default if no renderer is passed in from the parent component
+ */
+const defaultRenderer: SyntaxHighlighterRenderer = ({ rows, stylesheet, useInlineStyles }) => {
+  return rows.map((node: any, i: number) => {
+    return createElement({
+      node: processLineNumber(node),
+      stylesheet,
+      useInlineStyles,
+      key: `code-segement${i}`,
+    });
+  });
+};
+
+const wrapRenderer = (renderer: SyntaxHighlighterRenderer, showLineNumbers: boolean) => {
+  if (!showLineNumbers) {
+    return renderer;
+  }
+  if (renderer) {
+    return ({ rows, ...rest }: SyntaxHighlighterRendererProps) =>
+      renderer({ rows: rows.map((row) => processLineNumber(row)), ...rest });
+  }
+  return defaultRenderer;
+};
+
 export interface SyntaxHighlighterState {
   copied: boolean;
 }
@@ -163,25 +218,24 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
   const highlightableCode = formatter ? formatter(format, children) : children.trim();
   const [copied, setCopied] = useState(false);
 
-  const onClick = useCallback(
-    (e: MouseEvent<HTMLButtonElement> | ClipboardEvent<HTMLDivElement>) => {
-      e.preventDefault();
-
-      const selectedText = globalWindow.getSelection().toString();
-      const textToCopy = e.type !== 'click' && selectedText ? selectedText : highlightableCode;
-
-      copyToClipboard(textToCopy)
-        .then(() => {
-          setCopied(true);
-          globalWindow.setTimeout(() => setCopied(false), 1500);
-        })
-        .catch(logger.error);
-    },
-    []
-  );
+  const onClick = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    copyToClipboard(highlightableCode)
+      .then(() => {
+        setCopied(true);
+        globalWindow.setTimeout(() => setCopied(false), 1500);
+      })
+      .catch(logger.error);
+  }, []);
+  const renderer = wrapRenderer(rest.renderer, showLineNumbers);
 
   return (
-    <Wrapper bordered={bordered} padded={padded} className={className} onCopyCapture={onClick}>
+    <Wrapper
+      bordered={bordered}
+      padded={padded}
+      showLineNumbers={showLineNumbers}
+      className={className}
+    >
       <Scroller>
         <ReactSyntaxHighlighter
           padded={padded || bordered}
@@ -193,6 +247,7 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
           CodeTag={Code}
           lineNumberContainerStyle={{}}
           {...rest}
+          renderer={renderer}
         >
           {highlightableCode}
         </ReactSyntaxHighlighter>

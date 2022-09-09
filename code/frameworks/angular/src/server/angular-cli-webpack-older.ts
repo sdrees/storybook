@@ -109,7 +109,6 @@ function mergeAngularCliWebpackConfig(
   // styleWebpackConfig.entry adds global style files to the webpack context
   const entry = [
     ...(baseConfig.entry as string[]),
-    // @ts-ignore
     ...Object.values(cliStyleWebpackConfig.entry).reduce((acc, item) => acc.concat(item), []),
   ];
 

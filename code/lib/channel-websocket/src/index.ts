@@ -85,3 +85,6 @@ export function createChannel({
   const transport = new WebsocketTransport({ url, onError });
   return new Channel({ transport, async });
 }
+
+// backwards compat with builder-vite
+export default createChannel;

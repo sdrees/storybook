@@ -7,6 +7,7 @@ const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 test.describe('addon-viewport', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
+    await new SbPage(page).waitUntilLoaded();
   });
 
   test('should have viewport button in the toolbar', async ({ page }) => {

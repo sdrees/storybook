@@ -3,10 +3,11 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 import { command } from 'execa';
 import * as tempy from 'tempy';
-import { copy, remove, writeFile } from 'fs-extra';
+import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
 
 import { getTemplatesData, renderTemplate } from './utils/template';
 import { commitAllToGit } from './utils/git';
+import { promiseImpl } from 'ejs';
 
 export const logger = console;
 
@@ -30,6 +31,19 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   await command(`git clone ${remote} .`, { cwd: tmpFolder });
   await command(`git checkout ${gitBranch}`, { cwd: tmpFolder });
 
+  // otherwise old files will stick around and result inconsistent states
+  logger.log(`🗑 Delete existing template dirs from clone`);
+  const files = await Promise.all(
+    (
+      await readdir(REPROS_DIRECTORY)
+    ).map(async (f) => ({ path: f, stats: await stat(join(REPROS_DIRECTORY, f)) }))
+  );
+  await Promise.all(
+    files
+      .filter(({ stats, path }) => stats.isDirectory && !path.startsWith('.'))
+      .map(async ({ path }) => emptyDir(join(tmpFolder, path)))
+  );
+
   logger.log(`🚚 Moving template files into the repository`);
 
   const templatePath = join(scriptPath, 'templates', 'root.ejs');
@@ -40,7 +54,7 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   await writeFile(join(tmpFolder, 'README.md'), output);
 
   logger.log(`🚛 Moving all the repros into the repository`);
-  await copy(join(REPROS_DIRECTORY), tmpFolder);
+  await copy(REPROS_DIRECTORY, tmpFolder);
 
   await commitAllToGit(tmpFolder);
 

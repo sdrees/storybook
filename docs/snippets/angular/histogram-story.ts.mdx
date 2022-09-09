@@ -1,0 +1,25 @@
+```ts
+// Histogram.stories.ts
+
+import type { Meta, Story } from '@storybook/angular';
+
+import { HistogramComponent } from './histogram.component';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Histogram',
+  component: HistogramComponent,
+} as Meta;
+
+export const Default: Story = {
+  args: {
+    dataType: 'latency',
+    showHistogramLabels: true,
+    histogramAccentColor: '#1EA7FD',
+    label: 'Latency distribution',
+  },
+};
+```

@@ -23,12 +23,11 @@ import Provider from './provider';
 const emotionCache = createCache({ key: 'sto' });
 emotionCache.compat = true;
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 HelmetProvider.displayName = 'HelmetProvider';
 
-// @ts-ignore
 const Container = process.env.XSTORYBOOK_EXAMPLE_APP ? React.StrictMode : React.Fragment;
 
 export interface RootProps {

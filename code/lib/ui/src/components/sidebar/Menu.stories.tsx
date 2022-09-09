@@ -36,7 +36,7 @@ export const Real = () => <SidebarMenu menu={fakemenu} isHighlighted />;
 export const Toolbar = () => <ToolbarMenu menu={fakemenu} />;
 
 const DoubleThemeRenderingHack = styled.div({
-  '#root > [data-side="left"] > &': {
+  '#storybook-root > [data-side="left"] > &': {
     textAlign: 'right',
   },
 });
@@ -44,7 +44,7 @@ const DoubleThemeRenderingHack = styled.div({
 export const Expanded = () => {
   const menu = useMenu(
     {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       getShortcutKeys: () => ({}),
       getAddonsShortcuts: () => ({}),
       versionUpdateAvailable: () => false,
@@ -73,7 +73,7 @@ Expanded.play = async ({ canvasElement }) => {
 export const ExpandedWithoutReleaseNotes = () => {
   const menu = useMenu(
     {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       getShortcutKeys: () => ({}),
       getAddonsShortcuts: () => ({}),
       versionUpdateAvailable: () => false,

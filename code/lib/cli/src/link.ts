@@ -37,6 +37,7 @@ export const link = async ({ target, local, start }: LinkOptions) => {
   const version = spawnSync('yarn', ['--version'], {
     cwd: reproDir,
     stdio: 'pipe',
+    shell: true,
   }).stdout.toString();
 
   if (!/^[23]\./.test(version)) {

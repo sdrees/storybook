@@ -1,4 +1,3 @@
-// @ts-ignore
 import global from 'global';
 import { enableProdMode, NgModule, Component, NgModuleRef, Type, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -168,7 +167,7 @@ const initModule = (storyFn: PartialStoryFn<AngularFramework>) => {
   );
 };
 
-const staticRoot = document.getElementById('root');
+const staticRoot = document.getElementById('storybook-root');
 const insertDynamicRoot = () => {
   const app = document.createElement('storybook-dynamic-app-root');
   staticRoot.innerHTML = '';

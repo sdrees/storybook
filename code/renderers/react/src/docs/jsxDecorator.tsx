@@ -69,7 +69,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   let renderedJSX = code;
   const Type = renderedJSX.type;
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   for (let i = 0; i < options.skip; i += 1) {
     if (typeof renderedJSX === 'undefined') {
       logger.warn('Cannot skip undefined element');
@@ -120,12 +120,12 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   };
 
   const result = React.Children.map(code, (c) => {
-    // @ts-ignore FIXME: workaround react-element-to-jsx-string
+    // @ts-expect-error FIXME: workaround react-element-to-jsx-string
     const child = typeof c === 'number' ? c.toString() : c;
     const toJSXString =
       typeof reactElementToJSXString === 'function'
         ? reactElementToJSXString
-        : // @ts-ignore
+        : // @ts-expect-error (Converted from ts-ignore)
           reactElementToJSXString.default;
     let string = applyBeforeRender(toJSXString(child, opts as Options), options);
 

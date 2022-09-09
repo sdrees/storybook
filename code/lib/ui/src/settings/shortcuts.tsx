@@ -274,7 +274,7 @@ class ShortcutsScreen extends Component<ShortcutsScreenProps, ShortcutsScreenSta
           className="modalInput"
           onBlur={this.onBlur}
           onFocus={this.onFocus(feature)}
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           onKeyDown={this.onKeyDown}
           value={shortcut ? shortcutToHumanString(shortcut) : ''}
           placeholder="Type keys"

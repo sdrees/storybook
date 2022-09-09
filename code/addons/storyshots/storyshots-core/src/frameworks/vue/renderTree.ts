@@ -1,4 +1,3 @@
-// @ts-ignore
 import Vue from 'vue';
 
 // this is defined in @storybook/vue but not exported,
@@ -14,7 +13,7 @@ function getRenderedTree(story: any) {
     },
   });
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   vm[VALUES] = story.initialArgs;
 
   return vm.$mount().$el;

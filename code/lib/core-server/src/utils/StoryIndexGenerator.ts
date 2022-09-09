@@ -426,7 +426,7 @@ export class StoryIndexGenerator {
         return acc;
       }, {} as Record<ComponentTitle, number>);
 
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       compat = Object.entries(sorted).reduce((acc, entry) => {
         const [id, story] = entry;
         if (story.type === 'docs') return acc;

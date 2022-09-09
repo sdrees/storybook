@@ -183,10 +183,10 @@ function generateFunc(extractedProp: ExtractedProp): TypeDef {
     if (jsDocTags.params != null || jsDocTags.returns != null) {
       return createTypeDef({
         name: PropTypesType.FUNC,
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         short: generateShortFuncSignature(jsDocTags.params, jsDocTags.returns),
         compact: null,
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         full: generateFuncSignature(jsDocTags.params, jsDocTags.returns),
       });
     }

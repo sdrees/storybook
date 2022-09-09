@@ -8,7 +8,7 @@ import { loadCustomWebpackConfig } from '@storybook/core-webpack';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
 
 export async function webpack(config: Configuration, options: Options) {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   const { configDir, configType, presets, webpackConfig } = options;
 
   const coreOptions = await presets.apply<CoreConfig>('core');

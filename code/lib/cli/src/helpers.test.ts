@@ -67,10 +67,10 @@ describe('Helpers', () => {
   `(
     `should copy $expected when folder $exists exists for language $language`,
     async ({ language, exists, expected }) => {
-      const componentsDirectory = exists.map((folder: string) => `frameworks/react/${folder}`);
-      const expectedDirectory = `frameworks/react${expected}`;
+      const componentsDirectory = exists.map((folder: string) => `rendererAssets/react/${folder}`);
+      const expectedDirectory = `rendererAssets/react${expected}`;
       (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-        return componentsDirectory.includes(filePath) || filePath === 'frameworks/react';
+        return componentsDirectory.includes(filePath) || filePath === 'rendererAssets/react';
       });
       await helpers.copyComponents('react', language);
 
@@ -78,7 +78,7 @@ describe('Helpers', () => {
       expect(copySpy).toHaveBeenNthCalledWith(1, expectedDirectory, './stories', expect.anything());
       expect(copySpy).toHaveBeenNthCalledWith(
         2,
-        'frameworks/common',
+        'rendererAssets/common',
         './stories',
         expect.anything()
       );
@@ -87,7 +87,7 @@ describe('Helpers', () => {
 
   it(`should copy to src folder when exists`, async () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-      return filePath === 'frameworks/react' || filePath === './src';
+      return filePath === 'rendererAssets/react' || filePath === './src';
     });
     await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './src/stories', expect.anything());
@@ -95,17 +95,17 @@ describe('Helpers', () => {
 
   it(`should copy to root folder when src doesn't exist`, async () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-      return filePath === 'frameworks/react';
+      return filePath === 'rendererAssets/react';
     });
     await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './stories', expect.anything());
   });
 
-  it(`should throw an error for unsupported framework`, async () => {
-    const framework = 'unknown framework' as SupportedRenderers;
-    const expectedMessage = `Unsupported framework: ${framework}`;
+  it(`should throw an error for unsupported renderer`, async () => {
+    const renderer = 'unknown renderer' as SupportedRenderers;
+    const expectedMessage = `Unsupported renderer: ${renderer}`;
     await expect(
-      helpers.copyComponents(framework, SupportedLanguage.JAVASCRIPT)
+      helpers.copyComponents(renderer, SupportedLanguage.JAVASCRIPT)
     ).rejects.toThrowError(expectedMessage);
   });
 

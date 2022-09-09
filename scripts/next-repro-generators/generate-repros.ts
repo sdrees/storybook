@@ -6,17 +6,21 @@ import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
+import { AbortController } from 'node-abort-controller';
+
 import reproTemplates from '../../code/lib/cli/src/repro-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import { maxConcurrentTasks } from '../utils/concurrency';
 
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
 import { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
+import { servePackages } from '../utils/serve-packages';
+import { publish } from '../tasks/publish';
 
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
 const BEFORE_DIR_NAME = 'before-storybook';
@@ -29,7 +33,7 @@ const sbInit = async (cwd: string) => {
   await runCommand(`${sbCliBinaryPath} init --yes`, { cwd, env });
 };
 
-const LOCAL_REGISTRY_URL = 'http://localhost:6000';
+const LOCAL_REGISTRY_URL = 'http://localhost:6001';
 const withLocalRegistry = async (packageManager: JsPackageManager, action: () => Promise<void>) => {
   const prevUrl = packageManager.getRegistryURL();
   try {
@@ -101,7 +105,15 @@ const runGenerators = async (
 
   const limit = pLimit(maxConcurrentTasks);
 
-  return Promise.all(
+  let controller: AbortController;
+  if (localRegistry) {
+    // @ts-expect-error (Converted from ts-ignore)
+    await publish.run();
+    console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
+    controller = await servePackages({ debug: true });
+  }
+
+  await Promise.all(
     generators.map(({ dirName, name, script }) =>
       limit(async () => {
         const time = process.hrtime();
@@ -132,6 +144,17 @@ const runGenerators = async (
       })
     )
   );
+
+  if (controller) {
+    console.log(`🛑 Stopping local registry: ${LOCAL_REGISTRY_URL}`);
+    controller.abort();
+    console.log(`✅ Stopped`);
+  }
+
+  // FIXME: Kill dangling processes. For some reason in CI,
+  // the abort signal gets executed but the child process kill
+  // does not succeed?!?
+  process.exit(0);
 };
 
 const generate = async ({

@@ -75,7 +75,7 @@ export class WebView {
   }
 
   storyRoot(): HTMLElement {
-    return document.getElementById('root');
+    return document.getElementById('storybook-root');
   }
 
   prepareForDocs() {
@@ -86,7 +86,7 @@ export class WebView {
   }
 
   docsRoot(): HTMLElement {
-    return document.getElementById('docs-root');
+    return document.getElementById('storybook-docs');
   }
 
   applyLayout(layout: Layout = 'padded') {

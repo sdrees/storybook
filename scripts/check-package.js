@@ -5,7 +5,7 @@ const { resolve } = require('path');
 const { readJSON } = require('fs-extra');
 
 const getStorybookPackages = async () => {
-  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'workspace.json'));
+  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'code', 'workspace.json'));
   return Object.entries(workspaceJSON.projects).map(([k, v]) => ({
     location: v.root,
     name: k,

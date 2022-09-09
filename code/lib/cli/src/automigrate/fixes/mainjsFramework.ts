@@ -19,6 +19,8 @@ export const mainjsFramework: Fix<MainjsFrameworkRunOptions> = {
 
   async check({ packageManager }) {
     const packageJson = packageManager.retrievePackageJson();
+
+    // FIXME: use renderer in SB7?
     const { mainConfig, framework, version: storybookVersion } = getStorybookInfo(packageJson);
 
     if (!mainConfig) {

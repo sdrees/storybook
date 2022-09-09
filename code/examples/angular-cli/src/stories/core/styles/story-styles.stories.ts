@@ -1,5 +1,4 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { action } from '@storybook/addon-actions';
 import { Button } from '../../angular-demo';
 
 export default {
@@ -15,7 +14,7 @@ export const TemplateStory: StoryFn = () => ({
   template: `<storybook-button-component [text]="text" (onClick)="onClick($event)"></storybook-button-component>`,
   props: {
     text: 'Button with custom styles',
-    onClick: action('log'),
+    onClick: () => {},
   },
   styles: [
     `

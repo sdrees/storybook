@@ -1,4 +1,3 @@
-import { action } from '@storybook/addon-actions';
 import Button from '../Button';
 
 export default {
@@ -6,12 +5,12 @@ export default {
   component: Button,
 };
 
-export const WithText = () => <Button onclick={action('clicked')}>Hello Button</Button>;
+export const WithText = () => <Button>Hello Button</Button>;
 
 WithText.storyName = 'with text';
 
 export const WithSomeEmoji = () => (
-  <Button onclick={action('clicked')}>
+  <Button>
     <span role="img" aria-label="so cool">
       😀 😎 👍 💯
     </span>

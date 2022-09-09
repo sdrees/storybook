@@ -75,7 +75,7 @@ export default async function svelteDocgen(this: any, source: string) {
 
   try {
     // FIXME
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     const componentDoc = await svelteDoc.parse(options);
 
     // get filename for source content

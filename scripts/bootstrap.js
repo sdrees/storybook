@@ -54,7 +54,7 @@ function run() {
         });
 
       log.info(prefix, name);
-      command();
+      return command();
     },
   });
 
@@ -74,9 +74,9 @@ function run() {
       defaultValue: true,
       option: '--prep',
       command: () => {
-        log.info(prefix, 'prepare');
-        spawn(
-          `nx run-many --target="prepare" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
+        log.info(prefix, 'prep');
+        return spawn(
+          `nx run-many --target="prep" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
         );
       },
       order: 2,
@@ -86,23 +86,14 @@ function run() {
       defaultValue: true,
       option: '--retry',
       command: () => {
-        log.info(prefix, 'prepare');
-        spawn(
-          `nx run-many --target=prepare --all --parallel --only-failed ${
+        log.info(prefix, 'prep');
+        return spawn(
+          `nx run-many --target="prep" --all --parallel --only-failed ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           }`
         );
       },
       order: 1,
-    }),
-    cleanup: createTask({
-      name: `Remove compiled dist directories ${chalk.gray('(cleanup)')}`,
-      defaultValue: false,
-      option: '--cleanup',
-      command: () => {
-        spawn('npm run clean:dist');
-      },
-      order: 0,
     }),
     reset: createTask({
       name: `Clean repository ${chalk.red('(reset)')}`,
@@ -110,7 +101,7 @@ function run() {
       option: '--reset',
       command: () => {
         log.info(prefix, 'git clean');
-        spawn(`node -r esm ${join(__dirname, 'reset.js')}`);
+        return spawn(`node -r esm ${join(__dirname, 'reset.js')}`);
       },
       order: 0,
     }),
@@ -120,7 +111,7 @@ function run() {
       option: '--install',
       command: () => {
         const command = process.env.CI ? `yarn install --immutable` : `yarn install`;
-        spawn(command);
+        return spawn(command);
       },
       order: 1,
     }),
@@ -130,8 +121,8 @@ function run() {
       option: '--build',
       command: () => {
         log.info(prefix, 'build');
-        spawn(
-          `nx run-many --target="prepare" --all --parallel=8 ${
+        return spawn(
+          `nx run-many --target="prep" --all --parallel=8 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           } -- --reset --optimized`
         );
@@ -143,7 +134,7 @@ function run() {
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('yarn local-registry --publish --open --port 6000');
+        return spawn('yarn local-registry --publish --open --port 6001');
       },
       order: 11,
     }),
@@ -152,7 +143,7 @@ function run() {
       defaultValue: false,
       option: '--dev',
       command: () => {
-        spawn('yarn build');
+        return spawn('yarn build');
       },
       order: 9,
     }),
@@ -161,7 +152,7 @@ function run() {
   const groups = {
     main: ['prep', 'core'],
     buildtasks: ['install', 'build'],
-    devtasks: ['dev', 'registry', 'cleanup', 'reset'],
+    devtasks: ['dev', 'registry', 'reset'],
   };
 
   Object.keys(tasks)
@@ -243,7 +234,10 @@ function run() {
         list
           .sort((a, b) => a.order - b.order)
           .forEach((key) => {
-            key.command();
+            const result = key.command();
+            if (result && 'status' in result && result.status !== 0) {
+              process.exit(result.status);
+            }
           });
         process.stdout.write('\x07');
       }

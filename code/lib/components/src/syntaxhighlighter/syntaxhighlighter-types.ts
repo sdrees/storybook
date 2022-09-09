@@ -7,6 +7,8 @@ export interface SyntaxHighlighterRendererProps {
   useInlineStyles: boolean;
 }
 
+export type SyntaxHighlighterRenderer = (props: SyntaxHighlighterRendererProps) => ReactNode;
+
 export interface SyntaxHighlighterCustomProps {
   language: string;
   copyable?: boolean;
@@ -15,7 +17,7 @@ export interface SyntaxHighlighterCustomProps {
   format?: SyntaxHighlighterFormatTypes;
   formatter?: (type: SyntaxHighlighterFormatTypes, source: string) => string;
   className?: string;
-  renderer?: (props: SyntaxHighlighterRendererProps) => ReactNode;
+  renderer?: SyntaxHighlighterRenderer;
 }
 
 export type SyntaxHighlighterFormatTypes = boolean | 'dedent' | BuiltInParserName;

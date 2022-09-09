@@ -36,7 +36,7 @@ const run = async (storyId: string) => {
       channel.emit(EVENTS.RUNNING);
       const axe = (await import('axe-core')).default;
 
-      const { element = '#root', config, options = {} } = input;
+      const { element = '#storybook-root', config, options = {} } = input;
       const htmlElement = document.querySelector(element);
       axe.reset();
       if (config) {

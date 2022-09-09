@@ -1,5 +1,4 @@
 import { setContext } from 'svelte';
-import { action } from '@storybook/addon-actions';
 import Context from '../components/Context.svelte';
 import BorderDecorator from './BorderDecorator.svelte';
 
@@ -14,7 +13,7 @@ export default {
 
 export const Decorators = () => ({
   on: {
-    click: action('I am logging in the actions tab'),
+    click: () => {},
   },
 });
 Decorators.decorators = [

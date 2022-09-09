@@ -14,7 +14,7 @@ export async function servePackages({ dryRun, debug }: { dryRun?: boolean; debug
     // If aborted, we want to make sure the rejection is handled.
     if (!err.killed) throw err;
   });
-  await exec('yarn wait-on http://localhost:6000', { cwd: codeDir }, { dryRun, debug });
+  await exec('yarn wait-on http://localhost:6001', { cwd: codeDir }, { dryRun, debug });
 
   return controller;
 }

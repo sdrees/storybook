@@ -29,33 +29,33 @@ export async function copyAllStaticFiles(staticDirs: any[] | undefined, outputDi
     );
   }
 }
+
 export async function copyAllStaticFilesRelativeToMain(
   staticDirs: any[] | undefined,
   outputDir: string,
   configDir: string
 ) {
-  staticDirs.forEach(async (dir) => {
+  const workingDir = process.cwd();
+
+  return staticDirs.reduce(async (acc, dir) => {
+    await acc;
+
     const staticDirAndTarget = typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`;
     const { staticPath: from, targetEndpoint: to } = await parseStaticDir(
       getDirectoryFromWorkingDir({
         configDir,
-        workingDir: process.cwd(),
+        workingDir,
         directory: staticDirAndTarget,
       })
     );
 
     const targetPath = path.join(outputDir, to);
     const skipPaths = ['index.html', 'iframe.html'].map((f) => path.join(targetPath, f));
-    logger.info(
-      chalk`=> Copying static files: {cyan ${from.replace(
-        process.cwd(),
-        ''
-      )}} at {cyan ${targetPath.replace(process.cwd(), '')}}`
-    );
+    logger.info(chalk`=> Copying static files: {cyan ${from}} at {cyan ${targetPath}}`);
     await fs.copy(from, targetPath, {
       dereference: true,
       preserveTimestamps: true,
       filter: (_, dest) => !skipPaths.includes(dest),
     });
-  });
+  }, Promise.resolve());
 }

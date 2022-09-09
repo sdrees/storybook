@@ -53,7 +53,6 @@ function navigate(context: DocsContextProps, url: string) {
   context.channel.emit(NAVIGATE_URL, url);
 }
 
-// @ts-ignore
 const A = components.a;
 
 interface AnchorInPageProps {
@@ -124,7 +123,7 @@ const SUPPORTED_MDX_HEADERS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 const OcticonHeaders = SUPPORTED_MDX_HEADERS.reduce(
   (acc, headerType) => ({
     ...acc,
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     [headerType]: styled(components[headerType])({
       '& svg': {
         visibility: 'hidden',
@@ -159,7 +158,7 @@ const HeaderWithOcticonAnchor: FC<HeaderWithOcticonAnchorProps> = ({
 }) => {
   const context = useContext(DocsContext);
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   const OcticonHeader = OcticonHeaders[as];
   const hash = `#${id}`;
 
@@ -213,7 +212,7 @@ export const HeaderMdx: FC<HeaderMdxProps> = (props) => {
     );
   }
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   const Header = components[as];
 
   // Make sure it still work if "remark-slug" plugin is not present.
@@ -223,7 +222,7 @@ export const HeaderMdx: FC<HeaderMdxProps> = (props) => {
 export const HeadersMdx = SUPPORTED_MDX_HEADERS.reduce(
   (acc, headerType) => ({
     ...acc,
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     [headerType]: (props: object) => <HeaderMdx as={headerType} {...props} />,
   }),
   {}

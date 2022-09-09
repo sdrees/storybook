@@ -47,7 +47,7 @@ describe('renderJsx', () => {
   });
   it('large objects', () => {
     const obj = Array.from({ length: 20 }).reduce((acc, _, i) => {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       acc[`key_${i}`] = `val_${i}`;
       return acc;
     }, {});
@@ -159,7 +159,7 @@ describe('renderJsx', () => {
   });
 });
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 const makeContext = (name: string, parameters: any, args: any, extra?: object): StoryContext => ({
   id: `jsx-test--${name}`,
   kind: 'js-text',
@@ -173,7 +173,7 @@ describe('jsxDecorator', () => {
   let mockChannel: { on: jest.Mock; emit?: jest.Mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     mockedUseEffect.mockImplementation((cb) => setTimeout(cb, 0));
 
     mockChannel = { on: jest.fn(), emit: jest.fn() };
@@ -272,7 +272,7 @@ describe('jsxDecorator', () => {
   it('renders MDX properly', async () => {
     // FIXME: generate this from actual MDX
     const mdxElement: ReturnType<typeof createElement> = {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       type: { displayName: 'MDXCreateElement' },
       props: {
         mdxType: 'div',

@@ -329,11 +329,11 @@ function useStateLike<S>(
 ): [S, (update: ((prevState: S) => S) | S) => void] {
   const stateRef = useRefLike(
     name,
-    // @ts-ignore S type should never be function, but there's no way to tell that to TypeScript
+    // @ts-expect-error S type should never be function, but there's no way to tell that to TypeScript
     typeof initialState === 'function' ? initialState() : initialState
   );
   const setState = (update: ((prevState: S) => S) | S) => {
-    // @ts-ignore S type should never be function, but there's no way to tell that to TypeScript
+    // @ts-expect-error S type should never be function, but there's no way to tell that to TypeScript
     stateRef.current = typeof update === 'function' ? update(stateRef.current) : update;
     triggerUpdate();
   };

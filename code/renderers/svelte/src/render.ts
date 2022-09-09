@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import type { ArgsStoryFn } from '@storybook/csf';
@@ -25,7 +25,7 @@ export function renderToDOM(
 ) {
   cleanUpPreviousStory();
 
-  const target = domElement || document.getElementById('root');
+  const target = domElement || document.getElementById('storybook-root');
 
   target.innerHTML = '';
 

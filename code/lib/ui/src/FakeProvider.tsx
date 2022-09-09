@@ -7,9 +7,9 @@ export class FakeProvider extends Provider {
   constructor() {
     super();
 
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.addons = addons;
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.channel = {
       on: () => {},
       off: () => {},
@@ -19,7 +19,7 @@ export class FakeProvider extends Provider {
     };
   }
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   getElements(type) {
     return addons.getElements(type);
   }
@@ -28,12 +28,12 @@ export class FakeProvider extends Provider {
     return <div>This is from a 'renderPreview' call from FakeProvider</div>;
   }
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   handleAPI(api) {
     addons.loadAddons(api);
   }
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   getConfig() {
     return {};
   }
