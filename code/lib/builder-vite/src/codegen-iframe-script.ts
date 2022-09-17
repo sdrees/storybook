@@ -7,12 +7,11 @@ import type { ExtendedOptions } from './types';
 export async function generateIframeScriptCode(options: ExtendedOptions) {
   const { presets } = options;
   const frameworkName = await getFrameworkName(options);
-  const presetEntries = await presets.apply('config', [], options);
-  const previewEntries = await presets.apply('previewEntries', [], options);
-  const absolutePreviewEntries = previewEntries.map((entry) =>
+  const previewAnnotations = await presets.apply('previewAnnotations', [], options);
+  const resolvedPreviewAnnotations = previewAnnotations.map((entry) =>
     isAbsolute(entry) ? entry : resolve(entry)
   );
-  const configEntries = [...presetEntries, ...absolutePreviewEntries].filter(Boolean);
+  const configEntries = [...resolvedPreviewAnnotations].filter(Boolean);
 
   const absoluteFilesToImport = (files: string[], name: string) =>
     files

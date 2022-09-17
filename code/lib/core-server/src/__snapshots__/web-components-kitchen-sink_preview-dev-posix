@@ -3,7 +3,6 @@
 exports[`web-components-kitchen-sink preview dev 1`] = `
 Object {
   "entry": Array [
-    "CWD/lib/core-client/dist/esm/globals/globals.js",
     "NODE_MODULES/webpack-hot-middleware/client.js?reload=true&quiet=false&noInfo=undefined",
     "CWD/storybook-config-entry.js",
   ],

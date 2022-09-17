@@ -21,11 +21,11 @@ MyBox.__docgenInfo = {
   \\"displayName\\": \\"MyBox\\",
   \\"props\\": {
     \\"bg\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     }
   }
 };"

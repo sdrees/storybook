@@ -1,3 +1,41 @@
+## 7.0.0-alpha.33 (September 13, 2022)
+
+#### Features
+
+-   Core: Add a new `throwPlayFunctionExceptions` parameter [#19143](https://github.com/storybooks/storybook/pull/19143)
+
+#### Bug Fixes
+
+-   Fix issue in instrumenter with `waitFor` [#19145](https://github.com/storybooks/storybook/pull/19145)
+-   Core: Fix static dirs targeting same destination [#19064](https://github.com/storybooks/storybook/pull/19064)
+-   React: Fix issue with react 18 implementation [#19125](https://github.com/storybooks/storybook/pull/19125)
+-   CLI: Fix spawning child processes on windows [#19019](https://github.com/storybooks/storybook/pull/19019)
+-   Vite: Ensure we set `DOCS_OPTIONS` in the vite builder [#19127](https://github.com/storybooks/storybook/pull/19127)
+
+#### Maintenance
+
+-   Build: Bundle @storybook/cli with tsup [#19138](https://github.com/storybooks/storybook/pull/19138)
+-   Examples: Remove `cra-ts-essentials` [#19170](https://github.com/storybooks/storybook/pull/19170)
+-   Added some basic interactions stories [#19153](https://github.com/storybooks/storybook/pull/19153)
+-   Presets: Replace `config` with `previewAnnotations`, remove `previewEntries` [#19152](https://github.com/storybooks/storybook/pull/19152)
+-   Addon-links: Move stories into addon [#19124](https://github.com/storybooks/storybook/pull/19124)
+-   Addon-a11y: Move stories into addon [#19114](https://github.com/storybooks/storybook/pull/19114)
+-   Toolbars: Generic example stories [#19166](https://github.com/storybooks/storybook/pull/19166)
+-   TypeScript: Revert a few @ts-expect-errors [#19168](https://github.com/storybooks/storybook/pull/19168)
+-   Addon-docs: Generic stories for DocsPage [#19162](https://github.com/storybooks/storybook/pull/19162)
+-   Controls: Generic stories for sorting [#19161](https://github.com/storybooks/storybook/pull/19161)
+-   Build: Generic stories for addon-controls [#19149](https://github.com/storybooks/storybook/pull/19149)
+-   remove node12 from the matrix [#19147](https://github.com/storybooks/storybook/pull/19147)
+-   Build libs/router with ts-up [#19140](https://github.com/storybooks/storybook/pull/19140)
+-   Build: Bundle addon-interactions with tsup [#19139](https://github.com/storybooks/storybook/pull/19139)
+-   Generic stories for remaining core features [#19118](https://github.com/storybooks/storybook/pull/19118)
+-   Add parameter, loader and decorator stories to `lib/store` [#19105](https://github.com/storybooks/storybook/pull/19105)
+-   Convert @ts-ignore to @ts-expect-error [#19122](https://github.com/storybooks/storybook/pull/19122)
+
+#### Dependency Upgrades
+
+-   Upgrade emotion deps again [#19054](https://github.com/storybooks/storybook/pull/19054)
+
 ## 7.0.0-alpha.31 (September 7, 2022)
 
 #### Maintenance

@@ -9,12 +9,11 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
   const frameworkName = await getFrameworkName(options);
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
-  const presetEntries = await presets.apply('config', [], options);
-  const previewEntries = await presets.apply('previewEntries', [], options);
-  const absolutePreviewEntries = [...presetEntries, ...previewEntries].map((entry) =>
+  const previewAnnotations = await presets.apply('previewAnnotations', [], options);
+  const resolvedPreviewAnnotations = [...previewAnnotations].map((entry) =>
     isAbsolute(entry) ? entry : resolve(entry)
   );
-  const configEntries = [...absolutePreviewEntries, previewOrConfigFile]
+  const relativePreviewAnnotations = [...resolvedPreviewAnnotations, previewOrConfigFile]
     .filter(Boolean)
     .map((configEntry) => transformAbsPath(configEntry as string));
 
@@ -34,7 +33,9 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
       preview.onStoriesChanged({ importFn: newModule.importFn });
       });
 
-    import.meta.hot.accept(${JSON.stringify(configEntries)}, ([...newConfigEntries]) => {
+    import.meta.hot.accept(${JSON.stringify(
+      relativePreviewAnnotations
+    )}, ([...newConfigEntries]) => {
       const newGetProjectAnnotations =  () => composeConfigs(newConfigEntries);
 
       // getProjectAnnotations has changed so we need to patch the new one in
@@ -56,8 +57,8 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
     import { importFn } from '${virtualStoriesFile}';
 
     const getProjectAnnotations = async () => {
-      const configs = await Promise.all([${configEntries
-        .map((configEntry) => `import('${configEntry}')`)
+      const configs = await Promise.all([${relativePreviewAnnotations
+        .map((previewAnnotation) => `import('${previewAnnotation}')`)
         .join(',\n')}])
       return composeConfigs(configs);
     }

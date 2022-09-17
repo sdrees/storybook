@@ -1,6 +1,8 @@
+import { join } from 'path';
 import chalk from 'chalk';
 import shell from 'shelljs';
 import { getBabelDependencies, paddedLog, copyTemplate } from '../../helpers';
+import { getBaseDir } from '../../dirs';
 import { JsPackageManager } from '../../js-package-manager';
 import { NpmOptions } from '../../NpmOptions';
 
@@ -67,7 +69,8 @@ const generator = async (
     });
   }
 
-  copyTemplate(__dirname);
+  const templateDir = join(getBaseDir(), 'templates', 'react-native');
+  copyTemplate(templateDir);
 };
 
 export default generator;

@@ -497,13 +497,19 @@ export class Instrumenter {
           this.setState(call.storyId, { cursor: 0, ancestors: [...ancestors, call.id] });
           const restore = () => this.setState(call.storyId, { cursor, ancestors });
 
-          // Invoke the actual callback function.
-          const res = arg(...args);
-
-          // Reset cursor and ancestors to their original values before we entered the callback.
-          if (res instanceof Promise) return res.then(restore, restore);
-          restore();
-          return res;
+          // Invoke the actual callback function, taking care to reset the cursor and ancestors
+          // to their original values before we entered the callback, once the callback completes.
+          let willRestore = false;
+          try {
+            const res = arg(...args);
+            if (res instanceof Promise) {
+              willRestore = true; // We need to wait for the promise to finish before restoring
+              return res.finally(restore);
+            }
+            return res;
+          } finally {
+            if (!willRestore) restore();
+          }
         };
       });
 

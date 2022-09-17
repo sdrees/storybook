@@ -1,4 +1,3 @@
-import { linkTo } from '@storybook/addon-links';
 import { Welcome } from '../react-demo';
 import { Meta, Story } from '@storybook/addon-docs';
 
@@ -10,5 +9,5 @@ import { Meta, Story } from '@storybook/addon-docs';
 />
 
 <Story name="to Storybook">
-  <Welcome showApp={linkTo('Button')} />
+  <Welcome showApp={() => {}} />
 </Story>

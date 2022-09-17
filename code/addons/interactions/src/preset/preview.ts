@@ -59,3 +59,7 @@ export const { step: runStep } = instrument(
   { step: (label: StepLabel, play: PlayFunction, context: PlayFunctionContext) => play(context) },
   { intercept: true }
 );
+
+export const parameters = {
+  throwPlayFunctionExceptions: false,
+};

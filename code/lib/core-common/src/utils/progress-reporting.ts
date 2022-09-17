@@ -8,8 +8,11 @@ export const useProgressReporting = async (
 ): Promise<{ handler: any; modulesCount: number }> => {
   let value = 0;
   let totalModules: number;
-  let reportProgress: (progress?: { value?: number; message: string; modules?: any }) => void =
-    () => {};
+  let reportProgress: (progress?: {
+    value?: number;
+    message: string;
+    modules?: any;
+  }) => void = () => {};
 
   router.get('/progress', (request: Request, response: Response) => {
     let closed = false;

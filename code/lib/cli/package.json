@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-alpha.31",
+  "version": "7.0.0-alpha.33",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -30,29 +30,29 @@
     "bin/**/*",
     "dist/**/*",
     "rendererAssets/**/*",
+    "templates/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js",
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts",
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@storybook/codemod": "7.0.0-alpha.31",
-    "@storybook/core-common": "7.0.0-alpha.31",
-    "@storybook/core-server": "7.0.0-alpha.31",
-    "@storybook/csf-tools": "7.0.0-alpha.31",
-    "@storybook/node-logger": "7.0.0-alpha.31",
+    "@storybook/codemod": "7.0.0-alpha.33",
+    "@storybook/core-common": "7.0.0-alpha.33",
+    "@storybook/core-server": "7.0.0-alpha.33",
+    "@storybook/csf-tools": "7.0.0-alpha.33",
+    "@storybook/node-logger": "7.0.0-alpha.33",
     "@storybook/semver": "^7.3.2",
-    "@storybook/telemetry": "7.0.0-alpha.31",
+    "@storybook/telemetry": "7.0.0-alpha.33",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
-    "core-js": "^3.8.2",
     "cross-spawn": "^7.0.3",
     "degit": "^2.8.4",
     "envinfo": "^7.7.3",
@@ -73,7 +73,7 @@
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-alpha.31",
+    "@storybook/client-api": "7.0.0-alpha.33",
     "@types/cross-spawn": "^6.0.2",
     "@types/degit": "^2.8.3",
     "@types/prompts": "^2.0.9",
@@ -88,5 +88,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
+  "bundler": {
+    "entries": [
+      "./src/generate.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }

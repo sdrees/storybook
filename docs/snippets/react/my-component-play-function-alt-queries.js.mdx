@@ -20,11 +20,4 @@ export const ExampleWithRole = {
     await userEvent.click(screen.getByRole('button', { name: / button label/i }));
   },
 };
-
-export const ExampleWithText = {
-  play: async () => {
-    // The play function interacts with the component and looks for the text
-    await screen.findByText('example string');
-  },
-};
 ```

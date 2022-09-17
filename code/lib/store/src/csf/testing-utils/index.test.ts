@@ -1,6 +1,6 @@
 import { composeStory, composeStories } from './index';
 
-// Most integration tests for this functionality are located under examples/cra-ts-essentials
+// Most integration tests for this functionality are located under renderers/react
 describe('composeStory', () => {
   const meta = {
     title: 'Button',

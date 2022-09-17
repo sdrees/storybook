@@ -27,7 +27,6 @@ module.exports = {
   projects: [
     '<rootDir>',
     // '<rootDir>/app/angular',
-    // '<rootDir>/examples/cra-kitchen-sink',
     // '<rootDir>/examples/cra-ts-kitchen-sink',
     // '<rootDir>/examples/html-kitchen-sink',
     // '<rootDir>/examples/svelte-kitchen-sink',
@@ -42,6 +41,7 @@ module.exports = {
     '<rootDir>/addons',
     '<rootDir>/frameworks',
     '<rootDir>/lib',
+    '<rootDir>/renderers',
     '<rootDir>/examples/official-storybook',
     '<rootDir>/examples/react-ts',
   ],

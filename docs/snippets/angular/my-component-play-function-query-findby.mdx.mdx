@@ -1,0 +1,29 @@
+```md
+<!-- MyComponent.stories.mdx -->
+
+import { Meta, Story } from '@storybook/addon-docs';
+
+import { screen, userEvent } from '@storybook/testing-library';
+
+import { MyComponent } from './MyComponent.component';
+
+<Meta title="Async Query Methods" component={MyComponent} />
+
+<!--
+ 👇 Render functions are a framework specific feature to allow you control on how the component renders.
+  See https://storybook.js.org/docs/7.0/angular/api/csf
+  to learn how to use render functions.
+-->
+
+<Story
+  name="AsyncExample"
+  play={async () => {
+    // Other steps
+
+    // Waits for the component to be rendered before querying the element
+    await screen.findByRole('button', { name: / button label/i }));
+  }} 
+  render={(args) => ({
+    props: args,
+  })} />
+```

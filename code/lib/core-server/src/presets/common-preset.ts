@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import deprecate from 'util-deprecate';
 import {
   CLIOptions,
   getPreviewBodyTemplate,
@@ -14,6 +15,9 @@ import type {
   IndexerOptions,
 } from '@storybook/core-common';
 import { loadCsf } from '@storybook/csf-tools';
+
+const warnConfigField = deprecate(() => {},
+`You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`);
 
 export const babel = async (_: unknown, options: Options) => {
   const { presets } = options;
@@ -41,11 +45,6 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
 };
 
 export const previewMainTemplate = () => getPreviewMainTemplate();
-
-export const previewEntries = (entries: any[] = []) => {
-  entries.push(require.resolve('@storybook/core-client/dist/esm/globals/globals'));
-  return entries;
-};
 
 export const typescript = () => ({
   check: false,
@@ -89,8 +88,12 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
 
-export const config = async (base: any, options: Options) => {
-  return [...(await options.presets.apply('previewAnnotations', [], options)), ...base];
+export const previewAnnotations = async (base: any, options: Options) => {
+  const config = await options.presets.apply('config', [], options);
+
+  if (config.length > 0) warnConfigField();
+
+  return [...config, require.resolve('@storybook/core-client/dist/esm/globals/globals'), ...base];
 };
 
 export const features = async (

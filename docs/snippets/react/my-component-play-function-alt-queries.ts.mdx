@@ -24,11 +24,4 @@ export const ExampleWithRole: ComponentStoryObj<typeof MyComponent> = {
     await userEvent.click(screen.getByRole('button', { name: / button label/i }));
   },
 };
-
-export const ExampleWithText: ComponentStoryObj<typeof MyComponent> = {
-  play: async () => {
-    // The play function interacts with the component and looks for the text
-    await screen.findByText('example string');
-  },
-};
 ```

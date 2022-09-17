@@ -21,6 +21,7 @@
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
     - [Icons API changed](#icons-api-changed)
+    - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-preview-annotations)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -543,6 +544,12 @@ export interface IconsProps extends ComponentProps<typeof Svg> {
 
 Full change here: https://github.com/storybookjs/storybook/pull/18809
 
+#### 'config' preset entry replaced with 'previewAnnotations'
+
+The preset field `'config'` has been replaced with `'previewAnnotations'`. `'config'` is now deprecated and will be removed in Storybook 8.0.
+
+Additionally, the internal field `'previewEntries'` has been removed. If you need a preview entry, just use a `'previewAnnotations'` file and don't export anything.
+
 ### Docs Changes
 
 The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry, rather than attached to individual stories.
@@ -672,9 +679,7 @@ import * as previewAnnotations from '../.storybook/preview';
 
 export default function App({ Component, pageProps }) {
   return (
-    <ExternalDocs
-      projectAnnotationsList={[reactAnnotations, previewAnnotations]}
-    >
+    <ExternalDocs projectAnnotationsList={[reactAnnotations, previewAnnotations]}>
       <Component {...pageProps} />
     </ExternalDocs>
   );
@@ -798,8 +803,7 @@ import startCase from 'lodash/startCase';
 
 addons.setConfig({
   sidebar: {
-    renderLabel: ({ name, type }) =>
-      type === 'story' ? name : startCase(name),
+    renderLabel: ({ name, type }) => (type === 'story' ? name : startCase(name)),
   },
 });
 ```
@@ -1226,11 +1230,7 @@ After:
 ```js
 // .storybook/main.js
 module.exports = {
-  staticDirs: [
-    '../public',
-    '../static',
-    { from: '../foo/assets', to: '/assets' },
-  ],
+  staticDirs: ['../public', '../static', { from: '../foo/assets', to: '/assets' }],
 };
 ```
 
@@ -1778,17 +1778,13 @@ This breaking change only affects you if your stories actually use the context, 
 Consider the following story that uses the context:
 
 ```js
-export const Dummy = ({ parameters }) => (
-  <div>{JSON.stringify(parameters)}</div>
-);
+export const Dummy = ({ parameters }) => <div>{JSON.stringify(parameters)}</div>;
 ```
 
 Here's an updated story for 6.0 that ignores the args object:
 
 ```js
-export const Dummy = (_args, { parameters }) => (
-  <div>{JSON.stringify(parameters)}</div>
-);
+export const Dummy = (_args, { parameters }) => <div>{JSON.stringify(parameters)}</div>;
 ```
 
 Alternatively, if you want to opt out of the new behavior, you can add the following to your `.storybook/preview.js` config:
@@ -2208,7 +2204,7 @@ To configure a11y now, you have to specify configuration using story parameters,
 ```js
 export const parameters = {
   a11y: {
-    element: "#storybook-root",
+    element: '#storybook-root',
     config: {},
     options: {},
     manual: true,
@@ -2578,9 +2574,7 @@ For example, here's how to sort by story ID using `storySort`:
 addParameters({
   options: {
     storySort: (a, b) =>
-      a[1].kind === b[1].kind
-        ? 0
-        : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
+      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
   },
 });
 ```
@@ -2626,9 +2620,7 @@ Storybook 5.1 relies on `core-js@^3.0.0` and therefore causes a conflict with An
 {
   "compilerOptions": {
     "paths": {
-      "core-js/es7/reflect": [
-        "node_modules/core-js/proposals/reflect-metadata"
-      ],
+      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
       "core-js/es6/*": ["node_modules/core-js/es"]
     }
   }

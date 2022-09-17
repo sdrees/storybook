@@ -218,15 +218,18 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
   const highlightableCode = formatter ? formatter(format, children) : children.trim();
   const [copied, setCopied] = useState(false);
 
-  const onClick = useCallback((e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    copyToClipboard(highlightableCode)
-      .then(() => {
-        setCopied(true);
-        globalWindow.setTimeout(() => setCopied(false), 1500);
-      })
-      .catch(logger.error);
-  }, []);
+  const onClick = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      copyToClipboard(highlightableCode)
+        .then(() => {
+          setCopied(true);
+          globalWindow.setTimeout(() => setCopied(false), 1500);
+        })
+        .catch(logger.error);
+    },
+    [highlightableCode]
+  );
   const renderer = wrapRenderer(rest.renderer, showLineNumbers);
 
   return (

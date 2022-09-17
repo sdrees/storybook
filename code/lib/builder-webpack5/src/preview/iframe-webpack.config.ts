@@ -2,7 +2,7 @@ import path from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-// @ts-expect-error // -- this has typings for webpack4 in it, won't work
+// @ts-ignore
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
@@ -82,8 +82,8 @@ export default async (
     typeof coreOptions.builder === 'string' ? {} : coreOptions.builder?.options || {};
   const docsOptions = await presets.apply<DocsOptions>('docs');
 
-  const configs = [
-    ...(await presets.apply('config', [], options)),
+  const previewAnnotations = [
+    ...(await presets.apply('previewAnnotations', [], options)),
     loadPreviewOrConfigFile(options),
   ].filter(Boolean);
   const entries = (await presets.apply('entries', [], options)) as string[];
@@ -109,7 +109,7 @@ export default async (
       ),
       {
         storiesFilename,
-        configs,
+        previewAnnotations,
       }
       // We need to double escape `\` for webpack. We may have some in windows paths
     ).replace(/\\/g, '\\\\');
@@ -125,21 +125,21 @@ export default async (
       path.join(__dirname, 'virtualModuleEntry.template.js')
     );
 
-    configs.forEach((configFilename: any) => {
+    previewAnnotations.forEach((previewAnnotationFilename: any) => {
       const clientApi = storybookPaths['@storybook/client-api'];
       const clientLogger = storybookPaths['@storybook/client-logger'];
 
       // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
-      virtualModuleMapping[`${configFilename}-generated-config-entry.js`] = interpolate(
+      virtualModuleMapping[`${previewAnnotationFilename}-generated-config-entry.js`] = interpolate(
         entryTemplate,
         {
-          configFilename,
+          previewAnnotationFilename,
           clientApi,
           clientLogger,
         }
       );
-      entries.push(`${configFilename}-generated-config-entry.js`);
+      entries.push(`${previewAnnotationFilename}-generated-config-entry.js`);
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(

@@ -511,16 +511,13 @@ describe('PreviewWeb', () => {
 
       it('renders helpful message if renderToDOM is undefined', async () => {
         document.location.search = '?id=component-one--a';
+
+        getProjectAnnotations.mockReturnValueOnce({
+          ...projectAnnotations,
+          renderToDOM: undefined,
+        });
         const preview = new PreviewWeb();
-        await expect(
-          preview.initialize({
-            importFn,
-            getProjectAnnotations: () => ({
-              ...getProjectAnnotations,
-              renderToDOM: undefined,
-            }),
-          })
-        ).rejects.toThrow();
+        await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
         expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
@@ -533,20 +530,56 @@ describe('PreviewWeb', () => {
                       `);
       });
 
-      it('emits but does not render exception if the play function throws', async () => {
-        const error = new Error('error');
-        componentOneExports.a.play.mockImplementationOnce(() => {
-          throw error;
+      describe('when `throwPlayFunctionExceptions` is set', () => {
+        it('emits but does not render exception if the play function throws', async () => {
+          const error = new Error('error');
+          componentOneExports.a.play.mockImplementationOnce(() => {
+            throw error;
+          });
+
+          getProjectAnnotations.mockReturnValueOnce({
+            ...projectAnnotations,
+            parameters: {
+              ...projectAnnotations.parameters,
+              throwPlayFunctionExceptions: false,
+            },
+          });
+
+          document.location.search = '?id=component-one--a';
+          const preview = await createAndRenderPreview();
+
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            PLAY_FUNCTION_THREW_EXCEPTION,
+            serializeError(error)
+          );
+          expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
+          expect(mockChannel.emit).not.toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
         });
+      });
 
-        document.location.search = '?id=component-one--a';
-        const preview = await createAndRenderPreview();
+      describe('when `throwPlayFunctionExceptions` is unset', () => {
+        it('emits AND renders exception if the play function throws', async () => {
+          const error = new Error('error');
+          componentOneExports.a.play.mockImplementationOnce(() => {
+            throw error;
+          });
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(
-          PLAY_FUNCTION_THREW_EXCEPTION,
-          serializeError(error)
-        );
-        expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
+          document.location.search = '?id=component-one--a';
+          const preview = await createAndRenderPreview();
+
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            PLAY_FUNCTION_THREW_EXCEPTION,
+            serializeError(error)
+          );
+          expect(preview.view.showErrorDisplay).toHaveBeenCalled();
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
+        });
       });
 
       it('renders exception if the story calls showException', async () => {
@@ -3116,6 +3149,16 @@ describe('PreviewWeb', () => {
         await waitForRender();
 
         expect(preview.storyStore.globals!.get()).toEqual({ a: 'c' });
+      });
+    });
+
+    describe('with no selection', () => {
+      // eslint-disable-next-line jest/expect-expect
+      it('does not error', async () => {
+        const preview = await createAndRenderPreview();
+        await preview.onGetProjectAnnotationsChanged({
+          getProjectAnnotations: newGetProjectAnnotations,
+        });
       });
     });
 

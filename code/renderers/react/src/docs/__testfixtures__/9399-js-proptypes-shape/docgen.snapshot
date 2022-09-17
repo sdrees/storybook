@@ -20,6 +20,7 @@ Credits.__docgenInfo = {
   \\"displayName\\": \\"Credits\\",
   \\"props\\": {
     \\"areas\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"arrayOf\\",
         \\"value\\": {
@@ -39,8 +40,7 @@ Credits.__docgenInfo = {
           }
         }
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     }
   }
 };"

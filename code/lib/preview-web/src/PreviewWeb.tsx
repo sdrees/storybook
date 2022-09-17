@@ -181,7 +181,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }) {
     await super.onGetProjectAnnotationsChanged({ getProjectAnnotations });
 
-    this.renderSelection();
+    if (this.urlStore.selection) {
+      this.renderSelection();
+    }
   }
 
   // This happens when a glob gets HMR-ed

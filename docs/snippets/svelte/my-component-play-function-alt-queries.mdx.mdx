@@ -25,14 +25,4 @@ import MyComponent from './MyComponent.svelte';
     Component: MyComponent,
     props: args,
   })} />
-<Story
-  name="ExampleWithText"
-  play={ async () => {
-    // The play function interacts with the component and looks for the text
-    await screen.findByText('example string');
-  }}
-  render={(args) => ({
-    Component: MyComponent,
-    props: args,
-  })} />
 ```

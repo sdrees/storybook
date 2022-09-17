@@ -17,18 +17,18 @@ CCTable.__docgenInfo = {
   \\"displayName\\": \\"CCTable\\",
   \\"props\\": {
     \\"heads\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"array\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"onAddClick\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"func\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     }
   }
 };"

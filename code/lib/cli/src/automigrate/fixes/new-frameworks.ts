@@ -163,7 +163,6 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     // some frameworks didn't change e.g. Angular, Ember
     if (newFrameworkPackage !== frameworkPackage) {
-      dependenciesToRemove.push(frameworkPackage);
       dependenciesToAdd.push(newFrameworkPackage);
     }
 

@@ -21,23 +21,12 @@ export default {
  */
 export const ExampleWithRole = {
   render: (args) => ({
-    Component: Button,
+    Component: MyComponent,
     props: args,
   }),
   play: async () => {
-    // See https://storybook.js.org/docs/7.0/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    // See https://storybook.js.org/docs/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
     await userEvent.click(screen.getByRole('button', { name: / button label/i }));
-  },
-};
-
-export const ExampleWithText = {
-  render: (args) => ({
-    Component: Button,
-    props: args,
-  }),
-  play: async () => {
-    // The play function interacts with the component and looks for the text
-    await screen.findByText('example string');
   },
 };
 ```

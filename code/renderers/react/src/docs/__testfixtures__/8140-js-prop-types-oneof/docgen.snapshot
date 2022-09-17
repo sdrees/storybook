@@ -36,6 +36,7 @@ Alert.__docgenInfo = {
         \\"value\\": \\"'static'\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"enum\\",
         \\"value\\": [{
@@ -46,14 +47,14 @@ Alert.__docgenInfo = {
           \\"computed\\": false
         }]
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"type\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"'warning'\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"enum\\",
         \\"value\\": [{
@@ -70,29 +71,28 @@ Alert.__docgenInfo = {
           \\"computed\\": false
         }]
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"message\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"blank\\": {
+      \\"description\\": \\"No background or border if static alert\\",
       \\"type\\": {
         \\"name\\": \\"bool\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"No background or border if static alert\\"
+      \\"required\\": false
     },
     \\"icon\\": {
+      \\"description\\": \\"Allows icon override, accepts material icon name\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"Allows icon override, accepts material icon name\\"
+      \\"required\\": false
     }
   }
 };"

@@ -1,4 +1,6 @@
+import { join } from 'path';
 import { writeFileAsJson, readFileAsJson, copyTemplate } from '../../helpers';
+import { getBaseDir } from '../../dirs';
 import { baseGenerator } from '../baseGenerator';
 import { Generator } from '../types';
 
@@ -23,7 +25,8 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   await baseGenerator(packageManager, npmOptions, options, 'aurelia', {
     extraPackages: ['aurelia'],
   });
-  copyTemplate(__dirname);
+  const templateDir = join(getBaseDir(), 'templates', 'aurelia');
+  copyTemplate(templateDir);
 };
 
 export default generator;

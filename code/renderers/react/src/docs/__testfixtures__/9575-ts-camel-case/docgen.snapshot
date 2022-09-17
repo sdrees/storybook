@@ -26,11 +26,11 @@ iconButton.__docgenInfo = {
         \\"value\\": \\"'primary'\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     }
   }
 };

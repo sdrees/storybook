@@ -73,3 +73,19 @@ Addons are plugins that extend Storybook's core functionality. You can find them
 Storybook is extensible. Our rich ecosystem of addons helps you test, document, and optimize your stories. You can also create an addon to satisfy your workflow requirements. Read more in the [addons section](../addons/introduction.md).
 
 In the next chapter, we'll get your components rendering in Storybook so you can use it to supercharge component development.
+
+## Use stories to build UIs
+
+When building apps, one of the biggest challenges is to figure out if a piece of UI already exists in your codebase and how to use it for the new feature you're building.
+
+Storybook catalogues all your components and their use cases. Therefore, you can quickly browse it to find what you're looking for.
+
+Here's what the workflow looks like:
+
+- 🗃 Use the sidebar to find a suitable component
+- 👀 Review its stories to pick a variant that suits your needs
+- 📝 Copy/paste the story definition into your app code and wire it up to data
+
+You can access the story definition from the stories file or make it available in your published Storybook using the [Storysource addon](https://storybook.js.org/addons/@storybook/addon-storysource/) or the [Docs addon](../writing-docs/doc-block-source).
+
+![Docs blocks with source](../writing-docs/docblock-source.png)

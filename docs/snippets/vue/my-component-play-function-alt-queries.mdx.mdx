@@ -19,19 +19,10 @@ import MyComponent from './MyComponent.vue';
   name="ExampleWithRole"
   play={ async () => {
     // See https://storybook.js.org/docs/7.0/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await userEvent.click(screen.getByRole('button'));
+   await userEvent.click(screen.getByRole('button', { name: / button label/i }));
   }}
   render={() => ({
     components: { MyComponent },
-    template: '<MyComponent/>',
-  })} />
-<Story 
-  name="ExampleWithText" 
-  play={ async () => {
-    await screen.findByText('example string');
-  }}
-  render={() => ({
-    components: { MyComponent },
-    template: '<MyComponent/>',
+    template: '<MyComponent />',
   })} />
 ```

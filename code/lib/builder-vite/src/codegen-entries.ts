@@ -6,7 +6,9 @@ import type { ExtendedOptions } from './types';
 import { listStories } from './list-stories';
 
 const absoluteFilesToImport = (files: string[], name: string) =>
-  files.map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'/@fs/${normalizePath(el)}'`).join('\n');
+  files
+    .map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'/@fs/${normalizePath(el)}'`)
+    .join('\n');
 
 export async function generateVirtualStoryEntryCode(options: ExtendedOptions) {
   const storyEntries = await listStories(options);

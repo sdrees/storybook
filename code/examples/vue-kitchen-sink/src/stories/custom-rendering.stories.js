@@ -1,5 +1,3 @@
-import { linkTo } from '@storybook/addon-links';
-
 import MyButton from './Button.vue';
 
 export default {
@@ -41,7 +39,7 @@ export const TemplateMethods = () => ({
         <my-button :rounded="true" @click="action">MyButton rendered in a template + props & methods</my-button>
       </p>`,
   methods: {
-    action: linkTo('Button'),
+    action: () => {},
   },
 });
 

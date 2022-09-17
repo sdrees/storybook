@@ -147,7 +147,7 @@ Then run `yarn cypress open` if you want to see the tests run in the UI, or `yar
 
 The best way to help figure out an issue you are having is to produce a minimal reproduction against the `main` branch.
 
-A good way to do that is using the example `cra-kitchen-sink` app embedded in this repository:
+A good way to do that is using the example `official-storybook` app embedded in this repository:
 
 ```sh
 # Download and build this repository:
@@ -157,7 +157,7 @@ yarn
 yarn bootstrap --core
 
 # make changes to try and reproduce the problem, such as adding components + stories
-cd examples/cra-kitchen-sink
+cd examples/official-storybook
 yarn storybook
 
 # see if you can see the problem, if so, commit it:

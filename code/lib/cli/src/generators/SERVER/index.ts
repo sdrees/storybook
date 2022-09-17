@@ -1,13 +1,16 @@
+import { join } from 'path';
 import { baseGenerator } from '../baseGenerator';
 import { Generator } from '../types';
 import { copyTemplate } from '../../helpers';
+import { getBaseDir } from '../../dirs';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   await baseGenerator(packageManager, npmOptions, options, 'server', {
     extensions: ['json'],
   });
 
-  copyTemplate(__dirname);
+  const templateDir = join(getBaseDir(), 'templates', 'server');
+  copyTemplate(templateDir);
 };
 
 export default generator;

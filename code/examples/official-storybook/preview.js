@@ -173,13 +173,6 @@ export const decorators = [
 
 export const parameters = {
   exportedParameter: 'exportedParameter',
-  a11y: {
-    config: {},
-    options: {
-      checks: { 'color-contrast': { options: { noScroll: true } } },
-      restoreScroll: true,
-    },
-  },
   actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: (a, b) =>

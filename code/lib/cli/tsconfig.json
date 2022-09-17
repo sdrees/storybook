@@ -8,5 +8,5 @@
     "resolveJsonModule": true
   },
   "include": ["src/**/*"],
-  "exclude": ["src/**/template*", "**/*.test.*", "src/frameworks/**/*"]
+  "exclude": ["templates/**/**", "**/*.test.*", "src/frameworks/**/*"]
 }

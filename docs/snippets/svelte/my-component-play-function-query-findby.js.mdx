@@ -1,0 +1,34 @@
+```js
+// MyComponent.stories.js
+
+import { screen, userEvent } from '@storybook/testing-library';
+
+import MyComponent from './MyComponent.svelte';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/svelte/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Async Query Methods',
+  component: MyComponent,
+};
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/svelte/api/csf
+ * to learn how to use render functions.
+ */
+export const AsyncExample = {
+  render: (args) => ({
+    Component: MyComponent,
+    props: args,
+  }),
+  play: async () => {
+    // Other steps
+
+    // Waits for the component to be rendered before querying the element
+    await screen.findByRole('button', { name: / button label/i }));
+  },
+};
+```

@@ -119,10 +119,10 @@ describe('renderJsx', () => {
 
     expect(renderJsx(createElement(MyExoticComponent, {}, 'I am forwardRef!'), {}))
       .toMatchInlineSnapshot(`
-        <MyExoticComponent>
-          I'm forwardRef!
-        </MyExoticComponent>
-      `);
+      <MyExoticComponent>
+        I am forwardRef!
+      </MyExoticComponent>
+    `);
   });
 
   it('memo component', () => {
@@ -132,7 +132,7 @@ describe('renderJsx', () => {
 
     expect(renderJsx(createElement(MyMemoComponent, {}, 'I am memo!'), {})).toMatchInlineSnapshot(`
       <MyMemoComponent>
-        I'm memo!
+        I am memo!
       </MyMemoComponent>
     `);
   });

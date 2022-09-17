@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.0.0-alpha.31",
+  "version": "7.0.0-alpha.33",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -54,20 +54,20 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@devtools-ds/object-inspector": "^1.1.2",
-    "@storybook/addons": "7.0.0-alpha.31",
-    "@storybook/api": "7.0.0-alpha.31",
-    "@storybook/client-logger": "7.0.0-alpha.31",
-    "@storybook/components": "7.0.0-alpha.31",
-    "@storybook/core-common": "7.0.0-alpha.31",
-    "@storybook/core-events": "7.0.0-alpha.31",
+    "@storybook/addons": "7.0.0-alpha.33",
+    "@storybook/api": "7.0.0-alpha.33",
+    "@storybook/client-logger": "7.0.0-alpha.33",
+    "@storybook/components": "7.0.0-alpha.33",
+    "@storybook/core-common": "7.0.0-alpha.33",
+    "@storybook/core-events": "7.0.0-alpha.33",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/instrumenter": "7.0.0-alpha.31",
-    "@storybook/theming": "7.0.0-alpha.31",
+    "@storybook/instrumenter": "7.0.0-alpha.33",
+    "@storybook/theming": "7.0.0-alpha.33",
     "global": "^4.4.0",
     "jest-mock": "^27.0.6",
     "polished": "^4.2.2",
@@ -101,7 +101,7 @@
       "./src/preset/preview.ts"
     ]
   },
-  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f",
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a",
   "storybook": {
     "displayName": "Interactions",
     "unsupportedFrameworks": [

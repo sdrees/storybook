@@ -33,6 +33,7 @@ export function IFrame(props: IFrameProps & IframeHTMLAttributes<HTMLIFrameEleme
         id={id}
         title={title}
         src={src}
+        allow="clipboard-write;"
         allowFullScreen={allowFullScreen}
         ref={iFrameRef}
         {...rest}

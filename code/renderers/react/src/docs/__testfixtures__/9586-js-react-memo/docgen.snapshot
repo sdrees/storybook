@@ -26,18 +26,18 @@ Button.__docgenInfo = {
   \\"displayName\\": \\"Button\\",
   \\"props\\": {
     \\"label\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"onClick\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"func\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     }
   }
 };"

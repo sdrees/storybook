@@ -16,7 +16,8 @@ export const chromatic: Task = {
         --storybook-build-dir=${builtSandboxDir} \
         --junit-report=${junitFilename} \
         --projectToken=${token}`,
-      { cwd: sandboxDir }
+      { cwd: sandboxDir },
+      { debug: true }
     );
   },
 };

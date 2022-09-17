@@ -10,6 +10,6 @@ export const smokeTest: Task = {
     // eslint-disable-next-line no-console
     console.log(`smoke testing in ${sandboxDir}`);
 
-    return exec(`yarn storybook --smoke-test`, { cwd: sandboxDir });
+    return exec(`yarn storybook --smoke-test`, { cwd: sandboxDir }, { debug: true });
   },
 };

@@ -47,6 +47,7 @@ Storybook's `play` functions are small code snippets that run once the story fin
    'angular/register-component-with-play-function.ts.mdx',
    'angular/register-component-with-play-function.mdx.mdx',
    'vue/register-component-with-play-function.js.mdx',
+   'vue/register-component-with-play-function.ts.mdx',
    'vue/register-component-with-play-function.mdx.mdx',
    'svelte/register-component-with-play-function.js.mdx',
    'svelte/register-component-with-play-function.mdx.mdx',
@@ -75,6 +76,7 @@ Thanks to the [Component Story Format](../api/csf.md), an ES6 module based file 
    'react/my-component-play-function-composition.ts.mdx',
    'angular/my-component-play-function-composition.ts.mdx',
    'vue/my-component-play-function-composition.js.mdx',
+   'vue/my-component-play-function-composition.ts.mdx',
    'svelte/my-component-play-function-composition.js.mdx',
   ]}
 />
@@ -99,6 +101,7 @@ A common type of component interaction is a button click. If you need to reprodu
    'angular/my-component-play-function-with-clickevent.ts.mdx',
    'angular/my-component-play-function-with-clickevent.mdx.mdx',
    'vue/my-component-play-function-with-clickevent.js.mdx',
+   'vue/my-component-play-function-with-clickevent.ts.mdx',
    'vue/my-component-play-function-with-clickevent.mdx.mdx',
    'svelte/my-component-play-function-with-clickevent.js.mdx',
    'svelte/my-component-play-function-with-clickevent.mdx.mdx',
@@ -121,6 +124,7 @@ Asides from click events, you can also script additional events with the `play` 
    'angular/my-component-play-function-with-selectevent.ts.mdx',
    'angular/my-component-play-function-with-selectevent.mdx.mdx',
    'vue/my-component-play-function-with-selectevent.js.mdx',
+   'vue/my-component-play-function-with-selectevent.ts.mdx',
    'vue/my-component-play-function-with-selectevent.mdx.mdx',
    'svelte/my-component-play-function-with-selectevent.js.mdx',
    'svelte/my-component-play-function-with-selectevent.mdx.mdx',
@@ -141,6 +145,7 @@ In addition to events, you can also create interactions with the `play` function
    'angular/my-component-play-function-with-delay.ts.mdx',
    'angular/my-component-play-function-with-delay.mdx.mdx',
    'vue/my-component-play-function-with-delay.js.mdx',
+   'vue/my-component-play-function-with-delay.ts.mdx',
    'vue/my-component-play-function-with-delay.mdx.mdx',
    'svelte/my-component-play-function-with-delay.js.mdx',
    'svelte/my-component-play-function-with-delay.mdx.mdx',
@@ -163,6 +168,7 @@ You can also use the `play` function to verify the existence of an element based
    'angular/my-component-play-function-waitfor.ts.mdx',
    'angular/my-component-play-function-waitfor.mdx.mdx',
    'vue/my-component-play-function-waitfor.js.mdx',
+   'vue/my-component-play-function-waitfor.ts.mdx',
    'vue/my-component-play-function-waitfor.mdx.mdx',
    'svelte/my-component-play-function-waitfor.js.mdx',
    'svelte/my-component-play-function-waitfor.mdx.mdx',
@@ -185,6 +191,7 @@ If you need, you can also adjust your `play` function to find elements based on 
    'angular/my-component-play-function-alt-queries.ts.mdx',
    'angular/my-component-play-function-alt-queries.mdx.mdx',
    'vue/my-component-play-function-alt-queries.js.mdx',
+   'vue/my-component-play-function-alt-queries.ts.mdx',
    'vue/my-component-play-function-alt-queries.mdx.mdx',
    'svelte/my-component-play-function-alt-queries.js.mdx',
    'svelte/my-component-play-function-alt-queries.mdx.mdx',
@@ -196,6 +203,29 @@ If you need, you can also adjust your `play` function to find elements based on 
 <div class="aside">
  💡 You can read more about the querying elements in the <a href="https://testing-library.com/docs/queries/about/"> Testing library documentation</a>.
 </div>
+
+When Storybook loads the story, the `play` function starts its execution and queries the DOM tree expecting the element to be available when the story renders. In case there's a failure in your test, you'll be able to verify its root cause quickly.
+
+Otherwise, if the component is not immediately available, for instance, due to a previous step defined inside your `play` function or some asynchronous behavior, you can adjust your story and wait for the change to the DOM tree to happen before querying the element. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+   'react/my-component-play-function-query-findby.js.mdx',
+   'react/my-component-play-function-query-findby.ts.mdx',
+   'react/my-component-play-function-query-findby.mdx.mdx',
+   'angular/my-component-play-function-query-findby.ts.mdx',
+   'angular/my-component-play-function-query-findby.mdx.mdx',
+   'vue/my-component-play-function-query-findby.js.mdx',
+   'vue/my-component-play-function-query-findby.ts.mdx',
+   'vue/my-component-play-function-query-findby.mdx.mdx',
+   'svelte/my-component-play-function-query-findby.js.mdx',
+   'svelte/my-component-play-function-query-findby.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Working with the Canvas
 
@@ -211,6 +241,7 @@ By default, each interaction you write inside your `play` function will be execu
    'angular/my-component-play-function-with-canvas.ts.mdx',
    'angular/my-component-play-function-with-canvas.mdx.mdx',
    'vue/my-component-play-function-with-canvas.js.mdx',
+   'vue/my-component-play-function-with-canvas.ts.mdx',
    'vue/my-component-play-function-with-canvas.mdx.mdx',
    'svelte/my-component-play-function-with-canvas.js.mdx',
    'svelte/my-component-play-function-with-canvas.mdx.mdx',

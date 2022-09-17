@@ -66,16 +66,19 @@ Submitted.play = async (context) => {
   const canvas = within(context.canvasElement);
   await userEvent.click(canvas.getByText('Submit'));
 
-  await waitFor(async () => {
-    await expect(
-      canvas.getByRole('heading', {
-        name: /you submitted the following:/i,
-      })
-    ).toBeInTheDocument();
-    await expect(canvas.getByTestId('hero-name').textContent).toEqual('Storm');
-    await expect(canvas.getByTestId('hero-alterego').textContent).toEqual('Ororo Munroe');
-    await expect(canvas.getByTestId('hero-power').textContent).toEqual('Weather Changer');
-  });
+  await waitFor(
+    async () => {
+      await expect(
+        canvas.getByRole('heading', {
+          name: /you submitted the following:/i,
+        })
+      ).toBeInTheDocument();
+      await expect(canvas.getByTestId('hero-name').textContent).toEqual('Storm');
+      await expect(canvas.getByTestId('hero-alterego').textContent).toEqual('Ororo Munroe');
+      await expect(canvas.getByTestId('hero-power').textContent).toEqual('Weather Changer');
+    },
+    { timeout: 2000 }
+  );
 };
 
 export const SubmittedAndEditedAfter: StoryFn<HeroForm> = Template.bind({});

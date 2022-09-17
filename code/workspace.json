@@ -411,16 +411,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "cra-kitchen-sink": {
-      "root": "examples/cra-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "cra-ts-essentials": {
-      "root": "examples/cra-ts-essentials",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "cra-ts-kitchen-sink": {
       "root": "examples/cra-ts-kitchen-sink",
       "type": "library",

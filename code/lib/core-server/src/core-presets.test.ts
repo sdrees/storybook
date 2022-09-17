@@ -127,7 +127,7 @@ const baseOptions = {
   managerOnly, // production
   docsMode: false,
   cache,
-  configDir: path.resolve(`${__dirname}/../../../examples/cra-ts-essentials/.storybook`),
+  configDir: path.resolve(`${__dirname}/../../../examples/official-storybook/`),
   ci: true,
   managerCache: false,
 };
@@ -176,43 +176,43 @@ const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | '
 
 const snap = (name: string) => `__snapshots__/${name}`;
 
-describe.each([
-  ['cra-ts-essentials'],
-  ['vue-3-cli'],
-  ['web-components-kitchen-sink'],
-  ['html-kitchen-sink'],
-])('%s', (example) => {
-  describe.each([
-    ['manager', managerExecutor],
-    ['preview', previewExecutor],
-  ])('%s', (component, executor) => {
-    beforeEach(async () => {
-      jest.clearAllMocks();
-      await cache.clear();
-    });
+describe.each([['vue-3-cli'], ['web-components-kitchen-sink'], ['html-kitchen-sink']])(
+  '%s',
+  (example) => {
+    describe.each([
+      ['manager', managerExecutor],
+      ['preview', previewExecutor],
+    ])('%s', (component, executor) => {
+      beforeEach(async () => {
+        jest.clearAllMocks();
+        await cache.clear();
+      });
 
-    it.each([
-      ['prod', buildStaticStandalone],
-      ['dev', buildDevStandalone],
-    ])('%s', async (mode, builder) => {
-      const options = {
-        ...baseOptions,
-        configDir: path.resolve(`${__dirname}/../../../examples/${example}/.storybook`),
-        // Only add an outputDir in production mode.
-        outputDir:
-          mode === 'prod' ? await mkdtemp(path.join(os.tmpdir(), 'storybook-static-')) : undefined,
-        ignorePreview: component === 'manager',
-        managerCache: component === 'preview',
-        packageJson,
-      };
-      await builder(options);
-      const config = prepareSnap(executor.get, component);
-      expect(config).toMatchSpecificSnapshot(
-        snap(`${example}_${component}-${mode}-${SNAPSHOT_OS}`)
-      );
+      it.each([
+        ['prod', buildStaticStandalone],
+        ['dev', buildDevStandalone],
+      ])('%s', async (mode, builder) => {
+        const options = {
+          ...baseOptions,
+          configDir: path.resolve(`${__dirname}/../../../examples/${example}/.storybook`),
+          // Only add an outputDir in production mode.
+          outputDir:
+            mode === 'prod'
+              ? await mkdtemp(path.join(os.tmpdir(), 'storybook-static-'))
+              : undefined,
+          ignorePreview: component === 'manager',
+          managerCache: component === 'preview',
+          packageJson,
+        };
+        await builder(options);
+        const config = prepareSnap(executor.get, component);
+        expect(config).toMatchSpecificSnapshot(
+          snap(`${example}_${component}-${mode}-${SNAPSHOT_OS}`)
+        );
+      });
     });
-  });
-});
+  }
+);
 
 const progressPlugin = (config) =>
   config.plugins.find((p) => p.constructor.name === 'ProgressPlugin');

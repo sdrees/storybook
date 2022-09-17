@@ -64,7 +64,7 @@ describe('new-frameworks fix', () => {
         expect.objectContaining({
           frameworkPackage: '@storybook/vue-webpack5',
           dependenciesToAdd: ['@storybook/vue-webpack5'],
-          dependenciesToRemove: ['@storybook/vue'],
+          dependenciesToRemove: [],
         })
       );
     });
@@ -159,11 +159,7 @@ describe('new-frameworks fix', () => {
           expect.objectContaining({
             frameworkPackage: '@storybook/react-webpack5',
             dependenciesToAdd: ['@storybook/react-webpack5'],
-            dependenciesToRemove: [
-              '@storybook/builder-webpack5',
-              '@storybook/manager-webpack5',
-              '@storybook/react',
-            ],
+            dependenciesToRemove: ['@storybook/builder-webpack5', '@storybook/manager-webpack5'],
             frameworkOptions: {
               fastRefresh: true,
             },
@@ -243,7 +239,7 @@ describe('new-frameworks fix', () => {
           expect.objectContaining({
             frameworkPackage: '@storybook/react-vite',
             dependenciesToAdd: ['@storybook/react-vite'],
-            dependenciesToRemove: ['@storybook/builder-vite', '@storybook/react'],
+            dependenciesToRemove: ['@storybook/builder-vite'],
           })
         );
       });

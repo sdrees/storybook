@@ -40,7 +40,7 @@ function createController(): AbortController {
   return {
     signal: { aborted: false },
     abort() {
-      // @ts-expect-error (Converted from ts-ignore)
+      // @ts-ignore (should be @ts-expect-error but fails build --prep)
       this.signal.aborted = true;
     },
   } as AbortController;
@@ -242,6 +242,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
           await this.runPhase(abortSignal, 'errored', async () => {
             this.channel.emit(PLAY_FUNCTION_THREW_EXCEPTION, serializeError(error));
           });
+          if (this.story.parameters.throwPlayFunctionExceptions !== false) throw error;
         }
         this.disableKeyListeners = false;
         if (abortSignal.aborted) return;

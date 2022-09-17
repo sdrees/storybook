@@ -26,6 +26,7 @@ export const StoryIsUnrenderable = {
 export const StoryContainsUnrenderable = {
   render: () => (
     <div>
+      {/* @ts-expect-error */}
       <BadComponent />
     </div>
   ),

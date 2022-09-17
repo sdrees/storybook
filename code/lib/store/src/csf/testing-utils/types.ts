@@ -17,8 +17,10 @@ export type ComposedStoryPlayContext = Partial<StoryContext> & Pick<StoryContext
 
 export type ComposedStoryPlayFn = (context: ComposedStoryPlayContext) => Promise<void> | void;
 
-export type StoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
-  AnnotatedStoryFn<TFramework, TArgs> & { play: ComposedStoryPlayFn };
+export type StoryFn<
+  TFramework extends AnyFramework = AnyFramework,
+  TArgs = Args
+> = AnnotatedStoryFn<TFramework, TArgs> & { play: ComposedStoryPlayFn };
 
 export type ComposedStory<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
   | StoryFn<TFramework, TArgs>

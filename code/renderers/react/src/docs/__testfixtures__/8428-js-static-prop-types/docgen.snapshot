@@ -27,11 +27,11 @@ Test.__docgenInfo = {
   \\"displayName\\": \\"Test\\",
   \\"props\\": {
     \\"test\\": {
+      \\"description\\": \\"Please work...\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"Please work...\\"
+      \\"required\\": false
     }
   }
 };"

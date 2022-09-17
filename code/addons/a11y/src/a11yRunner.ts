@@ -69,9 +69,7 @@ const getParams = async (storyId: string): Promise<A11yParameters> => {
   return (
     parameters.a11y || {
       config: {},
-      options: {
-        restoreScroll: true,
-      },
+      options: {},
     }
   );
 };

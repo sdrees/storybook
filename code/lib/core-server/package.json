@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.0.0-alpha.31",
+  "version": "7.0.0-alpha.33",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -29,23 +29,23 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.0.0-alpha.31",
-    "@storybook/core-client": "7.0.0-alpha.31",
-    "@storybook/core-common": "7.0.0-alpha.31",
-    "@storybook/core-events": "7.0.0-alpha.31",
+    "@storybook/builder-manager": "7.0.0-alpha.33",
+    "@storybook/core-client": "7.0.0-alpha.33",
+    "@storybook/core-common": "7.0.0-alpha.33",
+    "@storybook/core-events": "7.0.0-alpha.33",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/csf-tools": "7.0.0-alpha.31",
+    "@storybook/csf-tools": "7.0.0-alpha.33",
     "@storybook/docs-mdx": "0.0.1-canary.12433cf.0",
-    "@storybook/node-logger": "7.0.0-alpha.31",
+    "@storybook/node-logger": "7.0.0-alpha.33",
     "@storybook/semver": "^7.3.2",
-    "@storybook/store": "7.0.0-alpha.31",
-    "@storybook/telemetry": "7.0.0-alpha.31",
+    "@storybook/store": "7.0.0-alpha.33",
+    "@storybook/telemetry": "7.0.0-alpha.33",
     "@types/node": "^14.0.10 || ^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
@@ -70,11 +70,12 @@
     "slash": "^3.0.0",
     "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
+    "util-deprecate": "^1.0.2",
     "watchpack": "^2.2.0",
     "ws": "^8.2.3"
   },
   "devDependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.31",
+    "@storybook/builder-webpack5": "7.0.0-alpha.33",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/serve-favicon": "^2.5.2",
@@ -100,5 +101,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }

@@ -72,7 +72,7 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
-    // @ts-expect-error (Converted from ts-ignore)
+    // @ts-ignore (FIXME: should be expect-error but fails build --prep)
     if (process && compilation) {
       try {
         compilation.close(() => res());
@@ -219,7 +219,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
       logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
       if (stats && stats.hasWarnings()) {
-        // @ts-expect-error (Converted from ts-ignore)
+        // @ts-ignore (FIXME should be @ts-expect-error but fails build --prep)
         stats
           .toJson({ warnings: true } as StatsOptions)
           .warnings.forEach((e) => logger.warn(e.message));

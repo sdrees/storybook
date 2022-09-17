@@ -1,3 +1,4 @@
+/// <reference types="@types/jest" />;
 /* eslint-disable no-underscore-dangle */
 
 import { addons, mockChannel } from '@storybook/addons';
@@ -241,6 +242,43 @@ describe('Instrumenter', () => {
     );
   });
 
+  it('handles exceptions when making calls inside callbacks', () => {
+    const fn = (callback?: Function) => callback && callback();
+    const { fn1, fn2, fn3 } = instrument({
+      fn1: fn,
+      fn2: fn,
+      fn3: fn,
+    });
+    const error = new Error('foo');
+    let thrownError;
+    fn1(() => {
+      try {
+        fn2(() => {
+          throw error;
+        });
+      } catch (err) {
+        thrownError = err;
+      }
+      fn3();
+    });
+    expect(callSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'kind--story [0] fn1', ancestors: [] })
+    );
+    expect(callSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'kind--story [0] fn1 [0] fn2',
+        ancestors: ['kind--story [0] fn1'],
+      })
+    );
+    expect(thrownError).toBe(error);
+    expect(callSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'kind--story [0] fn1 [1] fn3',
+        ancestors: ['kind--story [0] fn1'],
+      })
+    );
+  });
+
   it('tracks the parent call id for async callbacks', async () => {
     const fn = (callback?: Function) => Promise.resolve(callback && callback());
     const { fn1, fn2, fn3 } = instrument({ fn1: fn, fn2: fn, fn3: fn });
@@ -271,6 +309,43 @@ describe('Instrumenter', () => {
       expect.objectContaining({
         method: 'fn2',
         path: [{ __callId__: callSpy.mock.calls[0][0].id }],
+      })
+    );
+  });
+
+  it('handles exceptions when making calls inside async callbacks', async () => {
+    const fn = (callback?: Function) => Promise.resolve(callback && callback());
+    const { fn1, fn2, fn3 } = instrument({
+      fn1: fn,
+      fn2: fn,
+      fn3: fn,
+    });
+    const error = new Error('foo');
+    let thrownError;
+    await fn1(async () => {
+      try {
+        await fn2(async () => {
+          throw error;
+        });
+      } catch (err) {
+        thrownError = err;
+      }
+      await fn3();
+    });
+    expect(callSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'kind--story [0] fn1', ancestors: [] })
+    );
+    expect(callSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'kind--story [0] fn1 [0] fn2',
+        ancestors: ['kind--story [0] fn1'],
+      })
+    );
+    expect(thrownError).toBe(error);
+    expect(callSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'kind--story [0] fn1 [1] fn3',
+        ancestors: ['kind--story [0] fn1'],
       })
     );
   });

@@ -1,5 +1,4 @@
 import type { Meta, StoryFn } from '@storybook/angular';
-import { linkTo } from '@storybook/addon-links';
 import { Welcome } from './angular-demo';
 
 export default {
@@ -9,6 +8,6 @@ export default {
 export const ToStorybook: StoryFn = () => ({
   component: Welcome,
   props: {
-    showApp: linkTo('Button'),
+    showApp: () => {},
   },
 });

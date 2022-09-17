@@ -64,7 +64,7 @@ export const projectAnnotations = {
   renderToDOM: jest.fn().mockReturnValue(teardownRenderToDOM),
   parameters: { docs: { renderer: () => docsRenderer } },
 };
-export const getProjectAnnotations = () => projectAnnotations;
+export const getProjectAnnotations = jest.fn(() => projectAnnotations as any);
 
 export const storyIndex: StoryIndex = {
   v: 4,

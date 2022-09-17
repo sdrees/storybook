@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { join } from 'path';
 import semver from '@storybook/semver';
 import {
   checkForProjects,
@@ -8,6 +8,7 @@ import {
   getBaseTsConfigName,
 } from './angular-helpers';
 import { writeFileAsJson, copyTemplate } from '../../helpers';
+import { getBaseDir } from '../../dirs';
 import { baseGenerator } from '../baseGenerator';
 import { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
@@ -41,7 +42,9 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     extraPackages: ['@compodoc/compodoc'],
     addScripts: false,
   });
-  copyTemplate(__dirname);
+
+  const templateDir = join(getBaseDir(), 'templates', 'angular');
+  copyTemplate(templateDir);
 
   editAngularAppTsConfig();
 

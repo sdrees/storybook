@@ -1,4 +1,3 @@
-import { linkTo } from '@storybook/addon-links';
 import { Button } from '../../angular-demo';
 
 export default {
@@ -9,7 +8,7 @@ export default {
 export const ButtonWithLinkToAnotherStory = () => ({
   props: {
     text: 'Go to Welcome Story',
-    onClick: linkTo('Welcome'),
+    onClick: () => {},
   },
 });
 

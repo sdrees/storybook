@@ -12,7 +12,7 @@ import { importFn } from './{{storiesFilename}}';
 const { SERVER_CHANNEL_URL } = global;
 
 const getProjectAnnotations = () =>
-  composeConfigs([{{#each configs}}require('{{this}}'),{{/each}}]);
+  composeConfigs([{{#each previewAnnotations}}require('{{this}}'),{{/each}}]);
 
 const channel = createPostMessageChannel({ page: 'preview' });
 addons.setChannel(channel);
@@ -38,7 +38,7 @@ if (module.hot) {
     preview.onStoriesChanged({ importFn });
   });
 
-  import.meta.webpackHot.accept([{{#each configs}}'{{this}}',{{/each}}], () => {
+  import.meta.webpackHot.accept([{{#each previewAnnotations}}'{{this}}',{{/each}}], () => {
     // getProjectAnnotations has changed so we need to patch the new one in
     preview.onGetProjectAnnotationsChanged({ getProjectAnnotations });
   });

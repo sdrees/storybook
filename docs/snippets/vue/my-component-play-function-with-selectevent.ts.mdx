@@ -1,0 +1,48 @@
+```ts
+// MyComponent.stories.ts
+
+// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
+import type { Meta, Story } from '@storybook/vue';
+
+import { screen, userEvent } from '@storybook/testing-library';
+
+import MyComponent from './MyComponent.vue';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'WithSelectEvent',
+  component: WithSelectEvent,
+} as Meta<typeof MyComponent>;
+
+// Custom function to emulate a pause
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
+
+export const ExampleChangeEvent: Story = {
+  render: () => ({
+    components: { MyComponent },
+    template: '<MyComponent/>',
+  }),
+  play: async () => {
+    const select = screen.getByRole('listbox');
+
+    await userEvent.selectOptions(select, ['One Item']);
+    await sleep(2000);
+
+    await userEvent.selectOptions(select, ['Another Item']);
+    await sleep(2000);
+
+    await userEvent.selectOptions(select, ['Yet another item']);
+  },
+};
+```

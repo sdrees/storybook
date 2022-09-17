@@ -28,6 +28,7 @@ import type {
   PromiseLike,
   StoryIndex,
   V2CompatIndexEntry,
+  IndexEntry,
   StoryIndexV3,
   ModuleExports,
 } from './types';
@@ -126,7 +127,7 @@ export class StoryStore<TFramework extends AnyFramework> {
   }
 
   // Get an entry from the index, waiting on initialization if necessary
-  async storyIdToEntry(storyId: StoryId) {
+  async storyIdToEntry(storyId: StoryId): Promise<IndexEntry> {
     await this.initializationPromise;
     // The index will always be set before the initialization promise returns
     return this.storyIndex!.storyIdToEntry(storyId);

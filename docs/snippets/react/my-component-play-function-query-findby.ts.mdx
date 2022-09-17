@@ -1,0 +1,29 @@
+```ts
+// MyComponent.stories.ts|tsx
+
+import React from 'react';
+
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+
+import { screen, userEvent } from '@storybook/testing-library';
+
+import { MyComponent } from './MyComponent';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Async Query Methods',
+  component: MyComponent,
+} as ComponentMeta<typeof MyComponent>;
+
+export const AsyncExample: ComponentStoryObj<typeof MyComponent> = {
+  play: async () => {
+    // Other steps
+
+    // Waits for the component to be rendered before querying the element
+    await screen.findByRole('button', { name: / button label/i }));
+  },
+};
+```

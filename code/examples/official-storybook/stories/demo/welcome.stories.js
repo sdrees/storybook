@@ -1,5 +1,4 @@
 import React from 'react';
-import { linkTo } from '@storybook/addon-links';
 import { Welcome } from '../../components/react-demo';
 
 export default {
@@ -10,5 +9,5 @@ export default {
 // Some other valid values:
 // - 'other-demo-buttonmdx--with-text'
 // - 'Other/Demo/ButtonMdx'
-export const ToStorybook = () => <Welcome showApp={linkTo('Other/Demo/Button')} />;
+export const ToStorybook = () => <Welcome showApp={() => {}} />;
 ToStorybook.storyName = 'to Storybook';

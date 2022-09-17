@@ -35,8 +35,9 @@ import RegistrationForm from './RegistrationForm.vue';
     });
     
     // See https://storybook.js.org/docs/7.0/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    const Submit = screen.getByRole('button');
-    await userEvent.click(Submit);
+    const submitButton = screen.getByRole('button');
+
+    await userEvent.click(submitButton);
   }}
   render={() => ({
     components: { RegistrationForm },

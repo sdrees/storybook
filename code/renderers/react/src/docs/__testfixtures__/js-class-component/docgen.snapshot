@@ -65,126 +65,126 @@ PropsWriter.__docgenInfo = {
         \\"value\\": \\"1\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"number\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"stringOptional\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"'stringOptional'\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"booleanOptional\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"false\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"bool\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"arrayOptional\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"['array', 'optional']\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"arrayOf\\",
         \\"value\\": {
           \\"name\\": \\"string\\"
         }
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"objectOptional\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"{ object: 'optional' }\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"shape\\",
         \\"value\\": {}
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"functionOptional\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"() => 'foo'\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"func\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"dateOptional\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"new Date('20 Jan 1983')\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"instanceOf\\",
         \\"value\\": \\"Date\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"localReference\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"'local-value'\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"importedReference\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"imported\\",
         \\"computed\\": true
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"globalReference\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"Date\\",
         \\"computed\\": true
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"any\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"stringGlobalName\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"'top'\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"stringNoPropType\\": {
       \\"defaultValue\\": {
@@ -194,58 +194,58 @@ PropsWriter.__docgenInfo = {
       \\"required\\": false
     },
     \\"numberRequired\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"number\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"stringRequired\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"booleanRequired\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"bool\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"arrayRequired\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"arrayOf\\",
         \\"value\\": {
           \\"name\\": \\"string\\"
         }
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"objectRequired\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"shape\\",
         \\"value\\": {}
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"functionRequired\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"func\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     },
     \\"dateRequired\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"instanceOf\\",
         \\"value\\": \\"Date\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     }
   }
 };"

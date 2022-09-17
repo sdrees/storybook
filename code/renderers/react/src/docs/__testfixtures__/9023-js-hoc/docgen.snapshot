@@ -47,36 +47,36 @@ Alert.__docgenInfo = {
         \\"value\\": \\"'primary'\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"string\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"dismissible\\": {
       \\"defaultValue\\": {
         \\"value\\": \\"false\\",
         \\"computed\\": false
       },
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"bool\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"icon\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"elementType\\"
       },
-      \\"required\\": false,
-      \\"description\\": \\"\\"
+      \\"required\\": false
     },
     \\"classes\\": {
+      \\"description\\": \\"\\",
       \\"type\\": {
         \\"name\\": \\"object\\"
       },
-      \\"required\\": true,
-      \\"description\\": \\"\\"
+      \\"required\\": true
     }
   }
 };"
