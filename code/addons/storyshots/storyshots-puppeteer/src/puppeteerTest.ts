@@ -10,6 +10,7 @@ export const puppeteerTest = (customConfig: Partial<PuppeteerTestConfig> = {}) =
     getGotoOptions,
     customizePage,
     getCustomBrowser,
+    browserLaunchOptions,
     testBody,
     setupTimeout,
     testTimeout,
@@ -78,7 +79,13 @@ export const puppeteerTest = (customConfig: Partial<PuppeteerTestConfig> = {}) =
       const puppeteer = require('puppeteer');
       // add some options "no-sandbox" to make it work properly on some Linux systems as proposed here: https://github.com/Googlechrome/puppeteer/issues/290#issuecomment-322851507
       browser = await puppeteer.launch({
-        args: ['--no-sandbox ', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+        ...browserLaunchOptions,
+        args: [
+          '--no-sandbox ',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          ...(browserLaunchOptions?.args || []),
+        ],
         executablePath: chromeExecutablePath,
       });
     }

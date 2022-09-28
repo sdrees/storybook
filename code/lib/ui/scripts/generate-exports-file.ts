@@ -4,15 +4,14 @@ import path from 'path';
 import shelljs from 'shelljs';
 import { dedent } from 'ts-dedent';
 
-const remove = (regex?: RegExp) => (input: string) =>
-  !(input === 'default' || (regex && regex.test(input)));
+const remove = () => (input: string) => input !== 'default';
 
 const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');
 
 const run = async () => {
   const { values } = await import('../src/globals/runtime');
   const data = Object.entries(values).reduce<Record<string, string[]>>((acc, [key, value]) => {
-    acc[key] = Object.keys(value).filter(remove(/^__/));
+    acc[key] = Object.keys(value).filter(remove());
     return acc;
   }, {});
 

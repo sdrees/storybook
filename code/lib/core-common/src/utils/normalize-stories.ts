@@ -15,6 +15,7 @@ const DEFAULT_FILES = '**/*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx
 // TODO: remove - LEGACY support for bad glob patterns we had in SB 5 - remove in SB7
 const fixBadGlob = deprecate(
   (match: RegExpMatchArray) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore (FIXME should be "@ts-expect-error this will get removed later anyway" but fails build --prep)
     return match.input.replace(match[1], `@${match[1]}`);
   },

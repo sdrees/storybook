@@ -51,7 +51,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: mcr.microsoft.com/playwright:v1.25.1-focal
+      - image: mcr.microsoft.com/playwright:v1.26.0-focal
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -151,7 +151,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 14
+    parallelism: 13
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -477,7 +477,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 7
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -497,7 +497,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 7
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -513,7 +513,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 7
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -533,7 +533,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 7
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -549,7 +549,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 7
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -565,7 +565,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 7
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'

@@ -53,7 +53,10 @@ const valueOrCall = (args: string[]) => (value: string | ((...args: string[]) =>
   typeof value === 'function' ? value(...args) : value;
 
 export const linkTo =
-  (idOrTitle: string, nameInput?: string | ((...args: any[]) => string)) =>
+  (
+    idOrTitle: string | ((...args: any[]) => string),
+    nameInput?: string | ((...args: any[]) => string)
+  ) =>
   (...args: any[]) => {
     const resolver = valueOrCall(args);
     const title = resolver(idOrTitle);

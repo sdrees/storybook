@@ -34,18 +34,6 @@ export type RenderPhase =
   | 'aborted'
   | 'errored';
 
-function createController(): AbortController {
-  if (AbortController) return new AbortController();
-  // Polyfill for IE11
-  return {
-    signal: { aborted: false },
-    abort() {
-      // @ts-ignore (should be @ts-expect-error but fails build --prep)
-      this.signal.aborted = true;
-    },
-  } as AbortController;
-}
-
 function serializeError(error: any) {
   try {
     const { name = 'Error', message = String(error), stack } = error;
@@ -88,7 +76,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     public viewMode: ViewMode,
     story?: Story<TFramework>
   ) {
-    this.abortController = createController();
+    this.abortController = new AbortController();
 
     // Allow short-circuiting preparing if we happen to already
     // have the story (this is used by docs mode)
@@ -173,7 +161,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       // render could conceivably still be running after this call.
       // We might want to change that in the future.
       this.cancelRender();
-      this.abortController = createController();
+      this.abortController = new AbortController();
     }
 
     // We need a stable reference to the signal -- if a re-mount happens the

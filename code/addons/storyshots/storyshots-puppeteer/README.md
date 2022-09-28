@@ -107,6 +107,26 @@ initStoryshots({
 });
 ```
 
+### Customizing browser launch options (Puppeteer API)
+
+You might use the `browserLaunchOptions` to specify options for the default browser instance. Will be passed to [puppeteer.launch()](https://pptr.dev/api/puppeteer.puppeteernode.launch)
+
+```js
+import initStoryshots from '@storybook/addon-storyshots';
+import { puppeteerTest } from '@storybook/addon-storyshots-puppeteer';
+
+initStoryshots({
+  suite: 'Puppeteer storyshots',
+  test: puppeteerTest({
+    storybookUrl: 'https://some-local-ssl-url:7777',
+    browserLaunchOptions: {
+      // For ignoring self-signed certificates
+      ignoreHTTPSErrors: true,
+    },
+  }),
+});
+```
+
 ### Specifying custom Chrome executable path (Puppeteer API)
 
 You might use `chromeExecutablePath` to specify the path to a different version of Chrome, without downloading Chromium. Will be passed to [Runs a bundled version of Chromium](https://github.com/GoogleChrome/puppeteer#default-runtime-settings)

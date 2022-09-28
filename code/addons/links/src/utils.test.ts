@@ -60,7 +60,6 @@ describe('preview', () => {
 
     it('should handle functions returning strings', () => {
       const handler = linkTo(
-        // @ts-expect-error
         (a, b) => a + b,
         (a, b) => b + a
       );

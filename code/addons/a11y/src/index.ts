@@ -1,3 +1,5 @@
+/// <reference types="webpack-env" />
+
 import type { AnyFramework, DecoratorFunction } from '@storybook/csf';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';

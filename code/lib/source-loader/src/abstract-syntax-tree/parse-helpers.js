@@ -130,7 +130,7 @@ export function handleADD(node, parent, storiesOfIdentifiers) {
     return {};
   }
 
-  if (storyName.value) {
+  if (storyName.value && typeof storyName.value === 'string') {
     const key = sanitize(storyName.value);
     let idToFramework;
     if (key && framework) {

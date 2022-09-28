@@ -1,3 +1,5 @@
+import { skipOn } from '@cypress/skip-test';
+
 describe('Basic CLI', () => {
   before(() => {
     cy.visitStorybook();
@@ -58,19 +60,21 @@ describe('Basic CLI', () => {
   });
 
   describe('Page story', () => {
-    it('should load and display logged out', () => {
-      cy.navigateToStory('example-page', 'logged-out');
-      cy.getStoryElement().should('contain.text', 'Acme');
-      cy.getStoryElement().find('button').first().should('contain.text', 'Log in');
-      cy.getStoryElement().find('button').last().should('contain.text', 'Sign up');
-      cy.getStoryElement().should('contain.text', 'Pages in Storybook');
-    });
+    skipOn('vue', () => {
+      it('should load and display logged out', () => {
+        cy.navigateToStory('example-page', 'logged-out');
+        cy.getStoryElement().should('contain.text', 'Acme');
+        cy.getStoryElement().find('button').first().should('contain.text', 'Log in');
+        cy.getStoryElement().find('button').last().should('contain.text', 'Sign up');
+        cy.getStoryElement().should('contain.text', 'Pages in Storybook');
+      });
 
-    it('should load and display logged in', () => {
-      cy.navigateToStory('example-page', 'logged-in');
-      cy.getStoryElement().find('header').should('contain.text', 'Acme');
-      cy.getStoryElement().find('button').should('contain.text', 'Log out');
-      cy.getStoryElement().should('contain.text', 'Pages in Storybook');
+      it('should load and display logged in', () => {
+        cy.navigateToStory('example-page', 'logged-in');
+        cy.getStoryElement().find('header').should('contain.text', 'Acme');
+        cy.getStoryElement().find('button').should('contain.text', 'Log out');
+        cy.getStoryElement().should('contain.text', 'Pages in Storybook');
+      });
     });
   });
 });

@@ -6,3 +6,4 @@ import Form from './Form.svelte';
 import Html from './Html.svelte';
 
 globalThis.Components = { Button, Pre, Form, Html };
+globalThis.storybookRenderer = 'svelte';

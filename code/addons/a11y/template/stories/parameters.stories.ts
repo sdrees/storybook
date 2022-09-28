@@ -3,7 +3,7 @@ import globalThis from 'global';
 export default {
   component: globalThis.Components.Html,
   args: {
-    contents: '<button>Click Me!</button>',
+    content: '<button>Click Me!</button>',
   },
   parameters: {
     chromatic: { disable: true },
@@ -12,7 +12,7 @@ export default {
 
 export const Options = {
   args: {
-    contents:
+    content:
       '<button style="color: rgb(255, 255, 255); background-color: rgb(76, 175, 80);">Click me!</button>',
   },
   parameters: {

@@ -94,11 +94,39 @@ const svelteViteTemplates = {
   // }
 };
 
+const vueCliTemplates = {
+  'vue-cli/default-js': {
+    name: 'Vue-CLI (Default JS)',
+    script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/vue3-webpack5',
+      renderer: '@storybook/vue3',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  //
+  // FIXME: https://github.com/storybookjs/storybook/issues/19204
+  //
+  // 'vue-cli/vue2-default-js': {
+  //   name: 'Vue-CLI (Vue2 JS)',
+  //   script:
+  //     'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
+  //   cadence: ['ci', 'daily', 'weekly'],
+  //   expected: {
+  //     framework: '@storybook/vue-webpack5',
+  //     renderer: '@storybook/vue',
+  //     builder: '@storybook/builder-webpack5',
+  //   },
+  // },
+};
+
 export default {
   ...craTemplates,
   ...reactViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
+  ...vueCliTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',

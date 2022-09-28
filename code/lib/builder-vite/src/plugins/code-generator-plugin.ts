@@ -116,7 +116,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       }
 
       if (id === virtualAddonSetupFile) {
-        return generateAddonSetupCode();
+        return generateAddonSetupCode(options);
       }
 
       if (id === virtualPreviewFile && !storyStoreV7) {

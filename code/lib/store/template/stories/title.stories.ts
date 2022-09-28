@@ -4,7 +4,7 @@ import { PlayFunctionContext } from '@storybook/csf';
 
 export default {
   component: globalThis.Components.Pre,
-  title: 'manual title',
+  title: 'lib/store/manual title',
   args: { text: 'No content' },
 };
 

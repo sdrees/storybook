@@ -28,9 +28,9 @@
   /**
    * Optional click handler
    */
-  function onClick(event) {
+  export let onClick = (event) => {
     dispatch('click', event);
-  }
+  };
 </script>
 
 <button

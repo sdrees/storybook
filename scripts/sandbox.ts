@@ -13,7 +13,6 @@ import {
 import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
 import command from 'execa';
-import dedent from 'ts-dedent';
 
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
@@ -222,6 +221,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
     module: {
       ...config.modules,
       rules: [
+        // Ensure esbuild-loader applies to all files in ./template-stories
         {
           test: [/\\/template-stories\\//],
           loader: '${loaderPath}',
@@ -230,7 +230,11 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
             target: 'es2015',
           },
         },
-        ...config.module.rules,
+        // Ensure no other loaders from the framework apply
+        ...config.module.rules.map(rule => ({
+          ...rule,
+          exclude: [/\\/template-stories\\//].concat(rule.exclude || []),
+        })),
       ],
     },
   })`;
@@ -285,12 +289,17 @@ async function linkPackageStories(
   //   './template-stories/lib/store/preview.ts'
   // if the file <code>/lib/store/template/stories/preview.ts exists
 
-  const previewFile = path.join(codeDir, packageDir, 'template', 'stories', 'preview.ts');
-  if (await pathExists(previewFile)) {
-    addPreviewAnnotations(mainConfig, [
-      `./${path.join('template-stories', packageDir, 'preview.ts')}`,
-    ]);
-  }
+  await Promise.all(
+    ['js', 'ts'].map(async (ext) => {
+      const previewFile = `preview.${ext}`;
+      const previewPath = path.join(codeDir, packageDir, 'template', 'stories', previewFile);
+      if (await pathExists(previewPath)) {
+        addPreviewAnnotations(mainConfig, [
+          `./${path.join(linkInDir ? 'src/stories' : 'template-stories', packageDir, previewFile)}`,
+        ]);
+      }
+    })
+  );
 }
 
 // Update the stories field to ensure that:

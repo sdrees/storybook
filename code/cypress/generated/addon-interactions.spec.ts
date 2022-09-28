@@ -50,8 +50,4 @@ describe('addon-interactions', () => {
   onlyOn('vue3', () => {
     it('should have interactions', test);
   });
-
-  onlyOn('vue', () => {
-    it('should have interactions', test);
-  });
 });

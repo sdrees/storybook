@@ -12,8 +12,7 @@ const config: Configuration = {
   module: {
     rules: [{ use: 'r1' }, { use: 'r2' }],
   },
-  // For snapshot readability purposes `plugins` attribute doesn't match the correct type
-  // @ts-expect-errors
+  // @ts-expect-errors For snapshot readability purposes `plugins` attribute doesn't match the correct type
   plugins: ['p1', 'p2'],
   resolve: {
     enforceExtension: true,
@@ -45,8 +44,7 @@ describe('mergeConfigs', () => {
         noParse: /jquery|lodash/,
         rules: [{ use: 'r3' }, { use: 'r4' }],
       },
-      // For snapshot readability purposes `plugins` attribute doesn't match the correct type
-      // @ts-expect-errors
+      // @ts-expect-errors For snapshot readability purposes `plugins` attribute doesn't match the correct type
       plugins: ['p3', 'p4'],
       resolve: {
         enforceExtension: false,
@@ -57,8 +55,7 @@ describe('mergeConfigs', () => {
         },
       },
       optimization: {
-        // For snapshot readability purposes `minimizer` attribute doesn't match the correct type
-        // @ts-expect-errors
+        // @ts-expect-errors For snapshot readability purposes `minimizer` attribute doesn't match the correct type
         minimizer: ['banana'],
       },
     };
@@ -70,8 +67,7 @@ describe('mergeConfigs', () => {
 
   it('merges partial custom config', () => {
     const customConfig: Configuration = {
-      // For snapshot readability purposes `plugins` attribute doesn't match the correct type
-      // @ts-expect-errors
+      // @ts-expect-errors For snapshot readability purposes `plugins` attribute doesn't match the correct type
       plugins: ['p3'],
       resolve: {
         extensions: ['.ts', '.tsx'],

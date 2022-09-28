@@ -1,3 +1,43 @@
+## 7.0.0-alpha.34 (September 27, 2022)
+
+#### Features
+
+-   Vite: Export storybook utilities from frameworks for better pnpm support [#19216](https://github.com/storybooks/storybook/pull/19216)
+
+#### Bug Fixes
+
+-   Vite: Do not add Webpack loaders when using Vite builder [#19263](https://github.com/storybooks/storybook/pull/19263)
+-   Source-loader: Fix invalid call to CSF sanitize [#18930](https://github.com/storybooks/storybook/pull/18930)
+-   Svelte: generate preview file with js extension always [#19253](https://github.com/storybooks/storybook/pull/19253)
+-   UI: Fix react runtime for addons in manager [#19226](https://github.com/storybooks/storybook/pull/19226)
+-   Svelte: Fix button component not accepting the onClick handler [#19249](https://github.com/storybooks/storybook/pull/19249)
+-   Vite: Support runStep in Vite builder SSv6 [#19235](https://github.com/storybooks/storybook/pull/19235)
+-   Angular: Alias decorateStory as applyDecorators [#19189](https://github.com/storybooks/storybook/pull/19189)
+-   UI: Recalculate height of ZoomElement when child element updates [#15472](https://github.com/storybooks/storybook/pull/15472)
+-   UI: Fix copy button copying outdated snippet [#18888](https://github.com/storybooks/storybook/pull/18888)
+-   UI: Fix clipboard issue [#18999](https://github.com/storybooks/storybook/pull/18999)
+-   CLI: Do not remove framework dependency in automigration [#19129](https://github.com/storybooks/storybook/pull/19129)
+-   TS: Type `storyIdToEntry` explicitly [#19123](https://github.com/storybooks/storybook/pull/19123)
+
+#### Maintenance
+
+-   Vue3: Add generic renderer stories & delete vue3 example [#19219](https://github.com/storybooks/storybook/pull/19219)
+-   Build: Remove unused angular_modern_inline_rendering [#19254](https://github.com/storybooks/storybook/pull/19254)
+-   Build: bundle csf-tools with tsup [#19141](https://github.com/storybooks/storybook/pull/19141)
+-   Build: Enforce @ts-expect-error via eslint [#19198](https://github.com/storybooks/storybook/pull/19198)
+-   Vue: Add repro template for vue-cli [#19165](https://github.com/storybooks/storybook/pull/19165)
+-   Build: Link renderer-specific stories inside the sandbox's real stories dir [#19185](https://github.com/storybooks/storybook/pull/19185)
+-   Build: Remove `cra-kitchen-sink` example [#19179](https://github.com/storybooks/storybook/pull/19179)
+-   Build: Fix the check script [#19184](https://github.com/storybooks/storybook/pull/19184)
+-   Build: Build lib/node-logger with ts-up [#19173](https://github.com/storybooks/storybook/pull/19173)
+-   Build: Fix sandbox running multiple versions of react [#19156](https://github.com/storybooks/storybook/pull/19156)
+-   Build: fix playwright version again [#19250](https://github.com/storybooks/storybook/pull/19250)
+-   Build: upgrade playwright version (and lock it) [#19227](https://github.com/storybooks/storybook/pull/19227)
+
+#### Dependency Upgrades
+
+-   Remove @nicolo-ribaudo/chokidar-2 [#19244](https://github.com/storybooks/storybook/pull/19244)
+
 ## 7.0.0-alpha.33 (September 13, 2022)
 
 #### Features

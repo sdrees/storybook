@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export const exportedConstant = 'An exported constant';

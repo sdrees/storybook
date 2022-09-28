@@ -17,7 +17,7 @@ import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import type { StoryIndexer, NormalizedStoriesSpecifier, DocsOptions } from '@storybook/core-common';
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
-import { getStorySortParameter } from '@storybook/csf-tools';
+import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
 import type { ComponentTitle, StoryName } from '@storybook/csf';
 import { toId } from '@storybook/csf';
 
@@ -235,7 +235,7 @@ export class StoryIndexGenerator {
         }
       }
     } catch (err) {
-      if (err.name === 'NoMetaError') {
+      if (err instanceof NoMetaError) {
         logger.info(`💡 Skipping ${relativePath}: ${err}`);
       } else {
         logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);

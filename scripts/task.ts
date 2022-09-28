@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop, no-restricted-syntax */
 import { getJunitXml } from 'junit-xml';
-import { outputFile } from 'fs-extra';
+import { outputFile, existsSync, readFile } from 'fs-extra';
 import { join, resolve } from 'path';
 
 import { createOptions, getOptionsOrPrompt } from './utils/options';
@@ -158,6 +158,13 @@ async function runTask(
     if (junit && !task.junit) await writeJunitXml(taskKey, templateKey, start, err);
 
     throw err;
+  } finally {
+    const { junitFilename } = details;
+    if (existsSync(junitFilename)) {
+      const junitXml = await (await readFile(junitFilename)).toString();
+      const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${templateKey} $1"`);
+      await outputFile(junitFilename, prefixedXml);
+    }
   }
 }
 

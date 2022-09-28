@@ -64,9 +64,9 @@ const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {
   },
 };
 
-export async function configurePreview(framework: SupportedRenderers, commonJs: boolean) {
+export async function configurePreview(framework: SupportedRenderers) {
   const { prefix = '', extraParameters = '' } = frameworkToPreviewParts[framework] || {};
-  const previewPath = `./.storybook/preview.${commonJs ? 'cjs' : 'js'}`;
+  const previewPath = `./.storybook/preview.js`;
 
   // If the framework template included a preview then we have nothing to do
   if (await fse.pathExists(previewPath)) {

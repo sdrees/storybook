@@ -6,3 +6,4 @@ import Form from './Form.vue';
 import Html from './Html.vue';
 
 globalThis.Components = { Button, Pre, Form, Html };
+globalThis.storybookRenderer = 'vue3';

@@ -1,8 +1,12 @@
-export function generateAddonSetupCode() {
+import { getFrameworkName } from '@storybook/core-common';
+
+import type { ExtendedOptions } from './types';
+
+export async function generateAddonSetupCode(options: ExtendedOptions) {
+  const framework = await getFrameworkName(options);
+
   return `
-    import { createChannel as createPostMessageChannel } from '@storybook/channel-postmessage';
-    import { createChannel as createWebSocketChannel } from '@storybook/channel-websocket';
-    import { addons } from '@storybook/addons';
+    import { createPostMessageChannel, createWebSocketChannel, addons } from '${framework}';
 
     const channel = createPostMessageChannel({ page: 'preview' });
     addons.setChannel(channel);

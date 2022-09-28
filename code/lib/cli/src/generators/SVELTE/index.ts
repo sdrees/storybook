@@ -1,6 +1,7 @@
 import fse from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 
+import { CoreBuilder } from '../../project_types';
 import { baseGenerator } from '../baseGenerator';
 import { Generator } from '../types';
 
@@ -31,8 +32,10 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     }
   }
 
+  const extraPackages = options.builder === CoreBuilder.Webpack5 ? ['svelte', 'svelte-loader'] : [];
+
   await baseGenerator(packageManager, npmOptions, options, 'svelte', {
-    extraPackages: ['svelte', 'svelte-loader'],
+    extraPackages,
     extensions: ['js', 'jsx', 'ts', 'tsx', 'svelte'],
     extraMain,
     commonJs: true,

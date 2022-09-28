@@ -1,3 +1,5 @@
+/// <reference types="webpack-env" />
+
 import { dedent } from 'ts-dedent';
 
 let hasWarned = false;

@@ -98,11 +98,6 @@ export class PostmsgTransport {
       ...eventOptions,
     };
 
-    // backwards compat: convert depth to maxDepth
-    if (options && Number.isInteger(options.depth)) {
-      stringifyOptions.maxDepth = options.depth;
-    }
-
     const frames = this.getFrames(target);
 
     const query = qs.parse(location.search, { ignoreQueryPrefix: true });
