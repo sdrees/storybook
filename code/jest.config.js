@@ -27,7 +27,6 @@ module.exports = {
   projects: [
     '<rootDir>',
     // '<rootDir>/app/angular',
-    // '<rootDir>/examples/cra-ts-kitchen-sink',
     // '<rootDir>/examples/html-kitchen-sink',
     // '<rootDir>/examples/svelte-kitchen-sink',
     // '<rootDir>/examples/vue-kitchen-sink',

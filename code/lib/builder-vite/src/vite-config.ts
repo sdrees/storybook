@@ -57,7 +57,12 @@ export async function commonConfig(
     cacheDir: 'node_modules/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
     plugins: await pluginConfig(options),
-    resolve: { preserveSymlinks: isPreservingSymlinks() },
+    resolve: {
+      preserveSymlinks: isPreservingSymlinks(),
+      alias: {
+        assert: require.resolve('browser-assert'),
+      },
+    },
     // If an envPrefix is specified in the vite config, add STORYBOOK_ to it,
     // otherwise, add VITE_ and STORYBOOK_ so that vite doesn't lose its default.
     envPrefix: userConfig.envPrefix ? 'STORYBOOK_' : ['VITE_', 'STORYBOOK_'],

@@ -21,7 +21,8 @@
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
     - [Icons API changed](#icons-api-changed)
-    - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-preview-annotations)
+    - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
+    - [Vue2 DOM structure changed](#vue2-dom-structure-changed)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -549,6 +550,12 @@ Full change here: https://github.com/storybookjs/storybook/pull/18809
 The preset field `'config'` has been replaced with `'previewAnnotations'`. `'config'` is now deprecated and will be removed in Storybook 8.0.
 
 Additionally, the internal field `'previewEntries'` has been removed. If you need a preview entry, just use a `'previewAnnotations'` file and don't export anything.
+
+#### Vue2 DOM structure changed
+
+In 6.x, `@storybook/vue` would replace the "root" element (formerly `#root`, now `#storybook-root`) with a new node that contains the rendered children. This was problematic because it broke the `play` function, which often starts with `within(canvasElement)` and the old `canvasElement` would get replaced out from under the play function.
+
+In 7.0, `@storybook/vue` now leaves `#storybook-root` alone, and creates a new "dummy node" called `#storybook-vue-root` beneath it. This will break DOM snapshots moving from 6.5 to 7.0, but shouldn't have any other negative effects.
 
 ### Docs Changes
 

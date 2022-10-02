@@ -27,7 +27,7 @@ export const exec = async (
 
   const defaultOptions: Options = {
     shell: true,
-    stdout: debug ? 'inherit' : 'ignore',
+    stdout: debug ? 'inherit' : 'pipe',
   };
   let currentChild: ExecaChildProcess;
 
@@ -51,8 +51,7 @@ export const exec = async (
   } catch (err) {
     if (!err.killed) {
       logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
-      logger.error(err);
-      logger.log(errorMessage);
+      logger.log(`${errorMessage}\n`);
     }
 
     throw err;

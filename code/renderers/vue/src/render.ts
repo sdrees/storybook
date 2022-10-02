@@ -26,6 +26,11 @@ const getRoot = (domElement: Element): Instance => {
     return map.get(domElement);
   }
 
+  // Create a dummy "target" underneath #storybook-root
+  // that Vue2 will replace on first render with #storybook-vue-root
+  const target = document.createElement('div');
+  domElement.appendChild(target);
+
   const instance = new Vue({
     beforeDestroy() {
       map.delete(domElement);
@@ -36,17 +41,17 @@ const getRoot = (domElement: Element): Instance => {
         [VALUES]: {},
       };
     },
+    // @ts-expect-error What's going on here?
     render(h) {
       map.set(domElement, instance);
-      const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
-      return h('div', { attrs: { id: 'storybook-root' } }, children);
+      return this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     },
-  });
+  }) as Instance;
 
   return instance;
 };
 
-export const render: ArgsStoryFn<VueFramework> = (props, context) => {
+export const render: ArgsStoryFn<VueFramework> = (args, context) => {
   const { id, component: Component, argTypes } = context;
   const component = Component as VueFramework['component'] & {
     __docgenInfo?: { displayName: string };
@@ -84,7 +89,6 @@ export function renderToDOM(
     title,
     name,
     storyFn,
-    storyContext: { args },
     showMain,
     showError,
     showException,
@@ -95,6 +99,20 @@ export function renderToDOM(
   const root = getRoot(domElement);
   Vue.config.errorHandler = showException;
   const element = storyFn();
+
+  let mountTarget: Element;
+
+  // Vue2 mount always replaces the mount target with Vue-generated DOM.
+  // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM
+  // We cannot mount to the domElement directly, because it would be replaced. That would
+  // break the references to the domElement like canvasElement used in the play function.
+  // Instead, we mount to a child element of the domElement, creating one if necessary.
+  if (domElement.hasChildNodes()) {
+    mountTarget = domElement.firstElementChild;
+  } else {
+    mountTarget = document.createElement('div');
+    domElement.appendChild(mountTarget);
+  }
 
   if (!element) {
     showError({
@@ -113,10 +131,10 @@ export function renderToDOM(
   }
 
   // @ts-expect-error https://github.com/storybookjs/storrybook/pull/7578#discussion_r307986139
-  root[VALUES] = { ...element.options[VALUES], ...args };
+  root[VALUES] = { ...element.options[VALUES] };
 
   if (!map.has(domElement)) {
-    root.$mount(domElement);
+    root.$mount(mountTarget);
   }
 
   showMain();

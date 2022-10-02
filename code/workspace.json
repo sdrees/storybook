@@ -401,6 +401,11 @@
       "type": "library",
       "implicitDependencies": []
     },
+    "@storybook/web-components-vite": {
+      "root": "frameworks/web-components-vite",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/web-components-webpack5": {
       "root": "frameworks/web-components-webpack5",
       "type": "library",
@@ -408,11 +413,6 @@
     },
     "angular-cli": {
       "root": "examples/angular-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "cra-ts-kitchen-sink": {
-      "root": "examples/cra-ts-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
     },

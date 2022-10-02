@@ -552,9 +552,7 @@ async function main() {
 
 if (require.main === module) {
   main().catch((err) => {
-    logger.error('🚨 An error occurred when executing "sandbox":');
-
-    logger.error(err);
+    logger.error(err.message);
     process.exit(1);
   });
 }
