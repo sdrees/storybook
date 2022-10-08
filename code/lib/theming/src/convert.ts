@@ -69,6 +69,9 @@ const createColors = (vars: ThemeVars): Color => ({
 
   defaultText: vars.textColor || color.darkest,
   inverseText: vars.textInverseColor || color.lightest,
+  positiveText: color.positiveText,
+  negativeText: color.negativeText,
+  warningText: color.warningText,
 });
 
 export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]): StorybookTheme => {
@@ -87,6 +90,10 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     barTextColor,
     barSelectedColor,
     barBg,
+    buttonBg,
+    buttonBorder,
+    booleanBg,
+    booleanSelectedBg,
     inputBg,
     inputBorder,
     inputTextColor,
@@ -127,10 +134,20 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     easing,
 
     input: {
-      border: inputBorder,
       background: inputBg,
-      color: inputTextColor,
+      border: inputBorder,
       borderRadius: inputBorderRadius,
+      color: inputTextColor,
+    },
+
+    button: {
+      background: buttonBg || inputBg,
+      border: buttonBorder || inputBorder,
+    },
+
+    boolean: {
+      background: booleanBg || inputBorder,
+      selectedBackground: booleanSelectedBg || inputBg,
     },
 
     // UI

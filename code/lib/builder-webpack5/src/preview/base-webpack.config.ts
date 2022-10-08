@@ -1,7 +1,6 @@
 import { logger } from '@storybook/node-logger';
-import type { Options, CoreConfig } from '@storybook/core-common';
+import type { Options } from '@storybook/core-common';
 import type { Configuration } from 'webpack';
-import type { BuilderOptions } from '../types';
 
 export async function createDefaultWebpackConfig(
   storybookBaseConfig: Configuration,
@@ -45,15 +44,6 @@ export async function createDefaultWebpackConfig(
 
   const isProd = storybookBaseConfig.mode !== 'development';
 
-  const coreOptions = await options.presets.apply<CoreConfig>('core');
-  const builderOptions: BuilderOptions =
-    typeof coreOptions.builder === 'string'
-      ? {}
-      : coreOptions.builder?.options || ({} as BuilderOptions);
-  const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};
-  const lazyCompilationConfig =
-    builderOptions.lazyCompilation && !isProd ? { lazyCompilation: { entries: false } } : {};
-
   return {
     ...storybookBaseConfig,
     module: {
@@ -89,12 +79,10 @@ export async function createDefaultWebpackConfig(
     resolve: {
       ...storybookBaseConfig.resolve,
       fallback: {
-        ...storybookBaseConfig.resolve?.fallback,
         crypto: false,
         assert: false,
+        ...storybookBaseConfig.resolve?.fallback,
       },
     },
-    ...cacheConfig,
-    experiments: { ...storybookBaseConfig.experiments, ...lazyCompilationConfig },
   };
 }

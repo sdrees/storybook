@@ -26,7 +26,7 @@ export const SidebarIconButton: FC<ComponentProps<typeof Button> & { highlighted
   >(({ highlighted, theme }) => ({
     position: 'relative',
     overflow: 'visible',
-    color: theme.color.mediumdark,
+    color: theme.textMutedColor,
     marginTop: 0,
     zIndex: 1,
 

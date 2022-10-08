@@ -3,15 +3,6 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - name: Scripts
-    init: |
-      cd scripts
-      yarn install
-      gp sync-done scripts
-  
-  - name: Code
-    init: |
-      gp sync-await scripts # wait for the above 'init' to finish
-      cd code
-      yarn install
-      yarn bootstrap --core
+
+  - name: Bootstrap
+    init: ./bootstrap.sh --core

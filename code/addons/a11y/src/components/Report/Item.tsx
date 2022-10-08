@@ -23,7 +23,7 @@ const Icon = styled(Icons)(({ theme }) => ({
   height: 10,
   width: 10,
   minWidth: 10,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   marginRight: 10,
   transition: 'transform 0.1s ease-in-out',
   alignSelf: 'center',

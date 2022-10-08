@@ -51,7 +51,7 @@ const ErrorImportant = styled.strong(({ theme }) => ({
   textDecoration: 'underline',
 }));
 const ErrorDetail = styled.em(({ theme }) => ({
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
 }));
 
 const firstLineRegex = /(Error): (.*)\n/;

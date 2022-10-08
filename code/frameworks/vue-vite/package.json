@@ -1,0 +1,87 @@
+{
+  "name": "@storybook/vue-vite",
+  "version": "7.0.0-alpha.35",
+  "description": "Storybook for Vue2 and Vite: Develop Vue2 Components in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/vue-vite",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "frameworks/vue-vite"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@storybook/addons": "7.0.0-alpha.35",
+    "@storybook/builder-vite": "7.0.0-alpha.35",
+    "@storybook/channel-postmessage": "7.0.0-alpha.35",
+    "@storybook/channel-websocket": "7.0.0-alpha.35",
+    "@storybook/client-api": "7.0.0-alpha.35",
+    "@storybook/core-common": "7.0.0-alpha.35",
+    "@storybook/core-server": "7.0.0-alpha.35",
+    "@storybook/preview-web": "7.0.0-alpha.35",
+    "@storybook/vue": "7.0.0-alpha.35",
+    "magic-string": "^0.26.1",
+    "vite": "^3.1.3",
+    "vue-docgen-api": "^4.40.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3",
+    "vue": "^2.7.10"
+  },
+  "peerDependencies": {
+    "vue": "^2.7.0"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1"
+}

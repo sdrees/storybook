@@ -196,6 +196,7 @@ describe('new-frameworks fix', () => {
               },
               angularOptions: {
                 enableIvy: true,
+                enableNgcc: true,
               },
             },
           })
@@ -206,6 +207,7 @@ describe('new-frameworks fix', () => {
             dependenciesToRemove: ['@storybook/builder-webpack5', '@storybook/manager-webpack5'],
             frameworkOptions: {
               enableIvy: true,
+              enableNgcc: true,
             },
             builderInfo: {
               name: 'webpack5',

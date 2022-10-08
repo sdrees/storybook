@@ -1,12 +1,9 @@
 {
   "compileOnSave": false,
-
   "compilerOptions": {
     "baseUrl": ".",
     "incremental": false,
     "noImplicitAny": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": false,
     "jsx": "react",
     "moduleResolution": "Node",
     "target": "ES2020",
@@ -20,8 +17,6 @@
       "dom",
       "esnext"
     ],
-
-
     "types": [
       "node",
       "jest"
@@ -35,7 +30,9 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "paths": {
-      "verdaccio": ["./typings.d.ts"]
+      "verdaccio": [
+        "./typings.d.ts"
+      ]
     }
   },
   "exclude": [
@@ -48,7 +45,9 @@
     "**/*.test.ts",
     "**/setup-jest.ts"
   ],
-  "include": ["./**/*"],
+  "include": [
+    "./**/*"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "files": true,

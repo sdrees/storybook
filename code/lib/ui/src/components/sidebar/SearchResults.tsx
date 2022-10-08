@@ -68,7 +68,7 @@ const BackActionRow = styled(ActionRow)({
 
 const ActionLabel = styled.span(({ theme }) => ({
   flexGrow: 1,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   fontSize: `${theme.typography.size.s1}px`,
 }));
 
@@ -77,17 +77,17 @@ const ActionIcon = styled(Icons)(({ theme }) => ({
   width: 10,
   height: 10,
   marginRight: 6,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
 }));
 
 const ActionKey = styled.code(({ theme }) => ({
   minWidth: 16,
   height: 16,
-  lineHeight: '17px',
+  lineHeight: '16px',
   textAlign: 'center',
   fontSize: '11px',
-  background: 'rgba(0,0,0,0.1)',
-  color: theme.textMutedColor,
+  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
+  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   borderRadius: 2,
   userSelect: 'none',
   pointerEvents: 'none',

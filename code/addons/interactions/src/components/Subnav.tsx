@@ -57,7 +57,7 @@ const Note = styled(TooltipNote)(({ theme }) => ({
 }));
 
 export const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   margin: '0 3px',
 }));
 

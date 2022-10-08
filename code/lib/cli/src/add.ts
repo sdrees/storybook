@@ -1,102 +1,14 @@
 import path from 'path';
 import fs from 'fs';
 import { sync as spawnSync } from 'cross-spawn';
+
+import { getStorybookInfo } from '@storybook/core-common';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
+
 import { commandLog } from './helpers';
-import { JsPackageManager, JsPackageManagerFactory, PackageJson } from './js-package-manager';
+import { JsPackageManagerFactory } from './js-package-manager';
 
 const logger = console;
-export const storybookAddonScope = '@storybook/addon-';
-
-const isAddon = async (packageManager: JsPackageManager, name: string) => {
-  try {
-    await packageManager.latestVersion(name);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
-
-const isStorybookAddon = async (packageManager: JsPackageManager, name: string) =>
-  isAddon(packageManager, `${storybookAddonScope}${name}`);
-
-export const getPackageName = (addonName: string, isOfficialAddon: boolean) =>
-  isOfficialAddon ? storybookAddonScope + addonName : addonName;
-
-export const getInstalledStorybookVersion = (packageJson: PackageJson) =>
-  packageJson.devDependencies[
-    // This only considers the first occurrence.
-    Object.keys(packageJson.devDependencies).find((devDep) => /@storybook/.test(devDep))
-  ] || false;
-
-export const getPackageArg = (
-  addonName: string,
-  isOfficialAddon: boolean,
-  packageJson: PackageJson
-) => {
-  if (isOfficialAddon) {
-    const addonNameNoTag = addonName.split('@')[0];
-    const installedStorybookVersion = getInstalledStorybookVersion(packageJson);
-    return installedStorybookVersion
-      ? `${addonNameNoTag}@${getInstalledStorybookVersion(packageJson)}`
-      : addonName;
-  }
-  return addonName;
-};
-
-const installAddon = (
-  packageManager: JsPackageManager,
-  addonName: string,
-  isOfficialAddon: boolean
-) => {
-  const prepareDone = commandLog(`Preparing to install the ${addonName} Storybook addon`);
-  prepareDone();
-  logger.log();
-
-  const packageArg = getPackageArg(
-    addonName,
-    isOfficialAddon,
-    packageManager.retrievePackageJson()
-  );
-
-  logger.log();
-  const installDone = commandLog(`Installing the ${addonName} Storybook addon`);
-
-  try {
-    packageManager.addDependencies({}, [packageArg]);
-  } catch (e) {
-    installDone(
-      `Something went wrong installing the addon: "${getPackageName(addonName, isOfficialAddon)}"`
-    );
-    logger.log();
-    process.exit(1);
-  }
-  installDone();
-};
-
-export const addStorybookAddonToFile = (
-  addonName: string,
-  addonsFile: string[],
-  isOfficialAddon: boolean
-) => {
-  const addonNameNoTag = addonName.split('@')[0];
-  const alreadyRegistered = addonsFile.find((line) => line.includes(`${addonNameNoTag}/manager`));
-
-  if (alreadyRegistered) {
-    return addonsFile;
-  }
-
-  const latestImportIndex = addonsFile.reduce(
-    (prev, curr, currIndex) =>
-      curr.startsWith('import') && curr.includes('register') ? currIndex : prev,
-    -1
-  );
-
-  return [
-    ...addonsFile.slice(0, latestImportIndex + 1),
-    `import '${getPackageName(addonNameNoTag, isOfficialAddon)}/manager';`,
-    ...addonsFile.slice(latestImportIndex + 1),
-  ];
-};
 
 const LEGACY_CONFIGS = ['addons', 'config', 'presets'];
 
@@ -137,23 +49,58 @@ const postinstallAddon = async (addonName: string, isOfficialAddon: boolean) => 
   }
 };
 
-export async function add(
-  addonName: string,
-  options: { useNpm: boolean; skipPostinstall: boolean }
-) {
-  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
+const getVersionSpecifier = (addon: string) => {
+  const groups = /^(...*)@(.*)$/.exec(addon);
+  return groups ? [groups[1], groups[2]] : [addon, undefined];
+};
 
-  const addonCheckDone = commandLog(`Verifying that ${addonName} is an addon`);
-  const isOfficialAddon = await isStorybookAddon(packageManager, addonName);
-  if (!isOfficialAddon) {
-    if (!(await isAddon(packageManager, addonName))) {
-      addonCheckDone(`The provided package was not a Storybook addon: ${addonName}.`);
-      return;
-    }
+/**
+ * Install the given addon package and add it to main.js
+ *
+ * Usage:
+ * - sb add @storybook/addon-docs
+ * - sb add @storybook/addon-interactions@7.0.1
+ *
+ * If there is no version specifier and it's a storybook addon,
+ * it will try to use the version specifier matching your current
+ * Storybook install version.
+ */
+export async function add(addon: string, options: { useNpm: boolean; skipPostinstall: boolean }) {
+  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
+  const packageJson = packageManager.retrievePackageJson();
+  const [addonName, versionSpecifier] = getVersionSpecifier(addon);
+
+  const { mainConfig, version: storybookVersion } = getStorybookInfo(packageJson);
+  if (!mainConfig) {
+    logger.error('Unable to find storybook main.js config');
+    return;
   }
-  addonCheckDone();
-  installAddon(packageManager, addonName, isOfficialAddon);
+  const main = await readConfig(mainConfig);
+  const addons = main.getFieldValue(['addons']);
+  if (addons && !Array.isArray(addons)) {
+    logger.error('Expected addons array in main.js config');
+  }
+
+  logger.log(`Verifying ${addonName}`);
+  const latestVersion = packageManager.latestVersion(addonName);
+  if (!latestVersion) {
+    logger.error(`Unknown addon ${addonName}`);
+  }
+
+  // add to package.json
+  const isStorybookAddon = addonName.startsWith('@storybook/');
+  const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
+  const addonWithVersion = `${addonName}@${version}`;
+  logger.log(`Installing ${addonWithVersion}`);
+  packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
+
+  // add to main.js
+  logger.log(`Adding '${addon}' to main.js addons field.`);
+  const updatedAddons = [...(addons || []), addonName];
+  main.setFieldValue(['addons'], updatedAddons);
+  await writeConfig(main);
+
   if (!options.skipPostinstall) {
-    await postinstallAddon(addonName, isOfficialAddon);
+    await postinstallAddon(addon, isStorybookAddon);
   }
 }

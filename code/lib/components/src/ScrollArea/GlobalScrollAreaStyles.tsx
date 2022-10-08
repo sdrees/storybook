@@ -418,7 +418,7 @@ export const getScrollAreaStyles: (theme: Theme) => CSSObject = (theme: Theme) =
     borderRadius: 10,
   },
   '.os-scrollbar>.os-scrollbar-track>.os-scrollbar-handle': {
-    background: theme.color.mediumdark,
+    background: theme.textMutedColor,
     opacity: 0.5,
   },
   '.os-scrollbar:hover>.os-scrollbar-track>.os-scrollbar-handle': {

@@ -7,7 +7,6 @@ import loadFramework from '../frameworks/frameworkLoader';
 import { StoryshotsOptions } from './StoryshotsOptions';
 
 const { describe, window: globalWindow } = global;
-global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || {};
 
 type TestMethod = 'beforeAll' | 'beforeEach' | 'afterEach' | 'afterAll';
 const methods: TestMethod[] = ['beforeAll', 'beforeEach', 'afterEach', 'afterAll'];

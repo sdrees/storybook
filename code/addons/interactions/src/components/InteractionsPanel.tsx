@@ -60,7 +60,7 @@ const CaughtExceptionCode = styled.code(({ theme }) => ({
   lineHeight: 1,
   verticalAlign: 'top',
   background: 'rgba(0, 0, 0, 0.05)',
-  border: `1px solid ${theme.color.border}`,
+  border: `1px solid ${theme.appBorderColor}`,
   borderRadius: 3,
 }));
 const CaughtExceptionTitle = styled.div({

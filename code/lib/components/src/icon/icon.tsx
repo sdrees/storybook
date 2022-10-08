@@ -7,6 +7,7 @@ const Svg = styled.svg`
   shape-rendering: inherit;
   transform: translate3d(0, 0, 0);
   vertical-align: middle;
+  fill: currentColor;
 
   path {
     fill: currentColor;

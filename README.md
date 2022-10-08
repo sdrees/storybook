@@ -12,12 +12,6 @@
   <a href="https://circleci.com/gh/storybookjs/storybook">
     <img src="https://circleci.com/gh/storybookjs/storybook.svg?style=shield" alt="Build Status on CircleCI" />
   </a>
-  <a href="https://www.codefactor.io/repository/github/storybookjs/storybook">
-    <img src="https://www.codefactor.io/repository/github/storybookjs/storybook/badge" alt="CodeFactor" />
-  </a>
-  <a href="https://snyk.io/test/github/storybookjs/storybook">
-    <img src="https://snyk.io/test/github/storybookjs/storybook/badge.svg" alt="Known Vulnerabilities" />
-  </a>
   <a href="https://codecov.io/gh/storybookjs/storybook">
     <img src="https://codecov.io/gh/storybookjs/storybook/branch/main/graph/badge.svg" alt="codecov" />
   </a>
@@ -188,7 +182,7 @@ Looking for a first issue to tackle?
 
 Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Useful scripts include:
 
-#### `yarn bootstrap`
+#### `./bootstrap.sh`
 
 > Installs package dependencies and links packages together - using lerna
 

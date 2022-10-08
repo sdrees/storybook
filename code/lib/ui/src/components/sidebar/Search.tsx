@@ -4,7 +4,6 @@ import { Icons } from '@storybook/components';
 import Downshift, { DownshiftState, StateChangeOptions } from 'downshift';
 import Fuse, { FuseOptions } from 'fuse.js';
 import global from 'global';
-import { transparentize } from 'polished';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
 import { DEFAULT_REF_ID } from './Sidebar';
@@ -77,7 +76,7 @@ const Input = styled.input(({ theme }) => ({
   height: 32,
   paddingLeft: 30,
   paddingRight: 32,
-  border: `1px solid ${transparentize(0.6, theme.color.mediumdark)}`,
+  border: `1px solid ${theme.appBorderColor}`,
   background: 'transparent',
   borderRadius: 32,
   fontSize: `${theme.typography.size.s1 + 1}px`,
@@ -91,6 +90,7 @@ const Input = styled.input(({ theme }) => ({
   },
   '&::placeholder': {
     color: theme.textMutedColor,
+    opacity: 1,
   },
   '&:valid ~ code, &:focus ~ code': {
     display: 'none',
@@ -117,11 +117,11 @@ const FocusKey = styled.code(({ theme }) => ({
   width: 16,
   height: 16,
   zIndex: 1,
-  lineHeight: '17px',
+  lineHeight: '16px',
   textAlign: 'center',
   fontSize: '11px',
-  background: 'rgba(0,0,0,0.1)',
-  color: theme.textMutedColor,
+  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
+  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   borderRadius: 3,
   userSelect: 'none',
   pointerEvents: 'none',
@@ -135,9 +135,9 @@ const ClearIcon = styled(Icons)(({ theme }) => ({
   top: 8,
   right: 16,
   zIndex: 1,
-  background: 'rgba(0,0,0,0.1)',
+  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)',
   borderRadius: 16,
-  color: theme.color.defaultText,
+  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   cursor: 'pointer',
 }));
 

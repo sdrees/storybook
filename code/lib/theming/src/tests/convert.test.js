@@ -16,10 +16,10 @@ describe('convert', () => {
     expect(result).toMatchObject({
       color: expect.objectContaining({
         primary: '#FF4785',
-        secondary: '#1EA7FD',
+        secondary: '#029CFD',
       }),
       background: expect.objectContaining({
-        app: '#2f2f2f',
+        app: '#222425',
       }),
     });
   });
@@ -30,10 +30,10 @@ describe('convert', () => {
     expect(result).toMatchObject({
       color: expect.objectContaining({
         primary: '#FF4785',
-        secondary: '#1EA7FD',
+        secondary: '#029CFD',
       }),
       background: expect.objectContaining({
-        app: '#F6F9FC',
+        app: '#F5FBFF',
       }),
     });
   });

@@ -13,6 +13,8 @@ const craTemplates = {
     name: 'Create React App (Typescript)',
     script: 'npx create-react-app . --template typescript',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/cra',
       renderer: '@storybook/react',
@@ -44,6 +46,29 @@ const reactViteTemplates = {
   },
 };
 
+const reactWebpackTemplates = {
+  'react-webpack/18-ts': {
+    name: 'React Webpack5 (TS)',
+    script: 'yarn create webpack5-react .',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'react-webpack/17-ts': {
+    name: 'React Webpack5 (TS)',
+    script: 'yarn create webpack5-react . --version-react="17" --version-react-dom="17"',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 const vue3ViteTemplates = {
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
@@ -67,6 +92,23 @@ const vue3ViteTemplates = {
   },
 };
 
+const vue2ViteTemplates = {
+  'vue2-vite/2.7-js': {
+    name: 'Vue2 Vite (vue 2.7 JS)',
+    // TODO: convert this to an `npm create` script, use that instead.
+    // We don't really want to maintain weird custom scripts like this,
+    // preferring community bootstrap scripts / generators instead.
+    script:
+      'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/vue2-vite',
+      renderer: '@storybook/vue',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -78,20 +120,16 @@ const svelteViteTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
-  /*
-   * I disabled this, because it was flaky
-   * TODO: we should fixd the instability and re-enable it
-   */
-  // 'svelte-vite/default-ts': {
-  //   name: 'Svelte Vite (TS)',
-  //   script: 'yarn create vite . --template svelte-ts',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/svelte-vite',
-  //     renderer: '@storybook/svelte',
-  //     builder: '@storybook/builder-vite'
-  //   }
-  // }
+  'svelte-vite/default-ts': {
+    name: 'Svelte Vite (TS)',
+    script: 'yarn create vite . --template svelte-ts',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
 };
 
 const litViteTemplates = {
@@ -143,7 +181,9 @@ const vueCliTemplates = {
 
 export default {
   ...craTemplates,
+  ...reactWebpackTemplates,
   ...reactViteTemplates,
+  ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
   ...litViteTemplates,

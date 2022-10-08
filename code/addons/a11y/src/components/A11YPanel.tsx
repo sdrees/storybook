@@ -30,15 +30,15 @@ const RotatingIcon = styled(Icon)(({ theme }) => ({
 }));
 
 const Passes = styled.span(({ theme }) => ({
-  color: theme.color.positive,
+  color: theme.color.positiveText,
 }));
 
 const Violations = styled.span(({ theme }) => ({
-  color: theme.color.negative,
+  color: theme.color.negativeText,
 }));
 
 const Incomplete = styled.span(({ theme }) => ({
-  color: theme.color.warning,
+  color: theme.color.warningText,
 }));
 
 const Centered = styled.span({

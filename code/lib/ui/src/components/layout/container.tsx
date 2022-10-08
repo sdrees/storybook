@@ -100,7 +100,10 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
           borderBottomLeftRadius:
             theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
           overflow: 'hidden',
-          boxShadow: '0 1px 3px 1px rgba(0, 0, 0, 0.05), 0px 0 0px 1px rgba(0, 0, 0, 0.05)',
+          boxShadow:
+            theme.base === 'light'
+              ? '0 1px 3px 1px rgba(0, 0, 0, 0.05), 0px 0 0px 1px rgba(0, 0, 0, 0.05)'
+              : `0px 0 0px 1px ${theme.appBorderColor}`,
           transform: 'translateZ(0)',
         }
 );

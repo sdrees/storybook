@@ -3,6 +3,7 @@
 /* eslint-disable global-require */
 
 const { spawnSync } = require('child_process');
+const path = require('path');
 const { join } = require('path');
 const { maxConcurrentTasks } = require('./utils/concurrency');
 
@@ -113,6 +114,7 @@ function run() {
         const command = process.env.CI ? `yarn install --immutable` : `yarn install`;
         return spawn(command);
       },
+      pre: ['installScripts'],
       order: 1,
     }),
     build: createTask({
@@ -146,6 +148,16 @@ function run() {
         return spawn('yarn build');
       },
       order: 9,
+    }),
+    installScripts: createTask({
+      name: `Install dependencies on scripts directory ${chalk.gray('(dev)')}`,
+      defaultValue: false,
+      option: '--installScripts',
+      command: () => {
+        const command = process.env.CI ? `yarn install --immutable` : `yarn install`;
+        return spawn(command, { cwd: path.join('..', 'scripts') });
+      },
+      order: 10,
     }),
   };
 
@@ -184,16 +196,21 @@ function run() {
       .map((key) => tasks[key].value)
       .filter(Boolean).length
   ) {
-    selection = prompts([
+    selection = prompts(
+      [
+        {
+          type: 'multiselect',
+          message: 'Select the bootstrap activities',
+          name: 'todo',
+          warn: ' ',
+          pageSize: Object.keys(tasks).length + Object.keys(groups).length,
+          choices,
+        },
+      ],
       {
-        type: 'multiselect',
-        message: 'Select the bootstrap activities',
-        name: 'todo',
-        warn: ' ',
-        pageSize: Object.keys(tasks).length + Object.keys(groups).length,
-        choices,
-      },
-    ])
+        onCancel: () => process.exit(0),
+      }
+    )
       .then(({ todo }) =>
         todo.map((name) => tasks[Object.keys(tasks).find((i) => tasks[i].name === name)])
       )

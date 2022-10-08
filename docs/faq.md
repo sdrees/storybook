@@ -24,6 +24,26 @@ module.exports = {
   },
 };
 ```
+### How can I opt-out of Angular ngcc?
+
+In case you postinstall ngcc, you can disable it:
+
+```javascript
+module.exports = {
+  stories: [
+    /* ... */
+  ],
+  addons: [
+    /* ... */
+  ],
+  framework: {
+    name: '@storybook/angular',
+    options: {
+      enableNgcc: false,
+    },
+  },
+};
+```
 
 Please report any issues related to Ivy in our [GitHub Issue Tracker](https://github.com/storybookjs/storybook/labels/app%3A%20angular) as the support for View Engine will be dropped in a future release of Angular.
 

@@ -5,8 +5,6 @@
     "incremental": false,
     "noImplicitAny": true,
     "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "jsx": "react",
     "moduleResolution": "Node",
     "target": "ES2020",

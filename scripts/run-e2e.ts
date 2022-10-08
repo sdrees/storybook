@@ -1,4 +1,4 @@
-import path, { join } from 'path';
+import path from 'path';
 import { ensureDir, pathExists, remove } from 'fs-extra';
 import prompts from 'prompts';
 import program from 'commander';
@@ -13,7 +13,6 @@ import { Parameters } from '../code/lib/cli/src/repro-generators/configs';
 import { exec } from '../code/lib/cli/src/repro-generators/scripts';
 
 const logger = console;
-let openCypressInUIMode = !process.env.CI;
 
 export interface Options {
   /** CLI repro template to use  */
@@ -24,7 +23,6 @@ export interface Options {
   cwd?: string;
 }
 
-const rootDir = path.join(__dirname, '..');
 const siblingDir = path.join(__dirname, '..', '..', 'storybook-e2e-testing');
 
 program
@@ -41,7 +39,6 @@ program
     (value, previous) => previous.concat([value]),
     []
   )
-  .option('--test-runner', 'Run Storybook test runner instead of cypress', false)
   .option('--docs-mode', 'Run Storybook test runner in docs mode', false)
   .option('--all', `run e2e tests for every framework`, false);
 program.parse(process.argv);
@@ -114,18 +111,6 @@ const serveStorybook = async ({ cwd }: Options, port: string) => {
   return serve(staticDirectory, port);
 };
 
-const runCypress = async (location: string, name: string) => {
-  const cypressCommand = openCypressInUIMode ? 'open' : 'run';
-  await exec(
-    `CYPRESS_ENVIRONMENT=${name} yarn cypress ${cypressCommand} --config pageLoadTimeout=4000,execTimeout=4000,taskTimeout=4000,responseTimeout=4000,defaultCommandTimeout=4000,integrationFolder="cypress/generated",videosFolder="/tmp/cypress-record/${name}" --env location="${location}"`,
-    { cwd: join(rootDir, 'code') },
-    {
-      startMessage: `🤖 Running Cypress tests`,
-      errorMessage: `🚨 E2E tests fails`,
-    }
-  );
-};
-
 const runStorybookTestRunner = async (options: Options) => {
   const viewMode = runTestsInDocsMode ? 'docs' : 'story';
   await exec(
@@ -194,11 +179,7 @@ const runTests = async ({ name, ...rest }: Parameters) => {
   logger.log();
 
   try {
-    if (shouldUseTestRunner) {
-      await runStorybookTestRunner(options);
-    } else {
-      await runCypress('http://localhost:4000', name);
-    }
+    await runStorybookTestRunner(options);
 
     logger.info(`🎉 Storybook is working great with ${name}!`);
   } catch (e) {
@@ -271,14 +252,6 @@ const getConfig = async (): Promise<Parameters[]> => {
     const selectedValues = await prompts([
       {
         type: 'toggle',
-        name: 'openCypressInUIMode',
-        message: 'Open cypress in UI mode',
-        initial: false,
-        active: 'yes',
-        inactive: 'no',
-      },
-      {
-        type: 'toggle',
         name: 'useLocalSbCli',
         message: 'Use local Storybook CLI',
         initial: false,
@@ -310,7 +283,6 @@ const getConfig = async (): Promise<Parameters[]> => {
     }
 
     useLocalSbCli = selectedValues.useLocalSbCli;
-    openCypressInUIMode = selectedValues.openCypressInUIMode;
     e2eConfigsToRun = selectedValues.frameworks;
   }
 

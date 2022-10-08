@@ -17,7 +17,7 @@ const LoaderWrapper = styled.div({
 
 const Message = styled.div(({ theme }) => ({
   paddingTop: '12px',
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   maxWidth: '295px',
   margin: '0 auto',
   fontSize: `${theme.typography.size.s1}px`,
@@ -43,7 +43,7 @@ const Iframe = styled.iframe<{ isLoaded: boolean }>(
 const AlertIcon = styled(((props) => <Icons icon="alert" {...props} />) as FC<
   Omit<ComponentProps<typeof Icons>, 'icon'>
 >)(({ theme }) => ({
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   width: 32,
   height: 32,
   margin: '0 auto',

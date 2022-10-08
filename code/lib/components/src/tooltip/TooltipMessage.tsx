@@ -20,7 +20,7 @@ const Links = styled.div(({ theme }) => ({
 }));
 
 const Message = styled.div(({ theme }) => ({
-  color: theme.textColor,
+  color: theme.color.defaultText,
   lineHeight: '18px',
 }));
 

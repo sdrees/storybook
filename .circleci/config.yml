@@ -27,21 +27,6 @@ executors:
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
-  sb_cypress_8_node_14:
-    parameters:
-      class:
-        description: The Resource class
-        type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'medium'
-    working_directory: /tmp/storybook
-    docker:
-      # ⚠️ The Cypress docker image is based on Node.js one so be careful when updating it because it can also
-      # cause an upgrade of Node.js version too. Cypress 8.5 image is based on Node.js 14
-      - image: cypress/included:8.7.0
-        environment:
-          NODE_OPTIONS: --max_old_space_size=3076
-    resource_class: <<parameters.class>>
   sb_playwright:
     parameters:
       class:
@@ -184,85 +169,6 @@ jobs:
           root: .
           paths:
             - .verdaccio-cache
-  e2e-tests-extended:
-    executor:
-      class: medium
-      name: sb_cypress_8_node_14
-    parallelism: 14
-    steps:
-      - when:
-          condition:
-            and:
-              - not:
-                  equal: [main, << pipeline.git.branch >>]
-              - not:
-                  equal: [next, << pipeline.git.branch >>]
-          steps:
-            - ensure-pr-is-labeled-with:
-                label: 'run e2e extended test suite'
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: running local registry
-          command: |
-            cd code
-            yarn local-registry --port 6001 --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: |
-            cd code
-            yarn wait-on http://localhost:6001
-      - run:
-          name: Run E2E (extended) tests
-          command: |
-            cd code
-            yarn test:e2e-framework --clean --all --skip angular --skip angular12 --skip vue3 --skip web_components_typescript --skip cra --skip react
-          no_output_timeout: 5m
-      - store_artifacts:
-          path: /tmp/cypress-record
-          destination: cypress
-  e2e-tests-core:
-    executor:
-      class: large
-      name: sb_cypress_8_node_14
-    parallelism: 8
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Running local registry
-          command: |
-            cd code
-            yarn local-registry --port 6001 --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: |
-            cd code
-            yarn wait-on http://localhost:6001
-      - run:
-          name: Run E2E (core) tests
-          # Do not test CRA here because it's done in PnP part
-          # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
-          command: |
-            cd code
-            yarn test:e2e-framework vue3 angular130 angular13 angular12 web_components_typescript web_components_lit2 react react_legacy_root_api
-          no_output_timeout: 5m
-      - run:
-          name: prep artifacts
-          when: always
-          command: zip -r /tmp/storybook-e2e-testing-out.zip /tmp/storybook-e2e-testing
-      - store_artifacts:
-          path: /tmp/cypress-record
-          destination: cypress
-      - store_artifacts:
-          path: /tmp/storybook-e2e-testing-out.zip
-          destination: e2e
   # NOTE: this currently tests each story in docs mode, which doesn't make sense any more as stories
   #   can no longer run in docs mode. Instead we should probably change the test runner to test each
   #   docs entry if you run it in `VIEW_MODE=docs`
@@ -325,73 +231,6 @@ jobs:
       - store_artifacts:
           path: /tmp/sb-bench.tar.gz
           destination: sb-bench.tar.gz
-  e2e-tests-pnp:
-    executor:
-      class: medium
-      name: sb_cypress_8_node_14
-    working_directory: /tmp/storybook
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Running local registry
-          command: |
-            cd code
-            yarn local-registry --port 6001 --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: |
-            cd code
-            yarn wait-on http://localhost:6001
-      - run:
-          name: run e2e tests cra
-          command: |
-            cd code
-            yarn test:e2e-framework --pnp cra
-      # - run:
-      #     name: run e2e tests vue
-      #     command: yarn test:e2e-framework --pnp sfcVue
-      - run:
-          name: prep artifacts
-          when: always
-          command: zip -r /tmp/storybook-e2e-testing-out.zip /tmp/storybook-e2e-testing
-      - store_artifacts:
-          path: /tmp/cypress-record
-          destination: cypress
-      - store_artifacts:
-          path: /tmp/storybook-e2e-testing-out.zip
-          destination: e2e
-  e2e-tests-examples:
-    executor:
-      class: small
-      name: sb_cypress_8_node_14
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: running example
-          command: |
-            cd code
-            yarn serve-storybooks
-          background: true
-      - run:
-          name: await running examples
-          command: |
-            cd code
-            yarn await-serve-storybooks
-      - run:
-          name: cypress run
-          command: |
-            cd code
-            yarn test:e2e-examples
-      - store_artifacts:
-          path: /tmp/cypress-record
-          destination: cypress
   smoke-tests:
     executor:
       class: medium+
@@ -477,7 +316,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 9
+    parallelism: 12
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -485,7 +324,7 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task create --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task create --template $(yarn get-template ci create) --force --no-before --junit
           working_directory: code
       - persist_to_workspace:
           root: .
@@ -497,7 +336,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 9
+    parallelism: 12
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -505,7 +344,7 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn task --task smoke-test --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task smoke-test --template $(yarn get-template ci smoke-test) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -513,7 +352,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 9
+    parallelism: 12
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -521,19 +360,19 @@ jobs:
           at: .
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task build --template $(yarn get-template ci build) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
       - persist_to_workspace:
           root: .
           paths:
-            - sandbox
+            - sandbox/*/storybook-static
   test-runner-sandboxes:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 9
+    parallelism: 12
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -541,7 +380,7 @@ jobs:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task test-runner --template $(yarn get-template ci test-runner) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -549,7 +388,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 9
+    parallelism: 12
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -557,7 +396,7 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn task --task chromatic --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task chromatic --template $(yarn get-template ci chromatic) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -565,7 +404,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 9
+    parallelism: 12
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -573,7 +412,7 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task e2e-tests --template $(yarn get-template ci e2e-tests) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -591,9 +430,6 @@ workflows:
       - examples:
           requires:
             - build
-      - e2e-tests-examples:
-          requires:
-            - examples
       - smoke-tests:
           requires:
             - build
@@ -612,15 +448,6 @@ workflows:
       - publish:
           requires:
             - build
-      - e2e-tests-extended:
-          requires:
-            - publish
-      - e2e-tests-core:
-          requires:
-            - publish
-      - e2e-tests-pnp:
-          requires:
-            - publish
       - cra-bench:
           requires:
             - publish

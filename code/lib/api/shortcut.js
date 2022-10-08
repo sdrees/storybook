@@ -1,1 +1,1 @@
-export * from './dist/esm/lib/shortcut';
+export * from './dist/shortcut';

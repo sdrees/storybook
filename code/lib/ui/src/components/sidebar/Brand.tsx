@@ -3,11 +3,12 @@ import { styled, withTheme } from '@storybook/theming';
 
 import { StorybookLogo } from '@storybook/components';
 
-export const StorybookLogoStyled = styled(StorybookLogo)({
+export const StorybookLogoStyled = styled(StorybookLogo)(({ theme }) => ({
   width: 'auto',
   height: '22px !important',
   display: 'block',
-});
+  color: theme.base === 'light' ? theme.color.defaultText : theme.color.lightest,
+}));
 
 export const Img = styled.img({
   width: 'auto',

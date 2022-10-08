@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "storybook",
   "implicitDependencies": {
     "package.json": {
@@ -21,28 +22,15 @@
   "affected": {
     "defaultBase": "next"
   },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "package": [
-      {
-        "target": "package",
-        "projects": "dependencies"
-      }
-    ],
-    "prep": [
-      {
-        "target": "prep",
-        "projects": "dependencies"
-      }
-    ]
-  },
   "targetDefaults": {
+    "build": {
+      "dependsOn": [{ "projects": "dependencies", "target": "build" }]
+    },
+    "package": {
+      "dependsOn": [{ "projects": "dependencies", "target": "package" }]
+    },
     "prep": {
+      "dependsOn": [{ "projects": "dependencies", "target": "prep", "params": "forward" }],
       "outputs": ["{projectRoot}/dist"]
     }
   }

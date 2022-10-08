@@ -124,8 +124,8 @@ const Wrapper = styled.div(({ theme }) => ({
     color: theme.color.defaultText,
   },
   '.rejt-value-node:hover > .rejt-value': {
-    background: theme.background.app,
-    borderColor: theme.color.border,
+    background: theme.color.lighter,
+    borderColor: theme.appBorderColor,
   },
 }));
 
@@ -151,7 +151,7 @@ const ActionIcon = styled(Icons)(({ theme, icon, disabled }: ActionIconProps) =>
   padding: 3,
   marginLeft: 5,
   cursor: disabled ? 'not-allowed' : 'pointer',
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   '&:hover': disabled
     ? {}
     : {
@@ -168,7 +168,7 @@ const Input = styled.input(({ theme, placeholder }) => ({
   padding: '3px 4px',
   color: theme.color.defaultText,
   background: theme.background.app,
-  border: `1px solid ${theme.color.border}`,
+  border: `1px solid ${theme.appBorderColor}`,
   borderRadius: 4,
   lineHeight: '14px',
   width: placeholder === 'Key' ? 80 : 120,
@@ -185,9 +185,9 @@ const RawButton = styled(IconButton)(({ theme }) => ({
   height: 21,
   padding: '0 3px',
   background: theme.background.bar,
-  border: `1px solid ${theme.color.border}`,
+  border: `1px solid ${theme.appBorderColor}`,
   borderRadius: 3,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   fontSize: '9px',
   fontWeight: 'bold',
   textDecoration: 'none',

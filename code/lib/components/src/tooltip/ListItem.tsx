@@ -102,7 +102,7 @@ const CenterText = styled.span<CenterTextProps>(
   ({ theme, disabled }) =>
     disabled
       ? {
-          color: theme.color.mediumdark,
+          color: theme.textMutedColor,
         }
       : {}
 );

@@ -10,6 +10,10 @@ export const Pending = {
   args: { status: CallStates.WAITING },
 };
 
+export const Active = {
+  args: { status: CallStates.ACTIVE },
+};
+
 export const Error = {
   args: { status: CallStates.ERROR },
 };

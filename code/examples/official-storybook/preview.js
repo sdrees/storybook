@@ -46,7 +46,7 @@ const ThemeBlock = styled.div(
     padding: 10,
   },
   ({ theme }) => ({
-    background: theme.background.app,
+    background: theme.background.content,
     color: theme.color.defaultText,
   }),
   ({ side }) =>
@@ -67,7 +67,7 @@ const ThemeStack = styled.div(
     minHeight: 'calc(50vh - 15px)',
   },
   ({ theme }) => ({
-    background: theme.background.app,
+    background: theme.background.content,
     color: theme.color.defaultText,
   })
 );
@@ -86,7 +86,7 @@ const PlayFnNotice = styled.div(
     },
   },
   ({ theme }) => ({
-    background: theme.background.app,
+    background: theme.background.content,
     color: theme.color.defaultText,
   })
 );
@@ -95,8 +95,8 @@ const ThemedSetRoot = () => {
   const theme = useTheme();
 
   useEffect(() => {
-    document.body.style.background = theme.background.app;
-    document.body.style.color = theme.defaultText;
+    document.body.style.background = theme.background.content;
+    document.body.style.color = theme.color.defaultText;
     return () => {
       //
     };

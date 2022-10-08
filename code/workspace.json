@@ -381,6 +381,11 @@
       "type": "library",
       "implicitDependencies": []
     },
+    "@storybook/vue-vite": {
+      "root": "frameworks/vue-vite",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/vue3": {
       "root": "renderers/vue3",
       "type": "library",

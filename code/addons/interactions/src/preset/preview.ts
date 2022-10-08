@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { addons } from '@storybook/addons';
 import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
 import type {

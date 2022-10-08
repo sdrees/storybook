@@ -27,7 +27,7 @@ Storybook needs to be installed into a project that is already set up with a fra
 
 - 📦 [Create an Angular Workspace](https://angular.io/cli/new)
 - 📦 [Create React App](https://reactjs.org/docs/create-a-new-react-app.html)
-- 📦 [Vue CLI](https://cli.vuejs.org/)
+- 📦 [Create a Vue App](https://vuejs.org/guide/quick-start.html)
 - 📦 [Ember CLI](https://guides.emberjs.com/release/getting-started/quick-start/)
 - Or any other tooling available.
 

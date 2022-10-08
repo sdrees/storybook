@@ -33,7 +33,7 @@ const Icon = styled(Icons)(({ theme }) => ({
   height: 10,
   width: 10,
   minWidth: 10,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   marginRight: 10,
   transition: 'transform 0.1s ease-in-out',
   alignSelf: 'center',
@@ -66,7 +66,7 @@ export function Result(props: ResultProps) {
           {status === `failed` ? (
             <Icon
               icon="arrowdown"
-              color={convert(themes.light).color.mediumdark}
+              color={convert(themes.light).textMutedColor}
               style={{
                 transform: `rotate(${isOpen ? 0 : -90}deg)`,
               }}

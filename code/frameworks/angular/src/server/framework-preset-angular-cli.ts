@@ -8,9 +8,7 @@ import { dedent } from 'ts-dedent';
 
 import { logging, JsonObject } from '@angular-devkit/core';
 import { moduleIsAvailable } from './utils/module-is-available';
-import { getWebpackConfig as getWebpackConfig12_2_x } from './angular-cli-webpack-12.2.x';
 import { getWebpackConfig as getWebpackConfig13_x_x } from './angular-cli-webpack-13.x.x';
-import { getWebpackConfig as getWebpackConfigOlder } from './angular-cli-webpack-older';
 import type { PresetOptions } from './preset-options';
 import {
   getDefaultProjectName,
@@ -54,24 +52,6 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
           builderContext,
         });
       },
-    },
-    {
-      info: '=> Loading angular-cli config for angular 12.2.x',
-      condition: semver.satisfies(angularCliVersion, '12.2.x') && options.angularBuilderContext,
-      getWebpackConfig: async (_baseConfig, _options) => {
-        const builderContext = getBuilderContext(_options);
-        const builderOptions = await getBuilderOptions(_options, builderContext);
-
-        return getWebpackConfig12_2_x(_baseConfig, {
-          builderOptions,
-          builderContext,
-        });
-      },
-    },
-    {
-      info: '=> Loading angular-cli config for angular lower than 12.2.0',
-      condition: true,
-      getWebpackConfig: getWebpackConfigOlder,
     },
   ];
 

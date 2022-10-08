@@ -11,6 +11,7 @@ import SettingsFooter from './SettingsFooter';
 const Header = styled.header(({ theme }) => ({
   marginBottom: 20,
   fontSize: theme.typography.size.m3,
+  color: theme.base === 'light' ? theme.color.darkest : theme.color.lightest,
   fontWeight: theme.typography.weight.black,
   alignItems: 'center',
   display: 'flex',
@@ -28,7 +29,7 @@ const Subheading = styled.span(({ theme }) => ({
   fontWeight: theme.typography.weight.black,
   fontSize: theme.typography.size.s2 - 1,
   lineHeight: '24px',
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
 }));
 
 const SubheadingLink = styled(Link)(({ theme }) => ({
@@ -45,12 +46,15 @@ const Subheader = styled.div({
 const UpdateMessage = styled.div<{ status: 'positive' | 'negative' | string }>(
   ({ status, theme }) => {
     if (status === 'positive') {
-      return { background: theme.background.positive, color: theme.color.positive };
+      return { background: theme.background.positive, color: theme.color.positiveText };
     }
     if (status === 'negative') {
-      return { background: theme.background.negative, color: theme.color.negative };
+      return { background: theme.background.negative, color: theme.color.negativeText };
     }
-    return { background: '#EAF3FC', color: theme.color.darkest };
+    return {
+      background: theme.base === 'light' ? '#EAF3FC' : theme.color.darkest,
+      color: theme.base === 'light' ? theme.color.darkest : theme.defaultText,
+    };
   },
 
   ({ theme }) => ({

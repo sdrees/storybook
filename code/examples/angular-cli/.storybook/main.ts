@@ -34,6 +34,7 @@ const mainConfig: import('@storybook/angular').StorybookConfig = {
     name: '@storybook/angular',
     options: {
       enableIvy: true,
+      enableNgcc: true,
     },
   },
 };

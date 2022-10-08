@@ -55,7 +55,6 @@ module.exports = {
       },
     },
     { files: '**/.storybook/config.js', rules: { 'global-require': 'off' } },
-    { files: 'cypress/**', rules: { 'jest/expect-expect': 'off' } },
     {
       files: ['**/*.stories.*'],
       rules: {

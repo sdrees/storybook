@@ -96,9 +96,9 @@ const RangeInput = styled.input<{ min: number; max: number; value: number }>(
     '&::-moz-range-thumb': {
       width: 16,
       height: 16,
-      border: `1px solid ${rgba(theme.color.border, 0.2)}`,
+      border: `1px solid ${rgba(theme.appBorderColor, 0.2)}`,
       borderRadius: '50px',
-      boxShadow: `0 1px 3px 0px ${rgba(theme.color.border, 0.2)}`,
+      boxShadow: `0 1px 3px 0px ${rgba(theme.appBorderColor, 0.2)}`,
       cursor: 'grab',
       background: `${theme.input.background}`,
       transition: 'all 150ms ease-out',

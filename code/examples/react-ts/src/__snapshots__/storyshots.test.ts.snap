@@ -30,9 +30,9 @@ exports[`Storyshots Custom Prefix/AutoTitle Basic 1`] = `
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
-  background: #fafafa;
-  color: #333333;
-  box-shadow: rgba(0,0,0,.1) 0 0 0 1px inset;
+  background: #F5FBFF;
+  color: #2E3438;
+  box-shadow: #D9E8F2 0 0 0 1px inset;
   border-radius: 4px;
   padding: 10px 16px;
   display: inline;
@@ -60,15 +60,15 @@ exports[`Storyshots Custom Prefix/AutoTitle Basic 1`] = `
 }
 
 .emotion-0:hover {
-  background: #f2f2f2;
+  background: #ebf7ff;
 }
 
 .emotion-0:active {
-  background: #FFFFFF;
+  background: #F5FBFF;
 }
 
 .emotion-0:focus {
-  box-shadow: rgba(30,167,253,1) 0 0 0 1px inset;
+  box-shadow: rgba(2,156,253,1) 0 0 0 1px inset;
   outline: none;
 }
 
@@ -116,9 +116,9 @@ exports[`Storyshots Custom Prefix/CustomTitle Basic 1`] = `
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
-  background: #fafafa;
-  color: #333333;
-  box-shadow: rgba(0,0,0,.1) 0 0 0 1px inset;
+  background: #F5FBFF;
+  color: #2E3438;
+  box-shadow: #D9E8F2 0 0 0 1px inset;
   border-radius: 4px;
   padding: 10px 16px;
   display: inline;
@@ -146,15 +146,15 @@ exports[`Storyshots Custom Prefix/CustomTitle Basic 1`] = `
 }
 
 .emotion-0:hover {
-  background: #f2f2f2;
+  background: #ebf7ff;
 }
 
 .emotion-0:active {
-  background: #FFFFFF;
+  background: #F5FBFF;
 }
 
 .emotion-0:focus {
-  box-shadow: rgba(30,167,253,1) 0 0 0 1px inset;
+  box-shadow: rgba(2,156,253,1) 0 0 0 1px inset;
   outline: none;
 }
 

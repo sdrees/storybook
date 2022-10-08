@@ -6,7 +6,7 @@ const theme: ThemeVars = {
 
   // Storybook-specific color palette
   colorPrimary: '#FF4785', // coral
-  colorSecondary: '#1EA7FD', // ocean
+  colorSecondary: '#029CFD', // ocean
 
   // UI
   appBg: background.app,
@@ -21,7 +21,7 @@ const theme: ThemeVars = {
   // Text colors
   textColor: color.darkest,
   textInverseColor: color.lightest,
-  textMutedColor: color.dark,
+  textMutedColor: color.mediumdark,
 
   // Toolbar default and active colors
   barTextColor: color.mediumdark,
@@ -29,6 +29,10 @@ const theme: ThemeVars = {
   barBg: color.lightest,
 
   // Form colors
+  buttonBg: background.app,
+  buttonBorder: color.medium,
+  booleanBg: color.mediumlight,
+  booleanSelectedBg: color.lightest,
   inputBg: color.lightest,
   inputBorder: color.border,
   inputTextColor: color.darkest,

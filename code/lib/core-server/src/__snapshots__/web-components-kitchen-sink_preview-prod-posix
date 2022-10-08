@@ -184,7 +184,7 @@ Object {
       },
       Object {
         "enforce": "pre",
-        "loader": "CWD/lib/source-loader/dist/cjs/index.js",
+        "loader": "CWD/lib/source-loader/dist/index.js",
         "options": Object {
           "injectStoryParameters": true,
           "inspectLocalDependencies": true,
@@ -198,7 +198,7 @@ Object {
         ],
         "use": Array [
           Object {
-            "loader": "CWD/lib/source-loader/dist/cjs/index.js",
+            "loader": "CWD/lib/source-loader/dist/index.js",
             "options": undefined,
           },
         ],

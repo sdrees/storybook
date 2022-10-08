@@ -78,7 +78,7 @@ const TabsWrapper = styled.div({});
 
 const List = styled.div(({ theme }) => ({
   boxShadow: `${theme.appBorderColor} 0 -1px 0 0 inset`,
-  background: 'rgba(0, 0, 0, .05)',
+  background: theme.background.app,
   display: 'flex',
   justifyContent: 'space-between',
   whiteSpace: 'nowrap',

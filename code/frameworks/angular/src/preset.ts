@@ -3,7 +3,6 @@ import type { PresetProperty } from '@storybook/core-common';
 import { StorybookConfig } from './types';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
-  require.resolve('./server/framework-preset-angular'),
   require.resolve('./server/framework-preset-angular-cli'),
   require.resolve('./server/framework-preset-angular-ivy'),
   require.resolve('./server/framework-preset-angular-docs'),

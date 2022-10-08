@@ -8,7 +8,7 @@ const Block = styled.span({
   width: 40,
   marginTop: 5,
   marginRight: 5,
-  background: 'silver',
+  border: '1px solid silver',
   lineHeight: '40px',
   textAlign: 'center',
   fontSize: 9,

@@ -1,3 +1,6 @@
+/// <reference types="node" />
+/// <reference types="webpack-env" />
+
 import { logger } from '@storybook/client-logger';
 import { Path, ModuleExports } from '@storybook/store';
 import { Loadable, RequireContext, LoaderFunction } from './types';

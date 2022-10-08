@@ -1,6 +1,6 @@
 {
   "name": "@storybook/api",
-  "version": "7.0.0-alpha.34",
+  "version": "7.0.0-alpha.35",
   "description": "Core Storybook API & Context",
   "keywords": [
     "storybook"
@@ -18,9 +18,22 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./shortcut": {
+      "require": "./dist/shortcut.js",
+      "import": "./dist/shortcut.mjs",
+      "types": "./dist/shortcut.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -29,16 +42,16 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-alpha.34",
-    "@storybook/client-logger": "7.0.0-alpha.34",
-    "@storybook/core-events": "7.0.0-alpha.34",
+    "@storybook/channels": "7.0.0-alpha.35",
+    "@storybook/client-logger": "7.0.0-alpha.35",
+    "@storybook/core-events": "7.0.0-alpha.35",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/router": "7.0.0-alpha.34",
+    "@storybook/router": "7.0.0-alpha.35",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "7.0.0-alpha.34",
+    "@storybook/theming": "7.0.0-alpha.35",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
@@ -50,7 +63,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^26.6.2",
-    "@storybook/core-common": "7.0.0-alpha.34",
+    "@storybook/core-common": "7.0.0-alpha.35",
     "@types/lodash": "^4.14.167",
     "@types/qs": "^6",
     "flush-promises": "^1.0.2",
@@ -64,5 +77,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
+  "bundler": {
+    "entries": [
+      "./src/index.tsx",
+      "./src/shortcut.ts"
+    ]
+  },
+  "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1"
 }

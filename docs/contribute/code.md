@@ -17,17 +17,13 @@ Start by [forking](https://docs.github.com/en/github/getting-started-with-github
 git clone https://github.com/your-username/storybook.git
 ```
 
-Navigate to the `storybook/scripts` directory and install the required dependencies with the following commands:
+In the root directory, run the following command:
 
 ```shell
-yarn install
+./bootstrap.sh --core
 ```
 
-Navigate to the `storybook/code` directory and run the following commands:
-
-```shell
-yarn install && yarn bootstrap --core
-```
+This will install dependencies in both `scripts` and `code` directories, as well as build all the necessary packages for Storybook to run.
 
 ## Run tests & examples
 

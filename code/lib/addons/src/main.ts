@@ -1,4 +1,5 @@
 import global from 'global';
+
 import type { ReactElement } from 'react';
 import { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';

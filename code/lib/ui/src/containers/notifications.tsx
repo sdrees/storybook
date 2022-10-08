@@ -1,16 +1,14 @@
 import React, { FC } from 'react';
 
-import { Consumer, Combo, useStorybookApi } from '@storybook/api';
+import type { Combo } from '@storybook/api';
+import { Consumer } from '@storybook/api';
 
 import NotificationList from '../components/notifications/NotificationList';
 
-export const mapper = ({ state }: Combo) => {
-  const { clearNotification } = useStorybookApi();
-  const { notifications } = state;
-
+const mapper = ({ state, api }: Combo) => {
   return {
-    notifications,
-    clearNotification,
+    notifications: state.notifications,
+    clearNotification: api.clearNotification,
   };
 };
 

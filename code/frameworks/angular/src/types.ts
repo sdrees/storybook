@@ -45,5 +45,6 @@ export type StorybookConfig = Omit<
   StorybookConfigFramework;
 
 export interface AngularOptions {
-  enableIvy: boolean;
+  enableIvy?: boolean;
+  enableNgcc?: boolean;
 }

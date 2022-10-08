@@ -1,7 +1,6 @@
-import path from 'path';
-import fs from 'fs';
 import type { StorybookConfig } from '@storybook/builder-vite';
 import { vueDocgen } from './plugins/vue-docgen';
+import { hasPlugin } from './utils';
 
 export const addons: StorybookConfig['addons'] = ['@storybook/vue3'];
 
@@ -9,19 +8,16 @@ export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
 };
 
-export function readPackageJson(): Record<string, any> | false {
-  const packageJsonPath = path.resolve('package.json');
-  if (!fs.existsSync(packageJsonPath)) {
-    return false;
-  }
-
-  const jsonContent = fs.readFileSync(packageJsonPath, 'utf8');
-  return JSON.parse(jsonContent);
-}
-
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   const { plugins = [] } = config;
 
+  // Add vue plugin if not present
+  if (!hasPlugin(plugins, 'vite:vue')) {
+    const { default: vue } = await import('@vitejs/plugin-vue');
+    plugins.push(vue());
+  }
+
+  // Add docgen plugin
   plugins.push(vueDocgen());
 
   const updated = {

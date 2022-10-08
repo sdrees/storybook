@@ -1,238 +1,285 @@
+## 7.0.0-alpha.35 (October 5, 2022)
+
+#### Features
+
+- Angular: Disable ngcc when not needed [#19307](https://github.com/storybooks/storybook/pull/19307)
+- Vite: Add vue-vite framework for Vue2 [#19230](https://github.com/storybooks/storybook/pull/19230)
+- Storyshots-puppeteer: Add browserLaunchOptions to CommonConfig [#18927](https://github.com/storybooks/storybook/pull/18927)
+
+#### Bug Fixes
+
+- Vite: Fix svelte docgen and svelte-native stories [#19339](https://github.com/storybooks/storybook/pull/19339)
+- CLI: Exclude @storybook/testing-react from outdated check [#19272](https://github.com/storybooks/storybook/pull/19272)
+- Interactions: Fix path to checkActionsLoaded [#19334](https://github.com/storybooks/storybook/pull/19334)
+- Webpack: Fix resolution of webpack config relating to resolve fallbacks (assert) [#19358](https://github.com/storybooks/storybook/pull/19358)
+- Vite: Add vite framework plugin if not found [#19259](https://github.com/storybooks/storybook/pull/19259)
+- Vue2: Fix play function `within` & args updating in decorators [#19207](https://github.com/storybooks/storybook/pull/19207)
+
+#### Maintenance
+
+- Addon-docs: Remove STORYBOOK_REACT_CLASSES and global/globals.ts [#19300](https://github.com/storybooks/storybook/pull/19300)
+- Cleanup premature merge [#19332](https://github.com/storybooks/storybook/pull/19332)
+- CLI: Update sb add for main.js [#19312](https://github.com/storybooks/storybook/pull/19312)
+- React: Move argType stories to template/stories folder [#19265](https://github.com/storybooks/storybook/pull/19265)
+
+#### Build
+
+- Build: Add react17 + webpack5 template [#19342](https://github.com/storybooks/storybook/pull/19342)
+- Build: Add react18 + webpack5 template [#19341](https://github.com/storybooks/storybook/pull/19341)
+- Build: Forward parameters in nx command execution [#19283](https://github.com/storybooks/storybook/pull/19283)
+- Build: cleanup after moving to tsup [#19268](https://github.com/storybooks/storybook/pull/19268)
+- Build: change the vue e2e test to use webpack5, since we stopped supporting webpack4 in 7.0 [#19257](https://github.com/storybooks/storybook/pull/19257)
+- Build: Add vue-cli/vue2 repro template [#19314](https://github.com/storybooks/storybook/pull/19314)
+- Build: Bundle addons-actions with ts-up [#18775](https://github.com/storybooks/storybook/pull/18775)
+- Build: Bundle lib/addons with ts-up [#18805](https://github.com/storybooks/storybook/pull/18805)
+- Build: improve the tsconfig [#19346](https://github.com/storybooks/storybook/pull/19346)
+- Build: Bundle lib/telemetry with ts-up [#19317](https://github.com/storybooks/storybook/pull/19317)
+- Build: Bundle lib/store with tsup [#19308](https://github.com/storybooks/storybook/pull/19308)
+- Build: Bundle lib/source-loader with ts-up [#19313](https://github.com/storybooks/storybook/pull/19313)
+- Build: Bundle lib/csf-tools with ts-up [#18914](https://github.com/storybooks/storybook/pull/18914)
+- Build: Bundle lib/core-client with ts-up [#19276](https://github.com/storybooks/storybook/pull/19276)
+- Build: Bundle lib/client-api with ts-up [#19271](https://github.com/storybooks/storybook/pull/19271)
+- Build: Bundle lib/postinstall with ts-up [#19327](https://github.com/storybooks/storybook/pull/19327)
+- Build: Add react18 + webpack5 template [#19341](https://github.com/storybooks/storybook/pull/19341)
+- Build: Remove cypress from monorepo [#19303](https://github.com/storybooks/storybook/pull/19303)
+- Build: Disable smoke test on cra/default-ts [#19352](https://github.com/storybooks/storybook/pull/19352)
+- Build: Fix prepare bundle on Windows [#19243](https://github.com/storybooks/storybook/pull/19243)
+- Build: Bundle addons/essentials with ts-up [#19322](https://github.com/storybooks/storybook/pull/19322)
+
 ## 7.0.0-alpha.34 (September 27, 2022)
 
 #### Features
 
--   Vite: Export storybook utilities from frameworks for better pnpm support [#19216](https://github.com/storybooks/storybook/pull/19216)
+- Vite: Export storybook utilities from frameworks for better pnpm support [#19216](https://github.com/storybooks/storybook/pull/19216)
 
 #### Bug Fixes
 
--   Vite: Do not add Webpack loaders when using Vite builder [#19263](https://github.com/storybooks/storybook/pull/19263)
--   Source-loader: Fix invalid call to CSF sanitize [#18930](https://github.com/storybooks/storybook/pull/18930)
--   Svelte: generate preview file with js extension always [#19253](https://github.com/storybooks/storybook/pull/19253)
--   UI: Fix react runtime for addons in manager [#19226](https://github.com/storybooks/storybook/pull/19226)
--   Svelte: Fix button component not accepting the onClick handler [#19249](https://github.com/storybooks/storybook/pull/19249)
--   Vite: Support runStep in Vite builder SSv6 [#19235](https://github.com/storybooks/storybook/pull/19235)
--   Angular: Alias decorateStory as applyDecorators [#19189](https://github.com/storybooks/storybook/pull/19189)
--   UI: Recalculate height of ZoomElement when child element updates [#15472](https://github.com/storybooks/storybook/pull/15472)
--   UI: Fix copy button copying outdated snippet [#18888](https://github.com/storybooks/storybook/pull/18888)
--   UI: Fix clipboard issue [#18999](https://github.com/storybooks/storybook/pull/18999)
--   CLI: Do not remove framework dependency in automigration [#19129](https://github.com/storybooks/storybook/pull/19129)
--   TS: Type `storyIdToEntry` explicitly [#19123](https://github.com/storybooks/storybook/pull/19123)
+- Vite: Do not add Webpack loaders when using Vite builder [#19263](https://github.com/storybooks/storybook/pull/19263)
+- Source-loader: Fix invalid call to CSF sanitize [#18930](https://github.com/storybooks/storybook/pull/18930)
+- Svelte: generate preview file with js extension always [#19253](https://github.com/storybooks/storybook/pull/19253)
+- UI: Fix react runtime for addons in manager [#19226](https://github.com/storybooks/storybook/pull/19226)
+- Svelte: Fix button component not accepting the onClick handler [#19249](https://github.com/storybooks/storybook/pull/19249)
+- Vite: Support runStep in Vite builder SSv6 [#19235](https://github.com/storybooks/storybook/pull/19235)
+- Angular: Alias decorateStory as applyDecorators [#19189](https://github.com/storybooks/storybook/pull/19189)
+- UI: Recalculate height of ZoomElement when child element updates [#15472](https://github.com/storybooks/storybook/pull/15472)
+- UI: Fix copy button copying outdated snippet [#18888](https://github.com/storybooks/storybook/pull/18888)
+- UI: Fix clipboard issue [#18999](https://github.com/storybooks/storybook/pull/18999)
+- CLI: Do not remove framework dependency in automigration [#19129](https://github.com/storybooks/storybook/pull/19129)
+- TS: Type `storyIdToEntry` explicitly [#19123](https://github.com/storybooks/storybook/pull/19123)
 
 #### Maintenance
 
--   Vue3: Add generic renderer stories & delete vue3 example [#19219](https://github.com/storybooks/storybook/pull/19219)
--   Build: Remove unused angular_modern_inline_rendering [#19254](https://github.com/storybooks/storybook/pull/19254)
--   Build: bundle csf-tools with tsup [#19141](https://github.com/storybooks/storybook/pull/19141)
--   Build: Enforce @ts-expect-error via eslint [#19198](https://github.com/storybooks/storybook/pull/19198)
--   Vue: Add repro template for vue-cli [#19165](https://github.com/storybooks/storybook/pull/19165)
--   Build: Link renderer-specific stories inside the sandbox's real stories dir [#19185](https://github.com/storybooks/storybook/pull/19185)
--   Build: Remove `cra-kitchen-sink` example [#19179](https://github.com/storybooks/storybook/pull/19179)
--   Build: Fix the check script [#19184](https://github.com/storybooks/storybook/pull/19184)
--   Build: Build lib/node-logger with ts-up [#19173](https://github.com/storybooks/storybook/pull/19173)
--   Build: Fix sandbox running multiple versions of react [#19156](https://github.com/storybooks/storybook/pull/19156)
--   Build: fix playwright version again [#19250](https://github.com/storybooks/storybook/pull/19250)
--   Build: upgrade playwright version (and lock it) [#19227](https://github.com/storybooks/storybook/pull/19227)
+- Vue3: Add generic renderer stories & delete vue3 example [#19219](https://github.com/storybooks/storybook/pull/19219)
+- Build: Remove unused angular_modern_inline_rendering [#19254](https://github.com/storybooks/storybook/pull/19254)
+- Build: bundle csf-tools with tsup [#19141](https://github.com/storybooks/storybook/pull/19141)
+- Build: Enforce @ts-expect-error via eslint [#19198](https://github.com/storybooks/storybook/pull/19198)
+- Vue: Add repro template for vue-cli [#19165](https://github.com/storybooks/storybook/pull/19165)
+- Build: Link renderer-specific stories inside the sandbox's real stories dir [#19185](https://github.com/storybooks/storybook/pull/19185)
+- Build: Remove `cra-kitchen-sink` example [#19179](https://github.com/storybooks/storybook/pull/19179)
+- Build: Fix the check script [#19184](https://github.com/storybooks/storybook/pull/19184)
+- Build: Build lib/node-logger with ts-up [#19173](https://github.com/storybooks/storybook/pull/19173)
+- Build: Fix sandbox running multiple versions of react [#19156](https://github.com/storybooks/storybook/pull/19156)
+- Build: fix playwright version again [#19250](https://github.com/storybooks/storybook/pull/19250)
+- Build: upgrade playwright version (and lock it) [#19227](https://github.com/storybooks/storybook/pull/19227)
 
 #### Dependency Upgrades
 
--   Remove @nicolo-ribaudo/chokidar-2 [#19244](https://github.com/storybooks/storybook/pull/19244)
+- Remove @nicolo-ribaudo/chokidar-2 [#19244](https://github.com/storybooks/storybook/pull/19244)
 
 ## 7.0.0-alpha.33 (September 13, 2022)
 
 #### Features
 
--   Core: Add a new `throwPlayFunctionExceptions` parameter [#19143](https://github.com/storybooks/storybook/pull/19143)
+- Core: Add a new `throwPlayFunctionExceptions` parameter [#19143](https://github.com/storybooks/storybook/pull/19143)
 
 #### Bug Fixes
 
--   Fix issue in instrumenter with `waitFor` [#19145](https://github.com/storybooks/storybook/pull/19145)
--   Core: Fix static dirs targeting same destination [#19064](https://github.com/storybooks/storybook/pull/19064)
--   React: Fix issue with react 18 implementation [#19125](https://github.com/storybooks/storybook/pull/19125)
--   CLI: Fix spawning child processes on windows [#19019](https://github.com/storybooks/storybook/pull/19019)
--   Vite: Ensure we set `DOCS_OPTIONS` in the vite builder [#19127](https://github.com/storybooks/storybook/pull/19127)
+- Fix issue in instrumenter with `waitFor` [#19145](https://github.com/storybooks/storybook/pull/19145)
+- Core: Fix static dirs targeting same destination [#19064](https://github.com/storybooks/storybook/pull/19064)
+- React: Fix issue with react 18 implementation [#19125](https://github.com/storybooks/storybook/pull/19125)
+- CLI: Fix spawning child processes on windows [#19019](https://github.com/storybooks/storybook/pull/19019)
+- Vite: Ensure we set `DOCS_OPTIONS` in the vite builder [#19127](https://github.com/storybooks/storybook/pull/19127)
 
 #### Maintenance
 
--   Build: Bundle @storybook/cli with tsup [#19138](https://github.com/storybooks/storybook/pull/19138)
--   Examples: Remove `cra-ts-essentials` [#19170](https://github.com/storybooks/storybook/pull/19170)
--   Added some basic interactions stories [#19153](https://github.com/storybooks/storybook/pull/19153)
--   Presets: Replace `config` with `previewAnnotations`, remove `previewEntries` [#19152](https://github.com/storybooks/storybook/pull/19152)
--   Addon-links: Move stories into addon [#19124](https://github.com/storybooks/storybook/pull/19124)
--   Addon-a11y: Move stories into addon [#19114](https://github.com/storybooks/storybook/pull/19114)
--   Toolbars: Generic example stories [#19166](https://github.com/storybooks/storybook/pull/19166)
--   TypeScript: Revert a few @ts-expect-errors [#19168](https://github.com/storybooks/storybook/pull/19168)
--   Addon-docs: Generic stories for DocsPage [#19162](https://github.com/storybooks/storybook/pull/19162)
--   Controls: Generic stories for sorting [#19161](https://github.com/storybooks/storybook/pull/19161)
--   Build: Generic stories for addon-controls [#19149](https://github.com/storybooks/storybook/pull/19149)
--   remove node12 from the matrix [#19147](https://github.com/storybooks/storybook/pull/19147)
--   Build libs/router with ts-up [#19140](https://github.com/storybooks/storybook/pull/19140)
--   Build: Bundle addon-interactions with tsup [#19139](https://github.com/storybooks/storybook/pull/19139)
--   Generic stories for remaining core features [#19118](https://github.com/storybooks/storybook/pull/19118)
--   Add parameter, loader and decorator stories to `lib/store` [#19105](https://github.com/storybooks/storybook/pull/19105)
--   Convert @ts-ignore to @ts-expect-error [#19122](https://github.com/storybooks/storybook/pull/19122)
+- Build: Bundle @storybook/cli with tsup [#19138](https://github.com/storybooks/storybook/pull/19138)
+- Examples: Remove `cra-ts-essentials` [#19170](https://github.com/storybooks/storybook/pull/19170)
+- Added some basic interactions stories [#19153](https://github.com/storybooks/storybook/pull/19153)
+- Presets: Replace `config` with `previewAnnotations`, remove `previewEntries` [#19152](https://github.com/storybooks/storybook/pull/19152)
+- Addon-links: Move stories into addon [#19124](https://github.com/storybooks/storybook/pull/19124)
+- Addon-a11y: Move stories into addon [#19114](https://github.com/storybooks/storybook/pull/19114)
+- Toolbars: Generic example stories [#19166](https://github.com/storybooks/storybook/pull/19166)
+- TypeScript: Revert a few @ts-expect-errors [#19168](https://github.com/storybooks/storybook/pull/19168)
+- Addon-docs: Generic stories for DocsPage [#19162](https://github.com/storybooks/storybook/pull/19162)
+- Controls: Generic stories for sorting [#19161](https://github.com/storybooks/storybook/pull/19161)
+- Build: Generic stories for addon-controls [#19149](https://github.com/storybooks/storybook/pull/19149)
+- remove node12 from the matrix [#19147](https://github.com/storybooks/storybook/pull/19147)
+- Build libs/router with ts-up [#19140](https://github.com/storybooks/storybook/pull/19140)
+- Build: Bundle addon-interactions with tsup [#19139](https://github.com/storybooks/storybook/pull/19139)
+- Generic stories for remaining core features [#19118](https://github.com/storybooks/storybook/pull/19118)
+- Add parameter, loader and decorator stories to `lib/store` [#19105](https://github.com/storybooks/storybook/pull/19105)
+- Convert @ts-ignore to @ts-expect-error [#19122](https://github.com/storybooks/storybook/pull/19122)
 
 #### Dependency Upgrades
 
--   Upgrade emotion deps again [#19054](https://github.com/storybooks/storybook/pull/19054)
+- Upgrade emotion deps again [#19054](https://github.com/storybooks/storybook/pull/19054)
 
 ## 7.0.0-alpha.31 (September 7, 2022)
 
 #### Maintenance
 
--   Doc blocks: Update ArgTable Reset button to use IconButton [#19052](https://github.com/storybooks/storybook/pull/19052)
--   UI: Update a handful of icons [#19084](https://github.com/storybooks/storybook/pull/19084)
--   Build: Update to latest nx [#19078](https://github.com/storybooks/storybook/pull/19078)
--   Vite: Fix plugin types [#19095](https://github.com/storybooks/storybook/pull/19095)
+- Doc blocks: Update ArgTable Reset button to use IconButton [#19052](https://github.com/storybooks/storybook/pull/19052)
+- UI: Update a handful of icons [#19084](https://github.com/storybooks/storybook/pull/19084)
+- Build: Update to latest nx [#19078](https://github.com/storybooks/storybook/pull/19078)
+- Vite: Fix plugin types [#19095](https://github.com/storybooks/storybook/pull/19095)
 
 #### Dependency Upgrades
 
--   Chore: Remove unused dependencies in /lib [#19100](https://github.com/storybooks/storybook/pull/19100)
+- Chore: Remove unused dependencies in /lib [#19100](https://github.com/storybooks/storybook/pull/19100)
 
 ## 7.0.0-alpha.30 (September 6, 2022)
 
 #### Bug Fixes
 
--   CLI: Fix include rendererAssets in npm bundle [#19115](https://github.com/storybooks/storybook/pull/19115)
+- CLI: Fix include rendererAssets in npm bundle [#19115](https://github.com/storybooks/storybook/pull/19115)
 
 #### Maintenance
 
--   CLI: remove outdated comment in Angular starter [#19097](https://github.com/storybooks/storybook/pull/19097)
+- CLI: remove outdated comment in Angular starter [#19097](https://github.com/storybooks/storybook/pull/19097)
 
 #### Dependency Upgrades
 
--   Remove deprecated `stable` dependency [#19103](https://github.com/storybooks/storybook/pull/19103)
--   Svelte: Update sveltedoc dependencies [#19111](https://github.com/storybooks/storybook/pull/19111)
--   Deps: Remove core-js from most packages [#19098](https://github.com/storybooks/storybook/pull/19098)
--   Deps: Upgrade react-element-to-jsx-string and react-inspector for React 18 [#19104](https://github.com/storybooks/storybook/pull/19104)
+- Remove deprecated `stable` dependency [#19103](https://github.com/storybooks/storybook/pull/19103)
+- Svelte: Update sveltedoc dependencies [#19111](https://github.com/storybooks/storybook/pull/19111)
+- Deps: Remove core-js from most packages [#19098](https://github.com/storybooks/storybook/pull/19098)
+- Deps: Upgrade react-element-to-jsx-string and react-inspector for React 18 [#19104](https://github.com/storybooks/storybook/pull/19104)
 
 ## 7.0.0-alpha.29 (September 2, 2022)
 
 #### Bug Fixes
 
--   CLI/Vite: Don't add babel dependencies during init [#19088](https://github.com/storybooks/storybook/pull/19088)
--   CLI: Fix sb init to use renderer assets instead of frameworks [#19091](https://github.com/storybooks/storybook/pull/19091)
--   Core: Ensure if a docs render is torndown during preparation, it throws [#19071](https://github.com/storybooks/storybook/pull/19071)
+- CLI/Vite: Don't add babel dependencies during init [#19088](https://github.com/storybooks/storybook/pull/19088)
+- CLI: Fix sb init to use renderer assets instead of frameworks [#19091](https://github.com/storybooks/storybook/pull/19091)
+- Core: Ensure if a docs render is torndown during preparation, it throws [#19071](https://github.com/storybooks/storybook/pull/19071)
 
 #### Maintenance
 
--   Addon-viewport: Move stories into addon [#19086](https://github.com/storybooks/storybook/pull/19086)
--   Addon-backgrounds: Move stories into addon [#19085](https://github.com/storybooks/storybook/pull/19085)
--   Addon-actions: Move stories into addon [#19082](https://github.com/storybooks/storybook/pull/19082)
--   Build: Exit yarn bootstrap with nonzero code if failed [#19089](https://github.com/storybooks/storybook/pull/19089)
--   Vite: cleanup custom plugins [#19087](https://github.com/storybooks/storybook/pull/19087)
--   Build: Prefix generic addon stories in sandbox storybooks [#19092](https://github.com/storybooks/storybook/pull/19092)
+- Addon-viewport: Move stories into addon [#19086](https://github.com/storybooks/storybook/pull/19086)
+- Addon-backgrounds: Move stories into addon [#19085](https://github.com/storybooks/storybook/pull/19085)
+- Addon-actions: Move stories into addon [#19082](https://github.com/storybooks/storybook/pull/19082)
+- Build: Exit yarn bootstrap with nonzero code if failed [#19089](https://github.com/storybooks/storybook/pull/19089)
+- Vite: cleanup custom plugins [#19087](https://github.com/storybooks/storybook/pull/19087)
+- Build: Prefix generic addon stories in sandbox storybooks [#19092](https://github.com/storybooks/storybook/pull/19092)
 
 ## 7.0.0-alpha.28 (September 2, 2022)
 
 #### Features
 
--   Vite: Automatically use vite.config.js [#19026](https://github.com/storybooks/storybook/pull/19026)
+- Vite: Automatically use vite.config.js [#19026](https://github.com/storybooks/storybook/pull/19026)
 
 #### Bug Fixes
 
--   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
--   Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
--   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+- CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+- Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
+- Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
 
 #### Maintenance
 
--   Update to new TS reference format (?) [#19072](https://github.com/storybooks/storybook/pull/19072)
--   Build: Conditionally force vite rebuilds in sandbox [#19063](https://github.com/storybooks/storybook/pull/19063)
--   Build: Fix CRA bench [#19066](https://github.com/storybooks/storybook/pull/19066)
+- Update to new TS reference format (?) [#19072](https://github.com/storybooks/storybook/pull/19072)
+- Build: Conditionally force vite rebuilds in sandbox [#19063](https://github.com/storybooks/storybook/pull/19063)
+- Build: Fix CRA bench [#19066](https://github.com/storybooks/storybook/pull/19066)
 
 ## 7.0.0-alpha.27 (August 31, 2022)
 
 #### Features
 
--   Vite: Set `resolve.preserveSymlinks` based on env vars [#19039](https://github.com/storybooks/storybook/pull/19039)
+- Vite: Set `resolve.preserveSymlinks` based on env vars [#19039](https://github.com/storybooks/storybook/pull/19039)
 
 #### Bug Fixes
 
--   Core: Restore `/preview` etc package exports; return unresolved path from presets. [#19045](https://github.com/storybooks/storybook/pull/19045)
+- Core: Restore `/preview` etc package exports; return unresolved path from presets. [#19045](https://github.com/storybooks/storybook/pull/19045)
 
 #### Maintenance
 
--   Core: Add previewHead and previewBody to StorybookConfig interface [#19047](https://github.com/storybooks/storybook/pull/19047)
--   Build: Fix the sb-bench CI step [#19029](https://github.com/storybooks/storybook/pull/19029)
--   Remove sandbox from `.ignore` [#19040](https://github.com/storybooks/storybook/pull/19040)
--   Build: Use new test runner with builtin junit [#19028](https://github.com/storybooks/storybook/pull/19028)
+- Core: Add previewHead and previewBody to StorybookConfig interface [#19047](https://github.com/storybooks/storybook/pull/19047)
+- Build: Fix the sb-bench CI step [#19029](https://github.com/storybooks/storybook/pull/19029)
+- Remove sandbox from `.ignore` [#19040](https://github.com/storybooks/storybook/pull/19040)
+- Build: Use new test runner with builtin junit [#19028](https://github.com/storybooks/storybook/pull/19028)
 
 #### Dependency Upgrades
 
--   Vite: Clean up framework dependencies / unused files [#19035](https://github.com/storybooks/storybook/pull/19035)
+- Vite: Clean up framework dependencies / unused files [#19035](https://github.com/storybooks/storybook/pull/19035)
 
 ## 7.0.0-alpha.26 (August 26, 2022)
 
 #### Features
 
--   CLI: Add react, vue3, and svelte vite to new-frameworks automigration [#19016](https://github.com/storybooks/storybook/pull/19016)
--   Svelte: Add svelte-vite framework [#18978](https://github.com/storybooks/storybook/pull/18978)
+- CLI: Add react, vue3, and svelte vite to new-frameworks automigration [#19016](https://github.com/storybooks/storybook/pull/19016)
+- Svelte: Add svelte-vite framework [#18978](https://github.com/storybooks/storybook/pull/18978)
 
 #### Bug Fixes
 
--   Core: Fix default story glob [#19018](https://github.com/storybooks/storybook/pull/19018)
+- Core: Fix default story glob [#19018](https://github.com/storybooks/storybook/pull/19018)
 
 #### Dependency Upgrades
 
--   React-vite: update/cleanup dependencies [#19025](https://github.com/storybooks/storybook/pull/19025)
--   Remove babel-loader from core-common [#19022](https://github.com/storybooks/storybook/pull/19022)
+- React-vite: update/cleanup dependencies [#19025](https://github.com/storybooks/storybook/pull/19025)
+- Remove babel-loader from core-common [#19022](https://github.com/storybooks/storybook/pull/19022)
 
 ## 7.0.0-alpha.25 (August 25, 2022)
 
 #### Features
 
--   Vite: Add builder-vite, react-vite, and vue3-vite [#19007](https://github.com/storybooks/storybook/pull/19007)
+- Vite: Add builder-vite, react-vite, and vue3-vite [#19007](https://github.com/storybooks/storybook/pull/19007)
 
 #### Maintenance
 
--   CI: use runner with playwright installed for cra_bench [#18951](https://github.com/storybooks/storybook/pull/18951)
--   Replace rollup-plugin-node-polyfills to analogs [#18975](https://github.com/storybooks/storybook/pull/18975)
+- CI: use runner with playwright installed for cra_bench [#18951](https://github.com/storybooks/storybook/pull/18951)
+- Replace rollup-plugin-node-polyfills to analogs [#18975](https://github.com/storybooks/storybook/pull/18975)
 
 ## 7.0.0-alpha.24 (August 24, 2022)
 
 #### Breaking changes
 
--   Preview: Rename Storybook DOM root IDs [#10638](https://github.com/storybooks/storybook/pull/10638)
+- Preview: Rename Storybook DOM root IDs [#10638](https://github.com/storybooks/storybook/pull/10638)
 
 #### Features
 
--   Interactions: Add `step` function and support multiple levels of nesting [#18555](https://github.com/storybooks/storybook/pull/18555)
+- Interactions: Add `step` function and support multiple levels of nesting [#18555](https://github.com/storybooks/storybook/pull/18555)
 
 #### Bug Fixes
 
--   Addon-docs: Fix canvas support expand code for non-story [#18808](https://github.com/storybooks/storybook/pull/18808)
--   Components: Avoid including line numbers when copying the code [#18725](https://github.com/storybooks/storybook/pull/18725)
--   Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
--   Core: Fix frameworkOptions preset [#18979](https://github.com/storybooks/storybook/pull/18979)
+- Addon-docs: Fix canvas support expand code for non-story [#18808](https://github.com/storybooks/storybook/pull/18808)
+- Components: Avoid including line numbers when copying the code [#18725](https://github.com/storybooks/storybook/pull/18725)
+- Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
+- Core: Fix frameworkOptions preset [#18979](https://github.com/storybooks/storybook/pull/18979)
 
 #### Maintenance
 
--   Addon-a11y: Remove achromatomaly color filter [#18852](https://github.com/storybooks/storybook/pull/18852)
--   Build: Use ts-up to build core-webpack [#18912](https://github.com/storybooks/storybook/pull/18912)
--   Build: Use ts-up to build addon-viewport [#18943](https://github.com/storybooks/storybook/pull/18943)
--   Build: Improve generate-repros-next [#19001](https://github.com/storybooks/storybook/pull/19001)
--   Examples: Remove refs in angular example [#18986](https://github.com/storybooks/storybook/pull/18986)
--   Build: Use ts-up to build client-logger [#18893](https://github.com/storybooks/storybook/pull/18893)
--   Generate-repros: Run local registry on `--local-registry` option [#18997](https://github.com/storybooks/storybook/pull/18997)
--   Build: Remove unused bootstrap --cleanup [#18981](https://github.com/storybooks/storybook/pull/18981)
--   CLI: Fix local repro publishing [#18977](https://github.com/storybooks/storybook/pull/18977)
--   Build: Run verdaccio on 6001 to enable web UI [#18983](https://github.com/storybooks/storybook/pull/18983)
--   CLI: determine whether to add interactive stories from `renderer` rather than `framework` [#18968](https://github.com/storybooks/storybook/pull/18968)
--   CLI: Auto-accept migrations when running `generate-repros-next` [#18969](https://github.com/storybooks/storybook/pull/18969)
+- Addon-a11y: Remove achromatomaly color filter [#18852](https://github.com/storybooks/storybook/pull/18852)
+- Build: Use ts-up to build core-webpack [#18912](https://github.com/storybooks/storybook/pull/18912)
+- Build: Use ts-up to build addon-viewport [#18943](https://github.com/storybooks/storybook/pull/18943)
+- Build: Improve generate-repros-next [#19001](https://github.com/storybooks/storybook/pull/19001)
+- Examples: Remove refs in angular example [#18986](https://github.com/storybooks/storybook/pull/18986)
+- Build: Use ts-up to build client-logger [#18893](https://github.com/storybooks/storybook/pull/18893)
+- Generate-repros: Run local registry on `--local-registry` option [#18997](https://github.com/storybooks/storybook/pull/18997)
+- Build: Remove unused bootstrap --cleanup [#18981](https://github.com/storybooks/storybook/pull/18981)
+- CLI: Fix local repro publishing [#18977](https://github.com/storybooks/storybook/pull/18977)
+- Build: Run verdaccio on 6001 to enable web UI [#18983](https://github.com/storybooks/storybook/pull/18983)
+- CLI: determine whether to add interactive stories from `renderer` rather than `framework` [#18968](https://github.com/storybooks/storybook/pull/18968)
+- CLI: Auto-accept migrations when running `generate-repros-next` [#18969](https://github.com/storybooks/storybook/pull/18969)
 
 ## 7.0.0-alpha.23 (August 18, 2022)
 
 #### Features
 
--   UI: Polish canvas and sidebar for 7.0 [#18894](https://github.com/storybooks/storybook/pull/18894)
+- UI: Polish canvas and sidebar for 7.0 [#18894](https://github.com/storybooks/storybook/pull/18894)
 
 #### Maintenance
 
--   Sandbox: Add ability to run from local repro [#18950](https://github.com/storybooks/storybook/pull/18950)
--   Repros: Add ability to generate repros using local registry [#18948](https://github.com/storybooks/storybook/pull/18948)
--   CLI: Move write/read package json into JsPackageManager [#18942](https://github.com/storybooks/storybook/pull/18942)
-
+- Sandbox: Add ability to run from local repro [#18950](https://github.com/storybooks/storybook/pull/18950)
+- Repros: Add ability to generate repros using local registry [#18948](https://github.com/storybooks/storybook/pull/18948)
+- CLI: Move write/read package json into JsPackageManager [#18942](https://github.com/storybooks/storybook/pull/18942)
 
 ## 7.0.0-alpha.22 (August 18, 2022)
 
@@ -242,111 +289,111 @@ Failed publish to npm
 
 #### Maintenance
 
--   UI: Update every icon for v7 design [#18809](https://github.com/storybooks/storybook/pull/18809)
+- UI: Update every icon for v7 design [#18809](https://github.com/storybooks/storybook/pull/18809)
 
 ## 7.0.0-alpha.20 (August 16, 2022)
 
 #### Features
 
--   CLI: Automigration for new frameworks [#18919](https://github.com/storybooks/storybook/pull/18919)
+- CLI: Automigration for new frameworks [#18919](https://github.com/storybooks/storybook/pull/18919)
 
 #### Bug Fixes
 
--   UI: Fix the order of addons appearing in prebuilt manager [#18918](https://github.com/storybooks/storybook/pull/18918)
+- UI: Fix the order of addons appearing in prebuilt manager [#18918](https://github.com/storybooks/storybook/pull/18918)
 
 #### Maintenance
 
--   Exit sandbox gracefully on cancel [#18936](https://github.com/storybooks/storybook/pull/18936)
--   Disable telemetry in monorepo and CI [#18935](https://github.com/storybooks/storybook/pull/18935)
--   Convert cypress e2e tests to playwright [#18932](https://github.com/storybooks/storybook/pull/18932)
--   CI: Refactor to use tasks [#18922](https://github.com/storybooks/storybook/pull/18922)
--   Angular: Add renderer components / stories [#18934](https://github.com/storybooks/storybook/pull/18934)
--   Examples: Add angular repro template and refactor [#18931](https://github.com/storybooks/storybook/pull/18931)
+- Exit sandbox gracefully on cancel [#18936](https://github.com/storybooks/storybook/pull/18936)
+- Disable telemetry in monorepo and CI [#18935](https://github.com/storybooks/storybook/pull/18935)
+- Convert cypress e2e tests to playwright [#18932](https://github.com/storybooks/storybook/pull/18932)
+- CI: Refactor to use tasks [#18922](https://github.com/storybooks/storybook/pull/18922)
+- Angular: Add renderer components / stories [#18934](https://github.com/storybooks/storybook/pull/18934)
+- Examples: Add angular repro template and refactor [#18931](https://github.com/storybooks/storybook/pull/18931)
 
 ## 7.0.0-alpha.19 (August 12, 2022)
 
 #### Features
 
--   CLI: add "storybook scripts 7.0" automigrate command [#18769](https://github.com/storybooks/storybook/pull/18769)
--   Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
+- CLI: add "storybook scripts 7.0" automigrate command [#18769](https://github.com/storybooks/storybook/pull/18769)
+- Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
 
 #### Bug Fixes
 
--   API: Return defaultValue in useParameter if story is not prepared [#18887](https://github.com/storybooks/storybook/pull/18887)
--   Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
--   CLI: install the same version as the user in sb-scripts automigration [#18917](https://github.com/storybooks/storybook/pull/18917)
--   Theming: Add `create` export for lib/theming [#18906](https://github.com/storybooks/storybook/pull/18906)
--   Telemetry: Improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
--   UI: Add image support to builder-manager [#18857](https://github.com/storybooks/storybook/pull/18857)
--   ArgTypes: Fix check for undefined before [#18710](https://github.com/storybooks/storybook/pull/18710)
+- API: Return defaultValue in useParameter if story is not prepared [#18887](https://github.com/storybooks/storybook/pull/18887)
+- Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
+- CLI: install the same version as the user in sb-scripts automigration [#18917](https://github.com/storybooks/storybook/pull/18917)
+- Theming: Add `create` export for lib/theming [#18906](https://github.com/storybooks/storybook/pull/18906)
+- Telemetry: Improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
+- UI: Add image support to builder-manager [#18857](https://github.com/storybooks/storybook/pull/18857)
+- ArgTypes: Fix check for undefined before [#18710](https://github.com/storybooks/storybook/pull/18710)
 
 #### Maintenance
 
--   Build: use ts-up to build addon-toolbars [#18847](https://github.com/storybooks/storybook/pull/18847)
--   Build: Use ts-up to build channels [#18882](https://github.com/storybooks/storybook/pull/18882)
--   Build: Use ts-up to build addon-links [#18908](https://github.com/storybooks/storybook/pull/18908)
--   CLI: Fix remove dependencies logic [#18905](https://github.com/storybooks/storybook/pull/18905)
--   CLI: Add uninstall deps to jsPackageManager [#18900](https://github.com/storybooks/storybook/pull/18900)
--   Examples: Improve sandbox command error handling and debugging [#18869](https://github.com/storybooks/storybook/pull/18869)
--   Examples: Change to self-hosted placeholder images [#18878](https://github.com/storybooks/storybook/pull/18878)
--   CLI: add --no-init to repro-next command [#18866](https://github.com/storybooks/storybook/pull/18866)
--   Build: Got verdaccio working, borrowing heavily from the old repro command [#18844](https://github.com/storybooks/storybook/pull/18844)
--   Core-server: Move webpack to be a devDependency [#18856](https://github.com/storybooks/storybook/pull/18856)
+- Build: use ts-up to build addon-toolbars [#18847](https://github.com/storybooks/storybook/pull/18847)
+- Build: Use ts-up to build channels [#18882](https://github.com/storybooks/storybook/pull/18882)
+- Build: Use ts-up to build addon-links [#18908](https://github.com/storybooks/storybook/pull/18908)
+- CLI: Fix remove dependencies logic [#18905](https://github.com/storybooks/storybook/pull/18905)
+- CLI: Add uninstall deps to jsPackageManager [#18900](https://github.com/storybooks/storybook/pull/18900)
+- Examples: Improve sandbox command error handling and debugging [#18869](https://github.com/storybooks/storybook/pull/18869)
+- Examples: Change to self-hosted placeholder images [#18878](https://github.com/storybooks/storybook/pull/18878)
+- CLI: add --no-init to repro-next command [#18866](https://github.com/storybooks/storybook/pull/18866)
+- Build: Got verdaccio working, borrowing heavily from the old repro command [#18844](https://github.com/storybooks/storybook/pull/18844)
+- Core-server: Move webpack to be a devDependency [#18856](https://github.com/storybooks/storybook/pull/18856)
 
 ## 7.0.0-alpha.18 (August 2, 2022)
 
 #### Features
 
--   CLI: Add temporary sb repro-next command that only degits repros [#18834](https://github.com/storybooks/storybook/pull/18834)
--   Interactions: Add step function to play context [#18673](https://github.com/storybooks/storybook/pull/18673)
--   UI: Add preloading to stories highlighted in the sidebar [#17964](https://github.com/storybooks/storybook/pull/17964)
+- CLI: Add temporary sb repro-next command that only degits repros [#18834](https://github.com/storybooks/storybook/pull/18834)
+- Interactions: Add step function to play context [#18673](https://github.com/storybooks/storybook/pull/18673)
+- UI: Add preloading to stories highlighted in the sidebar [#17964](https://github.com/storybooks/storybook/pull/17964)
 
 #### Bug Fixes
 
--   UI: Fix refs with authentication being broken if the fetch for `iframe.html` succeeds (but with a request to authenticate) [#18160](https://github.com/storybooks/storybook/pull/18160)
--   HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
--   React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
--   CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
--   CLI: Fix package.json version detection [#18806](https://github.com/storybooks/storybook/pull/18806)
+- UI: Fix refs with authentication being broken if the fetch for `iframe.html` succeeds (but with a request to authenticate) [#18160](https://github.com/storybooks/storybook/pull/18160)
+- HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
+- React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
+- CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
+- CLI: Fix package.json version detection [#18806](https://github.com/storybooks/storybook/pull/18806)
 
 #### Maintenance
 
--   Build: Use ts-up to build `addon-outline` [#18842](https://github.com/storybooks/storybook/pull/18842)
--   Core: Fix default framework options handling [#18676](https://github.com/storybooks/storybook/pull/18676)
--   Build: Use tsup to build `addon-measure` and fix related imports in `examples/official-storybook` [#18837](https://github.com/storybooks/storybook/pull/18837)
--   Build: Use tsup to build addon-jest [#18836](https://github.com/storybooks/storybook/pull/18836)
--   Examples: Use `repro-next` in the example script! [#18839](https://github.com/storybooks/storybook/pull/18839)
--   Examples: Rename `example` => `sandbox` [#18838](https://github.com/storybooks/storybook/pull/18838)
--   Examples: Use a set of test components in addon stories [#18825](https://github.com/storybooks/storybook/pull/18825)
--   Examples: Copy example stories over from renderer + addons [#18824](https://github.com/storybooks/storybook/pull/18824)
--   Examples: Set `resolve.symlinks` based on node option [#18827](https://github.com/storybooks/storybook/pull/18827)
--   Examples: Add command to publish repros + GH action [#18800](https://github.com/storybooks/storybook/pull/18800)
--   Examples: Create a new `yarn example` command [#18781](https://github.com/storybooks/storybook/pull/18781)
--   Build: Fix yarn build command [#18817](https://github.com/storybooks/storybook/pull/18817)
--   Build: Use tsup to build core-event [#18798](https://github.com/storybooks/storybook/pull/18798)
+- Build: Use ts-up to build `addon-outline` [#18842](https://github.com/storybooks/storybook/pull/18842)
+- Core: Fix default framework options handling [#18676](https://github.com/storybooks/storybook/pull/18676)
+- Build: Use tsup to build `addon-measure` and fix related imports in `examples/official-storybook` [#18837](https://github.com/storybooks/storybook/pull/18837)
+- Build: Use tsup to build addon-jest [#18836](https://github.com/storybooks/storybook/pull/18836)
+- Examples: Use `repro-next` in the example script! [#18839](https://github.com/storybooks/storybook/pull/18839)
+- Examples: Rename `example` => `sandbox` [#18838](https://github.com/storybooks/storybook/pull/18838)
+- Examples: Use a set of test components in addon stories [#18825](https://github.com/storybooks/storybook/pull/18825)
+- Examples: Copy example stories over from renderer + addons [#18824](https://github.com/storybooks/storybook/pull/18824)
+- Examples: Set `resolve.symlinks` based on node option [#18827](https://github.com/storybooks/storybook/pull/18827)
+- Examples: Add command to publish repros + GH action [#18800](https://github.com/storybooks/storybook/pull/18800)
+- Examples: Create a new `yarn example` command [#18781](https://github.com/storybooks/storybook/pull/18781)
+- Build: Fix yarn build command [#18817](https://github.com/storybooks/storybook/pull/18817)
+- Build: Use tsup to build core-event [#18798](https://github.com/storybooks/storybook/pull/18798)
 
 ## 7.0.0-alpha.17 (July 27, 2022)
 
 #### Features
 
--   Addon-docs: Support DocsPage in v6 store [#18763](https://github.com/storybooks/storybook/pull/18763)
+- Addon-docs: Support DocsPage in v6 store [#18763](https://github.com/storybooks/storybook/pull/18763)
 
 #### Bug Fixes
 
--   Preact: Typescript pragma fix [#15564](https://github.com/storybooks/storybook/pull/15564)
--   Core: Clear addon cache directory before starting the manager [#18731](https://github.com/storybooks/storybook/pull/18731)
--   UI: Pass full docs options to manager [#18762](https://github.com/storybooks/storybook/pull/18762)
--   Preview: Fix standalone MDX files not HMR-ing [#18747](https://github.com/storybooks/storybook/pull/18747)
+- Preact: Typescript pragma fix [#15564](https://github.com/storybooks/storybook/pull/15564)
+- Core: Clear addon cache directory before starting the manager [#18731](https://github.com/storybooks/storybook/pull/18731)
+- UI: Pass full docs options to manager [#18762](https://github.com/storybooks/storybook/pull/18762)
+- Preview: Fix standalone MDX files not HMR-ing [#18747](https://github.com/storybooks/storybook/pull/18747)
 
 #### Maintenance
 
--   CLI: Add next-repro command [#18787](https://github.com/storybooks/storybook/pull/18787)
--   Build: Remove old scripts that are no longer used [#18790](https://github.com/storybooks/storybook/pull/18790)
--   Build: Addon-backgrounds with ts-up [#18784](https://github.com/storybooks/storybook/pull/18784)
--   Build: Addon-controls with tsup [#18786](https://github.com/storybooks/storybook/pull/18786)
--   Build: Use updated circleci node images [#18785](https://github.com/storybooks/storybook/pull/18785)
--   Build: Move all code into a `code` directory [#18759](https://github.com/storybooks/storybook/pull/18759)
--   Build: Lint css, html, json, md, mdx, yml files [#18735](https://github.com/storybooks/storybook/pull/18735)
+- CLI: Add next-repro command [#18787](https://github.com/storybooks/storybook/pull/18787)
+- Build: Remove old scripts that are no longer used [#18790](https://github.com/storybooks/storybook/pull/18790)
+- Build: Addon-backgrounds with ts-up [#18784](https://github.com/storybooks/storybook/pull/18784)
+- Build: Addon-controls with tsup [#18786](https://github.com/storybooks/storybook/pull/18786)
+- Build: Use updated circleci node images [#18785](https://github.com/storybooks/storybook/pull/18785)
+- Build: Move all code into a `code` directory [#18759](https://github.com/storybooks/storybook/pull/18759)
+- Build: Lint css, html, json, md, mdx, yml files [#18735](https://github.com/storybooks/storybook/pull/18735)
 
 ## 7.0.0-alpha.16 (July 25, 2022)
 

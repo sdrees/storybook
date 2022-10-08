@@ -5,7 +5,7 @@ import { PreviewWeb } from '@storybook/preview-web';
 import type { AnyFramework, ArgsStoryFn } from '@storybook/csf';
 import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
-import Events from '@storybook/core-events';
+import { FORCE_RE_RENDER } from '@storybook/core-events';
 import type { Path, WebProjectAnnotations } from '@storybook/store';
 
 import { Loadable } from './types';
@@ -24,16 +24,45 @@ const removedApi = (name: string) => () => {
   throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
 };
 
+interface RendererImplementation<TFramework extends AnyFramework> {
+  decorateStory?: WebProjectAnnotations<TFramework>['applyDecorators'];
+  render?: ArgsStoryFn<TFramework>;
+}
+
+interface ClientAPIFacade {
+  /* deprecated */
+  addDecorator: (...args: any[]) => never;
+  /* deprecated */
+  addParameters: (...args: any[]) => never;
+  /* deprecated */
+  clearDecorators: (...args: any[]) => never;
+  /* deprecated */
+  addLoader: (...args: any[]) => never;
+  /* deprecated */
+  setAddon: (...args: any[]) => never;
+  /* deprecated */
+  getStorybook: (...args: any[]) => never;
+  /* deprecated */
+  storiesOf: (...args: any[]) => never;
+  /* deprecated */
+  raw: (...args: any[]) => never;
+}
+
+interface StartReturnValue<TFramework extends AnyFramework> {
+  /* deprecated */
+  forceReRender: () => void;
+  /* deprecated */
+  getStorybook: any;
+  /* deprecated */
+  configure: any;
+  /* deprecated */
+  clientApi: ClientApi<TFramework> | ClientAPIFacade;
+}
+
 export function start<TFramework extends AnyFramework>(
   renderToDOM: WebProjectAnnotations<TFramework>['renderToDOM'],
-  {
-    decorateStory,
-    render,
-  }: {
-    decorateStory?: WebProjectAnnotations<TFramework>['applyDecorators'];
-    render?: ArgsStoryFn<TFramework>;
-  } = {}
-) {
+  { decorateStory, render }: RendererImplementation<TFramework> = {}
+): StartReturnValue<TFramework> {
   if (globalWindow) {
     // To enable user code to detect if it is running in Storybook
     globalWindow.IS_STORYBOOK = true;
@@ -84,9 +113,8 @@ export function start<TFramework extends AnyFramework>(
   }
 
   return {
-    forceReRender: () => channel.emit(Events.FORCE_RE_RENDER),
+    forceReRender: () => channel.emit(FORCE_RE_RENDER),
     getStorybook: (): void[] => [],
-    raw: (): void => {},
 
     clientApi,
     // This gets called each time the user calls configure (i.e. once per HMR)

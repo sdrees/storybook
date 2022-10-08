@@ -6,7 +6,6 @@
     - [2a. Run unit tests](#2a-run-unit-tests)
       - [Core & Examples Tests](#core--examples-tests)
     - [2b. Run Linter](#2b-run-linter)
-  - [2c. Run Cypress tests](#2c-run-cypress-tests)
   - [Reproductions](#reproductions)
     - [In the monorepo](#in-the-monorepo)
     - [Outside the monorepo](#outside-the-monorepo)
@@ -32,8 +31,8 @@
     - [Verify your local version is working](#verify-your-local-version-is-working)
   - [Documentation](#documentation)
 - [Release Guide](#release-guide)
-  - [Prerelease:](#prerelease)
-  - [Full release:](#full-release)
+    - [Prerelease:](#prerelease)
+    - [Full release:](#full-release)
 
 Thanks for your interest in improving Storybook! We are a community-driven project and welcome contributions of all kinds: from discussion to documentation to bugfixes to feature improvements.
 
@@ -128,18 +127,6 @@ It can be immensely helpful to get feedback in your editor, if you're using VsCo
 ```
 
 This should enable auto-fix for all source files, and give linting warnings and errors within your editor.
-
-### 2c. Run Cypress tests
-
-First make sure the repo is bootstrapped.
-
-Then run `yarn build-storybooks --all`, this creates a static website from all examples.
-
-Then run `yarn serve-storybooks`, this will run the static site on the port cypress expects.
-
-Then run `yarn add cypress -W --optional`. When this has completed cypress should be installed on your system. If it is already on your system, this step can be skipped.
-
-Then run `yarn cypress open` if you want to see the tests run in the UI, or `yarn cypress run` to run the tests headless.
 
 ### Reproductions
 

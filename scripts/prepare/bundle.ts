@@ -5,6 +5,7 @@ import path, { join } from 'path';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
+import slash from 'slash';
 import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
@@ -54,7 +55,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([
     build({
-      entry: entries.map((e: string) => join(cwd, e)),
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       outDir: join(process.cwd(), 'dist'),
@@ -101,7 +102,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
     build({
-      entry: entries.map((e: string) => join(cwd, e)),
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       outDir: join(process.cwd(), 'dist'),
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),

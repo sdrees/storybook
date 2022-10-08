@@ -7,7 +7,6 @@ import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
 
 import { getTemplatesData, renderTemplate } from './utils/template';
 import { commitAllToGit } from './utils/git';
-import { promiseImpl } from 'ejs';
 
 export const logger = console;
 

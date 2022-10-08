@@ -377,6 +377,7 @@ const Wrapper = styled.section(({ theme }) => ({
   alignItems: 'center',
   width: 450,
   padding: 32,
+  color: theme.color.defaultText,
   backgroundColor: theme.background.content,
   borderRadius: 7,
 }));
@@ -540,7 +541,7 @@ const Button = styled.button<ButtonProps>({
 const Submit = styled(Button)(({ theme, dirty }) => ({
   marginRight: 8,
   backgroundColor: theme.color.secondary,
-  color: theme.color.inverseText,
+  color: theme.color.lightest,
   opacity: dirty ? 1 : 0.6,
   boxShadow: 'rgb(30 167 253 / 10%) 0 0 0 1px inset',
 }));

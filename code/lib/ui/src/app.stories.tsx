@@ -3,6 +3,7 @@ import React from 'react';
 import { Provider as ManagerProvider } from '@storybook/api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
+import { styled } from '@storybook/theming';
 import App from './app';
 import { PrettyFakeProvider, FakeProvider } from './FakeProvider';
 
@@ -16,12 +17,26 @@ export default {
     (StoryFn) => (
       <HelmetProvider key="helmet.Provider">
         <LocationProvider>
-          <StoryFn />
+          <ThemeStack>
+            <StoryFn />
+          </ThemeStack>
         </LocationProvider>
       </HelmetProvider>
     ),
   ],
 };
+
+const ThemeStack = styled.div(
+  {
+    position: 'relative',
+    minHeight: '50vh',
+    height: '100%',
+  },
+  ({ theme }) => ({
+    background: theme.background.app,
+    color: theme.color.defaultText,
+  })
+);
 
 export const Default = () => (
   <ManagerProvider

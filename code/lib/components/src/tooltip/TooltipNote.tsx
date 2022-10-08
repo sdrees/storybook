@@ -12,7 +12,7 @@ const Note = styled.div(({ theme }) => ({
   whiteSpace: 'nowrap',
   pointerEvents: 'none',
   zIndex: -1,
-  background: theme.base === 'light' ? 'rgba(60, 60, 60, 0.9)' : 'rgba(20, 20, 20, 0.85)',
+  background: theme.base === 'light' ? 'rgba(60, 60, 60, 0.9)' : 'rgba(0, 0, 0, 0.95)',
   margin: 6,
 }));
 

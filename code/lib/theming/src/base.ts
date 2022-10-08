@@ -3,9 +3,9 @@ import { transparentize } from 'polished';
 export const color = {
   // Official color palette
   primary: '#FF4785', // coral
-  secondary: '#1EA7FD', // ocean
+  secondary: '#029CFD', // ocean
   tertiary: '#FAFBFC',
-  ancillary: '#22a699', // for code
+  ancillary: '#22a699',
 
   // Complimentary
   orange: '#FC521F',
@@ -17,17 +17,17 @@ export const color = {
 
   // Monochrome
   lightest: '#FFFFFF',
-  lighter: '#F8F8F8',
-  light: '#F3F3F3',
-  mediumlight: '#EEEEEE',
-  medium: '#DDDDDD',
-  mediumdark: '#999999',
-  dark: '#666666',
-  darker: '#444444',
-  darkest: '#333333',
+  lighter: '#F7FAFC',
+  light: '#EEF3F6',
+  mediumlight: '#ECF4F9',
+  medium: '#D9E8F2',
+  mediumdark: '#73828C',
+  dark: '#5C6870',
+  darker: '#454E54',
+  darkest: '#2E3438',
 
   // For borders
-  border: 'rgba(0,0,0,.1)',
+  border: 'hsla(203, 50%, 30%, 0.2)',
 
   // Status
   positive: '#66BF3C',
@@ -35,13 +35,17 @@ export const color = {
   warning: '#E69D00',
   critical: '#FFFFFF',
 
-  defaultText: '#333333',
+  // Text
+  defaultText: '#2E3438',
   inverseText: '#FFFFFF',
+  positiveText: '#448028',
+  negativeText: '#D43900',
+  warningText: '#A15C20',
 };
 
 export const background = {
-  app: '#F6F9FC',
-  bar: '#FFFFFF',
+  app: '#F5FBFF',
+  bar: color.lightest,
   content: color.lightest,
   gridCellSize: 10,
   hoverable: transparentize(0.93, color.secondary), // hover state for items in a list

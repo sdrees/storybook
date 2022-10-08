@@ -131,7 +131,7 @@ storiesOf('Basics/Form/Input', module)
     <Spaced>
       {['auto', 'flex', '100%'].map((size) => (
         <Flexed key={size} label={size}>
-          <Input defaultValue="text" size={size} />
+          <Input placeholder="Placeholder" defaultValue="test" size={size} />
         </Flexed>
       ))}
     </Spaced>

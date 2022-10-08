@@ -59,7 +59,7 @@ const SwatchColor = styled.div<{ active: boolean }>(({ theme, active }) => ({
   width: 16,
   height: 16,
   boxShadow: active
-    ? `${theme.appBorderColor} 0 0 0 1px inset, ${theme.color.mediumdark}50 0 0 0 4px`
+    ? `${theme.appBorderColor} 0 0 0 1px inset, ${theme.textMutedColor}50 0 0 0 4px`
     : `${theme.appBorderColor} 0 0 0 1px inset`,
   borderRadius: theme.appBorderRadius,
 }));

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
+import { transparentize } from 'polished';
 
 const BadgeWrapper = styled.div<BadgeProps>(
   ({ theme }) => ({
@@ -33,26 +34,42 @@ const BadgeWrapper = styled.div<BadgeProps>(
       }
       case 'negative': {
         return {
-          color: theme.color.negative,
+          color: theme.color.negativeText,
           background: theme.background.negative,
+          boxShadow:
+            theme.base === 'light'
+              ? `inset 0 0 0 1px ${transparentize(0.9, theme.color.negativeText)}`
+              : 'none',
         };
       }
       case 'warning': {
         return {
-          color: theme.color.warning,
+          color: theme.color.warningText,
           background: theme.background.warning,
+          boxShadow:
+            theme.base === 'light'
+              ? `inset 0 0 0 1px ${transparentize(0.9, theme.color.warningText)}`
+              : 'none',
         };
       }
       case 'neutral': {
         return {
           color: theme.color.dark,
           background: theme.color.mediumlight,
+          boxShadow:
+            theme.base === 'light'
+              ? `inset 0 0 0 1px ${transparentize(0.9, theme.color.dark)}`
+              : 'none',
         };
       }
       case 'positive': {
         return {
-          color: theme.color.positive,
+          color: theme.color.positiveText,
           background: theme.background.positive,
+          boxShadow:
+            theme.base === 'light'
+              ? `inset 0 0 0 1px ${transparentize(0.9, theme.color.positiveText)}`
+              : 'none',
         };
       }
       default: {

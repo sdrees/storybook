@@ -33,14 +33,7 @@ describe('framework-preset-react-docgen', () => {
         overrides: [
           {
             test: /\.(cjs|mjs|tsx?|jsx?)$/,
-            plugins: [
-              [
-                babelPluginReactDocgenPath,
-                {
-                  DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES',
-                },
-              ],
-            ],
+            plugins: [[babelPluginReactDocgenPath]],
           },
         ],
       });

@@ -15,10 +15,7 @@ const Notification = styled.div(({ theme }) => ({
   borderRadius: 4,
   alignItems: 'center',
 
-  background:
-    theme.base === 'light'
-      ? 'rgba(50,53,71,0.97)'
-      : 'linear-gradient(0deg, rgba(248,248,248,0.97) 0%, rgba(247,252,255,0.97) 100%)',
+  background: theme.base === 'light' ? 'hsla(203, 50%, 20%, .97)' : 'hsla(203, 30%, 95%, .97)',
   boxShadow: `0 2px 5px 0 rgba(0,0,0,0.05), 0 5px 15px 0 rgba(0,0,0,0.1)`,
   color: theme.color.inverseText,
   textDecoration: 'none',

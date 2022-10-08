@@ -8,10 +8,10 @@ const sandboxDir = resolve(__dirname, '../sandbox');
 export type Cadence = 'ci' | 'daily' | 'weekly';
 export type Template = {
   cadence?: readonly Cadence[];
-  skipScripts?: string[];
+  skipTasks?: string[];
   // there are other fields but we don't use them here
 };
-export type TemplateKey = string;
+export type TemplateKey = keyof typeof TEMPLATES;
 export type Templates = Record<TemplateKey, Template>;
 
 async function getDirectories(source: string) {
@@ -34,7 +34,7 @@ export async function getTemplate(
           (templateKey) => templateKey.replace('/', '-') === dirName
         );
       })
-      .filter(Boolean);
+      .filter(Boolean) as TemplateKey[];
   }
 
   if (potentialTemplateKeys.length === 0) {
@@ -42,9 +42,12 @@ export async function getTemplate(
     const cadenceTemplates = allTemplates.filter(([, template]) =>
       template.cadence.includes(cadence)
     );
-    const jobTemplates = cadenceTemplates.filter(([, t]) => !t.skipScripts?.includes(scriptName));
-    potentialTemplateKeys = jobTemplates.map(([k]) => k);
+    potentialTemplateKeys = cadenceTemplates.map(([k]) => k) as TemplateKey[];
   }
+
+  potentialTemplateKeys = potentialTemplateKeys.filter(
+    (t) => !(TEMPLATES[t] as Template).skipTasks?.includes(scriptName)
+  );
 
   if (potentialTemplateKeys.length !== total) {
     throw new Error(`Circle parallelism set incorrectly.

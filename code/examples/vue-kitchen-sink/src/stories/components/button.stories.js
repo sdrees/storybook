@@ -22,14 +22,14 @@ Rounded.args = {
   color: '#f00',
   label: 'A Button with rounded edges',
 };
-Rounded.decorators = [
-  (storyFn, context) => {
-    return storyFn({ ...context, args: { ...context.args, label: 'Overridden args' } });
-  },
-  () => ({
-    template: '<div style="background: #eee;"><story/></div>',
-  }),
-];
+// Rounded.decorators = [
+//   (storyFn, context) => {
+//     return storyFn({ ...context, args: { ...context.args, label: 'Overridden args' } });
+//   },
+//   () => ({
+//     template: '<div style="background: #eee;"><story/></div>',
+//   }),
+// ];
 Rounded.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await userEvent.click(canvas.getByRole('button'));

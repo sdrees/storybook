@@ -11,6 +11,8 @@ import {
   setGlobalRender,
 } from './ClientApi';
 
+export type { GetStorybookKind, GetStorybookStory } from './ClientApi';
+
 export * from './types';
 
 export * from './queryparams';
