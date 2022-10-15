@@ -222,14 +222,6 @@ export interface StoryIndex {
   entries: Record<StoryId, IndexEntry>;
 }
 
-const warnLegacyShowRoots = deprecate(
-  () => {},
-  dedent`
-    The 'showRoots' config option is deprecated and will be removed in Storybook 7.0. Use 'sidebar.showRoots' instead.
-    Read more about it in the migration guide: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md
-  `
-);
-
 const warnChangedDefaultHierarchySeparators = deprecate(
   () => {},
   dedent`
@@ -372,12 +364,9 @@ export const transformStoryIndexToStoriesHash = (
   const v4Index = index.v === 4 ? index : transformStoryIndexV3toV4(index as any);
 
   const entryValues = Object.values(v4Index.entries);
-  const { sidebar = {}, showRoots: deprecatedShowRoots } = provider.getConfig();
-  const { showRoots = deprecatedShowRoots, collapsedRoots = [], renderLabel } = sidebar;
+  const { sidebar = {} } = provider.getConfig();
+  const { showRoots, collapsedRoots = [], renderLabel } = sidebar;
   const usesOldHierarchySeparator = entryValues.some(({ title }) => title.match(/\.|\|/)); // dot or pipe
-  if (typeof deprecatedShowRoots !== 'undefined') {
-    warnLegacyShowRoots();
-  }
 
   const setShowRoots = typeof showRoots !== 'undefined';
   if (usesOldHierarchySeparator && !setShowRoots && FEATURES?.warnOnLegacyHierarchySeparator) {

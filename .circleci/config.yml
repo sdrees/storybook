@@ -10,7 +10,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: cimg/node:14.19
+      - image: cimg/node:16.17.1
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -23,7 +23,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: cimg/node:14.19-browsers
+      - image: cimg/node:16.17.1-browsers
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -36,7 +36,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: mcr.microsoft.com/playwright:v1.26.0-focal
+      - image: mcr.microsoft.com/playwright:v1.27.0-focal
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -75,6 +75,22 @@ commands:
             fi
 
 jobs:
+  check:
+    executor:
+      class: xlarge
+      name: sb_node_14_classic
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+      - run:
+          name: Compile
+          command: |
+            yarn task --task check --start-from=auto --no-link --debug
+            git diff --exit-code
   build:
     executor:
       class: xlarge
@@ -85,26 +101,15 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Install dependencies
+          name: Compile
           command: |
-            cd code
-            yarn install --immutable
-      - run:
-          name: Install script dependencies
-          command: |
-            cd scripts
-            yarn install --immutable
-      - run:
-          name: Bootstrap
-          command: |
-            cd code
-            yarn bootstrap --build
+            yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
       - save_cache:
           name: Save Yarn cache
-          key: build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
+          key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
       - persist_to_workspace:
@@ -117,6 +122,7 @@ jobs:
             - code/addons
             - code/frameworks
             - code/lib
+            - code/ui
             - code/renderers
             - code/presets
   chromatic:
@@ -136,7 +142,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 5
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -218,16 +224,16 @@ jobs:
           name: set up cra repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro -t cra --e2e ../cra-bench
+            node ./lib/cli/bin/index.js repro -t cra --e2e ../../cra-bench
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ./cra-bench
+            cd ../cra-bench
             npx -p @storybook/bench@1.0.0--canary.12.7cccdee.0 sb-bench 'echo noop' --label cra
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/sb-bench.tar.gz ./cra-bench
+          command: tar cvzf /tmp/sb-bench.tar.gz ../cra-bench
       - store_artifacts:
           path: /tmp/sb-bench.tar.gz
           destination: sb-bench.tar.gz
@@ -316,7 +322,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -324,19 +330,18 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task create --template $(yarn get-template ci create) --force --no-before --junit
-          working_directory: code
+          command: yarn task --task sandbox --template $(yarn get-template ci create) --no-link --start-from=never --junit
       - persist_to_workspace:
           root: .
           paths:
             - sandbox
       - store_test_results:
-          path: code/test-results
+          path: test-results
   smoke-test-sandboxes:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 11
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -344,15 +349,14 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn task --task smoke-test --template $(yarn get-template ci smoke-test) --force --no-before --junit
-          working_directory: code
+          command: yarn task --task smoke-test --template $(yarn get-template ci smoke-test) --no-link --start-from=never --junit
       - store_test_results:
-          path: code/test-results
+          path: test-results
   build-sandboxes:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -360,10 +364,9 @@ jobs:
           at: .
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template ci build) --force --no-before --junit
-          working_directory: code
+          command: yarn task --task build --template $(yarn get-template ci build) --no-link --start-from=never --junit
       - store_test_results:
-          path: code/test-results
+          path: test-results
       - persist_to_workspace:
           root: .
           paths:
@@ -372,7 +375,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 16
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -380,15 +383,14 @@ jobs:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template ci test-runner) --force --no-before --junit
-          working_directory: code
+          command: yarn task --task test-runner --template $(yarn get-template ci test-runner) --no-link --start-from=never --junit
       - store_test_results:
-          path: code/test-results
+          path: test-results
   chromatic-sandboxes:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -396,15 +398,14 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn task --task chromatic --template $(yarn get-template ci chromatic) --force --no-before --junit
-          working_directory: code
+          command: yarn task --task chromatic --template $(yarn get-template ci chromatic) --no-link --start-from=never --junit
       - store_test_results:
-          path: code/test-results
+          path: test-results
   e2e-sandboxes:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 12
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -412,10 +413,9 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template ci e2e-tests) --force --no-before --junit
-          working_directory: code
+          command: yarn task --task e2e-tests --template $(yarn get-template ci e2e-tests) --no-link --start-from=never --junit
       - store_test_results:
-          path: code/test-results
+          path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/playwright-results/
           destination: playwright
@@ -425,6 +425,9 @@ workflows:
     jobs:
       - build
       - lint:
+          requires:
+            - build
+      - check:
           requires:
             - build
       - examples:
@@ -456,9 +459,9 @@ workflows:
       - create-sandboxes:
           requires:
             - publish
-      - smoke-test-sandboxes:
-          requires:
-            - create-sandboxes
+      # - smoke-test-sandboxes: # disabled for now
+      #     requires:
+      #       - create-sandboxes
       - build-sandboxes:
           requires:
             - create-sandboxes

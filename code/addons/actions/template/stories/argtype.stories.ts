@@ -3,7 +3,7 @@ import globalThis from 'global';
 export default {
   component: globalThis.Components.Button,
   args: {
-    children: 'Click Me!',
+    label: 'Click Me!',
   },
   argTypes: {
     onClick: {},

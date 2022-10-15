@@ -1,0 +1,29 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import globalThis from 'global';
+import * as Csf from './csf-in-mdx.stories.js';
+
+<Meta title="addons/docs/stories-mdx/csf-in-mdx" component={globalThis.Components.Button} />
+
+# Legacy CSF in MDX Stories
+
+This file demonstrates legacy reuse of CSF stories inside MDX. This mechanism has been
+overhauled and improved in 7.0, and the legacy mode is now deprecated and will be
+removed in 8.0.
+
+<Canvas>
+  <Story name="Primary" story={Csf.Primary} />
+</Canvas>
+
+<ArgsTable story="^" />
+
+<Canvas>
+  <Story name="Secondary" story={Csf.Secondary} />
+</Canvas>
+
+## Duplicate stories
+
+Reference story by ID to show it multiple times in a page.
+
+<Canvas>
+  <Story id="addons-docs-stories-mdx-csf-in-mdx--primary" />
+</Canvas>

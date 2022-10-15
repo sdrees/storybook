@@ -1,8 +1,5 @@
 /// <reference types="node" />
 
-import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
-
 export type ChannelHandler = (event: ChannelEvent) => void;
 
 export interface ChannelTransport {
@@ -61,15 +58,6 @@ export class Channel {
     this.events[eventName] = this.events[eventName] || [];
     this.events[eventName].push(listener);
   }
-
-  addPeerListener = deprecate(
-    (eventName: string, listener: Listener) => {
-      this.addListener(eventName, listener);
-    },
-    dedent`
-      channel.addPeerListener is deprecated
-    `
-  );
 
   emit(eventName: string, ...args: any) {
     const event: ChannelEvent = { type: eventName, args, from: this.sender };

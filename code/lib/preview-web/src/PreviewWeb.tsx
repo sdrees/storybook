@@ -3,7 +3,6 @@ import { dedent } from 'ts-dedent';
 import global from 'global';
 import {
   CURRENT_STORY_WAS_SET,
-  IGNORED_EXCEPTION,
   PRELOAD_ENTRIES,
   PREVIEW_KEYDOWN,
   SET_CURRENT_STORY,
@@ -194,7 +193,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     importFn?: ModuleImportFn;
     storyIndex?: StoryIndex;
   }) {
-    super.onStoriesChanged({ importFn, storyIndex });
+    await super.onStoriesChanged({ importFn, storyIndex });
 
     if (!global.FEATURES?.storyStoreV7) {
       this.channel.emit(SET_STORIES, await this.storyStore.getSetStoriesPayload());
@@ -218,7 +217,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
   }
 
-  onSetCurrentStory(selection: { storyId: StoryId; viewMode?: ViewMode }) {
+  async onSetCurrentStory(selection: { storyId: StoryId; viewMode?: ViewMode }) {
+    await this.storyStore.initializationPromise;
+
     this.urlStore.setSelection({ viewMode: 'story', ...selection });
     this.channel.emit(CURRENT_STORY_WAS_SET, this.urlStore.selection);
     this.renderSelection();
@@ -473,7 +474,12 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     this.channel.emit(STORY_RENDER_PHASE_CHANGED, { newPhase: 'errored', storyId });
 
     // Ignored exceptions exist for control flow purposes, and are typically handled elsewhere.
-    if (error !== IGNORED_EXCEPTION) {
+    //
+    // FIXME: Should be '=== IGNORED_EXCEPTION', but currently the object
+    // is coming from two different bundles (index.js vs index.mjs)
+    //
+    // https://github.com/storybookjs/storybook/issues/19321
+    if (!error.message?.startsWith('ignoredException')) {
       this.view.showErrorDisplay(error);
       logger.error(`Error rendering story '${storyId}':`);
       logger.error(error);

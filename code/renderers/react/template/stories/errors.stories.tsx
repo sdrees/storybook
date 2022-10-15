@@ -9,6 +9,10 @@ export default {
     storyshots: { disable: true },
     chromatic: { disable: true },
   },
+  decorators: [
+    // Skip errors if we are running in the test runner
+    (storyFn: any) => window?.navigator?.userAgent?.match(/StorybookTestRunner/) || storyFn(),
+  ],
 };
 
 export const RenderThrows = {

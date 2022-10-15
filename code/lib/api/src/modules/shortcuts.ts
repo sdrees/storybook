@@ -1,9 +1,10 @@
 import global from 'global';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 
+import { DOMElement } from 'react';
 import type { ModuleFn } from '../index';
 
-import { shortcutMatchesShortcut, eventToShortcut } from '../lib/shortcut';
+import { shortcutMatchesShortcut, eventToShortcut, KeyboardEventLike } from '../lib/shortcut';
 import { focusableUIElements } from './layout';
 
 const { navigator, document } = global;
@@ -31,7 +32,7 @@ export interface SubAPI {
   setAddonShortcut(addon: string, shortcut: AddonShortcut): Promise<AddonShortcut>;
   restoreAllDefaultShortcuts(): Promise<Shortcuts>;
   restoreDefaultShortcut(action: Action): Promise<KeyCollection>;
-  handleKeydownEvent(event: Event): void;
+  handleKeydownEvent(event: KeyboardEventLike): void;
   handleShortcutFeature(feature: Action): void;
 }
 export type KeyCollection = string[];
@@ -92,21 +93,10 @@ export const defaultShortcuts: Shortcuts = Object.freeze({
 });
 
 const addonsShortcuts: AddonShortcuts = {};
-export interface Event extends KeyboardEvent {
-  target: {
-    tagName: string;
-    addEventListener(): void;
-    removeEventListener(): boolean;
-    dispatchEvent(event: Event): boolean;
-    getAttribute(attr: string): string | null;
-  };
-}
 
-function focusInInput(event: Event) {
-  return (
-    /input|textarea/i.test(event.target.tagName) ||
-    event.target.getAttribute('contenteditable') !== null
-  );
+function focusInInput(event: KeyboardEvent) {
+  const target = event.target as Element;
+  return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
 export const init: ModuleFn = ({ store, fullAPI }) => {
@@ -347,14 +337,14 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
 
   const initModule = () => {
     // Listen for keydown events in the manager
-    document.addEventListener('keydown', (event: Event) => {
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
       if (!focusInInput(event)) {
         fullAPI.handleKeydownEvent(event);
       }
     });
 
     // Also listen to keydown events sent over the channel
-    fullAPI.on(PREVIEW_KEYDOWN, (data: { event: Event }) => {
+    fullAPI.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
       fullAPI.handleKeydownEvent(data.event);
     });
   };

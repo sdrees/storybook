@@ -35,7 +35,7 @@
   }
 </style>
 
-<button class="button" class:rounded on:click={onClick}>
+<button class="button" class:rounded >
   <strong>{rounded ? 'Round' : 'Square'} corners</strong>
   <br />
   {text}

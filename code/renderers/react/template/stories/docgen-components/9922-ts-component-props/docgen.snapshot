@@ -2,7 +2,6 @@
 
 exports[`react component properties 9922-ts-component-props 1`] = `
 "import React from 'react';
-
 const Button = ({
   children,
   onClick
@@ -10,7 +9,6 @@ const Button = ({
   onClick: onClick,
   type: \\"button\\"
 }, children);
-
 const WrappedButton = ({
   spacing,
   ...buttonProps
@@ -19,7 +17,6 @@ const WrappedButton = ({
     padding: spacing
   }
 }, /*#__PURE__*/React.createElement(Button, buttonProps));
-
 export const component = WrappedButton;
 WrappedButton.__docgenInfo = {
   \\"description\\": \\"\\",

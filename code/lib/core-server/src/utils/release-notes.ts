@@ -1,4 +1,4 @@
-import semver from '@storybook/semver';
+import semver from 'semver';
 import type { ReleaseNotesData } from '@storybook/core-common';
 
 // We only expect to have release notes available for major and minor releases.

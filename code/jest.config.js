@@ -27,23 +27,14 @@ module.exports = {
   projects: [
     '<rootDir>',
     // '<rootDir>/app/angular',
-    // '<rootDir>/examples/html-kitchen-sink',
     // '<rootDir>/examples/svelte-kitchen-sink',
     // '<rootDir>/examples/vue-kitchen-sink',
-    // '<rootDir>/examples/angular-cli',
     // '<rootDir>/examples/preact-kitchen-sink',
     // This is explicitly commented out because having vue 2 & 3 in the
     // dependency graph makes it impossible to run storyshots on both examples
     // '<rootDir>/examples/vue-3-cli',
   ],
-  roots: [
-    '<rootDir>/addons',
-    '<rootDir>/frameworks',
-    '<rootDir>/lib',
-    '<rootDir>/renderers',
-    '<rootDir>/examples/official-storybook',
-    '<rootDir>/examples/react-ts',
-  ],
+  roots: ['<rootDir>/addons', '<rootDir>/frameworks', '<rootDir>/lib', '<rootDir>/renderers'],
   transform: {
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
     '^.+\\.[jt]sx?$': '<rootDir>/../scripts/utils/jest-transform-js.js',

@@ -2,7 +2,7 @@
 <!-- Button.vue -->
 
 <template>
-  <button type="button" :disabled="isDisabled">{{ content }}</button>
+  <button type="button" :disabled="isDisabled">{{ label }}</button>
 </template>
 
 <script>
@@ -20,9 +20,9 @@
         required: true,
       },
       /**
-       * The display content of the button
+       * The display label of the button
        */
-      content: {
+      label: {
         type: String,
         default: 'One',
         required: true,

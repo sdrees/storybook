@@ -72,7 +72,6 @@ describe('csf-2-to-3', () => {
           render: (args) => <Apple {...args} />,
         };
         export const B = (args) => <Banana {...args} />;
-
         const C = (args) => <Cherry {...args} />;
       `);
     });

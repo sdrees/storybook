@@ -8,6 +8,12 @@ module.exports = {
       { additionalTestBlockFunctions: ['it.skipWindows', 'it.onWindows'] },
     ],
     'no-use-before-define': 'off',
+    'jest/expect-expect': [
+      'warn',
+      {
+        assertFunctionNames: ['expect', 'expectTypeOf'],
+      },
+    ],
   },
   overrides: [
     {

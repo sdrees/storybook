@@ -1,6 +1,6 @@
 import { sync as spawnSync } from 'cross-spawn';
 import { telemetry } from '@storybook/telemetry';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import {
   getPackageDetails,
@@ -43,7 +43,6 @@ const excludeList = [
   '@storybook/mdx1-csf',
   '@storybook/mdx2-csf',
   '@storybook/react-docgen-typescript-plugin',
-  '@storybook/semver',
   '@storybook/storybook-deployer',
   '@storybook/test-runner',
   '@storybook/testing-library',

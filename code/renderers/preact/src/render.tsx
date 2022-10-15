@@ -1,7 +1,25 @@
+/** @jsx h */
 import * as preact from 'preact';
 import { dedent } from 'ts-dedent';
 import type { RenderContext } from '@storybook/store';
+import { ArgsStoryFn } from '@storybook/csf';
+
 import type { StoryFnPreactReturnType, PreactFramework } from './types';
+
+const { h } = preact;
+
+export const render: ArgsStoryFn<PreactFramework> = (args, context) => {
+  const { id, component: Component } = context;
+  if (!Component) {
+    throw new Error(
+      `Unable to render story ${id} as the component annotation is missing from the default export`
+    );
+  }
+
+  // @ts-expect-error I think the type of Component should be Preact.ComponentType, but even that
+  // doens't make TS happy, I suspect because TS wants "react" components.
+  return <Component {...args} />;
+};
 
 let renderedStory: Element;
 

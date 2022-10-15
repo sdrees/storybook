@@ -147,40 +147,29 @@ export async function storybookDevServer(options: Options) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));
   }
 
-  const preview = options.ignorePreview
-    ? Promise.resolve()
-    : previewBuilder.start({
-        startTime,
-        options,
-        router,
-        server,
-      });
-
-  const manager = managerBuilder.start({
+  const managerResult = await managerBuilder.start({
     startTime,
     options,
     router,
     server,
   });
 
-  const [previewResult, managerResult] = await Promise.all([
-    preview.catch(async (err) => {
+  let previewResult;
+  if (!options.ignorePreview) {
+    try {
+      previewResult = await previewBuilder.start({
+        startTime,
+        options,
+        router,
+        server,
+      });
+    } catch (error) {
       await managerBuilder?.bail();
-      throw err;
-    }),
-    manager
-      // TODO #13083 Restore this when compiling the preview is fast enough
-      // .then((result) => {
-      //   if (!options.ci && !options.smokeTest) openInBrowser(address);
-      //   return result;
-      // })
-      .catch(async (err) => {
-        await previewBuilder?.bail();
-        throw err;
-      }),
-  ]);
+      throw error;
+    }
+  }
 
-  // TODO #13083 Remove this when compiling the preview is fast enough
+  // TODO #13083 Move this to before starting the previewBuilder - when compiling the preview is so fast that it will be done before the browser is done opening
   if (!options.ci && !options.smokeTest && options.open) {
     openInBrowser(host ? networkAddress : address);
   }

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 

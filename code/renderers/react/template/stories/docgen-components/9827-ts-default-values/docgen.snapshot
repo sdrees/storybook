@@ -2,7 +2,6 @@
 
 exports[`react component properties 9827-ts-default-values 1`] = `
 "import React from 'react';
-
 const Hello = ({
   title
 }) => {
@@ -10,7 +9,6 @@ const Hello = ({
     className: \\"hello\\"
   }, \\"Hello Component \\", title);
 };
-
 Hello.defaultProps = {
   title: 'this is the default :)'
 };

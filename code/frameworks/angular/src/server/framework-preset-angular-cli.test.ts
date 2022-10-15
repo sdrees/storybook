@@ -823,7 +823,6 @@ const newWebpackConfiguration = (
         '@storybook/core-events': '/Users/joe/storybook/lib/core-events',
         '@storybook/router': '/Users/joe/storybook/lib/router',
         '@storybook/theming': '/Users/joe/storybook/lib/theming',
-        '@storybook/semver': '/Users/joe/storybook/node_modules/@storybook/semver',
         '@storybook/client-api': '/Users/joe/storybook/lib/client-api',
         '@storybook/client-logger': '/Users/joe/storybook/lib/client-logger',
         react: '/Users/joe/storybook/node_modules/react',

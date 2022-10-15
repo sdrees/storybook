@@ -23,8 +23,7 @@ import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
 
-// eslint-disable-next-line import/no-mutable-exports
-export let compilation: Compilation;
+let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
@@ -128,7 +127,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDirOrigin));
 
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
 
@@ -193,7 +192,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
 

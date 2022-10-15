@@ -26,11 +26,17 @@ module.exports = {
       files: [
         '**/lib/theming/**/*',
         '**/lib/router/**/*',
-        '**/lib/ui/**/*',
+        '**/ui/manager/**/*',
         '**/lib/components/**/*',
       ],
       rules: {
         'import/no-extraneous-dependencies': ['error', { bundledDependencies: false }],
+      },
+    },
+    {
+      files: ['**/ui/*', '**/ui/.storybook/*'],
+      rules: {
+        'import/no-extraneous-dependencies': ['error', { packageDir: __dirname }],
       },
     },
     {

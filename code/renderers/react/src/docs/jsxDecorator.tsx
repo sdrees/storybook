@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { createElement, ReactElement } from 'react';
 import reactElementToJSXString, { Options } from 'react-element-to-jsx-string';
-import { dedent } from 'ts-dedent';
-import deprecate from 'util-deprecate';
 
 import { addons, useEffect } from '@storybook/addons';
 import { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/csf';
@@ -22,28 +20,8 @@ type JSXOptions = Options & {
   enableBeautify?: boolean;
   /** Override the display name used for a component */
   displayName?: string | Options['displayName'];
-  /** Deprecated: A function ran after the story is rendered */
-  onBeforeRender?(dom: string): string;
-  /** A function ran after a story is rendered (prefer this over `onBeforeRender`) */
+  /** A function ran after a story is rendered */
   transformSource?(dom: string, context?: StoryContext<ReactFramework>): string;
-};
-
-/** Run the user supplied onBeforeRender function if it exists */
-const applyBeforeRender = (domString: string, options: JSXOptions) => {
-  if (typeof options.onBeforeRender !== 'function') {
-    return domString;
-  }
-
-  const deprecatedOnBeforeRender = deprecate(
-    options.onBeforeRender,
-    dedent`
-      StoryFn.parameters.jsx.onBeforeRender was deprecated.
-      Prefer StoryFn.parameters.jsx.transformSource instead.
-      See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-onbeforerender for details.
-    `
-  );
-
-  return deprecatedOnBeforeRender(domString);
 };
 
 /** Run the user supplied transformSource function if it exists */
@@ -127,7 +105,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
         ? reactElementToJSXString
         : // @ts-expect-error (Converted from ts-ignore)
           reactElementToJSXString.default;
-    let string = applyBeforeRender(toJSXString(child, opts as Options), options);
+    let string: string = toJSXString(child, opts as Options);
 
     if (string.indexOf('&quot;') > -1) {
       const matches = string.match(/\S+=\\"([^"]*)\\"/g);

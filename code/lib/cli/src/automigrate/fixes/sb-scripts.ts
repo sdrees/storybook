@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { getStorybookInfo } from '@storybook/core-common';
 import { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';

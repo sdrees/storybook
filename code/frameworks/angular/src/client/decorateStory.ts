@@ -61,7 +61,7 @@ const cleanArgsDecorator: DecoratorFunction<AngularFramework> = (storyFn, contex
     const argType = context.argTypes[key];
 
     // Only keeps args with a control or an action in argTypes
-    if (argType.action || argType.control) {
+    if (argType?.action || argType?.control) {
       return { ...obj, [key]: arg };
     }
     return obj;

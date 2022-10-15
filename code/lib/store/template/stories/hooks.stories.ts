@@ -14,7 +14,7 @@ export const UseState = {
 
       return story({
         args: {
-          children: `Clicked ${count} times`,
+          label: `Clicked ${count} times`,
           onClick: () => {
             setCount(count + 1);
           },
@@ -47,7 +47,7 @@ export const UseEffect = {
 
       return story({
         args: {
-          children: count > 0 ? `useEffect worked!` : `useEffect hasn't worked yet!`,
+          label: count > 0 ? `useEffect worked!` : `useEffect hasn't worked yet!`,
           onClick: () => {},
         },
       });

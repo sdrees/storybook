@@ -27,7 +27,7 @@ class AsyncTestComponent extends React.Component {
 
 export default {
   title: 'Async',
-  includeStories: ['withTimeout'],
+  includeStories: ['WithTimeout'],
 };
 
 export const WithTimeout = () => <AsyncTestComponent />;

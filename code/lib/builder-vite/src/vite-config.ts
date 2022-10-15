@@ -43,7 +43,7 @@ export async function commonConfig(
 
   const sbConfig = {
     configFile: false,
-    cacheDir: 'node_modules/.vite-storybook',
+    cacheDir: 'node_modules/.cache/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
     plugins: await pluginConfig(options),
     resolve: {
@@ -82,6 +82,19 @@ export async function pluginConfig(options: ExtendedOptions) {
     mdxPlugin(options),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
+    {
+      name: 'storybook:allow-storybook-dir',
+      enforce: 'post',
+      config(config) {
+        // if there is NO allow list then Vite allows anything in the root directory
+        // if there is an allow list then Vite only allows anything in the listed directories
+        // add storybook specific directories only if there's an allow list so that we don't end up
+        // disallowing the root unless root is already disallowed
+        if (config?.server?.fs?.allow) {
+          config.server.fs.allow.push('.storybook');
+        }
+      },
+    },
   ] as PluginOption[];
 
   // We need the react plugin here to support MDX in non-react projects.

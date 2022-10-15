@@ -199,7 +199,6 @@ Those can be customized with `setupTimeout` and `testTimeout` parameters.
 ### Integrate Puppeteer storyshots with regular app
 
 You may want to use another Jest project to run your Puppeteer storyshots as they require more resources: Chrome and Storybook built/served.
-You can find a working example of this in the [official-storybook](https://github.com/storybookjs/storybook/tree/main/examples/official-storybook) example.
 
 ### Integrate Puppeteer storyshots with [Create React App](https://github.com/facebookincubator/create-react-app)
 

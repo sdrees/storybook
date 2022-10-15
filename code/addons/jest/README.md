@@ -246,8 +246,6 @@ Default.parameters = {
 };
 ```
 
-##### Example [here](https://github.com/storybookjs/storybook/tree/main/examples/angular-cli)
-
 ## Available options
 
 - **options.results**: OBJECT jest output results. _mandatory_

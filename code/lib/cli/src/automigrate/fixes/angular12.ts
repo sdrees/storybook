@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { ConfigFile } from '@storybook/csf-tools';
 import { Fix } from '../types';
 import { webpack5 } from './webpack5';

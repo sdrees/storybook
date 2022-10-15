@@ -3,7 +3,7 @@ import path, { join } from 'path';
 import fs from 'fs';
 import fse from 'fs-extra';
 import chalk from 'chalk';
-import { satisfies } from '@storybook/semver';
+import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
 import { SupportedRenderers, SupportedLanguage } from './project_types';

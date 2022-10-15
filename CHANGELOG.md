@@ -1,3 +1,89 @@
+## 7.0.0-alpha.38 (October 15, 2022)
+
+#### Bug Fixes
+
+- Vite: Fix bail not being defined for vite builder [#19405](https://github.com/storybooks/storybook/pull/19405)
+
+#### Maintenance
+
+- Breaking: Remove onBeforeRender [#19489](https://github.com/storybooks/storybook/pull/19489)
+- Breaking: Upgrade to use node 16 everywhere [#19458](https://github.com/storybooks/storybook/pull/19458)
+- Breaking: Remove the old showRoots config option [#19440](https://github.com/storybooks/storybook/pull/19440)
+- CLI: Make the button component accept a label prop, (not children) [#19461](https://github.com/storybooks/storybook/pull/19461)
+- Remove `angular-cli` example [#19202](https://github.com/storybooks/storybook/pull/19202)
+- Breakimg: Remove the html entrypoint of lib/components [#19487](https://github.com/storybooks/storybook/pull/19487)
+- Vite: Add partial SvelteKit support [#19338](https://github.com/storybooks/storybook/pull/19338)
+
+#### Build
+
+- Angular: Add angular 14 sandbox template [#19181](https://github.com/storybooks/storybook/pull/19181)
+- Storybook for Storybook - step 1: `ui/manager` [#19465](https://github.com/storybooks/storybook/pull/19465)
+- Don't pass the full path to repro generators [#19480](https://github.com/storybooks/storybook/pull/19480)
+- Bundle lib/channel-postmessage with ts-up [#19388](https://github.com/storybooks/storybook/pull/19388)
+- Disable smoke test [#19475](https://github.com/storybooks/storybook/pull/19475)
+- Remove angular example from monorepo [#19467](https://github.com/storybooks/storybook/pull/19467)
+- Add angular 13 repro template [#19428](https://github.com/storybooks/storybook/pull/19428)
+- Add a TypeScript check task and configure ci to run it [#19471](https://github.com/storybooks/storybook/pull/19471)
+- Add Preact/Webpack templates and update renderer/preset (2) [#19451](https://github.com/storybooks/storybook/pull/19451)
+- Disable another smoke test [#19466](https://github.com/storybooks/storybook/pull/19466)
+
+#### Dependency Upgrades
+
+- Ipgrade chromatic [#19468](https://github.com/storybooks/storybook/pull/19468)
+
+## 7.0.0-alpha.37 (October 13, 2022)
+
+#### Features
+
+- React: Sound arg types for CSF3 [#19238](https://github.com/storybooks/storybook/pull/19238)
+- Vite: Add web-components/lit framework support [#19164](https://github.com/storybooks/storybook/pull/19164)
+- UI: Update colors for 7.0 [#19023](https://github.com/storybooks/storybook/pull/19023)
+
+#### Bug Fixes
+
+- Server: Ensure consistent route handling by always starting `managerBuilder` before `previewBuilder` [#19406](https://github.com/storybooks/storybook/pull/19406)
+- UI: Fix addon URL escaping in manager [#19375](https://github.com/storybooks/storybook/pull/19375)
+- CLI: remove `npx` usage from storybook scripts [#19366](https://github.com/storybooks/storybook/pull/19366)
+- Webpack5: Fix lazy compilation/fscache builderOptions when base config is disabled [#19387](https://github.com/storybooks/storybook/pull/19387)
+
+#### Maintenance
+
+- Breaking: remove the deprecated Preview component [#19445](https://github.com/storybooks/storybook/pull/19445)
+- Breaking: remove deprecated channel apis [#19443](https://github.com/storybooks/storybook/pull/19443)
+- Breaking: remove framework angulars storymodule story-component handling [#19442](https://github.com/storybooks/storybook/pull/19442)
+- Breaking: remove deprecated glob fixing [#19438](https://github.com/storybooks/storybook/pull/19438)
+- Refactor bootstrap+sandbox into "task" framework [#19275](https://github.com/storybooks/storybook/pull/19275)
+- CI: Fix test-runner build step [#19255](https://github.com/storybooks/storybook/pull/19255)
+- Angular: Drop support for angular < 13 [#19368](https://github.com/storybooks/storybook/pull/19368)
+- Build: Add installScripts step in bootstrap command [#19270](https://github.com/storybooks/storybook/pull/19270)
+- Vite: Move default cache dir to node_modules/.cache [#19384](https://github.com/storybooks/storybook/pull/19384)
+
+#### Build
+
+- Addon-docs: Refactor MDX examples to sandboxes [#19301](https://github.com/storybooks/storybook/pull/19301)
+- Undo accidental push of tom/sb-557-typescript-2 [#19450](https://github.com/storybooks/storybook/pull/19450)
+- Ensure we kill all controllers before exiting [#19449](https://github.com/storybooks/storybook/pull/19449)
+- Examples: Remove official-storybook [#19343](https://github.com/storybooks/storybook/pull/19343)
+- Build: Improve template stories [#19402](https://github.com/storybooks/storybook/pull/19402)
+- Vue: Delete vue-cli/vue-kitchen-sink examples [#19429](https://github.com/storybooks/storybook/pull/19429)
+- React: Remove react-ts example [#19424](https://github.com/storybooks/storybook/pull/19424)
+- Web-components: Port template stories and delete web-components-kitchen-sink [#19430](https://github.com/storybooks/storybook/pull/19430)
+- remove html-kitchen-sink example [#19360](https://github.com/storybooks/storybook/pull/19360)
+- add template for html-webpack5 [#19377](https://github.com/storybooks/storybook/pull/19377)
+- use a single version of yarn [#19417](https://github.com/storybooks/storybook/pull/19417)
+- fix build command for netlify [#19418](https://github.com/storybooks/storybook/pull/19418)
+- Re-enable `svelte-vite/default-ts` template [#19369](https://github.com/storybooks/storybook/pull/19369)
+- Only persist the (single) built sandbox [#19372](https://github.com/storybooks/storybook/pull/19372)
+
+#### Dependency Upgrades
+
+- Replace @storybook/semver with semver [#19292](https://github.com/storybooks/storybook/pull/19292)
+- Upgrade playwright [#19416](https://github.com/storybooks/storybook/pull/19416)
+
+## 7.0.0-alpha.36 (October 13, 2022)
+
+Bad publish
+
 ## 7.0.0-alpha.35 (October 5, 2022)
 
 #### Features

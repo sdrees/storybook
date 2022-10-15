@@ -35,7 +35,7 @@ describe('A11yManager', () => {
     registrationImpl(api as unknown as api.API);
     const title = mockedAddons.add.mock.calls
       .map(([_, def]) => def)
-      .find(({ type }) => type === 'panel').title as Function;
+      .find(({ type }) => type === 'panel')?.title as Function;
 
     // when / then
     expect(title()).toBe('Accessibility');
@@ -47,7 +47,7 @@ describe('A11yManager', () => {
     registrationImpl(mockedApi);
     const title = mockedAddons.add.mock.calls
       .map(([_, def]) => def)
-      .find(({ type }) => type === 'panel').title as Function;
+      .find(({ type }) => type === 'panel')?.title as Function;
 
     // when / then
     expect(title()).toBe('Accessibility (3)');

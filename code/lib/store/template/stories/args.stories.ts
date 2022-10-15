@@ -35,7 +35,7 @@ export const Inheritance = {
   play: async ({ canvasElement }: PlayFunctionContext) => {
     // NOTE: these stories don't test project-level args inheritance as it is too problematic
     // to have an arg floating around that will apply too *all* other stories in our sandboxes.
-    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerHTML)).toEqual({
+    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toEqual({
       componentArg: 'componentArg',
       storyArg: 'storyArg',
       object: {
@@ -56,7 +56,7 @@ export const Targets = {
   parameters: { argNames: ['a', 'b'] },
   play: async ({ canvasElement }: PlayFunctionContext) => {
     // Check that `a` doesn't end up set
-    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerHTML)).toEqual({
+    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toEqual({
       b: 'b',
     });
   },

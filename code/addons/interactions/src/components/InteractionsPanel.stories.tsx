@@ -1,6 +1,6 @@
 /* eslint-disable jest/no-standalone-expect */
 import React from 'react';
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 import { userEvent, within, waitFor } from '@storybook/testing-library';
@@ -25,7 +25,7 @@ const StyledWrapper = styled.div(({ theme }) => ({
 
 const interactions = getInteractions(CallStates.DONE);
 
-export default {
+const meta = {
   title: 'Addons/Interactions/InteractionsPanel',
   component: InteractionsPanel,
   decorators: [
@@ -52,9 +52,11 @@ export default {
     // prop for the AddonPanel used as wrapper of Panel
     active: true,
   },
-} as ComponentMeta<typeof InteractionsPanel>;
+} as Meta<typeof InteractionsPanel>;
 
-type Story = ComponentStoryObj<typeof InteractionsPanel>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 export const Passing: Story = {
   args: {

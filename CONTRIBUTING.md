@@ -2,17 +2,34 @@
 
 - Ensure you have node version 14 installed (suggestion: v14.18.1).
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
-- Run `./bootstrap.sh` to install the dependencies, and get the repo ready to be developed on.
-- Run `yarn start` inside of the `code` directory to start the development server.
+- Run `yarn start` directory to run a basic test Storybook "sandbox".
 
-# Generating reproductions
+The `yarn start` script will generate a React Vite TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc).
 
-The monorepo has a script that generates Storybook reproductions based on configurations set in the `code/lib/cli/src/repro-templates.ts` file. This makes it possible to quickly bootstrap examples with and without Storybook, for given configurations (e.g. CRA, Angular, Vue, etc.)
 
-To do so:
-- Check the `code/lib/cli/src/repro-templates.ts` if you want to see what will be generated
-- Run `./generate-repros.sh`
-- Check the result in the `repros` directory
+# Running against different sandbox templates
+
+You can also pick a specific template to use as your sandbox by running `yarn task`, which will prompt you to make further choices about which template you want and which task you want to run. 
+
+# Making code changes
+
+If you want to make code changes to Storybook packages while running a sandbox, you'll need to do the following:
+
+1. In a second terminal run `yarn build --watch <package-1> <package-2>` in the `code/` directory. The package names is the bit after the `@storybook/` in the published package. For instance, to build the `@storybook/react @storybook/core-server @storybook/api @storybook/addon-docs` packages at the same time in watch mode:
+
+```bash
+cd code
+yarn build --watch react core-server api addon-docs
+```
+
+2. If you are running the sandbox in "linked" mode (the default), you should see the changes reflected on a refresh (you may need to restart it if changing server packages)
+
+3. If you are running the sandbox in "unlinked" mode you'll need to re-run the sandbox from the `publish` step to see the changes:
+
+```
+yarn task --task dev --template <your template> --start-from=publish
+```
+
 
 # Contributing to Storybook
 

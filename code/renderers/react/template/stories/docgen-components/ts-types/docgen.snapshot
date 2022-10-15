@@ -2,35 +2,27 @@
 
 exports[`react component properties ts-types 1`] = `
 "import React from 'react';
-
 function concat(a, b) {
   return a + b;
 }
-
 var DefaultEnum;
-
 (function (DefaultEnum) {
   DefaultEnum[DefaultEnum[\\"TopLeft\\"] = 0] = \\"TopLeft\\";
   DefaultEnum[DefaultEnum[\\"TopRight\\"] = 1] = \\"TopRight\\";
   DefaultEnum[DefaultEnum[\\"TopCenter\\"] = 2] = \\"TopCenter\\";
 })(DefaultEnum || (DefaultEnum = {}));
-
 var NumericEnum;
-
 (function (NumericEnum) {
   NumericEnum[NumericEnum[\\"TopLeft\\"] = 0] = \\"TopLeft\\";
   NumericEnum[NumericEnum[\\"TopRight\\"] = 1] = \\"TopRight\\";
   NumericEnum[NumericEnum[\\"TopCenter\\"] = 2] = \\"TopCenter\\";
 })(NumericEnum || (NumericEnum = {}));
-
 var StringEnum;
-
 (function (StringEnum) {
   StringEnum[\\"TopLeft\\"] = \\"top-left\\";
   StringEnum[\\"TopRight\\"] = \\"top-right\\";
   StringEnum[\\"TopCenter\\"] = \\"top-center\\";
 })(StringEnum || (StringEnum = {}));
-
 export const TypeScriptProps = () => /*#__PURE__*/React.createElement(\\"div\\", null, \\"TypeScript!\\");
 TypeScriptProps.defaultProps = {
   any: 'Any value',

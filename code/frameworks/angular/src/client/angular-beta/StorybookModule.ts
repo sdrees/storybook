@@ -1,35 +1,17 @@
 import { NgModule, Type } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { dedent } from 'ts-dedent';
 
 import { Subject } from 'rxjs';
-import deprecate from 'util-deprecate';
 import { ICollection, StoryFnAngularReturnType } from '../types';
 import { storyPropsProvider } from './StorybookProvider';
 import { isComponentAlreadyDeclaredInModules } from './utils/NgModulesAnalyzer';
 import { isDeclarable, isStandaloneComponent } from './utils/NgComponentAnalyzer';
 import { createStorybookWrapperComponent } from './StorybookWrapperComponent';
-import { computesTemplateFromComponent } from './ComputesTemplateFromComponent';
-
-const deprecatedStoryComponentWarning = deprecate(
-  () => {},
-  dedent`\`component\` story return value is deprecated, and will be removed in Storybook 7.0.
-        Instead, use \`export const default = () => ({ component: AppComponent });\`
-        or
-        \`\`\`
-        export const Primary: StoryFn = () => ({});
-        Primary.parameters = { component: AppComponent };
-        \`\`\`
-        Read more at 
-        - https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-angular-story-component).
-        - https://storybook.js.org/docs/angular/writing-stories/parameters
-      `
-);
 
 export const getStorybookModuleMetadata = (
   {
     storyFnAngular,
-    component: annotatedComponent,
+    component,
     targetSelector,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
@@ -38,17 +20,8 @@ export const getStorybookModuleMetadata = (
   },
   storyProps$: Subject<ICollection>
 ): NgModule => {
-  const { component: storyComponent, props, styles, moduleMetadata = {} } = storyFnAngular;
-  let { template } = storyFnAngular;
-
-  if (storyComponent) {
-    deprecatedStoryComponentWarning();
-  }
-  const component = storyComponent ?? annotatedComponent;
-
-  if (hasNoTemplate(template) && component) {
-    template = computesTemplateFromComponent(component, props, '');
-  }
+  const { props, styles, moduleMetadata = {} } = storyFnAngular;
+  const { template } = storyFnAngular;
 
   /**
    * Create a component that wraps generated template and gives it props
@@ -95,7 +68,3 @@ export const createStorybookModule = (ngModule: NgModule): Type<unknown> => {
   class StorybookModule {}
   return StorybookModule;
 };
-
-function hasNoTemplate(template: string | null | undefined): template is undefined {
-  return template === null || template === undefined;
-}

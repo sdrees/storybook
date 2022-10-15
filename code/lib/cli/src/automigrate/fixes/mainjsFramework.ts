@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
 

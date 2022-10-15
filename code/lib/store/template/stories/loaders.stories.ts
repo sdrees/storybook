@@ -16,7 +16,7 @@ export const Inheritance = {
   loaders: [async () => new Promise((r) => setTimeout(() => r({ storyValue: 3 }), 1000))],
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const canvas = within(canvasElement);
-    await expect(JSON.parse(canvas.getByTestId('pre').innerHTML)).toEqual({
+    await expect(JSON.parse(canvas.getByTestId('pre').innerText)).toEqual({
       projectValue: 2,
       componentValue: 7,
       storyValue: 3,

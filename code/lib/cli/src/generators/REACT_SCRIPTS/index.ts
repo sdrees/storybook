@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import semver from '@storybook/semver';
+import semver from 'semver';
 
 import { baseGenerator } from '../baseGenerator';
 import { Generator } from '../types';

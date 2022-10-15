@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { targetFromTargetString, BuilderContext, Target } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { dedent } from 'ts-dedent';
 
 import { logging, JsonObject } from '@angular-devkit/core';

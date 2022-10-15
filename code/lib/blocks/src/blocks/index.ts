@@ -13,7 +13,6 @@ export * from './external/ExternalDocs';
 export * from './external/ExternalDocsContainer';
 export * from './Heading';
 export * from './Meta';
-export * from './Preview';
 export * from './Primary';
 export * from './Props';
 export * from './Source';

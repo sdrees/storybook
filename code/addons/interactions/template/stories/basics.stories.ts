@@ -47,7 +47,7 @@ export const Callback = {
 export const SyncWaitFor = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await step('Setup', Callback.play);
+    await step('Submit form', Callback.play);
     await waitFor(() => canvas.getByText('Completed!!'));
   },
 };
@@ -55,7 +55,7 @@ export const SyncWaitFor = {
 export const AsyncWaitFor = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await step('Setup', Callback.play);
+    await step('Submit form', Callback.play);
     await waitFor(async () => canvas.getByText('Completed!!'));
   },
 };
@@ -63,7 +63,7 @@ export const AsyncWaitFor = {
 export const WaitForElementToBeRemoved = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await step('Setup', SyncWaitFor.play);
+    await step('SyncWaitFor play fn', SyncWaitFor.play);
     await waitForElementToBeRemoved(() => canvas.queryByText('Completed!!'), {
       timeout: 2000,
     });
@@ -73,7 +73,7 @@ export const WaitForElementToBeRemoved = {
 export const WithLoaders = {
   loaders: [async () => new Promise((resolve) => setTimeout(resolve, 2000))],
   play: async ({ step }) => {
-    await step('Setup', Callback.play);
+    await step('Submit form', Callback.play);
   },
 };
 

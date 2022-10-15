@@ -1,4 +1,4 @@
-import type { StoryContext as DefaultStoryContext } from '@storybook/csf';
+import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/csf';
 import { parameters } from './config';
 
 export type { RenderContext } from '@storybook/core-client';
@@ -21,7 +21,7 @@ export interface ShowErrorArgs {
 }
 
 export type HtmlFramework = {
-  component: HTMLElement;
+  component: string | HTMLElement | ArgsStoryFn<HtmlFramework>;
   storyResult: StoryFnHtmlReturnType;
 };
 

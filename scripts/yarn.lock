@@ -3352,7 +3352,6 @@ __metadata:
     "@storybook/eslint-config-storybook": ^2.4.0
     "@storybook/jest": ^0.0.10
     "@storybook/linter-config": ^2.5.0
-    "@storybook/semver": ^7.3.2
     "@storybook/testing-library": 0.0.14-next.0
     "@testing-library/dom": ^7.29.4
     "@testing-library/jest-dom": ^5.11.9
@@ -3368,7 +3367,7 @@ __metadata:
     "@types/jest": ^26.0.16
     "@types/js-yaml": ^3.12.6
     "@types/lodash": ^4
-    "@types/node": ^14.14.20 || ^16.0.0
+    "@types/node": ^16.0.0
     "@types/node-cleanup": ^2.1.1
     "@types/node-fetch": ^2.5.7
     "@types/prompts": 2.0.11
@@ -3387,6 +3386,7 @@ __metadata:
     babel-plugin-add-react-displayname: ^0.0.5
     babel-plugin-dynamic-import-node: ^2.3.3
     babel-plugin-macros: ^3.0.1
+    boxen: ^5.1.2
     chalk: ^4.1.0
     codecov: ^3.8.1
     commander: ^6.2.1
@@ -3401,7 +3401,7 @@ __metadata:
     eslint: ^7.17.0
     eslint-plugin-import: ^2.22.1
     eslint-plugin-react: ^7.22.0
-    eslint-plugin-storybook: ^0.3.5
+    eslint-plugin-storybook: ^0.6.4
     execa: ^5.0.0
     express: ^4.17.1
     find-up: ^5.0.0
@@ -3425,6 +3425,7 @@ __metadata:
     junit-xml: ^1.2.0
     lint-staged: ^10.5.4
     lodash: ^4.17.21
+    memoizerific: ^1.11.3
     mocha-list-tests: ^1.0.5
     node-abort-controller: ^3.0.1
     node-cleanup: ^2.1.2
@@ -3446,6 +3447,7 @@ __metadata:
     remark-cli: ^9.0.0
     remark-lint: ^8.0.0
     remark-preset-lint-recommended: ^5.0.0
+    semver: ^7.3.7
     serve-static: ^1.14.1
     shelljs: ^0.8.5
     shx: ^0.3.2
@@ -3977,10 +3979,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.14.20 || ^16.0.0":
-  version: 16.11.64
-  resolution: "@types/node@npm:16.11.64"
-  checksum: 4b5ee37e3d2dc3364abbffee7e9f4c27fc22b44305ff5920fcc1b7fe08343bf113fface6a565c2406f77f8818d5ddcfb31652df6a43e4ab971976256d176bf37
+"@types/node@npm:^16.0.0":
+  version: 16.11.65
+  resolution: "@types/node@npm:16.11.65"
+  checksum: 5d66c2e0119ff194b2e196b0016d5d083fd332a114cea04822fbc22a7733b2feba0db9de380a289f457312a24b2f313396084b682d670038f5b2ced2d14fc659
   languageName: node
   linkType: hard
 
@@ -4744,6 +4746,15 @@ __metadata:
   version: 1.0.1
   resolution: "amdefine@npm:1.0.1"
   checksum: ba8aa5d4ff5248b2ed067111e72644b36b5b7ae88d9a5a2c4223dddb3bdc9102db67291e0b414f59f12c6479ac6a365886bac72c7965e627cbc732e0962dd1ab
+  languageName: node
+  linkType: hard
+
+"ansi-align@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "ansi-align@npm:3.0.1"
+  dependencies:
+    string-width: ^4.1.0
+  checksum: ad8b755a253a1bc8234eb341e0cec68a857ab18bf97ba2bda529e86f6e30460416523e0ec58c32e5c21f0ca470d779503244892873a5895dbd0c39c788e82467
   languageName: node
   linkType: hard
 
@@ -5672,6 +5683,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"boxen@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "boxen@npm:5.1.2"
+  dependencies:
+    ansi-align: ^3.0.0
+    camelcase: ^6.2.0
+    chalk: ^4.1.0
+    cli-boxes: ^2.2.1
+    string-width: ^4.2.2
+    type-fest: ^0.20.2
+    widest-line: ^3.1.0
+    wrap-ansi: ^7.0.0
+  checksum: 71f31c2eb3dcacd5fce524ae509e0cc90421752e0bfbd0281fd3352871d106c462a0f810c85f2fdb02f3a9fab2d7a84e9718b4999384d651b76104ebe5d2c024
+  languageName: node
+  linkType: hard
+
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -6253,6 +6280,13 @@ __metadata:
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
   checksum: 1f90262d5f6230a17e27d0c190b09d47ebe7efdd76a03b5a1127863f7b3c9aec4c3e6c8bb3a7bbf81d553d56a1fd35728f5a8ef4c63f867ac8d690109742a8c1
+  languageName: node
+  linkType: hard
+
+"cli-boxes@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "cli-boxes@npm:2.2.1"
+  checksum: 6111352edbb2f62dbc7bfd58f2d534de507afed7f189f13fa894ce5a48badd94b2aa502fda28f1d7dd5f1eb456e7d4033d09a76660013ef50c7f66e7a034f050
   languageName: node
   linkType: hard
 
@@ -8495,16 +8529,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "eslint-plugin-storybook@npm:0.3.5"
+"eslint-plugin-storybook@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "eslint-plugin-storybook@npm:0.6.4"
   dependencies:
     "@storybook/csf": ^0.0.1
     "@typescript-eslint/experimental-utils": ^5.3.0
     requireindex: ^1.1.0
+    ts-dedent: ^2.2.0
   peerDependencies:
     eslint: ">=6"
-  checksum: 2fef77dc26aa395cf304c53cacd35bae7f677192eb1f681439c2a0154e57b99d376948e0918e4bb7b3c8ca01358aedbbf7bb5bc3b428b37141599abbdd763580
+  checksum: c7fcdb663ae3e064b78d743b880545a7dc44d36368e72b1535706401cba65430cd41b5b7d4aa089bb6aab10357a9dcb894d4469fd1b546a043b9078587270f85
   languageName: node
   linkType: hard
 
@@ -18080,7 +18115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.0.0, string-width@npm:^4.1.0, string-width@npm:^4.2.0, string-width@npm:^4.2.3":
+"string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.0.0, string-width@npm:^4.1.0, string-width@npm:^4.2.0, string-width@npm:^4.2.2, string-width@npm:^4.2.3":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
   dependencies:
@@ -19065,7 +19100,7 @@ __metadata:
 
 "typescript@patch:typescript@npm%3A~4.6.3#~builtin<compat/typescript>":
   version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=7ad353"
+  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -20053,6 +20088,15 @@ __metadata:
   dependencies:
     string-width: ^1.0.2 || 2 || 3 || 4
   checksum: 1d9c2a3e36dfb09832f38e2e699c367ef190f96b82c71f809bc0822c306f5379df87bab47bed27ea99106d86447e50eb972d3c516c2f95782807a9d082fbea95
+  languageName: node
+  linkType: hard
+
+"widest-line@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "widest-line@npm:3.1.0"
+  dependencies:
+    string-width: ^4.0.0
+  checksum: b1e623adcfb9df35350dd7fc61295d6d4a1eaa65a406ba39c4b8360045b614af95ad10e05abf704936ed022569be438c4bfa02d6d031863c4166a238c301119f
   languageName: node
   linkType: hard
 

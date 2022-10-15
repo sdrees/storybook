@@ -12,7 +12,7 @@ import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 program
   .option(
     '--skip <value>',
-    'Skip an example, accepts multiple values like "--skip vue-kitchen-sink official-storybook"',
+    'Skip an example, accepts multiple values like "--skip vue-kitchen-sink"',
     (value, previous) => previous.concat([value]),
     []
   )

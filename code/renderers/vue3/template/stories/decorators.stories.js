@@ -8,7 +8,7 @@ export default {
 };
 
 export const ComponentTemplate = {
-  args: { children: 'With component' },
+  args: { label: 'With component' },
   decorators: [
     () => ({
       components: {
@@ -23,7 +23,7 @@ export const ComponentTemplate = {
 };
 
 export const SimpleTemplate = {
-  args: { children: 'With border' },
+  args: { label: 'With border' },
   decorators: [
     () => ({
       template: `
@@ -36,7 +36,7 @@ export const SimpleTemplate = {
 };
 
 export const VueWrapper = {
-  args: { children: 'With Vue wrapper' },
+  args: { label: 'With Vue wrapper' },
   decorators: [
     (storyFn) => {
       // Call the `storyFn` to receive a component that Vue can render
@@ -50,7 +50,7 @@ export const VueWrapper = {
 };
 
 export const DynamicWrapper = {
-  args: { children: 'With dynamic wrapper', primary: true },
+  args: { label: 'With dynamic wrapper', primary: true },
   argTypes: {
     // Number type is detected, but we still want to constrain the range from 1-6
     level: { control: { type: 'range', min: 1, max: 6 } },

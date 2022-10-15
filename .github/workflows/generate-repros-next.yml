@@ -8,8 +8,6 @@ on:
   push:
     branches:
       - vite-frameworks-xyz
-      - norbert/sb-524-webpack5react18ts
-      - norbert/sb-525-webpack5react17js
 
 jobs:
   generate:
@@ -19,7 +17,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16
       - uses: actions/checkout@v2
       - name: Setup git user
         run: |
@@ -27,9 +25,8 @@ jobs:
           git config --global user.email "bot@storybook.js.org"
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
-      - name: Bootstrap Storybook libraries
-        run: yarn bootstrap --prep
-        working-directory: ./code
+      - name: Compile Storybook libraries
+        run: yarn task --task publish --start-from=auto --no-link
       - name: Generate repros
         run: yarn generate-repros-next --local-registry
         working-directory: ./code

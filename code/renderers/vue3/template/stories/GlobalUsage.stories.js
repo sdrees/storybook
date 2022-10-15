@@ -18,12 +18,12 @@ export default {
 export const Primary = {
   args: {
     primary: true,
-    children: 'Globally Defined',
+    label: 'Globally Defined',
   },
 };
 
 export const Secondary = {
   args: {
-    children: 'Globally Defined',
+    label: 'Globally Defined',
   },
 };

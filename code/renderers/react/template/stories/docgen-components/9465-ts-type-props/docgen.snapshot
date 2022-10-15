@@ -2,7 +2,6 @@
 
 exports[`react component properties 9465-ts-type-props 1`] = `
 "import React from 'react';
-
 const Component = ({
   disabled = false,
   children
@@ -12,7 +11,6 @@ const Component = ({
 React.createElement(\\"button\\", {
   disabled: disabled
 }, children);
-
 export const component = Component;
 Component.__docgenInfo = {
   \\"description\\": \\"\\",

@@ -4,11 +4,13 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 import { VisionSimulator, baseList } from './VisionSimulator';
 
-const getOptionByNameAndPercentage = (option: string, percentage: number) =>
+const getOptionByNameAndPercentage = (option: string, percentage?: number) =>
   screen.getByText(
     (content, element) =>
       content !== '' &&
+      // @ts-expect-error (TODO)
       element.textContent === option &&
+      // @ts-expect-error (TODO)
       (percentage === undefined || element.nextSibling.textContent === `${percentage}% of users`)
   );
 
@@ -60,9 +62,11 @@ describe('Vision Simulator', () => {
       .filter(({ cssRules }) => cssRules)
       .map(({ cssRules }) => Object.values(cssRules))
       .flat()
+      // @ts-expect-error (TODO)
       .find((cssRule: CSSRule) => cssRule.selectorText === '#storybook-preview-iframe');
 
     expect(rule).toBeDefined();
+    // @ts-expect-error (TODO)
     expect(rule.style.filter).toBe('blur(2px)');
   });
 });

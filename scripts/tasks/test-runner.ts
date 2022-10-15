@@ -1,31 +1,31 @@
-import { servePackages } from '../utils/serve-packages';
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
-import { serveSandbox } from '../utils/serve-sandbox';
+import { PORT } from './serve';
 
 export const testRunner: Task = {
+  description: 'Run the test runner against a sandbox',
   junit: true,
-  before: ['publish', 'build'],
+  dependsOn: ['run-registry', 'serve'],
   async ready() {
     return false;
   },
-  async run(_, { sandboxDir, builtSandboxDir, junitFilename }) {
+  async run({ sandboxDir, junitFilename }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
 
-    // We could split this out into a separate task if it became annoying
-    const publishController = await servePackages({});
-    await exec(`yarn add --dev @storybook/test-runner@0.7.1-next.0`, execOptions);
+    // Using a fixed version to work around core-js problems
+    await exec(`yarn add --dev @storybook/test-runner@0.8.1--canary.202.99d82aa.0`, execOptions);
 
-    const storybookController = await serveSandbox(builtSandboxDir, {});
+    await exec(`yarn why core-js`, {}, { debug: true });
 
-    await exec(`yarn test-storybook --url http://localhost:8001 --junit`, {
-      ...execOptions,
-      env: {
-        JEST_JUNIT_OUTPUT_FILE: junitFilename,
+    await exec(
+      `yarn test-storybook --url http://localhost:${PORT} --junit --index-json --maxWorkers=2`,
+      {
+        ...execOptions,
+        env: {
+          JEST_JUNIT_OUTPUT_FILE: junitFilename,
+        },
       },
-    });
-
-    publishController.abort();
-    storybookController.abort();
+      { dryRun, debug }
+    );
   },
 };

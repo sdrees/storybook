@@ -35,7 +35,6 @@ const storybookPaths: Record<string, string> = {
     'core-events',
     'router',
     'theming',
-    'semver',
     'preview-web',
     'client-api',
     'client-logger',

@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "yarn task --task dev --template react-vite/default-ts --start-from=install",
+    "task": "echo 'Installing Script Dependencies...'; cd scripts; yarn install >/dev/null; yarn task",
+    "get-template": "cd scripts; yarn get-template",
+    "test": "cd code; yarn test",
+    "lint": "cd code; yarn lint"
+  },
+  "packageManager": "yarn@3.2.3"
+}

@@ -2,7 +2,6 @@
 
 exports[`react component properties ts-jsdoc 1`] = `
 "import React from 'react';
-
 /**
  * Button functional component (React.FC)
  */
@@ -13,7 +12,6 @@ const TypeScriptProps = ({
   type: \\"button\\",
   onClick: case1
 }, \\"JSDoc with TypeScript! \\", case2);
-
 export const component = TypeScriptProps;
 TypeScriptProps.__docgenInfo = {
   \\"description\\": \\"Button functional component (React.FC)\\",

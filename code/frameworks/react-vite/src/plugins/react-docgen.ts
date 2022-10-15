@@ -6,7 +6,7 @@ import {
   resolver as docgenResolver,
   importers as docgenImporters,
 } from 'react-docgen';
-import type { DocumentationObject } from 'react-docgen/lib/Documentation';
+import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import MagicString from 'magic-string';
 import type { PluginOption } from 'vite';
 import actualNameHandler from './docgen-handlers/actualNameHandler';

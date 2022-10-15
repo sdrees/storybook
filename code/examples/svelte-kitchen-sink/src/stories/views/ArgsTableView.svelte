@@ -51,13 +51,16 @@
     
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <pre on:click={onClick}>{JSON.stringify(preview, null, '  ')}</pre>
 
 <!-- 
     User has clicked this element
 -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click/>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click={() => /** Close description */ dispatch('close')}/>
 
 <!-- Default Slot -->

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-alpha.35",
+  "version": "7.0.0-alpha.38",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -34,22 +34,22 @@
     "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.35",
-    "@storybook/api": "7.0.0-alpha.35",
-    "@storybook/builder-webpack5": "7.0.0-alpha.35",
-    "@storybook/client-logger": "7.0.0-alpha.35",
-    "@storybook/core-client": "7.0.0-alpha.35",
-    "@storybook/core-common": "7.0.0-alpha.35",
-    "@storybook/core-events": "7.0.0-alpha.35",
-    "@storybook/core-server": "7.0.0-alpha.35",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/docs-tools": "7.0.0-alpha.35",
-    "@storybook/node-logger": "7.0.0-alpha.35",
-    "@storybook/semver": "^7.3.2",
-    "@storybook/store": "7.0.0-alpha.35",
-    "@types/node": "^14.14.20 || ^16.0.0",
+    "@storybook/addons": "7.0.0-alpha.38",
+    "@storybook/api": "7.0.0-alpha.38",
+    "@storybook/builder-webpack5": "7.0.0-alpha.38",
+    "@storybook/client-logger": "7.0.0-alpha.38",
+    "@storybook/core-client": "7.0.0-alpha.38",
+    "@storybook/core-common": "7.0.0-alpha.38",
+    "@storybook/core-events": "7.0.0-alpha.38",
+    "@storybook/core-server": "7.0.0-alpha.38",
+    "@storybook/csf": "0.0.2--canary.49.258942b.0",
+    "@storybook/docs-tools": "7.0.0-alpha.38",
+    "@storybook/node-logger": "7.0.0-alpha.38",
+    "@storybook/store": "7.0.0-alpha.38",
+    "@types/node": "^16.0.0",
     "@types/react": "^16.14.23",
     "@types/react-dom": "^16.9.14",
+    "@types/semver": "^7.3.4",
     "autoprefixer": "^9.8.6",
     "core-js": "^3.8.2",
     "find-up": "^5.0.0",
@@ -64,6 +64,7 @@
     "react-dom": "^16.14.0",
     "read-pkg-up": "^7.0.1",
     "sass-loader": "^12.6.0",
+    "semver": "^7.3.7",
     "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
     "ts-loader": "^9.2.8",
@@ -94,7 +95,8 @@
     "jest-specific-snapshot": "^5.0.0",
     "tmp": "^0.2.1",
     "typescript": "~4.6.3",
-    "webpack": "5"
+    "webpack": "5",
+    "zone.js": "^0.11.0"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">=0.1300.0",
@@ -129,5 +131,5 @@
     "access": "public"
   },
   "builders": "dist/types/builders/builders.json",
-  "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1"
+  "gitHead": "438114fcf62a763f0e8c07e2c34890dd987ca431"
 }

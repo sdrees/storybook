@@ -2,13 +2,14 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 
 export const chromatic: Task = {
-  before: ['build'],
+  description: 'Run Chromatic against the sandbox',
+  dependsOn: ['build'],
   junit: true,
   async ready() {
     return false;
   },
-  async run(templateKey, { sandboxDir, builtSandboxDir, junitFilename }) {
-    const tokenEnvVarName = `CHROMATIC_TOKEN_${templateKey.toUpperCase().replace(/\/|-|\./g, '_')}`;
+  async run({ key, sandboxDir, builtSandboxDir, junitFilename }, { dryRun, debug }) {
+    const tokenEnvVarName = `CHROMATIC_TOKEN_${key.toUpperCase().replace(/\/|-|\./g, '_')}`;
     const token = process.env[tokenEnvVarName];
 
     await exec(
@@ -18,7 +19,7 @@ export const chromatic: Task = {
           --junit-report=${junitFilename} \
           --projectToken=${token}`,
       { cwd: sandboxDir },
-      { debug: true }
+      { dryRun, debug }
     );
   },
 };

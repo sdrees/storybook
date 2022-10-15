@@ -10,6 +10,7 @@
 
 <div class="main">
   <h1>Link Action</h1>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <button on:click={onClick} class="link">
     Return to the <code class="code">Welcome</code> view story.
   </button>

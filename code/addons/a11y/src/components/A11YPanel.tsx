@@ -106,7 +106,7 @@ export const A11YPanel: React.FC = () => {
             'Rerun tests'
           ) : (
             <>
-              <Icon inline icon="check" /> Tests completed
+              <Icon icon="check" /> Tests completed
             </>
           ),
         onClick: handleManual,
@@ -162,8 +162,7 @@ export const A11YPanel: React.FC = () => {
       )}
       {status === 'running' && (
         <Centered>
-          <RotatingIcon inline icon="sync" /> Please wait while the accessibility scan is running
-          ...
+          <RotatingIcon icon="sync" /> Please wait while the accessibility scan is running ...
         </Centered>
       )}
       {(status === 'ready' || status === 'ran') && (

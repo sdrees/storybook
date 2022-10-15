@@ -1,4 +1,5 @@
-/* eslint-disable global-require */
+import * as api from '.';
+
 describe('preview', () => {
   afterEach(() => {
     jest.resetModules();
@@ -7,13 +8,11 @@ describe('preview', () => {
   const isFunction = (value: unknown) => typeof value === 'function';
 
   it('should return the client api in a browser environment', () => {
-    const api = require('.');
     expect(Object.keys(api).length).toBeGreaterThan(0);
     expect(Object.values(api).every(isFunction)).toEqual(true);
   });
 
   it('should return the client api in a node.js environment', () => {
-    const api = require('.');
     expect(Object.keys(api).length).toBeGreaterThan(0);
     expect(Object.values(api).every(isFunction)).toEqual(true);
   });

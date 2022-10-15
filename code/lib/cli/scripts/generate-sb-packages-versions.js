@@ -4,7 +4,7 @@ const { readJson, writeFile } = require('fs-extra');
 const { exec } = require('child_process');
 const path = require('path');
 const globby = require('globby');
-const semver = require('@storybook/semver');
+const semver = require('semver');
 const { default: dedent } = require('ts-dedent');
 
 const rootDirectory = path.join(__dirname, '..', '..', '..');

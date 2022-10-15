@@ -73,7 +73,7 @@ const TemplateIFrame = (args) => {
         src="/iframe.html?id=ui-panel--default&viewMode=story"
         style={style}
         ref={iFrameRef}
-        allowFullScreen
+        allow="fullscreen"
       />
     </Zoom.IFrame>
   );

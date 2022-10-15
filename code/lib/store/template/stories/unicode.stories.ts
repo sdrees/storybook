@@ -6,9 +6,9 @@ export default {
 };
 
 export const Кнопки = {
-  args: { children: 'Кнопки' },
+  args: { label: 'Кнопки' },
 };
 
 export const 바보 = {
-  args: { children: '바보' },
+  args: { label: '바보' },
 };

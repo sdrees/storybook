@@ -23,6 +23,7 @@ const postinstallAddon = async (addonName: string, isOfficialAddon: boolean) => 
     LEGACY_CONFIGS.forEach((config) => {
       try {
         const codemod = require.resolve(
+          // @ts-expect-error (it is broken)
           `${getPackageName(addonName, isOfficialAddon)}/postinstall/${config}.js`
         );
         commandLog(`Running postinstall script for ${addonName}`)();

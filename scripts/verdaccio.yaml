@@ -31,10 +31,6 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/semver':
-    access: $all
-    publish: $all
-    proxy: npmjs
   '@storybook/design-system':
     access: $all
     publish: $all
@@ -60,6 +56,10 @@ packages:
     publish: $all
     proxy: npmjs
   '@storybook/addon-svelte-csf':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/create-svelte-with-args':
     access: $all
     publish: $all
     proxy: npmjs
@@ -96,6 +96,11 @@ packages:
     publish: $all
     proxy: npmjs
   '@storybook/babel-plugin-require-context-hook':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/semver':
+    # TODO: remove this when new versions of all dependents have been published and updated. It is not used anymore but still referenced in the latest packages
     access: $all
     publish: $all
     proxy: npmjs

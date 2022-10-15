@@ -1,4 +1,4 @@
-import { getCommand, OptionSpecifier, OptionValues } from './options';
+import { createOptions, getCommand, OptionSpecifier, OptionValues } from './options';
 import { exec } from './exec';
 
 const cliExecutable = require.resolve('../../code/lib/cli/bin/index.js');
@@ -10,6 +10,49 @@ export type CLIStep<TOptions extends OptionSpecifier> = {
   icon: string;
   // It would be kind of great to be able to share these with `lib/cli/src/generate.ts`
   options: TOptions;
+};
+
+export const steps = {
+  repro: {
+    command: 'repro-next',
+    description: 'Bootstrapping Template',
+    icon: '👷',
+    hasArgument: true,
+    options: createOptions({
+      output: { type: 'string' },
+      // TODO allow default values for strings
+      branch: { type: 'string', values: ['next'] },
+    }),
+  },
+  add: {
+    command: 'add',
+    description: 'Adding addon',
+    icon: '+',
+    hasArgument: true,
+    options: createOptions({}),
+  },
+  link: {
+    command: 'link',
+    description: 'Linking packages',
+    icon: '🔗',
+    hasArgument: true,
+    options: createOptions({
+      local: { type: 'boolean' },
+      start: { type: 'boolean', inverse: true },
+    }),
+  },
+  build: {
+    command: 'build',
+    description: 'Building Storybook',
+    icon: '🔨',
+    options: createOptions({}),
+  },
+  dev: {
+    command: 'dev',
+    description: 'Starting Storybook',
+    icon: '🖥 ',
+    options: createOptions({}),
+  },
 };
 
 export async function executeCLIStep<TOptions extends OptionSpecifier>(

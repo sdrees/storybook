@@ -1,5 +1,5 @@
 import path, { join } from 'path';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import {
   checkForProjects,
   editStorybookTsConfig,

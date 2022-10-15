@@ -1,4 +1,4 @@
-import { validRange, minVersion } from '@storybook/semver';
+import { validRange, minVersion } from 'semver';
 
 function ltMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed

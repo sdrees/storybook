@@ -1,4 +1,3 @@
-declare module '@storybook/semver';
 declare module 'global';
 
 // TODO: Replace, as soon as @types/react-dom 17.0.14 is used

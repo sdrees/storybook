@@ -2,14 +2,15 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 
 export const smokeTest: Task = {
-  before: ['create'],
+  description: 'Run the smoke tests of a sandbox',
+  dependsOn: ['sandbox'],
   async ready() {
     return false;
   },
-  async run(_, { sandboxDir }) {
+  async run({ sandboxDir }, { dryRun, debug }) {
     // eslint-disable-next-line no-console
     console.log(`smoke testing in ${sandboxDir}`);
 
-    return exec(`yarn storybook --smoke-test`, { cwd: sandboxDir }, { debug: true });
+    return exec(`yarn storybook --smoke-test`, { cwd: sandboxDir }, { dryRun, debug });
   },
 };

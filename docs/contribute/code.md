@@ -17,17 +17,40 @@ Start by [forking](https://docs.github.com/en/github/getting-started-with-github
 git clone https://github.com/your-username/storybook.git
 ```
 
-In the root directory, run the following command:
+## Run your first sandbox
+
+Storybook development happens in a set of *sandboxes* which are templated Storybook environments corresponding to different user setups. Within each sandbox, we inject a set of generalized stories that allow us to test core features and addons in all such environments.
+
+To run an sandbox locally, you can use the `start` command:
 
 ```shell
-./bootstrap.sh --core
+yarn start
 ```
 
-This will install dependencies in both `scripts` and `code` directories, as well as build all the necessary packages for Storybook to run.
+That will install the required prerequisites, build the code, create and link an example for a Vite/React setup, and start the storybook server.
 
-## Run tests & examples
+If all goes well you should see the sandbox running.
 
-Once you've completed the [initial setup](#initial-setup), you should have a fully functional version of Storybook built on your local machine. Before making any code changes, it's helpful to verify that everything is working as it should. More specifically, the test suite and examples.
+![Storybook Sandbox Running](./storybook-sandbox.png)
+
+## Running a different sandbox template
+
+The `start` command runs a Vite/React template, but there are many others you can use if you want to work on a different renderer or framework.
+
+To get started, run the `yarn task` command; it will prompt you with a series of questions to figure out what you are trying to do. Once you've made a selection it will provide a set of options that you can use to run the same command again.
+
+```shell
+yarn task
+```
+
+<div class="aside">
+💡 The <code>yarn task</code> command takes a couple of shortcuts for development that could catch you out if you change branches: you may need to rerun the <code>install</code> and <code>compile</code> tasks. You can do that by running the command with the <code>--start-from=install</code></li> flag.
+</div>
+
+
+## Running tests
+
+Once you've run your [first sandbox](#run-your-first-sandbox), you should have a fully functional version of Storybook built on your local machine. Before making any code changes, it's helpful to verify that everything is working as it should. More specifically, the test suite.
 
 Run the following command to execute the tests:
 
@@ -35,25 +58,11 @@ Run the following command to execute the tests:
 yarn test
 ```
 
-Once the tests finish, check if the examples are working with the following commands:
-
-```shell
-cd examples/react-ts && yarn storybook
-```
-
-<div class="aside">
-💡 The Storybook monorepo contains various example projects, each corresponding to a different framework and environment, and they are commonly used as additional tooling to test new features.
-</div>
-
-If everything is working as it should, you should see the `examples/react-ts` Storybook running.
-
-![Example Storybook running](./storybook-cra-examples-optimized.png)
-
 ## Start developing
 
-Now that you've [verified your setup](#sanity-check), it's time to jump into code. The simplest way to do this is to run one of the examples in one terminal window and the interactive build process in a separate terminal.
+Now that you've [verified your setup](#running-tests), it's time to jump into code. The simplest way to do this is to run one of the sandboxes in one terminal window and the interactive build process in a separate terminal.
 
-Assuming you're still running the `examples/react-ts` from the previous step, open a new terminal and navigate to the root of the Storybook monorepo. Then, create a new branch with the following command:
+Assuming you're still running the Vite React sandbox from `yarn start`, open a new terminal and navigate to the `code/` dir of the Storybook monorepo. Then, create a new branch with the following command:
 
 ```shell
 git checkout -b my-first-storybook-contribution
@@ -87,11 +96,11 @@ When you're done coding, add documentation and tests as appropriate. That simpli
 
 ### Add stories
 
-Adding a story or set of stories to our suite of example apps helps you test your work.
+Adding a story or set of stories to our suite of generic stories helps you test your work.
 
-If you're modifying part of Storybook's core, or one of the essential addons, there's probably an existing set of stories in the [`official-storybook`](../../examples/official-storybook) that documents how the feature is supposed to work. Add your stories there.
+If you're modifying part of Storybook's core, or one of the essential addons, there's probably an existing set of stories in that addon's `template/stories` folder that documents how the feature is supposed to work. Add your stories there.
 
-If you're modifying something related to a specific framework, the framework will have its own examples in the monorepo. For instance, [`examples/vue-kitchen-sink`](../../examples/vue-kitchen-sink) is a natural place to add stories for `@storybook/vue` while [`examples/angular-cli`](../../examples/angular-cli) is the place for `@storybook/angular`.
+If you're modifying something related to a specific renderer (e.g. React, Vue, etc.), the renderer will have its own template stories.
 
 ### Add tests
 
@@ -105,11 +114,13 @@ Unit tests ensure that Storybook doesn't break accidentally. If your code can re
 
 ### End-to-end tests (e2e)
 
-Storybook's monorepo is set up to rely on end-to-end testing with [Cypress](https://www.cypress.io/) during CI. To help with testing, we encourage running this test suite before submitting your contribution. Detailed below are some steps you can take:
+Storybook's monorepo is set up to rely on end-to-end testing with [Playwright](https://playwright.dev) during CI. To help with testing, we encourage running this test suite before submitting your contribution. 
 
-1. Ensure you have Storybook successfully built in your local branch (i.e., run `yarn bootstrap --core`)
-2. Open a terminal and run `yarn local-registry --port 6001 --open --publish` to publish Storybook's packages into a local registry.
-3. In a second terminal, set up a reproduction using the local registry and run the Cypress tests with `yarn test:e2e-framework`.
+To run a e2e test against a sandbox, you can use the `e2e-tests` task:
+
+```shell
+yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
+```
 
 ## Submit a pull request
 
@@ -135,6 +146,23 @@ If your contribution focuses on a bugfix and you want it featured in the next st
 
 - [Sync a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks/syncing-a-fork)
 - [Merge an upstream repository into your fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks/merging-an-upstream-repository-into-your-fork)
+
+### Reproducing job failures
+
+After creating your PR, if one of the CI jobs failed, when checking the logs of that job, you will see that it printed a message explaining how to reproduce the task locally. Typically that involves running the task against the right template:
+
+```shell
+yarn task --task e2e-tests --template=react-vite/default-ts --start-from=install
+```
+
+Typically it is a good idea to start from the `install` task to ensure your local code is completely up to date. If you reproduce the failure, you can try and make fixes, [compile them](#start-developing) with `build`, then rerun the task with `--start-from=auto`.
+ 
+ <div class="aside">
+
+<p>💡 The default instructions run the code "linked" which means built changes to Storybook library code will be reflected in the sandbox right away (the next time you run the task). However CI runs in "unlinked" mode, which in rare cases will behave differently.</p>
+
+<p>If you are having trouble reproducing, try rerunning the command with the <code>--no-link</code> flag. If you need to do that, you'll need to run it with <code>--start-from=compile</code> after each code change.
+</div>
 
 ## How to work with reproductions
 

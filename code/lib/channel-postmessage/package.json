@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-postmessage",
-  "version": "7.0.0-alpha.35",
+  "version": "7.0.0-alpha.38",
   "description": "",
   "keywords": [
     "storybook"
@@ -20,9 +20,17 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -31,12 +39,12 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-alpha.35",
-    "@storybook/client-logger": "7.0.0-alpha.35",
-    "@storybook/core-events": "7.0.0-alpha.35",
+    "@storybook/channels": "7.0.0-alpha.38",
+    "@storybook/client-logger": "7.0.0-alpha.38",
+    "@storybook/core-events": "7.0.0-alpha.38",
     "global": "^4.4.0",
     "qs": "^6.10.0",
     "telejson": "^6.0.8"
@@ -47,5 +55,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1"
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ]
+  },
+  "gitHead": "438114fcf62a763f0e8c07e2c34890dd987ca431"
 }

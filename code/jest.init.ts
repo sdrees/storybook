@@ -43,7 +43,7 @@ const ignoreList = [
   (error: any) =>
     error.message.includes('react-async-component-lifecycle-hooks') &&
     error.stack.includes('addons/knobs/src/components/__tests__/Options.js'),
-  // Storyshots blows up if your project includes a (non stories.) mdx file (react-ts does).
+  // Storyshots blows up if your project includes a (non stories.) mdx file.
   (error: any) => error.message.match(/Unexpected error while loading .*(?<!stories)\.mdx/),
 ];
 

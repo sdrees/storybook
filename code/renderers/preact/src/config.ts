@@ -1,3 +1,3 @@
-export { renderToDOM } from './render';
+export { renderToDOM, render } from './render';
 
 export const parameters = { framework: 'preact' as const };

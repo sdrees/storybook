@@ -6,7 +6,7 @@ import { expect } from '@storybook/jest';
 export default {
   component: globalThis.Components.Button,
   args: {
-    children: 'Click me',
+    label: 'Click me',
   },
 };
 
@@ -32,10 +32,11 @@ export const ChangeArgs = {
 
     // Vue3: https://github.com/storybookjs/storybook/issues/13913
     // Svelte: https://github.com/storybookjs/storybook/issues/19205
-    if (['vue3', 'svelte'].includes(globalThis.storybookRenderer)) return;
+    // Web-components: https://github.com/storybookjs/storybook/issues/19415
+    if (['vue3', 'svelte', 'web-components', 'html'].includes(globalThis.storybookRenderer)) return;
 
     // When we change the args to the button, it should not rerender
-    await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { children: 'New Text' } });
+    await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { label: 'New Text' } });
     await within(canvasElement).findByText(/New Text/);
     await expect(button).toHaveFocus();
 
