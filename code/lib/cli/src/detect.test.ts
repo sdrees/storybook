@@ -140,6 +140,16 @@ const MOCK_FRAMEWORK_FILES: {
     },
   },
   {
+    name: ProjectType.NEXTJS,
+    files: {
+      'package.json': {
+        dependencies: {
+          next: '^9.0.0',
+        },
+      },
+    },
+  },
+  {
     name: ProjectType.ANGULAR,
     files: {
       'package.json': {

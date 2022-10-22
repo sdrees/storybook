@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, Channel } from '@storybook/addons';
 import type { StoryId } from '@storybook/addons';
-import { logger, once } from '@storybook/client-logger';
+import { once, logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,

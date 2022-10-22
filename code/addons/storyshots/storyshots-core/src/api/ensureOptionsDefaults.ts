@@ -1,6 +1,6 @@
 import { snapshotWithOptions } from '../test-bodies';
 import { Stories2SnapsConverter } from '../Stories2SnapsConverter';
-import { StoryshotsOptions } from './StoryshotsOptions';
+import type { StoryshotsOptions } from './StoryshotsOptions';
 
 const ignore = ['**/node_modules/**'];
 const defaultStories2SnapsConverter = new Stories2SnapsConverter();

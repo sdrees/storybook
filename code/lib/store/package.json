@@ -1,6 +1,6 @@
 {
   "name": "@storybook/store",
-  "version": "7.0.0-alpha.38",
+  "version": "7.0.0-alpha.41",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,10 +42,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.38",
-    "@storybook/client-logger": "7.0.0-alpha.38",
-    "@storybook/core-events": "7.0.0-alpha.38",
-    "@storybook/csf": "0.0.2--canary.49.258942b.0",
+    "@storybook/addons": "7.0.0-alpha.41",
+    "@storybook/client-logger": "7.0.0-alpha.41",
+    "@storybook/core-events": "7.0.0-alpha.41",
+    "@storybook/csf": "next",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
@@ -71,5 +71,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "438114fcf62a763f0e8c07e2c34890dd987ca431"
+  "gitHead": "7ec6f916eb875bd2e3cf3aa6b1afcd1fe25d1637"
 }

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { dedent } from 'ts-dedent';
-import { once } from '@storybook/client-logger';
+import { deprecate } from '@storybook/client-logger';
 
 import { CheckboxControl } from './Checkbox';
 import { RadioControl } from './Radio';
@@ -48,7 +48,7 @@ export const OptionsControl: FC<OptionsProps> = (props) => {
   };
 
   if (options) {
-    once.warn(dedent`
+    deprecate(dedent`
       'control.options' is deprecated and will be removed in Storybook 7.0. Define 'options' directly on the argType instead, and use 'control.labels' for custom labels.
 
       More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-controloptions

@@ -1,14 +1,3 @@
-import { once } from '@storybook/client-logger';
-
-/**
- * No longer supported, only here to help with error handling
- */
-export const CURRENT_SELECTION = '.';
-export const currentSelectionWarning = () =>
-  once.warn(
-    '`of="."` (current selection) is no longer supported in doc blocks. Falling back to primary story'
-  );
-
 export const PRIMARY_STORY = '^';
 
 export type Component = any;

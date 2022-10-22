@@ -124,7 +124,7 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 | [jest](code/addons/jest/)                                                 | View the results of components' unit tests in Storybook                    |
 | [links](code/addons/links/)                                               | Create links between stories                                               |
 | [measure](code/addons/measure/)                                           | Visually inspect the layout and box model within the Storybook UI          |
-| [outline](code/addons/outline/)                                           | Visuallly debug the CSS layout and alignment within the Storybook UI       |
+| [outline](code/addons/outline/)                                           | Visually debug the CSS layout and alignment within the Storybook UI        |
 | [query params](https://github.com/storybookjs/addon-queryparams)          | Mock query params                                                          |
 | [storyshots](code/addons/storyshots/)                                     | Snapshot testing for components in Storybook                               |
 | [storysource](code/addons/storysource/)                                   | View the code of your stories within the Storybook UI                      |

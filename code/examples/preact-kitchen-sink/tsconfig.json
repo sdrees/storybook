@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment",
-    "jsxImportSource": "preact"
-  }
-}

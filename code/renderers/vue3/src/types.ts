@@ -12,16 +12,6 @@ export type StoryFnVueReturnType = ConcreteComponent<any>;
 
 export type StoryContext = StoryContextBase<VueFramework>;
 
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}
-
 export type VueFramework = {
   component: ConcreteComponent<any>;
   storyResult: StoryFnVueReturnType;

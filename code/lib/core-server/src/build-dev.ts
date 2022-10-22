@@ -10,6 +10,7 @@ import {
   loadAllPresets,
   cache,
   loadMainConfig,
+  validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
 import global from 'global';
@@ -65,6 +66,8 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  validateFrameworkName(frameworkName);
+
   if (frameworkName) {
     corePresets.push(join(frameworkName, 'preset'));
   } else {

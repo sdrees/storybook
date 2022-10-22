@@ -13,7 +13,7 @@ export const enhanceArgTypes = <TFramework extends AnyFramework>(
 
   const extractedArgTypes = extractArgTypes && component ? extractArgTypes(component) : {};
   const withExtractedTypes = extractedArgTypes
-    ? combineParameters(extractedArgTypes, userArgTypes)
+    ? (combineParameters(extractedArgTypes, userArgTypes) as typeof userArgTypes)
     : userArgTypes;
 
   return withExtractedTypes;

@@ -5,6 +5,10 @@ import npmLog from 'npmlog';
 import prettyTime from 'pretty-hrtime';
 import chalk from 'chalk';
 
+// The default is stderr, which can cause some tools (like rush.js) to think
+// there are issues with the build: https://github.com/storybookjs/storybook/issues/14621
+npmLog.stream = process.stdout;
+
 export const colors = {
   pink: chalk.hex('F1618C'),
   purple: chalk.hex('B57EE5'),
@@ -43,3 +47,5 @@ once.verbose = once('verbose');
 once.info = once('info');
 once.warn = once('warn');
 once.error = once('error');
+
+export const deprecate = once('warn');

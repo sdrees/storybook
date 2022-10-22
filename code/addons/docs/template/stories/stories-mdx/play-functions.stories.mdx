@@ -4,7 +4,6 @@ import globalThis from 'global';
 <Meta
   title="addons/docs/stories-mdx/play functions"
   component={globalThis.Components.Button}
-  // FIXME: this is currently broken in the MDX compiler
   play={() => console.log('component play')}
 />
 
@@ -13,16 +12,9 @@ import globalThis from 'global';
 This file demonstrates defining stories inside MDX.
 
 <Canvas>
-  <Story
-    name="Component Play"
-    args={{ label: 'Component Play' }}
-  />
+  <Story name="Component Play" args={{ label: 'Component Play' }} />
 </Canvas>
 
 <Canvas>
-  <Story
-    name="Story Play"
-    args={{ label: 'Story Play' }}
-    play={() => console.log('story play')}
-  />
+  <Story name="Story Play" args={{ label: 'Story Play' }} play={() => console.log('story play')} />
 </Canvas>

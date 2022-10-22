@@ -78,6 +78,12 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+💡 ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
+
+</div>
+
 This replaces the input with a radio group for a more intuitive experience.
 
 ![Essential Control addon with a radio group](addon-controls-args-variant-optimized.png)

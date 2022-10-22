@@ -23,7 +23,6 @@ Read on to learn more:
   - [Installation](#installation)
     - [Be sure to check framework specific installation needs](#be-sure-to-check-framework-specific-installation-needs)
   - [Preset options](#preset-options)
-  - [Manual configuration](#manual-configuration)
   - [TypeScript configuration](#typescript-configuration)
   - [More resources](#more-resources)
 
@@ -164,67 +163,6 @@ import Changelog from '../CHANGELOG.md';
 <Meta title="Changelog" />
 
 <Changelog />
-```
-
-## Manual configuration
-
-We recommend using the preset, which should work out of the box. If you don't want to use the preset, and prefer to configure "the long way" add the following configuration to `.storybook/main.js` (see comments inline for explanation):
-
-```js
-const createCompiler = require('@storybook/addon-docs/mdx-compiler-plugin');
-
-module.exports = {
-  // 1. register the docs panel (as opposed to '@storybook/addon-docs' which
-  //    will configure everything with a preset)
-  addons: ['@storybook/addon-docs/register'],
-  // 2. manually configure webpack, since you're not using the preset
-  webpackFinal: async (config) => {
-    config.module.rules.push({
-      // 2a. Load `.stories.mdx` / `.story.mdx` files as CSF and generate
-      //     the docs page from the markdown
-      test: /\.(stories|story)\.mdx$/,
-      use: [
-        {
-          // Need to add babel-loader as dependency: `yarn add -D babel-loader`
-          loader: require.resolve('babel-loader'),
-          // may or may not need this line depending on your app's setup
-          options: {
-            plugins: ['@babel/plugin-transform-react-jsx'],
-          },
-        },
-        {
-          loader: '@mdx-js/loader',
-          options: {
-            compilers: [createCompiler({})],
-          },
-        },
-      ],
-    });
-    // 2b. Run `source-loader` on story files to show their source code
-    //     automatically in `DocsPage` or the `Source` doc block.
-    config.module.rules.push({
-      test: /\.(stories|story)\.[tj]sx?$/,
-      loader: require.resolve('@storybook/source-loader'),
-      exclude: [/node_modules/],
-      enforce: 'pre',
-    });
-    return config;
-  },
-};
-```
-
-You'll also need to set up the docs parameter in `.storybook/preview.js`. This includes the `DocsPage` for rendering the page, a container, and various configuration options, such as `extractComponentDescription` for manually extracting a component description:
-
-```js
-import { addParameters } from '@storybook/react';
-import { DocsPage, DocsContainer } from '@storybook/addon-docs';
-
-addParameters({
-  docs: {
-    container: DocsContainer,
-    page: DocsPage,
-  },
-});
 ```
 
 ## TypeScript configuration

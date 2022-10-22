@@ -4,6 +4,37 @@ title: 'Frequently Asked Questions'
 
 Here are some answers to frequently asked questions. If you have a question, you can ask it by opening an issue on the [Storybook Repository](https://github.com/storybookjs/storybook/).
 
+* [How can I opt-out of Angular Ivy?](#how-can-i-opt-out-of-angular-ivy)
+* [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
+* [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
+* [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
+* [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
+* [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
+* [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
+* [Why is there no addons channel?](#why-is-there-no-addons-channel)
+* [Why aren't Controls visible in the Canvas panel but visible in the Docs panel?](#why-arent-controls-visible-in-the-canvas-panel-but-visible-in-the-docs-panel)
+* [Why aren't the addons working in a composed Storybook?](#why-arent-the-addons-working-in-a-composed-storybook)
+* [Which community addons are compatible with the latest version of Storybook?](#which-community-addons-are-compatible-with-the-latest-version-of-storybook)
+* [Is it possible to browse the documentation for past versions of Storybook?](#is-it-possible-to-browse-the-documentation-for-past-versions-of-storybook)
+* [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
+* [I see a "No Preview" error with a Storybook production build](#i-see-a-no-preview-error-with-a-storybook-production-build)
+* [Can I use Storybook with Vue 3?](#can-i-use-storybook-with-vue-3)
+* [Is snapshot testing with Storyshots supported for Vue 3?](#is-snapshot-testing-with-storyshots-supported-for-vue-3)
+* [Why are my MDX stories not working in IE11?](#why-are-my-mdx-stories-not-working-in-ie11)
+* [Why aren't my code blocks highlighted with Storybook MDX](#why-arent-my-code-blocks-highlighted-with-storybook-mdx)
+* [Why aren't my MDX 2 stories working in Storybook?](#why-arent-my-mdx-2-stories-working-in-storybook)
+* [Why can't I import my own stories into MDX 2?](#why-cant-i-import-my-own-stories-into-mdx-2)
+* [Why are my mocked GraphQL queries failing with Storybook's MSW addon?](#why-are-my-mocked-graphql-queries-failing-with-storybooks-msw-addon)
+* [Can I use other GraphQL providers with Storybook's MSW addon?](#can-i-use-other-graphql-providers-with-storybooks-msw-addon)
+* [Can I mock GraphQL mutations with Storybook's MSW addon?](#can-i-mock-graphql-mutations-with-storybooks-msw-addon)
+* [How can my code detect if it is running in Storybook?](#how-can-my-code-detect-if-it-is-running-in-storybook)
+* [Why are my stories not showing up correctly when using certain characters?](#why-are-my-stories-not-showing-up-correctly-when-using-certain-characters)
+* [Why are the TypeScript examples and documentation using `as` for type safety?](#why-are-the-typescript-examples-and-documentation-using-as-for-type-safety)
+* [Why is Storybook's source loader returning undefined with curried functions?](#why-is-storybooks-source-loader-returning-undefined-with-curried-functions)
+* [Why are my args no longer displaying the default values?](#why-are-my-args-no-longer-displaying-the-default-values)
+* [Why isn't Storybook's test runner working?](#why-isnt-storybooks-test-runner-working)
+* [How does Storybook handle environment variables?](#how-does-storybook-handle-environment-variables)
+
 ### How can I opt-out of Angular Ivy?
 
 In case you are having trouble with Angular Ivy you can deactivate it in your `main.js`:
@@ -468,7 +499,7 @@ export default {
 
 There's an issue with Storybook's test runner and the latest version of Jest (i.e., version 28), which prevents it from running effectively. As a workaround, you can downgrade Jest to the previous stable version (i.e., version 27), and you'll be able to run it. See the following [issue](https://github.com/storybookjs/test-runner/issues/99) for more information.
 
-### How does Storybook handles enviroment variables?
+### How does Storybook handle environment variables?
 
 Storybook has built-in support for [environment variables](./configure/environment-variables.md). By default, environment variables are only available in Node.js code and are not available in the browser as some variables should be kept secret (e.g., API keys) and **not** exposed to anyone visiting the published Storybook.
 

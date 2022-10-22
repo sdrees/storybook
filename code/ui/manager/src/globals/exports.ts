@@ -234,5 +234,5 @@ export default {
     'useState',
     'useStoryContext',
   ],
-  '@storybook/client-logger': ['logger', 'once', 'pretty'],
+  '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
 } as const;

@@ -1,8 +1,8 @@
 /* eslint-disable global-require */
 import path from 'path';
 import hasDependency from '../hasDependency';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return (
@@ -25,14 +25,20 @@ function configure(options: StoryshotsOptions, storybook: any) {
 
 function load(options: StoryshotsOptions) {
   const storybook = jest.requireActual('@storybook/react-native');
+  const clientAPI = jest.requireActual('@storybook/client-api');
 
-  configure(options, storybook);
+  const api = {
+    ...clientAPI,
+    ...storybook,
+  };
+
+  configure(options, api);
 
   return {
     renderTree: require('../react/renderTree').default,
     renderShallowTree: require('../react/renderShallowTree').default,
     framework: 'react-native' as const,
-    storybook,
+    storybook: api,
   };
 }
 

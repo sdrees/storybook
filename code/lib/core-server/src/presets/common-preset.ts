@@ -108,7 +108,6 @@ export const features = async (
   interactionsDebugger: false,
   babelModeV7: true,
   argTypeTargetsV7: true,
-  previewMdx2: false,
 });
 
 export const storyIndexers = async (indexers?: StoryIndexer[]) => {

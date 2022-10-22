@@ -1,4 +1,4 @@
-import { UpdateNotifier, Package } from 'update-notifier';
+import type { Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
@@ -11,6 +11,7 @@ import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
+import nextjsGenerator from './generators/NEXTJS';
 import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
@@ -25,7 +26,7 @@ import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
-import { JsPackageManagerFactory, JsPackageManager } from './js-package-manager';
+import { JsPackageManagerFactory, JsPackageManager, useNpmWarning } from './js-package-manager';
 import { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
 import { CommandOptions } from './generators/types';
@@ -107,6 +108,11 @@ const installStorybook = (
       case ProjectType.REACT_PROJECT:
         return reactGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "React" library\n')
+        );
+
+      case ProjectType.NEXTJS:
+        return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Next" app\n')
         );
 
       case ProjectType.SFC_VUE:
@@ -220,7 +226,7 @@ const installStorybook = (
 };
 
 const projectTypeInquirer = async (
-  options: { yes?: boolean },
+  options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
 ) => {
   const manualAnswer = options.yes
@@ -251,7 +257,11 @@ const projectTypeInquirer = async (
 };
 
 export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
-  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
+  const { useNpm, packageManager: pkgMgr } = options;
+  if (useNpm) {
+    useNpmWarning();
+  }
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
@@ -260,7 +270,8 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   }
 
   // Update notify code.
-  new UpdateNotifier({
+  const { default: updateNotifier } = await import('update-notifier');
+  updateNotifier({
     pkg,
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   }).notify();
@@ -307,7 +318,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
     packageManager.installDependencies();
   }
 
-  await automigrate({ yes: options.yes || process.env.CI === 'true' });
+  await automigrate({ yes: options.yes || process.env.CI === 'true', useNpm, force: pkgMgr });
 
   logger.log('\nTo run your Storybook, type:\n');
   codeLog([packageManager.getRunStorybookCommand()]);

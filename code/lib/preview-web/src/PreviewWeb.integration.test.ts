@@ -2,7 +2,7 @@ import React from 'react';
 import global from 'global';
 import { RenderContext } from '@storybook/store';
 import addons, { mockChannel as createMockChannel } from '@storybook/addons';
-import { DocsRenderer } from '@storybook/addon-docs';
+
 import { mocked } from 'ts-jest/utils';
 import { expect } from '@jest/globals';
 
@@ -55,7 +55,10 @@ beforeEach(() => {
   projectAnnotations.renderToDOM.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
-  projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
+  // We need to import DocsRenderer async because MDX2 is ESM-only so we inline
+  // this in each of the async tests below to get it working in Jest
+  // projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
@@ -67,6 +70,9 @@ beforeEach(() => {
 describe('PreviewWeb', () => {
   describe('initial render', () => {
     it('renders story mode through the stack', async () => {
+      const { DocsRenderer } = await import('@storybook/addon-docs');
+      projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
       projectAnnotations.renderToDOM.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
         storyFn()
       );
@@ -80,6 +86,9 @@ describe('PreviewWeb', () => {
     });
 
     it('renders docs mode through docs page', async () => {
+      const { DocsRenderer } = await import('@storybook/addon-docs');
+      projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
       document.location.search = '?id=component-one--docs&viewMode=docs';
       const preview = new PreviewWeb();
 
@@ -116,6 +125,9 @@ describe('PreviewWeb', () => {
     };
 
     it('renders story mode through the updated stack', async () => {
+      const { DocsRenderer } = await import('@storybook/addon-docs');
+      projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
       document.location.search = '?id=component-one--a';
       const preview = new PreviewWeb();
       await preview.initialize({ importFn, getProjectAnnotations });

@@ -38,10 +38,17 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const isWebpack5 = semver.gte(angularVersion, '12.0.0');
   const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
-  await baseGenerator(packageManager, npmOptions, updatedOptions, 'angular', {
-    extraPackages: ['@compodoc/compodoc'],
-    addScripts: false,
-  });
+  await baseGenerator(
+    packageManager,
+    npmOptions,
+    updatedOptions,
+    'angular',
+    {
+      extraPackages: ['@compodoc/compodoc'],
+      addScripts: false,
+    },
+    'angular'
+  );
 
   const templateDir = join(getBaseDir(), 'templates', 'angular');
   copyTemplate(templateDir);

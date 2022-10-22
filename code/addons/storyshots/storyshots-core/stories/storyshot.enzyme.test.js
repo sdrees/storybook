@@ -1,9 +1,9 @@
 import path from 'path';
 import { mount } from 'enzyme';
-import initStoryshots from '../dist/types';
+import initStoryshots from '../src';
 
 initStoryshots({
   framework: 'react',
-  configPath: path.join(__dirname, '..', '.storybook'),
+  configPath: path.join(__dirname, 'exported_metadata'),
   renderer: mount,
 });

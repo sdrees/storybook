@@ -4,8 +4,8 @@
 import global from 'global';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return (
@@ -17,8 +17,17 @@ function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'preact';
 
   const storybook = jest.requireActual('@storybook/preact');
+  const clientAPI = jest.requireActual('@storybook/client-api');
 
-  configure({ ...options, storybook });
+  const api = {
+    ...clientAPI,
+    ...storybook,
+  };
+
+  configure({
+    ...options,
+    storybook: api,
+  });
 
   return {
     framework: 'preact' as const,
@@ -26,7 +35,7 @@ function load(options: StoryshotsOptions) {
     renderShallowTree: () => {
       throw new Error('Shallow renderer is not supported for preact');
     },
-    storybook,
+    storybook: api,
   };
 }
 

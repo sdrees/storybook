@@ -1,3 +1,5 @@
+/// <reference types="@types/jest" />;
+
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
@@ -458,6 +460,24 @@ describe('StoryIndexGenerator', () => {
                 "type": "story",
               },
             },
+            "v": 4,
+          }
+        `);
+      });
+
+      // https://github.com/storybookjs/storybook/issues/19142
+      it('does not generate a docs page entry if there are no stories in the CSF file', async () => {
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './errors/NoStories.stories.ts',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([csfSpecifier], docsPageOptions);
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {},
             "v": 4,
           }
         `);

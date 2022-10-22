@@ -231,6 +231,11 @@
       "type": "library",
       "implicitDependencies": []
     },
+    "@storybook/nextjs": {
+      "root": "frameworks/nextjs",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/node-logger": {
       "root": "lib/node-logger",
       "type": "library",
@@ -416,11 +421,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "preact-example": {
-      "root": "examples/preact-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "sb": {
       "root": "lib/cli-sb",
       "type": "library",
@@ -438,11 +438,6 @@
     },
     "storybook": {
       "root": "lib/cli-storybook",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "svelte-example": {
-      "root": "examples/svelte-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
     },

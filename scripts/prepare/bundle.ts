@@ -107,7 +107,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       outDir: join(process.cwd(), 'dist'),
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       format: ['cjs'],
-      target: 'node14',
+      target: 'node16',
       platform: 'node',
       clean: !watch,
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],

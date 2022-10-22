@@ -77,65 +77,6 @@ describe('initial state', () => {
       expect(layout).toEqual({ showPanel: false });
     });
   });
-
-  describe('deprecated query parameters', () => {
-    const defaultDeprecatedParameters = {
-      selectedKind: 'kind',
-      selectedStory: 'story',
-      addons: '1',
-      stories: '1',
-      panelRight: '0',
-    };
-
-    it('sets sensible storyId for selectedKind/Story', () => {
-      const location = { search: qs.stringify(defaultDeprecatedParameters) };
-      const {
-        state: { layout, storyId },
-      } = initURL({ state: { location, viewMode } });
-
-      // Nothing unexpected in layout
-      expect(layout).toEqual({});
-      expect(storyId).toEqual('kind--story');
-    });
-
-    it('sets sensible storyId for selectedKind only', () => {
-      const location = { search: { selectedKind: 'kind' } };
-      const {
-        state: { storyId },
-      } = initURL({ state: { location, viewMode } });
-
-      expect(storyId).toEqual('kind');
-    });
-
-    it('handles addons and stories parameters', () => {
-      const location = {
-        search: qs.stringify({
-          ...defaultDeprecatedParameters,
-          addons: '0',
-          stories: '0',
-        }),
-      };
-      const {
-        state: { layout },
-      } = initURL({ state: { location } });
-
-      expect(layout).toEqual({ showNav: false, showPanel: false });
-    });
-
-    it('handles panelRight parameter', () => {
-      const location = {
-        search: qs.stringify({
-          ...defaultDeprecatedParameters,
-          panelRight: '1',
-        }),
-      };
-      const {
-        state: { layout },
-      } = initURL({ state: { location } });
-
-      expect(layout).toEqual({ panelPosition: 'right' });
-    });
-  });
 });
 
 describe('queryParams', () => {

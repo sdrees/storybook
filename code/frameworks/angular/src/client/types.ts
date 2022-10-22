@@ -14,16 +14,6 @@ export interface ICollection {
   [p: string]: any;
 }
 
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}
-
 export interface StoryFnAngularReturnType {
   /** @deprecated `component` story input is deprecated, and will be removed in Storybook 7.0. */
   component?: any;

@@ -15,13 +15,3 @@ export interface ShowErrorArgs {
 }
 
 export type StoryFnReactReturnType = ReactElement<unknown>;
-
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}

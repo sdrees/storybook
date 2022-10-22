@@ -14,7 +14,6 @@ const config: StorybookConfig = {
     buildStoriesJson: true,
     babelModeV7: true,
     warnOnLegacyHierarchySeparator: false,
-    previewMdx2: true,
     breakingChangesV7: true,
   },
   framework: '@storybook/react-webpack5',

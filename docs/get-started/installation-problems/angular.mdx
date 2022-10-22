@@ -4,10 +4,10 @@
   npx storybook init --type angular
   ```
 
-- Storybook's CLI provides support for both [Yarn](https://yarnpkg.com/) and [npm](https://www.npmjs.com/) package managers. If you have Yarn installed in your environment but prefer to use npm as your default package manager add the `--use-npm` flag to your installation command. For example:
+- Storybook's CLI provides support for [Yarn](https://yarnpkg.com/), [npm](https://www.npmjs.com/), and [pnpm](https://pnpm.io/) package managers. If you have Yarn installed in your environment but prefer to use another as your default package manager add the `--package-manager` flag to your installation command. For example:
 
   ```shell
-  npx storybook init --use-npm
+  npx storybook init --package-manager=npm
   ```
 
 - Storybook supports Webpack 5 out of the box. If you're upgrading from a previous version, run the following command to enable it:

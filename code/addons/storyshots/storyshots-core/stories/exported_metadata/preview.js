@@ -1,10 +1,13 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
+
+const Container = ({ children }) => <div>{children}</div>;
 
 export const decorators = [
   (StoryFn, { parameters, globals }) => (
-    <div>
+    <Container>
       {parameters.prefix} <StoryFn /> {globals.suffix}
-    </div>
+    </Container>
   ),
 ];
 

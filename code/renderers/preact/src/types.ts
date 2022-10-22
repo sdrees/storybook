@@ -9,16 +9,6 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}
-
 export type PreactFramework = {
   component: AnyComponent<any, any>;
   storyResult: StoryFnPreactReturnType;

@@ -3,7 +3,7 @@ import { str } from '@storybook/docs-tools';
 import { Description, DescriptionProps as PureDescriptionProps } from '../components';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
-import { Component, CURRENT_SELECTION, currentSelectionWarning, PRIMARY_STORY } from './types';
+import { Component, PRIMARY_STORY } from './types';
 
 export enum DescriptionType {
   INFO = 'info',
@@ -40,8 +40,7 @@ export const getDescriptionProps = (
   }
   const { notes, info, docs } = parameters;
   const { extractComponentDescription = noDescription, description } = docs || {};
-  if (of === CURRENT_SELECTION) currentSelectionWarning();
-  const target = [CURRENT_SELECTION, PRIMARY_STORY].includes(of) ? component : of;
+  const target = [PRIMARY_STORY].includes(of) ? component : of;
 
   // override component description
   const componentDescriptionParameter = description?.component;

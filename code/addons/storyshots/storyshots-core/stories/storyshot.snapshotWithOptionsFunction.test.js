@@ -1,8 +1,8 @@
 import path from 'path';
-import initStoryshots, { snapshotWithOptions } from '../dist/types';
+import initStoryshots, { snapshotWithOptions } from '../src';
 
 initStoryshots({
   framework: 'react',
-  configPath: path.join(__dirname, '..', '.storybook'),
+  configPath: path.join(__dirname, 'exported_metadata'),
   test: snapshotWithOptions(() => ({})),
 });

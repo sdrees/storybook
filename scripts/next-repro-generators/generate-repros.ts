@@ -4,7 +4,7 @@ import { command } from 'execa';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
-import { copy, emptyDir, ensureDir, move, rename, writeFile } from 'fs-extra';
+import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { AbortController } from 'node-abort-controller';
 import { directory } from 'tempy';
@@ -29,7 +29,7 @@ const SCRIPT_TIMEOUT = 5 * 60 * 1000;
 const sbInit = async (cwd: string, flags?: string[]) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
-  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
+  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true', STORYBOOK_REPRO_GENERATOR: 'true' };
   const fullFlags = ['--yes', ...(flags || [])];
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env });
 };
@@ -65,7 +65,7 @@ const addStorybook = async (baseDir: string, localRegistry: boolean, flags?: str
 
   await copy(beforeDir, tmpDir);
 
-  const packageManager = JsPackageManagerFactory.getPackageManager(false, tmpDir);
+  const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
   if (localRegistry) {
     await withLocalRegistry(packageManager, async () => {
       packageManager.addPackageResolutions(storybookVersions);
@@ -154,6 +154,9 @@ const runGenerators = async (
         // Now move the created before dir into it's final location and add storybook
         await move(createBeforeDir, beforeDir);
 
+        // Make sure there are no git projects in the folder
+        await remove(join(beforeDir, '.git'));
+
         await addStorybook(baseDir, localRegistry, flags);
 
         await addDocumentation(baseDir, { name, dirName });
@@ -205,7 +208,7 @@ const generate = async ({
 
 program
   .description('Create a reproduction from a set of possible templates')
-  .option('--template <template>', 'Create a single template')
+  .option('--template <template>', 'Create a single template') // change this to allow multiple templates or regex
   .option('--local-registry', 'Use local registry', false)
   .action((options) => {
     generate(options).catch((e) => {

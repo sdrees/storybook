@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "7.0.0-alpha.38",
+  "version": "7.0.0-alpha.41",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -21,9 +21,27 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./register": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -32,16 +50,16 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.38",
-    "@storybook/api": "7.0.0-alpha.38",
-    "@storybook/client-logger": "7.0.0-alpha.38",
-    "@storybook/components": "7.0.0-alpha.38",
-    "@storybook/router": "7.0.0-alpha.38",
-    "@storybook/source-loader": "7.0.0-alpha.38",
-    "@storybook/theming": "7.0.0-alpha.38",
+    "@storybook/addons": "7.0.0-alpha.41",
+    "@storybook/api": "7.0.0-alpha.41",
+    "@storybook/client-logger": "7.0.0-alpha.41",
+    "@storybook/components": "7.0.0-alpha.41",
+    "@storybook/router": "7.0.0-alpha.41",
+    "@storybook/source-loader": "7.0.0-alpha.41",
+    "@storybook/theming": "7.0.0-alpha.41",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
     "react-syntax-highlighter": "^15.5.0"
@@ -66,7 +84,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "438114fcf62a763f0e8c07e2c34890dd987ca431",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx",
+      "./src/preset.ts"
+    ]
+  },
+  "gitHead": "7ec6f916eb875bd2e3cf3aa6b1afcd1fe25d1637",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",

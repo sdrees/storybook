@@ -1,5 +1,5 @@
 import path from 'path';
-import initStoryshots from '../dist/types';
+import initStoryshots from '../src';
 
 // jest.mock('@storybook/node-logger');
 

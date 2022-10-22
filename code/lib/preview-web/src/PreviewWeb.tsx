@@ -1,4 +1,3 @@
-import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import {
@@ -72,17 +71,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
     this.view = new WebView();
     this.urlStore = new UrlStore();
-
-    // Add deprecated APIs for back-compat
-    // @ts-expect-error (Converted from ts-ignore)
-    this.storyStore.getSelection = deprecate(
-      () => this.urlStore.selection,
-      dedent`
-        \`__STORYBOOK_STORY_STORE__.getSelection()\` is deprecated and will be removed in 7.0.
-
-        To get the current selection, use the \`useStoryContext()\` hook from \`@storybook/addons\`.
-      `
-    );
   }
 
   setupListeners() {

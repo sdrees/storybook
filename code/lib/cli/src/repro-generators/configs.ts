@@ -100,6 +100,28 @@ export const react_typescript: Parameters = {
   ],
 };
 
+export const nextjs: Parameters = {
+  renderer: 'react',
+  name: 'nextjs',
+  version: 'latest',
+  generator: [
+    // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
+    'npm_config_user_agent=npm npx -p create-next-app@{{version}} create-next-app {{appName}}',
+    'cd {{appName}}',
+  ].join(' && '),
+};
+
+export const nextjs_typescript: Parameters = {
+  renderer: 'react',
+  name: 'nextjs_typescript',
+  version: 'latest',
+  generator: [
+    // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
+    'npm_config_user_agent=npm npx -p create-next-app@{{version}} create-next-app {{appName}} --typescript',
+    'cd {{appName}}',
+  ].join(' && '),
+};
+
 // export const vite_react: Parameters = {
 //   renderer: 'react',
 //   name: 'vite_react',

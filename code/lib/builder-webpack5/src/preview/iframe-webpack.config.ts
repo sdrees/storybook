@@ -122,7 +122,7 @@ export default async (
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
-      path.join(__dirname, 'virtualModuleEntry.template.js')
+      path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
     previewAnnotations.forEach((previewAnnotationFilename: any) => {
@@ -143,7 +143,7 @@ export default async (
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        path.join(__dirname, 'virtualModuleStory.template.js')
+        path.join(__dirname, '..', '..', 'templates', 'virtualModuleStory.template.js')
       );
       // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
       // in the user's webpack mode, which may be strict about the use of require/import.

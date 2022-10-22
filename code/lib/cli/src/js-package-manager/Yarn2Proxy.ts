@@ -1,6 +1,7 @@
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 
+// This encompasses both yarn 2 and yarn 3
 export class Yarn2Proxy extends JsPackageManager {
   readonly type = 'yarn2';
 

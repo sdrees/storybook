@@ -4,7 +4,8 @@ const craTemplates = {
     script: 'npx create-react-app .',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
-      framework: '@storybook/cra',
+      // TODO: change this to @storybook/cra once that package is created
+      framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
@@ -16,7 +17,31 @@ const craTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      framework: '@storybook/cra',
+      // TODO: change this to @storybook/cra once that package is created
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
+const nextjsTemplates = {
+  'nextjs/default-js': {
+    name: 'Next.js (JavaScript)',
+    script: 'npx create-next-app {{beforeDir}}',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'nextjs/default-ts': {
+    name: 'Next.js (TypeScript)',
+    script: 'npx create-next-app {{beforeDir}} --typescript',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
@@ -104,7 +129,7 @@ const vue2ViteTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      framework: '@storybook/vue2-vite',
+      framework: '@storybook/vue-vite',
       renderer: '@storybook/vue',
       builder: '@storybook/builder-vite',
     },
@@ -164,7 +189,7 @@ const angularCliTemplates = {
   'angular-cli/13-ts': {
     name: 'Angular CLI (Version 13)',
     script:
-      'npx -p @angular/cli@13 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@13 ng new angular-v13 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/angular',
@@ -174,32 +199,30 @@ const angularCliTemplates = {
   },
 };
 
-// TODO: enable this when repo has been upgraded to node@16
-// SvelteKit only supports Node.js >16.x, so before generating these repros you need to switch to that version
-// const svelteKitTemplates = {
-//   'svelte-kit/skeleton-js': {
-//     name: 'Svelte Kit (JS)',
-//     script:
-//       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
-//     cadence: ['ci', 'daily', 'weekly'],
-//     expected: {
-//       framework: '@storybook/svelte-vite',
-//       renderer: '@storybook/svelte',
-//       builder: '@storybook/builder-vite',
-//     },
-//   },
-//   'svelte-kit/skeleton-ts': {
-//     name: 'Svelte Kit (TS)',
-//     script:
-//       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
-//     cadence: ['ci', 'daily', 'weekly'],
-//     expected: {
-//       framework: '@storybook/svelte-vite',
-//       renderer: '@storybook/svelte',
-//       builder: '@storybook/builder-vite',
-//     },
-//   },
-// };
+const svelteKitTemplates = {
+  'svelte-kit/skeleton-js': {
+    name: 'Svelte Kit (JS)',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'svelte-kit/skeleton-ts': {
+    name: 'Svelte Kit (TS)',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
 
 const litViteTemplates = {
   'lit-vite/default-js': {
@@ -268,8 +291,7 @@ const preactWebpackTemplates = {
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
     script: 'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install',
-    // cadence: ['ci', 'daily', 'weekly'],
-    cadence: [] as string[],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -279,8 +301,7 @@ const preactWebpackTemplates = {
   'preact-webpack5/default-ts': {
     name: 'Preact CLI (Default TS)',
     script: 'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install',
-    // cadence: ['ci', 'daily', 'weekly'],
-    cadence: [] as string[],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -291,16 +312,16 @@ const preactWebpackTemplates = {
 
 export default {
   ...craTemplates,
-  ...reactWebpackTemplates,
   ...reactViteTemplates,
+  ...reactWebpackTemplates,
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
-  // TODO: enable this when repo has been upgraded to node@16
-  // ...svelteKitTemplates,
+  ...svelteKitTemplates,
   ...angularCliTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
+  ...nextjsTemplates,
 } as const;

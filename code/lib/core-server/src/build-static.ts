@@ -168,11 +168,7 @@ export async function buildStaticStandalone(
   if (!core?.disableTelemetry) {
     effects.push(
       initializedStoryIndexGenerator.then(async (generator) => {
-        if (!generator) {
-          return;
-        }
-
-        const storyIndex = await generator.getIndex();
+        const storyIndex = await generator?.getIndex();
         const payload = storyIndex
           ? {
               storyIndex: {

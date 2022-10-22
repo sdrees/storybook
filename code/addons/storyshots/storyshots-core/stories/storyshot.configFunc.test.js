@@ -1,5 +1,5 @@
 import path from 'path';
-import initStoryshots, { multiSnapshotWithOptions, Stories2SnapsConverter } from '../dist/types';
+import initStoryshots, { multiSnapshotWithOptions, Stories2SnapsConverter } from '../src';
 
 class AnotherStories2SnapsConverter extends Stories2SnapsConverter {
   getSnapshotFileName(context) {
@@ -38,7 +38,7 @@ initStoryshots({
   config: ({ configure }) =>
     configure(() => {
       // eslint-disable-next-line global-require
-      require('./directly_required');
+      require('./exported_metadata/Extra.stories.jsx');
     }, module),
   test: multiSnapshotWithOptions(),
 });

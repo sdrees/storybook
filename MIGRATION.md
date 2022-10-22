@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [Breaking changes](#breaking-changes)
+    - [register.js removed](#registerjs-removed)
     - [`Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`](#story-type-change-to-storyfn-and-the-new-story-type-now-refers-to-storyobj)
     - [Change of root html IDs](#change-of-root-html-ids)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -18,6 +19,7 @@
     - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
+    - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
@@ -25,12 +27,17 @@
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
+    - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
+    - [Addon-docs: Removed deprecated blocks.js entry](#addon-docs-removed-deprecated-blocksjs-entry)
+    - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
     - [Docs Page](#docs-page)
     - [Configuring the Docs Container](#configuring-the-docs-container)
     - [External Docs](#external-docs)
+    - [MDX2 upgrade](#mdx2-upgrade)
+    - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -242,6 +249,14 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### Breaking changes
 
+#### register.js removed
+
+In SB 6.x and earlier, addons exported a `register.js` entry point by convention, and users would import this in `.storybook/manager.js`. This was [deprecated in SB 6.5](#deprecated-registerjs)
+
+In 7.0, most of Storybook's addons now export a `manager.js` entry point, which is automatically registered in Storybook's manager when the addon is listed in `.storybook/main.js`'s `addons` field.
+
+If your `.manager.js` config references `register.js` of any of the following addons, you can remove it: `a11y`, `actions`, `backgrounds`, `controls`, `interactions`, `jest`, `links`, `measure`, `outline`, `toolbars`, `viewport`.
+
 #### `Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`
 
 In 6.x you were able to do this:
@@ -414,7 +429,7 @@ If you are running into errors, you can upgrade your project to Webpack5 or you 
 To upgrade:
 
 - If you're configuring webpack directly, see the Webpack5 [release announcement](https://webpack.js.org/blog/2020-10-10-webpack-5-release/) and [migration guide](https://webpack.js.org/migrate/5).
-- If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to ugprade from V4 (Webpack4) to 5
+- If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to upgrade from V4 (Webpack4) to 5
 
 During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
 
@@ -440,9 +455,11 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/svelte-webpack5`
 - `@storybook/svelte-vite`
 - `@storybook/vue-webpack5`
+- `@storybook/vue-vite`
 - `@storybook/vue3-webpack5`
 - `@storybook/vue3-vite`
 - `@storybook/web-components-webpack5`
+- `@storybook/web-components-vite`
 
 We will be expanding this list over the course of the 7.0 development cycle. More info on the rationale here: [Frameworks RFC](https://www.notion.so/chromatic-ui/Frameworks-RFC-89f8aafe3f0941ceb4c24683859ed65c).
 
@@ -522,6 +539,10 @@ In 7.0 we've removed the following feature flags:
 | `emotionAlias`      | This flag is no longer needed and should be deleted. |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted. |
 
+#### CLI option `--use-npm` deprecated
+
+With increased support for more package managers (pnpm), we have introduced the `--package-manager` CLI option. Please use `--package-manager=npm` to force NPM to be used to install dependencies when running Storybook CLI commands. Other valid options are `pnpm`, `yarn1`, and `yarn2` (`yarn2` is for versions 2 and higher).
+
 #### Vite builder uses vite config automatically
 
 When using a [Vite-based framework](#framework-field-mandatory), Storybook will automatically use your `vite.config.(ctm)js` config file starting in 7.0.  
@@ -530,7 +551,7 @@ If you were using `viteFinal` in 6.5 to simply merge in your project's standard 
 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
-Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook.  However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once.  We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about.  It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)). 
+Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook. However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once. We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about. It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
 
 #### Removed docs.getContainer and getPage parameters
 
@@ -538,7 +559,7 @@ It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`
 
 #### Removed STORYBOOK_REACT_CLASSES global
 
-This was a legacy global variable from the early days of react docgen.  If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
+This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
 
 #### Icons API changed
 
@@ -563,10 +584,22 @@ Additionally, the internal field `'previewEntries'` has been removed. If you nee
 
 #### Dropped support for Angular 12 and below
 
-Official [Angular 12 LTS support ends Nov 2022](https://angular.io/guide/releases#actively-supported-versions). With that, Storybook also drops its support 
-for Angular 12 and below. 
+Official [Angular 12 LTS support ends Nov 2022](https://angular.io/guide/releases#actively-supported-versions). With that, Storybook also drops its support
+for Angular 12 and below.
 
 In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
+
+#### Addon-backgrounds: Removed deprecated grid parameter
+
+Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.cellSize`. This was [deprecated in SB 6.1](#deprecated-grid-parameter).
+
+#### Addon-docs: Removed deprecated blocks.js entry
+
+Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/addon-docs` instead. This was [deprecated in SB 6.3](#deprecated-scoped-blocks-imports).
+
+#### Addon-a11y: Removed deprecated withA11y decorator
+
+We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
 
 ### Docs Changes
 
@@ -634,7 +667,7 @@ You can configure Docs Page in `main.js`:
 module.exports = {
   docs: {
     docsPage: true, // set to false to disable docs page entirely
-    defaultTitle: 'Docs', // set to change the title of generated docs entries
+    defaultName: 'Docs', // set to change the name of generated docs entries
   },
 };
 ```
@@ -703,6 +736,20 @@ export default function App({ Component, pageProps }) {
   );
 }
 ```
+
+#### MDX2 upgrade
+
+Storybook 7 Docs uses MDXv2 instead of MDXv1. This means an improved syntax, support for inline JS expression, and improved performance among [other benefits](https://mdxjs.com/blog/v2/).
+
+If you use `.stories.mdx` files in your project, you may need to edit them since MDX2 contains [breaking changes](https://mdxjs.com/migrating/v2/#update-mdx-files).
+
+We will update this section with specific pointers based on user feedback during the prerelease period and probably add an codemod to help streamline the upgrade before final 7.0 release.
+
+As part of the upgrade we deleted the codemod `mdx-to-csf` and will be replacing it with a more sophisticated version prior to release.
+
+#### Dropped addon-docs manual configuration
+
+Storybook Docs 5.x shipped with instructions for how to manually configure webpack and storybook without the use of Storybook's "presets" feature. Over time, these docs went out of sync. Now in Storybook 7 we have removed support for manual configuration entirely.
 
 ## From version 6.4.x to 6.5.0
 
@@ -773,7 +820,7 @@ SB6.5 moves framework specializations (e.g. ArgType inference, dynamic snippet r
 
 This change should not require any specific migrations on your part if you are using the docs addon as described in the documentation. However, if you are using `react-docgen` or `react-docgen-typescript` information in some custom way outside of `addon-docs`, you should be aware of this change.
 
-In SB6.4, `@storybook/react` added `react-docgen` to its babel settings and `react-docgen-typescript` to its webpack settings. In SB6.5, this only happens if you are using `addon-docs` or `addon-controls`, either directly or indirectly through `addon-essentials`. If you're not using either of those addons, but require that information for some other addon, please configure that manually in your `.storybook/main.js` configuration. You can see the docs configuration here: https://github.com/storybookjs/storybook/blob/next/app/react/src/server/framework-preset-react-docs.ts
+In SB6.4, `@storybook/react` added `react-docgen` to its babel settings and `react-docgen-typescript` to its webpack settings. In SB6.5, this only happens if you are using `addon-docs` or `addon-controls`, either directly or indirectly through `addon-essentials`. If you're not using either of those addons, but require that information for some other addon, please configure that manually in your `.storybook/main.js` configuration. You can see the docs configuration here: https://github.com/storybookjs/storybook/blob/next/code/presets/react-webpack/src/framework-preset-react-docs.ts
 
 ### Opt-in MDX2 support
 

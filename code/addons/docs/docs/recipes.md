@@ -4,7 +4,6 @@
 
 - [Component Story Format (CSF) with DocsPage](#component-story-format-csf-with-docspage)
 - [Pure MDX Stories](#pure-mdx-stories)
-- [Mixed CSF / MDX Stories](#mixed-csf--mdx-stories)
 - [CSF Stories with MDX Docs](#csf-stories-with-mdx-docs)
 - [CSF Stories with arbitrary MDX](#csf-stories-with-arbitrary-mdx)
 - [Mixing storiesOf with CSF/MDX](#mixing-storiesof-with-csfmdx)
@@ -29,12 +28,6 @@ If you want to intersperse longform documentation in your Storybook, for example
 ## Pure MDX Stories
 
 [MDX](mdx.md) is an alternative syntax to CSF that allows you to co-locate your stories and your documentation. Everything you can do in CSF, you can do in MDX. And if you're consuming it in [Webpack](https://webpack.js.org/), it exposes an _identical_ interface, so the two files are interchangeable. Some teams will choose to write all of their Storybook in MDX and never look back.
-
-## Mixed CSF / MDX Stories
-
-Can't decide between CSF and MDX? In transition? Or have you found that each format has its own use? There's nothing stopping you from keeping some of your stories in CSF and some in MDX. And if you want to migrate one way or another, the [csf-to-mdx and mdx-to-csf codemod migrations](https://github.com/storybookjs/storybook/blob/next/code/lib/codemod/README.md) can help.
-
-The only limitation is that your exported titles (CSF: `default.title`, MDX `Meta.title`) should be unique across files. Loading will fail if there are duplicate titles.
 
 ## CSF Stories with MDX Docs
 

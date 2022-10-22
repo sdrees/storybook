@@ -9,6 +9,9 @@ const inputRegExp = /\.input\.js$/;
 
 const fixturesDir = path.resolve(__dirname, '../__testfixtures__');
 fs.readdirSync(fixturesDir).forEach((transformName) => {
+  // FIXME: delete after https://github.com/storybookjs/storybook/issues/19497
+  if (transformName === 'mdx-to-csf') return;
+
   const transformFixturesDir = path.join(fixturesDir, transformName);
   describe(transformName, () =>
     fs

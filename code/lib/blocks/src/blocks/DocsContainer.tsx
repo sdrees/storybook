@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, ReactNode } from 'react';
 import global from 'global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
@@ -13,6 +13,7 @@ const { document, window: globalWindow } = global;
 export interface DocsContainerProps<TFramework extends AnyFramework = AnyFramework> {
   context: DocsContextProps<TFramework>;
   theme?: ThemeVars;
+  children?: ReactNode;
 }
 
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({

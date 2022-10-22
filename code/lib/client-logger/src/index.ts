@@ -50,6 +50,8 @@ once.warn = once('warn');
 once.error = once('error');
 once.log = once('log');
 
+export const deprecate = once('warn');
+
 export const pretty =
   (type: keyof typeof logger) =>
   (...args: Parameters<LoggingFn>) => {

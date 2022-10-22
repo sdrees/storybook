@@ -6,7 +6,11 @@ import { getStorybookInfo } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 
 import { commandLog } from './helpers';
-import { JsPackageManagerFactory } from './js-package-manager';
+import {
+  JsPackageManagerFactory,
+  useNpmWarning,
+  type PackageManagerName,
+} from './js-package-manager';
 
 const logger = console;
 
@@ -66,8 +70,15 @@ const getVersionSpecifier = (addon: string) => {
  * it will try to use the version specifier matching your current
  * Storybook install version.
  */
-export async function add(addon: string, options: { useNpm: boolean; skipPostinstall: boolean }) {
-  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
+export async function add(
+  addon: string,
+  options: { useNpm: boolean; packageManager: PackageManagerName; skipPostinstall: boolean }
+) {
+  const { useNpm, packageManager: pkgMgr } = options;
+  if (useNpm) {
+    useNpmWarning();
+  }
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
   const packageJson = packageManager.retrievePackageJson();
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 

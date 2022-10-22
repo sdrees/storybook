@@ -18,7 +18,7 @@ import {
 } from '../components';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
-import { Component, CURRENT_SELECTION, currentSelectionWarning, PRIMARY_STORY } from './types';
+import { Component, PRIMARY_STORY } from './types';
 import { getComponentName } from './utils';
 import { useStory } from './useStory';
 
@@ -105,7 +105,7 @@ export const extractComponentArgTypes = (
 };
 
 const isShortcut = (value?: string) => {
-  return value && [CURRENT_SELECTION, PRIMARY_STORY].includes(value);
+  return value && [PRIMARY_STORY].includes(value);
 };
 
 export const getComponent = (props: ArgsTableProps = {}, context: DocsContextProps): Component => {
@@ -152,9 +152,7 @@ export const StoryTable: FC<
   try {
     let storyId;
     switch (storyName) {
-      case CURRENT_SELECTION:
       case PRIMARY_STORY: {
-        if (storyName === CURRENT_SELECTION) currentSelectionWarning();
         const primaryStory = context.storyById();
         storyId = primaryStory.id;
         break;

@@ -83,7 +83,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 <!-- prettier-ignore-end -->
 
 <div class="aside">
-💡 The recommendation mentioned above also applies to other frameworks not only React.
+💡 The recommendation mentioned above also applies to other frameworks, not only React.
 </div>
 
 ### Rename stories

@@ -112,7 +112,7 @@ function configure<TFramework extends AnyFramework>(
   }));
 
   if (preview) {
-    // This is essentially the same code as lib/core/src/server/preview/virtualModuleEntry.template
+    // This is essentially the same code as lib/builder-webpack5/templates/virtualModuleEntry.template
     const {
       parameters,
       decorators,

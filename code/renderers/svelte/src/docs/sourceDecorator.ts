@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, useEffect } from '@storybook/addons';
-import { once } from '@storybook/client-logger';
+import { deprecate } from '@storybook/client-logger';
 import type { ArgTypes, Args, StoryContext, AnyFramework } from '@storybook/csf';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -168,7 +168,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<AnyFramework
   const { wrapper, slotProperty } = getWrapperProperties(component);
   if (wrapper) {
     if (parameters.component) {
-      once.warn('parameters.component is deprecated. Using context.component instead.');
+      deprecate('parameters.component is deprecated. Using context.component instead.');
     }
 
     component = ctxtComponent;

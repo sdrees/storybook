@@ -14,7 +14,6 @@ import type { ModuleExport, ModuleExports, Story as StoryType } from '@storybook
 import { Story as PureStory, StorySkeleton } from '../components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { useStory } from './useStory';
-import { CURRENT_SELECTION, currentSelectionWarning } from './types';
 
 export const storyBlockIdFromId = (storyId: string) => `story--${storyId}`;
 
@@ -51,8 +50,7 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   }
 
   const { name } = props as StoryDefProps;
-  if (id === CURRENT_SELECTION) currentSelectionWarning();
-  const inputId = id === CURRENT_SELECTION ? context.storyById().id : id;
+  const inputId = id;
   return inputId || context.storyIdByName(name);
 };
 

@@ -1,5 +1,5 @@
 import { OutputFile } from 'esbuild';
-import { writeFile, ensureFile } from 'fs-extra';
+import fs from 'fs-extra';
 import { join } from 'path';
 import { Compilation } from '../types';
 
@@ -12,7 +12,8 @@ export async function readOrderedFiles(
       // convert deeply nested paths to a single level, also remove special characters
       const { location, url } = sanitizePath(file, addonsDir);
 
-      await ensureFile(location).then(() => writeFile(location, file.contents));
+      await fs.ensureFile(location);
+      await fs.writeFile(location, file.contents);
       return url;
     }) || []
   );

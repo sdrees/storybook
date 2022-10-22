@@ -127,7 +127,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
   const storiesMdxLoaderPath = require.resolve(
-    '../../code/node_modules/@storybook/mdx1-csf/loader'
+    '../../code/node_modules/@storybook/mdx2-csf/loader'
   );
   const babelLoaderPath = require.resolve('babel-loader');
   const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
@@ -294,10 +294,14 @@ function addExtraDependencies({
   debug: boolean;
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
-  const extraDeps = ['@storybook/jest', '@storybook/testing-library@0.0.14-next.0'];
+  const extraDeps = [
+    '@storybook/jest',
+    '@storybook/testing-library@next',
+    '@storybook/test-runner@next',
+  ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
-    const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
+    const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
     packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
   }
 }
@@ -325,6 +329,16 @@ export const addStories: Task['run'] = async (
     cwd,
     linkInDir: resolve(cwd, storiesPath),
   });
+
+  const frameworkPath = await workspacePath('frameworks', template.expected.framework);
+  // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
+  if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
+    await linkPackageStories(frameworkPath, {
+      mainConfig,
+      cwd,
+      linkInDir: resolve(cwd, storiesPath),
+    });
+  }
 
   // Add stories for lib/store (and addons below). NOTE: these stories will be in the
   // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)

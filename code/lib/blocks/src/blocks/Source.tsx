@@ -6,7 +6,6 @@ import { SourceType } from '@storybook/docs-tools';
 import { Source as PureSource, SourceError } from '../components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps, SourceItem } from './SourceContainer';
-import { CURRENT_SELECTION, currentSelectionWarning } from './types';
 
 import { enhanceSource } from './enhanceSource';
 import { useStories } from './useStory';
@@ -104,8 +103,7 @@ export const getSourceProps = (
 
   const targetIds = multiProps.ids || [singleProps.id || primaryId];
   const storyIds = targetIds.map((targetId) => {
-    if (targetId === CURRENT_SELECTION) currentSelectionWarning();
-    return targetId === CURRENT_SELECTION ? primaryId : targetId;
+    return targetId;
   });
 
   const stories = useStories(storyIds, docsContext);

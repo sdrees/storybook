@@ -5,7 +5,7 @@ import {
 } from '@storybook/store';
 import type { CSFExports, ComposedStory, StoriesWithPartialProps } from '@storybook/store';
 import { ProjectAnnotations, Args } from '@storybook/csf';
-import { once } from '@storybook/client-logger';
+import { deprecate } from '@storybook/client-logger';
 
 import { render } from './render';
 import type { Meta } from './public-types';
@@ -39,7 +39,7 @@ export function setProjectAnnotations(
 export function setGlobalConfig(
   projectAnnotations: ProjectAnnotations<ReactFramework> | ProjectAnnotations<ReactFramework>[]
 ) {
-  once.warn(`setGlobalConfig is deprecated. Use setProjectAnnotations instead.`);
+  deprecate(`setGlobalConfig is deprecated. Use setProjectAnnotations instead.`);
   setProjectAnnotations(projectAnnotations);
 }
 

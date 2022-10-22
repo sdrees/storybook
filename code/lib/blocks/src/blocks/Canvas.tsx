@@ -9,7 +9,6 @@ import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps } from './SourceContainer';
 import { getSourceProps, SourceState } from './Source';
 import { useStories } from './useStory';
-import { CURRENT_SELECTION, currentSelectionWarning } from './types';
 
 export { SourceState };
 
@@ -52,8 +51,7 @@ const getPreviewProps = (
   const sourceProps = getSourceProps({ ids: targetIds }, docsContext, sourceContext);
   if (!sourceState) sourceState = sourceProps.state;
   const storyIds = targetIds.map((targetId) => {
-    if (targetId === CURRENT_SELECTION) currentSelectionWarning();
-    return targetId === CURRENT_SELECTION ? docsContext.storyById().id : targetId;
+    return targetId;
   });
   const stories = useStories(storyIds, docsContext);
   isLoading = stories.some((s) => !s);

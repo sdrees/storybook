@@ -1,4 +1,3 @@
-import { once } from '@storybook/client-logger';
 import {
   NAVIGATE_URL,
   STORY_ARGS_UPDATED,
@@ -8,10 +7,8 @@ import {
 } from '@storybook/core-events';
 import type { NavigateOptions } from '@storybook/router';
 import { queryFromLocation, buildArgsParam } from '@storybook/router';
-import { toId, sanitize } from '@storybook/csf';
 import { dequal as deepEqual } from 'dequal';
 import global from 'global';
-import { dedent } from 'ts-dedent';
 
 import { ModuleArgs, ModuleFn } from '../index';
 import { Layout, UI } from './layout';
@@ -49,11 +46,6 @@ const initialUrlSupport = ({
     shortcuts,
     addonPanel,
     tabs,
-    addons, // deprecated
-    panelRight, // deprecated
-    stories, // deprecated
-    selectedKind, // deprecated
-    selectedStory, // deprecated
     path: queryPath,
     ...otherParams // the rest gets passed to the iframe
   } = queryFromLocation(location);
@@ -70,47 +62,7 @@ const initialUrlSupport = ({
   };
   const selectedPanel = addonPanel || undefined;
 
-  // @deprecated Superceded by `panel=false`, to be removed in 7.0
-  if (addons === '0') {
-    once.warn(dedent`
-      The 'addons' query param is deprecated and will be removed in Storybook 7.0. Use 'panel=false' instead.
-
-      More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-layout-url-params
-    `);
-    layout.showPanel = false;
-  }
-  // @deprecated Superceded by `panel=right`, to be removed in 7.0
-  if (panelRight === '1') {
-    once.warn(dedent`
-      The 'panelRight' query param is deprecated and will be removed in Storybook 7.0. Use 'panel=right' instead.
-
-      More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-layout-url-params
-    `);
-    layout.panelPosition = 'right';
-  }
-  // @deprecated Superceded by `nav=false`, to be removed in 7.0
-  if (stories === '0') {
-    once.warn(dedent`
-      The 'stories' query param is deprecated and will be removed in Storybook 7.0. Use 'nav=false' instead.
-
-      More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-layout-url-params
-    `);
-    layout.showNav = false;
-  }
-
-  // @deprecated To be removed in 7.0
-  // If the user hasn't set the storyId on the URL, we support legacy URLs (selectedKind/selectedStory)
-  // NOTE: this "storyId" can just be a prefix of a storyId, really it is a storyIdSpecifier.
-  let storyId = storyIdFromUrl;
-  if (!storyId && selectedKind) {
-    once.warn(dedent`
-      The 'selectedKind' and 'selectedStory' query params are deprecated and will be removed in Storybook 7.0. Use 'path' instead.
-
-      More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-layout-url-params
-    `);
-    storyId = selectedStory ? toId(selectedKind, selectedStory) : sanitize(selectedKind);
-  }
-
+  const storyId = storyIdFromUrl;
   // Avoid returning a new object each time if no params actually changed.
   const customQueryParams = deepEqual(prevParams, otherParams) ? prevParams : otherParams;
   prevParams = customQueryParams;

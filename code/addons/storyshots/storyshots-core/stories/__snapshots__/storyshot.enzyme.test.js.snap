@@ -1,139 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Another Button with some emoji 1`] = `
-<Button
-  onClick={[Function]}
->
-  <button
-    onClick={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "border": "1px solid #eee",
-        "borderRadius": 3,
-        "cursor": "pointer",
-        "fontSize": 15,
-        "margin": 10,
-        "padding": "3px 10px",
-      }
-    }
-    type="button"
-  >
-    <span
-      aria-label="so cool"
-      role="img"
-    >
-      😀 😎 👍 💯
-    </span>
-  </button>
-</Button>
+<Container>
+  <div>
+    prefix
+     
+    <Component>
+      <button
+        onClick={[Function]}
+      >
+        <span
+          aria-label="so cool"
+          role="img"
+        >
+          😀 😎 👍 💯
+        </span>
+      </button>
+    </Component>
+     
+    suffix
+  </div>
+</Container>
 `;
 
 exports[`Storyshots Another Button with text 1`] = `
-<Button
-  onClick={[Function]}
->
-  <button
-    onClick={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "border": "1px solid #eee",
-        "borderRadius": 3,
-        "cursor": "pointer",
-        "fontSize": 15,
-        "margin": 10,
-        "padding": "3px 10px",
-      }
-    }
-    type="button"
-  >
-    Hello Button
-  </button>
-</Button>
+<Container>
+  <div>
+    prefix
+     
+    <Component>
+      <button
+        onClick={[Function]}
+      >
+        Hello button
+      </button>
+    </Component>
+     
+    suffix
+  </div>
+</Container>
 `;
 
-exports[`Storyshots Async with 5ms timeout simulating async operation 1`] = `
-<AsyncTestComponent>
-  <h1 />
-</AsyncTestComponent>
-`;
-
-exports[`Storyshots Button With Text 1`] = `
-<Button
-  onClick={[Function]}
->
-  <button
-    onClick={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "border": "1px solid #eee",
-        "borderRadius": 3,
-        "cursor": "pointer",
-        "fontSize": 15,
-        "margin": 10,
-        "padding": "3px 10px",
-      }
-    }
-    type="button"
-  >
-    Hello Button
-  </button>
-</Button>
-`;
-
-exports[`Storyshots Button with some emoji 1`] = `
-<Button
-  onClick={[Function]}
->
-  <button
-    onClick={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "border": "1px solid #eee",
-        "borderRadius": 3,
-        "cursor": "pointer",
-        "fontSize": 15,
-        "margin": 10,
-        "padding": "3px 10px",
-      }
-    }
-    type="button"
-  >
-    <span
-      aria-label="so cool"
-      role="img"
-    >
-      😀 😎 👍 💯
-    </span>
-  </button>
-</Button>
-`;
-
-exports[`Storyshots Welcome MDX to Storybook 1`] = `
-<Welcome
-  showApp={[Function]}
->
-  <button
-    onClick={[Function]}
-    type="button"
-  >
-    Welcome
-  </button>
-</Welcome>
-`;
-
-exports[`Storyshots Welcome to Storybook 1`] = `
-<Welcome
-  showApp={[Function]}
->
-  <button
-    onClick={[Function]}
-    type="button"
-  >
-    Welcome
-  </button>
-</Welcome>
+exports[`Storyshots Text Simple 1`] = `
+<Container>
+  <div>
+    prefix
+     
+    <Component>
+      contents
+    </Component>
+     
+    suffix
+  </div>
+</Container>
 `;

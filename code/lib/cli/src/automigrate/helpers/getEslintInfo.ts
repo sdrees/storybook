@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 
-export const SUPPORTED_ESLINT_EXTENSIONS = ['js', 'cjs'];
-const UNSUPPORTED_ESLINT_EXTENSIONS = ['yaml', 'yml', 'json'];
+export const SUPPORTED_ESLINT_EXTENSIONS = ['js', 'cjs', 'json'];
+const UNSUPPORTED_ESLINT_EXTENSIONS = ['yaml', 'yml'];
 
 export const findEslintFile = () => {
   const filePrefix = '.eslintrc';

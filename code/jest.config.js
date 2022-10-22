@@ -24,29 +24,24 @@ module.exports = {
     // 'babel-runtime/core-js/object/assign'
     'core-js/library/fn/object/assign': 'core-js/es/object/assign',
   },
-  projects: [
-    '<rootDir>',
-    // '<rootDir>/app/angular',
-    // '<rootDir>/examples/svelte-kitchen-sink',
-    // '<rootDir>/examples/vue-kitchen-sink',
-    // '<rootDir>/examples/preact-kitchen-sink',
-    // This is explicitly commented out because having vue 2 & 3 in the
-    // dependency graph makes it impossible to run storyshots on both examples
-    // '<rootDir>/examples/vue-3-cli',
-  ],
+  projects: ['<rootDir>'],
   roots: ['<rootDir>/addons', '<rootDir>/frameworks', '<rootDir>/lib', '<rootDir>/renderers'],
   transform: {
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
     '^.+\\.[jt]sx?$': '<rootDir>/../scripts/utils/jest-transform-js.js',
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
-  transformIgnorePatterns: ['/node_modules/(?!lit-html).+\\.js'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(lit-html|@mdx-js)).+\\.js',
+    '/node_modules/(?!).+\\.js',
+  ],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/storybook-static/',
     '/node_modules/',
     '/dist/',
     '/prebuilt/',
+    '/template/',
     'addon-jest.test.js',
     '/frameworks/angular/*',
     '/examples/*/src/*.*',
@@ -55,9 +50,10 @@ module.exports = {
   ],
   collectCoverage: false,
   collectCoverageFrom: [
-    'frameworks/**/*.{js,jsx,ts,tsx}',
-    'lib/**/*.{js,jsx,ts,tsx}',
-    'addons/**/*.{js,jsx,ts,tsx}',
+    'frameworks/*/src/**/*.{js,jsx,ts,tsx}',
+    'lib/*/src/**/*.{js,jsx,ts,tsx}',
+    'renderers/*/src/**/*.{js,jsx,ts,tsx}',
+    'addons/*/src/**/*.{js,jsx,ts,tsx}',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
@@ -65,6 +61,7 @@ module.exports = {
     '/dist/',
     '/prebuilt/',
     '/generators/',
+    '/template/',
     '/dll/',
     '/__mocks__ /',
     '/__mockdata__/',
@@ -88,7 +85,12 @@ module.exports = {
   testEnvironment: 'jest-environment-jsdom-thirteen',
   setupFiles: ['raf/polyfill'],
   testURL: 'http://localhost',
-  modulePathIgnorePatterns: ['/dist/.*/__mocks__/', '/storybook-static/'],
+  modulePathIgnorePatterns: [
+    //
+    '/dist/.*/__mocks__/',
+    '/storybook-static/',
+    '/template/',
+  ],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   reporters: ['default', 'jest-junit'],

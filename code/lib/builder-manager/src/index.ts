@@ -1,5 +1,5 @@
 import { dirname, join } from 'path';
-import { copy, writeFile, remove } from 'fs-extra';
+import fs from 'fs-extra';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
@@ -111,7 +111,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   // make sure we clear output directory of addons dir before starting
   // this could cause caching issues where addons are loaded when they shouldn't
   const addonsDir = config.outdir;
-  await remove(addonsDir);
+  await fs.remove(addonsDir);
 
   yield;
 
@@ -191,7 +191,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   yield;
 
-  const managerFiles = copy(coreDirOrigin, coreDirTarget);
+  const managerFiles = fs.copy(coreDirOrigin, coreDirTarget);
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
@@ -211,7 +211,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   await Promise.all([
     //
-    writeFile(join(options.outputDir, 'index.html'), html),
+    fs.writeFile(join(options.outputDir, 'index.html'), html),
     managerFiles,
   ]);
 

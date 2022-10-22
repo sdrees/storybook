@@ -5,5 +5,4 @@ export { addons } from '@storybook/addons';
 export { composeConfigs, PreviewWeb } from '@storybook/preview-web';
 export { ClientApi } from '@storybook/client-api';
 
-export * from '@storybook/web-components';
 export type { StorybookConfig } from '@storybook/builder-vite';

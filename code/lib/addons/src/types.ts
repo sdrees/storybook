@@ -168,17 +168,6 @@ export interface ClientApiAddons<StoryFnReturnType> {
   [key: string]: ClientApiAddon<StoryFnReturnType>;
 }
 
-// Old types for getStorybook()
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}
-
 export type ClientApiReturnFn<StoryFnReturnType = unknown> = (
   ...args: any[]
 ) => StoryApi<StoryFnReturnType>;
@@ -198,8 +187,6 @@ export interface StoryApi<StoryFnReturnType = unknown> {
 
 export interface ClientStoryApi<StoryFnReturnType = unknown> {
   storiesOf(kind: StoryKind, module: any): StoryApi<StoryFnReturnType>;
-  addDecorator(decorator: DecoratorFunction<StoryFnReturnType>): StoryApi<StoryFnReturnType>;
-  addParameters(parameter: Parameters): StoryApi<StoryFnReturnType>;
 }
 
 type LoadFn = () => any;

@@ -75,13 +75,13 @@ describe('Helpers', () => {
       await helpers.copyComponents('react', language);
 
       const copySpy = jest.spyOn(fse, 'copy');
-      expect(copySpy).toHaveBeenNthCalledWith(1, expectedDirectory, './stories', expect.anything());
       expect(copySpy).toHaveBeenNthCalledWith(
-        2,
+        1,
         'rendererAssets/common',
         './stories',
         expect.anything()
       );
+      expect(copySpy).toHaveBeenNthCalledWith(2, expectedDirectory, './stories', expect.anything());
     }
   );
 

@@ -29,7 +29,7 @@ export const telemetry = async (
     }
 
     if (!telemetryData.payload.error || options?.enableCrashReports) {
-      if (process.env?.STORYBOOK_DEBUG_TELEMETRY) {
+      if (process.env?.STORYBOOK_TELEMETRY_DEBUG) {
         logger.info('\n[telemetry]');
         logger.info(JSON.stringify(telemetryData, null, 2));
       } else {

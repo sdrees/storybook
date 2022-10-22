@@ -5,6 +5,7 @@ import { logger } from '@storybook/node-logger';
 import { useProgressReporting } from '@storybook/core-common';
 import type { Builder, Options } from '@storybook/core-common';
 import { checkWebpackVersion } from '@storybook/core-webpack';
+import { join } from 'path';
 
 export * from './types';
 
@@ -261,5 +262,5 @@ export const build = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const corePresets = [require.resolve('./presets/preview-preset.js')];
-export const overridePresets = [require.resolve('./presets/custom-webpack-preset.js')];
+export const corePresets = [join(__dirname, 'presets/preview-preset.js')];
+export const overridePresets = [join(__dirname, './presets/custom-webpack-preset.js')];

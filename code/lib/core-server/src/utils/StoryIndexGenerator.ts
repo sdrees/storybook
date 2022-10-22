@@ -217,7 +217,7 @@ export class StoryIndexGenerator {
         }
       });
 
-      if (this.options.docs.enabled) {
+      if (this.options.docs.enabled && csf.stories.length) {
         // We always add a template for *.stories.mdx, but only if docs page is enabled for
         // regular CSF files
         if (storyIndexer.addDocsTemplate || this.options.docs.docsPage) {

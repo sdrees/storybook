@@ -240,42 +240,6 @@ import { Meta, Story } from '@storybook/addon-docs';
 </Story>
 ```
 
-### mdx-to-csf
-
-This converts all your MDX stories into Component Story Format.
-
-```sh
-./node_modules/.bin/jscodeshift -t ./node_modules/@storybook/codemod/dist/transforms/mdx-to-csf.js . --ignore-pattern "node_modules|dist" --extensions=mdx
-```
-
-For example:
-
-```js
-import React from 'react';
-import Button from './Button';
-import { Meta, Story } from '@storybook/addon-docs';
-
-<Meta title='Button' />
-
-<Story name='basic stories'><Button label='The Button' /></Story>
-```
-
-Becomes:
-
-```js
-import React from 'react';
-import Button from './Button';
-
-export default {
-  title: 'Button',
-};
-
-export const basicStory = () => <Button label="The Button" />;
-basicStory.story = {
-  name: 'basic stories',
-};
-```
-
 ### upgrade-hierarchy-separators
 
 Starting in 5.3, Storybook is moving to using a single path separator, `/`, to specify the story hierarchy. It previously defaulted to `|` for story "roots" (optional) and either `/` or `.` for denoting paths. This codemod updates the old default to the new default.

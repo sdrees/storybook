@@ -28,6 +28,7 @@ export const exec = async (
   const defaultOptions: Options = {
     shell: true,
     stdout: debug ? 'inherit' : 'pipe',
+    stderr: debug ? 'inherit' : 'pipe',
   };
   let currentChild: ExecaChildProcess;
 

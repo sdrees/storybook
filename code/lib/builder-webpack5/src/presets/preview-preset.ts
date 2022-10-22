@@ -28,3 +28,5 @@ export const babel = async (config: any, options: any) => ({
     },
   ],
 });
+
+export const babelLoaderRef = () => require.resolve('babel-loader');

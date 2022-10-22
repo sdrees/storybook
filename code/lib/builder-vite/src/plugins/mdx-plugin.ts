@@ -56,13 +56,11 @@ export function mdxPlugin(options: Options): Plugin {
       if (!filter(id)) return undefined;
 
       // @ts-expect-error typescript doesn't think compile exists, but it does.
-      const { compile } = features?.previewMdx2
-        ? await import('@storybook/mdx2-csf')
-        : await import('@storybook/mdx1-csf');
+      const { compile } = await import('@storybook/mdx2-csf');
 
       const mdxCode = String(await compile(src, { skipCsf: !isStorybookMdx(id) }));
 
-      const modifiedCode = injectRenderer(mdxCode, Boolean(features?.previewMdx2));
+      const modifiedCode = injectRenderer(mdxCode, true);
 
       // Hooks in recent rollup versions can be functions or objects, and though react hasn't changed, the typescript defs have
       const rTransform = reactRefresh?.transform;

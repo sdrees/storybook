@@ -23,12 +23,26 @@ See the command-line help with `-h` for details.
 
 ## [Yarn](https://github.com/yarnpkg/yarn) support
 
-The CLI supports yarn. If you have installed yarn in your system and your project has `yarn.lock` file, it'll detect it and use `yarn` instead of `npm`.
+The CLI supports yarn. If you have installed yarn in your system and your project has a `yarn.lock` file, it'll detect it and use `yarn` to install dependencies.
 
-If you don't want to use `yarn` always you can use the `--use-npm` option like this:
+If you don't want to use `yarn` always you can use the `--package-manager` option like this:
 
 ```sh
-npx sb init --use-npm
+npx sb init --package-manager=npm
+```
+
+If you would like to force a particular version of yarn, you can use the `--package-manager` flag with a value of `yarn1` or `yarn2`.
+
+---
+
+## [PNPM](https://pnpm.io/) support
+
+The CLI supports pnpm. If you have installed pnpm in your system and your project has a `pnpm-lock.yaml` file, it'll detect it and use `pnpm` to install dependencies.
+
+If you don't have a lock file and would like to force pnpm to be used, you can use the `--package-manager` option like this:
+
+```sh
+npx sb init --package-manager=pnpm
 ```
 
 ---

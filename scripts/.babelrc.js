@@ -75,31 +75,6 @@ module.exports = {
       },
     },
     {
-      test: './examples/preact-kitchen-sink',
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            shippedProposals: true,
-            useBuiltIns: 'usage',
-            corejs: '3',
-            targets,
-            modules,
-          },
-        ],
-        ['@babel/preset-typescript'],
-        [
-          '@babel/preset-react',
-          {
-            importSource: 'preact',
-            runtime: 'automatic',
-          },
-        ],
-        '@babel/preset-flow',
-      ],
-      env: { test: withTests },
-    },
-    {
       test: './lib',
       presets: [
         [

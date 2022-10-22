@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Loader } from './Loader';
-import { StoryshotsOptions } from '../api/StoryshotsOptions';
+import type { StoryshotsOptions } from '../api/StoryshotsOptions';
 
 const loaderScriptName = 'loader.js';
 
@@ -13,8 +13,21 @@ function getLoaders(): Loader[] {
     .readdirSync(__dirname)
     .map((name) => path.join(__dirname, name))
     .filter(isDirectory)
-    .map((framework) => path.join(framework, loaderScriptName))
-    .filter(fs.existsSync)
+    .map((framework) => {
+      const pa = path.join(framework, loaderScriptName);
+      const pb = path.join(framework, 'loader.ts');
+
+      if (fs.existsSync(pa)) {
+        return pa;
+      }
+
+      if (fs.existsSync(pb)) {
+        return pb;
+      }
+
+      return null;
+    })
+    .filter(Boolean)
     .map((loader) => require(loader).default);
 }
 

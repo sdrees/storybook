@@ -5,8 +5,7 @@ import { renderToDOM } from './render';
 
 const { configure: coreConfigure, clientApi, forceReRender } = start(renderToDOM);
 
-export const { setAddon, addDecorator, addParameters, clearDecorators, getStorybook, raw } =
-  clientApi;
+export const { raw } = clientApi;
 
 const FRAMEWORK = 'ember';
 export const storiesOf = (kind: string, m: any) =>

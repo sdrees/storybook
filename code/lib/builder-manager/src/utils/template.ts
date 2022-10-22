@@ -1,5 +1,5 @@
 import path, { dirname, join } from 'path';
-import { readFile, pathExists } from 'fs-extra';
+import fs from 'fs-extra';
 
 import { render } from 'ejs';
 
@@ -19,21 +19,21 @@ export const getTemplatePath = async (template: string) => {
 export const readTemplate = async (template: string) => {
   const path = await getTemplatePath(template);
 
-  return readFile(path, 'utf8');
+  return fs.readFile(path, 'utf8');
 };
 
 export async function getManagerHeadTemplate(
   configDirPath: string,
   interpolations: Record<string, string>
 ) {
-  const head = await pathExists(path.resolve(configDirPath, 'manager-head.html')).then<
-    Promise<string> | false
-  >((exists) => {
-    if (exists) {
-      return readFile(path.resolve(configDirPath, 'manager-head.html'), 'utf8');
-    }
-    return false;
-  });
+  const head = await fs
+    .pathExists(path.resolve(configDirPath, 'manager-head.html'))
+    .then<Promise<string> | false>((exists) => {
+      if (exists) {
+        return fs.readFile(path.resolve(configDirPath, 'manager-head.html'), 'utf8');
+      }
+      return false;
+    });
 
   if (!head) {
     return '';
@@ -76,6 +76,6 @@ export const renderHTML = async (
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
       SERVER_CHANNEL_URL: JSON.stringify(serverChannelUrl, null, 2),
     },
-    head: customHeadRef ? await readFile(customHeadRef, 'utf8') : '',
+    head: customHeadRef ? await fs.readFile(customHeadRef, 'utf8') : '',
   });
 };
