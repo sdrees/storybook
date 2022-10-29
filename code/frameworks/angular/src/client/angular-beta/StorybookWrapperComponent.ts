@@ -1,11 +1,11 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
-  Component,
   ElementRef,
-  Inject,
   OnDestroy,
   Type,
+  ChangeDetectorRef,
+  Component,
+  Inject,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -64,7 +64,6 @@ export const createStorybookWrapperComponent = (
     // Used in case of a component without selector
     storyComponent = storyComponent ?? '';
 
-    // eslint-disable-next-line no-useless-constructor
     constructor(
       @Inject(STORY_PROPS) private storyProps$: Subject<ICollection | undefined>,
       private changeDetectorRef: ChangeDetectorRef

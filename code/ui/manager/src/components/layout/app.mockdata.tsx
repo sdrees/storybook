@@ -1,15 +1,17 @@
 import global from 'global';
-import React, { Component, FC } from 'react';
+import type { FC } from 'react';
+import React, { Component } from 'react';
 import { styled } from '@storybook/theming';
-import type { Collection } from '@storybook/addons';
+import type { Addon_Collection } from '@storybook/types';
 import type { State } from '@storybook/api';
-import { Sidebar, SidebarProps } from '../sidebar/Sidebar';
+import type { SidebarProps } from '../sidebar/Sidebar';
+import { Sidebar } from '../sidebar/Sidebar';
 import Panel from '../panel/panel';
 import { Preview } from '../preview/preview';
 
 import { previewProps } from '../preview/preview.mockdata';
 import { mockDataset } from '../sidebar/mockdata';
-import { DesktopProps } from './desktop';
+import type { DesktopProps } from './desktop';
 
 const { setInterval } = global;
 
@@ -34,7 +36,7 @@ export const shortcuts: State['shortcuts'] = {
   expandAll: ['ctrl', 'shift', 'ArrowDown'],
 };
 
-export const panels: Collection = {
+export const panels: Addon_Collection = {
   test1: {
     title: 'Test 1',
     render: ({ active, key }) =>

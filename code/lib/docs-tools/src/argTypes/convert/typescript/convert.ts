@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import type { SBType } from '@storybook/csf';
+import type { SBType } from '@storybook/types';
 import type { TSType, TSSigType } from './types';
 
 const convertSig = (type: TSSigType) => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
-import { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '../../js-package-manager';
 import { angular12 } from './angular12';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import

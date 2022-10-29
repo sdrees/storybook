@@ -11,7 +11,7 @@ function snapshotTest({ item, asyncJest, framework, testMethod, testMethodParams
 
   if (asyncJest === true) {
     it(
-      name,
+      `${name}`,
       () =>
         new Promise<void>((resolve, reject) =>
           testMethod({
@@ -25,7 +25,7 @@ function snapshotTest({ item, asyncJest, framework, testMethod, testMethodParams
     );
   } else {
     it(
-      name,
+      `${name}`,
       () =>
         testMethod({
           story: item,
@@ -39,8 +39,8 @@ function snapshotTest({ item, asyncJest, framework, testMethod, testMethodParams
 
 function snapshotTestSuite({ item, suite, ...restParams }: any) {
   const { kind, children } = item;
-  describe(suite, () => {
-    describe(kind, () => {
+  describe(`${suite}`, () => {
+    describe(`${kind}`, () => {
       children.forEach((c: any) => {
         snapshotTest({ item: c, ...restParams });
       });

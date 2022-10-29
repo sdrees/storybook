@@ -32,7 +32,7 @@ export function cleanPaths(str: string, separator: string = sep): string {
 }
 
 // Takes an Error and returns a sanitized JSON String
-export function sanitizeError(error: Error, pathSeparator: string = sep): string {
+export function sanitizeError(error: Error, pathSeparator: string = sep) {
   // Hack because Node
   error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
 

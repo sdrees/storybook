@@ -1,22 +1,28 @@
-const { logger } = require('@storybook/node-logger');
+import type {
+  CoreCommon_AddonEntry,
+  CoreCommon_AddonInfo,
+  CoreCommon_OptionsEntry,
+} from '@storybook/types';
 
-export type OptionsEntry = { name: string };
-export type AddonEntry = string | OptionsEntry;
-export type AddonInfo = { name: string; inEssentials: boolean };
+import { logger } from '@storybook/node-logger';
 
 interface Options {
-  before: AddonInfo;
-  after: AddonInfo;
+  before: CoreCommon_AddonInfo;
+  after: CoreCommon_AddonInfo;
   configFile: string;
   getConfig: (path: string) => any;
 }
 
-const predicateFor = (addon: string) => (entry: AddonEntry) => {
-  const name = (entry as OptionsEntry).name || (entry as string);
+const predicateFor = (addon: string) => (entry: CoreCommon_AddonEntry) => {
+  const name = (entry as CoreCommon_OptionsEntry).name || (entry as string);
   return name && name.includes(addon);
 };
 
-const isCorrectOrder = (addons: AddonEntry[], before: AddonInfo, after: AddonInfo) => {
+const isCorrectOrder = (
+  addons: CoreCommon_AddonEntry[],
+  before: CoreCommon_AddonInfo,
+  after: CoreCommon_AddonInfo
+) => {
   const essentialsIndex = addons.findIndex(predicateFor('@storybook/addon-essentials'));
   let beforeIndex = addons.findIndex(predicateFor(before.name));
   let afterIndex = addons.findIndex(predicateFor(after.name));

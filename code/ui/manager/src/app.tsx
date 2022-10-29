@@ -1,4 +1,5 @@
-import React, { FC, useMemo } from 'react';
+import type { FC } from 'react';
+import React, { useMemo } from 'react';
 import sizeMe from 'react-sizeme';
 
 import { type State } from '@storybook/api';

@@ -1,6 +1,5 @@
 import { parse } from './acornParser';
-import {
-  InspectionType,
+import type {
   InspectionElement,
   InspectionObject,
   InspectionArray,
@@ -9,6 +8,7 @@ import {
   InspectionFunction,
   InspectionUnknown,
 } from './types';
+import { InspectionType } from './types';
 
 describe('parse', () => {
   describe('expression', () => {

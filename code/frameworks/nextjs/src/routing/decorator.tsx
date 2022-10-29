@@ -1,7 +1,7 @@
 import * as React from 'react';
 // this will be aliased by webpack at runtime (this is just for typing)
-import { action as originalAction } from '@storybook/addon-actions';
-import { StoryContext } from '@storybook/addons';
+import type { action as originalAction } from '@storybook/addon-actions';
+import type { Addon_StoryContext } from '@storybook/types';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import Router from 'next/router';
 
@@ -55,7 +55,7 @@ const defaultRouter = {
 
 export const RouterDecorator = (
   Story: React.FC,
-  { globals, parameters }: StoryContext
+  { globals, parameters }: Addon_StoryContext
 ): React.ReactNode => {
   const nextRouterParams = parameters.nextRouter ?? {};
 

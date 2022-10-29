@@ -1,6 +1,8 @@
 import * as t from '@babel/types';
-import traverse from '@babel/traverse';
-import generate from '@babel/generator';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as traverse from '@babel/traverse';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as generate from '@babel/generator';
 import { dedent } from 'ts-dedent';
 import { babelParse } from './babelParse';
 
@@ -57,7 +59,7 @@ const unsupported = (unexpectedVar: string, isError: boolean) => {
 export const getStorySortParameter = (previewCode: string) => {
   let storySort: t.Expression;
   const ast = babelParse(previewCode);
-  traverse(ast, {
+  traverse.default(ast, {
     ExportNamedDeclaration: {
       enter({ node }) {
         if (t.isVariableDeclaration(node.declaration)) {
@@ -97,13 +99,13 @@ export const getStorySortParameter = (previewCode: string) => {
   if (!storySort) return undefined;
 
   if (t.isArrowFunctionExpression(storySort)) {
-    const { code: sortCode } = generate(storySort, {});
+    const { code: sortCode } = generate.default(storySort, {});
     // eslint-disable-next-line no-eval
     return (0, eval)(sortCode);
   }
 
   if (t.isFunctionExpression(storySort)) {
-    const { code: sortCode } = generate(storySort, {});
+    const { code: sortCode } = generate.default(storySort, {});
     const functionName = storySort.id.name;
     // Wrap the function within an arrow function, call it, and return
     const wrapper = `(a, b) => {

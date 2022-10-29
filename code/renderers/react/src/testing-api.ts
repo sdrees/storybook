@@ -3,8 +3,13 @@ import {
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
 } from '@storybook/store';
-import type { CSFExports, ComposedStory, StoriesWithPartialProps } from '@storybook/store';
-import { ProjectAnnotations, Args } from '@storybook/csf';
+import type {
+  Args,
+  ProjectAnnotations,
+  Store_ComposedStory,
+  Store_CSFExports,
+  Store_StoriesWithPartialProps,
+} from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 
 import { render } from './render';
@@ -76,13 +81,13 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactFramework> = {
  * @param [exportsName] - in case your story does not contain a name and you want it to have a name.
  */
 export function composeStory<TArgs = Args>(
-  story: ComposedStory<ReactFramework, TArgs>,
+  story: Store_ComposedStory<ReactFramework, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
   projectAnnotations?: ProjectAnnotations<ReactFramework>,
   exportsName?: string
 ) {
   return originalComposeStory<ReactFramework, TArgs>(
-    story as ComposedStory<ReactFramework, Args>,
+    story as Store_ComposedStory<ReactFramework, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,
@@ -115,7 +120,7 @@ export function composeStory<TArgs = Args>(
  * @param csfExports - e.g. (import * as stories from './Button.stories')
  * @param [projectAnnotations] - e.g. (import * as projectAnnotations from '../.storybook/preview') this can be applied automatically if you use `setProjectAnnotations` in your setup files.
  */
-export function composeStories<TModule extends CSFExports<ReactFramework>>(
+export function composeStories<TModule extends Store_CSFExports<ReactFramework>>(
   csfExports: TModule,
   projectAnnotations?: ProjectAnnotations<ReactFramework>
 ) {
@@ -123,7 +128,7 @@ export function composeStories<TModule extends CSFExports<ReactFramework>>(
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
   return composedStories as unknown as Omit<
-    StoriesWithPartialProps<ReactFramework, TModule>,
-    keyof CSFExports
+    Store_StoriesWithPartialProps<ReactFramework, TModule>,
+    keyof Store_CSFExports
   >;
 }

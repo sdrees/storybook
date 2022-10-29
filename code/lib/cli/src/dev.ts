@@ -1,14 +1,14 @@
 import { dedent } from 'ts-dedent';
 import { sync as readUpSync } from 'read-pkg-up';
 import { logger, instance as npmLog } from '@storybook/node-logger';
-import { buildDevStandalone } from '@storybook/core-server';
+import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
 
 export const dev = async (cliOptions: any) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
   try {
-    await buildDevStandalone({
+    const options = {
       ...cliOptions,
       configDir: cliOptions.configDir || './.storybook',
       configType: 'DEVELOPMENT',
@@ -16,7 +16,8 @@ export const dev = async (cliOptions: any) => {
       docsMode: !!cliOptions.docs,
       cache,
       packageJson: readUpSync({ cwd: __dirname }).packageJson,
-    });
+    };
+    await withTelemetry('dev', { presetOptions: options }, () => buildDevStandalone(options));
   } catch (error) {
     // this is a weird bugfix, somehow 'node-pre-gyp' is polluting the npmLog header
     npmLog.heading = '';

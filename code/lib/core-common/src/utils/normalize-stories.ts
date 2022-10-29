@@ -3,7 +3,10 @@ import path from 'path';
 import { scan } from 'picomatch';
 import slash from 'slash';
 
-import type { StoriesEntry, NormalizedStoriesSpecifier } from '../types';
+import type {
+  CoreCommon_StoriesEntry,
+  CoreCommon_NormalizedStoriesSpecifier,
+} from '@storybook/types';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 
@@ -32,10 +35,10 @@ export const getDirectoryFromWorkingDir = ({
 };
 
 export const normalizeStoriesEntry = (
-  entry: StoriesEntry,
+  entry: CoreCommon_StoriesEntry,
   { configDir, workingDir }: NormalizeOptions
-): NormalizedStoriesSpecifier => {
-  let specifierWithoutMatcher: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'>;
+): CoreCommon_NormalizedStoriesSpecifier => {
+  let specifierWithoutMatcher: Omit<CoreCommon_NormalizedStoriesSpecifier, 'importPathMatcher'>;
 
   if (typeof entry === 'string') {
     const globResult = scan(entry);
@@ -100,5 +103,5 @@ interface NormalizeOptions {
   workingDir: string;
 }
 
-export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) =>
+export const normalizeStories = (entries: CoreCommon_StoriesEntry[], options: NormalizeOptions) =>
   entries.map((entry) => normalizeStoriesEntry(entry, options));

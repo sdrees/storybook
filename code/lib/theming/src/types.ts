@@ -1,6 +1,6 @@
-import { easing, animation } from './animation';
+import type { easing, animation } from './animation';
 
-import { color, background, typography } from './base';
+import type { color, background, typography } from './base';
 
 export interface ThemeVars {
   base: 'light' | 'dark';

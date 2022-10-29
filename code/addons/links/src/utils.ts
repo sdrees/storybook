@@ -1,7 +1,7 @@
 import global from 'global';
 import { addons, makeDecorator } from '@storybook/addons';
 import { STORY_CHANGED, SELECT_STORY } from '@storybook/core-events';
-import type { StoryId, StoryName, ComponentTitle } from '@storybook/csf';
+import type { StoryId, StoryName, ComponentTitle } from '@storybook/types';
 import { toId } from '@storybook/csf';
 import { PARAM_KEY } from './constants';
 
@@ -49,6 +49,7 @@ export const hrefTo = (title: ComponentTitle, name: StoryName): Promise<string> 
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 const valueOrCall = (args: string[]) => (value: string | ((...args: string[]) => string)) =>
   typeof value === 'function' ? value(...args) : value;
 

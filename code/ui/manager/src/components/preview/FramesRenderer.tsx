@@ -1,11 +1,12 @@
-import React, { Fragment, FC, useMemo, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import React, { Fragment, useMemo, useEffect, useState } from 'react';
 import type { Combo } from '@storybook/api';
 import { Consumer } from '@storybook/api';
 import { Button, getStoryHref } from '@storybook/components';
 import { Global, styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import { IFrame } from './iframe';
-import { FramesRendererProps } from './utils/types';
+import type { FramesRendererProps } from './utils/types';
 import { stringifyQueryParams } from './utils/stringifyQueryParams';
 
 const getActive = (refId: FramesRendererProps['refId']) => {

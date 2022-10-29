@@ -34,6 +34,9 @@ describe('ClientApi', () => {
       };
       clientApi.storiesOf('kind1', module1 as unknown as NodeModule).add('story1', jest.fn());
       clientApi.storiesOf('kind2', module2 as unknown as NodeModule).add('story2', jest.fn());
+      // This gets called by configure
+      // eslint-disable-next-line no-underscore-dangle
+      clientApi._loadAddedExports();
 
       expect(Object.keys(clientApi.getStoryIndex().entries)).toEqual([
         'kind1--story1',
@@ -42,6 +45,7 @@ describe('ClientApi', () => {
 
       disposeCallback();
       clientApi.storiesOf('kind1', module1 as unknown as NodeModule).add('story1', jest.fn());
+      await new Promise((r) => setTimeout(r, 0));
       expect(Object.keys(clientApi.getStoryIndex().entries)).toEqual([
         'kind1--story1',
         'kind2--story2',

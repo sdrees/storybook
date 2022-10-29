@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/web-components';
-import { Page, PageProps } from './Page';
+import type { PageProps } from './Page';
+import { Page } from './Page';
 import * as HeaderStories from './Header.stories';
 
 export default {

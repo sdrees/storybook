@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { StorybookStory, StorybookSection } from './types';
+import type { StorybookStory, StorybookSection } from './types';
 
 const { identifier } = require('safe-identifier');
 

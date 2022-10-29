@@ -1,4 +1,4 @@
-import { PropSummaryValue } from './docgen';
+import type { PropSummaryValue } from './docgen';
 
 export const MAX_TYPE_SUMMARY_LENGTH = 90;
 export const MAX_DEFAULT_VALUE_SUMMARY_LENGTH = 50;

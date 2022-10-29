@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 
-import { NodeResult } from 'axe-core';
+import type { NodeResult } from 'axe-core';
 import { useA11yContext } from '../A11yContext';
 
 interface ToggleProps {

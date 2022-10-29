@@ -1,13 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import React, { createElement, ReactElement } from 'react';
-import reactElementToJSXString, { Options } from 'react-element-to-jsx-string';
+import type { ReactElement } from 'react';
+import React, { createElement } from 'react';
+import type { Options } from 'react-element-to-jsx-string';
+import reactElementToJSXString from 'react-element-to-jsx-string';
 
 import { addons, useEffect } from '@storybook/addons';
-import { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/csf';
+import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
 import { logger } from '@storybook/client-logger';
 
-import { ReactFramework } from '../types';
+import type { ReactFramework } from '../types';
 
 import { isMemo, isForwardRef } from './lib';
 
@@ -79,6 +81,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
           // To get exotic component names resolving properly
           displayName: (el: any): string =>
             el.type.displayName ||
+            (el.type === Symbol.for('react.profiler') ? 'Profiler' : null) ||
             getDocgenSection(el.type, 'displayName') ||
             (el.type.name !== '_default' ? el.type.name : null) ||
             (typeof el.type === 'function' ? 'No Display Name' : null) ||
@@ -119,7 +122,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
     return string;
   }).join('\n');
 
-  return result.replace(/function\s+noRefCheck\(\)\s+\{\}/, '() => {}');
+  return result.replace(/function\s+noRefCheck\(\)\s+\{\}/g, '() => {}');
 };
 
 const defaultOpts = {

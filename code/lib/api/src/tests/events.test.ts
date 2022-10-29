@@ -1,5 +1,5 @@
 import { getEventMetadata } from '../lib/events';
-import { API } from '../index';
+import type { API } from '../index';
 
 jest.mock('global', () => ({
   location: { origin: 'http://localhost:6006', pathname: '/' },

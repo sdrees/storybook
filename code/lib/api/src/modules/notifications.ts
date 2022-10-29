@@ -1,27 +1,12 @@
-import type { ReactNode } from 'react';
-import { ModuleFn } from '../index';
-
-export interface Notification {
-  id: string;
-  link: string;
-  content: {
-    headline: string;
-    subHeadline?: string | ReactNode;
-  };
-
-  icon?: {
-    name: string;
-    color?: string;
-  };
-  onClear?: () => void;
-}
+import type { API_Notification } from '@storybook/types';
+import type { ModuleFn } from '../index';
 
 export interface SubState {
-  notifications: Notification[];
+  notifications: API_Notification[];
 }
 
 export interface SubAPI {
-  addNotification: (notification: Notification) => void;
+  addNotification: (notification: API_Notification) => void;
   clearNotification: (id: string) => void;
 }
 

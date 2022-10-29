@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from '@storybook/addons';
-import type { AnyFramework, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/csf';
+import type { AnyFramework, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
 
 import { clearStyles, addOutlineStyles } from './helpers';
 import { PARAM_KEY } from './constants';

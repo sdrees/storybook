@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
-import { Channel } from '@storybook/channels';
 import type { Listener } from '@storybook/channels';
 
-import { ModuleFn } from '../index';
+import type { API_Provider } from '@storybook/types';
+import type { API, ModuleFn } from '../index';
 
 export interface SubAPI {
-  getChannel: () => Channel;
+  getChannel: () => API_Provider<API>['channel'];
   on: (type: string, cb: Listener) => () => void;
   off: (type: string, cb: Listener) => void;
   emit: (type: string, ...args: any[]) => void;

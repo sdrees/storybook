@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 // We could use NgComponentOutlet here but there's currently no easy way
 // to provide @Inputs and subscribe to @Outputs, see
 // https://github.com/angular/angular/issues/15360
@@ -6,15 +5,15 @@
 import {
   Component,
   Inject,
-  OnInit,
   ViewChild,
   ViewContainerRef,
-  ComponentFactoryResolver,
-  OnDestroy,
   EventEmitter,
-  SimpleChanges,
   SimpleChange,
   ChangeDetectorRef,
+  OnInit,
+  ComponentFactoryResolver,
+  OnDestroy,
+  SimpleChanges,
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';

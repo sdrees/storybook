@@ -7,7 +7,7 @@ executors:
         description: The Resource class
         type: enum
         enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'medium'
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1
@@ -20,7 +20,7 @@ executors:
         description: The Resource class
         type: enum
         enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'medium'
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1-browsers
@@ -33,7 +33,7 @@ executors:
         description: The Resource class
         type: enum
         enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'medium'
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
       - image: mcr.microsoft.com/playwright:v1.27.0-focal
@@ -75,25 +75,9 @@ commands:
             fi
 
 jobs:
-  check:
-    executor:
-      class: xlarge
-      name: sb_node_16_classic
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-      - run:
-          name: Check
-          command: |
-            yarn task --task check --start-from=auto --no-link --debug
-            git diff --exit-code
   build:
     executor:
-      class: xlarge
+      class: large
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -125,41 +109,9 @@ jobs:
             - code/ui
             - code/renderers
             - code/presets
-  chromatic:
-    executor: sb_node_16_browsers
-    parallelism: 15
-    steps:
-      # Keep using default checkout because Chromatic needs some git history to work properly
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: chromatic
-          command: |
-            cd code
-            yarn run-chromatics
-  examples:
-    executor:
-      class: medium+
-      name: sb_node_16_browsers
-    parallelism: 3
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: examples
-          command: |
-            cd code
-            yarn build-storybooks --all
-      - persist_to_workspace:
-          root: .
-          paths:
-            - code/built-storybooks
   publish:
     executor:
-      class: medium
+      class: small
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -175,33 +127,9 @@ jobs:
           root: .
           paths:
             - .verdaccio-cache
-  # NOTE: this currently tests each story in docs mode, which doesn't make sense any more as stories
-  #   can no longer run in docs mode. Instead we should probably change the test runner to test each
-  #   docs entry if you run it in `VIEW_MODE=docs`
-  # e2e-tests-sb-docs:
-  #   executor:
-  #     class: large
-  #     name: sb_cypress_8_node_14
-  #   parallelism: 8
-  #   steps:
-  #     - git-shallow-clone/checkout_advanced:
-  #         clone_options: '--depth 1 --verbose'
-  #     - attach_workspace:
-  #         at: .
-  #     - run:
-  #         name: Running local registry
-  #         command: yarn local-registry --port 6001 --open
-  #         background: true
-  #     - run:
-  #         name: Wait for registry
-  #         command: yarn wait-on http://localhost:6001
-  #     - run:
-  #         name: Run smoke tests
-  #         command: yarn test:e2e-framework angular_modern_inline_rendering --test-runner --docs-mode
-  #         no_output_timeout: 5m
   cra-bench:
     executor:
-      class: medium+
+      class: medium
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
@@ -241,7 +169,7 @@ jobs:
           destination: sb-bench.tar.gz
   react-vite-bench:
     executor:
-      class: medium+
+      class: medium
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
@@ -279,25 +207,6 @@ jobs:
       - store_artifacts:
           path: /tmp/sb-bench.tar.gz
           destination: sb-bench.tar.gz
-  smoke-tests:
-    executor:
-      class: medium+
-      name: sb_node_16_browsers
-    environment:
-      # Disable ESLint when running smoke tests to improve perf + As of CRA 4.0.3, CRA kitchen sinks are throwing
-      # because of some ESLint warnings, related to: https://github.com/facebook/create-react-app/pull/10590
-      DISABLE_ESLINT_PLUGIN: 'true'
-    parallelism: 4
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: smoke tests
-          command: |
-            cd code
-            yarn smoketest-storybooks --all
   lint:
     executor:
       class: medium
@@ -312,6 +221,20 @@ jobs:
           command: |
             cd code
             yarn lint
+  check:
+    executor:
+      class: xlarge
+      name: sb_node_16_classic
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Check
+          command: |
+            yarn task --task check --start-from=auto --no-link --debug
+            git diff --exit-code
   script-unit-tests:
     executor: sb_node_16_browsers
     steps:
@@ -327,7 +250,9 @@ jobs:
       - store_test_results:
           path: scripts/junit.xml
   unit-tests:
-    executor: sb_node_16_browsers
+    executor:
+      class: medium+
+      name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -358,13 +283,29 @@ jobs:
           command: |
             cd code
             yarn coverage
-
+  chromatic-internal-storybooks:
+    executor:
+      class: medium
+      name: sb_node_16_browsers
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running Chromatic
+          command: |
+            cd code
+            yarn storybook:ui:chromatic
+            yarn storybook:blocks:chromatic
+      - store_test_results:
+          path: test-results
   ## new workflow
   create-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_node_16_browsers
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -381,9 +322,9 @@ jobs:
           path: test-results
   smoke-test-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_node_16_browsers
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -398,7 +339,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -415,9 +356,9 @@ jobs:
             - sandbox/*/storybook-static
   test-runner-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_playwright
-    parallelism: 22
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -430,9 +371,9 @@ jobs:
           path: test-results
   chromatic-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_node_16_browsers
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -445,9 +386,9 @@ jobs:
           path: test-results
   e2e-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_playwright
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -472,24 +413,18 @@ workflows:
       - check:
           requires:
             - build
-      - examples:
-          requires:
-            - build
-      - smoke-tests:
-          requires:
-            - build
       - unit-tests:
           requires:
             - build
       - script-unit-tests:
           requires:
             - build
+      - chromatic-internal-storybooks:
+          requires:
+            - build
       - coverage:
           requires:
             - unit-tests
-      - chromatic:
-          requires:
-            - examples
       - publish:
           requires:
             - build

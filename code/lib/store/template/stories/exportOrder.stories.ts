@@ -8,5 +8,5 @@ export default {
 export const Story1 = {};
 export const Story2 = {};
 
-// eslint-disable-next-line no-underscore-dangle
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
 export const __namedExportsOrder = ['Story2', 'Story1'];

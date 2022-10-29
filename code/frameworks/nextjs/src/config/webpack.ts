@@ -2,7 +2,7 @@ import type { Configuration as WebpackConfig } from 'webpack';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import findUp from 'find-up';
 import { pathExists } from 'fs-extra';
-import { NextConfig } from 'next';
+import type { NextConfig } from 'next';
 import dedent from 'ts-dedent';
 import { DefinePlugin } from 'webpack';
 import { addScopedAlias } from '../utils';

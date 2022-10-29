@@ -1,4 +1,5 @@
-import React, { FC, ComponentProps, HTMLAttributes } from 'react';
+import type { FC, ComponentProps, HTMLAttributes } from 'react';
+import React from 'react';
 
 type Props = Pick<HTMLAttributes<HTMLButtonElement>, 'onClick'> & {
   children: React.ReactNode;

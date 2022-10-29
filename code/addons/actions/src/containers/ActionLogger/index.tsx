@@ -6,7 +6,7 @@ import { STORY_CHANGED } from '@storybook/core-events';
 
 import { ActionLogger as ActionLoggerComponent } from '../../components/ActionLogger';
 import { EVENT_ID } from '../..';
-import { ActionDisplay } from '../../models';
+import type { ActionDisplay } from '../../models';
 
 interface ActionLoggerProps {
   active: boolean;
@@ -64,9 +64,11 @@ export default class ActionLogger extends Component<ActionLoggerProps, ActionLog
       const actions = [...prevState.actions];
       const previous = actions.length && actions[0];
       if (previous && safeDeepEqual(previous.data, action.data)) {
-        previous.count++; // eslint-disable-line
+        // eslint-disable-next-line no-plusplus
+        previous.count++;
       } else {
-        action.count = 1; // eslint-disable-line
+        // eslint-disable-next-line no-param-reassign
+        action.count = 1;
         actions.unshift(action);
       }
       return { actions: actions.slice(0, action.options.limit) };

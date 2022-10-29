@@ -1,13 +1,13 @@
+import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { start } from '@storybook/core-client';
-import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
 import { renderToDOM, render } from './render';
 import type { ServerFramework } from './types';
 
 const FRAMEWORK = 'server';
 
-interface ClientApi extends ClientStoryApi<ServerFramework['storyResult']> {
-  configure(loader: Loadable, module: NodeModule): void;
+interface ClientApi extends Addon_ClientStoryApi<ServerFramework['storyResult']> {
+  configure(loader: Addon_Loadable, module: NodeModule): void;
   forceReRender(): void;
   raw: () => any; // todo add type
 }

@@ -1,4 +1,5 @@
-import doctrine, { Annotation } from 'doctrine';
+import type { Annotation } from 'doctrine';
+import doctrine from 'doctrine';
 
 export interface ExtractedJsDocParam {
   name: string;

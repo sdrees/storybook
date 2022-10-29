@@ -1,4 +1,4 @@
-import { AnyFramework, StoryContextForEnhancers } from '@storybook/csf';
+import type { AnyFramework, StoryContextForEnhancers } from '@storybook/types';
 import { combineParameters } from '@storybook/store';
 
 export const enhanceArgTypes = <TFramework extends AnyFramework>(

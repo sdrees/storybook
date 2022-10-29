@@ -1,5 +1,5 @@
 import { logger } from '@storybook/node-logger';
-import type { Options, StorybookConfig } from '@storybook/core-common';
+import type { Options, StorybookConfig } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import chalk from 'chalk';
 import express from 'express';

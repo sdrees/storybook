@@ -1,4 +1,4 @@
-import type { Parameters } from '@storybook/addons';
+import type { Parameters } from '@storybook/types';
 
 // addons, panels and events get unique names using a prefix
 export const PARAM_KEY = 'test';

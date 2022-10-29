@@ -1,11 +1,13 @@
 import { createSummaryValue } from '@storybook/docs-tools';
-import { TypeResolver, extractFunctionName, createTypeResolvers } from '../lib/defaultValues';
+import type { TypeResolver } from '../lib/defaultValues';
+import { extractFunctionName, createTypeResolvers } from '../lib/defaultValues';
 import { FUNCTION_CAPTION, ELEMENT_CAPTION } from '../lib';
 import {
   getPrettyElementIdentifier,
   getPrettyFuncIdentifier,
 } from '../lib/defaultValues/prettyIdentifier';
-import { inspectValue, InspectionFunction } from '../lib/inspection';
+import type { InspectionFunction } from '../lib/inspection';
+import { inspectValue } from '../lib/inspection';
 
 const funcResolver: TypeResolver = (rawDefaultProp, { name, type }) => {
   const isElement = type.summary === 'element' || type.summary === 'elementType';

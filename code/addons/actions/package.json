@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "7.0.0-alpha.41",
+  "version": "7.0.0-alpha.46",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -26,6 +26,11 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
+    },
+    "./decorator": {
+      "require": "./dist/decorator.js",
+      "import": "./dist/decorator.mjs",
+      "types": "./dist/decorator.d.ts"
     },
     "./manager": {
       "require": "./dist/manager.js",
@@ -58,13 +63,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.41",
-    "@storybook/api": "7.0.0-alpha.41",
-    "@storybook/client-logger": "7.0.0-alpha.41",
-    "@storybook/components": "7.0.0-alpha.41",
-    "@storybook/core-events": "7.0.0-alpha.41",
-    "@storybook/csf": "next",
-    "@storybook/theming": "7.0.0-alpha.41",
+    "@storybook/addons": "7.0.0-alpha.46",
+    "@storybook/api": "7.0.0-alpha.46",
+    "@storybook/client-logger": "7.0.0-alpha.46",
+    "@storybook/components": "7.0.0-alpha.46",
+    "@storybook/core-events": "7.0.0-alpha.46",
+    "@storybook/theming": "7.0.0-alpha.46",
+    "@storybook/types": "7.0.0-alpha.46",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
@@ -73,7 +78,6 @@
     "react-inspector": "^6.0.0",
     "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2",
     "uuid-browser": "^3.1.0"
   },
   "devDependencies": {
@@ -98,11 +102,12 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
+      "./src/decorator.ts",
       "./src/manager.tsx",
       "./src/preview.ts"
     ]
   },
-  "gitHead": "7ec6f916eb875bd2e3cf3aa6b1afcd1fe25d1637",
+  "gitHead": "c64b5be851ed2affac56e1daaac3f453fbe6f230",
   "storybook": {
     "displayName": "Actions",
     "unsupportedFrameworks": [

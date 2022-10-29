@@ -4,8 +4,7 @@ import global from 'global';
 
 import { dedent } from 'ts-dedent';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
-import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { HtmlFramework } from './types';
 
 const { Node } = global;
@@ -43,7 +42,7 @@ export const render: ArgsStoryFn<HtmlFramework> = (args, context) => {
 };
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<HtmlFramework>,
+  { storyFn, kind, name, showMain, showError, forceRemount }: Store_RenderContext<HtmlFramework>,
   domElement: Element
 ) {
   const element = storyFn();

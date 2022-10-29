@@ -1,21 +1,24 @@
-import { Router, Request, Response } from 'express';
+import type { Router, Request, Response } from 'express';
 import { writeJSON } from 'fs-extra';
 
-import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
-import type { StoryIndex, StoryIndexV3 } from '@storybook/store';
+import type {
+  CoreCommon_NormalizedStoriesSpecifier,
+  Store_StoryIndex,
+  Store_StoryIndexV3,
+} from '@storybook/types';
 import debounce from 'lodash/debounce';
 
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import { StoryIndexGenerator } from './StoryIndexGenerator';
+import type { StoryIndexGenerator } from './StoryIndexGenerator';
 import { watchStorySpecifiers } from './watch-story-specifiers';
-import { ServerChannel } from './get-server-channel';
+import type { ServerChannel } from './get-server-channel';
 
 export const DEBOUNCE = 100;
 
 export async function extractStoriesJson(
   outputFile: string,
   initializedStoryIndexGenerator: Promise<StoryIndexGenerator>,
-  transform?: (index: StoryIndex) => any
+  transform?: (index: Store_StoryIndex) => any
 ) {
   const generator = await initializedStoryIndexGenerator;
   const storyIndex = await generator.getIndex();
@@ -33,7 +36,7 @@ export function useStoriesJson({
   initializedStoryIndexGenerator: Promise<StoryIndexGenerator>;
   serverChannel: ServerChannel;
   workingDir?: string;
-  normalizedStories: NormalizedStoriesSpecifier[];
+  normalizedStories: CoreCommon_NormalizedStoriesSpecifier[];
 }) {
   const maybeInvalidate = debounce(() => serverChannel.emit(STORY_INDEX_INVALIDATED), DEBOUNCE, {
     leading: true,
@@ -69,7 +72,7 @@ export function useStoriesJson({
   });
 }
 
-export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
+export const convertToIndexV3 = (index: Store_StoryIndex): Store_StoryIndexV3 => {
   const { entries } = index;
   const stories = Object.entries(entries).reduce((acc, [id, entry]) => {
     const { type, ...rest } = entry;
@@ -84,7 +87,7 @@ export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
       },
     };
     return acc;
-  }, {} as StoryIndexV3['stories']);
+  }, {} as Store_StoryIndexV3['stories']);
   return {
     v: 3,
     stories,

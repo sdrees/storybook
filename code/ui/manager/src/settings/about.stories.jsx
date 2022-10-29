@@ -9,7 +9,7 @@ const info = {
 
 export default {
   component: AboutScreen,
-  title: 'UI/Settings/AboutScreen',
+  title: 'Settings/AboutScreen',
   decorators: [
     (storyFn) => (
       <div

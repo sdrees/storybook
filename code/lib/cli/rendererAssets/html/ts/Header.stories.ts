@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/html';
-import { createHeader, HeaderProps } from './Header';
+import type { HeaderProps } from './Header';
+import { createHeader } from './Header';
 
 export default {
   title: 'Example/Header',

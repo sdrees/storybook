@@ -61,7 +61,7 @@ describe('Yarn 2 Proxy', () => {
   });
 
   describe('removeDependencies', () => {
-    it('it should run `yarn remove @storybook/addons`', () => {
+    it('should run `yarn remove @storybook/addons`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
 
       yarn2Proxy.removeDependencies({}, ['@storybook/addons']);

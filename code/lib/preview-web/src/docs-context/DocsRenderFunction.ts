@@ -1,5 +1,5 @@
-import type { AnyFramework, Parameters } from '@storybook/csf';
-import { DocsContextProps } from './DocsContextProps';
+import type { AnyFramework, Parameters } from '@storybook/types';
+import type { DocsContextProps } from './DocsContextProps';
 
 export type DocsRenderFunction<TFramework extends AnyFramework> = (
   docsContext: DocsContextProps<TFramework>,

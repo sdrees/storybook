@@ -16,13 +16,8 @@ import {
   generateObjectCode,
   generateCode,
 } from '../lib';
-import {
-  InspectionType,
-  inspectValue,
-  InspectionElement,
-  InspectionObject,
-  InspectionArray,
-} from '../lib/inspection';
+import type { InspectionElement, InspectionObject, InspectionArray } from '../lib/inspection';
+import { InspectionType, inspectValue } from '../lib/inspection';
 
 const MAX_FUNC_LENGTH = 150;
 

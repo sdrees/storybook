@@ -4,7 +4,7 @@ import NotificationItem from './NotificationItem';
 
 export default {
   component: NotificationItem,
-  title: 'UI/Notifications/NotificationItem',
+  title: 'Notifications/NotificationItem',
   decorators: [
     (StoryFn) => (
       <LocationProvider>

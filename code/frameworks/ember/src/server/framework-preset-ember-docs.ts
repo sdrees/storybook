@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/types';
 import { findDistEsm } from '@storybook/core-common';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 

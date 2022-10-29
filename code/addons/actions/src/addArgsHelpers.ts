@@ -1,4 +1,4 @@
-import type { Args, AnyFramework, ArgsEnhancer } from '@storybook/csf';
+import type { Args, AnyFramework, ArgsEnhancer } from '@storybook/types';
 import { action } from './runtime/action';
 
 // interface ActionsParameter {

@@ -1,5 +1,5 @@
-import { MatchImageSnapshotOptions } from 'jest-image-snapshot';
-import { ScreenshotOptions, Browser, Page, ElementHandle, LaunchOptions } from 'puppeteer';
+import type { MatchImageSnapshotOptions } from 'jest-image-snapshot';
+import type { ScreenshotOptions, Browser, Page, ElementHandle, LaunchOptions } from 'puppeteer';
 
 type PuppeteerLifeCycleEvent = 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
 

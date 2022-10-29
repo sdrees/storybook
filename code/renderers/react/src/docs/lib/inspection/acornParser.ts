@@ -1,9 +1,8 @@
 import { Parser } from 'acorn';
 import jsx from 'acorn-jsx';
-import estree from 'estree';
+import type estree from 'estree';
 import * as acornWalk from 'acorn-walk';
-import {
-  InspectionType,
+import type {
   InspectionLiteral,
   InspectionElement,
   InspectionFunction,
@@ -14,6 +13,7 @@ import {
   InspectionArray,
   InspectionInferedType,
 } from './types';
+import { InspectionType } from './types';
 
 interface ParsingResult<T> {
   inferredType: T;

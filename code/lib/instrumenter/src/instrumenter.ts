@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import { addons, Channel } from '@storybook/addons';
-import type { StoryId } from '@storybook/addons';
+import type { Channel } from '@storybook/channels';
+import { addons } from '@storybook/addons';
+import type { StoryId } from '@storybook/types';
 import { once, logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
@@ -10,16 +11,8 @@ import {
 } from '@storybook/core-events';
 import global from 'global';
 
-import {
-  Call,
-  CallRef,
-  CallStates,
-  ControlStates,
-  LogItem,
-  Options,
-  State,
-  SyncPayload,
-} from './types';
+import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
+import { CallStates } from './types';
 
 export const EVENTS = {
   CALL: 'storybook/instrumenter/call',
@@ -373,6 +366,7 @@ export class Instrumenter {
       }));
     }).then(() => {
       this.setState(call.storyId, (state) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { [call.id]: _, ...resolvers } = state.resolvers;
         return { isLocked: true, resolvers };
       });

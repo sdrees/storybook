@@ -1,6 +1,6 @@
-import type { Type } from '@angular/core';
-import type { ArgType, ArgTypes } from '@storybook/api';
-import type { ICollection } from '../types';
+import { Type } from '@angular/core';
+import { API_ArgType, API_ArgTypes } from '@storybook/types';
+import { ICollection } from '../types';
 import {
   ComponentInputsOutputs,
   getComponentDecoratorMetadata,
@@ -71,7 +71,7 @@ const createAngularInputProperty = ({
 }: {
   propertyName: string;
   value: any;
-  argType?: ArgType;
+  argType?: API_ArgType;
 }) => {
   const { name: type = null, summary = null } = argType?.type || {};
   let templateValue = type === 'enum' && !!summary ? `${summary}.${value}` : value;
@@ -97,7 +97,7 @@ const createAngularInputProperty = ({
 export const computesTemplateSourceFromComponent = (
   component: Type<unknown>,
   initialProps?: ICollection,
-  argTypes?: ArgTypes
+  argTypes?: API_ArgTypes
 ) => {
   const ngComponentMetadata = getComponentDecoratorMetadata(component);
   if (!ngComponentMetadata) {

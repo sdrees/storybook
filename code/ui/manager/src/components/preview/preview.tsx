@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { Fragment, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -15,7 +14,7 @@ import { defaultWrappers, ApplyWrappers } from './wrappers';
 import { ToolbarComp } from './toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
-import { PreviewProps } from './utils/types';
+import type { PreviewProps } from './utils/types';
 
 const getWrappers = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.PREVIEW));
 const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.TAB));
@@ -131,7 +130,7 @@ const useTabs = (
   }, [entry, canvas, ...tabsFromConfig]);
 };
 
-const Preview = React.memo<PreviewProps>((props) => {
+const Preview = React.memo<PreviewProps>(function Preview(props) {
   const {
     api,
     id: previewId,
@@ -223,6 +222,7 @@ function filterTabs(panels: Addon[], parameters: Record<string, any>) {
       })
       .map((panel, index) => ({ ...panel, index } as Addon))
       .sort((p1, p2) => {
+        /* eslint-disable @typescript-eslint/naming-convention */
         const tab_1 = arrTabs.find((tab) => tab.id === p1.id);
         // @ts-expect-error (Converted from ts-ignore)
         const index_1 = tab_1 ? tab_1.index : arrTabs.length + p1.index;
@@ -230,6 +230,7 @@ function filterTabs(panels: Addon[], parameters: Record<string, any>) {
         // @ts-expect-error (Converted from ts-ignore)
         const index_2 = tab_2 ? tab_2.index : arrTabs.length + p2.index;
         return index_1 - index_2;
+        /* eslint-enable @typescript-eslint/naming-convention */
       })
       .map((panel) => {
         const t = arrTabs.find((tab) => tab.id === panel.id);

@@ -1,8 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
+
 import * as t from '@babel/types';
-import generate from '@babel/generator';
-import traverse from '@babel/traverse';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as generate from '@babel/generator';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as traverse from '@babel/traverse';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -13,6 +16,7 @@ const propKey = (p: t.ObjectProperty) => {
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
   if (path.length === 0) {
     return node;
@@ -27,6 +31,7 @@ const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
   return undefined;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _findVarInitialization = (identifier: string, program: t.Program) => {
   let init: t.Expression | null | undefined = null;
   let declarations: t.VariableDeclarator[] | null = null;
@@ -55,6 +60,7 @@ const _findVarInitialization = (identifier: string, program: t.Program) => {
   return init;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _makeObjectExpression = (path: string[], value: t.Expression): t.Expression => {
   if (path.length === 0) return value;
   const [first, ...rest] = path;
@@ -62,6 +68,7 @@ const _makeObjectExpression = (path: string[], value: t.Expression): t.Expressio
   return t.objectExpression([t.objectProperty(t.identifier(first), innerExpression)]);
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _updateExportNode = (path: string[], expr: t.Expression, existing: t.ObjectExpression) => {
   const [first, ...rest] = path;
   const existingField = existing.properties.find(
@@ -100,7 +107,7 @@ export class ConfigFile {
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
-    traverse(this._ast, {
+    traverse.default(this._ast, {
       ExportNamedDeclaration: {
         enter({ node, parent }) {
           if (t.isVariableDeclaration(node.declaration)) {
@@ -168,7 +175,7 @@ export class ConfigFile {
   getFieldValue(path: string[]) {
     const node = this.getFieldNode(path);
     if (node) {
-      const { code } = generate(node, {});
+      const { code } = generate.default(node, {});
       // eslint-disable-next-line no-eval
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
@@ -218,9 +225,9 @@ export class ConfigFile {
     // we do this rather than t.valueToNode because apparently
     // babel only preserves quotes if they are parsed from the original code.
     if (quotes === 'single') {
-      const { code } = generate(t.valueToNode(value), { jsescOption: { quotes } });
+      const { code } = generate.default(t.valueToNode(value), { jsescOption: { quotes } });
       const program = babelParse(`const __x = ${code}`);
-      traverse(program, {
+      traverse.default(program, {
         VariableDeclaration: {
           enter({ node }) {
             if (
@@ -251,7 +258,7 @@ export const loadConfig = (code: string, fileName?: string) => {
 };
 
 export const formatConfig = (config: ConfigFile) => {
-  const { code } = generate(config._ast, {});
+  const { code } = generate.default(config._ast, {});
   return code;
 };
 

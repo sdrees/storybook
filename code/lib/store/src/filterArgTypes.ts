@@ -1,15 +1,13 @@
-import type { StrictArgTypes } from '@storybook/csf';
+import type { Store_PropDescriptor, StrictArgTypes } from '@storybook/types';
 import pickBy from 'lodash/pickBy';
 
-export type PropDescriptor = string[] | RegExp;
-
-const matches = (name: string, descriptor: PropDescriptor) =>
+const matches = (name: string, descriptor: Store_PropDescriptor) =>
   Array.isArray(descriptor) ? descriptor.includes(name) : name.match(descriptor);
 
 export const filterArgTypes = (
   argTypes: StrictArgTypes,
-  include?: PropDescriptor,
-  exclude?: PropDescriptor
+  include?: Store_PropDescriptor,
+  exclude?: Store_PropDescriptor
 ) => {
   if (!include && !exclude) {
     return argTypes;

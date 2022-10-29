@@ -1,9 +1,13 @@
-import { PropDefaultValue } from './PropDef';
-import { PropDef, TypeSystem, DocgenInfo, DocgenType, DocgenPropDefaultValue } from './types';
-import { JsDocParsingResult } from '../jsdocParser';
+import type { PropDefaultValue } from './PropDef';
+import type { PropDef, DocgenInfo, DocgenType, DocgenPropDefaultValue } from './types';
+import { TypeSystem } from './types';
+import type { JsDocParsingResult } from '../jsdocParser';
+
 import { createSummaryValue } from '../utils';
+
 import { createFlowPropDef } from './flow/createPropDef';
 import { isDefaultValueBlacklisted } from './utils/defaultValue';
+
 import { createTsPropDef } from './typeScript/createPropDef';
 import { convert } from '../convert';
 

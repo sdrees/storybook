@@ -1,10 +1,10 @@
 import path from 'path';
-import type { Configuration } from 'webpack';
+import { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { normalize, getSystemPath } from '@angular-devkit/core';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { webpackFinal } from './framework-preset-angular-cli';
-import type { PresetOptions } from './preset-options';
+import { PresetOptions } from './preset-options';
 
 const testPath = __dirname;
 
@@ -819,7 +819,7 @@ const newWebpackConfiguration = (
         '@storybook/api': '/Users/joe/storybook/lib/api',
         '@storybook/channels': '/Users/joe/storybook/lib/channels',
         '@storybook/channel-postmessage': '/Users/joe/storybook/lib/channel-postmessage',
-        '@storybook/components': '/Users/joe/storybook/lib/components',
+        '@storybook/components': '/Users/joe/storybook/ui/components',
         '@storybook/core-events': '/Users/joe/storybook/lib/core-events',
         '@storybook/router': '/Users/joe/storybook/lib/router',
         '@storybook/theming': '/Users/joe/storybook/lib/theming',

@@ -1,9 +1,9 @@
 import { Configuration } from 'webpack';
 import * as path from 'path';
-import type { Preset } from '@storybook/core-common';
+import { Preset } from '@storybook/types';
 
-import type { PresetOptions } from './preset-options';
-import type { AngularOptions } from '../types';
+import { PresetOptions } from './preset-options';
+import { AngularOptions } from '../types';
 
 /**
  * Source : https://github.com/angular/angular-cli/blob/ebccb5de4a455af813c5e82483db6af20666bdbd/packages/angular_devkit/build_angular/src/utils/load-esm.ts#L23
@@ -19,7 +19,7 @@ import type { AngularOptions } from '../types';
  * @returns A Promise that resolves to the dynamically imported module.
  */
 function loadEsmModule<T>(modulePath: string): Promise<T> {
-  // eslint-disable-next-line no-new-func
+  // eslint-disable-next-line @typescript-eslint/no-implied-eval
   return new Function('modulePath', `return import(modulePath);`)(modulePath) as Promise<T>;
 }
 

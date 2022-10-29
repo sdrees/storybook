@@ -1,5 +1,5 @@
 import type { IconsProps } from '@storybook/components';
-import type { ArgType } from '@storybook/api';
+import type { API_ArgType } from '@storybook/types';
 
 export type ToolbarShortcutType = 'next' | 'previous' | 'reset';
 
@@ -37,7 +37,7 @@ export interface NormalizedToolbarConfig {
   dynamicTitle?: boolean;
 }
 
-export type NormalizedToolbarArgType = ArgType & {
+export type NormalizedToolbarArgType = API_ArgType & {
   toolbar: NormalizedToolbarConfig;
 };
 
@@ -45,7 +45,7 @@ export type ToolbarConfig = NormalizedToolbarConfig & {
   items: string[] | ToolbarItem[];
 };
 
-export type ToolbarArgType = ArgType & {
+export type ToolbarArgType = API_ArgType & {
   toolbar: ToolbarConfig;
 };
 

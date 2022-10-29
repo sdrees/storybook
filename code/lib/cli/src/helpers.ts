@@ -6,8 +6,13 @@ import chalk from 'chalk';
 import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
-import { SupportedFrameworks, SupportedRenderers, SupportedLanguage } from './project_types';
-import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
+import type { SupportedFrameworks, SupportedRenderers, SupportedLanguage } from './project_types';
+
+import type {
+  JsPackageManager,
+  PackageJson,
+  PackageJsonWithDepsAndDevDeps,
+} from './js-package-manager';
 import { getBaseDir } from './dirs';
 import storybookMonorepoPackages from './versions';
 

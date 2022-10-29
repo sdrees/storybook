@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 
 import { render } from 'ejs';
 
-import type { DocsOptions, Options, Ref } from '@storybook/core-common';
+import type { DocsOptions, Options, Ref } from '@storybook/types';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
@@ -17,6 +17,7 @@ export const getTemplatePath = async (template: string) => {
 };
 
 export const readTemplate = async (template: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const path = await getTemplatePath(template);
 
   return fs.readFile(path, 'utf8');

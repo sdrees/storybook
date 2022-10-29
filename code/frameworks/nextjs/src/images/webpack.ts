@@ -1,5 +1,5 @@
 import semver from 'semver';
-import { Configuration as WebpackConfig, RuleSetRule } from 'webpack';
+import type { Configuration as WebpackConfig, RuleSetRule } from 'webpack';
 import { addScopedAlias, getNextjsVersion } from '../utils';
 
 export const configureImages = (baseConfig: WebpackConfig): void => {

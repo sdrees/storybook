@@ -1,7 +1,7 @@
-import type { Types } from '@storybook/addons';
+import type { Addon_Types } from '@storybook/types';
 
 export default class Provider {
-  getElements(_type: Types) {
+  getElements(_type: Addon_Types) {
     throw new Error('Provider.getElements() is not implemented!');
   }
 

@@ -1,4 +1,4 @@
-import { Fix } from '../types';
+import type { Fix } from '../types';
 
 import { cra5 } from './cra5';
 import { webpack5 } from './webpack5';

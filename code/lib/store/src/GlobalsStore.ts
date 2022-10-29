@@ -1,17 +1,8 @@
-import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
-import type { Globals, GlobalTypes } from '@storybook/csf';
+import type { Globals, GlobalTypes } from '@storybook/types';
+import { logger } from '@storybook/client-logger';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';
 import { getValuesFromArgTypes } from './csf/getValuesFromArgTypes';
-
-const setUndeclaredWarning = deprecate(
-  () => {},
-  dedent`
-    Setting a global value that is undeclared (i.e. not in the user's initial set of globals
-    or globalTypes) is deprecated and will have no effect in 7.0.
-  `
-);
 
 export class GlobalsStore {
   // We use ! here because TS doesn't analyse the .set() function to see if it actually get set
@@ -47,7 +38,13 @@ export class GlobalsStore {
 
   filterAllowedGlobals(globals: Globals) {
     return Object.entries(globals).reduce((acc, [key, value]) => {
-      if (this.allowedGlobalNames.has(key)) acc[key] = value;
+      if (this.allowedGlobalNames.has(key)) {
+        acc[key] = value;
+      } else {
+        logger.warn(
+          `Attempted to set a global (${key}) that is not defined in initial globals or globalTypes`
+        );
+      }
       return acc;
     }, {} as Globals);
   }
@@ -64,12 +61,6 @@ export class GlobalsStore {
   }
 
   update(newGlobals: Globals) {
-    Object.keys(newGlobals).forEach((key) => {
-      if (!this.allowedGlobalNames.has(key)) {
-        setUndeclaredWarning();
-      }
-    });
-
-    this.globals = { ...this.globals, ...newGlobals };
+    this.globals = { ...this.globals, ...this.filterAllowedGlobals(newGlobals) };
   }
 }

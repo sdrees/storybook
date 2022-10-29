@@ -1,4 +1,5 @@
-import { css, keyframes, Keyframes, SerializedStyles } from '@emotion/react';
+import type { Keyframes, SerializedStyles } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 export const easing = {
   rubber: 'cubic-bezier(0.175, 0.885, 0.335, 1.05)',

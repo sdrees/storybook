@@ -1,4 +1,4 @@
-import { ModuleInfo } from '@fal-works/esbuild-plugin-global-externals';
+import type { ModuleInfo } from '@fal-works/esbuild-plugin-global-externals';
 
 // Here we map the name of a module to their NAME in the global scope.
 export enum Keys {

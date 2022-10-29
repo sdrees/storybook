@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/no-non-null-assertion */
 import * as React from 'react';
-import * as _NextImage from 'next/image';
-import { ImageProps } from 'next/image';
+import type * as _NextImage from 'next/image';
 import semver from 'semver';
 
 // next v9 (doesn't have next/image)
@@ -12,7 +11,7 @@ if (semver.gt(process.env.__NEXT_VERSION!, '9.0.0')) {
 
   Object.defineProperty(NextImage, 'default', {
     configurable: true,
-    value: (props: ImageProps) =>
+    value: (props: _NextImage.ImageProps) =>
       typeof props.src === 'string' ? (
         <OriginalNextImage {...props} unoptimized blurDataURL={props.src} />
       ) : (

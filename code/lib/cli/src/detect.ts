@@ -2,18 +2,17 @@ import path from 'path';
 import fs from 'fs';
 import findUp from 'find-up';
 
+import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
   supportedTemplates,
   SUPPORTED_RENDERERS,
   SupportedLanguage,
-  TemplateConfiguration,
-  TemplateMatcher,
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
-import { PackageJson, JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
+import type { PackageJson, JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
 import { detectNextJS } from './detect-nextjs';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];

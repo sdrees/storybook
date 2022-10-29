@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import type { Router, Request, Response } from 'express';
 import { printDuration } from './print-duration';
 
 export const useProgressReporting = async (

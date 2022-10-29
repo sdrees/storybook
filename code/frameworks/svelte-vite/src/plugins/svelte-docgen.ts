@@ -57,6 +57,7 @@ export function svelteDocgen(svelteOptions: Record<string, any>): PluginOption {
 
       let docOptions;
       if (preprocessOptions) {
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         const src = fs.readFileSync(resource).toString();
 
         const { code: fileContent } = await preprocess(src, preprocessOptions, {

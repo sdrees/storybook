@@ -1,22 +1,7 @@
 import path from 'path';
 import fse from 'fs-extra';
+import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
-import { PackageJson } from '../types';
-
-interface StorybookInfo {
-  version: string;
-  // FIXME: these are renderers for now,
-  // need to update with framework OR fix
-  // the calling code
-  framework: string;
-  frameworkPackage: string;
-  renderer: string;
-  rendererPackage: string;
-  configDir?: string;
-  mainConfig?: string;
-  previewConfig?: string;
-  managerConfig?: string;
-}
 
 const rendererPackages: Record<string, string> = {
   '@storybook/react': 'react',
@@ -106,5 +91,5 @@ export const getStorybookInfo = (packageJson: PackageJson) => {
   return {
     ...rendererInfo,
     ...configInfo,
-  } as StorybookInfo;
+  } as CoreCommon_StorybookInfo;
 };

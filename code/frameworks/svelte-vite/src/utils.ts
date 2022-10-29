@@ -1,4 +1,4 @@
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 
 function checkName(plugin: PluginOption, name: string) {
   return typeof plugin === 'object' && 'name' in plugin && plugin.name === name;

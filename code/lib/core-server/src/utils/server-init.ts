@@ -1,5 +1,5 @@
 import { logger } from '@storybook/node-logger';
-import { Express } from 'express';
+import type { Express } from 'express';
 import { readFile } from 'fs-extra';
 import http from 'http';
 import https from 'https';

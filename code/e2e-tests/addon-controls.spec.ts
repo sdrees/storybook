@@ -10,7 +10,7 @@ test.describe('addon-controls', () => {
     const sbPage = new SbPage(page);
     await sbPage.waitUntilLoaded();
 
-    await sbPage.navigateToStory('example-button', 'primary');
+    await sbPage.navigateToStory('example/button', 'primary');
     await sbPage.viewAddonPanel('Controls');
 
     // Text input: Label

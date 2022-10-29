@@ -14,7 +14,6 @@ export default class HtmlComponent {
   @Input()
   content = '';
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(private sanitizer: DomSanitizer) {}
 
   get safeContent() {

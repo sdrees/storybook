@@ -1,4 +1,5 @@
-import { init as initAddons, types } from '../modules/addons';
+import { Addon_TypesEnum as types } from '@storybook/types';
+import { init as initAddons } from '../modules/addons';
 
 const PANELS = {
   a11y: {

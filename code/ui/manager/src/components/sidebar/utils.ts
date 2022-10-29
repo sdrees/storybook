@@ -1,10 +1,11 @@
 import memoize from 'memoizerific';
 import global from 'global';
-import { SyntheticEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import type { HashEntry, StoriesHash } from '@storybook/api';
 
+// eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from './Sidebar';
-import { Item, RefType, Dataset, SearchItem } from './types';
+import type { Item, RefType, Dataset, SearchItem } from './types';
 
 const { document, window: globalWindow } = global;
 

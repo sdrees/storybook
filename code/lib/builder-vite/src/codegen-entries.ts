@@ -1,5 +1,5 @@
 import { loadPreviewOrConfigFile } from '@storybook/core-common';
-import type { Options } from '@storybook/core-common';
+import type { Options } from '@storybook/types';
 import slash from 'slash';
 import { normalizePath } from 'vite';
 import type { ExtendedOptions } from './types';

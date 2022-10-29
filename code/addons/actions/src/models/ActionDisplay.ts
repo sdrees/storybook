@@ -1,4 +1,4 @@
-import { ActionOptions } from './ActionOptions';
+import type { ActionOptions } from './ActionOptions';
 
 export interface ActionDisplay {
   id: string;

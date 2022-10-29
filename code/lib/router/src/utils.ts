@@ -2,7 +2,8 @@ import { once } from '@storybook/client-logger';
 import { dequal as deepEqual } from 'dequal';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'memoizerific';
-import qs, { IStringifyOptions } from 'qs';
+import type { IStringifyOptions } from 'qs';
+import qs from 'qs';
 import { dedent } from 'ts-dedent';
 
 export interface StoryData {

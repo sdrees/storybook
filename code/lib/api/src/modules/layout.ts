@@ -5,42 +5,21 @@ import { create } from '@storybook/theming/create';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { ThemeVars } from '@storybook/theming';
 
+import type { API_Layout, API_PanelPositions, API_UI } from '@storybook/types';
 import merge from '../lib/merge';
 import type { State, ModuleFn } from '../index';
 
 const { document } = global;
 
-export type PanelPositions = 'bottom' | 'right';
-export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 export const ActiveTabs = {
   SIDEBAR: 'sidebar' as const,
   CANVAS: 'canvas' as const,
   ADDONS: 'addons' as const,
 };
 
-export interface Layout {
-  initialActive: ActiveTabsType;
-  isFullscreen: boolean;
-  showPanel: boolean;
-  panelPosition: PanelPositions;
-  showNav: boolean;
-  showTabs: boolean;
-  showToolbar: boolean;
-  /**
-   * @deprecated
-   */
-  isToolshown?: boolean;
-}
-
-export interface UI {
-  name?: string;
-  url?: string;
-  enableShortcuts: boolean;
-}
-
 export interface SubState {
-  layout: Layout;
-  ui: UI;
+  layout: API_Layout;
+  ui: API_UI;
   selectedPanel: string | undefined;
   theme: ThemeVars;
 }
@@ -48,24 +27,13 @@ export interface SubState {
 export interface SubAPI {
   toggleFullscreen: (toggled?: boolean) => void;
   togglePanel: (toggled?: boolean) => void;
-  togglePanelPosition: (position?: PanelPositions) => void;
+  togglePanelPosition: (position?: API_PanelPositions) => void;
   toggleNav: (toggled?: boolean) => void;
   toggleToolbar: (toggled?: boolean) => void;
   setOptions: (options: any) => void;
 }
 
 type PartialSubState = Partial<SubState>;
-
-export interface UIOptions {
-  name?: string;
-  url?: string;
-  goFullScreen: boolean;
-  showStoriesPanel: boolean;
-  showAddonPanel: boolean;
-  addonPanelInRight: boolean;
-  theme?: ThemeVars;
-  selectedPanel?: string;
-}
 
 const defaultState: SubState = {
   ui: {

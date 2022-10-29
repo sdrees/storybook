@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { useGlobalTypes } from '@storybook/api';
 import { Separator } from '@storybook/components';
 import { ToolbarMenuList } from './ToolbarMenuList';
 import { normalizeArgType } from '../utils/normalize-toolbar-arg-type';
-import { ToolbarArgType } from '../types';
+import type { ToolbarArgType } from '../types';
 
 /**
  * A smart component for handling manager-preview interactions.

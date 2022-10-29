@@ -3,11 +3,13 @@ import React, { Fragment, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 
-import { Result } from 'axe-core';
+import type { Result } from 'axe-core';
 import { Info } from './Info';
+
 import { Elements } from './Elements';
 import { Tags } from './Tags';
-import { RuleType } from '../A11YPanel';
+
+import type { RuleType } from '../A11YPanel';
 import HighlightToggle from './HighlightToggle';
 
 const Wrapper = styled.div(({ theme }) => ({

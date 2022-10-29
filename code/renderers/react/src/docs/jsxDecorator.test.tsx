@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-import React, { createElement, FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import React, { createElement, Profiler } from 'react';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/addons';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -137,6 +138,23 @@ describe('renderJsx', () => {
     `);
   });
 
+  it('Profiler', () => {
+    function ProfilerComponent(props: any) {
+      return (
+        <Profiler id="profiler-test" onRender={() => {}}>
+          <div>{props.children}</div>
+        </Profiler>
+      );
+    }
+
+    expect(renderJsx(createElement(ProfilerComponent, {}, 'I am Profiler'), {}))
+      .toMatchInlineSnapshot(`
+        <ProfilerComponent>
+          I am Profiler
+        </ProfilerComponent>
+    `);
+  });
+
   it('should not add default props to string if the prop value has not changed', () => {
     const Container = ({ className, children }: { className: string; children: string }) => {
       return <div className={className}>{children}</div>;
@@ -174,7 +192,7 @@ describe('jsxDecorator', () => {
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
     // @ts-expect-error (Converted from ts-ignore)
-    mockedUseEffect.mockImplementation((cb) => setTimeout(cb, 0));
+    mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
     mockChannel = { on: jest.fn(), emit: jest.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
@@ -281,6 +299,7 @@ describe('jsxDecorator', () => {
     const storyFn = jest.fn();
     storyFn
       .mockImplementationOnce(() => {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw Promise.resolve();
       })
       .mockImplementation(() => {

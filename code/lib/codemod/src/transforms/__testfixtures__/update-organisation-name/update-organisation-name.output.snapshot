@@ -18,6 +18,6 @@ import '@storybook/channel-websocket';
 import '@storybook/cli';
 import '@storybook/react';
 import '@storybook/react-native';
-import '@storybook/ui';
+import '@storybook/manager';
 import { storiesOf } from '@storybook/react';"
 `;

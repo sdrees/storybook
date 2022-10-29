@@ -5,7 +5,7 @@ import { PureReleaseNotesScreen } from './release_notes';
 
 export default {
   component: PureReleaseNotesScreen,
-  title: 'UI/Settings/ReleaseNotes',
+  title: 'Settings/ReleaseNotes',
 };
 
 const actions = makeActions('setLoaded', 'onClose');

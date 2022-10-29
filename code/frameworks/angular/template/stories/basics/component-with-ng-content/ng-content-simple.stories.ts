@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import type { Meta, StoryFn } from '@storybook/angular/';
+import { Meta, StoryFn } from '@storybook/angular/';
 
 @Component({
   selector: 'storybook-with-ng-content',
@@ -21,7 +21,6 @@ export const Default: StoryFn = () => ({
 });
 
 export const WithDynamicContentAndArgs: StoryFn = (args) => ({
-  // eslint-disable-next-line dot-notation
   template: `<storybook-with-ng-content><h1>${args['content']}</h1></storybook-with-ng-content>`,
 });
 WithDynamicContentAndArgs.argTypes = {

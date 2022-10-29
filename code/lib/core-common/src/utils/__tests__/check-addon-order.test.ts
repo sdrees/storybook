@@ -1,5 +1,10 @@
 import { logger } from '@storybook/node-logger';
-import { checkAddonOrder, AddonEntry, AddonInfo, OptionsEntry } from '../check-addon-order';
+import type {
+  CoreCommon_AddonEntry,
+  CoreCommon_AddonInfo,
+  CoreCommon_OptionsEntry,
+} from '@storybook/types';
+import { checkAddonOrder } from '../check-addon-order';
 
 const configFile = './main.js';
 const essentialAddons = [
@@ -13,15 +18,15 @@ const essentialAddons = [
   'outline',
 ];
 
-const pkgName = (entry: AddonEntry): string => {
+const pkgName = (entry: CoreCommon_AddonEntry): string => {
   if (typeof entry === 'string') {
     if (entry.includes('node_modules')) return entry;
     return `@storybook/addon-${entry}`;
   }
-  return (entry as OptionsEntry).name;
+  return (entry as CoreCommon_OptionsEntry).name;
 };
 
-const fromName = (name: string): AddonInfo => ({
+const fromName = (name: string): CoreCommon_AddonInfo => ({
   name: pkgName(name),
   inEssentials: essentialAddons.includes(name),
 });

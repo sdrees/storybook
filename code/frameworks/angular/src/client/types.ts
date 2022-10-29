@@ -1,7 +1,7 @@
-import type {
+import {
   Parameters as DefaultParameters,
   StoryContext as DefaultStoryContext,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 export interface NgModuleMetadata {
   declarations?: any[];

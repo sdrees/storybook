@@ -1,5 +1,5 @@
 import { createTsPropDef } from './createPropDef';
-import { DocgenInfo } from '../types';
+import type { DocgenInfo } from '../types';
 
 const PROP_NAME = 'propName';
 

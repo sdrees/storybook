@@ -1,17 +1,12 @@
 import global from 'global';
+import type { API_ReleaseNotes } from '@storybook/types';
 import memoize from 'memoizerific';
 
 import type { ModuleFn } from '../index';
 
 const { RELEASE_NOTES_DATA } = global;
 
-export interface ReleaseNotes {
-  success?: boolean;
-  currentVersion?: string;
-  showOnFirstLaunch?: boolean;
-}
-
-const getReleaseNotesData = memoize(1)((): ReleaseNotes => {
+const getReleaseNotesData = memoize(1)((): API_ReleaseNotes => {
   try {
     return { ...(JSON.parse(RELEASE_NOTES_DATA) || {}) };
   } catch (e) {

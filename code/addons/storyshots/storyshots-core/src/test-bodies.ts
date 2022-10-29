@@ -1,5 +1,5 @@
 import 'jest-specific-snapshot';
-import {
+import type {
   StoryshotsTestMethod,
   TestMethodOptions,
   StoryshotsOptions,

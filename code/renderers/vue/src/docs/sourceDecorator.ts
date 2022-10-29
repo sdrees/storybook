@@ -3,9 +3,9 @@
 
 import { addons } from '@storybook/addons';
 import { logger } from '@storybook/client-logger';
-import type Vue from 'vue';
-
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import type { ComponentOptions } from 'vue';
+import type Vue from 'vue';
 import type { StoryContext } from '../types';
 
 export const skipSourceRender = (context: StoryContext) => {
@@ -43,6 +43,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
     // lifecycle hook.
     mounted() {
       // Theoretically this does not happens but we need to check it.
+      // @ts-expect-error TS says it is called $vnode
       if (!this._vnode) {
         return;
       }
@@ -50,6 +51,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
       try {
         const storyNode = lookupStoryInstance(this, storyComponent);
 
+        // @ts-expect-error TS says it is called $vnode
         const code = vnodeToString(storyNode._vnode);
 
         channel.emit(SNIPPET_RENDERED, (context || {}).id, `<template>${code}</template>`, 'vue');
@@ -58,7 +60,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
       }
     },
     template: '<story />',
-  };
+  } as ComponentOptions<Vue> & ThisType<Vue>;
 };
 
 export function vnodeToString(vnode: Vue.VNode): string {
@@ -69,7 +71,7 @@ export function vnodeToString(vnode: Vue.VNode): string {
     ...(vnode.data?.attrs ? Object.entries(vnode.data.attrs) : []),
   ]
     .filter(([name], index, list) => list.findIndex((item) => item[0] === name) === index)
-    .map(([name, value]) => stringifyAttr(name, value))
+    .map(([name, value]) => stringifyAttr(name!, value))
     .filter(Boolean)
     .join(' ');
 

@@ -1,9 +1,11 @@
-import React, { FC, ComponentProps } from 'react';
+import type { FC, ComponentProps } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { Button } from '@storybook/components';
 
 import { Brand } from './Brand';
-import { SidebarMenu, MenuList } from './Menu';
+import type { MenuList } from './Menu';
+import { SidebarMenu } from './Menu';
 
 export interface HeadingProps {
   menuHighlighted?: boolean;

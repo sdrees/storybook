@@ -4,7 +4,7 @@ import AnsiToHtml from 'ansi-to-html';
 import { dedent } from 'ts-dedent';
 import qs from 'qs';
 
-import type { Story } from '@storybook/store';
+import type { Store_Story } from '@storybook/types';
 
 const { document } = global;
 
@@ -45,6 +45,7 @@ export class WebView {
 
   constructor() {
     // Special code for testing situations
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { __SPECIAL_TEST_PARAMETER__ } = qs.parse(document.location.search, {
       ignoreQueryPrefix: true,
     });
@@ -64,7 +65,7 @@ export class WebView {
   }
 
   // Get ready to render a story, returning the element to render to
-  prepareForStory(story: Story<any>) {
+  prepareForStory(story: Store_Story<any>) {
     this.showStory();
     this.applyLayout(story.parameters.layout);
 

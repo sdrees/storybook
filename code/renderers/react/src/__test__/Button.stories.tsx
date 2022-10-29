@@ -2,7 +2,8 @@ import React from 'react';
 import type { StoryFn as CSF2Story, StoryObj as CSF3Story, Meta } from '@storybook/react';
 import { within, userEvent } from '@storybook/testing-library';
 
-import { Button, ButtonProps } from './Button';
+import type { ButtonProps } from './Button';
+import { Button } from './Button';
 
 export default {
   title: 'Example/Button',

@@ -6,13 +6,13 @@
  */
 import { statSync } from 'fs';
 import {
+  Path,
   BaseException,
   basename,
   dirname,
   getSystemPath,
   join,
   normalize,
-  Path,
   relative,
   resolve,
 } from '@angular-devkit/core';

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
 import { dedent } from 'ts-dedent';
-import { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '../../js-package-manager';
 import { eslintPlugin } from './eslint-plugin';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import

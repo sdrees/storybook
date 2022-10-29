@@ -7,7 +7,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
 
-import { CommandOptions } from './generators/types';
+import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';
@@ -291,7 +291,7 @@ program.on('command:*', ([invalidCmd]) => {
     ' Invalid command: %s.\n See --help for a list of available commands.',
     invalidCmd
   );
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-underscore-dangle
   const availableCommands = program.commands.map((cmd) => cmd._name);
   const suggestion = availableCommands.find((cmd) => leven(cmd, invalidCmd) < 3);
   if (suggestion) {

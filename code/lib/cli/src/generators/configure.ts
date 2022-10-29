@@ -1,6 +1,6 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
-import { SupportedRenderers, SupportedFrameworks } from '../project_types';
+import type { SupportedRenderers, SupportedFrameworks } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];

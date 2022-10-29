@@ -5,7 +5,7 @@ import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
 
 import { inferControls } from '@storybook/store';
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 import { normalizeNewlines } from '@storybook/docs-tools';
 
 import type { StoryContext } from '../types';
@@ -65,9 +65,9 @@ describe('react component properties', () => {
       const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         if (skippedTests.includes(testEntry.name)) {
-          it.skip(testEntry.name, () => {});
+          it.skip(`${testEntry.name}`, () => {});
         } else {
-          it(testEntry.name, () => {
+          it(`${testEntry.name}`, () => {
             const inputPath = path.join(testDir, testFile);
 
             // snapshot the output of babel-plugin-react-docgen

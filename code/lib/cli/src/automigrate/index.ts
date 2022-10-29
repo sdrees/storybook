@@ -4,7 +4,8 @@ import chalk from 'chalk';
 import boxen from 'boxen';
 import { JsPackageManagerFactory, type PackageManagerName } from '../js-package-manager';
 
-import { fixes, Fix } from './fixes';
+import type { Fix } from './fixes';
+import { fixes } from './fixes';
 
 const logger = console;
 

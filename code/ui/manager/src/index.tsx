@@ -1,5 +1,6 @@
 import global from 'global';
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';

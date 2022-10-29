@@ -8,9 +8,8 @@ import { render as litRender } from 'lit-html';
 // eslint-disable-next-line import/extensions
 import { isTemplateResult } from 'lit-html/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
-import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
-import { WebComponentsFramework } from './types';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { WebComponentsFramework } from './types';
 
 const { Node } = global;
 
@@ -31,7 +30,14 @@ export const render: ArgsStoryFn<WebComponentsFramework> = (args, context) => {
 };
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<WebComponentsFramework>,
+  {
+    storyFn,
+    kind,
+    name,
+    showMain,
+    showError,
+    forceRemount,
+  }: Store_RenderContext<WebComponentsFramework>,
   domElement: Element
 ) {
   const element = storyFn();

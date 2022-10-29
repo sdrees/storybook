@@ -1,8 +1,8 @@
-import type {
+import {
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsReact,
 } from '@storybook/core-webpack';
-import type {
+import {
   StorybookConfigWebpack,
   BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,

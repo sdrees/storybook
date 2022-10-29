@@ -6,11 +6,8 @@ import {
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
-import { addons } from '@storybook/addons';
-import { DecoratorFunction, StoryContext } from '@storybook/csf';
-
-import { defaultDecorateStory } from './decorators';
 import {
+  addons,
   applyHooks,
   useEffect,
   useMemo,
@@ -24,7 +21,10 @@ import {
   HooksContext,
   useArgs,
   useGlobals,
-} from './hooks';
+} from '@storybook/addons';
+import type { DecoratorFunction, StoryContext } from '@storybook/types';
+
+import { defaultDecorateStory } from './decorators';
 
 jest.mock('@storybook/client-logger', () => ({
   logger: { warn: jest.fn(), log: jest.fn() },
@@ -64,7 +64,7 @@ beforeEach(() => {
 const decorateStory = applyHooks(defaultDecorateStory);
 
 const run = (storyFn, decorators: DecoratorFunction[] = [], context = {}) =>
-  decorateStory(storyFn, decorators)({ ...context, hooks } as Partial<StoryContext>);
+  decorateStory(storyFn, decorators)({ ...context, hooks } as StoryContext);
 
 describe('Preview hooks', () => {
   describe('useEffect', () => {

@@ -4,13 +4,13 @@
 /* eslint-disable no-underscore-dangle */
 import {
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   HostListener,
   Input,
   Output,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 
 export const exportedConstant = 'An exported constant';

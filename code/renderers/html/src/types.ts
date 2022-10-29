@@ -1,7 +1,8 @@
-import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/csf';
-import { parameters } from './config';
+import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/types';
 
-export type { RenderContext } from '@storybook/core-client';
+import type { parameters } from './config';
+
+export type { RenderContext } from '@storybook/types';
 
 export type StoryFnHtmlReturnType = string | Node;
 

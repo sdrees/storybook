@@ -2,6 +2,7 @@
 // Button.stories.js|jsx|ts|tsx
 
 import { Button } from './Button';
+import { withActions } from '@storybook/addon-actions/decorator';
 
 export default {
   /* 👇 The title prop is optional.
@@ -15,5 +16,6 @@ export default {
       handles: ['mouseover', 'click .btn'],
     },
   },
+  decorators: [withActions]
 };
 ```

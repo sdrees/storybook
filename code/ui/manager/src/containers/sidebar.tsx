@@ -8,7 +8,7 @@ import { useMenu } from './menu';
 
 export type Item = StoriesHash[keyof StoriesHash];
 
-const Sidebar = React.memo(() => {
+const Sidebar = React.memo(function Sideber() {
   const mapper = ({ state, api }: Combo) => {
     const {
       ui: { name, url, enableShortcuts },

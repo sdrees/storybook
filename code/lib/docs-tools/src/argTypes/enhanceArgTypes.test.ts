@@ -1,5 +1,5 @@
 import type { ArgTypes } from '@storybook/api';
-import type { StrictInputType } from '@storybook/csf';
+import type { StrictInputType } from '@storybook/types';
 import { enhanceArgTypes } from './enhanceArgTypes';
 
 expect.addSnapshotSerializer({

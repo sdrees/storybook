@@ -2,13 +2,10 @@ import { sync as spawnSync } from 'cross-spawn';
 import { telemetry } from '@storybook/telemetry';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
-import {
-  getPackageDetails,
-  JsPackageManagerFactory,
-  PackageJsonWithMaybeDeps,
-  PackageManagerName,
-  useNpmWarning,
-} from './js-package-manager';
+import { withTelemetry } from '@storybook/core-server';
+
+import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
+import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
 
@@ -148,7 +145,7 @@ export interface UpgradeOptions {
   disableTelemetry: boolean;
 }
 
-export const upgrade = async ({
+export const doUpgrade = async ({
   prerelease,
   skipCheck,
   useNpm,
@@ -188,3 +185,7 @@ export const upgrade = async ({
     await automigrate({ dryRun, yes, useNpm, force: pkgMgr });
   }
 };
+
+export async function upgrade(options: UpgradeOptions): Promise<void> {
+  await withTelemetry('upgrade', { cliOptions: options }, () => doUpgrade(options));
+}

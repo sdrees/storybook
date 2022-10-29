@@ -1,16 +1,17 @@
 import type {
   AnyFramework,
+  ArgTypes,
   LegacyStoryAnnotationsOrFn,
-  StoryId,
+  Store_NormalizedComponentAnnotations,
+  Store_NormalizedStoryAnnotations,
   StoryAnnotations,
   StoryFn,
-  ArgTypes,
-} from '@storybook/csf';
+  StoryId,
+} from '@storybook/types';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/client-logger';
 import deprecate from 'util-deprecate';
-import type { NormalizedComponentAnnotations, NormalizedStoryAnnotations } from '../types';
 import { normalizeInputTypes } from './normalizeInputTypes';
 
 const deprecatedStoryAnnotation = dedent`
@@ -25,8 +26,8 @@ const deprecatedStoryAnnotationWarning = deprecate(() => {}, deprecatedStoryAnno
 export function normalizeStory<TFramework extends AnyFramework>(
   key: StoryId,
   storyAnnotations: LegacyStoryAnnotationsOrFn<TFramework>,
-  meta: NormalizedComponentAnnotations<TFramework>
-): NormalizedStoryAnnotations<TFramework> {
+  meta: Store_NormalizedComponentAnnotations<TFramework>
+): Store_NormalizedStoryAnnotations<TFramework> {
   const storyObject: StoryAnnotations<TFramework> = storyAnnotations;
   const userStoryFn: StoryFn<TFramework> | null =
     typeof storyAnnotations === 'function' ? storyAnnotations : null;
@@ -48,7 +49,7 @@ export function normalizeStory<TFramework extends AnyFramework>(
   const args = { ...story?.args, ...storyObject.args };
   const argTypes = { ...(story?.argTypes as ArgTypes), ...(storyObject.argTypes as ArgTypes) };
   const loaders = [...(storyObject.loaders || []), ...(story?.loaders || [])];
-  const { render, play } = storyObject;
+  const { render, play, tags = [] } = storyObject;
 
   // eslint-disable-next-line no-underscore-dangle
   const id = parameters.__id || toId(meta.id, exportName);
@@ -56,6 +57,7 @@ export function normalizeStory<TFramework extends AnyFramework>(
     moduleExport: storyAnnotations,
     id,
     name,
+    tags,
     decorators,
     parameters,
     args,

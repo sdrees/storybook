@@ -1,5 +1,6 @@
 import AxePuppeteer from '@axe-core/puppeteer';
-import { defaultAxeConfig, AxeConfig } from './config';
+import type { AxeConfig } from './config';
+import { defaultAxeConfig } from './config';
 import { puppeteerTest } from './puppeteerTest';
 
 export const axeTest = (customConfig: Partial<AxeConfig> = {}) => {

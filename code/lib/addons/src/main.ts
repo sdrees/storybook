@@ -1,54 +1,24 @@
 import global from 'global';
 
-import type { ReactElement } from 'react';
-import { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { API } from '@storybook/api';
-import type { RenderData as RouterData } from '@storybook/router';
+import type {
+  Addon_Collection,
+  Addon_Config,
+  Addon_Elements,
+  Addon_Loaders,
+  Addon_Type,
+  Addon_Types,
+} from '@storybook/types';
+import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
-import type { ThemeVars } from '@storybook/theming';
 import { mockChannel } from './storybook-channel-mock';
-import { types, Types } from './types';
 
-export { Channel };
+export { Addon_Type as Addon, Addon_TypesEnum as types };
 
-export interface RenderOptions {
-  active?: boolean;
-  key?: string;
-}
-
-export interface Addon {
-  title: (() => string) | string;
-  type?: Types;
-  id?: string;
-  route?: (routeOptions: RouterData) => string;
-  match?: (matchOptions: RouterData) => boolean;
-  render: (renderOptions: RenderOptions) => ReactElement<any> | null;
-  paramKey?: string;
-  disabled?: boolean;
-  hidden?: boolean;
-}
-
-export type Loader = (api: API) => void;
-
-interface Loaders {
-  [key: string]: Loader;
-}
-export interface Collection {
-  [key: string]: Addon;
-}
-interface Elements {
-  [key: string]: Collection;
-}
-interface ToolbarConfig {
-  hidden?: boolean;
-}
-export interface Config {
-  theme?: ThemeVars;
-  toolbar?: {
-    [id: string]: ToolbarConfig;
-  };
-  [key: string]: any;
+export function isSupportedType(type: Addon_Types): boolean {
+  return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
 }
 
 export class AddonStore {
@@ -58,11 +28,11 @@ export class AddonStore {
     }) as Promise<Channel>;
   }
 
-  private loaders: Loaders = {};
+  private loaders: Addon_Loaders<API> = {};
 
-  private elements: Elements = {};
+  private elements: Addon_Elements = {};
 
-  private config: Config = {};
+  private config: Addon_Config = {};
 
   private channel: Channel | undefined;
 
@@ -104,27 +74,27 @@ export class AddonStore {
     this.serverChannel = channel;
   };
 
-  getElements = (type: Types): Collection => {
+  getElements = (type: Addon_Types): Addon_Collection => {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
     return this.elements[type];
   };
 
-  addPanel = (name: string, options: Addon): void => {
+  addPanel = (name: string, options: Addon_Type): void => {
     this.add(name, {
-      type: types.PANEL,
+      type: Addon_TypesEnum.PANEL,
       ...options,
     });
   };
 
-  add = (name: string, addon: Addon) => {
+  add = (name: string, addon: Addon_Type) => {
     const { type } = addon;
     const collection = this.getElements(type);
     collection[name] = { id: name, ...addon };
   };
 
-  setConfig = (value: Config) => {
+  setConfig = (value: Addon_Config) => {
     Object.assign(this.config, value);
     if (this.hasChannel()) {
       this.getChannel().emit(SET_CONFIG, value);

@@ -1,14 +1,14 @@
 /* eslint-disable prefer-destructuring */
+import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { start } from '@storybook/core-client';
-import type { ClientStoryApi, Loadable } from '@storybook/addons';
 import type { HtmlFramework } from './types';
 
 import { renderToDOM, render } from './render';
 
 const FRAMEWORK = 'html';
 
-interface ClientApi extends ClientStoryApi<HtmlFramework['storyResult']> {
-  configure(loader: Loadable, module: NodeModule): void;
+interface ClientApi extends Addon_ClientStoryApi<HtmlFramework['storyResult']> {
+  configure(loader: Addon_Loadable, module: NodeModule): void;
   forceReRender(): void;
   raw: () => any; // todo add type
 }

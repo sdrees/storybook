@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { baseGenerator } from '../baseGenerator';
-import { Generator } from '../types';
+import type { Generator } from '../types';
 import { copyTemplate } from '../../helpers';
 import { getBaseDir } from '../../dirs';
 

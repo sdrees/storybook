@@ -1,7 +1,7 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
 import { dirname, join } from 'path';
-import { Options, PresetProperty } from '@storybook/core-common';
-import { TransformOptions } from '@babel/core';
+import type { Options, PresetProperty } from '@storybook/types';
+import type { TransformOptions } from '@babel/core';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
@@ -10,12 +10,11 @@ import { configureStyledJsx } from './styledJsx/webpack';
 import { configureStyledJsxTransforms } from './styledJsx/babel';
 import { configureImages } from './images/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
-import { FrameworkOptions, StorybookConfig } from './types';
+import type { FrameworkOptions, StorybookConfig } from './types';
 import { configureTypescript } from './config/babel';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
-  dirname(require.resolve(join('@storybook/react', 'package.json'))),
   dirname(require.resolve(join('@storybook/builder-webpack5', 'package.json'))),
 ];
 
@@ -60,6 +59,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
       ) as '@storybook/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
+    renderer: dirname(require.resolve(join('@storybook/react', 'package.json'))),
   };
 };
 
@@ -79,6 +79,7 @@ export const babel = async (baseConfig: TransformOptions): Promise<TransformOpti
 };
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, options) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const frameworkOptions = await options.presets.apply<{ options: FrameworkOptions }>(
     'frameworkOptions'
   );

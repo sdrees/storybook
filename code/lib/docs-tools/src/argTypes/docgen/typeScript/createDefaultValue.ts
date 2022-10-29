@@ -1,5 +1,6 @@
-import { PropDefaultValue } from '../PropDef';
-import { DocgenInfo } from '../types';
+import type { PropDefaultValue } from '../PropDef';
+import type { DocgenInfo } from '../types';
+
 import { createSummaryValue } from '../../utils';
 import { isDefaultValueBlacklisted } from '../utils/defaultValue';
 

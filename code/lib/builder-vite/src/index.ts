@@ -2,11 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import type {
-  Builder,
-  StorybookConfig as StorybookBaseConfig,
-  Options,
-} from '@storybook/core-common';
+import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
 import type { RequestHandler, Request, Response } from 'express';
 import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
 import { transformIframeHtml } from './transform-iframe-html';
@@ -15,7 +11,9 @@ import { build as viteBuild } from './build';
 import type { ExtendedOptions } from './types';
 
 export { withoutVitePlugins } from './utils/without-vite-plugins';
-export type { TypescriptOptions } from '@storybook/core-common';
+
+// TODO remove
+export type { TypescriptOptions } from '@storybook/types';
 
 // Storybook's Stats are optional Webpack related property
 export type ViteStats = {

@@ -1,4 +1,4 @@
-import { Call, CallStates, LogItem } from '@storybook/instrumenter';
+import { type Call, CallStates, type LogItem } from '@storybook/instrumenter';
 import { getInteractions } from './Panel';
 
 describe('Panel', () => {

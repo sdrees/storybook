@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import type { AnyFramework, StoryContext } from '@storybook/csf';
+import type { AnyFramework, StoryContext } from '@storybook/types';
 
 import { defaultDecorateStory } from './decorators';
 

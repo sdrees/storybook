@@ -10,7 +10,7 @@ import { DEFAULT_REF_ID } from './Sidebar';
 
 export default {
   component: Tree,
-  title: 'UI/Sidebar/Tree',
+  title: 'Sidebar/Tree',
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen' },
   decorators: [(storyFn: any) => <div style={{ maxWidth: '230px' }}>{storyFn()}</div>],

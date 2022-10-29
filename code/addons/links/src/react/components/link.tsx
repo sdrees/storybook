@@ -1,4 +1,5 @@
-import React, { MouseEvent, PureComponent, ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
+import React, { PureComponent } from 'react';
 
 import { navigate, hrefTo } from '../../utils';
 

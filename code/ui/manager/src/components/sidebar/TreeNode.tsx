@@ -2,7 +2,8 @@ import { styled } from '@storybook/theming';
 import type { Color, Theme } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import { transparentize } from 'polished';
-import React, { FunctionComponent, ComponentProps } from 'react';
+import type { FunctionComponent, ComponentProps } from 'react';
+import React from 'react';
 
 export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
   display: 'inline-block',
@@ -146,38 +147,51 @@ export const RootNode = styled.div(({ theme }) => ({
 
 export const GroupNode: FunctionComponent<
   ComponentProps<typeof BranchNode> & { isExpanded?: boolean; isExpandable?: boolean }
-> = React.memo(({ children, isExpanded = false, isExpandable = false, ...props }) => (
-  <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
-    {isExpandable ? <CollapseIcon isExpanded={isExpanded} /> : null}
-    <TypeIcon icon="folder" useSymbol color="primary" />
-    {children}
-  </BranchNode>
-));
-
-export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>> = React.memo(
-  ({ theme, children, isExpanded, isExpandable, isSelected, ...props }) => (
+> = React.memo(function GroupNode({
+  children,
+  isExpanded = false,
+  isExpandable = false,
+  ...props
+}) {
+  return (
     <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
-      {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
-      <TypeIcon icon="component" useSymbol color="secondary" />
+      {isExpandable ? <CollapseIcon isExpanded={isExpanded} /> : null}
+      <TypeIcon icon="folder" useSymbol color="primary" />
       {children}
     </BranchNode>
-  )
+  );
+});
+
+export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>> = React.memo(
+  function ComponentNode({ theme, children, isExpanded, isExpandable, isSelected, ...props }) {
+    return (
+      <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
+        {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
+        <TypeIcon icon="component" useSymbol color="secondary" />
+        {children}
+      </BranchNode>
+    );
+  }
 );
 
 export const DocumentNode: FunctionComponent<
   ComponentProps<typeof LeafNode> & { docsMode: boolean }
-> = React.memo(({ theme, children, docsMode, ...props }) => (
-  <LeafNode tabIndex={-1} {...props}>
-    <TypeIcon icon="document" useSymbol docsMode={docsMode} />
-    {children}
-  </LeafNode>
-));
-
-export const StoryNode: FunctionComponent<ComponentProps<typeof LeafNode>> = React.memo(
-  ({ theme, children, ...props }) => (
+> = React.memo(function DocumentNode({ theme, children, docsMode, ...props }) {
+  return (
     <LeafNode tabIndex={-1} {...props}>
-      <TypeIcon icon="bookmarkhollow" useSymbol />
+      <TypeIcon icon="document" useSymbol docsMode={docsMode} />
       {children}
     </LeafNode>
-  )
+  );
+});
+
+export const StoryNode: FunctionComponent<ComponentProps<typeof LeafNode>> = React.memo(
+  function StoryNode({ theme, children, ...props }) {
+    return (
+      <LeafNode tabIndex={-1} {...props}>
+        <TypeIcon icon="bookmarkhollow" useSymbol />
+        {children}
+      </LeafNode>
+    );
+  }
 );

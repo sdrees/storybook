@@ -10,8 +10,8 @@ import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { dequal as deepEqual } from 'dequal';
 import global from 'global';
 
-import { ModuleArgs, ModuleFn } from '../index';
-import { Layout, UI } from './layout';
+import type { API_Layout, API_UI } from '@storybook/types';
+import type { ModuleArgs, ModuleFn } from '../index';
 
 const { window: globalWindow } = global;
 
@@ -50,14 +50,14 @@ const initialUrlSupport = ({
     ...otherParams // the rest gets passed to the iframe
   } = queryFromLocation(location);
 
-  const layout: Partial<Layout> = {
+  const layout: Partial<API_Layout> = {
     isFullscreen: parseBoolean(full),
     showNav: !singleStory && parseBoolean(nav),
     showPanel: parseBoolean(panel),
     panelPosition: ['right', 'bottom'].includes(panel) ? panel : undefined,
     showTabs: parseBoolean(tabs),
   };
-  const ui: Partial<UI> = {
+  const ui: Partial<API_UI> = {
     enableShortcuts: parseBoolean(shortcuts),
   };
   const selectedPanel = addonPanel || undefined;

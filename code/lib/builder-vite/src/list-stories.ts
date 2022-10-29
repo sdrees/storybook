@@ -2,7 +2,7 @@ import * as path from 'path';
 import { promise as glob } from 'glob-promise';
 import { normalizeStories } from '@storybook/core-common';
 
-import type { Options } from '@storybook/core-common';
+import type { Options } from '@storybook/types';
 
 export async function listStories(options: Options) {
   return (

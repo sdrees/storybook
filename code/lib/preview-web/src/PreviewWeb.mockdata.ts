@@ -1,3 +1,5 @@
+/// <reference types="@types/jest" />;
+
 import { EventEmitter } from 'events';
 import {
   DOCS_RENDERED,
@@ -7,8 +9,9 @@ import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { StoryIndex, TeardownRenderToDOM } from '@storybook/store';
-import { RenderPhase } from './PreviewWeb';
+
+import type { Store_StoryIndex, Store_TeardownRenderToDOM } from '@storybook/types';
+import type { RenderPhase } from './render/StoryRender';
 
 export const componentOneExports = {
   default: {
@@ -42,7 +45,7 @@ export const extraComponentOneExports = {
   e: {},
 };
 export const importFn = jest.fn(
-  async (path) =>
+  async (path: string) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
       './src/ComponentTwo.stories.js': componentTwoExports,
@@ -55,7 +58,7 @@ export const docsRenderer = {
   render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
   unmount: jest.fn(),
 };
-export const teardownRenderToDOM: jest.Mock<TeardownRenderToDOM> = jest.fn();
+export const teardownRenderToDOM: jest.Mock<Store_TeardownRenderToDOM> = jest.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},
@@ -66,7 +69,7 @@ export const projectAnnotations = {
 };
 export const getProjectAnnotations = jest.fn(() => projectAnnotations as any);
 
-export const storyIndex: StoryIndex = {
+export const storyIndex: Store_StoryIndex = {
   v: 4,
   entries: {
     'component-one--docs': {
@@ -146,7 +149,7 @@ export const waitForEvents = (
   // ensure you call `mockChannel.emit.mockClear()` before `waitFor...`
   if (
     mockChannel.emit.mock.calls.find(
-      (call) => events.includes(call[0]) && predicate(...call.slice(1))
+      (call: string[]) => events.includes(call[0]) && predicate(...call.slice(1))
     )
   ) {
     return Promise.resolve(null);

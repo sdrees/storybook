@@ -130,6 +130,7 @@ export default {
     'SET_CONFIG',
     'SET_CURRENT_STORY',
     'SET_GLOBALS',
+    'SET_INDEX',
     'SET_STORIES',
     'SHARED_STATE_CHANGED',
     'SHARED_STATE_SET',
@@ -214,7 +215,6 @@ export default {
   ],
   '@storybook/addons': [
     'AddonStore',
-    'Channel',
     'HooksContext',
     'addons',
     'applyHooks',

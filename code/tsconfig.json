@@ -17,16 +17,7 @@
     "types": ["jest"],
     "lib": ["dom", "esnext"]
   },
-  "exclude": [
-    "dist",
-    "**/dist",
-    "node_modules",
-    "**/node_modules",
-    "**/*.spec.ts",
-    "**/__tests__",
-    "**/*.test.ts",
-    "**/setup-jest.ts"
-  ],
+  "exclude": ["dist", "**/dist", "node_modules", "**/node_modules", "**/setup-jest.ts"],
   "ts-node": {
     "transpileOnly": true,
     "files": true,

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
@@ -6,10 +6,13 @@ import type { StoriesHash, State } from '@storybook/api';
 
 import { Heading } from './Heading';
 
+// eslint-disable-next-line import/no-cycle
 import { Explorer } from './Explorer';
+// eslint-disable-next-line import/no-cycle
 import { Search } from './Search';
+// eslint-disable-next-line import/no-cycle
 import { SearchResults } from './SearchResults';
-import { Refs, CombinedDataset, Selection } from './types';
+import type { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
@@ -39,17 +42,21 @@ const CustomScrollArea = styled(ScrollArea)({
   padding: 20,
 });
 
-const Swap = React.memo<{ children: React.ReactNode; condition: boolean }>(
-  ({ children, condition }) => {
-    const [a, b] = React.Children.toArray(children);
-    return (
-      <>
-        <div style={{ display: condition ? 'block' : 'none' }}>{a}</div>
-        <div style={{ display: condition ? 'none' : 'block' }}>{b}</div>
-      </>
-    );
-  }
-);
+const Swap = React.memo(function Swap({
+  children,
+  condition,
+}: {
+  children: React.ReactNode;
+  condition: boolean;
+}) {
+  const [a, b] = React.Children.toArray(children);
+  return (
+    <>
+      <div style={{ display: condition ? 'block' : 'none' }}>{a}</div>
+      <div style={{ display: condition ? 'none' : 'block' }}>{b}</div>
+    </>
+  );
+});
 
 const useCombination = (
   stories: StoriesHash,
@@ -86,73 +93,71 @@ export interface SidebarProps {
   enableShortcuts?: boolean;
 }
 
-export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
-  ({
-    storyId = null,
-    refId = DEFAULT_REF_ID,
-    stories,
-    storiesConfigured,
-    storiesFailed,
-    menu,
-    menuHighlighted = false,
-    enableShortcuts = true,
-    refs = {},
-  }) => {
-    const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
+export const Sidebar = React.memo(function Sidebar({
+  storyId = null,
+  refId = DEFAULT_REF_ID,
+  stories,
+  storiesConfigured,
+  storiesFailed,
+  menu,
+  menuHighlighted = false,
+  enableShortcuts = true,
+  refs = {},
+}: SidebarProps) {
+  const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
 
-    const dataset = useCombination(stories, storiesConfigured, storiesFailed, refs);
-    const isLoading = !dataset.hash[DEFAULT_REF_ID].ready;
-    const lastViewedProps = useLastViewed(selected);
+  const dataset = useCombination(stories, storiesConfigured, storiesFailed, refs);
+  const isLoading = !dataset.hash[DEFAULT_REF_ID].ready;
+  const lastViewedProps = useLastViewed(selected);
 
-    return (
-      <Container className="container sidebar-container">
-        <CustomScrollArea vertical>
-          <StyledSpaced row={1.6}>
-            <Heading
-              className="sidebar-header"
-              menuHighlighted={menuHighlighted}
-              menu={menu}
-              skipLinkHref="#storybook-preview-wrapper"
-            />
+  return (
+    <Container className="container sidebar-container">
+      <CustomScrollArea vertical>
+        <StyledSpaced row={1.6}>
+          <Heading
+            className="sidebar-header"
+            menuHighlighted={menuHighlighted}
+            menu={menu}
+            skipLinkHref="#storybook-preview-wrapper"
+          />
 
-            <Search
-              dataset={dataset}
-              isLoading={isLoading}
-              enableShortcuts={enableShortcuts}
-              {...lastViewedProps}
-            >
-              {({
-                query,
-                results,
-                isBrowsing,
-                closeMenu,
-                getMenuProps,
-                getItemProps,
-                highlightedIndex,
-              }) => (
-                <Swap condition={isBrowsing}>
-                  <Explorer
-                    dataset={dataset}
-                    selected={selected}
-                    isLoading={isLoading}
-                    isBrowsing={isBrowsing}
-                  />
-                  <SearchResults
-                    query={query}
-                    results={results}
-                    closeMenu={closeMenu}
-                    getMenuProps={getMenuProps}
-                    getItemProps={getItemProps}
-                    highlightedIndex={highlightedIndex}
-                    enableShortcuts={enableShortcuts}
-                    isLoading={isLoading}
-                  />
-                </Swap>
-              )}
-            </Search>
-          </StyledSpaced>
-        </CustomScrollArea>
-      </Container>
-    );
-  }
-);
+          <Search
+            dataset={dataset}
+            isLoading={isLoading}
+            enableShortcuts={enableShortcuts}
+            {...lastViewedProps}
+          >
+            {({
+              query,
+              results,
+              isBrowsing,
+              closeMenu,
+              getMenuProps,
+              getItemProps,
+              highlightedIndex,
+            }) => (
+              <Swap condition={isBrowsing}>
+                <Explorer
+                  dataset={dataset}
+                  selected={selected}
+                  isLoading={isLoading}
+                  isBrowsing={isBrowsing}
+                />
+                <SearchResults
+                  query={query}
+                  results={results}
+                  closeMenu={closeMenu}
+                  getMenuProps={getMenuProps}
+                  getItemProps={getItemProps}
+                  highlightedIndex={highlightedIndex}
+                  enableShortcuts={enableShortcuts}
+                  isLoading={isLoading}
+                />
+              </Swap>
+            )}
+          </Search>
+        </StyledSpaced>
+      </CustomScrollArea>
+    </Container>
+  );
+});

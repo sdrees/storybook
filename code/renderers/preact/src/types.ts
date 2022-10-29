@@ -1,6 +1,6 @@
 import type { AnyComponent } from 'preact';
 
-export type { RenderContext } from '@storybook/core-client';
+export type { RenderContext } from '@storybook/types';
 
 export type StoryFnPreactReturnType = string | Node | preact.JSX.Element;
 

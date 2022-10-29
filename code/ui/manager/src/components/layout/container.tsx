@@ -1,10 +1,12 @@
-import React, { Component, Fragment, FC, CSSProperties, ReactNode } from 'react';
+import type { FC, CSSProperties, ReactNode } from 'react';
+import React, { Component, Fragment } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 import type { State } from '@storybook/api';
 import * as persistence from './persist';
 
-import { Draggable, Handle, DraggableData, DraggableEvent } from './draggers';
+import type { DraggableData, DraggableEvent } from './draggers';
+import { Draggable, Handle } from './draggers';
 
 const MIN_NAV_WIDTH = 200; // visually there's an additional 10px due to the canvas' left margin
 const MIN_CANVAS_WIDTH = 200;

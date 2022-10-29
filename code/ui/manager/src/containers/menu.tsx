@@ -1,4 +1,5 @@
-import React, { useMemo, FC } from 'react';
+import type { FC } from 'react';
+import React, { useMemo } from 'react';
 
 import { Badge } from '@storybook/components';
 import type { API } from '@storybook/api';

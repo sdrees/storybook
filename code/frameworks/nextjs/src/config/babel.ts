@@ -1,4 +1,4 @@
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 import { loadConfig } from 'tsconfig-paths';
 
 export const configureTypescript = async (baseConfig: TransformOptions) => {

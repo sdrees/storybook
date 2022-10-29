@@ -1,4 +1,5 @@
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import type { StoryFn, Meta } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import { within, userEvent } from '@storybook/testing-library';
 import { CommonModule } from '@angular/common';
 

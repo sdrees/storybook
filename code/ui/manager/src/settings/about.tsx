@@ -1,4 +1,5 @@
-import React, { Fragment, FC } from 'react';
+import type { FC } from 'react';
+import React, { Fragment } from 'react';
 import semver from 'semver';
 import { styled } from '@storybook/theming';
 import type { State } from '@storybook/api';

@@ -16,7 +16,7 @@ describe.each([
     null,
   ],
 ])('getStorybookVersion', (input, output) => {
-  it(input, () => {
+  it(`${input}`, () => {
     expect(getStorybookVersion(input)).toEqual(output);
   });
 });
@@ -30,7 +30,7 @@ describe.each([
   ['@storybook/linter-config', false],
   ['@storybook/design-system', false],
 ])('isCorePackage', (input, output) => {
-  it(input, () => {
+  it(`${input}`, () => {
     expect(isCorePackage(input)).toEqual(output);
   });
 });

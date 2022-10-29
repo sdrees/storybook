@@ -29,7 +29,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 import type { ModuleImportFn, WebProjectAnnotations } from '@storybook/store';
 import { mocked } from 'ts-jest/utils';
 
@@ -753,38 +753,38 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
 
-      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { a: 'c' } });
 
       await waitForEvents([GLOBALS_UPDATED]);
       expect(mockChannel.emit).toHaveBeenCalledWith(GLOBALS_UPDATED, {
-        globals: { a: 'b', foo: 'bar' },
+        globals: { a: 'c' },
         initialGlobals: { a: 'b' },
       });
     });
 
-    it('sets new globals on the store', async () => {
+    it('doet not allow new globals on the store', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
       emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
 
-      expect(preview.storyStore.globals!.get()).toEqual({ a: 'b', foo: 'bar' });
+      expect(preview.storyStore.globals!.get()).toEqual({ a: 'b' });
     });
 
-    it('passes new globals in context to renderToDOM', async () => {
+    it('passes globals in context to renderToDOM', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToDOM.mockClear();
-      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { a: 'd' } });
       await waitForRender();
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: false,
           storyContext: expect.objectContaining({
-            globals: { a: 'b', foo: 'bar' },
+            globals: { a: 'd' },
           }),
         }),
         'story-element'
@@ -796,7 +796,7 @@ describe('PreviewWeb', () => {
       await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { a: 'c' } });
       await waitForRender();
 
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
@@ -810,7 +810,7 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         docsRenderer.render.mockClear();
-        emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+        emitter.emit(UPDATE_GLOBALS, { globals: { a: 'd' } });
         await waitForEvents([GLOBALS_UPDATED]);
 
         expect(docsRenderer.render).toHaveBeenCalled();
@@ -3394,6 +3394,9 @@ describe('PreviewWeb', () => {
             },
             "story": "A",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-one--b": Object {
@@ -3427,6 +3430,9 @@ describe('PreviewWeb', () => {
             },
             "story": "B",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-one--e": Object {
@@ -3449,6 +3455,9 @@ describe('PreviewWeb', () => {
             "playFunction": undefined,
             "story": "E",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-two--c": Object {
@@ -3481,6 +3490,9 @@ describe('PreviewWeb', () => {
             "playFunction": undefined,
             "story": "C",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component Two",
           },
         }

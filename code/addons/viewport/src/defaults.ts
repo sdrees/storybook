@@ -1,4 +1,4 @@
-import { ViewportMap } from './models';
+import type { ViewportMap } from './models';
 
 export const INITIAL_VIEWPORTS: ViewportMap = {
   iphone5: {

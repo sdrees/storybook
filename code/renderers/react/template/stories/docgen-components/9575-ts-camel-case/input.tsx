@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 
 export interface IProps {
   /**

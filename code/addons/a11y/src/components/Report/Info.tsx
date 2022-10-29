@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 
 import { styled } from '@storybook/theming';
-import { Result } from 'axe-core';
+import type { Result } from 'axe-core';
 
 const Wrapper = styled.div({
   padding: 12,

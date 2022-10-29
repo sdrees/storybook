@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {
-  PropDef,
+  type PropDef,
   extractComponentProps,
-  DocgenInfo,
-  DocgenPropDefaultValue,
+  type DocgenInfo,
+  type DocgenPropDefaultValue,
 } from '@storybook/docs-tools';
 import { enhanceTypeScriptProp } from './handleProp';
 

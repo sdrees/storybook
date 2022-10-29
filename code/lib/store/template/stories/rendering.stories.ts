@@ -1,5 +1,5 @@
 import globalThis from 'global';
-import { PlayFunctionContext } from '@storybook/csf';
+import type { PlayFunctionContext } from '@storybook/types';
 import { within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 

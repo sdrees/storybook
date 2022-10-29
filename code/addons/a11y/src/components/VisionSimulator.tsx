@@ -1,4 +1,5 @@
-import React, { ReactNode, useState } from 'react';
+import type { ReactNode } from 'react';
+import React, { useState } from 'react';
 import { Global, styled } from '@storybook/theming';
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 

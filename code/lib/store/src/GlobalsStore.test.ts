@@ -1,6 +1,12 @@
 import { expect } from '@jest/globals';
 import { GlobalsStore } from './GlobalsStore';
 
+jest.mock('@storybook/client-logger', () => ({
+  logger: {
+    warn: jest.fn(),
+  },
+}));
+
 describe('GlobalsStore', () => {
   it('is initialized to the value in globals', () => {
     const store = new GlobalsStore({
@@ -48,14 +54,13 @@ describe('GlobalsStore', () => {
 
       store.update({ baz: 'bing' });
       expect(store.get()).toEqual({ foo: 'bar', baz: 'bing' });
-
-      // NOTE: this is currently allowed but deprecated.
-      store.update({ random: 'value' });
-      expect(store.get()).toEqual({ foo: 'bar', baz: 'bing', random: 'value' });
     });
 
     it('does not merge objects', () => {
-      const store = new GlobalsStore({ globals: {}, globalTypes: {} });
+      const store = new GlobalsStore({
+        globals: { obj: { foo: 'old' } },
+        globalTypes: { baz: {} },
+      });
 
       store.update({ obj: { foo: 'bar' } });
       expect(store.get()).toEqual({ obj: { foo: 'bar' } });
@@ -116,6 +121,8 @@ describe('GlobalsStore', () => {
         const store = new GlobalsStore({
           globals: {
             arg1: 'arg1',
+            arg2: 'arg2',
+            arg3: 'arg3',
           },
           globalTypes: {
             arg2: { defaultValue: 'arg2' },
@@ -149,6 +156,8 @@ describe('GlobalsStore', () => {
         const store = new GlobalsStore({
           globals: {
             arg1: 'arg1',
+            arg2: 'arg1',
+            arg3: 'arg1',
             arg4: 'arg4',
           },
           globalTypes: {

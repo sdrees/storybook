@@ -1,4 +1,4 @@
-import { AnyFramework, StepRunner } from '@storybook/csf';
+import type { AnyFramework, StepRunner } from '@storybook/types';
 
 /**
  * Compose step runners to create a single step runner that applies each step runner in order.

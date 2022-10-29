@@ -68,6 +68,7 @@ function insertScriptsSequentially(scriptsToExecute: any[], callback: any, index
     }
   });
 }
+/* eslint-enable no-param-reassign, no-plusplus */
 
 export function simulatePageLoad($container: any) {
   let $scriptsRoot = document.getElementById(SCRIPTS_ROOT_ID);

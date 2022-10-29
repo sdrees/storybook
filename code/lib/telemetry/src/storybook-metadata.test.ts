@@ -1,4 +1,4 @@
-import type { PackageJson, StorybookConfig } from '@storybook/core-common';
+import type { PackageJson, StorybookConfig } from '@storybook/types';
 
 import path from 'path';
 import { computeStorybookMetadata, metaFrameworks, sanitizeAddonName } from './storybook-metadata';

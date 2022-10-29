@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-import type { Type } from '@angular/core';
-import type { DecoratorFunction, StoryContext } from '@storybook/csf';
+import { Type } from '@angular/core';
+import { DecoratorFunction, StoryContext } from '@storybook/types';
 import { computesTemplateFromComponent } from './angular-beta/ComputesTemplateFromComponent';
 import { isComponent } from './angular-beta/utils/NgComponentAnalyzer';
-import type { ICollection, NgModuleMetadata, AngularFramework } from './types';
+import { ICollection, NgModuleMetadata, AngularFramework } from './types';
 
 // We use `any` here as the default type rather than `Args` because we need something that is
 // castable to any component-specific args type when the user is being careful.

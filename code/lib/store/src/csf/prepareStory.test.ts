@@ -1,3 +1,5 @@
+/// <reference types="@types/jest" />;
+
 import global from 'global';
 import { expect } from '@jest/globals';
 import { addons, HooksContext } from '@storybook/addons';
@@ -7,7 +9,7 @@ import type {
   PlayFunctionContext,
   SBObjectType,
   SBScalarType,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 import { NO_TARGET_NAME } from '../args';
 import { prepareStory } from './prepareStory';
@@ -48,6 +50,42 @@ beforeEach(() => {
 });
 
 describe('prepareStory', () => {
+  describe('tags', () => {
+    it('story tags override component', () => {
+      const { tags } = prepareStory(
+        { id, name, tags: ['story-1', 'story-2'], moduleExport },
+        {
+          id,
+          title,
+          tags: ['component-1', 'component-2'],
+        },
+        { render }
+      );
+
+      expect(tags).toEqual(['story-1', 'story-2', 'story']);
+    });
+
+    it('component tags work if story are unset', () => {
+      const { tags } = prepareStory(
+        { id, name, moduleExport },
+        {
+          id,
+          title,
+          tags: ['component-1', 'component-2'],
+        },
+        { render }
+      );
+
+      expect(tags).toEqual(['component-1', 'component-2', 'story']);
+    });
+
+    it('sets a value even if annotations do not have tags', () => {
+      const { tags } = prepareStory({ id, name, moduleExport }, { id, title }, { render });
+
+      expect(tags).toEqual(['story']);
+    });
+  });
+
   describe('parameters', () => {
     it('are combined in the right order', () => {
       const { parameters } = prepareStory(
@@ -81,7 +119,7 @@ describe('prepareStory', () => {
       });
     });
 
-    it('sets a value even if metas do not have parameters', () => {
+    it('sets a value even if annotations do not have parameters', () => {
       const { parameters } = prepareStory({ id, name, moduleExport }, { id, title }, { render });
 
       expect(parameters).toEqual({ __isArgsStory: true });
@@ -149,7 +187,7 @@ describe('prepareStory', () => {
       expect(initialArgs).toEqual({ a: undefined });
     });
 
-    it('sets a value even if metas do not have args', () => {
+    it('sets a value even if annotations do not have args', () => {
       const { initialArgs } = prepareStory({ id, name, moduleExport }, { id, title }, { render });
 
       expect(initialArgs).toEqual({});

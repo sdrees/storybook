@@ -1,4 +1,4 @@
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 
 // recursively remove all plugins with the given names
 export const withoutVitePlugins = (

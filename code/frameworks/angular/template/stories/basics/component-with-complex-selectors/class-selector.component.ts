@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ElementRef } from '@angular/core';
+import { ComponentFactoryResolver, ElementRef, Component } from '@angular/core';
 
 @Component({
   selector: 'storybook-class-selector.foo, storybook-class-selector.bar',

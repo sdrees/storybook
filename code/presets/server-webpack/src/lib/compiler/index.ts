@@ -1,4 +1,4 @@
-import { CompileCsfModuleArgs, CompileStorybookSectionArgs, StorybookSection } from './types';
+import type { CompileCsfModuleArgs, CompileStorybookSectionArgs, StorybookSection } from './types';
 
 import { stringifySection } from './stringifier';
 

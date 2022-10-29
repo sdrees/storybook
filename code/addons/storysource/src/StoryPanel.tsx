@@ -1,17 +1,17 @@
 import React from 'react';
-import { API, useParameter } from '@storybook/api';
+import { type API, useParameter } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Link } from '@storybook/router';
 import {
   SyntaxHighlighter,
-  SyntaxHighlighterProps,
-  SyntaxHighlighterRendererProps,
+  type SyntaxHighlighterProps,
+  type SyntaxHighlighterRendererProps,
 } from '@storybook/components';
 
 // @ts-expect-error Typedefs don't currently expose `createElement` even though it exists
 import { createElement as createSyntaxHighlighterElement } from 'react-syntax-highlighter';
 
-import { SourceBlock, LocationsMap } from '@storybook/source-loader';
+import type { SourceBlock, LocationsMap } from '@storybook/source-loader';
 
 const StyledStoryLink = styled(Link)<{ to: string; key: string }>(({ theme }) => ({
   display: 'block',

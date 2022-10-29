@@ -1,9 +1,9 @@
 import global from 'global';
 import { dedent } from 'ts-dedent';
-import type { RenderContext } from '@storybook/store';
+import type { Store_RenderContext } from '@storybook/types';
 // @ts-expect-error (Converted from ts-ignore)
 import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
-import { OptionsArgs, EmberFramework } from './types';
+import type { OptionsArgs, EmberFramework } from './types';
 
 const { window: globalWindow, document } = global;
 
@@ -61,7 +61,7 @@ function render(options: OptionsArgs, el: Element) {
 }
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError }: RenderContext<EmberFramework>,
+  { storyFn, kind, name, showMain, showError }: Store_RenderContext<EmberFramework>,
   domElement: Element
 ) {
   const element = storyFn();

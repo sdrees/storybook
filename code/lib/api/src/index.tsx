@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+import type { FC, ReactElement, ReactNode } from 'react';
 import React, {
   Component,
   Fragment,
-  FC,
-  ReactElement,
-  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -11,7 +10,25 @@ import React, {
   useRef,
 } from 'react';
 import mergeWith from 'lodash/mergeWith';
-import { Conditional } from '@storybook/csf';
+import type {
+  API_Args,
+  API_ArgTypes,
+  API_ComponentEntry,
+  API_ComposedRef,
+  API_DocsEntry,
+  API_GroupEntry,
+  API_HashEntry,
+  API_LeafEntry,
+  API_OptionsData,
+  API_ProviderData,
+  API_Refs,
+  API_RootEntry,
+  API_StateMerger,
+  API_StoriesHash,
+  API_StoryEntry,
+  Parameters,
+  StoryId,
+} from '@storybook/types';
 
 import {
   STORY_CHANGED,
@@ -21,35 +38,31 @@ import {
 } from '@storybook/core-events';
 import type { RouterData } from '@storybook/router';
 import type { Listener } from '@storybook/channels';
-import type { DocsOptions } from '@storybook/core-common';
 
 import { createContext } from './context';
-import Store, { Options } from './store';
+import type { Options } from './store';
+import Store from './store';
 import getInitialState from './initial-state';
-import type {
-  StoriesHash,
-  RootEntry,
-  GroupEntry,
-  ComponentEntry,
-  DocsEntry,
-  StoryEntry,
-  HashEntry,
-  LeafEntry,
-} from './lib/stories';
-import type { ComposedRef, Refs } from './modules/refs';
 
 import * as provider from './modules/provider';
+
 import * as addons from './modules/addons';
+
 import * as channel from './modules/channel';
+
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
 import * as releaseNotes from './modules/release-notes';
+// eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
+// eslint-disable-next-line import/no-cycle
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';
+
 import * as url from './modules/url';
 import * as version from './modules/versions';
+// eslint-disable-next-line import/no-cycle
 import * as globals from './modules/globals';
 
 const { ActiveTabs } = layout;
@@ -61,16 +74,12 @@ export { ActiveTabs };
 export const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
 export type ModuleArgs = RouterData &
-  ProviderData & {
+  API_ProviderData<API> & {
     mode?: 'production' | 'development';
     state: State;
     fullAPI: API;
     store: Store;
   };
-
-type OptionsData = {
-  docsOptions: DocsOptions;
-};
 
 export type State = layout.SubState &
   stories.SubState &
@@ -83,7 +92,7 @@ export type State = layout.SubState &
   settings.SubState &
   globals.SubState &
   RouterData &
-  OptionsData &
+  API_OptionsData &
   Other;
 
 export type API = addons.SubAPI &
@@ -110,39 +119,10 @@ export interface Combo {
   state: State;
 }
 
-interface ProviderData {
-  provider: provider.Provider;
-  docsOptions: DocsOptions;
-}
-
 export type ManagerProviderProps = RouterData &
-  ProviderData & {
+  API_ProviderData<API> & {
     children: ReactNode | ((props: Combo) => ReactNode);
   };
-
-// These types are duplicated in addons.
-export type StoryId = string;
-export type StoryKind = string;
-
-export interface Args {
-  [key: string]: any;
-}
-
-export interface ArgType {
-  name?: string;
-  description?: string;
-  defaultValue?: any;
-  if?: Conditional;
-  [key: string]: any;
-}
-
-export interface ArgTypes {
-  [key: string]: ArgType;
-}
-
-export interface Parameters {
-  [key: string]: any;
-}
 
 // This is duplicated from @storybook/client-api for the reasons mentioned in lib-addons/types.js
 export const combineParameters = (...parameterSets: Parameters[]) =>
@@ -196,7 +176,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     });
 
     const routeData = { location, path, viewMode, singleStory, storyId, refId };
-    const optionsData: OptionsData = { docsOptions };
+    const optionsData: API_OptionsData = { docsOptions };
 
     this.state = store.getInitialState(getInitialState({ ...routeData, ...optionsData }));
 
@@ -344,20 +324,20 @@ export function useStorybookApi(): API {
 }
 
 export type {
-  StoriesHash,
-  RootEntry,
-  GroupEntry,
-  ComponentEntry,
-  DocsEntry,
-  StoryEntry,
-  HashEntry,
-  LeafEntry,
-  ComposedRef,
-  Refs,
+  API_StoriesHash as StoriesHash,
+  API_RootEntry as RootEntry,
+  API_GroupEntry as GroupEntry,
+  API_ComponentEntry as ComponentEntry,
+  API_DocsEntry as DocsEntry,
+  API_StoryEntry as StoryEntry,
+  API_HashEntry as HashEntry,
+  API_LeafEntry as LeafEntry,
+  API_ComposedRef as ComposedRef,
+  API_Refs as Refs,
 };
 export { ManagerConsumer as Consumer, ManagerProvider as Provider };
 
-export interface EventMap {
+export interface API_EventMap {
   [eventId: string]: Listener;
 }
 
@@ -368,7 +348,7 @@ function orDefault<S>(fromStore: S, defaultState: S): S {
   return fromStore;
 }
 
-export const useChannel = (eventMap: EventMap, deps: any[] = []) => {
+export const useChannel = (eventMap: API_EventMap, deps: any[] = []) => {
   const api = useStorybookApi();
   useEffect(() => {
     Object.entries(eventMap).forEach(([type, listener]) => api.on(type, listener));
@@ -392,7 +372,6 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
   return orDefault<S>(result, defaultValue);
 }
 
-type StateMerger<S> = (input: S) => S;
 // cache for taking care of HMR
 const addonStateCache: {
   [key: string]: any;
@@ -406,7 +385,7 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
     existingState,
     addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
   );
-  const setState = (s: S | StateMerger<S>, options?: Options) => {
+  const setState = (s: S | API_StateMerger<S>, options?: Options) => {
     // set only after the stories are loaded
     if (addonStateCache[stateId]) {
       addonStateCache[stateId] = s;
@@ -454,50 +433,50 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   const emit = useChannel(allListeners);
   return [
     state,
-    (newStateOrMerger: S | StateMerger<S>, options?: Options) => {
+    (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
       setState(newStateOrMerger, options);
       emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, newStateOrMerger);
     },
-  ] as [S, (newStateOrMerger: S | StateMerger<S>, options?: Options) => void];
+  ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];
 }
 
 export function useAddonState<S>(addonId: string, defaultState?: S) {
   return useSharedState<S>(addonId, defaultState);
 }
 
-export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[]) => void] {
+export function useArgs(): [API_Args, (newArgs: API_Args) => void, (argNames?: string[]) => void] {
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
   const args = data.type === 'story' ? data.args : {};
   const updateArgs = useCallback(
-    (newArgs: Args) => updateStoryArgs(data as StoryEntry, newArgs),
+    (newArgs: API_Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
     [data, updateStoryArgs]
   );
   const resetArgs = useCallback(
-    (argNames?: string[]) => resetStoryArgs(data as StoryEntry, argNames),
+    (argNames?: string[]) => resetStoryArgs(data as API_StoryEntry, argNames),
     [data, resetStoryArgs]
   );
 
   return [args, updateArgs, resetArgs];
 }
 
-export function useGlobals(): [Args, (newGlobals: Args) => void] {
+export function useGlobals(): [API_Args, (newGlobals: API_Args) => void] {
   const api = useStorybookApi();
   return [api.getGlobals(), api.updateGlobals];
 }
 
-export function useGlobalTypes(): ArgTypes {
+export function useGlobalTypes(): API_ArgTypes {
   return useStorybookApi().getGlobalTypes();
 }
 
-function useCurrentStory(): StoryEntry | DocsEntry {
+function useCurrentStory(): API_StoryEntry | API_DocsEntry {
   const { getCurrentStoryData } = useStorybookApi();
 
   return getCurrentStoryData();
 }
 
-export function useArgTypes(): ArgTypes {
+export function useArgTypes(): API_ArgTypes {
   const current = useCurrentStory();
   return (current?.type === 'story' && current.argTypes) || {};
 }

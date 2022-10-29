@@ -5,12 +5,50 @@ const scriptPath = path.join(__dirname, '..', 'scripts');
 module.exports = {
   root: true,
   extends: [path.join(scriptPath, '.eslintrc.js')],
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json'],
+  },
+  rules: {
+    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
+    'react-hooks/rules-of-hooks': 'off',
+    'jest/no-done-callback': 'off',
+  },
   overrides: [
+    {
+      // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
+      files: ['**/frameworks/angular/template/**/*'],
+      rules: {
+        '@typescript-eslint/no-useless-constructor': 'off',
+        '@typescript-eslint/dot-notation': 'off',
+      },
+    },
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
       files: ['**/addons/docs/**/*'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
+      },
+    },
+    {
+      files: [
+        '*.js',
+        '*.jsx',
+        '*.json',
+        '*.html',
+        '**/.storybook/*.ts',
+        '**/.storybook/*.tsx',
+        'setup-jest.ts',
+      ],
+      parserOptions: {
+        project: null,
+      },
+      rules: {
+        // '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/dot-notation': 'off',
+        '@typescript-eslint/no-implied-eval': 'off',
+        '@typescript-eslint/no-throw-literal': 'off',
+        '@typescript-eslint/return-await': 'off',
       },
     },
     {
@@ -27,7 +65,7 @@ module.exports = {
         '**/lib/theming/**/*',
         '**/lib/router/**/*',
         '**/ui/manager/**/*',
-        '**/lib/components/**/*',
+        '**/ui/components/**/*',
       ],
       rules: {
         'import/no-extraneous-dependencies': ['error', { bundledDependencies: false }],

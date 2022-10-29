@@ -34,7 +34,7 @@ const actions = makeActions(
 
 export default {
   component: ShortcutsScreen,
-  title: 'UI/Settings/ShortcutsScreen',
+  title: 'Settings/ShortcutsScreen',
   decorators: [
     ((StoryFn, c) => (
       <div

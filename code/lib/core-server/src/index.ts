@@ -9,3 +9,4 @@ export {
 
 export * from './build-static';
 export * from './build-dev';
+export * from './withTelemetry';

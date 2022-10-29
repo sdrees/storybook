@@ -14,21 +14,26 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { addons, Channel } from '@storybook/addons';
-import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/csf';
-import {
-  ModuleImportFn,
-  Story,
-  StoryStore,
-  StoryIndex,
-  PromiseLike,
-  WebProjectAnnotations,
-  RenderToDOM,
-} from '@storybook/store';
+import type { Channel } from '@storybook/channels';
+import { addons } from '@storybook/addons';
+import type {
+  AnyFramework,
+  Args,
+  Globals,
+  ProjectAnnotations,
+  Store_ModuleImportFn,
+  Store_PromiseLike,
+  Store_RenderToDOM,
+  Store_Story,
+  Store_StoryIndex,
+  Store_WebProjectAnnotations,
+  StoryId,
+} from '@storybook/types';
+import { StoryStore } from '@storybook/store';
 
 import { StoryRender } from './render/StoryRender';
-import { TemplateDocsRender } from './render/TemplateDocsRender';
-import { StandaloneDocsRender } from './render/StandaloneDocsRender';
+import type { TemplateDocsRender } from './render/TemplateDocsRender';
+import type { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
 const { fetch } = global;
 
@@ -41,11 +46,11 @@ export class Preview<TFramework extends AnyFramework> {
 
   storyStore: StoryStore<TFramework>;
 
-  getStoryIndex?: () => StoryIndex;
+  getStoryIndex?: () => Store_StoryIndex;
 
-  importFn?: ModuleImportFn;
+  importFn?: Store_ModuleImportFn;
 
-  renderToDOM?: RenderToDOM<TFramework>;
+  renderToDOM?: Store_RenderToDOM<TFramework>;
 
   storyRenders: StoryRender<TFramework>[] = [];
 
@@ -73,9 +78,9 @@ export class Preview<TFramework extends AnyFramework> {
   }: {
     // In the case of the v6 store, we can only get the index from the facade *after*
     // getProjectAnnotations has been run, thus this slightly awkward approach
-    getStoryIndex?: () => StoryIndex;
-    importFn: ModuleImportFn;
-    getProjectAnnotations: () => MaybePromise<WebProjectAnnotations<TFramework>>;
+    getStoryIndex?: () => Store_StoryIndex;
+    importFn: Store_ModuleImportFn;
+    getProjectAnnotations: () => MaybePromise<Store_WebProjectAnnotations<TFramework>>;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
     // in which case we may need them later when we recover.
@@ -100,8 +105,8 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<WebProjectAnnotations<TFramework>>
-  ): PromiseLike<ProjectAnnotations<TFramework>> {
+    getProjectAnnotations: () => MaybePromise<Store_WebProjectAnnotations<TFramework>>
+  ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
@@ -126,12 +131,12 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   // If initialization gets as far as project annotations, this function runs.
-  initializeWithProjectAnnotations(projectAnnotations: WebProjectAnnotations<TFramework>) {
+  initializeWithProjectAnnotations(projectAnnotations: Store_WebProjectAnnotations<TFramework>) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
 
     this.setInitialGlobals();
 
-    let storyIndexPromise: PromiseLike<StoryIndex>;
+    let storyIndexPromise: Store_PromiseLike<Store_StoryIndex>;
     if (global.FEATURES?.storyStoreV7) {
       storyIndexPromise = this.getStoryIndexFromServer();
     } else {
@@ -142,7 +147,7 @@ export class Preview<TFramework extends AnyFramework> {
     }
 
     return storyIndexPromise
-      .then((storyIndex: StoryIndex) => this.initializeWithStoryIndex(storyIndex))
+      .then((storyIndex: Store_StoryIndex) => this.initializeWithStoryIndex(storyIndex))
       .catch((err) => {
         this.renderPreviewEntryError('Error loading story index:', err);
         throw err;
@@ -164,13 +169,13 @@ export class Preview<TFramework extends AnyFramework> {
 
   async getStoryIndexFromServer() {
     const result = await fetch(STORY_INDEX_PATH);
-    if (result.status === 200) return result.json() as StoryIndex;
+    if (result.status === 200) return result.json() as Store_StoryIndex;
 
     throw new Error(await result.text());
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
+  initializeWithStoryIndex(storyIndex: Store_StoryIndex): PromiseLike<void> {
     if (!this.importFn)
       throw new Error(`Cannot call initializeWithStoryIndex before initialization`);
 
@@ -231,8 +236,8 @@ export class Preview<TFramework extends AnyFramework> {
     importFn,
     storyIndex,
   }: {
-    importFn?: ModuleImportFn;
-    storyIndex?: StoryIndex;
+    importFn?: Store_ModuleImportFn;
+    storyIndex?: Store_StoryIndex;
   }) {
     await this.storyStore.onStoriesChanged({ importFn, storyIndex });
   }
@@ -299,7 +304,7 @@ export class Preview<TFramework extends AnyFramework> {
   // main to be consistent with the previous behaviour. In the future,
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
-  renderStoryToElement(story: Story<TFramework>, element: HTMLElement) {
+  renderStoryToElement(story: Store_Story<TFramework>, element: HTMLElement) {
     if (!this.renderToDOM)
       throw new Error(`Cannot call renderStoryToElement before initialization`);
 

@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { Badge } from '@storybook/components';
-import { CheckResult } from 'axe-core';
+import type { CheckResult } from 'axe-core';
 import { SizeMe } from 'react-sizeme';
 
 const List = styled.div({

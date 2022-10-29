@@ -1,7 +1,7 @@
-/* eslint-disable camelcase */
 import path from 'path';
 import { readJSON, writeJSON, outputFile } from 'fs-extra';
-import shell, { ExecOptions } from 'shelljs';
+import type { ExecOptions } from 'shelljs';
+import shell from 'shelljs';
 import chalk from 'chalk';
 import { command } from 'execa';
 import { cra, cra_typescript } from './configs';
@@ -49,6 +49,7 @@ export interface Options extends Parameters {
 }
 
 export const exec = async (
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   command: string,
   options: ExecOptions = {},
   {
@@ -119,6 +120,7 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
 };
 
 const installYarn2 = async ({ cwd, pnp, name }: Options) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = [
     `yarn set version berry`,
     `yarn config set enableGlobalCache true`,
@@ -142,6 +144,7 @@ const installYarn2 = async ({ cwd, pnp, name }: Options) => {
 };
 
 const configureYarn2ForE2E = async ({ cwd }: Options) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = [
     // ⚠️ Need to set registry because Yarn 2 is not using the conf of Yarn 1 (URL is hardcoded in CircleCI config.yml)
     `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6001/" } }'`,
@@ -163,6 +166,7 @@ const configureYarn2ForE2E = async ({ cwd }: Options) => {
 };
 
 const generate = async ({ cwd, name, appName, version, generator }: Options) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = generator.replace(/{{appName}}/g, appName).replace(/{{version}}/g, version);
 
   await exec(
@@ -201,6 +205,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
   // This is bundled into a single javascript file.
   const sbCLICommand = `node ${__filename}`;
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
   await exec(
@@ -217,6 +222,7 @@ const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
   // Remove any lockfile generated without Yarn 2
   shell.rm('-f', path.join(cwd, 'package-lock.json'), path.join(cwd, 'yarn.lock'));
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command =
     additionalDeps && additionalDeps.length > 0
       ? `yarn add -D ${additionalDeps.join(' ')}`

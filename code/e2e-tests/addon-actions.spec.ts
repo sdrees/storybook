@@ -13,7 +13,7 @@ test.describe('addon-actions', () => {
   test('should trigger an action', async ({ page }) => {
     const sbPage = new SbPage(page);
 
-    await sbPage.navigateToStory('example-button', 'primary');
+    await sbPage.navigateToStory('example/button', 'primary');
     const root = sbPage.previewRoot();
     const button = root.locator('button', { hasText: 'Button' });
     await button.click();

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { themes, convert } from '@storybook/theming';
-import { Result } from 'axe-core';
+import type { Result } from 'axe-core';
 import { useChannel, useAddonState, useStorybookApi } from '@storybook/api';
 import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core-events';
 import { HIGHLIGHT } from '@storybook/addon-highlight';

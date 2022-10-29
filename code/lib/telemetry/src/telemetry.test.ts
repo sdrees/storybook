@@ -1,3 +1,5 @@
+/// <reference types="@types/jest" />;
+
 /* eslint-disable no-plusplus */
 import fetch from 'isomorphic-unfetch';
 
@@ -13,12 +15,12 @@ beforeEach(() => {
 
 it('makes a fetch request with name and data', async () => {
   fetchMock.mockClear();
-  await sendTelemetry({ eventType: 'start', payload: { foo: 'bar' } });
+  await sendTelemetry({ eventType: 'dev', payload: { foo: 'bar' } });
 
   expect(fetch).toHaveBeenCalledTimes(1);
   const body = JSON.parse(fetchMock.mock.calls[0][1].body);
   expect(body).toMatchObject({
-    eventType: 'start',
+    eventType: 'dev',
     payload: { foo: 'bar' },
   });
 });
@@ -27,7 +29,7 @@ it('retries if fetch fails with a 503', async () => {
   fetchMock.mockClear().mockResolvedValueOnce({ status: 503 });
   await sendTelemetry(
     {
-      eventType: 'start',
+      eventType: 'dev',
       payload: { foo: 'bar' },
     },
     { retryDelay: 0 }
@@ -40,7 +42,7 @@ it('gives up if fetch repeatedly fails', async () => {
   fetchMock.mockClear().mockResolvedValue({ status: 503 });
   await sendTelemetry(
     {
-      eventType: 'start',
+      eventType: 'dev',
       payload: { foo: 'bar' },
     },
     { retryDelay: 0 }
@@ -63,7 +65,7 @@ it('await all pending telemetry when passing in immediate = true', async () => {
     numberOfResolvedTasks++;
   });
   sendTelemetry({
-    eventType: 'start',
+    eventType: 'dev',
     payload: { foo: 'bar' },
   }).then(() => {
     numberOfResolvedTasks++;
@@ -72,7 +74,7 @@ it('await all pending telemetry when passing in immediate = true', async () => {
   // here we await
   await sendTelemetry(
     {
-      eventType: 'error-dev',
+      eventType: 'error',
       payload: { foo: 'bar' },
     },
     { retryDelay: 0, immediate: true }

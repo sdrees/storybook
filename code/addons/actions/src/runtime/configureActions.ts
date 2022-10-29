@@ -1,4 +1,4 @@
-import { ActionOptions } from '../models';
+import type { ActionOptions } from '../models';
 
 export const config: ActionOptions = {
   depth: 10,

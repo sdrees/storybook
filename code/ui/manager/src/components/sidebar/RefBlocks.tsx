@@ -1,5 +1,6 @@
 import global from 'global';
-import React, { FC, useState, useCallback, Fragment } from 'react';
+import type { FC } from 'react';
+import React, { useState, useCallback, Fragment } from 'react';
 
 import { Icons, WithTooltip, Spaced, Button, Link } from '@storybook/components';
 import { logger } from '@storybook/client-logger';

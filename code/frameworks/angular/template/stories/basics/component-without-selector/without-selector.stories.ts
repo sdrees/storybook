@@ -1,4 +1,4 @@
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
 import { WithoutSelectorComponent, WITHOUT_SELECTOR_DATA } from './without-selector.component';
 
 export default {
@@ -19,7 +19,6 @@ export const WithInjectionTokenAndArgs: StoryFn = (args) => ({
   props: args,
   moduleMetadata: {
     providers: [
-      // eslint-disable-next-line dot-notation
       { provide: WITHOUT_SELECTOR_DATA, useValue: { color: args['color'], name: args['name'] } },
     ],
   },

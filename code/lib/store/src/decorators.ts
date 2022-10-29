@@ -1,11 +1,11 @@
 import type {
-  DecoratorFunction,
-  StoryContext,
-  StoryContextUpdate,
-  PartialStoryFn,
-  LegacyStoryFn,
   AnyFramework,
-} from '@storybook/csf';
+  DecoratorFunction,
+  LegacyStoryFn,
+  PartialStoryFn,
+  Store_ContextStore,
+  StoryContextUpdate,
+} from '@storybook/types';
 
 export function decorateStory<TFramework extends AnyFramework>(
   storyFn: LegacyStoryFn<TFramework>,
@@ -19,8 +19,6 @@ export function decorateStory<TFramework extends AnyFramework>(
 
   return (context) => decorator(boundStoryFunction, context);
 }
-
-type ContextStore<TFramework extends AnyFramework> = { value?: StoryContext<TFramework> };
 
 /**
  * Currently StoryContextUpdates are allowed to have any key in the type.
@@ -54,7 +52,7 @@ export function defaultDecorateStory<TFramework extends AnyFramework>(
   // (ie to this story), so there is no possibility of overlap.
   // This will break if you call the same story twice interleaved
   // (React might do it if you rendered the same story twice in the one ReactDom.render call, for instance)
-  const contextStore: ContextStore<TFramework> = {};
+  const contextStore: Store_ContextStore<TFramework> = {};
 
   /**
    * When you call the story function inside a decorator, e.g.:

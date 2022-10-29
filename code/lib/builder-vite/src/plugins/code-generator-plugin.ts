@@ -44,6 +44,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
 
       // Adding new story files is not covered by the change event above. So we need to detect this and trigger
       // HMR to update the importFn.
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       server.watcher.on('add', (path) => {
         // TODO maybe use the stories declaration in main
         if (/\.stories\.([tj])sx?$/.test(path) || /\.(story|stories).mdx$/.test(path)) {

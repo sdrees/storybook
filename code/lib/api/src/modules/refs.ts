@@ -1,77 +1,40 @@
 import global from 'global';
 import { dedent } from 'ts-dedent';
+import type {
+  API_ComposedRef,
+  API_ComposedRefUpdate,
+  API_Refs,
+  API_SetRefData,
+  API_SetStoriesStoryData,
+  API_StoriesHash,
+  API_StoryMapper,
+} from '@storybook/types';
+// eslint-disable-next-line import/no-cycle
 import {
   transformSetStoriesStoryDataToStoriesHash,
-  SetStoriesStory,
-  StoriesHash,
   transformStoryIndexToStoriesHash,
-  SetStoriesStoryData,
-  StoryIndex,
 } from '../lib/stories';
 
 import type { ModuleFn } from '../index';
 
 const { location, fetch } = global;
 
+// eslint-disable-next-line no-useless-escape
+const findFilename = /(\/((?:[^\/]+?)\.[^\/]+?)|\/)$/;
+
 export interface SubState {
-  refs: Refs;
+  refs: API_Refs;
 }
 
-type Versions = Record<string, string>;
-
-export type SetRefData = Partial<
-  ComposedRef & {
-    setStoriesData: SetStoriesStoryData;
-    storyIndex: StoryIndex;
-  }
->;
-
 export interface SubAPI {
-  findRef: (source: string) => ComposedRef;
-  setRef: (id: string, data: SetRefData, ready?: boolean) => void;
-  updateRef: (id: string, ref: ComposedRefUpdate) => void;
-  getRefs: () => Refs;
-  checkRef: (ref: SetRefData) => Promise<void>;
+  findRef: (source: string) => API_ComposedRef;
+  setRef: (id: string, data: API_SetRefData, ready?: boolean) => void;
+  updateRef: (id: string, ref: API_ComposedRefUpdate) => void;
+  getRefs: () => API_Refs;
+  checkRef: (ref: API_SetRefData) => Promise<void>;
   changeRefVersion: (id: string, url: string) => void;
   changeRefState: (id: string, ready: boolean) => void;
 }
-
-export type StoryMapper = (ref: ComposedRef, story: SetStoriesStory) => SetStoriesStory;
-export interface ComposedRef {
-  id: string;
-  title?: string;
-  url: string;
-  type?: 'auto-inject' | 'unknown' | 'lazy' | 'server-checked';
-  expanded?: boolean;
-  stories: StoriesHash;
-  versions?: Versions;
-  loginUrl?: string;
-  version?: string;
-  ready?: boolean;
-  error?: any;
-}
-
-export type ComposedRefUpdate = Partial<
-  Pick<
-    ComposedRef,
-    | 'title'
-    | 'type'
-    | 'expanded'
-    | 'stories'
-    | 'versions'
-    | 'loginUrl'
-    | 'version'
-    | 'ready'
-    | 'error'
-  >
->;
-
-export type Refs = Record<string, ComposedRef>;
-export type RefId = string;
-export type RefUrl = string;
-
-// eslint-disable-next-line no-useless-escape
-const findFilename = /(\/((?:[^\/]+?)\.[^\/]+?)|\/)$/;
 
 export const getSourceType = (source: string, refId: string) => {
   const { origin: localOrigin, pathname: localPathname } = location;
@@ -89,17 +52,17 @@ export const getSourceType = (source: string, refId: string) => {
   return [null, null];
 };
 
-export const defaultStoryMapper: StoryMapper = (b, a) => {
+export const defaultStoryMapper: API_StoryMapper = (b, a) => {
   return { ...a, kind: a.kind.replace('|', '/') };
 };
 
-const addRefIds = (input: StoriesHash, ref: ComposedRef): StoriesHash => {
+const addRefIds = (input: API_StoriesHash, ref: API_ComposedRef): API_StoriesHash => {
   return Object.entries(input).reduce((acc, [id, item]) => {
     return { ...acc, [id]: { ...item, refId: ref.id } };
-  }, {} as StoriesHash);
+  }, {} as API_StoriesHash);
 };
 
-async function handleRequest(request: Response | false): Promise<SetRefData> {
+async function handleRequest(request: Response | false): Promise<API_SetRefData> {
   if (!request) return {};
 
   try {
@@ -112,22 +75,22 @@ async function handleRequest(request: Response | false): Promise<SetRefData> {
       return { storyIndex: json };
     }
 
-    return json as SetRefData;
+    return json as API_SetRefData;
   } catch (error) {
     return { error };
   }
 }
 
 const map = (
-  input: SetStoriesStoryData,
-  ref: ComposedRef,
-  options: { storyMapper?: StoryMapper }
-): SetStoriesStoryData => {
+  input: API_SetStoriesStoryData,
+  ref: API_ComposedRef,
+  options: { storyMapper?: API_StoryMapper }
+): API_SetStoriesStoryData => {
   const { storyMapper } = options;
   if (storyMapper) {
     return Object.entries(input).reduce((acc, [id, item]) => {
       return { ...acc, [id]: storyMapper(ref, item) };
-    }, {} as SetStoriesStoryData);
+    }, {} as API_SetStoriesStoryData);
   }
   return input;
 };
@@ -144,7 +107,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
     changeRefVersion: (id, url) => {
       const { versions, title } = api.getRefs()[id];
-      const ref = { id, url, versions, title, stories: {} } as SetRefData;
+      const ref = { id, url, versions, title, stories: {} } as API_SetRefData;
 
       api.checkRef(ref);
     },
@@ -173,7 +136,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       //
       // then we fetch metadata if the above fetch succeeded
 
-      const loadedData: SetRefData = {};
+      const loadedData: API_SetRefData = {};
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
 
@@ -245,7 +208,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let storiesHash: StoriesHash;
+      let storiesHash: API_StoriesHash;
       if (setStoriesData) {
         storiesHash = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),
@@ -277,13 +240,13 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
   };
 
-  const refs: Refs = (!singleStory && global.REFS) || {};
+  const refs: API_Refs = (!singleStory && global.REFS) || {};
 
   const initialState: SubState['refs'] = refs;
 
   if (runCheck) {
     Object.entries(refs).forEach(([id, ref]) => {
-      api.checkRef({ ...ref, stories: {} } as SetRefData);
+      api.checkRef({ ...ref, stories: {} } as API_SetRefData);
     });
   }
 

@@ -1,9 +1,11 @@
-import React, { FC, Fragment } from 'react';
+import type { FC } from 'react';
+import React, { Fragment } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
 import { SizeMe } from 'react-sizeme';
 import Result from './Result';
-import provideJestResult, { Test } from '../hoc/provideJestResult';
+import type { Test } from '../hoc/provideJestResult';
+import provideJestResult from '../hoc/provideJestResult';
 
 const StatusTypes = {
   PASSED_TYPE: 'passed',

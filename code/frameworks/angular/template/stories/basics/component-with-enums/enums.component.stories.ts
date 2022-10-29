@@ -1,4 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/angular';
+import { Meta, StoryFn } from '@storybook/angular';
 import {
   EnumsComponent,
   EnumNumeric,

@@ -3,7 +3,8 @@ import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@stor
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import global from 'global';
-import React, { FC, SyntheticEvent, Fragment } from 'react';
+import type { FC, SyntheticEvent } from 'react';
+import React, { Fragment } from 'react';
 
 import { AboutPage } from './about_page';
 import { ReleaseNotesPage } from './release_notes_page';
@@ -12,30 +13,36 @@ import { matchesModifiers, matchesKeyCode } from '../keybinding';
 
 const { document } = global;
 
-const TabBarButton = React.memo<{
+const TabBarButton = React.memo(function TabBarButton({
+  changeTab,
+  id,
+  title,
+}: {
   changeTab: (tab: string) => void;
   id: string;
   title: string;
-}>(({ changeTab, id, title }) => (
-  <Location>
-    {({ path }) => {
-      const active = path.includes(`settings/${id}`);
-      return (
-        <TabButton
-          id={`tabbutton-${id}`}
-          className={['tabbutton'].concat(active ? ['tabbutton-active'] : []).join(' ')}
-          type="button"
-          key="id"
-          active={active}
-          onClick={() => changeTab(id)}
-          role="tab"
-        >
-          {title}
-        </TabButton>
-      );
-    }}
-  </Location>
-));
+}) {
+  return (
+    <Location>
+      {({ path }) => {
+        const active = path.includes(`settings/${id}`);
+        return (
+          <TabButton
+            id={`tabbutton-${id}`}
+            className={['tabbutton'].concat(active ? ['tabbutton-active'] : []).join(' ')}
+            type="button"
+            key="id"
+            active={active}
+            onClick={() => changeTab(id)}
+            role="tab"
+          >
+            {title}
+          </TabButton>
+        );
+      }}
+    </Location>
+  );
+});
 
 const Content = styled(ScrollArea)(
   {

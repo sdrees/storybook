@@ -3,10 +3,13 @@ import { useStorybookApi } from '@storybook/api';
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import global from 'global';
 import throttle from 'lodash/throttle';
-import React, { Dispatch, MutableRefObject, useCallback, useEffect, useReducer } from 'react';
+import type { Dispatch, MutableRefObject } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
-import { Highlight } from './types';
+import type { Highlight } from './types';
 
+// eslint-disable-next-line import/no-cycle
 import { isAncestor, getAncestorIds, getDescendantIds, scrollIntoView } from './utils';
 
 const { document } = global;

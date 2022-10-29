@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { VueConstructor } from 'vue';
+import type { VueConstructor } from 'vue';
 
 function getType(fn: Function) {
   const match = fn && fn.toString().match(/^\s*function (\w+)/);

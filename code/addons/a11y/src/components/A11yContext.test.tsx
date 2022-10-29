@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AxeResults } from 'axe-core';
+import type { AxeResults } from 'axe-core';
 import { render, act } from '@testing-library/react';
 import * as api from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';

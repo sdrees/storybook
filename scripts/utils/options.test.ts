@@ -1,8 +1,8 @@
+import { describe, expect, it } from '@jest/globals';
 import { createCommand } from 'commander';
-import { describe, it, expect } from '@jest/globals';
 
-import { createOptions, getOptions, areOptionsSatisfied, getCommand } from './options';
-import type { OptionValues, MaybeOptionValues } from './options';
+import type { MaybeOptionValues, OptionValues } from './options';
+import { areOptionsSatisfied, createOptions, getCommand, getOptions } from './options';
 
 const allOptions = createOptions({
   first: {

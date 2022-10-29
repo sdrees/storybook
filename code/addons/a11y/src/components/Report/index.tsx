@@ -1,8 +1,11 @@
-import React, { Fragment, FC } from 'react';
+import type { FC } from 'react';
+import React, { Fragment } from 'react';
 import { Placeholder } from '@storybook/components';
-import { Result } from 'axe-core';
+import type { Result } from 'axe-core';
+
 import { Item } from './Item';
-import { RuleType } from '../A11YPanel';
+
+import type { RuleType } from '../A11YPanel';
 
 export interface ReportProps {
   items: Result[];

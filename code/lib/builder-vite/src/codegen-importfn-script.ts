@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { normalizePath } from 'vite';
-import type { Options } from '@storybook/core-common';
+import type { Options } from '@storybook/types';
 import { logger } from '@storybook/node-logger';
 
 import { listStories } from './list-stories';

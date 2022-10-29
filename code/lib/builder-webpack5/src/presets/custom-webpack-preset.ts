@@ -1,6 +1,6 @@
 import * as webpackReal from 'webpack';
 import { logger } from '@storybook/node-logger';
-import type { Options, CoreConfig } from '@storybook/core-common';
+import type { Options, CoreConfig } from '@storybook/types';
 import type { Configuration } from 'webpack';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';

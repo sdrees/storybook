@@ -2,37 +2,20 @@ import global from 'global';
 import semver from 'semver';
 import memoize from 'memoizerific';
 
+import type { API_UnknownEntries, API_Version, API_Versions } from '@storybook/types';
 import { version as currentVersion } from '../version';
 
 import type { ModuleFn } from '../index';
 
 const { VERSIONCHECK } = global;
 
-export interface Version {
-  version: string;
-  info?: { plain: string };
-  [key: string]: any;
-}
-
-export interface UnknownEntries {
-  [key: string]: {
-    [key: string]: any;
-  };
-}
-
-export interface Versions {
-  latest?: Version;
-  next?: Version;
-  current?: Version;
-}
-
 export interface SubState {
-  versions: Versions & UnknownEntries;
+  versions: API_Versions & API_UnknownEntries;
   lastVersionCheck: number;
   dismissedVersionNotification: undefined | string;
 }
 
-const getVersionCheckData = memoize(1)((): Versions => {
+const getVersionCheckData = memoize(1)((): API_Versions => {
   try {
     return { ...(JSON.parse(VERSIONCHECK).data || {}) };
   } catch (e) {
@@ -41,8 +24,8 @@ const getVersionCheckData = memoize(1)((): Versions => {
 });
 
 export interface SubAPI {
-  getCurrentVersion: () => Version;
-  getLatestVersion: () => Version;
+  getCurrentVersion: () => API_Version;
+  getLatestVersion: () => API_Version;
   versionUpdateAvailable: () => boolean;
 }
 

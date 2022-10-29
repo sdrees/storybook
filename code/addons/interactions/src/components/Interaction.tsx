@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { IconButton, Icons, TooltipNote, WithTooltip } from '@storybook/components';
-import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
+import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
 
 import { MatcherResult } from './MatcherResult';
 import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
-import { Controls } from './InteractionsPanel';
+
+import type { Controls } from './InteractionsPanel';
 
 const MethodCallWrapper = styled.div(() => ({
   fontFamily: typography.fonts.mono,

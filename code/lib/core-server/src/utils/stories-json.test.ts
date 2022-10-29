@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { Router, Request, Response } from 'express';
+import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
@@ -9,7 +9,7 @@ import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
-import { ServerChannel } from './get-server-channel';
+import type { ServerChannel } from './get-server-channel';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('watchpack');
@@ -124,6 +124,9 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
+              "tags": Array [
+                "docs",
+              ],
               "title": "A",
               "type": "docs",
             },
@@ -131,6 +134,10 @@ describe('useStoriesJson', () => {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
               "name": "Story One",
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "A",
               "type": "story",
             },
@@ -138,6 +145,10 @@ describe('useStoriesJson', () => {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
               "name": "Story One",
+              "tags": Array [
+                "docsPage",
+                "story",
+              ],
               "title": "B",
               "type": "story",
             },
@@ -145,6 +156,10 @@ describe('useStoriesJson', () => {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
               "name": "Story One",
+              "tags": Array [
+                "docsPage",
+                "story",
+              ],
               "title": "D",
               "type": "story",
             },
@@ -154,6 +169,9 @@ describe('useStoriesJson', () => {
               "name": "docs",
               "standalone": true,
               "storiesImports": Array [],
+              "tags": Array [
+                "docs",
+              ],
               "title": "docs2/NoTitle",
               "type": "docs",
             },
@@ -163,6 +181,9 @@ describe('useStoriesJson', () => {
               "name": "docs",
               "standalone": true,
               "storiesImports": Array [],
+              "tags": Array [
+                "docs",
+              ],
               "title": "docs2/Template",
               "type": "docs",
             },
@@ -172,6 +193,9 @@ describe('useStoriesJson', () => {
               "name": "docs",
               "standalone": true,
               "storiesImports": Array [],
+              "tags": Array [
+                "docs",
+              ],
               "title": "docs2/Yabbadabbadooo",
               "type": "docs",
             },
@@ -179,6 +203,9 @@ describe('useStoriesJson', () => {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
               "name": "Story One",
+              "tags": Array [
+                "story",
+              ],
               "title": "first-nested/deeply/F",
               "type": "story",
             },
@@ -186,6 +213,10 @@ describe('useStoriesJson', () => {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
               "name": "Story One",
+              "tags": Array [
+                "component-tag",
+                "story",
+              ],
               "title": "nested/Button",
               "type": "story",
             },
@@ -193,6 +224,9 @@ describe('useStoriesJson', () => {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
               "name": "Story One",
+              "tags": Array [
+                "story",
+              ],
               "title": "second-nested/G",
               "type": "story",
             },
@@ -236,6 +270,9 @@ describe('useStoriesJson', () => {
                 "./src/A.stories.js",
               ],
               "story": "docs",
+              "tags": Array [
+                "docs",
+              ],
               "title": "A",
             },
             "a--story-one": Object {
@@ -249,6 +286,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/A.stories.js",
               },
               "story": "Story One",
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "A",
             },
             "b--story-one": Object {
@@ -262,6 +303,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/B.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "docsPage",
+                "story",
+              ],
               "title": "B",
             },
             "d--story-one": Object {
@@ -275,6 +320,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/D.stories.jsx",
               },
               "story": "Story One",
+              "tags": Array [
+                "docsPage",
+                "story",
+              ],
               "title": "D",
             },
             "docs2-notitle--docs": Object {
@@ -290,6 +339,9 @@ describe('useStoriesJson', () => {
               "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
+              "tags": Array [
+                "docs",
+              ],
               "title": "docs2/NoTitle",
             },
             "docs2-template--docs": Object {
@@ -305,6 +357,9 @@ describe('useStoriesJson', () => {
               "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
+              "tags": Array [
+                "docs",
+              ],
               "title": "docs2/Template",
             },
             "docs2-yabbadabbadooo--docs": Object {
@@ -320,6 +375,9 @@ describe('useStoriesJson', () => {
               "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
+              "tags": Array [
+                "docs",
+              ],
               "title": "docs2/Yabbadabbadooo",
             },
             "first-nested-deeply-f--story-one": Object {
@@ -333,6 +391,9 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/first-nested/deeply/F.stories.js",
               },
               "story": "Story One",
+              "tags": Array [
+                "story",
+              ],
               "title": "first-nested/deeply/F",
             },
             "nested-button--story-one": Object {
@@ -346,6 +407,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/nested/Button.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "component-tag",
+                "story",
+              ],
               "title": "nested/Button",
             },
             "second-nested-g--story-one": Object {
@@ -359,6 +424,9 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/second-nested/G.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "story",
+              ],
               "title": "second-nested/G",
             },
           },
@@ -399,6 +467,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/A.stories.js",
               },
               "story": "Story One",
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "A",
             },
             "b--story-one": Object {
@@ -412,6 +484,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/B.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "docsPage",
+                "story",
+              ],
               "title": "B",
             },
             "d--story-one": Object {
@@ -425,6 +501,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/D.stories.jsx",
               },
               "story": "Story One",
+              "tags": Array [
+                "docsPage",
+                "story",
+              ],
               "title": "D",
             },
             "first-nested-deeply-f--story-one": Object {
@@ -438,6 +518,9 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/first-nested/deeply/F.stories.js",
               },
               "story": "Story One",
+              "tags": Array [
+                "story",
+              ],
               "title": "first-nested/deeply/F",
             },
             "nested-button--story-one": Object {
@@ -451,6 +534,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/nested/Button.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "component-tag",
+                "story",
+              ],
               "title": "nested/Button",
             },
             "second-nested-g--story-one": Object {
@@ -464,6 +551,9 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/second-nested/G.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "story",
+              ],
               "title": "second-nested/G",
             },
           },
@@ -528,6 +618,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/A.stories.js",
               },
               "story": "Story One",
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "A",
             },
             "b--story-one": Object {
@@ -541,6 +635,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/B.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "docsPage",
+                "story",
+              ],
               "title": "B",
             },
             "d--story-one": Object {
@@ -554,6 +652,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/D.stories.jsx",
               },
               "story": "Story One",
+              "tags": Array [
+                "docsPage",
+                "story",
+              ],
               "title": "D",
             },
             "first-nested-deeply-f--story-one": Object {
@@ -567,6 +669,9 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/first-nested/deeply/F.stories.js",
               },
               "story": "Story One",
+              "tags": Array [
+                "story",
+              ],
               "title": "first-nested/deeply/F",
             },
             "nested-button--story-one": Object {
@@ -580,6 +685,10 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/nested/Button.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "component-tag",
+                "story",
+              ],
               "title": "nested/Button",
             },
             "second-nested-g--story-one": Object {
@@ -593,6 +702,9 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/second-nested/G.stories.ts",
               },
               "story": "Story One",
+              "tags": Array [
+                "story",
+              ],
               "title": "second-nested/G",
             },
           },

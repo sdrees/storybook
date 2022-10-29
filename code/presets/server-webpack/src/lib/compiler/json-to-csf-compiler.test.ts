@@ -18,7 +18,7 @@ async function generate(filePath: string) {
     fs.readdirSync(transformFixturesDir)
       .filter((fileName: string) => inputRegExp.test(fileName))
       .forEach((fixtureFile: string) => {
-        it(fixtureFile, async () => {
+        it(`${fixtureFile}`, async () => {
           const inputPath = path.join(transformFixturesDir, fixtureFile);
           const code = await generate(inputPath);
           expect(code).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.snapshot'));

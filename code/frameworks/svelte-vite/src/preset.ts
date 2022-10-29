@@ -1,11 +1,10 @@
-import { StorybookConfig, withoutVitePlugins } from '@storybook/builder-vite';
+import { type StorybookConfig, withoutVitePlugins } from '@storybook/builder-vite';
 import { hasPlugin } from './utils';
 import { svelteDocgen } from './plugins/svelte-docgen';
 
-export const addons: StorybookConfig['addons'] = ['@storybook/svelte'];
-
 export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
+  renderer: '@storybook/svelte',
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) => {

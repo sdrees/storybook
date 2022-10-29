@@ -1,4 +1,5 @@
-import { BinaryLike, createHash } from 'crypto';
+import type { BinaryLike } from 'crypto';
+import { createHash } from 'crypto';
 
 export const oneWayHash = (payload: BinaryLike): string => {
   const hash = createHash('sha256');

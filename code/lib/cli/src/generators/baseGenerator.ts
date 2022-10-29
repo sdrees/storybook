@@ -1,13 +1,15 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
-import { NpmOptions } from '../NpmOptions';
-import { SupportedRenderers, SupportedFrameworks, Builder, CoreBuilder } from '../project_types';
+import type { NpmOptions } from '../NpmOptions';
+import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
+import { CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
 import { configureMain, configurePreview } from './configure';
-import { getPackageDetails, JsPackageManager } from '../js-package-manager';
+import type { JsPackageManager } from '../js-package-manager';
+import { getPackageDetails } from '../js-package-manager';
 import { generateStorybookBabelConfigInCWD } from '../babel-config';
 import packageVersions from '../versions';
-import { FrameworkOptions, GeneratorOptions } from './types';
+import type { FrameworkOptions, GeneratorOptions } from './types';
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],

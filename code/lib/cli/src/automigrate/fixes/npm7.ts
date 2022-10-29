@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import { Fix } from '../types';
-import { NPMProxy } from '../../js-package-manager/NPMProxy';
+import type { Fix } from '../types';
+import type { NPMProxy } from '../../js-package-manager/NPMProxy';
 
 interface Npm7RunOptions {
   npmVersion: string;

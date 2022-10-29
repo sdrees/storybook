@@ -3,7 +3,8 @@ import fs from 'fs';
 import { getBowerJson } from './helpers';
 import { isStorybookInstalled, detectFrameworkPreset, detect, detectLanguage } from './detect';
 import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
-import { PackageJsonWithMaybeDeps, readPackageJson } from './js-package-manager';
+import type { PackageJsonWithMaybeDeps } from './js-package-manager';
+import { readPackageJson } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
   getBowerJson: jest.fn(),

@@ -6,7 +6,7 @@ import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import { noResults } from './SearchResults.stories';
 import { DEFAULT_REF_ID } from './Sidebar';
-import { Selection } from './types';
+import type { Selection } from './types';
 
 const refId = DEFAULT_REF_ID;
 const data = { [refId]: { id: refId, url: '/', stories } };
@@ -18,7 +18,7 @@ const getLastViewed = () =>
 
 export default {
   component: Search,
-  title: 'UI/Sidebar/Search',
+  title: 'Sidebar/Search',
   parameters: { layout: 'fullscreen' },
   decorators: [(storyFn: any) => <div style={{ padding: 20, maxWidth: '230px' }}>{storyFn()}</div>],
 };

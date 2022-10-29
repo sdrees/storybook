@@ -33,7 +33,7 @@ describe('sourceDecorator', () => {
   let mockChannel: { on: jest.Mock; emit?: jest.Mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
-    mockedUseEffect.mockImplementation((cb) => setTimeout(cb, 0));
+    mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
     mockChannel = { on: jest.fn(), emit: jest.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);

@@ -1,14 +1,16 @@
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
 import { dirname } from 'path';
-import {
+import type {
+  BuilderOptions,
   CLIOptions,
+  CoreCommon_ResolvedAddonPreset,
+  CoreCommon_ResolvedAddonVirtual,
   LoadedPreset,
   LoadOptions,
   PresetConfig,
   Presets,
-  BuilderOptions,
-} from './types';
+} from '@storybook/types';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
@@ -55,23 +57,12 @@ function resolvePresetFunction<T = any>(
  * - { name: '@storybook/addon-docs(/preset)?', options: { ... } }
  *   =>  { type: 'presets', item: { name: '@storybook/addon-docs/preset', options } }
  */
-interface ResolvedAddonPreset {
-  type: 'presets';
-  name: string;
-}
-interface ResolvedAddonVirtual {
-  type: 'virtual';
-  name: string;
-  managerEntries?: string[];
-  previewAnnotations?: string[];
-  presets?: (string | { name: string; options?: any })[];
-}
 
 export const resolveAddonName = (
   configDir: string,
   name: string,
   options: any
-): ResolvedAddonPreset | ResolvedAddonVirtual | undefined => {
+): CoreCommon_ResolvedAddonPreset | CoreCommon_ResolvedAddonVirtual | undefined => {
   const resolve = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
   const resolved = resolve(name);
 
@@ -207,7 +198,7 @@ export async function loadPreset(
 
     if (Array.isArray(contents)) {
       const subPresets = contents;
-      return loadPresets(subPresets, level + 1, storybookOptions);
+      return await loadPresets(subPresets, level + 1, storybookOptions);
     }
 
     if (isObject(contents)) {
@@ -338,8 +329,8 @@ export async function loadAllPresets(
   options: CLIOptions &
     LoadOptions &
     BuilderOptions & {
-      corePresets: string[];
-      overridePresets: string[];
+      corePresets: PresetConfig[];
+      overridePresets: PresetConfig[];
     }
 ) {
   const { corePresets = [], overridePresets = [], ...restOptions } = options;

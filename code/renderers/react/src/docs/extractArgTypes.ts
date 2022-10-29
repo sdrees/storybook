@@ -1,4 +1,4 @@
-import type { StrictArgTypes } from '@storybook/csf';
+import type { StrictArgTypes } from '@storybook/types';
 import type { PropDef, ArgTypesExtractor } from '@storybook/docs-tools';
 import { extractProps } from './extractProps';
 

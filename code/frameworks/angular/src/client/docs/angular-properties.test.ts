@@ -39,7 +39,7 @@ describe('angular component properties', () => {
       const testDir = path.join(fixturesDir, testEntry.name);
       const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
-        it(testEntry.name, () => {
+        it(`${testEntry.name}`, () => {
           const inputPath = path.join(testDir, testFile);
 
           // snapshot the output of compodoc

@@ -8,7 +8,7 @@ import type {
   PlayFunction,
   PlayFunctionContext,
   StepLabel,
-} from '@storybook/csf';
+} from '@storybook/types';
 import { instrument } from '@storybook/instrumenter';
 import { ModuleMocker } from 'jest-mock';
 

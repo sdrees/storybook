@@ -1,5 +1,5 @@
 import semver from 'semver';
-import { Configuration as WebpackConfig } from 'webpack';
+import type { Configuration as WebpackConfig } from 'webpack';
 import { addScopedAlias, getNextjsVersion } from '../utils';
 
 export const configureStyledJsx = (baseConfig: WebpackConfig): void => {

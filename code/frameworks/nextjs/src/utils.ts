@@ -1,5 +1,6 @@
 import path from 'path';
-import { Configuration as WebpackConfig, DefinePlugin } from 'webpack';
+import type { Configuration as WebpackConfig } from 'webpack';
+import { DefinePlugin } from 'webpack';
 
 export const configureRuntimeNextjsVersionResolution = (baseConfig: WebpackConfig): void => {
   baseConfig.plugins?.push(

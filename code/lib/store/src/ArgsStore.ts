@@ -1,6 +1,5 @@
-import type { StoryId, Args } from '@storybook/csf';
+import type { StoryId, Args, Store_Story } from '@storybook/types';
 
-import type { Story } from './types';
 import { combineArgs, mapArgsToTypes, validateOptions, deepDiff, DEEPLY_EQUAL } from './args';
 
 function deleteUndefined(obj: Record<string, any>) {
@@ -22,7 +21,7 @@ export class ArgsStore {
     return this.argsByStoryId[storyId];
   }
 
-  setInitial(story: Story<any>) {
+  setInitial(story: Store_Story<any>) {
     if (!this.initialArgsByStoryId[story.id]) {
       this.initialArgsByStoryId[story.id] = story.initialArgs;
       this.argsByStoryId[story.id] = story.initialArgs;
@@ -38,7 +37,7 @@ export class ArgsStore {
     }
   }
 
-  updateFromDelta(story: Story<any>, delta: Args) {
+  updateFromDelta(story: Store_Story<any>, delta: Args) {
     // Use the argType to ensure we setting a type with defined options to something outside of that
     const validatedDelta = validateOptions(delta, story.argTypes);
 
@@ -48,7 +47,7 @@ export class ArgsStore {
     this.argsByStoryId[story.id] = combineArgs(this.argsByStoryId[story.id], validatedDelta);
   }
 
-  updateFromPersisted(story: Story<any>, persisted: Args) {
+  updateFromPersisted(story: Store_Story<any>, persisted: Args) {
     // Use the argType to ensure we aren't persisting the wrong type of value to the type.
     // For instance you could try and set a string-valued arg to a number by changing the URL
     const mappedPersisted = mapArgsToTypes(persisted, story.argTypes);

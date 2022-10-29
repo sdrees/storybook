@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import { ConfigFile } from '@storybook/csf-tools';
-import { Fix } from '../types';
+import type { ConfigFile } from '@storybook/csf-tools';
+import type { Fix } from '../types';
 import { webpack5 } from './webpack5';
 
 interface Angular12RunOptions {

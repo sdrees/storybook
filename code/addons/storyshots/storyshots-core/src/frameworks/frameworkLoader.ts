@@ -1,7 +1,7 @@
 /* eslint-disable global-require,import/no-dynamic-require */
 import fs from 'fs';
 import path from 'path';
-import { Loader } from './Loader';
+import type { Loader } from './Loader';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';
 
 const loaderScriptName = 'loader.js';

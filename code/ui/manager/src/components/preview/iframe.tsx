@@ -1,4 +1,5 @@
-import React, { IframeHTMLAttributes } from 'react';
+import type { IframeHTMLAttributes } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { Zoom } from '@storybook/components';
 

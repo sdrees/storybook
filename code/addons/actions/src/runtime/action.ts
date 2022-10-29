@@ -1,7 +1,7 @@
 import uuidv4 from 'uuid-browser/v4';
 import { addons } from '@storybook/addons';
 import { EVENT_ID } from '../constants';
-import { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
+import type { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';
 
 type SyntheticEvent = any; // import('react').SyntheticEvent;

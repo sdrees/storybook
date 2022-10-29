@@ -1,4 +1,5 @@
-import React, { Component, ComponentProps, FC } from 'react';
+import type { ComponentProps, FC } from 'react';
+import React, { Component } from 'react';
 import { styled, keyframes } from '@storybook/theming';
 
 import {

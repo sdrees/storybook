@@ -1,23 +1,20 @@
 import fs from 'fs-extra';
-import deprecate from 'util-deprecate';
+import { deprecate } from '@storybook/node-logger';
 import {
-  CLIOptions,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   getPreviewMainTemplate,
   loadEnvs,
 } from '@storybook/core-common';
 import type {
-  Options,
+  CLIOptions,
+  CoreCommon_IndexerOptions,
+  CoreCommon_StoryIndexer,
   CoreConfig,
+  Options,
   StorybookConfig,
-  StoryIndexer,
-  IndexerOptions,
-} from '@storybook/core-common';
+} from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
-
-const warnConfigField = deprecate(() => {},
-`You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`);
 
 export const babel = async (_: unknown, options: Options) => {
   const { presets } = options;
@@ -91,7 +88,11 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
 export const previewAnnotations = async (base: any, options: Options) => {
   const config = await options.presets.apply('config', [], options);
 
-  if (config.length > 0) warnConfigField();
+  if (config.length > 0) {
+    deprecate(
+      `You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`
+    );
+  }
 
   return [...config, ...base];
 };
@@ -110,8 +111,8 @@ export const features = async (
   argTypeTargetsV7: true,
 });
 
-export const storyIndexers = async (indexers?: StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
+export const storyIndexers = async (indexers?: CoreCommon_StoryIndexer[]) => {
+  const csfIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     const code = (await fs.readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();
   };

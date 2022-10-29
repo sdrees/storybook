@@ -10,7 +10,7 @@ import * as STORYBOOKAPI from '@storybook/api';
 import * as STORYBOOKADDONS from '@storybook/addons';
 import * as STORYBOOKCLIENTLOGGER from '@storybook/client-logger';
 
-import { Keys } from './types';
+import type { Keys } from './types';
 
 // Here we map the name of a module to their VALUE in the global scope.
 export const values: Required<Record<keyof typeof Keys, any>> = {

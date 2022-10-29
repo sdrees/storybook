@@ -1,4 +1,4 @@
-import { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '../../js-package-manager';
 import { sbScripts, getStorybookScripts } from './sb-scripts';
 
 const checkSbScripts = async ({ packageJson }) => {
@@ -141,6 +141,7 @@ describe('sb scripts fix', () => {
       });
 
       describe('with old official and custom scripts', () => {
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         const packageJson = {
           dependencies: {
             '@storybook/react': '^7.0.0-alpha.0',
@@ -179,6 +180,7 @@ describe('sb scripts fix', () => {
       });
 
       describe('with storybook lib installed', () => {
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         const packageJson = {
           dependencies: {
             '@storybook/react': '^7.0.0-alpha.0',
@@ -195,6 +197,7 @@ describe('sb scripts fix', () => {
       });
 
       describe('already containing new scripts', () => {
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         const packageJson = {
           dependencies: {
             '@storybook/react': '^7.0.0-alpha.0',

@@ -1,4 +1,5 @@
-import React, { FC, Fragment } from 'react';
+import type { FC } from 'react';
+import React, { Fragment } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 
@@ -6,7 +7,7 @@ import { Inspector } from 'react-inspector';
 import { ActionBar, ScrollArea } from '@storybook/components';
 
 import { Action, InspectorContainer, Counter } from './style';
-import { ActionDisplay } from '../../models';
+import type { ActionDisplay } from '../../models';
 
 const UnstyledWrapped: FC<{ className?: string }> = ({ children, className }) => (
   <ScrollArea horizontal vertical className={className}>

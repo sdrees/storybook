@@ -1,6 +1,6 @@
 import { once } from '@storybook/client-logger';
 import { expect } from '@jest/globals';
-import { SBType } from '@storybook/csf';
+import type { SBType } from '@storybook/types';
 
 import {
   combineArgs,

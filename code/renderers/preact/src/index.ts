@@ -1,6 +1,6 @@
 /// <reference types="webpack-env" />
 
-export * from './globals';
+import './globals';
 
 export * from './public-api';
 export * from './public-types';

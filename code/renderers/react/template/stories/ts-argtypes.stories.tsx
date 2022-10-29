@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import mapValues from 'lodash/mapValues';
 import { PureArgsTable as ArgsTable } from '@storybook/blocks';
-import type { Args, Parameters, StoryContext } from '@storybook/csf';
+import type { Args, Parameters, StoryContext } from '@storybook/types';
 import { inferControls } from '@storybook/store';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 

@@ -1,4 +1,4 @@
-import { NgModule, Type } from '@angular/core';
+import { Type, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { Subject } from 'rxjs';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { NodeResult } from 'axe-core';
+import type { NodeResult } from 'axe-core';
 import HighlightToggle from './HighlightToggle';
 import { A11yContext } from '../A11yContext';
 

@@ -6,7 +6,7 @@ import { logger } from '@storybook/node-logger';
 import type { Options, Preset } from '@storybook/core-webpack';
 import type { StorybookConfig, ReactOptions } from './types';
 
-const useFastRefresh = async (options: Options) => {
+const applyFastRefresh = async (options: Options) => {
   const isDevelopment = options.configType === 'DEVELOPMENT';
   const framework = await options.presets.apply<Preset>('framework');
   const reactOptions = (typeof framework === 'object' ? framework.options : {}) as ReactOptions;
@@ -14,7 +14,7 @@ const useFastRefresh = async (options: Options) => {
 };
 
 export const babel: StorybookConfig['babel'] = async (config, options) => {
-  if (!(await useFastRefresh(options))) return config;
+  if (!(await applyFastRefresh(options))) return config;
 
   return {
     ...config,
@@ -54,7 +54,7 @@ export const babelDefault: StorybookConfig['babelDefault'] = async (config) => {
 };
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, options) => {
-  if (!(await useFastRefresh(options))) return config;
+  if (!(await applyFastRefresh(options))) return config;
 
   // matches the name of the plugin in CRA.
   const hasReactRefresh = !!config.plugins?.find(

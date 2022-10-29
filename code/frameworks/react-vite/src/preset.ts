@@ -2,10 +2,9 @@
 import type { StorybookConfig } from '@storybook/builder-vite';
 import { hasPlugin } from './utils';
 
-export const addons: StorybookConfig['addons'] = ['@storybook/react'];
-
 export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
+  renderer: '@storybook/react',
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {

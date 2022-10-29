@@ -29,7 +29,7 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
   id: 'mdx1to2',
 
   async check() {
-    const storiesMdxFiles = await globby('**/*.(story|stories).mdx');
+    const storiesMdxFiles = await globby('./!(node_modules)**/*.(story|stories).mdx');
     return storiesMdxFiles.length ? { storiesMdxFiles } : undefined;
   },
 

@@ -1,7 +1,5 @@
 import global from 'global';
-
-// The shortcut is our JSON-ifiable representation of a shortcut combination
-import type { KeyCollection } from '../modules/shortcuts';
+import type { API_KeyCollection } from '../modules/shortcuts';
 
 const { navigator } = global;
 
@@ -22,7 +20,7 @@ export type KeyboardEventLike = Pick<
 
 // Map a keyboard event to a keyboard shortcut
 // NOTE: if we change the fields on the event that we need, we'll need to update the serialization in core/preview/start.js
-export const eventToShortcut = (e: KeyboardEventLike): KeyCollection | null => {
+export const eventToShortcut = (e: KeyboardEventLike): API_KeyCollection | null => {
   // Meta key only doesn't map to a shortcut
   if (['Meta', 'Alt', 'Control', 'Shift'].includes(e.key)) {
     return null;
@@ -68,8 +66,8 @@ export const eventToShortcut = (e: KeyboardEventLike): KeyCollection | null => {
 };
 
 export const shortcutMatchesShortcut = (
-  inputShortcut: KeyCollection,
-  shortcut: KeyCollection
+  inputShortcut: API_KeyCollection,
+  shortcut: API_KeyCollection
 ): boolean => {
   if (!inputShortcut || !shortcut) return false;
   if (inputShortcut.join('') === 'shift/') inputShortcut.shift(); // shift is optional for `/`
@@ -78,7 +76,10 @@ export const shortcutMatchesShortcut = (
 };
 
 // Should this keyboard event trigger this keyboard shortcut?
-export const eventMatchesShortcut = (e: KeyboardEventLike, shortcut: KeyCollection): boolean => {
+export const eventMatchesShortcut = (
+  e: KeyboardEventLike,
+  shortcut: API_KeyCollection
+): boolean => {
   return shortcutMatchesShortcut(eventToShortcut(e), shortcut);
 };
 
@@ -120,6 +121,6 @@ export const keyToSymbol = (key: string): string => {
 };
 
 // Display the shortcut as a human readable string
-export const shortcutToHumanString = (shortcut: KeyCollection): string => {
+export const shortcutToHumanString = (shortcut: API_KeyCollection): string => {
   return shortcut.map(keyToSymbol).join(' ');
 };

@@ -1,4 +1,5 @@
-import React, { FC, SyntheticEvent } from 'react';
+import type { FC, SyntheticEvent } from 'react';
+import React from 'react';
 
 interface TSProps {
   /**

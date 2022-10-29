@@ -7,7 +7,7 @@ import { dedent } from 'ts-dedent';
 import { createAndInit, exec } from './repro-generators/scripts';
 import * as configs from './repro-generators/configs';
 import type { Parameters } from './repro-generators/configs';
-import { SupportedRenderers } from './project_types';
+import type { SupportedRenderers } from './project_types';
 
 const logger = console;
 

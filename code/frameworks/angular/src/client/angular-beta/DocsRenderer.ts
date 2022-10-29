@@ -1,5 +1,5 @@
 import { addons } from '@storybook/addons';
-import Events from '@storybook/core-events';
+import { DOCS_RENDERED, STORY_CHANGED } from '@storybook/core-events';
 import { AbstractRenderer } from './AbstractRenderer';
 import { StoryFnAngularReturnType, Parameters } from '../types';
 
@@ -22,7 +22,7 @@ export class DocsRenderer extends AbstractRenderer {
      * rendered in the doc. But one event could be enough for the whole docs
      *
      */
-    channel.once(Events.STORY_CHANGED, async () => {
+    channel.once(STORY_CHANGED, async () => {
       await DocsRenderer.resetPlatformBrowserDynamic();
     });
 
@@ -31,7 +31,7 @@ export class DocsRenderer extends AbstractRenderer {
      * when doc re render. Allows to call ngOnDestroy of angular
      * for previous component
      */
-    channel.once(Events.DOCS_RENDERED, async () => {
+    channel.once(DOCS_RENDERED, async () => {
       await DocsRenderer.resetPlatformBrowserDynamic();
     });
 

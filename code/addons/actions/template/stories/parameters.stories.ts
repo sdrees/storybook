@@ -1,4 +1,5 @@
 import globalThis from 'global';
+import { withActions } from '@storybook/addon-actions/decorator';
 
 export default {
   component: globalThis.Components.Button,
@@ -14,4 +15,5 @@ export const Basic = {
   parameters: {
     handles: [{ click: 'clicked', contextmenu: 'right clicked' }],
   },
+  decorators: [withActions],
 };

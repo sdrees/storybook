@@ -1,14 +1,14 @@
 import { Component, Input, Output } from '@angular/core';
-import type { DecoratorFunction, StoryContext } from '@storybook/addons';
+import { DecoratorFunction, StoryContext } from '@storybook/types';
 import { componentWrapperDecorator } from './decorators';
 
 import decorateStory from './decorateStory';
-import { StoryFnAngularReturnType } from './types';
+import { AngularFramework } from './types';
 
 describe('decorateStory', () => {
   describe('angular behavior', () => {
     it('should use componentWrapperDecorator with args', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         componentWrapperDecorator(ParentComponent, ({ args }) => args),
         componentWrapperDecorator(
           (story) => `<grandparent [grandparentInput]="grandparentInput">${story}</grandparent>`,
@@ -42,7 +42,7 @@ describe('decorateStory', () => {
     });
 
     it('should use componentWrapperDecorator with input / output', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         componentWrapperDecorator(ParentComponent, {
           parentInput: 'Parent input',
           parentOutput: () => {},
@@ -81,7 +81,7 @@ describe('decorateStory', () => {
     });
 
     it('should use componentWrapperDecorator', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         componentWrapperDecorator(ParentComponent),
         componentWrapperDecorator((story) => `<grandparent>${story}</grandparent>`),
         componentWrapperDecorator((story) => `<great-grandparent>${story}</great-grandparent>`),
@@ -96,7 +96,7 @@ describe('decorateStory', () => {
     });
 
     it('should use template in preference to component parameters', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         (s) => {
           const story = s();
           return {
@@ -129,7 +129,7 @@ describe('decorateStory', () => {
     });
 
     it('should include story templates in decorators', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         (s) => {
           const story = s();
           return {
@@ -162,7 +162,7 @@ describe('decorateStory', () => {
     });
 
     it('should include story components in decorators', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         (s) => {
           const story = s();
           return {
@@ -195,7 +195,7 @@ describe('decorateStory', () => {
     });
 
     it('should include legacy story components in decorators', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         (s) => {
           const story = s();
           return {
@@ -229,7 +229,7 @@ describe('decorateStory', () => {
     });
 
     it('should keep template with an empty value', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         componentWrapperDecorator(ParentComponent),
       ];
       const decorated = decorateStory(() => ({ template: '' }), decorators);
@@ -272,7 +272,7 @@ describe('decorateStory', () => {
 
   describe('default behavior', () => {
     it('calls decorators in out to in order', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         (s) => {
           const story = s();
           return { ...story, props: { a: [...story.props.a, 1] } };
@@ -292,7 +292,7 @@ describe('decorateStory', () => {
     });
 
     it('passes context through to sub decorators', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         (s, c) => {
           const story = s({ ...c, k: 1 });
           return { ...story, props: { a: [...story.props.a, c.k] } };
@@ -312,7 +312,7 @@ describe('decorateStory', () => {
     });
 
     it('DOES NOT merge parameter or pass through parameters key in context', () => {
-      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+      const decorators: DecoratorFunction<AngularFramework>[] = [
         (s, c) => {
           const story = s({ ...c, k: 1, parameters: { p: 1 } });
           return {

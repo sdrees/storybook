@@ -1,9 +1,15 @@
 import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
+
 import { NPMProxy } from './NPMProxy';
+
 import { PNPMProxy } from './PNPMProxy';
-import { JsPackageManager, type PackageManagerName } from './JsPackageManager';
+
+import type { JsPackageManager } from './JsPackageManager';
+import { type PackageManagerName } from './JsPackageManager';
+
 import { Yarn2Proxy } from './Yarn2Proxy';
+
 import { Yarn1Proxy } from './Yarn1Proxy';
 
 export class JsPackageManagerFactory {

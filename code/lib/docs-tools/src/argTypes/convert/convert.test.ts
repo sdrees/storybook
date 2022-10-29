@@ -17,7 +17,8 @@ describe('storybook type system', () => {
     it('scalars', () => {
       const input = readFixture('typescript/functions.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         interface ItemInterface {
           text: string;
@@ -61,7 +62,8 @@ describe('storybook type system', () => {
     it('functions', () => {
       const input = readFixture('typescript/functions.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         interface ItemInterface {
           text: string;
@@ -105,7 +107,8 @@ describe('storybook type system', () => {
     it('enums', () => {
       const input = readFixture('typescript/enums.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         enum DefaultEnum {
           TopLeft,
@@ -150,7 +153,8 @@ describe('storybook type system', () => {
     it('unions', () => {
       const input = readFixture('typescript/unions.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         type Kind = 'default' | 'action';
         enum DefaultEnum {
@@ -222,7 +226,8 @@ describe('storybook type system', () => {
     it('intersections', () => {
       const input = readFixture('typescript/intersections.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         interface ItemInterface {
           text: string;
@@ -280,7 +285,8 @@ describe('storybook type system', () => {
     it('arrays', () => {
       const input = readFixture('typescript/arrays.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         interface ItemInterface {
           text: string;
@@ -354,7 +360,8 @@ describe('storybook type system', () => {
     it('interfaces', () => {
       const input = readFixture('typescript/interfaces.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         interface ItemInterface {
           text: string;
@@ -387,7 +394,8 @@ describe('storybook type system', () => {
     it('records', () => {
       const input = readFixture('typescript/records.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         interface ItemInterface {
           text: string;
@@ -418,7 +426,8 @@ describe('storybook type system', () => {
     it('aliases', () => {
       const input = readFixture('typescript/aliases.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         type StringAlias = string;
         type NumberAlias = number;
@@ -476,7 +485,8 @@ describe('storybook type system', () => {
     it('tuples', () => {
       const input = readFixture('typescript/tuples.tsx');
       expect(input).toMatchInlineSnapshot(`
-        "import React, { FC } from 'react';
+        "import type { FC } from 'react';
+        import React from 'react';
 
         interface ItemInterface {
           text: string;

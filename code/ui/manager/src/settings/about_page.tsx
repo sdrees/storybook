@@ -1,4 +1,5 @@
-import React, { Component, FC } from 'react';
+import type { FC } from 'react';
+import React, { Component } from 'react';
 
 import { type API, useStorybookApi } from '@storybook/api';
 

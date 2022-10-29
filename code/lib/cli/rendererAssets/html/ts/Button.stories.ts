@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/html';
-import { createButton, ButtonProps } from './Button';
+import type { ButtonProps } from './Button';
+import { createButton } from './Button';
 
 // More on default export: https://storybook.js.org/docs/html/writing-stories/introduction#default-export
 export default {

@@ -2,17 +2,17 @@
 
 exports[`react component properties 8894-9511-ts-forward-ref 1`] = `
 "import React, { forwardRef } from 'react';
-const Button = /*#__PURE__*/forwardRef(({
+const Button = /*#__PURE__*/forwardRef(function Button({
   disabled = false,
   variant = 'small',
   children
-}, ref) =>
-/*#__PURE__*/
-// eslint-disable-next-line react/button-has-type
-React.createElement(\\"button\\", {
-  disabled: disabled,
-  ref: ref
-}, children, \\" \\", variant));
+}, ref) {
+  return /*#__PURE__*/React.createElement(\\"button\\", {
+    type: \\"button\\",
+    disabled: disabled,
+    ref: ref
+  }, children, \\" \\", variant);
+});
 Button.__docgenInfo = {
   \\"description\\": \\"\\",
   \\"methods\\": [],

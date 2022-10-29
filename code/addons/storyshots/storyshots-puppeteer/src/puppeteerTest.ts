@@ -1,7 +1,8 @@
-import { Browser, Page } from 'puppeteer';
+import type { Browser, Page } from 'puppeteer';
 import { logger } from '@storybook/node-logger';
 import { constructUrl } from './url';
-import { defaultPuppeteerTestConfig, PuppeteerTestConfig } from './config';
+import type { PuppeteerTestConfig } from './config';
+import { defaultPuppeteerTestConfig } from './config';
 
 export const puppeteerTest = (customConfig: Partial<PuppeteerTestConfig> = {}) => {
   const {

@@ -2,9 +2,9 @@ import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import { getStorybookInfo } from '@storybook/core-common';
-import { Fix } from '../types';
+import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
-import { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
+import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 
 interface SbScriptsRunOptions {
   storybookScripts: {

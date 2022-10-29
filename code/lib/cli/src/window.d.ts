@@ -1,4 +1,4 @@
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 import type { StoryStore } from '@storybook/client-api';
 
 declare global {

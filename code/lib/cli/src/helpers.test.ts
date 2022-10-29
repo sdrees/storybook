@@ -2,7 +2,8 @@ import fs from 'fs';
 import fse from 'fs-extra';
 
 import * as helpers from './helpers';
-import { SupportedLanguage, SupportedRenderers } from './project_types';
+import type { SupportedRenderers } from './project_types';
+import { SupportedLanguage } from './project_types';
 
 jest.mock('fs', () => ({
   existsSync: jest.fn(),

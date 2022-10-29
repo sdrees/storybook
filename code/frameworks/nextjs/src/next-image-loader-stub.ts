@@ -1,6 +1,6 @@
 import { interpolateName } from 'loader-utils';
 import imageSizeOf from 'image-size';
-import { RawLoaderDefinition } from 'webpack';
+import type { RawLoaderDefinition } from 'webpack';
 
 interface LoaderOptions {
   filename: string;

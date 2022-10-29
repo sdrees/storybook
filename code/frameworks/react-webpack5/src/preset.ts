@@ -1,12 +1,11 @@
 /* eslint-disable no-param-reassign */
 
 import path from 'path';
-import type { PresetProperty, Options } from '@storybook/core-common';
+import type { PresetProperty, Options } from '@storybook/types';
 import type { FrameworkOptions, StorybookConfig } from './types';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   path.dirname(require.resolve(path.join('@storybook/preset-react-webpack', 'package.json'))),
-  path.dirname(require.resolve(path.join('@storybook/react', 'package.json'))),
 ];
 
 const defaultFrameworkOptions: FrameworkOptions = {
@@ -52,6 +51,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
       ) as '@storybook/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
+    renderer: path.dirname(require.resolve(path.join('@storybook/react', 'package.json'))),
   };
 };
 

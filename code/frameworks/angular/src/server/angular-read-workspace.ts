@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import { NodeJsSyncHost } from '@angular-devkit/core/node';
 import { workspaces } from '@angular-devkit/core';
 
@@ -17,7 +18,6 @@ export const readAngularWorkspaceConfig = async (
      * Apologies for the following line
      * If there's a better way to do it, let's do it
      */
-    /* eslint-disable global-require */
 
     // catch if nx.json does not exist
     require('@nrwl/workspace').readNxJson();

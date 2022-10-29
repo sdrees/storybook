@@ -1,6 +1,6 @@
 {
   "name": "storybook",
-  "version": "7.0.0-alpha.41",
+  "version": "7.0.0-alpha.46",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -27,7 +27,7 @@
     "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/cli": "7.0.0-alpha.41"
+    "@storybook/cli": "7.0.0-alpha.46"
   },
   "devDependencies": {
     "typescript": "~4.6.3"
@@ -35,5 +35,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "7ec6f916eb875bd2e3cf3aa6b1afcd1fe25d1637"
+  "gitHead": "c64b5be851ed2affac56e1daaac3f453fbe6f230"
 }

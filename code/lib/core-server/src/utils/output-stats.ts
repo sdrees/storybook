@@ -1,6 +1,6 @@
 import { stringifyStream } from '@discoveryjs/json-ext';
 import { logger } from '@storybook/node-logger';
-import type { Stats } from '@storybook/core-common';
+import type { Stats } from '@storybook/types';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';

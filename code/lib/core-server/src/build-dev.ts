@@ -1,15 +1,17 @@
 import type {
-  CLIOptions,
-  LoadOptions,
   BuilderOptions,
+  CLIOptions,
+  CoreConfig,
+  LoadOptions,
   Options,
   StorybookConfig,
-} from '@storybook/core-common';
+} from '@storybook/types';
 import {
-  resolvePathInStorybookCache,
-  loadAllPresets,
   cache,
+  loadAllPresets,
   loadMainConfig,
+  resolveAddonName,
+  resolvePathInStorybookCache,
   validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
@@ -34,7 +36,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     getServerPort(options.port),
     versionUpdates
       ? updateCheck(version)
-      : Promise.resolve({ success: false, data: {}, time: Date.now() }),
+      : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
     releaseNotes
       ? getReleaseNotesData(version, cache)
       : Promise.resolve(getReleaseNotesFailedState(version)),
@@ -82,12 +84,14 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
 
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
+      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],

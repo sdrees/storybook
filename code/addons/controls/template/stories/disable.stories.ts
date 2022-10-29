@@ -1,5 +1,5 @@
 import globalThis from 'global';
-import { PartialStoryFn, StoryContext } from '@storybook/csf';
+import type { PartialStoryFn, StoryContext } from '@storybook/types';
 
 export default {
   component: null,

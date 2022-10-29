@@ -1,5 +1,5 @@
 import React from 'react';
-import { Foo } from './types';
+import type { Foo } from './types';
 
 interface FooProps {
   bar: Foo['bar'];

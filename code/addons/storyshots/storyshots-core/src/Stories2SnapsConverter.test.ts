@@ -6,6 +6,7 @@ describe('getSnapshotFileName', () => {
   it('fileName is provided - snapshot is stored in __snapshots__ dir', () => {
     const context = { fileName: 'foo.js' };
 
+    // @ts-expect-error (TODO)
     const result = target.getSnapshotFileName(context);
     const platformAgnosticResult = result.replace(/\\|\//g, '/');
 
@@ -15,6 +16,7 @@ describe('getSnapshotFileName', () => {
   it('fileName with multiple extensions is provided - only the last extension is replaced', () => {
     const context = { fileName: 'foo.web.stories.js' };
 
+    // @ts-expect-error (TODO)
     const result = target.getSnapshotFileName(context);
     const platformAgnosticResult = result.replace(/\\|\//g, '/');
 
@@ -24,6 +26,7 @@ describe('getSnapshotFileName', () => {
   it('fileName with dir is provided - __snapshots__ dir is created inside another dir', () => {
     const context = { fileName: 'test/foo.js' };
 
+    // @ts-expect-error (TODO)
     const result = target.getSnapshotFileName(context);
     const platformAgnosticResult = result.replace(/\\|\//g, '/');
 

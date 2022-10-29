@@ -1,4 +1,4 @@
-import type { Options as CoreOptions } from '@storybook/core-common';
+import { Options as CoreOptions } from '@storybook/types';
 
 import { BuilderContext } from '@angular-devkit/architect';
 import { ExtraEntryPoint, StylePreprocessorOptions } from '@angular-devkit/build-angular';

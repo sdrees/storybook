@@ -1,4 +1,4 @@
-import { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
 import { expect } from '@storybook/jest';
 import { CallStates } from '@storybook/instrumenter';
 import { userEvent, within } from '@storybook/testing-library';

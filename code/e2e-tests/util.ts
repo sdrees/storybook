@@ -1,5 +1,7 @@
-/* eslint-disable jest/no-standalone-expect */
-import { expect, Page } from '@playwright/test';
+/* eslint-disable jest/no-standalone-expect, no-await-in-loop */
+import type { Page } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { toId } from '@storybook/csf';
 
 export class SbPage {
   readonly page: Page;
@@ -8,15 +10,25 @@ export class SbPage {
     this.page = page;
   }
 
-  async navigateToStory(title: string, name: string) {
-    const titleId = title.replace(/ /g, '-').toLowerCase();
-    const storyId = name.replace(/ /g, '-').toLowerCase();
+  async openComponent(title: string, hasRoot = true) {
+    const parts = title.split('/');
+    for (let i = hasRoot ? 1 : 0; i < parts.length; i += 1) {
+      const parentId = toId(parts.slice(0, i + 1).join('/'));
 
-    const titleLink = this.page.locator(`#${titleId}`);
-    if ((await titleLink.getAttribute('aria-expanded')) === 'false') {
-      await titleLink.click();
+      const parentLink = this.page.locator(`#${parentId}`);
+
+      await expect(parentLink).toBeVisible();
+      if ((await parentLink.getAttribute('aria-expanded')) === 'false') {
+        await parentLink.click();
+      }
     }
+  }
 
+  async navigateToStory(title: string, name: string) {
+    await this.openComponent(title);
+
+    const titleId = toId(title);
+    const storyId = toId(name);
     const storyLinkId = `#${titleId}--${storyId}`;
     await this.page.waitForSelector(storyLinkId);
     const storyLink = this.page.locator(storyLinkId);

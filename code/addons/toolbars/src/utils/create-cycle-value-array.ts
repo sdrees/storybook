@@ -1,4 +1,4 @@
-import { ToolbarItem, ToolbarItemType } from '../types';
+import type { ToolbarItem, ToolbarItemType } from '../types';
 
 const disallowedCycleableItemTypes: Array<ToolbarItemType> = ['reset'];
 

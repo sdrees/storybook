@@ -17,12 +17,12 @@
     on,
     Wrapper,
     WrapperData = {},
-  } = storyFn(); 
+  } = storyFn();
 
    const eventsFromArgTypes = Object.fromEntries(Object.entries(storyContext.argTypes)
       .filter(([k, v]) => v.action && props[k] != null)
       .map(([k, v]) => [v.action, props[k]]));
-    
+
   const events = {...eventsFromArgTypes, ...on};
 
   if (!Component) {

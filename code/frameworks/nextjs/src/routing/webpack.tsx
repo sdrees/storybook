@@ -1,4 +1,4 @@
-import { Configuration as WebpackConfig } from 'webpack';
+import type { Configuration as WebpackConfig } from 'webpack';
 import semver from 'semver';
 import { addScopedAlias, getNextjsVersion } from '../utils';
 

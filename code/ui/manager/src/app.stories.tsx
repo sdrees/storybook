@@ -8,7 +8,6 @@ import App from './app';
 import { PrettyFakeProvider, FakeProvider } from './FakeProvider';
 
 export default {
-  title: 'UI/App',
   component: App,
   parameters: {
     layout: 'fullscreen',

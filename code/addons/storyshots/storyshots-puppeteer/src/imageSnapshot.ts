@@ -1,5 +1,6 @@
 import { toMatchImageSnapshot } from 'jest-image-snapshot';
-import { defaultImageSnapshotConfig, ImageSnapshotConfig } from './config';
+import type { ImageSnapshotConfig } from './config';
+import { defaultImageSnapshotConfig } from './config';
 import { puppeteerTest } from './puppeteerTest';
 
 expect.extend({ toMatchImageSnapshot });

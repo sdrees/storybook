@@ -1,8 +1,9 @@
 import { join } from 'path';
-import type { DocsOptions, Options } from '@storybook/core-common';
+import type { DocsOptions, Options } from '@storybook/types';
 import { getRefs } from '@storybook/core-common';
 
 import { readTemplate } from './template';
+// eslint-disable-next-line import/no-cycle
 import { executor, getConfig } from '../index';
 import { safeResolve } from './safeResolve';
 

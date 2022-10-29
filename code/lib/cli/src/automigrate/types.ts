@@ -1,4 +1,4 @@
-import { JsPackageManager } from '../js-package-manager';
+import type { JsPackageManager } from '../js-package-manager';
 
 export interface CheckOptions {
   packageManager: JsPackageManager;

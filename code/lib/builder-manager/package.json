@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-manager",
-  "version": "7.0.0-alpha.41",
+  "version": "7.0.0-alpha.46",
   "description": "Storybook manager builder",
   "keywords": [
     "storybook"
@@ -42,9 +42,9 @@
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/core-common": "7.0.0-alpha.41",
-    "@storybook/node-logger": "7.0.0-alpha.41",
-    "@storybook/ui": "7.0.0-alpha.41",
+    "@storybook/core-common": "7.0.0-alpha.46",
+    "@storybook/manager": "7.0.0-alpha.46",
+    "@storybook/node-logger": "7.0.0-alpha.46",
     "@types/ejs": "^3.1.1",
     "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.10",
     "browser-assert": "^1.2.1",
@@ -54,6 +54,7 @@
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
     "process": "^0.11.10",
+    "slash": "^3.0.0",
     "util": "^0.12.4"
   },
   "devDependencies": {
@@ -68,5 +69,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "7ec6f916eb875bd2e3cf3aa6b1afcd1fe25d1637"
+  "gitHead": "c64b5be851ed2affac56e1daaac3f453fbe6f230"
 }

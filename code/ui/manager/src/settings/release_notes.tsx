@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useState, Fragment, ComponentProps } from 'react';
+import type { FC, ComponentProps } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { styled } from '@storybook/theming';
 import { Icons, Loader } from '@storybook/components';
 

@@ -1,8 +1,10 @@
-import React, { useMemo, ComponentProps, FC } from 'react';
+import type { ComponentProps, FC } from 'react';
+import React, { useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storybook/components';
+import type { Button } from '@storybook/components';
+import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 

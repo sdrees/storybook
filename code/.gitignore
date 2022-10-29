@@ -28,10 +28,8 @@ lib/**/dll
 built-storybooks
 cypress/videos
 cypress/screenshots
-examples/ember-cli/ember-output
 .verdaccio-cache
 tsconfig.tsbuildinfo
-examples/angular-cli/addon-jest.testresults.json
 junit.xml
 .next
 

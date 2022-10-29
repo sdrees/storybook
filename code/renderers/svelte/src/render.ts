@@ -1,15 +1,15 @@
-// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
-import type { ArgsStoryFn } from '@storybook/csf';
-import type { RenderContext } from '@storybook/store';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { SvelteComponentTyped } from 'svelte';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
-import { SvelteFramework } from './types';
+
+import type { SvelteFramework } from './types';
 
 const { document } = global;
 
-let previousComponent: SvelteFramework['component'] = null;
+let previousComponent: SvelteComponentTyped | null = null;
 
 function cleanUpPreviousStory() {
   if (!previousComponent) {
@@ -20,7 +20,7 @@ function cleanUpPreviousStory() {
 }
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, storyContext }: RenderContext<SvelteFramework>,
+  { storyFn, kind, name, showMain, showError, storyContext }: Store_RenderContext<SvelteFramework>,
   domElement: Element
 ) {
   cleanUpPreviousStory();

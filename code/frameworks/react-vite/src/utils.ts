@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 
 export function readPackageJson(): Record<string, any> | false {
   const packageJsonPath = path.resolve('package.json');

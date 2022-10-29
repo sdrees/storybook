@@ -1,7 +1,7 @@
-import { IOptions } from 'glob';
-import { Stories2SnapsConverter } from '../Stories2SnapsConverter';
-import { SupportedFramework } from '../frameworks';
-import { RenderTree } from '../frameworks/Loader';
+import type { IOptions } from 'glob';
+import type { Stories2SnapsConverter } from '../Stories2SnapsConverter';
+import type { SupportedFramework } from '../frameworks';
+import type { RenderTree } from '../frameworks/Loader';
 
 export interface TestMethodOptions {
   story: any;

@@ -2,6 +2,7 @@
 <!-- Button.stories.mdx -->
 
 import { Meta } from '@storybook/addon-docs';
+import { withActions } from '@storybook/addon-actions/decorator';
 
 import { Button } from './Button';
 
@@ -12,5 +13,6 @@ import { Button } from './Button';
       handles: ['mouseover', 'click .btn'],
     },
   }} 
-  component={Button}/>
+  component={Button}
+  decorators={[withActions]}/>
 ```

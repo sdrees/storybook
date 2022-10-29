@@ -2,6 +2,7 @@ import globalThis from 'global';
 
 export default {
   component: globalThis.Components.Button,
+  tags: ['docsPage'],
   args: { label: 'Click Me!' },
   parameters: {
     docs: {

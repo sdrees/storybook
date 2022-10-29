@@ -13,9 +13,8 @@ fs.readdirSync(fixturesDir).forEach((transformName) => {
   if (transformName === 'mdx-to-csf') return;
 
   const transformFixturesDir = path.join(fixturesDir, transformName);
-  describe(transformName, () =>
-    fs
-      .readdirSync(transformFixturesDir)
+  describe(`${transformName}`, () => {
+    fs.readdirSync(transformFixturesDir)
       .filter((fileName) => inputRegExp.test(fileName))
       .forEach((fileName) => {
         const inputPath = path.join(transformFixturesDir, fileName);
@@ -28,6 +27,6 @@ fs.readdirSync(fixturesDir).forEach((transformName) => {
               { path: inputPath, source: fs.readFileSync(inputPath, 'utf8') }
             )
           ).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
-      })
-  );
+      });
+  });
 });

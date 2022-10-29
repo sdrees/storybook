@@ -2,234 +2,234 @@
   "version": 2,
   "projects": {
     "@storybook/addon-a11y": {
+      "implicitDependencies": [],
       "root": "addons/a11y",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-actions": {
+      "implicitDependencies": [],
       "root": "addons/actions",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-backgrounds": {
+      "implicitDependencies": [],
       "root": "addons/backgrounds",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-controls": {
+      "implicitDependencies": [],
       "root": "addons/controls",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-docs": {
+      "implicitDependencies": [],
       "root": "addons/docs",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-essentials": {
+      "implicitDependencies": [],
       "root": "addons/essentials",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-highlight": {
+      "implicitDependencies": [],
       "root": "addons/highlight",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-interactions": {
+      "implicitDependencies": [],
       "root": "addons/interactions",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-jest": {
+      "implicitDependencies": [],
       "root": "addons/jest",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-links": {
+      "implicitDependencies": [],
       "root": "addons/links",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-measure": {
+      "implicitDependencies": [],
       "root": "addons/measure",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-outline": {
+      "implicitDependencies": [],
       "root": "addons/outline",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-storyshots": {
+      "implicitDependencies": [],
       "root": "addons/storyshots/storyshots-core",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-storyshots-puppeteer": {
+      "implicitDependencies": [],
       "root": "addons/storyshots/storyshots-puppeteer",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-storysource": {
+      "implicitDependencies": [],
       "root": "addons/storysource",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-toolbars": {
+      "implicitDependencies": [],
       "root": "addons/toolbars",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addon-viewport": {
+      "implicitDependencies": [],
       "root": "addons/viewport",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/addons": {
+      "implicitDependencies": [],
       "root": "lib/addons",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/angular": {
+      "implicitDependencies": [],
       "root": "frameworks/angular",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/api": {
+      "implicitDependencies": [],
       "root": "lib/api",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/blocks": {
-      "root": "lib/blocks",
-      "type": "library",
-      "implicitDependencies": []
+      "implicitDependencies": [],
+      "root": "ui/blocks",
+      "type": "library"
     },
     "@storybook/builder-manager": {
+      "implicitDependencies": [],
       "root": "lib/builder-manager",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/builder-vite": {
+      "implicitDependencies": [],
       "root": "lib/builder-vite",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/builder-webpack5": {
+      "implicitDependencies": [],
       "root": "lib/builder-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/channel-postmessage": {
+      "implicitDependencies": [],
       "root": "lib/channel-postmessage",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/channel-websocket": {
+      "implicitDependencies": [],
       "root": "lib/channel-websocket",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/channels": {
+      "implicitDependencies": [],
       "root": "lib/channels",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/cli": {
+      "implicitDependencies": [],
       "root": "lib/cli",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/client-api": {
+      "implicitDependencies": [],
       "root": "lib/client-api",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/client-logger": {
+      "implicitDependencies": [],
       "root": "lib/client-logger",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/codemod": {
+      "implicitDependencies": [],
       "root": "lib/codemod",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/components": {
-      "root": "lib/components",
-      "type": "library",
-      "implicitDependencies": []
+      "implicitDependencies": [],
+      "root": "ui/components",
+      "type": "library"
     },
     "@storybook/core-client": {
+      "implicitDependencies": [],
       "root": "lib/core-client",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/core-common": {
+      "implicitDependencies": [],
       "root": "lib/core-common",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/core-events": {
+      "implicitDependencies": [],
       "root": "lib/core-events",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/core-server": {
+      "implicitDependencies": [],
       "root": "lib/core-server",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/core-vite": {
+      "implicitDependencies": [],
       "root": "lib/core-vite",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/core-webpack": {
+      "implicitDependencies": [],
       "root": "lib/core-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/csf-tools": {
+      "implicitDependencies": [],
       "root": "lib/csf-tools",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/docs-tools": {
+      "implicitDependencies": [],
       "root": "lib/docs-tools",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/ember": {
+      "implicitDependencies": [],
       "root": "frameworks/ember",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/example-doc-blocks": {
+      "implicitDependencies": [],
       "root": "examples/doc-blocks",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/external-docs": {
+      "implicitDependencies": [],
       "root": "examples/external-docs",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/html": {
+      "implicitDependencies": [],
       "root": "renderers/html",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/html-webpack5": {
+      "implicitDependencies": [],
       "root": "frameworks/html-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/instrumenter": {
+      "implicitDependencies": [],
       "root": "lib/instrumenter",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/nextjs": {
       "root": "frameworks/nextjs",
@@ -237,214 +237,219 @@
       "implicitDependencies": []
     },
     "@storybook/node-logger": {
+      "implicitDependencies": [],
       "root": "lib/node-logger",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/postinstall": {
+      "implicitDependencies": [],
       "root": "lib/postinstall",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preact": {
+      "implicitDependencies": [],
       "root": "renderers/preact",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preact-webpack5": {
+      "implicitDependencies": [],
       "root": "frameworks/preact-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preset-html-webpack": {
+      "implicitDependencies": [],
       "root": "presets/html-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preset-preact-webpack": {
+      "implicitDependencies": [],
       "root": "presets/preact-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preset-react-webpack": {
+      "implicitDependencies": [],
       "root": "presets/react-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preset-server-webpack": {
+      "implicitDependencies": [],
       "root": "presets/server-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preset-svelte-webpack": {
+      "implicitDependencies": [],
       "root": "presets/svelte-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preset-vue-webpack": {
+      "implicitDependencies": [],
       "root": "presets/vue-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preset-vue3-webpack": {
+      "implicitDependencies": [],
       "root": "presets/vue3-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preset-web-components-webpack": {
+      "implicitDependencies": [],
       "root": "presets/web-components-webpack",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/preview-web": {
+      "implicitDependencies": [],
       "root": "lib/preview-web",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/react": {
+      "implicitDependencies": [],
       "root": "renderers/react",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/react-vite": {
+      "implicitDependencies": [],
       "root": "frameworks/react-vite",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/react-webpack5": {
+      "implicitDependencies": [],
       "root": "frameworks/react-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/router": {
+      "implicitDependencies": [],
       "root": "lib/router",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/server": {
+      "implicitDependencies": [],
       "root": "renderers/server",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/server-webpack5": {
+      "implicitDependencies": [],
       "root": "frameworks/server-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/source-loader": {
+      "implicitDependencies": [],
       "root": "lib/source-loader",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/store": {
+      "implicitDependencies": [],
       "root": "lib/store",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/svelte": {
+      "implicitDependencies": [],
       "root": "renderers/svelte",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/svelte-vite": {
+      "implicitDependencies": [],
       "root": "frameworks/svelte-vite",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/svelte-webpack5": {
+      "implicitDependencies": [],
       "root": "frameworks/svelte-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/telemetry": {
+      "implicitDependencies": [],
       "root": "lib/telemetry",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/theming": {
+      "implicitDependencies": [],
       "root": "lib/theming",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
-    "@storybook/ui": {
+    "@storybook/types": {
+      "implicitDependencies": [],
+      "root": "lib/types",
+      "type": "library"
+    },
+    "@storybook/manager": {
+      "implicitDependencies": [],
       "root": "ui/manager",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/vue": {
+      "implicitDependencies": [],
       "root": "renderers/vue",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "@storybook/vue-webpack5": {
-      "root": "frameworks/vue-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/vue-vite": {
+      "implicitDependencies": [],
       "root": "frameworks/vue-vite",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
+    },
+    "@storybook/vue-webpack5": {
+      "implicitDependencies": [],
+      "root": "frameworks/vue-webpack5",
+      "type": "library"
     },
     "@storybook/vue3": {
+      "implicitDependencies": [],
       "root": "renderers/vue3",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/vue3-vite": {
+      "implicitDependencies": [],
       "root": "frameworks/vue3-vite",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/vue3-webpack5": {
+      "implicitDependencies": [],
       "root": "frameworks/vue3-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/web-components": {
+      "implicitDependencies": [],
       "root": "renderers/web-components",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/web-components-vite": {
+      "implicitDependencies": [],
       "root": "frameworks/web-components-vite",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/web-components-webpack5": {
+      "implicitDependencies": [],
       "root": "frameworks/web-components-webpack5",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "ember-example": {
+      "implicitDependencies": [],
       "root": "examples/ember-cli",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "sb": {
+      "implicitDependencies": [],
       "root": "lib/cli-sb",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "server-kitchen-sink": {
+      "implicitDependencies": [],
       "root": "examples/server-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "standalone-preview": {
+      "implicitDependencies": [],
       "root": "examples/standalone-preview",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "storybook": {
+      "implicitDependencies": [],
       "root": "lib/cli-storybook",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "vue-3-cli-example": {
+      "implicitDependencies": [],
       "root": "examples/vue-3-cli",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     }
   }
 }

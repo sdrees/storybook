@@ -2,7 +2,12 @@ import fs from 'fs-extra';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 
-import type { DocsOptions, IndexerOptions, Options, StoryIndexer } from '@storybook/core-common';
+import type {
+  CoreCommon_IndexerOptions,
+  CoreCommon_StoryIndexer,
+  DocsOptions,
+  Options,
+} from '@storybook/types';
 import { logger } from '@storybook/node-logger';
 import { loadCsf } from '@storybook/csf-tools';
 
@@ -147,8 +152,8 @@ export async function webpack(
   return result;
 }
 
-export const storyIndexers = async (indexers: StoryIndexer[] | null) => {
-  const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
+export const storyIndexers = async (indexers: CoreCommon_StoryIndexer[] | null) => {
+  const mdxIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     // @ts-expect-error (Converted from ts-ignore)
     const { compile } = await import('@storybook/mdx2-csf');

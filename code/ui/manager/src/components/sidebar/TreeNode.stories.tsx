@@ -4,7 +4,7 @@ import { HighlightStyles } from './HighlightStyles';
 import { ComponentNode, DocumentNode, GroupNode, StoryNode } from './TreeNode';
 
 export default {
-  title: 'UI/Sidebar/TreeNode',
+  title: 'Sidebar/TreeNode',
   parameters: { layout: 'fullscreen' },
   component: StoryNode,
 };

@@ -10,7 +10,7 @@ import {
 import { writeFileAsJson, copyTemplate } from '../../helpers';
 import { getBaseDir } from '../../dirs';
 import { baseGenerator } from '../baseGenerator';
-import { Generator } from '../types';
+import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 
 function editAngularAppTsConfig() {

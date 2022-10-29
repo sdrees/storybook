@@ -2,12 +2,13 @@ import React, { Fragment } from 'react';
 import { ActiveTabs } from '@storybook/api';
 import type { DecoratorFn } from '@storybook/react';
 
-import { Mobile, MobileProps } from './mobile';
+import type { MobileProps } from './mobile';
+import { Mobile } from './mobile';
 
 import { mockProps, realProps, MockPage } from './app.mockdata';
 
 export default {
-  title: 'UI/Layout/Mobile',
+  title: 'Layout/Mobile',
   component: Mobile,
   parameters: { passArgsFirst: false },
   decorators: [

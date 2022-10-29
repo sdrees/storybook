@@ -1,6 +1,6 @@
 import global from 'global';
 import * as React from 'react';
-import { useChannel, useParameter, StoryId } from '@storybook/api';
+import { useChannel, useParameter } from '@storybook/api';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -8,8 +8,15 @@ import {
   STORY_THREW_EXCEPTION,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { EVENTS, Call, CallStates, ControlStates, LogItem } from '@storybook/instrumenter';
+import {
+  EVENTS,
+  type Call,
+  CallStates,
+  type ControlStates,
+  type LogItem,
+} from '@storybook/instrumenter';
 
+import type { StoryId } from '@storybook/types';
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { TabIcon, TabStatus } from './components/TabStatus';
 

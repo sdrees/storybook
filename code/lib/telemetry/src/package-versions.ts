@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { Dependency } from './types';
+import type { Dependency } from './types';
 
 export const getActualPackageVersions = async (packages: Record<string, Partial<Dependency>>) => {
   const packageNames = Object.keys(packages);

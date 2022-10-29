@@ -47,6 +47,10 @@ module.exports = {
     '/examples/*/src/*.*',
     '/examples/*/src/*/*.*',
     '/examples/*/src/*/*/*.*',
+    // TODO: Can not get svelte-jester to work, but also not necessary for this test, as it is run by tsc/svelte-check.
+    '/renderers/svelte/src/public-types.test.ts',
+    '/renderers/vue/src/public-types.test.ts',
+    '/renderers/vue3/src/public-types.test.ts',
   ],
   collectCoverage: false,
   collectCoverageFrom: [

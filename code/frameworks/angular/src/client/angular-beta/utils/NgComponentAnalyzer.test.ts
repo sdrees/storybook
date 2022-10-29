@@ -1,6 +1,7 @@
 import {
-  Component,
   ComponentFactory,
+  Type,
+  Component,
   ComponentFactoryResolver,
   Directive,
   EventEmitter,
@@ -9,7 +10,6 @@ import {
   Input,
   Output,
   Pipe,
-  Type,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';

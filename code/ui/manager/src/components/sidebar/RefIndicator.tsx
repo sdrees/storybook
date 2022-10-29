@@ -1,5 +1,6 @@
 import global from 'global';
-import React, { FC, useMemo, ComponentProps, useCallback, forwardRef } from 'react';
+import type { FC, ComponentProps } from 'react';
+import React, { useMemo, useCallback, forwardRef } from 'react';
 
 import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
@@ -7,8 +8,9 @@ import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/api';
 
 import { MenuItemIcon } from './Menu';
-import { RefType } from './types';
-import { getStateType } from './utils';
+import type { RefType } from './types';
+
+import type { getStateType } from './utils';
 
 const { document, window: globalWindow } = global;
 

@@ -1,14 +1,17 @@
 import { sanitize } from '@storybook/csf';
-import type { AnyFramework } from '@storybook/csf';
+import type {
+  AnyFramework,
+  Store_ModuleExports,
+  Store_NormalizedComponentAnnotations,
+} from '@storybook/types';
 
-import type { ModuleExports, NormalizedComponentAnnotations } from '../types';
 import { normalizeInputTypes } from './normalizeInputTypes';
 
 export function normalizeComponentAnnotations<TFramework extends AnyFramework>(
-  defaultExport: ModuleExports['default'],
+  defaultExport: Store_ModuleExports['default'],
   title: string = defaultExport.title,
   importPath?: string
-): NormalizedComponentAnnotations<TFramework> {
+): Store_NormalizedComponentAnnotations<TFramework> {
   const { id, argTypes } = defaultExport;
   return {
     id: sanitize(id || title),

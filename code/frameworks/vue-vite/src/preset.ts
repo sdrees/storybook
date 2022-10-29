@@ -1,5 +1,5 @@
 import path from 'path';
-import type { PresetProperty } from '@storybook/core-common';
+import type { PresetProperty } from '@storybook/types';
 import type { StorybookConfig } from '@storybook/builder-vite';
 import { vueDocgen } from './plugins/vue-docgen';
 
@@ -14,10 +14,9 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
       ) as '@storybook/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework?.options.builder || {},
     },
+    renderer: '@storybook/vue',
   };
 };
-
-export const addons: StorybookConfig['addons'] = ['@storybook/vue'];
 
 export const typescript: PresetProperty<'typescript', StorybookConfig> = async (config) => ({
   ...config,

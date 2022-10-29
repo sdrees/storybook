@@ -415,7 +415,8 @@ describe('Instrumenter', () => {
   it("re-throws anything that isn't an error", () => {
     const { fn } = instrument({
       fn: () => {
-        throw 'Boom!'; // eslint-disable-line no-throw-literal
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw 'Boom!';
       },
     });
     expect(fn).toThrow('Boom!');

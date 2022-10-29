@@ -1,4 +1,5 @@
-import React, { Component, Fragment, ReactElement } from 'react';
+import type { ReactElement } from 'react';
+import React, { Component, Fragment } from 'react';
 import { shortcutToHumanString } from '@storybook/api/shortcut';
 import { styled } from '@storybook/theming';
 import { Tabs, Icons, IconButton } from '@storybook/components';
@@ -17,7 +18,9 @@ export interface SafeTabProps {
   children: ReactElement;
 }
 
-const SafeTabContent = React.memo<SafeTabProps>(({ children }) => children);
+const SafeTabContent = React.memo<SafeTabProps>(function SafeTabContent({ children }) {
+  return children;
+});
 
 class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
   constructor(props: SafeTabProps) {

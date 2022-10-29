@@ -1,5 +1,4 @@
-/* eslint-disable no-useless-constructor */
-import { Directive, ElementRef, AfterViewInit, Input } from '@angular/core';
+import { ElementRef, AfterViewInit, Directive, Input } from '@angular/core';
 
 /**
  * This is an Angular Directive

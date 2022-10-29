@@ -1,10 +1,12 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 
 import { styled } from '@storybook/theming';
 
-import { NodeResult } from 'axe-core';
+import type { NodeResult } from 'axe-core';
 import { Rules } from './Rules';
-import { RuleType } from '../A11YPanel';
+
+import type { RuleType } from '../A11YPanel';
 import HighlightToggle from './HighlightToggle';
 
 const Item = styled.li({

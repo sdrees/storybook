@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 /* global window */
 
-import type { ArgType, ArgTypes } from '@storybook/api';
+import { API_ArgType, API_ArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
-import type {
+import {
   Argument,
   Class,
   CompodocJson,
@@ -221,10 +221,11 @@ const resolveTypealias = (compodocType: string): string => {
 };
 
 export const extractArgTypesFromData = (componentData: Class | Directive | Injectable | Pipe) => {
-  const sectionToItems: Record<string, ArgType[]> = {};
+  const sectionToItems: Record<string, API_ArgType[]> = {};
   const compodocClasses = ['component', 'directive'].includes(componentData.type)
     ? ['propertiesClass', 'methodsClass', 'inputsClass', 'outputsClass']
     : ['properties', 'methods'];
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   type COMPODOC_CLASS =
     | 'properties'
     | 'methods'
@@ -278,7 +279,7 @@ export const extractArgTypesFromData = (componentData: Class | Directive | Injec
     'content child',
     'content children',
   ];
-  const argTypes: ArgTypes = {};
+  const argTypes: API_ArgTypes = {};
   SECTIONS.forEach((section) => {
     const items = sectionToItems[section];
     if (items) {

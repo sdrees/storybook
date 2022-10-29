@@ -1,5 +1,5 @@
 import path from 'path';
-import { StorybookConfig } from '@storybook/core-common';
+import { StorybookConfig } from '@storybook/types';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = [], options) => {

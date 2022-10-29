@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/web-components';
-import { Header, HeaderProps } from './Header';
+import type { HeaderProps } from './Header';
+import { Header } from './Header';
 
 export default {
   title: 'Example/Header',

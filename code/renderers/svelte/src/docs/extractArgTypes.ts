@@ -1,4 +1,4 @@
-import type { SBScalarType, StrictArgTypes } from '@storybook/csf';
+import type { SBScalarType, StrictArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import type {
   SvelteComponentDoc,
@@ -89,7 +89,7 @@ export const createArgTypes = (docgen: SvelteComponentDoc) => {
 
 /**
  * Function to convert the type from sveltedoc-parser to a storybook type
- * @param typeName
+ * @param type
  * @returns string
  */
 const parseTypeToControl = (type: JSDocType | undefined): any => {

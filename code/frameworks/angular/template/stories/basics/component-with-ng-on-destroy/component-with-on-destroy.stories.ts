@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import type { Meta, StoryFn } from '@storybook/angular';
+import { OnDestroy, OnInit, Component } from '@angular/core';
+import { Meta, StoryFn } from '@storybook/angular';
 
 @Component({
   selector: 'on-destroy',

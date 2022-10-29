@@ -33,6 +33,7 @@ export default function csfPlugin(svelteOptions?: Options): PluginOption {
       const { stories } = all;
       const storyDef = Object.entries<any>(stories)
         .filter(([, def]) => !def.template)
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         .map(([id]) => `export const ${id} = __storiesMetaData.stories[${JSON.stringify(id)}];`)
         .join('\n');
 
@@ -40,6 +41,7 @@ export default function csfPlugin(svelteOptions?: Options): PluginOption {
 
       const namedExportsOrder = Object.entries<any>(stories)
         .filter(([, def]) => !def.template)
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         .map(([id]) => id);
 
       const output = [

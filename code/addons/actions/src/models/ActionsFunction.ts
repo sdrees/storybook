@@ -1,5 +1,5 @@
-import { ActionOptions } from './ActionOptions';
-import { ActionsMap } from './ActionsMap';
+import type { ActionOptions } from './ActionOptions';
+import type { ActionsMap } from './ActionsMap';
 
 export interface ActionsFunction {
   <T extends string>(handlerMap: Record<T, string>, options?: ActionOptions): ActionsMap<T>;

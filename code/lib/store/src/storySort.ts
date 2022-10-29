@@ -1,11 +1,14 @@
-import { StorySortComparatorV7, StorySortObjectParameter } from '@storybook/addons';
-import { IndexEntry } from './types';
+import type {
+  Addon_StorySortComparatorV7,
+  Addon_StorySortObjectParameter,
+  Addon_IndexEntry,
+} from '@storybook/types';
 
 const STORY_KIND_PATH_SEPARATOR = /\s*\/\s*/;
 
 export const storySort =
-  (options: StorySortObjectParameter = {}): StorySortComparatorV7 =>
-  (a: IndexEntry, b: IndexEntry): number => {
+  (options: Addon_StorySortObjectParameter = {}): Addon_StorySortComparatorV7 =>
+  (a: Addon_IndexEntry, b: Addon_IndexEntry): number => {
     // If the two stories have the same story kind, then use the default
     // ordering, which is the order they are defined in the story file.
     // only when includeNames is falsy

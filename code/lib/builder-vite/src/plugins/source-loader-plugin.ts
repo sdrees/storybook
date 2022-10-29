@@ -53,6 +53,7 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
       async transform(src: string, id: string) {
         if (id.match(storyPattern)) {
           let code: string = await sourceLoaderTransform.call(mockClassLoader(id), src);
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           const [_, sourceString] = code.match(storySourcePattern) ?? [null, null];
           if (sourceString) {
             const map = storySources.get(config);

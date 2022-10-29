@@ -1,4 +1,5 @@
-import React, { Fragment, FC } from 'react';
+import type { FC } from 'react';
+import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
 
 const positiveConsoleRegex = /\[32m(.*?)\[39m/;

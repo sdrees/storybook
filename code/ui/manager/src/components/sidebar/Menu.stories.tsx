@@ -1,5 +1,6 @@
 import { expect } from '@storybook/jest';
-import React, { Fragment, FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { Fragment } from 'react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
@@ -9,7 +10,7 @@ import { useMenu } from '../../containers/menu';
 
 export default {
   component: MenuItemIcon,
-  title: 'UI/Sidebar/Menu',
+  title: 'Sidebar/Menu',
   decorators: [
     (StoryFn: FunctionComponent) => (
       <Fragment>

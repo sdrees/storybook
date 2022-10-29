@@ -1,12 +1,13 @@
-import type { Args } from '@storybook/api';
+import { describe, expect, test } from '@jest/globals';
+import type { API_Args } from '@storybook/types';
 import { generateSvelteSource } from './sourceDecorator';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
-  test: (val) => typeof val === 'string',
+  test: (val: unknown) => typeof val === 'string',
 });
 
-function generateForArgs(args: Args, slotProperty: string = null) {
+function generateForArgs(args: API_Args, slotProperty: string | null = null) {
   return generateSvelteSource({ name: 'Component' }, args, {}, slotProperty);
 }
 
@@ -42,6 +43,6 @@ describe('generateSvelteSource', () => {
     `);
   });
   test('component is not set', () => {
-    expect(generateSvelteSource(null, null, null, null)).toBeNull();
+    expect(generateSvelteSource(null, {}, {}, null)).toBeNull();
   });
 });

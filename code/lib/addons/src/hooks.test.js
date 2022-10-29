@@ -1,14 +1,12 @@
 import { useParameter, useStoryContext } from './hooks';
 
-const { window: globalWindow } = global;
-
 describe('addons/hooks', () => {
   beforeEach(() => {
-    globalWindow.STORYBOOK_HOOKS_CONTEXT = undefined;
+    global.STORYBOOK_HOOKS_CONTEXT = undefined;
   });
 
   afterEach(() => {
-    globalWindow.STORYBOOK_HOOKS_CONTEXT = undefined;
+    global.STORYBOOK_HOOKS_CONTEXT = undefined;
   });
 
   describe('useStoryContext', () => {
@@ -21,7 +19,7 @@ describe('addons/hooks', () => {
 
   describe('useParameter', () => {
     beforeEach(() => {
-      globalWindow.STORYBOOK_HOOKS_CONTEXT = {
+      global.STORYBOOK_HOOKS_CONTEXT = {
         currentContext: {
           parameters: {
             'undefined key': undefined,

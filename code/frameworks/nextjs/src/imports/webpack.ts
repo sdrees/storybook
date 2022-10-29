@@ -1,6 +1,6 @@
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { loadConfig } from 'tsconfig-paths';
-import { Configuration as WebpackConfig } from 'webpack';
+import type { Configuration as WebpackConfig } from 'webpack';
 
 export const configureImports = (baseConfig: WebpackConfig): void => {
   const configLoadResult = loadConfig();

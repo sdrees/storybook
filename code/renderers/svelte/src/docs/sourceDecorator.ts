@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, useEffect } from '@storybook/addons';
 import { deprecate } from '@storybook/client-logger';
-import type { ArgTypes, Args, StoryContext, AnyFramework } from '@storybook/csf';
+import type { ArgTypes, Args, StoryContext, AnyFramework } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
@@ -64,6 +64,7 @@ function getComponentName(component: any): string | null {
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { __docgen = {} } = component;
   let { name } = __docgen;
 
@@ -89,7 +90,7 @@ export function generateSvelteSource(
   component: any,
   args: Args,
   argTypes: ArgTypes,
-  slotProperty?: string
+  slotProperty?: string | null
 ): string | null {
   const name = getComponentName(component);
 
@@ -115,7 +116,7 @@ export function generateSvelteSource(
 /**
  * Check if the story component is a wrapper to the real component.
  *
- * A component can be annoted with @wrapper to indicate that
+ * A component can be annotated with @wrapper to indicate that
  * it's just a wrapper for the real tested component. If it's the case
  * then the code generated references the real component, not the wrapper.
  *
@@ -125,6 +126,7 @@ export function generateSvelteSource(
  * @param component Component
  */
 function getWrapperProperties(component: any) {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { __docgen } = component;
   if (!__docgen) {
     return { wrapper: false };
@@ -152,6 +154,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<AnyFramework
   const story = storyFn();
 
   let source: string;
+
   useEffect(() => {
     if (!skip && source) {
       channel.emit(SNIPPET_RENDERED, (context || {}).id, source);

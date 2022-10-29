@@ -4,7 +4,8 @@
  */
 import global from 'global';
 import { draw } from './canvas';
-import { labelStacks, Label, LabelStack } from './labels';
+import type { Label, LabelStack } from './labels';
+import { labelStacks } from './labels';
 
 const colors = {
   margin: '#f6b26ba8',

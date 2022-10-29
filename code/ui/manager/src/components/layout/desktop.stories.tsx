@@ -3,13 +3,14 @@ import type { DecoratorFn } from '@storybook/react';
 
 import isChromatic from 'chromatic/isChromatic';
 
-import { Desktop, DesktopProps } from './desktop';
+import type { DesktopProps } from './desktop';
+import { Desktop } from './desktop';
 
 import { store } from './persist';
 import { mockProps, realProps, MockPage } from './app.mockdata';
 
 export default {
-  title: 'UI/Layout/Desktop',
+  title: 'Layout/Desktop',
   component: Desktop,
   parameters: { passArgsFirst: false },
   decorators: [

@@ -1,8 +1,7 @@
-import type { RenderContext } from '@storybook/store';
-import type { ArgsStoryFn } from '@storybook/csf';
+import { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import { renderNgApp } from './angular/helpers';
-import type { AngularFramework } from './types';
+import { AngularFramework } from './types';
 
 import { RendererFactory } from './angular-beta/RendererFactory';
 
@@ -17,7 +16,7 @@ export async function renderToDOM(
     forceRemount,
     storyContext: { parameters, component },
     id,
-  }: RenderContext<AngularFramework>,
+  }: Store_RenderContext<AngularFramework>,
   element: HTMLElement
 ) {
   showMain();

@@ -1,3 +1,4 @@
+import { describe, expect } from '@jest/globals';
 import svelteDoc from 'sveltedoc-parser';
 import * as fs from 'fs';
 import { createArgTypes } from './extractArgTypes';

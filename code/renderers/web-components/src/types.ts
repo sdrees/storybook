@@ -1,4 +1,4 @@
-import type { StoryContext as StoryContextBase } from '@storybook/csf';
+import type { StoryContext as StoryContextBase } from '@storybook/types';
 import type { TemplateResult, SVGTemplateResult } from 'lit-html';
 
 export type StoryFnHtmlReturnType = string | Node | TemplateResult | SVGTemplateResult;

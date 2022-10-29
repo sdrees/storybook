@@ -1,7 +1,7 @@
-import { NextConfig } from 'next';
+import type { NextConfig } from 'next';
 import { getCssModuleLocalIdent } from 'next/dist/build/webpack/config/blocks/css/loaders/getCssModuleLocalIdent';
 import { cssFileResolve } from 'next/dist/build/webpack/config/blocks/css/loaders/file-resolve';
-import { Configuration as WebpackConfig } from 'webpack';
+import type { Configuration as WebpackConfig } from 'webpack';
 import semver from 'semver';
 import { scopedResolve } from '../utils';
 

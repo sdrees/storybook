@@ -15,14 +15,16 @@ interface ButtonProps {
   children: React.ReactNode;
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ disabled = false, variant = 'small', children }, ref) => (
-    // eslint-disable-next-line react/button-has-type
-    <button disabled={disabled} ref={ref}>
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  { disabled = false, variant = 'small', children },
+  ref
+) {
+  return (
+    <button type="button" disabled={disabled} ref={ref}>
       {children} {variant}
     </button>
-  )
-);
+  );
+});
 
 export default Button;
 

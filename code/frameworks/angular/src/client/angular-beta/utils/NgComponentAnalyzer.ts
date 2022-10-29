@@ -1,10 +1,10 @@
 import {
+  Type,
   Component,
   Directive,
   Input,
   Output,
   Pipe,
-  Type,
   ɵReflectionCapabilities as ReflectionCapabilities,
 } from '@angular/core';
 

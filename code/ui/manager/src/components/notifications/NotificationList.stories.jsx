@@ -6,7 +6,7 @@ import itemMeta, * as itemStories from './NotificationItem.stories.jsx';
 
 export default {
   component: NotificationList,
-  title: 'UI/Notifications/NotificationList',
+  title: 'Notifications/NotificationList',
   decorators: [
     (StoryFn) => (
       <LocationProvider>

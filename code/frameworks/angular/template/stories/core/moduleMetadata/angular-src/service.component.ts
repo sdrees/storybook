@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { OnInit, Component, Input } from '@angular/core';
 import { DummyService } from './dummy.service';
 
 @Component({
@@ -16,7 +16,6 @@ export class ServiceComponent implements OnInit {
   @Input()
   name?: any;
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(private dummy: DummyService) {}
 
   async ngOnInit() {

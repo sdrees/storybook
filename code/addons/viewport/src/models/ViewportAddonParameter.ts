@@ -1,4 +1,4 @@
-import { ViewportMap } from './Viewport';
+import type { ViewportMap } from './Viewport';
 
 export interface ViewportAddonParameter {
   disable?: boolean;

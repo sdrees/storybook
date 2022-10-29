@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import mapValues from 'lodash/mapValues';
-import type { SBType } from '@storybook/csf';
+import type { SBType } from '@storybook/types';
 import type { PTType } from './types';
 import { includesQuotes, trimQuotes } from '../utils';
 

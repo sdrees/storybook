@@ -1,5 +1,6 @@
 import { parse } from './acornParser';
-import { InspectionResult, InspectionType } from './types';
+import type { InspectionResult } from './types';
+import { InspectionType } from './types';
 
 export function inspectValue(value: string): InspectionResult {
   try {

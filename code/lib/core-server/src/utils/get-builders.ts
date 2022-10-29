@@ -1,4 +1,4 @@
-import type { Options, CoreConfig, Builder } from '@storybook/core-common';
+import type { Options, CoreConfig, Builder } from '@storybook/types';
 
 async function getManagerBuilder() {
   return import('@storybook/builder-manager');

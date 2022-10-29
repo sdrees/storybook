@@ -1,4 +1,4 @@
-import { StoryWrapper, LegacyStoryFn, StoryContext } from './types';
+import type { Addon_StoryWrapper, Addon_LegacyStoryFn, Addon_StoryContext } from '@storybook/types';
 
 type MakeDecoratorResult = (...args: any) => any;
 
@@ -6,7 +6,7 @@ interface MakeDecoratorOptions {
   name: string;
   parameterName: string;
   skipIfNoParametersOrOptions?: boolean;
-  wrapper: StoryWrapper;
+  wrapper: Addon_StoryWrapper;
 }
 
 export const makeDecorator = ({
@@ -15,22 +15,23 @@ export const makeDecorator = ({
   wrapper,
   skipIfNoParametersOrOptions = false,
 }: MakeDecoratorOptions): MakeDecoratorResult => {
-  const decorator: any = (options: object) => (storyFn: LegacyStoryFn, context: StoryContext) => {
-    const parameters = context.parameters && context.parameters[parameterName];
+  const decorator: any =
+    (options: object) => (storyFn: Addon_LegacyStoryFn, context: Addon_StoryContext) => {
+      const parameters = context.parameters && context.parameters[parameterName];
 
-    if (parameters && parameters.disable) {
-      return storyFn(context);
-    }
+      if (parameters && parameters.disable) {
+        return storyFn(context);
+      }
 
-    if (skipIfNoParametersOrOptions && !options && !parameters) {
-      return storyFn(context);
-    }
+      if (skipIfNoParametersOrOptions && !options && !parameters) {
+        return storyFn(context);
+      }
 
-    return wrapper(storyFn, context, {
-      options,
-      parameters,
-    });
-  };
+      return wrapper(storyFn, context, {
+        options,
+        parameters,
+      });
+    };
 
   return (...args: any) => {
     // Used without options as .addDecorator(decorator)

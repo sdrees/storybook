@@ -1,4 +1,5 @@
-import React, { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
+import React from 'react';
 import {
   Button,
   IconButton,
@@ -9,11 +10,13 @@ import {
   WithTooltip,
   Bar,
 } from '@storybook/components';
-import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
+import type { Call, ControlStates } from '@storybook/instrumenter';
+import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 
 import { StatusBadge } from './StatusBadge';
-import { Controls } from './InteractionsPanel';
+
+import type { Controls } from './InteractionsPanel';
 
 const SubnavWrapper = styled.div(({ theme }) => ({
   background: theme.background.app,

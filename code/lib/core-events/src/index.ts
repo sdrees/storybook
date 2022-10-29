@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/naming-convention
 enum events {
   CHANNEL_CREATED = 'channelCreated',
   // There was an error executing the config, likely an bug in the user's preview.js
@@ -8,8 +9,10 @@ enum events {
   STORY_SPECIFIED = 'storySpecified',
   // Emitted by Provider.setOptions is called from an manager-addon or manager.js file
   SET_CONFIG = 'setConfig',
-  // Emitted by the preview whenever the list of stories changes (in batches)
+  // Emitted by the preview whenever the list of stories changes (in batches) - legacy pre-7.0 event
   SET_STORIES = 'setStories',
+  // Emitted by the preview whenever the list of entries changes - legacy event for v6 store
+  SET_INDEX = 'setIndex',
   // Set the current story selection in the preview
   SET_CURRENT_STORY = 'setCurrentStory',
   // The current story changed due to the above
@@ -70,6 +73,7 @@ export const {
   STORY_INDEX_INVALIDATED,
   STORY_SPECIFIED,
   SET_STORIES,
+  SET_INDEX,
   SET_CONFIG,
   SET_CURRENT_STORY,
   CURRENT_STORY_WAS_SET,

@@ -3,7 +3,8 @@ import { addons, types } from '@storybook/addons';
 import { ADDON_ID, PANEL_ID, PARAM_KEY } from './constants';
 import { VisionSimulator } from './components/VisionSimulator';
 import { A11YPanel } from './components/A11YPanel';
-import { A11yContextProvider, Results } from './components/A11yContext';
+import type { Results } from './components/A11yContext';
+import { A11yContextProvider } from './components/A11yContext';
 
 addons.register(ADDON_ID, (api) => {
   addons.add(PANEL_ID, {

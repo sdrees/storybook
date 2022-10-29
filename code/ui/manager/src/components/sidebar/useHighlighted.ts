@@ -1,18 +1,12 @@
 import global from 'global';
-import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useStorybookApi } from '@storybook/api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
-import { CombinedDataset, Highlight, Selection } from './types';
+import type { CombinedDataset, Highlight, Selection } from './types';
+// eslint-disable-next-line import/no-cycle
 import { cycle, isAncestor, scrollIntoView } from './utils';
 
 const { document, window: globalWindow } = global;

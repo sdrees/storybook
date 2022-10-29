@@ -6,7 +6,7 @@ import type {
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 const normalizeType = (type: InputType['type']): StrictInputType['type'] => {
   return typeof type === 'string' ? { name: type } : type;

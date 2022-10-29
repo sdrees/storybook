@@ -1,5 +1,5 @@
 import globalThis from 'global';
-import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
+import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { pick } from 'lodash';

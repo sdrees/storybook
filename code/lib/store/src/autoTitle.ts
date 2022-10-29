@@ -1,15 +1,10 @@
 import slash from 'slash';
 import { dedent } from 'ts-dedent';
 import { once } from '@storybook/client-logger';
+import type { Store_NormalizedStoriesSpecifierEntry } from '@storybook/types';
 
 // FIXME: types duplicated type from `core-common', to be
 // removed when we remove v6 back-compat.
-interface NormalizedStoriesSpecifier {
-  titlePrefix?: string;
-  directory: string;
-  files?: string;
-  importPathMatcher: RegExp;
-}
 
 const stripExtension = (path: string[]) => {
   let parts = [...path];
@@ -52,7 +47,7 @@ function pathJoin(paths: string[]): string {
 
 export const userOrAutoTitleFromSpecifier = (
   fileName: string | number,
-  entry: NormalizedStoriesSpecifier,
+  entry: Store_NormalizedStoriesSpecifierEntry,
   userTitle?: string
 ) => {
   const { directory, importPathMatcher, titlePrefix = '' } = entry || {};
@@ -91,7 +86,7 @@ export const userOrAutoTitleFromSpecifier = (
 
 export const userOrAutoTitle = (
   fileName: string,
-  storiesEntries: NormalizedStoriesSpecifier[],
+  storiesEntries: Store_NormalizedStoriesSpecifierEntry[],
   userTitle?: string
 ) => {
   for (let i = 0; i < storiesEntries.length; i += 1) {

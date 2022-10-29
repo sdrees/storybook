@@ -1,24 +1,25 @@
 import { useStorybookApi } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import Downshift, { DownshiftState, StateChangeOptions } from 'downshift';
-import Fuse, { FuseOptions } from 'fuse.js';
+import type { DownshiftState, StateChangeOptions } from 'downshift';
+import Downshift from 'downshift';
+import type { FuseOptions } from 'fuse.js';
+import Fuse from 'fuse.js';
 import global from 'global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
+// eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from './Sidebar';
-import {
+import type {
   CombinedDataset,
   SearchItem,
   SearchResult,
   DownshiftItem,
   SearchChildrenFn,
   Selection,
-  isSearchResult,
-  isExpandType,
-  isClearType,
-  isCloseType,
 } from './types';
+import { isSearchResult, isExpandType, isClearType, isCloseType } from './types';
+// eslint-disable-next-line import/no-cycle
 import { searchItem } from './utils';
 
 const { document } = global;
@@ -151,226 +152,224 @@ export const Search = React.memo<{
   getLastViewed: () => Selection[];
   clearLastViewed: () => void;
   initialQuery?: string;
-}>(
-  ({
-    children,
-    dataset,
-    isLoading = false,
-    enableShortcuts = true,
-    getLastViewed,
-    clearLastViewed,
-    initialQuery = '',
-  }) => {
-    const api = useStorybookApi();
-    const inputRef = useRef<HTMLInputElement>(null);
-    const [inputPlaceholder, setPlaceholder] = useState('Find components');
-    const [allComponents, showAllComponents] = useState(false);
+}>(function Search({
+  children,
+  dataset,
+  isLoading = false,
+  enableShortcuts = true,
+  getLastViewed,
+  clearLastViewed,
+  initialQuery = '',
+}) {
+  const api = useStorybookApi();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputPlaceholder, setPlaceholder] = useState('Find components');
+  const [allComponents, showAllComponents] = useState(false);
 
-    const selectStory = useCallback(
-      (id: string, refId: string) => {
-        if (api) api.selectStory(id, undefined, { ref: refId !== DEFAULT_REF_ID && refId });
-        inputRef.current.blur();
-        showAllComponents(false);
-      },
-      [api, inputRef, showAllComponents, DEFAULT_REF_ID]
-    );
+  const selectStory = useCallback(
+    (id: string, refId: string) => {
+      if (api) api.selectStory(id, undefined, { ref: refId !== DEFAULT_REF_ID && refId });
+      inputRef.current.blur();
+      showAllComponents(false);
+    },
+    [api, inputRef, showAllComponents, DEFAULT_REF_ID]
+  );
 
-    const list: SearchItem[] = useMemo(() => {
-      return dataset.entries.reduce((acc: SearchItem[], [refId, { stories }]) => {
-        if (stories) {
-          acc.push(...Object.values(stories).map((item) => searchItem(item, dataset.hash[refId])));
+  const list: SearchItem[] = useMemo(() => {
+    return dataset.entries.reduce((acc: SearchItem[], [refId, { stories }]) => {
+      if (stories) {
+        acc.push(...Object.values(stories).map((item) => searchItem(item, dataset.hash[refId])));
+      }
+      return acc;
+    }, []);
+  }, [dataset]);
+
+  const fuse = useMemo(() => new Fuse(list, options), [list]);
+
+  const getResults = useCallback(
+    (input: string) => {
+      if (!input) return [];
+
+      let results: DownshiftItem[] = [];
+      const resultIds: Set<string> = new Set();
+      const distinctResults = (fuse.search(input) as SearchResult[]).filter(({ item }) => {
+        if (
+          !(item.type === 'component' || item.type === 'docs' || item.type === 'story') ||
+          resultIds.has(item.parent)
+        )
+          return false;
+        resultIds.add(item.id);
+        return true;
+      });
+
+      if (distinctResults.length) {
+        results = distinctResults.slice(0, allComponents ? 1000 : DEFAULT_MAX_SEARCH_RESULTS);
+        if (distinctResults.length > DEFAULT_MAX_SEARCH_RESULTS && !allComponents) {
+          results.push({
+            showAll: () => showAllComponents(true),
+            totalCount: distinctResults.length,
+            moreCount: distinctResults.length - DEFAULT_MAX_SEARCH_RESULTS,
+          });
         }
-        return acc;
-      }, []);
-    }, [dataset]);
+      }
 
-    const fuse = useMemo(() => new Fuse(list, options), [list]);
+      return results;
+    },
+    [allComponents, fuse]
+  );
 
-    const getResults = useCallback(
-      (input: string) => {
-        if (!input) return [];
-
-        let results: DownshiftItem[] = [];
-        const resultIds: Set<string> = new Set();
-        const distinctResults = (fuse.search(input) as SearchResult[]).filter(({ item }) => {
-          if (
-            !(item.type === 'component' || item.type === 'docs' || item.type === 'story') ||
-            resultIds.has(item.parent)
-          )
-            return false;
-          resultIds.add(item.id);
-          return true;
-        });
-
-        if (distinctResults.length) {
-          results = distinctResults.slice(0, allComponents ? 1000 : DEFAULT_MAX_SEARCH_RESULTS);
-          if (distinctResults.length > DEFAULT_MAX_SEARCH_RESULTS && !allComponents) {
-            results.push({
-              showAll: () => showAllComponents(true),
-              totalCount: distinctResults.length,
-              moreCount: distinctResults.length - DEFAULT_MAX_SEARCH_RESULTS,
-            });
-          }
+  const stateReducer = useCallback(
+    (state: DownshiftState<DownshiftItem>, changes: StateChangeOptions<DownshiftItem>) => {
+      switch (changes.type) {
+        case Downshift.stateChangeTypes.blurInput: {
+          return {
+            ...changes,
+            // Prevent clearing the input on blur
+            inputValue: state.inputValue,
+            // Return to the tree view after selecting an item
+            isOpen: state.inputValue && !state.selectedItem,
+            selectedItem: null,
+          };
         }
 
-        return results;
-      },
-      [allComponents, fuse]
-    );
+        case Downshift.stateChangeTypes.mouseUp: {
+          // Prevent clearing the input on refocus
+          return {};
+        }
 
-    const stateReducer = useCallback(
-      (state: DownshiftState<DownshiftItem>, changes: StateChangeOptions<DownshiftItem>) => {
-        switch (changes.type) {
-          case Downshift.stateChangeTypes.blurInput: {
-            return {
-              ...changes,
-              // Prevent clearing the input on blur
-              inputValue: state.inputValue,
-              // Return to the tree view after selecting an item
-              isOpen: state.inputValue && !state.selectedItem,
-              selectedItem: null,
-            };
+        case Downshift.stateChangeTypes.keyDownEscape: {
+          if (state.inputValue) {
+            // Clear the inputValue, but don't return to the tree view
+            return { ...changes, inputValue: '', isOpen: true, selectedItem: null };
           }
+          // When pressing escape a second time, blur the input and return to the tree view
+          inputRef.current.blur();
+          return { ...changes, isOpen: false, selectedItem: null };
+        }
 
-          case Downshift.stateChangeTypes.mouseUp: {
-            // Prevent clearing the input on refocus
+        case Downshift.stateChangeTypes.clickItem:
+        case Downshift.stateChangeTypes.keyDownEnter: {
+          if (isSearchResult(changes.selectedItem)) {
+            const { id, refId } = changes.selectedItem.item;
+            selectStory(id, refId);
+            // Return to the tree view, but keep the input value
+            return { ...changes, inputValue: state.inputValue, isOpen: false };
+          }
+          if (isExpandType(changes.selectedItem)) {
+            changes.selectedItem.showAll();
+            // Downshift should completely ignore this
             return {};
           }
-
-          case Downshift.stateChangeTypes.keyDownEscape: {
-            if (state.inputValue) {
-              // Clear the inputValue, but don't return to the tree view
-              return { ...changes, inputValue: '', isOpen: true, selectedItem: null };
-            }
-            // When pressing escape a second time, blur the input and return to the tree view
+          if (isClearType(changes.selectedItem)) {
+            changes.selectedItem.clearLastViewed();
             inputRef.current.blur();
-            return { ...changes, isOpen: false, selectedItem: null };
+            // Nothing to see anymore, so return to the tree view
+            return { isOpen: false };
           }
-
-          case Downshift.stateChangeTypes.clickItem:
-          case Downshift.stateChangeTypes.keyDownEnter: {
-            if (isSearchResult(changes.selectedItem)) {
-              const { id, refId } = changes.selectedItem.item;
-              selectStory(id, refId);
-              // Return to the tree view, but keep the input value
-              return { ...changes, inputValue: state.inputValue, isOpen: false };
-            }
-            if (isExpandType(changes.selectedItem)) {
-              changes.selectedItem.showAll();
-              // Downshift should completely ignore this
-              return {};
-            }
-            if (isClearType(changes.selectedItem)) {
-              changes.selectedItem.clearLastViewed();
-              inputRef.current.blur();
-              // Nothing to see anymore, so return to the tree view
-              return { isOpen: false };
-            }
-            if (isCloseType(changes.selectedItem)) {
-              inputRef.current.blur();
-              // Return to the tree view
-              return { isOpen: false };
-            }
-            return changes;
+          if (isCloseType(changes.selectedItem)) {
+            inputRef.current.blur();
+            // Return to the tree view
+            return { isOpen: false };
           }
-
-          case Downshift.stateChangeTypes.changeInput: {
-            // Reset the "show more" state whenever the input changes
-            showAllComponents(false);
-            return changes;
-          }
-
-          default:
-            return changes;
+          return changes;
         }
-      },
-      [inputRef, selectStory, showAllComponents]
-    );
 
-    return (
-      <Downshift<DownshiftItem>
-        initialInputValue={initialQuery}
-        stateReducer={stateReducer}
-        // @ts-expect-error (Converted from ts-ignore)
-        itemToString={(result) => result?.item?.name || ''}
-      >
-        {({
-          isOpen,
-          openMenu,
-          closeMenu,
-          inputValue,
-          clearSelection,
-          getInputProps,
-          getItemProps,
-          getLabelProps,
-          getMenuProps,
-          getRootProps,
-          highlightedIndex,
-        }) => {
-          const input = inputValue ? inputValue.trim() : '';
-          let results: DownshiftItem[] = input ? getResults(input) : [];
+        case Downshift.stateChangeTypes.changeInput: {
+          // Reset the "show more" state whenever the input changes
+          showAllComponents(false);
+          return changes;
+        }
 
-          const lastViewed = !input && getLastViewed();
-          if (lastViewed && lastViewed.length) {
-            results = lastViewed.reduce((acc, { storyId, refId }) => {
-              const data = dataset.hash[refId];
-              if (data && data.stories && data.stories[storyId]) {
-                const story = data.stories[storyId];
-                const item = story.type === 'story' ? data.stories[story.parent] : story;
-                // prevent duplicates
-                if (!acc.some((res) => res.item.refId === refId && res.item.id === item.id)) {
-                  acc.push({ item: searchItem(item, dataset.hash[refId]), matches: [], score: 0 });
-                }
+        default:
+          return changes;
+      }
+    },
+    [inputRef, selectStory, showAllComponents]
+  );
+
+  return (
+    <Downshift<DownshiftItem>
+      initialInputValue={initialQuery}
+      stateReducer={stateReducer}
+      // @ts-expect-error (Converted from ts-ignore)
+      itemToString={(result) => result?.item?.name || ''}
+    >
+      {({
+        isOpen,
+        openMenu,
+        closeMenu,
+        inputValue,
+        clearSelection,
+        getInputProps,
+        getItemProps,
+        getLabelProps,
+        getMenuProps,
+        getRootProps,
+        highlightedIndex,
+      }) => {
+        const input = inputValue ? inputValue.trim() : '';
+        let results: DownshiftItem[] = input ? getResults(input) : [];
+
+        const lastViewed = !input && getLastViewed();
+        if (lastViewed && lastViewed.length) {
+          results = lastViewed.reduce((acc, { storyId, refId }) => {
+            const data = dataset.hash[refId];
+            if (data && data.stories && data.stories[storyId]) {
+              const story = data.stories[storyId];
+              const item = story.type === 'story' ? data.stories[story.parent] : story;
+              // prevent duplicates
+              if (!acc.some((res) => res.item.refId === refId && res.item.id === item.id)) {
+                acc.push({ item: searchItem(item, dataset.hash[refId]), matches: [], score: 0 });
               }
-              return acc;
-            }, []);
-            results.push({ closeMenu });
-            if (results.length > 0) {
-              results.push({ clearLastViewed });
             }
+            return acc;
+          }, []);
+          results.push({ closeMenu });
+          if (results.length > 0) {
+            results.push({ clearLastViewed });
           }
+        }
 
-          const inputProps = getInputProps({
-            id: 'storybook-explorer-searchfield',
-            ref: inputRef,
-            required: true,
-            type: 'search',
-            placeholder: inputPlaceholder,
-            onFocus: () => {
-              openMenu();
-              setPlaceholder('Type to find...');
-            },
-            onBlur: () => setPlaceholder('Find components'),
-          });
+        const inputProps = getInputProps({
+          id: 'storybook-explorer-searchfield',
+          ref: inputRef,
+          required: true,
+          type: 'search',
+          placeholder: inputPlaceholder,
+          onFocus: () => {
+            openMenu();
+            setPlaceholder('Type to find...');
+          },
+          onBlur: () => setPlaceholder('Find components'),
+        });
 
-          return (
-            <>
-              <ScreenReaderLabel {...getLabelProps()}>Search for components</ScreenReaderLabel>
-              <SearchField
-                {...getRootProps({ refKey: '' }, { suppressRefError: true })}
-                className="search-field"
-              >
-                <SearchIcon icon="search" />
-                {/* @ts-expect-error (TODO) */}
-                <Input {...inputProps} />
-                {enableShortcuts && <FocusKey>/</FocusKey>}
-                <ClearIcon icon="cross" onClick={() => clearSelection()} />
-              </SearchField>
-              <FocusContainer tabIndex={0} id="storybook-explorer-menu">
-                {children({
-                  query: input,
-                  results,
-                  isBrowsing: !isOpen && document.activeElement !== inputRef.current,
-                  closeMenu,
-                  getMenuProps,
-                  getItemProps,
-                  highlightedIndex,
-                })}
-              </FocusContainer>
-            </>
-          );
-        }}
-      </Downshift>
-    );
-  }
-);
+        return (
+          <>
+            <ScreenReaderLabel {...getLabelProps()}>Search for components</ScreenReaderLabel>
+            <SearchField
+              {...getRootProps({ refKey: '' }, { suppressRefError: true })}
+              className="search-field"
+            >
+              <SearchIcon icon="search" />
+              {/* @ts-expect-error (TODO) */}
+              <Input {...inputProps} />
+              {enableShortcuts && <FocusKey>/</FocusKey>}
+              <ClearIcon icon="cross" onClick={() => clearSelection()} />
+            </SearchField>
+            <FocusContainer tabIndex={0} id="storybook-explorer-menu">
+              {children({
+                query: input,
+                results,
+                isBrowsing: !isOpen && document.activeElement !== inputRef.current,
+                closeMenu,
+                getMenuProps,
+                getItemProps,
+                highlightedIndex,
+              })}
+            </FocusContainer>
+          </>
+        );
+      }}
+    </Downshift>
+  );
+});

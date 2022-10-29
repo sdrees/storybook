@@ -1,9 +1,8 @@
 import global from 'global';
 import { parse } from 'qs';
 
-const { document } = global;
-
 export const getQueryParams = () => {
+  const { document } = global;
   // document.location is not defined in react-native
   if (document && document.location && document.location.search) {
     return parse(document.location.search, { ignoreQueryPrefix: true });

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import svelteDoc from 'sveltedoc-parser';
 import { dedent } from 'ts-dedent';
 import * as path from 'path';
@@ -14,6 +13,7 @@ function getNameFromFilename(filename: string) {
   const parts = filename.split(/[/\\]/).map(encodeURI);
 
   if (parts.length > 1) {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const index_match = parts[parts.length - 1].match(/^index(\.\w+)/);
     if (index_match) {
       parts.pop();

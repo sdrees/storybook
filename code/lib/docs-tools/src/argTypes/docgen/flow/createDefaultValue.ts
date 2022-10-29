@@ -1,5 +1,6 @@
-import { PropDefaultValue } from '../PropDef';
-import { DocgenPropDefaultValue, DocgenPropType } from '../types';
+import type { PropDefaultValue } from '../PropDef';
+import type { DocgenPropDefaultValue, DocgenPropType } from '../types';
+
 import { createSummaryValue, isTooLongForDefaultValueSummary } from '../../utils';
 import { isDefaultValueBlacklisted } from '../utils/defaultValue';
 

@@ -1,5 +1,5 @@
 import { baseGenerator } from '../baseGenerator';
-import { Generator } from '../types';
+import type { Generator } from '../types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const [latestRaxVersion] = await packageManager.getVersions('rax');

@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 import { logger } from '@storybook/client-logger';
-import { StoryContextForEnhancers } from '@storybook/csf';
+import type { StoryContextForEnhancers } from '@storybook/types';
 
 import { argTypesEnhancers } from './inferControls';
 

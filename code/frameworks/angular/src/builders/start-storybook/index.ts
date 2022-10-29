@@ -1,9 +1,9 @@
 import {
   BuilderContext,
   BuilderOutput,
+  Target,
   createBuilder,
   targetFromTargetString,
-  Target,
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
 import {
@@ -12,13 +12,13 @@ import {
   StylePreprocessorOptions,
 } from '@angular-devkit/build-angular';
 import { from, Observable, of } from 'rxjs';
-import type { CLIOptions } from '@storybook/core-common';
+import { CLIOptions } from '@storybook/types';
 import { map, switchMap, mapTo } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { buildDevStandalone } from '@storybook/core-server';
-import type { StandaloneOptions } from '../utils/standalone-options';
+import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-handler';
 

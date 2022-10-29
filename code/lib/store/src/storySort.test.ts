@@ -1,11 +1,10 @@
-import { expect } from '@jest/globals';
-import { StoryId } from '@storybook/csf';
-import { StoryIndexEntry } from '@storybook/store';
+import { expect, describe, it } from '@jest/globals';
+import type { StoryId, Addon_StoryIndexEntry } from '@storybook/types';
 
 import { storySort } from './storySort';
 
 describe('preview.storySort', () => {
-  const fixture: Record<StoryId, StoryIndexEntry> = Object.fromEntries(
+  const fixture: Record<StoryId, Addon_StoryIndexEntry> = Object.fromEntries(
     Object.entries({
       a: { title: 'a' },
       á: { title: 'á' },
