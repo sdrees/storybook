@@ -31,13 +31,9 @@ export const ChangeArgs = {
     await expect(button).toHaveFocus();
 
     // Vue3: https://github.com/storybookjs/storybook/issues/13913
-    // Svelte: https://github.com/storybookjs/storybook/issues/19205
     // Web-components: https://github.com/storybookjs/storybook/issues/19415
     // Preact: https://github.com/storybookjs/storybook/issues/19504
-    if (
-      ['vue3', 'svelte', 'web-components', 'html', 'preact'].includes(globalThis.storybookRenderer)
-    )
-      return;
+    if (['vue3', 'web-components', 'html', 'preact'].includes(globalThis.storybookRenderer)) return;
 
     // When we change the args to the button, it should not rerender
     await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { label: 'New Text' } });

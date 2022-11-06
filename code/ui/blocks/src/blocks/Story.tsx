@@ -90,11 +90,12 @@ const Story: FC<StoryProps> = (props) => {
     let cleanup: () => void;
     if (story && storyRef.current) {
       const element = storyRef.current as HTMLElement;
-      cleanup = context.renderStoryToElement(story, element);
+      const { autoplay } = story.parameters.docs || {};
+      cleanup = context.renderStoryToElement(story, element, { autoplay });
       setShowLoader(false);
     }
     return () => cleanup && cleanup();
-  }, [story]);
+  }, [context, story]);
 
   if (!story) {
     return <StorySkeleton />;

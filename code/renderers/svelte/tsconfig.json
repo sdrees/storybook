@@ -6,6 +6,6 @@
     "strict": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/**/*.svelte", "template/**/*", "template/**/*.svelte"],
   "exclude": []
 }

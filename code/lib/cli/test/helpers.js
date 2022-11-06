@@ -10,7 +10,6 @@ const CLI_PATH = path.join(__dirname, '..', 'bin');
  *
  * @returns {Object}
  */
-const run = (args, options = {}) =>
-  spawnSync('node', [CLI_PATH].concat(args), options);
+const run = (args, options = {}) => spawnSync('node', [CLI_PATH].concat(args), options);
 
 module.exports = run;

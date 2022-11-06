@@ -306,7 +306,7 @@ export const ColorControl: FC<ColorControlProps> = ({
   onFocus,
   onBlur,
   presetColors,
-  startOpen,
+  startOpen = false,
 }) => {
   const throttledOnChange = useCallback(throttle(onChange, 200), [onChange]);
   const { value, realValue, updateValue, color, colorSpace, cycleColorSpace } = useColorInput(

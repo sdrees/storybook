@@ -4,6 +4,6 @@
     "strict": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "template/**/*"],
   "exclude": ["src/**/*.test.*"]
 }

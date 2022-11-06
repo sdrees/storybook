@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
+import { dedent } from 'ts-dedent';
 
 import type {
   CoreCommon_IndexerOptions,
@@ -8,7 +9,7 @@ import type {
   DocsOptions,
   Options,
 } from '@storybook/types';
-import { logger } from '@storybook/node-logger';
+import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import { loadCsf } from '@storybook/csf-tools';
 
 // for frameworks that are not working with react, we need to configure
@@ -48,7 +49,12 @@ function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: Bab
 export async function webpack(
   webpackConfig: any = {},
   options: Options &
-    BabelParams & { sourceLoaderOptions: any; transcludeMarkdown: boolean } /* & Parameters<
+    BabelParams & {
+      /** @deprecated */
+      sourceLoaderOptions: any;
+      csfPluginOptions: CsfPluginOptions | null;
+      transcludeMarkdown: boolean;
+    } /* & Parameters<
       typeof createCompiler
     >[0] */
 ) {
@@ -62,7 +68,8 @@ export async function webpack(
     babelOptions,
     mdxBabelOptions,
     configureJSX = true,
-    sourceLoaderOptions = { injectStoryParameters: true },
+    csfPluginOptions = {},
+    sourceLoaderOptions = null,
     transcludeMarkdown = false,
   } = options;
 
@@ -72,21 +79,17 @@ export async function webpack(
     remarkPlugins: [remarkSlug, remarkExternalLinks],
   };
 
-  logger.info(`Addon-docs: using MDX2`);
+  if (sourceLoaderOptions) {
+    throw new Error(dedent`
+      Addon-docs no longer uses source-loader in 7.0.
+
+      To update your configuration, please see migration instructions here:
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-source-loader--storiesof-static-snippets
+    `);
+  }
 
   const mdxLoader = require.resolve('@storybook/mdx2-csf/loader');
-
-  // set `sourceLoaderOptions` to `null` to disable for manual configuration
-  const sourceLoader = sourceLoaderOptions
-    ? [
-        {
-          test: /\.(stories|story)\.[tj]sx?$/,
-          loader: require.resolve('@storybook/source-loader'),
-          options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
-          enforce: 'pre',
-        },
-      ]
-    : [];
 
   let rules = module.rules || [];
   if (transcludeMarkdown) {
@@ -110,6 +113,12 @@ export async function webpack(
 
   const result = {
     ...webpackConfig,
+    plugins: [
+      ...(webpackConfig.plugins || []),
+      // eslint-disable-next-line global-require
+      ...(csfPluginOptions ? [require('@storybook/csf-plugin').webpack(csfPluginOptions)] : []),
+    ],
+
     module: {
       ...module,
       rules: [
@@ -144,7 +153,6 @@ export async function webpack(
             },
           ],
         },
-        ...sourceLoader,
       ],
     },
   };

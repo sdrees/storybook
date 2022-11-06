@@ -1,12 +1,19 @@
 /* eslint-disable no-underscore-dangle */
-import path from 'path';
-import type { JsPackageManager } from '../../js-package-manager';
+import * as path from 'path';
+import type { StorybookConfig } from '@storybook/types';
+import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 import { newFrameworks } from './new-frameworks';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
-const checkNewFrameworks = async ({ packageJson, main }) => {
+const checkNewFrameworks = async ({
+  packageJson,
+  main,
+}: {
+  packageJson: PackageJson;
+  main: Partial<StorybookConfig> & Record<string, unknown>;
+}) => {
   if (main) {
     // eslint-disable-next-line global-require
     require('fs-extra').__setMockFiles({

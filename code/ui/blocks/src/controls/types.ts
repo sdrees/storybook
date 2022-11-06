@@ -19,6 +19,10 @@ export type ColorValue = string;
 export type PresetColor = ColorValue | { color: ColorValue; title?: string };
 export interface ColorConfig {
   presetColors?: PresetColor[];
+  /**
+   * Whether the color picker should be open by default when rendered.
+   * @default false
+   */
   startOpen?: boolean;
 }
 

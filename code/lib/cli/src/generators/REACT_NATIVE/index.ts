@@ -2,7 +2,7 @@ import { join } from 'path';
 import chalk from 'chalk';
 import shell from 'shelljs';
 import { getBabelDependencies, paddedLog, copyTemplate } from '../../helpers';
-import { getBaseDir } from '../../dirs';
+import { getCliDir } from '../../dirs';
 import type { JsPackageManager } from '../../js-package-manager';
 import type { NpmOptions } from '../../NpmOptions';
 
@@ -69,7 +69,7 @@ const generator = async (
     });
   }
 
-  const templateDir = join(getBaseDir(), 'templates', 'react-native');
+  const templateDir = join(getCliDir(), 'templates', 'react-native');
   copyTemplate(templateDir);
 };
 

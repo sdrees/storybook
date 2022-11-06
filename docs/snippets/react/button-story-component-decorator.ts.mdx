@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import type { ComponentMeta } from '@storybook/react';
+import type { ComponentMeta, StoryFn } from '@storybook/react';
 
 import { Button } from './Button';
 
@@ -15,7 +15,7 @@ export default {
   title: 'Button',
   component: Button,
   decorators: [
-    (Story) => (
+    (Story: StoryFn) => (
       <div style={{ margin: '3em' }}>
         <Story />
       </div>

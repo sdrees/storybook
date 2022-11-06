@@ -40,4 +40,16 @@ test.describe('addon-docs', () => {
       await expect(text).not.toMatch(/^\(args\) => /);
     }
   });
+
+  test('should not run autoplay stories without parameter', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/autoplay', 'docs');
+
+    const root = sbPage.previewRoot();
+    const autoplayPre = root.locator('#story--addons-docs-docspage-autoplay--autoplay pre');
+    await expect(autoplayPre).toHaveText('Play has run');
+
+    const noAutoplayPre = root.locator('#story--addons-docs-docspage-autoplay--no-autoplay pre');
+    await expect(noAutoplayPre).toHaveText('Play has not run');
+  });
 });

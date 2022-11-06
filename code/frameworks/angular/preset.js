@@ -1,1 +1,1 @@
-module.exports = require('./dist/types/preset');
+module.exports = require('./dist/preset');

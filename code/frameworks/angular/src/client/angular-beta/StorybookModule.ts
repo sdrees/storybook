@@ -7,6 +7,7 @@ import { storyPropsProvider } from './StorybookProvider';
 import { isComponentAlreadyDeclaredInModules } from './utils/NgModulesAnalyzer';
 import { isDeclarable, isStandaloneComponent } from './utils/NgComponentAnalyzer';
 import { createStorybookWrapperComponent } from './StorybookWrapperComponent';
+import { computesTemplateFromComponent } from './ComputesTemplateFromComponent';
 
 export const getStorybookModuleMetadata = (
   {
@@ -21,7 +22,12 @@ export const getStorybookModuleMetadata = (
   storyProps$: Subject<ICollection>
 ): NgModule => {
   const { props, styles, moduleMetadata = {} } = storyFnAngular;
-  const { template } = storyFnAngular;
+  let { template } = storyFnAngular;
+
+  const hasTemplate = !hasNoTemplate(template);
+  if (!hasTemplate && component) {
+    template = computesTemplateFromComponent(component, props, '');
+  }
 
   /**
    * Create a component that wraps generated template and gives it props
@@ -68,3 +74,7 @@ export const createStorybookModule = (ngModule: NgModule): Type<unknown> => {
   class StorybookModule {}
   return StorybookModule;
 };
+
+function hasNoTemplate(template: string | null | undefined): template is undefined {
+  return template === null || template === undefined;
+}

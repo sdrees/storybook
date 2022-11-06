@@ -3,8 +3,9 @@
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowJs": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "template/**/*"],
   "exclude": ["src/docs/**/*.test.*", "src/**/__testfixtures__/**"]
 }

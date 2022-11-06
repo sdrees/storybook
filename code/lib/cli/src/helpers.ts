@@ -6,14 +6,14 @@ import chalk from 'chalk';
 import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
-import type { SupportedFrameworks, SupportedRenderers, SupportedLanguage } from './project_types';
-
+import { getCliDir, getRendererDir } from './dirs';
 import type {
   JsPackageManager,
   PackageJson,
   PackageJsonWithDepsAndDevDeps,
 } from './js-package-manager';
-import { getBaseDir } from './dirs';
+import type { SupportedFrameworks, SupportedRenderers } from './project_types';
+import { SupportedLanguage } from './project_types';
 import storybookMonorepoPackages from './versions';
 
 const logger = console;
@@ -191,23 +191,35 @@ export async function copyComponents(
   language: SupportedLanguage
 ) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
-    javascript: 'js',
-    typescript: 'ts',
+    [SupportedLanguage.JAVASCRIPT]: 'js',
+    [SupportedLanguage.TYPESCRIPT]: 'ts',
+    [SupportedLanguage.TYPESCRIPT_LEGACY]: 'ts-legacy',
   };
   const componentsPath = async () => {
-    const baseDir = getBaseDir();
-    const assetsRoot = join(baseDir, 'rendererAssets');
-    const assetsRenderer = join(assetsRoot, renderer);
-    const assetsLanguage = join(assetsRenderer, languageFolderMapping[language]);
+    const baseDir = getRendererDir(renderer);
+    const assetsDir = join(baseDir, 'template/cli');
+    const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
+    const assetsJS = join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
+    const assetsTSLegacy = join(
+      assetsDir,
+      languageFolderMapping[SupportedLanguage.TYPESCRIPT_LEGACY]
+    );
+    const assetsTS = join(assetsDir, languageFolderMapping[SupportedLanguage.TYPESCRIPT]);
+
     if (await fse.pathExists(assetsLanguage)) {
       return assetsLanguage;
     }
-    const assetsJS = join(assetsRenderer, languageFolderMapping.javascript);
+    if (language === SupportedLanguage.TYPESCRIPT && (await fse.pathExists(assetsTSLegacy))) {
+      return assetsTSLegacy;
+    }
+    if (language === SupportedLanguage.TYPESCRIPT_LEGACY && (await fse.pathExists(assetsTS))) {
+      return assetsTS;
+    }
     if (await fse.pathExists(assetsJS)) {
       return assetsJS;
     }
-    if (await fse.pathExists(assetsRenderer)) {
-      return assetsRenderer;
+    if (await fse.pathExists(assetsDir)) {
+      return assetsDir;
     }
     throw new Error(`Unsupported renderer: ${renderer}`);
   };
@@ -220,7 +232,7 @@ export async function copyComponents(
   };
 
   const destinationPath = await targetPath();
-  await fse.copy(join(getBaseDir(), 'rendererAssets/common'), destinationPath, { overwrite: true });
+  await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, { overwrite: true });
   await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
 }
 

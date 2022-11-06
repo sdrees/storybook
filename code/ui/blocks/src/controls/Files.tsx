@@ -7,6 +7,17 @@ import type { ControlProps } from './types';
 import { getControlId } from './helpers';
 
 export interface FilesControlProps extends ControlProps<string[]> {
+  /**
+   * The accept attribute value is a string that defines the file types the file input should accept. This string is a comma-separated list of unique file type specifiers.
+   * @example
+   * *\/*
+   * @example
+   * .webm,video/webm
+   * @example
+   * .doc,.docx,application/msword
+   * @defaultValue `image/*`
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept
+   */
   accept?: string;
 }
 

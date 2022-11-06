@@ -1,7 +1,7 @@
 #!/usr/bin/env ../../node_modules/.bin/ts-node
 
 import fs from 'fs-extra';
-import path, { join } from 'path';
+import path, { dirname, join, relative } from 'path';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
@@ -36,21 +36,25 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await Promise.all(
       entries.map(async (file: string) => {
         console.log(`skipping generating types for ${file}`);
-        const { name: entryName } = path.parse(file);
-
-        const pathName = join(process.cwd(), 'dist', `${entryName}.d.ts`);
+        const { name: entryName, dir } = path.parse(file);
+  
+        const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
+        const srcName = join(process.cwd(), file);
+  
+        const rel = relative(dirname(pathName), dirname(srcName));
+  
         await fs.ensureFile(pathName);
         await fs.writeFile(
           pathName,
           dedent`
           // devmode
-          export * from '../src/${entryName}'
+          export * from '${rel}/${entryName}';
         `
         );
       })
     );
   }
-
+  
   const tsConfigPath = join(cwd, 'tsconfig.json');
   const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([

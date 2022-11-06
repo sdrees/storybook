@@ -1,4 +1,5 @@
 import type { StoryId, AnyFramework } from '@storybook/types';
+import type { StoryRenderOptions } from './StoryRender';
 
 export type RenderType = 'story' | 'docs';
 
@@ -17,7 +18,11 @@ export interface Render<TFramework extends AnyFramework> {
   disableKeyListeners: boolean;
   teardown?: (options: { viewModeChanged: boolean }) => Promise<void>;
   torndown: boolean;
-  renderToElement: (canvasElement: HTMLElement, renderStoryToElement?: any) => Promise<void>;
+  renderToElement: (
+    canvasElement: HTMLElement,
+    renderStoryToElement?: any,
+    options?: StoryRenderOptions
+  ) => Promise<void>;
 }
 
 export const PREPARE_ABORTED = new Error('prepareAborted');

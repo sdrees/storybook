@@ -1,5 +1,12 @@
 version: 2.1
 
+parameters:
+  workflow:
+    description: Which workflow to run
+    type: enum
+    enum: ['tests', 'daily-tests']
+    default: 'tests'
+
 executors:
   sb_node_16_classic:
     parameters:
@@ -73,7 +80,16 @@ commands:
               echo "🏁 The PR isn't labelled with '<< parameters.label >>' so this job will end at the current step."
               circleci-agent step halt
             fi
-
+  cancel-workflow-on-failure:
+    description: 'Cancels the entire workflow in case the previous step has failed'
+    steps:
+      - run:
+          name: Cancel current workflow
+          when: on_fail
+          command: |
+            echo "Canceling workflow as previous step resulted in failure."
+            echo "To execute all checks locally, please run yarn ci-tests"
+            curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
 jobs:
   build:
     executor:
@@ -91,6 +107,11 @@ jobs:
           command: |
             yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
+      - run:
+          name: Publish to Verdaccio
+          command: |
+            cd code
+            yarn local-registry --publish
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
@@ -109,23 +130,6 @@ jobs:
             - code/ui
             - code/renderers
             - code/presets
-  publish:
-    executor:
-      class: small
-      name: sb_node_16_classic
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: running local registry
-          command: |
-            cd code
-            yarn local-registry --publish
-      - persist_to_workspace:
-          root: .
-          paths:
             - .verdaccio-cache
   cra-bench:
     executor:
@@ -169,7 +173,7 @@ jobs:
           destination: sb-bench.tar.gz
   react-vite-bench:
     executor:
-      class: medium
+      class: large
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
@@ -221,6 +225,7 @@ jobs:
           command: |
             cd code
             yarn lint
+      - cancel-workflow-on-failure
   check:
     executor:
       class: xlarge
@@ -235,6 +240,7 @@ jobs:
           command: |
             yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
+      - cancel-workflow-on-failure
   script-unit-tests:
     executor: sb_node_16_browsers
     steps:
@@ -246,12 +252,13 @@ jobs:
           name: Test
           command: |
             cd scripts
-            yarn test --coverage --runInBand --ci
+            yarn test --coverage --ci
       - store_test_results:
           path: scripts/junit.xml
+      - cancel-workflow-on-failure
   unit-tests:
     executor:
-      class: medium+
+      class: xlarge
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -262,13 +269,14 @@ jobs:
           name: Test
           command: |
             cd code
-            yarn test --coverage --runInBand --ci
+            yarn test --coverage --ci
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
           root: .
           paths:
             - code/coverage
+      - cancel-workflow-on-failure
   coverage:
     executor:
       class: small
@@ -302,10 +310,18 @@ jobs:
           path: test-results
   ## new workflow
   create-sandboxes:
+    parameters:
+      parallelism:
+        type: integer
+        default: 9
+      cadence:
+        type: enum
+        enum: [ "ci", "daily", "weekly" ]
+        default: "ci"
     executor:
       class: medium
       name: sb_node_16_browsers
-    parallelism: 9
+    parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -313,7 +329,7 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template ci create) --no-link --start-from=never --junit
+          command: yarn task --task sandbox --template $(yarn get-template << parameters.cadence >> create) --no-link --start-from=never --junit
       - persist_to_workspace:
           root: .
           paths:
@@ -321,10 +337,18 @@ jobs:
       - store_test_results:
           path: test-results
   smoke-test-sandboxes:
+    parameters:
+      parallelism:
+        type: integer
+        default: 9
+      cadence:
+        type: enum
+        enum: [ "ci", "daily", "weekly" ]
+        default: "ci"
     executor:
       class: medium
       name: sb_node_16_browsers
-    parallelism: 9
+    parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -332,14 +356,22 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn task --task smoke-test --template $(yarn get-template ci smoke-test) --no-link --start-from=never --junit
+          command: yarn task --task smoke-test --template $(yarn get-template << parameters.cadence >> smoke-test) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
   build-sandboxes:
+    parameters:
+      parallelism:
+        type: integer
+        default: 9
+      cadence:
+        type: enum
+        enum: [ "ci", "daily", "weekly" ]
+        default: "ci"
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 9
+    parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -347,7 +379,7 @@ jobs:
           at: .
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template ci build) --no-link --start-from=never --junit
+          command: yarn task --task build --template $(yarn get-template << parameters.cadence >> build) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
       - persist_to_workspace:
@@ -355,10 +387,18 @@ jobs:
           paths:
             - sandbox/*/storybook-static
   test-runner-sandboxes:
+    parameters:
+      parallelism:
+        type: integer
+        default: 9
+      cadence:
+        type: enum
+        enum: [ "ci", "daily", "weekly" ]
+        default: "ci"
     executor:
       class: medium
       name: sb_playwright
-    parallelism: 8
+    parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -366,29 +406,44 @@ jobs:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template ci test-runner) --no-link --start-from=never --junit
+          command: yarn task --task test-runner --template $(yarn get-template << parameters.cadence >> test-runner) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
+    parameters:
+      parallelism:
+        type: integer
+        default: 9
+      cadence:
+        type: enum
+        enum: ["ci", "daily", "weekly"]
+        default: "ci"
     executor:
       class: medium
       name: sb_node_16_browsers
-    parallelism: 9
+    parallelism: << parameters.parallelism >>
     steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+      - checkout
       - attach_workspace:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn task --task chromatic --template $(yarn get-template ci chromatic) --no-link --start-from=never --junit
+          command: yarn task --task chromatic --template $(yarn get-template << parameters.cadence >> chromatic) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
   e2e-sandboxes:
+    parameters:
+      parallelism:
+        type: integer
+        default: 9
+      cadence:
+        type: enum
+        enum: ["ci", "daily", "weekly"]
+        default: "ci"
     executor:
       class: medium
       name: sb_playwright
-    parallelism: 9
+    parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -396,7 +451,7 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template ci e2e-tests) --no-link --start-from=never --junit
+          command: yarn task --task e2e-tests --template $(yarn get-template << parameters.cadence >> e2e-tests) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
@@ -404,7 +459,42 @@ jobs:
           destination: playwright
 
 workflows:
+  daily-tests:
+    when:
+      equal: [ daily-tests, << pipeline.parameters.workflow >> ]
+    jobs:
+      - build
+      - create-sandboxes:
+          parallelism: 24
+          cadence: "daily"
+          requires:
+            - build
+      # - smoke-test-sandboxes: # disabled for now
+      #     requires:
+      #       - create-sandboxes
+      - build-sandboxes:
+          parallelism: 24
+          cadence: "daily"
+          requires:
+            - create-sandboxes
+      - test-runner-sandboxes:
+          parallelism: 24
+          cadence: "daily"
+          requires:
+            - build-sandboxes
+      - chromatic-sandboxes:
+          parallelism: 24
+          cadence: "daily"
+          requires:
+            - build-sandboxes
+      - e2e-sandboxes:
+          parallelism: 24
+          cadence: "daily"
+          requires:
+            - build-sandboxes
   test:
+    when:
+      equal: [ tests, << pipeline.parameters.workflow >> ]
     jobs:
       - build
       - lint:
@@ -425,19 +515,16 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - publish:
-          requires:
-            - build
       - cra-bench:
           requires:
-            - publish
+            - build
       - react-vite-bench:
           requires:
-            - publish
+            - build
       ## new workflow
       - create-sandboxes:
           requires:
-            - publish
+            - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes

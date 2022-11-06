@@ -3,7 +3,7 @@ import { npm7 } from './npm7';
 
 const mockExecuteCommand = jest.fn();
 class MockedNPMProxy extends NPMProxy {
-  executeCommand(...args) {
+  executeCommand(...args: Parameters<NPMProxy['executeCommand']>) {
     return mockExecuteCommand(...args);
   }
 }

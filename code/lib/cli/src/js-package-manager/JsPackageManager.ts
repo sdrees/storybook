@@ -304,19 +304,11 @@ export abstract class JsPackageManager {
     return versions.reverse().find((version) => satisfies(version, constraint));
   }
 
-  public addStorybookCommandInScripts(options?: {
-    port: number;
-    staticFolder?: string;
-    preCommand?: string;
-  }) {
+  public addStorybookCommandInScripts(options?: { port: number; preCommand?: string }) {
     const sbPort = options?.port ?? 6006;
-    const storybookCmd = options?.staticFolder
-      ? `storybook dev -p ${sbPort} -s ${options.staticFolder}`
-      : `storybook dev -p ${sbPort}`;
+    const storybookCmd = `storybook dev -p ${sbPort}`;
 
-    const buildStorybookCmd = options?.staticFolder
-      ? `storybook build -s ${options.staticFolder}`
-      : `storybook build`;
+    const buildStorybookCmd = `storybook build`;
 
     const preCommand = options?.preCommand ? this.getRunCommand(options.preCommand) : undefined;
     this.addScripts({

@@ -1,2 +1,2 @@
-export * from './dist/types/react';
-export { default } from './dist/types/react';
+export * from './dist/react';
+export { default } from './dist/react';

@@ -1,5 +1,3 @@
-import global from 'global';
-
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { SvelteComponentTyped } from 'svelte';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -7,40 +5,66 @@ import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 
 import type { SvelteFramework } from './types';
 
-const { document } = global;
+const componentsByDomElement = new Map<Element, SvelteComponentTyped>();
 
-let previousComponent: SvelteComponentTyped | null = null;
-
-function cleanUpPreviousStory() {
-  if (!previousComponent) {
+function teardown(domElement: Element) {
+  if (!componentsByDomElement.has(domElement)) {
     return;
   }
-  previousComponent.$destroy();
-  previousComponent = null;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it exists because we just checked
+  componentsByDomElement.get(domElement)!.$destroy();
+
+  // eslint-disable-next-line no-param-reassign -- this is on purpose
+  domElement.innerHTML = '';
+  componentsByDomElement.delete(domElement);
 }
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, storyContext }: Store_RenderContext<SvelteFramework>,
+  {
+    storyFn,
+    kind,
+    name,
+    showMain,
+    showError,
+    storyContext,
+    forceRemount,
+  }: Store_RenderContext<SvelteFramework>,
   domElement: Element
 ) {
-  cleanUpPreviousStory();
+  const existingComponent = componentsByDomElement.get(domElement);
 
-  const target = domElement || document.getElementById('storybook-root');
+  if (forceRemount) {
+    teardown(domElement);
+  }
 
-  target.innerHTML = '';
-
-  previousComponent = new PreviewRender({
-    target,
-    props: {
+  if (!existingComponent || forceRemount) {
+    const createdComponent = new PreviewRender({
+      target: domElement,
+      props: {
+        storyFn,
+        storyContext,
+        name,
+        kind,
+        showError,
+      },
+    }) as SvelteComponentTyped;
+    componentsByDomElement.set(domElement, createdComponent);
+  } else {
+    existingComponent.$set({
       storyFn,
       storyContext,
       name,
       kind,
       showError,
-    },
-  });
+    });
+  }
 
   showMain();
+
+  // teardown the component when the story changes
+  return () => {
+    teardown(domElement);
+  };
 }
 
 export const render: ArgsStoryFn<SvelteFramework> = (args, context) => {

@@ -81,18 +81,18 @@ Below is an abridged configuration and table with all the available options for 
 
 <!-- prettier-ignore-end -->
 
-| Addon                          | Configuration element | Description                                                                                                                                                                                                             |
-| ------------------------------ | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@storybook/addon-actions`     | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-viewport`    | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-docs`        | `configureJSX`        | Enables JSX support in MDX for projects that aren't configured to handle the format. <br/> `configureJSX: true`                                                                                                         |
-|                                | `babelOptions`        | Provides additional Babel configurations for file transpilation. <br/> `babelOptions: { plugins: [], presets: []}` <br/> Extends `configureJSX`.                                                                        |
-|                                | `sourceLoaderOptions` | Provides additional configuration for Storybook's source loader. <br/> `sourceLoaderOptions: null` . <br/> Required for [`@storybook/addon-storysource`](https://storybook.js.org/addons/@storybook/addon-storysource). |
-|                                | `transcludeMarkdown`  | Enables Markdown file support into MDX and render them as components. <br/> `transcludeMarkdown: true`                                                                                                                  |
-| `@storybook/addon-controls`    | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-backgrounds` | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-toolbars`    | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-measure`     | N/A                   | N/A                                                                                                                                                                                                                     |
+| Addon                          | Configuration element | Description                                                                                                                                      |
+| ------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@storybook/addon-actions`     | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-viewport`    | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-docs`        | `configureJSX`        | Enables JSX support in MDX for projects that aren't configured to handle the format. <br/> `configureJSX: true`                                  |
+|                                | `babelOptions`        | Provides additional Babel configurations for file transpilation. <br/> `babelOptions: { plugins: [], presets: []}` <br/> Extends `configureJSX`. |
+|                                | `csfPluginOptions`    | Provides additional configuration for Storybook's CSF plugin. Can be disabled with `null`                                                        |
+|                                | `transcludeMarkdown`  | Enables Markdown file support into MDX and render them as components. <br/> `transcludeMarkdown: true`                                           |
+| `@storybook/addon-controls`    | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-backgrounds` | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-toolbars`    | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-measure`     | N/A                   | N/A                                                                                                                                              |
 
 When you start Storybook, your custom configuration will override the default.
 

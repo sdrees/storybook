@@ -150,5 +150,12 @@ module.exports = {
         'no-undef': 'off', // ignore "window" undef errors
       },
     },
+    {
+      // Because those templates reference css files in other directory.
+      files: ['**/template/cli/**/*'],
+      rules: {
+        'import/no-unresolved': 'off',
+      },
+    },
   ],
 };

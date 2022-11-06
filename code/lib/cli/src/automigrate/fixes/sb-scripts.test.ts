@@ -1,7 +1,7 @@
-import type { JsPackageManager } from '../../js-package-manager';
-import { sbScripts, getStorybookScripts } from './sb-scripts';
+import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import { getStorybookScripts, sbScripts } from './sb-scripts';
 
-const checkSbScripts = async ({ packageJson }) => {
+const checkSbScripts = async ({ packageJson }: { packageJson: PackageJson }) => {
   const packageManager = {
     retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
   } as JsPackageManager;

@@ -17,14 +17,12 @@ export type StorybookMetadata = {
   storybookVersion: string;
   generatedAt?: number;
   language: 'typescript' | 'javascript';
-  framework: {
+  framework?: {
     name: string;
     options?: any;
   };
-  builder?: {
-    name: string;
-    options?: Record<string, any>;
-  };
+  builder?: string;
+  renderer?: string;
   monorepo?: MonorepoType;
   packageManager?: {
     type: PM;

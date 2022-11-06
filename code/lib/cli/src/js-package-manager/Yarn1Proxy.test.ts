@@ -149,6 +149,8 @@ describe('Yarn 1 Proxy', () => {
 
       jest.spyOn(yarn1Proxy, 'retrievePackageJson').mockImplementation(
         jest.fn(() => ({
+          dependencies: {},
+          devDependencies: {},
           resolutions: {
             bar: 'x.x.x',
           },
@@ -161,6 +163,8 @@ describe('Yarn 1 Proxy', () => {
       yarn1Proxy.addPackageResolutions(versions);
 
       expect(writePackageSpy).toHaveBeenCalledWith({
+        dependencies: {},
+        devDependencies: {},
         resolutions: {
           ...versions,
           bar: 'x.x.x',

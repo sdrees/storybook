@@ -1,17 +1,12 @@
-import fs from 'fs';
+import * as fs from 'fs';
 
 import { getBowerJson } from './helpers';
-import { isStorybookInstalled, detectFrameworkPreset, detect, detectLanguage } from './detect';
+import { detect, detectFrameworkPreset, detectLanguage, isStorybookInstalled } from './detect';
 import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
 import type { PackageJsonWithMaybeDeps } from './js-package-manager';
-import { readPackageJson } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
   getBowerJson: jest.fn(),
-}));
-
-jest.mock('./js-package-manager', () => ({
-  readPackageJson: jest.fn(),
 }));
 
 jest.mock('fs', () => ({
@@ -285,28 +280,39 @@ const MOCK_FRAMEWORK_FILES: {
 
 describe('Detect', () => {
   it(`should return type HTML if html option is passed`, () => {
-    (readPackageJson as jest.Mock).mockImplementation(() => true);
     expect(detect({ dependencies: {} }, { html: true })).toBe(ProjectType.HTML);
   });
 
   it(`should return type UNDETECTED if neither packageJson or bowerJson exist`, () => {
-    (readPackageJson as jest.Mock).mockImplementation(() => false);
     (getBowerJson as jest.Mock).mockImplementation(() => false);
     expect(detect(undefined)).toBe(ProjectType.UNDETECTED);
   });
 
-  it(`should return language typescript if the dependency is present`, () => {
-    expect(
-      detectLanguage({
-        dependencies: {
-          typescript: '1.0.0',
-        },
-      })
-    ).toBe(SupportedLanguage.TYPESCRIPT);
+  it(`should return language legacy typescript if the dependency is present`, () => {
+    expect(detectLanguage({ dependencies: { typescript: '1.0.0' } })).toBe(
+      SupportedLanguage.TYPESCRIPT_LEGACY
+    );
+  });
+
+  it(`should return language typescript if the dependency is >TS4.9`, () => {
+    expect(detectLanguage({ dependencies: { typescript: '4.9.1' } })).toBe(
+      SupportedLanguage.TYPESCRIPT
+    );
+  });
+
+  it(`should return language typescript if the dependency is =TS4.9`, () => {
+    expect(detectLanguage({ dependencies: { typescript: '4.9.0' } })).toBe(
+      SupportedLanguage.TYPESCRIPT
+    );
+  });
+
+  it(`should return language typescript if the dependency is =TS4.9beta`, () => {
+    expect(detectLanguage({ dependencies: { typescript: '^4.9.0-beta' } })).toBe(
+      SupportedLanguage.TYPESCRIPT
+    );
   });
 
   it(`should return language javascript by default`, () => {
-    (readPackageJson as jest.Mock).mockImplementation(() => true);
     expect(detectLanguage()).toBe(SupportedLanguage.JAVASCRIPT);
   });
 

@@ -441,6 +441,39 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
+      it('generates an entry for every CSF file when docsOptions.docsPage = automatic', async () => {
+        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.stories.(ts|js|jsx)',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], {
+          ...docsPageOptions,
+          docs: {
+            ...docsPageOptions.docs,
+            docsPage: 'automatic',
+          },
+        });
+        await generator.initialize();
+
+        expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
+          Array [
+            "a--docs",
+            "a--story-one",
+            "b--docs",
+            "b--story-one",
+            "d--docs",
+            "d--story-one",
+            "first-nested-deeply-f--docs",
+            "first-nested-deeply-f--story-one",
+            "nested-button--docs",
+            "nested-button--story-one",
+            "second-nested-g--docs",
+            "second-nested-g--story-one",
+          ]
+        `);
+      });
+
       it('does not generate a docs page entry if there is a standalone entry with the same name', async () => {
         const csfSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.js',

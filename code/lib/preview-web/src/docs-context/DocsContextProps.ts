@@ -8,6 +8,7 @@ import type {
   StoryName,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
+import type { StoryRenderOptions } from '../render/StoryRender';
 
 export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
   /**
@@ -54,7 +55,8 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
    */
   renderStoryToElement: (
     story: Store_Story<TFramework>,
-    element: HTMLElement
+    element: HTMLElement,
+    options: StoryRenderOptions
   ) => () => Promise<void>;
 
   /**

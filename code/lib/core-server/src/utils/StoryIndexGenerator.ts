@@ -224,12 +224,12 @@ export class StoryIndexGenerator {
       });
 
       if (this.options.docs.enabled && csf.stories.length) {
+        const { docsPage } = this.options.docs;
+        const docsPageOptedIn =
+          docsPage === 'automatic' || (docsPage && componentTags.includes('docsPage'));
         // We always add a template for *.stories.mdx, but only if docs page is enabled for
         // regular CSF files
-        if (
-          storyIndexer.addDocsTemplate ||
-          (this.options.docs.docsPage && componentTags.includes('docsPage'))
-        ) {
+        if (storyIndexer.addDocsTemplate || docsPageOptedIn) {
           const name = this.options.docs.defaultName;
           const id = toId(csf.meta.title, name);
           entries.unshift({

@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
+      CLEANUP_REPRO_NODE_MODULES: true
     steps:
       - uses: actions/setup-node@v3
         with:

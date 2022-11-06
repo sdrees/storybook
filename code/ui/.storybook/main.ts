@@ -1,3 +1,4 @@
+import { vite as csfPlugin } from '@storybook/csf-plugin';
 import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
 const isBlocksOnly = process.env.BLOCKS_ONLY === 'true';
@@ -16,7 +17,7 @@ const allStories = [
     titlePrefix: '@storybook-blocks',
   },
 ];
-const blocksOnlyStories = ['../blocks/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'];
+const blocksOnlyStories = ['../blocks/src/@(blocks|controls)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))'];
 
 const config: StorybookConfig = {
   stories: isBlocksOnly ? blocksOnlyStories : allStories,
@@ -32,6 +33,11 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+  viteFinal: (vite) => ({
+    ...vite,
+    plugins: [...(vite.plugins || []), csfPlugin({})],
+    optimizeDeps: { ...vite.optimizeDeps, force: true },
+  }),
 };
 
 export default config;

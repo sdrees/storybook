@@ -124,8 +124,8 @@ const WithToolTipState: FC<
   WithTooltipPureProps & {
     startOpen?: boolean;
   }
-> = ({ startOpen, onVisibilityChange: onChange, ...rest }) => {
-  const [tooltipShown, setTooltipShown] = useState(startOpen || false);
+> = ({ startOpen = false, onVisibilityChange: onChange, ...rest }) => {
+  const [tooltipShown, setTooltipShown] = useState(startOpen);
   const onVisibilityChange: (visibility: boolean) => void = useCallback(
     (visibility) => {
       if (onChange && onChange(visibility) === false) return;

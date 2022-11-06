@@ -12,6 +12,8 @@ import type { SetOptional, Simplify } from 'type-fest';
 
 import type { ReactFramework } from './types';
 
+export { ReactFramework };
+
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 
 /**

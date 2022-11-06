@@ -9,7 +9,8 @@ jest.mock('fs', () => ({
   existsSync: jest.fn(),
 }));
 jest.mock('./dirs', () => ({
-  getBaseDir: () => '',
+  getRendererDir: (renderer) => `@storybook/${renderer}`,
+  getCliDir: () => '@storybook/cli',
 }));
 
 jest.mock('fs-extra', () => ({
@@ -68,27 +69,31 @@ describe('Helpers', () => {
   `(
     `should copy $expected when folder $exists exists for language $language`,
     async ({ language, exists, expected }) => {
-      const componentsDirectory = exists.map((folder: string) => `rendererAssets/react/${folder}`);
-      const expectedDirectory = `rendererAssets/react${expected}`;
-      (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-        return componentsDirectory.includes(filePath) || filePath === 'rendererAssets/react';
-      });
+      const componentsDirectory = exists.map(
+        (folder: string) => `@storybook/react/template/cli/${folder}`
+      );
+      (fse.pathExists as jest.Mock).mockImplementation(
+        (filePath) =>
+          componentsDirectory.includes(filePath) || filePath === '@storybook/react/template/cli'
+      );
       await helpers.copyComponents('react', language);
 
       const copySpy = jest.spyOn(fse, 'copy');
       expect(copySpy).toHaveBeenNthCalledWith(
         1,
-        'rendererAssets/common',
+        '@storybook/cli/rendererAssets/common',
         './stories',
         expect.anything()
       );
+
+      const expectedDirectory = `@storybook/react/template/cli${expected}`;
       expect(copySpy).toHaveBeenNthCalledWith(2, expectedDirectory, './stories', expect.anything());
     }
   );
 
   it(`should copy to src folder when exists`, async () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-      return filePath === 'rendererAssets/react' || filePath === './src';
+      return filePath === '@storybook/react/template/cli' || filePath === './src';
     });
     await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './src/stories', expect.anything());
@@ -96,7 +101,7 @@ describe('Helpers', () => {
 
   it(`should copy to root folder when src doesn't exist`, async () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-      return filePath === 'rendererAssets/react';
+      return filePath === '@storybook/react/template/cli';
     });
     await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './stories', expect.anything());

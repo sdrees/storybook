@@ -68,7 +68,7 @@ export class DocButtonComponent<T> {
 
   /** Test null default value. */
   @Input()
-  public aNullValue = null;
+  public aNullValue: string | null = null;
 
   /** Test null default value. */
   @Input()

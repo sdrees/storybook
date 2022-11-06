@@ -1,5 +1,23 @@
 const os = require('os');
 
+// TODO Revisit this test later, when we have a windows machine @valentinpalkovic
+const skipOnWindows = [
+  'lib/core-server/src/utils/stories-json.test.ts',
+  'lib/core-server/src/utils/StoryIndexGenerator.test.ts',
+  'lib/cli/src/helpers.test.ts',
+  'lib/core-server/src/utils/__tests__/server-statics.test.ts',
+  'lib/core-common/src/utils/__tests__/template.test.ts',
+  'addons/storyshots/storyshots-core/src/frameworks/configure.test.ts',
+  'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
+  'lib/builder-manager/src/utils/files.test.ts',
+  'lib/cli/src/helpers.test.ts',
+  'lib/core-server/src/utils/__tests__/server-statics.test.ts',
+  'lib/core-common/src/utils/__tests__/template.test.ts',
+  'addons/storyshots/storyshots-core/src/frameworks/configure.test.ts',
+  'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
+  'lib/builder-manager/src/utils/files.test.ts',
+];
+
 module.exports = {
   cacheDirectory: '.cache/jest',
   clearMocks: true,
@@ -51,6 +69,7 @@ module.exports = {
     '/renderers/svelte/src/public-types.test.ts',
     '/renderers/vue/src/public-types.test.ts',
     '/renderers/vue3/src/public-types.test.ts',
+    ...(process.platform === 'win32' ? skipOnWindows : []),
   ],
   collectCoverage: false,
   collectCoverageFrom: [

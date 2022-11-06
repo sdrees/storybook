@@ -31,6 +31,7 @@ import type {
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
 
+import type { StoryRenderOptions } from './render/StoryRender';
 import { StoryRender } from './render/StoryRender';
 import type { TemplateDocsRender } from './render/TemplateDocsRender';
 import type { StandaloneDocsRender } from './render/StandaloneDocsRender';
@@ -304,7 +305,11 @@ export class Preview<TFramework extends AnyFramework> {
   // main to be consistent with the previous behaviour. In the future,
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
-  renderStoryToElement(story: Store_Story<TFramework>, element: HTMLElement) {
+  renderStoryToElement(
+    story: Store_Story<TFramework>,
+    element: HTMLElement,
+    options: StoryRenderOptions
+  ) {
     if (!this.renderToDOM)
       throw new Error(`Cannot call renderStoryToElement before initialization`);
 
@@ -315,6 +320,7 @@ export class Preview<TFramework extends AnyFramework> {
       this.inlineStoryCallbacks(story.id),
       story.id,
       'docs',
+      options,
       story
     );
     render.renderToElement(element);

@@ -21,10 +21,11 @@
     });
   }
 </script>
+
 {#if decorator}
   <svelte:component this={decorator} {...decoratorProps} bind:this={decoratorInstance}>
-    <svelte:component this={component} {...props} bind:this={instance}/>
+    <svelte:component this={component} {...props} bind:this={instance} />
   </svelte:component>
 {:else}
-  <svelte:component this={component} {...props} bind:this={instance}/>
+  <svelte:component this={component} {...props} bind:this={instance} />
 {/if}

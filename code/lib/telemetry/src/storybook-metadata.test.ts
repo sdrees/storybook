@@ -12,7 +12,7 @@ const mainJsMock: StorybookConfig = {
   stories: [],
 };
 
-jest.mock('./package-versions', () => {
+jest.mock('./package-json', () => {
   const getActualPackageVersion = jest.fn((name) =>
     Promise.resolve({
       name,
@@ -24,9 +24,17 @@ jest.mock('./package-versions', () => {
     Promise.all(Object.keys(packages).map(getActualPackageVersion))
   );
 
+  const getActualPackageJson = jest.fn((name) => ({
+    dependencies: {
+      '@storybook/react': 'x.x.x',
+      '@storybook/builder-vite': 'x.x.x',
+    },
+  }));
+
   return {
     getActualPackageVersions,
     getActualPackageVersion,
+    getActualPackageJson,
   };
 });
 
@@ -96,40 +104,39 @@ describe('sanitizeAddonName', () => {
 describe('await computeStorybookMetadata', () => {
   test('should return frameworkOptions from mainjs', async () => {
     const reactResult = await computeStorybookMetadata({
-      packageJson: {
-        ...packageJsonMock,
-        devDependencies: {
-          '@storybook/react': 'x.x.x',
-        },
-      },
+      packageJson: packageJsonMock,
       mainConfig: {
         ...mainJsMock,
-        reactOptions: {
-          fastRefresh: false,
+        framework: {
+          name: '@storybook/react-vite',
+          options: {
+            fastRefresh: false,
+          },
         },
       },
     });
 
-    expect(reactResult.framework).toEqual({ name: 'react', options: { fastRefresh: false } });
+    expect(reactResult.framework).toEqual({
+      name: '@storybook/react-vite',
+      options: { fastRefresh: false },
+    });
 
     const angularResult = await computeStorybookMetadata({
-      packageJson: {
-        ...packageJsonMock,
-        devDependencies: {
-          '@storybook/angular': 'x.x.x',
-        },
-      },
+      packageJson: packageJsonMock,
       mainConfig: {
         ...mainJsMock,
-        angularOptions: {
-          enableIvy: true,
-          enableNgcc: true,
+        framework: {
+          name: '@storybook/angular',
+          options: {
+            enableIvy: true,
+            enableNgcc: true,
+          },
         },
       },
     });
 
     expect(angularResult.framework).toEqual({
-      name: 'angular',
+      name: '@storybook/angular',
       options: { enableIvy: true, enableNgcc: true },
     });
   });
@@ -196,40 +203,20 @@ describe('await computeStorybookMetadata', () => {
     expect(result.features).toEqual(features);
   });
 
-  test('should handle different types of builders', async () => {
-    const simpleBuilder = 'webpack4';
-    const complexBuilder = {
-      name: 'webpack5',
-      options: {
-        lazyCompilation: true,
-      },
-    };
+  test('should infer builder and renderer from framework package.json', async () => {
     expect(
-      (
-        await computeStorybookMetadata({
-          packageJson: packageJsonMock,
-          mainConfig: {
-            ...mainJsMock,
-            core: {
-              builder: complexBuilder,
-            },
-          },
-        })
-      ).builder
-    ).toEqual(complexBuilder);
-    expect(
-      (
-        await computeStorybookMetadata({
-          packageJson: packageJsonMock,
-          mainConfig: {
-            ...mainJsMock,
-            core: {
-              builder: simpleBuilder,
-            },
-          },
-        })
-      ).builder
-    ).toEqual({ name: simpleBuilder });
+      await computeStorybookMetadata({
+        packageJson: packageJsonMock,
+        mainConfig: {
+          ...mainJsMock,
+          framework: '@storybook/react-vite',
+        },
+      })
+    ).toMatchObject({
+      framework: { name: '@storybook/react-vite' },
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-vite',
+    });
   });
 
   test('should return the number of refs', async () => {

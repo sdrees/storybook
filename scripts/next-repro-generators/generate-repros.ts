@@ -6,7 +6,7 @@ import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
-import { AbortController } from 'node-abort-controller';
+import type { AbortController } from 'node-abort-controller';
 import { directory } from 'tempy';
 
 import reproTemplates from '../../code/lib/cli/src/repro-templates';
@@ -16,9 +16,9 @@ import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manag
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
-import { GeneratorConfig } from './utils/types';
+import type { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
-import { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
+import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
 import { runRegistry } from '../tasks/run-registry';
 
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
@@ -160,6 +160,13 @@ const runGenerators = async (
         await addStorybook(baseDir, localRegistry, flags);
 
         await addDocumentation(baseDir, { name, dirName });
+
+        // Remove node_modules to save space and avoid GH actions failing
+        // They're not uploaded to the git repros repo anyway
+        if (process.env.CLEANUP_REPRO_NODE_MODULES) {
+          await remove(join(beforeDir, 'node_modules'));
+          await remove(join(baseDir, 'node_modules'));
+        }
 
         console.log(
           `✅ Created ${dirName} in ./${relative(

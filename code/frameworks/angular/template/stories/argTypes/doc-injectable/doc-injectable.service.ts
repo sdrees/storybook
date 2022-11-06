@@ -21,7 +21,7 @@ export class DocInjectableService {
   /**
    * Get posts from Backend.
    */
-  getPosts() {
+  getPosts(): unknown[] {
     return [];
   }
 }

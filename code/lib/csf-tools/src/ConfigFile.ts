@@ -108,6 +108,30 @@ export class ConfigFile {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     traverse.default(this._ast, {
+      ExportDefaultDeclaration: {
+        enter({ node, parent }) {
+          const decl =
+            t.isIdentifier(node.declaration) && t.isProgram(parent)
+              ? _findVarInitialization(node.declaration.name, parent)
+              : node.declaration;
+
+          if (t.isObjectExpression(decl)) {
+            self._exportsObject = decl;
+            decl.properties.forEach((p: t.ObjectProperty) => {
+              const exportName = propKey(p);
+              if (exportName) {
+                let exportVal = p.value;
+                if (t.isIdentifier(exportVal)) {
+                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program);
+                }
+                self._exports[exportName] = exportVal as t.Expression;
+              }
+            });
+          } else {
+            logger.warn(`Unexpected ${JSON.stringify(node)}`);
+          }
+        },
+      },
       ExportNamedDeclaration: {
         enter({ node, parent }) {
           if (t.isVariableDeclaration(node.declaration)) {

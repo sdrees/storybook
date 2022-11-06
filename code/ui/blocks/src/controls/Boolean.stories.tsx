@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { BooleanControl } from './Boolean';
 
-export default {
-  title: 'Controls/Boolean',
+const meta = {
   component: BooleanControl,
+  tags: ['docsPage'],
+  parameters: { withRawArg: 'value', controls: { include: ['value'] } },
+  args: { name: 'boolean' },
+} as Meta<typeof BooleanControl>;
+
+export default meta;
+
+export const True: StoryObj<typeof BooleanControl> = {
+  args: {
+    value: true,
+  },
+};
+export const False: StoryObj<typeof BooleanControl> = {
+  args: {
+    value: false,
+  },
 };
 
-const Template = (initialValue?: boolean) => {
-  const [value, setValue] = useState(initialValue);
-  return (
-    <>
-      <BooleanControl name="boolean" value={value} onChange={(newVal) => setValue(newVal)} />
-      <pre>{JSON.stringify(value) || 'undefined'}</pre>
-    </>
-  );
+export const Undefined: StoryObj<typeof BooleanControl> = {
+  args: {
+    value: undefined,
+  },
 };
-
-export const True = () => Template(true);
-
-export const False = () => Template(false);
-
-export const Undefined = () => Template(undefined);

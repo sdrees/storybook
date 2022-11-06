@@ -11,4 +11,6 @@ export {
   setGlobalRender,
 } from './ClientApi';
 
+export * from '@storybook/store';
+
 export * from './queryparams';

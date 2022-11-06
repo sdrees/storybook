@@ -1,3 +1,21 @@
+## 7.0.0-alpha.47 (November 1, 2022)
+
+#### Features
+
+-   CSF-tools: Turn story comments into docs descriptions [#19684](https://github.com/storybooks/storybook/pull/19684)
+-   CLI: Migrate CLI templates to CSF3 [#19665](https://github.com/storybooks/storybook/pull/19665)
+-   Vite: Set default `base` for subfolder deployments [#19383](https://github.com/storybooks/storybook/pull/19383)
+
+#### Bug Fixes
+
+-   Disable keyboard shortcuts during (docs) play functions and add tests [#19668](https://github.com/storybooks/storybook/pull/19668)
+
+#### Maintenance
+
+-   Addon-docs: Replace source-loader with csf-plugin [#19680](https://github.com/storybooks/storybook/pull/19680)
+-   CLI: Move all templates out of cli into renderers [#19664](https://github.com/storybooks/storybook/pull/19664)
+-   Addon-docs: Remove mdx-compiler-plugin [#19681](https://github.com/storybooks/storybook/pull/19681)
+
 ## 7.0.0-alpha.46 (October 28, 2022)
 
 #### Features

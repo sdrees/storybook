@@ -226,6 +226,8 @@ describe('NPM Proxy', () => {
 
       jest.spyOn(npmProxy, 'retrievePackageJson').mockImplementation(
         jest.fn(() => ({
+          dependencies: {},
+          devDependencies: {},
           overrides: {
             bar: 'x.x.x',
           },
@@ -238,6 +240,8 @@ describe('NPM Proxy', () => {
       npmProxy.addPackageResolutions(versions);
 
       expect(writePackageSpy).toHaveBeenCalledWith({
+        dependencies: {},
+        devDependencies: {},
         overrides: {
           ...versions,
           bar: 'x.x.x',

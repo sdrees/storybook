@@ -1295,6 +1295,50 @@ describe('start', () => {
         `);
       });
     });
+    describe('when docsOptions.docsPage = automatic', () => {
+      beforeEach(() => {
+        global.DOCS_OPTIONS = { enabled: true, docsPage: 'automatic', defaultName: 'Docs' };
+      });
+
+      it('adds stories for each component with docsPage tag', async () => {
+        const renderToDOM = jest.fn();
+
+        const { configure, clientApi } = start(renderToDOM);
+        configure('test', () => {
+          (clientApi as any).addParameters({
+            docs: { renderer: () => ({ render: jest.fn((_, _2, _3, d) => d()) }) },
+          });
+          clientApi
+            .storiesOf('Component A', { id: 'file1' } as NodeModule)
+            .add('Story One', jest.fn())
+            .add('Story Two', jest.fn());
+
+          clientApi
+            .storiesOf('Component B', { id: 'file2' } as NodeModule)
+            .addParameters({ tags: ['docsPage'] })
+            .add('Story Three', jest.fn());
+
+          return [componentCExports];
+        });
+
+        await waitForRender();
+        const setIndexData = mockChannel.emit.mock.calls.find(
+          (call: [string, any]) => call[0] === SET_INDEX
+        )[1];
+        expect(Object.keys(setIndexData.entries)).toMatchInlineSnapshot(`
+          Array [
+            "component-a--docs",
+            "component-a--story-one",
+            "component-a--story-two",
+            "component-b--docs",
+            "component-b--story-three",
+            "component-c--docs",
+            "component-c--story-one",
+            "component-c--story-two",
+          ]
+        `);
+      });
+    });
   });
 
   describe('auto-title', () => {
