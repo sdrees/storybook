@@ -1,4 +1,4 @@
-import type { AnyFramework, StepRunner } from '@storybook/types';
+import type { Framework, StepRunner } from '@storybook/types';
 
 /**
  * Compose step runners to create a single step runner that applies each step runner in order.
@@ -18,7 +18,7 @@ import type { AnyFramework, StepRunner } from '@storybook/types';
  * @param stepRunners an array of StepRunner
  * @returns a StepRunner that is the composition of the arguments
  */
-export function composeStepRunners<TFramework extends AnyFramework>(
+export function composeStepRunners<TFramework extends Framework>(
   stepRunners: StepRunner<TFramework>[]
 ): StepRunner<TFramework> {
   return async (label, play, playContext) => {

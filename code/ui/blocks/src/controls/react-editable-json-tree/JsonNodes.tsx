@@ -1086,7 +1086,6 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
   onChildUpdate(childKey: string, childData: any) {
     const { data, keyPath } = this.state;
     // Update data
-    // @ts-expect-error (Converted from ts-ignore)
     data[childKey] = childData;
     // Put new data
     this.setState({
@@ -1117,7 +1116,6 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
     beforeAddAction(key, keyPath, deep, newValue)
       .then(() => {
         // Update data
-        // @ts-expect-error (Converted from ts-ignore)
         data[key] = newValue;
         this.setState({
           data,
@@ -1143,7 +1141,6 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
     return () => {
       const { beforeRemoveAction, logger } = this.props;
       const { data, keyPath, nextDeep: deep } = this.state;
-      // @ts-expect-error (Converted from ts-ignore)
       const oldValue = data[key];
       // Before Remove Action
       beforeRemoveAction(key, keyPath, deep, oldValue)
@@ -1156,7 +1153,6 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
             type: deltaTypes.REMOVE_DELTA_TYPE,
           };
 
-          // @ts-expect-error (Converted from ts-ignore)
           delete data[key];
           this.setState({ data });
 
@@ -1182,14 +1178,12 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
       const { data, keyPath, nextDeep: deep } = this.state;
 
       // Old value
-      // @ts-expect-error (Converted from ts-ignore)
       const oldValue = data[key];
 
       // Before update action
       beforeUpdateAction(key, keyPath, deep, oldValue, value)
         .then(() => {
           // Update value
-          // @ts-expect-error (Converted from ts-ignore)
           data[key] = value;
           // Set state
           this.setState({

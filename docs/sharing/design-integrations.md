@@ -13,7 +13,7 @@ Storybook integrates with design tools to speed up your development workflow. Th
 
 ### Embed Storybook in Figma with the plugin
 
-[Storybook Connect](https://www.figma.com/community/plugin/1056265616080331589/Storybook-Connect) is a Figma plugin that allows you to embed component stories in Figma. It’s powered by [Storybook embeds](./embed.md) and [Chromatic](https://www.chromatic.com/), a publishing tool created by the Storybook team.
+[Storybook Connect](https://www.figma.com/community/plugin/1056265616080331589/Storybook-Connect) is a Figma plugin that allows you to embed component stories in Figma. It’s powered by [Storybook embeds](./embed.md) and [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook), a publishing tool created by the Storybook team.
 
 <video autoPlay muted playsInline loop>
   <source src="figma-plugin-open-story.mp4" type="video/mp4" />

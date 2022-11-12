@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { SynchronousPromise } from 'synchronous-promise';
+import type { Framework, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
+
 import type { Addon_IndexEntry, Addon_StoryIndexEntry } from './addons';
 import type {
   AnnotatedStoryFn,
-  AnyFramework,
   Args,
   ComponentAnnotations,
   ComponentId,
@@ -13,7 +14,6 @@ import type {
   Parameters,
   PartialStoryFn,
   Path,
-  ProjectAnnotations,
   StoryAnnotations,
   StoryContext,
   StoryContextForEnhancers,
@@ -27,6 +27,10 @@ import type {
   ViewMode,
 } from './csf';
 
+export interface WebFramework extends Framework {
+  canvasElement: HTMLElement;
+}
+
 export type Store_ModuleExport = any;
 export type Store_ModuleExports = Record<string, Store_ModuleExport>;
 export type Store_PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
@@ -34,24 +38,26 @@ export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_Modul
 
 type Store_MaybePromise<T> = Promise<T> | T;
 
-export type Store_TeardownRenderToDOM = () => Store_MaybePromise<void>;
-export type Store_RenderToDOM<TFramework extends AnyFramework> = (
+export type TeardownRenderToCanvas = () => Store_MaybePromise<void>;
+export type RenderToCanvas<TFramework extends Framework> = (
   context: Store_RenderContext<TFramework>,
-  element: Element
-) => Store_MaybePromise<void | Store_TeardownRenderToDOM>;
+  element: TFramework['canvasElement']
+) => Store_MaybePromise<void | TeardownRenderToCanvas>;
 
-export type Store_WebProjectAnnotations<TFramework extends AnyFramework> =
-  ProjectAnnotations<TFramework> & {
-    renderToDOM?: Store_RenderToDOM<TFramework>;
-  };
+export type ProjectAnnotations<TFramework extends Framework> = CsfProjectAnnotations<TFramework> & {
+  renderToCanvas?: RenderToCanvas<TFramework>;
 
-export type Store_NormalizedProjectAnnotations<TFramework extends AnyFramework = AnyFramework> =
+  /* @deprecated use renderToCanvas */
+  renderToDOM?: RenderToCanvas<TFramework>;
+};
+
+export type Store_NormalizedProjectAnnotations<TFramework extends Framework = Framework> =
   ProjectAnnotations<TFramework> & {
     argTypes?: StrictArgTypes;
     globalTypes?: StrictGlobalTypes;
   };
 
-export type Store_NormalizedComponentAnnotations<TFramework extends AnyFramework = AnyFramework> =
+export type Store_NormalizedComponentAnnotations<TFramework extends Framework = Framework> =
   ComponentAnnotations<TFramework> & {
     // Useful to guarantee that id & title exists
     id: ComponentId;
@@ -59,7 +65,7 @@ export type Store_NormalizedComponentAnnotations<TFramework extends AnyFramework
     argTypes?: StrictArgTypes;
   };
 
-export type Store_NormalizedStoryAnnotations<TFramework extends AnyFramework = AnyFramework> = Omit<
+export type Store_NormalizedStoryAnnotations<TFramework extends Framework = Framework> = Omit<
   StoryAnnotations<TFramework>,
   'storyName' | 'story'
 > & {
@@ -71,12 +77,12 @@ export type Store_NormalizedStoryAnnotations<TFramework extends AnyFramework = A
   userStoryFn?: StoryFn<TFramework>;
 };
 
-export type Store_CSFFile<TFramework extends AnyFramework = AnyFramework> = {
+export type Store_CSFFile<TFramework extends Framework = Framework> = {
   meta: Store_NormalizedComponentAnnotations<TFramework>;
   stories: Record<StoryId, Store_NormalizedStoryAnnotations<TFramework>>;
 };
 
-export type Store_Story<TFramework extends AnyFramework = AnyFramework> =
+export type Store_Story<TFramework extends Framework = Framework> =
   StoryContextForEnhancers<TFramework> & {
     moduleExport: Store_ModuleExport;
     originalStoryFn: StoryFn<TFramework>;
@@ -90,12 +96,11 @@ export type Store_Story<TFramework extends AnyFramework = AnyFramework> =
     playFunction?: (context: StoryContext<TFramework>) => Promise<void> | void;
   };
 
-export type Store_BoundStory<TFramework extends AnyFramework = AnyFramework> =
-  Store_Story<TFramework> & {
-    storyFn: PartialStoryFn<TFramework>;
-  };
+export type Store_BoundStory<TFramework extends Framework = Framework> = Store_Story<TFramework> & {
+  storyFn: PartialStoryFn<TFramework>;
+};
 
-export declare type Store_RenderContext<TFramework extends AnyFramework = AnyFramework> =
+export declare type Store_RenderContext<TFramework extends Framework = Framework> =
   StoryIdentifier & {
     showMain: () => void;
     showError: (error: { title: string; description: string }) => void;
@@ -136,7 +141,7 @@ export interface Store_Selection {
   viewMode: ViewMode;
 }
 
-export type Store_DecoratorApplicator<TFramework extends AnyFramework = AnyFramework> = (
+export type Store_DecoratorApplicator<TFramework extends Framework = Framework> = (
   storyFn: LegacyStoryFn<TFramework>,
   decorators: DecoratorFunction<TFramework>[]
 ) => LegacyStoryFn<TFramework>;
@@ -161,13 +166,13 @@ export interface Store_NormalizedStoriesSpecifierEntry {
   importPathMatcher: RegExp;
 }
 
-export type Store_ContextStore<TFramework extends AnyFramework> = {
+export type Store_ContextStore<TFramework extends Framework> = {
   value?: StoryContext<TFramework>;
 };
 
 export type Store_PropDescriptor = string[] | RegExp;
 
-export type Store_CSFExports<TFramework extends AnyFramework = AnyFramework> = {
+export type Store_CSFExports<TFramework extends Framework = Framework> = {
   default: ComponentAnnotations<TFramework, Args>;
   __esModule?: boolean;
   __namedExportsOrder?: string[];
@@ -181,11 +186,11 @@ export type Store_ComposedStoryPlayFn = (
 ) => Promise<void> | void;
 
 export type Store_StoryFn<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs = Args
 > = AnnotatedStoryFn<TFramework, TArgs> & { play: Store_ComposedStoryPlayFn };
 
-export type Store_ComposedStory<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
+export type Store_ComposedStory<TFramework extends Framework = Framework, TArgs = Args> =
   | StoryFn<TFramework, TArgs>
   | StoryAnnotations<TFramework, TArgs>;
 
@@ -195,7 +200,7 @@ export type Store_ComposedStory<TFramework extends AnyFramework = AnyFramework, 
  * 2. infer the actual prop type for each Story
  * 3. reconstruct Story with Partial. Story<Props> -> Story<Partial<Props>>
  */
-export type Store_StoriesWithPartialProps<TFramework extends AnyFramework, TModule> = {
+export type Store_StoriesWithPartialProps<TFramework extends Framework, TModule> = {
   // @TODO once we can use Typescript 4.0 do this to exclude nonStory exports:
   // replace [K in keyof TModule] with [K in keyof TModule as TModule[K] extends ComposedStory<any> ? K : never]
   [K in keyof TModule]: TModule[K] extends Store_ComposedStory<infer _, infer TProps>
@@ -209,7 +214,7 @@ export type Store_ControlsMatchers = {
 };
 
 export interface Store_ComposeStory<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs extends Args = Args
 > {
   (

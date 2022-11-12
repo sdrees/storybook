@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import type { AnyFramework, Parameters } from '@storybook/types';
+import type { Framework, Parameters } from '@storybook/types';
 import type { DocsContextProps, DocsRenderFunction } from '@storybook/preview-web';
 import { components as htmlComponents } from '@storybook/components';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
@@ -14,7 +14,7 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
-export class DocsRenderer<TFramework extends AnyFramework> {
+export class DocsRenderer<TFramework extends Framework> {
   public render: DocsRenderFunction<TFramework>;
 
   public unmount: (element: HTMLElement) => void;
@@ -33,6 +33,7 @@ export class DocsRenderer<TFramework extends AnyFramework> {
         ...defaultComponents,
         ...docsParameter?.components,
       };
+
       ReactDOM.render(
         <MDXProvider components={components}>
           <Docs key={Math.random()} context={context} docsParameter={docsParameter} />

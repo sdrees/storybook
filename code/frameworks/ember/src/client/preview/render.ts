@@ -20,7 +20,7 @@ let lastPromise = app.boot();
 let hasRendered = false;
 let isRendering = false;
 
-function render(options: OptionsArgs, el: Element) {
+function render(options: OptionsArgs, el: EmberFramework['canvasElement']) {
   if (isRendering) return;
   isRendering = true;
 
@@ -60,9 +60,9 @@ function render(options: OptionsArgs, el: Element) {
     });
 }
 
-export function renderToDOM(
+export function renderToCanvas(
   { storyFn, kind, name, showMain, showError }: Store_RenderContext<EmberFramework>,
-  domElement: Element
+  canvasElement: EmberFramework['canvasElement']
 ) {
   const element = storyFn();
 
@@ -80,5 +80,5 @@ export function renderToDOM(
   }
 
   showMain();
-  render(element, domElement);
+  render(element, canvasElement);
 }

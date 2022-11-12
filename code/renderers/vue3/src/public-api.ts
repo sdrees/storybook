@@ -5,7 +5,7 @@ import { start } from '@storybook/core-client';
 import type { VueFramework } from './types';
 import { decorateStory } from './decorateStory';
 
-import { render, renderToDOM } from './render';
+import { render, renderToCanvas } from './render';
 
 const FRAMEWORK = 'vue3';
 
@@ -17,7 +17,7 @@ interface ClientApi extends Addon_ClientStoryApi<VueFramework['storyResult']> {
   app: App;
 }
 
-const api = start(renderToDOM, { decorateStory, render });
+const api = start(renderToCanvas, { decorateStory, render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

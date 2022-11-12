@@ -13,20 +13,19 @@ import {
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+import { logger, deprecate } from '@storybook/client-logger';
 import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
 import type {
-  AnyFramework,
+  Framework,
   Args,
   Globals,
-  ProjectAnnotations,
   Store_ModuleImportFn,
   Store_PromiseLike,
-  Store_RenderToDOM,
+  RenderToCanvas,
   Store_Story,
   Store_StoryIndex,
-  Store_WebProjectAnnotations,
+  ProjectAnnotations,
   StoryId,
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
@@ -42,7 +41,7 @@ const STORY_INDEX_PATH = './index.json';
 
 export type MaybePromise<T> = Promise<T> | T;
 
-export class Preview<TFramework extends AnyFramework> {
+export class Preview<TFramework extends Framework> {
   serverChannel?: Channel;
 
   storyStore: StoryStore<TFramework>;
@@ -51,7 +50,7 @@ export class Preview<TFramework extends AnyFramework> {
 
   importFn?: Store_ModuleImportFn;
 
-  renderToDOM?: Store_RenderToDOM<TFramework>;
+  renderToCanvas?: RenderToCanvas<TFramework>;
 
   storyRenders: StoryRender<TFramework>[] = [];
 
@@ -81,7 +80,7 @@ export class Preview<TFramework extends AnyFramework> {
     // getProjectAnnotations has been run, thus this slightly awkward approach
     getStoryIndex?: () => Store_StoryIndex;
     importFn: Store_ModuleImportFn;
-    getProjectAnnotations: () => MaybePromise<Store_WebProjectAnnotations<TFramework>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
     // in which case we may need them later when we recover.
@@ -106,15 +105,18 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<Store_WebProjectAnnotations<TFramework>>
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>
   ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
-        this.renderToDOM = projectAnnotations.renderToDOM;
-        if (!this.renderToDOM) {
+        if (projectAnnotations.renderToDOM)
+          deprecate(`\`renderToDOM\` is deprecated, please rename to \`renderToCanvas\``);
+
+        this.renderToCanvas = projectAnnotations.renderToCanvas || projectAnnotations.renderToDOM;
+        if (!this.renderToCanvas) {
           throw new Error(dedent`
-            Expected your framework's preset to export a \`renderToDOM\` field.
+            Expected your framework's preset to export a \`renderToCanvas\` field.
 
             Perhaps it needs to be upgraded for Storybook 6.4?
 
@@ -132,7 +134,7 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   // If initialization gets as far as project annotations, this function runs.
-  initializeWithProjectAnnotations(projectAnnotations: Store_WebProjectAnnotations<TFramework>) {
+  initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
 
     this.setInitialGlobals();
@@ -307,16 +309,16 @@ export class Preview<TFramework extends AnyFramework> {
   // "instant", although async.
   renderStoryToElement(
     story: Store_Story<TFramework>,
-    element: HTMLElement,
+    element: TFramework['canvasElement'],
     options: StoryRenderOptions
   ) {
-    if (!this.renderToDOM)
+    if (!this.renderToCanvas)
       throw new Error(`Cannot call renderStoryToElement before initialization`);
 
     const render = new StoryRender<TFramework>(
       this.channel,
       this.storyStore,
-      this.renderToDOM,
+      this.renderToCanvas,
       this.inlineStoryCallbacks(story.id),
       story.id,
       'docs',

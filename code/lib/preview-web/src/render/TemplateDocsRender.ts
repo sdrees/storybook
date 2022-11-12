@@ -1,6 +1,6 @@
 import type {
   Addon_IndexEntry,
-  AnyFramework,
+  Framework,
   Store_CSFFile,
   Store_Story,
   StoryId,
@@ -27,7 +27,7 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.stories.mdx files, where the MDX compiler produces a CSF file with a `.parameter.docs.page`
  *      parameter containing the compiled content of the MDX file.
  */
-export class TemplateDocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
+export class TemplateDocsRender<TFramework extends Framework> implements Render<TFramework> {
   public readonly type: RenderType = 'docs';
 
   public readonly id: StoryId;
@@ -92,7 +92,7 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
   }
 
   async renderToElement(
-    canvasElement: HTMLElement,
+    canvasElement: TFramework['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
@@ -115,7 +115,10 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
     const renderer = await docsParameter.renderer();
     const { render } = renderer as { render: DocsRenderFunction<TFramework> };
     const renderDocs = async () => {
-      await new Promise<void>((r) => render(docsContext, docsParameter, canvasElement, r));
+      await new Promise<void>((r) =>
+        // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
+        render(docsContext, docsParameter, canvasElement as any, r)
+      );
       this.channel.emit(DOCS_RENDERED, this.id);
     };
 

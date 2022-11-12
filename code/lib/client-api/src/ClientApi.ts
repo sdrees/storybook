@@ -8,7 +8,7 @@ import type {
   Args,
   StepRunner,
   ArgTypes,
-  AnyFramework,
+  Framework,
   DecoratorFunction,
   Parameters,
   ArgTypesEnhancer,
@@ -31,7 +31,7 @@ import { StoryStoreFacade } from './StoryStoreFacade';
 
 // ClientApi (and StoreStore) are really singletons. However they are not created until the
 // relevant framework instanciates them via `start.js`. The good news is this happens right away.
-let singleton: ClientApi<AnyFramework>;
+let singleton: ClientApi<Framework>;
 
 const warningAlternatives = {
   addDecorator: `Instead, use \`export const decorators = [];\` in your \`preview.js\`.`,
@@ -60,7 +60,7 @@ const checkMethod = (method: keyof typeof warningAlternatives) => {
   }
 };
 
-export const addDecorator = (decorator: DecoratorFunction<AnyFramework>) => {
+export const addDecorator = (decorator: DecoratorFunction<Framework>) => {
   checkMethod('addDecorator');
   singleton.addDecorator(decorator);
 };
@@ -70,7 +70,7 @@ export const addParameters = (parameters: Parameters) => {
   singleton.addParameters(parameters);
 };
 
-export const addLoader = (loader: LoaderFunction<AnyFramework>) => {
+export const addLoader = (loader: LoaderFunction<Framework>) => {
   checkMethod('addLoader');
   singleton.addLoader(loader);
 };
@@ -85,12 +85,12 @@ export const addArgTypes = (argTypes: ArgTypes) => {
   singleton.addArgTypes(argTypes);
 };
 
-export const addArgsEnhancer = (enhancer: ArgsEnhancer<AnyFramework>) => {
+export const addArgsEnhancer = (enhancer: ArgsEnhancer<Framework>) => {
   checkMethod('addArgsEnhancer');
   singleton.addArgsEnhancer(enhancer);
 };
 
-export const addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<AnyFramework>) => {
+export const addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<Framework>) => {
   checkMethod('addArgTypesEnhancer');
   singleton.addArgTypesEnhancer(enhancer);
 };
@@ -105,13 +105,13 @@ export const getGlobalRender = () => {
   return singleton.facade.projectAnnotations.render;
 };
 
-export const setGlobalRender = (render: StoryFn<AnyFramework>) => {
+export const setGlobalRender = (render: StoryFn<Framework>) => {
   checkMethod('setGlobalRender');
   singleton.facade.projectAnnotations.render = render;
 };
 
 const invalidStoryTypes = new Set(['string', 'number', 'boolean', 'symbol']);
-export class ClientApi<TFramework extends AnyFramework> {
+export class ClientApi<TFramework extends Framework> {
   facade: StoryStoreFacade<TFramework>;
 
   storyStore?: StoryStore<TFramework>;

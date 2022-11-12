@@ -1,5 +1,4 @@
-import type { Parameters } from '@storybook/types';
-import type { Story } from '@storybook/store';
+import type { Parameters, Store_Story } from '@storybook/types';
 import { combineParameters } from '@storybook/store';
 
 // ============================================================
@@ -77,7 +76,7 @@ const extract = (targetId: string, { source, locationsMap }: StorySource) => {
   return extractSource(location, lines);
 };
 
-export const enhanceSource = (story: Story<any>): Parameters => {
+export const enhanceSource = (story: Store_Story<any>): Parameters => {
   const { id, parameters } = story;
   const { storySource, docs = {} } = parameters;
   const { transformSource } = docs;

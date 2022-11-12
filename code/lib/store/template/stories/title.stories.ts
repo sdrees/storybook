@@ -4,7 +4,7 @@ import type { PlayFunctionContext } from '@storybook/types';
 
 export default {
   component: globalThis.Components.Pre,
-  title: 'lib/store/manual title',
+  title: 'manual title',
   args: { text: 'No content' },
 };
 

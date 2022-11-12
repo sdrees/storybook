@@ -33,7 +33,8 @@ jest.mock('@storybook/docs-mdx', async () => ({
     const name = content.match(/name=['"](.*)['"]/)?.[1];
     const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
     const isTemplate = content.match(/isTemplate/);
-    return { title, name, imports, of: ofMatch && imports.length && imports[0], isTemplate };
+    const tags = ['mdx'];
+    return { title, name, tags, imports, of: ofMatch && imports.length && imports[0], isTemplate };
   },
 }));
 
@@ -50,12 +51,20 @@ const csfIndexer = async (fileName: string, opts: any) => {
   return loadCsf(code, { ...opts, fileName }).parse();
 };
 
+const storiesMdxIndexer = async (fileName: string, opts: any) => {
+  let code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const { compile } = await import('@storybook/mdx2-csf');
+  code = await compile(code, {});
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
+
 const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [
-    { test: /\.stories\..*$/, indexer: csfIndexer as any as CoreCommon_StoryIndexer['indexer'] },
-  ],
+    { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
+    { test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer },
+  ] as CoreCommon_StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { enabled: true, defaultName: 'docs', docsPage: false },
@@ -232,47 +241,43 @@ describe('StoryIndexGenerator', () => {
       });
     });
 
-    describe('addDocsTemplate indexer', () => {
-      const templateIndexer = { ...options.storyIndexers[0], addDocsTemplate: true };
-
+    describe('mdx tagged components', () => {
       it('adds docs entry with docs enabled', async () => {
         const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/A.stories.js',
+          './src/nested/Page.stories.mdx',
           options
         );
 
         const generator = new StoryIndexGenerator([specifier], {
           ...options,
-          storyIndexers: [templateIndexer],
         });
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
             "entries": Object {
-              "a--docs": Object {
-                "id": "a--docs",
-                "importPath": "./src/A.stories.js",
+              "page--docs": Object {
+                "id": "page--docs",
+                "importPath": "./src/nested/Page.stories.mdx",
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "component-tag",
-                  "docsPage",
+                  "mdx",
                   "docs",
                 ],
-                "title": "A",
+                "title": "Page",
                 "type": "docs",
               },
-              "a--story-one": Object {
-                "id": "a--story-one",
-                "importPath": "./src/A.stories.js",
-                "name": "Story One",
+              "page--story-one": Object {
+                "id": "page--story-one",
+                "importPath": "./src/nested/Page.stories.mdx",
+                "name": "StoryOne",
                 "tags": Array [
-                  "story-tag",
+                  "mdx",
                   "story",
                 ],
-                "title": "A",
+                "title": "Page",
                 "type": "story",
               },
             },
@@ -288,7 +293,6 @@ describe('StoryIndexGenerator', () => {
 
         const generator = new StoryIndexGenerator([specifier], {
           ...options,
-          storyIndexers: [templateIndexer],
           docs: { enabled: false },
         });
         await generator.initialize();
@@ -500,6 +504,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -613,6 +618,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -627,6 +633,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -650,6 +657,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "docs2/Yabbadabbadooo",
@@ -662,6 +670,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "NoTitle",
@@ -752,6 +761,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -766,6 +776,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -789,6 +800,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "docs2/Yabbadabbadooo",
@@ -801,6 +813,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "NoTitle",

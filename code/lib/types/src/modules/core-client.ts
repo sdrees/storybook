@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { Store_RenderContext } from './store';
-// import { Store_RenderContext, Store_WebProjectAnnotations } from './store';
+// import { Store_RenderContext, ProjectAnnotations } from './store';
 // import { ArgsStoryFn } from './csf';
 
 export interface CoreClient_PreviewError {

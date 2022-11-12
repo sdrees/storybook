@@ -3,12 +3,12 @@
 import type { RenderData as RouterData } from '../../../router/src/router';
 import type { ThemeVars } from '../../../theming/src/types';
 import type {
-  AnyFramework,
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
   ComponentTitle,
   DecoratorFunction as DecoratorFunctionForFramework,
   InputType,
+  Framework,
   LegacyStoryFn as LegacyStoryFnForFramework,
   LoaderFunction as LoaderFunctionForFramework,
   Parameters,
@@ -89,11 +89,15 @@ export interface Addon_OptionsParameter extends Object {
   [key: string]: any;
 }
 
-export type Addon_StoryContext<TFramework extends AnyFramework = AnyFramework> =
+export type Addon_StoryContext<TFramework extends Framework = Framework> =
   StoryContextForFramework<TFramework>;
 export type Addon_StoryContextUpdate = Partial<Addon_StoryContext>;
 
-type Addon_ReturnTypeFramework<ReturnType> = { component: any; storyResult: ReturnType };
+type Addon_ReturnTypeFramework<ReturnType> = {
+  component: any;
+  storyResult: ReturnType;
+  canvasElement: any;
+};
 export type Addon_PartialStoryFn<ReturnType = unknown> = PartialStoryFnForFramework<
   Addon_ReturnTypeFramework<ReturnType>
 >;

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-alpha.48",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -24,9 +24,44 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./dist/preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./dist/preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./svelte/HOC.svelte": "./svelte/HOC.svelte",
+    "./ember": "./ember/index.js",
+    "./ember/index.js": "./ember/index.js",
+    "./angular": "./angular/index.js",
+    "./angular/index.js": "./angular/index.js",
+    "./web-components/index.js": "./web-components/index.js",
+    "./jest-transform-mdx.js": "./jest-transform-mdx.js",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "angular/**/*",
@@ -46,29 +81,21 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@jest/transform": "^26.6.2",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/api": "7.0.0-alpha.47",
-    "@storybook/blocks": "7.0.0-alpha.47",
-    "@storybook/components": "7.0.0-alpha.47",
-    "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/core-events": "7.0.0-alpha.47",
-    "@storybook/csf-plugin": "7.0.0-alpha.47",
-    "@storybook/csf-tools": "7.0.0-alpha.47",
-    "@storybook/docs-tools": "7.0.0-alpha.47",
+    "@storybook/blocks": "7.0.0-alpha.48",
+    "@storybook/components": "7.0.0-alpha.48",
+    "@storybook/csf-plugin": "7.0.0-alpha.48",
+    "@storybook/csf-tools": "7.0.0-alpha.48",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-alpha.47",
-    "@storybook/postinstall": "7.0.0-alpha.47",
-    "@storybook/preview-web": "7.0.0-alpha.47",
-    "@storybook/store": "7.0.0-alpha.47",
-    "@storybook/theming": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
-    "dequal": "^2.0.2",
+    "@storybook/node-logger": "7.0.0-alpha.48",
+    "@storybook/postinstall": "7.0.0-alpha.48",
+    "@storybook/preview-web": "7.0.0-alpha.48",
+    "@storybook/types": "7.0.0-alpha.48",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
     "remark-external-links": "^8.0.0",
@@ -94,7 +121,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts",
+      "./src/preview.ts"
+    ]
+  },
+  "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

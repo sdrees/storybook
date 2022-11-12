@@ -14,7 +14,7 @@ Make sure you have:
 
 - Installed [`Yarn`](https://yarnpkg.com/) on your local development machine.
 - A [GitHub account](https://github.com/signup) for hosting the reproduction's code.
-- A [Chromatic account](https://www.chromatic.com/start) for publishing your Storybook.
+- A [Chromatic account](https://www.chromatic.com/start/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) for publishing your Storybook.
 
 ## Initial setup
 
@@ -72,14 +72,14 @@ Then, follow GitHub's instructions to set up the repository.
 
 ## Publish
 
-An excellent way to check your reproduction is to have it deployed online. We recommend [Chromatic](https://www.chromatic.com/), a free publishing service created by the Storybook maintainers. It allows you to deploy and host your reproduction safely and securely in the cloud.
+An excellent way to check your reproduction is to have it deployed online. We recommend [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook), a free publishing service created by the Storybook maintainers. It allows you to deploy and host your reproduction safely and securely in the cloud.
 
 ### Helpful resources when working with Chromatic
 
 - [Publish Storybook](../sharing/publish-storybook.md)
-- [Setup Chromatic](https://www.chromatic.com/docs/setup)
-- [Automate Chromatic with continuous integration](https://www.chromatic.com/docs/ci)
+- [Setup Chromatic](https://www.chromatic.com/docs/setup?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)
+- [Automate Chromatic with continuous integration](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)
 
 ## Submit the issue
 
-Finally, create your issue in the [Storybook issue tracker](https://github.com/storybookjs/storybook/issues/new/choose), go through the required steps, and provide a detailed description of the problem. Add the GitHub repository and [deployed reproduction](https://www.chromatic.com/docs/setup#view-published-storybook) to help with the triage process.
+Finally, create your issue in the [Storybook issue tracker](https://github.com/storybookjs/storybook/issues/new/choose), go through the required steps, and provide a detailed description of the problem. Add the GitHub repository and [deployed reproduction](https://www.chromatic.com/docs/setup?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook#view-published-storybook) to help with the triage process.

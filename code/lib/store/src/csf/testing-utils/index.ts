@@ -1,6 +1,6 @@
 import { isExportStory } from '@storybook/csf';
 import type {
-  AnyFramework,
+  Framework,
   Args,
   ComponentAnnotations,
   LegacyStoryAnnotationsOrFn,
@@ -21,17 +21,14 @@ import { normalizeProjectAnnotations } from '../normalizeProjectAnnotations';
 
 let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = {};
 
-export function setProjectAnnotations<TFramework extends AnyFramework = AnyFramework>(
+export function setProjectAnnotations<TFramework extends Framework = Framework>(
   projectAnnotations: ProjectAnnotations<TFramework> | ProjectAnnotations<TFramework>[]
 ) {
   const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
   GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs(annotations);
 }
 
-export function composeStory<
-  TFramework extends AnyFramework = AnyFramework,
-  TArgs extends Args = Args
->(
+export function composeStory<TFramework extends Framework = Framework, TArgs extends Args = Args>(
   storyAnnotations: LegacyStoryAnnotationsOrFn<TFramework>,
   componentAnnotations: ComponentAnnotations<TFramework, TArgs>,
   projectAnnotations: ProjectAnnotations<TFramework> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS,
@@ -95,7 +92,7 @@ export function composeStory<
 
 export function composeStories<TModule extends Store_CSFExports>(
   storiesImport: TModule,
-  globalConfig: ProjectAnnotations<AnyFramework>,
+  globalConfig: ProjectAnnotations<Framework>,
   composeStoryFn: Store_ComposeStory
 ) {
   // eslint-disable-next-line @typescript-eslint/naming-convention

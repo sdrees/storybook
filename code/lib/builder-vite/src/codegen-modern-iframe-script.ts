@@ -1,21 +1,22 @@
-import { isAbsolute, resolve } from 'path';
 import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
+import type { PreviewAnnotation } from '@storybook/types';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
-import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
+import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
 export async function generateModernIframeScriptCode(options: ExtendedOptions) {
   const { presets, configDir } = options;
   const frameworkName = await getFrameworkName(options);
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
-  const previewAnnotations = await presets.apply('previewAnnotations', [], options);
-  const resolvedPreviewAnnotations = [...previewAnnotations].map((entry) =>
-    isAbsolute(entry) ? entry : resolve(entry)
+  const previewAnnotations = await presets.apply<PreviewAnnotation[]>(
+    'previewAnnotations',
+    [],
+    options
   );
-  const relativePreviewAnnotations = [...resolvedPreviewAnnotations, previewOrConfigFile]
+  const relativePreviewAnnotations = [...previewAnnotations, previewOrConfigFile]
     .filter(Boolean)
-    .map((configEntry) => transformAbsPath(configEntry as string));
+    .map(processPreviewAnnotation);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const generateHMRHandler = (frameworkName: string): string => {

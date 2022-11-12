@@ -1,6 +1,6 @@
 import { Preview } from '@storybook/preview-web';
 import type {
-  AnyFramework,
+  Framework,
   ComponentTitle,
   Path,
   ProjectAnnotations,
@@ -27,9 +27,7 @@ class ConstantMap<TKey, TValue extends string> {
   }
 }
 
-export class ExternalPreview<
-  TFramework extends AnyFramework = AnyFramework
-> extends Preview<TFramework> {
+export class ExternalPreview<TFramework extends Framework = Framework> extends Preview<TFramework> {
   private importPaths = new ConstantMap<MetaExports, Path>('./importPath/');
 
   private titles = new ConstantMap<MetaExports, ComponentTitle>('title-');
@@ -38,7 +36,7 @@ export class ExternalPreview<
 
   private moduleExportsByImportPath: Record<Path, Store_ModuleExports> = {};
 
-  constructor(public projectAnnotations: ProjectAnnotations) {
+  constructor(public projectAnnotations: ProjectAnnotations<TFramework>) {
     super(new Channel());
 
     this.initialize({

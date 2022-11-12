@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type {
-  AnyFramework,
+  Framework,
   ArgsEnhancer,
   ArgTypesEnhancer,
   CoreCommon_NormalizedStoriesSpecifier,
@@ -33,7 +33,7 @@ interface Output {
   requireContexts?: string[];
 }
 
-const supportedExtensions = ['ts', 'tsx', 'js', 'jsx'];
+const supportedExtensions = ['ts', 'tsx', 'js', 'jsx', 'cjs', 'mjs'];
 
 const resolveFile = (configDir: string, supportedFilenames: string[]) =>
   supportedFilenames
@@ -87,7 +87,7 @@ function getConfigPathParts(input: string): Output {
   return { preview: configDir };
 }
 
-function configure<TFramework extends AnyFramework>(
+function configure<TFramework extends Framework>(
   options: {
     storybook: ClientApi<TFramework>;
   } & StoryshotsOptions

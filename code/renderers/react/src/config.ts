@@ -7,4 +7,4 @@ export const parameters = {
 
 export { decorators, argTypesEnhancers } from './docs/config';
 
-export { render, renderToDOM } from './render';
+export { render, renderToCanvas } from './render';

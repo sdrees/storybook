@@ -1,5 +1,5 @@
 import type {
-  AnyFramework,
+  Framework,
   DecoratorFunction,
   LegacyStoryFn,
   PartialStoryFn,
@@ -7,7 +7,7 @@ import type {
   StoryContextUpdate,
 } from '@storybook/types';
 
-export function decorateStory<TFramework extends AnyFramework>(
+export function decorateStory<TFramework extends Framework>(
   storyFn: LegacyStoryFn<TFramework>,
   decorator: DecoratorFunction<TFramework>,
   bindWithContext: (storyFn: LegacyStoryFn<TFramework>) => PartialStoryFn<TFramework>
@@ -42,7 +42,7 @@ export function sanitizeStoryContextUpdate({
   return update;
 }
 
-export function defaultDecorateStory<TFramework extends AnyFramework>(
+export function defaultDecorateStory<TFramework extends Framework>(
   storyFn: LegacyStoryFn<TFramework>,
   decorators: DecoratorFunction<TFramework>[]
 ): LegacyStoryFn<TFramework> {

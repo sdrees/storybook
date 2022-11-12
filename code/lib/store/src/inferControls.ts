@@ -1,7 +1,7 @@
 import mapValues from 'lodash/mapValues';
 import { logger } from '@storybook/client-logger';
 import type {
-  AnyFramework,
+  Framework,
   ArgTypesEnhancer,
   SBEnumType,
   Store_ControlsMatchers,
@@ -61,7 +61,7 @@ const inferControl = (
   }
 };
 
-export const inferControls: ArgTypesEnhancer<AnyFramework> = (context) => {
+export const inferControls: ArgTypesEnhancer<Framework> = (context) => {
   const {
     argTypes,
     // eslint-disable-next-line @typescript-eslint/naming-convention

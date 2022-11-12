@@ -3,6 +3,7 @@ import qs from 'qs';
 import type { ViewMode, Store_SelectionSpecifier, Store_Selection } from '@storybook/types';
 
 import { parseArgsParam } from './parseArgsParam';
+import type { SelectionStore } from './SelectionStore';
 
 const { history, document } = global;
 
@@ -83,7 +84,7 @@ export const getSelectionSpecifierFromPath: () => Store_SelectionSpecifier | nul
   return null;
 };
 
-export class UrlStore {
+export class UrlStore implements SelectionStore {
   selectionSpecifier: Store_SelectionSpecifier | null;
 
   selection?: Store_Selection;

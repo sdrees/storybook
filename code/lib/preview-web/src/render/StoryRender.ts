@@ -1,10 +1,10 @@
 import global from 'global';
 import type {
-  AnyFramework,
+  Framework,
   Store_RenderContext,
-  Store_RenderToDOM,
+  RenderToCanvas,
   Store_Story,
-  Store_TeardownRenderToDOM,
+  TeardownRenderToCanvas,
   StoryContext,
   StoryContextForLoaders,
   StoryId,
@@ -42,7 +42,7 @@ function serializeError(error: any) {
   }
 }
 
-export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
+export type RenderContextCallbacks<TFramework extends Framework> = Pick<
   Store_RenderContext<TFramework>,
   'showMain' | 'showError' | 'showException'
 >;
@@ -51,7 +51,7 @@ export type StoryRenderOptions = {
   autoplay?: boolean;
 };
 
-export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
+export class StoryRender<TFramework extends Framework> implements Render<TFramework> {
   public type: RenderType = 'story';
 
   public story?: Store_Story<TFramework>;
@@ -60,20 +60,20 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
 
   private abortController?: AbortController;
 
-  private canvasElement?: HTMLElement;
+  private canvasElement?: TFramework['canvasElement'];
 
   private notYetRendered = true;
 
   public disableKeyListeners = false;
 
-  private teardownRender: Store_TeardownRenderToDOM = () => {};
+  private teardownRender: TeardownRenderToCanvas = () => {};
 
   public torndown = false;
 
   constructor(
     public channel: Channel,
     public store: StoryStore<TFramework>,
-    private renderToScreen: Store_RenderToDOM<TFramework>,
+    private renderToScreen: RenderToCanvas<TFramework>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,
@@ -131,7 +131,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     return ['rendering', 'playing'].includes(this.phase as RenderPhase);
   }
 
-  async renderToElement(canvasElement: HTMLElement) {
+  async renderToElement(canvasElement: TFramework['canvasElement']) {
     this.canvasElement = canvasElement;
 
     // FIXME: this comment
@@ -191,7 +191,8 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         // and we need to ensure we render it with the new values
         ...this.storyContext(),
         abortSignal,
-        canvasElement,
+        // We should consider parameterizing the story types with TFramework['canvasElement'] in the future
+        canvasElement: canvasElement as any,
       };
       const renderContext: Store_RenderContext<TFramework> = {
         componentId,

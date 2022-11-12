@@ -1,24 +1,22 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
 import globalThis from 'global';
 
-<Meta title="addons/docs/stories-mdx/basic" component={globalThis.Components.Button} />
+<Meta component={globalThis.Components.Button} />
 
 # MDX Stories
 
 This file demonstrates defining stories inside MDX.
 
 <Canvas>
-  <Story
-    name="Primary"
-    args={{ label: 'Primary' }}
-  />
+  <Story name="Primary" args={{ label: 'Primary' }} />
 </Canvas>
 
 <ArgsTable story="^" />
 
 <Canvas>
-  <Story
-    name="Secondary"
-    args={{ label: 'Secondary' }}
-  />
+  <Story name="Secondary" args={{ label: 'Secondary' }} />
+</Canvas>
+
+<Canvas>
+  <div>Non-story content</div>
 </Canvas>

@@ -19,7 +19,7 @@ git clone https://github.com/your-username/storybook.git
 
 ## Run your first sandbox
 
-Storybook development happens in a set of *sandboxes* which are templated Storybook environments corresponding to different user setups. Within each sandbox, we inject a set of generalized stories that allow us to test core features and addons in all such environments.
+Storybook development happens in a set of _sandboxes_ which are templated Storybook environments corresponding to different user setups. Within each sandbox, we inject a set of generalized stories that allow us to test core features and addons in all such environments.
 
 To run an sandbox locally, you can use the `start` command:
 
@@ -44,9 +44,8 @@ yarn task
 ```
 
 <div class="aside">
-💡 The <code>yarn task</code> command takes a couple of shortcuts for development that could catch you out if you change branches: you may need to rerun the <code>install</code> and <code>compile</code> tasks. You can do that by running the command with the <code>--start-from=install</code></li> flag.
+💡 The <code>yarn task</code> command takes a couple of shortcuts for development that could catch you out if you change branches: you may need to rerun the <code>install</code> and <code>compile</code> tasks. You can do that by running the command with the <code>--start-from=install</code> flag.
 </div>
-
 
 ## Running tests
 
@@ -114,7 +113,7 @@ Unit tests ensure that Storybook doesn't break accidentally. If your code can re
 
 ### End-to-end tests (e2e)
 
-Storybook's monorepo is set up to rely on end-to-end testing with [Playwright](https://playwright.dev) during CI. To help with testing, we encourage running this test suite before submitting your contribution. 
+Storybook's monorepo is set up to rely on end-to-end testing with [Playwright](https://playwright.dev) during CI. To help with testing, we encourage running this test suite before submitting your contribution.
 
 To run a e2e test against a sandbox, you can use the `e2e-tests` task:
 
@@ -156,7 +155,7 @@ yarn task --task e2e-tests --template=react-vite/default-ts --start-from=install
 ```
 
 Typically it is a good idea to start from the `install` task to ensure your local code is completely up to date. If you reproduce the failure, you can try and make fixes, [compile them](#start-developing) with `build`, then rerun the task with `--start-from=auto`.
- 
+
  <div class="aside">
 
 <p>💡 The default instructions run the code "linked" which means built changes to Storybook library code will be reflected in the sandbox right away (the next time you run the task). However CI runs in "unlinked" mode, which in rare cases will behave differently.</p>

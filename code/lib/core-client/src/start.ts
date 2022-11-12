@@ -2,13 +2,7 @@
 import global from 'global';
 import { ClientApi } from '@storybook/client-api';
 import { PreviewWeb } from '@storybook/preview-web';
-import type {
-  AnyFramework,
-  ArgsStoryFn,
-  Loadable,
-  Path,
-  Store_WebProjectAnnotations,
-} from '@storybook/types';
+import type { Framework, ArgsStoryFn, Loadable, Path, ProjectAnnotations } from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
@@ -21,8 +15,8 @@ const removedApi = (name: string) => () => {
   throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
 };
 
-interface CoreClient_RendererImplementation<TFramework extends AnyFramework> {
-  decorateStory?: Store_WebProjectAnnotations<TFramework>['applyDecorators'];
+interface CoreClient_RendererImplementation<TFramework extends Framework> {
+  decorateStory?: ProjectAnnotations<TFramework>['applyDecorators'];
   render?: ArgsStoryFn<TFramework>;
 }
 
@@ -33,7 +27,7 @@ interface CoreClient_ClientAPIFacade {
   raw: (...args: any[]) => never;
 }
 
-interface CoreClient_StartReturnValue<TFramework extends AnyFramework> {
+interface CoreClient_StartReturnValue<TFramework extends Framework> {
   /* deprecated */
   forceReRender: () => void;
   /* deprecated */
@@ -42,8 +36,8 @@ interface CoreClient_StartReturnValue<TFramework extends AnyFramework> {
   clientApi: ClientApi<TFramework> | CoreClient_ClientAPIFacade;
 }
 
-export function start<TFramework extends AnyFramework>(
-  renderToDOM: Store_WebProjectAnnotations<TFramework>['renderToDOM'],
+export function start<TFramework extends Framework>(
+  renderToCanvas: ProjectAnnotations<TFramework>['renderToCanvas'],
   { decorateStory, render }: CoreClient_RendererImplementation<TFramework> = {}
 ): CoreClient_StartReturnValue<TFramework> {
   if (globalWindow) {
@@ -124,7 +118,7 @@ export function start<TFramework extends AnyFramework>(
         return {
           render,
           ...clientApi.facade.projectAnnotations,
-          renderToDOM,
+          renderToCanvas,
           applyDecorators: decorateStory,
         };
       };

@@ -1,6 +1,6 @@
 import type { FC, ReactElement, ReactNode, ReactNodeArray } from 'react';
 import React, { useContext } from 'react';
-import type { AnyFramework } from '@storybook/types';
+import type { Framework } from '@storybook/types';
 import type { PreviewProps as PurePreviewProps } from '../components';
 import { Preview as PurePreview, PreviewSkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
@@ -19,7 +19,7 @@ type CanvasProps = PurePreviewProps & {
 
 const getPreviewProps = (
   { withSource, mdxSource, children, ...props }: CanvasProps & { children?: ReactNode },
-  docsContext: DocsContextProps<AnyFramework>,
+  docsContext: DocsContextProps<Framework>,
   sourceContext: SourceContextProps
 ) => {
   let sourceState = withSource;

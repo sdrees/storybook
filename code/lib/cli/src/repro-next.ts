@@ -6,7 +6,7 @@ import { dedent } from 'ts-dedent';
 import degit from 'degit';
 
 import { existsSync } from 'fs-extra';
-import TEMPLATES from './repro-templates';
+import { allTemplates as TEMPLATES } from './repro-templates';
 
 const logger = console;
 

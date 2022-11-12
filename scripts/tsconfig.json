@@ -13,14 +13,8 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "strictBindCallApply": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "types": [
-      "node",
-      "jest"
-    ],
+    "lib": ["dom", "esnext"],
+    "types": ["node", "jest"],
     "strict": false,
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
@@ -30,9 +24,7 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "paths": {
-      "verdaccio": [
-        "./typings.d.ts"
-      ]
+      "verdaccio": ["./typings.d.ts"]
     }
   },
   "exclude": [
@@ -42,19 +34,14 @@
     "**/node_modules",
     "**/*.spec.ts",
     "**/__tests__",
-    "**/*.test.ts",
     "**/setup-jest.ts"
   ],
-  "include": [
-    "./**/*"
-  ],
+  "include": ["./**/*", "./.eslintrc.js"],
   "ts-node": {
     "transpileOnly": true,
     "files": true,
     "compilerOptions": {
-      "types": [
-        "node"
-      ]
+      "types": ["node"]
     }
   }
 }

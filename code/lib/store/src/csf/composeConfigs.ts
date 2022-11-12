@@ -1,8 +1,4 @@
-import type {
-  AnyFramework,
-  Store_ModuleExports,
-  Store_WebProjectAnnotations,
-} from '@storybook/types';
+import type { Framework, Store_ModuleExports, ProjectAnnotations } from '@storybook/types';
 
 import { combineParameters } from '../parameters';
 import { composeStepRunners } from './stepRunners';
@@ -35,9 +31,9 @@ export function getSingletonField<TFieldType = any>(
   return getField(moduleExportList, field).pop();
 }
 
-export function composeConfigs<TFramework extends AnyFramework>(
+export function composeConfigs<TFramework extends Framework>(
   moduleExportList: Store_ModuleExports[]
-): Store_WebProjectAnnotations<TFramework> {
+): ProjectAnnotations<TFramework> {
   const allArgTypeEnhancers = getArrayField(moduleExportList, 'argTypesEnhancers');
   const stepRunners = getField(moduleExportList, 'runStep');
 
@@ -55,7 +51,8 @@ export function composeConfigs<TFramework extends AnyFramework>(
     globalTypes: getObjectField(moduleExportList, 'globalTypes'),
     loaders: getArrayField(moduleExportList, 'loaders'),
     render: getSingletonField(moduleExportList, 'render'),
-    renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'),
+    renderToCanvas: getSingletonField(moduleExportList, 'renderToCanvas'),
+    renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'), // deprecated
     applyDecorators: getSingletonField(moduleExportList, 'applyDecorators'),
     runStep: composeStepRunners<TFramework>(stepRunners),
   };

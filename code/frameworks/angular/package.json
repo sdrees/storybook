@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-alpha.48",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -34,19 +34,19 @@
     "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/api": "7.0.0-alpha.47",
-    "@storybook/builder-webpack5": "7.0.0-alpha.47",
-    "@storybook/client-logger": "7.0.0-alpha.47",
-    "@storybook/core-client": "7.0.0-alpha.47",
-    "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/core-events": "7.0.0-alpha.47",
-    "@storybook/core-server": "7.0.0-alpha.47",
-    "@storybook/core-webpack": "7.0.0-alpha.47",
-    "@storybook/docs-tools": "7.0.0-alpha.47",
-    "@storybook/node-logger": "7.0.0-alpha.47",
-    "@storybook/store": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
+    "@storybook/addons": "7.0.0-alpha.48",
+    "@storybook/api": "7.0.0-alpha.48",
+    "@storybook/builder-webpack5": "7.0.0-alpha.48",
+    "@storybook/client-logger": "7.0.0-alpha.48",
+    "@storybook/core-client": "7.0.0-alpha.48",
+    "@storybook/core-common": "7.0.0-alpha.48",
+    "@storybook/core-events": "7.0.0-alpha.48",
+    "@storybook/core-server": "7.0.0-alpha.48",
+    "@storybook/core-webpack": "7.0.0-alpha.48",
+    "@storybook/docs-tools": "7.0.0-alpha.48",
+    "@storybook/node-logger": "7.0.0-alpha.48",
+    "@storybook/store": "7.0.0-alpha.48",
+    "@storybook/types": "7.0.0-alpha.48",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.23",
     "@types/react-dom": "^16.9.14",
@@ -122,5 +122,5 @@
     "access": "public"
   },
   "builders": "dist/builders/builders.json",
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7"
+  "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd"
 }

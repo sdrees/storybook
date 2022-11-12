@@ -1,13 +1,14 @@
 /* eslint-disable no-await-in-loop */
-import { AbortController } from 'node-abort-controller';
+import type { AbortController } from 'node-abort-controller';
 import { getJunitXml } from 'junit-xml';
-import { outputFile, existsSync, readFile } from 'fs-extra';
+import { outputFile, readFile, pathExists } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 
-import { createOptions, getCommand, getOptionsOrPrompt, OptionValues } from './utils/options';
+import type { OptionValues } from './utils/options';
+import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
 import { install } from './tasks/install';
 import { compile } from './tasks/compile';
 import { check } from './tasks/check';
@@ -22,7 +23,7 @@ import { testRunner } from './tasks/test-runner';
 import { chromatic } from './tasks/chromatic';
 import { e2eTests } from './tasks/e2e-tests';
 
-import TEMPLATES from '../code/lib/cli/src/repro-templates';
+import { allTemplates as TEMPLATES } from '../code/lib/cli/src/repro-templates';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
@@ -176,11 +177,18 @@ async function writeJunitXml(
   taskKey: TaskKey,
   templateKey: TemplateKey,
   startTime: Date,
-  err?: Error
+  err?: Error,
+  systemError?: boolean
 ) {
+  let errorData = {};
+  if (err) {
+    // we want to distinguish whether the error comes from the tests we are running or from arbitrary code
+    errorData = systemError ? { errors: [{ message: err.stack }] } : { errors: [err] };
+  }
+
   const name = `${taskKey} - ${templateKey}`;
   const time = (Date.now() - +startTime) / 1000;
-  const testCase = { name, assertions: 1, time, ...(err && { errors: [err] }) };
+  const testCase = { name, assertions: 1, time, ...errorData };
   const suite = { name, timestamp: startTime, time, testCases: [testCase] };
   const junitXml = getJunitXml({ time, name, suites: [suite] });
   const path = getJunitFilename(taskKey);
@@ -278,11 +286,15 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     return controller;
   } catch (err) {
-    if (junitFilename) await writeJunitXml(getTaskKey(task), details.key, startTime, err);
+    const hasJunitFile = await pathExists(junitFilename);
+    // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
+    if (junitFilename && !hasJunitFile) {
+      await writeJunitXml(getTaskKey(task), details.key, startTime, err, true);
+    }
 
     throw err;
   } finally {
-    if (existsSync(junitFilename)) {
+    if (await pathExists(junitFilename)) {
       const junitXml = await (await readFile(junitFilename)).toString();
       const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${details.key} $1"`);
       await outputFile(junitFilename, prefixedXml);

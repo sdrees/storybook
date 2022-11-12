@@ -1,3 +1,5 @@
+import type { WebFramework } from '@storybook/types';
+
 export type { RenderContext } from '@storybook/types';
 
 export interface ShowErrorArgs {
@@ -11,7 +13,7 @@ export interface OptionsArgs {
   element: any;
 }
 
-export type EmberFramework = {
+export interface EmberFramework extends WebFramework {
   component: any;
   storyResult: OptionsArgs;
-};
+}

@@ -10,10 +10,8 @@ export const e2eTests: Task = {
     return false;
   },
   async run({ codeDir, junitFilename, template }, { dryRun, debug }) {
-    const reporter = process.env.CI ? 'junit' : 'html';
-
     await exec(
-      `yarn playwright test --reporter=${reporter}`,
+      `yarn playwright test`,
       {
         env: {
           STORYBOOK_URL: `http://localhost:${PORT}`,

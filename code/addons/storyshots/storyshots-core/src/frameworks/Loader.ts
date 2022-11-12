@@ -1,11 +1,11 @@
-import type { AnyFramework, Addon_Loadable } from '@storybook/types';
+import type { Framework, Addon_Loadable } from '@storybook/types';
 import type { ClientApi as ClientApiClass } from '@storybook/client-api';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';
 import type { SupportedFramework } from './SupportedFramework';
 
 export type RenderTree = (story: any, context?: any, options?: any) => any;
 
-export interface ClientApi<TFramework extends AnyFramework> extends ClientApiClass<AnyFramework> {
+export interface ClientApi<TFramework extends Framework> extends ClientApiClass<Framework> {
   configure(
     loader: Addon_Loadable,
     module: NodeModule | false,
@@ -19,7 +19,7 @@ export interface Loader {
     framework: SupportedFramework;
     renderTree: RenderTree;
     renderShallowTree: any;
-    storybook: ClientApi<AnyFramework>;
+    storybook: ClientApi<Framework>;
   };
   test: (options: StoryshotsOptions) => boolean;
 }

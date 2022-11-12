@@ -9,7 +9,7 @@ import { program } from 'commander';
 import type { AbortController } from 'node-abort-controller';
 import { directory } from 'tempy';
 
-import reproTemplates from '../../code/lib/cli/src/repro-templates';
+import { allTemplates as reproTemplates } from '../../code/lib/cli/src/repro-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 

@@ -1,7 +1,8 @@
 import { existsSync } from 'fs';
 import { join, resolve } from 'path';
 
-import { ConfigFile, readConfig } from '../../code/lib/csf-tools';
+import type { ConfigFile } from '../../code/lib/csf-tools';
+import { readConfig } from '../../code/lib/csf-tools';
 import { getInterpretedFile } from '../../code/lib/core-common';
 
 export async function readMainConfig({ cwd }: { cwd: string }) {

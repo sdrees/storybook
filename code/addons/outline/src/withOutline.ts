@@ -1,13 +1,13 @@
 import { useMemo, useEffect } from '@storybook/addons';
-import type { AnyFramework, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
+import type { Framework, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
 
 import { clearStyles, addOutlineStyles } from './helpers';
 import { PARAM_KEY } from './constants';
 import outlineCSS from './outlineCSS';
 
 export const withOutline = (
-  StoryFn: StoryFunction<AnyFramework>,
-  context: StoryContext<AnyFramework>
+  StoryFn: StoryFunction<Framework>,
+  context: StoryContext<Framework>
 ) => {
   const { globals } = context;
   const isActive = globals[PARAM_KEY] === true;

@@ -9,7 +9,7 @@ export const rendererFactory = new RendererFactory();
 
 export const render: ArgsStoryFn<AngularFramework> = (props) => ({ props });
 
-export async function renderToDOM(
+export async function renderToCanvas(
   {
     storyFn,
     showMain,

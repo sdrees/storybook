@@ -1,5 +1,5 @@
-import { withOutline } from '../withOutline';
-import { PARAM_KEY } from '../constants';
+import { withOutline } from './withOutline';
+import { PARAM_KEY } from './constants';
 
 export const decorators = [withOutline];
 

@@ -4,8 +4,8 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ['tests', 'daily-tests']
-    default: 'tests'
+    enum: ['ci', 'pr', 'merged', 'daily']
+    default: 'ci'
 
 executors:
   sb_node_16_classic:
@@ -49,37 +49,122 @@ executors:
     resource_class: <<parameters.class>>
 
 orbs:
-  git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.4.0
   browser-tools: circleci/browser-tools@1.4.0
 
 commands:
-  ensure-pr-is-labeled-with:
-    description: 'A command looking for the labels set on the PR associated to this workflow and checking it contains the label given as parameter'
+  # Forked off from https://github.com/guitarrapc/git-shallow-clone-orb
+  # See issue: https://github.com/guitarrapc/git-shallow-clone-orb/issues/34
+  checkout_advanced:
+    description: |
+      checkout by git shallow clone with git options. Support Alpine, Ubuntu, Debian and others.
+      eval is used in step, Fish shell is not supported.
     parameters:
-      label:
+      clone_options:
+        default: --depth 1
+        description: |
+          git clone options you want to add such as '--depth 1 --verbose' and '--depth 1 --shallow-since "5 days ago"'
+        type: string
+      fetch_options:
+        default: --depth 10
+        description: |
+          git fetch options you want to add such as '--depth 1 --verbose' and '--depth 1 --shallow-since "5 days ago"' you don't need set '--force' option as it already set by default. in case of tag, add '--no-tags' on this option and tag_fetch_options.
+        type: string
+      keyscan_bitbucket:
+        default: false
+        description: |
+          Pass `true` to dynamically get ssh-rsa from `bitbucket.org`.
+        type: boolean
+      keyscan_github:
+        default: false
+        description: |
+          Pass `true` to dynamically get ssh-rsa from `github.com`.
+        type: boolean
+      path:
+        default: .
+        description: |
+          Checkout directory (default: job’s working_directory)
+        type: string
+      tag_fetch_options:
+        default: --tags
+        description: |
+          This option apply when git operation is tag. Use 'fetch_options' instead if pr and other git operation. Additional git fetch options you want to add specifically for tags such as '--tags' or '--no-tags'. Default value is '--tags'
         type: string
     steps:
       - run:
-          name: Check if PR is labeled with "<< parameters.label >>"
           command: |
-            apt-get -y install jq
-
-            PR_NUMBER=$(echo "$CIRCLE_PULL_REQUEST" | sed "s/.*\/pull\///")
-            echo "PR_NUMBER: $PR_NUMBER"
-
-            API_GITHUB="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
-            PR_REQUEST_URL="$API_GITHUB/pulls/$PR_NUMBER"
-            PR_RESPONSE=$(curl -H "Authorization: token $GITHUB_TOKEN_STORYBOOK_BOT_READ_REPO" "$PR_REQUEST_URL")
-
-
-            if [ $(echo $PR_RESPONSE | jq '.labels | map(select(.name == "<< parameters.label >>")) | length') -ge 1 ] ||
-               ( [ $(echo $PR_RESPONSE | jq '.labels | length') -ge 1 ] && [ "<< parameters.label >>" == "*" ])
+            #!/bin/sh
+            set -ex
+            # Workaround old docker images with incorrect $HOME
+            # check https://github.com/docker/docker/issues/2968 for details
+            if [ "${HOME}" = "/" ]
             then
-              echo "🚀 The PR is labelled with '<< parameters.label >>', job will continue!"
-            else
-              echo "🏁 The PR isn't labelled with '<< parameters.label >>' so this job will end at the current step."
-              circleci-agent step halt
+              export HOME=$(getent passwd $(id -un) | cut -d: -f6)
             fi
+            
+            # known_hosts
+            mkdir -p ~/.ssh
+            if [ -x "$(command -v ssh-keyscan)" ] && ([ "<< parameters.keyscan_github >>" == "true" ] || [ "<< parameters.keyscan_bitbucket >>" == "true" ])
+            then
+              if [ "<< parameters.keyscan_github >>" == "true" ]
+              then
+                ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+              fi
+              if [ "<< parameters.keyscan_bitbucket >>" == "true" ]
+              then
+                ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
+              fi
+            fi
+            if [ "<< parameters.keyscan_github >>" != "true" ]
+            then
+              echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+            ' >> ~/.ssh/known_hosts
+            fi
+            if [ "<< parameters.keyscan_bitbucket >>" != "true" ]
+            then
+              echo 'bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+            ' >> ~/.ssh/known_hosts
+            fi
+            
+            (umask 077; touch ~/.ssh/id_rsa)
+            chmod 0600 ~/.ssh/id_rsa
+            (echo $CHECKOUT_KEY > ~/.ssh/id_rsa)
+            
+            # use git+ssh instead of https
+            git config --global url."ssh://git@github.com".insteadOf "https://github.com" || true
+            git config --global gc.auto 0 || true
+            
+            # checkout
+            git clone << parameters.clone_options >> $CIRCLE_REPOSITORY_URL "<< parameters.path >>"
+            cd "<< parameters.path >>"
+            
+            # Fetch remote and check the commit ID of the checked out code
+            if [ -n "$CIRCLE_TAG" ]
+            then
+              # tag
+              git fetch << parameters.tag_fetch_options >> << parameters.fetch_options >> --force origin "+refs/tags/${CIRCLE_TAG}:refs/tags/${CIRCLE_TAG}"
+            elif [[ $(echo $CIRCLE_BRANCH | grep -e ^pull\/*) ]] # sh version of bash `elif [[ "$CIRCLE_BRANCH" =~ ^pull\/* ]]`
+            then
+              # pull request
+              git fetch << parameters.fetch_options >> --force origin "${CIRCLE_BRANCH}:remotes/origin/${CIRCLE_BRANCH}"
+            else
+              # others
+              git fetch << parameters.fetch_options >> --force origin "$CIRCLE_BRANCH:remotes/origin/$CIRCLE_BRANCH"
+            fi
+            
+            # Check the commit ID of the checked out code
+            if [ -n "$CIRCLE_TAG" ]
+            then
+              git reset --hard "$CIRCLE_SHA1"
+              git checkout -q "$CIRCLE_TAG"
+            elif [ -n "$CIRCLE_BRANCH" ] && [ "$CIRCLE_BRANCH" != 'HEAD' ]
+            then
+              git reset --hard "$CIRCLE_SHA1"
+              git checkout -q -B "$CIRCLE_BRANCH"
+            fi
+            
+            git reset --hard "$CIRCLE_SHA1"
+          name: Checkout code shallow
   cancel-workflow-on-failure:
     description: 'Cancels the entire workflow in case the previous step has failed'
     steps:
@@ -96,7 +181,7 @@ jobs:
       class: large
       name: sb_node_16_classic
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - restore_cache:
           name: Restore Yarn cache
@@ -137,7 +222,7 @@ jobs:
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
@@ -163,7 +248,7 @@ jobs:
             cd ../cra-bench
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label cra
+            npx -p @storybook/bench@next sb-bench 'yarn install' --label cra
       - run:
           name: prep artifacts
           when: always
@@ -177,7 +262,7 @@ jobs:
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
@@ -203,7 +288,7 @@ jobs:
             cd ../react-vite-bench
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label react-vite
+            npx -p @storybook/bench@next sb-bench 'yarn install' --label react-vite
       - run:
           name: prep artifacts
           when: always
@@ -216,7 +301,7 @@ jobs:
       class: medium
       name: sb_node_16_classic
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
@@ -231,7 +316,7 @@ jobs:
       class: xlarge
       name: sb_node_16_classic
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
@@ -244,7 +329,7 @@ jobs:
   script-unit-tests:
     executor: sb_node_16_browsers
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
@@ -261,7 +346,7 @@ jobs:
       class: xlarge
       name: sb_node_16_browsers
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
@@ -282,7 +367,7 @@ jobs:
       class: small
       name: sb_node_16_browsers
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
@@ -296,8 +381,8 @@ jobs:
       class: medium
       name: sb_node_16_browsers
     steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+      # switched this to the CircleCI helper to get the full git history for TurboSnap
+      - checkout
       - attach_workspace:
           at: .
       - run:
@@ -313,23 +398,19 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 9
-      cadence:
-        type: enum
-        enum: [ "ci", "daily", "weekly" ]
-        default: "ci"
+        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
     parallelism: << parameters.parallelism >>
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template << parameters.cadence >> create) --no-link --start-from=never --junit
+          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> create) --no-link --start-from=never --junit
       - persist_to_workspace:
           root: .
           paths:
@@ -340,46 +421,38 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 9
-      cadence:
-        type: enum
-        enum: [ "ci", "daily", "weekly" ]
-        default: "ci"
+        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
     parallelism: << parameters.parallelism >>
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn task --task smoke-test --template $(yarn get-template << parameters.cadence >> smoke-test) --no-link --start-from=never --junit
+          command: yarn task --task smoke-test --template $(yarn get-template << pipeline.parameters.workflow >> smoke-test) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
   build-sandboxes:
     parameters:
       parallelism:
         type: integer
-        default: 9
-      cadence:
-        type: enum
-        enum: [ "ci", "daily", "weekly" ]
-        default: "ci"
+        default: 2
     executor:
       class: medium+
       name: sb_node_16_browsers
     parallelism: << parameters.parallelism >>
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template << parameters.cadence >> build) --no-link --start-from=never --junit
+          command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
       - persist_to_workspace:
@@ -390,34 +463,26 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 9
-      cadence:
-        type: enum
-        enum: [ "ci", "daily", "weekly" ]
-        default: "ci"
+        default: 2
     executor:
       class: medium
       name: sb_playwright
     parallelism: << parameters.parallelism >>
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template << parameters.cadence >> test-runner) --no-link --start-from=never --junit
+          command: yarn task --task test-runner --template $(yarn get-template << pipeline.parameters.workflow >> test-runner) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
     parameters:
       parallelism:
         type: integer
-        default: 9
-      cadence:
-        type: enum
-        enum: ["ci", "daily", "weekly"]
-        default: "ci"
+        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
@@ -428,30 +493,26 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn task --task chromatic --template $(yarn get-template << parameters.cadence >> chromatic) --no-link --start-from=never --junit
+          command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
   e2e-sandboxes:
     parameters:
       parallelism:
         type: integer
-        default: 9
-      cadence:
-        type: enum
-        enum: ["ci", "daily", "weekly"]
-        default: "ci"
+        default: 2
     executor:
       class: medium
       name: sb_playwright
     parallelism: << parameters.parallelism >>
     steps:
-      - git-shallow-clone/checkout_advanced:
+      - checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template << parameters.cadence >> e2e-tests) --no-link --start-from=never --junit
+          command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
@@ -459,42 +520,43 @@ jobs:
           destination: playwright
 
 workflows:
-  daily-tests:
+  ci:
     when:
-      equal: [ daily-tests, << pipeline.parameters.workflow >> ]
+      and:
+        - equal: [ api, << pipeline.trigger_source >> ]
+        - equal:  [ ci, << pipeline.parameters.workflow >> ]
     jobs:
       - build
-      - create-sandboxes:
-          parallelism: 24
-          cadence: "daily"
+      - lint:
           requires:
             - build
-      # - smoke-test-sandboxes: # disabled for now
-      #     requires:
-      #       - create-sandboxes
+      - check:
+          requires:
+            - build
+      - unit-tests:
+          requires:
+            - build
+      - script-unit-tests:
+          requires:
+            - build
+      - create-sandboxes:
+          requires:
+            - build
       - build-sandboxes:
-          parallelism: 24
-          cadence: "daily"
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 24
-          cadence: "daily"
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 24
-          cadence: "daily"
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 24
-          cadence: "daily"
           requires:
             - build-sandboxes
-  test:
+  pr:
     when:
-      equal: [ tests, << pipeline.parameters.workflow >> ]
+      equal: [ pr, << pipeline.parameters.workflow >> ]
     jobs:
       - build
       - lint:
@@ -521,22 +583,100 @@ workflows:
       - react-vite-bench:
           requires:
             - build
-      ## new workflow
       - create-sandboxes:
+          parallelism: 9
+          requires:
+            - build
+      - build-sandboxes:
+          parallelism: 9
+          requires:
+            - create-sandboxes
+      - test-runner-sandboxes:
+          parallelism: 9
+          requires:
+            - build-sandboxes
+      - chromatic-sandboxes:
+          parallelism: 9
+          requires:
+            - build-sandboxes
+      - e2e-sandboxes:
+          parallelism: 9
+          requires:
+            - build-sandboxes
+  merged:
+    when:
+      equal: [ merged, << pipeline.parameters.workflow >> ]
+    jobs:
+      - build
+      - lint:
+          requires:
+            - build
+      - check:
+          requires:
+            - build
+      - unit-tests:
+          requires:
+            - build
+      - script-unit-tests:
+          requires:
+            - build
+      - chromatic-internal-storybooks:
+          requires:
+            - build
+      - coverage:
+          requires:
+            - unit-tests
+      - cra-bench:
+          requires:
+            - build
+      - react-vite-bench:
+          requires:
+            - build
+      - create-sandboxes:
+          parallelism: 14
+          requires:
+            - build
+      - build-sandboxes:
+          parallelism: 14
+          requires:
+            - create-sandboxes
+      - test-runner-sandboxes:
+          parallelism: 14
+          requires:
+            - build-sandboxes
+      - chromatic-sandboxes:
+          parallelism: 14
+          requires:
+            - build-sandboxes
+      - e2e-sandboxes:
+          parallelism: 14
+          requires:
+            - build-sandboxes
+  daily:
+    when:
+      equal: [ daily, << pipeline.parameters.workflow >> ]
+    jobs:
+      - build
+      - create-sandboxes:
+          parallelism: 24
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
+          parallelism: 24
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
+          parallelism: 24
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
+          parallelism: 24
           requires:
             - build-sandboxes
       - e2e-sandboxes:
+          parallelism: 24
           requires:
             - build-sandboxes

@@ -1,4 +1,4 @@
-import type { Args, AnyFramework, ArgsEnhancer } from '@storybook/types';
+import type { Args, Framework, ArgsEnhancer } from '@storybook/types';
 import { action } from './runtime/action';
 
 // interface ActionsParameter {
@@ -14,7 +14,7 @@ const isInInitialArgs = (name: string, initialArgs: Args) =>
  * matches a regex, such as `^on.*` for react-style `onClick` etc.
  */
 
-export const inferActionsFromArgTypesRegex: ArgsEnhancer<AnyFramework> = (context) => {
+export const inferActionsFromArgTypesRegex: ArgsEnhancer<Framework> = (context) => {
   const {
     initialArgs,
     argTypes,
@@ -40,7 +40,7 @@ export const inferActionsFromArgTypesRegex: ArgsEnhancer<AnyFramework> = (contex
 /**
  * Add action args for list of strings.
  */
-export const addActionsFromArgTypes: ArgsEnhancer<AnyFramework> = (context) => {
+export const addActionsFromArgTypes: ArgsEnhancer<Framework> = (context) => {
   const {
     initialArgs,
     argTypes,

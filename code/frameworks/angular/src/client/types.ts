@@ -1,6 +1,7 @@
 import {
   Parameters as DefaultParameters,
   StoryContext as DefaultStoryContext,
+  WebFramework,
 } from '@storybook/types';
 
 export interface NgModuleMetadata {
@@ -26,10 +27,10 @@ export interface StoryFnAngularReturnType {
   userDefinedTemplate?: boolean;
 }
 
-export type AngularFramework = {
+export interface AngularFramework extends WebFramework {
   component: any;
   storyResult: StoryFnAngularReturnType;
-};
+}
 
 export type Parameters = DefaultParameters & {
   /** Uses legacy angular rendering engine that use dynamic component */

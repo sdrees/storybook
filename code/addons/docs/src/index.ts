@@ -1,2 +1,2 @@
-export * from './blocks';
+export * from '@storybook/blocks';
 export { DocsRenderer } from './DocsRenderer';

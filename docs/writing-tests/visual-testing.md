@@ -8,7 +8,7 @@ Ideal for verifying what the user sees: layout, color, size, and contrast. Story
 
 ![Visually testing a component in Storybook](./component-visual-testing.gif)
 
-There are [many tools](https://github.com/mojoaxel/awesome-regression-testing) for visual testing. We recommend [Chromatic](https://www.chromatic.com) by Storybook maintainers to run visual tests in a lightning-fast cloud browser environment.
+There are [many tools](https://github.com/mojoaxel/awesome-regression-testing) for visual testing. We recommend [Chromatic](https://www.chromatic.com?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) by Storybook maintainers to run visual tests in a lightning-fast cloud browser environment.
 
 For a self-managed alternative to Chromatic, we offer [StoryShots](https://github.com/storybookjs/storybook/tree/main/addons/storyshots). It allows you to run visual tests on stories by integrating with [jest-image-snapshot](https://github.com/storybookjs/storybook/tree/main/addons/storyshots/storyshots-puppeteer#imagesnapshots).
 
@@ -50,7 +50,7 @@ View it online at https://www.chromatic.com/build?appId=...&number=1.
 ```
 
 <div class="aside">
-💡 Before running Chromatic's CLI ensure you have at least two commits added to the repository to prevent build failures, as Chromatic relies on a full Git history graph to establish the baselines. Read more about baselines in Chromatic's <a href="https://www.chromatic.com/docs/branching-and-baselines"> documentation</a>
+💡 Before running Chromatic's CLI ensure you have at least two commits added to the repository to prevent build failures, as Chromatic relies on a full Git history graph to establish the baselines. Read more about baselines in Chromatic's <a href="https://www.chromatic.com/docs/branching-and-baselines?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook"> documentation</a>
 </div>
 
 When Chromatic finishes, it should have successfully deployed your Storybook and established the baselines, that is to say, the starting point for all your component's stories. Additionally, providing you with a link to the published Storybook that you can share with your team to gather feedback.
@@ -67,7 +67,7 @@ For example, let's assume you're working on a component and you tweak the stylin
 
 If the changes are intentional, accept them as baselines. Otherwise, deny them to prevent UI regressions.
 
-Learn how to [integrate Chromatic UI Tests](https://www.chromatic.com/docs/) into your CI pipeline.
+Learn how to [integrate Chromatic UI Tests](https://www.chromatic.com/docs/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) into your CI pipeline.
 
 ---
 

@@ -65,7 +65,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
             return addParameters(v, false);
           }
           case 'decorateStory':
-          case 'renderToDOM': {
+          case 'renderToCanvas': {
             return null;
           }
           default: {

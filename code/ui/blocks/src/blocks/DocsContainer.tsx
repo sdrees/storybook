@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import global from 'global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import type { AnyFramework } from '@storybook/types';
+import type { Framework } from '@storybook/types';
 import { DocsWrapper, DocsContent } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
@@ -12,7 +12,7 @@ import { scrollToElement } from './utils';
 
 const { document, window: globalWindow } = global;
 
-export interface DocsContainerProps<TFramework extends AnyFramework = AnyFramework> {
+export interface DocsContainerProps<TFramework extends Framework = Framework> {
   context: DocsContextProps<TFramework>;
   theme?: ThemeVars;
   children?: ReactNode;

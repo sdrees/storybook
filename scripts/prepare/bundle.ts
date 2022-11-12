@@ -32,38 +32,40 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await fs.emptyDir(join(process.cwd(), 'dist'));
   }
 
-  if (!optimized) {
-    await Promise.all(
-      entries.map(async (file: string) => {
-        console.log(`skipping generating types for ${file}`);
-        const { name: entryName, dir } = path.parse(file);
-  
-        const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
-        const srcName = join(process.cwd(), file);
-  
-        const rel = relative(dirname(pathName), dirname(srcName));
-  
-        await fs.ensureFile(pathName);
-        await fs.writeFile(
-          pathName,
-          dedent`
-          // devmode
-          export * from '${rel}/${entryName}';
-        `
-        );
-      })
-    );
-  }
-  
   const tsConfigPath = join(cwd, 'tsconfig.json');
   const tsConfigExists = await fs.pathExists(tsConfigPath);
+
   await Promise.all([
+    // SHIM DTS FILES (only for development)
+    ...(optimized
+      ? []
+      : entries.map(async (file: string) => {
+          const { name: entryName, dir } = path.parse(file);
+
+          const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
+          const srcName = join(process.cwd(), file);
+
+          const rel = relative(dirname(pathName), dirname(srcName))
+            .split(path.sep)
+            .join(path.posix.sep);
+
+          await fs.ensureFile(pathName);
+          await fs.writeFile(
+            pathName,
+            dedent`
+              // dev-mode
+              export * from '${rel}/${entryName}';
+            `
+          );
+        })),
+
+    // BROWSER EMS
     build({
+      silent: true,
       entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       outDir: join(process.cwd(), 'dist'),
-      // sourcemap: optimized,
       format: ['esm'],
       target: 'chrome100',
       clean: !watch,
@@ -86,17 +88,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
         c.conditions = ['module'];
-        c.define = optimized
-          ? {
-              'process.env.NODE_ENV': "'production'",
-              'process.env': '{}',
-              global: 'window',
-            }
-          : {
-              'process.env.NODE_ENV': "'development'",
-              'process.env': '{}',
-              global: 'window',
-            };
         c.platform = platform || 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
@@ -105,7 +96,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         /* eslint-enable no-param-reassign */
       },
     }),
+
+    // NODE CJS
     build({
+      silent: true,
       entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       outDir: join(process.cwd(), 'dist'),
@@ -141,7 +135,7 @@ run({ cwd, flags }).catch((err: unknown) => {
   // Seems to have something to do with running JSON.parse() on binary / base64 encoded sourcemaps
   // in @cspotcode/source-map-support
   if (err instanceof Error) {
-    console.error(err.message);
+    console.error(err.stack);
   }
   process.exit(1);
 });

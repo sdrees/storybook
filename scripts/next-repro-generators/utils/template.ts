@@ -2,7 +2,7 @@ import { render } from 'ejs';
 import { readFile } from 'fs-extra';
 import { format } from 'prettier';
 import { GeneratorConfig } from './types';
-import reproTemplates from '../../../code/lib/cli/src/repro-templates';
+import { allTemplates as reproTemplates } from '../../../code/lib/cli/src/repro-templates';
 
 export async function renderTemplate(templatePath: string, templateData: Record<string, any>) {
   const template = await readFile(templatePath, 'utf8');

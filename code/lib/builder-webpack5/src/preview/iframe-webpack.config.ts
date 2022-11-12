@@ -7,7 +7,7 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig, DocsOptions } from '@storybook/types';
+import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import {
   getRendererName,
   stringifyProcessEnvs,
@@ -82,7 +82,18 @@ export default async (
   const docsOptions = await presets.apply<DocsOptions>('docs');
 
   const previewAnnotations = [
-    ...(await presets.apply('previewAnnotations', [], options)),
+    ...(await presets.apply<PreviewAnnotation[]>('previewAnnotations', [], options)).map(
+      (entry) => {
+        // If entry is an object, use the absolute import specifier.
+        // This is to maintain back-compat with community addons that bundle other addons
+        // and package managers that "hide" sub dependencies (e.g. pnpm / yarn pnp)
+        // The vite builder uses the bare import specifier.
+        if (typeof entry === 'object') {
+          return entry.absolute;
+        }
+        return entry;
+      }
+    ),
     loadPreviewOrConfigFile(options),
   ].filter(Boolean);
   const entries = (await presets.apply('entries', [], options)) as string[];

@@ -1,1 +1,1 @@
-export * from './dist/highlight';
+export * from './dist/preview';

@@ -1,5 +1,5 @@
 import type {
-  AnyFramework,
+  Framework,
   ComponentTitle,
   Parameters,
   Path,
@@ -39,7 +39,7 @@ const checkDisallowedParameters = (parameters?: Parameters) => {
 };
 
 // Given the raw exports of a CSF file, check and normalize it.
-export function processCSFFile<TFramework extends AnyFramework>(
+export function processCSFFile<TFramework extends Framework>(
   moduleExports: Store_ModuleExports,
   importPath: Path,
   title: ComponentTitle

@@ -2,7 +2,6 @@
 
 import type {
   AnnotatedStoryFn,
-  AnyFramework,
   Args,
   ArgsEnhancer,
   ArgsFromMeta,
@@ -16,6 +15,7 @@ import type {
   Conditional,
   DecoratorApplicator,
   DecoratorFunction,
+  Framework,
   Globals,
   GlobalTypes,
   IncludeExcludeOptions,
@@ -28,7 +28,6 @@ import type {
   PartialStoryFn,
   PlayFunction,
   PlayFunctionContext,
-  ProjectAnnotations,
   SBArrayType,
   SBEnumType,
   SBIntersectionType,
@@ -62,7 +61,6 @@ import type { Addon_OptionsParameter } from './addons';
 
 export type {
   AnnotatedStoryFn,
-  AnyFramework,
   Args,
   ArgsEnhancer,
   ArgsFromMeta,
@@ -76,6 +74,7 @@ export type {
   Conditional,
   DecoratorApplicator,
   DecoratorFunction,
+  Framework,
   Globals,
   GlobalTypes,
   IncludeExcludeOptions,
@@ -87,7 +86,6 @@ export type {
   PartialStoryFn,
   PlayFunction,
   PlayFunctionContext,
-  ProjectAnnotations,
   SBArrayType,
   SBEnumType,
   SBIntersectionType,

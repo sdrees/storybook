@@ -3,7 +3,7 @@
 import { addons } from '@storybook/addons';
 import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
 import type {
-  AnyFramework,
+  Framework,
   ArgsEnhancer,
   PlayFunction,
   PlayFunctionContext,
@@ -52,7 +52,7 @@ const addSpies = (id: string, val: any, key?: string): any => {
   return val;
 };
 
-const addActionsFromArgTypes: ArgsEnhancer<AnyFramework> = ({ id, initialArgs }) =>
+const addActionsFromArgTypes: ArgsEnhancer<Framework> = ({ id, initialArgs }) =>
   addSpies(id, initialArgs);
 
 export const argsEnhancers = [addActionsFromArgTypes];

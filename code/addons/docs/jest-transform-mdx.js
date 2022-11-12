@@ -2,11 +2,11 @@ const path = require('path');
 const { ScriptTransformer } = require('@jest/transform');
 const { dedent } = require('ts-dedent');
 
-const { compileAsync } = require('@storybook/mdx2-csf');
+const { compile } = require('@storybook/mdx2-csf');
 
 module.exports = {
   async processAsync(src, filename, config, { instrument }) {
-    const code = await compileAsync(src, { skipCsf: false });
+    const code = await compile(src, { skipCsf: false });
     const result = dedent`
       /* @jsx mdx */
       import React from 'react'

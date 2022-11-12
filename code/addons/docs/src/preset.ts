@@ -46,7 +46,7 @@ function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: Bab
   };
 }
 
-export async function webpack(
+async function webpack(
   webpackConfig: any = {},
   options: Options &
     BabelParams & {
@@ -160,10 +160,9 @@ export async function webpack(
   return result;
 }
 
-export const storyIndexers = async (indexers: CoreCommon_StoryIndexer[] | null) => {
+const storyIndexers = (indexers: CoreCommon_StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
-    // @ts-expect-error (Converted from ts-ignore)
     const { compile } = await import('@storybook/mdx2-csf');
     code = await compile(code, {});
     return loadCsf(code, { ...opts, fileName }).parse();
@@ -172,13 +171,12 @@ export const storyIndexers = async (indexers: CoreCommon_StoryIndexer[] | null) 
     {
       test: /(stories|story)\.mdx$/,
       indexer: mdxIndexer,
-      addDocsTemplate: true,
     },
     ...(indexers || []),
   ];
 };
 
-export const docs = (docsOptions: DocsOptions) => {
+const docs = (docsOptions: DocsOptions) => {
   return {
     ...docsOptions,
     enabled: true,
@@ -186,3 +184,13 @@ export const docs = (docsOptions: DocsOptions) => {
     docsPage: true,
   };
 };
+
+/*
+ * This is a workaround for https://github.com/Swatinem/rollup-plugin-dts/issues/162
+ * something down the dependency chain is using typescript namespaces, which are not supported by rollup-plugin-dts
+ */
+const webpackX = webpack as any;
+const storyIndexersX = storyIndexers as any;
+const docsX = docs as any;
+
+export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };

@@ -1,4 +1,5 @@
-import shell, { ExecOptions } from 'shelljs';
+import type { ExecOptions } from 'shelljs';
+import shell from 'shelljs';
 
 export const exec = async (command: string, options: ExecOptions = {}) =>
   new Promise((resolve, reject) => {

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import type { StoryId, AnyFramework, Store_Story } from '@storybook/types';
+import type { StoryId, Framework, Store_Story } from '@storybook/types';
 
 import type { DocsContextProps } from './DocsContext';
 
-export function useStory<TFramework extends AnyFramework = AnyFramework>(
+export function useStory<TFramework extends Framework = Framework>(
   storyId: StoryId,
   context: DocsContextProps<TFramework>
 ): Store_Story<TFramework> | void {
@@ -11,7 +11,7 @@ export function useStory<TFramework extends AnyFramework = AnyFramework>(
   return stories && stories[0];
 }
 
-export function useStories<TFramework extends AnyFramework = AnyFramework>(
+export function useStories<TFramework extends Framework = Framework>(
   storyIds: StoryId[],
   context: DocsContextProps<TFramework>
 ): (Store_Story<TFramework> | void)[] {

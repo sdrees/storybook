@@ -20,20 +20,20 @@ export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
 
-const map = new Map<Element, ReturnType<typeof createApp>>();
+const map = new Map<VueFramework['canvasElement'], ReturnType<typeof createApp>>();
 
-export function renderToDOM(
+export function renderToCanvas(
   { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueFramework>,
-  domElement: Element
+  canvasElement: VueFramework['canvasElement']
 ) {
   // TODO: explain cyclical nature of these app => story => mount
   let element: StoryFnVueReturnType;
   const storybookApp = createApp({
     unmounted() {
-      map.delete(domElement);
+      map.delete(canvasElement);
     },
     render() {
-      map.set(domElement, storybookApp);
+      map.set(canvasElement, storybookApp);
       setupFunction(storybookApp);
       return h(element);
     },
@@ -54,7 +54,7 @@ export function renderToDOM(
 
   showMain();
 
-  map.get(domElement)?.unmount();
+  map.get(canvasElement)?.unmount();
 
-  storybookApp.mount(domElement);
+  storybookApp.mount(canvasElement);
 }

@@ -347,7 +347,7 @@ describe('decorateStory', () => {
   });
 });
 
-function makeContext(input: Record<string, unknown>): StoryContext {
+function makeContext(input: Record<string, unknown>): StoryContext<AngularFramework> {
   return {
     id: 'id',
     kind: 'kind',
@@ -355,7 +355,7 @@ function makeContext(input: Record<string, unknown>): StoryContext {
     viewMode: 'story',
     parameters: {},
     ...input,
-  } as StoryContext;
+  } as StoryContext<AngularFramework>;
 }
 
 @Component({

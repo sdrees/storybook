@@ -1,13 +1,13 @@
 import { start } from '@storybook/core-client';
 import { decorateStory } from './decorators';
 
-import { render, renderToDOM } from './render';
+import { render, renderToCanvas } from './render';
 
 const {
   configure: coreConfigure,
   clientApi,
   forceReRender,
-} = start(renderToDOM, {
+} = start(renderToCanvas, {
   decorateStory,
   render,
 });

@@ -15,7 +15,7 @@
     "@storybook/addon-essentials": "7.0.0-alpha.43",
     "@storybook/blocks": "7.0.0-alpha.43",
     "@storybook/components": "7.0.0-alpha.43",
-    "@storybook/csf": "next",
+    "@storybook/csf": "0.0.2--canary.53.4879818.0",
     "@storybook/preview-web": "7.0.0-alpha.43",
     "@storybook/react": "7.0.0-alpha.43",
     "@storybook/react-webpack5": "7.0.0-alpha.43",

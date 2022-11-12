@@ -1,3 +1,4 @@
+import type { WebFramework } from '@storybook/types';
 import type { AnyComponent } from 'preact';
 
 export type { RenderContext } from '@storybook/types';
@@ -9,7 +10,7 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export type PreactFramework = {
+export interface PreactFramework extends WebFramework {
   component: AnyComponent<any, any>;
   storyResult: StoryFnPreactReturnType;
-};
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { SvelteComponentTyped } from 'svelte';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -5,21 +6,20 @@ import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 
 import type { SvelteFramework } from './types';
 
-const componentsByDomElement = new Map<Element, SvelteComponentTyped>();
+const componentsByDomElement = new Map<SvelteFramework['canvasElement'], SvelteComponentTyped>();
 
-function teardown(domElement: Element) {
-  if (!componentsByDomElement.has(domElement)) {
+function teardown(canvasElement: SvelteFramework['canvasElement']) {
+  if (!componentsByDomElement.has(canvasElement)) {
     return;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it exists because we just checked
-  componentsByDomElement.get(domElement)!.$destroy();
+  componentsByDomElement.get(canvasElement)!.$destroy();
 
-  // eslint-disable-next-line no-param-reassign -- this is on purpose
-  domElement.innerHTML = '';
-  componentsByDomElement.delete(domElement);
+  canvasElement.innerHTML = '';
+  componentsByDomElement.delete(canvasElement);
 }
 
-export function renderToDOM(
+export function renderToCanvas(
   {
     storyFn,
     kind,
@@ -29,17 +29,17 @@ export function renderToDOM(
     storyContext,
     forceRemount,
   }: Store_RenderContext<SvelteFramework>,
-  domElement: Element
+  canvasElement: SvelteFramework['canvasElement']
 ) {
-  const existingComponent = componentsByDomElement.get(domElement);
+  const existingComponent = componentsByDomElement.get(canvasElement);
 
   if (forceRemount) {
-    teardown(domElement);
+    teardown(canvasElement);
   }
 
   if (!existingComponent || forceRemount) {
     const createdComponent = new PreviewRender({
-      target: domElement,
+      target: canvasElement,
       props: {
         storyFn,
         storyContext,
@@ -48,7 +48,7 @@ export function renderToDOM(
         showError,
       },
     }) as SvelteComponentTyped;
-    componentsByDomElement.set(domElement, createdComponent);
+    componentsByDomElement.set(canvasElement, createdComponent);
   } else {
     existingComponent.$set({
       storyFn,
@@ -63,7 +63,7 @@ export function renderToDOM(
 
   // teardown the component when the story changes
   return () => {
-    teardown(domElement);
+    teardown(canvasElement);
   };
 }
 

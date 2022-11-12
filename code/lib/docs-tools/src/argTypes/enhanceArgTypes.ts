@@ -1,7 +1,7 @@
-import type { AnyFramework, StoryContextForEnhancers } from '@storybook/types';
+import type { Framework, StoryContextForEnhancers } from '@storybook/types';
 import { combineParameters } from '@storybook/store';
 
-export const enhanceArgTypes = <TFramework extends AnyFramework>(
+export const enhanceArgTypes = <TFramework extends Framework>(
   context: StoryContextForEnhancers<TFramework>
 ) => {
   const {

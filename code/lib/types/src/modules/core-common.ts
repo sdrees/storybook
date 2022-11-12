@@ -220,7 +220,6 @@ export interface CoreCommon_StoryIndex {
 export interface CoreCommon_StoryIndexer {
   test: RegExp;
   indexer: (fileName: string, options: CoreCommon_IndexerOptions) => Promise<CoreCommon_StoryIndex>;
-  addDocsTemplate?: boolean;
 }
 
 /**
@@ -463,11 +462,13 @@ export interface CoreCommon_ResolvedAddonPreset {
   name: string;
 }
 
+export type PreviewAnnotation = string | { bare: string; absolute: string };
+
 export interface CoreCommon_ResolvedAddonVirtual {
   type: 'virtual';
   name: string;
   managerEntries?: string[];
-  previewAnnotations?: string[];
+  previewAnnotations?: PreviewAnnotation[];
   presets?: (string | { name: string; options?: any })[];
 }
 

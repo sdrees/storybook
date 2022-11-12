@@ -43,6 +43,7 @@
   - [7.0 Deprecations](#70-deprecations)
     - [`Story` type deprecated](#story-type-deprecated)
     - [`ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated)
+    - [Renamed `renderToDOM` to `renderToCanvas`](#renamed-rendertodom-to-rendertoroot)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -835,6 +836,10 @@ export const CSF3Story: StoryObj<ButtonProps> = { args: { label: 'Label' } };
 export const CSF2Story: StoryFn<ButtonProps> = (args) => <Button {...args} />;
 CSF2Story.args = { label: 'Label' };
 ```
+
+#### Renamed `renderToDOM` to `renderToCanvas`
+
+The "rendering" function that renderers (ex-frameworks) must export (`renderToDOM`) has been renamed to `renderToCanvas` to acknowledge that some consumers of frameworks/the preview do not work with DOM elements.
 
 ## From version 6.4.x to 6.5.0
 

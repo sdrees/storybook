@@ -5,7 +5,7 @@ import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
 
 import { inferControls } from '@storybook/store';
-import type { AnyFramework } from '@storybook/types';
+import type { Framework } from '@storybook/types';
 import { normalizeNewlines } from '@storybook/docs-tools';
 
 import type { StoryContext } from '../types';
@@ -88,7 +88,7 @@ describe('react component properties', () => {
             const rows = inferControls({
               argTypes,
               parameters,
-            } as unknown as StoryContext<AnyFramework>);
+            } as unknown as StoryContext<Framework>);
             expect(rows).toMatchSpecificSnapshot(path.join(testDir, 'argTypes.snapshot'));
           });
         }

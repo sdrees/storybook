@@ -1,6 +1,6 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { AnyFramework, Addon_TemplateDocsIndexEntry } from '@storybook/types';
+import type { Framework, Addon_TemplateDocsIndexEntry } from '@storybook/types';
 import type { StoryStore } from '@storybook/store';
 import { PREPARE_ABORTED } from './Render';
 
@@ -36,7 +36,7 @@ describe('TemplateDocsRender', () => {
 
     const render = new TemplateDocsRender(
       new Channel(),
-      mockStore as unknown as StoryStore<AnyFramework>,
+      mockStore as unknown as StoryStore<Framework>,
       entry
     );
 

@@ -22,13 +22,13 @@ export const render: ArgsStoryFn<PreactFramework> = (args, context) => {
 
 let renderedStory: Element;
 
-function preactRender(story: StoryFnPreactReturnType | null, domElement: Element): void {
+function preactRender(story: StoryFnPreactReturnType | null, canvasElement: Element): void {
   // @ts-expect-error (Converted from ts-ignore)
   if (preact.Fragment) {
     // Preact 10 only:
-    preact.render(story, domElement);
+    preact.render(story, canvasElement);
   } else {
-    renderedStory = preact.render(story, domElement, renderedStory) as unknown as Element;
+    renderedStory = preact.render(story, canvasElement, renderedStory) as unknown as Element;
   }
 }
 
@@ -37,8 +37,8 @@ const StoryHarness: preact.FunctionalComponent<{
   title: string;
   showError: Store_RenderContext<PreactFramework>['showError'];
   storyFn: () => any;
-  domElement: Element;
-}> = ({ showError, name, title, storyFn, domElement }) => {
+  canvasElement: PreactFramework['canvasElement'];
+}> = ({ showError, name, title, storyFn, canvasElement }) => {
   const content = preact.h(storyFn as any, null);
   if (!content) {
     showError({
@@ -53,15 +53,18 @@ const StoryHarness: preact.FunctionalComponent<{
   return content;
 };
 
-export function renderToDOM(
+export function renderToCanvas(
   { storyFn, title, name, showMain, showError, forceRemount }: Store_RenderContext<PreactFramework>,
-  domElement: Element
+  canvasElement: PreactFramework['canvasElement']
 ) {
   if (forceRemount) {
-    preactRender(null, domElement);
+    preactRender(null, canvasElement);
   }
 
   showMain();
 
-  preactRender(preact.h(StoryHarness, { name, title, showError, storyFn, domElement }), domElement);
+  preactRender(
+    preact.h(StoryHarness, { name, title, showError, storyFn, canvasElement }),
+    canvasElement
+  );
 }

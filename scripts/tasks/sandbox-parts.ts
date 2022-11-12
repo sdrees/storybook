@@ -6,11 +6,12 @@ import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra
 import { join, resolve, sep } from 'path';
 import dedent from 'ts-dedent';
 
-import { Task } from '../task';
+import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
 import { exec } from '../utils/exec';
-import { ConfigFile, writeConfig } from '../../code/lib/csf-tools';
+import type { ConfigFile } from '../../code/lib/csf-tools';
+import { writeConfig } from '../../code/lib/csf-tools';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
 import { detectLanguage } from '../../code/lib/cli/src/detect';
@@ -230,6 +231,36 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
   );
 }
 
+
+
+// Update the stories field to ensure that no TS files
+// that are linked from the renderer are picked up in non-TS projects
+function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
+  const stories = mainConfig.getFieldValue(['stories']) as string[];
+
+  // If the project is a JS project, let's make sure any linked in TS stories from the
+  // renderer inside src|stories are simply ignored.
+  const updatedStories = isJs
+    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    : stories;
+
+
+  mainConfig.setFieldValue(['stories'], [...updatedStories]);
+}
+
+// Add a stories field entry for the passed symlink
+function addStoriesEntry(mainConfig: ConfigFile, path: string) {
+  const stories = mainConfig.getFieldValue(['stories']) as string[];
+
+  const entry = {
+    directory: join('../template-stories', path),
+    titlePrefix: path,
+    files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
+  };
+  
+  mainConfig.setFieldValue(['stories'], [...stories, entry]);
+}
+
 // packageDir is eg 'renderers/react', 'addons/actions'
 async function linkPackageStories(
   packageDir: string,
@@ -247,6 +278,8 @@ async function linkPackageStories(
     : resolve(cwd, 'template-stories', packageDir);
   await ensureSymlink(source, target);
 
+  if (!linkInDir) addStoriesEntry(mainConfig, packageDir)
+
   // Add `previewAnnotation` entries of the form
   //   './template-stories/lib/store/preview.[tj]s'
   // if the file <code>/lib/store/template/stories/preview.[jt]s exists
@@ -263,25 +296,6 @@ async function linkPackageStories(
       }
     })
   );
-}
-
-// Update the stories field to ensure that:
-//  a) no TS files that are linked from the renderer are picked up in non-TS projects
-//  b) files in ./template-stories are not matched by the default glob
-async function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
-  const stories = mainConfig.getFieldValue(['stories']) as string[];
-
-  // If the project is a JS project, let's make sure any linked in TS stories from the
-  // renderer inside src|stories are simply ignored.
-  const updatedStories = isJs
-    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
-    : stories;
-
-  // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
-  const linkedStories = join('..', 'template-stories', '**', '*.stories.@(js|jsx|ts|tsx|mdx)');
-  const linkedMdx = join('..', 'template-stories/addons/docs/docs2', '**', '*.@(mdx)');
-
-  mainConfig.setFieldValue(['stories'], [...updatedStories, linkedStories, linkedMdx]);
 }
 
 function addExtraDependencies({
@@ -306,6 +320,7 @@ function addExtraDependencies({
   }
 }
 
+
 export const addStories: Task['run'] = async (
   { sandboxDir, template },
   { addon: extraAddons, dryRun, debug }
@@ -315,6 +330,14 @@ export const addStories: Task['run'] = async (
 
   const mainConfig = await readMainConfig({ cwd });
 
+  // Ensure that we match the right stories in the stories directory
+  const packageJson = await import(join(cwd, 'package.json'));
+  updateStoriesField(
+    mainConfig,
+    detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT
+  );
+
+
   // Link in the template/components/index.js from store, the renderer and the addons
   const rendererPath = await workspacePath('renderer', template.expected.renderer);
   await ensureSymlink(
@@ -322,7 +345,7 @@ export const addStories: Task['run'] = async (
     resolve(cwd, storiesPath, 'components')
   );
   addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
-
+  
   // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
   await linkPackageStories(rendererPath, {
     mainConfig,
@@ -367,13 +390,6 @@ export const addStories: Task['run'] = async (
   const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
   await Promise.all(
     existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
-  );
-
-  // Ensure that we match stories from the template-stories dir
-  const packageJson = await import(join(cwd, 'package.json'));
-  await updateStoriesField(
-    mainConfig,
-    detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT
   );
 
   // Add some extra settings (see above for what these do)

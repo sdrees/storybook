@@ -42,7 +42,7 @@ npx http-server ./path/to/build
 
 ## Publish Storybook with Chromatic
 
-Once you've built your Storybook as a static web app, you can publish it to your web host. We recommend [Chromatic](https://www.chromatic.com/), a free publishing service made for Storybook that documents, versions, and indexes your UI components securely in the cloud.
+Once you've built your Storybook as a static web app, you can publish it to your web host. We recommend [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook), a free publishing service made for Storybook that documents, versions, and indexes your UI components securely in the cloud.
 
 ![Storybook publishing workflow](./workflow-publish.png)
 
@@ -79,7 +79,7 @@ View it online at https://www.chromatic.com/build?appId=...&number=1.
 
 ### Setup CI to publish automatically
 
-Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci)) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
+Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
 
 In your project's root directory, add a new file called `chromatic.yml` inside the `.github/workflows` directory:
 
@@ -109,7 +109,7 @@ Publishing Storybook as part of the development process makes it quick and easy 
 
 A common method to ask for review is to paste a link to the published Storybook in a pull request or Slack.
 
-If you publish your Storybook to Chromatic, you can use the [UI Review](https://www.chromatic.com/features/publish) feature to automatically scan your PRs for new and updated stories. That makes it easy to identify what changed and give feedback.
+If you publish your Storybook to Chromatic, you can use the [UI Review](https://www.chromatic.com/features/publish?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) feature to automatically scan your PRs for new and updated stories. That makes it easy to identify what changed and give feedback.
 
 ![UI review in Chromatic](./workflow-uireview.png)
 
@@ -139,7 +139,7 @@ This level of service serves published Storybooks and makes the following availa
 - Support for `/stories.json`
 - Support for `/metadata.json` and the `releases` field.
 
-Example: [Chromatic](https://www.chromatic.com/)
+Example: [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)
 
 ### CPP level 0
 

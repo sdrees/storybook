@@ -1,3 +1,53 @@
+## 7.0.0-alpha.48 (November 7, 2022)
+
+#### Breaking Changes
+
+-   Preact: Make preact use inline stories (without iframe) by default in docs [#19741](https://github.com/storybooks/storybook/pull/19741)
+
+#### Features
+
+-   Angular: Undo template gen removal during deprecation property removal [#19614](https://github.com/storybooks/storybook/pull/19614)
+-   CSF-tools: Support main.js default exports [#19738](https://github.com/storybooks/storybook/pull/19738)
+-   Addon-docs: Disable play functions in docs mode unless you set `parameters.docs.autoplay` [#19659](https://github.com/storybooks/storybook/pull/19659)
+-   Addon-docs: Add docsPage `automatic` to create docs entries for all components [#19713](https://github.com/storybooks/storybook/pull/19713)
+-   CLI: Add docsPage to all Button/Header story templates [#19715](https://github.com/storybooks/storybook/pull/19715)
+
+#### Bug Fixes
+
+-   Svelte: Fix docs rendering [#19705](https://github.com/storybooks/storybook/pull/19705)
+-   React: Expose ReactFramework type [#19704](https://github.com/storybooks/storybook/pull/19704)
+
+#### Maintenance
+
+-   Core: Update index generation to use tags to detect MDX stories [#19712](https://github.com/storybooks/storybook/pull/19712)
+-   CI: Fix cross OS github actions  [#19754](https://github.com/storybooks/storybook/pull/19754)
+-   Blocks: Redo stories for controls [#19744](https://github.com/storybooks/storybook/pull/19744)
+-   Blocks: Setup and create example story for blocks with context [#19740](https://github.com/storybooks/storybook/pull/19740)
+-   Client-api: Fix export from store [#19720](https://github.com/storybooks/storybook/pull/19720)
+-   Pull renderer+builder from framework's package.json + a known list [#19717](https://github.com/storybooks/storybook/pull/19717)
+-   CLI: Add automigration to set docsPage = 'automatic' for existing Storybooks [#19716](https://github.com/storybooks/storybook/pull/19716)
+-   Builder-webpack5: Use import.meta.webpackHot instead of module.hot for check [#19686](https://github.com/storybooks/storybook/pull/19686)
+-   Fix: Point to correct .d.ts files from export maps [#19724](https://github.com/storybooks/storybook/pull/19724)
+-   CLI: Remove deprecated `-s` flag on `sb init` [#19585](https://github.com/storybooks/storybook/pull/19585)
+
+#### Build
+
+-   Build: Fix eslint formatting in scripts [#19765](https://github.com/storybooks/storybook/pull/19765)
+-   Sandboxes: Fix up stories entry to allow HMR [#19750](https://github.com/storybooks/storybook/pull/19750)
+-   Fix prepare script on Windows machines [#19762](https://github.com/storybooks/storybook/pull/19762)
+-   CI: Fix fix handle-release-branches workflow [#19756](https://github.com/storybooks/storybook/pull/19756)
+-   Build: Cancel workflow in CI on steps failure [#19748](https://github.com/storybooks/storybook/pull/19748)
+-   CI: Schedule a daily job that runs all sandboxes [#19699](https://github.com/storybooks/storybook/pull/19699)
+-   Build: Delete node_modules in repro generation [#19734](https://github.com/storybooks/storybook/pull/19734)
+-   Fix: dts facade generator did not support deep links [#19723](https://github.com/storybooks/storybook/pull/19723)
+-   Build: Re-enable test-runner for vue-cli [#19706](https://github.com/storybooks/storybook/pull/19706)
+
+#### Dependency Upgrades
+
+-   Upgrade mdx2-csf to fix mdxSource generation [#19766](https://github.com/storybooks/storybook/pull/19766)
+-   Dependencies: Bump prettier dependency, cleanup config [#19672](https://github.com/storybooks/storybook/pull/19672)
+-   Vue: Add babel loader 9.0.0 to vue-webpack5 peer dependencies [#19697](https://github.com/storybooks/storybook/pull/19697)
+
 ## 7.0.0-alpha.47 (November 1, 2022)
 
 #### Features

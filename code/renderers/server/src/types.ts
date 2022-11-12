@@ -1,14 +1,14 @@
-import type { StoryContext as StoryContextBase } from '@storybook/types';
+import type { StoryContext as StoryContextBase, WebFramework } from '@storybook/types';
 
 export type { RenderContext } from '@storybook/types';
 
 export type StoryFnServerReturnType = any;
 export type StoryContext = StoryContextBase<ServerFramework>;
 
-export type ServerFramework = {
+export interface ServerFramework extends WebFramework {
   component: string;
   storyResult: StoryFnServerReturnType;
-};
+}
 
 export type FetchStoryHtmlType = (
   url: string,

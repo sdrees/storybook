@@ -1,6 +1,6 @@
 import { pathExists, remove } from 'fs-extra';
 
-import { Task } from '../task';
+import type { Task } from '../task';
 
 const logger = console;
 
