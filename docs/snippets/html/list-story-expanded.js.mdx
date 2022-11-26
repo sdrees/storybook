@@ -1,12 +1,11 @@
-
 ```js
 // List.stories.js
 
-import { createList } from  './List';
+import { createList } from './List';
 import { createListItem } from './ListItem';
 
 export default {
-   /* 👇 The title prop is optional.
+  /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/html/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
@@ -19,7 +18,7 @@ export default {
  * to learn how to use render functions.
  */
 export const Empty = {
-  render: () => createList(args) 
+  render: () => createList(args),
 };
 
 export const OneItem = {

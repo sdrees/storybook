@@ -14,14 +14,14 @@ import type { Root as ReactRoot } from 'react-dom/client';
 
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
-import type { ReactFramework, StoryContext } from './types';
+import type { ReactRenderer, StoryContext } from './types';
 
 const { FRAMEWORK_OPTIONS } = global;
 
 // A map of all rendered React 18 nodes
 const nodes = new Map<Element, ReactRoot>();
 
-export const render: ArgsStoryFn<ReactFramework> = (args, context) => {
+export const render: ArgsStoryFn<ReactRenderer> = (args, context) => {
   const { id, component: Component } = context;
   if (!Component) {
     throw new Error(
@@ -135,10 +135,10 @@ export async function renderToCanvas(
     showMain,
     showException,
     forceRemount,
-  }: Store_RenderContext<ReactFramework>,
-  canvasElement: ReactFramework['canvasElement']
+  }: Store_RenderContext<ReactRenderer>,
+  canvasElement: ReactRenderer['canvasElement']
 ) {
-  const Story = unboundStoryFn as FC<StoryContext<ReactFramework>>;
+  const Story = unboundStoryFn as FC<StoryContext<ReactRenderer>>;
 
   const content = (
     <ErrorBoundary showMain={showMain} showException={showException}>

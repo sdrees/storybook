@@ -29,7 +29,15 @@ export class Stories2SnapsConverter {
     const { dir, name } = path.parse(fileName);
     const { snapshotsDirName, snapshotExtension } = this.options;
 
-    return path.format({ dir: path.join(dir, snapshotsDirName), name, ext: snapshotExtension });
+    // Convert to absolute path, in case jest is not running in CWD,
+    // else it will create snapshots with the wrong path
+    const absDir = path.isAbsolute(dir) ? dir : path.resolve(dir);
+
+    return path.format({
+      dir: path.join(absDir, snapshotsDirName),
+      name,
+      ext: snapshotExtension,
+    });
   }
 
   getSnapshotFileName(context: { fileName?: string; kind: any }) {

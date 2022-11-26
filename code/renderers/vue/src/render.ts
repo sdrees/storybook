@@ -3,12 +3,12 @@ import { dedent } from 'ts-dedent';
 import Vue from 'vue';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { CombinedVueInstance } from 'vue/types/vue';
-import type { VueFramework } from './types';
+import type { VueRenderer } from './types';
 
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';
 
-const map = new Map<VueFramework['canvasElement'], Instance>();
+const map = new Map<VueRenderer['canvasElement'], Instance>();
 type Instance = CombinedVueInstance<
   Vue,
   {
@@ -20,7 +20,7 @@ type Instance = CombinedVueInstance<
   Record<never, any>
 >;
 
-const getRoot = (canvasElement: VueFramework['canvasElement']): Instance => {
+const getRoot = (canvasElement: VueRenderer['canvasElement']): Instance => {
   const cachedInstance = map.get(canvasElement);
   if (cachedInstance != null) return cachedInstance;
 
@@ -49,9 +49,9 @@ const getRoot = (canvasElement: VueFramework['canvasElement']): Instance => {
   return instance;
 };
 
-export const render: ArgsStoryFn<VueFramework> = (args, context) => {
+export const render: ArgsStoryFn<VueRenderer> = (args, context) => {
   const { id, component: Component, argTypes } = context;
-  const component = Component as VueFramework['component'] & {
+  const component = Component as VueRenderer['component'] & {
     __docgenInfo?: { displayName: string };
     props: Record<string, any>;
   };
@@ -91,14 +91,14 @@ export function renderToCanvas(
     showError,
     showException,
     forceRemount,
-  }: Store_RenderContext<VueFramework>,
-  canvasElement: VueFramework['canvasElement']
+  }: Store_RenderContext<VueRenderer>,
+  canvasElement: VueRenderer['canvasElement']
 ) {
   const root = getRoot(canvasElement);
   Vue.config.errorHandler = showException;
   const element = storyFn();
 
-  let mountTarget: Element | VueFramework['canvasElement'] | null;
+  let mountTarget: Element | VueRenderer['canvasElement'] | null;
 
   // Vue2 mount always replaces the mount target with Vue-generated DOM.
   // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM

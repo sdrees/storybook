@@ -1,17 +1,20 @@
 ```ts
 // List.stories.ts
 
-import type { Meta, Story } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html';
 
-import { createList, ListArgs } from  './List';
+import { createList, ListArgs } from './List';
 
-export default {
+const meta: Meta<ListArgs> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'List',
-} as Meta<ListArgs>;
+};
+
+export default meta;
+type Story = StoryObj<ListArgs>;
 
 // Always an empty list, not super interesting
 export const Empty: Story = {

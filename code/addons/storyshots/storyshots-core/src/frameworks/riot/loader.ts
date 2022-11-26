@@ -16,17 +16,35 @@ function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'riot';
   mockRiotToIncludeCompiler();
 
-  const storybook = jest.requireActual('@storybook/riot');
-  const clientAPI = jest.requireActual('@storybook/client-api');
+  let mockStartedAPI: any;
 
-  const api = {
-    ...clientAPI,
-    ...storybook,
-  };
+  jest.mock('@storybook/preview-api', () => {
+    const previewAPI = jest.requireActual('@storybook/preview-api');
+
+    return {
+      ...previewAPI,
+      start: (...args: any[]) => {
+        mockStartedAPI = previewAPI.start(...args);
+        return mockStartedAPI;
+      },
+    };
+  });
+
+  jest.mock('@storybook/riot', () => {
+    const renderAPI = jest.requireActual('@storybook/riot');
+
+    renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
+    renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
+
+    return renderAPI;
+  });
+
+  // eslint-disable-next-line global-require
+  const storybook = require('@storybook/riot');
 
   configure({
     ...options,
-    storybook: api,
+    storybook,
   });
 
   return {
@@ -35,7 +53,7 @@ function load(options: StoryshotsOptions) {
     renderShallowTree: () => {
       throw new Error('Shallow renderer is not supported for riot');
     },
-    storybook: api,
+    storybook,
   };
 }
 

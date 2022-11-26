@@ -1,7 +1,7 @@
 import { render } from 'ejs';
 import { readFile } from 'fs-extra';
 import { format } from 'prettier';
-import { GeneratorConfig } from './types';
+import type { GeneratorConfig } from './types';
 import { allTemplates as reproTemplates } from '../../../code/lib/cli/src/repro-templates';
 
 export async function renderTemplate(templatePath: string, templateData: Record<string, any>) {

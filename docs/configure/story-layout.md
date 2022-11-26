@@ -35,7 +35,6 @@ You can also set it at a component level like so:
 <CodeSnippets
   paths={[
     'common/storybook-component-layout-param.js.mdx',
-    'common/storybook-component-layout-param.mdx.mdx',
   ]}
 />
 
@@ -50,7 +49,6 @@ Or even apply it to specific stories like so:
 <CodeSnippets
   paths={[
     'common/storybook-story-layout-param.js.mdx',
-    'common/storybook-story-layout-param.mdx.mdx',
   ]}
 />
 

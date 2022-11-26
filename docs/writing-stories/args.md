@@ -22,15 +22,10 @@ To define the args of a single story, use the `args` CSF story key:
   paths={[
     'react/button-story-with-args.js.mdx',
     'react/button-story-with-args.ts.mdx',
-    'react/button-story-with-args.mdx.mdx',
     'vue/button-story-with-args.2.js.mdx',
-    'vue/button-story-with-args.mdx-2.mdx.mdx',
     'vue/button-story-with-args.3.js.mdx',
-    'vue/button-story-with-args.mdx-3.mdx.mdx',
     'angular/button-story-with-args.ts.mdx',
-    'angular/button-story-with-args.mdx.mdx',
     'svelte/button-story-with-args.js.mdx',
-    'svelte/button-story-with-args.mdx.mdx',
     'web-components/button-story-with-args.js.mdx',
     'html/button-story-with-args.ts.mdx',
     'html/button-story-with-args.js.mdx',
@@ -63,13 +58,9 @@ You can also define args at the component level; they will apply to all the comp
   paths={[
     'react/button-story-component-args-primary.js.mdx',
     'react/button-story-component-args-primary.ts.mdx',
-    'react/button-story-component-args-primary.mdx.mdx',
     'vue/button-story-component-args-primary.js.mdx',
-    'vue/button-story-component-args-primary.mdx.mdx',
     'angular/button-story-component-args-primary.ts.mdx',
-    'angular/button-story-component-args-primary.mdx.mdx',
     'svelte/button-story-component-args-primary.js.mdx',
-    'svelte/button-story-component-args-primary.mdx.mdx',
     'web-components/button-story-component-args-primary.js.mdx',
   ]}
 />
@@ -137,13 +128,9 @@ You can use args in your stories to configure the component's appearance, simila
   paths={[
     'react/page-story-slots.js.mdx',
     'react/page-story-slots.ts.mdx',
-    'react/page-story-slots.mdx.mdx',
     'vue/page-story-slots.2.js.mdx',
-    'vue/page-story-slots.mdx-2.mdx.mdx',
     'vue/page-story-slots.3.js.mdx',
-    'vue/page-story-slots.mdx-3.mdx.mdx',
     'angular/page-story-slots.ts.mdx',
-    'angular/page-story-slots.mdx.mdx',
   ]}
 />
 
@@ -194,7 +181,7 @@ Note that `mapping` does not have to be exhaustive. If the arg value is not a pr
 <details>
 <summary>Using args in addons</summary>
 
-If you are [writing an addon](../addons/writing-addons.md) that wants to read or update args, use the `useArgs` hook exported by `@storybook/api`:
+If you are [writing an addon](../addons/writing-addons.md) that wants to read or update args, use the `useArgs` hook exported by `@storybook/manager-api`:
 
 <!-- prettier-ignore-start -->
 

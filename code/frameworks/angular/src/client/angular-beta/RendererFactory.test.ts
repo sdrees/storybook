@@ -18,8 +18,8 @@ describe('RendererFactory', () => {
   beforeEach(async () => {
     rendererFactory = new RendererFactory();
     document.body.innerHTML =
-      '<div id="root"></div><div id="root-docs"><div id="story-in-docs"></div></div>';
-    rootTargetDOMNode = global.document.getElementById('root');
+      '<div id="storybook-root"></div><div id="root-docs"><div id="story-in-docs"></div></div>';
+    rootTargetDOMNode = global.document.getElementById('storybook-root');
     rootDocstargetDOMNode = global.document.getElementById('root-docs');
     (platformBrowserDynamic as any).mockImplementation(platformBrowserDynamicTesting);
     jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -301,14 +301,16 @@ describe('RendererFactory', () => {
       });
 
       it('should reset root HTML', async () => {
-        global.document.getElementById('root').appendChild(global.document.createElement('👾'));
+        global.document
+          .getElementById('storybook-root')
+          .appendChild(global.document.createElement('👾'));
 
-        expect(global.document.getElementById('root').innerHTML).toContain('Canvas 🖼');
+        expect(global.document.getElementById('storybook-root').innerHTML).toContain('Canvas 🖼');
         const render = await rendererFactory.getRendererInstance(
           'my-story-in-docs',
           rootDocstargetDOMNode
         );
-        expect(global.document.getElementById('root').innerHTML).toBe('');
+        expect(global.document.getElementById('storybook-root').innerHTML).toBe('');
       });
     });
 

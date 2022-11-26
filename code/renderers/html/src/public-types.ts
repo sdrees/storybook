@@ -2,33 +2,37 @@ import type {
   AnnotatedStoryFn,
   Args,
   ComponentAnnotations,
+  DecoratorFunction,
+  LoaderFunction,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
 } from '@storybook/types';
+import type { HtmlRenderer } from './types';
 
-import type { HtmlFramework } from './types';
-
-export type { Args, ArgTypes, Parameters } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { HtmlRenderer };
 
 /**
  * Metadata to configure the stories for a component.
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TArgs = Args> = ComponentAnnotations<HtmlFramework, TArgs>;
+export type Meta<TArgs = Args> = ComponentAnnotations<HtmlRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<HtmlFramework, TArgs>;
+export type StoryFn<TArgs = Args> = AnnotatedStoryFn<HtmlRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryObj<TArgs = Args> = StoryAnnotations<HtmlFramework, TArgs>;
+export type StoryObj<TArgs = Args> = StoryAnnotations<HtmlRenderer, TArgs>;
 
 /**
  * @deprecated Use `StoryFn` instead.
@@ -40,3 +44,7 @@ export type StoryObj<TArgs = Args> = StoryAnnotations<HtmlFramework, TArgs>;
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
+
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<HtmlRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<HtmlRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<HtmlRenderer, TArgs>;

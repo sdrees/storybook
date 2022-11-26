@@ -2,7 +2,7 @@
 
 exports[`update-organisation-name transforms correctly using "update-organisation-name.input.js" data 1`] = `
 "/* eslint-disable */
-import '@storybook/addons';
+import '@storybook/preview-api';
 import '@storybook/addon-comments';
 import '@storybook/addon-centered';
 import '@storybook/addon-graphql';

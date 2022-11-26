@@ -109,7 +109,7 @@ You can also define arg types at the global level; they will apply to every comp
 
 #### Using argTypes in addons
 
-If you want to access the argTypes of the current component inside an addon, you can use the `useArgTypes` hook from the `@storybook/api` package:
+If you want to access the argTypes of the current component inside an addon, you can use the `useArgTypes` hook from the `@storybook/manager-api` package:
 
 <!-- prettier-ignore-start -->
 

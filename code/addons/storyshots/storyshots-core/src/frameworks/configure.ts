@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type {
-  Framework,
+  Renderer,
   ArgsEnhancer,
   ArgTypesEnhancer,
   CoreCommon_NormalizedStoriesSpecifier,
@@ -87,9 +87,9 @@ function getConfigPathParts(input: string): Output {
   return { preview: configDir };
 }
 
-function configure<TFramework extends Framework>(
+function configure<TRenderer extends Renderer>(
   options: {
-    storybook: ClientApi<TFramework>;
+    storybook: ClientApi<TRenderer>;
   } & StoryshotsOptions
 ): void {
   const { configPath = '.storybook', config, storybook } = options;
@@ -125,7 +125,7 @@ function configure<TFramework extends Framework>(
     } = jest.requireActual(preview);
 
     if (decorators) {
-      decorators.forEach((decorator: DecoratorFunction<TFramework>) =>
+      decorators.forEach((decorator: DecoratorFunction<TRenderer>) =>
         storybook.addDecorator(decorator)
       );
     }
@@ -136,12 +136,12 @@ function configure<TFramework extends Framework>(
       storybook.addStepRunner(runStep);
     }
     if (argsEnhancers) {
-      argsEnhancers.forEach((enhancer: ArgsEnhancer<TFramework>) =>
+      argsEnhancers.forEach((enhancer: ArgsEnhancer<TRenderer>) =>
         storybook.addArgsEnhancer(enhancer as any)
       );
     }
     if (argTypesEnhancers) {
-      argTypesEnhancers.forEach((enhancer: ArgTypesEnhancer<TFramework>) =>
+      argTypesEnhancers.forEach((enhancer: ArgTypesEnhancer<TRenderer>) =>
         storybook.addArgTypesEnhancer(enhancer as any)
       );
     }

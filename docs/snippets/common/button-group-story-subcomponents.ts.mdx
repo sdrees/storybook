@@ -5,7 +5,7 @@ import type { Meta } from '@storybook/react';
 
 import { Button, ButtonGroup } from './ButtonGroup';
 
-export default {
+const meta: Meta<typeof ButtonGroup> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -13,5 +13,7 @@ export default {
   title: 'ButtonGroup',
   component: ButtonGroup,
   subcomponents: { Button },
-} as Meta;
+};
+
+export default meta;
 ```

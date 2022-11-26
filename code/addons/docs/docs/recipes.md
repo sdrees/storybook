@@ -159,7 +159,7 @@ If you're currently using the notes/info addons, you can upgrade to DocsPage by 
 Suppose you've added a `notes` parameter to each component in your library, containing markdown text, and you want that to show up at the top of the page in the `Description` slot. You could do that by adding the following snippet to `.storybook/preview.js`:
 
 ```js
-import { addParameters } from '@storybook/client-api';
+import { addParameters } from '@storybook/preview-api';
 
 addParameters({
   docs: {

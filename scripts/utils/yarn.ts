@@ -19,7 +19,7 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
 
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
-  packageJson.resolutions = storybookVersions;
+  packageJson.resolutions = { ...storybookVersions, 'enhanced-resolve': '~5.10.0' };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 

@@ -51,7 +51,6 @@ For instance, suppose you have a `variant` arg on your story that should be `pri
 <CodeSnippets
   paths={[
     'common/button-story-controls-primary-variant.js.mdx',
-    'common/button-story-controls-primary-variant.mdx.mdx',
   ]}
 />
 
@@ -72,7 +71,6 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 <CodeSnippets
   paths={[
     'common/button-story-controls-radio-group.js.mdx',
-    'common/button-story-controls-radio-group.mdx.mdx',
   ]}
 />
 
@@ -90,14 +88,14 @@ This replaces the input with a radio group for a more intuitive experience.
 
 ## Custom control type matchers
 
-For a few types, Controls will automatically infer them by using [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). You can change the matchers for a regex that suits you better.
+For a few types, Controls can automatically be inferred with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
 
 | Data type |       Default regex       |                        Description                        |
 | :-------: | :-----------------------: | :-------------------------------------------------------: |
-| **color** | `/(background\|color)$/i` | Will display a color picker UI for the args that match it |
+| **color** | `/(background|color)$/i` | Will display a color picker UI for the args that match it |
 | **date**  |         `/Date$/`         | Will display a date picker UI for the args that match it  |
 
-To do so, use the `matchers` property in the `controls` parameter:
+If you haven't used the CLI to setup the configuration, or if you want to define your own patterns, use the `matchers` property in the `controls` parameter:
 
 <!-- prettier-ignore-start -->
 
@@ -118,13 +116,9 @@ Until now, we only used auto-generated controls based on the component we're wri
 <CodeSnippets
   paths={[
     'react/table-story-fully-customize-controls.js.mdx',
-    'react/table-story-fully-customize-controls.mdx.mdx',
     'vue/table-story-fully-customize-controls.2.js.mdx',
-    'vue/table-story-fully-customize-controls.mdx-2.mdx.mdx',
     'vue/table-story-fully-customize-controls.3.js.mdx',
-    'vue/table-story-fully-customize-controls.mdx-3.mdx.mdx',
     'angular/table-story-fully-customize-controls.ts.mdx',
-    'angular/table-story-fully-customize-controls.mdx.mdx',
   ]}
 />
 
@@ -150,11 +144,8 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
   paths={[
     'react/component-story-custom-args-complex.js.mdx',
     'react/component-story-custom-args-complex.ts.mdx',
-    'react/component-story-custom-args-complex.mdx.mdx',
     'vue/component-story-custom-args-complex.3.js.mdx',
-    'vue/component-story-custom-args-complex.mdx-3.mdx.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
-    'angular/component-story-custom-args-complex.mdx.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
   ]}
 />
@@ -213,7 +204,6 @@ As shown above, you can configure individual controls with the “control" annot
 <CodeSnippets
   paths={[
     'common/gizmo-story-controls-customization.js.mdx',
-    'common/gizmo-story-controls-customization.mdx.mdx',
   ]}
 />
 
@@ -274,7 +264,6 @@ Suppose you want to disable Controls for a property called `foo` in a component'
 <CodeSnippets
   paths={[
     'common/component-story-disable-controls.js.mdx',
-    'common/component-story-disable-controls.mdx.mdx'
   ]}
 />
 
@@ -291,12 +280,15 @@ Resulting in the following change in Storybook UI:
 
 The previous example also removed the prop documentation from the table. In some cases, this is fine. However, sometimes you might want to render the prop documentation, but without a control. The following example illustrates how:
 
+<!-- prettier-ignore-start -->
+
 <CodeSnippets
 paths={[
-'common/component-story-disable-controls-alt.js.mdx',
-'common/component-story-disable-controls-alt.mdx.mdx'
-]}
+  'common/component-story-disable-controls-alt.js.mdx',
+ ]}
 />
+
+<!-- prettier-ignore-end -->
 
 <div class="aside">
 
@@ -377,7 +369,6 @@ Consider the following story snippets:
 <CodeSnippets
   paths={[
     'common/component-story-disable-controls-regex.js.mdx',
-    'common/component-story-disable-controls-regex.mdx.mdx'
   ]}
 />
 
@@ -394,7 +385,6 @@ Consider the following snippet to force required args first:
 <CodeSnippets
   paths={[
     'common/component-story-sort-controls.js.mdx',
-    'common/component-story-sort-controls.mdx.mdx'
   ]}
 />
 

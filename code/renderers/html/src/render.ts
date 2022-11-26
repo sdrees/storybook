@@ -3,13 +3,13 @@
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
-import type { HtmlFramework } from './types';
+import type { HtmlRenderer } from './types';
 
 const { Node } = global;
 
-export const render: ArgsStoryFn<HtmlFramework> = (args, context) => {
+export const render: ArgsStoryFn<HtmlRenderer> = (args, context) => {
   const { id, component: Component } = context;
 
   if (typeof Component === 'string') {
@@ -42,8 +42,8 @@ export const render: ArgsStoryFn<HtmlFramework> = (args, context) => {
 };
 
 export function renderToCanvas(
-  { storyFn, kind, name, showMain, showError, forceRemount }: Store_RenderContext<HtmlFramework>,
-  canvasElement: HtmlFramework['canvasElement']
+  { storyFn, kind, name, showMain, showError, forceRemount }: Store_RenderContext<HtmlRenderer>,
+  canvasElement: HtmlRenderer['canvasElement']
 ) {
   const element = storyFn();
   showMain();

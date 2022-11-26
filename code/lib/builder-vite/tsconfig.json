@@ -5,6 +5,5 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*", "src/**/__testfixtures__/**"]
+  "include": ["src/**/*"]
 }

@@ -3,7 +3,7 @@ import { pathExists } from 'fs-extra';
 import { resolve } from 'path';
 import { allTemplates, templatesByCadence } from '../code/lib/cli/src/repro-templates';
 
-const sandboxDir = resolve(__dirname, '../sandbox');
+const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
 
 export type Cadence = keyof typeof templatesByCadence;
 export type Template = {

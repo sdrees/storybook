@@ -6,6 +6,5 @@
     "skipLibCheck": true,
     "allowJs": true
   },
-  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"],
-  "exclude": []
+  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"]
 }

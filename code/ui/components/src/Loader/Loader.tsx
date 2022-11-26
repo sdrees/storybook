@@ -1,12 +1,9 @@
-import global from 'global';
 import { transparentize } from 'polished';
 import type { ComponentProps, FC } from 'react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { styled, keyframes } from '@storybook/theming';
 import { Icons } from '../icon/icon';
 import { rotate360 } from '../shared/animation';
-
-const { EventSource, CONFIG_TYPE } = global;
 
 const LoaderWrapper = styled.div<{ size?: number }>(({ size = 32 }) => ({
   borderRadius: '50%',
@@ -107,7 +104,7 @@ interface LoaderProps {
   size?: number;
 }
 
-export const PureLoader: FC<LoaderProps & ComponentProps<typeof ProgressWrapper>> = ({
+export const Loader: FC<LoaderProps & ComponentProps<typeof ProgressWrapper>> = ({
   progress,
   error,
   size,
@@ -157,37 +154,4 @@ export const PureLoader: FC<LoaderProps & ComponentProps<typeof ProgressWrapper>
       {...props}
     />
   );
-};
-
-export const Loader: FC<ComponentProps<typeof PureLoader>> = (props) => {
-  const [progress, setProgress] = useState(undefined);
-  const [error, setError] = useState(undefined);
-
-  useEffect(() => {
-    // Don't listen for progress updates in static builds
-    // Event source is not defined in IE 11
-    if (CONFIG_TYPE !== 'DEVELOPMENT' || !EventSource) return undefined;
-
-    const eventSource = new EventSource('/progress');
-    let lastProgress: Progress;
-
-    eventSource.onmessage = (event: any) => {
-      try {
-        lastProgress = JSON.parse(event.data);
-        setProgress(lastProgress);
-      } catch (e) {
-        setError(e);
-        eventSource.close();
-      }
-    };
-
-    eventSource.onerror = () => {
-      if (lastProgress && lastProgress.value !== 1) setError(new Error('Connection closed'));
-      eventSource.close();
-    };
-
-    return () => eventSource.close();
-  }, []);
-
-  return <PureLoader progress={progress} error={error} {...props} />;
 };

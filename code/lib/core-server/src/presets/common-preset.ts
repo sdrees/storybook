@@ -1,11 +1,6 @@
 import fs from 'fs-extra';
 import { deprecate } from '@storybook/node-logger';
-import {
-  getPreviewBodyTemplate,
-  getPreviewHeadTemplate,
-  getPreviewMainTemplate,
-  loadEnvs,
-} from '@storybook/core-common';
+import { getPreviewBodyTemplate, getPreviewHeadTemplate, loadEnvs } from '@storybook/core-common';
 import type {
   CLIOptions,
   CoreCommon_IndexerOptions,
@@ -40,8 +35,6 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
   const interpolations = await presets.apply<Record<string, string>>('env');
   return getPreviewBodyTemplate(configDir, interpolations);
 };
-
-export const previewMainTemplate = () => getPreviewMainTemplate();
 
 export const typescript = () => ({
   check: false,

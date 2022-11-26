@@ -1,13 +1,11 @@
-import { addons } from '@storybook/addons';
-import * as api from '@storybook/api';
+import * as api from '@storybook/manager-api';
 import { PANEL_ID } from './constants';
 import './manager';
 
-jest.mock('@storybook/api');
-jest.mock('@storybook/addons');
+jest.mock('@storybook/manager-api');
 const mockedApi = api as unknown as jest.Mocked<api.API>;
 mockedApi.getAddonState = jest.fn();
-const mockedAddons = addons as jest.Mocked<typeof addons>;
+const mockedAddons = api.addons as jest.Mocked<typeof api.addons>;
 const registrationImpl = mockedAddons.register.mock.calls[0][1];
 
 describe('A11yManager', () => {

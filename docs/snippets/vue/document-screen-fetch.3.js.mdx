@@ -8,12 +8,8 @@
       <DocumentList :documents="data.subdocuments" />
     </PageLayout>
   </div>
-  <p v-if="loading">
-    Loading...
-  </p>
-  <p v-if="error">
-    There was an error fetching the data!
-  </p>
+  <p v-if="loading">Loading...</p>
+  <p v-if="error">There was an error fetching the data!</p>
 </template>
 <script>
   import { ref } from 'vue';

@@ -13,6 +13,12 @@ module.exports = {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'react-hooks/rules-of-hooks': 'off',
     'jest/no-done-callback': 'off',
+    '@typescript-eslint/dot-notation': [
+      'error',
+      {
+        allowIndexSignaturePropertyAccess: true,
+      },
+    ],
   },
   overrides: [
     {

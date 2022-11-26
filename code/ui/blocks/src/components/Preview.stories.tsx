@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import global from 'global';
@@ -87,11 +88,11 @@ const buttonFn = () => <Button secondary>Hello Button</Button>;
 
 export const WithToolbar = () => (
   <Preview withToolbar>
-    <Story inline storyFn={buttonFn} title="with toolbar" />
+    <Story id="a" inline storyFn={buttonFn} title="with toolbar" />
   </Preview>
 );
 
-const Horizontal = styled((props) => <Spaced col={1} {...props} />)({
+const Horizontal = styled((props: ComponentProps<typeof Spaced>) => <Spaced col={1} {...props} />)({
   display: 'grid',
   gridTemplateColumns: '100px calc(100vw + 100px) 100px',
 });
@@ -108,14 +109,15 @@ export const Wide = () => (
 
 export const WithToolbarMulti = () => (
   <Preview withToolbar>
-    <Story inline storyFn={buttonFn} title="story1" />
-    <Story inline storyFn={buttonFn} title="story2" />
+    <Story id="a" inline storyFn={buttonFn} title="story1" />
+    <Story id="b" inline storyFn={buttonFn} title="story2" />
   </Preview>
 );
 
 export const WithFullscreenSingle = () => (
   <Preview withToolbar>
     <Story
+      id="a"
       inline
       storyFn={buttonFn}
       title="story1"
@@ -129,6 +131,7 @@ export const WithFullscreenSingle = () => (
 export const WithFullscreenMulti = () => (
   <Preview withToolbar>
     <Story
+      id="a"
       inline
       storyFn={buttonFn}
       title="story1"
@@ -137,6 +140,7 @@ export const WithFullscreenMulti = () => (
       }}
     />
     <Story
+      id="b"
       inline
       storyFn={buttonFn}
       title="story2"
@@ -150,6 +154,7 @@ export const WithFullscreenMulti = () => (
 export const WithCenteredSingle = () => (
   <Preview withToolbar>
     <Story
+      id="a"
       inline
       storyFn={buttonFn}
       title="story1"
@@ -163,6 +168,7 @@ export const WithCenteredSingle = () => (
 export const WithCenteredMulti = () => (
   <Preview withToolbar>
     <Story
+      id="a"
       inline
       storyFn={buttonFn}
       title="story1"
@@ -171,6 +177,7 @@ export const WithCenteredMulti = () => (
       }}
     />
     <Story
+      id="b"
       inline
       storyFn={buttonFn}
       title="story2"

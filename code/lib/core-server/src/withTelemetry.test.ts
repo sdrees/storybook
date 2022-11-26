@@ -3,7 +3,6 @@
 import prompts from 'prompts';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry } from '@storybook/telemetry';
-import { mocked } from 'ts-jest/utils';
 
 import { withTelemetry } from './withTelemetry';
 
@@ -57,7 +56,7 @@ describe('when command fails', () => {
   });
 
   it('does not send error message when crash reports are disabled', async () => {
-    mocked(loadAllPresets).mockResolvedValueOnce({
+    jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ enableCrashReports: false } as any),
     });
     await expect(async () =>
@@ -73,7 +72,7 @@ describe('when command fails', () => {
   });
 
   it('does send error message when crash reports are enabled', async () => {
-    mocked(loadAllPresets).mockResolvedValueOnce({
+    jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ enableCrashReports: true } as any),
     });
 
@@ -90,7 +89,7 @@ describe('when command fails', () => {
   });
 
   it('does not send error message when telemetry is disabled', async () => {
-    mocked(loadAllPresets).mockResolvedValueOnce({
+    jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ disableTelemetry: true } as any),
     });
 
@@ -107,7 +106,7 @@ describe('when command fails', () => {
   });
 
   it('does send error messages when telemetry is disabled, but crash reports are enabled', async () => {
-    mocked(loadAllPresets).mockResolvedValueOnce({
+    jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ disableTelemetry: true, enableCrashReports: true } as any),
     });
 
@@ -124,10 +123,10 @@ describe('when command fails', () => {
   });
 
   it('does not send error messages when disabled crash reports are cached', async () => {
-    mocked(loadAllPresets).mockResolvedValueOnce({
+    jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
-    mocked(cache.get).mockResolvedValueOnce(false);
+    jest.mocked(cache.get).mockResolvedValueOnce(false);
 
     await expect(async () =>
       withTelemetry('dev', { presetOptions: {} as any }, run)
@@ -142,10 +141,10 @@ describe('when command fails', () => {
   });
 
   it('does send error messages when enabled crash reports are cached', async () => {
-    mocked(loadAllPresets).mockResolvedValueOnce({
+    jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
-    mocked(cache.get).mockResolvedValueOnce(true);
+    jest.mocked(cache.get).mockResolvedValueOnce(true);
 
     await expect(async () =>
       withTelemetry('dev', { presetOptions: {} as any }, run)
@@ -160,11 +159,11 @@ describe('when command fails', () => {
   });
 
   it('does not send error messages when disabled crash reports are prompted', async () => {
-    mocked(loadAllPresets).mockResolvedValueOnce({
+    jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
-    mocked(cache.get).mockResolvedValueOnce(undefined);
-    mocked(prompts).mockResolvedValueOnce({ enableCrashReports: false });
+    jest.mocked(cache.get).mockResolvedValueOnce(undefined);
+    jest.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: false });
 
     await expect(async () =>
       withTelemetry('dev', { presetOptions: {} as any }, run)
@@ -179,11 +178,11 @@ describe('when command fails', () => {
   });
 
   it('does send error messages when enabled crash reports are prompted', async () => {
-    mocked(loadAllPresets).mockResolvedValueOnce({
+    jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
-    mocked(cache.get).mockResolvedValueOnce(undefined);
-    mocked(prompts).mockResolvedValueOnce({ enableCrashReports: true });
+    jest.mocked(cache.get).mockResolvedValueOnce(undefined);
+    jest.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: true });
 
     await expect(async () =>
       withTelemetry('dev', { presetOptions: {} as any }, run)
@@ -199,7 +198,7 @@ describe('when command fails', () => {
 
   // if main.js has errors, we have no way to tell if they've disabled telemetry
   it('does not send error messages when presets fail to evaluate', async () => {
-    mocked(loadAllPresets).mockRejectedValueOnce(error);
+    jest.mocked(loadAllPresets).mockRejectedValueOnce(error);
 
     await expect(async () =>
       withTelemetry('dev', { presetOptions: {} as any }, run)

@@ -98,7 +98,7 @@
     },
     "@storybook/api": {
       "implicitDependencies": [],
-      "root": "lib/api",
+      "root": "lib/manager-api-shim",
       "type": "library"
     },
     "@storybook/blocks": {
@@ -206,16 +206,6 @@
       "root": "frameworks/ember",
       "type": "library"
     },
-    "@storybook/example-doc-blocks": {
-      "implicitDependencies": [],
-      "root": "examples/doc-blocks",
-      "type": "library"
-    },
-    "@storybook/external-docs": {
-      "implicitDependencies": [],
-      "root": "examples/external-docs",
-      "type": "library"
-    },
     "@storybook/html": {
       "implicitDependencies": [],
       "root": "renderers/html",
@@ -231,10 +221,20 @@
       "root": "lib/instrumenter",
       "type": "library"
     },
+    "@storybook/manager": {
+      "implicitDependencies": [],
+      "root": "ui/manager",
+      "type": "library"
+    },
+    "@storybook/manager-api": {
+      "implicitDependencies": [],
+      "root": "lib/manager-api",
+      "type": "library"
+    },
     "@storybook/nextjs": {
+      "implicitDependencies": [],
       "root": "frameworks/nextjs",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/node-logger": {
       "implicitDependencies": [],
@@ -294,6 +294,16 @@
     "@storybook/preset-web-components-webpack": {
       "implicitDependencies": [],
       "root": "presets/web-components-webpack",
+      "type": "library"
+    },
+    "@storybook/preview": {
+      "implicitDependencies": [],
+      "root": "lib/preview",
+      "type": "library"
+    },
+    "@storybook/preview-api": {
+      "implicitDependencies": [],
+      "root": "lib/preview-api",
       "type": "library"
     },
     "@storybook/preview-web": {
@@ -371,11 +381,6 @@
       "root": "lib/types",
       "type": "library"
     },
-    "@storybook/manager": {
-      "implicitDependencies": [],
-      "root": "ui/manager",
-      "type": "library"
-    },
     "@storybook/vue": {
       "implicitDependencies": [],
       "root": "renderers/vue",
@@ -421,34 +426,14 @@
       "root": "frameworks/web-components-webpack5",
       "type": "library"
     },
-    "ember-example": {
-      "implicitDependencies": [],
-      "root": "examples/ember-cli",
-      "type": "library"
-    },
     "sb": {
       "implicitDependencies": [],
       "root": "lib/cli-sb",
       "type": "library"
     },
-    "server-kitchen-sink": {
-      "implicitDependencies": [],
-      "root": "examples/server-kitchen-sink",
-      "type": "library"
-    },
-    "standalone-preview": {
-      "implicitDependencies": [],
-      "root": "examples/standalone-preview",
-      "type": "library"
-    },
     "storybook": {
       "implicitDependencies": [],
       "root": "lib/cli-storybook",
-      "type": "library"
-    },
-    "vue-3-cli-example": {
-      "implicitDependencies": [],
-      "root": "examples/vue-3-cli",
       "type": "library"
     }
   }

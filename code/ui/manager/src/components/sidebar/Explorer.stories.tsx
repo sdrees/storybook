@@ -26,6 +26,7 @@ const simple: Record<string, RefType> = {
     id: 'storybook_internal',
     url: 'iframe.html',
     ready: true,
+    // @ts-expect-error (invalid input)
     stories: mockDataset.withRoot,
   },
 };
@@ -38,6 +39,7 @@ const withRefs: Record<string, RefType> = {
     url: 'https://example.com',
     ready: true,
     type: 'auto-inject',
+    // @ts-expect-error (invalid input)
     stories: mockDataset.noRoot,
   },
   injected: {
@@ -46,6 +48,7 @@ const withRefs: Record<string, RefType> = {
     url: 'https://example.com',
     ready: false,
     type: 'auto-inject',
+    // @ts-expect-error (invalid input)
     stories: mockDataset.noRoot,
   },
   unknown: {
@@ -54,6 +57,7 @@ const withRefs: Record<string, RefType> = {
     url: 'https://example.com',
     ready: true,
     type: 'unknown',
+    // @ts-expect-error (invalid input)
     stories: mockDataset.noRoot,
   },
   lazy: {
@@ -62,6 +66,7 @@ const withRefs: Record<string, RefType> = {
     url: 'https://example.com',
     ready: false,
     type: 'lazy',
+    // @ts-expect-error (invalid input)
     stories: mockDataset.withRoot,
   },
 };

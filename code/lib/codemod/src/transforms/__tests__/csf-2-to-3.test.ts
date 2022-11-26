@@ -1,11 +1,10 @@
-import { describe } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { dedent } from 'ts-dedent';
 import _transform from '../csf-2-to-3';
 
-// @ts-expect-error (Converted from ts-ignore)
 expect.addSnapshotSerializer({
   print: (val: any) => val,
-  test: (val) => true,
+  test: () => true,
 });
 
 const jsTransform = (source: string) => _transform({ source }, null, {}).trim();

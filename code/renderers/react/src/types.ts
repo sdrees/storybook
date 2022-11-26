@@ -1,10 +1,14 @@
 import type { ComponentType, ReactElement } from 'react';
-import type { WebFramework } from '@storybook/types';
+import type { WebRenderer } from '@storybook/types';
 
 export type { Store_RenderContext as RenderContext } from '@storybook/types';
 export type { StoryContext } from '@storybook/types';
 
-export interface ReactFramework extends WebFramework {
+/**
+ * @deprecated Use `ReactRenderer` instead.
+ */
+export type ReactFramework = ReactRenderer;
+export interface ReactRenderer extends WebRenderer {
   component: ComponentType<this['T']>;
   storyResult: StoryFnReactReturnType;
 }

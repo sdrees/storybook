@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-highlight",
-  "version": "7.0.0-alpha.48",
+  "version": "7.0.0-alpha.54",
   "description": "Highlight DOM nodes within your stories",
   "keywords": [
     "storybook-addons",
@@ -60,13 +60,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.48",
-    "@storybook/core-events": "7.0.0-alpha.48",
+    "@storybook/core-events": "7.0.0-alpha.54",
+    "@storybook/preview-api": "7.0.0-alpha.54",
     "global": "^4.4.0"
   },
   "devDependencies": {
     "@types/webpack-env": "^1.16.0",
-    "typescript": "~4.6.3"
+    "typescript": "^4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -77,7 +77,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd",
+  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Highlight",

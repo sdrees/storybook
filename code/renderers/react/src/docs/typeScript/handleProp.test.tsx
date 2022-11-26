@@ -85,8 +85,8 @@ describe('enhanceTypeScriptProp', () => {
 
       const expectedSummary = "{ foo: 'foo', bar: 'bar' }";
 
-      expect(defaultValue.summary.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
-      expect(defaultValue.detail).toBeUndefined();
+      expect(defaultValue?.summary.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
+      expect(defaultValue?.detail).toBeUndefined();
     });
 
     it('should support long object', () => {
@@ -96,7 +96,7 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('object');
+      expect(defaultValue?.summary).toBe('object');
 
       const expectedDetail = `{
         foo: 'foo',
@@ -104,7 +104,7 @@ describe('enhanceTypeScriptProp', () => {
         another: 'another'
       }`;
 
-      expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     it('should not have deep object in summary', () => {
@@ -114,7 +114,7 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('object');
+      expect(defaultValue?.summary).toBe('object');
     });
 
     it('should support short function', () => {
@@ -122,8 +122,8 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('() => {}');
-      expect(defaultValue.detail).toBeUndefined();
+      expect(defaultValue?.summary).toBe('() => {}');
+      expect(defaultValue?.detail).toBeUndefined();
     });
 
     it('should support long function', () => {
@@ -135,7 +135,7 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('func');
+      expect(defaultValue?.summary).toBe('func');
 
       const expectedDetail = `(foo, bar) => {
         const concat = foo + bar;
@@ -143,7 +143,7 @@ describe('enhanceTypeScriptProp', () => {
         return append
       }`;
 
-      expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     it('should use the name of function when available and indicate that args are present', () => {
@@ -153,13 +153,13 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('concat( ... )');
+      expect(defaultValue?.summary).toBe('concat( ... )');
 
       const expectedDetail = `function concat(a, b) {
         return a + b
       }`;
 
-      expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     it('should use the name of function when available', () => {
@@ -169,13 +169,13 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('hello()');
+      expect(defaultValue?.summary).toBe('hello()');
 
       const expectedDetail = `function hello() {
         return 'hello'
       }`;
 
-      expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     it('should support short element', () => {
@@ -183,8 +183,8 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('<div>Hey!</div>');
-      expect(defaultValue.detail).toBeUndefined();
+      expect(defaultValue?.summary).toBe('<div>Hey!</div>');
+      expect(defaultValue?.detail).toBeUndefined();
     });
 
     it('should support long element', () => {
@@ -196,8 +196,8 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('element');
-      expect(defaultValue.detail).toBe(
+      expect(defaultValue?.summary).toBe('element');
+      expect(defaultValue?.detail).toBe(
         '<div>Hey! Hey! Hey!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</div>'
       );
     });
@@ -207,8 +207,8 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('<Component />');
-      expect(defaultValue.detail).toBe('<Component className="toto" />');
+      expect(defaultValue?.summary).toBe('<Component />');
+      expect(defaultValue?.detail).toBe('<Component className="toto" />');
     });
 
     it("should use the name of the React component when it's available", () => {
@@ -220,13 +220,13 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('<InlinedFunctionalComponent />');
+      expect(defaultValue?.summary).toBe('<InlinedFunctionalComponent />');
 
       const expectedDetail = `function InlinedFunctionalComponent() {
         return <div>Inlined FunctionalComponent!</div>;
       }`;
 
-      expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     it('should not use the name of an HTML element', () => {
@@ -234,7 +234,7 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).not.toBe('<div />');
+      expect(defaultValue?.summary).not.toBe('<div />');
     });
 
     it('should support short array', () => {
@@ -242,8 +242,8 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('[1]');
-      expect(defaultValue.detail).toBeUndefined();
+      expect(defaultValue?.summary).toBe('[1]');
+      expect(defaultValue?.detail).toBeUndefined();
     });
 
     it('should support long array', () => {
@@ -255,7 +255,7 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('array');
+      expect(defaultValue?.summary).toBe('array');
 
       const expectedDetail = `[{
           thing: {
@@ -266,7 +266,7 @@ describe('enhanceTypeScriptProp', () => {
           }
         }]`;
 
-      expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     it('should not have deep array in summary', () => {
@@ -274,7 +274,7 @@ describe('enhanceTypeScriptProp', () => {
 
       const { defaultValue } = extractPropDef(component);
 
-      expect(defaultValue.summary).toBe('array');
+      expect(defaultValue?.summary).toBe('array');
     });
 
     describe('fromRawDefaultProp', () => {
@@ -284,48 +284,53 @@ describe('enhanceTypeScriptProp', () => {
         { type: 'symbol', defaultProp: Symbol('hey!') },
       ].forEach((x) => {
         it(`should support ${x.type}`, () => {
+          // @ts-expect-error (not strict)
           const component = createTestComponent(null);
 
           const { defaultValue } = extractPropDef(component, x.defaultProp);
 
-          expect(defaultValue.summary).toBe(x.defaultProp.toString());
-          expect(defaultValue.detail).toBeUndefined();
+          expect(defaultValue?.summary).toBe(x.defaultProp.toString());
+          expect(defaultValue?.detail).toBeUndefined();
         });
       });
 
       it('should support strings', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, 'foo');
 
-        expect(defaultValue.summary).toBe('"foo"');
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe('"foo"');
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support array of primitives', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, [1, 2, 3]);
 
-        expect(defaultValue.summary).toBe('[1,    2,    3]');
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe('[1,    2,    3]');
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support array of short object', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, [{ foo: 'bar' }]);
 
-        expect(defaultValue.summary).toBe("[{ 'foo': 'bar' }]");
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe("[{ 'foo': 'bar' }]");
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support array of long object', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, [{ foo: 'bar', bar: 'foo', hey: 'ho' }]);
 
-        expect(defaultValue.summary).toBe('array');
+        expect(defaultValue?.summary).toBe('array');
 
         const expectedDetail = `[{
           'foo': 'bar',
@@ -333,24 +338,26 @@ describe('enhanceTypeScriptProp', () => {
           'hey': 'ho'
         }]`;
 
-        expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+        expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
       });
 
       it('should support short object', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, { foo: 'bar' });
 
-        expect(defaultValue.summary).toBe("{ 'foo': 'bar' }");
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe("{ 'foo': 'bar' }");
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support long object', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, { foo: 'bar', bar: 'foo', hey: 'ho' });
 
-        expect(defaultValue.summary).toBe('object');
+        expect(defaultValue?.summary).toBe('object');
 
         const expectedDetail = `{
           'foo': 'bar',
@@ -358,41 +365,45 @@ describe('enhanceTypeScriptProp', () => {
           'hey': 'ho'
         }`;
 
-        expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+        expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
       });
 
       it('should support anonymous function', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, () => 'hey!');
 
-        expect(defaultValue.summary).toBe('func');
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe('func');
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support named function', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, function hello() {
           return 'world!';
         });
 
-        expect(defaultValue.summary).toBe('hello()');
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe('hello()');
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support named function with params', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, function add(a: number, b: number) {
           return a + b;
         });
 
-        expect(defaultValue.summary).toBe('add( ... )');
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe('add( ... )');
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support React element', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const defaultProp = <ReactComponent />;
@@ -401,11 +412,12 @@ describe('enhanceTypeScriptProp', () => {
 
         const { defaultValue } = extractPropDef(component, defaultProp);
 
-        expect(defaultValue.summary).toBe('<ReactComponent />');
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe('<ReactComponent />');
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support React element with props', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         // @ts-expect-error (Converted from ts-ignore)
@@ -415,20 +427,22 @@ describe('enhanceTypeScriptProp', () => {
 
         const { defaultValue } = extractPropDef(component, defaultProp);
 
-        expect(defaultValue.summary).toBe('<ReactComponent />');
-        expect(defaultValue.detail).toBe('<ReactComponent className="toto" />');
+        expect(defaultValue?.summary).toBe('<ReactComponent />');
+        expect(defaultValue?.detail).toBe('<ReactComponent className="toto" />');
       });
 
       it('should support short HTML element', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(component, <div>HTML element</div>);
 
-        expect(defaultValue.summary).toBe('<div>HTML element</div>');
-        expect(defaultValue.detail).toBeUndefined();
+        expect(defaultValue?.summary).toBe('<div>HTML element</div>');
+        expect(defaultValue?.detail).toBeUndefined();
       });
 
       it('should support long HTML element', () => {
+        // @ts-expect-error (not strict)
         const component = createTestComponent(null);
 
         const { defaultValue } = extractPropDef(
@@ -436,17 +450,18 @@ describe('enhanceTypeScriptProp', () => {
           <div>HTML element!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</div>
         );
 
-        expect(defaultValue.summary).toBe('element');
+        expect(defaultValue?.summary).toBe('element');
 
         const expectedDetail = `<div>
           HTML element!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         </div>`;
 
-        expect(defaultValue.detail.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+        expect(defaultValue?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
       });
 
       ['element', 'elementType'].forEach((x) => {
         it(`should support inlined React class component for ${x}`, () => {
+          // @ts-expect-error (not strict)
           const component = createTestComponent(null, x);
 
           const { defaultValue } = extractPropDef(
@@ -458,44 +473,48 @@ describe('enhanceTypeScriptProp', () => {
             }
           );
 
-          expect(defaultValue.summary).toBe('<InlinedClassComponent />');
-          expect(defaultValue.detail).toBeUndefined();
+          expect(defaultValue?.summary).toBe('<InlinedClassComponent />');
+          expect(defaultValue?.detail).toBeUndefined();
         });
 
         it(`should support inlined anonymous React functional component for ${x}`, () => {
+          // @ts-expect-error (not strict)
           const component = createTestComponent(null, x);
 
           const { defaultValue } = extractPropDef(component, () => {
             return <div>Inlined FunctionalComponent!</div>;
           });
 
-          expect(defaultValue.summary).toBe('element');
-          expect(defaultValue.detail).toBeUndefined();
+          expect(defaultValue?.summary).toBe('element');
+          expect(defaultValue?.detail).toBeUndefined();
         });
 
         it(`should support inlined anonymous React functional component with props for ${x}`, () => {
+          // @ts-expect-error (not strict)
           const component = createTestComponent(null, x);
 
           const { defaultValue } = extractPropDef(component, ({ foo }: { foo: string }) => {
             return <div>{foo}</div>;
           });
 
-          expect(defaultValue.summary).toBe('element');
-          expect(defaultValue.detail).toBeUndefined();
+          expect(defaultValue?.summary).toBe('element');
+          expect(defaultValue?.detail).toBeUndefined();
         });
 
         it(`should support inlined named React functional component for ${x}`, () => {
+          // @ts-expect-error (not strict)
           const component = createTestComponent(null, x);
 
           const { defaultValue } = extractPropDef(component, function InlinedFunctionalComponent() {
             return <div>Inlined FunctionalComponent!</div>;
           });
 
-          expect(defaultValue.summary).toBe('<InlinedFunctionalComponent />');
-          expect(defaultValue.detail).toBeUndefined();
+          expect(defaultValue?.summary).toBe('<InlinedFunctionalComponent />');
+          expect(defaultValue?.detail).toBeUndefined();
         });
 
         it(`should support inlined named React functional component with props for ${x}`, () => {
+          // @ts-expect-error (not strict)
           const component = createTestComponent(null, x);
 
           const { defaultValue } = extractPropDef(
@@ -505,8 +524,8 @@ describe('enhanceTypeScriptProp', () => {
             }
           );
 
-          expect(defaultValue.summary).toBe('<InlinedFunctionalComponent />');
-          expect(defaultValue.detail).toBeUndefined();
+          expect(defaultValue?.summary).toBe('<InlinedFunctionalComponent />');
+          expect(defaultValue?.detail).toBeUndefined();
         });
       });
     });

@@ -1,17 +1,20 @@
 ```ts
 // Histogram.stories.ts
 
-import type { Meta, Story } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html';
 
-import { Histogram, HistogramProps } from './Histogram';
+import { createHistogram, HistogramProps } from './Histogram';
 
-export default {
+const meta: Meta<HistogramProps> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/html/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Histogram',
-} as Meta<HistogramProps>;
+};
+
+export default meta;
+type Story = StoryObj<HistogramProps>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

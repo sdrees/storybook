@@ -3,31 +3,35 @@ import type {
   Args,
   ComponentAnnotations,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  DecoratorFunction,
+  LoaderFunction,
+  StrictArgs,
 } from '@storybook/types';
-import type { ServerFramework } from './types';
+import type { ServerRenderer } from './types';
 
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
 
 /**
  * Metadata to configure the stories for a component.
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TArgs = Args> = ComponentAnnotations<ServerFramework, TArgs>;
+export type Meta<TArgs = Args> = ComponentAnnotations<ServerRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<ServerFramework, TArgs>;
+export type StoryFn<TArgs = Args> = AnnotatedStoryFn<ServerRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryObj<TArgs = Args> = StoryAnnotations<ServerFramework, TArgs>;
+export type StoryObj<TArgs = Args> = StoryAnnotations<ServerRenderer, TArgs>;
 
 /**
  * @deprecated Use `StoryFn` instead.
@@ -39,3 +43,8 @@ export type StoryObj<TArgs = Args> = StoryAnnotations<ServerFramework, TArgs>;
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
+
+export type { ServerRenderer };
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<ServerRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<ServerRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<ServerRenderer, TArgs>;

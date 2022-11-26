@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 
@@ -17,7 +18,7 @@ export default {
   component: Spaced,
 };
 
-export const Default = (args) => (
+export const Default = (args: ComponentProps<typeof Spaced>) => (
   <div>
     <PlaceholderBlock color="silver" />
     <Spaced {...args}>
@@ -30,7 +31,7 @@ export const Default = (args) => (
 );
 
 export const Column = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof Spaced>) => (
     <div>
       <PlaceholderBlock color="silver" />
       <Spaced {...args}>
@@ -43,7 +44,7 @@ export const Column = {
   ),
 };
 export const Row = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof Spaced>) => (
     <div>
       <PlaceholderInline color="silver" />
       <Spaced {...args}>

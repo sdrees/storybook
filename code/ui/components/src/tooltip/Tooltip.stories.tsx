@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { Tooltip } from './Tooltip';
@@ -25,7 +26,7 @@ export default {
 
 export const BasicDefault = {
   // args: mockPopperProps,
-  render: (args) => (
+  render: (args: ComponentProps<typeof Tooltip>) => (
     <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
@@ -37,7 +38,7 @@ export const BasicDefaultBottom = {
     // ...mockPopperProps,
     placement: 'bottom',
   },
-  render: (args) => (
+  render: (args: ComponentProps<typeof Tooltip>) => (
     <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
@@ -49,7 +50,7 @@ export const BasicDefaultLeft = {
     // ...mockPopperProps,
     placement: 'left',
   },
-  render: (args) => (
+  render: (args: ComponentProps<typeof Tooltip>) => (
     <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
@@ -61,7 +62,7 @@ export const BasicDefaultRight = {
     // ...mockPopperProps,
     placement: 'right',
   },
-  render: (args) => (
+  render: (args: ComponentProps<typeof Tooltip>) => (
     <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
@@ -73,7 +74,7 @@ export const WithoutChrome = {
     // ...mockPopperProps,
     hasChrome: false,
   },
-  render: (args) => (
+  render: (args: ComponentProps<typeof Tooltip>) => (
     <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>

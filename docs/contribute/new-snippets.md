@@ -78,7 +78,7 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
 ```
 
 <div class="aside">
-💡 Code snippets are divided into various file extensions, if you're contributing a TypeScript file use <code>.ts.mdx</code>, or if you're adding MDX files use <code>.mdx.mdx</code> .
+💡 Code snippets are divided into various file extensions, if you're contributing a TypeScript file use <code>.ts.mdx</code>, or if you're adding JavaScript files use <code>.js.mdx</code> .
 </div>
 
 Go through the rest of the documentation and repeat the process.

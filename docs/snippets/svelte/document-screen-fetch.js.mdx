@@ -34,14 +34,13 @@
 </script>
 
 {#if status === "error"}
-  <p>There was an error fetching the data!</p>
-{/if} 
-{#if status === "loading"}
-  <p>Loading...</p>
+<p>There was an error fetching the data!</p>
+{/if} {#if status === "loading"}
+<p>Loading...</p>
 {:else}
-  <PageLayout {user}>
-    <DocumentHeader {document} />
-    <DocumentList documents="{subdocuments}" />
-  </PageLayout>
+<PageLayout {user}>
+  <DocumentHeader {document} />
+  <DocumentList documents="{subdocuments}" />
+</PageLayout>
 {/if}
 ```

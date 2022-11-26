@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const fs = require('fs-extra');
 const path = require('path');
-const execa = require('execa');
 const { join } = require('path');
 
 function getCommand(watch, dir) {
@@ -55,11 +54,13 @@ function handleExit(code, stderr, errorCallback) {
 }
 
 async function run({ watch, dir, silent, errorCallback }) {
+  const execa = await import('execa');
+
   return new Promise((resolve, reject) => {
     const command = getCommand(watch, dir);
 
     if (command !== '') {
-      const child = execa.command(command, {
+      const child = execa.execaCommand(command, {
         cwd: join(__dirname, '..'),
         buffer: false,
         env: { BABEL_MODE: path.basename(dir) },

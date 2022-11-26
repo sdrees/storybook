@@ -28,7 +28,7 @@ Highlight DOM nodes by emitting the `HIGHLIGHT` event from within a story or an 
 
 ```js
 import React, { useEffect } from 'react';
-import { useChannel } from '@storybook/addons';
+import { useChannel } from '@storybook/preview-api';
 import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
 import { MyComponent } form './MyComponent';
 

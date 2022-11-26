@@ -2,6 +2,7 @@ import { build as viteBuild } from 'vite';
 import { commonConfig } from './vite-config';
 
 import type { ExtendedOptions } from './types';
+import { sanitizeEnvVars } from './envs';
 
 export async function build(options: ExtendedOptions) {
   const { presets } = options;
@@ -15,5 +16,5 @@ export async function build(options: ExtendedOptions) {
 
   const finalConfig = await presets.apply('viteFinal', config, options);
 
-  await viteBuild(finalConfig);
+  await viteBuild(await sanitizeEnvVars(options, finalConfig));
 }

@@ -1,10 +1,11 @@
 // noinspection JSUnusedGlobalSymbols
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'fs-extra';
 import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
-import type { RequestHandler, Request, Response } from 'express';
+import type { RequestHandler } from 'express';
 import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
+import express from 'express';
+import { dirname, join, parse } from 'path';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
@@ -45,8 +46,8 @@ function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): Requ
       return;
     }
 
-    const indexHtml = fs.readFileSync(
-      path.resolve(__dirname, '../..', 'input', 'iframe.html'),
+    const indexHtml = await fs.readFile(
+      require.resolve('@storybook/builder-vite/input/iframe.html'),
       'utf-8'
     );
     const generated = await transformIframeHtml(indexHtml, options);
@@ -76,12 +77,10 @@ export const start: ViteBuilder['start'] = async ({
 }) => {
   server = await createViteServer(options as ExtendedOptions, devServer);
 
-  // Just mock this endpoint (which is really Webpack-specific) so we don't get spammed with 404 in browser devtools
-  // TODO: we should either show some sort of progress from Vite, or just try to disable the whole Loader in the Manager UI.
-  router.get('/progress', (req: Request, res: Response) => {
-    res.header('Cache-Control', 'no-cache');
-    res.header('Content-Type', 'text/event-stream');
-  });
+  const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+
+  router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
 
   router.use(iframeMiddleware(options as ExtendedOptions, server));
   router.use(server.middlewares);
@@ -94,5 +93,23 @@ export const start: ViteBuilder['start'] = async ({
 };
 
 export const build: ViteBuilder['build'] = async ({ options }) => {
-  return viteBuild(options as ExtendedOptions);
+  const viteCompilation = viteBuild(options as ExtendedOptions);
+
+  const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const previewDirTarget = join(options.outputDir || '', `sb-preview`);
+
+  const previewFiles = fs.copy(previewDirOrigin, previewDirTarget, {
+    filter: (src) => {
+      const { ext } = parse(src);
+      if (ext) {
+        return ext === '.mjs';
+      }
+      return true;
+    },
+  });
+
+  const [out] = await Promise.all([viteCompilation, previewFiles]);
+
+  return out;
 };

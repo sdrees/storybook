@@ -20,7 +20,7 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
       const code = await fs.readFile(fname, 'utf-8');
       try {
         const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
-        enrichCsf(csf);
+        enrichCsf(csf, options);
         return formatCsf(csf);
       } catch (err: any) {
         logger.warn(err.message);

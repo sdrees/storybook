@@ -1,10 +1,13 @@
 import type { Options, CoreConfig, Builder } from '@storybook/types';
 
-async function getManagerBuilder() {
+export async function getManagerBuilder(): Promise<Builder<unknown>> {
   return import('@storybook/builder-manager');
 }
 
-async function getPreviewBuilder(builderName: string, configDir: string) {
+export async function getPreviewBuilder(
+  builderName: string,
+  configDir: string
+): Promise<Builder<unknown>> {
   let builderPackage: string;
   if (builderName) {
     builderPackage = require.resolve(

@@ -14,11 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: get-branch
+        env:
+          # Stored as environment variable to prevent script injection
+          REF_NAME: ${{ github.ref_name }}
         run: |
           if  [ "${{ github.event.pull_request.head.repo.fork }}" = "true" ]; then
             export BRANCH=pull/${{ github.event.pull_request.number }}/head
             elif [ "${{ github.event_name }}" = "push" ]; then
-            export BRANCH=${{ github.ref_name }}
+            export BRANCH="$REF_NAME"
             else
             export BRANCH=${{ github.event.pull_request.head.ref }}
           fi

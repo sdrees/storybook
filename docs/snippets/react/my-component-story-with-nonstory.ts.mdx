@@ -1,15 +1,13 @@
-```ts
+```tsx
 // MyComponent.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { MyComponent } from './MyComponent';
 
 import someData from './data.json';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -18,18 +16,21 @@ export default {
   component: MyComponent,
   includeStories: ['SimpleStory', 'ComplexStory'], // 👈 Storybook loads these stories
   excludeStories: /.*Data$/, // 👈 Storybook ignores anything that contains Data
-} as ComponentMeta<typeof MyComponent>;
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
 export const simpleData = { foo: 1, bar: 'baz' };
 export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
 
-export const SimpleStory: ComponentStoryObj<typeof MyComponent> = {
+export const SimpleStory: Story = {
   args: {
     data: simpleData,
   },
 };
 
-export const ComplexStory: ComponentStoryObj<typeof MyComponent> = {
+export const ComplexStory: Story = {
   args: {
     data: complexData,
   },

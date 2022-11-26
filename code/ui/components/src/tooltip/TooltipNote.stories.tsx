@@ -5,7 +5,7 @@ import { TooltipNote } from './TooltipNote';
 export default {
   component: TooltipNote,
   decorators: [
-    (storyFn) => (
+    (storyFn: any) => (
       <div
         style={{
           height: '300px',

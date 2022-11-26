@@ -9,12 +9,14 @@ export default {
    * to learn how to generate automatic titles
    */
   title: 'Button',
-  decorators: [(story) => {
-    const decorator = document.createElement('div');
-    decorator.style.margin = '3em';
-    decorator.appendChild(story());
-    return decorator;
-  }],
+  decorators: [
+    (story) => {
+      const decorator = document.createElement('div');
+      decorator.style.margin = '3em';
+      decorator.appendChild(story());
+      return decorator;
+    },
+  ],
 };
 
 /*

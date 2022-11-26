@@ -1,5 +1,5 @@
 import type { Parameters, Store_Story } from '@storybook/types';
-import { combineParameters } from '@storybook/store';
+import { combineParameters } from '@storybook/preview-api';
 
 // ============================================================
 // START @storybook/source-loader/extract-source

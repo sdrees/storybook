@@ -1,3 +1,145 @@
+## 7.0.0-alpha.54 (November 25, 2022)
+
+#### Bug Fixes
+
+-   Vite: Support environment variables in viteFinal define config [#19905](https://github.com/storybooks/storybook/pull/19905)
+
+#### Maintenance
+
+-   Build: split `lib/addons` into manager & preview part, move code to `manager-api` [#19952](https://github.com/storybooks/storybook/pull/19952)
+-   TypeScript: Satisfy stricter compilerOption rules [#19953](https://github.com/storybooks/storybook/pull/19953)
+-   API: Rename `api` to `manager-api` [#19944](https://github.com/storybooks/storybook/pull/19944)
+-   API: Add `preview-api` package [#19749](https://github.com/storybooks/storybook/pull/19749)
+
+#### Build
+
+-   Build: Improve security in Github actions [#19949](https://github.com/storybooks/storybook/pull/19949)
+
+#### Dependencies
+
+-   NextJS: Add Next13 peer dependency [#19932](https://github.com/storybooks/storybook/pull/19932)
+
+
+## 7.0.0-alpha.53 (November 24, 2022)
+
+#### Bug Fixes
+
+-   Angular: Fix "__webpack_require__.nmd is not a function" in v15 [#19937](https://github.com/storybooks/storybook/pull/19937)
+-   Controls: Exclude `{ table: { disable: true } }` from panel count [#19877](https://github.com/storybooks/storybook/pull/19877)
+
+#### Maintenance
+
+-   Core: Prebundle the preview [#19718](https://github.com/storybooks/storybook/pull/19718)
+-   Builder-vite: Build with tsup [#19895](https://github.com/storybooks/storybook/pull/19895)
+-   Components: Fix missing export [#19923](https://github.com/storybooks/storybook/pull/19923)
+
+#### Build
+
+-   Remove the fix we added when enhanced-resolve was broken [#19942](https://github.com/storybooks/storybook/pull/19942)
+-   Fix CI which was broken by enhanced-resolve [#19936](https://github.com/storybooks/storybook/pull/19936)
+-   Drop `inDevelopment` from `cra/default-js` [#19934](https://github.com/storybooks/storybook/pull/19934)
+-   Fix execa import in get-report-message [#19913](https://github.com/storybooks/storybook/pull/19913)
+
+## 7.0.0-alpha.52 (November 21, 2022)
+
+#### Bug Fixes
+
+-   NextJS: Fix v13 `next/link` [#19834](https://github.com/storybooks/storybook/pull/19834)
+-   Docs: Fix ordering of entries in `Stories` block [#19907](https://github.com/storybooks/storybook/pull/19907)
+
+#### Build
+
+-   Maintenance: fix execa usage in build and check scripts [#19909](https://github.com/storybooks/storybook/pull/19909)
+-   Use execa 6.x in `scripts` [#19759](https://github.com/storybooks/storybook/pull/19759)
+-   Build: Create a generate task and use in the sandbox process [#19840](https://github.com/storybooks/storybook/pull/19840)
+
+#### Dependency Upgrades
+
+-   Upgrade docs-mdx to fix yarn pnp [#19835](https://github.com/storybooks/storybook/pull/19835)
+
+## 7.0.0-alpha.51 (November 19, 2022)
+
+#### Bug Fixes
+
+-   NextJS: Fix out-of-the-box babel handling [#19842](https://github.com/storybooks/storybook/pull/19842)
+-   NextJS: Fix import url on windows [#19798](https://github.com/storybooks/storybook/pull/19798)
+-   UI: Fix panel invisible for any addon listed after the interactions panel [#19771](https://github.com/storybooks/storybook/pull/19771)
+-   Core: Bail preview builder on failure [#19849](https://github.com/storybooks/storybook/pull/19849)
+-   Core: Fix double esbuild-register register [#19852](https://github.com/storybooks/storybook/pull/19852)
+-   Composition: Fix regression in the `#root` to `#storybook-root` change [#19848](https://github.com/storybooks/storybook/pull/19848)
+-   UI: Fix `showPanel=false` doesn't work on mobile view [#19807](https://github.com/storybooks/storybook/pull/19807)
+
+#### Maintenance
+
+-   CLI: Replace degit with giget [#19870](https://github.com/storybooks/storybook/pull/19870)
+-   Build: Bundle lib/channel-websocket with tsup [#19694](https://github.com/storybooks/storybook/pull/19694)
+-   Maintenance: Upgrade monorepo to TS 4.9  [#19869](https://github.com/storybooks/storybook/pull/19869)
+
+#### Build
+
+-   Build: Downgrade @types/node [#19890](https://github.com/storybooks/storybook/pull/19890)
+-   Maintenance: Add angular 14 template and skip test runner on angular 15 for now [#19871](https://github.com/storybooks/storybook/pull/19871)
+-   Build: Upgrade Jest to 29 [#19863](https://github.com/storybooks/storybook/pull/19863)
+-   Build: Fix chromatic version to 6.11.2 in local scripts [#19889](https://github.com/storybooks/storybook/pull/19889)
+-   Build: Pin chromatic version to 6.11.2 to temporary fix flakiness [#19874](https://github.com/storybooks/storybook/pull/19874)
+
+#### Dependency Upgrades
+
+-   Bump mdx2-csf dependency [#19885](https://github.com/storybooks/storybook/pull/19885)
+
+## 7.0.0-alpha.50 (November 17, 2022)
+
+#### Features
+
+-   Expose more CSF types in all renderers [#19833](https://github.com/storybooks/storybook/pull/19833)
+-   CSF: Renamed Framework to Renderer [#19802](https://github.com/storybooks/storybook/pull/19802)
+
+#### Bug Fixes
+
+-   Next.js: use file path instead of image contents for next-image-loader-stub [#19858](https://github.com/storybooks/storybook/pull/19858)
+-   TypeScript: Fix type inference bug with decorators  [#19839](https://github.com/storybooks/storybook/pull/19839)
+-   Vite: Keep using absolute path node_modules splitting [#19836](https://github.com/storybooks/storybook/pull/19836)
+-   Vite: Fix preview annotation paths on Windows [#19822](https://github.com/storybooks/storybook/pull/19822)
+-   Fix csf-plugin ignoring options [#19823](https://github.com/storybooks/storybook/pull/19823)
+-   Controls: Checkbox does not update when using useArgs hook [#19508](https://github.com/storybooks/storybook/pull/19508)
+
+#### Maintenance
+
+-   Jest: switch from Parameters to StorybookInternalParameters [#19853](https://github.com/storybooks/storybook/pull/19853)
+-   Blocks: Story stories [#19805](https://github.com/storybooks/storybook/pull/19805)
+-   Blocks: Canvas stories [#19804](https://github.com/storybooks/storybook/pull/19804)
+-   Tech: TypeScript should check stories and tests as well [#19831](https://github.com/storybooks/storybook/pull/19831)
+
+#### Build
+
+-   UI Storybook: Disable sourcemaps when building in CI [#19862](https://github.com/storybooks/storybook/pull/19862)
+-   Build: Increase max node memory for jobs [#19856](https://github.com/storybooks/storybook/pull/19856)
+-   CI: improve error reporting mechanism [#19841](https://github.com/storybooks/storybook/pull/19841)
+-   Fix tests on Windows [#19777](https://github.com/storybooks/storybook/pull/19777)
+-   Build: Fix benchmark to run on local packages [#19832](https://github.com/storybooks/storybook/pull/19832)
+-   CI: Report failures on discord [#19801](https://github.com/storybooks/storybook/pull/19801)
+
+## 7.0.0-alpha.49 (November 13, 2022)
+
+#### Bug Fixes
+
+-   Essentials: Fix preview annotations for Vite pnpm support [#19689](https://github.com/storybooks/storybook/pull/19689)
+
+#### Maintenance
+
+-   Build: convert addon-docs to use ts-up [#19790](https://github.com/storybooks/storybook/pull/19790)
+-   Core: Allow overriding WebView and UrlStore [#19623](https://github.com/storybooks/storybook/pull/19623)
+-   Storyshots: Support .cjs and .mjs file extensions [#19726](https://github.com/storybooks/storybook/pull/19726)
+
+#### Build
+
+-   Build: less noise when compiling [#19808](https://github.com/storybooks/storybook/pull/19808)
+-   Build: Upgrade bench to `next` [#19791](https://github.com/storybooks/storybook/pull/19791)
+-   Maintenance: improve error feedback when tasks fail in CI [#19786](https://github.com/storybooks/storybook/pull/19786)
+-   UI: Enable TurboSnap for UI Storybook [#19767](https://github.com/storybooks/storybook/pull/19767)
+-   CI: Use a new cadence (ci, pr, merged, daily) and trigger CircleCI from github actions [#19768](https://github.com/storybooks/storybook/pull/19768)
+-   Maintenance: provide expected failure metadata in junit reports [#19775](https://github.com/storybooks/storybook/pull/19775)
+
 ## 7.0.0-alpha.48 (November 7, 2022)
 
 #### Breaking Changes
@@ -542,9 +684,10 @@ Bad publish
 
 #### Bug Fixes
 
-- CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
-- Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
-- Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+-   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+-   Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
+-   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+-   Blocks: Fix Checkbox control update when using useArgs hook
 
 #### Maintenance
 

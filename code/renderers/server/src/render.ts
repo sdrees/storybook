@@ -4,9 +4,9 @@ import global from 'global';
 
 import { dedent } from 'ts-dedent';
 import type { Store_RenderContext } from '@storybook/types';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
 import type { StoryFn, Args, ArgTypes } from './public-types';
-import type { FetchStoryHtmlType, ServerFramework } from './types';
+import type { FetchStoryHtmlType, ServerRenderer } from './types';
 
 const { fetch, Node } = global;
 
@@ -42,7 +42,7 @@ const buildStoryArgs = (args: Args, argTypes: ArgTypes) => {
   return storyArgs;
 };
 
-export const render: StoryFn<ServerFramework> = (args: Args) => {};
+export const render: StoryFn<ServerRenderer> = (args: Args) => {};
 
 export async function renderToCanvas(
   {
@@ -55,8 +55,8 @@ export async function renderToCanvas(
     storyFn,
     storyContext,
     storyContext: { parameters, args, argTypes },
-  }: Store_RenderContext<ServerFramework>,
-  canvasElement: ServerFramework['canvasElement']
+  }: Store_RenderContext<ServerRenderer>,
+  canvasElement: ServerRenderer['canvasElement']
 ) {
   // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer
   storyFn();

@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-standalone-expect */
 import globalThis from 'global';
 import {
   within,

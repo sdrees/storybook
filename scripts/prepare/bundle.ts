@@ -15,7 +15,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     name,
     dependencies,
     peerDependencies,
-    bundler: { entries, platform, pre, post },
+    bundler: { entries = [], untypedEntries = [], platform, pre, post },
   } = await fs.readJson(join(cwd, 'package.json'));
 
   const tsnodePath = join(__dirname, '..', 'node_modules', '.bin', 'ts-node');
@@ -62,7 +62,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     // BROWSER EMS
     build({
       silent: true,
-      entry: entries.map((e: string) => slash(join(cwd, e))),
+      entry: [...entries, ...untypedEntries].map((e: string) => slash(join(cwd, e))),
       watch,
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       outDir: join(process.cwd(), 'dist'),
@@ -88,10 +88,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
         c.conditions = ['module'];
+        c.logLevel = 'error';
         c.platform = platform || 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
-        c.minifyIdentifiers = optimized;
+        c.minifyIdentifiers = false;
         c.minifySyntax = optimized;
         /* eslint-enable no-param-reassign */
       },
@@ -100,7 +101,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     // NODE CJS
     build({
       silent: true,
-      entry: entries.map((e: string) => slash(join(cwd, e))),
+      entry: [...entries, ...untypedEntries].map((e: string) => slash(join(cwd, e))),
       watch,
       outDir: join(process.cwd(), 'dist'),
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
@@ -112,6 +113,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
+        c.logLevel = 'error';
         c.platform = 'node';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;

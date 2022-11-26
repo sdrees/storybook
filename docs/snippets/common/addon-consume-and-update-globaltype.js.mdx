@@ -4,11 +4,11 @@
 import React, { useCallback } from 'react';
 
 import { FORCE_RE_RENDER } from '@storybook/core-events';
-import { useGlobals } from '@storybook/api';
+import { useGlobals } from '@storybook/manager-api';
 
 import { IconButton, Icons } from '@storybook/components';
 
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 
 const ExampleToolbar = () => {
   const [globals, updateGlobals] = useGlobals();
@@ -26,7 +26,7 @@ const ExampleToolbar = () => {
   };
 
   const toggleOutline = useCallback(() => refreshAndUpdateGlobal(), [isActive]);
-  
+
   return (
     <IconButton
       key="Example"

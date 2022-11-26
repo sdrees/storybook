@@ -1,13 +1,11 @@
-```ts
+```tsx
 // YourComponent.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentMeta, StoryFn } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import { YourComponent } from './YourComponent';
 
-export default {
+const meta: Meta<typeof YourComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -15,11 +13,13 @@ export default {
   title: 'YourComponent',
   component: YourComponent,
   decorators: [
-    (Story: StoryFn) => (
+    (Story) => (
       <div style={{ margin: '3em' }}>
         <Story />
       </div>
     ),
   ],
-} as ComponentMeta<typeof YourComponent>;
+};
+
+export default meta;
 ```

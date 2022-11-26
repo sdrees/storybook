@@ -18,7 +18,7 @@ export class ServerChannel {
     });
   }
 
-  emit(type: string, args: any[] = []) {
+  emit(type: string, args: any = []) {
     const event = { type, args };
     const data = stringify(event, { maxDepth: 15, allowFunction: true });
     Array.from(this.webSocketServer.clients)

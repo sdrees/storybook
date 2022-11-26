@@ -1,5 +1,5 @@
 import global from 'global';
-import { useEffect, makeDecorator } from '@storybook/addons';
+import { useEffect, makeDecorator } from '@storybook/preview-api';
 import { actions } from './runtime/actions';
 
 import { PARAM_KEY } from './constants';
@@ -56,8 +56,8 @@ export const withActions = makeDecorator({
   parameterName: PARAM_KEY,
   skipIfNoParametersOrOptions: true,
   wrapper: (getStory, context, { parameters }) => {
-    if (parameters?.handles) {
-      applyEventHandlers(actions, ...parameters.handles);
+    if (parameters?.['handles']) {
+      applyEventHandlers(actions, ...parameters['handles']);
     }
 
     return getStory(context);

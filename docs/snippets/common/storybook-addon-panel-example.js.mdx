@@ -5,9 +5,9 @@ import React from 'react';
 
 import { AddonPanel } from '@storybook/components';
 
-import { addons, types } from '@storybook/addons';
+import { addons, types } from '@storybook/preview-api';
 
-import { useGlobals } from '@storybook/api';
+import { useGlobals } from '@storybook/manager-api';
 
 addons.register('my/panel', () => {
   addons.add('my-panel-addon/panel', {

@@ -10,17 +10,35 @@ function test(options: StoryshotsOptions): boolean {
 function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'web-components';
 
-  const storybook = jest.requireActual('@storybook/html');
-  const clientAPI = jest.requireActual('@storybook/client-api');
+  let mockStartedAPI: any;
 
-  const api = {
-    ...clientAPI,
-    ...storybook,
-  };
+  jest.mock('@storybook/preview-api', () => {
+    const previewAPI = jest.requireActual('@storybook/preview-api');
+
+    return {
+      ...previewAPI,
+      start: (...args: any[]) => {
+        mockStartedAPI = previewAPI.start(...args);
+        return mockStartedAPI;
+      },
+    };
+  });
+
+  jest.mock('@storybook/html', () => {
+    const renderAPI = jest.requireActual('@storybook/html');
+
+    renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
+    renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
+
+    return renderAPI;
+  });
+
+  // eslint-disable-next-line global-require
+  const storybook = require('@storybook/html');
 
   configure({
     ...options,
-    storybook: api,
+    storybook,
   });
 
   return {
@@ -29,7 +47,7 @@ function load(options: StoryshotsOptions) {
     renderShallowTree: () => {
       throw new Error('Shallow renderer is not supported for web-components');
     },
-    storybook: api,
+    storybook,
   };
 }
 

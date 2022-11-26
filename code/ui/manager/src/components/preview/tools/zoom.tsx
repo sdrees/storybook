@@ -2,7 +2,7 @@ import type { SyntheticEvent, MouseEventHandler } from 'react';
 import React, { Component, useCallback } from 'react';
 
 import { Icons, IconButton, Separator } from '@storybook/components';
-import type { Addon } from '@storybook/addons';
+import type { Addon } from '@storybook/manager-api';
 
 const initialZoom = 1 as const;
 

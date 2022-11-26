@@ -61,15 +61,10 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
   paths={[
     'react/component-story-with-accessibility.js.mdx',
     'react/component-story-with-accessibility.ts.mdx',
-    'react/component-story-with-accessibility.mdx.mdx',
     'angular/component-story-with-accessibility.ts.mdx',
-    'angular/component-story-with-accessibility.mdx.mdx',
     'vue/component-story-with-accessibility.2.js.mdx',
-    'vue/component-story-with-accessibility.mdx-2.mdx.mdx',
     'vue/component-story-with-accessibility.3.js.mdx',
-    'vue/component-story-with-accessibility.mdx-3.mdx.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
-    'svelte/component-story-with-accessibility.mdx.mdx',
   ]}
 />
 
@@ -106,7 +101,6 @@ You can also customize your own set of rules for all stories of a component. Upd
 <CodeSnippets
   paths={[
     'common/storybook-addon-a11y-component-config.js.mdx',
-    'common/storybook-addon-a11y-component-config.mdx.mdx',
   ]}
 />
 
@@ -122,13 +116,9 @@ Customize the a11y ruleset at the story level by updating your story to include 
   paths={[
     'react/storybook-addon-a11y-story-config.js.mdx',
     'react/storybook-addon-a11y-story-config.ts.mdx',
-    'react/storybook-addon-a11y-story-config.mdx.mdx',
     'angular/storybook-addon-a11y-story-config.ts.mdx',
-    'angular/storybook-addon-a11y-story-config.mdx.mdx',
     'vue/storybook-addon-a11y-story-config.js.mdx',
-    'vue/storybook-addon-a11y-story-config.mdx.mdx',
     'svelte/storybook-addon-a11y-story-config.js.mdx',
-    'svelte/storybook-addon-a11y-story-config.mdx.mdx',
   ]}
 />
 
@@ -144,13 +134,9 @@ Disable accessibility testing for stories or components by adding the following 
   paths={[
    'react/storybook-addon-a11y-disable.js.mdx',
    'react/storybook-addon-a11y-disable.ts.mdx',
-   'react/storybook-addon-a11y-disable.mdx.mdx',
    'angular/storybook-addon-a11y-disable.ts.mdx',
-   'angular/storybook-addon-a11y-disable.mdx.mdx',
    'vue/storybook-addon-a11y-disable.js.mdx',
-   'vue/storybook-addon-a11y-disable.mdx.mdx',
    'svelte/storybook-addon-a11y-disable.js.mdx',
-   'svelte/storybook-addon-a11y-disable.mdx.mdx',
   ]}
 />
 

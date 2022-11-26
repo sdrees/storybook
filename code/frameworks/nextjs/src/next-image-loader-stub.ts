@@ -1,3 +1,4 @@
+// @ts-expect-error (loader-utils has no webpack5 compatible types)
 import { interpolateName } from 'loader-utils';
 import imageSizeOf from 'image-size';
 import type { RawLoaderDefinition } from 'webpack';
@@ -15,7 +16,7 @@ const nextImageLoaderStub: RawLoaderDefinition<LoaderOptions> = function (conten
 
   this.emitFile(outputPath, content);
 
-  const { width, height } = imageSizeOf(content);
+  const { width, height } = imageSizeOf(this.resourcePath);
 
   return `export default ${JSON.stringify({
     src: outputPath,
@@ -27,4 +28,4 @@ const nextImageLoaderStub: RawLoaderDefinition<LoaderOptions> = function (conten
 
 nextImageLoaderStub.raw = true;
 
-export = nextImageLoaderStub;
+export default nextImageLoaderStub;

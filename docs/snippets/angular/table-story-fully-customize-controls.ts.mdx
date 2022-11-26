@@ -1,26 +1,29 @@
 ```ts
 // Table.stories.ts
 
-import type { Meta, StoryObj } from '@storybook/angular',
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { Table } from './Table.component';
 
-export default {
+const meta: Meta<Table> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'Custom Table',
   component: Table,
-} as Meta;
+};
 
- /*
+export default meta;
+type Story = StoryObj<Table>;
+
+/*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
  * See https://storybook.js.org/docs/7.0/angular/api/csf
  * to learn how to use render functions.
  */
-export const Numeric: StoryObj<Table> = {
-  render:(args)=>({
+export const Numeric: Story = {
+  render: (args) => ({
     props: args,
     template: `
       <table>
@@ -34,7 +37,7 @@ export const Numeric: StoryObj<Table> = {
       </table>
     `,
   }),
-  args:{
+  args: {
     data: [
       [1, 2, 3],
       [4, 5, 6],

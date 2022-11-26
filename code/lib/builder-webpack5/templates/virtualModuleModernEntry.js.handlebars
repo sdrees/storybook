@@ -1,9 +1,6 @@
 import global from 'global';
 
-import { PreviewWeb } from '@storybook/preview-web';
-import { composeConfigs } from '@storybook/store';
-import { ClientApi } from '@storybook/client-api';
-import { addons } from '@storybook/addons';
+import { ClientApi, PreviewWeb, addons, composeConfigs } from '@storybook/preview-api';
 import { createChannel as createPostMessageChannel } from '@storybook/channel-postmessage';
 import { createChannel as createWebSocketChannel } from '@storybook/channel-websocket';
 

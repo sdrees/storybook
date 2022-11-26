@@ -1,18 +1,26 @@
-/// <reference types="webpack-env" />
+import { type Addon_Type, Addon_TypesEnum } from '@storybook/types';
 
-// There can only be 1 default export per entry point and it has to be directly from index
-// Exporting this twice in order to to be able to import it like { addons } instead of 'addons'
-// prefer import { addons } from '@storybook/addons' over import addons from '@storybook/addons'
-//
-// See main.ts
+export { type Addon_Type as Addon, Addon_TypesEnum as types };
 
-import { addons } from './main';
+export { addons, type AddonStore, mockChannel } from '@storybook/manager-api';
 
-export * from './make-decorator';
-
-export * from './main';
-export * from './storybook-channel-mock';
-// eslint-disable-next-line import/no-cycle
-export * from './hooks';
-
-export default addons;
+export {
+  type EventMap,
+  HooksContext,
+  type Listener,
+  type MakeDecoratorOptions,
+  type MakeDecoratorResult,
+  applyHooks,
+  makeDecorator,
+  useArgs,
+  useCallback,
+  useChannel,
+  useEffect,
+  useGlobals,
+  useMemo,
+  useParameter,
+  useReducer,
+  useRef,
+  useState,
+  useStoryContext,
+} from '@storybook/preview-api/dist/addons';

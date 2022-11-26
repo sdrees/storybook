@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { ThemeProvider, themes, ensure } from '@storybook/theming';
-import type { Framework } from '@storybook/types';
+import type { Renderer } from '@storybook/types';
 
 import { DocsContext } from '../DocsContext';
 import { ExternalPreview } from './ExternalPreview';
 
-let preview: ExternalPreview<Framework>;
+let preview: ExternalPreview<Renderer>;
 
 export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
   projectAnnotations,

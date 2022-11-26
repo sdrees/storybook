@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import type { State } from '@storybook/api';
+import type { State } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import NotificationItem from './NotificationItem';

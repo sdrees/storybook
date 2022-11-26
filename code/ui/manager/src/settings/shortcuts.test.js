@@ -30,7 +30,7 @@ describe('ShortcutsScreen', () => {
         <ShortcutsScreen shortcutKeys={shortcutKeys} {...makeActions()} />
       </ThemeProvider>
     );
-    expect(comp).toExist();
+    expect(comp.exists()).toBeTruthy();
   });
 
   it('handles a full mount', () => {

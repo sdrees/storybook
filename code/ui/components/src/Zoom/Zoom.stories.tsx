@@ -24,10 +24,11 @@ const EXAMPLE_ELEMENT = (
   />
 );
 
-const TemplateElement = (args) => <Zoom.Element {...args} />;
+const TemplateElement = (args: any) => <Zoom.Element {...args} />;
 
 export const ElementActualSize = TemplateElement.bind({});
 
+// @ts-expect-error (to be converted to CSF3)
 ElementActualSize.args = {
   scale: 1,
   children: EXAMPLE_ELEMENT,
@@ -35,6 +36,7 @@ ElementActualSize.args = {
 
 export const ElementZoomedIn = TemplateElement.bind({});
 
+// @ts-expect-error (to be converted to CSF3)
 ElementZoomedIn.args = {
   scale: 0.7,
   children: EXAMPLE_ELEMENT,
@@ -42,6 +44,7 @@ ElementZoomedIn.args = {
 
 export const ElementZoomedOut = TemplateElement.bind({});
 
+// @ts-expect-error (to be converted to CSF3)
 ElementZoomedOut.args = {
   scale: 3,
   children: EXAMPLE_ELEMENT,
@@ -54,7 +57,7 @@ const style: CSSProperties = {
   position: 'relative',
 };
 
-const TemplateIFrame = (args) => {
+const TemplateIFrame = (args: any) => {
   const iFrameRef = React.useRef<HTMLIFrameElement>(null);
   const [scale, setScale] = useState(1);
   const [loaded, hasLoaded] = useState(false);
@@ -80,6 +83,7 @@ const TemplateIFrame = (args) => {
 };
 export const IFrameActualSize = TemplateIFrame.bind({});
 
+// @ts-expect-error (to be converted to CSF3)
 IFrameActualSize.args = {
   scale: 1,
   active: true,
@@ -87,28 +91,33 @@ IFrameActualSize.args = {
 
 // The iFrame stories are disabled because useGlobals works in practice
 // but, for some reason breaks in the stories for Zoom.iFrame
+// @ts-expect-error (to be converted to CSF3)
 IFrameActualSize.parameters = {
   chromatic: { disableSnapshot: true },
 };
 
 export const IFrameZoomedIn = TemplateIFrame.bind({});
 
+// @ts-expect-error (to be converted to CSF3)
 IFrameZoomedIn.args = {
   scale: 0.7,
   active: true,
 };
 
+// @ts-expect-error (to be converted to CSF3)
 IFrameZoomedIn.parameters = {
   chromatic: { disableSnapshot: true },
 };
 
 export const IFrameZoomedOut = TemplateIFrame.bind({});
 
+// @ts-expect-error (to be converted to CSF3)
 IFrameZoomedOut.args = {
   scale: 3,
   active: true,
 };
 
+// @ts-expect-error (to be converted to CSF3)
 IFrameZoomedOut.parameters = {
   chromatic: { disableSnapshot: true },
 };

@@ -1,7 +1,7 @@
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
-import { sanitizeStoryContextUpdate } from '@storybook/store';
+import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 import SlotDecorator from '../templates/SlotDecorator.svelte';
-import type { SvelteFramework } from './types';
+import type { SvelteRenderer } from './types';
 
 /**
  * Check if an object is a svelte component.
@@ -31,7 +31,7 @@ function unWrap(obj: any) {
  * @param story  the current story
  * @param originalStory the story decorated by the current story
  */
-function prepareStory(context: StoryContext<SvelteFramework>, story: any, originalStory?: any) {
+function prepareStory(context: StoryContext<SvelteRenderer>, story: any, originalStory?: any) {
   let result = unWrap(story);
   if (isSvelteComponent(result)) {
     // wrap the component
@@ -66,10 +66,10 @@ function prepareStory(context: StoryContext<SvelteFramework>, story: any, origin
 export function decorateStory(storyFn: any, decorators: any[]) {
   return decorators.reduce(
     (
-        previousStoryFn: LegacyStoryFn<SvelteFramework>,
-        decorator: DecoratorFunction<SvelteFramework>
+        previousStoryFn: LegacyStoryFn<SvelteRenderer>,
+        decorator: DecoratorFunction<SvelteRenderer>
       ) =>
-      (context: StoryContext<SvelteFramework>) => {
+      (context: StoryContext<SvelteRenderer>) => {
         let story;
         const decoratedStory = decorator((update) => {
           story = previousStoryFn({
@@ -89,6 +89,6 @@ export function decorateStory(storyFn: any, decorators: any[]) {
 
         return prepareStory(context, decoratedStory, story);
       },
-    (context: StoryContext<SvelteFramework>) => prepareStory(context, storyFn(context))
+    (context: StoryContext<SvelteRenderer>) => prepareStory(context, storyFn(context))
   );
 }

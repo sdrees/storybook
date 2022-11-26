@@ -7,16 +7,19 @@ import { expect } from '@storybook/jest';
 
 import LoginForm from './LoginForm.vue';
 
-import type { Meta, Story } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3';
 
-export default {
+const meta: Meta<typeof LoginForm> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Form',
   component: LoginForm,
-} as Meta<typeof LoginForm>;
+};
+
+export default meta;
+type Story = StoryObj<typeof LoginForm>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
@@ -33,6 +36,10 @@ export const EmptyForm: Story = {
   }),
 };
 
+/*
+ * See https://storybook.js.org/docs/7.0/vue/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
+ */
 export const FilledForm: Story = {
   render: (args) => ({
     components: { LoginForm },
@@ -42,7 +49,6 @@ export const FilledForm: Story = {
     template: '<LoginForm @onSubmit="onSubmit" v-bind="args" />',
   }),
   play: async ({ canvasElement }) => {
-    // Starts querying the component from its root element
     const canvas = within(canvasElement);
 
     // 👇 Simulate interactions with the component

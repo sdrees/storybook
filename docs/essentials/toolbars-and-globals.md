@@ -101,13 +101,9 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 <CodeSnippets
   paths={[
     'react/my-component-story-use-globaltype.js.mdx',
-    'react/my-component-story-use-globaltype.mdx.mdx',
     'vue/my-component-story-use-globaltype.js.mdx',
-    'vue/my-component-story-use-globaltype.mdx.mdx',
     'angular/my-component-story-use-globaltype.ts.mdx',
-    'angular/my-component-story-use-globaltype.mdx.mdx',
     'svelte/my-component-story-use-globaltype.js.mdx',
-    'svelte/my-component-story-use-globaltype.mdx.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',
   ]}
 />
@@ -136,7 +132,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 
 ## Consuming globals from within an addon
 
-If you're working on a Storybook addon and need to retrieve globals, you can do so. The `@storybook/api` package provides a hook for this scenario. You can use the [`useGlobals()`](../addons/addons-api.md#useglobals) hook to retrieve any globals you want.
+If you're working on a Storybook addon and need to retrieve globals, you can do so. The `@storybook/manager-api` package provides a hook for this scenario. You can use the [`useGlobals()`](../addons/addons-api.md#useglobals) hook to retrieve any globals you want.
 
 Using the ThemeProvider example above, you could expand it to display which theme is active inside a panel as such:
 
@@ -152,7 +148,7 @@ Using the ThemeProvider example above, you could expand it to display which them
 
 ## Updating globals from within an addon
 
-If you're working on a Storybook addon that needs to update the global and refreshes the UI, you can do so. As mentioned previously, the `@storybook/api` package provides the necessary hook for this scenario. You can use the `updateGlobals` function to update any global values you need.
+If you're working on a Storybook addon that needs to update the global and refreshes the UI, you can do so. As mentioned previously, the `@storybook/manager-api` package provides the necessary hook for this scenario. You can use the `updateGlobals` function to update any global values you need.
 
 Also, you can use both `@storybook/addons` and `@storybook/core-events` packages together to trigger the refresh.
 

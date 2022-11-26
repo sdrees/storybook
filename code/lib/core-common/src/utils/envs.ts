@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - Needed for Angular sandbox running without --no-link option. Do NOT convert to @ts-expect-error!
 import { getEnvironment } from 'lazy-universal-dotenv';
 import { nodePathsToArray } from './paths';
 
@@ -10,9 +12,10 @@ export function loadEnvs(options: { production?: boolean } = {}): {
   const defaultNodeEnv = options.production ? 'production' : 'development';
 
   const env: Record<string, string | undefined> = {
-    NODE_ENV: process.env.NODE_ENV || defaultNodeEnv,
-    NODE_PATH: process.env.NODE_PATH || '',
-    STORYBOOK: process.env.STORYBOOK || 'true',
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    NODE_ENV: process.env['NODE_ENV'] || defaultNodeEnv,
+    NODE_PATH: process.env['NODE_PATH'] || '',
+    STORYBOOK: process.env['STORYBOOK'] || 'true',
     // This is to support CRA's public folder feature.
     // In production we set this to dot(.) to allow the browser to access these assets
     // even when deployed inside a subpath. (like in GitHub pages)
@@ -31,7 +34,7 @@ export function loadEnvs(options: { production?: boolean } = {}): {
     {} as Record<string, string>
   );
 
-  const { stringified, raw } = getEnvironment({ nodeEnv: env.NODE_ENV });
+  const { stringified, raw } = getEnvironment({ nodeEnv: env['NODE_ENV'] });
 
   const fullRaw = { ...env, ...raw };
 
@@ -50,16 +53,10 @@ export const stringifyEnvs = (raw: Record<string, string>): Record<string, strin
   }, {});
 
 export const stringifyProcessEnvs = (raw: Record<string, string>): Record<string, string> => {
-  const envs = Object.entries(raw).reduce<Record<string, string>>(
-    (acc, [key, value]) => {
-      acc[`process.env.${key}`] = JSON.stringify(value);
-      return acc;
-    },
-    {
-      // Default fallback
-      'process.env.XSTORYBOOK_EXAMPLE_APP': '""',
-    }
-  );
+  const envs = Object.entries(raw).reduce<Record<string, string>>((acc, [key, value]) => {
+    acc[`process.env.${key}`] = JSON.stringify(value);
+    return acc;
+  }, {});
   // FIXME: something like this is necessary to support destructuring like:
   //
   // const { foo } = process.env;

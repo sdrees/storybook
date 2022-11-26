@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import { screen, userEvent, waitFor } from '@storybook/testing-library';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
@@ -14,9 +14,14 @@ export default {
   component: MyComponent,
 };
 
+/* See https://storybook.js.org/docs/7.0/react/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
+ */
 export const ExampleAsyncStory = {
-  play: async () => {
-    const Input = screen.getByLabelText('Username', {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const Input = canvas.getByLabelText('Username', {
       selector: 'input',
     });
 
@@ -25,11 +30,11 @@ export const ExampleAsyncStory = {
     });
 
     // See https://storybook.js.org/docs/7.0/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    const Submit = screen.getByRole('button');
+    const Submit = canvas.getByRole('button');
     await userEvent.click(Submit);
 
     await waitFor(async () => {
-      await userEvent.hover(screen.getByTestId('error'));
+      await userEvent.hover(canvas.getByTestId('error'));
     });
   },
 };

@@ -1,7 +1,7 @@
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
 
-jest.mock('@storybook/addons');
+jest.mock('@storybook/preview-api');
 const mockedAddons = addons as jest.Mocked<typeof addons>;
 
 describe('a11yRunner', () => {

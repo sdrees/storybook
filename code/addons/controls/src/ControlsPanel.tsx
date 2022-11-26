@@ -1,6 +1,12 @@
 import type { FC } from 'react';
 import React from 'react';
-import { useArgs, useGlobals, useArgTypes, useParameter, useStorybookState } from '@storybook/api';
+import {
+  useArgs,
+  useGlobals,
+  useArgTypes,
+  useParameter,
+  useStorybookState,
+} from '@storybook/manager-api';
 import {
   PureArgsTable as ArgsTable,
   NoControlsWarning,

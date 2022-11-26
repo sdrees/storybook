@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoriesHash } from '@storybook/api';
+import type { StoriesHash } from '@storybook/manager-api';
 
 import { mockDataset } from './mockdata';
 import { SearchResults } from './SearchResults';
@@ -34,6 +34,7 @@ const combinedDataset = (refs: Record<string, StoriesHash>): CombinedDataset => 
   return { hash, entries: Object.entries(hash) };
 };
 
+// @ts-expect-error (invalid input)
 const dataset = combinedDataset({ internal: mockDataset.withRoot, composed: mockDataset.noRoot });
 
 const internal = Object.values(dataset.hash.internal.stories).map((item) =>

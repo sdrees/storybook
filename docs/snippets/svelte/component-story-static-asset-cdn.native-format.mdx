@@ -7,14 +7,14 @@
   import MyComponent from './MyComponent.svelte';
 </script>
 
-<Meta
-  title="img"
-  component={MyComponent}
-/>
+<meta title="img" component="{MyComponent}" />
 
-<Template>
-  <MyComponent src="https://storybook.js.org/images/placeholders/350x150.png" alt="My CDN placeholder" />
-</Template>
+<template>
+  <MyComponent
+    src="https://storybook.js.org/images/placeholders/350x150.png"
+    alt="My CDN placeholder"
+  />
+</template>
 
 <Story name="WithAnImage" />
 ```

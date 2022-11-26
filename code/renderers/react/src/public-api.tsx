@@ -1,23 +1,18 @@
 /* eslint-disable prefer-destructuring */
-import type {
-  Addon_ClientStoryApi,
-  Addon_Loadable,
-  Args,
-  DecoratorFunction,
-} from '@storybook/types';
-import { start } from '@storybook/core-client';
+import { start } from '@storybook/preview-api';
+import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 
-import { renderToCanvas, render } from './render';
-import type { ReactFramework } from './types';
+import { render, renderToCanvas } from './render';
+import type { ReactRenderer } from './types';
 
-interface ClientApi extends Addon_ClientStoryApi<ReactFramework['storyResult']> {
+interface ClientApi extends Addon_ClientStoryApi<ReactRenderer['storyResult']> {
   configure(loader: Addon_Loadable, module: NodeModule): void;
   forceReRender(): void;
   raw: () => any; // todo add type
 }
 const FRAMEWORK = 'react';
 
-const api = start(renderToCanvas, { render });
+const api = start<ReactRenderer>(renderToCanvas, { render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
@@ -28,5 +23,3 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 export const configure: ClientApi['configure'] = (...args) => api.configure(FRAMEWORK, ...args);
 export const forceReRender: ClientApi['forceReRender'] = api.forceReRender;
 export const raw: ClientApi['raw'] = api.clientApi.raw;
-
-export type DecoratorFn<TArgs = Args> = DecoratorFunction<ReactFramework, TArgs>;

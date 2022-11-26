@@ -1,7 +1,9 @@
 ```ts
 // ButtonGroup.stories.ts
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { CommonModule } from '@angular/common';
 
@@ -11,7 +13,7 @@ import { Button } from './button.component';
 //👇 Imports the Button stories
 import * as ButtonStories from './Button.stories';
 
-export default {
+const meta: Meta<ButtonGroup> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -24,7 +26,10 @@ export default {
       imports: [CommonModule],
     }),
   ],
-} as Meta;
+};
+
+export default meta;
+type Story = StoryObj<ButtonGroup>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

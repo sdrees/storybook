@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.svelte';
 
@@ -15,20 +15,21 @@ export default {
 };
 
 /*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/svelte/api/csf
- * to learn how to use render functions.
+ * See https://storybook.js.org/docs/7.0/svelte/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
  */
 export const AsyncExample = {
   render: (args) => ({
     Component: MyComponent,
     props: args,
   }),
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
     // Other steps
 
     // Waits for the component to be rendered before querying the element
-    await screen.findByRole('button', { name: / button label/i }));
+    await canvas.findByRole('button', { name: / button label/i }));
   },
 };
 ```

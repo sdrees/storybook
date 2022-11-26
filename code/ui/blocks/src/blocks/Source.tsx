@@ -89,7 +89,7 @@ const getSnippet = (snippet: string, story?: Store_Story<any>): string => {
 type SourceStateProps = { state: SourceState };
 type PureSourceProps = ComponentProps<typeof PureSource>;
 
-export const getSourceProps = (
+export const useSourceProps = (
   props: SourceProps,
   docsContext: DocsContextProps<any>,
   sourceContext: SourceContextProps
@@ -100,8 +100,7 @@ export const getSourceProps = (
   const singleProps = props as SingleSourceProps;
   const multiProps = props as MultiSourceProps;
 
-  let source = codeProps.code; // prefer user-specified code
-  let { format } = codeProps; // prefer user-specified code
+  let { format, code: source } = codeProps; // prefer user-specified code
 
   const targetIds = multiProps.ids || [singleProps.id || primaryId];
   const storyIds = targetIds.map((targetId) => {
@@ -151,6 +150,6 @@ export const getSourceProps = (
 export const Source: FC<PureSourceProps> = (props) => {
   const sourceContext = useContext(SourceContext);
   const docsContext = useContext(DocsContext);
-  const sourceProps = getSourceProps(props, docsContext, sourceContext);
+  const sourceProps = useSourceProps(props, docsContext, sourceContext);
   return <PureSource {...sourceProps} />;
 };

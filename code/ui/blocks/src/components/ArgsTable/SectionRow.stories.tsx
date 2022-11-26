@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { ResetWrapper } from '@storybook/components';
 import { SectionRow } from './SectionRow';
@@ -6,7 +7,7 @@ import { TableWrapper } from './ArgsTable';
 export default {
   component: SectionRow,
   decorators: [
-    (getStory) => (
+    (getStory: any) => (
       <ResetWrapper>
         <TableWrapper>
           <tbody>{getStory()}</tbody>
@@ -36,8 +37,8 @@ export const Collapsed = {
 
 export const Nested = {
   render: () => (
-    <SectionRow {...Section.args}>
-      <SectionRow {...Subsection.args}>
+    <SectionRow {...(Section.args as ComponentProps<typeof SectionRow>)}>
+      <SectionRow {...(Subsection.args as ComponentProps<typeof SectionRow>)}>
         <tr>
           <td colSpan={2}>Some content</td>
         </tr>

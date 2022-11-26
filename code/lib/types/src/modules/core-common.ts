@@ -15,6 +15,10 @@ import type { Parameters, Tag } from './csf';
 export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
 export type RendererName = string;
 
+interface ServerChannel {
+  emit(type: string, args?: any): void;
+}
+
 export interface CoreConfig {
   builder?:
     | BuilderName
@@ -188,6 +192,7 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
     startTime: ReturnType<typeof process.hrtime>;
     router: Router;
     server: Server;
+    channel: ServerChannel;
   }) => Promise<void | {
     stats?: BuilderStats;
     totalTime: ReturnType<typeof process.hrtime>;

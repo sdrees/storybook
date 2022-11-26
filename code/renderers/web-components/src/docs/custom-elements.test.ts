@@ -1,15 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import { extractArgTypes } from './custom-elements';
 import customElementsManifest from './__testfixtures__/custom-elements.json';
-
-declare global {
-  interface Window {
-    __STORYBOOK_CUSTOM_ELEMENTS_MANIFEST__: any;
-  }
-}
 
 const { window } = global;
 

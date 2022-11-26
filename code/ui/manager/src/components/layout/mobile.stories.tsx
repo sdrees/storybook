@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { ActiveTabs } from '@storybook/api';
+import { ActiveTabs } from '@storybook/manager-api';
 import type { DecoratorFn } from '@storybook/react';
 
 import type { MobileProps } from './mobile';
@@ -32,6 +32,9 @@ export const InitialCanvas = ({ props }: { props: MobileProps }) => (
 );
 export const InitialAddons = ({ props }: { props: MobileProps }) => (
   <Mobile {...props} options={{ ...props.options, initialActive: ActiveTabs.ADDONS }} />
+);
+export const NoPanel = ({ props }: { props: MobileProps }) => (
+  <Mobile {...props} options={{ ...props.options, showPanel: false }} />
 );
 
 export const Fullscreen = ({ props }: { props: MobileProps }) => (

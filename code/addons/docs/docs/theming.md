@@ -14,7 +14,7 @@ Storybook theming is the **recommended way** to theme your docs. Docs uses the s
 Supposing you have a Storybook theme defined for the main UI in `.storybook/manager.js`:
 
 ```js
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/manager-api';
 // or a custom theme
 import { themes } from '@storybook/theming';
 

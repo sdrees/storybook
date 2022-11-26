@@ -1,16 +1,19 @@
 ```ts
 // Button.stories.ts
 
-import type { Meta, Story } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html';
 import { createButton, ButtonArgs } from './Button';
 
-export default {
+const meta: Meta<ButtonArgs> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/html/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Button',
-} as Meta<ButtonArgs>;
+};
+
+export default meta;
+type Story = StoryObj<ButtonArgs>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
@@ -20,7 +23,7 @@ export default {
 export const Primary: Story = {
   render: (args) => createButton(args),
   args: {
-    primary: true, 
+    primary: true,
     label: 'Button',
   },
 };
@@ -28,7 +31,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   render: (args) => createButton(args),
   args: {
-    ...Primary.args, 
+    ...Primary.args,
     label: '😄👍😍💯',
   },
 };
@@ -36,7 +39,7 @@ export const Secondary: Story = {
 export const Tertiary: Story = {
   render: (args) => createButton(args),
   args: {
-    ...Primary.args, 
+    ...Primary.args,
     label: '📚📕📈🤓',
   },
 };

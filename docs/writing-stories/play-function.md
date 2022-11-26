@@ -43,14 +43,10 @@ Storybook's `play` functions are small code snippets that run once the story fin
   paths={[
    'react/register-component-with-play-function.js.mdx',
    'react/register-component-with-play-function.ts.mdx',
-   'react/register-component-with-play-function.mdx.mdx',
    'angular/register-component-with-play-function.ts.mdx',
-   'angular/register-component-with-play-function.mdx.mdx',
    'vue/register-component-with-play-function.js.mdx',
    'vue/register-component-with-play-function.ts.mdx',
-   'vue/register-component-with-play-function.mdx.mdx',
    'svelte/register-component-with-play-function.js.mdx',
-   'svelte/register-component-with-play-function.mdx.mdx',
   ]}
 />
 
@@ -97,14 +93,10 @@ A common type of component interaction is a button click. If you need to reprodu
   paths={[
    'react/my-component-play-function-with-clickevent.js.mdx',
    'react/my-component-play-function-with-clickevent.ts.mdx',
-   'react/my-component-play-function-with-clickevent.mdx.mdx',
    'angular/my-component-play-function-with-clickevent.ts.mdx',
-   'angular/my-component-play-function-with-clickevent.mdx.mdx',
    'vue/my-component-play-function-with-clickevent.js.mdx',
    'vue/my-component-play-function-with-clickevent.ts.mdx',
-   'vue/my-component-play-function-with-clickevent.mdx.mdx',
    'svelte/my-component-play-function-with-clickevent.js.mdx',
-   'svelte/my-component-play-function-with-clickevent.mdx.mdx',
   ]}
 />
 
@@ -120,14 +112,10 @@ Asides from click events, you can also script additional events with the `play` 
   paths={[
    'react/my-component-play-function-with-selectevent.js.mdx',
    'react/my-component-play-function-with-selectevent.ts.mdx',
-   'react/my-component-play-function-with-selectevent.mdx.mdx',
    'angular/my-component-play-function-with-selectevent.ts.mdx',
-   'angular/my-component-play-function-with-selectevent.mdx.mdx',
    'vue/my-component-play-function-with-selectevent.js.mdx',
    'vue/my-component-play-function-with-selectevent.ts.mdx',
-   'vue/my-component-play-function-with-selectevent.mdx.mdx',
    'svelte/my-component-play-function-with-selectevent.js.mdx',
-   'svelte/my-component-play-function-with-selectevent.mdx.mdx',
   ]}
 />
 
@@ -141,14 +129,10 @@ In addition to events, you can also create interactions with the `play` function
   paths={[
    'react/my-component-play-function-with-delay.js.mdx',
    'react/my-component-play-function-with-delay.ts.mdx',
-   'react/my-component-play-function-with-delay.mdx.mdx',
    'angular/my-component-play-function-with-delay.ts.mdx',
-   'angular/my-component-play-function-with-delay.mdx.mdx',
    'vue/my-component-play-function-with-delay.js.mdx',
    'vue/my-component-play-function-with-delay.ts.mdx',
-   'vue/my-component-play-function-with-delay.mdx.mdx',
    'svelte/my-component-play-function-with-delay.js.mdx',
-   'svelte/my-component-play-function-with-delay.mdx.mdx',
   ]}
 />
 
@@ -164,14 +148,10 @@ You can also use the `play` function to verify the existence of an element based
   paths={[
    'react/my-component-play-function-waitfor.js.mdx',
    'react/my-component-play-function-waitfor.ts.mdx',
-   'react/my-component-play-function-waitfor.mdx.mdx',
    'angular/my-component-play-function-waitfor.ts.mdx',
-   'angular/my-component-play-function-waitfor.mdx.mdx',
    'vue/my-component-play-function-waitfor.js.mdx',
    'vue/my-component-play-function-waitfor.ts.mdx',
-   'vue/my-component-play-function-waitfor.mdx.mdx',
    'svelte/my-component-play-function-waitfor.js.mdx',
-   'svelte/my-component-play-function-waitfor.mdx.mdx',
   ]}
 />
 
@@ -187,14 +167,10 @@ If you need, you can also adjust your `play` function to find elements based on 
   paths={[
    'react/my-component-play-function-alt-queries.js.mdx',
    'react/my-component-play-function-alt-queries.ts.mdx',
-   'react/my-component-play-function-alt-queries.mdx.mdx',
    'angular/my-component-play-function-alt-queries.ts.mdx',
-   'angular/my-component-play-function-alt-queries.mdx.mdx',
    'vue/my-component-play-function-alt-queries.js.mdx',
    'vue/my-component-play-function-alt-queries.ts.mdx',
-   'vue/my-component-play-function-alt-queries.mdx.mdx',
    'svelte/my-component-play-function-alt-queries.js.mdx',
-   'svelte/my-component-play-function-alt-queries.mdx.mdx',
   ]}
 />
 
@@ -214,14 +190,10 @@ Otherwise, if the component is not immediately available, for instance, due to a
   paths={[
    'react/my-component-play-function-query-findby.js.mdx',
    'react/my-component-play-function-query-findby.ts.mdx',
-   'react/my-component-play-function-query-findby.mdx.mdx',
    'angular/my-component-play-function-query-findby.ts.mdx',
-   'angular/my-component-play-function-query-findby.mdx.mdx',
    'vue/my-component-play-function-query-findby.js.mdx',
    'vue/my-component-play-function-query-findby.ts.mdx',
-   'vue/my-component-play-function-query-findby.mdx.mdx',
    'svelte/my-component-play-function-query-findby.js.mdx',
-   'svelte/my-component-play-function-query-findby.mdx.mdx',
   ]}
 />
 
@@ -237,14 +209,10 @@ By default, each interaction you write inside your `play` function will be execu
   paths={[
    'react/my-component-play-function-with-canvas.js.mdx',
    'react/my-component-play-function-with-canvas.ts.mdx',
-   'react/my-component-play-function-with-canvas.mdx.mdx',
    'angular/my-component-play-function-with-canvas.ts.mdx',
-   'angular/my-component-play-function-with-canvas.mdx.mdx',
    'vue/my-component-play-function-with-canvas.js.mdx',
    'vue/my-component-play-function-with-canvas.ts.mdx',
-   'vue/my-component-play-function-with-canvas.mdx.mdx',
    'svelte/my-component-play-function-with-canvas.js.mdx',
-   'svelte/my-component-play-function-with-canvas.mdx.mdx',
   ]}
 />
 

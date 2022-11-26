@@ -1,4 +1,3 @@
-import { AbortController } from 'node-abort-controller';
 import detectFreePort from 'detect-port';
 import { resolve } from 'path';
 
@@ -13,7 +12,7 @@ export async function runRegistry({ dryRun, debug }: { dryRun?: boolean; debug?:
   exec(
     'CI=true yarn local-registry --open',
     { cwd: codeDir },
-    { dryRun, debug, signal: controller.signal as AbortSignal }
+    { dryRun, debug, signal: controller.signal }
   ).catch((err) => {
     // If aborted, we want to make sure the rejection is handled.
     if (!err.killed) throw err;

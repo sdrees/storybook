@@ -10,11 +10,10 @@ import {
   styled,
   useTheme,
 } from '@storybook/theming';
-import { useArgs } from '@storybook/addons';
+import { useArgs, DocsContext } from '@storybook/preview-api';
 import { Symbols } from '@storybook/components';
-import type { PreviewWeb } from '@storybook/preview-web';
-import { DocsContext } from '@storybook/preview-web';
-import type { ReactFramework } from '@storybook/react';
+import type { PreviewWeb } from '@storybook/preview-api';
+import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
 
 import { DocsContainer } from '../blocks/src/blocks/DocsContainer';
@@ -94,7 +93,7 @@ const ThemedSetRoot = () => {
 };
 
 // eslint-disable-next-line no-underscore-dangle
-const preview = (window as any).__STORYBOOK_PREVIEW__ as PreviewWeb<ReactFramework>;
+const preview = (window as any).__STORYBOOK_PREVIEW__ as PreviewWeb<ReactRenderer>;
 const channel = (window as any).__STORYBOOK_ADDONS_CHANNEL__ as Channel;
 export const loaders = [
   async () => ({ globalValue: 1 }),

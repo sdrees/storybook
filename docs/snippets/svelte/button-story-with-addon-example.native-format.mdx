@@ -3,21 +3,14 @@
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
-  
+
   import Button from './Button.svelte';
 </script>
 
-<Meta
-  title="Button"
-  component={Button}
-  parameters={{
-    myAddon: {
-      data: 'this data is passed to the addon',
-    },
-  }}
-/>
+<Meta title="Button" component={Button} parameters={{ myAddon: { data: 'this data is passed to the
+addon', }, }} />
 
-<Template let:args>
-  <Button {...args} />
-</Template>
+<template let:args>
+  <button {...args} />
+</template>
 ```

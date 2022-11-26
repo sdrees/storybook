@@ -132,7 +132,7 @@ export abstract class JsPackageManager {
    *   `@storybook/react@${storybookVersion}`,
    *   `@storybook/addon-actions@${actionsVersion}`,
    *   `@storybook/addon-links@${linksVersion}`,
-   *   `@storybook/addons@${addonsVersion}`,
+   *   `@storybook/preview-api@${addonsVersion}`,
    * ]);
    */
   public addDependencies(

@@ -10,6 +10,7 @@ junit.xml
 test-results
 /repros
 /sandbox
+/bench
 .verdaccio-cache
 
 # Yarn stuff

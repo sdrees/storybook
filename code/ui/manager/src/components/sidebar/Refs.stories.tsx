@@ -1,5 +1,5 @@
 import React from 'react';
-import { ManagerContext } from '@storybook/api';
+import { ManagerContext } from '@storybook/manager-api';
 
 import { Ref } from './Refs';
 import { standardData as standardHeaderData } from './Heading.stories';
@@ -43,6 +43,7 @@ const refs: Record<string, RefType> = {
     url: 'https://example.com',
     ready: false,
     type: 'lazy',
+    // @ts-expect-error (invalid input)
     stories,
   },
   empty: {
@@ -59,6 +60,7 @@ const refs: Record<string, RefType> = {
     url: 'https://example.com',
     type: 'unknown',
     ready: false,
+    // @ts-expect-error (invalid input)
     stories,
   },
   startInjected_loading: {
@@ -67,6 +69,7 @@ const refs: Record<string, RefType> = {
     url: 'https://example.com',
     type: 'auto-inject',
     ready: false,
+    // @ts-expect-error (invalid input)
     stories,
   },
   startInjected_ready: {
@@ -75,6 +78,7 @@ const refs: Record<string, RefType> = {
     url: 'https://example.com',
     type: 'auto-inject',
     ready: true,
+    // @ts-expect-error (invalid input)
     stories,
   },
   versions: {
@@ -82,6 +86,7 @@ const refs: Record<string, RefType> = {
     title: 'It has versions',
     url: 'https://example.com',
     type: 'lazy',
+    // @ts-expect-error (invalid input)
     stories,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com' },
   },
@@ -90,6 +95,7 @@ const refs: Record<string, RefType> = {
     title: 'It has versions',
     url: 'https://example.com',
     type: 'lazy',
+    // @ts-expect-error (invalid input)
     stories,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com/v2' },
   },
@@ -113,6 +119,7 @@ const refs: Record<string, RefType> = {
     id: 'long',
     title: 'This storybook has a very very long name for some reason',
     url: 'https://example.com',
+    // @ts-expect-error (invalid input)
     stories,
     type: 'lazy',
     versions: {

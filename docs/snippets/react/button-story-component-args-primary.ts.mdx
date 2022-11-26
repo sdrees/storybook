@@ -1,13 +1,11 @@
-```ts
+```tsx
 // Button.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentMeta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import { Button } from './Button';
 
-export default {
+const meta: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -22,5 +20,8 @@ export default {
     //👇 Now all Button stories will be primary.
     primary: true,
   },
-} as ComponentMeta<typeof Button>;
+};
+
+export default meta;
+type Story = StoryObj<typeof Button>;
 ```

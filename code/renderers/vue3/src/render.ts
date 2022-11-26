@@ -2,9 +2,9 @@ import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
-import type { StoryFnVueReturnType, VueFramework } from './types';
+import type { StoryFnVueReturnType, VueRenderer } from './types';
 
-export const render: ArgsStoryFn<VueFramework> = (props, context) => {
+export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
   if (!Component) {
     throw new Error(
@@ -20,11 +20,11 @@ export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
 
-const map = new Map<VueFramework['canvasElement'], ReturnType<typeof createApp>>();
+const map = new Map<VueRenderer['canvasElement'], ReturnType<typeof createApp>>();
 
 export function renderToCanvas(
-  { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueFramework>,
-  canvasElement: VueFramework['canvasElement']
+  { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueRenderer>,
+  canvasElement: VueRenderer['canvasElement']
 ) {
   // TODO: explain cyclical nature of these app => story => mount
   let element: StoryFnVueReturnType;

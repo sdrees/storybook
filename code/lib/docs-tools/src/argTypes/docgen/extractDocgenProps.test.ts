@@ -40,7 +40,6 @@ function createFuncType(typeSystemDef: TypeSystemDef, others: Record<string, any
 
 function createComponent(docgenInfo: Record<string, any>): Component {
   const component = () => {};
-  // @ts-expect-error (Converted from ts-ignore)
   component.__docgenInfo = {
     [DOCGEN_SECTION]: {
       [PROP_NAME]: {

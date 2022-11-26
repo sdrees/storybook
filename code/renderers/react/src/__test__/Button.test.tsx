@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { setProjectAnnotations, composeStories, composeStory } from '@storybook/react';
+import { setProjectAnnotations, composeStories, composeStory } from '..';
 
 import * as stories from './Button.stories';
 

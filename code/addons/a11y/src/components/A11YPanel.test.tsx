@@ -2,12 +2,12 @@ import React from 'react';
 import { render, waitFor, fireEvent, act } from '@testing-library/react';
 
 import { ThemeProvider, themes, convert } from '@storybook/theming';
-import * as api from '@storybook/api';
+import * as api from '@storybook/manager-api';
 
 import { A11YPanel } from './A11YPanel';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/api');
+jest.mock('@storybook/manager-api');
 const mockedApi = api as jest.Mocked<typeof api>;
 
 const axeResult = {

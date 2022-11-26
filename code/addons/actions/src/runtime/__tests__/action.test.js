@@ -1,7 +1,7 @@
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { action, configureActions } from '../..';
 
-jest.mock('@storybook/addons');
+jest.mock('@storybook/preview-api');
 
 const createChannel = () => {
   const channel = { emit: jest.fn() };

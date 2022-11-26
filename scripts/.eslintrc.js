@@ -28,5 +28,33 @@ module.exports = {
         'import/extensions': ['error', 'always'],
       },
     },
+    {
+      files: ['*.stories.*'],
+      rules: {
+        // allow expect in stories
+        'jest/no-standalone-expect': ['off'],
+      },
+    },
+    {
+      files: [
+        '*.js',
+        '*.jsx',
+        '*.json',
+        '*.html',
+        '**/.storybook/*.ts',
+        '**/.storybook/*.tsx',
+        'setup-jest.ts',
+      ],
+      parserOptions: {
+        project: null,
+      },
+      rules: {
+        // '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/dot-notation': 'off',
+        '@typescript-eslint/no-implied-eval': 'off',
+        '@typescript-eslint/no-throw-literal': 'off',
+        '@typescript-eslint/return-await': 'off',
+      },
+    },
   ],
 };

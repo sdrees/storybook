@@ -4,8 +4,8 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ['ci', 'pr', 'merged', 'daily']
-    default: 'ci'
+    enum: ["ci", "pr", "merged", "daily"]
+    default: "ci"
 
 executors:
   sb_node_16_classic:
@@ -13,44 +13,45 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1
         environment:
-          NODE_OPTIONS: --max_old_space_size=3076
+          NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
   sb_node_16_browsers:
     parameters:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1-browsers
         environment:
-          NODE_OPTIONS: --max_old_space_size=3076
+          NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
   sb_playwright:
     parameters:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
-      - image: mcr.microsoft.com/playwright:v1.27.0-focal
+      - image: mcr.microsoft.com/playwright:v1.28.0-focal
         environment:
-          NODE_OPTIONS: --max_old_space_size=3076
+          NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
 
 orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.4.0
   browser-tools: circleci/browser-tools@1.4.0
+  discord: antonioned/discord@0.1.0
 
 commands:
   # Forked off from https://github.com/guitarrapc/git-shallow-clone-orb
@@ -101,7 +102,7 @@ commands:
             then
               export HOME=$(getent passwd $(id -un) | cut -d: -f6)
             fi
-            
+
             # known_hosts
             mkdir -p ~/.ssh
             if [ -x "$(command -v ssh-keyscan)" ] && ([ "<< parameters.keyscan_github >>" == "true" ] || [ "<< parameters.keyscan_bitbucket >>" == "true" ])
@@ -125,19 +126,19 @@ commands:
               echo 'bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
             ' >> ~/.ssh/known_hosts
             fi
-            
+
             (umask 077; touch ~/.ssh/id_rsa)
             chmod 0600 ~/.ssh/id_rsa
             (echo $CHECKOUT_KEY > ~/.ssh/id_rsa)
-            
+
             # use git+ssh instead of https
             git config --global url."ssh://git@github.com".insteadOf "https://github.com" || true
             git config --global gc.auto 0 || true
-            
+
             # checkout
             git clone << parameters.clone_options >> $CIRCLE_REPOSITORY_URL "<< parameters.path >>"
             cd "<< parameters.path >>"
-            
+
             # Fetch remote and check the commit ID of the checked out code
             if [ -n "$CIRCLE_TAG" ]
             then
@@ -151,7 +152,7 @@ commands:
               # others
               git fetch << parameters.fetch_options >> --force origin "$CIRCLE_BRANCH:remotes/origin/$CIRCLE_BRANCH"
             fi
-            
+
             # Check the commit ID of the checked out code
             if [ -n "$CIRCLE_TAG" ]
             then
@@ -162,11 +163,11 @@ commands:
               git reset --hard "$CIRCLE_SHA1"
               git checkout -q -B "$CIRCLE_BRANCH"
             fi
-            
+
             git reset --hard "$CIRCLE_SHA1"
           name: Checkout code shallow
   cancel-workflow-on-failure:
-    description: 'Cancels the entire workflow in case the previous step has failed'
+    description: "Cancels the entire workflow in case the previous step has failed"
     steps:
       - run:
           name: Cancel current workflow
@@ -175,14 +176,43 @@ commands:
             echo "Canceling workflow as previous step resulted in failure."
             echo "To execute all checks locally, please run yarn ci-tests"
             curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
+  report-workflow-on-failure:
+    description: "Reports failures to discord"
+    parameters:
+      template:
+        description: |
+          Which template to report in discord. Applicable for parallel sandbox jobs
+        type: string
+        default: "none"
+    steps:
+      - run:
+          when: on_fail
+          command: git fetch --unshallow
+      - discord/status:
+          only_for_branches: main,next,next-release,latest-release
+          fail_only: true
+          failure_message: $(yarn get-report-message << pipeline.parameters.workflow >> << parameters.template >>)
 jobs:
+  pretty-docs:
+    executor:
+      class: small
+      name: sb_node_16_classic
+    steps:
+      - checkout_advanced:
+          clone_options: "--depth 1 --verbose"
+      - run:
+          name: Prettier
+          command: |
+            cd scripts
+            yarn
+            yarn docs:prettier:check
   build:
     executor:
       class: large
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - restore_cache:
           name: Restore Yarn cache
           keys:
@@ -197,6 +227,7 @@ jobs:
           command: |
             cd code
             yarn local-registry --publish
+      - report-workflow-on-failure
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
@@ -223,7 +254,7 @@ jobs:
     working_directory: /tmp/storybook
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -241,21 +272,22 @@ jobs:
           name: set up cra repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro-next cra/default-js --output ../../cra-bench
+            SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories --start-from=never  --no-link
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ../cra-bench
+            cd bench/cra-default-ts
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label cra
+      - report-workflow-on-failure
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/sb-bench.tar.gz ../cra-bench
+          command: tar cvzf /tmp/cra-default-ts-bench.tar.gz bench/cra-default-ts
       - store_artifacts:
-          path: /tmp/sb-bench.tar.gz
-          destination: sb-bench.tar.gz
+          path: /tmp/cra-default-ts-bench.tar.gz
+          destination: cra-default-ts-bench.tar.gz
   react-vite-bench:
     executor:
       class: large
@@ -263,7 +295,7 @@ jobs:
     working_directory: /tmp/storybook
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -281,28 +313,29 @@ jobs:
           name: set up react-vite repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro-next react-vite/default-ts --output ../../react-vite-bench
+            SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories --start-from=never  --no-link
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ../react-vite-bench
+            cd bench/react-vite-default-ts
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label react-vite
+      - report-workflow-on-failure
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/sb-bench.tar.gz ../react-vite-bench
+          command: tar cvzf /tmp/react-vite-default-ts-bench.tar.gz bench/react-vite-default-ts
       - store_artifacts:
-          path: /tmp/sb-bench.tar.gz
-          destination: sb-bench.tar.gz
+          path: /tmp/react-vite-default-ts-bench.tar.gz
+          destination: react-vite-default-ts-bench.tar.gz
   lint:
     executor:
-      class: medium
+      class: large
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -310,6 +343,7 @@ jobs:
           command: |
             cd code
             yarn lint
+      - report-workflow-on-failure
       - cancel-workflow-on-failure
   check:
     executor:
@@ -317,7 +351,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -325,12 +359,13 @@ jobs:
           command: |
             yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
+      - report-workflow-on-failure
       - cancel-workflow-on-failure
   script-unit-tests:
     executor: sb_node_16_browsers
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -340,6 +375,7 @@ jobs:
             yarn test --coverage --ci
       - store_test_results:
           path: scripts/junit.xml
+      - report-workflow-on-failure
       - cancel-workflow-on-failure
   unit-tests:
     executor:
@@ -347,20 +383,21 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
           name: Test
           command: |
             cd code
-            yarn test --coverage --ci
+            yarn test --coverage --ci --maxWorkers=6
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
           root: .
           paths:
             - code/coverage
+      - report-workflow-on-failure
       - cancel-workflow-on-failure
   coverage:
     executor:
@@ -368,7 +405,7 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -376,10 +413,13 @@ jobs:
           command: |
             cd code
             yarn coverage
+      - report-workflow-on-failure
   chromatic-internal-storybooks:
     executor:
-      class: medium
+      class: medium+
       name: sb_node_16_browsers
+    environment:
+      NODE_OPTIONS: --max_old_space_size=6144
     steps:
       # switched this to the CircleCI helper to get the full git history for TurboSnap
       - checkout
@@ -391,6 +431,7 @@ jobs:
             cd code
             yarn storybook:ui:chromatic
             yarn storybook:blocks:chromatic
+      - report-workflow-on-failure
       - store_test_results:
           path: test-results
   ## new workflow
@@ -405,12 +446,14 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> create) --no-link --start-from=never --junit
+          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> sandbox)
       - persist_to_workspace:
           root: .
           paths:
@@ -428,12 +471,14 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
           name: Smoke Testing Sandboxes
           command: yarn task --task smoke-test --template $(yarn get-template << pipeline.parameters.workflow >> smoke-test) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> smoke-test)
       - store_test_results:
           path: test-results
   build-sandboxes:
@@ -447,12 +492,14 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> build)
       - store_test_results:
           path: test-results
       - persist_to_workspace:
@@ -470,12 +517,14 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template << pipeline.parameters.workflow >> test-runner) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> test-runner)
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
@@ -494,6 +543,8 @@ jobs:
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> chromatic)
       - store_test_results:
           path: test-results
   e2e-sandboxes:
@@ -507,12 +558,14 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> e2e-tests)
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
@@ -523,9 +576,10 @@ workflows:
   ci:
     when:
       and:
-        - equal: [ api, << pipeline.trigger_source >> ]
-        - equal:  [ ci, << pipeline.parameters.workflow >> ]
+        - equal: [api, << pipeline.trigger_source >>]
+        - equal: [ci, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -556,8 +610,9 @@ workflows:
             - build-sandboxes
   pr:
     when:
-      equal: [ pr, << pipeline.parameters.workflow >> ]
+      equal: [pr, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -605,8 +660,9 @@ workflows:
             - build-sandboxes
   merged:
     when:
-      equal: [ merged, << pipeline.parameters.workflow >> ]
+      equal: [merged, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -633,50 +689,50 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build
       - build-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
   daily:
     when:
-      equal: [ daily, << pipeline.parameters.workflow >> ]
+      equal: [daily, << pipeline.parameters.workflow >>]
     jobs:
       - build
       - create-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - build-sandboxes

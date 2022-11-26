@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-standalone-expect */
 import React from 'react';
 import type { StoryObj, Meta } from '@storybook/react';
 import { CallStates } from '@storybook/instrumenter';

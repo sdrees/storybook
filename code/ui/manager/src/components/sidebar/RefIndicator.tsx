@@ -5,7 +5,7 @@ import React, { useMemo, useCallback, forwardRef } from 'react';
 import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
 
 import { MenuItemIcon } from './Menu';
 import type { RefType } from './types';

@@ -5,10 +5,9 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'my-button',
-  template: `
-    <button type="button" [disabled]="isDisabled">
-      {{ content }}
-    </button>`,
+  template: ` <button type="button" [disabled]="isDisabled">
+    {{ content }}
+  </button>`,
   styleUrls: ['./button.css'],
 })
 export class ButtonComponent {

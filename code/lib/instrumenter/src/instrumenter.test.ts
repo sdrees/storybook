@@ -1,7 +1,7 @@
 /// <reference types="@types/jest" />;
 /* eslint-disable no-underscore-dangle */
 
-import { addons, mockChannel } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/preview-api';
 import { logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
@@ -554,7 +554,7 @@ describe('Instrumenter', () => {
     });
 
     it.skip('starts debugging at the first non-nested interceptable call', () => {
-      const fn = (...args) => args;
+      const fn = (...args: any[]) => args;
       const { fn1, fn2, fn3 } = instrument({ fn1: fn, fn2: fn, fn3: fn }, { intercept: true });
       fn3(fn1(), fn2()); // setup the dependencies
       addons.getChannel().emit(EVENTS.START, { storyId });

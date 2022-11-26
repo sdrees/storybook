@@ -49,13 +49,13 @@ describe('framework-preset-react', () => {
 
   describe('babel', () => {
     it('should return a config with fast refresh plugin when fast refresh is enabled', async () => {
-      const config = await preset.babel(babelConfigMock, storybookOptions as Options);
+      const config = await preset.babel?.(babelConfigMock, storybookOptions as Options);
 
-      expect(config.plugins).toEqual([[reactRefreshPath, {}, 'storybook-react-refresh']]);
+      expect(config?.plugins).toEqual([[reactRefreshPath, {}, 'storybook-react-refresh']]);
     });
 
     it('should return unchanged config without fast refresh plugin when fast refresh is disabled', async () => {
-      const config = await preset.babel(
+      const config = await preset.babel?.(
         babelConfigMock,
         storybookOptionsDisabledRefresh as Options
       );
@@ -64,7 +64,7 @@ describe('framework-preset-react', () => {
     });
 
     it('should return unchanged config without fast refresh plugin when mode is not development', async () => {
-      const config = await preset.babel(babelConfigMock, {
+      const config = await preset.babel?.(babelConfigMock, {
         ...storybookOptions,
         configType: 'PRODUCTION',
       } as Options);
@@ -75,13 +75,13 @@ describe('framework-preset-react', () => {
 
   describe('webpackFinal', () => {
     it('should return a config with fast refresh plugin when fast refresh is enabled', async () => {
-      const config = await preset.webpackFinal(webpackConfigMock, storybookOptions as Options);
+      const config = await preset.webpackFinal?.(webpackConfigMock, storybookOptions as Options);
 
-      expect(config.plugins).toEqual([new ReactRefreshWebpackPlugin()]);
+      expect(config?.plugins).toEqual([new ReactRefreshWebpackPlugin()]);
     });
 
     it('should return unchanged config without fast refresh plugin when fast refresh is disabled', async () => {
-      const config = await preset.webpackFinal(
+      const config = await preset.webpackFinal?.(
         webpackConfigMock,
         storybookOptionsDisabledRefresh as Options
       );
@@ -90,7 +90,7 @@ describe('framework-preset-react', () => {
     });
 
     it('should return unchanged config without fast refresh plugin when mode is not development', async () => {
-      const config = await preset.webpackFinal(webpackConfigMock, {
+      const config = await preset.webpackFinal?.(webpackConfigMock, {
         ...storybookOptions,
         configType: 'PRODUCTION',
       } as Options);

@@ -76,7 +76,6 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 <CodeSnippets
   paths={[
     'react/button-story.with-hooks.js.mdx',
-    'react/button-story.mdx-with-hooks.mdx.mdx',
   ]}
 />
 
@@ -120,15 +119,11 @@ A story is a function that describes how to render a component. You can have mul
   paths={[
     'react/button-story-with-emojis.js.mdx',
     'react/button-story-with-emojis.ts.mdx',
-    'react/button-story-with-emojis.mdx.mdx',
     'vue/button-story-with-emojis.js.mdx',
     'vue/button-story-with-emojis.ts-2.ts.mdx',
     'vue/button-story-with-emojis.ts-3.ts.mdx',
-    'vue/button-story-with-emojis.mdx.mdx',
     'angular/button-story-with-emojis.ts.mdx',
-    'angular/button-story-with-emojis.mdx.mdx',
     'svelte/button-story-with-emojis.js.mdx',
-    'svelte/button-story-with-emojis.mdx.mdx',
     'web-components/button-story-with-emojis.js.mdx',
     'html/button-story-with-emojis.js.mdx',
     'html/button-story-with-emojis.ts.mdx',
@@ -215,17 +210,12 @@ Storybook's `play` function and the [`@storybook/addon-interactions`](https://st
   paths={[
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
-    'react/login-form-with-play-function.mdx.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.mdx.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
     'vue/login-form-with-play-function.ts-2.ts.mdx',
-    'vue/login-form-with-play-function.mdx-2.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
     'vue/login-form-with-play-function.ts-3.ts.mdx',
-    'vue/login-form-with-play-function.mdx-3.mdx',
     'svelte/login-form-with-play-function.js.mdx',
-    'svelte/login-form-with-play-function.mdx.mdx',
   ]}
 />
 
@@ -243,15 +233,11 @@ For instance, suppose you wanted to test your Button component against a differe
   paths={[
     'react/button-story-with-blue-args.js.mdx',
     'react/button-story-with-blue-args.ts.mdx',
-    'react/button-story-with-blue-args.mdx.mdx',
     'vue/button-story-with-blue-args.js.mdx',
     'vue/button-story-with-blue-args.ts-2.ts.mdx',
     'vue/button-story-with-blue-args.ts-3.ts.mdx',
-    'vue/button-story-with-blue-args.mdx.mdx',
     'angular/button-story-with-blue-args.ts.mdx',
-    'angular/button-story-with-blue-args.mdx.mdx',
     'svelte/button-story-with-blue-args.js.mdx',
-    'svelte/button-story-with-blue-args.mdx.mdx',
     'web-components/button-story-with-blue-args.js.mdx',
     'html/button-story-with-blue-args.js.mdx',
     'html/button-story-with-blue-args.ts.mdx',
@@ -276,15 +262,11 @@ A simple example is adding padding to a component’s stories. Accomplish this u
   paths={[
     'react/button-story-component-decorator.js.mdx',
     'react/button-story-component-decorator.ts.mdx',
-    'react/button-story-component-decorator.mdx.mdx',
     'vue/button-story-component-decorator.js.mdx',
     'vue/button-story-component-decorator.ts-2.ts.mdx',
     'vue/button-story-component-decorator.ts-3.ts.mdx',
-    'vue/button-story-component-decorator.mdx.mdx',
     'angular/button-story-component-decorator.ts.mdx',
-    'angular/button-story-component-decorator.mdx.mdx',
     'svelte/button-story-component-decorator.js.mdx',
-    'svelte/button-story-component-decorator.mdx.mdx',
     'web-components/button-story-component-decorator.js.mdx',
     'html/button-story-component-decorator.js.mdx',
     'html/button-story-component-decorator.ts.mdx',

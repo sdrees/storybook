@@ -2,10 +2,10 @@ import type { FC } from 'react';
 import React, { useMemo } from 'react';
 
 import { Badge } from '@storybook/components';
-import type { API } from '@storybook/api';
+import type { API } from '@storybook/manager-api';
 import { styled, useTheme } from '@storybook/theming';
 
-import { shortcutToHumanString } from '@storybook/api/shortcut';
+import { shortcutToHumanString } from '@storybook/manager-api';
 import { MenuItemIcon } from '../components/sidebar/Menu';
 
 const focusableUIElements = {

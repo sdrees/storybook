@@ -7,41 +7,16 @@
   import Button from './Button.svelte';
 </script>
 
-<Meta
-  title="Button"
-  component={Button}
-  argTypes={{
-    label: { control: 'text' },
-    primary: { control: 'boolean' },
-  }}
-/>
+<Meta title="Button" component={Button} argTypes={{ label: { control: 'text' }, primary: { control:
+'boolean' }, }} />
 
 <!-- 👇 We create a “template” of how args map to rendering -->
-<Template let:args>
-  <Button {...args} />
-</Template>
+<template let:args>
+  <button {...args} />
+</template>
 
 <!-- 👇 Each story then reuses that template -->
-<Story
-  name="Primary"
-  args={{
-    background: '#ff0',
-    label: 'Button'
-  }}
-/>
-
-<Story
-  name="Secondary"
-  args={{
-    background: '#ff0',
-    label: '😄👍😍💯'
-  }}
-/>
-<Story
-  name="Tertiary"
-  args={{
-    background: '#ff0',
-    label: '📚📕📈🤓'
-  }}
-/>
+<Story name="Primary" args={{ background: '#ff0', label: 'Button' }} /> <Story name="Secondary"
+args={{ background: '#ff0', label: '😄👍😍💯' }} /> <Story name="Tertiary" args={{ background:
+'#ff0', label: '📚📕📈🤓' }} />
 ```

@@ -3,6 +3,7 @@ import { createServer } from 'vite';
 import { commonConfig } from './vite-config';
 import type { ExtendedOptions } from './types';
 import { getOptimizeDeps } from './optimizeDeps';
+import { sanitizeEnvVars } from './envs';
 
 export async function createViteServer(options: ExtendedOptions, devServer: Server) {
   const { presets } = options;
@@ -27,5 +28,6 @@ export async function createViteServer(options: ExtendedOptions, devServer: Serv
   };
 
   const finalConfig = await presets.apply('viteFinal', config, options);
-  return createServer(finalConfig);
+
+  return createServer(await sanitizeEnvVars(options, finalConfig));
 }

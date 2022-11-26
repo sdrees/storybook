@@ -1,6 +1,6 @@
 {
   "name": "@storybook/postinstall",
-  "version": "7.0.0-alpha.48",
+  "version": "7.0.0-alpha.54",
   "description": "Storybook addons postinstall utilities",
   "keywords": [
     "api",
@@ -43,10 +43,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "jest": "^26.6.3",
-    "jest-specific-snapshot": "^4.0.0",
+    "jest": "^29.3.1",
+    "jest-specific-snapshot": "^6.0.0",
     "jscodeshift": "^0.13.1",
-    "typescript": "~4.6.3"
+    "typescript": "^4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -56,5 +56,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd"
+  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
 }

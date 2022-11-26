@@ -1,5 +1,4 @@
-import type { ArgTypes } from '@storybook/api';
-import type { StrictInputType } from '@storybook/types';
+import type { ArgTypes, StrictInputType } from '@storybook/types';
 import { enhanceArgTypes } from './enhanceArgTypes';
 
 expect.addSnapshotSerializer({
@@ -37,6 +36,7 @@ const enhance = ({
     args: { input: arg },
     globals: {},
   };
+  // @ts-expect-error (not strict)
   return enhanceArgTypes(context);
 };
 

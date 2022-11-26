@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
-import { filterArgTypes } from '@storybook/store';
+import { filterArgTypes } from '@storybook/preview-api';
 import type { Store_PropDescriptor, StrictArgTypes, Args, Globals } from '@storybook/types';
 import {
   STORY_ARGS_UPDATED,

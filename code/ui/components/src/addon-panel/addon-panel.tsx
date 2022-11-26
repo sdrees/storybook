@@ -25,10 +25,7 @@ export interface AddonPanelProps {
 
 export const AddonPanel = ({ active, children }: AddonPanelProps) => {
   return (
-    // the transform is to prevent a bug where the content would be invisible
     // the hidden attribute is an valid html element that's both accessible and works to visually hide content
-    <div hidden={!active} style={{ transform: 'translateX(0px)' }}>
-      {useUpdate(active, children)}
-    </div>
+    <div hidden={!active}>{useUpdate(active, children)}</div>
   );
 };

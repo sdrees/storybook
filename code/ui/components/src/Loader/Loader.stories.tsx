@@ -1,7 +1,7 @@
 import React from 'react';
-import { PureLoader as Loader } from './Loader';
+import { Loader } from './Loader';
 
-const withBackground = (storyFn) => (
+const withBackground = (storyFn: any) => (
   <div
     style={{
       position: 'fixed',

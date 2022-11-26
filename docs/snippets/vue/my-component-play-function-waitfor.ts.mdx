@@ -1,46 +1,49 @@
 ```ts
 // MyComponent.stories.ts
 
-// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
-import type { Meta, Story } from '@storybook/vue';
+// import type { Meta, StoryObj } from '@storybook/vue3'; for Vue 3
+import type { Meta, StoryObj } from '@storybook/vue';
 
-import { screen, userEvent, waitFor } from '@storybook/testing-library';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'WithAsync',
   component: MyComponent,
-} as Meta<typeof MyComponent>;
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
 /*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/vue/api/csf
- * to learn how to use render functions.
+ * See https://storybook.js.org/docs/7.0/vue/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
  */
-
 export const ExampleAsyncStory: Story = {
   render: () => ({
     components: { MyComponent },
     template: '<MyComponent />',
   }),
-  play: async () => {
-    const Input = screen.getByLabelText('Username', {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const Input = canvas.getByLabelText('Username', {
       selector: 'input',
     });
     await userEvent.type(Input, 'WrongInput', {
       delay: 100,
     });
     // See https://storybook.js.org/docs/7.0/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    const Submit = screen.getByRole('button');
+    const Submit = canvas.getByRole('button');
     await userEvent.click(Submit);
 
     await waitFor(async () => {
-      await userEvent.hover(screen.getByTestId('error'));
+      await userEvent.hover(canvas.getByTestId('error'));
     });
   },
 };

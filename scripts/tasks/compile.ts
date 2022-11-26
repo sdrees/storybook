@@ -17,9 +17,9 @@ export const compile: Task = {
   async ready({ codeDir }, { link }) {
     try {
       // To check if the code has been compiled as we need, we check the compiled output of
-      // `@storybook/store`. To check if it has been built for publishing (i.e. `--no-link`),
+      // `@storybook/preview`. To check if it has been built for publishing (i.e. `--no-link`),
       // we check if it built types or references source files directly.
-      const contents = await readFile(resolve(codeDir, './lib/store/dist/index.d.ts'), 'utf8');
+      const contents = await readFile(resolve(codeDir, './lib/preview/dist/runtime.d.ts'), 'utf8');
       const isLinkedContents = contents.indexOf(linkedContents) !== -1;
       if (link) return isLinkedContents;
       return !isLinkedContents;

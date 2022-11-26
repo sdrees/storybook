@@ -1,15 +1,17 @@
-
 ```ts
 // List.stories.ts
 
-import type { Meta, Story } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html';
 
-import { createList, ListArgs } from  './List';
+import { createList, ListArgs } from './List';
 import { createListItem } from './ListItem';
 
-export default {
+const meta: Meta<ListArgs> = {
   title: 'List',
-} as Meta<ListArgs>;
+};
+
+export default meta;
+type Story = StoryObj<ListArgs>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
@@ -17,7 +19,7 @@ export default {
  * to learn how to use render functions.
  */
 export const Empty: Story = {
-  render: () => createList(args) 
+  render: () => createList(args),
 };
 
 export const OneItem: Story = {

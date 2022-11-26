@@ -8,24 +8,42 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  const storybook = jest.requireActual('@storybook/react');
-  const clientAPI = jest.requireActual('@storybook/client-api');
+  let mockStartedAPI: any;
 
-  const api = {
-    ...clientAPI,
-    ...storybook,
-  };
+  jest.mock('@storybook/preview-api', () => {
+    const previewAPI = jest.requireActual('@storybook/preview-api');
+
+    return {
+      ...previewAPI,
+      start: (...args: any[]) => {
+        mockStartedAPI = previewAPI.start(...args);
+        return mockStartedAPI;
+      },
+    };
+  });
+
+  jest.mock('@storybook/react', () => {
+    const renderAPI = jest.requireActual('@storybook/react');
+
+    renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
+    renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
+
+    return renderAPI;
+  });
+
+  // eslint-disable-next-line global-require
+  const storybook = require('@storybook/react');
 
   configure({
     ...options,
-    storybook: api,
+    storybook,
   });
 
   return {
     framework: 'react' as const,
     renderTree: jest.requireActual('./renderTree').default,
     renderShallowTree: jest.requireActual('./renderShallowTree').default,
-    storybook: api,
+    storybook,
   };
 }
 

@@ -4,7 +4,6 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra';
 import { join, resolve, sep } from 'path';
-import dedent from 'ts-dedent';
 
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
@@ -40,23 +39,15 @@ export const essentialsAddons = [
 
 export const create: Task['run'] = async (
   { key, template, sandboxDir },
-  { addon: addons, fromLocalRepro, dryRun, debug }
+  { addon: addons, dryRun, debug, skipTemplateStories }
 ) => {
   const parentDir = resolve(sandboxDir, '..');
   await ensureDir(parentDir);
 
-  if (fromLocalRepro) {
+  if ('inDevelopment' in template && template.inDevelopment) {
     const srcDir = join(reprosDir, key, 'after-storybook');
     if (!existsSync(srcDir)) {
-      throw new Error(dedent`
-          Missing repro directory '${srcDir}'!
-
-          To run sandbox against a local repro, you must have already generated
-          the repro template in the /repros directory using:
-          the repro template in the /repros directory using:
-
-          yarn generate-repros-next --template ${key}
-        `);
+      throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }
     await copy(srcDir, sandboxDir);
   } else {
@@ -70,9 +61,11 @@ export const create: Task['run'] = async (
   }
 
   const cwd = sandboxDir;
-  for (const addon of addons) {
-    const addonName = `@storybook/addon-${addon}`;
-    await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
+  if (!skipTemplateStories) {
+    for (const addon of addons) {
+      const addonName = `@storybook/addon-${addon}`;
+      await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
+    }
   }
 
   const mainConfig = await readMainConfig({ cwd });
@@ -231,8 +224,6 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
   );
 }
 
-
-
 // Update the stories field to ensure that no TS files
 // that are linked from the renderer are picked up in non-TS projects
 function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
@@ -243,7 +234,6 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
   const updatedStories = isJs
     ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
     : stories;
-
 
   mainConfig.setFieldValue(['stories'], [...updatedStories]);
 }
@@ -257,7 +247,7 @@ function addStoriesEntry(mainConfig: ConfigFile, path: string) {
     titlePrefix: path,
     files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
-  
+
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
 }
 
@@ -278,7 +268,7 @@ async function linkPackageStories(
     : resolve(cwd, 'template-stories', packageDir);
   await ensureSymlink(source, target);
 
-  if (!linkInDir) addStoriesEntry(mainConfig, packageDir)
+  if (!linkInDir) addStoriesEntry(mainConfig, packageDir);
 
   // Add `previewAnnotation` entries of the form
   //   './template-stories/lib/store/preview.[tj]s'
@@ -320,7 +310,6 @@ function addExtraDependencies({
   }
 }
 
-
 export const addStories: Task['run'] = async (
   { sandboxDir, template },
   { addon: extraAddons, dryRun, debug }
@@ -332,11 +321,7 @@ export const addStories: Task['run'] = async (
 
   // Ensure that we match the right stories in the stories directory
   const packageJson = await import(join(cwd, 'package.json'));
-  updateStoriesField(
-    mainConfig,
-    detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT
-  );
-
+  updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
   // Link in the template/components/index.js from store, the renderer and the addons
   const rendererPath = await workspacePath('renderer', template.expected.renderer);
@@ -345,7 +330,7 @@ export const addStories: Task['run'] = async (
     resolve(cwd, storiesPath, 'components')
   );
   addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
-  
+
   // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
   await linkPackageStories(rendererPath, {
     mainConfig,

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ThemeProvider, ensure, themes } from '@storybook/theming';
 
-import type { HashEntry, StoriesHash, Refs } from '@storybook/api';
+import type { HashEntry, StoriesHash, Refs } from '@storybook/manager-api';
 import type { Theme } from '@storybook/theming';
 import type { RenderResult } from '@testing-library/react';
 import { Sidebar } from '../Sidebar';

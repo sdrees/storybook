@@ -63,6 +63,7 @@ export const Expanded = () => {
     </DoubleThemeRenderingHack>
   );
 };
+// @ts-expect-error (needs to be converted to CSF3)
 Expanded.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const menuButton = await canvas.findByRole('button');
@@ -74,6 +75,7 @@ Expanded.play = async ({ canvasElement }) => {
 export const ExpandedWithoutReleaseNotes = () => {
   const menu = useMenu(
     {
+      // @ts-expect-error (invalid)
       getShortcutKeys: () => ({}),
       getAddonsShortcuts: () => ({}),
       versionUpdateAvailable: () => false,
@@ -92,6 +94,7 @@ export const ExpandedWithoutReleaseNotes = () => {
     </DoubleThemeRenderingHack>
   );
 };
+// @ts-expect-error (needs to be converted to CSF3)
 ExpandedWithoutReleaseNotes.play = async (context) => {
   const canvas = within(context.canvasElement);
   await Expanded.play(context);

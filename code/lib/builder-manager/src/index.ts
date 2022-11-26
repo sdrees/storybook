@@ -125,8 +125,8 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
 
-  router.use(`/sb-addons`, express.static(addonsDir));
-  router.use(`/sb-manager`, express.static(coreDirOrigin));
+  router.use(`/sb-addons`, express.static(addonsDir, { immutable: true, maxAge: '5m' }));
+  router.use(`/sb-manager`, express.static(coreDirOrigin, { immutable: true, maxAge: '5m' }));
 
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 

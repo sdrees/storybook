@@ -16,12 +16,11 @@ import { loadCsf } from '@storybook/csf-tools';
 // the jsx to transpile mdx, for now there will be a flag for that
 // for more complex solutions we can find alone that we need to add '@babel/plugin-transform-react-jsx'
 type BabelParams = {
-  babelOptions?: any;
   mdxBabelOptions?: any;
   configureJSX?: boolean;
 };
-function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: BabelParams) {
-  const babelPlugins = mdxBabelOptions?.plugins || babelOptions?.plugins || [];
+function createBabelOptions({ mdxBabelOptions, configureJSX }: BabelParams) {
+  const babelPlugins = mdxBabelOptions?.plugins || [];
 
   const filteredBabelPlugins = babelPlugins.filter((p: any) => {
     const name = Array.isArray(p) ? p[0] : p;
@@ -40,7 +39,6 @@ function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: Bab
     // don't use the root babelrc by default (users can override this in mdxBabelOptions)
     babelrc: false,
     configFile: false,
-    ...babelOptions,
     ...mdxBabelOptions,
     plugins,
   };
@@ -65,7 +63,6 @@ async function webpack(
   // it will reuse babel options that are already in use in storybook
   // also, these babel options are chained with other presets.
   const {
-    babelOptions,
     mdxBabelOptions,
     configureJSX = true,
     csfPluginOptions = {},
@@ -100,7 +97,7 @@ async function webpack(
         use: [
           {
             loader: resolvedBabelLoader,
-            options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+            options: createBabelOptions({ mdxBabelOptions, configureJSX }),
           },
           {
             loader: mdxLoader,
@@ -128,7 +125,7 @@ async function webpack(
           use: [
             {
               loader: resolvedBabelLoader,
-              options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+              options: createBabelOptions({ mdxBabelOptions, configureJSX }),
             },
             {
               loader: mdxLoader,
@@ -145,7 +142,7 @@ async function webpack(
           use: [
             {
               loader: resolvedBabelLoader,
-              options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+              options: createBabelOptions({ mdxBabelOptions, configureJSX }),
             },
             {
               loader: mdxLoader,

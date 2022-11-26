@@ -7,7 +7,7 @@ export default {
 };
 
 export const All = {
-  render: (args) => (
+  render: () => (
     <div>
       <ListItem loading />
       <ListItem title="Default" />

@@ -1,4 +1,4 @@
-import type { Key } from 'react';
+import type { ComponentProps, Key } from 'react';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
@@ -35,7 +35,7 @@ function fibonacci(num: number, memo?: FibonacciMap): number {
 interface Panels {
   [key: string]: {
     title: string;
-    color: string;
+    color?: string;
     render: ({ active, key }: { active: boolean; key: Key }) => JSX.Element;
   };
 }
@@ -136,7 +136,7 @@ export default {
 } as Meta;
 
 export const StatefulStatic = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <TabsState initial="test2" {...args}>
       <div id="test1" title="With a function">
         {({ active, selected }: { active: boolean; selected: string }) =>
@@ -151,7 +151,7 @@ export const StatefulStatic = {
 };
 
 export const StatefulStaticWithSetButtonTextColors = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <div>
       <TabsState initial="test2" {...args}>
         <div id="test1" title="With a function" color="#e00000">
@@ -167,7 +167,7 @@ export const StatefulStaticWithSetButtonTextColors = {
   ),
 };
 export const StatefulStaticWithSetBackgroundColor = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <div>
       <TabsState initial="test2" backgroundColor="rgba(0,0,0,.05)" {...args}>
         <div id="test1" title="With a function" color="#e00000">
@@ -184,7 +184,7 @@ export const StatefulStaticWithSetBackgroundColor = {
 };
 
 export const StatefulDynamic = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <TabsState initial="test3" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title}>
@@ -195,10 +195,10 @@ export const StatefulDynamic = {
   ),
 };
 export const StatefulNoInitial = {
-  render: (args) => <TabsState {...args}>{content}</TabsState>,
+  render: (args: ComponentProps<typeof TabsState>) => <TabsState {...args}>{content}</TabsState>,
 };
 export const StatelessBordered = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <Tabs
       bordered
       absolute={false}
@@ -213,7 +213,7 @@ export const StatelessBordered = {
   ),
 };
 export const StatelessWithTools = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <Tabs
       selected="test3"
       actions={{
@@ -236,7 +236,7 @@ export const StatelessWithTools = {
   ),
 };
 export const StatelessAbsolute = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <Tabs
       absolute
       selected="test3"
@@ -250,7 +250,7 @@ export const StatelessAbsolute = {
   ),
 };
 export const StatelessAbsoluteBordered = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <Tabs
       absolute
       bordered
@@ -265,7 +265,7 @@ export const StatelessAbsoluteBordered = {
   ),
 };
 export const StatelessEmpty = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof TabsState>) => (
     <Tabs
       actions={{
         onSelect,

@@ -3,7 +3,10 @@ import { getInterpretedFileWithExt } from './interpret-files';
 let registered = false;
 
 export function interopRequireDefault(filePath: string) {
-  if (registered === false) {
+  // eslint-disable-next-line no-underscore-dangle, global-require
+  const hasEsbuildBeenRegistered = !!require('module')._extensions['.ts'];
+
+  if (registered === false && !hasEsbuildBeenRegistered) {
     // eslint-disable-next-line global-require
     const { register } = require('esbuild-register/dist/node');
     registered = true;

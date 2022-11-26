@@ -1,20 +1,20 @@
 import type {
-  Framework,
+  Renderer,
   Store_CSFFile,
   Store_ModuleExport,
   Store_ModuleExports,
+  DocsContextProps,
 } from '@storybook/types';
-import { DocsContext } from '@storybook/preview-web';
-import type { StoryStore } from '@storybook/store';
-import type { DocsContextProps } from '@storybook/preview-web';
+import { DocsContext } from '@storybook/preview-api';
+import type { StoryStore } from '@storybook/preview-api';
 import type { Channel } from '@storybook/channels';
 
-export class ExternalDocsContext<TFramework extends Framework> extends DocsContext<TFramework> {
+export class ExternalDocsContext<TRenderer extends Renderer> extends DocsContext<TRenderer> {
   constructor(
     public channel: Channel,
-    protected store: StoryStore<TFramework>,
+    protected store: StoryStore<TRenderer>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
-    private processMetaExports: (metaExports: Store_ModuleExports) => Store_CSFFile<TFramework>
+    private processMetaExports: (metaExports: Store_ModuleExports) => Store_CSFFile<TRenderer>
   ) {
     super(channel, store, renderStoryToElement, [], true);
   }

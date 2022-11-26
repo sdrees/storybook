@@ -7,19 +7,11 @@
   import MyComponent from './MyComponent.svelte';
 </script>
 
-<Meta
-  title="MyComponent"
-  component={MyComponent}
-/>
+<meta title="MyComponent" component="{MyComponent}" />
 
-<Template let:args>
+<template let:args>
   <MyComponent {...args} />
-</Template>
+</template>
 
-<Story
-  name="ExampleStory"
-  args={{
-    propertyA: process.env.STORYBOOK_DATA_KEY,
-  }}
-/>
+<Story name="ExampleStory" args={{ propertyA: process.env.STORYBOOK_DATA_KEY, }} />
 ```

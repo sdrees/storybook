@@ -5,11 +5,13 @@ import type { Meta } from '@storybook/html';
 
 import { createButton, ButtonArgs } from './Button';
 
-export default {
+const meta: Meta<ButtonArgs> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/html/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/html/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'Button',
-} as Meta<ButtonArgs>;
+};
+
+export default meta;
 ```

@@ -1,16 +1,3 @@
-# `@storybook/client-api` -- Deprecated Story APIs (`storiesOf`)
+The contents of this package have moved to `@storybook/preview-api`. Please update your import.
 
-**NOTE** This API is deprecated, and the CSF format is preferred for all stories.
-
-## `storiesOf` API
-
-The `@storybook/client` API provides the [`storiesOf()` API](../core/docs/storiesOf.md), which is proxied through to the CSF API.
-
-### Internals
-
-In order to appear to the store like the CSF API, a call to `storiesOf().add()` does the following:
-
-- Tracks the story added in a synthetic `StoryIndex` data structure
-- Constructs a `moduleExports` object that is equivalent to the exports from a CSF file that produced the same stories.
-
-In order to achieve the old `storySort` functionality, the client API also needs access to the project annotations.
+This package will no longer be released as part of the 8.0 release of storybook.

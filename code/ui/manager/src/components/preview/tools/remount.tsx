@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
 import React, { useState } from 'react';
 import { IconButton, Icons } from '@storybook/components';
-import { Consumer, type Combo } from '@storybook/api';
-import type { Addon } from '@storybook/addons';
+import { Consumer, type Combo } from '@storybook/manager-api';
+import type { Addon } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { FORCE_REMOUNT } from '@storybook/core-events';
 

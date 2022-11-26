@@ -4,8 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider } from '@storybook/api';
-import type { Combo } from '@storybook/api';
+import { Provider as ManagerProvider } from '@storybook/manager-api';
+import type { Combo } from '@storybook/manager-api';
 import {
   ThemeProvider,
   ensure as ensureTheme,

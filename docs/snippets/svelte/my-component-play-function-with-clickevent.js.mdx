@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js
 
-import { fireEvent, screen, userEvent } from '@storybook/testing-library';
+import { fireEvent, userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.svelte';
 
@@ -15,19 +15,19 @@ export default {
 };
 
 /*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/svelte/api/csf
- * to learn how to use render functions.
+ * See https://storybook.js.org/docs/7.0/svelte/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
  */
-
 export const ClickExample = {
   render: (args) => ({
     Component: MyComponent,
     props: args,
   }),
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
     // See https://storybook.js.org/docs/7.0/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await userEvent.click(screen.getByRole('button'));
+    await userEvent.click(canvas.getByRole('button'));
   },
 };
 
@@ -36,9 +36,11 @@ export const FireEventExample = {
     Component: MyComponent,
     props: args,
   }),
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
     // See https://storybook.js.org/docs/7.0/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await fireEvent.click(screen.getByTestId('data-testid'));
+    await fireEvent.click(canvas.getByTestId('data-testid'));
   },
 };
 ```

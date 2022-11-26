@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import memoize from 'memoizerific';
-import { Consumer, type Combo } from '@storybook/api';
+import { Consumer, type Combo } from '@storybook/manager-api';
 
 import AddonPanel from '../components/panel/panel';
 

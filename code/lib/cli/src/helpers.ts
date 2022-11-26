@@ -198,6 +198,7 @@ export async function copyComponents(
   const componentsPath = async () => {
     const baseDir = getRendererDir(renderer);
     const assetsDir = join(baseDir, 'template/cli');
+
     const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
     const assetsJS = join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
     const assetsTSLegacy = join(
@@ -232,7 +233,9 @@ export async function copyComponents(
   };
 
   const destinationPath = await targetPath();
-  await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, { overwrite: true });
+  await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
+    overwrite: true,
+  });
   await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
 }
 

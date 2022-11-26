@@ -7,7 +7,7 @@ export default {
   component: ArgRow,
   title: 'Components/ArgsTable/ArgRow',
   decorators: [
-    (getStory) => (
+    (getStory: any) => (
       <ResetWrapper>
         <TableWrapper>
           <tbody>{getStory()}</tbody>

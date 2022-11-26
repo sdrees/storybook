@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="./favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link href="./sb-preview/runtime.mjs" rel="preload" as="script">
+
     <% if (typeof head !== 'undefined') { %> <%- head %> <% } %>
 
     <style>
@@ -33,10 +35,12 @@
     </script>
     <% } %>
 
-    <script src="./sb-manager/runtime.mjs" type="module"></script>
+    <script type="module">
+      import './sb-manager/runtime.mjs';
 
-    <% files.js.forEach(file => { %>
-    <script src="<%= file %>" type="module"></script>
-    <% }); %>
+      <% files.js.forEach(file => { %>
+      import './<%= file %>';
+      <% }); %>
+    </script>    
   </body>
 </html>

@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 
 import * as fs from 'fs';
-import * as path from 'path';
 import { mergeConfig } from 'vite';
 import type { Plugin } from 'vite';
 import { transformIframeHtml } from '../transform-iframe-html';
@@ -21,7 +20,7 @@ import {
 } from '../virtual-file-names';
 
 export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
-  const iframePath = path.resolve(__dirname, '../../..', 'input', 'iframe.html');
+  const iframePath = require.resolve('@storybook/builder-vite/input/iframe.html');
   let iframeId: string;
 
   // noinspection JSUnusedGlobalSymbols
@@ -44,7 +43,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
 
       // Adding new story files is not covered by the change event above. So we need to detect this and trigger
       // HMR to update the importFn.
-      // eslint-disable-next-line @typescript-eslint/no-shadow
+
       server.watcher.on('add', (path) => {
         // TODO maybe use the stories declaration in main
         if (/\.stories\.([tj])sx?$/.test(path) || /\.(story|stories).mdx$/.test(path)) {
@@ -75,11 +74,8 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
         if (isNodeError(e) && e.code === 'MODULE_NOT_FOUND') {
           config.resolve = mergeConfig(config.resolve ?? {}, {
             alias: {
-              'react-dom/client': path.resolve(
-                __dirname,
-                '../../..',
-                'input',
-                'react-dom-client-placeholder.js'
+              'react-dom/client': require.resolve(
+                '@storybook/builder-vite/input/react-dom-client-placeholder.js'
               ),
             },
           });
@@ -105,6 +101,10 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       if (source === virtualAddonSetupFile) {
         return virtualAddonSetupFile;
       }
+      if (source === '/sb-preview/runtime.mjs') {
+        return '/sb-preview/runtime.mjs';
+      }
+
       return undefined;
     },
     async load(id) {
@@ -131,9 +131,14 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
         return generateIframeScriptCode(options);
       }
 
+      // This is handled by the express router, not vite
+      if (id === '/sb-preview/runtime.mjs') {
+        return '';
+      }
+
       if (id === iframeId) {
         return fs.readFileSync(
-          path.resolve(__dirname, '../../..', 'input', 'iframe.html'),
+          require.resolve('@storybook/builder-vite/input/iframe.html'),
           'utf-8'
         );
       }

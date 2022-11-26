@@ -1,11 +1,13 @@
 ```ts
 // YourComponent.stories.ts
 
-import { componentWrapperDecorator, Meta } from '@storybook/angular';
+import { componentWrapperDecorator } from '@storybook/angular';
+
+import type { Meta } from '@storybook/angular';
 
 import { YourComponent } from './your.component';
 
-export default {
+const meta: Meta<YourComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -13,5 +15,7 @@ export default {
   title: 'YourComponent',
   component: YourComponent,
   decorators: [componentWrapperDecorator((story) => `<div style="margin: 3em">${story}</div>`)],
-} as Meta;
+};
+
+export default meta;
 ```

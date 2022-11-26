@@ -36,7 +36,3 @@ export function getPreviewHeadTemplate(
 
   return interpolate(result, interpolations);
 }
-
-export function getPreviewMainTemplate() {
-  return `${sync(__dirname)}/templates/preview.ejs`;
-}

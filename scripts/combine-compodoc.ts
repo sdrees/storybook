@@ -3,10 +3,10 @@
 // then combine the results into one large documentation.json
 
 import { join, resolve } from 'path';
-import execa from 'execa';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
 import glob from 'glob';
 import { directory } from 'tempy';
+import { execaCommand } from './utils/exec';
 
 const logger = console;
 
@@ -37,7 +37,7 @@ async function run(cwd: string) {
     dirs.map(async (dir) => {
       const outputDir = directory();
       const resolvedDir = await realpath(dir);
-      await execa.command(
+      await execaCommand(
         `yarn compodoc ${resolvedDir} -p ./tsconfig.json -e json -d ${outputDir}`,
         { cwd }
       );

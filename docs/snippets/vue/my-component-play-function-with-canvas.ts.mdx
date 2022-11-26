@@ -1,22 +1,24 @@
 ```ts
-
 // MyComponent.stories.ts
 
-// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
-import type { Meta, Story } from '@storybook/vue';
+// import type { Meta, StoryObj } from '@storybook/vue3'; for Vue 3
+import type { Meta, StoryObj } from '@storybook/vue';
 
 import { getByRole, userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'WithCanvasElement',
   component: MyComponent,
-} as Meta<typeof MyComponent>;
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

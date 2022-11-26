@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, css } from '@storybook/theming';
 import { Source, ArgsTable, Description } from '.';
@@ -13,7 +14,7 @@ export default {
   // The goal of this decorator is to mimic some CSS reset.
   // Like Tailwind CSS or Bulma do, for example.
   decorators: [
-    (storyFn) => (
+    (storyFn: any) => (
       <>
         <Global
           styles={css`
@@ -40,7 +41,7 @@ export const Loading = () => (
     </Subtitle>
     <Description {...description.Text.args} />
     <Preview.Loading />
-    <ArgsTable {...argsTable.Loading.args} />
+    <ArgsTable {...(argsTable.Loading.args as ComponentProps<typeof ArgsTable>)} />
     <Source {...source.Loading.args} />
   </DocsPageWrapper>
 );

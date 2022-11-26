@@ -1,5 +1,5 @@
-import type { StoriesHash } from '@storybook/api';
-import { useStorybookApi } from '@storybook/api';
+import type { StoriesHash } from '@storybook/manager-api';
+import { useStorybookApi } from '@storybook/manager-api';
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import global from 'global';
 import throttle from 'lodash/throttle';

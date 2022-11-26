@@ -5,14 +5,18 @@ import type {
   ArgsStoryFn,
   ComponentAnnotations,
   DecoratorFunction,
+  LoaderFunction,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
 } from '@storybook/types';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { Component } from 'vue';
 import type { ExtendedVue } from 'vue/types/vue';
-import type { VueFramework } from './types';
+import type { VueRenderer } from './types';
 
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { VueRenderer };
 
 /**
  * Metadata to configure the stories for a component.
@@ -20,7 +24,7 @@ export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types'
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
 export type Meta<TCmpOrArgs = Args> = ComponentAnnotations<
-  VueFramework,
+  VueRenderer,
   ComponentPropsOrProps<TCmpOrArgs>
 >;
 
@@ -30,7 +34,7 @@ export type Meta<TCmpOrArgs = Args> = ComponentAnnotations<
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type StoryFn<TCmpOrArgs = Args> = AnnotatedStoryFn<
-  VueFramework,
+  VueRenderer,
   ComponentPropsOrProps<TCmpOrArgs>
 >;
 
@@ -40,20 +44,20 @@ export type StoryFn<TCmpOrArgs = Args> = AnnotatedStoryFn<
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
-  render?: ArgsStoryFn<VueFramework, any>;
+  render?: ArgsStoryFn<VueRenderer, any>;
   component?: infer C;
   args?: infer DefaultArgs;
 }
   ? TMetaOrCmpOrArgs extends Component<any> // needed because StoryObj<typeof Button> falls into this branch, see test
-    ? StoryAnnotations<VueFramework, ComponentPropsOrProps<TMetaOrCmpOrArgs>>
-    : Simplify<ComponentProps<C> & ArgsFromMeta<VueFramework, TMetaOrCmpOrArgs>> extends infer TArgs
+    ? StoryAnnotations<VueRenderer, ComponentPropsOrProps<TMetaOrCmpOrArgs>>
+    : Simplify<ComponentProps<C> & ArgsFromMeta<VueRenderer, TMetaOrCmpOrArgs>> extends infer TArgs
     ? StoryAnnotations<
-        VueFramework,
+        VueRenderer,
         TArgs,
         SetOptional<TArgs, Extract<keyof TArgs, keyof DefaultArgs>>
       >
     : never
-  : StoryAnnotations<VueFramework, ComponentPropsOrProps<TMetaOrCmpOrArgs>>;
+  : StoryAnnotations<VueRenderer, ComponentPropsOrProps<TMetaOrCmpOrArgs>>;
 
 type ComponentProps<C> = C extends ExtendedVue<any, any, any, any, infer P>
   ? P
@@ -78,4 +82,6 @@ type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends Component<any>
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
 
-export type DecoratorFn<TArgs = Args> = DecoratorFunction<VueFramework, TArgs>;
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<VueRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<VueRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<VueRenderer, TArgs>;

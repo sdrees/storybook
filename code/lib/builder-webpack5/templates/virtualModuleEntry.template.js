@@ -9,7 +9,7 @@ import {
   addArgsEnhancer,
   addArgTypesEnhancer,
   setGlobalRender,
-} from '{{clientApi}}';
+} from '{{previewApi}}';
 import * as previewAnnotations from '{{previewAnnotationFilename}}';
 
 Object.keys(previewAnnotations).forEach((key) => {

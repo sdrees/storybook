@@ -58,15 +58,10 @@ The test itself is defined inside a `play` function connected to a story. Here's
   paths={[
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
-    'react/login-form-with-play-function.mdx.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.mdx.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
-    'vue/login-form-with-play-function.mdx-2.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
-    'vue/login-form-with-play-function.mdx-3.mdx',
     'svelte/login-form-with-play-function.js.mdx',
-    'svelte/login-form-with-play-function.mdx.mdx',
   ]}
 />
 
@@ -85,7 +80,7 @@ Once the story loads in the UI, it simulates the user's behavior and verifies th
 
 Under the hood, Storybook’s interaction addon mirrors Testing Library’s [`user-events`](https://testing-library.com/docs/user-event/intro/) API. If you’re familiar with [Testing Library](https://testing-library.com/), you should be at home in Storybook.
 
-Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/ecosystem-user-event/).
+Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/user-event/utility/).
 
 | User events       | Description                                                                                                                                              |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |

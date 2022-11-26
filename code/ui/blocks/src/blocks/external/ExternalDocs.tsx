@@ -1,16 +1,16 @@
 import type { FunctionComponent } from 'react';
 import React, { useRef } from 'react';
-import type { Framework, ProjectAnnotations } from '@storybook/types';
-import { composeConfigs } from '@storybook/store';
+import type { Renderer, ProjectAnnotations } from '@storybook/types';
+import { composeConfigs } from '@storybook/preview-api';
 
 import { Docs } from '../Docs';
 import { ExternalPreview } from './ExternalPreview';
 
-export type ExternalDocsProps<TFramework extends Framework = Framework> = {
+export type ExternalDocsProps<TFramework extends Renderer = Renderer> = {
   projectAnnotationsList: ProjectAnnotations<TFramework>[];
 };
 
-function usePreview<TFramework extends Framework = Framework>(
+function usePreview<TFramework extends Renderer = Renderer>(
   projectAnnotations: ProjectAnnotations<TFramework>
 ) {
   const previewRef = useRef<ExternalPreview>();

@@ -1,5 +1,5 @@
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
-import type { TypescriptConfig } from '@storybook/core-webpack';
+import type { TypescriptOptions } from '@storybook/core-webpack';
 import * as preset from './framework-preset-react-docs';
 
 describe('framework-preset-react-docgen', () => {
@@ -14,14 +14,13 @@ describe('framework-preset-react-docgen', () => {
         plugins: ['foo-plugin'],
       };
 
-      const config = await preset.babel(babelConfig, {
+      const config = await preset.babel?.(babelConfig, {
         presets: {
-          // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
               reactDocgen: 'react-docgen',
-            } as TypescriptConfig),
+            } as Partial<TypescriptOptions>),
         },
         presetsList: presetsListWithDocs,
       } as any);
@@ -46,14 +45,14 @@ describe('framework-preset-react-docgen', () => {
         plugins: [],
       };
 
-      const config = await preset.webpackFinal(webpackConfig, {
+      const config = await preset.webpackFinal?.(webpackConfig, {
         presets: {
-          // @ts-expect-error (Converted from ts-ignore)
+          // @ts-expect-error (not strict)
           apply: async () =>
             ({
               check: false,
               reactDocgen: 'react-docgen-typescript',
-            } as TypescriptConfig),
+            } as Partial<TypescriptOptions>),
         },
         presetsList: presetsListWithDocs,
       });
@@ -76,25 +75,25 @@ describe('framework-preset-react-docgen', () => {
         plugins: [],
       };
 
-      const outputBabelconfig = await preset.babel(babelConfig, {
+      const outputBabelconfig = await preset.babel?.(babelConfig, {
         presets: {
           // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
               reactDocgen: false,
-            } as TypescriptConfig),
+            } as Partial<TypescriptOptions>),
         },
         presetsList: presetsListWithDocs,
       });
-      const outputWebpackconfig = await preset.webpackFinal(webpackConfig, {
+      const outputWebpackconfig = await preset.webpackFinal?.(webpackConfig, {
         presets: {
           // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
               reactDocgen: false,
-            } as TypescriptConfig),
+            } as Partial<TypescriptOptions>),
         },
         presetsList: presetsListWithDocs,
       });
@@ -122,25 +121,25 @@ describe('framework-preset-react-docgen', () => {
         plugins: [],
       };
 
-      const outputBabelconfig = await preset.babel(babelConfig, {
+      const outputBabelconfig = await preset.babel?.(babelConfig, {
         presets: {
           // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
               reactDocgen: 'react-docgen-typescript',
-            } as TypescriptConfig),
+            } as Partial<TypescriptOptions>),
         },
         presetsList: [],
       });
-      const outputWebpackconfig = await preset.webpackFinal(webpackConfig, {
+      const outputWebpackconfig = await preset.webpackFinal?.(webpackConfig, {
         presets: {
           // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
               reactDocgen: 'react-docgen-typescript',
-            } as TypescriptConfig),
+            } as Partial<TypescriptOptions>),
         },
         presetsList: [],
       });

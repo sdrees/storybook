@@ -25,20 +25,14 @@ function configure(options: StoryshotsOptions, storybook: any) {
 
 function load(options: StoryshotsOptions) {
   const storybook = jest.requireActual('@storybook/react-native');
-  const clientAPI = jest.requireActual('@storybook/client-api');
 
-  const api = {
-    ...clientAPI,
-    ...storybook,
-  };
-
-  configure(options, api);
+  configure(options, storybook);
 
   return {
     renderTree: require('../react/renderTree').default,
     renderShallowTree: require('../react/renderShallowTree').default,
     framework: 'react-native' as const,
-    storybook: api,
+    storybook,
   };
 }
 

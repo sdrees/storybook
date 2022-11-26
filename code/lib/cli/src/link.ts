@@ -60,6 +60,9 @@ export const link = async ({ target, local, start }: LinkOptions) => {
   );
   await exec(`yarn add -D webpack-hot-middleware`, { cwd: reproDir });
 
+  // ensure that linking is possible
+  await exec(`yarn add @types/node@16`, { cwd: reproDir });
+
   if (start) {
     logger.info(`Running ${reproName} storybook`);
     await exec(`yarn run storybook`, { cwd: reproDir });

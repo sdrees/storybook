@@ -51,16 +51,11 @@ Then you can access this environment variable anywhere, even within your stories
   paths={[
     'react/my-component-with-env-variables.js.mdx',
     'react/my-component-with-env-variables.ts.mdx',
-    'react/my-component-with-env-variables.mdx.mdx',
     'vue/my-component-with-env-variables.2.js.mdx',
-    'vue/my-component-with-env-variables.mdx-2.mdx.mdx',
     'vue/my-component-with-env-variables.3.js.mdx',
-    'vue/my-component-with-env-variables.mdx-3.mdx.mdx',
     'angular/my-component-with-env-variables.ts.mdx',
-    'angular/my-component-with-env-variables.mdx.mdx',
     'web-components/my-component-with-env-variables.js.mdx',
     'svelte/my-component-with-env-variables.js.mdx',
-    'svelte/my-component-with-env-variables.mdx.mdx',
   ]}
 />
 
@@ -95,7 +90,6 @@ When Storybook loads, it will enable you to access them in your stories similar 
 <CodeSnippets
   paths={[
     'common/my-component-env-var-config.js.mdx',
-    'common/my-component-env-var-config.mdx.mdx',
   ]}
 />
 

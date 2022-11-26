@@ -20,7 +20,7 @@ export const Wrapper = styled(UnstyledWrapped)({
 });
 
 interface InspectorProps {
-  theme: Theme;
+  theme: Theme & { addonActionsTheme?: string };
   sortObjectKeys: boolean;
   showNonenumerable: boolean;
   name: any;

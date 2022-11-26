@@ -1,18 +1,21 @@
 ```ts
 // Histogram.stories.ts
 
-import type { Meta, Story } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3';
 
 import Histogram from './Histogram.vue';
 
-export default {
+const meta: Meta<typeof Histogram> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Histogram',
   component: Histogram,
-} as Meta<typeof Histogram>;
+};
+
+export default meta;
+type Story = StoryObj<typeof Histogram>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

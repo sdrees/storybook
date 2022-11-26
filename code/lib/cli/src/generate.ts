@@ -161,7 +161,7 @@ program
   .command('repro-next [filterValue]')
   .description('Create a reproduction from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
-  .option('-b --branch <branch>', 'Define the branch to degit from', 'next')
+  .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
     reproNext({ filterValue, ...options }).catch((e) => {

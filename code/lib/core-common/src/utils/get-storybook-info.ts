@@ -70,7 +70,7 @@ const findConfigFile = (prefix: string, configDir: string) => {
 
 const getConfigInfo = (packageJson: PackageJson) => {
   let configDir = '.storybook';
-  const storybookScript = packageJson.scripts?.storybook;
+  const storybookScript = packageJson.scripts?.['storybook'];
   if (storybookScript) {
     const configParam = getStorybookConfiguration(storybookScript, '-c', '--config-dir');
     if (configParam) configDir = configParam;

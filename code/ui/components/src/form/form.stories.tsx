@@ -43,7 +43,7 @@ const sharedArgTypes = {
 };
 
 export const Field = {
-  render: (args) => (
+  render: (args: any) => (
     <FieldComponent key="key" {...args}>
       <InputComponents.Select value="val2" onChange={action('onChange')}>
         <option value="val1">Value 1</option>
@@ -63,7 +63,7 @@ export const Field = {
 };
 
 export const Select = {
-  render: (args) => (
+  render: (args: any) => (
     <Flexed>
       <InputComponents.Select onChange={action('onChange')} {...args}>
         <option value="val1">Value 1</option>
@@ -85,7 +85,7 @@ export const Select = {
 };
 
 export const Button = {
-  render: (args) => (
+  render: (args: any) => (
     <Flexed>
       <InputComponents.Button {...args}>Form Button</InputComponents.Button>
     </Flexed>
@@ -94,7 +94,7 @@ export const Button = {
 };
 
 export const Textarea = {
-  render: (args) => (
+  render: (args: any) => (
     <Flexed>
       <InputComponents.Textarea {...args} />
     </Flexed>
@@ -110,7 +110,7 @@ export const Textarea = {
 };
 
 export const Input = {
-  render: (args) => (
+  render: (args: any) => (
     <Flexed>
       <InputComponents.Input {...args} />
     </Flexed>

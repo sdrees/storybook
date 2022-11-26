@@ -1,5 +1,5 @@
 import uuidv4 from 'uuid-browser/v4';
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { EVENT_ID } from '../constants';
 import type { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';

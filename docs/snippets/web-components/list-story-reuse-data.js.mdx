@@ -25,9 +25,8 @@ import { Selected, Unselected } from './demo-list-item.stories';
 export const ManyItems = {
   render: (args) => html`
     <demo-list>
-      ${Selected({ ...args, ...Selected.args })} ${Unselected({ ...args, ...Unselected.args })} ${Unselected(
-        { ...args, ...Unselected.args }
-      )}
+      ${Selected({ ...args, ...Selected.args })} ${Unselected({ ...args, ...Unselected.args })}
+      ${Unselected({ ...args, ...Unselected.args })}
     </demo-list>
   `,
 };

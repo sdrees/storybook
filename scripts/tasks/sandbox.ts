@@ -6,7 +6,16 @@ const logger = console;
 
 export const sandbox: Task = {
   description: 'Create the sandbox from a template',
-  dependsOn: ({ link }) => (link ? ['compile'] : ['compile', 'run-registry']),
+  dependsOn: ({ template }, { link }) => {
+    if ('inDevelopment' in template && template.inDevelopment) {
+      if (link) throw new Error('Cannot link an in development template');
+
+      return ['run-registry', 'generate'];
+    }
+
+    if (link) return ['compile'];
+    return ['run-registry'];
+  },
   async ready({ sandboxDir }) {
     return pathExists(sandboxDir);
   },
@@ -16,9 +25,10 @@ export const sandbox: Task = {
       await remove(details.sandboxDir);
     }
     const { create, install, addStories } = await import('./sandbox-parts');
-
     await create(details, options);
     await install(details, options);
-    await addStories(details, options);
+    if (!options.skipTemplateStories) {
+      await addStories(details, options);
+    }
   },
 };

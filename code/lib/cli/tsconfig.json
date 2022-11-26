@@ -7,6 +7,5 @@
     "strictNullChecks": false,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["templates/**/**", "**/*.test.*", "src/frameworks/**/*"]
+  "include": ["src/**/*"]
 }

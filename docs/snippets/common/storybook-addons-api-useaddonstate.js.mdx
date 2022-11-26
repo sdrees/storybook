@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { useAddonState } from '@storybook/api';
+import { useAddonState } from '@storybook/manager-api';
 
 export const Panel = () => {
   const [state, setState] = useAddonState('my/addon-id', 'initial state');

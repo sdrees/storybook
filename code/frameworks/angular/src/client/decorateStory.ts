@@ -1,16 +1,16 @@
 import { DecoratorFunction, LegacyStoryFn, StoryContext } from '@storybook/types';
-import { sanitizeStoryContextUpdate } from '@storybook/store';
+import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 import { computesTemplateFromComponent } from './angular-beta/ComputesTemplateFromComponent';
 
-import { AngularFramework } from './types';
+import { AngularRenderer } from './types';
 
 export default function decorateStory(
-  mainStoryFn: LegacyStoryFn<AngularFramework>,
-  decorators: DecoratorFunction<AngularFramework>[]
-): LegacyStoryFn<AngularFramework> {
+  mainStoryFn: LegacyStoryFn<AngularRenderer>,
+  decorators: DecoratorFunction<AngularRenderer>[]
+): LegacyStoryFn<AngularRenderer> {
   const returnDecorators = [cleanArgsDecorator, ...decorators].reduce(
-    (previousStoryFn: LegacyStoryFn<AngularFramework>, decorator) =>
-      (context: StoryContext<AngularFramework>) => {
+    (previousStoryFn: LegacyStoryFn<AngularRenderer>, decorator) =>
+      (context: StoryContext<AngularRenderer>) => {
         const decoratedStory = decorator((update) => {
           return previousStoryFn({
             ...context,
@@ -29,9 +29,9 @@ export default function decorateStory(
 export { decorateStory };
 
 const prepareMain = (
-  story: AngularFramework['storyResult'],
-  context: StoryContext<AngularFramework>
-): AngularFramework['storyResult'] => {
+  story: AngularRenderer['storyResult'],
+  context: StoryContext<AngularRenderer>
+): AngularRenderer['storyResult'] => {
   let { template } = story;
 
   const component = story.component ?? context.component;
@@ -50,7 +50,7 @@ function hasNoTemplate(template: string | null | undefined): template is undefin
   return template === null || template === undefined;
 }
 
-const cleanArgsDecorator: DecoratorFunction<AngularFramework> = (storyFn, context) => {
+const cleanArgsDecorator: DecoratorFunction<AngularRenderer> = (storyFn, context) => {
   if (!context.argTypes || !context.args) {
     return storyFn();
   }

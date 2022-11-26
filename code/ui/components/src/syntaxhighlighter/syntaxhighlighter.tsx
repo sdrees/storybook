@@ -5,30 +5,19 @@ import { styled } from '@storybook/theming';
 import global from 'global';
 import memoize from 'memoizerific';
 
-// @ts-expect-error (Converted from ts-ignore)
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
-// @ts-expect-error (Converted from ts-ignore)
 import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
-// @ts-expect-error (Converted from ts-ignore)
 import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
 // @ts-expect-error (Converted from ts-ignore)
 import jsExtras from 'react-syntax-highlighter/dist/esm/languages/prism/js-extras';
-// @ts-expect-error (Converted from ts-ignore)
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
-// @ts-expect-error (Converted from ts-ignore)
 import graphql from 'react-syntax-highlighter/dist/esm/languages/prism/graphql';
-// @ts-expect-error (Converted from ts-ignore)
 import html from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
-// @ts-expect-error (Converted from ts-ignore)
 import md from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
-// @ts-expect-error (Converted from ts-ignore)
 import yml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
-// @ts-expect-error (Converted from ts-ignore)
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-// @ts-expect-error (Converted from ts-ignore)
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 
-// @ts-expect-error (Converted from ts-ignore)
 import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
 // @ts-expect-error (Converted from ts-ignore)
 import { createElement } from 'react-syntax-highlighter/dist/esm/index';

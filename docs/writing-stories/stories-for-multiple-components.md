@@ -18,7 +18,7 @@ It's useful to write stories that [render two or more components](../writing-sto
 
 <!-- prettier-ignore-end -->
 
-Note that by adding `subcomponents` to the default export, we get an extra pane on the ArgsTable, listing the props of `ListItem`:
+Note that by adding `subcomponents` to the default export, we get an extra panel on the ArgsTable, listing the props of `ListItem`:
 
 ![Storybook story with subcomponent argstable](./argstable-subcomponents.png)
 

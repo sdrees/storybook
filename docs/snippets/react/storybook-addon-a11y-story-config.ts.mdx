@@ -1,22 +1,23 @@
-```ts
+```tsx
 // MyComponent.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { MyComponent } from './MyComponent';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Configure a11y addon',
   component: MyComponent,
-} as ComponentMeta<typeof MyComponent>;
+};
 
-export const ExampleStory: ComponentStoryObj<typeof MyComponent> = {
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+export const ExampleStory: Story = {
   parameters: {
     a11y: {
       element: '#storybook-root',

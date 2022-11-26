@@ -1,7 +1,7 @@
 ```ts
 // Icon.stories.ts
 
-import type { Meta, StoryFn } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import Icon from './icon.component';
 
@@ -10,7 +10,7 @@ import { IconA, IconB, IconC, IconD, IconE } from './icons';
 // Maps the icons to a JSON serializable object to be safely used with the argTypes
 const iconMap = { IconA, IconB, IconC, IconD, IconE };
 
-export default {
+const meta: Meta<Icon> = {
   title: 'My Story with Icons',
   component: Icon,
   argTypes: {
@@ -18,9 +18,12 @@ export default {
       options: Object.keys(iconMap),
     },
   },
-} as Meta;
+};
 
-const Template: Story<Icon> = (args) => {
+export default meta;
+type Story = StoryObj<Icon>;
+
+const Template: Story = (args) => {
   // retrieves the appropriate icon passes it as a component prop
   const { icon } = args;
   const selectedIcon = iconMap[icon];

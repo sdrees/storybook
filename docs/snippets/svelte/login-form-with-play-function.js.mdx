@@ -1,7 +1,7 @@
 ```js
 // LoginForm.stories.js
 
-import { within, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import { expect } from '@storybook/jest';
 
@@ -28,13 +28,16 @@ export const EmptyForm = {
   }),
 };
 
+/*
+ * See https://storybook.js.org/docs/7.0/svelte/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
+ */
 export const FilledForm = {
   render: (args) => ({
     Component: LoginForm,
     props: args,
   }),
   play: async ({ canvasElement }) => {
-    // Starts querying the component from its root element
     const canvas = within(canvasElement);
 
     // 👇 Simulate interactions with the component

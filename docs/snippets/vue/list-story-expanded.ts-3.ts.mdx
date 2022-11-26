@@ -4,16 +4,19 @@
 import List from './ListComponent.vue';
 import ListItem from './ListItem.vue';
 
-import type { Meta, Story } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3';
 
-export default {
+const meta: Meta<typeof List> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'List',
   component: List,
-} as Meta<typeof List>;
+};
+
+export default meta;
+type Story = StoryObj<typeof List>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

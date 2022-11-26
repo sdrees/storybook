@@ -3,20 +3,17 @@
 
 <script>
   import { Meta, Template } from '@storybook/addon-svelte-csf';
-  
+
   import MarginDecorator from './MarginDecorator.svelte';
 
   import YourComponent from './YourComponent.svelte';
 </script>
 
-<Meta
-  title="YourComponent"
-  component={YourComponent}
-/>
+<meta title="YourComponent" component="{YourComponent}" />
 
-<Template let:args>
+<template let:args>
   <MarginDecorator>
     <!--👇 Your component here -->
   </MarginDecorator>
-</Template>
+</template>
 ```

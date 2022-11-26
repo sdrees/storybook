@@ -1,18 +1,17 @@
 import { describe, test } from '@jest/globals';
-import type { StoryAnnotations } from '@storybook/types';
 
 import { satisfies } from '@storybook/core-common';
+import type { Args, StoryAnnotations, StrictArgs } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
 import type { KeyboardEventHandler, ReactNode } from 'react';
 import React from 'react';
 
 import type { SetOptional } from 'type-fest';
 
-import type { DecoratorFn } from './public-api';
-import type { Meta, StoryObj } from './public-types';
-import type { ReactFramework } from './types';
+import type { Decorator, Meta, StoryObj } from './public-types';
+import type { ReactRenderer } from './types';
 
-type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactFramework, Args, RequiredArgs>;
+type ReactStory<TArgs, TRequiredArgs> = StoryAnnotations<ReactRenderer, TArgs, TRequiredArgs>;
 
 type ButtonProps = { label: string; disabled: boolean };
 const Button: (props: ButtonProps) => JSX.Element = () => <></>;
@@ -141,7 +140,7 @@ describe('Story args can be inferred', () => {
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 
-  const withDecorator: DecoratorFn<{ decoratorArg: number }> = (Story, { args }) => (
+  const withDecorator: Decorator<{ decoratorArg: number }> = (Story, { args }) => (
     <>
       Decorator: {args.decoratorArg}
       <Story args={{ decoratorArg: 0 }} />
@@ -166,9 +165,23 @@ describe('Story args can be inferred', () => {
   test('Correct args are inferred when type is widened for multiple decorators', () => {
     type Props = ButtonProps & { decoratorArg: number; decoratorArg2: string };
 
-    const secondDecorator: DecoratorFn<{ decoratorArg2: string }> = (Story, { args }) => (
+    const secondDecorator: Decorator<{ decoratorArg2: string }> = (Story, { args }) => (
       <>
         Decorator: {args.decoratorArg2}
+        <Story />
+      </>
+    );
+
+    // decorator is not using args
+    const thirdDecorator: Decorator<Args> = (Story) => (
+      <>
+        <Story />
+      </>
+    );
+
+    // decorator is not using args
+    const fourthDecorator: Decorator<StrictArgs> = (Story) => (
+      <>
         <Story />
       </>
     );
@@ -176,7 +189,7 @@ describe('Story args can be inferred', () => {
     const meta = satisfies<Meta<Props>>()({
       component: Button,
       args: { disabled: false },
-      decorators: [withDecorator, secondDecorator],
+      decorators: [withDecorator, secondDecorator, thirdDecorator, fourthDecorator],
     });
 
     const Basic: StoryObj<typeof meta> = {

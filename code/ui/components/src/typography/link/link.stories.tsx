@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Link } from './link';
@@ -44,7 +45,7 @@ export const NoCancelWHref = {
 };
 
 export const StyledLinks = {
-  render: (args) => (
+  render: (args: ComponentProps<typeof Link>) => (
     <div>
       <Link href="http://google.com" {...args}>
         Default

@@ -9,6 +9,5 @@
   "vueCompilerOptions": {
     "target": 2
   },
-  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"],
-  "exclude": []
+  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"]
 }

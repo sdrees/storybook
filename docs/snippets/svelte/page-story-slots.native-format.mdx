@@ -3,22 +3,17 @@
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
-  
+
   import Page from './Page.svelte';
 </script>
 
-<Meta title="Page" component={Page} />
+<meta title="Page" component="{Page}" />
 
-<Template let:args>
+<template let:args>
   <Page {...args}>
     <footer>{args.footer}</footer>
   </Page>
-</Template>
+</template>
 
-<Story
-  name="CustomFooter"
-  args={{
-    footer: 'Built with Storybook',
-  }}
-/>
+<Story name="CustomFooter" args={{ footer: 'Built with Storybook', }} />
 ```

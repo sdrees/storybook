@@ -1,4 +1,4 @@
-import type { Args, Framework, ArgsEnhancer } from '@storybook/types';
+import type { Args, Renderer, ArgsEnhancer } from '@storybook/types';
 import { action } from './runtime/action';
 
 // interface ActionsParameter {
@@ -14,7 +14,7 @@ const isInInitialArgs = (name: string, initialArgs: Args) =>
  * matches a regex, such as `^on.*` for react-style `onClick` etc.
  */
 
-export const inferActionsFromArgTypesRegex: ArgsEnhancer<Framework> = (context) => {
+export const inferActionsFromArgTypesRegex: ArgsEnhancer<Renderer> = (context) => {
   const {
     initialArgs,
     argTypes,
@@ -40,7 +40,7 @@ export const inferActionsFromArgTypesRegex: ArgsEnhancer<Framework> = (context) 
 /**
  * Add action args for list of strings.
  */
-export const addActionsFromArgTypes: ArgsEnhancer<Framework> = (context) => {
+export const addActionsFromArgTypes: ArgsEnhancer<Renderer> = (context) => {
   const {
     initialArgs,
     argTypes,
@@ -50,11 +50,13 @@ export const addActionsFromArgTypes: ArgsEnhancer<Framework> = (context) => {
     return {};
   }
 
-  const argTypesWithAction = Object.entries(argTypes).filter(([name, argType]) => !!argType.action);
+  const argTypesWithAction = Object.entries(argTypes).filter(
+    ([name, argType]) => !!argType['action']
+  );
 
   return argTypesWithAction.reduce((acc, [name, argType]) => {
     if (isInInitialArgs(name, initialArgs)) {
-      acc[name] = action(typeof argType.action === 'string' ? argType.action : name);
+      acc[name] = action(typeof argType['action'] === 'string' ? argType['action'] : name);
     }
     return acc;
   }, {} as Args);

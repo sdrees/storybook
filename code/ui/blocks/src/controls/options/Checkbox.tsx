@@ -1,5 +1,5 @@
 import type { FC, ChangeEvent } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
 
@@ -72,6 +72,10 @@ export const CheckboxControl: FC<CheckboxProps> = ({
     onChange(selectedValues(updated, options));
     setSelected(updated);
   };
+
+  useEffect(() => {
+    setSelected(selectedKeys(value, options));
+  }, [value]);
 
   const controlId = getControlId(name);
 

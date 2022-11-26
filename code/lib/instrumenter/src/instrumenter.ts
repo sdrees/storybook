@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import type { Channel } from '@storybook/channels';
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import type { StoryId } from '@storybook/types';
 import { once, logger } from '@storybook/client-logger';
 import {

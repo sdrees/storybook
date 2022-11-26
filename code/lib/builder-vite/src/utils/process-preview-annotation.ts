@@ -1,5 +1,7 @@
 import type { PreviewAnnotation } from '@storybook/types';
 import { resolve } from 'path';
+import slash from 'slash';
+import { transformAbsPath } from './transform-abs-path';
 
 /**
  * Preview annotations can take several forms, and vite needs them to be
@@ -21,7 +23,7 @@ export function processPreviewAnnotation(path: PreviewAnnotation | undefined) {
   }
   // resolve relative paths into absolute paths, but don't resolve "bare" imports
   if (path?.startsWith('./') || path?.startsWith('../')) {
-    return resolve(path);
+    return slash(resolve(path));
   }
   // This should not occur, since we use `.filter(Boolean)` prior to
   // calling this function, but this makes typescript happy
@@ -29,5 +31,11 @@ export function processPreviewAnnotation(path: PreviewAnnotation | undefined) {
     throw new Error('Could not determine path for previewAnnotation');
   }
 
-  return path;
+  // For addon dependencies that use require.resolve(), we need to convert to a bare path
+  // so that vite will process it as a dependency (cjs -> esm, etc).
+  if (path.includes('node_modules')) {
+    return transformAbsPath(path);
+  }
+
+  return slash(path);
 }

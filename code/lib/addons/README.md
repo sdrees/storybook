@@ -1,9 +1,3 @@
-# Storybook Addons
+The contents of this package have moved to `@storybook/preview-api` and `@storybook/manager-api`. Please update your import depending on where are are using this API.
 
-Storybook Addons is a node module which is used to load custom addons to storybook.
-
-It stores addon loaders, communication channel and other resources which can be used by storybook implementations where required.
-
----
-
-For more information visit: [storybook.js.org](https://storybook.js.org)
+This package will no longer be released as part of the 8.0 release of storybook.

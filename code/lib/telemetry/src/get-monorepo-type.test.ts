@@ -14,7 +14,7 @@ jest.mock('@storybook/core-common', () => {
   };
 });
 
-const checkMonorepoType = ({ monorepoConfigFile, isYarnWorkspace = false }) => {
+const checkMonorepoType = ({ monorepoConfigFile, isYarnWorkspace = false }: any) => {
   const mockFiles = {
     [path.join('root', 'package.json')]: isYarnWorkspace ? '{ "workspaces": [] }' : '{}',
   };

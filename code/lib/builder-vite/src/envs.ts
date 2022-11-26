@@ -1,7 +1,7 @@
 import { stringifyEnvs } from '@storybook/core-common';
-
-import type { UserConfig } from 'vite';
+import type { UserConfig as ViteConfig } from 'vite';
 import type { Builder_EnvsRaw } from '@storybook/types';
+import type { ExtendedOptions } from './types';
 
 // Allowed env variables on the client
 const allowedEnvVariables = [
@@ -19,29 +19,42 @@ const allowedEnvVariables = [
  * Customized version of stringifyProcessEnvs from @storybook/core-common which
  * uses import.meta.env instead of process.env and checks for allowed variables.
  */
-export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: UserConfig['envPrefix']) {
+export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: ViteConfig['envPrefix']) {
   const updatedRaw: Builder_EnvsRaw = {};
-  const envs = Object.entries(raw).reduce(
-    (acc: Builder_EnvsRaw, [key, value]) => {
-      // Only add allowed values OR values from array OR string started with allowed prefixes
-      if (
-        allowedEnvVariables.includes(key) ||
-        (Array.isArray(envPrefix) && !!envPrefix.find((prefix) => key.startsWith(prefix))) ||
-        (typeof envPrefix === 'string' && key.startsWith(envPrefix))
-      ) {
-        acc[`import.meta.env.${key}`] = JSON.stringify(value);
-        updatedRaw[key] = value;
-      }
-      return acc;
-    },
-    {
-      // Default fallback
-      'process.env.XSTORYBOOK_EXAMPLE_APP': '""',
+  const envs = Object.entries(raw).reduce((acc: Builder_EnvsRaw, [key, value]) => {
+    // Only add allowed values OR values from array OR string started with allowed prefixes
+    if (
+      allowedEnvVariables.includes(key) ||
+      (Array.isArray(envPrefix) && !!envPrefix.find((prefix) => key.startsWith(prefix))) ||
+      (typeof envPrefix === 'string' && key.startsWith(envPrefix))
+    ) {
+      acc[`import.meta.env.${key}`] = JSON.stringify(value);
+      updatedRaw[key] = value;
     }
-  );
+    return acc;
+  }, {});
   // support destructuring like
   // const { foo } = import.meta.env;
   envs['import.meta.env'] = JSON.stringify(stringifyEnvs(updatedRaw));
 
   return envs;
+}
+
+// Sanitize environment variables if needed
+export async function sanitizeEnvVars(options: ExtendedOptions, config: ViteConfig) {
+  const { presets } = options;
+  const envsRaw = await presets.apply<Promise<Builder_EnvsRaw>>('env');
+  let { define } = config;
+  if (Object.keys(envsRaw).length) {
+    // Stringify env variables after getting `envPrefix` from the  config
+    const envs = stringifyProcessEnvs(envsRaw, config.envPrefix);
+    define = {
+      ...define,
+      ...envs,
+    };
+  }
+  return {
+    ...config,
+    define,
+  } as ViteConfig;
 }

@@ -3,8 +3,13 @@ import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { schema } from '@angular-devkit/core';
 import * as path from 'path';
 
-const buildStandaloneMock = jest.fn();
-jest.doMock('@storybook/angular/standalone', () => buildStandaloneMock);
+const buildDevStandaloneMock = jest.fn();
+const buildStaticStandaloneMock = jest.fn();
+const buildMock = {
+  buildDevStandalone: buildDevStandaloneMock,
+  buildStaticStandalone: buildStaticStandaloneMock,
+};
+jest.doMock('@storybook/core-server', () => buildMock);
 jest.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
 const cpSpawnMock = {
@@ -49,7 +54,7 @@ describe('Start Storybook Builder', () => {
   });
 
   beforeEach(() => {
-    buildStandaloneMock.mockImplementation((_options: unknown) => Promise.resolve());
+    buildDevStandaloneMock.mockImplementation((_options: unknown) => Promise.resolve());
     cpSpawnMock.spawn.mockImplementation(() => ({
       stdout: { on: () => {} },
       stderr: { on: () => {} },
@@ -74,14 +79,16 @@ describe('Start Storybook Builder', () => {
 
     expect(output.success).toBeTruthy();
     expect(cpSpawnMock.spawn).not.toHaveBeenCalledWith();
-    expect(buildStandaloneMock).toHaveBeenCalledWith({
+    expect(buildDevStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: 'angular-cli:build-2',
       angularBuilderContext: expect.any(Object),
       angularBuilderOptions: {},
       ci: false,
       configDir: '.storybook',
+      docs: undefined,
       host: 'localhost',
       https: false,
+      packageJson: expect.any(Object),
       port: 4400,
       quiet: false,
       smokeTest: false,
@@ -105,14 +112,16 @@ describe('Start Storybook Builder', () => {
 
     expect(output.success).toBeTruthy();
     expect(cpSpawnMock.spawn).not.toHaveBeenCalledWith();
-    expect(buildStandaloneMock).toHaveBeenCalledWith({
+    expect(buildDevStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: null,
       angularBuilderContext: expect.any(Object),
       angularBuilderOptions: {},
       ci: false,
       configDir: '.storybook',
+      docs: undefined,
       host: 'localhost',
       https: false,
+      packageJson: expect.any(Object),
       port: 4400,
       quiet: false,
       smokeTest: false,
@@ -124,7 +133,7 @@ describe('Start Storybook Builder', () => {
   });
 
   it('should throw error', async () => {
-    buildStandaloneMock.mockRejectedValue(true);
+    buildDevStandaloneMock.mockRejectedValue(true);
 
     const run = await architect.scheduleBuilder('@storybook/angular:start-storybook', {
       browserTarget: 'angular-cli:build-2',
@@ -159,16 +168,19 @@ describe('Start Storybook Builder', () => {
       ['compodoc', '-p', './storybook/tsconfig.ts', '-d', '', '-e', 'json'],
       {
         cwd: '',
+        shell: true,
       }
     );
-    expect(buildStandaloneMock).toHaveBeenCalledWith({
+    expect(buildDevStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: 'angular-cli:build-2',
       angularBuilderContext: expect.any(Object),
       angularBuilderOptions: {},
       ci: false,
       configDir: '.storybook',
+      docs: undefined,
       host: 'localhost',
       https: false,
+      packageJson: expect.any(Object),
       port: 9009,
       quiet: false,
       smokeTest: false,
@@ -193,7 +205,7 @@ describe('Start Storybook Builder', () => {
 
     expect(output.success).toBeTruthy();
     expect(cpSpawnMock.spawn).not.toHaveBeenCalledWith();
-    expect(buildStandaloneMock).toHaveBeenCalledWith({
+    expect(buildDevStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: null,
       angularBuilderContext: expect.any(Object),
       angularBuilderOptions: {
@@ -201,9 +213,11 @@ describe('Start Storybook Builder', () => {
       },
       ci: false,
       configDir: '.storybook',
+      docs: undefined,
       host: 'localhost',
       https: false,
       port: 4400,
+      packageJson: expect.any(Object),
       quiet: false,
       smokeTest: false,
       sslCa: undefined,

@@ -4,30 +4,30 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 
-  import List from "./List.svelte";
-  
+  import List from './List.svelte';
+
   import ListItem from './ListItem.svelte';
 </script>
 
-<Meta title="List" component={List} />
+<meta title="List" component="{List}" />
 
-<Template let:args id="Empty">
+<template let:args id="Empty">
   <List {...args} />
-</Template>
+</template>
 
-<Template let:args id="OneItem">
+<template let:args id="OneItem">
   <List {...args}>
     <ListItem />
   </List>
-</Template>
+</template>
 
-<Template let:args id="ManyItems">
+<template let:args id="ManyItems">
   <List {...args}>
     <ListItem />
     <ListItem />
     <ListItem />
   </List>
-</Template>
+</template>
 
 <Story name="Empty" template="Empty" />
 

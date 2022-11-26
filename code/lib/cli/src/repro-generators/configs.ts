@@ -264,5 +264,5 @@ export const svelte: Parameters = {
   renderer: 'svelte',
   name: 'svelte',
   version: 'latest',
-  generator: 'npx degit sveltejs/template {{appName}}',
+  generator: 'npx giget github:sveltejs/template#master {{appName}}',
 };

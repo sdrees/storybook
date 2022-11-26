@@ -1,3 +1,5 @@
+import './presets';
+
 function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
   return {
     babel: async (config: any, args: any) => basePresets.apply('babel', config, args),

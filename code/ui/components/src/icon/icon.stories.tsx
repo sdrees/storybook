@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled, css } from '@storybook/theming';
 
@@ -58,7 +59,7 @@ export default {
   component: Icons,
 };
 
-export const Basic = (args) => <Icons {...args} />;
+export const Basic = (args: ComponentProps<typeof Icons>) => <Icons {...args} />;
 Basic.args = { icon: 'watch' };
 
 export const Labels = () => (

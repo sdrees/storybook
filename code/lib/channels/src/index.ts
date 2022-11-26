@@ -40,7 +40,7 @@ export class Channel {
 
   private data: Record<string, any> = {};
 
-  private readonly transport: ChannelTransport;
+  private readonly transport: ChannelTransport | undefined = undefined;
 
   constructor({ transport, async = false }: ChannelArgs = {}) {
     this.isAsync = async;

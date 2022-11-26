@@ -29,6 +29,7 @@ Storybook needs to be installed into a project that is already set up with a fra
 - 📦 [Create React App](https://reactjs.org/docs/create-a-new-react-app.html)
 - 📦 [Create a Vue App](https://vuejs.org/guide/quick-start.html)
 - 📦 [Ember CLI](https://guides.emberjs.com/release/getting-started/quick-start/)
+- 📦 [Vite CLI](https://vitejs.dev/guide/#scaffolding-your-first-vite-project)
 - Or any other tooling available.
 
 </details>

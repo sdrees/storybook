@@ -47,28 +47,28 @@ describe('NPM Proxy', () => {
   });
 
   describe('addDependencies', () => {
-    it('with devDep it should run `pnpm add -D @storybook/addons`', () => {
+    it('with devDep it should run `pnpm add -D @storybook/preview-api`', () => {
       const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockReturnValue('6.0.0');
 
-      pnpmProxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/addons']);
+      pnpmProxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenLastCalledWith(
         'pnpm',
-        ['add', '-D', '@storybook/addons'],
+        ['add', '-D', '@storybook/preview-api'],
         expect.any(String)
       );
     });
   });
 
   describe('removeDependencies', () => {
-    it('with devDep it should run `npm uninstall @storybook/addons`', () => {
+    it('with devDep it should run `npm uninstall @storybook/preview-api`', () => {
       const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockReturnValue('6.0.0');
 
-      pnpmProxy.removeDependencies({}, ['@storybook/addons']);
+      pnpmProxy.removeDependencies({}, ['@storybook/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenLastCalledWith(
         'pnpm',
-        ['remove', '@storybook/addons'],
+        ['remove', '@storybook/preview-api'],
         expect.any(String)
       );
     });
@@ -107,11 +107,11 @@ describe('NPM Proxy', () => {
     it('without constraint it returns the latest version', async () => {
       const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockReturnValue('"5.3.19"');
 
-      const version = await pnpmProxy.latestVersion('@storybook/addons');
+      const version = await pnpmProxy.latestVersion('@storybook/preview-api');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('pnpm', [
         'info',
-        '@storybook/addons',
+        '@storybook/preview-api',
         'version',
         '--json',
       ]);
@@ -123,11 +123,11 @@ describe('NPM Proxy', () => {
         .spyOn(pnpmProxy, 'executeCommand')
         .mockReturnValue('["4.25.3","5.3.19","6.0.0-beta.23"]');
 
-      const version = await pnpmProxy.latestVersion('@storybook/addons', '5.X');
+      const version = await pnpmProxy.latestVersion('@storybook/preview-api', '5.X');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('pnpm', [
         'info',
-        '@storybook/addons',
+        '@storybook/preview-api',
         'versions',
         '--json',
       ]);
@@ -137,7 +137,7 @@ describe('NPM Proxy', () => {
     it('throws an error if command output is not a valid JSON', async () => {
       jest.spyOn(pnpmProxy, 'executeCommand').mockReturnValue('NOT A JSON');
 
-      await expect(pnpmProxy.latestVersion('@storybook/addons')).rejects.toThrow();
+      await expect(pnpmProxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
     });
   });
 
@@ -181,6 +181,7 @@ describe('NPM Proxy', () => {
       const writePackageSpy = jest.spyOn(pnpmProxy, 'writePackageJson').mockImplementation(jest.fn);
 
       jest.spyOn(pnpmProxy, 'retrievePackageJson').mockImplementation(
+        // @ts-expect-error (not strict)
         jest.fn(() => ({
           overrides: {
             bar: 'x.x.x',

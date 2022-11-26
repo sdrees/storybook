@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { Fragment } from 'react';
 import semver from 'semver';
 import { styled } from '@storybook/theming';
-import type { State } from '@storybook/api';
+import type { State } from '@storybook/manager-api';
 import Markdown from 'markdown-to-jsx';
 
 import { StorybookIcon, SyntaxHighlighter, Link, DocumentWrapper } from '@storybook/components';

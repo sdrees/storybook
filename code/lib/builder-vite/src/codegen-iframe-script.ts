@@ -1,4 +1,4 @@
-import { getRendererName, getFrameworkName } from '@storybook/core-common';
+import { getRendererName } from '@storybook/core-common';
 import type { PreviewAnnotation } from '@storybook/types';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import type { ExtendedOptions } from './types';
@@ -7,7 +7,6 @@ import { processPreviewAnnotation } from './utils/process-preview-annotation';
 export async function generateIframeScriptCode(options: ExtendedOptions) {
   const { presets } = options;
   const rendererName = await getRendererName(options);
-  const frameworkName = await getFrameworkName(options);
 
   const previewAnnotations = await presets.apply<PreviewAnnotation[]>(
     'previewAnnotations',
@@ -29,8 +28,11 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
     // Ensure that the client API is initialized by the framework before any other iframe code
     // is loaded. That way our client-apis can assume the existence of the API+store
     import { configure } from '${rendererName}';
-    import { clientApi } from '${frameworkName}';
+
+    import { logger } from '@storybook/client-logger';
+    import * as clientApi from "@storybook/preview-api";
     ${filesToImport(configEntries, 'config')}
+
     import * as preview from '${virtualPreviewFile}';
     import { configStories } from '${virtualStoriesFile}';
 
@@ -44,7 +46,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       addArgTypesEnhancer,
       addArgsEnhancer,
       setGlobalRender,
-    } = clientApi;
+    } = previewApi;
 
     const configs = [${importArray('config', configEntries.length)
       .concat('preview.default')

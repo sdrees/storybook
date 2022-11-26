@@ -1,7 +1,7 @@
 import memoize from 'memoizerific';
 import global from 'global';
 import type { SyntheticEvent } from 'react';
-import type { HashEntry, StoriesHash } from '@storybook/api';
+import type { HashEntry, StoriesHash } from '@storybook/manager-api';
 
 // eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from './Sidebar';

@@ -4,15 +4,18 @@ import type {
   ArgsFromMeta,
   ArgsStoryFn,
   ComponentAnnotations,
+  DecoratorFunction,
+  LoaderFunction,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
 } from '@storybook/types';
-
 import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
 import type { SetOptional, Simplify } from 'type-fest';
+import type { ReactRenderer } from './types';
 
-import type { ReactFramework } from './types';
-
-export { ReactFramework };
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { ReactRenderer };
 
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 
@@ -22,8 +25,8 @@ type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
 export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
-  ? ComponentAnnotations<ReactFramework, ComponentProps<TCmpOrArgs>>
-  : ComponentAnnotations<ReactFramework, TCmpOrArgs>;
+  ? ComponentAnnotations<ReactRenderer, ComponentProps<TCmpOrArgs>>
+  : ComponentAnnotations<ReactRenderer, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
@@ -31,8 +34,8 @@ export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
-  ? AnnotatedStoryFn<ReactFramework, ComponentProps<TCmpOrArgs>>
-  : AnnotatedStoryFn<ReactFramework, TCmpOrArgs>;
+  ? AnnotatedStoryFn<ReactRenderer, ComponentProps<TCmpOrArgs>>
+  : AnnotatedStoryFn<ReactRenderer, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
@@ -40,26 +43,33 @@ export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
-  render?: ArgsStoryFn<ReactFramework, any>;
+  render?: ArgsStoryFn<ReactRenderer, any>;
   component?: infer Component;
   args?: infer DefaultArgs;
 }
   ? Simplify<
       (Component extends ComponentType<any> ? ComponentProps<Component> : unknown) &
-        ArgsFromMeta<ReactFramework, TMetaOrCmpOrArgs>
+        ArgsFromMeta<ReactRenderer, TMetaOrCmpOrArgs>
     > extends infer TArgs
     ? StoryAnnotations<
-        ReactFramework,
+        ReactRenderer,
         TArgs,
-        SetOptional<TArgs, Extract<keyof TArgs, keyof (DefaultArgs & ActionArgs<TArgs>)>>
+        SetOptional<TArgs, keyof TArgs & keyof (DefaultArgs & ActionArgs<TArgs>)>
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
-  ? StoryAnnotations<ReactFramework, ComponentProps<TMetaOrCmpOrArgs>>
-  : StoryAnnotations<ReactFramework, TMetaOrCmpOrArgs>;
+  ? StoryAnnotations<ReactRenderer, ComponentProps<TMetaOrCmpOrArgs>>
+  : StoryAnnotations<ReactRenderer, TMetaOrCmpOrArgs>;
 
-type ActionArgs<RArgs> = {
-  [P in keyof RArgs as ((...args: any[]) => void) extends RArgs[P] ? P : never]: RArgs[P];
+type ActionArgs<TArgs> = {
+  // This can be read as: filter TArgs on functions where we can assign a void function to that function.
+  // The docs addon argsEnhancers can only safely provide a default value for void functions.
+  // Other kind of required functions should be provided by the user.
+  [P in keyof TArgs as TArgs[P] extends (...args: any[]) => any
+    ? ((...args: any[]) => void) extends TArgs[P]
+      ? P
+      : never
+    : never]: TArgs[P];
 };
 
 /**
@@ -124,3 +134,11 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
  * ```
  */
 export type ComponentStory<T extends JSXElement> = ComponentStoryFn<T>;
+
+/**
+ * @deprecated Use Decorator instead.
+ */
+export type DecoratorFn = DecoratorFunction<ReactRenderer>;
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<ReactRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<ReactRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<ReactRenderer, TArgs>;

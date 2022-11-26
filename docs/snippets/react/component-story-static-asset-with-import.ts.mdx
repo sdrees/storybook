@@ -1,19 +1,22 @@
-```ts
+```tsx
 //  MyComponent.stories.ts|tsx
-
-import React from 'react';
 
 import imageFile from './static/image.png';
 
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-export default {
+import { MyComponent } from './MyComponent';
+
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'img',
-} as Meta;
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
 const image = {
   src: imageFile,
@@ -25,8 +28,7 @@ const image = {
  * See https://storybook.js.org/docs/7.0/react/api/csf
  * to learn how to use render functions.
  */
-
-export const WithAnImage = {
+export const WithAnImage: Story = {
   render: () => <img src={image.src} alt={image.alt} />,
 };
 ```

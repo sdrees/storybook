@@ -18,5 +18,7 @@ export const DisableTable = {
 
 export const DisableControl = {
   args: { a: 'a', b: 'b' },
-  b: { control: { disable: true } },
+  argTypes: {
+    b: { control: { disable: true } },
+  },
 };

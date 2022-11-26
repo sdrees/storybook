@@ -1,4 +1,3 @@
-import { AbortController } from 'node-abort-controller';
 import detectFreePort from 'detect-port';
 
 import type { Task } from '../task';

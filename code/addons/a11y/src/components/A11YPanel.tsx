@@ -5,7 +5,7 @@ import { styled } from '@storybook/theming';
 import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 
 import type { AxeResults } from 'axe-core';
-import { useChannel, useParameter, useStorybookState } from '@storybook/api';
+import { useChannel, useParameter, useStorybookState } from '@storybook/manager-api';
 
 import { Report } from './Report';
 

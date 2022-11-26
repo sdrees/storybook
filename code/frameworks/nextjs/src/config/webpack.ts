@@ -1,11 +1,9 @@
 import type { Configuration as WebpackConfig } from 'webpack';
-import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
-import findUp from 'find-up';
-import { pathExists } from 'fs-extra';
+import semver from 'semver';
+
 import type { NextConfig } from 'next';
-import dedent from 'ts-dedent';
 import { DefinePlugin } from 'webpack';
-import { addScopedAlias } from '../utils';
+import { addScopedAlias, getNextjsVersion, resolveNextConfig } from '../utils';
 
 export const configureConfig = async ({
   baseConfig,
@@ -24,63 +22,34 @@ export const configureConfig = async ({
   return nextConfig;
 };
 
-const findNextConfigFile = async (configDir: string) => {
-  const supportedExtensions = ['mjs', 'js'];
-  return supportedExtensions.reduce<Promise<undefined | string>>(
-    async (acc, ext: string | undefined) => {
-      const resolved = await acc;
-      if (!resolved) {
-        acc = findUp(`next.config.${ext}`, { cwd: configDir });
-      }
-
-      return acc;
-    },
-    Promise.resolve(undefined)
-  );
-};
-
-const resolveNextConfig = async ({
-  baseConfig,
-  nextConfigPath,
-  configDir,
-}: {
-  baseConfig: WebpackConfig;
-  nextConfigPath?: string;
-  configDir: string;
-}): Promise<NextConfig> => {
-  const nextConfigFile = nextConfigPath || (await findNextConfigFile(configDir));
-
-  if (!nextConfigFile || (await pathExists(nextConfigFile)) === false) {
-    throw new Error(
-      dedent`
-        Could not find or resolve your Next config file. Please provide the next config file path as a framework option.
-
-        More info: https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md#options
-      `
-    );
-  }
-
-  const nextConfigExport = await import(nextConfigFile);
-
-  const nextConfig =
-    typeof nextConfigExport === 'function'
-      ? nextConfigExport(PHASE_DEVELOPMENT_SERVER, {
-          defaultConfig: baseConfig,
-        })
-      : nextConfigExport;
-
-  return nextConfig;
-};
+const version = getNextjsVersion();
 
 const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
-  baseConfig.plugins?.push(
-    new DefinePlugin({
-      // this mimics what nextjs does client side
-      // https://github.com/vercel/next.js/blob/57702cb2a9a9dba4b552e0007c16449cf36cfb44/packages/next/client/index.tsx#L101
-      'process.env.__NEXT_RUNTIME_CONFIG': JSON.stringify({
-        serverRuntimeConfig: {},
-        publicRuntimeConfig: nextConfig.publicRuntimeConfig,
-      }),
-    })
-  );
+  const definePluginConfig: Record<string, any> = {
+    // this mimics what nextjs does client side
+    // https://github.com/vercel/next.js/blob/57702cb2a9a9dba4b552e0007c16449cf36cfb44/packages/next/client/index.tsx#L101
+    'process.env.__NEXT_RUNTIME_CONFIG': JSON.stringify({
+      serverRuntimeConfig: {},
+      publicRuntimeConfig: nextConfig.publicRuntimeConfig,
+    }),
+  };
+
+  /**
+   * In Next12.2, the `newNextLinkBehavior` option was introduced, defaulted to
+   * falsy in the Next app (`undefined` in the config itself), and `next/link`
+   * was engineered to opt *in* to it
+   *
+   * In Next13, the `newNextLinkBehavior` option now defaults to truthy (still
+   * `undefined` in the config), and `next/link` was engineered to opt *out*
+   * of it
+   */
+  const newNextLinkBehavior = nextConfig.experimental?.newNextLinkBehavior;
+  if (
+    (semver.gte(version, '13.0.0') && newNextLinkBehavior !== false) ||
+    (semver.gte(version, '12.2.0') && newNextLinkBehavior)
+  ) {
+    definePluginConfig['process.env.__NEXT_NEW_LINK_BEHAVIOR'] = true;
+  }
+
+  baseConfig.plugins?.push(new DefinePlugin(definePluginConfig));
 };

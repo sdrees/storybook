@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const fs = require('fs-extra');
 const path = require('path');
-const execa = require('execa');
 
 function getCommand(watch) {
   const args = [
@@ -41,11 +40,13 @@ function handleExit(code, stderr, errorCallback) {
 }
 
 async function run({ optimized, watch, silent, errorCallback }) {
+  const execa = await import('execa');
+
   return new Promise((resolve, reject) => {
     const [command, tscOnly] = getCommand(watch);
 
     if (tscOnly || optimized) {
-      const child = execa.command(command, {
+      const child = execa.execaCommand(command, {
         buffer: false,
       });
       let stderr = '';

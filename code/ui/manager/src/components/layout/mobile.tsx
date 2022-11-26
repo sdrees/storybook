@@ -1,6 +1,6 @@
 import type { ComponentType, FC, ReactNode } from 'react';
 import React, { Component, Children } from 'react';
-import { type State, ActiveTabs } from '@storybook/api';
+import { type State, ActiveTabs } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 
 import { TabButton } from '@storybook/components';
@@ -134,11 +134,7 @@ export interface Page {
 }
 
 export interface MobileProps {
-  options: {
-    initialActive: ActiveTabsType;
-    showToolbar: boolean;
-    isFullscreen: boolean;
-  };
+  options: Pick<State['layout'], 'isFullscreen' | 'showPanel' | 'initialActive' | 'showToolbar'>;
   Sidebar: ComponentType<any>;
   Preview: ComponentType<any>;
   Panel: ComponentType<any>;
@@ -204,7 +200,7 @@ class Mobile extends Component<MobileProps, MobileState> {
                 <Route key={key}>{key}</Route>
               ))}
             </TabButton>
-            {viewMode ? (
+            {viewMode && options.showPanel ? (
               <TabButton
                 onClick={() => this.setState({ active: ADDONS })}
                 active={active === ADDONS}

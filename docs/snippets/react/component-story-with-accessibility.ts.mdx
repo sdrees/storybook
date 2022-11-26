@@ -1,13 +1,11 @@
-```ts
+```tsx
 // Button.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from './Button';
 
-export default {
+const meta: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading to learn how to generate automatic titles
    */
@@ -16,10 +14,13 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof Button>;
+};
+
+export default meta;
+type Story = StoryObj<typeof Button>;
 
 // This is an accessible story
-export const Accessible: ComponentStoryObj<typeof Button> = {
+export const Accessible: Story = {
   args: {
     primary: false,
     label: 'Button',
@@ -27,7 +28,7 @@ export const Accessible: ComponentStoryObj<typeof Button> = {
 };
 
 // This is not
-export const Inaccessible: ComponentStoryObj<typeof Button> = {
+export const Inaccessible: Story = {
   args: {
     ...Accessible.args,
     backgroundColor: 'red',

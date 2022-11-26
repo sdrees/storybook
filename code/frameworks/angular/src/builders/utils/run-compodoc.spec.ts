@@ -51,6 +51,7 @@ describe('runCompodoc', () => {
       ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
       {
         cwd: 'path/to/project',
+        shell: true,
       }
     );
   });
@@ -74,6 +75,7 @@ describe('runCompodoc', () => {
       ['compodoc', '-d', 'path/to/project', '-p', 'path/to/tsconfig.stories.json'],
       {
         cwd: 'path/to/project',
+        shell: true,
       }
     );
   });

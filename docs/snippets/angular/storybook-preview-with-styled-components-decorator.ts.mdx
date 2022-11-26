@@ -1,16 +1,19 @@
-```js
-// .storybook/preview.js
+```ts
+// .storybook/preview.ts
 
 import { componentWrapperDecorator } from '@storybook/angular';
+
+import type { Decorator } from '@storybook/angular';
+
 import { ThemeProvider } from './theme-provider.component';
 
-export const decorators = [
+export const decorators: Decorator[] = [
   moduleMetadata({ declarations: [ThemeProvider] }),
   componentWrapperDecorator((story) => `<theme-provider class="default">${story}</theme-provider>`),
 ];
 
 // or with globals of story context
-export const decorators = [
+export const decorators: Decorator[] = [
   moduleMetadata({ declarations: [ThemeProvider] }),
   componentWrapperDecorator(
     (story) => `<theme-provider [class]="theme">${story}</theme-provider>`,

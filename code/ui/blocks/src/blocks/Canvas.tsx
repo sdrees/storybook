@@ -1,68 +1,58 @@
-import type { FC, ReactElement, ReactNode, ReactNodeArray } from 'react';
-import React, { useContext } from 'react';
-import type { Framework } from '@storybook/types';
+import React, { Children, useContext } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
+import type { Renderer } from '@storybook/types';
 import type { PreviewProps as PurePreviewProps } from '../components';
 import { Preview as PurePreview, PreviewSkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps } from './SourceContainer';
 import { SourceContext } from './SourceContainer';
-import { getSourceProps, SourceState } from './Source';
+import { useSourceProps, SourceState } from './Source';
 import { useStories } from './useStory';
 
 export { SourceState };
 
-type CanvasProps = PurePreviewProps & {
+type CanvasProps = Omit<PurePreviewProps, 'isExpanded'> & {
   withSource?: SourceState;
   mdxSource?: string;
 };
 
-const getPreviewProps = (
+const usePreviewProps = (
   { withSource, mdxSource, children, ...props }: CanvasProps & { children?: ReactNode },
-  docsContext: DocsContextProps<Framework>,
+  docsContext: DocsContextProps<Renderer>,
   sourceContext: SourceContextProps
 ) => {
-  let sourceState = withSource;
-  let isLoading = false;
-  if (sourceState === SourceState.NONE) {
-    return { isLoading, previewProps: props };
-  }
-  if (mdxSource) {
-    return {
-      isLoading,
-      previewProps: {
-        ...props,
-        withSource: getSourceProps({ code: decodeURI(mdxSource) }, docsContext, sourceContext),
-        isExpanded: sourceState === SourceState.OPEN,
-      },
-    };
-  }
-  const childArray: ReactNodeArray = Array.isArray(children) ? children : [children];
-  const storyChildren = childArray.filter(
-    (c: ReactElement) => c.props && (c.props.id || c.props.name || c.props.of)
-  ) as ReactElement[];
-  const targetIds = storyChildren.map(({ props: { id, of, name } }) => {
-    if (id) return id;
-    if (of) return docsContext.storyIdByModuleExport(of);
+  /*
+  get all story IDs by traversing through the children,
+  filter out any non-story children (e.g. text nodes)
+  and then get the id from each story depending on available props
+  */
+  const storyIds = (Children.toArray(children) as ReactElement[])
+    .filter((c) => c.props && (c.props.id || c.props.name || c.props.of))
+    .map(({ props: { id, of, name } }) => {
+      if (id) return id;
+      if (of) return docsContext.storyIdByModuleExport(of);
 
-    return docsContext.storyIdByName(name);
-  });
-
-  const sourceProps = getSourceProps({ ids: targetIds }, docsContext, sourceContext);
-  if (!sourceState) sourceState = sourceProps.state;
-  const storyIds = targetIds.map((targetId) => {
-    return targetId;
-  });
+      return docsContext.storyIdByName(name);
+    });
 
   const stories = useStories(storyIds, docsContext);
-  isLoading = stories.some((s) => !s);
+  const isLoading = stories.some((s) => !s);
+  const sourceProps = useSourceProps(
+    mdxSource ? { code: decodeURI(mdxSource) } : { ids: storyIds },
+    docsContext,
+    sourceContext
+  );
+  if (withSource === SourceState.NONE) {
+    return { isLoading, previewProps: props };
+  }
 
   return {
     isLoading,
     previewProps: {
       ...props, // pass through columns etc.
       withSource: sourceProps,
-      isExpanded: sourceState === SourceState.OPEN,
+      isExpanded: (withSource || sourceProps.state) === SourceState.OPEN,
     },
   };
 };
@@ -70,7 +60,7 @@ const getPreviewProps = (
 export const Canvas: FC<CanvasProps> = (props) => {
   const docsContext = useContext(DocsContext);
   const sourceContext = useContext(SourceContext);
-  const { isLoading, previewProps } = getPreviewProps(props, docsContext, sourceContext);
+  const { isLoading, previewProps } = usePreviewProps(props, docsContext, sourceContext);
   const { children } = props;
 
   if (isLoading) return <PreviewSkeleton />;

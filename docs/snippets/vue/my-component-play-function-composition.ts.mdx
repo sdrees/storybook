@@ -1,35 +1,38 @@
 ```ts
 // MyComponent.stories.ts
 
-// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
-import type { Meta, Story } from '@storybook/vue';
+// import type { Meta, StoryObj } from '@storybook/vue3'; for Vue 3
+import type { Meta, StoryObj } from '@storybook/vue';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'MyComponent',
   component: MyComponent,
-} as Meta<typeof MyComponent>;
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
 /*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/vue/api/csf
- * to learn how to use render functions.
+ * See https://storybook.js.org/docs/7.0/vue/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
  */
-
 export const FirstStory: Story = {
   render: () => ({
     components: { MyComponent },
     template: '<MyComponent />',
   }),
-  play: async () => {
-    userEvent.type(screen.getByTestId('an-element'), 'example-value');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    userEvent.type(canvas.getByTestId('an-element'), 'example-value');
   },
 };
 
@@ -38,8 +41,10 @@ export const SecondStory: Story = {
     components: { MyComponent },
     template: '<MyComponent />',
   }),
-  play: async () => {
-    await userEvent.type(screen.getByTestId('other-element'), 'another value');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.type(canvas.getByTestId('other-element'), 'another value');
   },
 };
 
@@ -48,11 +53,13 @@ export const CombinedStories: Story = {
     components: { MyComponent },
     template: '<MyComponent />',
   }),
-  play: async () => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
     // Runs the FirstStory and Second story play function before running this story's play function
-    await FirstStory.play();
-    await SecondStory.play();
-    await userEvent.type(screen.getByTestId('another-element'), 'random value');
+    await FirstStory.play({ canvasElement });
+    await SecondStory.play({ canvasElement });
+    await userEvent.type(canvas.getByTestId('another-element'), 'random value');
   },
 };
 ```

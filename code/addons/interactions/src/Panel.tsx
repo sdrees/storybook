@@ -1,6 +1,6 @@
 import global from 'global';
 import * as React from 'react';
-import { useChannel, useParameter } from '@storybook/api';
+import { useChannel, useParameter } from '@storybook/manager-api';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,

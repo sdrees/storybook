@@ -3,11 +3,11 @@ import * as preact from 'preact';
 import { dedent } from 'ts-dedent';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
-import type { StoryFnPreactReturnType, PreactFramework } from './types';
+import type { StoryFnPreactReturnType, PreactRenderer } from './types';
 
 const { h } = preact;
 
-export const render: ArgsStoryFn<PreactFramework> = (args, context) => {
+export const render: ArgsStoryFn<PreactRenderer> = (args, context) => {
   const { id, component: Component } = context;
   if (!Component) {
     throw new Error(
@@ -35,9 +35,9 @@ function preactRender(story: StoryFnPreactReturnType | null, canvasElement: Elem
 const StoryHarness: preact.FunctionalComponent<{
   name: string;
   title: string;
-  showError: Store_RenderContext<PreactFramework>['showError'];
+  showError: Store_RenderContext<PreactRenderer>['showError'];
   storyFn: () => any;
-  canvasElement: PreactFramework['canvasElement'];
+  canvasElement: PreactRenderer['canvasElement'];
 }> = ({ showError, name, title, storyFn, canvasElement }) => {
   const content = preact.h(storyFn as any, null);
   if (!content) {
@@ -54,8 +54,8 @@ const StoryHarness: preact.FunctionalComponent<{
 };
 
 export function renderToCanvas(
-  { storyFn, title, name, showMain, showError, forceRemount }: Store_RenderContext<PreactFramework>,
-  canvasElement: PreactFramework['canvasElement']
+  { storyFn, title, name, showMain, showError, forceRemount }: Store_RenderContext<PreactRenderer>,
+  canvasElement: PreactRenderer['canvasElement']
 ) {
   if (forceRemount) {
     preactRender(null, canvasElement);

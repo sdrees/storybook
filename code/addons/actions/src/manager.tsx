@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addons, types } from '@storybook/addons';
+import { addons, types } from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import ActionLogger from './containers/ActionLogger';
 import { ADDON_ID, EVENT_ID, PANEL_ID, PARAM_KEY } from './constants';

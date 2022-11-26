@@ -1,11 +1,12 @@
 import 'jest-specific-snapshot';
 import path from 'path';
 import fs from 'fs';
+// @ts-expect-error (seems broken/missing)
 import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
 
-import { inferControls } from '@storybook/store';
-import type { Framework } from '@storybook/types';
+import { inferControls } from '@storybook/preview-api';
+import type { Renderer } from '@storybook/types';
 import { normalizeNewlines } from '@storybook/docs-tools';
 
 import type { StoryContext } from '../types';
@@ -88,7 +89,7 @@ describe('react component properties', () => {
             const rows = inferControls({
               argTypes,
               parameters,
-            } as unknown as StoryContext<Framework>);
+            } as unknown as StoryContext<Renderer>);
             expect(rows).toMatchSpecificSnapshot(path.join(testDir, 'argTypes.snapshot'));
           });
         }

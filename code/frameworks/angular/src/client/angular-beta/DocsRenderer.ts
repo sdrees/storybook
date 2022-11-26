@@ -1,4 +1,4 @@
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { DOCS_RENDERED, STORY_CHANGED } from '@storybook/core-events';
 import { AbstractRenderer } from './AbstractRenderer';
 import { StoryFnAngularReturnType, Parameters } from '../types';

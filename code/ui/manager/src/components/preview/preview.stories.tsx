@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { parsePath, createPath } from 'history';
-import type { Combo, StoryEntry } from '@storybook/api';
-import { Provider as ManagerProvider, Consumer } from '@storybook/api';
+import type { Combo, StoryEntry } from '@storybook/manager-api';
+import { Provider as ManagerProvider, Consumer } from '@storybook/manager-api';
 import { Location, BaseLocationProvider } from '@storybook/router';
 
 import { ThemeProvider, ensure as ensureTheme, themes } from '@storybook/theming';
@@ -15,7 +15,7 @@ import { previewProps } from './preview.mockdata';
 
 const provider = new PrettyFakeProvider();
 const staticNavigator = {
-  createHref(to) {
+  createHref(to: any) {
     return typeof to === 'string' ? to : createPath(to);
   },
 
@@ -41,6 +41,7 @@ export default {
         pathname: locationProp.pathname || '/',
         search: locationProp.search || '',
         hash: locationProp.hash || '',
+        // @ts-expect-error (invalid input)
         state: null,
         key: 'default',
       };

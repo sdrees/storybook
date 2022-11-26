@@ -3,27 +3,17 @@
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
-  
+
   import YourComponent from './YourComponent.svelte';
 </script>
 
 <!--👇 The title determines where your story goes in the story list -->
-<Meta
-  title="YourComponent"
-  component={YourComponent}
-  argTypes={{
-    /* Customize your args here depending on your component */
-  }}
-/>
+<Meta title="YourComponent" component={YourComponent} argTypes={{ /* Customize your args here
+depending on your component */ }} />
 
-<Template let:args>
-  <Button {...args} />
-</Template>
+<template let:args>
+  <button {...args} />
+</template>
 
-<Story
-  name="FirstStory"
-  args={{
-    /* The args you need here will depend on your component */
-  }}
-/>
+<Story name="FirstStory" args={{ /* The args you need here will depend on your component */ }} />
 ```

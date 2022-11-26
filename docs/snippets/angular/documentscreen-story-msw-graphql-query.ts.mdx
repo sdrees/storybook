@@ -1,7 +1,9 @@
 ```ts
 // YourPage.stories.ts
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,7 +17,7 @@ import { PageLayout } from './PageLayout.component';
 
 import { MockGraphQLModule } from './mock-graphql.module';
 
-export default {
+const meta: Meta<DocumentScreen> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -28,7 +30,9 @@ export default {
       imports: [CommonModule, HttpClientModule, MockGraphQLModule],
     }),
   ],
-} as Meta;
+};
+
+export default meta;
 
 //👇The mocked data that will be used in the story
 const TestData = {
@@ -78,6 +82,8 @@ const TestData = {
     },
   ],
 };
+
+type Story = StoryObj<DocumentScreen>;
 
 export const MockedSuccess: Story = {
   parameters: {

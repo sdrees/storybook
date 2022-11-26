@@ -3,15 +3,15 @@
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
-  
+
   import List from './List.svelte';
 </script>
 
-<Meta title="List" component={List} />
+<meta title="List" component="{List}" />
 
-<Template let:args>
+<template let:args>
   <List {...args} />
-</Template>
+</template>
 
 <Story name="Empty">
   <List {...args} />

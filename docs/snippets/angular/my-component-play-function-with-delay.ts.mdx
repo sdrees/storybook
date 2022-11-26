@@ -1,31 +1,40 @@
 ```ts
 // MyComponent.stories.ts
 
-import type { Meta, Story } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent.component';
 
-export default {
+const meta: Meta<MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'WithDelay',
   component: MyComponent,
-} as Meta;
+};
 
+export default meta;
+type Story = StoryObj<MyComponent>;
+
+/*
+ * See https://storybook.js.org/docs/7.0/angular/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
+ */
 export const DelayedStory: Story = {
-  play: async () => {
-    const exampleElement = screen.getByLabelText('example-element');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const exampleElement = canvas.getByLabelText('example-element');
 
     // The delay option set the ammount of milliseconds between characters being typed
     await userEvent.type(exampleElement, 'random string', {
       delay: 100,
     });
 
-    const AnotherExampleElement = screen.getByLabelText('another-example-element');
+    const AnotherExampleElement = canvas.getByLabelText('another-example-element');
     await userEvent.type(AnotherExampleElement, 'another random string', {
       delay: 100,
     });

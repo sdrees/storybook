@@ -23,7 +23,6 @@ export * from './utils/load-preview-or-config-file';
 export * from './utils/log-config';
 export * from './utils/normalize-stories';
 export * from './utils/paths';
-export * from './utils/progress-reporting';
 export * from './utils/readTemplate';
 export * from './utils/resolve-path-in-sb-cache';
 export * from './utils/symlinks';

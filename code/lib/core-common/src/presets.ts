@@ -150,8 +150,8 @@ export const resolveAddonName = (
 const map =
   ({ configDir }: InterPresetOptions) =>
   (item: any) => {
-    const options = isObject(item) ? item.options || undefined : undefined;
-    const name = isObject(item) ? item.name : item;
+    const options = isObject(item) ? item['options'] || undefined : undefined;
+    const name = isObject(item) ? item['name'] : item;
     try {
       const resolved = resolveAddonName(configDir, name, options);
       return {
@@ -242,10 +242,6 @@ async function loadPresets(
 ): Promise<LoadedPreset[]> {
   if (!presets || !Array.isArray(presets) || !presets.length) {
     return [];
-  }
-
-  if (!level) {
-    logger.info('=> Loading presets');
   }
 
   return (

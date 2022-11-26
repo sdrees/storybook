@@ -4,6 +4,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "typings.d.ts", "templates/virtualModuleEntry.template.js"],
-  "exclude": ["src/**.test.ts"]
+  "include": ["src/**/*"]
 }

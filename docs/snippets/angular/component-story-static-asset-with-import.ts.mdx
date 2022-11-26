@@ -1,20 +1,23 @@
 ```ts
 // MyComponent.stories.ts
 
-import type { Meta, Story } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { MyComponent } from './MyComponent.component';
 
 import imageFile from './static/image.png';
 
-export default {
+const meta: Meta<MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'img',
   component: MyComponent,
-} as Meta;
+};
+
+export default meta;
+type Story = StoryObj<MyComponent>;
 
 const image = {
   src: imageFile,

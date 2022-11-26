@@ -1,8 +1,8 @@
 import global from 'global';
 
 import type { Channel } from '@storybook/channels';
-import type { AddonStore } from '@storybook/addons';
-import { addons } from '@storybook/addons';
+import type { AddonStore } from '@storybook/manager-api';
+import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import * as postMessage from '@storybook/channel-postmessage';
 import * as webSocket from '@storybook/channel-websocket';
@@ -25,13 +25,14 @@ class ReactProvider extends Provider {
   constructor() {
     super();
 
-    const channel = postMessage.createChannel({ page: 'manager' });
+    const postMessageChannel = postMessage.createChannel({ page: 'manager' });
 
-    addons.setChannel(channel);
-    channel.emit(CHANNEL_CREATED);
+    addons.setChannel(postMessageChannel);
+
+    postMessageChannel.emit(CHANNEL_CREATED);
 
     this.addons = addons;
-    this.channel = channel;
+    this.channel = postMessageChannel;
 
     if (FEATURES?.storyStoreV7 && SERVER_CHANNEL_URL) {
       const serverChannel = webSocket.createChannel({ url: SERVER_CHANNEL_URL });

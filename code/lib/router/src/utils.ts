@@ -82,8 +82,13 @@ const validateArgs = (key = '', value: unknown): boolean => {
       COLOR_REGEXP.test(value)
     );
   }
-  if (Array.isArray(value)) return value.every((v) => validateArgs(key, v));
-  if (isPlainObject(value)) return Object.entries(value).every(([k, v]) => validateArgs(k, v));
+  if (Array.isArray(value)) {
+    return value.every((v) => validateArgs(key, v));
+  }
+
+  if (isPlainObject(value)) {
+    return Object.entries(value as Record<string, any>).every(([k, v]) => validateArgs(k, v));
+  }
   return false;
 };
 
@@ -97,7 +102,7 @@ const encodeSpecialValues = (value: unknown): any => {
   }
   if (Array.isArray(value)) return value.map(encodeSpecialValues);
   if (isPlainObject(value)) {
-    return Object.entries(value).reduce(
+    return Object.entries(value as Record<string, any>).reduce(
       (acc, [key, val]) => Object.assign(acc, { [key]: encodeSpecialValues(val) }),
       {}
     );
@@ -112,7 +117,7 @@ const QS_OPTIONS: IStringifyOptions = {
   format: 'RFC1738', // encode spaces using the + sign
   serializeDate: (date: Date) => `!date(${date.toISOString()})`,
 };
-export const buildArgsParam = (initialArgs: Args, args: Args): string => {
+export const buildArgsParam = (initialArgs: Args | undefined, args: Args): string => {
   const update = deepDiff(initialArgs, args);
   if (!update || update === DEEPLY_EQUAL) return '';
 
@@ -139,7 +144,7 @@ interface Query {
 }
 
 export const queryFromString = memoize(1000)(
-  (s: string): Query => qs.parse(s, { ignoreQueryPrefix: true })
+  (s?: string): Query => (s !== undefined ? qs.parse(s, { ignoreQueryPrefix: true }) : {})
 );
 export const queryFromLocation = (location: Partial<Location>) => queryFromString(location.search);
 export const stringifyQuery = (query: Query) =>

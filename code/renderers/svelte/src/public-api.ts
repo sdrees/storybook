@@ -1,13 +1,14 @@
-import { start } from '@storybook/core-client';
+import { start } from '@storybook/preview-api';
 import { decorateStory } from './decorators';
 
+import type { SvelteRenderer } from './types';
 import { render, renderToCanvas } from './render';
 
 const {
   configure: coreConfigure,
   clientApi,
   forceReRender,
-} = start(renderToCanvas, {
+} = start<SvelteRenderer>(renderToCanvas, {
   decorateStory,
   render,
 });

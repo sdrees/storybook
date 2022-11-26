@@ -1,15 +1,15 @@
 import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import type { App } from 'vue';
-import { start } from '@storybook/core-client';
+import { start } from '@storybook/preview-api';
 
-import type { VueFramework } from './types';
+import type { VueRenderer } from './types';
 import { decorateStory } from './decorateStory';
 
 import { render, renderToCanvas } from './render';
 
 const FRAMEWORK = 'vue3';
 
-interface ClientApi extends Addon_ClientStoryApi<VueFramework['storyResult']> {
+interface ClientApi extends Addon_ClientStoryApi<VueRenderer['storyResult']> {
   configure(loader: Addon_Loadable, module: NodeModule): void;
   forceReRender(): void;
   raw: () => any; // todo add type
@@ -17,7 +17,7 @@ interface ClientApi extends Addon_ClientStoryApi<VueFramework['storyResult']> {
   app: App;
 }
 
-const api = start(renderToCanvas, { decorateStory, render });
+const api = start<VueRenderer>(renderToCanvas, { decorateStory, render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import type { Framework, Parameters } from '@storybook/types';
-import type { DocsContextProps, DocsRenderFunction } from '@storybook/preview-web';
+import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
 import { components as htmlComponents } from '@storybook/components';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
 import { MDXProvider } from '@mdx-js/react';
@@ -14,14 +13,14 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
-export class DocsRenderer<TFramework extends Framework> {
-  public render: DocsRenderFunction<TFramework>;
+export class DocsRenderer<TRenderer extends Renderer> {
+  public render: DocsRenderFunction<TRenderer>;
 
   public unmount: (element: HTMLElement) => void;
 
   constructor() {
     this.render = (
-      context: DocsContextProps<TFramework>,
+      context: DocsContextProps<TRenderer>,
       docsParameter: Parameters,
       element: HTMLElement,
       callback: () => void

@@ -55,16 +55,17 @@ const AddonPanelLayout = styled.div(({ theme }) => ({
 
 export const InAddonPanel = {
   args: { ...Normal.args, inAddonPanel: true },
-  decorators: [(storyFn) => <AddonPanelLayout>{storyFn()}</AddonPanelLayout>],
+  decorators: [(storyFn: any) => <AddonPanelLayout>{storyFn()}</AddonPanelLayout>],
 };
 
 export const InAddonPanelWithWarning = {
-  render: (args) => (
+  render: (args: any) => (
     <>
       <NoControlsWarning />
       <ArgsTable {...args} />
     </>
   ),
+  // @ts-expect-error (not strict)
   args: { ...InAddonPanel.args, updateArgs: null },
   decorators: InAddonPanel.decorators,
 };

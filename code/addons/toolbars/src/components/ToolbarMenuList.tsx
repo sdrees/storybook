@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import React, { useCallback } from 'react';
-import { useGlobals } from '@storybook/api';
+import { useGlobals } from '@storybook/manager-api';
 import { deprecate } from '@storybook/client-logger';
 import { WithTooltip, TooltipLinkList } from '@storybook/components';
 import { ToolbarMenuButton } from './ToolbarMenuButton';

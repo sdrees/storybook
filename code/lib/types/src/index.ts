@@ -9,4 +9,5 @@ export * from './modules/core-client';
 export * from './modules/core-common';
 export * from './modules/builder';
 export * from './modules/api';
+export * from './modules/docs';
 export * from './modules/api-stories';

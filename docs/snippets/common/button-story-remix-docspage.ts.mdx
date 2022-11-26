@@ -1,8 +1,6 @@
 ```ts
 // Button.stories.ts|tsx
 
-import React from 'react';
-
 import type { Meta } from '@storybook/react';
 
 import {
@@ -17,7 +15,7 @@ import {
 
 import { Button } from './Button';
 
-export default {
+const meta: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -38,5 +36,7 @@ export default {
       ),
     },
   },
-} as Meta;
+};
+
+export default meta;
 ```

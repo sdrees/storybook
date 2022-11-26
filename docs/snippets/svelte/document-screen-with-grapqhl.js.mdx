@@ -33,14 +33,14 @@
   const infoResult = query(AllInfoQuery);
 </script>
 
-{#if $infoResult.loading} 
-  <p>Loading...</p>
-{:else if $infoResult.error} 
-  <p>There was an error fetching the data!</p> 
+{#if $infoResult.loading}
+<p>Loading...</p>
+{:else if $infoResult.error}
+<p>There was an error fetching the data!</p>
 {:else}
-  <PageLayout {$infoResult.data.user}>
-    <DocumentHeader {$infoResult.data.document} />
-    <DocumentList {$infoResult.data.subdocuments} />
-  </PageLayout>
+<PageLayout {$infoResult.data.user}>
+  <DocumentHeader {$infoResult.data.document} />
+  <DocumentList {$infoResult.data.subdocuments} />
+</PageLayout>
 {/if}
 ```

@@ -113,7 +113,7 @@ This dynamic rendering is framework-specific, meaning it needs a custom implemen
 Let's take a look at the React framework implementation of `dynamic` snippets as a reference for implementing this feature in other frameworks:
 
 ```tsx
-import { addons, StoryContext } from '@storybook/addons';
+import { addons, StoryContext } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '../../shared';
 
 export const jsxDecorator = (storyFn: any, context: StoryContext) => {

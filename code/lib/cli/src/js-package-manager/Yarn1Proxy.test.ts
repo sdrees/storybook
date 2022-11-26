@@ -47,28 +47,28 @@ describe('Yarn 1 Proxy', () => {
   });
 
   describe('addDependencies', () => {
-    it('with devDep it should run `yarn install -D --ignore-workspace-root-check @storybook/addons`', () => {
+    it('with devDep it should run `yarn install -D --ignore-workspace-root-check @storybook/preview-api`', () => {
       const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
 
-      yarn1Proxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/addons']);
+      yarn1Proxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         'yarn',
-        ['add', '-D', '--ignore-workspace-root-check', '@storybook/addons'],
+        ['add', '-D', '--ignore-workspace-root-check', '@storybook/preview-api'],
         expect.any(String)
       );
     });
   });
 
   describe('removeDependencies', () => {
-    it('should run `yarn remove --ignore-workspace-root-check @storybook/addons`', () => {
+    it('should run `yarn remove --ignore-workspace-root-check @storybook/preview-api`', () => {
       const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
 
-      yarn1Proxy.removeDependencies({}, ['@storybook/addons']);
+      yarn1Proxy.removeDependencies({}, ['@storybook/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         'yarn',
-        ['remove', '--ignore-workspace-root-check', '@storybook/addons'],
+        ['remove', '--ignore-workspace-root-check', '@storybook/preview-api'],
         expect.any(String)
       );
     });
@@ -107,11 +107,11 @@ describe('Yarn 1 Proxy', () => {
         .spyOn(yarn1Proxy, 'executeCommand')
         .mockReturnValue('{"type":"inspect","data":"5.3.19"}');
 
-      const version = await yarn1Proxy.latestVersion('@storybook/addons');
+      const version = await yarn1Proxy.latestVersion('@storybook/preview-api');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
         'info',
-        '@storybook/addons',
+        '@storybook/preview-api',
         'version',
         '--json',
       ]);
@@ -123,11 +123,11 @@ describe('Yarn 1 Proxy', () => {
         .spyOn(yarn1Proxy, 'executeCommand')
         .mockReturnValue('{"type":"inspect","data":["4.25.3","5.3.19","6.0.0-beta.23"]}');
 
-      const version = await yarn1Proxy.latestVersion('@storybook/addons', '5.X');
+      const version = await yarn1Proxy.latestVersion('@storybook/preview-api', '5.X');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
         'info',
-        '@storybook/addons',
+        '@storybook/preview-api',
         'versions',
         '--json',
       ]);
@@ -137,7 +137,7 @@ describe('Yarn 1 Proxy', () => {
     it('throws an error if command output is not a valid JSON', async () => {
       jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('NOT A JSON');
 
-      await expect(yarn1Proxy.latestVersion('@storybook/addons')).rejects.toThrow();
+      await expect(yarn1Proxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
     });
   });
 

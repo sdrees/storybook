@@ -1,13 +1,11 @@
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { SELECT_STORY } from '@storybook/core-events';
 
 import { linkTo, hrefTo } from './utils';
 
-jest.mock('@storybook/addons');
+jest.mock('@storybook/preview-api');
 jest.mock('global', () => ({
-  // @ts-expect-error (Converted from ts-ignore)
   document: global.document,
-  // @ts-expect-error (Converted from ts-ignore)
   window: global,
 }));
 
@@ -41,6 +39,7 @@ describe('preview', () => {
 
     it('should select the story (only) provided', () => {
       // simulate a currently selected, but not found as ID
+      // @ts-expect-error (not strict)
       const handler = linkTo(undefined, 'name');
       handler();
 

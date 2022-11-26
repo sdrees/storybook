@@ -27,7 +27,7 @@ describe('defineJestParameter', () => {
   });
 
   test('returns null if filename is a module ID that cannot be inferred from', () => {
-    // @ts-expect-error (Converted from ts-ignore)
+    // @ts-expect-error Storybook's fileName type is string, but according to this test it could be number in case it is a module id.
     expect(defineJestParameter({ fileName: 1234 })).toBeNull();
   });
 });

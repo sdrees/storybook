@@ -1,7 +1,7 @@
 /* eslint-disable storybook/use-storybook-testing-library */
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
-import type { ComponentEntry, StoriesHash } from '@storybook/api';
+import type { ComponentEntry, StoriesHash } from '@storybook/manager-api';
 import { screen } from '@testing-library/dom';
 
 import { Tree } from './Tree';
@@ -25,6 +25,7 @@ export const Full = () => {
   const [selectedId, setSelectedId] = React.useState(storyId);
   return (
     <Tree
+      docsMode={false}
       isBrowsing
       isMain
       refId={refId}
@@ -58,6 +59,7 @@ const tooltipStories = Object.keys(stories).reduce((acc, key) => {
 }, {} as StoriesHash);
 
 const singleStoryComponent: StoriesHash = {
+  // @ts-expect-error (invalid input)
   single: {
     type: 'component',
     name: 'Single',
@@ -67,6 +69,7 @@ const singleStoryComponent: StoriesHash = {
     children: ['single--single'],
     renderLabel: () => <span>🔥 Single</span>,
   },
+  // @ts-expect-error (invalid input)
   'single--single': {
     type: 'story',
     id: 'single--single',
@@ -86,6 +89,7 @@ export const SingleStoryComponents = () => {
   const [selectedId, setSelectedId] = React.useState('tooltip-tooltipbuildlist--default');
   return (
     <Tree
+      docsMode={false}
       isBrowsing
       isMain
       refId={refId}
@@ -99,6 +103,7 @@ export const SingleStoryComponents = () => {
 };
 
 const docsOnlySinglesStoryComponent: StoriesHash = {
+  // @ts-expect-error (invalid input)
   single: {
     type: 'component',
     name: 'Single',
@@ -107,6 +112,7 @@ const docsOnlySinglesStoryComponent: StoriesHash = {
     depth: 0,
     children: ['single--docs'],
   },
+  // @ts-expect-error (invalid input)
   'single--docs': {
     type: 'docs',
     id: 'single--docs',
@@ -121,6 +127,7 @@ export const DocsOnlySingleStoryComponents = () => {
   const [selectedId, setSelectedId] = React.useState('tooltip-tooltipbuildlist--default');
   return (
     <Tree
+      docsMode={false}
       isBrowsing
       isMain
       refId={refId}

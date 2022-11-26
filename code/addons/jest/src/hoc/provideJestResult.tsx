@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 import React, { Component as ReactComponent } from 'react';
 import { STORY_CHANGED } from '@storybook/core-events';
-import type { API } from '@storybook/api';
+import type { API } from '@storybook/manager-api';
 import { ADD_TESTS } from '../shared';
 
 // TODO: import type from @types/jest

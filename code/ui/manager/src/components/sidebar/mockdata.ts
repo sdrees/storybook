@@ -1,4 +1,4 @@
-import type { StoriesHash } from '@storybook/api';
+import type { StoriesHash } from '@storybook/manager-api';
 
 export type MockDataSet = Record<string, Record<string, Partial<StoriesHash[0]>>>;
 

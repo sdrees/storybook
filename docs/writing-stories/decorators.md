@@ -20,13 +20,9 @@ Some components require a “harness” to render in a useful way. For instance,
     'react/your-component-with-decorator.story-function-js.js.mdx',
     'react/your-component-with-decorator.ts.mdx',
     'react/your-component-with-decorator.story-function-ts.ts.mdx',
-    'react/your-component-with-decorator.mdx.mdx',
     'vue/your-component-with-decorator.js.mdx',
-    'vue/your-component-with-decorator.mdx.mdx',
     'angular/your-component-with-decorator.ts.mdx',
-    'angular/your-component-with-decorator.mdx.mdx',
     'svelte/your-component-with-decorator.js.mdx',
-    'svelte/your-component-with-decorator.mdx.mdx',
     'web-components/your-component-with-decorator.js.mdx',
   ]}
 />
@@ -90,13 +86,9 @@ To define a decorator for a single story, use the `decorators` key on a named ex
     'react/button-story-decorator.js.mdx',
     'react/button-story-decorator.story-function.js.mdx',
     'react/button-story-decorator.ts.mdx',
-    'react/button-story-decorator.mdx.mdx',
     'vue/button-story-decorator.js.mdx',
-    'vue/button-story-decorator.mdx.mdx',
     'angular/button-story-decorator.ts.mdx',
-    'angular/button-story-decorator.mdx.mdx',
     'svelte/button-story-decorator.js.mdx',
-    'svelte/button-story-decorator.mdx.mdx',
     'web-components/button-story-decorator.js.mdx',
   ]}
 />
@@ -115,13 +107,9 @@ To define a decorator for all stories of a component, use the `decorators` key o
   paths={[
     'react/button-story-component-decorator.js.mdx',
     'react/button-story-component-decorator.ts.mdx',
-    'react/button-story-component-decorator.mdx.mdx',
     'vue/button-story-component-decorator.js.mdx',
-    'vue/button-story-component-decorator.mdx.mdx',
     'angular/button-story-component-decorator.ts.mdx',
-    'angular/button-story-component-decorator.mdx.mdx',
     'svelte/button-story-component-decorator.js.mdx',
-    'svelte/button-story-component-decorator.mdx.mdx',
     'web-components/button-story-component-decorator.js.mdx',
   ]}
 />

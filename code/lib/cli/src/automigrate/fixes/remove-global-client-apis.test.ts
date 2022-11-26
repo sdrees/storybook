@@ -8,7 +8,7 @@ import { RemovedAPIs, removedGlobalClientAPIs as migration } from './remove-glob
 // eslint-disable-next-line global-require, jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
-const check = async ({ packageJson = {}, contents }) => {
+const check = async ({ packageJson = {}, contents }: any) => {
   if (contents) {
     // eslint-disable-next-line global-require
     require('fs-extra').__setMockFiles({

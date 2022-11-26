@@ -1,28 +1,28 @@
-```ts
+```tsx
 // List.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { List } from './List';
 
 //👇 Instead of importing ListItem, we import the stories
 import { Unchecked } from './ListItem.stories';
 
-export default {
+const meta: Meta<typeof List> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'List',
   component: List,
-} as ComponentMeta<typeof List>;
+};
 
-const Template: ComponentStoryFn<typeof List> = (args) => <List {...args} />;
+export default meta;
+type Story = StoryObj<typeof List>;
 
-export const OneItem = Template.bind({});
-OneItem.args = {
-  children: <Unchecked {...Unchecked.args} />,
+export const OneItem = {
+  args: {
+    children: <Unchecked {...Unchecked.args} />,
+  },
 };
 ```

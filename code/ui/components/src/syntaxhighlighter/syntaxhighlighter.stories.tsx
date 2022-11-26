@@ -1,4 +1,5 @@
-import * as React from 'react';
+import type { ComponentProps } from 'react';
+import React from 'react';
 import { ThemeProvider, themes, ensure } from '@storybook/theming';
 import { SyntaxHighlighter } from './lazy-syntaxhighlighter';
 
@@ -149,7 +150,7 @@ export const UnsupportedDark = {
       }
     }`,
   },
-  render: (args) => (
+  render: (args: ComponentProps<typeof SyntaxHighlighter>) => (
     <ThemeProvider theme={ensure(themes.dark)}>
       <SyntaxHighlighter {...args} />
     </ThemeProvider>

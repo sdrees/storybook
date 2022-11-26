@@ -1,5 +1,5 @@
-import { useStorybookApi } from '@storybook/api';
-import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
+import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Button, Icons } from '@storybook/components';
 import { transparentize } from 'polished';

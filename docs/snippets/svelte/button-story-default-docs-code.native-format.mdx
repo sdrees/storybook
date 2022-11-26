@@ -3,7 +3,7 @@
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
-  
+
   import Button from './Button.svelte';
 
   //👇 Some function to demonstrate the behavior
@@ -13,25 +13,12 @@
 </script>
 
 <!--👇 Creates specific argTypes -->
-<Meta
-  title="Button"
-  component={Button}  
-  argTypes={{
-    backgroundColor: { control: 'color' },
-  }}
-/>
+<Meta title="Button" component={Button} argTypes={{ backgroundColor: { control: 'color' }, }} />
 
 <!-- 👇 Assigns the function result to a variable and pass it as a prop into the component -->
-<Template let:args>
-  <Button {...args} label={someFunction(args.label)} />
-</Template>
+<template let:args>
+  <button {...args} label="{someFunction(args.label)}" />
+</template>
 
-<Story
-  name="ExampleStory"
-  args={{
-    primary: true,
-    size:'small',
-    label: 'Button',
-  }}
-/>
+<Story name="ExampleStory" args={{ primary: true, size:'small', label: 'Button', }} />
 ```

@@ -1,7 +1,7 @@
 ```js
 // RegistrationForm.stories.js
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import RegistrationForm from './RegistrationForm.svelte';
 
@@ -15,18 +15,18 @@ export default {
 };
 
 /*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/svelte/api/csf
- * to learn how to use render functions.
+ * See https://storybook.js.org/docs/7.0/svelte/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
  */
-
 export const FilledForm = {
   render: (args) => ({
     Component: RegistrationForm,
     props: args,
   }),
-  play: async () => {
-    const emailInput = screen.getByLabelText('email', {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const emailInput = canvas.getByLabelText('email', {
       selector: 'input',
     });
 
@@ -34,7 +34,7 @@ export const FilledForm = {
       delay: 100,
     });
 
-    const passwordInput = screen.getByLabelText('password', {
+    const passwordInput = canvas.getByLabelText('password', {
       selector: 'input',
     });
 
@@ -42,7 +42,7 @@ export const FilledForm = {
       delay: 100,
     });
     // See https://storybook.js.org/docs/7.0/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    const submitButton = screen.getByRole('button');
+    const submitButton = canvas.getByRole('button');
 
     await userEvent.click(submitButton);
   },

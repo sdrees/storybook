@@ -1,12 +1,12 @@
 /* eslint-disable import/extensions */
 import { html } from 'lit-html';
 import { styleMap } from 'lit-html/directives/style-map.js';
-import { addons, useEffect } from '@storybook/addons';
+import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { StoryContext } from '../types';
 import { sourceDecorator } from './sourceDecorator';
 
-jest.mock('@storybook/addons');
+jest.mock('@storybook/preview-api');
 const mockedAddons = addons as jest.Mocked<typeof addons>;
 const mockedUseEffect = useEffect as jest.Mock;
 

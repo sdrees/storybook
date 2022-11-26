@@ -1,14 +1,14 @@
 import * as React from 'react';
 import type { AxeResults } from 'axe-core';
 import { render, act } from '@testing-library/react';
-import * as api from '@storybook/api';
+import * as api from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/api');
+jest.mock('@storybook/manager-api');
 const mockedApi = api as jest.Mocked<typeof api>;
 
 const storyId = 'jest';

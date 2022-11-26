@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /// <reference types="@types/jest" />;
 
+/**
+ * @jest-environment node
+ */
+
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
@@ -11,7 +15,6 @@ import type {
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/node-logger';
-import { mocked } from 'ts-jest/utils';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
@@ -23,20 +26,6 @@ jest.mock('@storybook/csf', () => {
     toId: jest.fn(csf.toId),
   };
 });
-
-// FIXME: can't figure out how to import ESM
-jest.mock('@storybook/docs-mdx', async () => ({
-  analyze(content: string) {
-    const importMatches = content.matchAll(/'(.[^']*\.stories)'/g);
-    const imports = Array.from(importMatches).map((match) => match[1]);
-    const title = content.match(/title=['"](.*)['"]/)?.[1];
-    const name = content.match(/name=['"](.*)['"]/)?.[1];
-    const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
-    const isTemplate = content.match(/isTemplate/);
-    const tags = ['mdx'];
-    return { title, name, tags, imports, of: ofMatch && imports.length && imports[0], isTemplate };
-  },
-}));
 
 jest.mock('@storybook/node-logger');
 
@@ -74,7 +63,7 @@ describe('StoryIndexGenerator', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
-    mocked(logger.warn).mockClear();
+    jest.mocked(logger.warn).mockClear();
   });
   describe('extraction', () => {
     const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
@@ -504,8 +493,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -618,8 +607,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -633,8 +622,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -657,8 +646,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -670,8 +659,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
@@ -761,8 +750,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -776,8 +765,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -800,8 +789,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -813,8 +802,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
@@ -862,7 +851,7 @@ describe('StoryIndexGenerator', () => {
         `);
 
         expect(logger.warn).toHaveBeenCalledTimes(1);
-        expect(mocked(logger.warn).mock.calls[0][0]).toMatchInlineSnapshot(
+        expect(jest.mocked(logger.warn).mock.calls[0][0]).toMatchInlineSnapshot(
           `"🚨 You have two component docs pages with the same name A:docs. Use \`<Meta of={} name=\\"Other Name\\">\` to distinguish them."`
         );
       });
@@ -890,7 +879,7 @@ describe('StoryIndexGenerator', () => {
         `);
 
         expect(logger.warn).toHaveBeenCalledTimes(1);
-        expect(mocked(logger.warn).mock.calls[0][0]).toMatchInlineSnapshot(
+        expect(jest.mocked(logger.warn).mock.calls[0][0]).toMatchInlineSnapshot(
           `"🚨 You have a story for A with the same name as your component docs page (Story One), so the docs page is being dropped. Use \`<Meta of={} name=\\"Other Name\\">\` to distinguish them."`
         );
       });
@@ -912,7 +901,7 @@ describe('StoryIndexGenerator', () => {
         `);
 
         expect(logger.warn).toHaveBeenCalledTimes(1);
-        expect(mocked(logger.warn).mock.calls[0][0]).toMatchInlineSnapshot(
+        expect(jest.mocked(logger.warn).mock.calls[0][0]).toMatchInlineSnapshot(
           `"🚨 You have a story for A with the same name as your default docs entry name (Story One), so the docs page is being dropped. Consider changing the story name."`
         );
       });
@@ -1174,30 +1163,6 @@ describe('StoryIndexGenerator', () => {
         generator.invalidate(docsSpecifier, './src/docs2/NoTitle.mdx', true);
 
         expect(Object.keys((await generator.getIndex()).entries)).not.toContain('notitle--docs');
-      });
-
-      it('errors on dependency deletion', async () => {
-        const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/A.stories.(ts|js|jsx)',
-          options
-        );
-        const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/docs2/*.mdx',
-          options
-        );
-
-        const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
-        await generator.initialize();
-        await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(5);
-
-        expect(Object.keys((await generator.getIndex()).entries)).toContain('a--story-one');
-
-        generator.invalidate(storiesSpecifier, './src/A.stories.js', true);
-
-        await expect(() => generator.getIndex()).rejects.toThrowError(
-          /Could not find "..\/A.stories" for docs file/
-        );
       });
 
       it('cleans up properly on dependent docs deletion', async () => {

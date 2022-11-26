@@ -9,7 +9,7 @@ jest.mock('fs', () => ({
   existsSync: jest.fn(),
 }));
 jest.mock('./dirs', () => ({
-  getRendererDir: (renderer) => `@storybook/${renderer}`,
+  getRendererDir: (renderer: string) => `@storybook/${renderer}`,
   getCliDir: () => '@storybook/cli',
 }));
 
