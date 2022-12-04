@@ -34,11 +34,8 @@ describe('framework-preset-angular-cli', () => {
   });
 
   describe('without angular.json', () => {
-    let consoleErrorSpy: jest.SpyInstance;
-
     beforeEach(() => {
       initMockWorkspace('');
-      consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
     });
     it('should return webpack base config and display log error', async () => {
       const webpackBaseConfig = newWebpackConfiguration();
@@ -421,10 +418,6 @@ describe('framework-preset-angular-cli', () => {
     it('should set webpack "module.rules"', async () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
-      const stylePaths = [
-        path.join(workspaceRoot, 'src', 'styles.css'),
-        path.join(workspaceRoot, 'src', 'styles.scss'),
-      ];
 
       const expectedRules: any = [
         {
@@ -507,10 +500,6 @@ describe('framework-preset-angular-cli', () => {
     it('should set webpack "module.rules"', async () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
-      const stylePaths = [
-        path.join(workspaceRoot, 'src', 'styles.css'),
-        path.join(workspaceRoot, 'src', 'styles.scss'),
-      ];
 
       const expectedRules: any = [
         {

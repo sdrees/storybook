@@ -1,11 +1,7 @@
 import type { Router, Request, Response } from 'express';
 import { writeJSON } from 'fs-extra';
 
-import type {
-  CoreCommon_NormalizedStoriesSpecifier,
-  Store_StoryIndex,
-  Store_StoryIndexV3,
-} from '@storybook/types';
+import type { NormalizedStoriesSpecifier, StoryIndex, StoryIndexV3 } from '@storybook/types';
 import debounce from 'lodash/debounce';
 
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
@@ -18,7 +14,7 @@ export const DEBOUNCE = 100;
 export async function extractStoriesJson(
   outputFile: string,
   initializedStoryIndexGenerator: Promise<StoryIndexGenerator>,
-  transform?: (index: Store_StoryIndex) => any
+  transform?: (index: StoryIndex) => any
 ) {
   const generator = await initializedStoryIndexGenerator;
   const storyIndex = await generator.getIndex();
@@ -36,7 +32,7 @@ export function useStoriesJson({
   initializedStoryIndexGenerator: Promise<StoryIndexGenerator>;
   serverChannel: ServerChannel;
   workingDir?: string;
-  normalizedStories: CoreCommon_NormalizedStoriesSpecifier[];
+  normalizedStories: NormalizedStoriesSpecifier[];
 }) {
   const maybeInvalidate = debounce(() => serverChannel.emit(STORY_INDEX_INVALIDATED), DEBOUNCE, {
     leading: true,
@@ -72,7 +68,7 @@ export function useStoriesJson({
   });
 }
 
-export const convertToIndexV3 = (index: Store_StoryIndex): Store_StoryIndexV3 => {
+export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
   const { entries } = index;
   const stories = Object.entries(entries).reduce((acc, [id, entry]) => {
     const { type, ...rest } = entry;
@@ -87,7 +83,7 @@ export const convertToIndexV3 = (index: Store_StoryIndex): Store_StoryIndexV3 =>
       },
     };
     return acc;
-  }, {} as Store_StoryIndexV3['stories']);
+  }, {} as StoryIndexV3['stories']);
   return {
     v: 3,
     stories,

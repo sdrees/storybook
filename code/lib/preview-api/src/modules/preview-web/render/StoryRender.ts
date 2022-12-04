@@ -1,8 +1,8 @@
 import type {
   Renderer,
-  Store_RenderContext,
+  RenderContext,
   RenderToCanvas,
-  Store_Story,
+  PreparedStory,
   TeardownRenderToCanvas,
   StoryContext,
   StoryContextForLoaders,
@@ -43,14 +43,14 @@ function serializeError(error: any) {
 }
 
 export type RenderContextCallbacks<TRenderer extends Renderer> = Pick<
-  Store_RenderContext<TRenderer>,
+  RenderContext<TRenderer>,
   'showMain' | 'showError' | 'showException'
 >;
 
 export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public type: RenderType = 'story';
 
-  public story?: Store_Story<TRenderer>;
+  public story?: PreparedStory<TRenderer>;
 
   public phase?: RenderPhase;
 
@@ -74,7 +74,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     public id: StoryId,
     public viewMode: ViewMode,
     public renderOptions: StoryRenderOptions = { autoplay: true },
-    story?: Store_Story<TRenderer>
+    story?: PreparedStory<TRenderer>
   ) {
     this.abortController = new AbortController();
 
@@ -105,7 +105,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     });
 
     if ((this.abortController as AbortController).signal.aborted) {
-      this.store.cleanupStory(this.story as Store_Story<TRenderer>);
+      this.store.cleanupStory(this.story as PreparedStory<TRenderer>);
       throw PREPARE_ABORTED;
     }
   }
@@ -190,7 +190,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         // We should consider parameterizing the story types with TRenderer['canvasElement'] in the future
         canvasElement: canvasElement as any,
       };
-      const renderContext: Store_RenderContext<TRenderer> = {
+      const renderContext: RenderContext<TRenderer> = {
         componentId,
         title,
         kind: title,

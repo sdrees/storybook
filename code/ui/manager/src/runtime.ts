@@ -18,6 +18,7 @@ const { FEATURES, SERVER_CHANNEL_URL } = global;
 class ReactProvider extends Provider {
   private addons: AddonStore;
 
+  // @ts-expect-error Unused, possibly remove, leaving, because it could be accessed even though it is private
   private channel: Channel;
 
   private serverChannel?: Channel;

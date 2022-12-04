@@ -3,7 +3,7 @@
 
 import ButtonGroup from './ButtonGroup.vue';
 
-import type { Meta, StoryFn } from '@storybook/vue';
+import type { Meta, StoryObj } from '@storybook/vue';
 
 //👇 Imports the Button stories
 import * as ButtonStories from './Button.stories';
@@ -18,16 +18,17 @@ const meta: Meta<typeof ButtonGroup> = {
 };
 
 export default meta;
+type Story = StoryObj<typeof ButtonGroup>;
 
-const Template: StoryFn<typeof ButtonGroup> = (args, { argTypes }) => ({
-  components: { ButtonGroup },
-  props: Object.keys(argTypes),
-  template: '<ButtonGroup v-bind="$props" />',
-});
-
-export const Pair = Template.bind({});
-Pair.args = {
-  buttons: [{ ...ButtonStories.Primary.args }, { ...ButtonStories.Secondary.args }],
-  orientation: 'horizontal',
+export const Pair: Story = {
+  render: (args, { argTypes }) => ({
+    components: { ButtonGroup },
+    props: Object.keys(argTypes),
+    template: '<ButtonGroup v-bind="$props" />',
+  }),
+  args: {
+    buttons: [{ ...ButtonStories.Primary.args }, { ...ButtonStories.Secondary.args }],
+    orientation: 'horizontal',
+  },
 };
 ```

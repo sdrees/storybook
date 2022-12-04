@@ -21,7 +21,7 @@ export const metaFrameworks = {
   '@nuxtjs/storybook': 'nuxt',
   '@nrwl/storybook': 'nx',
   '@vue/cli-service': 'vue-cli',
-  '@sveltejs/kit': 'svelte-kit',
+  '@sveltejs/kit': 'sveltekit',
 } as Record<string, string>;
 
 export const sanitizeAddonName = (name: string) => {

@@ -15,12 +15,10 @@
     props = {},
     /** @type {{[string]: () => {}}} Attach svelte event handlers */
     on,
-    Wrapper,
-    WrapperData = {},
   } = storyFn();
 
   // reactive, re-render on storyFn change
-  $: ({ Component, props = {}, on, Wrapper, WrapperData = {} } = storyFn());
+  $: ({ Component, props = {}, on } = storyFn());
 
   const eventsFromArgTypes = Object.fromEntries(
     Object.entries(storyContext.argTypes)
@@ -28,24 +26,16 @@
       .map(([k, v]) => [v.action, props[k]])
   );
 
-  const events = { ...eventsFromArgTypes, ...on };
-
   if (!Component) {
     showError({
       title: `Expecting a Svelte component from the story: "${name}" of "${kind}".`,
       description: dedent`
         Did you forget to return the Svelte component configuration from the story?
-        Use "() => ({ Component: YourComponent, data: {} })"
+        Use "() => ({ Component: YourComponent, props: {} })"
         when defining the story.
       `,
     });
   }
 </script>
 
-<SlotDecorator
-  decorator={Wrapper}
-  decoratorProps={WrapperData}
-  component={Component}
-  {props}
-  on={events}
-/>
+<SlotDecorator {Component} {props} on={{ ...eventsFromArgTypes, ...on }} />

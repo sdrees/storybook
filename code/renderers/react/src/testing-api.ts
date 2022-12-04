@@ -6,9 +6,9 @@ import {
 import type {
   Args,
   ProjectAnnotations,
-  Store_ComposedStory,
+  ComposedStory,
   Store_CSFExports,
-  Store_StoriesWithPartialProps,
+  StoriesWithPartialProps,
 } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 
@@ -81,13 +81,13 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
  * @param [exportsName] - in case your story does not contain a name and you want it to have a name.
  */
 export function composeStory<TArgs extends Args = Args>(
-  story: Store_ComposedStory<ReactRenderer, TArgs>,
+  story: ComposedStory<ReactRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
   projectAnnotations?: ProjectAnnotations<ReactRenderer>,
   exportsName?: string
 ) {
   return originalComposeStory<ReactRenderer, TArgs>(
-    story as Store_ComposedStory<ReactRenderer, Args>,
+    story as ComposedStory<ReactRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,
@@ -128,7 +128,7 @@ export function composeStories<TModule extends Store_CSFExports<ReactRenderer>>(
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
   return composedStories as unknown as Omit<
-    Store_StoriesWithPartialProps<ReactRenderer, TModule>,
+    StoriesWithPartialProps<ReactRenderer, TModule>,
     keyof Store_CSFExports
   >;
 }

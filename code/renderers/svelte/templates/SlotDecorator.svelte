@@ -1,10 +1,10 @@
 <script>
   import { onMount } from 'svelte';
-  export let decorator;
-  export let decoratorProps = {};
-  export let component;
+
+  export let decorator = undefined;
+  export let Component;
   export let props = {};
-  export let on;
+  export let on = undefined;
 
   let instance;
   let decoratorInstance;
@@ -23,9 +23,9 @@
 </script>
 
 {#if decorator}
-  <svelte:component this={decorator} {...decoratorProps} bind:this={decoratorInstance}>
-    <svelte:component this={component} {...props} bind:this={instance} />
+  <svelte:component this={decorator.Component} {...decorator.props} bind:this={decoratorInstance}>
+    <svelte:component this={Component} {...props} bind:this={instance} />
   </svelte:component>
 {:else}
-  <svelte:component this={component} {...props} bind:this={instance} />
+  <svelte:component this={Component} {...props} bind:this={instance} />
 {/if}

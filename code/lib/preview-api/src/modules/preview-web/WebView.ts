@@ -5,7 +5,7 @@ import AnsiToHtml from 'ansi-to-html';
 import { dedent } from 'ts-dedent';
 import qs from 'qs';
 
-import type { Store_Story } from '@storybook/types';
+import type { PreparedStory } from '@storybook/types';
 import type { View } from './View';
 
 const { document } = global;
@@ -67,7 +67,7 @@ export class WebView implements View<HTMLElement> {
   }
 
   // Get ready to render a story, returning the element to render to
-  prepareForStory(story: Store_Story<any>) {
+  prepareForStory(story: PreparedStory<any>) {
     this.showStory();
     this.applyLayout(story.parameters.layout);
 

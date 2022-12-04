@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import Markdown from 'markdown-to-jsx';
-import { components, ResetWrapper } from '@storybook/components';
+import { components } from '@storybook/components';
 
 export interface DescriptionProps {
   markdown: string;
@@ -12,7 +12,12 @@ export interface DescriptionProps {
  * components docgen docs.
  */
 export const Description: FC<DescriptionProps> = ({ markdown }) => (
-  <ResetWrapper>
-    <Markdown options={{ forceBlock: true, overrides: components }}>{markdown}</Markdown>
-  </ResetWrapper>
+  <Markdown
+    options={{
+      forceBlock: true,
+      overrides: { code: components.code, pre: components.pre, a: components.a },
+    }}
+  >
+    {markdown}
+  </Markdown>
 );

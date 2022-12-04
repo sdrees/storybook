@@ -1,6 +1,7 @@
 import globalThis from 'global';
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
 import ButtonView from './views/ButtonView.svelte';
+import BorderDecoratorRed from './views/BorderDecoratorRed.svelte';
 
 <Meta title="stories/renderers/svelte/svelte-mdx" />
 
@@ -24,6 +25,18 @@ import ButtonView from './views/ButtonView.svelte';
 
 <Canvas>
   <Story name="Secondary">
+    {{
+      Component: ButtonView,
+      props: {
+        primary: false,
+        text: 'Secondary text',
+      },
+    }}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="WithDecorator" decorators={[() => BorderDecoratorRed]}>
     {{
       Component: ButtonView,
       props: {

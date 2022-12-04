@@ -2,9 +2,9 @@ import type { FC, ComponentProps } from 'react';
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import type {
   Renderer,
-  Store_ModuleExport,
-  Store_ModuleExports,
-  Store_Story as StoryType,
+  ModuleExport,
+  ModuleExports,
+  PreparedStory as StoryType,
   StoryAnnotations,
   StoryId,
 } from '@storybook/types';
@@ -29,8 +29,8 @@ type StoryDefProps = {
 
 type StoryRefProps = {
   id?: string;
-  of?: Store_ModuleExport;
-  meta?: Store_ModuleExports;
+  of?: ModuleExport;
+  meta?: ModuleExports;
 };
 
 type StoryImportProps = {
@@ -112,7 +112,7 @@ const Story: FC<StoryProps> = (props) => {
     // FIXME: height/style/etc. lifted from PureStory
     const { height } = storyProps;
     return (
-      <div id={storyBlockIdFromId(story.id)}>
+      <div id={storyBlockIdFromId(story.id)} className="sb-story">
         {height ? (
           <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
         ) : null}

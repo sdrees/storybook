@@ -15,7 +15,8 @@
     "allowJs": true,
     "pretty": true,
     "noErrorTruncation": true,
-    "listEmittedFiles": false
+    "listEmittedFiles": false,
+    "noUnusedLocals": false
   },
   "include": ["src/**/*", "src/**/*.json"]
 }

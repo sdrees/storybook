@@ -12,7 +12,7 @@ const menuMapper = ({ api, state }: Combo) => ({
 export const menuTool: Addon = {
   title: 'menu',
   id: 'menu',
-  match: ({ viewMode }) => viewMode === 'story',
+  match: ({ viewMode }) => ['story', 'docs'].includes(viewMode),
   render: () => (
     <Consumer filter={menuMapper}>
       {({ isVisible, toggle, singleStory }) =>

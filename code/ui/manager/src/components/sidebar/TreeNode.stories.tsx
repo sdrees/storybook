@@ -5,7 +5,7 @@ import { ComponentNode, DocumentNode, GroupNode, StoryNode } from './TreeNode';
 
 export default {
   title: 'Sidebar/TreeNode',
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   component: StoryNode,
 };
 

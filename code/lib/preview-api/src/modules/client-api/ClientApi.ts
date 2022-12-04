@@ -19,10 +19,10 @@ import type {
   GlobalTypes,
   Addon_ClientApiAddons,
   Addon_StoryApi,
-  Store_NormalizedComponentAnnotations,
+  NormalizedComponentAnnotations,
   Path,
-  Store_ModuleImportFn,
-  Store_ModuleExports,
+  ModuleImportFn,
+  ModuleExports,
 } from '@storybook/types';
 import type { StoryStore } from '../../store';
 import { combineParameters, composeStepRunners, normalizeInputTypes } from '../../store';
@@ -120,7 +120,7 @@ export class ClientApi<TRenderer extends Renderer> {
 
   private addons: Addon_ClientApiAddons<TRenderer['storyResult']>;
 
-  onImportFnChanged?: ({ importFn }: { importFn: Store_ModuleImportFn }) => void;
+  onImportFnChanged?: ({ importFn }: { importFn: ModuleImportFn }) => void;
 
   // If we don't get passed modules so don't know filenames, we can
   // just use numeric indexes
@@ -210,7 +210,7 @@ export class ClientApi<TRenderer extends Renderer> {
   // storiesOf file to finish adding stories, and us to load it into the facade as a
   // single psuedo-CSF file. So instead we just keep collecting the CSF files and load
   // them all into the facade at the end.
-  _addedExports = {} as Record<Path, Store_ModuleExports>;
+  _addedExports = {} as Record<Path, ModuleExports>;
 
   _loadAddedExports() {
     // eslint-disable-next-line no-underscore-dangle
@@ -293,7 +293,7 @@ export class ClientApi<TRenderer extends Renderer> {
       };
     });
 
-    const meta: Store_NormalizedComponentAnnotations<TRenderer> = {
+    const meta: NormalizedComponentAnnotations<TRenderer> = {
       id: sanitize(kind),
       title: kind,
       decorators: [],

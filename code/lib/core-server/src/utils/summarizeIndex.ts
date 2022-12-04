@@ -1,6 +1,6 @@
-import type { Store_StoryIndex } from '@storybook/types';
+import type { StoryIndex } from '@storybook/types';
 
-export function summarizeIndex(storyIndex: Store_StoryIndex) {
+export function summarizeIndex(storyIndex: StoryIndex) {
   let storyCount = 0;
   let docsPageCount = 0;
   let storiesMdxCount = 0;

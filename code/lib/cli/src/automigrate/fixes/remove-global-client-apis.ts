@@ -49,7 +49,8 @@ export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
   prompt({ usedAPIs, previewPath }) {
     return dedent`
       The following APIs (used in "${chalk.yellow(previewPath)}") have been removed from Storybook:
-      ${usedAPIs.map(chalk.cyan).join(', ')}
+      
+      ${usedAPIs.map((api) => `- ${chalk.cyan(api)}`).join('\n')}
 
       You'll need to update "${chalk.yellow(previewPath)}" manually.
 

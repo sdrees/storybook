@@ -14,7 +14,7 @@ import {
   type SortType,
 } from '@storybook/blocks';
 
-import type { API_ArgTypes } from '@storybook/types';
+import type { ArgTypes } from '@storybook/types';
 import { PARAM_KEY } from './constants';
 
 interface ControlsParameters {
@@ -44,7 +44,7 @@ export const ControlsPanel: FC = () => {
     if (arg?.control?.type !== 'color' || arg?.control?.presetColors) acc[key] = arg;
     else acc[key] = { ...arg, control: { ...arg.control, presetColors } };
     return acc;
-  }, {} as API_ArgTypes);
+  }, {} as ArgTypes);
 
   return (
     <>

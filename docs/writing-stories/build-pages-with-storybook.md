@@ -56,7 +56,9 @@ In such cases, it is natural to use [args composition](./args.md#args-compositio
     'react/page-story-with-args-composition.js.mdx',
     'react/page-story-with-args-composition.ts.mdx',
     'vue/page-story-with-args-composition.2.js.mdx',
+    'vue/page-story-with-args-composition.ts-2.ts.mdx',
     'vue/page-story-with-args-composition.3.js.mdx',
+    'vue/page-story-with-args-composition.ts-3.ts.mdx',
     'angular/page-story-with-args-composition.ts.mdx',
     'svelte/page-story-with-args-composition.js.mdx',
   ]}
@@ -149,6 +151,7 @@ To test your screen with the mocked data, you could write a similar set of stori
   paths={[
     'react/documentscreen-story-msw-rest-request.js.mdx',
     'vue/documentscreen-story-msw-rest-request.3.js.mdx',
+    'vue/documentscreen-story-msw-rest-request.ts-3.ts.mdx',
     'angular/documentscreen-story-msw-rest-request.ts.mdx',
     'svelte/documentscreen-story-msw-rest-request.js.mdx',
   ]}
@@ -187,6 +190,7 @@ To test your screen with the GraphQL mocked data, you could write the following 
   paths={[
     'react/documentscreen-story-msw-graphql-query.js.mdx',
     'vue/documentscreen-story-msw-graphql-query.3.js.mdx',
+    'vue/documentscreen-story-msw-graphql-query.ts-3.ts.mdx',
     'vue/apollo-wrapper-component.with-mock-implementation-3.js.mdx',
     'angular/documentscreen-story-msw-graphql-query.ts.mdx',
     'angular/apollo-module.mock-apollo-module.ts.mdx',
@@ -251,6 +255,7 @@ Finally, we can set the mock values in a specific story. Let's borrow an example
     'react/app-story-with-mock.js.mdx',
     'react/app-story-with-mock.ts.mdx',
     'vue/app-story-with-mock.js.mdx',
+    'vue/app-story-with-mock.ts.mdx',
     'angular/app-story-with-mock.ts.mdx',
   ]}
 />

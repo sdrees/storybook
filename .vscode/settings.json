@@ -1,5 +1,4 @@
 {
-  "deepscan.enable": true,
   "eslint.workingDirectories": ["./code", "./scripts"],
   "typescript.tsdk": "./code/node_modules/typescript/lib",
   "[javascript]": {
@@ -18,4 +17,5 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.formatOnSave": true
   },
+  "prettier.ignorePath": "./code/.prettierignore"
 }

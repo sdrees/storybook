@@ -18,15 +18,15 @@ import { logger } from '@storybook/client-logger';
 
 import type {
   StoryId,
-  API_Args,
+  Args,
   API_ComposedRef,
   API_HashEntry,
   API_LeafEntry,
   API_PreparedStoryIndex,
-  API_SetStoriesPayload,
+  SetStoriesPayload,
   API_StoriesHash,
   API_StoryEntry,
-  API_StoryIndex,
+  StoryIndex,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
@@ -78,7 +78,7 @@ export interface SubAPI {
     parameterName?: ParameterName
   ) => API_StoryEntry['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
-  updateStoryArgs(story: API_StoryEntry, newArgs: API_Args): void;
+  updateStoryArgs(story: API_StoryEntry, newArgs: Args): void;
   resetStoryArgs: (story: API_StoryEntry, argNames?: string[]) => void;
   findLeafEntry(StoriesHash: API_StoriesHash, storyId: StoryId): API_LeafEntry;
   findLeafStoryId(StoriesHash: API_StoriesHash, storyId: StoryId): StoryId;
@@ -315,7 +315,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
 
-        const storyIndex = (await result.json()) as API_StoryIndex;
+        const storyIndex = (await result.json()) as StoryIndex;
 
         // We can only do this if the stories.json is a proper storyIndex
         if (storyIndex.v < 3) {
@@ -457,7 +457,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     // For composition back-compatibilty
-    fullAPI.on(SET_STORIES, function handler(data: API_SetStoriesPayload) {
+    fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
       const { ref } = getEventMetadata(this, fullAPI);
       const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
@@ -493,7 +493,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     fullAPI.on(
       STORY_ARGS_UPDATED,
-      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: API_Args }) {
+      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: Args }) {
         const { ref } = getEventMetadata(this, fullAPI);
         fullAPI.updateStory(storyId, { args }, ref);
       }

@@ -150,7 +150,7 @@ export const reproNext = async ({
     }
 
     const initMessage = init
-      ? chalk.yellow(`yarn storybook`)
+      ? chalk.yellow(`yarn install\nyarn storybook`)
       : `Recreate your setup, then ${chalk.yellow(`run npx storybook init`)}`;
 
     logger.info(

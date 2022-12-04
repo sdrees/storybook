@@ -1,4 +1,4 @@
-import type { API_ArgType, API_ArgTypes } from '@storybook/types';
+import type { InputType, ArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import { getCustomElements, isValidComponent, isValidMetaData } from '..';
 
@@ -37,16 +37,8 @@ interface Module {
 interface Declaration {
   tagName: string;
 }
-interface Sections {
-  attributes?: any;
-  properties?: any;
-  events?: any;
-  slots?: any;
-  cssCustomProperties?: any;
-  cssShadowParts?: any;
-}
 
-function mapItem(item: TagItem, category: string): API_ArgType {
+function mapItem(item: TagItem, category: string): InputType {
   const type =
     category === 'properties' ? { name: item.type?.text || item.type } : { name: 'void' };
 
@@ -65,7 +57,7 @@ function mapItem(item: TagItem, category: string): API_ArgType {
   };
 }
 
-function mapEvent(item: TagItem): API_ArgType[] {
+function mapEvent(item: TagItem): InputType[] {
   let name = item.name
     .replace(/(-|_|:|\.|\s)+(.)?/g, (_match, _separator, chr: string) => {
       return chr ? chr.toUpperCase() : '';
@@ -97,7 +89,7 @@ function mapData(data: TagItem[], category: string) {
         }
 
         return acc;
-      }, {} as API_ArgTypes)
+      }, {} as ArgTypes)
   );
 }
 

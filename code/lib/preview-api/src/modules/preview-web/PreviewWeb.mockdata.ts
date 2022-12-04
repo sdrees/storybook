@@ -10,11 +10,7 @@ import {
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
 
-import type {
-  Store_ModuleImportFn,
-  Store_StoryIndex,
-  TeardownRenderToCanvas,
-} from '@storybook/types';
+import type { ModuleImportFn, StoryIndex, TeardownRenderToCanvas } from '@storybook/types';
 import type { RenderPhase } from './render/StoryRender';
 
 export const componentOneExports = {
@@ -48,15 +44,15 @@ export const extraComponentOneExports = {
   },
   e: {},
 };
-export const importFn: Store_ModuleImportFn = jest.fn(
+export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
   async (path: string) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
       './src/ComponentTwo.stories.js': componentTwoExports,
       './src/Introduction.mdx': standaloneDocsExports,
       './src/ExtraComponentOne.stories.js': extraComponentOneExports,
-    }[path])
-) as any as Store_ModuleImportFn;
+    }[path] || {})
+);
 
 export const docsRenderer = {
   render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
@@ -73,7 +69,7 @@ export const projectAnnotations = {
 };
 export const getProjectAnnotations = jest.fn(() => projectAnnotations as any);
 
-export const storyIndex: Store_StoryIndex = {
+export const storyIndex: StoryIndex = {
   v: 4,
   entries: {
     'component-one--docs': {

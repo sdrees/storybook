@@ -10,7 +10,7 @@ export default {
   component: SearchResults,
   title: 'Sidebar/SearchResults',
   includeStories: /^[A-Z]/,
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [
     (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,
   ],

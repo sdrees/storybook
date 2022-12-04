@@ -1,7 +1,7 @@
 import type { ComponentType, ReactElement } from 'react';
 import type { WebRenderer } from '@storybook/types';
 
-export type { Store_RenderContext as RenderContext } from '@storybook/types';
+export type { RenderContext } from '@storybook/types';
 export type { StoryContext } from '@storybook/types';
 
 /**

@@ -1,16 +1,17 @@
 import { readdir } from 'fs/promises';
 import { pathExists } from 'fs-extra';
 import { resolve } from 'path';
-import { allTemplates, templatesByCadence } from '../code/lib/cli/src/repro-templates';
+import {
+  allTemplates,
+  templatesByCadence,
+  type Cadence,
+  type Template as TTemplate,
+  type SkippableTask,
+} from '../code/lib/cli/src/repro-templates';
 
 const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
 
-export type Cadence = keyof typeof templatesByCadence;
-export type Template = {
-  cadence?: readonly Cadence[];
-  skipTasks?: string[];
-  // there are other fields but we don't use them here
-};
+type Template = Pick<TTemplate, 'inDevelopment' | 'skipTasks'>;
 export type TemplateKey = keyof typeof allTemplates;
 export type Templates = Record<TemplateKey, Template>;
 
@@ -44,9 +45,13 @@ export async function getTemplate(
     potentialTemplateKeys = cadenceTemplates.map(([k]) => k) as TemplateKey[];
   }
 
-  potentialTemplateKeys = potentialTemplateKeys.filter(
-    (t) => !(allTemplates[t] as Template).skipTasks?.includes(scriptName)
-  );
+  potentialTemplateKeys = potentialTemplateKeys.filter((t) => {
+    const currentTemplate = allTemplates[t] as Template;
+    return (
+      currentTemplate.inDevelopment !== true &&
+      !currentTemplate.skipTasks?.includes(scriptName as SkippableTask)
+    );
+  });
 
   if (potentialTemplateKeys.length !== total) {
     throw new Error(`Circle parallelism set incorrectly.

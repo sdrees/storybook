@@ -1,4 +1,4 @@
-import { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import { renderNgApp } from './angular/helpers';
 import { AngularRenderer } from './types';
@@ -16,7 +16,7 @@ export async function renderToCanvas(
     forceRemount,
     storyContext: { parameters, component },
     id,
-  }: Store_RenderContext<AngularRenderer>,
+  }: RenderContext<AngularRenderer>,
   element: HTMLElement
 ) {
   showMain();

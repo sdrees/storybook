@@ -1,20 +1,15 @@
 import mapValues from 'lodash/mapValues';
 import { logger } from '@storybook/client-logger';
-import type {
-  Renderer,
-  ArgTypesEnhancer,
-  SBEnumType,
-  Store_ControlsMatchers,
-  StrictInputType,
-} from '@storybook/types';
+import type { Renderer, ArgTypesEnhancer, SBEnumType, StrictInputType } from '@storybook/types';
 import { filterArgTypes } from './filterArgTypes';
 import { combineParameters } from './parameters';
 
-const inferControl = (
-  argType: StrictInputType,
-  name: string,
-  matchers: Store_ControlsMatchers
-): any => {
+export type ControlsMatchers = {
+  date: RegExp;
+  color: RegExp;
+};
+
+const inferControl = (argType: StrictInputType, name: string, matchers: ControlsMatchers): any => {
   const { type, options } = argType;
   if (!type) {
     return undefined;

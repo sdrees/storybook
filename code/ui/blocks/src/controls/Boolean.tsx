@@ -87,9 +87,16 @@ const parse = (value: string | null): boolean => value === 'true';
 
 export type BooleanProps = ControlProps<BooleanValue> & BooleanConfig;
 /**
- * # Boolean control
+ * # Boolean Control
  * Renders a switch toggle with "True" or "False".
  * or if the value is `undefined`, renders a button to set the boolean.
+ *
+ * ## Example usage
+ *
+ * ```
+ *
+ * <BooleanControl name="isTrue" value={value} onChange={handleValueChange}/>
+ * ```
  */
 export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur, onFocus }) => {
   const onSetFalse = useCallback(() => onChange(false), [onChange]);

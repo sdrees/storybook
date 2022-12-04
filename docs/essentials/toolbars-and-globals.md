@@ -2,6 +2,8 @@
 title: 'Toolbars & globals'
 ---
 
+<YouTubeCallout id="DuJ_gmSncLM" title="Create custom toolbar items using global types" />
+
 Storybook ships with toolbar addons to control the [viewport](./viewport.md) and [background](./backgrounds.md) the story renders in. You can also create your own toolbar items which control special “globals” which you can then read to create [decorators](../writing-stories/decorators.md) to control story rendering.
 
 ## Globals
@@ -102,6 +104,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
   paths={[
     'react/my-component-story-use-globaltype.js.mdx',
     'vue/my-component-story-use-globaltype.js.mdx',
+    'vue/my-component-story-use-globaltype.ts.mdx',
     'angular/my-component-story-use-globaltype.ts.mdx',
     'svelte/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',

@@ -1,7 +1,7 @@
 /** @jsx h */
 import * as preact from 'preact';
 import { dedent } from 'ts-dedent';
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { StoryFnPreactReturnType, PreactRenderer } from './types';
 
@@ -35,7 +35,7 @@ function preactRender(story: StoryFnPreactReturnType | null, canvasElement: Elem
 const StoryHarness: preact.FunctionalComponent<{
   name: string;
   title: string;
-  showError: Store_RenderContext<PreactRenderer>['showError'];
+  showError: RenderContext<PreactRenderer>['showError'];
   storyFn: () => any;
   canvasElement: PreactRenderer['canvasElement'];
 }> = ({ showError, name, title, storyFn, canvasElement }) => {
@@ -54,7 +54,7 @@ const StoryHarness: preact.FunctionalComponent<{
 };
 
 export function renderToCanvas(
-  { storyFn, title, name, showMain, showError, forceRemount }: Store_RenderContext<PreactRenderer>,
+  { storyFn, title, name, showMain, showError, forceRemount }: RenderContext<PreactRenderer>,
   canvasElement: PreactRenderer['canvasElement']
 ) {
   if (forceRemount) {

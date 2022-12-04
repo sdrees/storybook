@@ -1,6 +1,6 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { Renderer, Addon_TemplateDocsIndexEntry } from '@storybook/types';
+import type { Renderer, TemplateDocsIndexEntry } from '@storybook/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
@@ -14,7 +14,7 @@ const entry = {
   importPath: './Component.stories.ts',
   storiesImports: [],
   standalone: false,
-} as Addon_TemplateDocsIndexEntry;
+} as TemplateDocsIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};

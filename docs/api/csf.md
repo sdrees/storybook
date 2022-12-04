@@ -2,6 +2,8 @@
 title: 'Component Story Format (CSF)'
 ---
 
+<YouTubeCallout id="uH9_dfc-6Kc" title="Test components the EASY way | Component Story Format 3" />
+
 Component Story Format (CSF) is the recommended way to [write stories](../writing-stories/introduction.md). It's an [open standard](https://github.com/ComponentDriven/csf) based on ES6 modules that is portable beyond Storybook.
 
 <div class="aside">

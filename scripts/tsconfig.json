@@ -24,7 +24,7 @@
     "strict": false,
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -33,7 +33,7 @@
       "verdaccio": [
         "./typings.d.ts"
       ]
-    }
+    },
   },
   "exclude": [
     "dist",

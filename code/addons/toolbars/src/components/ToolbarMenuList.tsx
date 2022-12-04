@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import React, { useCallback } from 'react';
 import { useGlobals } from '@storybook/manager-api';
 import { deprecate } from '@storybook/client-logger';
@@ -9,14 +9,6 @@ import { withKeyboardCycle } from '../hoc/withKeyboardCycle';
 import { getSelectedIcon, getSelectedTitle } from '../utils/get-selected';
 import type { ToolbarMenuProps } from '../types';
 import { ToolbarMenuListItem } from './ToolbarMenuListItem';
-
-type ItemProps = {
-  left?: ReactNode;
-  title?: ReactNode;
-  right?: ReactNode;
-  active?: boolean;
-  onClick?: () => void;
-};
 
 type ToolbarMenuListProps = ToolbarMenuProps & WithKeyboardCycleProps;
 

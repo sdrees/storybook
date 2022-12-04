@@ -3,8 +3,8 @@ import type {
   DecoratorFunction,
   LegacyStoryFn,
   PartialStoryFn,
-  Store_ContextStore,
   StoryContextUpdate,
+  StoryContext,
 } from '@storybook/types';
 
 export function decorateStory<TRenderer extends Renderer>(
@@ -42,6 +42,10 @@ export function sanitizeStoryContextUpdate({
   return update;
 }
 
+type ContextStore<TRenderer extends Renderer> = {
+  value?: StoryContext<TRenderer>;
+};
+
 export function defaultDecorateStory<TRenderer extends Renderer>(
   storyFn: LegacyStoryFn<TRenderer>,
   decorators: DecoratorFunction<TRenderer>[]
@@ -52,7 +56,7 @@ export function defaultDecorateStory<TRenderer extends Renderer>(
   // (ie to this story), so there is no possibility of overlap.
   // This will break if you call the same story twice interleaved
   // (React might do it if you rendered the same story twice in the one ReactDom.render call, for instance)
-  const contextStore: Store_ContextStore<TRenderer> = {};
+  const contextStore: ContextStore<TRenderer> = {};
 
   /**
    * When you call the story function inside a decorator, e.g.:

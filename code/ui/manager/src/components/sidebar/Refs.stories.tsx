@@ -10,7 +10,7 @@ export default {
   component: Ref,
   title: 'Sidebar/Refs',
   excludeStories: /.*Data$/,
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [
     (storyFn: any) => (
       <ManagerContext.Provider value={{ state: { docsOptions: {} } } as any}>

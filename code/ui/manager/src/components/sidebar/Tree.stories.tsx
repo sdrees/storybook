@@ -12,7 +12,7 @@ export default {
   component: Tree,
   title: 'Sidebar/Tree',
   excludeStories: /.*Data$/,
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [(storyFn: any) => <div style={{ maxWidth: '230px' }}>{storyFn()}</div>],
 };
 

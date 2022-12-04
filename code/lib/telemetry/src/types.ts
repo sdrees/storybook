@@ -3,7 +3,15 @@ import type { PM } from 'detect-package-manager';
 
 import type { MonorepoType } from './get-monorepo-type';
 
-export type EventType = 'boot' | 'dev' | 'build' | 'upgrade' | 'init' | 'error' | 'error-metadata';
+export type EventType =
+  | 'boot'
+  | 'dev'
+  | 'build'
+  | 'upgrade'
+  | 'init'
+  | 'error'
+  | 'error-metadata'
+  | 'version-update';
 
 export interface Dependency {
   version: string | undefined;

@@ -59,6 +59,7 @@ describe('Meta', () => {
         },
       }),
     };
+    expectTypeOf(meta).toMatchTypeOf<Meta<Button>>();
   });
 
   test('Events fallback to custom events when no component is specified', () => {
@@ -75,6 +76,7 @@ describe('Meta', () => {
         },
       }),
     };
+    expectTypeOf(meta).toMatchTypeOf<Meta<Button>>();
   });
 });
 

@@ -4,17 +4,17 @@ import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
-  Addon_IndexEntry,
+  IndexEntry,
   Renderer,
   ComponentId,
   DocsOptions,
   Parameters,
   Path,
-  Store_ModuleExports,
-  Store_NormalizedProjectAnnotations,
-  Store_NormalizedStoriesSpecifier,
-  Store_Story,
-  Store_StoryIndex,
+  ModuleExports,
+  NormalizedProjectAnnotations,
+  NormalizedStoriesSpecifier,
+  PreparedStory,
+  StoryIndex,
   StoryId,
 } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -22,11 +22,11 @@ import type { StoryStore } from '../../store';
 import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 
 export class StoryStoreFacade<TRenderer extends Renderer> {
-  projectAnnotations: Store_NormalizedProjectAnnotations<TRenderer>;
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>;
 
-  entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
+  entries: Record<StoryId, IndexEntry & { componentId?: ComponentId }>;
 
-  csfExports: Record<Path, Store_ModuleExports>;
+  csfExports: Record<Path, ModuleExports>;
 
   constructor() {
     this.projectAnnotations = {
@@ -68,7 +68,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
         exports.default.title
       );
 
-      let storyLike: Store_Story<TRenderer>;
+      let storyLike: PreparedStory<TRenderer>;
       if (type === 'story') {
         storyLike = store.storyFromCSFFile({ storyId, csfFile });
       } else {
@@ -80,11 +80,16 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
           parameters: { fileName: importPath },
         } as any;
       }
-      return [storyId, storyLike, csfFile.meta.parameters, this.projectAnnotations.parameters];
-    }) as [StoryId, Store_Story<TRenderer>, Parameters, Parameters][];
+      return [
+        storyId,
+        storyLike,
+        csfFile.meta.parameters,
+        this.projectAnnotations.parameters || {},
+      ] as [StoryId, PreparedStory<TRenderer>, Parameters, Parameters];
+    });
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
-    let sortedV7: Addon_IndexEntry[];
+    let sortedV7: IndexEntry[];
 
     try {
       sortedV7 = sortStoriesV6(sortableV6, storySortParameter, fileNameOrder);
@@ -109,7 +114,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
       // NOTE: this doesn't actually change the story object, just the index.
       acc[s.id] = this.entries[s.id];
       return acc;
-    }, {} as Store_StoryIndex['entries']);
+    }, {} as StoryIndex['entries']);
 
     return { v: 4, entries };
   }
@@ -131,7 +136,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
   }
 
   // NOTE: we could potentially share some of this code with the stories.json generation
-  addStoriesFromExports(fileName: Path, fileExports: Store_ModuleExports) {
+  addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
       return;
     }
@@ -149,7 +154,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
     let { id: componentId, title, tags: componentTags = [] } = defaultExport || {};
 
     const specifiers = (global.STORIES || []).map(
-      (specifier: Store_NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
+      (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
         ...specifier,
         importPathMatcher: new RegExp(specifier.importPathMatcher),
       })

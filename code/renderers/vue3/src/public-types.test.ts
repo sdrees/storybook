@@ -60,6 +60,7 @@ describe('Meta', () => {
         });
       },
     };
+    expectTypeOf(meta).toMatchTypeOf<Meta<typeof Button>>();
   });
 });
 

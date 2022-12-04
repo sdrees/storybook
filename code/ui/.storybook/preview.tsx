@@ -17,10 +17,11 @@ import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
 
 import { DocsContainer } from '../blocks/src/blocks/DocsContainer';
+import { DocsContent, DocsWrapper } from '../blocks/src/components';
 
 const { document } = global;
 
-const ThemeBlock = styled.div(
+const ThemeBlock = styled.div<{ side: 'left' | 'right' }>(
   {
     position: 'absolute',
     top: 0,
@@ -84,9 +85,6 @@ const ThemedSetRoot = () => {
   useEffect(() => {
     document.body.style.background = theme.background.content;
     document.body.style.color = theme.color.defaultText;
-    return () => {
-      //
-    };
   });
 
   return null;
@@ -96,24 +94,33 @@ const ThemedSetRoot = () => {
 const preview = (window as any).__STORYBOOK_PREVIEW__ as PreviewWeb<ReactRenderer>;
 const channel = (window as any).__STORYBOOK_ADDONS_CHANNEL__ as Channel;
 export const loaders = [
-  async () => ({ globalValue: 1 }),
-
+  /**
+   * This loader adds a DocsContext to the story, which is required for the most Blocks to work.
+   * A story will specify which stories they need in the index with:
+   * parameters: {
+   *  relativeCsfPaths: ['../stories/MyStory.stories.tsx'], // relative to the story
+   * }
+   * The DocsContext will then be added via the decorator below.
+   */
   async ({ parameters: { relativeCsfPaths } }) => {
     if (!relativeCsfPaths) return {};
-
     const csfFiles = await Promise.all(
-      (relativeCsfPaths as string[]).map(async (relativePath) => {
-        const webpackPath = `./ui/blocks/src/${relativePath.replace(/^..\//, '')}.tsx`;
-        const entry = preview.storyStore.storyIndex!.importPathToEntry(webpackPath);
+      (relativeCsfPaths as string[]).map(async (blocksRelativePath) => {
+        const projectRelativePath = `./ui/blocks/src/${blocksRelativePath.replace(
+          /^..\//,
+          ''
+        )}.tsx`;
+        const entry = preview.storyStore.storyIndex?.importPathToEntry(projectRelativePath);
 
         if (!entry) {
-          throw new Error(`Couldn't find story file at ${webpackPath} (passed as ${relativePath})`);
+          throw new Error(
+            `Couldn't find story file at ${projectRelativePath} (passed as ${blocksRelativePath})`
+          );
         }
 
         return preview.storyStore.loadCSFFileByStoryId(entry.id);
       })
     );
-
     return {
       docsContext: new DocsContext(
         channel,
@@ -127,6 +134,7 @@ export const loaders = [
 ];
 
 export const decorators = [
+  // This decorator adds the DocsContext created in the loader above
   (Story, { loaded: { docsContext } }) =>
     docsContext ? (
       <DocsContainer context={docsContext}>
@@ -135,6 +143,32 @@ export const decorators = [
     ) : (
       <Story />
     ),
+  /**
+   * This decorator adds wrappers that contains global styles for stories to be targeted by.
+   * Activated with parameters.docsStyles = true
+   */ (Story, { parameters: { docsStyles } }) =>
+    docsStyles ? (
+      <DocsWrapper className="sbdocs sbdocs-wrapper">
+        <DocsContent className="sbdocs sbdocs-content">
+          <Story />
+        </DocsContent>
+      </DocsWrapper>
+    ) : (
+      <Story />
+    ),
+  /**
+   * This decorator adds Symbols that the sidebar icons references.
+   * Any sidebar story that uses the icons must set the parameter withSymbols: true .
+   */
+  (Story, { parameters: { withSymbols } }) => (
+    <>
+      {withSymbols && <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />}
+      <Story />
+    </>
+  ),
+  /**
+   * This decorator renders the stories side-by-side, stacked or default based on the theme switcher in the toolbar
+   */
   (StoryFn, { globals, parameters, playFunction }) => {
     const defaultTheme = isChromatic() && !playFunction ? 'stacked' : 'light';
     const theme = globals.theme || parameters.theme || defaultTheme;
@@ -143,7 +177,6 @@ export const decorators = [
       case 'side-by-side': {
         return (
           <Fragment>
-            <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
             <ThemeProvider theme={convert(themes.light)}>
               <Global styles={createReset} />
             </ThemeProvider>
@@ -163,17 +196,16 @@ export const decorators = [
       case 'stacked': {
         return (
           <Fragment>
-            <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
             <ThemeProvider theme={convert(themes.light)}>
               <Global styles={createReset} />
             </ThemeProvider>
             <ThemeProvider theme={convert(themes.light)}>
-              <ThemeStack side="left" data-side="left">
+              <ThemeStack data-side="left">
                 <StoryFn />
               </ThemeStack>
             </ThemeProvider>
             <ThemeProvider theme={convert(themes.dark)}>
-              <ThemeStack side="right" data-side="right">
+              <ThemeStack data-side="right">
                 <StoryFn />
               </ThemeStack>
             </ThemeProvider>
@@ -183,7 +215,6 @@ export const decorators = [
       default: {
         return (
           <ThemeProvider theme={convert(themes[theme])}>
-            <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
             <Global styles={createReset} />
             <ThemedSetRoot />
             {!parameters.theme && isChromatic() && playFunction && (
@@ -232,7 +263,6 @@ export const decorators = [
 ];
 
 export const parameters = {
-  exportedParameter: 'exportedParameter',
   actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: (a, b) =>
@@ -270,13 +300,7 @@ export const parameters = {
   },
 };
 
-export const globals = {
-  foo: 'fooValue',
-};
-
 export const globalTypes = {
-  foo: { defaultValue: 'fooDefaultValue' },
-  bar: { defaultValue: 'barDefaultValue' },
   theme: {
     name: 'Theme',
     description: 'Global theme for components',
@@ -291,35 +315,4 @@ export const globalTypes = {
       ],
     },
   },
-  locale: {
-    name: 'Locale',
-    description: 'Internationalization locale',
-    toolbar: {
-      icon: 'globe',
-      shortcuts: {
-        next: {
-          label: 'Go to next language',
-          keys: ['L'],
-        },
-        previous: {
-          label: 'Go to previous language',
-          keys: ['K'],
-        },
-        reset: {
-          label: 'Reset language',
-          keys: ['meta', 'shift', 'L'],
-        },
-      },
-      items: [
-        { title: 'Reset locale', type: 'reset' },
-        { value: 'en', right: '🇺🇸', title: 'English' },
-        { value: 'es', right: '🇪🇸', title: 'Español' },
-        { value: 'zh', right: '🇨🇳', title: '中文' },
-        { value: 'kr', right: '🇰🇷', title: '한국어' },
-      ],
-    },
-  },
 };
-
-export const argTypes = { color: { control: 'color' } };
-export const args = { color: 'red' };

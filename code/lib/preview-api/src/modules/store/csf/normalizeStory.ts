@@ -2,8 +2,8 @@ import type {
   Renderer,
   ArgTypes,
   LegacyStoryAnnotationsOrFn,
-  Store_NormalizedComponentAnnotations,
-  Store_NormalizedStoryAnnotations,
+  NormalizedComponentAnnotations,
+  NormalizedStoryAnnotations,
   StoryAnnotations,
   StoryFn,
   StoryId,
@@ -26,8 +26,8 @@ const deprecatedStoryAnnotationWarning = deprecate(() => {}, deprecatedStoryAnno
 export function normalizeStory<TRenderer extends Renderer>(
   key: StoryId,
   storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
-  meta: Store_NormalizedComponentAnnotations<TRenderer>
-): Store_NormalizedStoryAnnotations<TRenderer> {
+  meta: NormalizedComponentAnnotations<TRenderer>
+): NormalizedStoryAnnotations<TRenderer> {
   const storyObject: StoryAnnotations<TRenderer> = storyAnnotations;
   const userStoryFn: StoryFn<TRenderer> | null =
     typeof storyAnnotations === 'function' ? storyAnnotations : null;

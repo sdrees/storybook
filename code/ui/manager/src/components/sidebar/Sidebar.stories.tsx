@@ -10,7 +10,7 @@ export default {
   component: Sidebar,
   title: 'Sidebar/Sidebar',
   excludeStories: /.*Data$/,
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [
     ExplorerStories.default.decorators[0],
     (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,

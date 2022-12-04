@@ -4,18 +4,18 @@ import glob from 'globby';
 import slash from 'slash';
 
 import type {
-  Addon_IndexEntry,
-  Addon_StandaloneDocsIndexEntry,
-  Addon_StoryIndexEntry,
-  Addon_TemplateDocsIndexEntry,
+  IndexEntry,
+  StandaloneDocsIndexEntry,
+  StoryIndexEntry,
+  TemplateDocsIndexEntry,
   ComponentTitle,
-  CoreCommon_NormalizedStoriesSpecifier,
-  CoreCommon_StoryIndexer,
+  NormalizedStoriesSpecifier,
+  StoryIndexer,
   DocsOptions,
   Path,
   Tag,
-  Store_StoryIndex,
-  Store_V2CompatIndexEntry,
+  StoryIndex,
+  V2CompatIndexEntry,
   StoryId,
   StoryName,
 } from '@storybook/types';
@@ -27,15 +27,25 @@ import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 
 /** A .mdx file will produce a "standalone" docs entry */
-type DocsCacheEntry = Addon_StandaloneDocsIndexEntry;
+type DocsCacheEntry = StandaloneDocsIndexEntry;
 /** A *.stories.* file will produce a list of stories and possibly a docs entry */
 type StoriesCacheEntry = {
-  entries: (Addon_StoryIndexEntry | Addon_TemplateDocsIndexEntry)[];
+  entries: (StoryIndexEntry | TemplateDocsIndexEntry)[];
   dependents: Path[];
   type: 'stories';
 };
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
+
+export class DuplicateEntriesError extends Error {
+  entries: IndexEntry[];
+
+  constructor(message: string, entries: IndexEntry[]) {
+    super();
+    this.message = message;
+    this.entries = entries;
+  }
+}
 
 const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path) =>
   otherImport.startsWith('.')
@@ -68,21 +78,21 @@ const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path)
 export class StoryIndexGenerator {
   // An internal cache mapping specifiers to a set of path=><set of stories>
   // Later, we'll combine each of these subsets together to form the full index
-  private specifierToCache: Map<CoreCommon_NormalizedStoriesSpecifier, SpecifierStoriesCache>;
+  private specifierToCache: Map<NormalizedStoriesSpecifier, SpecifierStoriesCache>;
 
   // Cache the last value of `getStoryIndex`. We invalidate (by unsetting) when:
   //  - any file changes, including deletions
   //  - the preview changes [not yet implemented]
-  private lastIndex?: Store_StoryIndex;
+  private lastIndex?: StoryIndex;
 
   constructor(
-    public readonly specifiers: CoreCommon_NormalizedStoriesSpecifier[],
+    public readonly specifiers: NormalizedStoriesSpecifier[],
     public readonly options: {
       workingDir: Path;
       configDir: Path;
       storiesV2Compatibility: boolean;
       storyStoreV7: boolean;
-      storyIndexers: CoreCommon_StoryIndexer[];
+      storyIndexers: StoryIndexer[];
       docs: DocsOptions;
     }
   ) {
@@ -123,7 +133,7 @@ export class StoryIndexGenerator {
    */
   async updateExtracted(
     updater: (
-      specifier: CoreCommon_NormalizedStoriesSpecifier,
+      specifier: NormalizedStoriesSpecifier,
       absolutePath: Path,
       existingEntry: CacheEntry
     ) => Promise<CacheEntry>,
@@ -146,7 +156,7 @@ export class StoryIndexGenerator {
     return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
-  async ensureExtracted(): Promise<Addon_IndexEntry[]> {
+  async ensureExtracted(): Promise<IndexEntry[]> {
     // First process all the story files. Then, in a second pass,
     // process the docs files. The reason for this is that the docs
     // files may use the `<Meta of={XStories} />` syntax, which requires
@@ -163,7 +173,7 @@ export class StoryIndexGenerator {
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
-      return Object.values(cache).flatMap((entry): Addon_IndexEntry[] => {
+      return Object.values(cache).flatMap((entry): IndexEntry[] => {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
         return entry.entries;
@@ -199,9 +209,9 @@ export class StoryIndexGenerator {
     return dependencies;
   }
 
-  async extractStories(specifier: CoreCommon_NormalizedStoriesSpecifier, absolutePath: Path) {
+  async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const entries = [] as Addon_IndexEntry[];
+    const entries = [] as IndexEntry[];
     try {
       const importPath = slash(normalizeStoryPath(relativePath));
       const makeTitle = (userTitle?: string) => {
@@ -257,7 +267,7 @@ export class StoryIndexGenerator {
     return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
   }
 
-  async extractDocs(specifier: CoreCommon_NormalizedStoriesSpecifier, absolutePath: Path) {
+  async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
       if (!this.options.storyStoreV7) {
@@ -339,7 +349,7 @@ export class StoryIndexGenerator {
     }
   }
 
-  chooseDuplicate(firstEntry: Addon_IndexEntry, secondEntry: Addon_IndexEntry): Addon_IndexEntry {
+  chooseDuplicate(firstEntry: IndexEntry, secondEntry: IndexEntry): IndexEntry {
     let firstIsBetter = true;
     if (secondEntry.type === 'story') {
       firstIsBetter = false;
@@ -352,7 +362,11 @@ export class StoryIndexGenerator {
     const changeDocsName = 'Use `<Meta of={} name="Other Name">` to distinguish them.';
 
     // This shouldn't be possible, but double check and use for typing
-    if (worseEntry.type === 'story') throw new Error(`Duplicate stories with id: ${firstEntry.id}`);
+    if (worseEntry.type === 'story')
+      throw new DuplicateEntriesError(`Duplicate stories with id: ${firstEntry.id}`, [
+        firstEntry,
+        secondEntry,
+      ]);
 
     if (betterEntry.type === 'story') {
       const worseDescriptor = worseEntry.standalone
@@ -395,8 +409,8 @@ export class StoryIndexGenerator {
     return betterEntry;
   }
 
-  async sortStories(storiesList: Addon_IndexEntry[]) {
-    const entries: Store_StoryIndex['entries'] = {};
+  async sortStories(storiesList: IndexEntry[]) {
+    const entries: StoryIndex['entries'] = {};
 
     storiesList.forEach((entry) => {
       const existing = entries[entry.id];
@@ -420,7 +434,7 @@ export class StoryIndexGenerator {
     return sortableStories.reduce((acc, item) => {
       acc[item.id] = item;
       return acc;
-    }, {} as Store_StoryIndex['entries']);
+    }, {} as StoryIndex['entries']);
   }
 
   async getIndex() {
@@ -454,7 +468,7 @@ export class StoryIndexGenerator {
           },
         };
         return acc;
-      }, {} as Record<StoryId, Store_V2CompatIndexEntry>);
+      }, {} as Record<StoryId, V2CompatIndexEntry>);
     }
 
     this.lastIndex = {
@@ -465,7 +479,7 @@ export class StoryIndexGenerator {
     return this.lastIndex;
   }
 
-  invalidate(specifier: CoreCommon_NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
+  invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
 

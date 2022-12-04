@@ -2,8 +2,9 @@ import type { FC } from 'react';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
+import type { PropDescriptor } from '@storybook/preview-api';
 import { filterArgTypes } from '@storybook/preview-api';
-import type { Store_PropDescriptor, StrictArgTypes, Args, Globals } from '@storybook/types';
+import type { StrictArgTypes, Args, Globals } from '@storybook/types';
 import {
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
@@ -21,8 +22,8 @@ import { getComponentName } from './utils';
 import { useStory } from './useStory';
 
 interface BaseProps {
-  include?: Store_PropDescriptor;
-  exclude?: Store_PropDescriptor;
+  include?: PropDescriptor;
+  exclude?: PropDescriptor;
   sort?: SortType;
 }
 
@@ -88,8 +89,8 @@ const useGlobals = (context: DocsContextProps): [Globals] => {
 export const extractComponentArgTypes = (
   component: Component,
   context: DocsContextProps,
-  include?: Store_PropDescriptor,
-  exclude?: Store_PropDescriptor
+  include?: PropDescriptor,
+  exclude?: PropDescriptor
 ): StrictArgTypes => {
   const { parameters } = context.storyById();
   const { extractArgTypes }: { extractArgTypes: ArgTypesExtractor } = parameters.docs || {};
@@ -123,8 +124,8 @@ const addComponentTabs = (
   tabs: Record<string, PureArgsTableProps>,
   components: Record<string, Component>,
   context: DocsContextProps,
-  include?: Store_PropDescriptor,
-  exclude?: Store_PropDescriptor,
+  include?: PropDescriptor,
+  exclude?: PropDescriptor,
   sort?: SortType
 ) => ({
   ...tabs,

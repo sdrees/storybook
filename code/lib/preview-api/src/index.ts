@@ -73,6 +73,8 @@ export {
   sortStoriesV7,
 } from './store';
 
+export type { PropDescriptor } from './store';
+
 /**
  * STORIES API
  */

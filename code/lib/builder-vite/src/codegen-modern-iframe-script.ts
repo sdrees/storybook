@@ -53,11 +53,10 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
    * @todo Inline variable and remove `noinspection`
    */
   const code = `
-    import { ClientApi, composeConfigs, PreviewWeb } from '${frameworkName}';
-
-    import '${virtualAddonSetupFile}';
-    import { importFn } from '${virtualStoriesFile}';
-
+  import { composeConfigs, PreviewWeb, ClientApi } from '@storybook/preview-api';
+  import '${virtualAddonSetupFile}';
+  import { importFn } from '${virtualStoriesFile}';
+  
     const getProjectAnnotations = async () => {
       const configs = await Promise.all([${relativePreviewAnnotations
         .map((previewAnnotation) => `import('${previewAnnotation}')`)

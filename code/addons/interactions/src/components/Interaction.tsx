@@ -155,6 +155,7 @@ export const Interaction = ({
     <RowContainer call={call} pausedAt={pausedAt}>
       <RowHeader isInteractive={isInteractive}>
         <RowLabel
+          aria-label="Interaction step"
           call={call}
           onClick={() => controls.goto(call.id)}
           disabled={isInteractive}

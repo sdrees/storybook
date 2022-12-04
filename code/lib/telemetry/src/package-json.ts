@@ -1,3 +1,4 @@
+import { readJson } from 'fs-extra';
 import path from 'path';
 
 import type { Dependency } from './types';
@@ -20,7 +21,17 @@ export const getActualPackageVersion = async (packageName: string) => {
 };
 
 export const getActualPackageJson = async (packageName: string) => {
-  // eslint-disable-next-line import/no-dynamic-require,global-require
-  const packageJson = require(path.join(packageName, 'package.json'));
+  const resolvedPackageJson = require.resolve(path.join(packageName, 'package.json'), {
+    paths: [process.cwd()],
+  });
+  const packageJson = await readJson(resolvedPackageJson);
   return packageJson;
+};
+
+// Note that this probably doesn't work in PNPM mode
+export const getStorybookCoreVersion = async () => {
+  const coreVersions = await Promise.all(
+    ['@storybook/core-common', '@storybook/core-server'].map(getActualPackageVersion)
+  );
+  return coreVersions.find((v) => v.version)?.version;
 };

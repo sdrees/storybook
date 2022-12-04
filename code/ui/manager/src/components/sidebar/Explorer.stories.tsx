@@ -8,7 +8,7 @@ import * as RefStories from './Refs.stories';
 export default {
   component: Explorer,
   title: 'Sidebar/Explorer',
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [
     RefStories.default.decorators[0],
     (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,

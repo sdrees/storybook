@@ -16,6 +16,7 @@ import {
 } from '@storybook/core-common';
 import prompts from 'prompts';
 import global from 'global';
+import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
 import { logger } from '@storybook/node-logger';
@@ -85,7 +86,17 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     ...options,
   });
 
-  const { renderer, builder } = await presets.apply<CoreConfig>('core', undefined);
+  const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>(
+    'core',
+    undefined
+  );
+
+  if (!options.disableTelemetry && !disableTelemetry) {
+    if (versionCheck.success && !versionCheck.cached) {
+      telemetry('version-update');
+    }
+  }
+
   const builderName = typeof builder === 'string' ? builder : builder?.name;
   const [previewBuilder, managerBuilder] = await Promise.all([
     getPreviewBuilder(builderName, options.configDir),

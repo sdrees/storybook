@@ -266,3 +266,11 @@ export const svelte: Parameters = {
   version: 'latest',
   generator: 'npx giget github:sveltejs/template#master {{appName}}',
 };
+
+export const svelteKit: Parameters = {
+  renderer: 'svelte',
+  name: 'svelteKit',
+  version: 'latest',
+  generator:
+    'yarn create svelte-with-args --name={{appName}} --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+};

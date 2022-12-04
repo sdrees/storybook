@@ -108,7 +108,7 @@ yarn link-monorepo-docs  ./path-to-your-local-storybook
 And run the Storybook website with the following command:
 
 ```shell
-yarn start:skip-addons
+yarn start:docs-only
 ```
 
 <div class="aside">

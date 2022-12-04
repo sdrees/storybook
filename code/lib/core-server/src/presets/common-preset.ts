@@ -3,8 +3,8 @@ import { deprecate } from '@storybook/node-logger';
 import { getPreviewBodyTemplate, getPreviewHeadTemplate, loadEnvs } from '@storybook/core-common';
 import type {
   CLIOptions,
-  CoreCommon_IndexerOptions,
-  CoreCommon_StoryIndexer,
+  IndexerOptions,
+  StoryIndexer,
   CoreConfig,
   Options,
   StorybookConfig,
@@ -104,8 +104,8 @@ export const features = async (
   argTypeTargetsV7: true,
 });
 
-export const storyIndexers = async (indexers?: CoreCommon_StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
+export const storyIndexers = async (indexers?: StoryIndexer[]) => {
+  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
     const code = (await fs.readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();
   };

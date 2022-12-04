@@ -1,6 +1,6 @@
 {
   "name": "@storybook/blocks",
-  "version": "7.0.0-alpha.54",
+  "version": "7.0.0-alpha.57",
   "description": "Storybook Doc Blocks",
   "keywords": [
     "storybook"
@@ -42,16 +42,16 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-alpha.54",
-    "@storybook/client-logger": "7.0.0-alpha.54",
-    "@storybook/components": "7.0.0-alpha.54",
-    "@storybook/core-events": "7.0.0-alpha.54",
+    "@storybook/channels": "7.0.0-alpha.57",
+    "@storybook/client-logger": "7.0.0-alpha.57",
+    "@storybook/components": "7.0.0-alpha.57",
+    "@storybook/core-events": "7.0.0-alpha.57",
     "@storybook/csf": "next",
-    "@storybook/docs-tools": "7.0.0-alpha.54",
-    "@storybook/manager-api": "7.0.0-alpha.54",
-    "@storybook/preview-api": "7.0.0-alpha.54",
-    "@storybook/theming": "7.0.0-alpha.54",
-    "@storybook/types": "7.0.0-alpha.54",
+    "@storybook/docs-tools": "7.0.0-alpha.57",
+    "@storybook/manager-api": "7.0.0-alpha.57",
+    "@storybook/preview-api": "7.0.0-alpha.57",
+    "@storybook/theming": "7.0.0-alpha.57",
+    "@storybook/types": "7.0.0-alpha.57",
     "@types/lodash": "^4.14.167",
     "color-convert": "^2.0.1",
     "dequal": "^2.0.2",
@@ -65,7 +65,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.54",
+    "@storybook/addon-actions": "7.0.0-alpha.57",
     "@types/color-convert": "^2.0.0"
   },
   "peerDependencies": {
@@ -80,5 +80,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
+  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae"
 }

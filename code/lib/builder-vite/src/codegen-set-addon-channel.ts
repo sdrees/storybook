@@ -1,12 +1,8 @@
-import { getFrameworkName } from '@storybook/core-common';
-
-import type { ExtendedOptions } from './types';
-
-export async function generateAddonSetupCode(options: ExtendedOptions) {
-  const framework = await getFrameworkName(options);
-
+export async function generateAddonSetupCode() {
   return `
-    import { createPostMessageChannel, createWebSocketChannel, addons } from '${framework}';
+    import { createChannel as createPostMessageChannel } from '@storybook/channel-postmessage';
+    import { createChannel as createWebSocketChannel } from '@storybook/channel-websocket';
+    import { addons } from '@storybook/preview-api';
 
     const channel = createPostMessageChannel({ page: 'preview' });
     addons.setChannel(channel);

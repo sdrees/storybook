@@ -19,14 +19,14 @@ import type {
   Renderer,
   Args,
   Globals,
-  Store_ModuleImportFn,
-  Store_PromiseLike,
+  ModuleImportFn,
   RenderToCanvas,
-  Store_Story,
-  Store_StoryIndex,
+  PreparedStory,
+  StoryIndex,
   ProjectAnnotations,
   StoryId,
   StoryRenderOptions,
+  SetGlobalsPayload,
 } from '@storybook/types';
 import { addons } from '../addons';
 import { StoryStore } from '../../store';
@@ -46,9 +46,9 @@ export class Preview<TFramework extends Renderer> {
 
   storyStore: StoryStore<TFramework>;
 
-  getStoryIndex?: () => Store_StoryIndex;
+  getStoryIndex?: () => StoryIndex;
 
-  importFn?: Store_ModuleImportFn;
+  importFn?: ModuleImportFn;
 
   renderToCanvas?: RenderToCanvas<TFramework>;
 
@@ -78,8 +78,8 @@ export class Preview<TFramework extends Renderer> {
   }: {
     // In the case of the v6 store, we can only get the index from the facade *after*
     // getProjectAnnotations has been run, thus this slightly awkward approach
-    getStoryIndex?: () => Store_StoryIndex;
-    importFn: Store_ModuleImportFn;
+    getStoryIndex?: () => StoryIndex;
+    importFn: ModuleImportFn;
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
@@ -106,7 +106,7 @@ export class Preview<TFramework extends Renderer> {
 
   getProjectAnnotationsOrRenderError(
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>
-  ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
+  ): Promise<ProjectAnnotations<TFramework>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
@@ -139,7 +139,7 @@ export class Preview<TFramework extends Renderer> {
 
     this.setInitialGlobals();
 
-    let storyIndexPromise: Store_PromiseLike<Store_StoryIndex>;
+    let storyIndexPromise: Promise<StoryIndex>;
     if (global.FEATURES?.storyStoreV7) {
       storyIndexPromise = this.getStoryIndexFromServer();
     } else {
@@ -150,7 +150,7 @@ export class Preview<TFramework extends Renderer> {
     }
 
     return storyIndexPromise
-      .then((storyIndex: Store_StoryIndex) => this.initializeWithStoryIndex(storyIndex))
+      .then((storyIndex: StoryIndex) => this.initializeWithStoryIndex(storyIndex))
       .catch((err) => {
         this.renderPreviewEntryError('Error loading story index:', err);
         throw err;
@@ -164,21 +164,23 @@ export class Preview<TFramework extends Renderer> {
   emitGlobals() {
     if (!this.storyStore.globals || !this.storyStore.projectAnnotations)
       throw new Error(`Cannot emit before initialization`);
-    this.channel.emit(SET_GLOBALS, {
+
+    const payload: SetGlobalsPayload = {
       globals: this.storyStore.globals.get() || {},
       globalTypes: this.storyStore.projectAnnotations.globalTypes || {},
-    });
+    };
+    this.channel.emit(SET_GLOBALS, payload);
   }
 
   async getStoryIndexFromServer() {
     const result = await fetch(STORY_INDEX_PATH);
-    if (result.status === 200) return result.json() as Store_StoryIndex;
+    if (result.status === 200) return result.json() as StoryIndex;
 
     throw new Error(await result.text());
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: Store_StoryIndex): PromiseLike<void> {
+  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
     if (!this.importFn)
       throw new Error(`Cannot call initializeWithStoryIndex before initialization`);
 
@@ -239,8 +241,8 @@ export class Preview<TFramework extends Renderer> {
     importFn,
     storyIndex,
   }: {
-    importFn?: Store_ModuleImportFn;
-    storyIndex?: Store_StoryIndex;
+    importFn?: ModuleImportFn;
+    storyIndex?: StoryIndex;
   }) {
     await this.storyStore.onStoriesChanged({ importFn, storyIndex });
   }
@@ -308,7 +310,7 @@ export class Preview<TFramework extends Renderer> {
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
   renderStoryToElement(
-    story: Store_Story<TFramework>,
+    story: PreparedStory<TFramework>,
     element: TFramework['canvasElement'],
     options: StoryRenderOptions
   ) {

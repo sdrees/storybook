@@ -19,7 +19,7 @@ const getLastViewed = () =>
 export default {
   component: Search,
   title: 'Sidebar/Search',
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [(storyFn: any) => <div style={{ padding: 20, maxWidth: '230px' }}>{storyFn()}</div>],
 };
 

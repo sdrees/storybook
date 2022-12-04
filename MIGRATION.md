@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [Vue3 replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [register.js removed](#registerjs-removed)
     - [Change of root html IDs](#change-of-root-html-ids)
@@ -21,15 +22,17 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [SvelteKit needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
-    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-docs: Removed deprecated blocks.js entry](#addon-docs-removed-deprecated-blocksjs-entry)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
+    - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -37,6 +40,8 @@
     - [Configuring the Docs Container](#configuring-the-docs-container)
     - [External Docs](#external-docs)
     - [MDX2 upgrade](#mdx2-upgrade)
+    - [Default docs styles will leak into non-story user components](#default-docs-styles-will-leak-into-non-story-user-components)
+    - [Explicit `<code>` elements are no longer syntax highlighted](#explicit-code-elements-are-no-longer-syntax-highlighted)
     - [Dropped source loader / storiesOf static snippets](#dropped-source-loader--storiesof-static-snippets)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
@@ -258,6 +263,30 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### 7.0 breaking changes
 
+#### Vue3 replaced app export with setup
+
+In 6.x `@storybook/vue3` exported a Vue application instance called `app`. In 7.0, this has been replaced by a `setup` function that can be used to initialize the application in your `.storybook/preview.js`:
+
+Before:
+
+```js
+import { app } from '@storybook/vue3';
+import Button from './Button.vue';
+
+app.component('GlobalButton', Button);
+```
+
+After:
+
+```js
+import { setup } from '@storybook/vue3';
+import Button from './Button.vue';
+
+setup((app) => {
+  app.component('GlobalButton', Button);
+});
+```
+
 #### removed auto injection of @storybook/addon-actions decorator
 
 The `withActions` decorator is no longer automatically added to stories. This is because it is really only used in the html renderer, for all other renderers it's redundant.
@@ -449,6 +478,7 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/server-webpack5`
 - `@storybook/svelte-webpack5`
 - `@storybook/svelte-vite`
+- `@storybook/sveltekit`
 - `@storybook/vue-webpack5`
 - `@storybook/vue-vite`
 - `@storybook/vue3-webpack5`
@@ -548,6 +578,17 @@ If you were using `viteFinal` in 6.5 to simply merge in your project's standard 
 
 Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook. However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once. We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about. It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
 
+#### SvelteKit needs the `@storybook/sveltekit` framework
+
+SvelteKit projects need to use the `@storybook/sveltekit` framework in the `main.js` file. Previously it was enough to just setup Storybook with Svelte+Vite, but that is no longer the case.
+
+```js
+// .storybook/main.js
+export default {
+  framework: '@storybook/sveltekit',
+};
+```
+
 #### Removed docs.getContainer and getPage parameters
 
 It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
@@ -595,6 +636,30 @@ Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/a
 #### Addon-a11y: Removed deprecated withA11y decorator
 
 We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
+
+#### Stories glob matches MDX files
+
+If you used a directory based stories glob, in 6.x it would match `.stories.js` (and other JS extensions) and `.stories.mdx` files. For instance:
+
+```js
+// in main.js
+export default {
+  stories: ['../path/to/directory']
+};
+
+// or
+export default {
+  stories: [{ directory: '../path/to/directory' }]
+};
+```
+
+In 7.0, this pattern will also match `.mdx` files (the new extension for docs files - see docs changes below). If you have `.mdx` files you don't want to appear in your storybook, either move them out of the directory, or add a `files` specifier with the old pattern (`"**/*.stories.@(mdx|tsx|ts|jsx|js)"`):
+
+```js
+export default {
+  stories: [{ directory: '../path/to/directory', files: '**/*.stories.@(mdx|tsx|ts|jsx|js)' }],
+};
+```
 
 ### Docs Changes
 
@@ -755,6 +820,47 @@ If you use `.stories.mdx` files in your project, you may need to edit them since
 We will update this section with specific pointers based on user feedback during the prerelease period and probably add an codemod to help streamline the upgrade before final 7.0 release.
 
 As part of the upgrade we deleted the codemod `mdx-to-csf` and will be replacing it with a more sophisticated version prior to release.
+
+#### Default docs styles will leak into non-story user components
+
+Storybook's default styles in docs are now globally applied to any element instead of using classes. This means that any component that you add directly in a docs file will also get the default styles.
+
+To mitigate this you need to wrap any content you don't want styled with the `Unstyled` block like this:
+
+```mdx
+import { Unstyled } from '@storybook/blocks';
+import { MyComponent } from './MyComponent';
+
+# This is a header
+
+<Unstyled>
+  <MyComponent />
+</Unstyled>
+```
+
+Components that are part of your stories or in a canvas will not need this mitigation, as the `Story` and `Canvas` blocks already have this built-in.
+
+#### Explicit `<code>` elements are no longer syntax highlighted
+
+Due to how MDX2 works differently from MDX1, manually defined `<code>` elements are no longer transformed to the `Code` component, so it will not be syntax highlighted. This is not the case for markdown \`\`\` code-fences, that will still end up as `Code` with syntax highlighting.
+
+Luckily [MDX2 supports markdown (like code-fences) inside elements better now](https://mdxjs.com/blog/v2/#improvements-to-the-mdx-format), so most cases where you needed a `<code>` element before, you can use code-fences instead:
+
+<!-- prettier-ignore-start -->
+````md
+<code>This will now be an unstyled line of code</code>
+
+```js
+const a = 'This is still a styled code block.';
+```
+
+<div style={{ background: 'red', padding: '10px' }}>
+  ```js
+  const a = 'MDX2 supports markdown in elements better now, so this is possible.';
+  ```
+</div>
+````
+<!-- prettier-ignore-end -->
 
 #### Dropped source loader / storiesOf static snippets
 
@@ -3621,3 +3727,7 @@ If you **are** using these addons, it takes two steps to migrate:
   ```
 
   <!-- markdown-link-check-enable -->
+
+```
+
+```

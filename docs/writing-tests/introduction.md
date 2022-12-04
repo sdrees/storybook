@@ -18,5 +18,6 @@ Storybook also comes with tools, [a test runner](./test-runner.md), and [handy i
 - [**Visual tests**](./visual-testing.md) capture a screenshot of every story then compare it against baselines to detect appearance and integration issues
 - [**Accessibility tests**](./accessibility-testing.md) catch usability issues related to visual, hearing, mobility, cognitive, speech, or neurological disabilities
 - [**Interaction tests**](./interaction-testing.md) verify component functionality by simulating user behaviour, firing events, and ensuring that state is updated as expected
+- [**Coverage tests**](./test-coverage.md) to measure how much of your code is covered by your tests
 - [**Snapshot tests**](./snapshot-testing.md) detect changes in the rendered markup to surface rendering errors or warnings
 - [**Import stories in other tests**](./importing-stories-in-tests.md) to QA even more UI characteristics

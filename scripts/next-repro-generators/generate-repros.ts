@@ -27,12 +27,12 @@ const BEFORE_DIR_NAME = 'before-storybook';
 const AFTER_DIR_NAME = 'after-storybook';
 const SCRIPT_TIMEOUT = 5 * 60 * 1000;
 
-const sbInit = async (cwd: string, flags?: string[]) => {
+const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
   const env = { STORYBOOK_DISABLE_TELEMETRY: 'true', STORYBOOK_REPRO_GENERATOR: 'true' };
   const fullFlags = ['--yes', ...(flags || [])];
-  await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env });
+  await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env }, debug);
 };
 
 const LOCAL_REGISTRY_URL = 'http://localhost:6001';
@@ -56,7 +56,17 @@ const withLocalRegistry = async (packageManager: JsPackageManager, action: () =>
   }
 };
 
-const addStorybook = async (baseDir: string, localRegistry: boolean, flags?: string[]) => {
+const addStorybook = async ({
+  baseDir,
+  localRegistry,
+  flags,
+  debug,
+}: {
+  baseDir: string;
+  localRegistry: boolean;
+  flags?: string[];
+  debug?: boolean;
+}) => {
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
   const afterDir = join(baseDir, AFTER_DIR_NAME);
   const tmpDir = join(baseDir, 'tmp');
@@ -71,23 +81,21 @@ const addStorybook = async (baseDir: string, localRegistry: boolean, flags?: str
     await withLocalRegistry(packageManager, async () => {
       packageManager.addPackageResolutions(storybookVersions);
 
-      await sbInit(tmpDir, flags);
+      await sbInit(tmpDir, flags, debug);
     });
   } else {
-    await sbInit(tmpDir, flags);
+    await sbInit(tmpDir, flags, debug);
   }
   await rename(tmpDir, afterDir);
 };
 
-export const runCommand = async (script: string, options: ExecaOptions) => {
-  const shouldDebug = !!process.env.DEBUG;
-
-  if (shouldDebug) {
+export const runCommand = async (script: string, options: ExecaOptions, debug: boolean) => {
+  if (debug) {
     console.log(`Running command: ${script}`);
   }
 
   return execaCommand(script, {
-    stdout: shouldDebug ? 'inherit' : 'ignore',
+    stdout: debug ? 'inherit' : 'ignore',
     shell: true,
     ...options,
   });
@@ -113,7 +121,8 @@ const addDocumentation = async (
 
 const runGenerators = async (
   generators: (GeneratorConfig & { dirName: string })[],
-  localRegistry = true
+  localRegistry = true,
+  debug = false
 ) => {
   console.log(`🤹‍♂️ Generating repros with a concurrency of ${maxConcurrentTasks}`);
 
@@ -141,11 +150,18 @@ const runGenerators = async (
         // where as others are very picky about what directories can be called. So we need to
         // handle different modes of operation.
         if (script.includes('{{beforeDir}}')) {
-          const scriptWithBeforeDir = script.replace('{{beforeDir}}', BEFORE_DIR_NAME);
-          await runCommand(scriptWithBeforeDir, { cwd: createBaseDir, timeout: SCRIPT_TIMEOUT });
+          const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
+          await runCommand(
+            scriptWithBeforeDir,
+            {
+              cwd: createBaseDir,
+              timeout: SCRIPT_TIMEOUT,
+            },
+            debug
+          );
         } else {
           await ensureDir(createBeforeDir);
-          await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT });
+          await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT }, debug);
         }
 
         await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
@@ -156,7 +172,7 @@ const runGenerators = async (
         // Make sure there are no git projects in the folder
         await remove(join(beforeDir, '.git'));
 
-        await addStorybook(baseDir, localRegistry, flags);
+        await addStorybook({ baseDir, localRegistry, flags, debug });
 
         await addDocumentation(baseDir, { name, dirName });
 
@@ -191,9 +207,18 @@ export const options = createOptions({
     description: 'Generate reproduction from local registry?',
     promptType: false,
   },
+  debug: {
+    type: 'boolean',
+    description: 'Print all the logs to the console',
+    promptType: false,
+  },
 });
 
-export const generate = async ({ template, localRegistry }: OptionValues<typeof options>) => {
+export const generate = async ({
+  template,
+  localRegistry,
+  debug,
+}: OptionValues<typeof options>) => {
   const generatorConfigs = Object.entries(reproTemplates)
     .map(([dirName, configuration]) => ({
       dirName,
@@ -207,13 +232,14 @@ export const generate = async ({ template, localRegistry }: OptionValues<typeof 
       return true;
     });
 
-  await runGenerators(generatorConfigs, localRegistry);
+  await runGenerators(generatorConfigs, localRegistry, debug);
 };
 
 if (require.main === module) {
   program
     .description('Create a reproduction from a set of possible templates')
-    .option('--template <template>', 'Create a single template') // change this to allow multiple templates or regex
+    .option('--template <template>', 'Create a single template')
+    .option('--debug', 'Print all the logs to the console')
     .option('--local-registry', 'Use local registry', false)
     .action((optionValues) => {
       generate(optionValues)

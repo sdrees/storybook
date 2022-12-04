@@ -21,3 +21,12 @@ Scroll down to the bottom of the document page on GitHub and describe what you c
 ## Create the pull request
 
 In the Storybook repository, create a pull request that describes changes and includes additional context that would help maintainers review. Once you submit the PR, a maintainer will guide you through the triage and merge process.
+
+## Other ways to contribute
+
+Learn about other ways you can contribute to Storybook.
+
+- [**Overview**](./how-to-contribute.md): General guidance
+- [**Code**](./code.md): Features, bug fixes, dependency updates
+- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
+- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library

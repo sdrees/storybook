@@ -10,6 +10,7 @@ import type {
   PresetConfig,
   Presets,
 } from '@storybook/types';
+import { join, parse } from 'path';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
@@ -66,14 +67,19 @@ export const resolveAddonName = (
   const resolved = resolve(name);
 
   if (resolved) {
-    if (name.match(/\/(manager|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
+    const { dir: fdir, name: fname } = parse(resolved);
+
+    if (name.match(/\/(manager|register(-panel)?)(\.(js|mjs|ts|tsx|jsx))?$/)) {
       return {
         type: 'virtual',
         name,
-        managerEntries: [resolved],
+        // we remove the extension
+        // this is a bit of a hack to try to find .mjs files
+        // node can only ever resolve .js files; it does not look at the exports field in package.json
+        managerEntries: [join(fdir, fname)],
       };
     }
-    if (name.match(/\/(preset)(\.(js|ts|tsx|jsx))?$/)) {
+    if (name.match(/\/(preset)(\.(js|mjs|ts|tsx|jsx))?$/)) {
       return {
         type: 'presets',
         name: resolved,
@@ -113,11 +119,19 @@ export const resolveAddonName = (
     const managerEntries = [];
 
     if (managerFile) {
-      managerEntries.push(managerFile);
+      // we remove the extension
+      // this is a bit of a hack to try to find .mjs files
+      // node can only ever resolve .js files; it does not look at the exports field in package.json
+      const { dir: fdir, name: fname } = parse(managerFile);
+      managerEntries.push(join(fdir, fname));
     }
     // register file is the old way of registering addons
     if (!managerFile && registerFile && !presetFile) {
-      managerEntries.push(registerFile);
+      // we remove the extension
+      // this is a bit of a hack to try to find .mjs files
+      // node can only ever resolve .js files; it does not look at the exports field in package.json
+      const { dir: fdir, name: fname } = parse(registerFile);
+      managerEntries.push(join(fdir, fname));
     }
 
     return {

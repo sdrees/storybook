@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { StoryFnVueReturnType, VueRenderer } from './types';
 
@@ -23,7 +23,7 @@ export const setup = (fn: (app: any) => void) => {
 const map = new Map<VueRenderer['canvasElement'], ReturnType<typeof createApp>>();
 
 export function renderToCanvas(
-  { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueRenderer>,
+  { title, name, storyFn, showMain, showError, showException }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
   // TODO: explain cyclical nature of these app => story => mount

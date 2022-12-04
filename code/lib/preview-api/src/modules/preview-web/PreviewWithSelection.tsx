@@ -22,10 +22,8 @@ import type {
   Renderer,
   Args,
   Globals,
-  Store_ModuleImportFn,
-  Store_Selection,
-  Store_StoryIndex,
-  Store_StorySpecifier,
+  ModuleImportFn,
+  StoryIndex,
   ProjectAnnotations,
   StoryId,
   ViewMode,
@@ -38,8 +36,9 @@ import { PREPARE_ABORTED } from './render/Render';
 import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
-import type { SelectionStore } from './SelectionStore';
+import type { Selection, SelectionStore } from './SelectionStore';
 import type { View } from './View';
+import type { StorySpecifier } from '../store/StoryIndexStore';
 
 const globalWindow = globalThis;
 
@@ -60,7 +59,7 @@ function isStoryRender<TFramework extends Renderer>(
 }
 
 export class PreviewWithSelection<TFramework extends Renderer> extends Preview<TFramework> {
-  currentSelection?: Store_Selection;
+  currentSelection?: Selection;
 
   currentRender?: PossibleRender<TFramework>;
 
@@ -99,7 +98,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: Store_StoryIndex): PromiseLike<void> {
+  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
     return super.initializeWithStoryIndex(storyIndex).then(() => {
       if (!global.FEATURES?.storyStoreV7) {
         this.channel.emit(SET_INDEX, this.storyStore.getSetIndexPayload());
@@ -176,8 +175,8 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     importFn,
     storyIndex,
   }: {
-    importFn?: Store_ModuleImportFn;
-    storyIndex?: Store_StoryIndex;
+    importFn?: ModuleImportFn;
+    storyIndex?: StoryIndex;
   }) {
     await super.onStoriesChanged({ importFn, storyIndex });
 
@@ -448,7 +447,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     this.channel.emit(STORY_MISSING);
   }
 
-  renderStoryLoadingException(storySpecifier: Store_StorySpecifier, err: Error) {
+  renderStoryLoadingException(storySpecifier: StorySpecifier, err: Error) {
     // logger.error(`Unable to load story '${storySpecifier}':`);
     logger.error(err);
     this.view.showErrorDisplay(err);

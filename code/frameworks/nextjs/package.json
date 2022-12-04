@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.0.0-alpha.54",
+  "version": "7.0.0-alpha.57",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -59,12 +59,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.54",
-    "@storybook/core-common": "7.0.0-alpha.54",
-    "@storybook/node-logger": "7.0.0-alpha.54",
-    "@storybook/preset-react-webpack": "7.0.0-alpha.54",
-    "@storybook/preview-api": "7.0.0-alpha.54",
-    "@storybook/react": "7.0.0-alpha.54",
+    "@storybook/builder-webpack5": "7.0.0-alpha.57",
+    "@storybook/core-common": "7.0.0-alpha.57",
+    "@storybook/node-logger": "7.0.0-alpha.57",
+    "@storybook/preset-react-webpack": "7.0.0-alpha.57",
+    "@storybook/preview-api": "7.0.0-alpha.57",
+    "@storybook/react": "7.0.0-alpha.57",
     "@types/node": "^16.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
@@ -80,8 +80,8 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.54",
-    "next": "^12.2.4",
+    "@storybook/addon-actions": "7.0.0-alpha.57",
+    "next": "^13.0.5",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },
@@ -119,5 +119,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
+  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae"
 }

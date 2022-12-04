@@ -57,18 +57,21 @@ const Header = styled.h2`
 
 export default {
   component: Icons,
+  argTypes: {
+    color: { control: 'color' },
+  },
 };
 
 export const Basic = (args: ComponentProps<typeof Icons>) => <Icons {...args} />;
 Basic.args = { icon: 'watch' };
 
-export const Labels = () => (
+export const Labels = (args: ComponentProps<typeof Icons>) => (
   <>
     <Header>{Object.keys(icons).length} icons</Header>
     <List>
       {Object.keys(icons).map((key) => (
         <Item key={key}>
-          <Icons icon={key as IconKey} aria-hidden />
+          <Icons icon={key as IconKey} aria-hidden {...args} />
           <Meta>{key}</Meta>
         </Item>
       ))}
@@ -76,13 +79,13 @@ export const Labels = () => (
   </>
 );
 
-export const NoLabels = () => (
+export const NoLabels = (args: ComponentProps<typeof Icons>) => (
   <>
     <Header>{Object.keys(icons).length} icons</Header>
     <List>
       {Object.keys(icons).map((key) => (
         <Item minimal key={key}>
-          <Icons icon={key as IconKey} aria-label={key} />
+          <Icons icon={key as IconKey} aria-label={key} {...args} />
         </Item>
       ))}
     </List>

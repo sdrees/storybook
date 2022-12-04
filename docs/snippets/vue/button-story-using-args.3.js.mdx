@@ -18,10 +18,6 @@ export default {
  * to learn how to use render functions.
  */
 export const Primary = {
-  args: {
-    backgroundColor: '#ff0',
-    label: 'Button',
-  },
   render: (args) => ({
     components: { Button },
     setup() {
@@ -29,6 +25,10 @@ export const Primary = {
     },
     template: '<Button v-bind="args" />',
   }),
+  args: {
+    backgroundColor: '#ff0',
+    label: 'Button',
+  },
 };
 
 export const Secondary = {

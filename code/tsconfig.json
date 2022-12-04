@@ -14,7 +14,9 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "strictBindCallApply": true,
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "noUnusedLocals": true,
+    "types": ["jest"]
   },
   "exclude": ["dist", "**/dist", "node_modules", "**/node_modules", "**/setup-jest.ts"],
   "ts-node": {

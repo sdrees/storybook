@@ -1,0 +1,48 @@
+```ts
+// App.stories.ts
+
+import App from './App.vue';
+
+// import type { Meta, StoryObj } from '@storybook/vue3'; for Vue 3
+import type { Meta, StoryObj } from '@storybook/vue';
+
+const meta: Meta<typeof App> = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'App',
+  component: App,
+};
+
+export default meta;
+type Story = StoryObj<typeof App>;
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
+export const Success: Story = {
+  parameters: {
+    fetch: {
+      json: {
+        JavaScript: 3390991,
+        'C++': 44974,
+        TypeScript: 15530,
+        CoffeeScript: 12253,
+        Python: 9383,
+        C: 5341,
+        Shell: 5115,
+        HTML: 3420,
+        CSS: 3171,
+        Makefile: 189,
+      },
+    },
+  },
+  render: (args) => ({
+    components: { App },
+    template: '<App />',
+  }),
+};
+```

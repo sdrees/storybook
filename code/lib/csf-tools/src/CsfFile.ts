@@ -8,7 +8,7 @@ import * as generate from '@babel/generator';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { CSF_Meta, CSF_Story, Tag } from '@storybook/types';
+import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -141,6 +141,19 @@ export class NoMetaError extends Error {
     this.name = this.constructor.name;
   }
 }
+
+export interface StaticMeta
+  extends Pick<
+    ComponentAnnotations,
+    'id' | 'title' | 'includeStories' | 'excludeStories' | 'tags'
+  > {
+  component?: string;
+}
+
+export interface StaticStory extends Pick<StoryAnnotations, 'name' | 'parameters' | 'tags'> {
+  id: string;
+}
+
 export class CsfFile {
   _ast: t.File;
 
@@ -148,9 +161,9 @@ export class CsfFile {
 
   _makeTitle: (title: string) => string;
 
-  _meta?: CSF_Meta;
+  _meta?: StaticMeta;
 
-  _stories: Record<string, CSF_Story> = {};
+  _stories: Record<string, StaticStory> = {};
 
   _metaAnnotations: Record<string, t.Node> = {};
 
@@ -186,7 +199,7 @@ export class CsfFile {
   }
 
   _parseMeta(declaration: t.ObjectExpression, program: t.Program) {
-    const meta: CSF_Meta = {};
+    const meta: StaticMeta = {};
     declaration.properties.forEach((p: t.ObjectProperty) => {
       if (t.isIdentifier(p.key)) {
         this._metaAnnotations[p.key.name] = p.value;
@@ -458,7 +471,7 @@ export class CsfFile {
         }
       }
       return acc;
-    }, {} as Record<string, CSF_Story>);
+    }, {} as Record<string, StaticStory>);
 
     Object.keys(self._storyExports).forEach((key) => {
       if (!isExportStory(key, self._meta)) {

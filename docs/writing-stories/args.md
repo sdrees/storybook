@@ -23,7 +23,9 @@ To define the args of a single story, use the `args` CSF story key:
     'react/button-story-with-args.js.mdx',
     'react/button-story-with-args.ts.mdx',
     'vue/button-story-with-args.2.js.mdx',
+    'vue/button-story-with-args.ts-2.ts.mdx',
     'vue/button-story-with-args.3.js.mdx',
+    'vue/button-story-with-args.ts-3.ts.mdx',
     'angular/button-story-with-args.ts.mdx',
     'svelte/button-story-with-args.js.mdx',
     'web-components/button-story-with-args.js.mdx',
@@ -31,6 +33,7 @@ To define the args of a single story, use the `args` CSF story key:
     'html/button-story-with-args.js.mdx',
   ]}
 />
+
 
 <!-- prettier-ignore-end -->
 
@@ -41,6 +44,7 @@ These args will only apply to the story for which they are attached, although yo
 <CodeSnippets
   paths={[
     'common/button-story-primary-long-name.js.mdx',
+    'common/button-story-primary-long-name.ts.mdx',
   ]}
 />
 
@@ -59,6 +63,8 @@ You can also define args at the component level; they will apply to all the comp
     'react/button-story-component-args-primary.js.mdx',
     'react/button-story-component-args-primary.ts.mdx',
     'vue/button-story-component-args-primary.js.mdx',
+    'vue/button-story-component-args-primary.ts-2.ts.mdx',
+    'vue/button-story-component-args-primary.ts-3.ts.mdx',
     'angular/button-story-component-args-primary.ts.mdx',
     'svelte/button-story-component-args-primary.js.mdx',
     'web-components/button-story-component-args-primary.js.mdx',
@@ -90,6 +96,7 @@ You can separate the arguments to a story to compose in other stories. Here's ho
 <CodeSnippets
   paths={[
     'common/button-story-primary-composition.js.mdx',
+    'common/button-story-primary-composition.ts.mdx',
   ]}
 />
 
@@ -111,7 +118,9 @@ Args are useful when writing stories for composite components that are assembled
     'react/page-story.ts.mdx',
     'angular/page-story.ts.mdx',
     'vue/page-story.2.js.mdx',
+    'vue/page-story.ts-2.ts.mdx',
     'vue/page-story.3.js.mdx',
+    'vue/page-story.ts-3.ts.mdx',
     'svelte/page-story.js.mdx',
   ]}
 />
@@ -129,7 +138,9 @@ You can use args in your stories to configure the component's appearance, simila
     'react/page-story-slots.js.mdx',
     'react/page-story-slots.ts.mdx',
     'vue/page-story-slots.2.js.mdx',
+    'vue/page-story-slots.ts-2.ts.mdx',
     'vue/page-story-slots.3.js.mdx',
+    'vue/page-story-slots.ts-3.ts.mdx',
     'angular/page-story-slots.ts.mdx',
   ]}
 />
@@ -171,6 +182,7 @@ Complex values such as JSX elements cannot be serialized to the manager (e.g., t
 <CodeSnippets
   paths={[
     'common/my-component-argtypes-with-mapping.js.mdx',
+    'common/my-component-argtypes-with-mapping.ts.mdx',
   ]}
 />
 

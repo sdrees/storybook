@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-import type { BaseAnnotations, Store_ModuleExports } from '@storybook/types';
+import type { BaseAnnotations, ModuleExports } from '@storybook/types';
 
 import { Anchor } from './Anchor';
 import { DocsContext } from './DocsContext';
 
-type MetaProps = BaseAnnotations & { of?: Store_ModuleExports };
+type MetaProps = BaseAnnotations & { of?: ModuleExports };
 
 /**
  * This component is used to declare component metadata in docs

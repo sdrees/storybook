@@ -12,7 +12,7 @@ import { useStories } from './useStory';
 
 export { SourceState };
 
-type CanvasProps = Omit<PurePreviewProps, 'isExpanded'> & {
+type CanvasProps = Omit<PurePreviewProps, 'isExpanded' | 'isLoading'> & {
   withSource?: SourceState;
   mdxSource?: string;
 };

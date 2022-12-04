@@ -23,7 +23,11 @@ import { testRunner } from './tasks/test-runner';
 import { chromatic } from './tasks/chromatic';
 import { e2eTests } from './tasks/e2e-tests';
 
-import { allTemplates as TEMPLATES } from '../code/lib/cli/src/repro-templates';
+import {
+  allTemplates as TEMPLATES,
+  type TemplateKey,
+  type Template,
+} from '../code/lib/cli/src/repro-templates';
 
 const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
@@ -31,8 +35,6 @@ const junitDir = resolve(__dirname, '../test-results');
 
 export const extraAddons = ['a11y', 'storysource'];
 
-export type TemplateKey = keyof typeof TEMPLATES;
-export type Template = typeof TEMPLATES[TemplateKey];
 export type Path = string;
 export type TemplateDetails = {
   key: TemplateKey;

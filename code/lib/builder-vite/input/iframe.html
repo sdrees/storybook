@@ -25,11 +25,7 @@
     <!-- [BODY HTML SNIPPET HERE] -->
     <div id="storybook-root"></div>
     <div id="storybook-docs"></div>
-    <script type="module">
-      /* eslint-disable import/no-absolute-path, import/extensions, import/no-unresolved */
-      
-      import '/sb-preview/runtime.mjs';
-      import '/virtual:/@storybook/builder-vite/vite-app.js';
-    </script>
+    <script type="module" src="/sb-preview/runtime.mjs"></script>
+    <script type="module" src="/virtual:/@storybook/builder-vite/vite-app.js"></script>
   </body>
 </html>

@@ -145,8 +145,8 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
     'react/button-story-using-args.js.mdx',
     'react/button-story-using-args.ts.mdx',
     'vue/button-story-using-args.2.js.mdx',
-    'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.ts-2.ts.mdx',
+    'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.ts-3.ts.mdx',
     'angular/button-story-using-args.ts.mdx',
     'svelte/button-story-using-args.js.mdx',
@@ -170,13 +170,14 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'react/button-group-story.ts.mdx',
     'angular/button-group-story.ts.mdx',
     'vue/button-group-story.2.js.mdx',
-    'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.ts-2.ts.mdx',
+    'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.ts-3.ts.mdx',
     'svelte/button-group-story.js.mdx',
     'web-components/button-group-story.js.mdx',
   ]}
 />
+
 
 <!-- prettier-ignore-end -->
 

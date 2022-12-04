@@ -28,6 +28,16 @@ export const Step = {
   },
 };
 
+export const TypeAndClear = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // TODO: seems like userEvent.type + userEvent.clear + userEvent.type is not working for Svelte and Vue2/3. We should probably investigate, might be a bug in userEvent or in our implementation.
+    await fireEvent.input(canvas.getByTestId('value'), { target: { value: 'initial value' } });
+    await fireEvent.input(canvas.getByTestId('value'), { target: { value: '' } });
+    await fireEvent.input(canvas.getByTestId('value'), { target: { value: 'final value' } });
+  },
+};
+
 export const Callback = {
   play: async ({ args, canvasElement, step }) => {
     const canvas = within(canvasElement);

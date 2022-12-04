@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { CombinedVueInstance } from 'vue/types/vue';
 import type { VueRenderer } from './types';
 
@@ -91,7 +91,7 @@ export function renderToCanvas(
     showError,
     showException,
     forceRemount,
-  }: Store_RenderContext<VueRenderer>,
+  }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
   const root = getRoot(canvasElement);

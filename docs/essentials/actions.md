@@ -24,6 +24,7 @@ You can use [argTypes](../api/argtypes.md) to tell Storybook that an arg to your
 <CodeSnippets
   paths={[
     'common/button-story-onclick-action-argtype.js.mdx',
+    'common/button-story-onclick-action-argtype.ts.mdx',
   ]}
 />
 
@@ -54,6 +55,7 @@ If you need more granular control over which `argTypes` are matched, you can adj
 <CodeSnippets
   paths={[
     'common/button-story-matching-argtypes.js.mdx',
+    'common/button-story-matching-argtypes.ts.mdx',
   ]}
 />
 
@@ -74,8 +76,10 @@ It is also possible to detect if your component is emitting the correct HTML eve
 <CodeSnippets
   paths={[
     'common/button-story-action-event-handle.js.mdx',
+    'common/button-story-action-event-handle.ts.mdx',
   ]}
 />
+
 
 <!-- prettier-ignore-end -->
 

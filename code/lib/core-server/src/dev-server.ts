@@ -107,18 +107,18 @@ export async function storybookDevServer(options: Options) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));
   }
 
-  Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
-    if (!options.ci && !options.smokeTest && options.open) {
-      openInBrowser(host ? networkAddress : address);
-    }
-  });
-
   const managerResult = await managerBuilder.start({
     startTime: process.hrtime(),
     options,
     router,
     server,
     channel: serverChannel,
+  });
+
+  Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
+    if (!options.ci && !options.smokeTest && options.open) {
+      openInBrowser(host ? networkAddress : address);
+    }
   });
 
   let previewResult;

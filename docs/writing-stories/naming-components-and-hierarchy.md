@@ -9,6 +9,7 @@ The title of the component you export in the `default` export controls the name 
 <CodeSnippets
   paths={[
     'common/button-story-default-export.js.mdx',
+    'common/button-story-default-export.ts.mdx',
   ]}
 />
 
@@ -27,6 +28,7 @@ It is also possible to group related components in an expandable interface in or
 <CodeSnippets
   paths={[
     'common/button-story-grouped.js.mdx',
+    'common/button-story-grouped.ts.mdx',
   ]}
 />
 
@@ -37,6 +39,7 @@ It is also possible to group related components in an expandable interface in or
 <CodeSnippets
   paths={[
     'common/checkbox-story-grouped.js.mdx',
+    'common/checkbox-story-grouped.ts.mdx',
   ]}
 />
 
@@ -61,6 +64,7 @@ Stories which have **no siblings** (i.e. the component has only one story) and w
 <CodeSnippets
   paths={[
     'common/button-story-hoisted.js.mdx',
+    'common/button-story-hoisted.ts.mdx',
   ]}
 />
 

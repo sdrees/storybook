@@ -32,6 +32,15 @@ export type StorybookConfig = StorybookBaseConfig & {
   viteFinal?: ViteFinal;
 };
 
+/**
+ * @deprecated
+ *
+ * Use `import { StorybookConfig } from '@storybook/builder-vite';`
+ *
+ * Or better yet, import from your framework.
+ */
+export type StorybookViteConfig = StorybookConfig;
+
 function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): RequestHandler {
   return async (req, res, next) => {
     if (!req.url.match(/^\/iframe\.html($|\?)/)) {

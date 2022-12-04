@@ -4,8 +4,8 @@ import type {
   Renderer,
   ArgsEnhancer,
   ArgTypesEnhancer,
-  CoreCommon_NormalizedStoriesSpecifier,
-  CoreCommon_StoriesEntry,
+  NormalizedStoriesSpecifier,
+  StoriesEntry,
   DecoratorFunction,
 } from '@storybook/types';
 import { toRequireContext } from '@storybook/core-webpack';
@@ -29,7 +29,7 @@ const isFile = (file: string): boolean => {
 interface Output {
   features?: Record<string, boolean>;
   preview?: string;
-  stories?: CoreCommon_NormalizedStoriesSpecifier[];
+  stories?: NormalizedStoriesSpecifier[];
   requireContexts?: string[];
 }
 
@@ -65,7 +65,7 @@ function getConfigPathParts(input: string): Output {
       output.features = features;
 
       const workingDir = process.cwd();
-      output.stories = stories.map((entry: CoreCommon_StoriesEntry) => {
+      output.stories = stories.map((entry: StoriesEntry) => {
         const specifier = normalizeStoriesEntry(entry, {
           configDir,
           workingDir,

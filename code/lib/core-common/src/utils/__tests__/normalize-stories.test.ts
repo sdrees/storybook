@@ -230,7 +230,7 @@ describe('normalizeStoriesEntry', () => {
       {
         "titlePrefix": "",
         "directory": ".",
-        "files": "**/*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js)",
+        "files": "**/*.@(mdx|stories.@(tsx|ts|jsx|js))",
         "importPathMatcher": {}
       }
     `);
@@ -241,7 +241,7 @@ describe('normalizeStoriesEntry', () => {
     expect(specifier).toMatchInlineSnapshot(`
       {
         "titlePrefix": "",
-        "files": "**/*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js)",
+        "files": "**/*.@(mdx|stories.@(tsx|ts|jsx|js))",
         "directory": ".",
         "importPathMatcher": {}
       }
@@ -265,7 +265,7 @@ describe('normalizeStoriesEntry', () => {
     expect(specifier).toMatchInlineSnapshot(`
       {
         "titlePrefix": "atoms",
-        "files": "**/*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js)",
+        "files": "**/*.@(mdx|stories.@(tsx|ts|jsx|js))",
         "directory": ".",
         "importPathMatcher": {}
       }

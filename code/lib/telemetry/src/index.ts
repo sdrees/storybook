@@ -9,6 +9,8 @@ export * from './storybook-metadata';
 
 export * from './types';
 
+export { getStorybookCoreVersion } from './package-json';
+
 export const telemetry = async (
   eventType: EventType,
   payload: Payload = {},

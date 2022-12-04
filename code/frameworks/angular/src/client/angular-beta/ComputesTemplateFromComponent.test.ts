@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { API_ArgTypes } from '@storybook/types';
+import { ArgTypes } from '@storybook/types';
 import { computesTemplateSourceFromComponent } from './ComputesTemplateFromComponent';
 import { ISomeInterface, ButtonAccent, InputComponent } from './__testfixtures__/input.component';
 
@@ -7,7 +7,7 @@ describe('angular source decorator', () => {
   it('With no props should generate simple tag', () => {
     const component = InputComponent;
     const props = {};
-    const argTypes: API_ArgTypes = {};
+    const argTypes: ArgTypes = {};
     const source = computesTemplateSourceFromComponent(component, props, argTypes);
     expect(source).toEqual('<doc-button></doc-button>');
   });
@@ -21,7 +21,7 @@ describe('angular source decorator', () => {
     it('should add component ng-container', async () => {
       const component = WithoutSelectorComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(
         `<ng-container *ngComponentOutlet="WithoutSelectorComponent"></ng-container>`
@@ -39,7 +39,7 @@ describe('angular source decorator', () => {
     it('should add attribute to template', async () => {
       const component = WithAttributeComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button foo></doc-button>`);
     });
@@ -55,7 +55,7 @@ describe('angular source decorator', () => {
     it('should add attribute to template', async () => {
       const component = WithAttributeValueComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button foo="bar"></doc-button>`);
     });
@@ -71,7 +71,7 @@ describe('angular source decorator', () => {
     it('should create a div and add attribute to template', async () => {
       const component = WithAttributeOnlyComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<div foo></div>`);
     });
@@ -87,7 +87,7 @@ describe('angular source decorator', () => {
     it('should create without separate closing tag', async () => {
       const component = VoidElementWithAttributeComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<input foo />`);
     });
@@ -103,7 +103,7 @@ describe('angular source decorator', () => {
     it('should create a div and add attribute to template', async () => {
       const component = WithAttributeOnlyComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<div foo="bar"></div>`);
     });
@@ -119,7 +119,7 @@ describe('angular source decorator', () => {
     it('should create and add attribute to template without separate closing tag', async () => {
       const component = VoidElementWithAttributeComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<input foo="bar" />`);
     });
@@ -135,7 +135,7 @@ describe('angular source decorator', () => {
     it('should add class to template', async () => {
       const component = WithClassComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button class="foo"></doc-button>`);
     });
@@ -151,7 +151,7 @@ describe('angular source decorator', () => {
     it('should create a div and add attribute to template', async () => {
       const component = WithClassComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<div class="foo"></div>`);
     });
@@ -167,7 +167,7 @@ describe('angular source decorator', () => {
     it('should use the first selector', async () => {
       const component = WithMultipleSelectorsComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button></doc-button>`);
     });
@@ -183,7 +183,7 @@ describe('angular source decorator', () => {
     it('should use the first selector', async () => {
       const component = WithMultipleSelectorsComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button foo></doc-button>`);
     });
@@ -199,7 +199,7 @@ describe('angular source decorator', () => {
     it('should use the first selector', async () => {
       const component = WithMultipleSelectorsComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button foo="bar"></doc-button>`);
     });
@@ -215,7 +215,7 @@ describe('angular source decorator', () => {
     it('should use the first selector', async () => {
       const component = WithMultipleSelectorsComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button></doc-button>`);
     });
@@ -232,7 +232,7 @@ describe('angular source decorator', () => {
     it('should use the first selector', async () => {
       const component = WithMultipleSelectorsComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button></doc-button>`);
     });
@@ -249,7 +249,7 @@ describe('angular source decorator', () => {
     it('should use the first selector', async () => {
       const component = WithMultipleSelectorsComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<div foo></div>`);
     });
@@ -259,7 +259,7 @@ describe('angular source decorator', () => {
     it('should generate tag-only template with no props', () => {
       const component = InputComponent;
       const props = {};
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button></doc-button>`);
     });
@@ -271,7 +271,7 @@ describe('angular source decorator', () => {
         accent: ButtonAccent.High,
         counter: 4,
       };
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(
         `<doc-button [counter]="4" accent="High" [isDisabled]="true" label="Hello world"></doc-button>`
@@ -285,7 +285,7 @@ describe('angular source decorator', () => {
         label: 'Hello world',
         onClick: ($event: any) => {},
       };
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(
         `<doc-button [isDisabled]="true" label="Hello world" (onClick)="onClick($event)"></doc-button>`
@@ -297,7 +297,7 @@ describe('angular source decorator', () => {
       const props = {
         color: '#ffffff',
       };
-      const argTypes: API_ArgTypes = {};
+      const argTypes: ArgTypes = {};
       const source = computesTemplateSourceFromComponent(component, props, argTypes);
       expect(source).toEqual(`<doc-button color="#ffffff"></doc-button>`);
     });
@@ -311,7 +311,7 @@ describe('angular source decorator', () => {
         label: 'Hello world',
         accent: ButtonAccent.High,
       };
-      const argTypes: API_ArgTypes = {
+      const argTypes: ArgTypes = {
         accent: {
           control: {
             options: ['Normal', 'High'],
@@ -324,7 +324,7 @@ describe('angular source decorator', () => {
           type: {
             name: 'enum',
             required: true,
-            summary: 'ButtonAccent',
+            value: [],
           },
         },
       };
@@ -341,7 +341,7 @@ describe('angular source decorator', () => {
         label: 'Hello world',
         accent: ButtonAccent.High,
       };
-      const argTypes: API_ArgTypes = {
+      const argTypes: ArgTypes = {
         accent: {
           control: {
             options: ['Normal', 'High'],
@@ -354,6 +354,7 @@ describe('angular source decorator', () => {
           type: {
             name: 'object',
             required: true,
+            value: {},
           },
         },
       };

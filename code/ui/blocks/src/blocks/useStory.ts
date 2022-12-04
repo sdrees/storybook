@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import type { StoryId, Renderer, Store_Story } from '@storybook/types';
+import type { StoryId, Renderer, PreparedStory } from '@storybook/types';
 
 import type { DocsContextProps } from './DocsContext';
 
 export function useStory<TRenderer extends Renderer = Renderer>(
   storyId: StoryId,
   context: DocsContextProps<TRenderer>
-): Store_Story<TRenderer> | void {
+): PreparedStory<TRenderer> | void {
   const stories = useStories([storyId], context);
   return stories && stories[0];
 }
@@ -14,10 +14,10 @@ export function useStory<TRenderer extends Renderer = Renderer>(
 export function useStories<TRenderer extends Renderer = Renderer>(
   storyIds: StoryId[],
   context: DocsContextProps<TRenderer>
-): (Store_Story<TRenderer> | void)[] {
+): (PreparedStory<TRenderer> | void)[] {
   // Legacy docs pages can reference any story by id. Those stories will need to be
   // asyncronously loaded; we use the state for this
-  const [storiesById, setStories] = useState<Record<StoryId, Store_Story<TRenderer>>>({});
+  const [storiesById, setStories] = useState<Record<StoryId, PreparedStory<TRenderer>>>({});
 
   useEffect(() => {
     // deepscan-disable-next-line NO_EFFECT_CALL

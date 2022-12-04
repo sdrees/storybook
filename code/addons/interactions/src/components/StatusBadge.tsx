@@ -35,5 +35,9 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
     [CallStates.ACTIVE]: 'Runs',
     [CallStates.WAITING]: 'Runs',
   }[status];
-  return <StyledBadge status={status}>{badgeText}</StyledBadge>;
+  return (
+    <StyledBadge aria-label="Status of the test run" status={status}>
+      {badgeText}
+    </StyledBadge>
+  );
 };

@@ -91,6 +91,7 @@ If you're already using any of those flags in your project, you should be able t
 | `--verbose`                     | Display individual test results with the test suite hierarchy <br/>`test-storybook --verbose`                                    |
 | `-u`, `--updateSnapshot`        | Use this flag to re-record every snapshot that fails during this test run <br/>`test-storybook -u`                               |
 | `--eject`                       | Creates a local configuration file to override defaults of the test-runner <br/>`test-storybook --eject`                         |
+| `--coverage`                    | Runs [coverage tests](./test-coverage.md) on your stories and components <br/> `test-storybook --coverage`                       |
 
 <!-- prettier-ignore-start -->
 
@@ -223,6 +224,21 @@ When the test-runner executes, your existing tests will go through the following
 - The story is rendered, and any existing `play` functions are executed.
 - The `postRender` function is executed.
 
+### Helpers
+
+The test-runner exports a few helpers that can be used to make your tests more readable and maintainable by accessing Storybook's internals (e.g., `args`, `parameters`). Listed below are the available helpers and an overview of how to use them.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-test-runner-helper-function.js.mdx',
+    'common/storybook-test-runner-helper-function.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ### Stories.json mode
 
 The test-runner transforms your story files into tests when testing a local Storybook. For a remote Storybook, it uses the Storybook's [stories.json](../configure/overview.md#feature-flags) file (a static index of all the stories) to run the tests.
@@ -301,5 +317,6 @@ As the test runner is based on Playwright, you might need to use specific docker
 - [Visual tests](./visual-testing.md) for appearance
 - [Accessibility tests](./accessibility-testing.md) for accessibility
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
+- [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
 - [Import stories in other tests](./importing-stories-in-tests.md) for other tools

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import type {
   AnnotatedStoryFn,
   Args,
@@ -117,22 +115,6 @@ export type {
   StrictInputType,
   Tag,
 };
-
-export interface CSF_Meta {
-  id?: string;
-  title?: string;
-  component?: string;
-  includeStories?: string[] | RegExp;
-  excludeStories?: string[] | RegExp;
-  tags?: Tag[];
-}
-
-export interface CSF_Story {
-  id: string;
-  name: string;
-  parameters: Parameters;
-  tags?: Tag[];
-}
 
 export type ViewMode = ViewModeBase | 'story' | 'info' | 'settings' | string | undefined;
 

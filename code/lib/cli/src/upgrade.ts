@@ -1,5 +1,5 @@
 import { sync as spawnSync } from 'cross-spawn';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
@@ -159,10 +159,9 @@ export const doUpgrade = async ({
   }
   const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
 
+  const beforeVersion = await getStorybookCoreVersion();
+
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
-  if (!options.disableTelemetry) {
-    telemetry('upgrade', { prerelease });
-  }
 
   let flags = [];
   if (!dryRun) flags.push('--upgrade');
@@ -180,9 +179,15 @@ export const doUpgrade = async ({
     packageManager.installDependencies();
   }
 
+  let automigrationResults;
   if (!skipCheck) {
     checkVersionConsistency();
-    await automigrate({ dryRun, yes, useNpm, force: pkgMgr });
+    automigrationResults = await automigrate({ dryRun, yes, useNpm, force: pkgMgr });
+  }
+
+  if (!options.disableTelemetry) {
+    const afterVersion = await getStorybookCoreVersion();
+    telemetry('upgrade', { prerelease, automigrationResults, beforeVersion, afterVersion });
   }
 };
 

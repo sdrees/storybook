@@ -1,5 +1,5 @@
-import { type StorybookConfig, withoutVitePlugins } from '@storybook/builder-vite';
-import { hasPlugin } from './utils';
+import { type StorybookConfig } from '@storybook/builder-vite';
+import { handleSvelteKit, hasPlugin } from './utils';
 import { svelteDocgen } from './plugins/svelte-docgen';
 
 export const core: StorybookConfig['core'] = {
@@ -7,7 +7,7 @@ export const core: StorybookConfig['core'] = {
   renderer: '@storybook/svelte',
 };
 
-export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) => {
+export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (config, options) => {
   let { plugins = [] } = config;
   const { svelte, loadSvelteConfig } = await import('@sveltejs/vite-plugin-svelte');
   const svelteOptions: Record<string, any> = await options.presets.apply(
@@ -25,9 +25,8 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) =
   // Add docgen plugin
   plugins.push(svelteDocgen(svelteConfig));
 
-  // Remove vite-plugin-svelte-kit from plugins if using SvelteKit
-  // see https://github.com/storybookjs/storybook/issues/19280#issuecomment-1281204341
-  plugins = withoutVitePlugins(plugins, ['vite-plugin-svelte-kit']);
+  // temporarily support SvelteKit
+  plugins = await handleSvelteKit(plugins, options);
 
   // TODO: temporary until/unless https://github.com/storybookjs/addon-svelte-csf/issues/64 is fixed
   // Wrapping in try-catch in case `@storybook/addon-svelte-csf is not installed

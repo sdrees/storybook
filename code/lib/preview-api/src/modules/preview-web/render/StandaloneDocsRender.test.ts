@@ -1,6 +1,6 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { Renderer, Addon_StandaloneDocsIndexEntry } from '@storybook/types';
+import type { Renderer, StandaloneDocsIndexEntry } from '@storybook/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
@@ -14,7 +14,7 @@ const entry = {
   importPath: './Introduction.mdx',
   storiesImports: [],
   standalone: true,
-} as Addon_StandaloneDocsIndexEntry;
+} as StandaloneDocsIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};

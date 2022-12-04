@@ -17,5 +17,5 @@ export const Component: FC<Props> = ({
   ...rest
 }: Props) => {
   const props = { any, string, bool, number, ...rest };
-  return <>JSON.stringify(props)</>;
+  return <>{JSON.stringify(props)}</>;
 };

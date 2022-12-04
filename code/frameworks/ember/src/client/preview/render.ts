@@ -1,6 +1,6 @@
 import global from 'global';
 import { dedent } from 'ts-dedent';
-import type { Store_RenderContext } from '@storybook/types';
+import type { RenderContext } from '@storybook/types';
 // @ts-expect-error (Converted from ts-ignore)
 import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
 import type { OptionsArgs, EmberRenderer } from './types';
@@ -61,7 +61,7 @@ function render(options: OptionsArgs, el: EmberRenderer['canvasElement']) {
 }
 
 export function renderToCanvas(
-  { storyFn, kind, name, showMain, showError }: Store_RenderContext<EmberRenderer>,
+  { storyFn, kind, name, showMain, showError }: RenderContext<EmberRenderer>,
   canvasElement: EmberRenderer['canvasElement']
 ) {
   const element = storyFn();

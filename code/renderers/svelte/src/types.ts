@@ -48,4 +48,5 @@ export interface SvelteStoryResult<
     ? Record<string, (event: CustomEvent) => void>
     : { [K in keyof Events as string extends K ? never : K]?: (event: Events[K]) => void };
   props?: Props;
+  decorator?: ComponentType<Props>;
 }

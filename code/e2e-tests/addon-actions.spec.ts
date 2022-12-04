@@ -20,7 +20,7 @@ test.describe('addon-actions', () => {
 
     await sbPage.viewAddonPanel('Actions');
     const logItem = await page.locator('#storybook-panel-root #panel-tab-content', {
-      hasText: 'onClick',
+      hasText: 'click',
     });
     await expect(logItem).toBeVisible();
   });

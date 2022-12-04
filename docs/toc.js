@@ -205,6 +205,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'test-coverage',
+          title: 'Test coverage',
+          type: 'link',
+        },
+        {
           pathSegment: 'snapshot-testing',
           title: 'Snapshot tests',
           type: 'link',
@@ -540,6 +545,11 @@ module.exports = {
               type: 'link',
             },
           ],
+        },
+        {
+          pathSegment: 'framework',
+          title: 'Framework',
+          type: 'link',
         },
         {
           pathSegment: 'how-to-reproduce',

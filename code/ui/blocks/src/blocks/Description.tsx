@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
+import { deprecate } from '@storybook/client-logger';
 import type { DescriptionProps as PureDescriptionProps } from '../components';
 import { Description } from '../components';
 
@@ -13,7 +14,6 @@ export enum DescriptionType {
   INFO = 'info',
   NOTES = 'notes',
   DOCGEN = 'docgen',
-  LEGACY_5_2 = 'legacy-5.2',
   AUTO = 'auto',
 }
 
@@ -22,8 +22,17 @@ type Info = string | any;
 
 interface DescriptionProps {
   of?: '.' | Component;
+  /**
+   * @deprecated Manually specifying description type is deprecated. In the future all descriptions will be extracted from JSDocs on the meta, story or component.
+   */
   type?: DescriptionType;
+  /**
+   * @deprecated The 'markdown' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead
+   */
   markdown?: string;
+  /**
+   * @deprecated The 'children' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead
+   */
   children?: string;
 }
 
@@ -34,7 +43,7 @@ const getInfo = (info?: Info) => info && (typeof info === 'string' ? info : str(
 
 const noDescription = (component?: Component): string | null => null;
 
-export const getDescriptionProps = (
+export const useDescriptionProps = (
   { of, type, markdown, children }: DescriptionProps,
   { storyById }: DocsContextProps<any>
 ): PureDescriptionProps => {
@@ -43,6 +52,12 @@ export const getDescriptionProps = (
     return { markdown: children || markdown };
   }
   const { notes, info, docs } = parameters;
+  if (Boolean(notes) || Boolean(info)) {
+    deprecate(
+      "Using 'parameters.notes' or 'parameters.info' properties to describe stories is deprecated. Write JSDocs directly at the meta, story or component instead."
+    );
+  }
+
   const { extractComponentDescription = noDescription, description } = docs || {};
   const target = [PRIMARY_STORY].includes(of) ? component : of;
 
@@ -57,15 +72,6 @@ export const getDescriptionProps = (
       return { markdown: getInfo(info) };
     case DescriptionType.NOTES:
       return { markdown: getNotes(notes) };
-    // FIXME: remove in 6.0
-    case DescriptionType.LEGACY_5_2:
-      return {
-        markdown: `
-${getNotes(notes) || getInfo(info) || ''}
-
-${extractComponentDescription(target) || ''}
-`.trim(),
-      };
     case DescriptionType.DOCGEN:
     case DescriptionType.AUTO:
     default:
@@ -73,15 +79,25 @@ ${extractComponentDescription(target) || ''}
   }
 };
 
-const DescriptionContainer: FC<DescriptionProps> = (props) => {
+const DescriptionContainer: FC<DescriptionProps> = (props = { of: PRIMARY_STORY }) => {
   const context = useContext(DocsContext);
-  const { markdown } = getDescriptionProps(props, context);
+  const { markdown } = useDescriptionProps(props, context);
+  if (props.type) {
+    deprecate(
+      'Manually specifying description type is deprecated. In the future all descriptions will be extracted from JSDocs on the meta, story or component.'
+    );
+  }
+  if (props.markdown) {
+    deprecate(
+      "The 'markdown' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead"
+    );
+  }
+  if (props.children) {
+    deprecate(
+      "The 'children' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead."
+    );
+  }
   return markdown ? <Description markdown={markdown} /> : null;
-};
-
-// since we are in the docs blocks, assume default description if for primary component story
-DescriptionContainer.defaultProps = {
-  of: PRIMARY_STORY,
 };
 
 export { DescriptionContainer as Description };

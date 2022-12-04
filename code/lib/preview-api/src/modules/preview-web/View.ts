@@ -1,8 +1,8 @@
-import type { Store_Story } from '@storybook/types';
+import type { PreparedStory } from '@storybook/types';
 
 export interface View<TStorybookRoot> {
   // Get ready to render a story, returning the element to render to
-  prepareForStory(story: Store_Story<any>): TStorybookRoot;
+  prepareForStory(story: PreparedStory<any>): TStorybookRoot;
 
   prepareForDocs(): TStorybookRoot;
 

@@ -1,11 +1,11 @@
 import { expect } from '@jest/globals';
 
-import type { Store_StoryIndex } from '@storybook/types';
+import type { StoryIndex } from '@storybook/types';
 import { StoryIndexStore } from './StoryIndexStore';
 
 jest.mock('@storybook/channel-websocket', () => () => ({ on: jest.fn() }));
 
-const storyIndex: Store_StoryIndex = {
+const storyIndex: StoryIndex = {
   v: 4,
   entries: {
     'component-one--a': {

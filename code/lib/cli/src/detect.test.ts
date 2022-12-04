@@ -296,19 +296,22 @@ describe('Detect', () => {
 
   it(`should return language typescript if the dependency is >TS4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '4.9.1' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      // TODO: switch to TYPESCRIPT once csf-tools and eslint-plugin-storybook support `satisfies` operator
+      SupportedLanguage.TYPESCRIPT_LEGACY
     );
   });
 
   it(`should return language typescript if the dependency is =TS4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '4.9.0' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      // TODO: switch to TYPESCRIPT once csf-tools and eslint-plugin-storybook support `satisfies` operator
+      SupportedLanguage.TYPESCRIPT_LEGACY
     );
   });
 
   it(`should return language typescript if the dependency is =TS4.9beta`, () => {
     expect(detectLanguage({ dependencies: { typescript: '^4.9.0-beta' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      // TODO: switch to TYPESCRIPT once csf-tools and eslint-plugin-storybook support `satisfies` operator
+      SupportedLanguage.TYPESCRIPT_LEGACY
     );
   });
 

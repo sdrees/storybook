@@ -5,7 +5,7 @@ import type {
   API_ComposedRefUpdate,
   API_Refs,
   API_SetRefData,
-  API_SetStoriesStoryData,
+  SetStoriesStoryData,
   API_StoriesHash,
   API_StoryMapper,
 } from '@storybook/types';
@@ -82,15 +82,15 @@ async function handleRequest(request: Response | false): Promise<API_SetRefData>
 }
 
 const map = (
-  input: API_SetStoriesStoryData,
+  input: SetStoriesStoryData,
   ref: API_ComposedRef,
   options: { storyMapper?: API_StoryMapper }
-): API_SetStoriesStoryData => {
+): SetStoriesStoryData => {
   const { storyMapper } = options;
   if (storyMapper) {
     return Object.entries(input).reduce((acc, [id, item]) => {
       return { ...acc, [id]: storyMapper(ref, item) };
-    }, {} as API_SetStoriesStoryData);
+    }, {} as SetStoriesStoryData);
   }
   return input;
 };

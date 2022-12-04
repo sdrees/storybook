@@ -12,9 +12,9 @@ In the interest of fostering an open and welcoming environment, we as contributo
 
 - [**Code**](./code.md): Features, bug fixes, dependency updates
 - [**Docs**](./documentation-updates.md): Typos, clarifications
-- [**Integrations**](./../api/new-frameworks.md): Integrate Storybook with your favorite library
 - [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
-- TODO
+- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library
+
 ## Not sure how to get started?
 
 - [Chat in Discord #contributing](https://discord.gg/storybook)

@@ -1,7 +1,7 @@
 import { SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { dequal as deepEqual } from 'dequal';
-import type { API_SetGlobalsPayload, Globals, GlobalTypes } from '@storybook/types';
+import type { SetGlobalsPayload, Globals, GlobalTypes } from '@storybook/types';
 
 import type { ModuleFn } from '../index';
 
@@ -63,27 +63,24 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
     });
 
     // Emitted by the preview on initialization
-    fullAPI.on(
-      SET_GLOBALS,
-      function handleSetStories({ globals, globalTypes }: API_SetGlobalsPayload) {
-        const { ref } = getEventMetadata(this, fullAPI);
-        const currentGlobals = store.getState()?.globals;
+    fullAPI.on(SET_GLOBALS, function handleSetStories({ globals, globalTypes }: SetGlobalsPayload) {
+      const { ref } = getEventMetadata(this, fullAPI);
+      const currentGlobals = store.getState()?.globals;
 
-        if (!ref) {
-          store.setState({ globals, globalTypes });
-        } else if (Object.keys(globals).length > 0) {
-          logger.warn('received globals from a non-local ref. This is not currently supported.');
-        }
-
-        if (
-          currentGlobals &&
-          Object.keys(currentGlobals).length !== 0 &&
-          !deepEqual(globals, currentGlobals)
-        ) {
-          api.updateGlobals(currentGlobals);
-        }
+      if (!ref) {
+        store.setState({ globals, globalTypes });
+      } else if (Object.keys(globals).length > 0) {
+        logger.warn('received globals from a non-local ref. This is not currently supported.');
       }
-    );
+
+      if (
+        currentGlobals &&
+        Object.keys(currentGlobals).length !== 0 &&
+        !deepEqual(globals, currentGlobals)
+      ) {
+        api.updateGlobals(currentGlobals);
+      }
+    });
   };
 
   return {

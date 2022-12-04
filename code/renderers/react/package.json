@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-alpha.54",
+  "version": "7.0.0-alpha.57",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -52,11 +52,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.54",
-    "@storybook/core-client": "7.0.0-alpha.54",
-    "@storybook/docs-tools": "7.0.0-alpha.54",
-    "@storybook/preview-api": "7.0.0-alpha.54",
-    "@storybook/types": "7.0.0-alpha.54",
+    "@storybook/client-logger": "7.0.0-alpha.57",
+    "@storybook/core-client": "7.0.0-alpha.57",
+    "@storybook/docs-tools": "7.0.0-alpha.57",
+    "@storybook/preview-api": "7.0.0-alpha.57",
+    "@storybook/types": "7.0.0-alpha.57",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
     "acorn": "^7.4.1",
@@ -76,7 +76,7 @@
     "@babel/core": "^7.20.2",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.14.2",
-    "jest-specific-snapshot": "^6.0.0",
+    "jest-specific-snapshot": "^7.0.0",
     "require-from-string": "^2.0.2",
     "typescript": "^4.9.3"
   },
@@ -102,5 +102,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
+  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae"
 }

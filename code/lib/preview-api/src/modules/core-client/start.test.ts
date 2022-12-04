@@ -5,7 +5,7 @@
 /* global window */
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
-import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
+import type { ModuleExports, Path } from '@storybook/types';
 import global from 'global';
 import { setGlobalRender } from '../../client-api';
 import {
@@ -17,6 +17,7 @@ import {
 } from './PreviewWeb.mockdata';
 
 import { start as realStart } from './start';
+import type { Loadable } from './executeLoadable';
 
 jest.mock('global', () => ({
   ...jest.requireActual('global'),
@@ -96,7 +97,7 @@ afterEach(() => {
   mockChannel.emit.mockClear();
 });
 
-function makeRequireContext(importMap: Record<Path, Store_ModuleExports>) {
+function makeRequireContext(importMap: Record<Path, ModuleExports>) {
   const req = (path: Path) => importMap[path];
   req.keys = () => Object.keys(importMap);
   return req;
@@ -385,7 +386,7 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story is added', async () => {
       const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(renderToCanvas);
+      const { configure, clientApi } = start(renderToCanvas);
 
       let disposeCallback: () => void = () => {};
       const module = {

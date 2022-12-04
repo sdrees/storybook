@@ -1,10 +1,10 @@
 import { dedent } from 'ts-dedent';
-import type { CoreCommon_NormalizedStoriesSpecifier } from '@storybook/types';
+import type { NormalizedStoriesSpecifier } from '@storybook/types';
 import { globToRegexp } from '@storybook/core-common';
 
 import { importPipeline } from './importPipeline';
 
-export function webpackIncludeRegexp(specifier: CoreCommon_NormalizedStoriesSpecifier) {
+export function webpackIncludeRegexp(specifier: NormalizedStoriesSpecifier) {
   const { directory, files } = specifier;
 
   // It appears webpack passes *something* similar to the absolute path to the file
@@ -22,7 +22,7 @@ export function webpackIncludeRegexp(specifier: CoreCommon_NormalizedStoriesSpec
   return new RegExp(webpackIncludeRegexpWithCaret.source.replace(/^\^/, ''));
 }
 
-export function toImportFnPart(specifier: CoreCommon_NormalizedStoriesSpecifier) {
+export function toImportFnPart(specifier: NormalizedStoriesSpecifier) {
   const { directory, importPathMatcher } = specifier;
 
   return dedent`
@@ -43,7 +43,7 @@ export function toImportFnPart(specifier: CoreCommon_NormalizedStoriesSpecifier)
 }
 
 export function toImportFn(
-  stories: CoreCommon_NormalizedStoriesSpecifier[],
+  stories: NormalizedStoriesSpecifier[],
   { needPipelinedImport }: { needPipelinedImport?: boolean } = {}
 ) {
   let pipelinedImport = `const pipeline = (x) => x();`;

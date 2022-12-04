@@ -1,13 +1,7 @@
 import type { FC, MouseEvent } from 'react';
 import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
-import {
-  FlexBar,
-  Icons,
-  IconButton,
-  IconButtonSkeleton,
-  getStoryHref,
-} from '@storybook/components';
+import { FlexBar, Icons, IconButton, IconButtonSkeleton } from '@storybook/components';
 
 interface ZoomProps {
   zoom: (val: number) => void;
@@ -64,17 +58,6 @@ const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
   </>
 );
 
-const Eject: FC<EjectProps> = ({ baseUrl, storyId }) => (
-  <IconButton
-    key="opener"
-    href={getStoryHref(baseUrl, storyId)}
-    target="_blank"
-    title="Open canvas in new tab"
-  >
-    <Icons icon="share" />
-  </IconButton>
-);
-
 const Bar = styled(FlexBar)({
   position: 'absolute',
   left: 0,
@@ -98,9 +81,6 @@ export const Toolbar: FC<ToolbarProps> = ({
       ) : (
         <Zoom {...{ zoom, resetZoom }} />
       )}
-    </Fragment>
-    <Fragment key="right">
-      {storyId && (isLoading ? <IconButtonSkeleton /> : <Eject {...{ storyId, baseUrl }} />)}
     </Fragment>
   </Bar>
 );

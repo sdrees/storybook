@@ -1,6 +1,6 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { Renderer, Addon_StoryIndexEntry } from '@storybook/types';
+import type { Renderer, StoryIndexEntry } from '@storybook/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
@@ -12,7 +12,7 @@ const entry = {
   name: 'A',
   title: 'component',
   importPath: './component.stories.ts',
-} as Addon_StoryIndexEntry;
+} as StoryIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};

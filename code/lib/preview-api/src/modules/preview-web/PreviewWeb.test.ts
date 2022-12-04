@@ -31,7 +31,7 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import type { Renderer, Store_ModuleImportFn, ProjectAnnotations } from '@storybook/types';
+import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
 import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
@@ -107,7 +107,7 @@ async function createAndRenderPreview({
   importFn: inputImportFn = importFn,
   getProjectAnnotations: inputGetProjectAnnotations = getProjectAnnotations,
 }: {
-  importFn?: Store_ModuleImportFn;
+  importFn?: ModuleImportFn;
   getProjectAnnotations?: () => ProjectAnnotations<Renderer>;
 } = {}) {
   const preview = new PreviewWeb();
@@ -775,7 +775,7 @@ describe('PreviewWeb', () => {
 
     it('passes globals in context to renderToCanvas', async () => {
       document.location.search = '?id=component-one--a';
-      const preview = await createAndRenderPreview();
+      await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToCanvas.mockClear();

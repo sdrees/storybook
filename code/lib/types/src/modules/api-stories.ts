@@ -1,21 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { API_ViewMode } from './api';
 import type { DocsOptions } from './core-common';
-import type {
-  Args,
-  ArgTypes,
-  ComponentId,
-  Parameters,
-  ComponentTitle,
-  StoryId,
-  StoryKind,
-  StoryName,
-  Conditional,
-  Globals,
-  GlobalTypes,
-  Path,
-  Tag,
-} from './csf';
+import type { Args, ArgTypes, Parameters, ComponentTitle, StoryId, Path, Tag } from './csf';
+import type { IndexEntry } from './storyIndex';
 
 export interface API_BaseEntry {
   id: StoryId;
@@ -137,87 +123,9 @@ export type API_Story = API_LeafEntry;
 export interface API_StoriesHash {
   [id: string]: API_HashEntry;
 }
-
-// The data received on the (legacy) `setStories` event
-export interface API_SetStoriesStory {
-  id: StoryId;
-  name: string;
-  refId?: string;
-  componentId?: ComponentId;
-  kind: StoryKind;
-  parameters: {
-    fileName: string;
-    options: {
-      [optionName: string]: any;
-    };
-    docsOnly?: boolean;
-    viewMode?: API_ViewMode;
-    [parameterName: string]: any;
-  };
-  argTypes?: ArgTypes;
-  args?: Args;
-  initialArgs?: Args;
-}
-
-export interface API_SetStoriesStoryData {
-  [id: string]: API_SetStoriesStory;
-}
-
-export interface API_StoryKey {
-  id: StoryId;
-  refId?: string;
-}
-
-export type API_SetStoriesPayload =
-  | {
-      v: 2;
-      error?: Error;
-      globals: Args;
-      globalParameters: Parameters;
-      stories: API_SetStoriesStoryData;
-      kindParameters: {
-        [kind: string]: Parameters;
-      };
-    }
-  | ({
-      v?: number;
-      stories: API_SetStoriesStoryData;
-    } & Record<string, never>);
-
-interface API_BaseIndexEntry {
-  id: StoryId;
-  name: StoryName;
-  title: ComponentTitle;
-  importPath: Path;
-}
-
-export type API_StoryIndexEntry = API_BaseIndexEntry & {
-  type?: 'story';
-};
-
-interface API_V3IndexEntry extends API_BaseIndexEntry {
-  parameters?: Parameters;
-}
-
-export interface API_StoryIndexV3 {
-  v: 3;
-  stories: Record<StoryId, API_V3IndexEntry>;
-}
-
-export type API_DocsIndexEntry = API_BaseIndexEntry & {
-  storiesImports: Path[];
-  type: 'docs';
-};
-
-export type API_IndexEntry = API_StoryIndexEntry | API_DocsIndexEntry;
-export interface StoryIndex {
-  v: number;
-  entries: Record<StoryId, API_IndexEntry>;
-}
-
 // We used to received a bit more data over the channel on the SET_STORIES event, including
 // the full parameters for each story.
-type API_PreparedIndexEntry = API_IndexEntry & {
+type API_PreparedIndexEntry = IndexEntry & {
   parameters?: Parameters;
   argTypes?: ArgTypes;
   args?: Args;
@@ -228,30 +136,9 @@ export interface API_PreparedStoryIndex {
   entries: Record<StoryId, API_PreparedIndexEntry>;
 }
 
-export interface API_StoryIndex {
-  v: number;
-  entries: Record<StoryId, API_IndexEntry>;
-}
-
 export type API_OptionsData = {
   docsOptions: DocsOptions;
 };
-
-export interface API_Args {
-  [key: string]: any;
-}
-
-export interface API_ArgType {
-  name?: string;
-  description?: string;
-  defaultValue?: any;
-  if?: Conditional;
-  [key: string]: any;
-}
-
-export interface API_ArgTypes {
-  [key: string]: API_ArgType;
-}
 
 export interface API_ReleaseNotes {
   success?: boolean;
@@ -261,11 +148,6 @@ export interface API_ReleaseNotes {
 
 export interface API_Settings {
   lastTrackedStoryId: string;
-}
-
-export interface API_SetGlobalsPayload {
-  globals: Globals;
-  globalTypes: GlobalTypes;
 }
 
 export interface API_Version {

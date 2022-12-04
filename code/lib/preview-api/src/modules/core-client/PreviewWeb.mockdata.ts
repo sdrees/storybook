@@ -10,7 +10,7 @@ import {
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
 
-import type { Store_StoryIndex, TeardownRenderToCanvas } from '@storybook/types';
+import type { StoryIndex, TeardownRenderToCanvas } from '@storybook/types';
 
 export type RenderPhase =
   | 'preparing'
@@ -78,7 +78,7 @@ export const projectAnnotations = {
 };
 export const getProjectAnnotations = jest.fn(() => projectAnnotations as any);
 
-export const storyIndex: Store_StoryIndex = {
+export const storyIndex: StoryIndex = {
   v: 4,
   entries: {
     'component-one--docs': {

@@ -54,7 +54,7 @@ export const docsPageAutomatic: Fix<DocsPageAutomaticFrameworkRunOptions> = {
   async run({ result: { main }, dryRun }) {
     logger.info(`✅ Setting 'docs.docsPage' to 'automatic' in main.js`);
     if (!dryRun) {
-      main.setFieldValue(['docsPage', 'docs'], 'automatic');
+      main.setFieldValue(['docs', 'docsPage'], 'automatic');
       await writeConfig(main);
     }
   },

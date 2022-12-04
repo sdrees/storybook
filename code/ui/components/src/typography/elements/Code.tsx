@@ -24,6 +24,7 @@ const DefaultCodeBlock = styled.code(
 
 const StyledSyntaxHighlighter = styled(SyntaxHighlighter)(({ theme }) => ({
   // DocBlocks-specific styling and overrides
+  fontFamily: theme.typography.fonts.mono,
   fontSize: `${theme.typography.size.s2 - 1}px`,
   lineHeight: '19px',
   margin: '25px 0 40px',

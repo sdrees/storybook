@@ -2,6 +2,8 @@
 title: 'Viewport'
 ---
 
+<YouTubeCallout id="uydF1ltw7-g" title="Stop resizing your browser — Storybook viewport" />
+
 The Viewport toolbar item allows you to adjust the dimensions of the iframe your story is rendered in. It makes it easy to develop responsive UIs.
 
 <video autoPlay muted playsInline loop>
@@ -120,6 +122,7 @@ Update your story through [parameters](../writing-stories/parameters.md) to incl
     'react/my-component-story-configure-viewports.js.mdx',
     'react/my-component-story-configure-viewports.ts.mdx',
     'vue/my-component-story-configure-viewports.js.mdx',
+    'vue/my-component-story-configure-viewports.ts.mdx',
     'angular/my-component-story-configure-viewports.ts.mdx',
     'web-components/my-component-story-configure-viewports.js.mdx',
     'svelte/my-component-story-configure-viewports.js.mdx',

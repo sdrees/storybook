@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { API_ArgType, API_ArgTypes } from '@storybook/types';
+import { ArgTypes } from '@storybook/types';
 import { ICollection } from '../types';
 import {
   ComponentInputsOutputs,
@@ -71,12 +71,12 @@ const createAngularInputProperty = ({
 }: {
   propertyName: string;
   value: any;
-  argType?: API_ArgType;
+  argType?: ArgTypes[string];
 }) => {
-  const { name: type = null, summary = null } = argType?.type || {};
-  let templateValue = type === 'enum' && !!summary ? `${summary}.${value}` : value;
+  const { name: type = null } = (typeof argType?.type === 'object' && argType?.type) || {};
+  let templateValue = type === 'enum' && value;
 
-  const actualType = type === 'enum' && summary ? 'enum' : typeof value;
+  const actualType = type === 'enum' && typeof value;
   const requiresBrackets = ['object', 'any', 'boolean', 'enum', 'number'].includes(actualType);
 
   if (typeof value === 'object') {
@@ -97,7 +97,7 @@ const createAngularInputProperty = ({
 export const computesTemplateSourceFromComponent = (
   component: Type<unknown>,
   initialProps?: ICollection,
-  argTypes?: API_ArgTypes
+  argTypes?: ArgTypes
 ) => {
   const ngComponentMetadata = getComponentDecoratorMetadata(component);
   if (!ngComponentMetadata) {

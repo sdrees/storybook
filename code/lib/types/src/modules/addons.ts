@@ -5,7 +5,6 @@ import type { ThemeVars } from '../../../theming/src/types';
 import type {
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
-  ComponentTitle,
   DecoratorFunction as DecoratorFunctionForFramework,
   InputType,
   Renderer,
@@ -13,14 +12,13 @@ import type {
   LoaderFunction as LoaderFunctionForFramework,
   Parameters,
   PartialStoryFn as PartialStoryFnForFramework,
-  Path,
   StoryContext as StoryContextForFramework,
   StoryFn as StoryFnForFramework,
   StoryId,
   StoryKind,
   StoryName,
-  Tag,
 } from './csf';
+import type { IndexEntry } from './storyIndex';
 
 export type Addon_Types = Addon_TypesEnum | string;
 
@@ -44,36 +42,12 @@ export interface Addon_StorySortObjectParameter {
   includeNames?: boolean;
 }
 
-export interface Addon_BaseIndexEntry {
-  id: StoryId;
-  name: StoryName;
-  title: ComponentTitle;
-  tags?: Tag[];
-  importPath: Path;
-}
-export type Addon_StoryIndexEntry = Addon_BaseIndexEntry & {
-  type: 'story';
-};
-
-export type Addon_DocsIndexEntry = Addon_BaseIndexEntry & {
-  storiesImports: Path[];
-  type: 'docs';
-  standalone: boolean;
-};
-
-/** A StandaloneDocsIndexExtry represents a file who's default export is directly renderable */
-export type Addon_StandaloneDocsIndexEntry = Addon_DocsIndexEntry & { standalone: true };
-/** A TemplateDocsIndexEntry represents a stories file that gets rendered in "docs" mode */
-export type Addon_TemplateDocsIndexEntry = Addon_DocsIndexEntry & { standalone: false };
-
-export type Addon_IndexEntry = Addon_StoryIndexEntry | Addon_DocsIndexEntry;
-
 // The `any` here is the story store's `StoreItem` record. Ideally we should probably only
 // pass a defined subset of that full data, but we pass it all so far :shrug:
-export type Addon_IndexEntryLegacy = [StoryId, any, Parameters, Parameters];
-export type Addon_StorySortComparator = Addon_Comparator<Addon_IndexEntryLegacy>;
+export type IndexEntryLegacy = [StoryId, any, Parameters, Parameters];
+export type Addon_StorySortComparator = Addon_Comparator<IndexEntryLegacy>;
 export type Addon_StorySortParameter = Addon_StorySortComparator | Addon_StorySortObjectParameter;
-export type Addon_StorySortComparatorV7 = Addon_Comparator<Addon_IndexEntry>;
+export type Addon_StorySortComparatorV7 = Addon_Comparator<IndexEntry>;
 export type Addon_StorySortParameterV7 =
   | Addon_StorySortComparatorV7
   | Addon_StorySortObjectParameter;

@@ -18,7 +18,7 @@ import global from 'global';
 
 import { Channel } from '@storybook/channels';
 
-import type { API_StoryEntry, API_StoryIndex, API_PreparedStoryIndex } from '@storybook/types';
+import type { API_StoryEntry, StoryIndex, API_PreparedStoryIndex } from '@storybook/types';
 import { getEventMetadata } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
@@ -34,7 +34,7 @@ function mockChannel() {
   return new Channel({ transport });
 }
 
-const mockGetEntries = jest.fn<() => API_StoryIndex['entries']>();
+const mockGetEntries = jest.fn<() => StoryIndex['entries']>();
 
 jest.mock('../lib/events');
 jest.mock('global', () => ({
@@ -46,20 +46,23 @@ jest.mock('global', () => ({
 
 const getEventMetadataMock = getEventMetadata as ReturnType<typeof jest.fn>;
 
-const mockEntries: API_StoryIndex['entries'] = {
+const mockEntries: StoryIndex['entries'] = {
   'component-a--story-1': {
+    type: 'story',
     id: 'component-a--story-1',
     title: 'Component A',
     name: 'Story 1',
     importPath: './path/to/component-a.ts',
   },
   'component-a--story-2': {
+    type: 'story',
     id: 'component-a--story-2',
     title: 'Component A',
     name: 'Story 2',
     importPath: './path/to/component-a.ts',
   },
   'component-b--story-3': {
+    type: 'story',
     id: 'component-b--story-3',
     title: 'Component B',
     name: 'Story 3',
@@ -159,6 +162,7 @@ describe('stories API', () => {
         v: 4,
         entries: {
           'design-system-some-component--my-story': {
+            type: 'story',
             id: 'design-system-some-component--my-story',
             title: '  Design System  /  Some Component  ', // note the leading/trailing whitespace around each part of the path
             name: '  My Story  ', // we only trim the path, so this will be kept as-is (it may intentionally have whitespace)
@@ -201,6 +205,7 @@ describe('stories API', () => {
         v: 4,
         entries: {
           'root-first--story-1': {
+            type: 'story',
             id: 'root-first--story-1',
             title: 'Root/First',
             name: 'Story 1',
@@ -242,6 +247,7 @@ describe('stories API', () => {
         v: 4,
         entries: {
           'a-b--1': {
+            type: 'story',
             id: 'a-b--1',
             title: 'a/b',
             name: '1',
@@ -287,6 +293,7 @@ describe('stories API', () => {
         v: 4,
         entries: {
           'a--1': {
+            type: 'story',
             id: 'a--1',
             title: 'a',
             name: '1',
@@ -327,9 +334,9 @@ describe('stories API', () => {
       api.setIndex({
         v: 4,
         entries: {
-          'a--1': { title: 'a', name: '1', id: 'a--1', importPath: './a.ts' },
-          'b--1': { title: 'b', name: '1', id: 'b--1', importPath: './b.ts' },
-          'a--2': { title: 'a', name: '2', id: 'a--2', importPath: './a.ts' },
+          'a--1': { type: 'story', title: 'a', name: '1', id: 'a--1', importPath: './a.ts' },
+          'b--1': { type: 'story', title: 'b', name: '1', id: 'b--1', importPath: './b.ts' },
+          'a--2': { type: 'story', title: 'a', name: '2', id: 'a--2', importPath: './a.ts' },
         },
       });
 
@@ -363,6 +370,7 @@ describe('stories API', () => {
         v: 4,
         entries: {
           'prepared--story': {
+            type: 'story',
             id: 'prepared--story',
             title: 'Prepared',
             name: 'Story',
@@ -423,28 +431,32 @@ describe('stories API', () => {
     });
 
     describe('docs entries', () => {
-      const docsEntries: API_StoryIndex['entries'] = {
+      const docsEntries: StoryIndex['entries'] = {
         'component-a--page': {
+          type: 'story',
           id: 'component-a--page',
           title: 'Component A',
           name: 'Page',
           importPath: './path/to/component-a.ts',
         },
         'component-a--story-2': {
+          type: 'story',
           id: 'component-a--story-2',
           title: 'Component A',
           name: 'Story 2',
           importPath: './path/to/component-a.ts',
         },
         'component-b-docs': {
-          type: 'docs' as const,
+          type: 'docs',
           id: 'component-b--docs',
           title: 'Component B',
           name: 'Docs',
           importPath: './path/to/component-b.ts',
           storiesImports: [],
+          standalone: false,
         },
         'component-c--story-4': {
+          type: 'story',
           id: 'component-c--story-4',
           title: 'Component c',
           name: 'Story 4',
@@ -648,6 +660,7 @@ describe('stories API', () => {
     const parameters = {};
     const preparedEntries: API_PreparedStoryIndex['entries'] = {
       'a--1': {
+        type: 'story',
         title: 'a',
         name: '1',
         parameters,
@@ -656,6 +669,7 @@ describe('stories API', () => {
         importPath: './a.ts',
       },
       'b--1': {
+        type: 'story',
         title: 'b',
         name: '1',
         parameters,
@@ -810,38 +824,44 @@ describe('stories API', () => {
     });
   });
 
-  const navigationEntries: API_StoryIndex['entries'] = {
+  const navigationEntries: StoryIndex['entries'] = {
     'a--1': {
+      type: 'story',
       title: 'a',
       name: '1',
       id: 'a--1',
       importPath: './a.ts',
     },
     'a--2': {
+      type: 'story',
       title: 'a',
       name: '2',
       id: 'a--2',
       importPath: './a.ts',
     },
     'b-c--1': {
+      type: 'story',
       title: 'b/c',
       name: '1',
       id: 'b-c--1',
       importPath: './b/c.ts',
     },
     'b-d--1': {
+      type: 'story',
       title: 'b/d',
       name: '1',
       id: 'b-d--1',
       importPath: './b/d.ts',
     },
     'b-d--2': {
+      type: 'story',
       title: 'b/d',
       name: '2',
       id: 'b-d--2',
       importPath: './b/d.ts',
     },
     'custom-id--1': {
+      type: 'story',
       title: 'b/e',
       name: '1',
       id: 'custom-id--1',
@@ -856,7 +876,6 @@ describe('stories API', () => {
 
       const {
         api: { setIndex, jumpToStory },
-        state,
       } = initStories({ store, navigate, provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
@@ -1049,6 +1068,7 @@ describe('stories API', () => {
           ...navigationEntries,
           'intro--docs': {
             type: 'docs',
+            standalone: true,
             id: 'intro--docs',
             title: 'Intro',
             name: 'Page',

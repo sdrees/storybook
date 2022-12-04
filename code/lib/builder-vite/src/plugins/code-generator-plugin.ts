@@ -101,9 +101,6 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       if (source === virtualAddonSetupFile) {
         return virtualAddonSetupFile;
       }
-      if (source === '/sb-preview/runtime.mjs') {
-        return '/sb-preview/runtime.mjs';
-      }
 
       return undefined;
     },
@@ -117,7 +114,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       }
 
       if (id === virtualAddonSetupFile) {
-        return generateAddonSetupCode(options);
+        return generateAddonSetupCode();
       }
 
       if (id === virtualPreviewFile && !storyStoreV7) {
@@ -129,11 +126,6 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
           return generateModernIframeScriptCode(options);
         }
         return generateIframeScriptCode(options);
-      }
-
-      // This is handled by the express router, not vite
-      if (id === '/sb-preview/runtime.mjs') {
-        return '';
       }
 
       if (id === iframeId) {

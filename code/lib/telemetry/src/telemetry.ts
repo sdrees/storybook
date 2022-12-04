@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import type { Options, TelemetryData } from './types';
 import { getAnonymousProjectId } from './anonymous-id';
 
-const URL = 'https://storybook.js.org/event-log';
+const URL = process.env.STORYBOOK_TELEMETRY_URL || 'https://storybook.js.org/event-log';
 
 const fetch = retry(originalFetch);
 
