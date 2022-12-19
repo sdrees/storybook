@@ -34,21 +34,22 @@ const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): 
     }),
   };
 
+  const newNextLinkBehavior = nextConfig.experimental?.newNextLinkBehavior;
+
   /**
-   * In Next12.2, the `newNextLinkBehavior` option was introduced, defaulted to
-   * falsy in the Next app (`undefined` in the config itself), and `next/link`
-   * was engineered to opt *in* to it
-   *
-   * In Next13, the `newNextLinkBehavior` option now defaults to truthy (still
+   * In Next 13.0.0 - 13.0.5, the `newNextLinkBehavior` option now defaults to truthy (still
    * `undefined` in the config), and `next/link` was engineered to opt *out*
    * of it
+   *
    */
-  const newNextLinkBehavior = nextConfig.experimental?.newNextLinkBehavior;
   if (
-    (semver.gte(version, '13.0.0') && newNextLinkBehavior !== false) ||
-    (semver.gte(version, '12.2.0') && newNextLinkBehavior)
+    semver.gte(version, '13.0.0') &&
+    semver.lt(version, '13.0.6') &&
+    newNextLinkBehavior !== false
   ) {
     definePluginConfig['process.env.__NEXT_NEW_LINK_BEHAVIOR'] = true;
+  } else {
+    definePluginConfig['process.env.__NEXT_NEW_LINK_BEHAVIOR'] = newNextLinkBehavior;
   }
 
   baseConfig.plugins?.push(new DefinePlugin(definePluginConfig));

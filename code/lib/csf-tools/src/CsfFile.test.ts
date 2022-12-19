@@ -221,6 +221,28 @@ describe('CsfFile', () => {
       `);
     });
 
+    it('typescript satisfies', () => {
+      expect(
+        parse(
+          dedent`
+          import type { Meta, StoryFn } from '@storybook/react';
+          type PropTypes = {};
+          export default { title: 'foo/bar/baz' } as Meta<PropTypes>;
+          export const A: StoryFn<PropTypes> = () => <>A</>;
+          export const B: StoryFn<PropTypes> = () => <>B</>;
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar/baz
+        stories:
+          - id: foo-bar-baz--a
+            name: A
+          - id: foo-bar-baz--b
+            name: B
+      `);
+    });
+
     it('typescript meta var', () => {
       expect(
         parse(
@@ -228,6 +250,29 @@ describe('CsfFile', () => {
           import type { Meta, StoryFn } from '@storybook/react';
           type PropTypes = {};
           const meta = { title: 'foo/bar/baz' } as Meta<PropTypes>;
+          export default meta;
+          export const A: StoryFn<PropTypes> = () => <>A</>;
+          export const B: StoryFn<PropTypes> = () => <>B</>;
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar/baz
+        stories:
+          - id: foo-bar-baz--a
+            name: A
+          - id: foo-bar-baz--b
+            name: B
+      `);
+    });
+
+    it('typescript satisfies meta var', () => {
+      expect(
+        parse(
+          dedent`
+          import type { Meta, StoryFn } from '@storybook/react';
+          type PropTypes = {};
+          const meta = { title: 'foo/bar/baz' } satisfies Meta<PropTypes>;
           export default meta;
           export const A: StoryFn<PropTypes> = () => <>A</>;
           export const B: StoryFn<PropTypes> = () => <>B</>;
@@ -323,6 +368,36 @@ describe('CsfFile', () => {
       ).toMatchInlineSnapshot(`
         meta:
           title: foo/bar
+        stories:
+          - id: foo-bar--page
+            name: Page
+            parameters:
+              __isArgsStory: false
+              __id: foo-bar--page
+              docsOnly: true
+      `);
+    });
+
+    it('docs-only story with local vars', () => {
+      expect(
+        parse(
+          dedent`
+            export const TestControl = () => _jsx("p", {
+              children: "Hello"
+            });
+            export default { title: 'foo/bar', tags: ['mdx'], includeStories: ["__page"] };
+            export const __page = () => {};
+            __page.parameters = { docsOnly: true };
+          `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          tags:
+            - mdx
+          includeStories:
+            - __page
         stories:
           - id: foo-bar--page
             name: Page

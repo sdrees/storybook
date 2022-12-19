@@ -269,7 +269,7 @@ export class CsfFile {
             metaNode = decl;
           } else if (
             // export default { ... } as Meta<...>
-            t.isTSAsExpression(decl) &&
+            (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) &&
             t.isObjectExpression(decl.expression)
           ) {
             metaNode = decl.expression;
@@ -458,7 +458,11 @@ export class CsfFile {
       if (isExportStory(key, self._meta)) {
         const id = toId(self._meta.id || self._meta.title, storyNameFromExport(key));
         const parameters: Record<string, any> = { ...story.parameters, __id: id };
-        if (entries.length === 1 && key === '__page') {
+        const { includeStories } = self._meta || {};
+        if (
+          key === '__page' &&
+          (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
+        ) {
           parameters.docsOnly = true;
         }
         acc[key] = { ...story, id, parameters };

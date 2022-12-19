@@ -35,6 +35,7 @@ You can also set it at a component level like so:
 <CodeSnippets
   paths={[
     'common/storybook-component-layout-param.js.mdx',
+    'common/storybook-component-layout-param.ts.mdx',
   ]}
 />
 
@@ -49,7 +50,10 @@ Or even apply it to specific stories like so:
 <CodeSnippets
   paths={[
     'common/storybook-story-layout-param.js.mdx',
+    'common/storybook-story-layout-param.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="configure/story-layout#snippet-storybook-story-layout-param"
 />
 
 <!-- prettier-ignore-end -->

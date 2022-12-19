@@ -3,9 +3,12 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger, instance as npmLog } from '@storybook/node-logger';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
+import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 export const dev = async (cliOptions: any) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+  ensureReactPeerDeps();
 
   try {
     const options = {
@@ -17,7 +20,9 @@ export const dev = async (cliOptions: any) => {
       cache,
       packageJson: readUpSync({ cwd: __dirname }).packageJson,
     };
-    await withTelemetry('dev', { presetOptions: options }, () => buildDevStandalone(options));
+    await withTelemetry('dev', { cliOptions, presetOptions: options }, () =>
+      buildDevStandalone(options)
+    );
   } catch (error) {
     // this is a weird bugfix, somehow 'node-pre-gyp' is polluting the npmLog header
     npmLog.heading = '';

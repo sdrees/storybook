@@ -1,0 +1,15 @@
+```js
+// CSF 2
+import { Button } from './Button';
+
+export default {
+  title: 'components/Button',
+  component: Button,
+};
+
+export const Primary = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { Button },
+});
+Primary.args = { primary: true };
+```

@@ -147,8 +147,6 @@ export default async (
 
     previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
       if (!previewAnnotationFilename) return;
-      const previewApi = storybookPaths['@storybook/preview-api'];
-      const clientLogger = storybookPaths['@storybook/client-logger'];
 
       // Ensure that relative paths end up mapped to a filename in the cwd, so a later import
       // of the `previewAnnotationFilename` in the template works.
@@ -159,8 +157,6 @@ export default async (
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
       virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
         previewAnnotationFilename,
-        previewApi,
-        clientLogger,
       });
       entries.push(entryFilename);
     });

@@ -50,6 +50,8 @@ Storybook's `play` functions are small code snippets that run once the story fin
    'vue/register-component-with-play-function.ts.mdx',
    'svelte/register-component-with-play-function.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-register-component-with-play-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -77,6 +79,8 @@ Thanks to the [Component Story Format](../api/csf.md), an ES6 module based file 
    'vue/my-component-play-function-composition.ts.mdx',
    'svelte/my-component-play-function-composition.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-composition"
 />
 
 <!-- prettier-ignore-end -->
@@ -100,6 +104,8 @@ A common type of component interaction is a button click. If you need to reprodu
    'vue/my-component-play-function-with-clickevent.ts.mdx',
    'svelte/my-component-play-function-with-clickevent.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-clickevent"
 />
 
 <!-- prettier-ignore-end -->
@@ -119,6 +125,8 @@ Asides from click events, you can also script additional events with the `play` 
    'vue/my-component-play-function-with-selectevent.ts.mdx',
    'svelte/my-component-play-function-with-selectevent.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-selectevent"
 />
 
 <!-- prettier-ignore-end -->
@@ -136,6 +144,8 @@ In addition to events, you can also create interactions with the `play` function
    'vue/my-component-play-function-with-delay.ts.mdx',
    'svelte/my-component-play-function-with-delay.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-delay"
 />
 
 <!-- prettier-ignore-end -->
@@ -155,6 +165,8 @@ You can also use the `play` function to verify the existence of an element based
    'vue/my-component-play-function-waitfor.ts.mdx',
    'svelte/my-component-play-function-waitfor.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-waitfor"
 />
 
 <!-- prettier-ignore-end -->
@@ -174,6 +186,8 @@ If you need, you can also adjust your `play` function to find elements based on 
    'vue/my-component-play-function-alt-queries.ts.mdx',
    'svelte/my-component-play-function-alt-queries.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-alt-queries"
 />
 
 <!-- prettier-ignore-end -->
@@ -197,6 +211,8 @@ Otherwise, if the component is not immediately available, for instance, due to a
    'vue/my-component-play-function-query-findby.ts.mdx',
    'svelte/my-component-play-function-query-findby.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-query-findby"
 />
 
 <!-- prettier-ignore-end -->
@@ -216,6 +232,8 @@ By default, each interaction you write inside your `play` function will be execu
    'vue/my-component-play-function-with-canvas.ts.mdx',
    'svelte/my-component-play-function-with-canvas.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-canvas"
 />
 
 <!-- prettier-ignore-end -->

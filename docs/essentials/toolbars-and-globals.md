@@ -109,6 +109,8 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'svelte/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype"
 />
 
 <!-- prettier-ignore-end -->

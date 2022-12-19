@@ -81,6 +81,7 @@ program
   .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
+  .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .action((options: UpgradeOptions) => upgrade(options));

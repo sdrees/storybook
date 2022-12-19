@@ -160,7 +160,7 @@ yarn task --task e2e-tests --template=react-vite/default-ts --start-from=install
 
 Typically it is a good idea to start from the `install` task to ensure your local code is completely up to date. If you reproduce the failure, you can try and make fixes, [compile them](#start-developing) with `build`, then rerun the task with `--start-from=auto`.
 
- <div class="aside">
+<div class="aside">
 
 💡 The default instructions run the code in "linked" mode, meaning built changes to Storybook library code will be reflected in the sandbox immediately (the next time you run the task). However, CI runs in "unlinked" mode, which in rare cases, will behave differently.<br />
 

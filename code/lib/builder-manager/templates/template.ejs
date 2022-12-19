@@ -5,10 +5,9 @@
 
     <title><%= typeof title !== 'undefined'? title : 'Storybook'%></title>
 
-    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="./sb-preview/runtime.mjs" rel="preload" as="script">
 
     <% if (typeof head !== 'undefined') { %> <%- head %> <% } %>
 
@@ -39,8 +38,10 @@
       import './sb-manager/runtime.mjs';
 
       <% files.js.forEach(file => { %>
-      import './<%= file %>';
-      <% }); %>
+      import '<%= file %>';
+      <% }); %>     
     </script>    
+
+    <link href="./sb-preview/runtime.mjs" rel="preload" as="script">
   </body>
 </html>

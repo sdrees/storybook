@@ -77,6 +77,14 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       globalExternals(definitions),
       pnpPlugin(),
     ],
+
+    banner: {
+      js: 'try{',
+    },
+    footer: {
+      js: '}catch(e){ console.error("[Storybook] One of your manager-entries failed: " + import.meta.url, e); }',
+    },
+
     define: {
       'process.env.NODE_ENV': "'production'",
       'process.env': '{}',

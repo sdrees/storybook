@@ -16,7 +16,7 @@ export interface TypescriptOptions extends TypeScriptOptionsBase {
   /**
    * Configures `fork-ts-checker-webpack-plugin`
    */
-  checkOptions?: ForkTsCheckerWebpackPlugin['options'];
+  checkOptions?: ConstructorParameters<typeof ForkTsCheckerWebpackPlugin>[0];
 }
 
 export interface StorybookConfigWebpack extends Pick<StorybookConfig, 'webpack' | 'webpackFinal'> {

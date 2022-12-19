@@ -1,0 +1,12 @@
+```js
+// CSF 3 - explicit render function
+export const Default = {
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      return { args };
+    },
+    template: '<Button v-bind="args" />',
+  }),
+};
+```

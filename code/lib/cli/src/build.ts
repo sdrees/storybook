@@ -2,8 +2,11 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
+import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 export const build = async (cliOptions: any) => {
+  ensureReactPeerDeps();
+
   try {
     const options = {
       ...cliOptions,
@@ -15,7 +18,9 @@ export const build = async (cliOptions: any) => {
       cache,
       packageJson: readUpSync({ cwd: __dirname }).packageJson,
     };
-    await withTelemetry('build', { presetOptions: options }, () => buildStaticStandalone(options));
+    await withTelemetry('build', { cliOptions, presetOptions: options }, () =>
+      buildStaticStandalone(options)
+    );
   } catch (err) {
     logger.error(err);
     process.exit(1);

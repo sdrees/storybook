@@ -29,7 +29,8 @@ export type BaseOption = {
 export type BooleanOption = BaseOption & {
   type: 'boolean';
   /**
-   * Does this option default true?
+   * If this option is set to true and the option value is false or undefined, the flag `--no-option` will be set.
+   * If the option value is true, the flag `--no-option` is not set.
    */
   inverse?: boolean;
 };

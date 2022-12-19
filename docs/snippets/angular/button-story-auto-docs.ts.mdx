@@ -1,0 +1,34 @@
+```ts
+// Button.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/angular';
+
+import { Button } from './button.component';
+
+const meta: Meta<Button> = {
+  title: 'Button',
+  component: Button,
+  //👇 Enables auto-generated documentation for the component story
+  tags: ['docsPage'],
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof Button>;
+
+export const Primary: Story = {
+  args: {
+    primary: true,
+    label: 'Button',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    ...Primary.args,
+    primary: false,
+  },
+};
+```

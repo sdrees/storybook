@@ -68,6 +68,8 @@ Make sure to import the Storybook wrappers for Jest and Testing Library rather t
     'common/storybook-interactions-play-function.js.mdx',
     'common/storybook-interactions-play-function.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
 />
 
 <!-- prettier-ignore-end -->

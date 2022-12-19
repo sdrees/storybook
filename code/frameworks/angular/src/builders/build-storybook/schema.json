@@ -53,7 +53,7 @@
       }
     },
     "webpackStatsJson": {
-      "type": "boolean",
+      "type": ["boolean", "string"],
       "description": "Write Webpack Stats JSON to disk",
       "default": false
     },

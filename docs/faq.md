@@ -4,36 +4,35 @@ title: 'Frequently Asked Questions'
 
 Here are some answers to frequently asked questions. If you have a question, you can ask it by opening an issue on the [Storybook Repository](https://github.com/storybookjs/storybook/).
 
-* [How can I opt-out of Angular Ivy?](#how-can-i-opt-out-of-angular-ivy)
-* [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
-* [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
-* [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
-* [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
-* [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
-* [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
-* [Why is there no addons channel?](#why-is-there-no-addons-channel)
-* [Why aren't Controls visible in the Canvas panel but visible in the Docs panel?](#why-arent-controls-visible-in-the-canvas-panel-but-visible-in-the-docs-panel)
-* [Why aren't the addons working in a composed Storybook?](#why-arent-the-addons-working-in-a-composed-storybook)
-* [Which community addons are compatible with the latest version of Storybook?](#which-community-addons-are-compatible-with-the-latest-version-of-storybook)
-* [Is it possible to browse the documentation for past versions of Storybook?](#is-it-possible-to-browse-the-documentation-for-past-versions-of-storybook)
-* [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
-* [I see a "No Preview" error with a Storybook production build](#i-see-a-no-preview-error-with-a-storybook-production-build)
-* [Can I use Storybook with Vue 3?](#can-i-use-storybook-with-vue-3)
-* [Is snapshot testing with Storyshots supported for Vue 3?](#is-snapshot-testing-with-storyshots-supported-for-vue-3)
-* [Why are my MDX stories not working in IE11?](#why-are-my-mdx-stories-not-working-in-ie11)
-* [Why aren't my code blocks highlighted with Storybook MDX](#why-arent-my-code-blocks-highlighted-with-storybook-mdx)
-* [Why aren't my MDX 2 stories working in Storybook?](#why-arent-my-mdx-2-stories-working-in-storybook)
-* [Why can't I import my own stories into MDX 2?](#why-cant-i-import-my-own-stories-into-mdx-2)
-* [Why are my mocked GraphQL queries failing with Storybook's MSW addon?](#why-are-my-mocked-graphql-queries-failing-with-storybooks-msw-addon)
-* [Can I use other GraphQL providers with Storybook's MSW addon?](#can-i-use-other-graphql-providers-with-storybooks-msw-addon)
-* [Can I mock GraphQL mutations with Storybook's MSW addon?](#can-i-mock-graphql-mutations-with-storybooks-msw-addon)
-* [How can my code detect if it is running in Storybook?](#how-can-my-code-detect-if-it-is-running-in-storybook)
-* [Why are my stories not showing up correctly when using certain characters?](#why-are-my-stories-not-showing-up-correctly-when-using-certain-characters)
-* [Why are the TypeScript examples and documentation using `as` for type safety?](#why-are-the-typescript-examples-and-documentation-using-as-for-type-safety)
-* [Why is Storybook's source loader returning undefined with curried functions?](#why-is-storybooks-source-loader-returning-undefined-with-curried-functions)
-* [Why are my args no longer displaying the default values?](#why-are-my-args-no-longer-displaying-the-default-values)
-* [Why isn't Storybook's test runner working?](#why-isnt-storybooks-test-runner-working)
-* [How does Storybook handle environment variables?](#how-does-storybook-handle-environment-variables)
+- [How can I opt-out of Angular Ivy?](#how-can-i-opt-out-of-angular-ivy)
+- [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
+- [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
+- [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
+- [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
+- [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
+- [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
+- [Why is there no addons channel?](#why-is-there-no-addons-channel)
+- [Why aren't Controls visible in the Canvas panel but visible in Docs?](#why-arent-controls-visible-in-the-canvas-panel-but-visible-in-docs)
+- [Why aren't the addons working in a composed Storybook?](#why-arent-the-addons-working-in-a-composed-storybook)
+- [Which community addons are compatible with the latest version of Storybook?](#which-community-addons-are-compatible-with-the-latest-version-of-storybook)
+- [Is it possible to browse the documentation for past versions of Storybook?](#is-it-possible-to-browse-the-documentation-for-past-versions-of-storybook)
+- [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
+- [I see a "No Preview" error with a Storybook production build](#i-see-a-no-preview-error-with-a-storybook-production-build)
+- [Can I use Storybook with Vue 3?](#can-i-use-storybook-with-vue-3)
+- [Is snapshot testing with Storyshots supported for Vue 3?](#is-snapshot-testing-with-storyshots-supported-for-vue-3)
+- [Why aren't my code blocks highlighted with Storybook MDX](#why-arent-my-code-blocks-highlighted-with-storybook-mdx)
+- [Why aren't my MDX 2 stories working in Storybook?](#why-arent-my-mdx-2-stories-working-in-storybook)
+- [Why can't I import my own stories into MDX 2?](#why-cant-i-import-my-own-stories-into-mdx-2)
+- [Why are my mocked GraphQL queries failing with Storybook's MSW addon?](#why-are-my-mocked-graphql-queries-failing-with-storybooks-msw-addon)
+- [Can I use other GraphQL providers with Storybook's MSW addon?](#can-i-use-other-graphql-providers-with-storybooks-msw-addon)
+- [Can I mock GraphQL mutations with Storybook's MSW addon?](#can-i-mock-graphql-mutations-with-storybooks-msw-addon)
+- [How can my code detect if it is running in Storybook?](#how-can-my-code-detect-if-it-is-running-in-storybook)
+- [Why are my stories not showing up correctly when using certain characters?](#why-are-my-stories-not-showing-up-correctly-when-using-certain-characters)
+- [Why are the TypeScript examples and documentation using `as` for type safety?](#why-are-the-typescript-examples-and-documentation-using-as-for-type-safety)
+- [Why is Storybook's source loader returning undefined with curried functions?](#why-is-storybooks-source-loader-returning-undefined-with-curried-functions)
+- [Why are my args no longer displaying the default values?](#why-are-my-args-no-longer-displaying-the-default-values)
+- [Why isn't Storybook's test runner working?](#why-isnt-storybooks-test-runner-working)
+- [How does Storybook handle environment variables?](#how-does-storybook-handle-environment-variables)
 
 ### How can I opt-out of Angular Ivy?
 
@@ -55,6 +54,7 @@ module.exports = {
   },
 };
 ```
+
 ### How can I opt-out of Angular ngcc?
 
 In case you postinstall ngcc, you can disable it:
@@ -171,7 +171,7 @@ A common error is that an addon tries to access the "channel", but the channel i
 
 2.  In React Native, it's a special case documented in [#1192](https://github.com/storybookjs/storybook/issues/1192)
 
-### Why aren't Controls visible in the Canvas panel but visible in the Docs panel?
+### Why aren't Controls visible in the Canvas panel but visible in Docs?
 
 If you're adding Storybook's dependencies manually, make sure you include the [`@storybook/addon-controls`](https://www.npmjs.com/package/@storybook/addon-controls) dependency in your project and reference it in your `.storybook/main.js` as follows:
 
@@ -218,7 +218,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Naming components and hierarchy           | [See current documentation](./writing-stories/naming-components-and-hierarchy.md)                          | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/writing-stories)                                                                                                                                       | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/writing-stories)                           |
 |                  | Build pages and screens                   | [See current documentation](./writing-stories/build-pages-with-storybook.md)                               | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Stories for multiple components           | [See current documentation](./writing-stories/stories-for-multiple-components.md)                          | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
-| Write docs       | DocsPage                                  | [See current documentation](./writing-docs/docs-page.md)                                                   | See versioned addon documentation                                                                                                                                                                                                                                    | Non existing feature or undocumented                                                                                                                     |
+| Write docs       | Automatic Docs                            | [See current documentation](./writing-docs/docs-page.md)                                                   | See versioned addon documentation                                                                                                                                                                                                                                    | Non existing feature or undocumented                                                                                                                     |
 |                  | MDX                                       | [See current documentation](./writing-docs/mdx.md)                                                         | See versioned addon documentation                                                                                                                                                                                                                                    | Non existing feature or undocumented                                                                                                                     |
 |                  | Doc Blocks/Argstable                      | [See current documentation](./writing-docs/doc-block-argstable.md)                                         | [See versioned addon documentation](https://github.com/storybookjs/storybook/tree/release/5.3/addons/docs/)                                                                                                                                                          | Non existing feature or undocumented                                                                                                                     |
 |                  | Doc Blocks/Canvas                         | [See current documentation](./writing-docs/doc-block-canvas.md)                                            | [See versioned addon documentation](https://github.com/storybookjs/storybook/tree/release/5.3/addons/docs/)                                                                                                                                                          | Non existing feature or undocumented                                                                                                                     |
@@ -266,7 +266,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Types of addons                           | [See current documentation](./addons/addon-types.md)                                                       | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Addons API                                | [See current documentation](./addons/addons-api.md)                                                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/addons/api)                                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/addons/api)                                       |
 | API              | Stories/Component Story Format            | [See current documentation](./api/csf.md)                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/component-story-format)                                                                                                                               | Non existing feature or undocumented                                                                                                                     |
-|                  | Stories/MDX syntax                        | [See current documentation](./api/mdx.md)                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/mdx-syntax)                                                                                                                                           | Non existing feature or undocumented                                                                                                                     |
+|                  | Stories/MDX syntax                        | [See current documentation](./writing-docs/mdx.md)                                                         | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/mdx-syntax)                                                                                                                                           | Non existing feature or undocumented                                                                                                                     |
 |                  | Stories/StoriesOF format (see note below) | [See current documentation](https://github.com/storybookjs/storybook/blob/main/lib/core/docs/storiesOf.md) | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/storiesof-api)                                                                                                                                        | Non existing feature or undocumented                                                                                                                     |
 |                  | Frameworks                                | [See current documentation](./api/new-frameworks.md)                                                       | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | CLI options                               | [See current documentation](./api/cli-options.md)                                                          | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/cli-options)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/cli-options)                       |
@@ -308,10 +308,6 @@ If you run into a situation where this is not the case, you can adjust the `conf
 
 See our documentation on how to customize the [Storyshots configuration](./writing-tests/snapshot-testing.md).
 
-### Why are my MDX stories not working in IE11?
-
-Currently there's an issue when using MDX stories with IE11. This issue does <strong>not</strong> apply to [DocsPage](./writing-docs/docs-page.md). If you're interested in helping us fix this issue, read our <a href="https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING.md">Contribution guidelines</a> and submit a pull request.
-
 ### Why aren't my code blocks highlighted with Storybook MDX
 
 Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) that you can use with your code blocks. If you're writing your custom code blocks with MDX, you'll need to import the syntax highlighter manually. For example, if you're adding a code block for SCSS, adjust your story to the following:
@@ -331,6 +327,30 @@ Out of the box, Storybook provides syntax highlighting for a set of languages (e
 </div>
 
 Applying this small change will enable you to add syntax highlight for SCSS or any other language available.
+
+You can also update your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) and enable syntax highlighting globally. For example, to add support for SCSS, update your configuration to the following:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+   'common/storybook-preview-register-language-globally.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Write your documentation as you usually would, and your existing SCSS code blocks will automatically be highlighted when Storybook reloads. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+   'common/my-component-with-global-syntax-highlight.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ### Why aren't my MDX 2 stories working in Storybook?
 

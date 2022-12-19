@@ -16,7 +16,7 @@ Storybook provides an official [test coverage addon](https://storybook.js.org/ad
 
 ### Set up the coverage addon
 
-Engineered to work alongside modern testing tools (e.g., [[Playwright](https://playwright.dev/)), the coverage addon automatically instruments your code and generates code coverage data. For an optimal experience, we recommend using the [test runner](./test-runner.md) alongside the coverage addon to run your tests.
+Engineered to work alongside modern testing tools (e.g., [Playwright](https://playwright.dev/)), the coverage addon automatically instruments your code and generates code coverage data. For an optimal experience, we recommend using the [test runner](./test-runner.md) alongside the coverage addon to run your tests.
 
 Run the following command to install the addon.
 

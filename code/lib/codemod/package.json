@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-alpha.57",
+  "version": "7.0.0-beta.12",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -26,22 +26,31 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./dist/transforms/add-component-parameters.js": "./dist/transforms/add-component-parameters.js",
+    "./dist/transforms/csf-2-to-3.js": "./dist/transforms/csf-2-to-3.js",
+    "./dist/transforms/csf-hoist-story-annotations.js": "./dist/transforms/csf-hoist-story-annotations.js",
+    "./dist/transforms/csf-to-mdx.js": "./dist/transforms/csf-to-mdx.js",
+    "./dist/transforms/move-builtin-addons.js": "./dist/transforms/move-builtin-addons.js",
+    "./dist/transforms/storiesof-to-csf.js": "./dist/transforms/storiesof-to-csf.js",
+    "./dist/transforms/update-addon-info.js": "./dist/transforms/update-addon-info.js",
+    "./dist/transforms/update-organisation-name.js": "./dist/transforms/update-organisation-name.js",
+    "./dist/transforms/upgrade-hierarchy-separators.js": "./dist/transforms/upgrade-hierarchy-separators.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "jsnext:main": "src/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.20.2",
     "@babel/types": "^7.20.2",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-alpha.57",
-    "@storybook/node-logger": "7.0.0-alpha.57",
-    "@storybook/types": "7.0.0-alpha.57",
+    "@storybook/csf-tools": "7.0.0-beta.12",
+    "@storybook/node-logger": "7.0.0-beta.12",
+    "@storybook/types": "7.0.0-beta.12",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.13.1",
@@ -53,7 +62,7 @@
   "devDependencies": {
     "jest": "^29.3.1",
     "jest-specific-snapshot": "^7.0.0",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -61,8 +70,17 @@
   "bundler": {
     "platform": "node",
     "entries": [
-      "./src/index.js"
+      "./src/index.js",
+      "./src/transforms/add-component-parameters.js",
+      "./src/transforms/csf-2-to-3.ts",
+      "./src/transforms/csf-hoist-story-annotations.js",
+      "./src/transforms/csf-to-mdx.js",
+      "./src/transforms/move-builtin-addons.js",
+      "./src/transforms/storiesof-to-csf.js",
+      "./src/transforms/update-addon-info.js",
+      "./src/transforms/update-organisation-name.js",
+      "./src/transforms/upgrade-hierarchy-separators.js"
     ]
   },
-  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae"
+  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
 }

@@ -112,7 +112,7 @@ module.exports = {
         },
         {
           pathSegment: 'docs-page',
-          title: 'DocsPage',
+          title: 'Docs',
           type: 'link',
         },
         {
@@ -331,7 +331,7 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'addon-catalog',
+          pathSegment: 'integration-catalog',
           title: 'Add to catalog',
           type: 'link',
         },
@@ -377,6 +377,11 @@ module.exports = {
           title: 'Integration',
           type: 'menu',
           children: [
+           {
+              pathSegment: 'frameworks',
+              title: 'Frameworks',
+              type: 'link',
+            },
             {
               pathSegment: 'babel',
               title: 'Babel',
@@ -483,11 +488,6 @@ module.exports = {
             {
               pathSegment: 'csf',
               title: 'Component Story Format',
-              type: 'link',
-            },
-            {
-              pathSegment: 'mdx',
-              title: 'MDX syntax',
               type: 'link',
             },
             {

@@ -213,12 +213,14 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
       if (options) {
         const updatedLayout = {
           ...layout,
+          ...options.layout,
           ...pick(options, Object.keys(layout)),
           ...(singleStory && { showNav: false }),
         };
 
         const updatedUi = {
           ...ui,
+          ...options.ui,
           ...pick(options, Object.keys(ui)),
         };
 

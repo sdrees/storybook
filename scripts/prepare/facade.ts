@@ -1,4 +1,4 @@
-#!/usr/bin/env ../../node_modules/.bin/ts-node
+#!/usr/bin/env -S ../../node_modules/.bin/ts-node
 
 import { join, parse } from 'path';
 import fs from 'fs-extra';

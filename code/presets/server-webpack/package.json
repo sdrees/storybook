@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-server-webpack",
-  "version": "7.0.0-alpha.57",
+  "version": "7.0.0-beta.12",
   "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -55,13 +55,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-server": "7.0.0-alpha.57",
-    "@storybook/core-webpack": "7.0.0-alpha.57",
-    "@storybook/server": "7.0.0-alpha.57",
+    "@storybook/core-server": "7.0.0-beta.12",
+    "@storybook/core-webpack": "7.0.0-beta.12",
+    "@storybook/server": "7.0.0-beta.12",
     "@types/node": "^16.0.0",
     "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
     "safe-identifier": "^0.4.1",
     "ts-dedent": "^2.0.0",
     "yaml-loader": "^0.8.0"
@@ -69,11 +67,11 @@
   "devDependencies": {
     "fs-extra": "^9.0.1",
     "jest-specific-snapshot": "^7.0.0",
-    "typescript": "^4.9.3",
+    "typescript": "~4.9.3",
     "yaml": "^1.10.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -85,5 +83,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae"
+  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
 }

@@ -20,7 +20,7 @@ export const meta: Meta<typeof List> = {
 export default meta;
 type Story = StoryObj<typeof List>;
 
-const OneItem: Story = {
+export const OneItem: Story = {
   render: (args) => (
     <List {...args}>
       <Unchecked {...Unchecked.args} />

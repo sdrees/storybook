@@ -19,6 +19,12 @@ const setField = (path: string[], value: any, source: string) => {
   return formatConfig(config);
 };
 
+const removeField = (path: string[], source: string) => {
+  const config = loadConfig(source).parse();
+  config.removeField(path);
+  return formatConfig(config);
+};
+
 describe('ConfigFile', () => {
   describe('getField', () => {
     describe('named exports', () => {
@@ -399,6 +405,315 @@ describe('ConfigFile', () => {
             core: {
               builder: 'webpack5'
             }
+          };
+        `);
+      });
+    });
+
+    describe('quotes', () => {
+      it('no quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', '')).toMatchInlineSnapshot(`
+          export const foo = {
+            bar: "baz"
+          };
+        `);
+      });
+      it('more single quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
+          .toMatchInlineSnapshot(`
+          export const stories = ['a', 'b', "c"];
+          export const foo = {
+            bar: 'baz'
+          };
+        `);
+      });
+      it('more double quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
+          .toMatchInlineSnapshot(`
+          export const stories = ['a', "b", "c"];
+          export const foo = {
+            bar: "baz"
+          };
+        `);
+      });
+    });
+  });
+
+  describe('removeField', () => {
+    describe('named exports', () => {
+      it('missing export', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const addons = [];
+            `
+          )
+        ).toMatchInlineSnapshot(`export const addons = [];`);
+      });
+      it('missing field', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const core = { foo: 'bar' };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export const core = {
+            foo: 'bar'
+          };
+        `);
+      });
+      it('found scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const core = { builder: 'webpack4' };
+            `
+          )
+        ).toMatchInlineSnapshot(`export const core = {};`);
+      });
+      it('found object', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const core = { builder: { name: 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`export const core = {};`);
+      });
+      it('nested object', () => {
+        expect(
+          removeField(
+            ['core', 'builder', 'name'],
+            dedent`
+              export const core = { builder: { name: 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export const core = {
+            builder: {}
+          };
+        `);
+      });
+      it('string literal key', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const core = { 'builder': 'webpack4' };
+            `
+          )
+        ).toMatchInlineSnapshot(`export const core = {};`);
+      });
+      it('variable export', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+            const coreVar = { builder: 'webpack4' };
+            export const core = coreVar;
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          const coreVar = {};
+          export const core = coreVar;
+        `);
+      });
+      it('root export variable', () => {
+        expect(
+          removeField(
+            ['core'],
+            dedent`
+              export const core = { builder: { name: 'webpack4' } };
+
+              export const addons = [];
+            `
+          )
+        ).toMatchInlineSnapshot(`export const addons = [];`);
+      });
+    });
+
+    describe('module exports', () => {
+      it('missing export', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              module.exports = { addons: [] };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            addons: []
+          };
+        `);
+      });
+      it('missing field', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              module.exports = { core: { foo: 'bar' }};
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            core: {
+              foo: 'bar'
+            }
+          };
+        `);
+      });
+      it('found scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              module.exports = { core: { builder: 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            core: {}
+          };
+        `);
+      });
+      it('nested scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder', 'name'],
+            dedent`
+              module.exports = { core: { builder: { name: 'webpack4' } } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            core: {
+              builder: {}
+            }
+          };
+        `);
+      });
+      it('string literal key', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              module.exports = { 'core': { 'builder': 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            'core': {}
+          };
+        `);
+      });
+      it('root property', () => {
+        expect(
+          removeField(
+            ['core'],
+            dedent`
+              module.exports = { core: { builder: { name: 'webpack4' } }, addons: [] };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            addons: []
+          };
+        `);
+      });
+    });
+
+    describe('default export', () => {
+      it('missing export', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export default { addons: [] };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            addons: []
+          };
+        `);
+      });
+      it('missing field', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export default { core: { foo: 'bar' }};
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            core: {
+              foo: 'bar'
+            }
+          };
+        `);
+      });
+      it('found scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export default { core: { builder: 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            core: {}
+          };
+        `);
+      });
+      it('nested scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder', 'name'],
+            dedent`
+              export default { core: { builder: { name: 'webpack4' } } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            core: {
+              builder: {}
+            }
+          };
+        `);
+      });
+      it('string literal key', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export default { 'core': { 'builder': 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            'core': {}
+          };
+        `);
+      });
+      it('root property', () => {
+        expect(
+          removeField(
+            ['core'],
+            dedent`
+              export default { core: { builder: { name: 'webpack4' } }, addons: [] };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            addons: []
           };
         `);
       });

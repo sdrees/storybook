@@ -23,7 +23,11 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
         enrichCsf(csf, options);
         return formatCsf(csf);
       } catch (err: any) {
-        logger.warn(err.message);
+        // This can be called on legacy storiesOf files, so just ignore
+        // those errors. But warn about other errors.
+        if (!err.message?.startsWith('CSF:')) {
+          logger.warn(err.message);
+        }
         return code;
       }
     },

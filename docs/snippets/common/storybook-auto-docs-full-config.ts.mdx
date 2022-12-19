@@ -1,0 +1,29 @@
+```ts
+// .storybook/main.ts
+
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
+  stories: ['../src/**/*.stories.@(js|ts)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+  ],
+  framework: {
+    // The name of the framework you want to use goes here
+    name: '@storybook/your-framework',
+    options: {},
+  },
+  docs: {
+    enabled: false,
+    defaultName: 'Documentation',
+    //👇 Use only one of the following options to auto-generate documentation
+    docsPage: false,
+    docsPage: 'automatic',
+  },
+};
+
+export default config;
+```

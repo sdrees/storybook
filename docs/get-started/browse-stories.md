@@ -30,10 +30,11 @@ Or use keyboard shortcuts. Click on the Storybook's menu to see the list of shor
 
 Storybook ships with time-saving tools built-in. The toolbar contains tools that allow you to adjust how the story renders in the Canvas:
 
-![Storybook toolbar](./toolbar.png)
-
 - 🔍 Zooming visually scales the component so you can check the details.
 - 🖼 Background changes the rendered background behind your component so you can verify how your component renders in different visual contexts.
+- 📐 Grid renders your component on top of a grid layout so you can verify if your component is aligned correctly.
+- 📏 Measure toggles a measurement overlay to help you inspect the dimensions of components.
+- 🎚️ Outline displays the component's bounding box so you can verify if your component is positioned correctly.
 - 📱 Viewport renders the component in a variety of dimensions and orientations. It’s ideal for checking the responsiveness of components.
 
 <video autoPlay muted playsInline loop>
@@ -43,11 +44,11 @@ Storybook ships with time-saving tools built-in. The toolbar contains tools that
   />
 </video>
 
-The [“Docs”](../writing-docs/introduction.md) tab shows auto-generated documentation about components (inferred from the source code). Usage docs are helpful when sharing reusable components with your team, for example, in a design system or component library.
+The [“Docs”](../writing-docs/introduction.md) page displays auto-generated documentation for components (inferred from the source code). Usage documentation is helpful when sharing reusable components with your team, for example, in an application.
 
 <video autoPlay muted playsInline loop>
   <source
-    src="toolbar-docs-tab-optimized.mp4"
+    src="docspage-optimized.mp4"
     type="video/mp4"
   />
 </video>
@@ -61,7 +62,8 @@ Addons are plugins that extend Storybook's core functionality. You can find them
 ![Storybook addon examples](./addons.png)
 
 - **Controls** allows you to interact with a component’s args (inputs) dynamically. Experiment with alternate configurations of the component to discover edge cases.
-- **Actions** help you verify interactions produce the correct outputs via callbacks. For instance, if you view the “Logged In” story of the Header component, we can verify that clicking the “Log out” button triggers the `onLogout` callback, which would be provided by the component that made use of the Header.
+- **Actions** help you verify interactions produce the correct outputs via callbacks. For instance, if you view the “Logged In” story of the `Header` component, we can verify that clicking the “Log out” button triggers the `onLogout` callback, which would be provided by the component that made use of the Header.
+- **Interactions** provides a helpful user interface for debugging [interaction tests](../writing-tests/interaction-testing.md) with the `play` function.
 
 <video autoPlay muted playsInline loop>
   <source

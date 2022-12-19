@@ -85,7 +85,6 @@ export const useHighlighted = ({
       const isArrowUp = matchesKeyCode('ArrowUp', event);
       const isArrowDown = matchesKeyCode('ArrowDown', event);
       if (!(isArrowUp || isArrowDown)) return;
-      event.preventDefault();
 
       const requestId = globalWindow.requestAnimationFrame(() => {
         globalWindow.cancelAnimationFrame(lastRequestId);

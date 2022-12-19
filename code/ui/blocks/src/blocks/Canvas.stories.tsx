@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Canvas } from './Canvas';
+import { Canvas, SourceState } from './Canvas';
 import { Story as StoryComponent } from './Story';
 import * as BooleanStories from '../controls/Boolean.stories';
 
@@ -25,12 +25,12 @@ export const BasicStory: Story = {};
 
 export const WithSourceOpen: Story = {
   args: {
-    withSource: 'open',
+    withSource: SourceState.OPEN,
   },
 };
 export const WithSourceClosed: Story = {
   args: {
-    withSource: 'closed',
+    withSource: SourceState.CLOSED,
   },
 };
 
@@ -38,7 +38,7 @@ export const WithSourceClosed: Story = {
 export const WithMdxSource: Story = {
   name: 'With MDX Source',
   args: {
-    withSource: 'open',
+    withSource: SourceState.OPEN,
     mdxSource: `const thisIsCustomSource = true;
 if (isSyntaxHighlighted) {
   console.log('syntax highlighting is working');
@@ -48,7 +48,7 @@ if (isSyntaxHighlighted) {
 
 export const WithoutSource: Story = {
   args: {
-    withSource: 'none',
+    withSource: SourceState.NONE,
   },
 };
 

@@ -32,6 +32,8 @@ To define the args of a single story, use the `args` CSF story key:
     'html/button-story-with-args.ts.mdx',
     'html/button-story-with-args.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/args#snippet-button-story-with-args"
 />
 
 
@@ -46,6 +48,8 @@ These args will only apply to the story for which they are attached, although yo
     'common/button-story-primary-long-name.js.mdx',
     'common/button-story-primary-long-name.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/args#snippet-button-story-primary-long-name"
 />
 
 <!-- prettier-ignore-end -->
@@ -69,6 +73,8 @@ You can also define args at the component level; they will apply to all the comp
     'svelte/button-story-component-args-primary.js.mdx',
     'web-components/button-story-component-args-primary.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/args#snippet-button-story-component-args-primary"
 />
 
 <!-- prettier-ignore-end -->
@@ -98,6 +104,8 @@ You can separate the arguments to a story to compose in other stories. Here's ho
     'common/button-story-primary-composition.js.mdx',
     'common/button-story-primary-composition.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/args#snippet-button-story-primary-composition"
 />
 
 <!-- prettier-ignore-end -->
@@ -123,6 +131,8 @@ Args are useful when writing stories for composite components that are assembled
     'vue/page-story.ts-3.ts.mdx',
     'svelte/page-story.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/args#snippet-page-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -143,6 +153,8 @@ You can use args in your stories to configure the component's appearance, simila
     'vue/page-story-slots.ts-3.ts.mdx',
     'angular/page-story-slots.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/args#snippet-page-story-slots"
 />
 
 <!-- prettier-ignore-end -->

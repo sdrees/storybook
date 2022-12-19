@@ -1,0 +1,42 @@
+```js
+// Button.stories.js
+
+import Button from './Button.svelte';
+
+export default {
+  title: 'Button',
+  component: Button,
+  //👇 Enables auto-generated documentation for the component story
+  tags: ['docsPage'],
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+};
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/svelte/api/csf
+ * to learn how to use render functions.
+ */
+export const Primary = {
+  render: (args) => ({
+    Component: Button,
+    props: args,
+  }),
+  args: {
+    primary: true,
+    label: 'Button',
+  },
+};
+
+export const Secondary = {
+  render: (args) => ({
+    Component: Button,
+    props: args,
+  }),
+  args: {
+    ...Primary.args,
+    primary: false,
+  },
+};
+```

@@ -3,18 +3,14 @@
 
 import { createViteServer } from './vite-server';
 
+let server: ViteDevServer;
+export async function bail(): Promise<void> {
+  return server?.close();
+}
+
 export const start: ViteBuilder['start'] = async ({ options, server: devServer }) => {
   // Remainder implementation goes here
-
-  const server = await createViteServer(options as ExtendedOptions, devServer);
-  async function bail(e?: Error): Promise<void> {
-    try {
-      return await server.close();
-    } catch (err) {
-      console.warn('unable to close the server');
-    }
-    throw e;
-  }
+  server = await createViteServer(options as ExtendedOptions, devServer);
 
   return {
     bail,

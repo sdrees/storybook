@@ -4,8 +4,8 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ["ci", "pr", "merged", "daily"]
-    default: "ci"
+    enum: ['ci', 'pr', 'merged', 'daily']
+    default: 'ci'
 
 executors:
   sb_node_16_classic:
@@ -13,8 +13,8 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ["small", "medium", "medium+", "large", "xlarge"]
-        default: "small"
+        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1
@@ -26,8 +26,8 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ["small", "medium", "medium+", "large", "xlarge"]
-        default: "small"
+        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1-browsers
@@ -39,11 +39,11 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ["small", "medium", "medium+", "large", "xlarge"]
-        default: "small"
+        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
-      - image: mcr.microsoft.com/playwright:v1.28.0-focal
+      - image: mcr.microsoft.com/playwright:v1.29.0-focal
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -55,7 +55,7 @@ orbs:
 
 commands:
   cancel-workflow-on-failure:
-    description: "Cancels the entire workflow in case the previous step has failed"
+    description: 'Cancels the entire workflow in case the previous step has failed'
     steps:
       - run:
           name: Cancel current workflow
@@ -65,13 +65,13 @@ commands:
             echo "To execute all checks locally, please run yarn ci-tests"
             curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
   report-workflow-on-failure:
-    description: "Reports failures to discord"
+    description: 'Reports failures to discord'
     parameters:
       template:
         description: |
           Which template to report in discord. Applicable for parallel sandbox jobs
         type: string
-        default: "none"
+        default: 'none'
     steps:
       - run:
           when: on_fail
@@ -87,7 +87,11 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Prettier
           command: |
@@ -100,7 +104,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - restore_cache:
           name: Restore Yarn cache
           keys:
@@ -142,7 +146,7 @@ jobs:
     working_directory: /tmp/storybook
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -183,7 +187,7 @@ jobs:
     working_directory: /tmp/storybook
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -223,7 +227,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -239,7 +243,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -253,7 +257,7 @@ jobs:
     executor: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -271,7 +275,7 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -293,7 +297,7 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -334,7 +338,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -359,7 +363,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -380,7 +384,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -414,7 +418,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -455,7 +459,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
@@ -536,23 +540,23 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - build
       - build-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - build-sandboxes
   merged:
@@ -586,23 +590,23 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build
       - build-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
   daily:
@@ -611,25 +615,25 @@ workflows:
     jobs:
       - build
       - create-sandboxes:
-          parallelism: 23
+          parallelism: 26
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 23
+          parallelism: 26
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 23
+          parallelism: 26
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 23
+          parallelism: 26
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 23
+          parallelism: 26
           requires:
             - build-sandboxes

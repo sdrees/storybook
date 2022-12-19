@@ -236,6 +236,8 @@ Let's say you've got a story like this:
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="addons/addons-api#snippet-button-story-with-addon-example"
 />
 
 <!-- prettier-ignore-end -->

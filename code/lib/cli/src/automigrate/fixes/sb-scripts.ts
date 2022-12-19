@@ -3,150 +3,144 @@ import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import { getStorybookInfo } from '@storybook/core-common';
 import type { Fix } from '../types';
-import { getStorybookVersionSpecifier } from '../../helpers';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 
 interface SbScriptsRunOptions {
-  storybookScripts: {
-    custom: Record<string, string>;
-    official: Record<string, string>;
-  };
+  storybookScripts: Record<string, { before: string; after: string }>;
   storybookVersion: string;
   packageJson: PackageJsonWithDepsAndDevDeps;
 }
 
 const logger = console;
 
-export const getStorybookScripts = (scripts: Record<string, string>) => {
-  const storybookScripts: SbScriptsRunOptions['storybookScripts'] = {
-    custom: {},
-    official: {},
-  };
+/**
+ * Slightly big function because JS regex doesn't have proper full-word boundary.
+ * This goes through all the words in each script, and only return the scripts
+ * that do contain the actual sb binary, and not something like "npm run start-storybook"
+ * which could actually be a custom script even though the name matches the legacy binary name
+ */
+export const getStorybookScripts = (allScripts: Record<string, string>) => {
+  return Object.keys(allScripts).reduce((acc, key) => {
+    let isStorybookScript = false;
+    const allWordsFromScript = allScripts[key].split(' ');
+    const newScript = allWordsFromScript
+      .map((currentWord, index) => {
+        const previousWord = allWordsFromScript[index - 1];
 
-  Object.keys(scripts).forEach((key) => {
-    if (key === 'storybook' || key === 'build-storybook') {
-      storybookScripts.official[key] = scripts[key];
-    } else if (scripts[key].match(/start-storybook/) || scripts[key].match(/build-storybook/)) {
-      storybookScripts.custom[key] = scripts[key];
+        // full word check, rather than regex which could be faulty
+        const isSbBinary =
+          currentWord === 'build-storybook' ||
+          currentWord === 'start-storybook' ||
+          currentWord === 'sb';
+
+        // in case people have scripts like `yarn start-storybook`
+        const isPrependedByPkgManager =
+          previousWord && ['npx', 'run', 'yarn', 'pnpx'].some((cmd) => previousWord.includes(cmd));
+
+        if (isSbBinary && !isPrependedByPkgManager) {
+          isStorybookScript = true;
+          return currentWord
+            .replace('sb', 'storybook')
+            .replace('start-storybook', 'storybook dev')
+            .replace('build-storybook', 'storybook build');
+        }
+
+        return currentWord;
+      })
+      .join(' ');
+
+    if (isStorybookScript) {
+      acc[key] = {
+        before: allScripts[key],
+        after: newScript,
+      };
     }
-  });
 
-  return storybookScripts;
+    return acc;
+  }, {} as Record<string, { before: string; after: string }>);
 };
 
 /**
- * Is the user using start-storybook
+ * Is the user using start-storybook or build-storybook in its scripts
  *
  * If so:
- * - Add storybook dependency
- * - Change start-storybook and build-storybook scripts
+ * - Change start-storybook and build-storybook scripts to storybook dev and storybook build
+ * - Change sb to storybook if they are using sb
  */
 export const sbScripts: Fix<SbScriptsRunOptions> = {
   id: 'sb-scripts',
 
   async check({ packageManager }) {
     const packageJson = packageManager.retrievePackageJson();
-    const { scripts = {}, devDependencies, dependencies } = packageJson;
+    const { scripts = {} } = packageJson;
     const { version: storybookVersion } = getStorybookInfo(packageJson);
-
-    const allDeps = { ...dependencies, ...devDependencies };
 
     const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!storybookCoerced) {
-      logger.warn(dedent`
-        ❌ Unable to determine storybook version, skipping ${chalk.cyan('sb-scripts')} fix.
+      throw new Error(dedent`
+        ❌ Unable to determine storybook version.
         🤔 Are you running automigrate from your project directory?
       `);
-      return null;
     }
 
-    if (allDeps.sb || allDeps.storybook) {
+    if (semver.lt(storybookCoerced, '7.0.0')) {
       return null;
     }
 
     const storybookScripts = getStorybookScripts(scripts);
 
-    if (
-      Object.keys(storybookScripts.official).length === 0 &&
-      Object.keys(storybookScripts.custom).length === 0
-    ) {
+    if (Object.keys(storybookScripts).length === 0) {
       return null;
     }
 
-    Object.keys(storybookScripts.official).forEach((key) => {
-      storybookScripts.official[key] = storybookScripts.official[key]
-        .replace('start-storybook', 'storybook dev')
-        .replace('build-storybook', 'storybook build');
-    });
-
-    return semver.gte(storybookCoerced, '7.0.0')
-      ? { packageJson, storybookScripts, storybookVersion }
-      : null;
+    return { packageJson, storybookScripts, storybookVersion };
   },
 
-  prompt({ storybookVersion }) {
+  prompt({ storybookVersion, storybookScripts }) {
     const sbFormatted = chalk.cyan(`Storybook ${storybookVersion}`);
 
-    const explanationMessage = [
-      `Starting in Storybook 7, the ${chalk.yellow('start-storybook')} and ${chalk.yellow(
-        'build-storybook'
-      )} binaries have changed to ${chalk.magenta('storybook dev')} and ${chalk.magenta(
-        'storybook build'
-      )} respectively.`,
-      `In order to work with ${sbFormatted}, Storybook's ${chalk.magenta(
-        'storybook'
-      )} binary has to be installed and your storybook scripts have to be adjusted to use the binary. We can install the storybook binary and attempt to adjust your scripts for you.`,
-    ].join('\n');
+    const newScriptsMessage = Object.keys(storybookScripts).reduce((acc, scriptKey) => {
+      acc.push(
+        [
+          chalk.bold(scriptKey),
+          'from:',
+          chalk.cyan(storybookScripts[scriptKey].before),
+          'to:',
+          chalk.cyan(storybookScripts[scriptKey].after),
+        ].join('\n')
+      );
+      return acc;
+    }, []);
 
-    return [
-      `We've detected you are using ${sbFormatted} with scripts from previous versions of Storybook.`,
-      explanationMessage,
-      `More info: ${chalk.yellow(
+    return dedent`
+      We've detected you are using ${sbFormatted} with scripts from previous versions of Storybook.
+      Starting in Storybook 7, the ${chalk.yellow('start-storybook')} and ${chalk.yellow(
+      'build-storybook'
+    )} binaries have changed to ${chalk.magenta('storybook dev')} and ${chalk.magenta(
+      'storybook build'
+    )} respectively.
+      In order to work with ${sbFormatted}, your storybook scripts have to be adjusted to use the binary. We can adjust them for you:
+
+      ${newScriptsMessage.join('\n\n')}
+
+      In case this migration did not cover all of your scripts, or you'd like more info: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed'
-      )}`,
-    ]
-      .filter(Boolean)
-      .join('\n\n');
+      )}
+      `;
   },
 
-  async run({ result: { storybookScripts, packageJson }, packageManager, dryRun }) {
+  async run({ result: { storybookScripts }, packageManager, dryRun }) {
+    logger.info(`✅ Updating scripts in package.json`);
     logger.log();
-    logger.info(`Adding 'storybook' as dev dependency`);
-    logger.log();
-
     if (!dryRun) {
-      const versionToInstall = getStorybookVersionSpecifier(packageJson);
-      packageManager.addDependencies({ installAsDevDependencies: true }, [
-        `storybook@${versionToInstall}`,
-      ]);
-    }
+      const newScripts = Object.keys(storybookScripts).reduce((acc, scriptKey) => {
+        acc[scriptKey] = storybookScripts[scriptKey].after;
+        return acc;
+      }, {} as Record<string, string>);
 
-    logger.info(`Updating scripts in package.json`);
-    logger.log();
-    if (!dryRun && Object.keys(storybookScripts.official).length > 0) {
-      const message = [
-        `Migrating your scripts to:`,
-        chalk.yellow(JSON.stringify(storybookScripts.official, null, 2)),
-      ].join('\n');
-
-      logger.log(message);
       logger.log();
 
-      packageManager.addScripts(storybookScripts.official);
-    }
-
-    if (!dryRun && Object.keys(storybookScripts.custom).length > 0) {
-      const message = [
-        `We detected custom scripts that we can't automigrate:`,
-        chalk.yellow(JSON.stringify(storybookScripts.custom, null, 2)),
-        '\n',
-        `Please manually migrate the ones applicable and use the documentation below for reference: ${chalk.yellow(
-          'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed'
-        )}`,
-      ].join('\n');
-
-      logger.log(message);
-      logger.log();
+      packageManager.addScripts(newScripts);
     }
   },
 };

@@ -199,7 +199,7 @@ export const SearchResults: FC<{
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [enableShortcuts, isLoading]);
+  }, [closeMenu, enableShortcuts, isLoading]);
 
   const mouseOverHandler = useCallback((event: MouseEvent) => {
     const currentTarget = event.currentTarget as HTMLElement;

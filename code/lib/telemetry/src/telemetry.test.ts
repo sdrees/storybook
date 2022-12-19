@@ -1,6 +1,5 @@
 /// <reference types="@types/jest" />;
 
-/* eslint-disable no-plusplus */
 import fetch from 'isomorphic-unfetch';
 
 import { sendTelemetry } from './telemetry';
@@ -54,6 +53,12 @@ it('gives up if fetch repeatedly fails', async () => {
 it('await all pending telemetry when passing in immediate = true', async () => {
   let numberOfResolvedTasks = 0;
 
+  fetchMock.mockImplementation(async () => {
+    await Promise.resolve(null);
+    numberOfResolvedTasks += 1;
+    return { status: 200 };
+  });
+
   // when we call sendTelemetry with immediate = true
   // all pending tasks will be awaited
   // to test this we add a few telemetry tasks that will be in the 'queue'
@@ -61,15 +66,14 @@ it('await all pending telemetry when passing in immediate = true', async () => {
   sendTelemetry({
     eventType: 'init',
     payload: { foo: 'bar' },
-  }).then(() => {
-    numberOfResolvedTasks++;
   });
   sendTelemetry({
     eventType: 'dev',
     payload: { foo: 'bar' },
-  }).then(() => {
-    numberOfResolvedTasks++;
   });
+
+  expect(fetch).toHaveBeenCalledTimes(2);
+  expect(numberOfResolvedTasks).toBe(0);
 
   // here we await
   await sendTelemetry(
@@ -78,9 +82,7 @@ it('await all pending telemetry when passing in immediate = true', async () => {
       payload: { foo: 'bar' },
     },
     { retryDelay: 0, immediate: true }
-  ).then(() => {
-    numberOfResolvedTasks++;
-  });
+  );
 
   expect(fetch).toHaveBeenCalledTimes(3);
   expect(numberOfResolvedTasks).toBe(3);

@@ -20,6 +20,7 @@ interface GlobalClientAPIOptions {
 
 export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
   id: 'removedglobalclientapis',
+  promptOnly: true,
 
   async check({ packageManager }) {
     const packageJson = packageManager.retrievePackageJson();
@@ -48,19 +49,18 @@ export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
   },
   prompt({ usedAPIs, previewPath }) {
     return dedent`
+      ${chalk.bold(
+        chalk.red('Attention')
+      )}: We could not automatically make this change. You'll need to do it manually.
+
       The following APIs (used in "${chalk.yellow(previewPath)}") have been removed from Storybook:
       
       ${usedAPIs.map((api) => `- ${chalk.cyan(api)}`).join('\n')}
-
-      You'll need to update "${chalk.yellow(previewPath)}" manually.
 
       Please see the migration guide for more information:
       ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-global-client-apis'
       )}
     `;
-  },
-  async run() {
-    console.log('Skipping automatic fix for removed global client APIs');
   },
 };

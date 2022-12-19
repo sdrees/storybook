@@ -25,23 +25,28 @@ export default class StorybookNormalizeAngularEntryPlugin {
   }
 
   apply(compiler) {
-    const webpackOptions = compiler.options;
-    const entry =
-      typeof webpackOptions.entry === 'function' ? webpackOptions.entry() : webpackOptions.entry;
+    compiler.hooks.environment.tap(PLUGIN_NAME, () => {
+      const webpackOptions = compiler.options;
+      const entry =
+        typeof webpackOptions.entry === 'function' ? webpackOptions.entry() : webpackOptions.entry;
 
-    webpackOptions.entry = async () => {
-      const entryResult = await entry;
+      webpackOptions.entry = async () => {
+        const entryResult = await entry;
 
-      if (entryResult.main && entryResult.styles) {
-        return {
-          main: {
-            import: Array.from(new Set([...entryResult.main.import, ...entryResult.styles.import])),
-          },
-        };
-      }
+        if (entryResult.main && entryResult.styles) {
+          return {
+            main: {
+              import: Array.from(
+                new Set([...entryResult.main.import, ...entryResult.styles.import])
+              ),
+            },
+          };
+        }
 
-      return entry;
-    };
+        return entry;
+      };
+    });
+
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
       this.compilation = compilation;
     });

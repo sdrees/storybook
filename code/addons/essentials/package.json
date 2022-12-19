@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.0.0-alpha.57",
+  "version": "7.0.0-beta.12",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -62,6 +62,11 @@
       "import": "./dist/docs/preset.mjs",
       "types": "./dist/docs/preset.d.ts"
     },
+    "./docs/mdx-react-shim": {
+      "require": "./dist/docs/mdx-react-shim.js",
+      "import": "./dist/docs/mdx-react-shim.mjs",
+      "types": "./dist/docs/mdx-react-shim.d.ts"
+    },
     "./highlight/preview": {
       "require": "./dist/highlight/preview.js",
       "import": "./dist/highlight/preview.mjs",
@@ -111,28 +116,28 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.57",
-    "@storybook/addon-backgrounds": "7.0.0-alpha.57",
-    "@storybook/addon-controls": "7.0.0-alpha.57",
-    "@storybook/addon-docs": "7.0.0-alpha.57",
-    "@storybook/addon-highlight": "7.0.0-alpha.57",
-    "@storybook/addon-measure": "7.0.0-alpha.57",
-    "@storybook/addon-outline": "7.0.0-alpha.57",
-    "@storybook/addon-toolbars": "7.0.0-alpha.57",
-    "@storybook/addon-viewport": "7.0.0-alpha.57",
-    "@storybook/core-common": "7.0.0-alpha.57",
-    "@storybook/manager-api": "7.0.0-alpha.57",
-    "@storybook/node-logger": "7.0.0-alpha.57",
-    "@storybook/preview-api": "7.0.0-alpha.57",
+    "@storybook/addon-actions": "7.0.0-beta.12",
+    "@storybook/addon-backgrounds": "7.0.0-beta.12",
+    "@storybook/addon-controls": "7.0.0-beta.12",
+    "@storybook/addon-docs": "7.0.0-beta.12",
+    "@storybook/addon-highlight": "7.0.0-beta.12",
+    "@storybook/addon-measure": "7.0.0-beta.12",
+    "@storybook/addon-outline": "7.0.0-beta.12",
+    "@storybook/addon-toolbars": "7.0.0-beta.12",
+    "@storybook/addon-viewport": "7.0.0-beta.12",
+    "@storybook/core-common": "7.0.0-beta.12",
+    "@storybook/manager-api": "7.0.0-beta.12",
+    "@storybook/node-logger": "7.0.0-beta.12",
+    "@storybook/preview-api": "7.0.0-beta.12",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.2",
-    "@storybook/vue": "7.0.0-alpha.57",
+    "@storybook/vue": "7.0.0-beta.12",
     "typescript": "^4.9.3"
   },
   "peerDependencies": {
-    "@babel/core": "^7.9.6"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -147,6 +152,7 @@
       "./src/controls/manager.ts",
       "./src/docs/preview.ts",
       "./src/docs/preset.ts",
+      "./src/docs/mdx-react-shim.ts",
       "./src/highlight/preview.ts",
       "./src/measure/preview.ts",
       "./src/measure/manager.ts",
@@ -157,5 +163,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae"
+  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
 }

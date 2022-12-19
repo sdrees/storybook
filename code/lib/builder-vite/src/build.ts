@@ -15,7 +15,7 @@ export async function build(options: ExtendedOptions) {
       sourcemap: true,
       rollupOptions: {
         // Do not try to bundle the storybook runtime, it is copied into the output dir after the build.
-        external: ['/sb-preview/runtime.mjs'],
+        external: ['./sb-preview/runtime.mjs'],
       },
     },
   }).build;

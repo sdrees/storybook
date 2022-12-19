@@ -13,6 +13,7 @@ import { getActualPackageVersion, getActualPackageVersions } from './package-jso
 import { getMonorepoType } from './get-monorepo-type';
 import { cleanPaths } from './sanitize';
 import { getFrameworkInfo } from './get-framework-info';
+import { getChromaticVersionSpecifier } from './get-chromatic-version';
 
 export const metaFrameworks = {
   next: 'Next',
@@ -123,6 +124,15 @@ export const computeStorybookMetadata = async ({
     });
   }
 
+  const chromaticVersionSpecifier = getChromaticVersionSpecifier(packageJson);
+  if (chromaticVersionSpecifier) {
+    addons.chromatic = {
+      version: undefined,
+      versionSpecifier: chromaticVersionSpecifier,
+      options: undefined,
+    };
+  }
+
   const addonVersions = await getActualPackageVersions(addons);
   addonVersions.forEach(({ name, version }) => {
     addons[name].version = version;
@@ -150,13 +160,13 @@ export const computeStorybookMetadata = async ({
   const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
 
   const storybookInfo = getStorybookInfo(packageJson);
-  const storybookVersion =
-    storybookPackages[storybookInfo.frameworkPackage]?.version || storybookInfo.version;
+  const storybookVersion = storybookPackages[storybookInfo.frameworkPackage]?.version;
 
   return {
     ...metadata,
     ...frameworkInfo,
     storybookVersion,
+    storybookVersionSpecifier: storybookInfo.version,
     language,
     storybookPackages,
     addons,

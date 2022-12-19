@@ -334,7 +334,7 @@ export class Instrumenter {
   track(method: string, fn: Function, args: any[], options: Options) {
     const storyId: StoryId =
       args?.[0]?.__storyId__ ||
-      global.window.__STORYBOOK_PREVIEW__.selectionStore.selection.storyId;
+      global.window.__STORYBOOK_PREVIEW__?.selectionStore?.selection?.storyId;
     const { cursor, ancestors } = this.getState(storyId);
     this.setState(storyId, { cursor: cursor + 1 });
     const id = `${ancestors.slice(-1)[0] || storyId} [${cursor}] ${method}`;

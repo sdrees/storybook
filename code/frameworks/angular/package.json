@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-alpha.57",
+  "version": "7.0.0-beta.12",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -34,18 +34,18 @@
     "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.57",
-    "@storybook/client-logger": "7.0.0-alpha.57",
-    "@storybook/core-client": "7.0.0-alpha.57",
-    "@storybook/core-common": "7.0.0-alpha.57",
-    "@storybook/core-events": "7.0.0-alpha.57",
-    "@storybook/core-server": "7.0.0-alpha.57",
-    "@storybook/core-webpack": "7.0.0-alpha.57",
-    "@storybook/docs-tools": "7.0.0-alpha.57",
-    "@storybook/manager-api": "7.0.0-alpha.57",
-    "@storybook/node-logger": "7.0.0-alpha.57",
-    "@storybook/preview-api": "7.0.0-alpha.57",
-    "@storybook/types": "7.0.0-alpha.57",
+    "@storybook/builder-webpack5": "7.0.0-beta.12",
+    "@storybook/client-logger": "7.0.0-beta.12",
+    "@storybook/core-client": "7.0.0-beta.12",
+    "@storybook/core-common": "7.0.0-beta.12",
+    "@storybook/core-events": "7.0.0-beta.12",
+    "@storybook/core-server": "7.0.0-beta.12",
+    "@storybook/core-webpack": "7.0.0-beta.12",
+    "@storybook/docs-tools": "7.0.0-beta.12",
+    "@storybook/manager-api": "7.0.0-beta.12",
+    "@storybook/node-logger": "7.0.0-beta.12",
+    "@storybook/preview-api": "7.0.0-beta.12",
+    "@storybook/types": "7.0.0-beta.12",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
@@ -54,8 +54,6 @@
     "core-js": "^3.8.2",
     "find-up": "^5.0.0",
     "global": "^4.4.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
     "telejson": "^7.0.3",
@@ -85,9 +83,9 @@
     "jest-specific-snapshot": "^7.0.0",
     "rimraf": "^3.0.2",
     "tmp": "^0.2.1",
-    "typescript": "^4.9.3",
+    "typescript": "~4.9.3",
     "webpack": "5",
-    "zone.js": "^0.11.0"
+    "zone.js": "^0.12.0"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">=0.1300.0",
@@ -103,9 +101,11 @@
     "@angular/platform-browser-dynamic": ">=13.0.0",
     "@babel/core": "*",
     "@nrwl/workspace": "14.6.1",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "rxjs": "^6.0.0 || ^7.4.0",
     "typescript": "^4.0.0",
-    "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0 || ^0.11.0"
+    "zone.js": "^0.8.29 || >= 0.9.0 < 1.0.0"
   },
   "peerDependenciesMeta": {
     "@angular/cli": {
@@ -116,11 +116,11 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "builders": "dist/builders/builders.json",
-  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae"
+  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
 }

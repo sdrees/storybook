@@ -107,6 +107,8 @@ Consider the following React story:
   paths={[
     'react/button-story-with-sample.js.mdx'
   ]}
+  usesCsf3
+  csf2Path="api/new-frameworks#snippet-button-story-with-sample"
 />
 
 <!-- prettier-ignore-end -->
@@ -123,6 +125,8 @@ Consider the following hypothetical example:
   paths={[
     'common/button-story-hypothetical-example.js.mdx'
   ]}
+  usesCsf3
+  csf2Path="api/new-frameworks#snippet-button-story-hypothetical-example"
 />
 
 <!-- prettier-ignore-end -->

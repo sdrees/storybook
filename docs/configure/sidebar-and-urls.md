@@ -38,6 +38,8 @@ Consider the following story:
   paths={[
     'common/foo-bar-baz-story.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="configure/sidebar-and-urls#snippet-foo-bar-baz-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -52,6 +54,8 @@ It is possible to manually set the story's id, which is helpful if you want to r
   paths={[
     'common/other-foo-bar-story.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="configure/sidebar-and-urls#snippet-other-foo-bar-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -104,6 +108,7 @@ If you need to preserve the naming scheme, you can add the `title` element to th
   paths={[
     'common/storybook-csf-3-auto-title-redundant.js.mdx',
   ]}
+  usesCsf3
 />
 
 <!-- prettier-ignore-end -->

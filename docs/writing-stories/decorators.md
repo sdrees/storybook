@@ -95,6 +95,8 @@ To define a decorator for a single story, use the `decorators` key on a named ex
     'svelte/button-story-decorator.js.mdx',
     'web-components/button-story-decorator.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/decorators#snippet-button-story-decorator"
 />
 
 

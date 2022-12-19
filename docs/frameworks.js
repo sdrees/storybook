@@ -88,7 +88,7 @@ module.exports = {
         {
           name: 'Storyshots',
           unsupported: ['ember'],
-          path: 'workflows/unit-testing',
+          path: 'writing-tests/snapshot-testing',
         },
         {
           name: 'storysource',

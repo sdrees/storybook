@@ -29,8 +29,4 @@ function webpack(
   };
 }
 
-function managerEntries(entry = [] as Array<unknown>) {
-  return [...entry, require.resolve('./manager')];
-}
-
-export { webpack, managerEntries };
+export { webpack };

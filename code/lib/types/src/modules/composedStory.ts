@@ -16,8 +16,8 @@ import type { ProjectAnnotations } from './story';
 
 // TODO -- I think the name "CSFExports" overlaps here a bit with the types in csfFile.ts
 // we might want to reconcile @yannbf
-export type Store_CSFExports<TRenderer extends Renderer = Renderer> = {
-  default: ComponentAnnotations<TRenderer, Args>;
+export type Store_CSFExports<TRenderer extends Renderer = Renderer, TArgs extends Args = Args> = {
+  default: ComponentAnnotations<TRenderer, TArgs>;
   __esModule?: boolean;
   __namedExportsOrder?: string[];
 };

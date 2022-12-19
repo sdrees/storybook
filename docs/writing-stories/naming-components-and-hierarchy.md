@@ -66,6 +66,8 @@ Stories which have **no siblings** (i.e. the component has only one story) and w
     'common/button-story-hoisted.js.mdx',
     'common/button-story-hoisted.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/naming-components-and-hierarchy#button-story-hoisted"
 />
 
 <!-- prettier-ignore-end -->

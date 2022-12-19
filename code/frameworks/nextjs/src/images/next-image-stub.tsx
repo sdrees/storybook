@@ -54,7 +54,7 @@ if (semver.satisfies(process.env.__NEXT_VERSION!, '^13.0.0')) {
   });
 }
 
-if (semver.satisfies(process.env.__NEXT_VERSION!, '^12.0.0')) {
+if (semver.satisfies(process.env.__NEXT_VERSION!, '^12.2.0')) {
   const NextFutureImage = require('next/future/image') as typeof _NextImage;
   const OriginalNextFutureImage = NextFutureImage.default;
 

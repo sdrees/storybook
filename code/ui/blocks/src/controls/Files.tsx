@@ -1,5 +1,5 @@
+import React, { useEffect, useRef } from 'react';
 import type { ChangeEvent, FC } from 'react';
-import React from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
 
@@ -39,6 +39,8 @@ export const FilesControl: FC<FilesControlProps> = ({
   accept = 'image/*',
   value,
 }) => {
+  const inputElement = useRef<HTMLInputElement>(null);
+
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
       return;
@@ -48,8 +50,16 @@ export const FilesControl: FC<FilesControlProps> = ({
     revokeOldUrls(value);
   }
 
+  // Added useEffect hook to reset the file value when value is null
+  useEffect(() => {
+    if (value == null && inputElement.current) {
+      inputElement.current.value = null;
+    }
+  }, [value, name]);
+
   return (
     <FileInput
+      ref={inputElement}
       id={getControlId(name)}
       type="file"
       name={name}

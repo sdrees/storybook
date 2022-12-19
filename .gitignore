@@ -12,6 +12,7 @@ test-results
 /sandbox
 /bench
 .verdaccio-cache
+.next
 
 # Yarn stuff
 /**/.yarn/*

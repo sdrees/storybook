@@ -17,6 +17,8 @@ We can set a parameter for a single story with the `parameters` key on a CSF exp
    'common/component-story-custom-params.js.mdx',
    'common/component-story-custom-params.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/parameters#snippet-component-story-custom-params"
 />
 
 <!-- prettier-ignore-end -->

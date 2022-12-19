@@ -63,7 +63,7 @@ export const link = async ({ target, local, start }: LinkOptions) => {
     `Magic stuff related to @storybook/preset-create-react-app, we need to fix peerDependencies`
   );
 
-  if (!reproPackageJson.devDependencies.vite) {
+  if (!reproPackageJson.devDependencies?.vite) {
     await exec(`yarn add -D webpack-hot-middleware`, { cwd: reproDir });
   }
 

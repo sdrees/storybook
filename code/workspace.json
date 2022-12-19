@@ -211,6 +211,11 @@
       "root": "renderers/html",
       "type": "library"
     },
+    "@storybook/html-vite": {
+      "implicitDependencies": [],
+      "root": "frameworks/html-vite",
+      "type": "library"
+    },
     "@storybook/html-webpack5": {
       "implicitDependencies": [],
       "root": "frameworks/html-webpack5",

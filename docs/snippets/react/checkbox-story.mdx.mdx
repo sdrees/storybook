@@ -1,40 +1,16 @@
 ```md
-<!-- Checkbox.stories.mdx -->
+{/* Checkbox.mdx */}
 
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story } from '@storybook/blocks';
+import * as CheckboxStories from './Checkbox.stories';
 
-import { Checkbox } from './Checkbox';
-
-<Meta title="MDX/Checkbox" component={Checkbox} />
-
-export const Template = (args) => <Checkbox {...args} />;
+<Meta of={CheckboxStories} />
 
 # Checkbox
 
-With `MDX`, we can define a story for `Checkbox` right in the middle of our
-Markdown documentation.
+With `MDX` we can compose Markdown documentation with `Checkbox` stories and interactive controls.
 
 <Canvas>
-  <Story 
-    name="Unchecked"
-    args={{ 
-      label: 'Unchecked',
-    }}
-    render={(args) => <Checkbox {...args} />} />
-  <Story 
-    name="Checked"
-    args={{ 
-      label: 'Unchecked', 
-      checked: true,
-    }}
-    render={(args) => <Checkbox {...args} />} />
-  <Story 
-    name="Secondary" 
-    args={{
-      label: 'Secondary', 
-      checked: true, 
-      appearance: 'secondary',
-    }}
-    render={(args) => <Checkbox {...args} />} />
+  <Story of={CheckboxStories.Unchecked} />
 </Canvas>
 ```

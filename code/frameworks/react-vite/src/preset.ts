@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 import type { StorybookConfig } from '@storybook/builder-vite';
-import { hasPlugin } from './utils';
+import { hasVitePlugins } from '@storybook/builder-vite';
 
 export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
@@ -11,7 +11,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
   const { plugins = [] } = config;
 
   // Add react plugin if not present
-  if (!hasPlugin(plugins, 'vite:react-babel')) {
+  if (!(await hasVitePlugins(plugins, ['vite:react-babel']))) {
     const { default: react } = await import('@vitejs/plugin-react');
     plugins.push(react());
   }

@@ -9,7 +9,7 @@ import {
   addArgsEnhancer,
   addArgTypesEnhancer,
   setGlobalRender,
-} from '{{previewApi}}';
+} from '@storybook/preview-api';
 import * as previewAnnotations from '{{previewAnnotationFilename}}';
 
 Object.keys(previewAnnotations).forEach((key) => {

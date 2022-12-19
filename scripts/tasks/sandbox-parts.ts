@@ -53,7 +53,7 @@ export const create: Task['run'] = async (
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
-      optionValues: { output: sandboxDir, branch: 'next', debug },
+      optionValues: { output: sandboxDir, branch: 'next', init: false, debug },
       cwd: parentDir,
       dryRun,
       debug,
@@ -67,18 +67,9 @@ export const create: Task['run'] = async (
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
   }
-
-  const mainConfig = await readMainConfig({ cwd });
-  // Enable or disable Storybook features
-  mainConfig.setFieldValue(['features'], {
-    interactionsDebugger: true,
-  });
-
-  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
-  await writeConfig(mainConfig);
 };
 
-export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
+export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
 
   await installYarn2({ cwd, dryRun, debug });
@@ -102,12 +93,31 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
       'yarn install',
       { cwd },
       {
+        debug,
         dryRun,
         startMessage: `⬇️ Installing local dependencies`,
         errorMessage: `🚨 Installing local dependencies failed`,
       }
     );
   }
+
+  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
+
+  await executeCLIStep(steps.init, {
+    cwd,
+    optionValues: { debug, yes: true, ...extra },
+    dryRun,
+    debug,
+  });
+
+  const mainConfig = await readMainConfig({ cwd });
+  // Enable or disable Storybook features
+  mainConfig.setFieldValue(['features'], {
+    interactionsDebugger: true,
+  });
+
+  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
+  await writeConfig(mainConfig);
 
   logger.info(`🔢 Adding package scripts:`);
   await updatePackageScripts({
@@ -133,7 +143,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   (config) => ({
     ...config,
     module: {
-      ...config.modules,
+      ...config.module,
       rules: [
         // Ensure esbuild-loader applies to all files in ./template-stories
         {

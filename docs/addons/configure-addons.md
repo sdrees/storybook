@@ -23,8 +23,10 @@ For example, the [Pseudo States addon](https://storybook.js.org/addons/storybook
 Use the [`useParameter`](./addons-api.md#useparameter) hook to access the parameter values within your addon.
 
 ```js
-export const Hover = () => <Button>Label</Button>;
-Hover.parameters = { pseudo: { hover: true } };
+export const Hover = {
+  render: () => <Button>Label</Button>,
+  parameters: { pseudo: { hover: true } },
+};
 ```
 
 ## Channels

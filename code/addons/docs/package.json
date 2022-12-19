@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.0.0-alpha.57",
+  "version": "7.0.0-beta.12",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -26,6 +26,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -40,6 +41,11 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
+    "./blocks": {
+      "require": "./dist/blocks.js",
+      "import": "./dist/blocks.mjs",
+      "types": "./dist/blocks.d.ts"
+    },
     "./dist/preview": {
       "require": "./dist/preview.js",
       "import": "./dist/preview.mjs",
@@ -49,6 +55,16 @@
       "require": "./dist/preset.js",
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
+    },
+    "./dist/shims/mdx-react-shim": {
+      "require": "./dist/shims/mdx-react-shim.js",
+      "import": "./dist/shims/mdx-react-shim.mjs",
+      "types": "./dist/shims/mdx-react-shim.d.ts"
+    },
+    "./mdx-react-shim": {
+      "require": "./dist/shims/mdx-react-shim.js",
+      "import": "./dist/shims/mdx-react-shim.mjs",
+      "types": "./dist/shims/mdx-react-shim.d.ts"
     },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember": "./ember/index.js",
@@ -84,19 +100,20 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@babel/core": "^7.20.2",
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.0.0-alpha.57",
-    "@storybook/components": "7.0.0-alpha.57",
-    "@storybook/csf-plugin": "7.0.0-alpha.57",
-    "@storybook/csf-tools": "7.0.0-alpha.57",
+    "@storybook/blocks": "7.0.0-beta.12",
+    "@storybook/components": "7.0.0-beta.12",
+    "@storybook/csf-plugin": "7.0.0-beta.12",
+    "@storybook/csf-tools": "7.0.0-beta.12",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-alpha.57",
-    "@storybook/postinstall": "7.0.0-alpha.57",
-    "@storybook/preview-api": "7.0.0-alpha.57",
-    "@storybook/theming": "7.0.0-alpha.57",
-    "@storybook/types": "7.0.0-alpha.57",
+    "@storybook/node-logger": "7.0.0-beta.12",
+    "@storybook/postinstall": "7.0.0-beta.12",
+    "@storybook/preview-api": "7.0.0-beta.12",
+    "@storybook/theming": "7.0.0-beta.12",
+    "@storybook/types": "7.0.0-beta.12",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
     "remark-external-links": "^8.0.0",
@@ -104,20 +121,13 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.2",
-    "typescript": "^4.9.3"
+    "react": "^16.14.0",
+    "react-dom": "^16.8.0",
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"
@@ -126,10 +136,12 @@
     "entries": [
       "./src/index.ts",
       "./src/preset.ts",
-      "./src/preview.ts"
+      "./src/preview.ts",
+      "./src/blocks.ts",
+      "./src/shims/mdx-react-shim.ts"
     ]
   },
-  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae",
+  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

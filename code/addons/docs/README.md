@@ -4,13 +4,13 @@
 
 # Storybook Docs
 
-> migration guide: This page documents the method to configure storybook introduced recently in 5.3.0, consult the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md) if you want to migrate to this format of configuring storybook.
+> migration guide: This page documents the method to configure Storybook introduced recently in 7.0.0, consult the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md) if you want to migrate to this format of configuring Storybook.
 
 Storybook Docs transforms your Storybook stories into world-class component documentation.
 
 **DocsPage.** Out of the box, all your stories get a `DocsPage`. `DocsPage` is a zero-config aggregation of your component stories, text descriptions, docgen comments, props tables, and code examples into clean, readable pages.
 
-**MDX.** If you want more control, `MDX` allows you to write long-form markdown documentation and stories in one file. You can also use it to write pure documentation pages and embed them inside your Storybook alongside your stories.
+**MDX.** If you want more control, `MDX` allows you to write long-form markdown documentation and include stories in one file. You can also use it to write pure documentation pages and embed them inside your Storybook alongside your stories.
 
 Just like Storybook, Docs supports every major view layer including React, Vue, Angular, HTML, Web components, Svelte, and many more.
 
@@ -40,31 +40,29 @@ For more information on how it works, see the [`DocsPage` reference](https://git
 
 ## MDX
 
-`MDX` is a syntax for writing long-form documentation and stories side-by-side in the same file. In contrast to `DocsPage`, which provides smart documentation out of the box, `MDX` gives you full control over your component documentation.
+`MDX` is a syntax for writing long-form documentation with stories side-by-side in the same file. In contrast to `DocsPage`, which provides smart documentation out of the box, `MDX` gives you full control over your component documentation.
 
 Here's an example file:
 
-```md
-import { Meta, Story, Canvas } from '@storybook/addon-docs';
-import { Checkbox } from './Checkbox';
+<!-- prettier-ignore-start -->
 
-<Meta title="MDX/Checkbox" component={Checkbox} />
+```md
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta title="MDX/Checkbox" of={CheckboxStories} />
 
 # Checkbox
 
-With `MDX` we can define a story for `Checkbox` right in the middle of our
+With `MDX` we can include a story for `Checkbox` right in the middle of our
 markdown documentation.
 
 <Canvas>
-  <Story name="all checkboxes">
-    <form>
-      <Checkbox id="Unchecked" label="Unchecked" />
-      <Checkbox id="Checked" label="Checked" checked />
-      <Checkbox appearance="secondary" id="second" label="Secondary" checked />
-    </form>
-  </Story>
+  <Story of={CheckboxStories.Unchecked} />
 </Canvas>
 ```
+
+<!-- prettier-ignore-end -->
 
 And here's how that's rendered in Storybook:
 
@@ -102,8 +100,13 @@ Then add the following to your `.storybook/main.js`:
 
 ```js
 module.exports = {
-  stories: ['../src/**/*.stories.@(js|mdx)'],
-  addons: ['@storybook/addon-docs'],
+  stories: [
+    '../src/**/*.mdx)', // 👈 Add this, to match your project's structure
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
+  addons: [
+    '@storybook/addon-docs', // 👈 Also add this
+  ],
 };
 ```
 
@@ -140,8 +143,7 @@ module.exports = {
     {
       name: '@storybook/addon-docs',
       options: {
-        configureJSX: true,
-        babelOptions: {},
+        jsxOptions: {},
         csfPluginOptions: null,
         transcludeMarkdown: true,
       },
@@ -150,7 +152,7 @@ module.exports = {
 };
 ```
 
-The `configureJSX` option is useful when you're writing your docs in MDX and your project's babel config isn't already set up to handle JSX files. `babelOptions` is a way to further configure the babel processor when you're using `configureJSX`.
+`jsxOptions` are options that will be passed to `@babel/preset-react` for `.md` and `.mdx` files.
 
 `csfPluginOptions` is an object for configuring `@storybook/csf-plugin`. When set to `null` it tells docs not to run the `csf-plugin` at all, which can be used as an optimization, or if you're already using `csf-plugin` in your `main.js`.
 

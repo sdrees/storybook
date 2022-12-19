@@ -150,6 +150,12 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+  💡 There is a <code>boot</code> event that contains no metadata at all (simply used to ensure the telemetry is working). It is sent prior to evaluating your <code>main.js</code>, so it is unaffected by the <code>disableTelemetry</code> option. If you want to ensure that event is not sent, be sure to use the <code>STORYBOOK_DISABLE_TELEMETRY</code> environment variable.
+</div>
+
+
+
 ## Crash reports (disabled by default)
 
 In addition to general usage telemetry, you may also choose to share crash reports. Storybook will then sanitize the error object (removing all user paths) and append it to the telemetry event. To enable crash reporting, you can set the `enableCrashReports` configuration element to `true`, using the `--enable-crash-reports` flag, or set the `STORYBOOK_ENABLE_CRASH_REPORTS` environment variable to `1`. For example:

@@ -71,11 +71,15 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
 
           useEffect(() => {
             if (global.CONFIG_TYPE === 'DEVELOPMENT') {
-              const channel = addons.getServerChannel();
+              try {
+                const channel = addons.getServerChannel();
 
-              channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
-                setProgress(options);
-              });
+                channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
+                  setProgress(options);
+                });
+              } catch {
+                //
+              }
             }
           }, []);
 

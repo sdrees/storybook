@@ -10,5 +10,16 @@
   npx storybook init --package-manager=npm
   ```
 
+### Svelte Native
+
+To enable support for Svelte Native story format you'll need to make the following changes your Storybook configuration:
+- Add the [`@storybook/addon-svelte-csf`](https://storybook.js.org/addons/@storybook/addon-svelte-csf/) addon as development dependency.
+- Enable the addon in your Storybook configuration file (e.g., `.storybook/main.js`).
+- Disable on demand story loading configuration property (e.g., `storyStoreV7`) in your Storybook configuration file.
 - For issues with Svelte Native Story Format, check the [Svelte Story Format addon repository](https://github.com/storybookjs/addon-svelte-csf) for instructions.
-- For other installation issues, check the [Svelte README](../../app/svelte/README.md) for additional instructions.
+
+
+- For other installation issues, check the Svelte README files for additional instructions:
+  - [Svelte with Webpack](https://github.com/storybookjs/storybook/tree/next/code/frameworks/svelte-webpack5)
+  - [Svelte with Vite](https://github.com/storybookjs/storybook/tree/next/code/frameworks/svelte-vite)
+  - [SvelteKit](https://github.com/storybookjs/storybook/tree/next/code/frameworks/sveltekit)

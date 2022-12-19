@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
-import { MDXProvider } from '@mdx-js/react';
 
 // TS doesn't like that we export a component with types that it doesn't know about (TS4203)
 export const defaultComponents: Record<string, any> = {
@@ -31,13 +30,15 @@ export class DocsRenderer<TRenderer extends Renderer> {
         ...docsParameter?.components,
       };
 
-      ReactDOM.render(
-        <MDXProvider components={components}>
-          <Docs key={Math.random()} context={context} docsParameter={docsParameter} />
-        </MDXProvider>,
-        element,
-        callback
-      );
+      import('@mdx-js/react').then(({ MDXProvider }) => {
+        ReactDOM.render(
+          <MDXProvider components={components}>
+            <Docs key={Math.random()} context={context} docsParameter={docsParameter} />
+          </MDXProvider>,
+          element,
+          callback
+        );
+      });
     };
 
     this.unmount = (element: HTMLElement) => {

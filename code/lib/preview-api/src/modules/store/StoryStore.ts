@@ -31,9 +31,9 @@ import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
 import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf';
 
-// TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
+const EXTRACT_BATCH_SIZE = 20;
 
 export class StoryStore<TRenderer extends Renderer> {
   storyIndex?: StoryIndexStore;
@@ -143,22 +143,38 @@ export class StoryStore<TRenderer extends Renderer> {
     );
   }
 
-  loadAllCSFFiles(): Promise<StoryStore<TRenderer>['cachedCSFFiles']> {
+  loadAllCSFFiles({ batchSize = EXTRACT_BATCH_SIZE } = {}): Promise<
+    StoryStore<TRenderer>['cachedCSFFiles']
+  > {
     if (!this.storyIndex) throw new Error(`loadAllCSFFiles called before initialization`);
 
-    const importPaths: Record<Path, StoryId> = {};
-    Object.entries(this.storyIndex.entries).forEach(([storyId, { importPath }]) => {
-      importPaths[importPath] = storyId;
-    });
+    const importPaths = Object.entries(this.storyIndex.entries).map(([storyId, { importPath }]) => [
+      importPath,
+      storyId,
+    ]);
 
-    const csfFilePromiseList = Object.entries(importPaths).map(([importPath, storyId]) =>
-      this.loadCSFFileByStoryId(storyId).then((csfFile) => ({
-        importPath,
-        csfFile,
-      }))
-    );
+    const loadInBatches = (
+      remainingImportPaths: typeof importPaths
+    ): Promise<{ importPath: Path; csfFile: CSFFile<TRenderer> }[]> => {
+      if (remainingImportPaths.length === 0) return SynchronousPromise.resolve([]);
 
-    return SynchronousPromise.all(csfFilePromiseList).then((list) =>
+      const csfFilePromiseList = remainingImportPaths
+        .slice(0, batchSize)
+        .map(([importPath, storyId]) =>
+          this.loadCSFFileByStoryId(storyId).then((csfFile) => ({
+            importPath,
+            csfFile,
+          }))
+        );
+
+      return SynchronousPromise.all(csfFilePromiseList).then((firstResults) =>
+        loadInBatches(remainingImportPaths.slice(batchSize)).then((restResults) =>
+          firstResults.concat(restResults)
+        )
+      );
+    };
+
+    return loadInBatches(importPaths).then((list) =>
       list.reduce((acc, { importPath, csfFile }) => {
         acc[importPath] = csfFile;
         return acc;

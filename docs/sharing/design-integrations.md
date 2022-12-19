@@ -107,6 +107,8 @@ In Storybook, add a new [parameter](../writing-stories/parameters.md) named `des
     'angular/component-story-figma-integration.ts.mdx',
     'svelte/component-story-figma-integration.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="sharing/design-integrations#snippet-component-story-figma-integration"
 />
 
 <!-- prettier-ignore-end -->

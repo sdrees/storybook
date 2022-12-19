@@ -63,6 +63,8 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'vue/login-form-with-play-function.3.js.mdx',
     'svelte/login-form-with-play-function.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -104,6 +106,8 @@ For complex flows, it can be worthwhile to group sets of related interactions to
   paths={[
     'common/storybook-interactions-step-function.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function"
 />
 
 <!-- prettier-ignore-end -->

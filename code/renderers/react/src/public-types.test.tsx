@@ -200,3 +200,31 @@ describe('Story args can be inferred', () => {
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 });
+
+test('StoryObj<typeof meta> is allowed when meta is upcasted to Meta<Props>', () => {
+  expectTypeOf<StoryObj<Meta<ButtonProps>>>().toEqualTypeOf<
+    ReactStory<
+      ButtonProps & { children?: ReactNode },
+      Partial<ButtonProps & { children?: ReactNode }>
+    >
+  >();
+});
+
+test('StoryObj<typeof meta> is allowed when meta is upcasted to Meta<typeof Cmp>', () => {
+  expectTypeOf<StoryObj<Meta<typeof Button>>>().toEqualTypeOf<
+    ReactStory<
+      ButtonProps & { children?: ReactNode },
+      Partial<ButtonProps & { children?: ReactNode }>
+    >
+  >();
+});
+
+test('StoryObj<typeof meta> is allowed when all arguments are optional', () => {
+  expectTypeOf<StoryObj<Meta<{ label?: string }>>>().toEqualTypeOf<
+    ReactStory<{ label?: string; children?: ReactNode }, { label?: string; children?: ReactNode }>
+  >();
+});
+
+test('Meta can be used without generic', () => {
+  expectTypeOf({ component: Button }).toMatchTypeOf<Meta>();
+});

@@ -32,6 +32,27 @@ const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
+const _getPathProperties = (path: string[], node: t.Node): t.ObjectProperty[] | undefined => {
+  if (path.length === 0) {
+    if (t.isObjectExpression(node)) {
+      return node.properties as t.ObjectProperty[];
+    }
+    throw new Error('Expected object expression');
+  }
+  if (t.isObjectExpression(node)) {
+    const [first, ...rest] = path;
+    const field = node.properties.find((p: t.ObjectProperty) => propKey(p) === first);
+    if (field) {
+      // FXIME handle spread etc.
+      if (rest.length === 0) return node.properties as t.ObjectProperty[];
+
+      return _getPathProperties(rest, (field as t.ObjectProperty).value);
+    }
+  }
+  return undefined;
+};
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _findVarInitialization = (identifier: string, program: t.Program) => {
   let init: t.Expression | null | undefined = null;
   let declarations: t.VariableDeclarator[] | null = null;
@@ -196,6 +217,13 @@ export class ConfigFile {
     return _getPath(rest, exported);
   }
 
+  getFieldProperties(path: string[]) {
+    const [root, ...rest] = path;
+    const exported = this._exports[root];
+    if (!exported) return undefined;
+    return _getPathProperties(rest, exported);
+  }
+
   getFieldValue(path: string[]) {
     const node = this.getFieldNode(path);
     if (node) {
@@ -223,6 +251,63 @@ export class ConfigFile {
       );
       this._exports[first] = exportObj;
       this._ast.program.body.push(newExport);
+    }
+  }
+
+  removeField(path: string[]) {
+    const removeProperty = (properties: t.ObjectProperty[], prop: string) => {
+      const index = properties.findIndex(
+        (p) =>
+          (t.isIdentifier(p.key) && p.key.name === prop) ||
+          (t.isStringLiteral(p.key) && p.key.value === prop)
+      );
+      if (index >= 0) {
+        properties.splice(index, 1);
+      }
+    };
+    // the structure of this._exports doesn't work for this use case
+    // so we have to manually bypass it here
+    if (path.length === 1) {
+      let removedRootProperty = false;
+      // removing the root export
+      this._ast.program.body.forEach((node) => {
+        // named export
+        if (t.isExportNamedDeclaration(node) && t.isVariableDeclaration(node.declaration)) {
+          const decl = node.declaration.declarations[0];
+          if (t.isIdentifier(decl.id) && decl.id.name === path[0]) {
+            this._ast.program.body.splice(this._ast.program.body.indexOf(node), 1);
+            removedRootProperty = true;
+          }
+        }
+        // default export
+        if (t.isExportDefaultDeclaration(node) && t.isObjectExpression(node.declaration)) {
+          const properties = node.declaration.properties as t.ObjectProperty[];
+          removeProperty(properties, path[0]);
+          removedRootProperty = true;
+        }
+        // module.exports
+        if (
+          t.isExpressionStatement(node) &&
+          t.isAssignmentExpression(node.expression) &&
+          t.isMemberExpression(node.expression.left) &&
+          t.isIdentifier(node.expression.left.object) &&
+          node.expression.left.object.name === 'module' &&
+          t.isIdentifier(node.expression.left.property) &&
+          node.expression.left.property.name === 'exports' &&
+          t.isObjectExpression(node.expression.right)
+        ) {
+          const properties = node.expression.right.properties as t.ObjectProperty[];
+          removeProperty(properties, path[0]);
+          removedRootProperty = true;
+        }
+      });
+      if (removedRootProperty) return;
+    }
+
+    const properties = this.getFieldProperties(path) as t.ObjectProperty[];
+    if (properties) {
+      const lastPath = path.at(-1);
+      removeProperty(properties, lastPath);
     }
   }
 

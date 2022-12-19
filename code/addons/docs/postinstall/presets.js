@@ -24,9 +24,7 @@ export default function transformer(file, api) {
     ((dependencies && dependencies['react-scripts']) ||
       (devDependencies && devDependencies['react-scripts']))
   ) {
-    presetOptions = {
-      configureJSX: true,
-    };
+    presetOptions = {};
   }
 
   const j = api.jscodeshift;

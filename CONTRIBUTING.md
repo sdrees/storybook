@@ -1,6 +1,6 @@
 # Getting started
 
-- Ensure you have node version 14 installed (suggestion: v14.18.1).
+- Ensure you have node version 16 installed (suggestion: v16.5).
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
 - Run `yarn start` directory to run a basic test Storybook "sandbox".
 

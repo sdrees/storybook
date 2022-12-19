@@ -1,6 +1,4 @@
 {
-  "eslint.workingDirectories": ["./code", "./scripts"],
-  "typescript.tsdk": "./code/node_modules/typescript/lib",
   "[javascript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.formatOnSave": true
@@ -17,5 +15,41 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.formatOnSave": true
   },
-  "prettier.ignorePath": "./code/.prettierignore"
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "cache": true,
+    "cacheLocation": ".cache/eslint",
+    "extensions": [
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+      ".ts",
+      ".tsx"
+    ]
+  },
+  "eslint.packageManager": "yarn",
+  "eslint.useESLintClass": true,
+  "eslint.validate": [
+    "json",
+    "javascript",
+    "javascriptreact",
+    "html",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.workingDirectories": [
+    "./code",
+    "./scripts"
+  ],
+  "files.associations": {
+    "*.js": "javascriptreact"
+  },
+  "prettier.ignorePath": "./code/.prettierignore",
+  "typescript.tsdk": "./code/node_modules/typescript/lib"
 }

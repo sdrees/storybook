@@ -30,7 +30,7 @@ The `main.js` configuration file is a [preset](../addons/addon-types.md) and, as
 - `addons` - a list of the [addons](https://storybook.js.org/addons/) you are using.
 - `webpackFinal` - custom [webpack configuration](../builders/webpack.md#extending-storybooks-webpack-config).
 - `babel` - custom [babel configuration](./babel.md).
-- `framework` - framework specific configurations to help the loading and building process.
+- `framework` - [framework specific configurations](./frameworks.md) to help the loading and building process.
 
 <div class="aside">
  💡 Tip: Customize your default story by referencing it first in the `stories` array.

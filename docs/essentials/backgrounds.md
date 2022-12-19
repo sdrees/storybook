@@ -53,6 +53,8 @@ You can also override a single key on the `backgrounds` parameter, for instance,
     'common/storybook-addon-backgrounds-override-background-color.js.mdx',
     'common/storybook-addon-backgrounds-override-background-color.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/backgrounds#snippet-storybook-addon-backgrounds-override-background-color"
 />
 
 <!-- prettier-ignore-end -->
@@ -68,6 +70,8 @@ If you want to disable backgrounds in a story, you can do so by setting the `bac
     'common/storybook-addon-backgrounds-disable-backgrounds.js.mdx',
     'common/storybook-addon-backgrounds-disable-backgrounds.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/backgrounds#snippet-storybook-addon-backgrounds-disable-backgrounds"
 />
 
 <!-- prettier-ignore-end -->
@@ -100,6 +104,8 @@ If you need to disable the grid for a specific story, set the `backgrounds` para
     'common/storybook-addon-backgrounds-disable-grid.js.mdx',
     'common/storybook-addon-backgrounds-disable-grid.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/backgrounds#snippet-storybook-addon-backgrounds-disable-grid"
 />
 
 <!-- prettier-ignore-end -->

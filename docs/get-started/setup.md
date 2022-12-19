@@ -23,6 +23,8 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'html/your-component.ts.mdx',
     'preact/your-component.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="get-started/setup#snippet-your-component"
 />
 
 <!-- prettier-ignore-end -->

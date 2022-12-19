@@ -17,10 +17,9 @@ export default {
   component: List,
 };
 
-const Template = (args) => <List {...args} />;
-
-export const OneItem = Template.bind({});
-OneItem.args = {
-  children: <Unchecked {...Unchecked.args} />,
+export const OneItem = {
+  args: {
+    children: <Unchecked {...Unchecked.args} />,
+  },
 };
 ```

@@ -74,7 +74,7 @@ const Pages: FC<{
     };
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, []);
+  }, [enableShortcuts, onClose]);
 
   return (
     <Fragment>

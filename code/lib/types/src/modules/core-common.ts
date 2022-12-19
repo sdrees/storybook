@@ -283,11 +283,6 @@ export interface StorybookConfig {
   logLevel?: string;
   features?: {
     /**
-     * Allows to disable deprecated implicit PostCSS loader. (will be removed in 7.0)
-     */
-    postcss?: boolean;
-
-    /**
      * Build stories.json automatically on start/build
      */
     buildStoriesJson?: boolean;
@@ -313,11 +308,6 @@ export interface StorybookConfig {
      * Enable the step debugger functionality in Addon-interactions.
      */
     interactionsDebugger?: boolean;
-
-    /**
-     * Use Storybook 7.0 babel config scheme
-     */
-    babelModeV7?: boolean;
 
     /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
@@ -351,7 +341,7 @@ export interface StorybookConfig {
   /**
    * References external Storybooks
    */
-  refs?: CoreCommon_StorybookRefs | ((config: any, options: Options) => CoreCommon_StorybookRefs);
+  refs?: PresetValue<CoreCommon_StorybookRefs>;
 
   /**
    * Modify or return babel config.
@@ -374,17 +364,17 @@ export interface StorybookConfig {
    *
    * @deprecated use `previewAnnotations` or `/preview.js` file instead
    */
-  config?: (entries: Entry[], options: Options) => Entry[];
+  config?: PresetValue<Entry[]>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
-  previewAnnotations?: (entries: Entry[], options: Options) => Entry[];
+  previewAnnotations?: PresetValue<Entry[]>;
 
   /**
    * Process CSF files for the story index.
    */
-  storyIndexers?: (indexers: StoryIndexer[], options: Options) => StoryIndexer[];
+  storyIndexers?: PresetValue<StoryIndexer[]>;
 
   /**
    * Docs related features in index generation
@@ -396,10 +386,12 @@ export interface StorybookConfig {
    * The previewHead and previewBody functions accept a string,
    * which is the existing head/body, and return a modified string.
    */
-  previewHead?: (head: string, options: Options) => string;
+  previewHead?: PresetValue<string>;
 
-  previewBody?: (body: string, options: Options) => string;
+  previewBody?: PresetValue<string>;
 }
+
+export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);
 
 export type PresetProperty<K, TStorybookConfig = StorybookConfig> =
   | TStorybookConfig[K extends keyof TStorybookConfig ? K : never]

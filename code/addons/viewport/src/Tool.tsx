@@ -58,7 +58,6 @@ const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state,
     .filter(Boolean);
 });
 
-const iframeId = 'storybook-preview-iframe';
 const wrapperId = 'storybook-preview-wrapper';
 
 interface LinkBase {
@@ -208,7 +207,7 @@ export const ViewportTool: FC = memo(
           <ActiveViewportSize>
             <Global
               styles={{
-                [`#${iframeId}`]: {
+                [`iframe[data-is-storybook="true"]`]: {
                   margin: `auto`,
                   transition: 'width .3s, height .3s',
                   position: 'relative',

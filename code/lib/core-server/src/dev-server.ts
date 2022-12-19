@@ -1,41 +1,23 @@
-import express, { Router } from 'express';
+import express from 'express';
 import compression from 'compression';
 
-import type {
-  CoreConfig,
-  DocsOptions,
-  Options,
-  StorybookConfig,
-  VersionCheck,
-} from '@storybook/types';
+import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
 
-import { normalizeStories, logConfig } from '@storybook/core-common';
+import { logConfig } from '@storybook/core-common';
 
-import { telemetry } from '@storybook/telemetry';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
-import { useStoriesJson } from './utils/stories-json';
-import { useStorybookMetadata } from './utils/metadata';
-import type { ServerChannel } from './utils/get-server-channel';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
 import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
-import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
-import { summarizeIndex } from './utils/summarizeIndex';
-
-// @ts-expect-error (Converted from ts-ignore)
-export const router: Router = new Router();
-
-export const DEBOUNCE = 100;
-
-const versionStatus = (versionCheck: VersionCheck) => {
-  if (versionCheck.error) return 'error';
-  if (versionCheck.cached) return 'cached';
-  return 'success';
-};
+import type { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+import { getStoryIndexGenerator } from './utils/getStoryIndexGenerator';
+import { doTelemetry } from './utils/doTelemetry';
+import { router } from './utils/router';
+import { getAccessControlMiddleware } from './utils/getAccessControlMiddleware';
 
 export async function storybookDevServer(options: Options) {
   const app = express();
@@ -63,28 +45,13 @@ export async function storybookDevServer(options: Options) {
     options.extendServer(server);
   }
 
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    // These headers are required to enable SharedArrayBuffer
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
-    next();
-  });
-
-  if (core?.crossOriginIsolated) {
-    app.use((req, res, next) => {
-      // These headers are required to enable SharedArrayBuffer
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
-      res.header('Cross-Origin-Opener-Policy', 'same-origin');
-      res.header('Cross-Origin-Embedder-Policy', 'require-corp');
-      next();
-    });
-  }
+  app.use(getAccessControlMiddleware(core?.crossOriginIsolated));
 
   // User's own static files
   const usingStatics = useStatics(router, options);
 
   getMiddleware(options.configDir)(router);
+
   app.use(router);
 
   const { port, host } = options;
@@ -115,16 +82,10 @@ export async function storybookDevServer(options: Options) {
     channel: serverChannel,
   });
 
-  Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
-    if (!options.ci && !options.smokeTest && options.open) {
-      openInBrowser(host ? networkAddress : address);
-    }
-  });
-
-  let previewResult;
+  let previewStarted: Promise<any> = Promise.resolve();
 
   if (!options.ignorePreview) {
-    previewResult = await previewBuilder
+    previewStarted = previewBuilder
       .start({
         startTime: process.hrtime(),
         options,
@@ -145,77 +106,19 @@ export async function storybookDevServer(options: Options) {
       });
   }
 
-  return { previewResult, managerResult, address, networkAddress };
-}
-async function doTelemetry(
-  core: CoreConfig,
-  initializedStoryIndexGenerator: Promise<StoryIndexGenerator>,
-  options: Options
-) {
-  if (!core?.disableTelemetry) {
-    initializedStoryIndexGenerator.then(async (generator) => {
-      const storyIndex = await generator?.getIndex();
-      const { versionCheck, versionUpdates } = options;
-      const payload = storyIndex
-        ? {
-            versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
-            storyIndex: summarizeIndex(storyIndex),
-          }
-        : undefined;
-      telemetry('dev', payload, { configDir: options.configDir });
-    });
-  }
+  // this is a preview route, the builder has to be started before we can serve it
+  // this handler keeps request to that route pending until the builder is ready to serve it, preventing a 404
+  router.get('/iframe.html', (req, res, next) => {
+    // We need to catch here or node will treat any errors thrown by `previewStarted` as
+    // unhandled and exit (even though they are very much handled below)
+    previewStarted.catch(() => {}).then(() => next());
+  });
 
-  if (!core?.disableProjectJson) {
-    useStorybookMetadata(router, options.configDir);
-  }
-}
+  Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
+    if (!options.ci && !options.smokeTest && options.open) {
+      openInBrowser(host ? networkAddress : address);
+    }
+  });
 
-async function getStoryIndexGenerator(
-  features: {
-    postcss?: boolean;
-    buildStoriesJson?: boolean;
-    previewCsfV3?: boolean;
-    storyStoreV7?: boolean;
-    breakingChangesV7?: boolean;
-    interactionsDebugger?: boolean;
-    babelModeV7?: boolean;
-    argTypeTargetsV7?: boolean;
-    warnOnLegacyHierarchySeparator?: boolean;
-  },
-  options: Options,
-  serverChannel: ServerChannel
-) {
-  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
-    const workingDir = process.cwd();
-    const directories = {
-      configDir: options.configDir,
-      workingDir,
-    };
-    const stories = options.presets.apply('stories');
-    const storyIndexers = options.presets.apply('storyIndexers', []);
-    const docsOptions = options.presets.apply<DocsOptions>('docs', {});
-    const normalizedStories = normalizeStories(await stories, directories);
-
-    const generator = new StoryIndexGenerator(normalizedStories, {
-      ...directories,
-      storyIndexers: await storyIndexers,
-      docs: await docsOptions,
-      workingDir,
-      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-      storyStoreV7: features?.storyStoreV7,
-    });
-
-    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-
-    useStoriesJson({
-      router,
-      initializedStoryIndexGenerator,
-      normalizedStories,
-      serverChannel,
-      workingDir,
-    });
-  }
-  return initializedStoryIndexGenerator;
+  return { previewResult: await previewStarted, managerResult, address, networkAddress };
 }

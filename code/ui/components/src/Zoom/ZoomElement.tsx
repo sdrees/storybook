@@ -1,6 +1,6 @@
 /* global MutationObserver */
 import type { ReactElement, RefObject } from 'react';
-import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { styled } from '@storybook/theming';
 import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 
@@ -29,20 +29,20 @@ const useMutationObserver = ({
   options: MutationObserverInit;
   callback: MutationCallback;
 }): void => {
-  const observer = useMemo(
-    () =>
-      new MutationObserver((mutationRecord, mutationObserver) => {
-        callback(mutationRecord, mutationObserver);
-      }),
-    [callback]
-  );
+  const observer = useRef<MutationObserver>();
 
   useEffect(() => {
-    if (element?.current) {
-      observer.observe(element.current, options);
+    if (!observer.current) {
+      observer.current = new MutationObserver((mutationRecord, mutationObserver) => {
+        callback(mutationRecord, mutationObserver);
+      });
     }
 
-    return () => observer.disconnect();
+    if (element?.current) {
+      observer.current.observe(element.current, options);
+    }
+
+    return () => observer.current.disconnect();
   }, [element, observer, options]);
 };
 

@@ -24,6 +24,8 @@ Loaders are helpful when you need to load story data externally (e.g., from a re
     'angular/loader-story.ts.mdx',
     'svelte/loader-story.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/loaders#snippet-loader-story"
 />
 
 <!-- prettier-ignore-end -->

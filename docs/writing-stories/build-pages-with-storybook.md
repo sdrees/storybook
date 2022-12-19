@@ -62,6 +62,8 @@ In such cases, it is natural to use [args composition](./args.md#args-compositio
     'angular/page-story-with-args-composition.ts.mdx',
     'svelte/page-story-with-args-composition.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-page-story-with-args-composition"
 />
 
 <!-- prettier-ignore-end -->
@@ -155,6 +157,8 @@ To test your screen with the mocked data, you could write a similar set of stori
     'angular/documentscreen-story-msw-rest-request.ts.mdx',
     'svelte/documentscreen-story-msw-rest-request.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-rest-request"
 />
 
 <!-- prettier-ignore-end -->
@@ -197,6 +201,8 @@ To test your screen with the GraphQL mocked data, you could write the following 
     'svelte/documentscreen-story-msw-graphql-query.js.mdx',
     'svelte/apollo-wrapper-component.with-mock-implementation.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-graphql-query"
 />
 
 <!-- prettier-ignore-end -->
@@ -258,6 +264,8 @@ Finally, we can set the mock values in a specific story. Let's borrow an example
     'vue/app-story-with-mock.ts.mdx',
     'angular/app-story-with-mock.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-app-story-with-mock"
 />
 
 <!-- prettier-ignore-end -->
@@ -327,6 +335,8 @@ In the context of Storybook, instead of providing container components through c
   paths={[
     'react/mock-context-container.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-mock-context-container"
 />
 
 <!-- prettier-ignore-end -->

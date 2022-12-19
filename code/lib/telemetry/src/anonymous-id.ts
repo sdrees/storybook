@@ -1,7 +1,21 @@
 import path from 'path';
 import { execSync } from 'child_process';
 import { getProjectRoot } from '@storybook/core-common';
+
 import { oneWayHash } from './one-way-hash';
+
+export function normalizeGitUrl(rawUrl: string) {
+  // I don't *think* its possible to set a hash on a origin URL, but just in case
+  const urlWithoutHash = rawUrl.replace(/#.*$/, '');
+
+  // Strip anything ahead of an @
+  const urlWithoutUser = urlWithoutHash.replace(/^.*@/, '');
+
+  // Now strip off scheme
+  const urlWithoutScheme = urlWithoutUser.replace(/^.*\/\//, '');
+
+  return urlWithoutScheme.replace(':', '/');
+}
 
 let anonymousProjectId: string;
 export const getAnonymousProjectId = () => {
@@ -22,7 +36,7 @@ export const getAnonymousProjectId = () => {
 
     // we use a combination of remoteUrl and working directory
     // to separate multiple storybooks from the same project (e.g. monorepo)
-    unhashedProjectId = `${String(originBuffer).trim()}${projectRootPath}`;
+    unhashedProjectId = `${normalizeGitUrl(String(originBuffer))}${projectRootPath}`;
 
     anonymousProjectId = oneWayHash(unhashedProjectId);
   } catch (_) {

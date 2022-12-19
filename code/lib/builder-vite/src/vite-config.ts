@@ -7,12 +7,12 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import viteReact from '@vitejs/plugin-react';
 import externalGlobals from 'rollup-plugin-external-globals';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
 import {
   codeGeneratorPlugin,
+  csfPlugin,
   injectExportOrderPlugin,
   mdxPlugin,
   stripStoryHMRBoundary,
@@ -74,8 +74,8 @@ export async function pluginConfig(options: ExtendedOptions) {
 
   const plugins = [
     codeGeneratorPlugin(options),
-    // sourceLoaderPlugin(options),
-    mdxPlugin(),
+    await csfPlugin(options),
+    mdxPlugin(options),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
     {
@@ -93,11 +93,6 @@ export async function pluginConfig(options: ExtendedOptions) {
     },
     externalGlobals(globals),
   ] as PluginOption[];
-
-  // We need the react plugin here to support MDX in non-react projects.
-  if (frameworkName !== '@storybook/react-vite') {
-    plugins.push(viteReact({ exclude: [/\.stories\.([tj])sx?$/, /node_modules/, /\.([tj])sx?$/] }));
-  }
 
   // TODO: framework doesn't exist, should move into framework when/if built
   if (frameworkName === '@storybook/preact-vite') {

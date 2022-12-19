@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-react-webpack",
-  "version": "7.0.0-alpha.57",
+  "version": "7.0.0-beta.12",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -74,10 +74,10 @@
     "@babel/preset-flow": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
-    "@storybook/core-webpack": "7.0.0-alpha.57",
-    "@storybook/docs-tools": "7.0.0-alpha.57",
-    "@storybook/node-logger": "7.0.0-alpha.57",
-    "@storybook/react": "7.0.0-alpha.57",
+    "@storybook/core-webpack": "7.0.0-beta.12",
+    "@storybook/docs-tools": "7.0.0-beta.12",
+    "@storybook/node-logger": "7.0.0-beta.12",
+    "@storybook/react": "7.0.0-beta.12",
     "@storybook/react-docgen-typescript-plugin": "1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
@@ -88,15 +88,12 @@
     "semver": "^7.3.7"
   },
   "devDependencies": {
-    "@types/util-deprecate": "^1.0.0",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
-    "jest-specific-snapshot": "^7.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "require-from-string": "^2.0.2",
     "webpack": "5"
   },
   "peerDependenciesMeta": {
@@ -108,7 +105,7 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -123,5 +120,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "5a87a203fd293c1199ca5303af1923892a1fccae"
+  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
 }
