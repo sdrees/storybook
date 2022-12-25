@@ -1,6 +1,6 @@
 /// <reference types="@types/jest" />;
 
-import global from 'global';
+import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
 import type {
   Renderer,
@@ -14,10 +14,12 @@ import { addons, HooksContext } from '../../addons';
 import { NO_TARGET_NAME } from '../args';
 import { prepareStory } from './prepareStory';
 
-jest.mock('global', () => ({
-  ...(jest.requireActual('global') as any),
-  FEATURES: {
-    breakingChangesV7: true,
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    FEATURES: {
+      breakingChangesV7: true,
+    },
   },
 }));
 

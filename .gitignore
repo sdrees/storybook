@@ -3,6 +3,7 @@ node_modules
 .idea
 *.iml
 *.sw*
+!.swcrc
 dist
 *.DS_Store
 .cache

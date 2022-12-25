@@ -2,7 +2,7 @@ const component = {};
 export default {
   component,
   title: 'duplicate/A',
-  tags: ['docsPage'],
+  tags: ['autodocs'],
 };
 
 export const StoryOne = {};

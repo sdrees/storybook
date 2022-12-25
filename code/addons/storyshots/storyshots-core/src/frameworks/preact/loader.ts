@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx h */
 
-import global from 'global';
+import { global } from '@storybook/global';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
 import type { Loader } from '../Loader';

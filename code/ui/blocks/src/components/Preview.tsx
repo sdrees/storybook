@@ -3,7 +3,7 @@ import React, { Children, useCallback, useState } from 'react';
 import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 
-import global from 'global';
+import { global } from '@storybook/global';
 import { ActionBar, Zoom } from '@storybook/components';
 import type { ActionItem } from '@storybook/components';
 

@@ -7,7 +7,7 @@ import { BooleanControl } from './Boolean';
 
 const meta = {
   component: BooleanControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: {
     withRawArg: 'value',
     controls: { include: ['value'] },

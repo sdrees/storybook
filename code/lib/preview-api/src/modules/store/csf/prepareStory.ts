@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import type {
   Renderer,
@@ -150,6 +150,7 @@ export function prepareStory<TRenderer extends Renderer>(
   );
 
   // Add some of our metadata into parameters as we used to do this in 6.x and users may be relying on it
+
   if (!global.FEATURES?.breakingChangesV7) {
     contextForEnhancers.parameters = {
       ...contextForEnhancers.parameters,

@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 const COLORS = [
   { name: 'red', value: '#FB001D' },

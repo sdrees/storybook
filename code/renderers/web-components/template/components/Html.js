@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { LitElement } from 'lit';
 
 const { customElements } = globalThis;

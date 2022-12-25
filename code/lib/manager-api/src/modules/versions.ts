@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import semver from 'semver';
 import memoize from 'memoizerific';
 

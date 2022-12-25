@@ -24,23 +24,9 @@ module.exports = {
       path.resolve('./__mocks__/fileMock.js'),
     '\\.(css|scss|stylesheet)$': path.resolve('./__mocks__/styleMock.js'),
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
-
-    // core-js v2 to v3 mapping
-    'core-js/modules/es6.(.*)': 'core-js/modules/es.$1',
-    'core-js/modules/es7.(.*)': 'core-js/modules/esnext.$1',
-    'core-js/library/fn/(.*)': `core-js/features/$1`,
-    'core-js/es5/(.*)': `core-js/es/$1`,
-    'core-js/es6/(.*)': `core-js/es/$1`,
-    'core-js/es7/reflect': `core-js/proposals/reflect-metadata`,
-    'core-js/es7/(.*)': `core-js/proposals/$1`,
-    'core-js/object$/': `core-js/es/object`,
-    'core-js/object/(.*)': `core-js/es/object/$1`,
-    'babel-runtime/core-js/(.*)': `core-js/es/$1`,
-    // 'babel-runtime/core-js/object/assign'
-    'core-js/library/fn/object/assign': 'core-js/es/object/assign',
   },
   transform: {
-    '^.+\\.[jt]sx?$': path.resolve('../scripts/utils/jest-transform-js.js'),
+    '^.+\\.(t|j)sx?$': '@swc/jest',
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
   transformIgnorePatterns: ['/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|@mdx-js)'],

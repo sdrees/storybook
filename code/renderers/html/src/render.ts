@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { dedent } from 'ts-dedent';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';

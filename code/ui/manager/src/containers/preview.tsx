@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import React from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/manager-api';

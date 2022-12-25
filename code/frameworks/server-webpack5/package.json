@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server-webpack5",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,17 +31,14 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -50,10 +48,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-beta.12",
-    "@storybook/core-common": "7.0.0-beta.12",
-    "@storybook/preset-server-webpack": "7.0.0-beta.12",
-    "@storybook/server": "7.0.0-beta.12",
+    "@storybook/builder-webpack5": "7.0.0-beta.15",
+    "@storybook/core-common": "7.0.0-beta.15",
+    "@storybook/preset-server-webpack": "7.0.0-beta.15",
+    "@storybook/server": "7.0.0-beta.15",
     "@types/node": "^16.0.0"
   },
   "devDependencies": {
@@ -76,5 +74,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
 }

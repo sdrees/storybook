@@ -112,24 +112,14 @@ For a full example see the [web-components-kitchen-sink/custom-elements.json](..
 
 ## Stories not inline
 
-By default stories are rendered inline.
-For web components that is usually fine as they are style encapsulated via shadow dom.
-However when you have a style tag in you template it might be best to show them in an iframe.
+Storybook Docs renders all web components stories inline by default.
 
-To always use iframes you can set
+However, you can render stories in an iframe, with a default height of `60px` (configurable using the `docs.iframeHeight` story parameter), by using the `docs.inlineStories` parameter.
 
-```js
-addParameters({
-  docs: {
-    inlineStories: false,
-  },
-});
-```
-
-or add it to individual stories.
+To do so for all stories, update `.storybook/preview.js`:
 
 ```js
-<Story inline={false} />
+export const parameters = { docs: { inlineStories: false } };
 ```
 
 ## More resources

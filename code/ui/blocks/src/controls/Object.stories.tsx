@@ -3,7 +3,7 @@ import { ObjectControl } from './Object';
 
 export default {
   component: ObjectControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: { withRawArg: 'value', controls: { include: ['value'] } },
   args: { name: 'object' },
 } as Meta<typeof ObjectControl>;

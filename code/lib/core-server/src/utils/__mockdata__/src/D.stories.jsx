@@ -1,7 +1,7 @@
 const component = {};
 export default {
   component,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
 };
 
 export const StoryOne = {};

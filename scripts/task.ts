@@ -1,9 +1,9 @@
 /* eslint-disable no-await-in-loop */
+import type { TestCase } from 'junit-xml';
 import { getJunitXml } from 'junit-xml';
 import { outputFile, readFile, pathExists } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
-import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 
 import type { OptionValues } from './utils/options';
@@ -28,6 +28,8 @@ import {
   type TemplateKey,
   type Template,
 } from '../code/lib/cli/src/repro-templates';
+
+import { version } from '../code/package.json';
 
 const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
@@ -192,7 +194,14 @@ async function writeJunitXml(
   const name = `${taskKey} - ${templateKey}`;
   const time = (Date.now() - +startTime) / 1000;
   const testCase = { name, assertions: 1, time, ...errorData };
-  const suite = { name, timestamp: startTime, time, testCases: [testCase] };
+  // We store the metadata as a system-err.
+  // Which is a bit unfortunate but it seems that one can't store extra data when the task is successful.
+  // system-err won't turn the whole test suite as failing, which makes it a reasonable candidate
+  const metadata: TestCase = {
+    name: `${name} - metadata`,
+    systemErr: [JSON.stringify({ ...TEMPLATES[templateKey], id: templateKey, version })],
+  };
+  const suite = { name, timestamp: startTime, time, testCases: [testCase, metadata] };
   const junitXml = getJunitXml({ time, name, suites: [suite] });
   const path = getJunitFilename(taskKey);
   await outputFile(path, junitXml);
@@ -437,24 +446,21 @@ async function run() {
 
         if (process.env.CI) {
           logger.error(
-            boxen(
-              dedent`
-                To reproduce this error locally, run:
+            dedent`
+              To reproduce this error locally, run:
 
-                  ${getCommand('yarn task', options, {
-                    ...allOptionValues,
-                    link: true,
-                    startFrom: 'auto',
-                  })}
-                
-                Note this uses locally linking which in rare cases behaves differently to CI. For a closer match, run:
-                
-                  ${getCommand('yarn task', options, {
-                    ...allOptionValues,
-                    startFrom: 'auto',
-                  })}`,
-              { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
-            )
+              ${getCommand('yarn task', options, {
+                ...allOptionValues,
+                link: true,
+                startFrom: 'auto',
+              })}
+              
+              Note this uses locally linking which in rare cases behaves differently to CI. For a closer match, run:
+              
+              ${getCommand('yarn task', options, {
+                ...allOptionValues,
+                startFrom: 'auto',
+              })}`
           );
         }
 

@@ -21,6 +21,16 @@ export type Template = {
     renderer: string;
     builder: string;
   };
+
+  expectedFailures?: Array<{
+    feature: string;
+    issues: string[];
+  }>;
+
+  unsupportedFeatures?: Array<{
+    feature: string;
+    issues: string[];
+  }>;
   /**
    * Some sandboxes might not work properly in specific tasks temporarily, but we might
    * still want to run the other tasks. Set the ones to skip in this property.
@@ -33,7 +43,7 @@ export type Template = {
   inDevelopment?: boolean;
 };
 
-export const allTemplates: Record<string, Template> = {
+export const allTemplates = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
@@ -321,7 +331,7 @@ export const allTemplates: Record<string, Template> = {
       builder: '@storybook/builder-webpack5',
     },
   },
-};
+} satisfies Record<string, Template>;
 
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [

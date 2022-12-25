@@ -198,7 +198,7 @@ export async function baseGenerator(
 
   await configureMain({
     framework: { name: frameworkInclude, options: options.framework || {} },
-    docs: { docsPage: true },
+    docs: { autodocs: 'tag' },
     addons: pnp ? addons.map(wrapForPnp) : addons,
     extensions,
     commonJs,

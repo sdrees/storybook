@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const { parse } = require('css');
-const { isNaN } = require('global');
+const { isNaN } = require('@storybook/global');
 
 const INPUT = require.resolve('overlayscrollbars/css/OverlayScrollbars.min.css');
 const OUTPUT = `${__dirname}/../src/ScrollArea/ScrollAreaStyles.ts`;

@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { toId, sanitize } from '@storybook/csf';
 import {
   PRELOAD_ENTRIES,

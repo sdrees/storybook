@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { extractArgTypes } from './custom-elements';
 import customElementsManifest from './__testfixtures__/custom-elements.json';

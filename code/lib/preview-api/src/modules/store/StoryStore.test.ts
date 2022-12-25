@@ -1,5 +1,5 @@
 import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
-import global from 'global';
+import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
 
 import { prepareStory } from './csf/prepareStory';
@@ -15,10 +15,12 @@ jest.mock('./csf/processCSFFile', () => ({
   processCSFFile: jest.fn(jest.requireActual('./csf/processCSFFile').processCSFFile),
 }));
 
-jest.mock('global', () => ({
-  ...(jest.requireActual('global') as any),
-  FEATURES: {
-    breakingChangesV7: true,
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    FEATURES: {
+      breakingChangesV7: true,
+    },
   },
 }));
 
@@ -985,10 +987,10 @@ describe('StoryStore', () => {
   describe('getStoriesJsonData', () => {
     describe('in back-compat mode', () => {
       beforeEach(() => {
-        global.FEATURES.breakingChangesV7 = false;
+        global.FEATURES!.breakingChangesV7 = false;
       });
       afterEach(() => {
-        global.FEATURES.breakingChangesV7 = true;
+        global.FEATURES!.breakingChangesV7 = true;
       });
       it('maps stories list to payload correctly', async () => {
         const store = new StoryStore();

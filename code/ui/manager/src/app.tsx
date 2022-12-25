@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
-import sizeMe from 'react-sizeme';
+import { useResizeDetector } from 'react-resize-detector';
 
 import { type State } from '@storybook/manager-api';
 import { Symbols } from '@storybook/components';
@@ -27,90 +27,59 @@ export interface AppProps {
   viewMode: State['viewMode'];
   layout: State['layout'];
   panelCount: number;
-  size: {
-    width: number;
-    height: number;
-  };
 }
 
-const App = React.memo<AppProps>(
-  ({ viewMode, layout, panelCount, size: { width, height } }) => {
-    let content;
+const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
+  const { width, height, ref } = useResizeDetector();
+  let content;
 
-    const props = useMemo(
-      () => ({
-        Sidebar,
-        Preview,
-        Panel,
-        Notifications,
-        pages: [
-          {
-            key: 'settings',
-            render: () => <SettingsPages />,
-            route: (({ children }) => (
-              <Route path="/settings/" startsWith>
-                {children}
-              </Route>
-            )) as FC,
-          },
-        ],
-      }),
-      []
+  const props = useMemo(
+    () => ({
+      Sidebar,
+      Preview,
+      Panel,
+      Notifications,
+      pages: [
+        {
+          key: 'settings',
+          render: () => <SettingsPages />,
+          route: (({ children }) => (
+            <Route path="/settings/" startsWith>
+              {children}
+            </Route>
+          )) as FC,
+        },
+      ],
+    }),
+    []
+  );
+
+  if (!width || !height) {
+    content = <div />;
+  } else if (width < 600) {
+    content = <Mobile {...props} viewMode={viewMode} options={layout} />;
+  } else {
+    content = (
+      <Desktop
+        {...props}
+        viewMode={viewMode}
+        options={layout}
+        width={width}
+        height={height}
+        panelCount={panelCount}
+      />
     );
-
-    if (!width || !height) {
-      content = <div />;
-    } else if (width < 600) {
-      content = <Mobile {...props} viewMode={viewMode} options={layout} />;
-    } else {
-      content = (
-        <Desktop
-          {...props}
-          viewMode={viewMode}
-          options={layout}
-          {...{ width, height }}
-          panelCount={panelCount}
-        />
-      );
-    }
-
-    return (
-      <View>
-        <Global styles={createGlobal} />
-        <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
-        {content}
-      </View>
-    );
-  },
-  // This is the default shallowEqual implementation, but with custom behavior for the `size` prop.
-  (prevProps: any, nextProps: any) => {
-    if (Object.is(prevProps, nextProps)) return true;
-    if (typeof prevProps !== 'object' || prevProps === null) return false;
-    if (typeof nextProps !== 'object' || nextProps === null) return false;
-
-    const keysA = Object.keys(prevProps);
-    const keysB = Object.keys(nextProps);
-    if (keysA.length !== keysB.length) return false;
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const key of keysA) {
-      if (key === 'size') {
-        // SizeMe injects a new `size` object every time, even if the width/height doesn't change,
-        // so we chech that one manually.
-        if (prevProps[key].width !== nextProps[key].width) return false;
-        if (prevProps[key].height !== nextProps[key].height) return false;
-      } else {
-        if (!Object.prototype.hasOwnProperty.call(nextProps, key)) return false;
-        if (!Object.is(prevProps[key], nextProps[key])) return false;
-      }
-    }
-
-    return true;
   }
-);
 
-const SizedApp = sizeMe({ monitorHeight: true })(App);
+  return (
+    <View ref={ref}>
+      <Global styles={createGlobal} />
+      <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
+      {content}
+    </View>
+  );
+};
 
 App.displayName = 'App';
 
-export default SizedApp;
+export default App;

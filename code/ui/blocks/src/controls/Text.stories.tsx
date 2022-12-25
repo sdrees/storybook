@@ -3,7 +3,7 @@ import { TextControl } from './Text';
 
 export default {
   component: TextControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: { withRawArg: 'value', controls: { include: ['value', 'maxLength'] } },
   args: { name: 'text' },
 } as Meta<typeof TextControl>;

@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import React, { useCallback } from 'react';
 import type { ReactNode } from 'react';
 

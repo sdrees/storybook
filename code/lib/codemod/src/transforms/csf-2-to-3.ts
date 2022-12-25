@@ -3,7 +3,7 @@ import prettier from 'prettier';
 import * as t from '@babel/types';
 import type { CsfFile } from '@storybook/csf-tools';
 import { formatCsf, loadCsf } from '@storybook/csf-tools';
-import { jscodeshiftToPrettierParser } from '../lib/utils';
+import type { API, FileInfo, Options } from 'jscodeshift';
 
 const logger = console;
 
@@ -89,7 +89,7 @@ const isReactGlobalRenderFn = (csf: CsfFile, storyFn: t.Expression) => {
 const isSimpleCSFStory = (init: t.Expression, annotations: t.ObjectProperty[]) =>
   annotations.length === 0 && t.isArrowFunctionExpression(init) && init.params.length === 0;
 
-function transform({ source }: { source: string }, api: any, options: { parser?: string }) {
+export default function transform({ source, path }: FileInfo, api: API, options: Options) {
   const makeTitle = (userTitle?: string) => {
     return userTitle || 'FIXME';
   };
@@ -165,20 +165,27 @@ function transform({ source }: { source: string }, api: any, options: { parser?:
     return acc;
   }, []);
   csf._ast.program.body = updatedBody;
-  const output = formatCsf(csf);
+  let output = formatCsf(csf);
 
-  const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
-    printWidth: 100,
-    tabWidth: 2,
-    bracketSpacing: true,
-    trailingComma: 'es5',
-    singleQuote: true,
-  };
+  try {
+    const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
+      printWidth: 100,
+      tabWidth: 2,
+      bracketSpacing: true,
+      trailingComma: 'es5',
+      singleQuote: true,
+    };
 
-  return prettier.format(output, {
-    ...prettierConfig,
-    parser: jscodeshiftToPrettierParser(options?.parser),
-  });
+    output = prettier.format(output, {
+      ...prettierConfig,
+      // This will infer the parser from the filename.
+      filepath: path,
+    });
+  } catch (e) {
+    logger.log(`Failed applying prettier to ${path}.`);
+  }
+
+  return output;
 }
 
-export default transform;
+export const parser = 'tsx';

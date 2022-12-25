@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { NgModuleRef, Type, enableProdMode, NgModule, Component, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

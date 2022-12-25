@@ -6,17 +6,19 @@ import { SELECT_STORY } from '@storybook/core-events';
 import LinkTo from './link';
 
 jest.mock('@storybook/preview-api');
-jest.mock('global', () => ({
-  document: {
-    location: {
-      origin: 'origin',
-      pathname: 'pathname',
-      search: 'search',
+jest.mock('@storybook/global', () => ({
+  global: {
+    document: {
+      location: {
+        origin: 'origin',
+        pathname: 'pathname',
+        search: 'search',
+      },
     },
-  },
-  window: global,
-  __STORYBOOK_STORY_STORE__: {
-    fromId: jest.fn(() => ({})),
+    window: global,
+    __STORYBOOK_STORY_STORE__: {
+      fromId: jest.fn(() => ({})),
+    },
   },
 }));
 

@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { h } from 'vue';
 
 const { Button, Pre } = globalThis.Components;

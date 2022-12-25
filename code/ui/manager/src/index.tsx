@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -32,13 +32,11 @@ export interface RootProps {
 }
 
 export const Root: FC<RootProps> = ({ provider }) => (
-  <React.StrictMode key="container">
-    <HelmetProvider key="helmet.Provider">
-      <LocationProvider key="location.provider">
-        <Main provider={provider} />
-      </LocationProvider>
-    </HelmetProvider>
-  </React.StrictMode>
+  <HelmetProvider key="helmet.Provider">
+    <LocationProvider key="location.provider">
+      <Main provider={provider} />
+    </LocationProvider>
+  </HelmetProvider>
 );
 
 const Main: FC<{ provider: Provider }> = ({ provider }) => {

@@ -61,7 +61,6 @@ const frameworkToPreviewParts: Partial<Record<SupportedFrameworks | SupportedRen
       setCompodocJson(docJson);
       
       `.trimStart(),
-    extraParameters: 'docs: { inlineStories: true },',
   },
 };
 

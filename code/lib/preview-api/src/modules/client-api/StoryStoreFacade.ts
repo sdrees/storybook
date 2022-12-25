@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import global from 'global';
+import { global } from '@storybook/global';
 import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
@@ -195,11 +195,11 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
 
     // NOTE: this logic is equivalent to the `extractStories` function of `StoryIndexGenerator`
     const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
-    const docsPageOptedIn =
-      docsOptions.docsPage === 'automatic' ||
-      (docsOptions.docsPage && componentTags.includes('docsPage'));
-    if (docsOptions.enabled && storyExports.length) {
-      if (componentTags.includes('mdx') || docsPageOptedIn) {
+    const autodocsOptedIn =
+      docsOptions.autodocs === true ||
+      (docsOptions.autodocs === 'tag' && componentTags.includes('autodocs'));
+    if (!docsOptions.disable && storyExports.length) {
+      if (componentTags.includes('mdx') || autodocsOptedIn) {
         const name = docsOptions.defaultName;
         const docsId = toId(componentId || title, name);
         this.entries[docsId] = {

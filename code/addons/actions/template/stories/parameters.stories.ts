@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { withActions } from '@storybook/addon-actions/decorator';
 
 export default {

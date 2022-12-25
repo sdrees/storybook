@@ -8,7 +8,7 @@ import {
 import type { NavigateOptions } from '@storybook/router';
 import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { dequal as deepEqual } from 'dequal';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import type { API_Layout, API_UI } from '@storybook/types';
 import type { ModuleArgs, ModuleFn } from '../index';

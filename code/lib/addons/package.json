@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addons",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "Storybook addons store",
   "keywords": [
     "storybook"
@@ -22,6 +22,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -33,6 +34,7 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -42,9 +44,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/manager-api": "7.0.0-beta.12",
-    "@storybook/preview-api": "7.0.0-beta.12",
-    "@storybook/types": "7.0.0-beta.12"
+    "@storybook/manager-api": "7.0.0-beta.15",
+    "@storybook/preview-api": "7.0.0-beta.15",
+    "@storybook/types": "7.0.0-beta.15"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -58,5 +60,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
 }

@@ -2,7 +2,7 @@ import type { ComponentProps, FC, MouseEvent } from 'react';
 import React, { useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
-import global from 'global';
+import { global } from '@storybook/global';
 import memoize from 'memoizerific';
 
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
@@ -56,8 +56,8 @@ export function createCopyToClipboardFunction() {
     return (text: string) => navigator.clipboard.writeText(text);
   }
   return async (text: string) => {
-    const tmp = document.createElement('TEXTAREA');
-    const focus = document.activeElement;
+    const tmp = document.createElement('TEXTAREA') as HTMLTextAreaElement;
+    const focus = document.activeElement as HTMLTextAreaElement;
 
     tmp.value = text;
 

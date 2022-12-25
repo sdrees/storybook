@@ -63,6 +63,15 @@ export interface Addon_OptionsParameter extends Object {
   [key: string]: any;
 }
 
+export interface Addon_OptionsParameterV7 extends Object {
+  storySort?: Addon_StorySortParameterV7;
+  theme?: {
+    base: string;
+    brandTitle?: string;
+  };
+  [key: string]: any;
+}
+
 export type Addon_StoryContext<TRenderer extends Renderer = Renderer> =
   StoryContextForFramework<TRenderer>;
 export type Addon_StoryContextUpdate = Partial<Addon_StoryContext>;

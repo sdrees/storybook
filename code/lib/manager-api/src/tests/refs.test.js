@@ -1,9 +1,9 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { getSourceType, init as initRefs } from '../modules/refs';
 
 const { fetch } = global;
 
-jest.mock('global', () => {
+jest.mock('@storybook/global', () => {
   const globalMock = {
     fetch: jest.fn(() => Promise.resolve({})),
     REFS: {
@@ -29,7 +29,7 @@ jest.mock('global', () => {
         .mockReturnValue(lastLocation),
     },
   });
-  return globalMock;
+  return { global: globalMock };
 });
 
 const provider = {

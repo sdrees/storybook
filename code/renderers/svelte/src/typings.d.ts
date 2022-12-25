@@ -1,1 +1,1 @@
-declare module 'global';
+declare var STORYBOOK_ENV: 'svelte';

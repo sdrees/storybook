@@ -5,8 +5,7 @@ import { sourceDecorator } from './sourceDecorator';
 
 export const parameters: Parameters = {
   docs: {
-    // probably set this to true by default once it's battle-tested
-    inlineStories: false,
+    inlineStories: true,
     extractArgTypes,
     extractComponentDescription,
     source: {

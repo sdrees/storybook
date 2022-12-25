@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import qs from 'qs';
 import type { ViewMode } from '@storybook/types';
 

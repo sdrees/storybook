@@ -1,6 +1,6 @@
 {
   "name": "@storybook/html-vite",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "Storybook for HTML and Vite: Develop HTML in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,18 +31,14 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -51,15 +48,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-beta.12",
-    "@storybook/builder-vite": "7.0.0-beta.12",
-    "@storybook/channel-postmessage": "7.0.0-beta.12",
-    "@storybook/channel-websocket": "7.0.0-beta.12",
-    "@storybook/client-api": "7.0.0-beta.12",
-    "@storybook/core-server": "7.0.0-beta.12",
-    "@storybook/html": "7.0.0-beta.12",
-    "@storybook/node-logger": "7.0.0-beta.12",
-    "@storybook/preview-web": "7.0.0-beta.12",
+    "@storybook/addons": "7.0.0-beta.15",
+    "@storybook/builder-vite": "7.0.0-beta.15",
+    "@storybook/channel-postmessage": "7.0.0-beta.15",
+    "@storybook/channel-websocket": "7.0.0-beta.15",
+    "@storybook/client-api": "7.0.0-beta.15",
+    "@storybook/core-server": "7.0.0-beta.15",
+    "@storybook/html": "7.0.0-beta.15",
+    "@storybook/node-logger": "7.0.0-beta.15",
+    "@storybook/preview-web": "7.0.0-beta.15",
     "magic-string": "^0.26.1"
   },
   "devDependencies": {
@@ -79,5 +76,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
 }

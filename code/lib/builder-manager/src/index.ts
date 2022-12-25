@@ -10,6 +10,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 
 import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
+import { wrapManagerEntries } from './utils/managerEntries';
 import type {
   BuilderBuildResult,
   BuilderFunction,
@@ -34,10 +35,14 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     getTemplatePath('addon.tsconfig.json'),
   ]);
 
+  const entryPoints = customManagerEntryPoint
+    ? [...addonsEntryPoints, customManagerEntryPoint]
+    : addonsEntryPoints;
+
+  const realEntryPoints = await wrapManagerEntries(entryPoints);
+
   return {
-    entryPoints: customManagerEntryPoint
-      ? [...addonsEntryPoints, customManagerEntryPoint]
-      : addonsEntryPoints,
+    entryPoints: realEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     write: false,

@@ -1,5 +1,5 @@
 import { rgba, lighten, darken } from 'polished';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { logger } from '@storybook/client-logger';
 

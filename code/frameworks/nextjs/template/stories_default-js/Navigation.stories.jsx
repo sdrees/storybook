@@ -1,10 +1,18 @@
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import {
+  useRouter,
+  usePathname,
+  useSearchParams,
+  useSelectedLayoutSegment,
+  useSelectedLayoutSegments,
+} from 'next/navigation';
 import React from 'react';
 
 function Component() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const segment = useSelectedLayoutSegment();
+  const segments = useSelectedLayoutSegments();
 
   const searchParamsList = Array.from(searchParams.entries());
 
@@ -38,6 +46,8 @@ function Component() {
   return (
     <div>
       <div>pathname: {pathname}</div>
+      <div>segment: {segment}</div>
+      <div>segments: {segments.join(',')}</div>
       <div>
         searchparams:{' '}
         <ul>
@@ -75,3 +85,14 @@ export default {
 };
 
 export const Default = {};
+
+export const WithSegmentDefined = {
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: ['dashboard', 'settings'],
+      },
+    },
+  },
+};

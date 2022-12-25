@@ -67,7 +67,7 @@ const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path)
  *
  * A stories file is indexed by an indexer (passed in), which produces a list of stories.
  *   - If the stories have the `parameters.docsOnly` setting, they are disregarded.
- *   - If the indexer is a "docs template" indexer, OR docsPage is enabled,
+ *   - If the indexer is a "docs template" indexer, OR autodocs is enabled,
  *       a templated docs entry is added pointing to the story file.
  *
  * A (modern) docs file is indexed, a standalone docs entry is added.
@@ -165,7 +165,7 @@ export class StoryIndexGenerator {
       this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
 
-    if (this.options.docs.enabled) {
+    if (!this.options.docs.disable) {
       await this.updateExtracted(async (specifier, absolutePath) =>
         this.extractDocs(specifier, absolutePath)
       );
@@ -234,14 +234,14 @@ export class StoryIndexGenerator {
         }
       });
 
-      if (this.options.docs.enabled && csf.stories.length) {
-        const { docsPage } = this.options.docs;
-        const docsPageOptedIn =
-          docsPage === 'automatic' || (docsPage && componentTags.includes('docsPage'));
+      if (!this.options.docs.disable && csf.stories.length) {
+        const { autodocs } = this.options.docs;
+        const autodocsOptedIn =
+          autodocs === true || (autodocs === 'tag' && componentTags.includes('autodocs'));
         // We need a docs entry attached to the CSF file if either:
         //  a) it is a stories.mdx transpiled to CSF, OR
         //  b) we have docs page enabled for this file
-        if (componentTags.includes('mdx') || docsPageOptedIn) {
+        if (componentTags.includes('mdx') || autodocsOptedIn) {
           const name = this.options.docs.defaultName;
           const id = toId(csf.meta.title, name);
           entries.unshift({
@@ -388,9 +388,14 @@ export class StoryIndexGenerator {
           `🚨 You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`
         );
       }
-      // If one entry is standalone (i.e. .mdx of={}) we are OK with it overriding a template
-      //   - docs page templates, this is totally fine and expected
-      //   - not sure if it is even possible to have a .mdx of={} pointing at a stories.mdx file
+
+      // If you link a file to a tagged CSF file, you have probably made a mistake
+      if (worseEntry.tags?.includes('autodocs'))
+        throw new Error(
+          `You created a component docs page for ${worseEntry.title} (${betterEntry.importPath}), but also tagged the CSF file (${worseEntry.importPath}) with 'autodocs'. This is probably a mistake.`
+        );
+
+      // Otherwise the existing entry is created by `autodocs=true` which allowed to be overridden.
     } else {
       // If both entries are templates (e.g. you have two CSF files with the same title), then
       //   we need to merge the entries. We'll use the the first one's name and importPath,

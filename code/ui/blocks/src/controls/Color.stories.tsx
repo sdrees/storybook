@@ -4,7 +4,7 @@ import { ColorControl } from './Color';
 export default {
   component: ColorControl,
   parameters: { withRawArg: 'value', controls: { include: ['value', 'startOpen'] } },
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   argTypes: {
     value: {
       control: {

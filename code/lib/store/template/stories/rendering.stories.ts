@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import type { PlayFunctionContext } from '@storybook/types';
 import { within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';

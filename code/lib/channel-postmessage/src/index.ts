@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
 import { Channel } from '@storybook/channels';
 import type { ChannelHandler, ChannelEvent } from '@storybook/channels';
@@ -6,7 +6,7 @@ import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
 
-const { window: globalWindow, document, location } = global;
+const { document, location } = global;
 
 interface Config {
   page: 'manager' | 'preview';
@@ -36,8 +36,9 @@ export class PostmsgTransport {
   constructor(private readonly config: Config) {
     this.buffer = [];
     this.handler = null;
-    if (globalWindow) {
-      globalWindow.addEventListener('message', this.handleEvent.bind(this), false);
+
+    if (typeof global?.addEventListener === 'function') {
+      global.addEventListener('message', this.handleEvent.bind(this), false);
     }
 
     // Check whether the config.page parameter has a valid value
@@ -141,9 +142,9 @@ export class PostmsgTransport {
 
   private getFrames(target?: string): Window[] {
     if (this.config.page === 'manager') {
-      const nodes: HTMLIFrameElement[] = [
-        ...document.querySelectorAll('iframe[data-is-storybook][data-is-loaded]'),
-      ];
+      const nodes: HTMLIFrameElement[] = Array.from(
+        document.querySelectorAll('iframe[data-is-storybook][data-is-loaded]')
+      );
 
       const list = nodes
         .filter((e) => {
@@ -157,8 +158,8 @@ export class PostmsgTransport {
 
       return list.length ? list : this.getCurrentFrames();
     }
-    if (globalWindow && globalWindow.parent && globalWindow.parent !== globalWindow) {
-      return [globalWindow.parent];
+    if (global && global.parent && global.parent !== global.self) {
+      return [global.parent];
     }
 
     return [];
@@ -166,13 +167,13 @@ export class PostmsgTransport {
 
   private getCurrentFrames(): Window[] {
     if (this.config.page === 'manager') {
-      const list: HTMLIFrameElement[] = [
-        ...document.querySelectorAll('[data-is-storybook="true"]'),
-      ];
+      const list: HTMLIFrameElement[] = Array.from(
+        document.querySelectorAll('[data-is-storybook="true"]')
+      );
       return list.map((e) => e.contentWindow);
     }
-    if (globalWindow && globalWindow.parent) {
-      return [globalWindow.parent];
+    if (global && global.parent) {
+      return [global.parent];
     }
 
     return [];
@@ -180,11 +181,13 @@ export class PostmsgTransport {
 
   private getLocalFrame(): Window[] {
     if (this.config.page === 'manager') {
-      const list: HTMLIFrameElement[] = [...document.querySelectorAll('#storybook-preview-iframe')];
+      const list: HTMLIFrameElement[] = Array.from(
+        document.querySelectorAll('#storybook-preview-iframe')
+      );
       return list.map((e) => e.contentWindow);
     }
-    if (globalWindow && globalWindow.parent) {
-      return [globalWindow.parent];
+    if (global && global.parent) {
+      return [global.parent];
     }
 
     return [];
@@ -237,7 +240,9 @@ export class PostmsgTransport {
 }
 
 const getEventSourceUrl = (event: MessageEvent) => {
-  const frames = [...document.querySelectorAll('iframe[data-is-storybook]')];
+  const frames: HTMLIFrameElement[] = Array.from(
+    document.querySelectorAll('iframe[data-is-storybook]')
+  );
   // try to find the originating iframe by matching it's contentWindow
   // This might not be cross-origin safe
   const [frame, ...remainder] = frames.filter((element) => {
@@ -251,7 +256,7 @@ const getEventSourceUrl = (event: MessageEvent) => {
     let origin;
 
     try {
-      ({ origin } = new URL(src, document.location));
+      ({ origin } = new URL(src, document.location.toString()));
     } catch (err) {
       return false;
     }
@@ -260,7 +265,7 @@ const getEventSourceUrl = (event: MessageEvent) => {
 
   if (frame && remainder.length === 0) {
     const src = frame.getAttribute('src');
-    const { protocol, host, pathname } = new URL(src, document.location);
+    const { protocol, host, pathname } = new URL(src, document.location.toString());
     return `${protocol}//${host}${pathname}`;
   }
 

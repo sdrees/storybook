@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import global from 'global';
+import { global } from '@storybook/global';
 
 interface Size {
   width: number;

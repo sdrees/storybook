@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import type { ElementType, FunctionComponent } from 'react';
 import React, { createElement, Fragment } from 'react';
 import type { Parameters } from '@storybook/types';

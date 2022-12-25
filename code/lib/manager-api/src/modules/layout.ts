@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import pick from 'lodash/pick';
 import { dequal as deepEqual } from 'dequal';
 import { create } from '@storybook/theming/create';
@@ -184,7 +184,9 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
       const element = document.getElementById(elementId);
       if (element) {
         element.focus();
-        if (select) element.select();
+        if (select) {
+          (element as any).select();
+        }
       }
     },
 

@@ -11,7 +11,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
   const { plugins = [] } = config;
 
   // Add react plugin if not present
-  if (!(await hasVitePlugins(plugins, ['vite:react-babel']))) {
+  if (!(await hasVitePlugins(plugins, ['vite:react-babel', 'vite:react-swc']))) {
     const { default: react } = await import('@vitejs/plugin-react');
     plugins.push(react());
   }

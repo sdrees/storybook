@@ -3,7 +3,7 @@ import { DateControl } from './Date';
 
 export default {
   component: DateControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: { withRawArg: 'value', controls: { include: ['value'] } },
   argTypes: {
     value: {

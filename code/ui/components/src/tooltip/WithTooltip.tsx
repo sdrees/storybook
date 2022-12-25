@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
 import { styled } from '@storybook/theming';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import TooltipTrigger from 'react-popper-tooltip';
 import type { Modifier, Placement } from '@popperjs/core';

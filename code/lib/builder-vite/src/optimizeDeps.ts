@@ -18,6 +18,7 @@ const INCLUDE_CANDIDATES = [
   '@storybook/client-api',
   '@storybook/client-logger',
   '@storybook/core/client',
+  '@storybook/global',
   '@storybook/preview-api',
   '@storybook/preview-web',
   '@storybook/react > acorn-jsx',
@@ -38,7 +39,6 @@ const INCLUDE_CANDIDATES = [
   'escodegen',
   'estraverse',
   'fast-deep-equal',
-  'global',
   'html-tags',
   'isobject',
   'jest-mock',
@@ -114,11 +114,12 @@ export async function getOptimizeDeps(config: ViteInlineConfig, options: Extende
   const include = await asyncFilter(INCLUDE_CANDIDATES, async (id) => Boolean(await resolve(id)));
 
   const optimizeDeps: UserConfig['optimizeDeps'] = {
+    ...config.optimizeDeps,
     // We don't need to resolve the glob since vite supports globs for entries.
     entries: stories,
     // We need Vite to precompile these dependencies, because they contain non-ESM code that would break
     // if we served it directly to the browser.
-    include,
+    include: [...include, ...(config.optimizeDeps?.include || [])],
   };
 
   return optimizeDeps;

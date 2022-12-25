@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { useEffect, makeDecorator } from '@storybook/preview-api';
 import { actions } from './runtime/actions';
 

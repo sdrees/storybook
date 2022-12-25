@@ -1,6 +1,6 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import global from 'global';
+import { global } from '@storybook/global';
 import type { FC, MouseEventHandler, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';

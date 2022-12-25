@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -43,13 +43,13 @@
   "dependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
-    "@storybook/codemod": "7.0.0-beta.12",
-    "@storybook/core-common": "7.0.0-beta.12",
-    "@storybook/core-server": "7.0.0-beta.12",
-    "@storybook/csf-tools": "7.0.0-beta.12",
-    "@storybook/node-logger": "7.0.0-beta.12",
-    "@storybook/telemetry": "7.0.0-beta.12",
-    "@storybook/types": "7.0.0-beta.12",
+    "@storybook/codemod": "7.0.0-beta.15",
+    "@storybook/core-common": "7.0.0-beta.15",
+    "@storybook/core-server": "7.0.0-beta.15",
+    "@storybook/csf-tools": "7.0.0-beta.15",
+    "@storybook/node-logger": "7.0.0-beta.15",
+    "@storybook/telemetry": "7.0.0-beta.15",
+    "@storybook/types": "7.0.0-beta.15",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -71,23 +71,22 @@
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
     "shelljs": "^0.8.5",
+    "simple-update-notifier": "^1.0.0",
     "strip-json-comments": "^3.0.1",
+    "tempy": "^1.0.1",
     "ts-dedent": "^2.0.0",
-    "update-notifier": "^6.0.2",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-beta.12",
+    "@storybook/client-api": "7.0.0-beta.15",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
     "@types/semver": "^7.3.4",
     "@types/shelljs": "^0.8.7",
-    "@types/update-notifier": "^6.0.1",
     "@types/util-deprecate": "^1.0.0",
     "strip-json-comments": "^3.1.1",
-    "typescript": "~4.9.3",
-    "update-notifier": "^6.0.2"
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -98,5 +97,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
 }

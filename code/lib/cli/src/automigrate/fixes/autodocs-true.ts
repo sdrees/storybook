@@ -9,15 +9,15 @@ import type { Fix } from '../types';
 
 const logger = console;
 
-interface DocsPageAutomaticFrameworkRunOptions {
+interface AutodocsTrueFrameworkRunOptions {
   main: ConfigFile;
 }
 
 /**
- * Set the docs.docsPage option to automatic if it isn't already set
+ * Set the docs.autodocs option to true if it isn't already set
  */
-export const docsPageAutomatic: Fix<DocsPageAutomaticFrameworkRunOptions> = {
-  id: 'docsPageAutomatic',
+export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
+  id: 'autodocsTrue',
 
   async check({ packageManager }) {
     const packageJson = packageManager.retrievePackageJson();
@@ -32,29 +32,29 @@ export const docsPageAutomatic: Fix<DocsPageAutomaticFrameworkRunOptions> = {
     const main = await readConfig(mainConfig);
     const docs = main.getFieldValue(['docs']);
 
-    return docs?.docsPage === undefined ? { main } : null;
+    return docs?.autodocs === undefined ? { main } : null;
   },
 
   prompt() {
-    const docsPageAutomaticFormatted = chalk.cyan(`docs: { docsPage: 'automatic' }`);
+    const AutodocsTrueFormatted = chalk.cyan(`docs: { autodocs: true }`);
 
     return dedent`
-      We've detected that your main.js configuration file has not configured docsPage. In 6.x we
-      we defaulted to having a docsPage for every story, in 7.x you need to opt in per-component.
-      However, we can set the \`docs.docsPage\` to 'automatic' to approximate the old behaviour:
+      We've detected that your main.js configuration file has not configured autodocs. In 6.x we
+      we defaulted to having a autodocs for every story, in 7.x you need to opt in per-component.
+      However, we can set the \`docs.autodocs\` to true to approximate the old behaviour:
 
-      ${docsPageAutomaticFormatted}
+      ${AutodocsTrueFormatted}
 
       More info: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#docs-page'
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs'
       )}
     `;
   },
 
   async run({ result: { main }, dryRun }) {
-    logger.info(`✅ Setting 'docs.docsPage' to 'automatic' in main.js`);
+    logger.info(`✅ Setting 'docs.autodocs' to true in main.js`);
     if (!dryRun) {
-      main.setFieldValue(['docs', 'docsPage'], 'automatic');
+      main.setFieldValue(['docs', 'autodocs'], true);
       await writeConfig(main);
     }
   },

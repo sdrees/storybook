@@ -1,6 +1,6 @@
 {
   "name": "@storybook/html",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "Storybook HTML renderer",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,11 +31,7 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,11 +48,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "7.0.0-beta.12",
-    "@storybook/docs-tools": "7.0.0-beta.12",
-    "@storybook/preview-api": "7.0.0-beta.12",
-    "@storybook/types": "7.0.0-beta.12",
-    "global": "^4.4.0",
+    "@storybook/core-client": "7.0.0-beta.15",
+    "@storybook/docs-tools": "7.0.0-beta.15",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.15",
+    "@storybook/types": "7.0.0-beta.15",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
@@ -77,5 +74,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
 }

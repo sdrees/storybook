@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import * as path from 'path';
 
 const hasTsConfigArg = (args: string[]) => args.indexOf('-p') !== -1;
+const hasOutputArg = (args: string[]) =>
+  args.indexOf('-d') !== -1 || args.indexOf('--output') !== -1;
 
 // path.relative is necessary to workaround a compodoc issue with
 // absolute paths on windows machines
@@ -21,8 +23,7 @@ export const runCompodoc = (
       'compodoc',
       // Default options
       ...(hasTsConfigArg(compodocArgs) ? [] : ['-p', tsConfigPath]),
-      '-d',
-      `${context.workspaceRoot}`,
+      ...(hasOutputArg(compodocArgs) ? [] : ['-d', `${context.workspaceRoot}`]),
       ...compodocArgs,
     ];
 

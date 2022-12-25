@@ -1,4 +1,3 @@
-import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
 import type { Renderer, StoryIndexEntry } from '@storybook/types';
 import type { StoryStore } from '../../store';

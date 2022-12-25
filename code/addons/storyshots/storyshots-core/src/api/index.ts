@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { addons, mockChannel } from '@storybook/preview-api';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
@@ -16,6 +16,7 @@ function callTestMethodGlobals(
 ) {
   methods.forEach((method) => {
     if (typeof testMethod[method] === 'function') {
+      // @ts-expect-error (ignore)
       global[method](testMethod[method], testMethod[method].timeout);
     }
   });

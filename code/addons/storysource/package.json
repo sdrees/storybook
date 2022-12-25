@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -53,13 +54,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.12",
-    "@storybook/components": "7.0.0-beta.12",
-    "@storybook/manager-api": "7.0.0-beta.12",
-    "@storybook/preview-api": "7.0.0-beta.12",
-    "@storybook/router": "7.0.0-beta.12",
-    "@storybook/source-loader": "7.0.0-beta.12",
-    "@storybook/theming": "7.0.0-beta.12",
+    "@storybook/client-logger": "7.0.0-beta.15",
+    "@storybook/components": "7.0.0-beta.15",
+    "@storybook/manager-api": "7.0.0-beta.15",
+    "@storybook/preview-api": "7.0.0-beta.15",
+    "@storybook/router": "7.0.0-beta.15",
+    "@storybook/source-loader": "7.0.0-beta.15",
+    "@storybook/theming": "7.0.0-beta.15",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
     "react-syntax-highlighter": "^15.5.0"
@@ -91,7 +92,7 @@
       "./src/preset.ts"
     ]
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957",
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",

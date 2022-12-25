@@ -1,3 +1,92 @@
+## 7.0.0-beta.15 (December 24, 2022)
+
+#### Bug Fixes
+
+-   Codemods: Fix peer dependency issue [#20399](https://github.com/storybooks/storybook/pull/20399)
+-   Core: Wrap manager entries to handle exports using a cache directory [#20331](https://github.com/storybooks/storybook/pull/20331)
+-   UI: fix deprecated ReactDOM.findDOMNode calls [#20368](https://github.com/storybooks/storybook/pull/20368)
+
+#### Maintenance
+
+-   Build: Use tsup for core-server [#20134](https://github.com/storybooks/storybook/pull/20134)
+
+#### Build
+
+-   Build: Make tests use SWC, not babel [#20397](https://github.com/storybooks/storybook/pull/20397)
+-   Build: Fix trim vulnerability [#20371](https://github.com/storybooks/storybook/pull/20371)
+
+## 7.0.0-beta.14 (December 23, 2022)
+
+#### Features
+
+-   CLI: Write into a log file if automigrations fail [#20310](https://github.com/storybooks/storybook/pull/20310)
+-   CLI: Add nodejs check in automigrations [#20342](https://github.com/storybooks/storybook/pull/20342)
+
+#### Bug Fixes
+
+-   UI: Disable React.strictmode to avoid findNode deprecation warnings [#20345](https://github.com/storybooks/storybook/pull/20345)
+-   Vite: Fix peerDep warning by updating `@joshwooding/vite-plugin-react-docgen-typescript` [#20359](https://github.com/storybooks/storybook/pull/20359)
+
+#### Maintenance
+
+-   Don't allow setting `Meta of={X}` if `X` is tagged with `'autodocs'` [#20373](https://github.com/storybooks/storybook/pull/20373)
+-   Rename `docsPage` => `autodocs` [#20364](https://github.com/storybooks/storybook/pull/20364)
+-   Rename `docsOptions.enabled` to `docsOptions.disable` [#20363](https://github.com/storybooks/storybook/pull/20363)
+-   Angular: Switch to default to inlineStories=true [#20118](https://github.com/storybooks/storybook/pull/20118)
+-   Types: Add Addon_OptionsParameterV7 type [#20384](https://github.com/storybooks/storybook/pull/20384)
+
+#### Build
+
+-   Build: regen lockfiles [#20386](https://github.com/storybooks/storybook/pull/20386)
+-   Build: fix prettydocs CI flakyness [#20385](https://github.com/storybooks/storybook/pull/20385)
+-   Build: Update Playwright to 1.29.1 [#20372](https://github.com/storybooks/storybook/pull/20372)
+-   Build: store extra metadata for each sandbox test [#20365](https://github.com/storybooks/storybook/pull/20365)
+-   Build: Remove the non-cross-platform dash-S option [#20360](https://github.com/storybooks/storybook/pull/20360)
+-   Build: sync issues of `next` packages [#20354](https://github.com/storybooks/storybook/pull/20354)
+
+
+## 6.5.15 (December 20, 2022)
+
+#### Bug Fixes
+
+-   Support Angular 15.0.4 [#20287](https://github.com/storybooks/storybook/pull/20287)
+-   CLI: execute automigrations when pressing enter in the prompts [#20208](https://github.com/storybooks/storybook/pull/20208)
+
+## 7.0.0-beta.13 (December 20, 2022)
+
+#### Features
+
+-   Angular: Support compodoc output arg [#20338](https://github.com/storybooks/storybook/pull/20338)
+-   NextJS: Support @next/font [#20291](https://github.com/storybooks/storybook/pull/20291)
+-   NextJS: Support useSelectedLayoutSegment and useSelectedLayoutSegments [#20330](https://github.com/storybooks/storybook/pull/20330)
+-   Preview Api: export `userOrAutoTitle` function [#20325](https://github.com/storybooks/storybook/pull/20325)
+
+#### Bug Fixes
+
+-   Fix: peer dependency warning for `vite-react` [#20328](https://github.com/storybooks/storybook/pull/20328)
+-   UI: swap `react-sizeme` for `react-resize-detector` [#20333](https://github.com/storybooks/storybook/pull/20333)
+-   Vite: Detect React SWC plugin [#20335](https://github.com/storybooks/storybook/pull/20335)
+-   CLI: Fix automigrate filtering [#20329](https://github.com/storybooks/storybook/pull/20329)
+-   Vite: Include user config `optimizeDeps` in final `optimizeDeps` [#20313](https://github.com/storybooks/storybook/pull/20313)
+
+#### Maintenance
+
+-   Tech: improve global types [#20184](https://github.com/storybooks/storybook/pull/20184)
+-   CLI: Fix sb migrate csf-2-to-3 for multiple file extensions [#20290](https://github.com/storybooks/storybook/pull/20290)
+-   CLI: Replace `update-notifier` with `simple-update-notifier` [#20266](https://github.com/storybooks/storybook/pull/20266)
+
+#### Build
+
+-   Build: remove borders in task error message [#20305](https://github.com/storybooks/storybook/pull/20305)
+-   Build: Fix pretty-docs CI job [#20319](https://github.com/storybooks/storybook/pull/20319)
+-   Build: Update Playwright to 1.29 [#20318](https://github.com/storybooks/storybook/pull/20318)
+
+#### Dependencies
+
+-   NextJS: Make addon-actions a regular dependency [#20324](https://github.com/storybooks/storybook/pull/20324)
+-   NextJS: Fix addon-actions peerdependency [#20324](https://github.com/storybooks/storybook/pull/20324)
+-   Vite-react: Fix peer dependency warning [#20328](https://github.com/storybooks/storybook/pull/20328)
+
 ## 7.0.0-beta.12 (December 16, 2022)
 
 #### Other

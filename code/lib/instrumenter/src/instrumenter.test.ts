@@ -8,7 +8,7 @@ import {
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';
@@ -29,9 +29,11 @@ class HTMLElement {
   }
 }
 
-delete global.window.location;
-global.window.location = { reload: jest.fn() };
-global.window.HTMLElement = HTMLElement;
+delete global.location;
+// @ts-expect-error (global scope type conflicts)
+global.location = { reload: jest.fn() };
+// @ts-expect-error (global scope type conflicts)
+global.HTMLElement = HTMLElement;
 
 const storyId = 'kind--story';
 global.window.__STORYBOOK_PREVIEW__ = { selectionStore: { selection: { storyId } } };

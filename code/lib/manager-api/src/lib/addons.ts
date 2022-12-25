@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
 import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';

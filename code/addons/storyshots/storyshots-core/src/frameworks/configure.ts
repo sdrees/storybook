@@ -11,7 +11,7 @@ import type {
 import { toRequireContext } from '@storybook/core-webpack';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import type { ClientApi } from './Loader';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';

@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import React, { Fragment, useEffect } from 'react';
 import isChromatic from 'chromatic/isChromatic';
 import {

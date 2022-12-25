@@ -6,7 +6,7 @@ import Button from './Button.svelte';
 const meta: Meta<Button> = {
   title: 'Example/Button',
   component: Button,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   argTypes: {
     backgroundColor: { control: 'color' },
     size: {

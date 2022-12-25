@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-/* global window */
+import { global } from '@storybook/global';
 
 import { InputType, ArgTypes, SBType } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -21,12 +21,10 @@ export const isMethod = (methodOrProp: Method | Property): methodOrProp is Metho
 };
 
 export const setCompodocJson = (compodocJson: CompodocJson) => {
-  // @ts-expect-error (Converted from ts-ignore)
-  window.__STORYBOOK_COMPODOC_JSON__ = compodocJson;
+  global.__STORYBOOK_COMPODOC_JSON__ = compodocJson;
 };
 
-// @ts-expect-error (Converted from ts-ignore)
-export const getCompodocJson = (): CompodocJson => window.__STORYBOOK_COMPODOC_JSON__;
+export const getCompodocJson = (): CompodocJson => global.__STORYBOOK_COMPODOC_JSON__;
 
 export const checkValidComponentOrDirective = (component: Component | Directive) => {
   if (!component.name) {
@@ -193,7 +191,7 @@ const extractDefaultValueFromComments = (property: Property, value: any) => {
   let commentValue = value;
   property.jsdoctags.forEach((tag: JsDocTag) => {
     if (['default', 'defaultvalue'].includes(tag.tagName.escapedText)) {
-      const dom = new window.DOMParser().parseFromString(tag.comment, 'text/html');
+      const dom = new global.DOMParser().parseFromString(tag.comment, 'text/html');
       commentValue = dom.body.textContent;
     }
   });

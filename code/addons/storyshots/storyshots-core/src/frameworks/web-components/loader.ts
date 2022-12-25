@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import configure from '../configure';
 import type { Loader } from '../Loader';
 import type { StoryshotsOptions } from '../../api/StoryshotsOptions';

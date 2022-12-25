@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import type { API_ReleaseNotes } from '@storybook/types';
 import memoize from 'memoizerific';
 

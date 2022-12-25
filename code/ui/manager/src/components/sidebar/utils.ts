@@ -1,5 +1,5 @@
 import memoize from 'memoizerific';
-import global from 'global';
+import { global } from '@storybook/global';
 import type { SyntheticEvent } from 'react';
 import type { HashEntry, StoriesHash } from '@storybook/manager-api';
 

@@ -1,5 +1,4 @@
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
+import { global } from '@storybook/global';
 
 const { window: globalWindow } = global;
 

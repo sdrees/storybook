@@ -37,7 +37,7 @@ export interface HocState {
   tests?: Test[];
 }
 
-const provideTests = (Component: ComponentType<InjectedProps>) =>
+export const provideTests = (Component: ComponentType<InjectedProps>) =>
   class TestProvider extends ReactComponent<HocProps, HocState> {
     state: HocState = {};
 
@@ -82,5 +82,3 @@ const provideTests = (Component: ComponentType<InjectedProps>) =>
       return active ? <Component tests={tests} /> : null;
     }
   };
-
-export default provideTests;

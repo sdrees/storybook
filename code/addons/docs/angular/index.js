@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-/* global window */
+import { global } from '@storybook/global';
 
 export const setCompodocJson = (compodocJson) => {
   // @ts-expect-error (Converted from ts-ignore)
-  window.__STORYBOOK_COMPODOC_JSON__ = compodocJson;
+  global.__STORYBOOK_COMPODOC_JSON__ = compodocJson;
 };

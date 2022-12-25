@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions, import/no-extraneous-dependencies */
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { html, LitElement } from 'lit';
 import { styleMap } from 'lit-html/directives/style-map.js';
 

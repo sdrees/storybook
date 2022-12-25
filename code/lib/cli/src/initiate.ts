@@ -1,4 +1,4 @@
-import type { Package } from 'update-notifier';
+import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
@@ -265,7 +265,7 @@ const projectTypeInquirer = async (
   return Promise.resolve();
 };
 
-async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> {
+async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
   const { useNpm, packageManager: pkgMgr } = options;
   if (useNpm) {
     useNpmWarning();
@@ -275,11 +275,11 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
   // Update notify code.
-  const { default: updateNotifier } = await import('update-notifier');
-  updateNotifier({
-    pkg,
+  const { default: updateNotifier } = await import('simple-update-notifier');
+  await updateNotifier({
+    pkg: pkg as any,
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-  }).notify();
+  });
 
   let projectType;
   const projectTypeProvided = options.type;
@@ -349,6 +349,6 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
   logger.log();
 }
 
-export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
+export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
   await withTelemetry('init', { cliOptions: options }, () => doInitiate(options, pkg));
 }

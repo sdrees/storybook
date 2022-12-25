@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-vite",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
   "bugs": {
@@ -19,6 +19,7 @@
   "author": "Eirik Sletteberg",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -33,6 +34,7 @@
   "files": [
     "dist/**/*",
     "input/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
@@ -41,15 +43,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
-    "@storybook/client-logger": "7.0.0-beta.12",
-    "@storybook/core-common": "7.0.0-beta.12",
-    "@storybook/csf-plugin": "7.0.0-beta.12",
+    "@storybook/client-logger": "7.0.0-beta.15",
+    "@storybook/core-common": "7.0.0-beta.15",
+    "@storybook/csf-plugin": "7.0.0-beta.15",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-beta.12",
-    "@storybook/preview": "7.0.0-beta.12",
-    "@storybook/preview-api": "7.0.0-beta.12",
-    "@storybook/types": "7.0.0-beta.12",
+    "@storybook/node-logger": "7.0.0-beta.15",
+    "@storybook/preview": "7.0.0-beta.15",
+    "@storybook/preview-api": "7.0.0-beta.15",
+    "@storybook/types": "7.0.0-beta.15",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
     "express": "^4.17.3",
@@ -94,5 +95,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
 }

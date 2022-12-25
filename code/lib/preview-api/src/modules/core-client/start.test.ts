@@ -1,12 +1,13 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * @jest-environment jsdom
  */
 
-/* global window */
+// import { describe, it, beforeAll, beforeEach, afterAll, afterEach, jest } from '@jest/globals';
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
 import type { ModuleExports, Path } from '@storybook/types';
-import global from 'global';
+import { global } from '@storybook/global';
 import { setGlobalRender } from '../../client-api';
 import {
   waitForRender,
@@ -19,22 +20,27 @@ import {
 import { start as realStart } from './start';
 import type { Loadable } from './executeLoadable';
 
-jest.mock('global', () => ({
-  ...jest.requireActual('global'),
-  history: { replaceState: jest.fn() },
-  document: {
-    location: {
-      pathname: 'pathname',
-      search: '?id=*',
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...globalThis,
+    window: globalThis,
+    history: { replaceState: jest.fn() },
+    document: {
+      location: {
+        pathname: 'pathname',
+        search: '?id=*',
+      },
+    },
+    FEATURES: {
+      breakingChangesV7: true,
+    },
+    DOCS_OPTIONS: {
+      disable: false,
     },
   },
-  FEATURES: {
-    breakingChangesV7: true,
-  },
-  DOCS_OPTIONS: {
-    enabled: true,
-  },
 }));
+
+// console.log(global);
 
 jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
 jest.mock('react-dom');
@@ -105,7 +111,13 @@ function makeRequireContext(importMap: Record<Path, ModuleExports>) {
 
 describe('start', () => {
   beforeEach(() => {
-    global.DOCS_OPTIONS = { enabled: false };
+    global.DOCS_OPTIONS = { disable: true };
+    // @ts-expect-error (setting this to undefined is indeed what we want to do)
+    global.__STORYBOOK_CLIENT_API__ = undefined;
+    // @ts-expect-error (setting this to undefined is indeed what we want to do)
+    global.__STORYBOOK_PREVIEW__ = undefined;
+    // @ts-expect-error (setting this to undefined is indeed what we want to do)
+    global.IS_STORYBOOK = undefined;
   });
   describe('when configure is called with storiesOf only', () => {
     it('loads and renders the first story correctly', async () => {
@@ -325,7 +337,7 @@ describe('start', () => {
         'story-root'
       );
 
-      expect((window as any).IS_STORYBOOK).toBe(true);
+      expect(global.IS_STORYBOOK).toBe(true);
     });
 
     it('supports forceRerender()', async () => {
@@ -569,7 +581,7 @@ describe('start', () => {
   const componentCExports = {
     default: {
       title: 'Component C',
-      tags: ['component-tag', 'docsPage'],
+      tags: ['component-tag', 'autodocs'],
     },
     StoryOne: {
       render: jest.fn(),
@@ -623,7 +635,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "Component C",
@@ -744,7 +756,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "Component C",
@@ -764,7 +776,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "Component C",
@@ -835,7 +847,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "Component C",
@@ -907,7 +919,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "Component C",
@@ -950,7 +962,7 @@ describe('start', () => {
 
     describe('docs', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { enabled: true };
+        global.DOCS_OPTIONS = { disable: false };
       });
 
       // NOTE: MDX files are only ever passed as CSF
@@ -1114,7 +1126,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "Component C",
@@ -1136,12 +1148,12 @@ describe('start', () => {
       );
     });
 
-    describe('docsPage', () => {
+    describe('autodocs', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { enabled: true, docsPage: true, defaultName: 'Docs' };
+        global.DOCS_OPTIONS = { disable: false, autodocs: 'tag', defaultName: 'Docs' };
       });
 
-      it('adds stories for each component with docsPage tag', async () => {
+      it('adds stories for each component with autodocs tag', async () => {
         const renderToCanvas = jest.fn();
 
         const { configure, clientApi } = start(renderToCanvas);
@@ -1153,7 +1165,7 @@ describe('start', () => {
 
           clientApi
             .storiesOf('Component B', { id: 'file2' } as NodeModule)
-            .addParameters({ tags: ['docsPage'] })
+            .addParameters({ tags: ['autodocs'] })
             .add('Story Three', jest.fn());
 
           return [componentCExports];
@@ -1212,7 +1224,7 @@ describe('start', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "Component B",
@@ -1233,7 +1245,7 @@ describe('start', () => {
                   "framework": "test",
                 },
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "Component B",
@@ -1247,7 +1259,7 @@ describe('start', () => {
                 "storiesImports": Array [],
                 "tags": Array [
                   "component-tag",
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "Component C",
@@ -1286,7 +1298,7 @@ describe('start', () => {
                 },
                 "tags": Array [
                   "component-tag",
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "Component C",
@@ -1298,12 +1310,12 @@ describe('start', () => {
         `);
       });
     });
-    describe('when docsOptions.docsPage = automatic', () => {
+    describe('when docsOptions.autodocs = true', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { enabled: true, docsPage: 'automatic', defaultName: 'Docs' };
+        global.DOCS_OPTIONS = { disable: false, autodocs: true, defaultName: 'Docs' };
       });
 
-      it('adds stories for each component with docsPage tag', async () => {
+      it('adds stories for each component with autodocs tag', async () => {
         const renderToDOM = jest.fn();
 
         const { configure, clientApi } = start(renderToDOM);
@@ -1318,7 +1330,7 @@ describe('start', () => {
 
           clientApi
             .storiesOf('Component B', { id: 'file2' } as NodeModule)
-            .addParameters({ tags: ['docsPage'] })
+            .addParameters({ tags: ['autodocs'] })
             .add('Story Three', jest.fn());
 
           return [componentCExports];

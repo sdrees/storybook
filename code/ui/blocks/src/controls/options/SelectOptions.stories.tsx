@@ -24,7 +24,7 @@ const argTypeMultiSelect = {
 const meta = {
   title: 'Controls/Options/Select',
   component: OptionsControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: {
     withRawArg: 'value',
     controls: { include: ['argType', 'type', 'value', 'labels'] },

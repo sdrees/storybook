@@ -1,11 +1,12 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
 export const clearStyles = (selector: string | string[]) => {
   const selectors = Array.isArray(selector) ? selector : [selector];
   selectors.forEach(clearStyle);
 };
 
-const clearStyle = (selector: string | string[]) => {
+const clearStyle = (input: string | string[]) => {
+  const selector = typeof input === 'string' ? input : input.join('');
   const element = global.document.getElementById(selector);
   if (element && element.parentElement) {
     element.parentElement.removeChild(element);

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import global from 'global';
+import { global } from '@storybook/global';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 
 import type { ModuleFn } from '../index';
@@ -217,7 +217,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
         }
 
         case 'focusIframe': {
-          const element = document.getElementById('storybook-preview-iframe');
+          const element = document.getElementById('storybook-preview-iframe') as HTMLIFrameElement;
 
           if (element) {
             try {

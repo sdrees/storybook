@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import cloneDeep from 'lodash/cloneDeep';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';

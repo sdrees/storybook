@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
@@ -68,6 +68,4 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
  */
 // import 'intl/locale-data/jsonp/en';
 
-const { window: globalWindow } = global;
-
-globalWindow.STORYBOOK_ENV = 'angular';
+global.STORYBOOK_ENV = 'angular';

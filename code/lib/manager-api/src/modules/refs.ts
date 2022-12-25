@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { dedent } from 'ts-dedent';
 import type {
   API_ComposedRef,
@@ -62,12 +62,19 @@ const addRefIds = (input: API_StoriesHash, ref: API_ComposedRef): API_StoriesHas
   }, {} as API_StoriesHash);
 };
 
-async function handleRequest(request: Response | false): Promise<API_SetRefData> {
+async function handleRequest(
+  request: Response | Promise<Response | boolean> | boolean
+): Promise<API_SetRefData> {
   if (!request) return {};
 
   try {
     const response = await request;
-    if (!response.ok) return {};
+    if (response === false || response === true) {
+      return {};
+    }
+    if (!response.ok) {
+      return {};
+    }
 
     const json = await response.json();
 

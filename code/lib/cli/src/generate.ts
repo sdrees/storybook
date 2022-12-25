@@ -191,6 +191,7 @@ program
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
   .option('-N --use-npm', 'Use npm as package manager (deprecated)')
+  .option('-l --list', 'List available migrations')
   .action(async (fixId, options) => {
     await automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);

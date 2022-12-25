@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -27,6 +27,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -62,22 +63,23 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-highlight": "7.0.0-beta.12",
-    "@storybook/channels": "7.0.0-beta.12",
-    "@storybook/client-logger": "7.0.0-beta.12",
-    "@storybook/components": "7.0.0-beta.12",
-    "@storybook/core-events": "7.0.0-beta.12",
-    "@storybook/manager-api": "7.0.0-beta.12",
-    "@storybook/preview-api": "7.0.0-beta.12",
-    "@storybook/theming": "7.0.0-beta.12",
-    "@storybook/types": "7.0.0-beta.12",
+    "@storybook/addon-highlight": "7.0.0-beta.15",
+    "@storybook/channels": "7.0.0-beta.15",
+    "@storybook/client-logger": "7.0.0-beta.15",
+    "@storybook/components": "7.0.0-beta.15",
+    "@storybook/core-events": "7.0.0-beta.15",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.15",
+    "@storybook/preview-api": "7.0.0-beta.15",
+    "@storybook/theming": "7.0.0-beta.15",
+    "@storybook/types": "7.0.0-beta.15",
     "axe-core": "^4.2.0",
-    "global": "^4.4.0",
     "lodash": "^4.17.21",
-    "react-sizeme": "^3.0.1"
+    "react-resize-detector": "^7.1.2"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.2",
+    "resize-observer-polyfill": "^1.5.1",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
@@ -102,7 +104,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957",
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb",
   "storybook": {
     "displayName": "Accessibility",
     "icon": "https://user-images.githubusercontent.com/263385/101991665-47042f80-3c7c-11eb-8f00-64b5a18f498a.png",

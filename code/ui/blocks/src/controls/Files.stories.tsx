@@ -3,7 +3,7 @@ import { FilesControl } from './Files';
 
 export default {
   component: FilesControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: { withRawArg: 'value', controls: { include: ['value', 'accept'] } },
   argTypes: {
     value: {

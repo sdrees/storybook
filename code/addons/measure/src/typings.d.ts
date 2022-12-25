@@ -1,5 +1,3 @@
-declare module 'global';
-
 interface Margin {
   top: number;
   bottom: number;

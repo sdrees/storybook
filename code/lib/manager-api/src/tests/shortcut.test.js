@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import global from 'global';
+import { global } from '@storybook/global';
 import { eventToShortcut, keyToSymbol } from '../lib/shortcut';
 
 const { KeyboardEvent } = global;

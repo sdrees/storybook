@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { scan } from 'picomatch';
+import * as pico from 'picomatch';
 import slash from 'slash';
 
 import type { StoriesEntry, NormalizedStoriesSpecifier } from '@storybook/types';
@@ -38,7 +38,7 @@ export const normalizeStoriesEntry = (
   let specifierWithoutMatcher: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'>;
 
   if (typeof entry === 'string') {
-    const globResult = scan(entry);
+    const globResult = pico.scan(entry);
     if (globResult.isGlob) {
       const directory = globResult.prefix + globResult.base;
       const files = globResult.glob;

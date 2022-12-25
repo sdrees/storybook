@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, StoryContext } from '@storybook/types';
 
 export default {

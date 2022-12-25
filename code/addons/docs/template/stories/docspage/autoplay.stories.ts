@@ -1,10 +1,10 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { expect } from '@storybook/jest';
 import { within } from '@storybook/testing-library';
 
 export default {
   component: globalThis.Components.Pre,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   args: { text: 'Play has not run' },
   parameters: { chromatic: { disable: true } },
 };

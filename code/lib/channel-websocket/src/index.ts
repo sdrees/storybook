@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { Channel } from '@storybook/channels';
 import type { ChannelHandler } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';

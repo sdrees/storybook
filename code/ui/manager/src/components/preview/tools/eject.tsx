@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import React from 'react';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
 import { Consumer, type Combo } from '@storybook/manager-api';

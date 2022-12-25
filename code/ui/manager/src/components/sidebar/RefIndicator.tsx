@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import type { FC, ComponentProps } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 

@@ -86,5 +86,3 @@ export function Result(props: ResultProps) {
     </Fragment>
   );
 }
-
-export default Result;

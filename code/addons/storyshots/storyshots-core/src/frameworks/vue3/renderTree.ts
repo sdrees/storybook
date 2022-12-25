@@ -1,5 +1,5 @@
 import * as Vue from 'vue';
-import global from 'global';
+import { global } from '@storybook/global';
 
 const { document } = global;
 

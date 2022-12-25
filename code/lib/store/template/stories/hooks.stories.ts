@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, PlayFunctionContext } from '@storybook/types';
 import { useEffect, useState } from '@storybook/preview-api';
 import { within, userEvent } from '@storybook/testing-library';

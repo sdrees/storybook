@@ -125,9 +125,7 @@ Storybook Docs renders all Ember stories inside `iframe`s, with a default height
 To update the global default, modify `.storybook/preview.js`:
 
 ```ts
-import { addParameters } from '@storybook/ember';
-
-addParameters({ docs: { iframeHeight: 400 } });
+export const parameters = { docs: { iframeHeight: 400 } };
 ```
 
 For `DocsPage`, you need to update the parameter locally in a story:

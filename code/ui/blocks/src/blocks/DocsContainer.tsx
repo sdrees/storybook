@@ -1,6 +1,6 @@
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useEffect } from 'react';
-import global from 'global';
+import { global } from '@storybook/global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import type { Renderer } from '@storybook/types';
@@ -26,7 +26,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({
   useEffect(() => {
     let url;
     try {
-      url = new URL(globalWindow.parent.location);
+      url = new URL(globalWindow.parent.location.toString());
       if (url.hash) {
         const element = document.getElementById(url.hash.substring(1));
         if (element) {

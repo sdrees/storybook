@@ -1,9 +1,9 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
 export const deepElementFromPoint = (x: number, y: number) => {
-  const element = global.document.elementFromPoint(x, y);
+  const element = global.document.elementFromPoint(x, y) as HTMLElement;
 
-  const crawlShadows = (node: Element): Element => {
+  const crawlShadows = (node: HTMLElement): HTMLElement => {
     if (node && node.shadowRoot) {
       // elementFromPoint() doesn't exist in ShadowRoot type
       const nestedElement = (node.shadowRoot as any).elementFromPoint(x, y);

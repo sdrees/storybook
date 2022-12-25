@@ -36,7 +36,7 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
 
   // should we load the preset?
   const presets = await loadAllPresets({
-    corePresets: [require.resolve('./presets/common-preset')],
+    corePresets: [require.resolve('@storybook/core-server/dist/presets/common-preset')],
     overridePresets: [],
     ...presetOptions,
   });

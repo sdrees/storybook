@@ -16,7 +16,7 @@ const objectOptions = {
 const meta = {
   title: 'Controls/Options/Radio',
   component: OptionsControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: {
     withRawArg: 'value',
     controls: { include: ['argType', 'type', 'value', 'labels'] },

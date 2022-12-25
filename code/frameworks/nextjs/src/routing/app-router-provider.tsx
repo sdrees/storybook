@@ -1,6 +1,7 @@
 import React from 'react';
-import { AppRouterContext } from 'next/dist/shared/lib/app-router-context';
+import { AppRouterContext, LayoutRouterContext } from 'next/dist/shared/lib/app-router-context';
 import { PathnameContext, SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context';
+import type { FlightRouterState } from 'next/dist/server/app-render';
 import type { RouteParams } from './types';
 
 type AppRouterProviderProps = {
@@ -8,8 +9,19 @@ type AppRouterProviderProps = {
   routeParams: RouteParams;
 };
 
+const getParallelRoutes = (segmentsList: Array<string>): FlightRouterState => {
+  const segment = segmentsList.shift();
+
+  if (segment) {
+    return [segment, { children: getParallelRoutes(segmentsList) }];
+  }
+
+  return [] as any;
+};
+
 const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action, routeParams }) => {
-  const { pathname, query, ...restRouteParams } = routeParams;
+  const { pathname, query, segments = [], ...restRouteParams } = routeParams;
+
   return (
     <AppRouterContext.Provider
       value={{
@@ -35,7 +47,15 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
       }}
     >
       <SearchParamsContext.Provider value={new URLSearchParams(query)}>
-        <PathnameContext.Provider value={pathname}>{children}</PathnameContext.Provider>
+        <LayoutRouterContext.Provider
+          value={{
+            childNodes: new Map(),
+            tree: [pathname, { children: getParallelRoutes([...segments]) }],
+            url: pathname,
+          }}
+        >
+          <PathnameContext.Provider value={pathname}>{children}</PathnameContext.Provider>
+        </LayoutRouterContext.Provider>
       </SearchParamsContext.Provider>
     </AppRouterContext.Provider>
   );

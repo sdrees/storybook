@@ -3,7 +3,7 @@ import { RangeControl } from './Range';
 
 export default {
   component: RangeControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: { withRawArg: 'value', controls: { include: ['value', 'min', 'max', 'step'] } },
   args: { name: 'range' },
 } as Meta<typeof RangeControl>;

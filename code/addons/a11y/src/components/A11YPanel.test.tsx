@@ -8,6 +8,9 @@ import { A11YPanel } from './A11YPanel';
 import { EVENTS } from '../constants';
 
 jest.mock('@storybook/manager-api');
+
+global.ResizeObserver = require('resize-observer-polyfill');
+
 const mockedApi = api as jest.Mocked<typeof api>;
 
 const axeResult = {

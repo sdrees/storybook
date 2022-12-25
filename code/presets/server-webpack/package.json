@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-server-webpack",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.15",
   "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,11 +21,13 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -35,11 +37,7 @@
       "import": "./dist/loader.mjs",
       "types": "./dist/loader.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -55,11 +53,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-server": "7.0.0-beta.12",
-    "@storybook/core-webpack": "7.0.0-beta.12",
-    "@storybook/server": "7.0.0-beta.12",
+    "@storybook/core-server": "7.0.0-beta.15",
+    "@storybook/core-webpack": "7.0.0-beta.15",
+    "@storybook/global": "^5.0.0",
+    "@storybook/server": "7.0.0-beta.15",
     "@types/node": "^16.0.0",
-    "global": "^4.4.0",
     "safe-identifier": "^0.4.1",
     "ts-dedent": "^2.0.0",
     "yaml-loader": "^0.8.0"
@@ -83,5 +81,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
+  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
 }

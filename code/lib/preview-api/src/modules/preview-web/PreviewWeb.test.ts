@@ -2,8 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { jest, jest as mockJest, it, describe, beforeEach, afterEach, expect } from '@jest/globals';
-import global from 'global';
+import { global } from '@storybook/global';
 import merge from 'lodash/merge';
 import {
   CONFIG_ERROR,
@@ -59,21 +58,23 @@ const { history, document } = global;
 const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult: any;
-jest.mock('global', () => ({
-  ...(mockJest.requireActual('global') as any),
-  history: { replaceState: mockJest.fn() },
-  document: {
-    location: {
-      pathname: 'pathname',
-      search: '?id=*',
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    history: { replaceState: jest.fn() },
+    document: {
+      location: {
+        pathname: 'pathname',
+        search: '?id=*',
+      },
     },
+    FEATURES: {
+      storyStoreV7: true,
+      breakingChangesV7: true,
+      // xxx
+    },
+    fetch: async () => mockFetchResult,
   },
-  FEATURES: {
-    storyStoreV7: true,
-    breakingChangesV7: true,
-    // xxx
-  },
-  fetch: async () => mockFetchResult,
 }));
 
 jest.mock('@storybook/client-logger');
@@ -97,7 +98,6 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
 // a timer, so we need to first setImmediate (to get past the resolution), then run the timers
 // Probably jest modern timers do this but they aren't working for some bizarre reason.
 async function waitForSetCurrentStory() {
-  // @ts-expect-error (Argument of type '{ doNotFake: string[]; }' is not assignable to parameter of type '"modern" | "legacy" | undefined'. ts(2345)))
   jest.useFakeTimers({ doNotFake: ['setTimeout'] });
   await new Promise((r) => setTimeout(r, 0));
   jest.runAllTimers();
@@ -138,9 +138,7 @@ beforeEach(() => {
   addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
 
-  // @ts-expect-error (Property 'mocked' does not exist on type 'Jest'. Did you mean 'mock'? ts(2551))
   jest.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  // @ts-expect-error (Property 'mocked' does not exist on type 'Jest'. Did you mean 'mock'? ts(2551))
   jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 

@@ -827,7 +827,6 @@ storiesOf('Addons|Info.GitHub issues', module).addParameters({ storySource: { so
 exports[`inject-decorator stories with ugly comments in ts should delete ugly comments from the generated story source 1`] = `
 "
 
-
 import React from 'react';
 
 @Component({
@@ -864,7 +863,6 @@ storiesOf('Foo', module)
 
 exports[`inject-decorator stories with ugly comments should delete ugly comments from the generated story source 1`] = `
 "
-
 
 import React from 'react';
 

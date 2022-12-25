@@ -42,3 +42,6 @@ declare module 'react-dom/client' {
     options?: HydrationOptions
   ): Root;
 }
+
+declare var STORYBOOK_ENV: 'react';
+declare var FRAMEWORK_OPTIONS: any;

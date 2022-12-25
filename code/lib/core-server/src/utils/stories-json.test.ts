@@ -62,7 +62,7 @@ const getInitializedStoryIndexGenerator = async (
     workingDir,
     storiesV2Compatibility: false,
     storyStoreV7: true,
-    docs: { enabled: true, defaultName: 'docs', docsPage: false },
+    docs: { disable: false, defaultName: 'docs', autodocs: false },
     ...overrides,
   });
   await generator.initialize();
@@ -163,7 +163,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/B.stories.ts",
               "name": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "B",
@@ -174,7 +174,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/D.stories.jsx",
               "name": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "D",
@@ -357,7 +357,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "B",
@@ -374,7 +374,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "D",
@@ -558,7 +558,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "B",
@@ -575,7 +575,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "D",
@@ -726,7 +726,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "B",
@@ -743,7 +743,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "D",

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-/* global window */
+import { global } from '@storybook/global';
 
 export const setJSONDoc = (jsondoc) => {
-  window.__EMBER_GENERATED_DOC_JSON__ = jsondoc;
+  global.__EMBER_GENERATED_DOC_JSON__ = jsondoc;
 };

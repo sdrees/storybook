@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { parse } from 'qs';
 
 export const getQueryParams = () => {

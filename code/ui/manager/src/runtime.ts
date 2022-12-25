@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
 import type { Channel } from '@storybook/channels';
 import type { AddonStore } from '@storybook/manager-api';

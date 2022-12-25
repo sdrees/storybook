@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React, { Component } from 'react';
 import { styled } from '@storybook/theming';

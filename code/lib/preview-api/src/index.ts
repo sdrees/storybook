@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="typings.d.ts" />
+
 /**
  * HOOKS API
  */
@@ -70,6 +73,7 @@ export {
   setProjectAnnotations,
   inferControls,
   userOrAutoTitleFromSpecifier,
+  userOrAutoTitle,
   sortStoriesV7,
 } from './store';
 

@@ -1,13 +1,11 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
-import global from 'global';
+import { global } from '@storybook/global';
 import { Spaced, Button } from '@storybook/components';
 import { Preview, PreviewSkeleton } from './Preview';
 import { Story } from './Story';
 import * as sourceStories from './Source.stories';
-
-const { window: globalWindow } = global;
 
 export default {
   component: Preview,
@@ -194,7 +192,7 @@ export const WithAdditionalActions = () => (
       {
         title: 'Open on GitHub',
         onClick: () => {
-          globalWindow.location.href =
+          global.location.href =
             'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/components/Preview.stories.tsx#L165-L186';
         },
       },

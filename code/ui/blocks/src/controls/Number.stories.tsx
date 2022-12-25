@@ -3,7 +3,7 @@ import { NumberControl } from './Number';
 
 export default {
   component: NumberControl,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   parameters: { withRawArg: 'value', controls: { include: ['value', 'min', 'max', 'step'] } },
   args: { name: 'number' },
 } as Meta<typeof NumberControl>;

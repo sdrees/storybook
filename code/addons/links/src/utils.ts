@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { addons, makeDecorator } from '@storybook/preview-api';
 import { STORY_CHANGED, SELECT_STORY } from '@storybook/core-events';
 import type { StoryId, StoryName, ComponentTitle } from '@storybook/types';
