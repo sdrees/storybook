@@ -27,4 +27,4 @@ WithInjectionTokenAndArgs.argTypes = {
   name: { control: 'text' },
   color: { control: 'color' },
 };
-WithInjectionTokenAndArgs.args = { name: 'Dixie Normous', color: 'red' };
+WithInjectionTokenAndArgs.args = { name: 'Color', color: 'red' };

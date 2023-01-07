@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import * as t from '@babel/types';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as generate from '@babel/generator';
 import type { CsfFile } from './CsfFile';
 

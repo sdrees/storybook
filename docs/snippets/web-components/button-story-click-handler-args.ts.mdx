@@ -1,0 +1,26 @@
+```ts
+// Button.stories.ts
+
+import { html } from 'lit-html';
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+import { action } from '@storybook/addon-actions';
+
+const meta: Meta = {
+  title: 'Button',
+  component: 'custom-button',
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const Text: Story = {
+  render: ({ label, onClick }) =>
+    html`<custom-button label="${label}" @click=${onClick}></custom-button>`,
+  args: {
+    label: 'Hello',
+    onClick: action('clicked'),
+  },
+};
+```

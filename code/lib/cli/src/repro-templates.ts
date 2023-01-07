@@ -331,6 +331,24 @@ export const allTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'preact-vite/default-js': {
+    name: 'Preact Vite (JS)',
+    script: 'yarn create vite . --template preact',
+    expected: {
+      framework: '@storybook/preact-vite',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'preact-vite/default-ts': {
+    name: 'Preact Vite (TS)',
+    script: 'yarn create vite . --template preact-ts',
+    expected: {
+      framework: '@storybook/preact-vite',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-vite',
+    },
+  },
 } satisfies Record<string, Template>;
 
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
@@ -351,6 +369,7 @@ export const merged: TemplateKey[] = [
   'angular-cli/14-ts',
   'angular-cli/13-ts',
   'preact-webpack5/default-ts',
+  'preact-vite/default-ts',
   'html-webpack/default',
 ];
 export const daily: TemplateKey[] = [
@@ -366,6 +385,7 @@ export const daily: TemplateKey[] = [
   'nextjs/12-js',
   'nextjs/default-js',
   'preact-webpack5/default-js',
+  'preact-vite/default-js',
 ];
 
 export const templatesByCadence = { ci, pr, merged, daily };

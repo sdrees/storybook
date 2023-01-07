@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as parser from '@babel/parser';
 
 export const babelParse = (code: string) =>

@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import * as ADDONS from '@storybook/preview-api/dist/addons';
 import * as CHANNEL_POSTMESSAGE from '@storybook/channel-postmessage';
 import * as CHANNEL_WEBSOCKET from '@storybook/channel-websocket';

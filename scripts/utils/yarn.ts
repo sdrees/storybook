@@ -4,6 +4,7 @@ import path from 'path';
 import { exec } from './exec';
 // TODO -- should we generate this file a second time outside of CLI?
 import storybookVersions from '../../code/lib/cli/src/versions';
+import touch from './touch';
 
 export type YarnOptions = {
   cwd: string;
@@ -25,8 +26,8 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
 
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   const command = [
-    `touch yarn.lock`,
-    `touch yarnrc.yml`,
+    touch('yarn.lock'),
+    touch('yarnrc.yml'),
     `yarn set version berry`,
     // Use the global cache so we aren't re-caching dependencies each time we run sandbox
     `yarn config set enableGlobalCache true`,

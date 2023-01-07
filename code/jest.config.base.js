@@ -10,7 +10,7 @@ const path = require('path');
 const skipOnWindows = [
   'lib/core-server/src/utils/__tests__/server-statics.test.ts',
   'lib/core-common/src/utils/__tests__/template.test.ts',
-  'addons/storyshots/storyshots-core/src/frameworks/configure.test.ts',
+  'addons/storyshots-core/src/frameworks/configure.test.ts',
   'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
   'lib/cli/src/helpers.test.ts',
 ];

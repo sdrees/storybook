@@ -1,4 +1,5 @@
-import type { Options, CoreConfig, Builder } from '@storybook/types';
+import type { Builder, CoreConfig, Options } from '@storybook/types';
+import { pathToFileURL } from 'node:url';
 
 export async function getManagerBuilder(): Promise<Builder<unknown>> {
   return import('@storybook/builder-manager');
@@ -17,7 +18,7 @@ export async function getPreviewBuilder(
   } else {
     throw new Error('no builder configured!');
   }
-  const previewBuilder = await import(builderPackage);
+  const previewBuilder = await import(pathToFileURL(builderPackage).href);
   return previewBuilder;
 }
 

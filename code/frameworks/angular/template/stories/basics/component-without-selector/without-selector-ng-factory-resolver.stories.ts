@@ -59,7 +59,7 @@ WithComponentFactoryResolver.argTypes = {
   name: { control: 'text' },
   color: { control: 'color' },
 };
-WithComponentFactoryResolver.args = { name: 'Dixie Normous', color: 'chartreuse' };
+WithComponentFactoryResolver.args = { name: 'Color', color: 'chartreuse' };
 WithComponentFactoryResolver.decorators = [
   moduleMetadata({
     declarations: [ComponentFactoryWrapperComponent],

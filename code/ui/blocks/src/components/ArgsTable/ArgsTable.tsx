@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import pickBy from 'lodash/pickBy';
+import pickBy from 'lodash/pickBy.js';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';

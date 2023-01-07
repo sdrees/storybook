@@ -172,23 +172,6 @@ export async function buildStaticStandalone(
     );
   }
 
-  if (!core?.disableTelemetry) {
-    effects.push(
-      initializedStoryIndexGenerator.then(async (generator) => {
-        const storyIndex = await generator?.getIndex();
-        const payload = {
-          precedingUpgrade: await getPrecedingUpgrade(),
-        };
-        if (storyIndex) {
-          Object.assign(payload, {
-            storyIndex: summarizeIndex(storyIndex),
-          });
-        }
-        await telemetry('build', payload, { configDir: options.configDir });
-      })
-    );
-  }
-
   if (!core?.disableProjectJson) {
     effects.push(
       extractStorybookMetadata(join(options.outputDir, 'project.json'), options.configDir)
@@ -222,6 +205,24 @@ export async function buildStaticStandalone(
         ]),
     ...effects,
   ]);
+
+  // Now the code has successfully built, we can count this as a 'dev' event.
+  if (!core?.disableTelemetry) {
+    effects.push(
+      initializedStoryIndexGenerator.then(async (generator) => {
+        const storyIndex = await generator?.getIndex();
+        const payload = {
+          precedingUpgrade: await getPrecedingUpgrade(),
+        };
+        if (storyIndex) {
+          Object.assign(payload, {
+            storyIndex: summarizeIndex(storyIndex),
+          });
+        }
+        await telemetry('build', payload, { configDir: options.configDir });
+      })
+    );
+  }
 
   logger.info(`=> Output directory: ${options.outputDir}`);
 }

@@ -3,12 +3,12 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Story as StoryComponent } from './Story';
-import * as BooleanStories from '../controls/Boolean.stories';
+import * as ButtonStories from '../examples/Button.stories';
 
 const meta: Meta<typeof StoryComponent> = {
   component: StoryComponent,
   parameters: {
-    relativeCsfPaths: ['../controls/Boolean.stories', '../blocks/Story.stories'],
+    relativeCsfPaths: ['../examples/Button.stories', '../blocks/Story.stories'],
   },
 };
 export default meta;
@@ -17,14 +17,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Of: Story = {
   args: {
-    of: BooleanStories.Undefined,
+    of: ButtonStories.Primary,
   },
 };
 
 export const OfWithMeta: Story = {
   args: {
-    of: BooleanStories.True,
-    meta: BooleanStories.default,
+    of: ButtonStories.Secondary,
+    meta: ButtonStories.default,
   },
 };
 
@@ -40,7 +40,7 @@ export const Id: Story = {
 
 export const Name: Story = {
   args: {
-    name: 'True',
+    name: 'Secondary',
   },
 };
 
@@ -102,7 +102,7 @@ export const IframeWithHeight: Story = {
 
 export const WithDefaultInteractions: Story = {
   args: {
-    of: BooleanStories.Toggling,
+    of: ButtonStories.Clicking,
   },
   parameters: {
     chromatic: { delay: 500 },
@@ -110,13 +110,9 @@ export const WithDefaultInteractions: Story = {
 };
 export const WithInteractionsAutoplayInStory: Story = {
   args: {
-    of: BooleanStories.TogglingInDocs,
+    of: ButtonStories.ClickingInDocs,
   },
   parameters: {
     chromatic: { delay: 500 },
   },
 };
-
-// TODO: types suggest that <Story /> can take ProjectAnnotations, but it doesn't seem to do anything with them
-// Such as parameters, decorators, etc.
-// they seem to be taken from the story itself, and not from the <Story /> call

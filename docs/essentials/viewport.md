@@ -125,6 +125,7 @@ Update your story through [parameters](../writing-stories/parameters.md) to incl
     'vue/my-component-story-configure-viewports.ts.mdx',
     'angular/my-component-story-configure-viewports.ts.mdx',
     'web-components/my-component-story-configure-viewports.js.mdx',
+    'web-components/my-component-story-configure-viewports.ts.mdx',
     'svelte/my-component-story-configure-viewports.js.mdx',
   ]}
   usesCsf3

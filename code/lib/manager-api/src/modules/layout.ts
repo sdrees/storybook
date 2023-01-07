@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import pick from 'lodash/pick';
+import pick from 'lodash/pick.js';
 import { dequal as deepEqual } from 'dequal';
 import { create } from '@storybook/theming/create';
 import { SET_CONFIG } from '@storybook/core-events';

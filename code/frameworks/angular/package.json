@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-beta.15",
+  "version": "7.0.0-beta.20",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -21,32 +21,34 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "template/**/*",
     "README.md",
     "*.js",
+    "*.mjs",
     "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc",
-    "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
+    "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-beta.15",
-    "@storybook/client-logger": "7.0.0-beta.15",
-    "@storybook/core-client": "7.0.0-beta.15",
-    "@storybook/core-common": "7.0.0-beta.15",
-    "@storybook/core-events": "7.0.0-beta.15",
-    "@storybook/core-server": "7.0.0-beta.15",
-    "@storybook/core-webpack": "7.0.0-beta.15",
-    "@storybook/docs-tools": "7.0.0-beta.15",
+    "@storybook/builder-webpack5": "7.0.0-beta.20",
+    "@storybook/client-logger": "7.0.0-beta.20",
+    "@storybook/core-client": "7.0.0-beta.20",
+    "@storybook/core-common": "7.0.0-beta.20",
+    "@storybook/core-events": "7.0.0-beta.20",
+    "@storybook/core-server": "7.0.0-beta.20",
+    "@storybook/core-webpack": "7.0.0-beta.20",
+    "@storybook/docs-tools": "7.0.0-beta.20",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.15",
-    "@storybook/node-logger": "7.0.0-beta.15",
-    "@storybook/preview-api": "7.0.0-beta.15",
-    "@storybook/types": "7.0.0-beta.15",
+    "@storybook/manager-api": "7.0.0-beta.20",
+    "@storybook/node-logger": "7.0.0-beta.20",
+    "@storybook/preview-api": "7.0.0-beta.20",
+    "@storybook/types": "7.0.0-beta.20",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
@@ -122,5 +124,8 @@
     "access": "public"
   },
   "builders": "dist/builders/builders.json",
-  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
+  "bundler": {
+    "tsConfig": "tsconfig.build.json"
+  },
+  "gitHead": "22701aedf564e467511887eb041f32ae0c96bcde"
 }

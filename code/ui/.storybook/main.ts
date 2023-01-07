@@ -20,7 +20,7 @@ const allStories = [
 ];
 
 /**
- * match all stories in blocks/src/blocks and blocks/src/controls EXCEPT blocks/src/blocks/internal
+ * match all stories in blocks/src/blocks, blocks/src/controls and blocks/src/examples EXCEPT blocks/src/blocks/internal
  * Examples:
  *
  * src/blocks/Canvas.stories.tsx - MATCH
@@ -38,8 +38,8 @@ const allStories = [
  * src/components/ColorPalette.tsx - IGNORED, not story
  */
 const blocksOnlyStories = [
-  '../blocks/src/@(blocks|controls)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
-  '../blocks/src/@(blocks|controls)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
 ];
 
 const config: StorybookConfig = {

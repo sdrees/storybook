@@ -21,6 +21,9 @@ import { logger } from '@storybook/client-logger';
 import type { StoryStore } from '../../store';
 import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 
+export const AUTODOCS_TAG = 'autodocs';
+export const STORIES_MDX_TAG = 'stories-mdx';
+
 export class StoryStoreFacade<TRenderer extends Renderer> {
   projectAnnotations: NormalizedProjectAnnotations<TRenderer>;
 
@@ -195,22 +198,25 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
 
     // NOTE: this logic is equivalent to the `extractStories` function of `StoryIndexGenerator`
     const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
-    const autodocsOptedIn =
-      docsOptions.autodocs === true ||
-      (docsOptions.autodocs === 'tag' && componentTags.includes('autodocs'));
+    const { autodocs } = docsOptions;
+    const componentAutodocs = componentTags.includes(AUTODOCS_TAG);
+    const autodocsOptedIn = autodocs === true || (autodocs === 'tag' && componentAutodocs);
     if (!docsOptions.disable && storyExports.length) {
-      if (componentTags.includes('mdx') || autodocsOptedIn) {
+      if (componentTags.includes(STORIES_MDX_TAG) || autodocsOptedIn) {
         const name = docsOptions.defaultName;
         const docsId = toId(componentId || title, name);
         this.entries[docsId] = {
           type: 'docs',
-          standalone: false,
           id: docsId,
           title,
           name,
           importPath: fileName,
           ...(componentId && { componentId }),
-          tags: [...componentTags, 'docs'],
+          tags: [
+            ...componentTags,
+            'docs',
+            ...(autodocsOptedIn && !componentAutodocs ? [AUTODOCS_TAG] : []),
+          ],
           storiesImports: [],
         };
       }

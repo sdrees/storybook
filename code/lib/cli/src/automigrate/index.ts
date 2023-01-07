@@ -7,7 +7,11 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
 import { join } from 'path';
-import { JsPackageManagerFactory, type PackageManagerName } from '../js-package-manager';
+import {
+  JsPackageManagerFactory,
+  useNpmWarning,
+  type PackageManagerName,
+} from '../js-package-manager';
 
 import type { Fix } from './fixes';
 import { fixes as allFixes } from './fixes';
@@ -47,7 +51,7 @@ interface FixOptions {
   yes?: boolean;
   dryRun?: boolean;
   useNpm?: boolean;
-  force?: PackageManagerName;
+  packageManager?: PackageManagerName;
 }
 
 enum FixStatus {
@@ -72,10 +76,23 @@ const logAvailableMigrations = () => {
   logger.info(`\nThe following migrations are available: ${availableFixes}`);
 };
 
-export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: FixOptions = {}) => {
+export const automigrate = async ({
+  fixId,
+  dryRun,
+  yes,
+  useNpm,
+  packageManager: pkgMgr,
+  list,
+}: FixOptions = {}) => {
   if (list) {
     logAvailableMigrations();
     return null;
+  }
+
+  if (useNpm) {
+    useNpmWarning();
+    // eslint-disable-next-line no-param-reassign
+    pkgMgr = 'npm';
   }
 
   const fixes = fixId ? allFixes.filter((f) => f.id === fixId) : allFixes;
@@ -88,7 +105,7 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: F
 
   augmentLogsToFile();
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   logger.info('🔎 checking possible migrations..');
   const fixResults = {} as Record<FixId, FixStatus>;

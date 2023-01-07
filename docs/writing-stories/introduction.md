@@ -44,6 +44,12 @@ The _default_ export metadata controls how Storybook lists your stories and prov
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+Starting with Storybook version 7.0, story titles are analyzed statically as part of the build process. The _default_ export must contain a `title` property that can be read statically or a `component` property from which an automatic title can be computed. Using the `id` property to customize your story URL must also be statically readable.
+
+</div>
+
 ### Defining stories
 
 Use the _named_ exports of a CSF file to define your component’s stories. We recommend you use UpperCamelCase for your story exports. Here’s how to render `Button` in the “primary” state and export a story called `Primary`.

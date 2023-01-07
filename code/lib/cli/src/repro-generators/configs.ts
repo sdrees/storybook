@@ -252,6 +252,13 @@ export const preact: Parameters = {
     'npx preact-cli@{{version}} create preactjs-templates/default {{appName}} --install=false --git=false',
 };
 
+export const preact_vite: Parameters = {
+  renderer: 'preact',
+  name: 'preact',
+  version: 'latest',
+  generator: 'yarn create vite@{{version}} {{appName}} --template preact',
+};
+
 export const sfcVue: Parameters = {
   renderer: 'vue',
   name: 'sfcVue',

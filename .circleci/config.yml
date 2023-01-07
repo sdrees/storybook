@@ -599,23 +599,23 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - build
       - build-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - build-sandboxes
   daily:
@@ -624,27 +624,25 @@ workflows:
     jobs:
       - build
       - create-sandboxes:
-          parallelism: 26
+          parallelism: 28
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 26
+          parallelism: 28
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 26
+          parallelism: 28
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 26
+          parallelism: 28
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 26
+          parallelism: 28
           requires:
             - build-sandboxes
-
-# VS Code Extension Version: 1.5.0

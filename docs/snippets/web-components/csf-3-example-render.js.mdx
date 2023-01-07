@@ -1,6 +1,9 @@
 ```js
-// CSF 2
+// CSF 3
+
+// Other imports and story implementation
+
 export const Default = {
-  render: (args) => Button(args),
+  render: (args) => html`<custom-button label="Hello" @click=${action('clicked')}></custom-button>`,
 };
 ```

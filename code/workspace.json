@@ -63,12 +63,12 @@
     },
     "@storybook/addon-storyshots": {
       "implicitDependencies": [],
-      "root": "addons/storyshots/storyshots-core",
+      "root": "addons/storyshots-core",
       "type": "library"
     },
     "@storybook/addon-storyshots-puppeteer": {
       "implicitDependencies": [],
-      "root": "addons/storyshots/storyshots-puppeteer",
+      "root": "addons/storyshots-puppeteer",
       "type": "library"
     },
     "@storybook/addon-storysource": {
@@ -259,6 +259,11 @@
     "@storybook/preact-webpack5": {
       "implicitDependencies": [],
       "root": "frameworks/preact-webpack5",
+      "type": "library"
+    },
+    "@storybook/preact-vite": {
+      "implicitDependencies": [],
+      "root": "frameworks/preact-vite",
       "type": "library"
     },
     "@storybook/preset-html-webpack": {

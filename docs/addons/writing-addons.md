@@ -197,9 +197,13 @@ When Storybook was initialized, it provided a small set of example stories. Chan
   paths={[
     'react/button-story-with-addon-example.js.mdx',
     'react/button-story-with-addon-example.ts.mdx',
+    'react/button-story-with-addon-example.ts.mdx',
     'vue/button-story-with-addon-example.js.mdx',
+    'vue/button-story-with-addon-example.ts.mdx',
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
+    'web-components/button-story-with-addon-example.js.mdx',
+    'web-components/button-story-with-addon-example.ts.mdx',
   ]}
   usesCsf3
   csf2Path="addons/writing-addons#snippet-button-story-with-addon-example"

@@ -22,6 +22,8 @@ Afterward, you can use any asset in your stories:
     'vue/component-story-static-asset-with-import.ts-3.ts.mdx',
     'angular/component-story-static-asset-with-import.ts.mdx',
     'svelte/component-story-static-asset-with-import.js.mdx',
+    'web-components/component-story-static-asset-with-import.js.mdx',
+    'web-components/component-story-static-asset-with-import.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-with-import"
@@ -57,6 +59,8 @@ Here `../public` is your static directory. Now use it in a component or story li
     'vue/component-story-static-asset-without-import.ts.mdx',
     'angular/component-story-static-asset-without-import.ts.mdx',
     'svelte/component-story-static-asset-without-import.js.mdx',
+    'web-components/component-story-static-asset-without-import.js.mdx',
+    'web-components/component-story-static-asset-without-import.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-without-import"
@@ -106,6 +110,8 @@ Upload your files to an online CDN and reference them. In this example, we’re 
     'vue/component-story-static-asset-cdn.ts.mdx',
     'angular/component-story-static-asset-cdn.ts.mdx',
     'svelte/component-story-static-asset-cdn.js.mdx',
+    'web-components/component-story-static-asset-cdn.js.mdx',
+    'web-components/component-story-static-asset-cdn.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-cdn"

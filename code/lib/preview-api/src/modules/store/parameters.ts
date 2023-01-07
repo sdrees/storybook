@@ -1,6 +1,6 @@
 // Utilities for handling parameters
 import type { Parameters } from '@storybook/types';
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash/isPlainObject.js';
 
 /**
  * Safely combine parameters recursively. Only copy objects when needed.

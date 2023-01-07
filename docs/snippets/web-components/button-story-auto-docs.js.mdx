@@ -1,0 +1,27 @@
+```js
+// Button.stories.js
+
+export default {
+  title: 'Button',
+  component: 'custom-button',
+  //👇 Enables auto-generated documentation for the component story
+  tags: ['docsPage'],
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+};
+
+export const Primary = {
+  args: {
+    primary: true,
+    label: 'Button',
+  },
+};
+
+export const Secondary = {
+  args: {
+    ...Primary.args,
+    primary: false,
+  },
+};
+```

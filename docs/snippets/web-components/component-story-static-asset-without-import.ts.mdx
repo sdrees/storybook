@@ -1,0 +1,20 @@
+```ts
+// MyComponent.stories.ts
+
+import { html } from 'lit-html';
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+const meta: Meta = {
+  title: 'img',
+  component: 'my-component',
+};
+
+export default meta;
+type Story = StoryObj;
+
+// Assume image.png is located in the "public" directory.
+export const WithAnImage: Story = {
+  render: () => html`<img src="/image.png" alt="image" />`,
+};
+```

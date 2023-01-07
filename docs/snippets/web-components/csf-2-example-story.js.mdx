@@ -1,4 +1,8 @@
 ```js
 // CSF 2
-export const Default = () => html`<demo-button></demo-button>`;
+
+// Other imports and story implementation
+
+export const Default = ({ primary, backgroundColor, size, label }) =>
+  html`<custom-button ?primary="${primary}" size="${size}" label="${label}"></custom-button>`;
 ```

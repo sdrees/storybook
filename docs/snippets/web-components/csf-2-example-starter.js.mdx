@@ -1,14 +1,14 @@
 ```js
 // CSF 2
+
 import { html } from 'lit-html';
-import './demo-button';
 
 export default {
-  title: 'components/demo-button',
-  component: 'demo-button',
+  title: 'custom-button',
+  component: 'custom-button',
 };
 
-export const Primary = ({ primary }) => html`<demo-button ?primary=${primary}></demo-button>`;
+export const Primary = ({ primary }) => html`<custom-button ?primary=${primary}></custom-button>`;
 Primary.args = {
   primary: true,
 };

@@ -27,6 +27,7 @@ Then when adding a story, you can pass a disabled parameter.
 <CodeSnippets
   paths={[
     'common/button-story-disable-addon.js.mdx',
+    'common/button-story-disable-addon.ts.mdx',
   ]}
 />
 

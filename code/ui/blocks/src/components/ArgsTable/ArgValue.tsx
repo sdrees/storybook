@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
 import memoize from 'memoizerific';
-import uniq from 'lodash/uniq';
+import uniq from 'lodash/uniq.js';
 import { styled } from '@storybook/theming';
 import { WithTooltipPure, Icons, SyntaxHighlighter, codeCommon } from '@storybook/components';
 import type { PropSummaryValue } from './types';

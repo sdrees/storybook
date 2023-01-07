@@ -57,6 +57,7 @@ Then you can access this environment variable anywhere, even within your stories
     'vue/my-component-with-env-variables.ts-3.ts.mdx',
     'angular/my-component-with-env-variables.ts.mdx',
     'web-components/my-component-with-env-variables.js.mdx',
+    'web-components/my-component-with-env-variables.ts.mdx',
     'svelte/my-component-with-env-variables.js.mdx',
   ]}
   usesCsf3

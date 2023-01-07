@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import { html } from 'lit-html';
 import { styleMap } from 'lit-html/directives/style-map.js';
 import { addons, useEffect } from '@storybook/preview-api';

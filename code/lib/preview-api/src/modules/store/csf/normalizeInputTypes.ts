@@ -1,4 +1,4 @@
-import mapValues from 'lodash/mapValues';
+import mapValues from 'lodash/mapValues.js';
 import type {
   ArgTypes,
   GlobalTypes,

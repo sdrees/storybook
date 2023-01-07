@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { global as globalThis } from '@storybook/global';
 import { LitElement } from 'lit';
 

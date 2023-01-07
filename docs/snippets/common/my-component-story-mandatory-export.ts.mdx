@@ -1,0 +1,22 @@
+```ts
+// MyComponent.stories.ts|tsx
+
+import { MyComponent } from './MyComponent';
+
+// Replace your-framework with the name of your framework
+import type { Meta } from '@storybook/your-framework';
+
+const meta: Meta<typeof MyComponent> = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Path/To/MyComponent',
+  component: MyComponent,
+  parameters: {
+    myAddon: { disable: true }, // Disables the addon
+  },
+};
+
+export default meta;
+```

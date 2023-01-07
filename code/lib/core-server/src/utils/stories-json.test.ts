@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import type { StoryIndex, StoryIndexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
@@ -121,13 +121,11 @@ describe('useStoriesJson', () => {
               "id": "a--docs",
               "importPath": "./src/docs2/MetaOf.mdx",
               "name": "docs",
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "A",
               "type": "docs",
@@ -136,13 +134,11 @@ describe('useStoriesJson', () => {
               "id": "a--second-docs",
               "importPath": "./src/docs2/SecondMetaOf.mdx",
               "name": "Second Docs",
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "A",
               "type": "docs",
@@ -184,11 +180,9 @@ describe('useStoriesJson', () => {
               "id": "docs2-notitle--docs",
               "importPath": "./src/docs2/NoTitle.mdx",
               "name": "docs",
-              "standalone": true,
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "docs2/NoTitle",
               "type": "docs",
@@ -197,11 +191,9 @@ describe('useStoriesJson', () => {
               "id": "docs2-yabbadabbadooo--docs",
               "importPath": "./src/docs2/Title.mdx",
               "name": "docs",
-              "standalone": true,
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "docs2/Yabbadabbadooo",
               "type": "docs",
@@ -231,10 +223,9 @@ describe('useStoriesJson', () => {
               "id": "nested-page--docs",
               "importPath": "./src/nested/Page.stories.mdx",
               "name": "docs",
-              "standalone": false,
               "storiesImports": Array [],
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "docs",
               ],
               "title": "nested/Page",
@@ -245,7 +236,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/nested/Page.stories.mdx",
               "name": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -296,14 +287,12 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/MetaOf.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
               "story": "docs",
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "A",
             },
@@ -317,14 +306,12 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/SecondMetaOf.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
               "story": "Second Docs",
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "A",
             },
@@ -389,12 +376,10 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/NoTitle.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "docs2/NoTitle",
             },
@@ -408,12 +393,10 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/Title.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "docs2/Yabbadabbadooo",
             },
@@ -460,11 +443,10 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/nested/Page.stories.mdx",
               },
-              "standalone": false,
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "docs",
               ],
               "title": "nested/Page",
@@ -481,7 +463,7 @@ describe('useStoriesJson', () => {
               },
               "story": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -625,7 +607,7 @@ describe('useStoriesJson', () => {
               },
               "story": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -899,7 +881,7 @@ describe('useStoriesJson', () => {
     });
 
     it('debounces invalidation events', async () => {
-      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce') as any);
+      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce.js') as any);
 
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({
@@ -952,7 +934,6 @@ describe('convertToIndexV3', () => {
           storiesImports: ['./src/A.stories.js'],
           title: 'A',
           type: 'docs',
-          standalone: true,
         },
         'a--story-one': {
           id: 'a--story-one',
@@ -984,7 +965,6 @@ describe('convertToIndexV3', () => {
               "docsOnly": true,
               "fileName": "./src/docs2/MetaOf.mdx",
             },
-            "standalone": true,
             "storiesImports": Array [
               "./src/A.stories.js",
             ],

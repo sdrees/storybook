@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [Titles are statically computed](#titles-are-statically-computed)
     - [Removed global client APIs](#removed-global-client-apis)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
     - [React peer dependencies required](#react-peer-dependencies-required)
@@ -267,6 +268,47 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
 ### 7.0 breaking changes
+
+#### Titles are statically computed
+
+Up until version 7.0, it was possible to generate the default export of a CSF story by calling a function, or mixing in variables defined in other ES Modules. For instance:
+
+```js
+// Dynamically computed local title
+const categories = {
+  atoms: 'Atoms',
+  molecules: 'Molecules',
+  // etc.
+}
+
+export default {
+  title: `${categories.atoms}/MyComponent`
+}
+
+// Title returned by a function
+import { genDefault } from '../utils/storybook'
+
+export default genDefault({
+  category: 'Atoms',
+  title: 'MyComponent',
+})
+```
+
+This is no longer possible in Storybook 7.0, as story titles are parsed at build time. In earlier versions, titles were mostly produced manually. Now that [CSF3 auto-title](#csf3-auto-title-improvements) is available, optimisations were made that constrain how `id` and `title` can be defined manually.
+
+As a result, titles cannot depend on variables or functions, and cannot be dynamically computed (even with local variables). Stories must have a static `title` property, or a static `component` property used by the [CSF3 auto-title](#csf3-auto-title-improvements) feature to compute a title.
+
+Likewise, the `id` property must be statically defined. The URL defined for a story in the sidebar will be statically computed, so if you dynamically add an `id` through a function call like above, the story URL will not match the one in the sidebar and the story will be unreachable.
+
+To opt-out of the old behavior you can set the `storyStoreV7` feature flag to `false` in `main.js`. However, a variety of performance optimizations depend on the new behavior, and the old behavior is deprecated and will be removed from Storybook in 8.0.
+
+```js
+module.exports = {
+  features: {
+    storyStoreV7: false,
+  }
+}
+```
 
 #### Removed global client APIs
 
@@ -1516,10 +1558,12 @@ In 6.4 the behavior of loaders when arg changes occurred was tweaked so loaders 
 
 #### SB Angular builder
 
-Since SB6.3, Storybook for Angular supports a builder configuration in your project's `angular.json`. This provides an Angular-style configuration for running and building your Storybook. The full builder documentation will be shown in the [main documentation page](https://storybook.js.org/docs/angular) soon, but for now you can check out an example here:
+Since SB6.3, Storybook for Angular supports a builder configuration in your project's `angular.json`. This provides an Angular-style configuration for running and building your Storybook. An example builder configuration is now part of the [get started documentation page](https://storybook.js.org/docs/angular/get-started/install).
 
-- `start-storybook`: [example](https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L78) [schema](https://github.com/storybookjs/storybook/blob/next/app/angular/src/builders/start-storybook/schema.json)
-- `build-storybook`: [example](https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L86) [schema](https://github.com/storybookjs/storybook/blob/next/app/angular/src/builders/build-storybook/schema.json)
+If you want to know all the available options, please checks the builders' validation schemas :
+
+- `start-storybook`: [schema](https://github.com/storybookjs/storybook/blob/next/code/frameworks/angular/src/builders/start-storybook/schema.json)
+- `build-storybook`: [schema](https://github.com/storybookjs/storybook/blob/next/code/frameworks/angular/src/builders/build-storybook/schema.json)
 
 #### Angular13
 
@@ -1588,7 +1632,7 @@ export const MyStory = () => ({ component: MyComponent, ... })
 
 #### Deprecated --static-dir CLI flag
 
-In 6.4 we've replaced the `--static-dir` CLI flag with the the `staticDirs` field in `.storybook/main.js`. Note that the CLI directories are relative to the current working directory, whereas the `staticDirs` are relative to the location of `main.js`.
+In 6.4 we've replaced the `--static-dir` CLI flag with the `staticDirs` field in `.storybook/main.js`. Note that the CLI directories are relative to the current working directory, whereas the `staticDirs` are relative to the location of `main.js`.
 
 Before:
 
@@ -2078,7 +2122,7 @@ Basic.parameters = { ... };
 Basic.decorators = [ ... ];
 ```
 
-1. The new syntax is slightly more compact/ergonomic compared the the old one
+1. The new syntax is slightly more compact/ergonomic compared the old one
 2. Similar to React's `displayName`, `propTypes`, `defaultProps` annotations
 3. We're introducing a new feature, [Storybook Args](https://docs.google.com/document/d/1Mhp1UFRCKCsN8pjlfPdz8ZdisgjNXeMXpXvGoALjxYM/edit?usp=sharing), where the new syntax will be significantly more ergonomic
 
@@ -2284,7 +2328,7 @@ module.exports = {
 };
 ```
 
-In earlier versions of Storybook, this would automatically call `@storybook/addon-knobs/register`, which adds the the knobs panel to the Storybook UI. As a user you would also add a decorator:
+In earlier versions of Storybook, this would automatically call `@storybook/addon-knobs/register`, which adds the knobs panel to the Storybook UI. As a user you would also add a decorator:
 
 ```js
 import { withKnobs } from '../index';
@@ -3769,6 +3813,3 @@ If you **are** using these addons, it takes two steps to migrate:
 
   <!-- markdown-link-check-enable -->
 
-```
-
-```

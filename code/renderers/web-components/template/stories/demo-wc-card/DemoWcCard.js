@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import { LitElement, html } from 'lit';
-// eslint-disable-next-line import/extensions
+
 import { demoWcCardStyle } from './demoWcCardStyle.css.js';
 
 const { CustomEvent } = global;

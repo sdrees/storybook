@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-vite",
-  "version": "7.0.0-beta.15",
+  "version": "7.0.0-beta.20",
   "description": "Storybook for React and Vite: Develop React components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -50,8 +50,8 @@
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "^0.2.1",
     "@rollup/pluginutils": "^4.2.0",
-    "@storybook/builder-vite": "7.0.0-beta.15",
-    "@storybook/react": "7.0.0-beta.15",
+    "@storybook/builder-vite": "7.0.0-beta.20",
+    "@storybook/react": "7.0.0-beta.20",
     "@vitejs/plugin-react": "^3.0.0",
     "ast-types": "^0.14.2",
     "magic-string": "^0.26.1",
@@ -68,7 +68,7 @@
     "vite": "^3.0.0 || ^4.0.0"
   },
   "engines": {
-    "node": "^14.18 || >=16"
+    "node": ">=16"
   },
   "publishConfig": {
     "access": "public"
@@ -80,5 +80,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "ed794f9d13e2bfe696ed2b230a3da04c203519eb"
+  "gitHead": "22701aedf564e467511887eb041f32ae0c96bcde"
 }

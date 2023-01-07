@@ -2,7 +2,7 @@ import type { FC, ChangeEvent, FocusEvent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { HexColorPicker, HslaStringColorPicker, RgbaStringColorPicker } from 'react-colorful';
 import convert from 'color-convert';
-import throttle from 'lodash/throttle';
+import throttle from 'lodash/throttle.js';
 import { styled } from '@storybook/theming';
 import { TooltipNote, WithTooltip, Form, Icons } from '@storybook/components';
 

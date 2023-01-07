@@ -11,7 +11,9 @@ module.exports = {
   },
   rules: {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
+    'eslint-comments/no-unused-disable': 'error',
     'react-hooks/rules-of-hooks': 'off',
+    'import/extensions': 'off', // for mjs, we sometimes need extensions
     'jest/no-done-callback': 'off',
     '@typescript-eslint/dot-notation': [
       'error',
@@ -66,15 +68,14 @@ module.exports = {
       },
     },
     {
-      // this package uses pre-bundling, dependencies will be bundled, and will be in devDepenencies
-      files: [
-        '**/lib/theming/**/*',
-        '**/lib/router/**/*',
-        '**/ui/manager/**/*',
-        '**/ui/components/**/*',
-      ],
+      // these packages use pre-bundling, dependencies will be bundled, and will be in devDepenencies
+      files: ['addons/**/*', 'frameworks/**/*', 'lib/**/*', 'renderers/**/*', 'ui/**/*'],
+      excludedFiles: ['frameworks/angular/**/*', 'frameworks/ember/**/*', 'lib/core-server/**/*'],
       rules: {
-        'import/no-extraneous-dependencies': ['error', { bundledDependencies: false }],
+        'import/no-extraneous-dependencies': [
+          'error',
+          { bundledDependencies: false, devDependencies: true },
+        ],
       },
     },
     {
@@ -89,7 +90,7 @@ module.exports = {
         '**/__testfixtures__/**',
         '**/*.test.*',
         '**/*.stories.*',
-        '**/storyshots/**/stories/**',
+        '**/storyshots-*/**/stories/**',
       ],
       rules: {
         '@typescript-eslint/no-empty-function': 'off',

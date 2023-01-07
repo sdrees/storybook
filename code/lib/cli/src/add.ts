@@ -74,11 +74,12 @@ export async function add(
   addon: string,
   options: { useNpm: boolean; packageManager: PackageManagerName; skipPostinstall: boolean }
 ) {
-  const { useNpm, packageManager: pkgMgr } = options;
-  if (useNpm) {
+  let { packageManager: pkgMgr } = options;
+  if (options.useNpm) {
     useNpmWarning();
+    pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const packageJson = packageManager.retrievePackageJson();
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 

@@ -7,6 +7,7 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import slash from 'slash';
 
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import { globals } from '@storybook/preview/globals';
@@ -108,7 +109,7 @@ export default async (
         if (typeof entry === 'object') {
           return entry.absolute;
         }
-        return entry;
+        return slash(entry);
       }
     ),
     loadPreviewOrConfigFile(options),

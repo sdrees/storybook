@@ -1,7 +1,7 @@
 import { dequal as deepEqual } from 'dequal';
 import type { Renderer, Args, ArgTypes, InputType, SBType, StoryContext } from '@storybook/types';
 import { once } from '@storybook/client-logger';
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash/isPlainObject.js';
 import { dedent } from 'ts-dedent';
 
 const INCOMPATIBLE = Symbol('incompatible');

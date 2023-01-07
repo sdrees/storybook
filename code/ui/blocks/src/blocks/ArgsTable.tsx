@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
-import mapValues from 'lodash/mapValues';
+import mapValues from 'lodash/mapValues.js';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
 import type { PropDescriptor } from '@storybook/preview-api';
 import { filterArgTypes } from '@storybook/preview-api';

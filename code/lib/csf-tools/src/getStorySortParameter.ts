@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as traverse from '@babel/traverse';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as generate from '@babel/generator';
 import { dedent } from 'ts-dedent';
 import { babelParse } from './babelParse';

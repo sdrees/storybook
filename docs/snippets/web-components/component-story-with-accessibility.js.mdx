@@ -1,0 +1,27 @@
+```js
+// Button.stories.js
+
+export default {
+  title: 'Accessibility testing',
+  component: 'custom-button',
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+};
+
+// This is an accessible story
+export const Accessible = {
+  args: {
+    primary: false,
+    label: 'Button',
+  },
+};
+
+// This is not
+export const Inaccessible = {
+  args: {
+    ...Accessible.args,
+    backgroundColor: 'red',
+  },
+};
+```

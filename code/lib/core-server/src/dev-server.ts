@@ -37,8 +37,6 @@ export async function storybookDevServer(options: Options) {
     serverChannel
   );
 
-  doTelemetry(core, initializedStoryIndexGenerator, options);
-
   app.use(compression({ level: 1 }));
 
   if (typeof options.extendServer === 'function') {
@@ -120,5 +118,10 @@ export async function storybookDevServer(options: Options) {
     }
   });
 
-  return { previewResult: await previewStarted, managerResult, address, networkAddress };
+  const previewResult = await previewStarted;
+
+  // Now the preview has successfully started, we can count this as a 'dev' event.
+  doTelemetry(core, initializedStoryIndexGenerator, options);
+
+  return { previewResult, managerResult, address, networkAddress };
 }

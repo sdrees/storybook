@@ -39,6 +39,7 @@ export class ZoomIFrame extends Component<IZoomIFrameProps> {
       if (browserSupportsCssZoom()) {
         Object.assign(this.iframe.contentDocument.body.style, {
           zoom: 1 / scale,
+          minHeight: `calc(100vh / ${1 / scale})`,
         });
       } else {
         Object.assign(this.iframe.contentDocument.body.style, {

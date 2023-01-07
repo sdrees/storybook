@@ -1,16 +1,16 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Description, DescriptionType } from '../Description';
-import { BooleanControl } from '../../controls/Boolean';
+import { Button } from '../../examples/Button';
 
 const meta: Meta<typeof Description> = {
   title: 'Blocks/Internal/Description',
   component: Description,
   parameters: {
-    relativeCsfPaths: ['../controls/Boolean.stories'],
+    relativeCsfPaths: ['../examples/Button.stories'],
   },
   args: {
-    of: BooleanControl,
+    of: Button,
   },
 };
 export default meta;

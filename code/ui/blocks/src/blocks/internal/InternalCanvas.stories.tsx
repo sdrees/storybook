@@ -2,22 +2,23 @@
 /// <reference types="@testing-library/jest-dom" />;
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { Canvas } from '../Canvas';
 import { Story as StoryComponent } from '../Story';
-import * as BooleanStories from '../../controls/Boolean.stories';
+import * as ButtonStories from '../../examples/Button.stories';
 
 const meta: Meta<typeof Canvas> = {
   title: 'Blocks/Internal/Canvas',
   component: Canvas,
   parameters: {
-    relativeCsfPaths: ['../controls/Boolean.stories'],
+    theme: 'light',
+    relativeCsfPaths: ['../examples/Button.stories'],
   },
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.Undefined} />
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
@@ -32,28 +33,23 @@ const expectAmountOfStoriesInSource =
     const canvas = within(canvasElement);
 
     // Arrange - find the "Show code" button
-    let showCodeButton = canvas.getByText('Show code');
-    await waitFor(() => {
-      showCodeButton = canvas.getByText('Show code');
-      expect(showCodeButton).toBeInTheDocument();
-    });
+    const showCodeButton = await canvas.findByText('Show code');
+    await expect(showCodeButton).toBeInTheDocument();
 
     // Act - click button to show code
     await userEvent.click(showCodeButton);
 
     // Assert - check that the correct amount of stories' source is shown
-    await waitFor(async () => {
-      const booleanControlNodes = await canvas.findAllByText('BooleanControl');
-      expect(booleanControlNodes).toHaveLength(amount);
-    });
+    const booleanControlNodes = await canvas.findAllByText('onClick');
+    await expect(booleanControlNodes).toHaveLength(amount);
   };
 
 export const MultipleChildren: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.False} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Large} />
       </Canvas>
     );
   },
@@ -67,8 +63,8 @@ export const MultipleChildrenColumns: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.False} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Large} />
       </Canvas>
     );
   },
@@ -82,15 +78,15 @@ export const MultipleChildrenThreeColumns: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.False} />
-        <StoryComponent of={BooleanStories.False} />
-        <StoryComponent of={BooleanStories.False} />
-        <StoryComponent of={BooleanStories.Undefined} />
-        <StoryComponent of={BooleanStories.Undefined} />
-        <StoryComponent of={BooleanStories.Undefined} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Large} />
+        <StoryComponent of={ButtonStories.Large} />
+        <StoryComponent of={ButtonStories.Large} />
+        <StoryComponent of={ButtonStories.Primary} />
+        <StoryComponent of={ButtonStories.Primary} />
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
@@ -102,10 +98,10 @@ export const MixedChildrenStories: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <h1>Headline for Boolean Controls true</h1>
-        <StoryComponent of={BooleanStories.True} />
-        <h1>Headline for Boolean Controls undefined</h1>
-        <StoryComponent of={BooleanStories.Undefined} />
+        <h1>Headline for secondary Button</h1>
+        <StoryComponent of={ButtonStories.Secondary} />
+        <h1>Headline for primary Button</h1>
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
@@ -115,6 +111,6 @@ export const MixedChildrenStories: Story = {
     const canvas = within(args.canvasElement);
 
     // Assert - only find two headlines, those in the story, and none in the source code
-    expect(canvas.queryAllByText(/Headline for Boolean Controls/i)).toHaveLength(2);
+    expect(canvas.queryAllByText(/Headline for /i)).toHaveLength(2);
   },
 };

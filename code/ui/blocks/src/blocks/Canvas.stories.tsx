@@ -2,17 +2,17 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Canvas, SourceState } from './Canvas';
 import { Story as StoryComponent } from './Story';
-import * as BooleanStories from '../controls/Boolean.stories';
+import * as ButtonStories from '../examples/Button.stories';
 
 const meta: Meta<typeof Canvas> = {
   component: Canvas,
   parameters: {
-    relativeCsfPaths: ['../controls/Boolean.stories'],
+    relativeCsfPaths: ['../examples/Button.stories'],
   },
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.Undefined} />
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
@@ -34,15 +34,17 @@ export const WithSourceClosed: Story = {
   },
 };
 
-// TODO: what is the purpose of mdxSource exactly?
 export const WithMdxSource: Story = {
   name: 'With MDX Source',
   args: {
     withSource: SourceState.OPEN,
-    mdxSource: `const thisIsCustomSource = true;
-if (isSyntaxHighlighted) {
-  console.log('syntax highlighting is working');
-}`,
+    mdxSource: `<Button
+  label="Button"
+  primary
+  onClick={() => {
+    console.log('this is custom source for the source viewer')
+  }}
+/>`,
   },
 };
 
@@ -64,7 +66,7 @@ export const WithAdditionalActions: Story = {
         title: 'Open in GitHub',
         onClick: () => {
           window.open(
-            'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/controls/Boolean.stories.tsx',
+            'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/examples/Button.stories.tsx',
             '_blank'
           );
         },
@@ -108,7 +110,7 @@ export const ClassName: Story = {
         `}
       </style>
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.Undefined} />
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     </>
   ),

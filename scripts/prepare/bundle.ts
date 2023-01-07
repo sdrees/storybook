@@ -15,7 +15,7 @@ import { exec } from '../utils/exec';
 type Formats = 'esm' | 'cjs';
 type BundlerConfig = {
   entries: string[];
-  untypedEntries: string[];
+  externals: string[];
   platform: Options['platform'];
   pre: string;
   post: string;
@@ -33,7 +33,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     name,
     dependencies,
     peerDependencies,
-    bundler: { entries = [], untypedEntries = [], platform, pre, post, formats = ['esm', 'cjs'] },
+    bundler: {
+      entries = [],
+      externals: extraExternals = [],
+      platform,
+      pre,
+      post,
+      formats = ['esm', 'cjs'],
+    },
   } = (await fs.readJson(join(cwd, 'package.json'))) as PackageJsonWithBundlerConfig;
 
   if (pre) {
@@ -53,10 +60,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const outDir = join(process.cwd(), 'dist');
   const externals = [
     name,
+    ...extraExternals,
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
   ];
-  const allEntries = [...entries, ...untypedEntries].map((e: string) => slash(join(cwd, e)));
+  const allEntries = entries.map((e: string) => slash(join(cwd, e)));
 
   const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
     formats,

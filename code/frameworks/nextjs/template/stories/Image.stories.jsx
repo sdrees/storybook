@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-// eslint-disable-next-line import/extensions
+
 import StackAlt from '../../assets/colors.svg';
 
 export default {

@@ -1,0 +1,43 @@
+```js
+// Table.stories.js
+
+import { html } from 'lit-html';
+import { repeat } from 'lit/directives/repeat.js';
+
+export default {
+  title: 'Custom Table',
+  component: 'custom-table',
+};
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/web-components/api/csf
+ * to learn how to use render functions.
+ */
+export const TableStory = {
+  render: ({ data, size }) => {
+    return html`
+      <table>
+        <tbody>
+          ${repeat(
+            data,
+            (row, rowIndex) =>
+              html`
+                <tr>
+                  ${repeat(row, (col, colIndex) => html`<td>${data[rowIndex][colIndex]}</td>`)}
+                </tr>
+              `
+          )}
+        </tbody>
+      </table>
+    `;
+  },
+  args: {
+    data: [
+      [1, 2, 3],
+      [4, 5, 6],
+    ],
+    size: 'large',
+  },
+};
+```

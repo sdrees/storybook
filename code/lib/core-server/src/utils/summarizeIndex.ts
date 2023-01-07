@@ -1,5 +1,7 @@
 import type { StoryIndex } from '@storybook/types';
 
+import { STORIES_MDX_TAG, isMdxEntry, AUTODOCS_TAG } from './StoryIndexGenerator';
+
 export function summarizeIndex(storyIndex: StoryIndex) {
   let storyCount = 0;
   let autodocsCount = 0;
@@ -9,11 +11,11 @@ export function summarizeIndex(storyIndex: StoryIndex) {
     if (entry.type === 'story') {
       storyCount += 1;
     } else if (entry.type === 'docs') {
-      if (entry.standalone) {
+      if (isMdxEntry(entry)) {
         mdxCount += 1;
-      } else if (entry.importPath.endsWith('.mdx')) {
+      } else if (entry.tags.includes(STORIES_MDX_TAG)) {
         storiesMdxCount += 1;
-      } else {
+      } else if (entry.tags.includes(AUTODOCS_TAG)) {
         autodocsCount += 1;
       }
     }

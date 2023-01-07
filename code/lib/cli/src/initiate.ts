@@ -266,11 +266,13 @@ const projectTypeInquirer = async (
 };
 
 async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
-  const { useNpm, packageManager: pkgMgr } = options;
-  if (useNpm) {
+  let { packageManager: pkgMgr } = options;
+  if (options.useNpm) {
     useNpmWarning();
+
+    pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
@@ -327,7 +329,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     telemetry('init', { projectType });
   }
 
-  await automigrate({ yes: options.yes || process.env.CI === 'true', useNpm, force: pkgMgr });
+  await automigrate({ yes: options.yes || process.env.CI === 'true', packageManager: pkgMgr });
 
   logger.log('\nTo run your Storybook, type:\n');
   codeLog([packageManager.getRunStorybookCommand()]);

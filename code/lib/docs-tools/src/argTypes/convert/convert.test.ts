@@ -1,5 +1,5 @@
 import 'jest-specific-snapshot';
-import mapValues from 'lodash/mapValues';
+import mapValues from 'lodash/mapValues.js';
 import { transformSync } from '@babel/core';
 import requireFromString from 'require-from-string';
 import fs from 'fs';

@@ -61,13 +61,7 @@ export type StoryIndexEntry = BaseIndexEntry & {
 export type DocsIndexEntry = BaseIndexEntry & {
   storiesImports: Path[];
   type: 'docs';
-  standalone: boolean;
 };
-
-/** A StandaloneDocsIndexExtry represents a file who's default export is directly renderable */
-export type StandaloneDocsIndexEntry = DocsIndexEntry & { standalone: true };
-/** A TemplateDocsIndexEntry represents a stories file that gets rendered in "docs" mode */
-export type TemplateDocsIndexEntry = DocsIndexEntry & { standalone: false };
 
 export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 

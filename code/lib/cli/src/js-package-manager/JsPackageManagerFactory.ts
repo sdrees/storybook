@@ -1,23 +1,26 @@
+import path from 'node:path';
 import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
 
 import { NPMProxy } from './NPMProxy';
-
 import { PNPMProxy } from './PNPMProxy';
 
 import type { JsPackageManager } from './JsPackageManager';
 import { type PackageManagerName } from './JsPackageManager';
 
 import { Yarn2Proxy } from './Yarn2Proxy';
-
 import { Yarn1Proxy } from './Yarn1Proxy';
+
+const NPM_LOCKFILE = 'package-lock.json';
+const PNPM_LOCKFILE = 'pnpm-lock.yaml';
+const YARN_LOCKFILE = 'yarn.lock';
 
 export class JsPackageManagerFactory {
   public static getPackageManager(
-    { force, useNpm }: { force?: PackageManagerName; useNpm?: boolean } = {},
+    { force }: { force?: PackageManagerName } = {},
     cwd?: string
   ): JsPackageManager {
-    if (useNpm || force === 'npm') {
+    if (force === 'npm') {
       return new NPMProxy({ cwd });
     }
     if (force === 'pnpm') {
@@ -31,17 +34,20 @@ export class JsPackageManagerFactory {
     }
 
     const yarnVersion = getYarnVersion(cwd);
-    const hasYarnLockFile = Boolean(findUpSync('yarn.lock', { cwd }));
-    const hasPNPMLockFile = Boolean(findUpSync('pnpm-lock.yaml', { cwd }));
+
+    const closestLockfilePath = findUpSync([YARN_LOCKFILE, PNPM_LOCKFILE, NPM_LOCKFILE], {
+      cwd,
+    });
+    const closestLockfile = closestLockfilePath && path.basename(closestLockfilePath);
 
     const hasNPMCommand = hasNPM(cwd);
     const hasPNPMCommand = hasPNPM(cwd);
 
-    if (yarnVersion && (hasYarnLockFile || (!hasNPMCommand && !hasPNPMCommand))) {
+    if (yarnVersion && (closestLockfile === YARN_LOCKFILE || (!hasNPMCommand && !hasPNPMCommand))) {
       return yarnVersion === 1 ? new Yarn1Proxy({ cwd }) : new Yarn2Proxy({ cwd });
     }
 
-    if (hasPNPMCommand && hasPNPMLockFile) {
+    if (hasPNPMCommand && closestLockfile === PNPM_LOCKFILE) {
       return new PNPMProxy({ cwd });
     }
 

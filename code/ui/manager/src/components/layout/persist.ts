@@ -1,5 +1,5 @@
 import store from 'store2';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash/debounce.js';
 import memoize from 'memoizerific';
 
 export { store };

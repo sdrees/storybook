@@ -385,7 +385,7 @@ describe('CsfFile', () => {
             export const TestControl = () => _jsx("p", {
               children: "Hello"
             });
-            export default { title: 'foo/bar', tags: ['mdx'], includeStories: ["__page"] };
+            export default { title: 'foo/bar', tags: ['stories-mdx'], includeStories: ["__page"] };
             export const __page = () => {};
             __page.parameters = { docsOnly: true };
           `,
@@ -395,7 +395,7 @@ describe('CsfFile', () => {
         meta:
           title: foo/bar
           tags:
-            - mdx
+            - stories-mdx
           includeStories:
             - __page
         stories:

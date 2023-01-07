@@ -7,7 +7,7 @@ import type { PromptObject, Falsy, PrevCaller, PromptType } from 'prompts';
 import program from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
-import kebabCase from 'lodash/kebabCase';
+import kebabCase from 'lodash/kebabCase.js';
 
 // Option types
 

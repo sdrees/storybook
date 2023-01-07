@@ -1,4 +1,4 @@
-import mapValues from 'lodash/mapValues';
+import mapValues from 'lodash/mapValues.js';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, SBType, ArgTypesEnhancer } from '@storybook/types';

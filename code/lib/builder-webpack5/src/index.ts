@@ -10,7 +10,6 @@ import express from 'express';
 import fs from 'fs-extra';
 import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import prettyTime from 'pretty-hrtime';
 
 export * from './types';

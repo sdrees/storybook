@@ -3,7 +3,7 @@
  */
 
 import { global } from '@storybook/global';
-import merge from 'lodash/merge';
+import merge from 'lodash/merge.js';
 import {
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,
@@ -48,7 +48,7 @@ import {
   waitForQuiescence,
   waitForRenderPhase,
   docsRenderer,
-  standaloneDocsExports,
+  unattachedDocsExports,
   teardownrenderToCanvas,
 } from './PreviewWeb.mockdata';
 import { WebView } from './WebView';
@@ -701,7 +701,7 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('standalone docs entries', () => {
+    describe('mdx docs entries', () => {
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=introduction--docs';
         await createAndRenderPreview();
@@ -723,7 +723,7 @@ describe('PreviewWeb', () => {
         expect(docsRenderer.render).toHaveBeenCalledWith(
           expect.any(Object),
           expect.objectContaining({
-            page: standaloneDocsExports.default,
+            page: unattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
           'docs-element',
@@ -1702,7 +1702,7 @@ describe('PreviewWeb', () => {
           expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
         });
 
-        it('does NOT render a second time in standalone docs mode', async () => {
+        it('does NOT render a second time in mdx docs mode', async () => {
           document.location.search = '?id=introduction--docs&viewMode=docs';
 
           const [gate, openGate] = createGate();
@@ -3098,11 +3098,11 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('when a standalone docs file changes', () => {
-      const newStandaloneDocsExports = { default: jest.fn() };
+    describe('when a mdx docs file changes', () => {
+      const newUnattachedDocsExports = { default: jest.fn() };
 
       const newImportFn = jest.fn(async (path: string) => {
-        return path === './src/Introduction.mdx' ? newStandaloneDocsExports : importFn(path);
+        return path === './src/Introduction.mdx' ? newUnattachedDocsExports : importFn(path);
       });
 
       it('renders with the generated docs parameters', async () => {
@@ -3117,7 +3117,7 @@ describe('PreviewWeb', () => {
         expect(docsRenderer.render).toHaveBeenCalledWith(
           expect.any(Object),
           expect.objectContaining({
-            page: newStandaloneDocsExports.default,
+            page: newUnattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
           'docs-element',

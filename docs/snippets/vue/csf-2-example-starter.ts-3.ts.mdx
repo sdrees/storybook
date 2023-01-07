@@ -1,10 +1,12 @@
 ```ts
 // CSF 2
+
 import { Meta, StoryFn } from '@storybook/vue3';
+
 import Button from './Button.vue';
 
 export default {
-  title: 'components/Button',
+  title: 'Button',
   component: Button,
 } as Meta<typeof Button>;
 
@@ -15,8 +17,5 @@ export const Primary: StoryFn<typeof Button> = (args) => ({
   },
   template: '<Button v-bind="args" />',
 });
-Primary.args = {
-  primary: true,
-  label: 'Button',
-};
+Primary.args = { primary: true };
 ```

@@ -59,7 +59,7 @@ WithCustomNgComponentOutletWrapper.argTypes = {
   name: { control: 'text' },
   color: { control: 'color' },
 };
-WithCustomNgComponentOutletWrapper.args = { name: 'Dixie Normous', color: 'green' };
+WithCustomNgComponentOutletWrapper.args = { name: 'Color', color: 'green' };
 WithCustomNgComponentOutletWrapper.decorators = [
   moduleMetadata({
     declarations: [NgComponentOutletWrapperComponent],

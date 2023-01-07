@@ -103,11 +103,13 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 <CodeSnippets
   paths={[
     'react/my-component-story-use-globaltype.js.mdx',
+    'react/my-component-story-use-globaltype.ts.mdx',
     'vue/my-component-story-use-globaltype.js.mdx',
     'vue/my-component-story-use-globaltype.ts.mdx',
     'angular/my-component-story-use-globaltype.ts.mdx',
     'svelte/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',
+    'web-components/my-component-story-use-globaltype.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype"
@@ -128,6 +130,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'angular/my-component-story-use-globaltype-backwards-compat.ts.mdx',
     'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
     'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
+    'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
   ]}
 />
 

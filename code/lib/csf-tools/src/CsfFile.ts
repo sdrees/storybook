@@ -3,9 +3,9 @@ import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as generate from '@babel/generator';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';

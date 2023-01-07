@@ -2,9 +2,9 @@
 import fs from 'fs-extra';
 
 import * as t from '@babel/types';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as generate from '@babel/generator';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as traverse from '@babel/traverse';
 import { babelParse } from './babelParse';
 

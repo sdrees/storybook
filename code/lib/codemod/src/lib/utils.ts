@@ -1,5 +1,5 @@
-import camelCase from 'lodash/camelCase';
-import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase.js';
+import upperFirst from 'lodash/upperFirst.js';
 
 export const sanitizeName = (name: string) => {
   let key = upperFirst(camelCase(name));

@@ -32,8 +32,8 @@ import { addons } from '../addons';
 import { StoryStore } from '../../store';
 
 import { StoryRender } from './render/StoryRender';
-import type { TemplateDocsRender } from './render/TemplateDocsRender';
-import type { StandaloneDocsRender } from './render/StandaloneDocsRender';
+import type { CsfDocsRender } from './render/CsfDocsRender';
+import type { MdxDocsRender } from './render/MdxDocsRender';
 
 const { fetch } = global;
 
@@ -339,10 +339,7 @@ export class Preview<TFramework extends Renderer> {
   }
 
   async teardownRender(
-    render:
-      | StoryRender<TFramework>
-      | TemplateDocsRender<TFramework>
-      | StandaloneDocsRender<TFramework>,
+    render: StoryRender<TFramework> | CsfDocsRender<TFramework> | MdxDocsRender<TFramework>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

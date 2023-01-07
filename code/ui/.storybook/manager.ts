@@ -1,5 +1,5 @@
 import { addons } from '@storybook/manager-api';
-import startCase from 'lodash/startCase';
+import startCase from 'lodash/startCase.js';
 
 addons.setConfig({
   sidebar: {

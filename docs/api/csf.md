@@ -27,6 +27,7 @@ The `component` field is required and used by addons for automatic prop table ge
 <CodeSnippets
   paths={[
     'common/my-component-story-mandatory-export.js.mdx',
+    'common/my-component-story-mandatory-export.ts.mdx',
   ]}
 />
 
@@ -45,8 +46,11 @@ With CSF, every named export in the file represents a story object by default.
     'react/my-component-story-basic-and-props.js.mdx',
     'react/my-component-story-basic-and-props.ts.mdx',
     'vue/my-component-story-basic-and-props.js.mdx',
+    'vue/my-component-story-basic-and-props.ts.mdx',
     'svelte/my-component-story-basic-and-props.js.mdx',
     'angular/my-component-story-basic-and-props.ts.mdx',
+    'web-components/my-component-story-basic-and-props.js.mdx',
+    'web-components/my-component-story-basic-and-props.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-my-component-story-basic-and-props"
@@ -75,6 +79,7 @@ Storybook's `name` configuration element is helpful in specific circumstances. C
 <CodeSnippets
   paths={[
     'common/my-component-story-with-storyname.js.mdx',
+    'common/my-component-story-with-storyname.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-my-component-story-with-storyname"
@@ -95,9 +100,13 @@ Consider Storybook’s ["Button" example](../writing-stories/introduction.md#def
     'react/button-story-click-handler.js.mdx',
     'react/button-story-click-handler.ts.mdx',
     'vue/button-story-click-handler.2.js.mdx',
+    'vue/button-story-click-handler.ts-2.ts.mdx',
     'vue/button-story-click-handler.3.js.mdx',
+    'vue/button-story-click-handler.ts-3.ts.mdx',
     'svelte/button-story-click-handler.js.mdx',
     'angular/button-story-click-handler.ts.mdx',
+    'web-components/button-story-click-handler.js.mdx',
+    'web-components/button-story-click-handler.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler"
@@ -112,10 +121,15 @@ Now consider the same example, re-written with args:
 <CodeSnippets
   paths={[
     'react/button-story-click-handler-args.js.mdx',
+    'react/button-story-click-handler-args.ts.mdx',
     'vue/button-story-click-handler-args.2.js.mdx',
+    'vue/button-story-click-handler-args.ts-2.ts.mdx',
     'vue/button-story-click-handler-args.3.js.mdx',
+    'vue/button-story-click-handler-args.ts-3.ts.mdx',
     'angular/button-story-click-handler-args.ts.mdx',
     'svelte/button-story-click-handler-args.js.mdx',
+    'web-components/button-story-click-handler-args.js.mdx',
+    'web-components/button-story-click-handler-args.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler-args"
@@ -130,8 +144,12 @@ Or even more simply:
 <CodeSnippets
   paths={[
     'react/button-story-click-handler-simplificated.js.mdx',
+    'react/button-story-click-handler-simplificated.ts.mdx',
     'angular/button-story-click-handler-simplificated.ts.mdx',
     'vue/button-story-click-handler-simplificated.js.mdx',
+    'vue/button-story-click-handler-simplificated.ts.mdx',
+    'web-components/button-story-click-handler-simplificated.js.mdx',
+    'web-components/button-story-click-handler-simplificated.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler-simplificated"
@@ -157,7 +175,9 @@ A good use case for the `play` function is a form component. With previous Story
     'react/login-form-with-play-function.ts.mdx',
     'angular/login-form-with-play-function.ts.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
+    'vue/login-form-with-play-function.ts-2.ts.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
+    'vue/login-form-with-play-function.ts-3.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
   ]}
   usesCsf3
@@ -183,6 +203,7 @@ Starting in Storybook 6.4, you can write your stories as JavaScript objects, red
    'vue/component-story-with-custom-render-function.ts.mdx',
    'preact/component-story-with-custom-render-function.js.mdx',
    'web-components/component-story-with-custom-render-function.js.mdx',
+   'web-components/component-story-with-custom-render-function.ts.mdx',
   ]}
   usesCsf3
 />
@@ -231,9 +252,13 @@ Consider the following story file:
     'react/my-component-story-with-nonstory.js.mdx',
     'react/my-component-story-with-nonstory.ts.mdx',
     'vue/my-component-story-with-nonstory.2.js.mdx',
+    'vue/my-component-story-with-nonstory.ts-2.ts.mdx',
     'vue/my-component-story-with-nonstory.3.js.mdx',
+    'vue/my-component-story-with-nonstory.ts-3.ts.mdx',
     'svelte/my-component-story-with-nonstory.js.mdx',
-    'angular/my-component-story-with-nonstory.ts.mdx'
+    'angular/my-component-story-with-nonstory.ts.mdx',
+    'web-components/my-component-story-with-nonstory.js.mdx',
+    'web-components/my-component-story-with-nonstory.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-my-component-story-with-nonstory"
@@ -270,6 +295,7 @@ In CSF 2, the named exports are always functions that instantiate a component, a
     'vue/csf-2-example-starter.ts-3.ts.mdx',
     'angular/csf-2-example-starter.ts.mdx',
     'web-components/csf-2-example-starter.js.mdx',
+    'web-components/csf-2-example-starter.ts.mdx',
   ]}
 />
 
@@ -288,6 +314,8 @@ Here's the CSF 3 equivalent:
     'vue/csf-3-example-starter.ts-2.ts.mdx',
     'vue/csf-3-example-starter.ts-3.ts.mdx',
     'angular/csf-3-example-starter.ts.mdx',
+    'web-components/csf-3-example-starter.js.mdx',
+    'web-components/csf-3-example-starter.ts.mdx',
   ]}
 />
 
@@ -340,10 +368,14 @@ Let's start with a simple CSF 2 story function:
 <CodeSnippets
   paths={[
     'react/csf-2-example-story.js.mdx',
+    'react/csf-2-example-story.ts.mdx',
     'vue/csf-2-example-story.2.js.mdx',
+    'vue/csf-2-example-story.ts-2.ts.mdx',
     'vue/csf-2-example-story.3.js.mdx',
+    'vue/csf-2-example-story.ts-3.ts.mdx',
     'angular/csf-2-example-story.ts.mdx',
     'web-components/csf-2-example-story.js.mdx',
+    'web-components/csf-2-example-story.ts.mdx',
   ]}
 />
 
@@ -356,10 +388,14 @@ Now, let's rewrite it as a story object in CSF 3 with an explicit `render` funct
 <CodeSnippets
   paths={[
     'react/csf-3-example-render.js.mdx',
+    'react/csf-3-example-render.ts.mdx',
     'vue/csf-3-example-render.2.js.mdx',
+    'vue/csf-3-example-render.ts-2.ts.mdx',
     'vue/csf-3-example-render.3.js.mdx',
+    'vue/csf-3-example-render.ts-3.ts.mdx',
     'angular/csf-3-example-render.ts.mdx',
     'web-components/csf-3-example-render.js.mdx',
+    'web-components/csf-3-example-render.ts.mdx',
   ]}
 />
 

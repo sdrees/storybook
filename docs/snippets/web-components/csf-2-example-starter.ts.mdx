@@ -1,0 +1,18 @@
+```ts
+// CSF 2
+
+import { html } from 'lit-html';
+
+import { Meta, Story } from '@storybook/web-components';
+
+export default {
+  title: 'custom-button',
+  component: 'custom-button',
+} as Meta;
+
+export const Primary: Story = ({ primary }) =>
+  html`<custom-button ?primary=${primary}></custom-button>`;
+Primary.args = {
+  primary: true,
+};
+```

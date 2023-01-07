@@ -457,7 +457,7 @@ describe('stories API', () => {
           name: 'Docs',
           importPath: './path/to/component-b.ts',
           storiesImports: [],
-          standalone: false,
+          tags: ['stories-mdx'],
         },
         'component-c--story-4': {
           type: 'story',
@@ -1077,7 +1077,6 @@ describe('stories API', () => {
           ...navigationEntries,
           'intro--docs': {
             type: 'docs',
-            standalone: true,
             id: 'intro--docs',
             title: 'Intro',
             name: 'Page',

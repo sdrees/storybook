@@ -31,6 +31,7 @@
     - [`useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook](#useselectedlayoutsegment-and-useselectedlayoutsegments-hook)
     - [Default Navigation Context](#default-navigation-context)
     - [Actions Integration Caveats](#actions-integration-caveats-1)
+  - [Next.js Head](#nextjs-head)
   - [Sass/Scss](#sassscss)
   - [Css/Sass/Scss Modules](#csssassscss-modules)
   - [Styled JSX](#styled-jsx)
@@ -53,6 +54,8 @@
 👉 [Next.js Font Optimization](#nextjs-font-optimization)
 
 👉 [Next.js Routing (next/router)](#nextjs-routing)
+
+👉 [Next.js Head (next/head)](#nextjs-head)
 
 👉 [Next.js Navigation (next/navigation)](#nextjs-navigation)
 
@@ -598,6 +601,10 @@ export const parameters = {
   },
 };
 ```
+
+### Next.js Head
+
+[next/head](https://nextjs.org/docs/api-reference/next/head) is supported out of the box. You can use it in your stories like you would in your Next.js application. Please keep in mind, that the Head children are placed into the head element of the iframe that Storybook uses to render your stories.
 
 ### Sass/Scss
 

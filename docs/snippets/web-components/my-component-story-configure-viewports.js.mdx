@@ -1,25 +1,20 @@
 ```js
-// my-component.stories.js
-
-import { MyComponent } from'./my-component';
+// MyComponent.stories.js
 
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/web-components/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
   title: 'MyComponent',
+  component: 'my-component',
   parameters: {
     //👇 The viewports object from the Essentials addon
     viewport: {
       //👇 The viewports you want to use
       viewports: INITIAL_VIEWPORTS,
       //👇 Your own default viewport
-      defaultViewport: 'iphone6'
+      defaultViewport: 'iphone6',
     },
-  };
+  },
 };
 
 /*
@@ -27,11 +22,10 @@ export default {
  * See https://storybook.js.org/docs/7.0/web-components/api/csf
  * to learn how to use render functions.
  */
-export const InitialButton = {
-  render: () => MyComponent(),
+export const MyStory = {
   parameters: {
     viewport: {
-      defaultViewport: 'iphonex'
+      defaultViewport: 'iphonex',
     },
   },
 };

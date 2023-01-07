@@ -23,6 +23,8 @@ This is extremely useful, but it can be further expanded. Additional information
     'vue/button-component-with-proptypes.2.mdx',
     'vue/button-component-with-proptypes.3.mdx',
     'svelte/button-component-with-proptypes.js.mdx',
+    'web-components/button-component-with-proptypes.js.mdx',
+    'web-components/button-component-with-proptypes.ts.mdx',
   ]}
 />
 
@@ -126,6 +128,8 @@ You can also extend the ArgsTable's customization by grouping related `argTypes`
     'vue/button-implementation.2.mdx',
     'vue/button-implementation.3.mdx',
     'svelte/button-implementation.js.mdx',
+    'web-components/button-implementation.js.mdx',
+    'web-components/button-implementation.ts.mdx',
   ]}
 />
 

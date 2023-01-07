@@ -3,7 +3,7 @@ import slash from 'slash';
 import fs from 'fs';
 import path from 'path';
 import glob from 'globby';
-import uniq from 'lodash/uniq';
+import uniq from 'lodash/uniq.js';
 
 import type { NormalizedStoriesSpecifier, Path } from '@storybook/types';
 

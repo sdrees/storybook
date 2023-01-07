@@ -31,7 +31,7 @@ export const componentTwoExports = {
   default: { title: 'Component Two' },
   c: { args: { foo: 'c' } },
 };
-export const standaloneDocsExports = {
+export const unattachedDocsExports = {
   default: jest.fn(),
 };
 // If a second file defines stories for componentOne
@@ -49,7 +49,7 @@ export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
     ({
       './src/ComponentOne.stories.js': componentOneExports,
       './src/ComponentTwo.stories.js': componentTwoExports,
-      './src/Introduction.mdx': standaloneDocsExports,
+      './src/Introduction.mdx': unattachedDocsExports,
       './src/ExtraComponentOne.stories.js': extraComponentOneExports,
     }[path] || {})
 );
@@ -79,7 +79,7 @@ export const storyIndex: StoryIndex = {
       name: 'Docs',
       importPath: './src/ComponentOne.stories.js',
       storiesImports: ['./src/ExtraComponentOne.stories.js'],
-      standalone: false,
+      tags: ['autodocs'],
     },
     'component-one--a': {
       type: 'story',
@@ -109,7 +109,7 @@ export const storyIndex: StoryIndex = {
       name: 'Docs',
       importPath: './src/ComponentTwo.stories.js',
       storiesImports: [],
-      standalone: false,
+      tags: ['autodocs'],
     },
     'component-two--c': {
       type: 'story',
@@ -125,7 +125,6 @@ export const storyIndex: StoryIndex = {
       name: 'Docs',
       importPath: './src/Introduction.mdx',
       storiesImports: ['./src/ComponentTwo.stories.js'],
-      standalone: true,
     },
   },
 };

@@ -1,6 +1,7 @@
-import { join, parse, relative } from 'path';
-import fs from 'fs-extra';
 import findCacheDirectory from 'find-cache-dir';
+import fs from 'fs-extra';
+import { join, parse, relative } from 'node:path';
+import slash from 'slash';
 /**
  * Manager entries should be **self-invoking** bits of code.
  * They can of-course import from modules, and ESbuild will bundle all of that into a single file.
@@ -29,7 +30,7 @@ export async function wrapManagerEntries(entrypoints: string[]) {
 
       const location = join(cacheLocation, relative(process.cwd(), dir), `${name}-bundle.mjs`);
       await fs.ensureFile(location);
-      await fs.writeFile(location, `import '${entry}';`);
+      await fs.writeFile(location, `import '${slash(entry)}';`);
 
       return location;
     })

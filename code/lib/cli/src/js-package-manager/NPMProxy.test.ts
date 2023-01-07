@@ -47,16 +47,12 @@ describe('NPM Proxy', () => {
       });
     });
     describe('npm7', () => {
-      it('should run `npm install --legacy-peer-deps`', () => {
+      it('should run `npm install`', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.1.0');
 
         npmProxy.installDependencies();
 
-        expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          'npm',
-          ['install', '--legacy-peer-deps'],
-          expect.any(String)
-        );
+        expect(executeCommandSpy).toHaveBeenLastCalledWith('npm', ['install'], expect.any(String));
       });
     });
   });
@@ -83,7 +79,7 @@ describe('NPM Proxy', () => {
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['install', '--legacy-peer-deps', '-D', '@storybook/preview-api'],
+          ['install', '-D', '@storybook/preview-api'],
           expect.any(String)
         );
       });
@@ -112,7 +108,7 @@ describe('NPM Proxy', () => {
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['uninstall', '--legacy-peer-deps', '@storybook/preview-api'],
+          ['uninstall', '@storybook/preview-api'],
           expect.any(String)
         );
       });

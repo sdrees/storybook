@@ -658,12 +658,11 @@ describe('StoryStore', () => {
     });
 
     it('does not include (modern) docs entries ever', async () => {
-      const docsOnlyStoryIndex: StoryIndex = {
+      const unnattachedStoryIndex: StoryIndex = {
         v: 4,
         entries: {
           ...storyIndex.entries,
           'introduction--docs': {
-            standalone: true,
             type: 'docs',
             id: 'introduction--docs',
             title: 'Introduction',
@@ -676,7 +675,7 @@ describe('StoryStore', () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
       store.initialize({
-        storyIndex: docsOnlyStoryIndex,
+        storyIndex: unnattachedStoryIndex,
         importFn,
         cache: false,
       });

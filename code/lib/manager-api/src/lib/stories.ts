@@ -1,6 +1,7 @@
 import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
-import countBy from 'lodash/countBy';
+import countBy from 'lodash/countBy.js';
+import mapValues from 'lodash/mapValues.js';
 import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
@@ -20,8 +21,6 @@ import type {
   API_HashEntry,
   SetStoriesPayload,
 } from '@storybook/types';
-
-import mapValues from 'lodash/mapValues';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters } from '../index';
 import merge from './merge';
@@ -69,7 +68,7 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
       if (docsOnly) {
         acc[id] = {
           type: 'docs',
-          standalone: false,
+          tags: ['stories-mdx'],
           storiesImports: [],
           ...base,
         };
@@ -106,7 +105,7 @@ const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStoryIndex 
       }
       acc[entry.id] = {
         type,
-        ...(type === 'docs' && { standalone: false, storiesImports: [] }),
+        ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
         ...entry,
       };
       return acc;
