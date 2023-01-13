@@ -10,7 +10,7 @@ export default {
 };
 
 export const KeydownDuringPlay = {
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
 
     const previewKeydown = jest.fn();

@@ -2,7 +2,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 declare module '@storybook/components/src/treeview/utils';
 
-declare var FEATURES: any;
+declare var FEATURES:
+  | {
+      storyStoreV7?: boolean;
+      interactionsDebugger?: boolean;
+      breakingChangesV7?: boolean;
+      argTypeTargetsV7?: boolean;
+    }
+  | undefined;
+
 declare var SERVER_CHANNEL_URL: any;
 
 declare var __REACT__: any;

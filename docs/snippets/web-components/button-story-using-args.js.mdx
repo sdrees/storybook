@@ -1,24 +1,12 @@
 ```js
-// demo-button.stories.js
-
-import { Button } from './demo-button';
+// Button.stories.js
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/web-components/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
   title: 'Button',
+  component: 'demo-button',
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/web-components/api/csf
- * to learn how to use render functions.
- */
-
 export const Primary = {
-  render: (args) => Button(args),
   args: {
     background: '#ff0',
     label: 'Button',
@@ -26,7 +14,6 @@ export const Primary = {
 };
 
 export const Secondary = {
-  render: (args) => Button(args),
   args: {
     ...Primary.args,
     label: '😄👍😍💯',
@@ -34,7 +21,6 @@ export const Secondary = {
 };
 
 export const Tertiary = {
-  render: (args) => Button(args),
   args: {
     ...Primary.args,
     label: '📚📕📈🤓',

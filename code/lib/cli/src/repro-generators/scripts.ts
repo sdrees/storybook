@@ -31,6 +31,8 @@ export interface Parameters {
   }[];
   /** Add typescript dependency and creates a tsconfig.json file */
   typescript?: boolean;
+  /** Environment variables to inject while running generator */
+  envs?: Record<string, string>;
 }
 
 interface Configuration {
@@ -165,13 +167,13 @@ const configureYarn2ForE2E = async ({ cwd }: Options) => {
   );
 };
 
-const generate = async ({ cwd, name, appName, version, generator }: Options) => {
+const generate = async ({ cwd, name, appName, version, generator, envs }: Options) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = generator.replace(/{{appName}}/g, appName).replace(/{{version}}/g, version);
 
   await exec(
     command,
-    { cwd },
+    { cwd, env: { ...process.env, ...envs } },
     {
       startMessage: `🏗 Bootstrapping ${name} project (this might take a few minutes)`,
       errorMessage: `🚨 Bootstrapping ${name} failed`,

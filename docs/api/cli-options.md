@@ -34,7 +34,6 @@ Usage: start-storybook [options]
 | `--ci`                          | CI mode (skip interactive prompts, don't open browser)<br/>`start-storybook --ci`                                                                                           |
 | `--no-open`                     | Do not open Storybook automatically in the browser<br/>`start-storybook --no-open`                                                                                          |
 | `--quiet`                       | Suppress verbose build output<br/>`start-storybook --quiet`                                                                                                                 |
-| `--no-dll`                      | Do not use dll reference (no-op)<br/>`start-storybook --no-dll`                                                                                                             |
 | `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`start-storybook --debug-webpack`                                                                           |
 | `--webpack-stats-json`          | Write Webpack Stats JSON to disk<br/>`start-storybook --webpack-stats-json /tmp/webpack-stats`                                                                              |
 | `--docs`                        | Starts Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#preview-storybooks-documentation)<br/>`start-storybook --docs` |
@@ -66,7 +65,6 @@ Usage: build-storybook [options]
 | `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from<br/>`build-storybook -c .storybook`                                                                                   |
 | `--loglevel [level]`            | Controls level of logging during build.<br/> Available options: `silly`, `verbose`, `info` (default), `warn`, `error`, `silent`<br/>`build-storybook --loglevel warn`       |
 | `--quiet`                       | Suppress verbose build output<br/>`build-storybook --quiet`                                                                                                                 |
-| `--no-dll`                      | Do not use dll reference (no-op)<br/>`build-storybook --no-dll`                                                                                                             |
 | `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`build-storybook --debug-webpack`                                                                           |
 | `--webpack-stats-json`          | Write Webpack Stats JSON to disk<br/>`build-storybook --webpack-stats-json /my-storybook/webpack-stats`                                                                     |
 | `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`build-storybook --docs` |

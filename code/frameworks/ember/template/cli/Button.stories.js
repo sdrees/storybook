@@ -12,6 +12,8 @@ export default {
   argTypes: {
     label: { control: 'text' },
   },
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/7.0/react/writing-docs/docs-page
+  tags: ['autodocs'],
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/7.0/ember/writing-stories/args

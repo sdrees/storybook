@@ -8,5 +8,5 @@ export function someHelper() {
 }
 
 storiesOf('ComponentItem', module)
-  .addDecorator(storyFn => <div style={{ margin: '1rem' }}>{storyFn()}</div>)
+  .addDecorator((storyFn) => <div style={{ margin: '1rem' }}>{storyFn()}</div>)
   .add('loading', () => <ComponentItem loading />);

@@ -4,6 +4,7 @@ import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
 import { MdxDocsRender } from './MdxDocsRender';
+import { csfFileParts } from '../docs-context/test-utils';
 
 const entry = {
   type: 'docs',
@@ -22,28 +23,58 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   return [gate, openGate];
 };
 
-describe('MdxDocsRender', () => {
-  it('throws PREPARE_ABORTED if torndown during prepare', async () => {
-    const [importGate, openImportGate] = createGate();
-    const mockStore = {
-      loadEntry: jest.fn(async () => {
-        await importGate;
-        return {};
-      }),
-    };
+it('throws PREPARE_ABORTED if torndown during prepare', async () => {
+  const [importGate, openImportGate] = createGate();
+  const mockStore = {
+    loadEntry: jest.fn(async () => {
+      await importGate;
+      return {};
+    }),
+  };
 
-    const render = new MdxDocsRender(
-      new Channel(),
-      mockStore as unknown as StoryStore<Renderer>,
-      entry
-    );
+  const render = new MdxDocsRender(
+    new Channel(),
+    mockStore as unknown as StoryStore<Renderer>,
+    entry
+  );
 
-    const preparePromise = render.prepare();
+  const preparePromise = render.prepare();
 
-    render.teardown();
+  render.teardown();
 
-    openImportGate();
+  openImportGate();
 
-    await expect(preparePromise).rejects.toThrowError(PREPARE_ABORTED);
+  await expect(preparePromise).rejects.toThrowError(PREPARE_ABORTED);
+});
+
+describe('attaching', () => {
+  const { story, csfFile, moduleExports } = csfFileParts();
+  const store = {
+    loadEntry: () => ({
+      entryExports: moduleExports,
+      csfFiles: [csfFile],
+    }),
+    processCSFFileWithCache: () => csfFile,
+    componentStoriesFromCSFFile: () => [story],
+    storyFromCSFFile: () => story,
+  } as unknown as StoryStore<Renderer>;
+
+  it('is not attached if you do not call setMeta', async () => {
+    const render = new MdxDocsRender(new Channel(), store, entry);
+    await render.prepare();
+
+    const context = render.docsContext(jest.fn());
+
+    expect(context.storyById).toThrow('No primary story defined');
+  });
+
+  it('is attached if you call referenceMeta with attach=true', async () => {
+    const render = new MdxDocsRender(new Channel(), store, entry);
+    await render.prepare();
+
+    const context = render.docsContext(jest.fn());
+    context.referenceMeta(moduleExports, true);
+
+    expect(context.storyById()).toEqual(story);
   });
 });

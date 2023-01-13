@@ -85,19 +85,28 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
     );
   }
 
+  docsContext(renderStoryToElement: DocsContextProps['renderStoryToElement']) {
+    if (!this.csfFiles) throw new Error('Cannot render docs before preparing');
+    const docsContext = new DocsContext<TRenderer>(
+      this.channel,
+      this.store,
+      renderStoryToElement,
+      this.csfFiles
+    );
+    // All referenced CSF files should be attached for CSF docs
+    //  - When you create two CSF files that both reference the same title, they are combined into
+    //    a single CSF docs entry with a `storiesImport` defined.
+    this.csfFiles.forEach((csfFile) => docsContext.attachCSFFile(csfFile));
+    return docsContext;
+  }
+
   async renderToElement(
     canvasElement: TRenderer['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
 
-    const docsContext = new DocsContext<TRenderer>(
-      this.channel,
-      this.store,
-      renderStoryToElement,
-      this.csfFiles,
-      true
-    );
+    const docsContext = this.docsContext(renderStoryToElement);
 
     const { docs: docsParameter } = this.story.parameters || {};
 

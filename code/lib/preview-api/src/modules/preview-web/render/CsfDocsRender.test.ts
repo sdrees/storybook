@@ -4,6 +4,7 @@ import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
 import { CsfDocsRender } from './CsfDocsRender';
+import { csfFileParts } from '../docs-context/test-utils';
 
 const entry = {
   type: 'docs',
@@ -23,28 +24,47 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   return [gate, openGate];
 };
 
-describe('CsfDocsRender', () => {
-  it('throws PREPARE_ABORTED if torndown during prepare', async () => {
-    const [importGate, openImportGate] = createGate();
-    const mockStore = {
-      loadEntry: jest.fn(async () => {
-        await importGate;
-        return {};
-      }),
-    };
+it('throws PREPARE_ABORTED if torndown during prepare', async () => {
+  const [importGate, openImportGate] = createGate();
+  const mockStore = {
+    loadEntry: jest.fn(async () => {
+      await importGate;
+      return {};
+    }),
+  };
 
-    const render = new CsfDocsRender(
-      new Channel(),
-      mockStore as unknown as StoryStore<Renderer>,
-      entry
-    );
+  const render = new CsfDocsRender(
+    new Channel(),
+    mockStore as unknown as StoryStore<Renderer>,
+    entry
+  );
 
-    const preparePromise = render.prepare();
+  const preparePromise = render.prepare();
 
-    render.teardown();
+  render.teardown();
 
-    openImportGate();
+  openImportGate();
 
-    await expect(preparePromise).rejects.toThrowError(PREPARE_ABORTED);
-  });
+  await expect(preparePromise).rejects.toThrowError(PREPARE_ABORTED);
+});
+
+it('attached immediately', async () => {
+  const { story, csfFile, moduleExports } = csfFileParts();
+
+  const store = {
+    loadEntry: () => ({
+      entryExports: moduleExports,
+      csfFiles: [],
+    }),
+    processCSFFileWithCache: () => csfFile,
+    componentStoriesFromCSFFile: () => [story],
+    storyFromCSFFile: () => story,
+  } as unknown as StoryStore<Renderer>;
+
+  const render = new CsfDocsRender(new Channel(), store, entry);
+  await render.prepare();
+
+  const context = render.docsContext(jest.fn());
+
+  expect(context.storyById()).toEqual(story);
 });

@@ -1,26 +1,16 @@
 ```js
-// my-list.stories.js|jsx
+// MyList.stories.js
 
-import { html } from 'lit';
+import { html } from 'lit-html';
 
-import './my-list';
-
-//👇 Instead of importing my-list-item, we import the stories
-import { Unchecked } from './my-list-item.stories';
+// 👇 Import the stories of MyListItem
+import { Unchecked } from './MyListItem.stories';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/web-components/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'my-list',
+  title: 'MyList',
+  component: 'demo-my-list',
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/web-components/api/csf
- * to learn how to use render functions.
- */
 export const OneItem = {
   render: () => html` <List> ${Unchecked({ ...Unchecked.args })} </List> `,
 };

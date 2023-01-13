@@ -15,6 +15,7 @@ Check out our [Frameworks API](https://storybook.js.org/blog/framework-api/) ann
     - [Manual migration](#manual-migration)
 - [Troubleshooting](#troubleshooting)
   - [Error: `ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared` when starting Storybook](#error-err-syntaxerror-identifier-__esbuild_register_import_meta_url__-has-already-been-declared-when-starting-storybook)
+  - [Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview](#error-cannot-read-properties-of-undefined-reading-disable_scroll_handling-in-preview)
 - [Acknowledgements](#acknowledgements)
 
 ## Supported features
@@ -22,20 +23,20 @@ Check out our [Frameworks API](https://storybook.js.org/blog/framework-api/) ann
 All Svelte language features are supported out of the box, as Storybook uses the Svelte compiler underneath.
 However SvelteKit has some [Kit-specific modules](https://kit.svelte.dev/docs/modules) that currently aren't supported. It's on our roadmap to support most of them soon:
 
-| **Module**                                                                         | **Status**                                                                                                             |
-| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| [`$app/environment`](https://kit.svelte.dev/docs/modules#$app-environment)         | 🔜 Coming in 7.0                                                                                                       |
-| [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms)                     | ⏳ Planned for 7.1                                                                                                     |
-| [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation)           | ⏳ Planned for 7.1. With mocks so the Actions addon will display when the hooks are being called.                      |
-| [`$app/paths`](https://kit.svelte.dev/docs/modules#$app-paths)                     | ⏳ Planned for 7.1                                                                                                     |
-| [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores)                   | 🔜 Coming in 7.0. Mocks are planned for 7.1 so you can set different store values per story.                           |
-| [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private) | ⛔ Not supported. They are meant to only be available server-side, and Storybook renders all components on the client. |
-| [`$env/dynamic/public`](https://kit.svelte.dev/docs/modules#$env-dynamic-public)   | 🔜 Coming in 7.0                                                                                                       |
-| [`$env/static/private`](https://kit.svelte.dev/docs/modules#$env-static-private)   | ⛔ Not supported. They are meant to only be available server-side, and Storybook renders all components on the client. |
-| [`$env/static/public`](https://kit.svelte.dev/docs/modules#$env-static-public)     | 🔜 Coming in 7.0                                                                                                       |
-| [`$lib`](https://kit.svelte.dev/docs/modules#$lib)                                 | 🔜 Coming in 7.0                                                                                                       |
-| [`$service-worker`](https://kit.svelte.dev/docs/modules#$service-worker)           | ⛔ Not supported. They are only meant to be used in service workers                                                    |
-| [`@sveltejs/kit/*`](https://kit.svelte.dev/docs/modules#sveltejs-kit)              | ✅ Supported                                                                                                           |
+| **Module**                                                                         | **Status**                                                                                        | **Note**                                                                                                                |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| [`$app/environment`](https://kit.svelte.dev/docs/modules#$app-environment)         | ✅ Supported                                                                                      | `version` is always empty in Storybook.                                                                                 |
+| [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms)                     | ⏳ Planned for 7.1                                                                                | See [section in Troubleshooting](#error-cannot-read-properties-of-undefined-reading-disable_scroll_handling-in-preview) |
+| [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation)           | ⏳ Planned for 7.1. With mocks so the Actions addon will display when the hooks are being called. | See [section in Troubleshooting](#error-cannot-read-properties-of-undefined-reading-disable_scroll_handling-in-preview) |
+| [`$app/paths`](https://kit.svelte.dev/docs/modules#$app-paths)                     | ⏳ Planned for 7.1.                                                                               |                                                                                                                         |
+| [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores)                   | ✅ Supported                                                                                      | Mocks planned for 7.1, so you can set different store values per story.                                                 |
+| [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private) | ⛔ Not supported                                                                                  | They are meant to only be available server-side, and Storybook renders all components on the client.                    |
+| [`$env/dynamic/public`](https://kit.svelte.dev/docs/modules#$env-dynamic-public)   | 🚧 Partially supported                                                                            | Only supported in development mode.                                                                                     |
+| [`$env/static/private`](https://kit.svelte.dev/docs/modules#$env-static-private)   | ⛔ Not supported                                                                                  | They are meant to only be available server-side, and Storybook renders all components on the client.                    |
+| [`$env/static/public`](https://kit.svelte.dev/docs/modules#$env-static-public)     | ✅ Supported                                                                                      |                                                                                                                         |
+| [`$lib`](https://kit.svelte.dev/docs/modules#$lib)                                 | ✅ Supported                                                                                      |                                                                                                                         |
+| [`$service-worker`](https://kit.svelte.dev/docs/modules#$service-worker)           | ⛔ Not supported                                                                                  | They are only meant to be used in service workers                                                                       |
+| [`@sveltejs/kit/*`](https://kit.svelte.dev/docs/modules#sveltejs-kit)              | ✅ Supported                                                                                      |                                                                                                                         |
 
 This is just the beginning. We're close to adding basic support for many of the SvelteKit features. Longer term we're planning on making it an even better experience to [build](https://storybook.js.org/docs/7.0/react/writing-stories/introduction), [test](https://storybook.js.org/docs/7.0/react/writing-tests/introduction) and [document](https://storybook.js.org/docs/7.0/react/writing-docs/introduction) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
 
@@ -110,6 +111,16 @@ yarn remove @storybook/builder-vite
 > ```
 
 You'll get this error when manually upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.cjs`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
+
+### Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview
+
+> Some stories don't load, instead they show the following error in the preview:
+>
+> ```
+> Cannot read properties of undefined (reading 'disable_scroll_handling')
+> ```
+
+You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
 
 ## Acknowledgements
 

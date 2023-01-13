@@ -38,9 +38,11 @@
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
+    - [Removed DLL flags](#removed-dll-flags)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
+    - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
     - [Autodocs](#autodocs)
     - [Configuring the Docs Container](#configuring-the-docs-container)
     - [External Docs](#external-docs)
@@ -306,8 +308,8 @@ To opt-out of the old behavior you can set the `storyStoreV7` feature flag to `f
 module.exports = {
   features: {
     storyStoreV7: false,
-  }
-}
+  },
+};
 ```
 
 #### Removed global client APIs
@@ -740,6 +742,11 @@ Starting in 7.0, Storybook's build tools add [`"use strict"`](https://developer.
 
 If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behavior, it will need to be updated. As a workaround, it is sometimes possible to move the sloppy mode code inside a script tag in `.storybook/preview-head.html`.
 
+#### Removed DLL flags
+
+Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. In 7.0 those options are removed.
+
+
 ### Docs Changes
 
 The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry, rather than attached to individual stories.
@@ -795,6 +802,13 @@ import * as SecondComponentStories from './second-component.stories';
 
 <Story of={SecondComponentStories.standard} meta={SecondComponentStories} />
 ```
+
+#### Description block, `parameters.notes` and `parameters.info`
+
+In 6.5 the Description doc block accepted a range of different props, `markdown`, `type` and `children` as a way to customize the content.
+The props have been simplified and the block now only accepts an `of` prop, which can be a reference to either a CSF file, a default export (meta) or a story export, depending on which description you want to be shown. See TDB DOCS LINK for a deeper explanation of the new prop.
+
+`parameters.notes` and `parameters.info` have been deprecated as a way to specify descriptions. Instead use JSDoc comments above the default export or story export, or use `parameters.docs.description.story | component` directly. See TDB DOCS LINK for a deeper explanation on how to write descriptions.
 
 #### Autodocs
 
@@ -3812,4 +3826,3 @@ If you **are** using these addons, it takes two steps to migrate:
   ```
 
   <!-- markdown-link-check-enable -->
-

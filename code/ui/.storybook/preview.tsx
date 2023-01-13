@@ -102,7 +102,7 @@ export const loaders = [
    * }
    * The DocsContext will then be added via the decorator below.
    */
-  async ({ parameters: { relativeCsfPaths } }) => {
+  async ({ parameters: { relativeCsfPaths, attached = true } }) => {
     if (!relativeCsfPaths) return {};
     const csfFiles = await Promise.all(
       (relativeCsfPaths as string[]).map(async (blocksRelativePath) => {
@@ -121,15 +121,16 @@ export const loaders = [
         return preview.storyStore.loadCSFFileByStoryId(entry.id);
       })
     );
-    return {
-      docsContext: new DocsContext(
-        channel,
-        preview.storyStore,
-        preview.renderStoryToElement.bind(preview),
-        csfFiles,
-        false
-      ),
-    };
+    const docsContext = new DocsContext(
+      channel,
+      preview.storyStore,
+      preview.renderStoryToElement.bind(preview),
+      csfFiles
+    );
+    if (attached && csfFiles[0]) {
+      docsContext.attachCSFFile(csfFiles[0]);
+    }
+    return { docsContext };
   },
 ];
 

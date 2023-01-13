@@ -1,19 +1,18 @@
 /// <reference types="@types/jest" />;
 
 import { dedent } from 'ts-dedent';
-import { fixMdxScript } from './mdx-1-to-2';
+import { fixMdxStyleTags, fixMdxComments } from './mdx-1-to-2';
 
-describe('fix', () => {
-  it('fixes badly-formatted style blocks', () => {
-    expect(
-      fixMdxScript(dedent`
+it('fixMdxStyleTags fixes badly-formatted style blocks', () => {
+  expect(
+    fixMdxStyleTags(dedent`
         <style>{\`
           .foo {}
         
           .bar {}
         \`}</style>
       `)
-    ).toEqual(dedent`
+  ).toEqual(dedent`
       <style>
         {\`
         .foo {}
@@ -22,11 +21,11 @@ describe('fix', () => {
         \`}
       </style>
     `);
-  });
+});
 
-  it('fixes multiple style blocks', () => {
-    expect(
-      fixMdxScript(dedent`
+it('fixMdxStyleTags fixes multiple style blocks', () => {
+  expect(
+    fixMdxStyleTags(dedent`
         <style>{\`
           .foo {}
         \`}</style>
@@ -34,7 +33,7 @@ describe('fix', () => {
           .bar {}
         \`}</style>
       `)
-    ).toMatchInlineSnapshot(`
+  ).toMatchInlineSnapshot(`
       <style>
         {\`
         .foo {}
@@ -46,5 +45,76 @@ describe('fix', () => {
         \`}
       </style>
     `);
-  });
+});
+
+it('fixMdxComments fixes all comments', () => {
+  expect(
+    fixMdxComments(dedent`
+      # Hello
+      
+      <!-- This is a comment -->
+
+      and this is not
+
+      <!-- This is another comment -->
+    `)
+  ).toMatchInlineSnapshot(`
+    "# Hello
+
+    {/* This is a comment */}
+
+    and this is not
+
+    {/* This is another comment */}"
+  `);
+});
+
+it('fixMdxComments keeps html comments in codeblocks', () => {
+  expect(
+    fixMdxComments(dedent`
+      # Hello
+      
+      ~~~html
+      <!-- This is a comment -->
+      ~~~
+
+      ~~~html
+      <!-- This is a comment -->
+      ~~~
+
+      \`\`\`html
+      <!-- This is a comment -->
+      \`\`\`
+
+      \`\`\`html
+      <!-- This is a comment -->
+      \`\`\`
+
+      and this is not
+
+      <!-- This is another comment -->
+    `)
+  ).toMatchInlineSnapshot(`
+    "# Hello
+
+    ~~~html
+    <!-- This is a comment -->
+    ~~~
+
+    ~~~html
+    <!-- This is a comment -->
+    ~~~
+
+    \`\`\`html
+    <!-- This is a comment -->
+    \`\`\`
+
+    \`\`\`html
+    <!-- This is a comment -->
+    \`\`\`
+
+    and this is not
+
+    {/* This is another comment */}"
+  `);
 });

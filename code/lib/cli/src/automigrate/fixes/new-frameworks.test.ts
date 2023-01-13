@@ -252,6 +252,33 @@ describe('new-frameworks fix', () => {
           })
         );
       });
+
+      it('should update to @storybook/preact-vite', async () => {
+        const packageJson = {
+          dependencies: {
+            '@storybook/preact': '^7.0.0-alpha.0',
+            '@storybook/builder-vite': '^0.0.2',
+            vite: '3.0.0',
+          },
+        };
+        await expect(
+          checkNewFrameworks({
+            packageJson,
+            main: {
+              framework: '@storybook/preact',
+              core: {
+                builder: '@storybook/builder-vite',
+              },
+            },
+          })
+        ).resolves.toEqual(
+          expect.objectContaining({
+            frameworkPackage: '@storybook/preact-vite',
+            dependenciesToAdd: ['@storybook/preact-vite'],
+            dependenciesToRemove: ['@storybook/builder-vite'],
+          })
+        );
+      });
     });
   });
 });

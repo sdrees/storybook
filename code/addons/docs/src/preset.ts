@@ -7,6 +7,7 @@ import type { IndexerOptions, StoryIndexer, DocsOptions, Options } from '@storyb
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions } from '@storybook/mdx2-csf';
 import { loadCsf } from '@storybook/csf-tools';
+import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 async function webpack(
   webpackConfig: any = {},
@@ -163,5 +164,7 @@ const docs = (docsOptions: DocsOptions) => {
 const webpackX = webpack as any;
 const storyIndexersX = storyIndexers as any;
 const docsX = docs as any;
+
+ensureReactPeerDeps();
 
 export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };

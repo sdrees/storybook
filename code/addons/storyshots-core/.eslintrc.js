@@ -7,7 +7,6 @@ module.exports = {
       '@storybook/preact',
       '@storybook/vue',
       '@storybook/svelte',
-      'enzyme',
     ],
   },
 };

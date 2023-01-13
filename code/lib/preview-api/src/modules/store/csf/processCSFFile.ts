@@ -54,7 +54,7 @@ export function processCSFFile<TRenderer extends Renderer>(
   );
   checkDisallowedParameters(meta.parameters);
 
-  const csfFile: CSFFile<TRenderer> = { meta, stories: {} };
+  const csfFile: CSFFile<TRenderer> = { meta, stories: {}, moduleExports };
 
   Object.keys(namedExports).forEach((key) => {
     if (isExportStory(key, meta)) {

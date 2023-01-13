@@ -71,7 +71,6 @@ export const create: Task['run'] = async (
 
 export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
-
   await installYarn2({ cwd, dryRun, debug });
 
   if (link) {
@@ -109,15 +108,6 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
     dryRun,
     debug,
   });
-
-  const mainConfig = await readMainConfig({ cwd });
-  // Enable or disable Storybook features
-  mainConfig.setFieldValue(['features'], {
-    interactionsDebugger: true,
-  });
-
-  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
-  await writeConfig(mainConfig);
 
   logger.info(`🔢 Adding package scripts:`);
   await updatePackageScripts({
@@ -426,5 +416,23 @@ export const addStories: Task['run'] = async (
   // Some addon stories require extra dependencies
   addExtraDependencies({ cwd, dryRun, debug });
 
+  await writeConfig(mainConfig);
+};
+
+export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
+  logger.log('📝 Extending main.js');
+  const mainConfig = await readMainConfig({ cwd: sandboxDir });
+  const templateConfig = template.modifications?.mainConfig || {};
+  const configToAdd = {
+    ...templateConfig,
+    features: {
+      interactionsDebugger: true,
+      ...templateConfig.features,
+    },
+  };
+
+  Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
+
+  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };

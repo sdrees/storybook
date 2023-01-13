@@ -4,7 +4,7 @@ module.exports = {
     '<rootDir>/frameworks/!(angular)*',
     '<rootDir>/lib/*',
     '<rootDir>/renderers/*',
-    '<rootDir>/ui/*',
+    '<rootDir>/ui/!(node_modules)*',
   ],
   collectCoverage: false,
   collectCoverageFrom: [

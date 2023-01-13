@@ -52,6 +52,7 @@ function integrityTest(integrityOptions: any, stories2snapsConverter: any) {
       const snapshotExtension = stories2snapsConverter.getSnapshotExtension();
       const storyshots = glob.sync(`**/*${snapshotExtension}`, integrityOptions);
 
+      // @ts-expect-error (ts doesn't 'get' the extension happening on line 9)
       expect(storyshots).notToBeAbandoned(stories2snapsConverter);
     });
   });

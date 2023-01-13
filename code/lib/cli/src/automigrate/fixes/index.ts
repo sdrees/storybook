@@ -17,6 +17,7 @@ import { autodocsTrue } from './autodocs-true';
 import { sveltekitFramework } from './sveltekit-framework';
 import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
+import { missingBabelRc } from './missing-babelrc';
 
 export * from '../types';
 
@@ -38,4 +39,5 @@ export const fixes: Fix[] = [
   mdx1to2,
   autodocsTrue,
   addReact,
+  missingBabelRc,
 ];

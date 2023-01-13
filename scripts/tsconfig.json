@@ -29,11 +29,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "paths": {
-      "verdaccio": [
-        "./typings.d.ts"
-      ]
-    },
   },
   "exclude": [
     "dist",

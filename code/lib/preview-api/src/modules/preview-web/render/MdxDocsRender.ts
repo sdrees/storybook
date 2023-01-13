@@ -69,6 +69,19 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
     );
   }
 
+  docsContext(renderStoryToElement: DocsContextProps['renderStoryToElement']) {
+    if (!this.csfFiles) throw new Error('Cannot render docs before preparing');
+
+    // NOTE we do *not* attach any CSF file yet. We wait for `referenceMeta(..., true)`
+    // ie the CSF file is attached via `<Meta of={} />`
+    return new DocsContext<TRenderer>(
+      this.channel,
+      this.store,
+      renderStoryToElement,
+      this.csfFiles
+    );
+  }
+
   async renderToElement(
     canvasElement: TRenderer['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
@@ -76,16 +89,9 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
       throw new Error('Cannot render docs before preparing');
 
-    const docsContext = new DocsContext<TRenderer>(
-      this.channel,
-      this.store,
-      renderStoryToElement,
-      this.csfFiles,
-      false
-    );
+    const docsContext = this.docsContext(renderStoryToElement);
 
     const { docs } = this.store.projectAnnotations.parameters || {};
-
     if (!docs)
       throw new Error(
         `Cannot render a story in viewMode=docs if \`@storybook/addon-docs\` is not installed`

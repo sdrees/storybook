@@ -11,10 +11,14 @@ const inputRegExp = /^input\..*$/;
 const runWebComponentsAnalyzer = (inputPath: string) => {
   const { name: tmpDir, removeCallback } = tmp.dirSync();
   const customElementsFile = `${tmpDir}/custom-elements.json`;
-  spawnSync('yarn', ['wca', 'analyze', inputPath, '--outFile', customElementsFile], {
-    stdio: 'inherit',
-    shell: true,
-  });
+  spawnSync(
+    path.join(__dirname, '../../../../node_modules/.bin/wca'),
+    ['analyze', inputPath, '--outFile', customElementsFile],
+    {
+      stdio: 'ignore',
+      shell: true,
+    }
+  );
   const output = fs.readFileSync(customElementsFile, 'utf8');
   try {
     removeCallback();

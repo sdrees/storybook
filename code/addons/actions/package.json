@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "7.0.0-beta.20",
+  "version": "7.0.0-beta.26",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -77,14 +77,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.20",
-    "@storybook/components": "7.0.0-beta.20",
-    "@storybook/core-events": "7.0.0-beta.20",
+    "@storybook/client-logger": "7.0.0-beta.26",
+    "@storybook/components": "7.0.0-beta.26",
+    "@storybook/core-events": "7.0.0-beta.26",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.20",
-    "@storybook/preview-api": "7.0.0-beta.20",
-    "@storybook/theming": "7.0.0-beta.20",
-    "@storybook/types": "7.0.0-beta.20",
+    "@storybook/manager-api": "7.0.0-beta.26",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "@storybook/theming": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "polished": "^4.2.2",
@@ -121,7 +121,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "22701aedf564e467511887eb041f32ae0c96bcde",
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1",
   "storybook": {
     "displayName": "Actions",
     "unsupportedFrameworks": [

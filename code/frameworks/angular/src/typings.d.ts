@@ -11,9 +11,18 @@ declare var __STORYBOOK_PREVIEW__: any;
 declare var __STORYBOOK_STORY_STORE__: any;
 declare var CHANNEL_OPTIONS: any;
 declare var DOCS_OPTIONS: any;
-declare var FEATURES: any;
+
+declare var FEATURES:
+  | {
+      storyStoreV7?: boolean;
+      interactionsDebugger?: boolean;
+      breakingChangesV7?: boolean;
+      argTypeTargetsV7?: boolean;
+    }
+  | undefined;
+
 declare var IS_STORYBOOK: any;
-declare var LOGLEVEL: any;
+declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;
 declare var STORIES: any;
 declare var STORYBOOK_ENV: 'angular';
 declare var STORYBOOK_HOOKS_CONTEXT: any;

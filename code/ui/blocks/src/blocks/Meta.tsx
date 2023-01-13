@@ -14,7 +14,7 @@ type MetaProps = BaseAnnotations & { of?: ModuleExports };
 export const Meta: FC<MetaProps> = ({ of }) => {
   const context = useContext(DocsContext);
   if (of) {
-    context.setMeta(of);
+    context.referenceMeta(of, true);
   }
 
   try {

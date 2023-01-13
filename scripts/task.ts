@@ -324,6 +324,7 @@ async function run() {
   const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
   const template = TEMPLATES[templateKey];
+
   const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
   const details = {
     key: templateKey,

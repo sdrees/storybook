@@ -166,18 +166,27 @@ const map =
   (item: any) => {
     const options = isObject(item) ? item['options'] || undefined : undefined;
     const name = isObject(item) ? item['name'] : item;
+
+    let resolved;
+
     try {
-      const resolved = resolveAddonName(configDir, name, options);
-      return {
-        ...(options ? { options } : {}),
-        ...resolved,
-      };
+      resolved = resolveAddonName(configDir, name, options);
     } catch (err) {
       logger.error(
         `Addon value should end in /manager or /preview or /register OR it should be a valid preset https://storybook.js.org/docs/react/addons/writing-presets/\n${item}`
       );
+      return undefined;
     }
-    return undefined;
+
+    if (!resolved) {
+      logger.warn(`Could not resolve addon "${name}", skipping. Is it installed?`);
+      return undefined;
+    }
+
+    return {
+      ...(options ? { options } : {}),
+      ...resolved,
+    };
   };
 
 async function getContent(input: any) {
@@ -259,7 +268,11 @@ async function loadPresets(
   }
 
   return (
-    await Promise.all(presets.map(async (preset) => loadPreset(preset, level, storybookOptions)))
+    await Promise.all(
+      presets.map(async (preset) => {
+        return loadPreset(preset, level, storybookOptions);
+      })
+    )
   ).reduce((acc, loaded) => {
     return acc.concat(loaded);
   }, []);

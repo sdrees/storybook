@@ -2,6 +2,7 @@ import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
+import type { Args, StoryContext } from '@storybook/csf';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
@@ -12,10 +13,10 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return h(Component, props);
+  return h(Component, props, getSlots(props, context));
 };
 
-let setupFunction = (app: any) => {};
+let setupFunction = (_app: any) => {};
 export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
@@ -57,4 +58,18 @@ export function renderToCanvas(
   map.get(canvasElement)?.unmount();
 
   storybookApp.mount(canvasElement);
+}
+/**
+ * get the slots as functions to be rendered
+ * @param props
+ * @param context
+ */
+
+function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
+  const { argTypes } = context;
+  const slots = Object.entries(props)
+    .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
+    .map(([key, value]) => [key, () => h('span', JSON.stringify(value))]);
+
+  return Object.fromEntries(slots);
 }

@@ -454,6 +454,9 @@ export class CsfFile {
     // default export can come at any point in the file, so we do this post processing last
     const entries = Object.entries(self._stories);
     self._meta.title = this._makeTitle(self._meta.title);
+    if (self._metaAnnotations.play) {
+      self._meta.tags = [...(self._meta.tags || []), 'play-fn'];
+    }
     self._stories = entries.reduce((acc, [key, story]) => {
       if (isExportStory(key, self._meta)) {
         const id = toId(self._meta.id || self._meta.title, storyNameFromExport(key));
@@ -466,12 +469,15 @@ export class CsfFile {
           parameters.docsOnly = true;
         }
         acc[key] = { ...story, id, parameters };
-        const { tags } = self._storyAnnotations[key];
+        const { tags, play } = self._storyAnnotations[key];
         if (tags) {
           const node = t.isIdentifier(tags)
             ? findVarInitialization(tags.name, this._ast.program)
             : tags;
           acc[key].tags = parseTags(node);
+        }
+        if (play) {
+          acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
         }
       }
       return acc;

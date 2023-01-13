@@ -162,7 +162,7 @@ jobs:
           name: Running local registry
           command: |
             cd code
-            yarn local-registry --port 6001 --open
+            yarn local-registry --open
           background: true
       - run:
           name: Wait for registry
@@ -203,7 +203,7 @@ jobs:
           name: Running local registry
           command: |
             cd code
-            yarn local-registry --port 6001 --open
+            yarn local-registry --open
           background: true
       - run:
           name: Wait for registry

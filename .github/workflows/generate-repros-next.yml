@@ -29,7 +29,7 @@ jobs:
       - name: Compile Storybook libraries
         run: yarn task --task publish --start-from=auto --no-link
       - name: Running local registry
-        run: yarn local-registry --port 6001 --open &
+        run: yarn local-registry --open &
         working-directory: ./code
       - name: Wait for registry
         run: yarn wait-on http://localhost:6001

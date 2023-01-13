@@ -1,4 +1,5 @@
 import path from 'path';
+import { logger } from '@storybook/node-logger';
 import './presets';
 
 function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
@@ -459,6 +460,10 @@ describe('loadPreset', () => {
 
   const { loadPreset } = jest.requireActual('./presets');
 
+  beforeEach(() => {
+    jest.spyOn(logger, 'warn');
+  });
+
   it('should prepend framework field to list of presets', async () => {
     const loaded = await loadPreset(
       {
@@ -594,5 +599,54 @@ describe('loadPreset', () => {
         preset: {},
       },
     ]);
+  });
+
+  it('should warn for addons that are not installed', async () => {
+    const loaded = await loadPreset(
+      {
+        name: '',
+        type: 'virtual',
+        framework: '@storybook/react',
+        presets: ['@storybook/preset-typescript'],
+        addons: ['@storybook/addon-docs/preset', 'uninstalled-addon'],
+      },
+      0,
+      {}
+    );
+    expect(logger.warn).toHaveBeenCalledWith(
+      'Could not resolve addon "uninstalled-addon", skipping. Is it installed?'
+    );
+    expect(loaded).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "name": "@storybook/preset-typescript",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": "@storybook/addon-docs/preset",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": Object {
+            "addons": Array [
+              "@storybook/addon-docs/preset",
+              "uninstalled-addon",
+            ],
+            "framework": "@storybook/react",
+            "name": "",
+            "presets": Array [
+              "@storybook/preset-typescript",
+            ],
+            "type": "virtual",
+          },
+          "options": Object {},
+          "preset": Object {
+            "framework": "@storybook/react",
+          },
+        },
+      ]
+    `);
   });
 });

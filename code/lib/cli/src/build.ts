@@ -2,11 +2,8 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
-import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 export const build = async (cliOptions: any) => {
-  ensureReactPeerDeps();
-
   try {
     const options = {
       ...cliOptions,

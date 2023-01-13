@@ -7,7 +7,7 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import externalGlobals from 'rollup-plugin-external-globals';
+import { viteExternalsPlugin } from 'vite-plugin-externals';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
 import {
@@ -91,7 +91,7 @@ export async function pluginConfig(options: ExtendedOptions) {
         }
       },
     },
-    externalGlobals(globals),
+    viteExternalsPlugin(globals, { useWindow: false }),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built

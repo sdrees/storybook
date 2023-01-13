@@ -66,10 +66,12 @@ const StyledButton = styled.button<Omit<ButtonProps, 'label' | 'onClick'>>(
 );
 
 /**
- * # Example button component
+ * ## Example button component
  * Comes in three sizes: `small`, `medium`, and `large`.
  *
  * Can be primary or secondary.
+ *
+ * _ This descriptions is written as a comment above the component_
  */
 export const Button = ({
   primary = false,

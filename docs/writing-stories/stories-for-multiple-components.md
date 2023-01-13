@@ -15,6 +15,8 @@ It's useful to write stories that [render two or more components](../writing-sto
     'vue/list-story-with-sub-components.ts-2.ts.mdx',
     'vue/list-story-with-sub-components.3.js.mdx',
     'vue/list-story-with-sub-components.ts-3.ts.mdx',
+    'web-components/list-story-with-subcomponents.js.mdx',
+    'web-components/list-story-with-subcomponents.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"

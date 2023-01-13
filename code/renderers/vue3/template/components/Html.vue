@@ -3,7 +3,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'my-html',
 
@@ -14,7 +13,6 @@ export default {
     },
   },
 
-
-  setup() { },
+  setup() {},
 };
 </script>

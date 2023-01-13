@@ -4,8 +4,7 @@
     "declaration": true,
     "jsx": "preserve",
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "types": ["jest", "testing-library__jest-dom"]
+    "skipDefaultLibCheck": true
   },
   "include": ["src/**/*.ts"]
 }

@@ -23,6 +23,8 @@ export interface Parameters {
   typescript?: boolean;
   /** Merge configurations to main.js before running the tests */
   mainOverrides?: Partial<StorybookConfig> & Record<string, any>;
+  /** Environment variables to inject while running generator */
+  envs?: Record<string, string>;
 }
 
 const fromDeps = (...args: string[]): string =>
@@ -45,11 +47,12 @@ export const cra: Parameters = {
   version: 'latest',
   generator: [
     // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
-    'npm_config_user_agent=npm npx -p create-react-app@{{version}} create-react-app {{appName}}',
+    'npx -p create-react-app@{{version}} create-react-app {{appName}}',
     'cd {{appName}}',
     'echo "FAST_REFRESH=true" > .env',
     'echo "SKIP_PREFLIGHT_CHECK=true" > .env',
   ].join(' && '),
+  envs: { npm_config_user_agent: 'npm' },
 };
 
 export const cra_typescript: Parameters = {
@@ -58,8 +61,9 @@ export const cra_typescript: Parameters = {
   version: 'latest',
   generator: [
     // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
-    'npm_config_user_agent=npm npx -p create-react-app@{{version}} create-react-app {{appName}} --template typescript',
+    'npx -p create-react-app@{{version}} create-react-app {{appName}} --template typescript',
   ].join(' && '),
+  envs: { npm_config_user_agent: 'npm' },
 };
 
 export const react: Parameters = {

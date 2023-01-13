@@ -1,49 +1,40 @@
 import { exec } from 'child_process';
-import { remove, pathExists } from 'fs-extra';
+import { remove, pathExists, readJSON } from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import program from 'commander';
-import detectFreePort from 'detect-port';
-import fs from 'fs';
-import yaml from 'js-yaml';
 
-import startVerdaccioServer from 'verdaccio';
+import { runServer, parseConfigFile } from 'verdaccio';
 import pLimit from 'p-limit';
+import type { Server } from 'http';
 // @ts-expect-error (Converted from ts-ignore)
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages } from './utils/list-packages';
 
 program
   .option('-O, --open', 'keep process open')
-  .option('-P, --publish', 'should publish packages')
-  .option('-p, --port <port>', 'port to run https server on');
+  .option('-P, --publish', 'should publish packages');
 
 program.parse(process.argv);
 
 const logger = console;
 
-const freePort = (port?: number) => port || detectFreePort(port);
-
-const startVerdaccio = (port: number): Promise<any> => {
+const startVerdaccio = async () => {
   let resolved = false;
   return Promise.race([
     new Promise((resolve) => {
       const cache = path.join(__dirname, '..', '.verdaccio-cache');
       const config = {
-        ...(yaml.safeLoad(
-          fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8')
-        ) as Record<string, any>),
+        ...parseConfigFile(path.join(__dirname, 'verdaccio.yaml')),
         self_path: cache,
       };
 
-      const onReady = (webServer: any) => {
-        webServer.listen(port, () => {
+      runServer(config).then((app: Server) => {
+        app.listen(6001, () => {
           resolved = true;
-          resolve(webServer);
+          resolve(app);
         });
-      };
-
-      startVerdaccioServer(config, 6001, cache, '1.0.0', 'verdaccio', onReady);
+      });
     }),
     new Promise((_, rej) => {
       setTimeout(() => {
@@ -53,11 +44,11 @@ const startVerdaccio = (port: number): Promise<any> => {
         }
       }, 10000);
     }),
-  ]);
+  ]) as Promise<Server>;
 };
 
 const currentVersion = async () => {
-  const { version } = (await import('../code/lerna.json')).default;
+  const { version } = await readJSON(path.join(__dirname, '..', 'code', 'package.json'));
   return version;
 };
 
@@ -95,7 +86,7 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
 };
 
 const addUser = (url: string) =>
-  new Promise((res, rej) => {
+  new Promise<void>((res, rej) => {
     logger.log(`👤 add temp user to verdaccio`);
 
     exec(`npx npm-cli-adduser -r "${url}" -a -u user -p password -e user@example.com`, (e) => {
@@ -108,10 +99,7 @@ const addUser = (url: string) =>
   });
 
 const run = async () => {
-  const port = await freePort(program.port);
-  logger.log(`🌏 found a open port: ${port}`);
-
-  const verdaccioUrl = `http://localhost:${port}`;
+  const verdaccioUrl = `http://localhost:6001`;
 
   logger.log(`📐 reading version of storybook`);
   logger.log(`🚛 listing storybook packages`);
@@ -128,7 +116,7 @@ const run = async () => {
   logger.log(`🎬 starting verdaccio (this takes ±5 seconds, so be patient)`);
 
   const [verdaccioServer, packages, version] = await Promise.all([
-    startVerdaccio(port),
+    startVerdaccio(),
     listOfPackages(),
     currentVersion(),
   ]);

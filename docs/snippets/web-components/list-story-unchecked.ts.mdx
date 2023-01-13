@@ -1,24 +1,22 @@
 ```ts
-// my-list.stories.ts|tsx
+// MyList.stories.ts
 
-import { html } from 'lit';
-import type { StoryObj } from '../../IStory';
-import { IList } from './my-list.custom';
+import { Meta, StoryObj } from '@storybook/web-components';
 
-import './my-list';
+import { html } from 'lit-html';
 
-//👇 Instead of importing my-list-item, we import the stories
+// 👇 Import the stories of MyListItem
 import { Unchecked } from './my-list-item.stories';
 
-const meta: Meta<typeof Button> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/web-components/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'my-list',
+const meta: Meta = {
+  title: 'MyList',
+  component: 'demo-my-list',
 };
+export default meta;
 
-export const OneItem: Story<IList> = {
+type Story = StoryObj;
+
+export const OneItem: Story = {
   render: () => html` <List> ${Unchecked({ ...Unchecked.args })} </List> `,
 };
 ```

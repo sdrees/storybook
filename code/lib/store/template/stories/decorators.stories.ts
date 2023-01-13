@@ -8,19 +8,19 @@ export default {
   parameters: { useProjectDecorator: true },
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { ...context.args, text: `component ${context.args.text}` } }),
+      storyFn({ args: { ...context.args, text: `component ${context.args['text']}` } }),
   ],
 };
 
 export const Inheritance = {
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { ...context.args, text: `story ${context.args.text}` } }),
+      storyFn({ args: { ...context.args, text: `story ${context.args['text']}` } }),
   ],
   args: {
     text: 'starting',
   },
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByTestId('pre').innerText).toEqual('story component project starting');
   },

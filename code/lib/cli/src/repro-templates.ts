@@ -1,6 +1,9 @@
+import type { StorybookConfig } from '@storybook/types';
+
 export type SkippableTask = 'smoke-test' | 'test-runner' | 'chromatic' | 'e2e-tests';
-export type TemplateKey = keyof typeof allTemplates;
+export type TemplateKey = keyof typeof baseTemplates | keyof typeof internalTemplates;
 export type Cadence = keyof typeof templatesByCadence;
+
 export type Template = {
   /**
    * Readable name for the template, which will be used for feedback and the status page
@@ -41,9 +44,21 @@ export type Template = {
    * NOTE: Make sure to always add a TODO comment to remove this flag in a subsequent PR.
    */
   inDevelopment?: boolean;
+  /**
+   * Some sandboxes might need extra modifications in the initialized Storybook,
+   * such as extend main.js, for setting specific feature flags like storyStoreV7, etc.
+   */
+  modifications?: {
+    mainConfig?: Partial<StorybookConfig>;
+  };
+  /**
+   * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
+   * This means the template might be hidden from the Storybook status page or the repro CLI command.
+   * */
+  isInternal?: boolean;
 };
 
-export const allTemplates = {
+const baseTemplates = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
@@ -351,6 +366,45 @@ export const allTemplates = {
   },
 } satisfies Record<string, Template>;
 
+/**
+ * Internal templates reuse config from other templates and add extra config on top.
+ * They must contain an id that starts with 'internal/' and contain "isInternal: true".
+ * They will be hidden by default in the Storybook status page.
+ */
+const internalTemplates = {
+  'internal/ssv6-vite': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'StoryStore v6 (react-vite/default-ts)',
+    inDevelopment: true,
+    isInternal: true,
+    modifications: {
+      mainConfig: {
+        features: {
+          storyStoreV7: false,
+        },
+      },
+    },
+  },
+  'internal/ssv6-webpack': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'StoryStore v6 (react-webpack/18-ts)',
+    inDevelopment: true,
+    isInternal: true,
+    modifications: {
+      mainConfig: {
+        features: {
+          storyStoreV7: false,
+        },
+      },
+    },
+  },
+} satisfies Record<`internal/${string}`, Template & { isInternal: true }>;
+
+export const allTemplates: Record<TemplateKey, Template> = {
+  ...baseTemplates,
+  ...internalTemplates,
+};
+
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
   ...ci,
@@ -371,6 +425,8 @@ export const merged: TemplateKey[] = [
   'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
+  'internal/ssv6-vite',
+  'internal/ssv6-webpack',
 ];
 export const daily: TemplateKey[] = [
   ...merged,

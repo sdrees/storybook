@@ -8,7 +8,7 @@ on:
 
 jobs:
   trigger:
-    if: github.event.label.name == 'linear'
+    if: github.event.label.name == 'linear-ghaction'
     name: Export to linear
     runs-on: ubuntu-latest
     steps:

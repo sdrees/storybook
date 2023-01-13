@@ -9,4 +9,11 @@ declare module '@storybook/manager';
 declare module '@discoveryjs/json-ext';
 declare module 'watchpack';
 
-declare var FEATURES: any;
+declare var FEATURES:
+  | {
+      storyStoreV7?: boolean;
+      interactionsDebugger?: boolean;
+      breakingChangesV7?: boolean;
+      argTypeTargetsV7?: boolean;
+    }
+  | undefined;

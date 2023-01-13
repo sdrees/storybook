@@ -1,25 +1,21 @@
 /* eslint-disable */
-import React from 'react'
-import Button from './Button'
+import React from 'react';
+import Button from './Button';
 
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 
-storiesOf(
-  'Button'
-).addWithInfo(
+storiesOf('Button').addWithInfo(
   'simple usage',
   'This is the basic usage with the button with providing a label to show the text.',
   () => (
     <div>
       <Button label="The Button" onClick={action('onClick')} />
       <br />
-      <p>
-        Click the "?" mark at top-right to view the info.
-      </p>
+      <p>Click the "?" mark at top-right to view the info.</p>
     </div>
   )
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (inline info)',
@@ -28,7 +24,7 @@ storiesOf('Button').addWithInfo(
     `,
   () => <Button label="The Button" onClick={action('onClick')} />,
   { inline: true }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (disable source)',
@@ -37,7 +33,7 @@ storiesOf('Button').addWithInfo(
     `,
   () => <Button label="The Button" onClick={action('onClick')} />,
   { source: false, inline: true }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (no header)',
@@ -46,7 +42,7 @@ storiesOf('Button').addWithInfo(
     `,
   () => <Button label="The Button" onClick={action('onClick')} />,
   { header: false, inline: true }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (no prop tables)',
@@ -55,7 +51,7 @@ storiesOf('Button').addWithInfo(
     `,
   () => <Button label="The Button" onClick={action('onClick')} />,
   { propTables: false, inline: true }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (custom propTables)',
@@ -80,22 +76,19 @@ storiesOf('Button').addWithInfo(
     </div>
   ),
   { inline: true, propTables: [Button] }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (JSX description)',
   <div>
     <h2>This is a JSX info section</h2>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Sed ornare massa rutrum metus commodo, a mattis velit dignissim.
-      Fusce vestibulum turpis sed massa egestas pharetra. Sed at libero
-      nulla.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare massa rutrum metus
+      commodo, a mattis velit dignissim. Fusce vestibulum turpis sed massa egestas pharetra. Sed at
+      libero nulla.
     </p>
     <p>
-      <a href="https://github.com/storybookjs/react-storybook-addon-info">
-        This is a link
-      </a>
+      <a href="https://github.com/storybookjs/react-storybook-addon-info">This is a link</a>
     </p>
     <p>
       <img src="https://storybook.js.org/images/placeholders/350x150.png" />
@@ -105,27 +98,22 @@ storiesOf('Button').addWithInfo(
     <div>
       <Button label="The Button" onClick={action('onClick')} />
       <br />
-      <p>
-        Click the "?" mark at top-right to view the info.
-      </p>
+      <p>Click the "?" mark at top-right to view the info.</p>
     </div>
   )
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (inline JSX description)',
   <div>
     <h2>This is a JSX info section</h2>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Sed ornare massa rutrum metus commodo, a mattis velit dignissim.
-      Fusce vestibulum turpis sed massa egestas pharetra. Sed at libero
-      nulla.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare massa rutrum metus
+      commodo, a mattis velit dignissim. Fusce vestibulum turpis sed massa egestas pharetra. Sed at
+      libero nulla.
     </p>
     <p>
-      <a href="https://github.com/storybookjs/react-storybook-addon-info">
-        This is a link
-      </a>
+      <a href="https://github.com/storybookjs/react-storybook-addon-info">This is a link</a>
     </p>
     <p>
       <img src="https://storybook.js.org/images/placeholders/350x150.png" />
@@ -133,7 +121,7 @@ storiesOf('Button').addWithInfo(
   </div>,
   () => <Button label="The Button" onClick={action('onClick')} />,
   { inline: true }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (maxPropsInLine === 1)',
@@ -142,7 +130,7 @@ storiesOf('Button').addWithInfo(
     `,
   () => <Button label="The Button" onClick={action('onClick')} />,
   { inline: true, maxPropsIntoLine: 1 }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (maxPropObjectKeys === 5)',
@@ -151,7 +139,7 @@ storiesOf('Button').addWithInfo(
     `,
   () => <Button label="The Button" object={{ a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 }} />,
   { inline: true, maxPropObjectKeys: 5 }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (maxPropArrayLength === 8)',
@@ -160,7 +148,7 @@ storiesOf('Button').addWithInfo(
     `,
   () => <Button label="The Button" array={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />,
   { inline: true, maxPropArrayLength: 8 }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'simple usage (maxPropStringLength === 10)',
@@ -169,7 +157,7 @@ storiesOf('Button').addWithInfo(
     `,
   () => <Button label="The Button" string="1 2 3 4 5 6 7 8" />,
   { inline: true, maxPropStringLength: 5 }
-)
+);
 
 storiesOf('Button').addWithInfo(
   'with custom styles',
@@ -180,19 +168,17 @@ storiesOf('Button').addWithInfo(
   () => <Button label="The Button" onClick={action('onClick')} />,
   {
     inline: true,
-    styles: stylesheet => {
+    styles: (stylesheet) => {
       stylesheet.infoPage = {
-        backgroundColor: '#ccc'
-      }
-      return stylesheet
-    }
+        backgroundColor: '#ccc',
+      };
+      return stylesheet;
+    },
   }
-)
+);
 
 storiesOf('shared/ProgressBar', module)
   .addDecorator(withKnobs)
   .addWithInfo('default style', () => (
-    <ProgressBar progress={number('progress', 25)}
-      delay={number('delay', 500)}
-    />
+    <ProgressBar progress={number('progress', 25)} delay={number('delay', 500)} />
   ));

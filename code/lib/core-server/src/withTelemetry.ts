@@ -61,7 +61,7 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
 export async function withTelemetry(
   eventType: EventType,
   options: TelemetryOptions,
-  run: () => Promise<void>
+  run: () => Promise<any>
 ) {
   if (!options.cliOptions.disableTelemetry)
     telemetry('boot', { eventType }, { stripMetadata: true });

@@ -1,0 +1,37 @@
+```ts
+// List.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+import { html } from 'lit-html';
+
+const meta: Meta = {
+  title: 'List',
+  component: 'demo-list',
+};
+export default meta;
+
+type Story = StoryObj;
+
+export const Empty: Story = {
+  render: () => html`<demo-list></demo-list>`,
+};
+
+export const OneItem: Story = {
+  render: () => html`
+    <demo-list>
+      <demo-list-item></demo-list-item>
+    </demo-list>
+  `,
+};
+
+export const ManyItems: Story = {
+  render: () => html`
+    <demo-list>
+      <demo-list-item></demo-list-item>
+      <demo-list-item></demo-list-item>
+      <demo-list-item></demo-list-item>
+    </demo-list>
+  `,
+};
+```
