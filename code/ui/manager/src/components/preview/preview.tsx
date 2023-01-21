@@ -37,8 +37,7 @@ const canvasMapper = ({ state, api }: Combo) => ({
   queryParams: state.customQueryParams,
   getElements: api.getElements,
   entry: api.getData(state.storyId, state.refId),
-  storiesConfigured: state.storiesConfigured,
-  storiesFailed: state.storiesFailed,
+  previewInitialized: state.previewInitialized,
   refs: state.refs,
   active: !!(state.viewMode && state.viewMode.match(/^(story|docs)$/)),
 });
@@ -60,8 +59,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           viewMode,
           queryParams,
           getElements,
-          storiesConfigured,
-          storiesFailed,
+          previewInitialized,
           active,
         }) => {
           const wrappers = useMemo(
@@ -70,7 +68,6 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           );
 
           const [progress, setProgress] = useState(undefined);
-
           useEffect(() => {
             if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
               try {
@@ -84,12 +81,12 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
               }
             }
           }, []);
-
-          const refLoading = !!refs[refId] && !refs[refId].ready;
-          const rootLoading = !refId && !(progress?.value === 1 || progress === undefined);
-          const isLoading = entry
-            ? refLoading || rootLoading
-            : (!storiesFailed && !storiesConfigured) || rootLoading;
+          // A ref simply depends on its readiness
+          const refLoading = !!refs[refId] && !refs[refId].previewInitialized;
+          // The root also might need to wait on webpack
+          const isBuilding = !(progress?.value === 1 || progress === undefined);
+          const rootLoading = !refId && (!previewInitialized || isBuilding);
+          const isLoading = entry ? refLoading || rootLoading : rootLoading;
 
           return (
             <ZoomConsumer>

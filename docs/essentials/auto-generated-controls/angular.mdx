@@ -11,6 +11,12 @@ export default {
 
 Storybook uses this to auto-generate the `ArgTypes` for your component using [Compodoc](https://compodoc.app/). It supports `inputs`, `outputs`, `properties`, `methods`, `view/content child/children` as first class prop types.
 
+## Automatic Compodoc setup
+
+During `sb init`, you will be asked, whether you want to setup Compodoc for your project. Just answer the question with Yes. Compodoc is then ready to use!
+
+## Manual Compodoc setup
+
 You'll need to register Compodoc's `documentation.json` file in `.storybook/preview.ts`:
 
 ```js
@@ -26,16 +32,37 @@ Finally, to set up compodoc, you'll first need to install Compodoc:
 yarn add -D @compodoc/compodoc
 ```
 
-Then you'll need to configure Compodoc to generate a `documentation.json` file. Adding the following snippet to your `package.json` creates a metadata file `./documentation.json` each time you run storybook:
+Then you'll need to configure Compodoc to generate a `documentation.json` file. Adding the following snippet to your `projects.<project>.architect.<storybook|build-storybook>` in the `angular.json` creates a metadata file `./documentation.json` each time you run storybook:
 
-```json
+```jsonc
+// angular.json
 {
-  ...
-  "scripts": {
-    "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
-    "storybook": "npm run docs:json && start-storybook -p 6006 -s src/assets",
-    ...
-  },
+  "projects": {
+    "your-project": {
+      "architect": {
+        "storybook": {
+          ...,
+          "compodoc": true,
+          "compodocArgs": [
+            "-e",
+            "json",
+            "-d",
+            "." // the root folder of your project
+          ],
+        },
+        "build-storybook": {
+          ...,
+          "compodoc": true,
+          "compodocArgs": [
+            "-e",
+            "json",
+            "-d",
+            "." // the root folder of your project
+          ],
+        }
+      }
+    }
+  }
 }
 ```
 

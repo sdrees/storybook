@@ -2,9 +2,10 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ThemeProvider, ensure, themes } from '@storybook/theming';
 
-import type { HashEntry, StoriesHash, Refs } from '@storybook/manager-api';
+import type { HashEntry, Refs } from '@storybook/manager-api';
 import type { Theme } from '@storybook/theming';
 import type { RenderResult } from '@testing-library/react';
+import type { API_IndexHash } from '@storybook/types';
 import { Sidebar } from '../Sidebar';
 import type { SidebarProps } from '../Sidebar';
 
@@ -15,12 +16,12 @@ const factory = (props: Partial<SidebarProps>): RenderResult => {
 
   return render(
     <ThemeProvider theme={theme}>
-      <Sidebar storiesConfigured menu={[]} stories={{}} refs={{}} {...props} />
+      <Sidebar menu={[]} index={{}} previewInitialized refs={{}} {...props} />
     </ThemeProvider>
   );
 };
 
-const generateStories = ({ title, refId }: { title: string; refId?: string }): StoriesHash => {
+const generateStories = ({ title, refId }: { title: string; refId?: string }): API_IndexHash => {
   const [root, componentName]: [string, string] = title.split('/') as any;
   const rootId: string = root.toLowerCase().replace(/\s+/g, '-');
   const hypenatedComponentName: string = componentName.toLowerCase().replace(/\s+/g, '-');
@@ -61,7 +62,7 @@ const generateStories = ({ title, refId }: { title: string; refId?: string }): S
     },
   ];
 
-  return storyBase.reduce((accumulator: StoriesHash, current: HashEntry): StoriesHash => {
+  return storyBase.reduce((accumulator: API_IndexHash, current: HashEntry): API_IndexHash => {
     accumulator[current.id] = current;
     return accumulator;
   }, {});
@@ -71,14 +72,14 @@ describe('Sidebar', () => {
   test.skip("should not render an extra nested 'Page'", async () => {
     const refId = 'next';
     const title = 'Getting Started/Install';
-    const refStories: StoriesHash = generateStories({ refId, title });
-    const internalStories: StoriesHash = generateStories({ title: 'Welcome/Example' });
+    const refIndex: API_IndexHash = generateStories({ refId, title });
+    const internalIndex: API_IndexHash = generateStories({ title: 'Welcome/Example' });
 
     const refs: Refs = {
       [refId]: {
-        stories: refStories,
+        index: refIndex,
         id: refId,
-        ready: true,
+        previewInitialized: true,
         title: refId,
         url: 'https://ref.url',
       },
@@ -87,7 +88,7 @@ describe('Sidebar', () => {
     factory({
       refs,
       refId,
-      stories: internalStories,
+      index: internalIndex,
     });
 
     fireEvent.click(screen.getByText('Install'));

@@ -99,7 +99,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
   const { docsOptions } = useStorybookState();
   const api = useStorybookApi();
   const {
-    stories,
+    index,
     id: refId,
     title = refId,
     isLoading: isLoadingMain,
@@ -110,16 +110,16 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
     loginUrl,
     type,
     expanded = true,
-    ready,
-    error,
+    indexError,
+    previewInitialized,
   } = props;
-  const length = useMemo(() => (stories ? Object.keys(stories).length : 0), [stories]);
+  const length = useMemo(() => (index ? Object.keys(index).length : 0), [index]);
   const indicatorRef = useRef<HTMLElement>(null);
 
   const isMain = refId === DEFAULT_REF_ID;
-  const isLoadingInjected = type === 'auto-inject' && !ready;
+  const isLoadingInjected = type === 'auto-inject' && !previewInitialized;
   const isLoading = isLoadingMain || isLoadingInjected || type === 'unknown';
-  const isError = !!error;
+  const isError = !!indexError;
   const isEmpty = !isLoading && length === 0;
   const isAuthRequired = !!loginUrl && length === 0;
 
@@ -153,7 +153,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
       {isExpanded && (
         <Wrapper data-title={title} isMain={isMain}>
           {state === 'auth' && <AuthBlock id={refId} loginUrl={loginUrl} />}
-          {state === 'error' && <ErrorBlock error={error} />}
+          {state === 'error' && <ErrorBlock error={indexError} />}
           {state === 'loading' && <LoaderBlock isMain={isMain} />}
           {state === 'empty' && <EmptyBlock isMain={isMain} />}
           {state === 'ready' && (
@@ -161,7 +161,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
               isBrowsing={isBrowsing}
               isMain={isMain}
               refId={refId}
-              data={stories}
+              data={index}
               docsMode={docsOptions.docsMode}
               selectedStoryId={selectedStoryId}
               onSelectStoryId={onSelectStoryId}

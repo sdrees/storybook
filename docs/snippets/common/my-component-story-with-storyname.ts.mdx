@@ -8,9 +8,9 @@ import type { Meta, StoryObj } from '@storybook/your-framework';
 
 const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'Path/To/MyComponent',
   component: MyComponent,
 };
@@ -19,8 +19,8 @@ export default meta;
 type Story = StoryObj<typeof MyComponent>;
 
 export const Simple: Story = {
-  decorators: [...],
+  decorators: [],
   name: 'So simple!',
-  parameters: {...},
+  parameters: {},
 };
 ```

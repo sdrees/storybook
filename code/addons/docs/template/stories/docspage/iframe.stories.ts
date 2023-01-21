@@ -6,7 +6,12 @@ export default {
   args: { label: 'Rendered in iframe' },
   parameters: {
     chromatic: { disable: true },
-    docs: { iframeHeight: 120, inlineStories: true },
+    docs: {
+      story: {
+        iframeHeight: '120px',
+        inline: true,
+      },
+    },
   },
 };
 

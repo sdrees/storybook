@@ -1,0 +1,38 @@
+```ts
+// .storybook/main.ts
+
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
+  // Your existing Storybook configuration
+
+  // 👇 Retrieve the current environment from the configType argument
+  refs: (config, { configType }) => {
+    if (configType === 'DEVELOPMENT') {
+      return {
+        react: {
+          title: 'Composed React Storybook running in development mode',
+          url: 'http://localhost:7007',
+        },
+        angular: {
+          title: 'Composed Angular Storybook running in development mode',
+          url: 'http://localhost:7008',
+        },
+      };
+    }
+    return {
+      react: {
+        title: 'Composed React Storybook running in production',
+        url: 'https://your-production-react-storybook-url',
+      },
+      angular: {
+        title: 'Composed Angular Storybook running in production',
+        url: 'https://your-production-angular-storybook-url',
+      },
+    };
+  },
+};
+
+export default config;
+```

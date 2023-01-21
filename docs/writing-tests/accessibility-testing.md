@@ -26,6 +26,7 @@ Run the following command to install the addon.
   paths={[
     'common/storybook-a11y-install.yarn.js.mdx',
     'common/storybook-a11y-install.npm.js.mdx',
+    'common/storybook-a11y-install.pnpm.js.mdx',
   ]}
 />
 
@@ -65,7 +66,9 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
     'react/component-story-with-accessibility.ts.mdx',
     'angular/component-story-with-accessibility.ts.mdx',
     'vue/component-story-with-accessibility.2.js.mdx',
+    'vue/component-story-with-accessibility.ts-2.ts.mdx',
     'vue/component-story-with-accessibility.3.js.mdx',
+    'vue/component-story-with-accessibility.ts-3.ts.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
     'web-components/component-story-with-accessibility.js.mdx',
     'web-components/component-story-with-accessibility.ts.mdx',
@@ -176,6 +179,7 @@ Run the following command to install the required dependencies.
   paths={[
     'common/storybook-test-runner-axe-playwright.yarn.js.mdx',
     'common/storybook-test-runner-axe-playwright.npm.js.mdx',
+    'common/storybook-test-runner-axe-playwright.pnpm.js.mdx',
   ]}
 />
 

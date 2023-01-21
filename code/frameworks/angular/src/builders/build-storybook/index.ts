@@ -11,13 +11,10 @@ import { CLIOptions } from '@storybook/types';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
-import {
-  BrowserBuilderOptions,
-  ExtraEntryPoint,
-  StylePreprocessorOptions,
-} from '@angular-devkit/build-angular';
+import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
-import { buildStaticStandalone } from '@storybook/core-server';
+import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
+import { StyleElement } from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-handler';
@@ -25,17 +22,20 @@ import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-ha
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
+  docsMode: boolean;
   compodoc: boolean;
   compodocArgs: string[];
-  styles?: ExtraEntryPoint[];
+  styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
 } & Pick<
     // makes sure the option exists
     CLIOptions,
-    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'docs' | 'webpackStatsJson'
+    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson' | 'disableTelemetry'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
+
+type StandaloneBuildOptions = StandaloneOptions & { outputDir: string };
 
 export default createBuilder<any, any>(commandBuilder);
 
@@ -59,20 +59,22 @@ function commandBuilder(
         stylePreprocessorOptions,
         styles,
         configDir,
-        docs,
+        docsMode,
         loglevel,
         outputDir,
         quiet,
         webpackStatsJson,
+        disableTelemetry,
       } = options;
 
-      const standaloneOptions: StandaloneOptions = {
+      const standaloneOptions: StandaloneBuildOptions = {
         packageJson: readUpSync({ cwd: __dirname }).packageJson,
         configDir,
-        docs,
+        docsMode,
         loglevel,
         outputDir,
         quiet,
+        disableTelemetry,
         angularBrowserTarget: browserTarget,
         angularBuilderContext: context,
         angularBuilderOptions: {
@@ -82,6 +84,7 @@ function commandBuilder(
         tsConfig,
         webpackStatsJson,
       };
+
       return standaloneOptions;
     }),
     switchMap((standaloneOptions) => runInstance({ ...standaloneOptions, mode: 'static' })),
@@ -111,8 +114,15 @@ async function setup(options: StorybookBuilderOptions, context: BuilderContext) 
   };
 }
 
-function runInstance(options: StandaloneOptions) {
-  return from(buildStaticStandalone(options as any)).pipe(
-    catchError((error: any) => throwError(buildStandaloneErrorHandler(error)))
-  );
+function runInstance(options: StandaloneBuildOptions) {
+  return from(
+    withTelemetry(
+      'build',
+      {
+        cliOptions: options,
+        presetOptions: { ...options, corePresets: [], overridePresets: [] },
+      },
+      () => buildStaticStandalone(options)
+    )
+  ).pipe(catchError((error: any) => throwError(buildStandaloneErrorHandler(error))));
 }

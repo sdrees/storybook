@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { stories } from './mockdata.large';
+import { index } from './mockdata.large';
 import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import { noResults } from './SearchResults.stories';
@@ -9,11 +9,11 @@ import { DEFAULT_REF_ID } from './Sidebar';
 import type { Selection } from './types';
 
 const refId = DEFAULT_REF_ID;
-const data = { [refId]: { id: refId, url: '/', stories } };
+const data = { [refId]: { id: refId, url: '/', index, previewInitialized: true } };
 const dataset = { hash: data, entries: Object.entries(data) };
 const getLastViewed = () =>
-  Object.values(stories)
-    .filter((item, index) => item.type === 'component' && item.parent && index % 20 === 0)
+  Object.values(index)
+    .filter((item, i) => item.type === 'component' && item.parent && i % 20 === 0)
     .map((component) => ({ storyId: component.id, refId }));
 
 export default {

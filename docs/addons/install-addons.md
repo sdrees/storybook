@@ -1,5 +1,5 @@
 ---
-title: Install addons
+title: 'Install addons'
 ---
 
 Storybook has [hundreds of reusable addons](https://storybook.js.org/addons) that are packaged as NPM modules. Let's walk through how to extend Storybook by installing and registering addons.
@@ -10,17 +10,26 @@ With the exception of preset addons, all addons have the same installation proce
 
 For example, to include accessibility testing in Storybook, run the following command to install the necessary addon:
 
-```shell
-yarn add -D @storybook/addon-a11y
-```
+<!-- prettier-ignore-start -->
 
-Next, update [`.storybook/main.js`](../configure/overview.md#configure-story-rendering) to the following:
+<CodeSnippets
+  paths={[
+    'common/storybook-a11y-install.yarn.js.mdx',
+    'common/storybook-a11y-install.npm.js.mdx',
+    'common/storybook-a11y-install.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-addon-registration.js.mdx',
+    'common/storybook-a11y-register.js.mdx',
+    'common/storybook-a11y-register.ts.mdx',
   ]}
 />
 
@@ -55,13 +64,14 @@ For example, to use SCSS styling, run the following command to install the addon
  💡 Tip: Use the Webpack 5 snippet only if your framework already includes support for this version. Otherwise, use the Webpack 4 snippet. 
 </div>
 
-Next, update [`.storybook/main.js`](../configure/overview.md#configure-story-rendering) to the following:
+Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'common/storybook-main-preset-config.js.mdx',
+    'common/storybook-main-preset-config.ts.mdx',
   ]}
 />
 
@@ -83,6 +93,7 @@ Consider the following example:
 <CodeSnippets
   paths={[
     'common/storybook-preset-configuration.js.mdx',
+    'common/storybook-preset-configuration.ts.mdx',
   ]}
 />
 

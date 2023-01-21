@@ -26,7 +26,7 @@ test.describe('preview-web', () => {
 
     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 
-    await sbPage.previewRoot().getByRole('button').getByText('Submit').press('s');
+    await sbPage.previewRoot().getByRole('button').getByText('Submit').first().press('s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
   });
 });

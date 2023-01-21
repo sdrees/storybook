@@ -18,6 +18,7 @@ Run the following command to install the addon and the required dependencies.
   paths={[
     'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
     'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
+    'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
   ]}
 />
 

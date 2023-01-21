@@ -10,8 +10,19 @@ import type {
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
+  forceInitialArgs?: boolean;
 };
 
+export type ResolvedModuleExportType = 'component' | 'meta' | 'story';
+
+export type ResolvedModuleExportFromType<
+  TType extends ResolvedModuleExportType,
+  TRenderer extends Renderer = Renderer
+> = TType extends 'component'
+  ? { type: 'component'; component: TRenderer['component'] }
+  : TType extends 'meta'
+  ? { type: 'meta'; csfFile: CSFFile<TRenderer> }
+  : { type: 'story'; story: PreparedStory<TRenderer> };
 /**
  * What do we know about an of={} call?
  *
@@ -20,10 +31,13 @@ export type StoryRenderOptions = {
  *   - story === `PreparedStory`
  * But these shorthands capture the idea of what is being talked about
  */
-export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> =
-  | { type: 'component'; component: TRenderer['component'] }
-  | { type: 'meta'; csfFile: CSFFile<TRenderer> }
-  | { type: 'story'; story: PreparedStory<TRenderer> };
+export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> = {
+  type: ResolvedModuleExportType;
+} & (
+  | ResolvedModuleExportFromType<'component', TRenderer>
+  | ResolvedModuleExportFromType<'meta', TRenderer>
+  | ResolvedModuleExportFromType<'story', TRenderer>
+);
 
 export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   /**
@@ -36,9 +50,10 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
    * Find a component, meta or story object from the direct export(s) from the CSF file.
    * This is the API that drives the `of={}` syntax.
    */
-  resolveModuleExport: (
-    moduleExport: ModuleExport | ResolvedModuleExport<TRenderer>['type']
-  ) => ResolvedModuleExport<TRenderer>;
+  resolveOf<TType extends ResolvedModuleExportType>(
+    moduleExportOrType: ModuleExport | TType,
+    validTypes?: TType[]
+  ): ResolvedModuleExportFromType<TType, TRenderer>;
 
   /**
    * Find a story's id from the name of the story.

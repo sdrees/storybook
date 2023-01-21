@@ -1,12 +1,12 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
-import type { SupportedRenderers, SupportedFrameworks } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
   extensions?: string[];
   commonJs?: boolean;
   staticDirs?: string[];
+  storybookConfigFolder: string;
   /**
    * Extra values for main.js
    *
@@ -19,10 +19,20 @@ interface ConfigureMainOptions {
   [key: string]: any;
 }
 
+export interface FrameworkPreviewParts {
+  prefix: string;
+}
+
+interface ConfigurePreviewOptions {
+  frameworkPreviewParts?: FrameworkPreviewParts;
+  storybookConfigFolder: string;
+}
+
 export async function configureMain({
   addons,
   extensions = ['js', 'jsx', 'ts', 'tsx'],
   commonJs = false,
+  storybookConfigFolder,
   ...custom
 }: ConfigureMainOptions) {
   const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
@@ -44,7 +54,7 @@ export async function configureMain({
   // .replaceAll(/"(path\.dirname\(require\.resolve\(path\.join\('.*\))"/g, (_, a) => a)}`;
 
   await fse.writeFile(
-    `./.storybook/main.${commonJs ? 'cjs' : 'js'}`,
+    `./${storybookConfigFolder}/main.${commonJs ? 'cjs' : 'js'}`,
     dedent`
       const path = require('path');
       ${stringified}
@@ -53,20 +63,9 @@ export async function configureMain({
   );
 }
 
-const frameworkToPreviewParts: Partial<Record<SupportedFrameworks | SupportedRenderers, any>> = {
-  angular: {
-    prefix: dedent`
-      import { setCompodocJson } from "@storybook/addon-docs/angular";
-      import docJson from "../documentation.json";
-      setCompodocJson(docJson);
-      
-      `.trimStart(),
-  },
-};
-
-export async function configurePreview(framework: SupportedFrameworks | SupportedRenderers) {
-  const { prefix = '', extraParameters = '' } = frameworkToPreviewParts[framework] || {};
-  const previewPath = `./.storybook/preview.js`;
+export async function configurePreview(options: ConfigurePreviewOptions) {
+  const { prefix = '' } = options?.frameworkPreviewParts || {};
+  const previewPath = `./${options.storybookConfigFolder}/preview.js`;
 
   // If the framework template included a preview then we have nothing to do
   if (await fse.pathExists(previewPath)) {
@@ -83,7 +82,6 @@ export async function configurePreview(framework: SupportedFrameworks | Supporte
           date: /Date$/,
         },
       },
-      ${extraParameters}
     }`
     .replace('  \n', '')
     .trim();

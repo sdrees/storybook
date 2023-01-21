@@ -8,7 +8,7 @@ export const parameters = {
   docs: {
     extractArgTypes,
     extractComponentDescription,
-    inlineStories: true,
+    story: { inline: true },
     source: {
       type: SourceType.DYNAMIC,
       language: 'html',

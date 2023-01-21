@@ -54,7 +54,7 @@ If you see errors on the CLI when you run the `yarn storybook` command, you like
 <details>
 <summary>Runtime configuration</summary>
 
-If Storybook builds but you see an error immediately when connecting to it in the browser, in that case, chances are one of your input files is not compiling/transpiling correctly to be interpreted by the browser. Storybook supports modern browsers and IE11, but you may need to check the Babel and Webpack settings (see above) to ensure your component code works correctly.
+If Storybook builds but you see an error immediately when connecting to it in the browser, in that case, chances are one of your input files is not compiling/transpiling correctly to be interpreted by the browser. Storybook supports evergreen browsers, but you may need to check the Babel and Webpack settings (see above) to ensure your component code works correctly.
 
 </details>
 
@@ -78,7 +78,6 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
     'vue/storybook-preview-with-hoc-component-decorator.2-component.js.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.3-component.js.mdx',
     'vue/storybook-preview-with-mixin-decorator.2-mixin.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.3-mixin.js.mdx',
     'angular/storybook-preview-with-styled-components-decorator.ts.mdx'
   ]}
 />

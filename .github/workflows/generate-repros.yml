@@ -1,4 +1,4 @@
-name: Generate And Push Repros
+name: Generate and push repros to Github
 
 on:
   schedule:
@@ -7,13 +7,14 @@ on:
   # To remove when the branch will be merged
   push:
     branches:
-      - generate-repros
+      - vite-frameworks-xyz
 
 jobs:
-  update:
+  generate:
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
+      CLEANUP_SANDBOX_NODE_MODULES: true
     steps:
       - uses: actions/setup-node@v3
         with:
@@ -23,11 +24,19 @@ jobs:
         run: |
           git config --global user.name "Storybook Bot"
           git config --global user.email "bot@storybook.js.org"
-      - name: Change directory
-        run: cd code
       - name: Install dependencies
-        run: yarn install
-      - name: Generate repros with Latest Storybook CLI
-        run: yarn generate-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates.git --push --force-push
-      - name: Generate repros with Next Storybook CLI
-        run: yarn generate-repros --next --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates.git --push --force-push
+        run: node ./scripts/check-dependencies.js
+      - name: Compile Storybook libraries
+        run: yarn task --task publish --start-from=auto --no-link
+      - name: Running local registry
+        run: yarn local-registry --open &
+        working-directory: ./code
+      - name: Wait for registry
+        run: yarn wait-on http://localhost:6001
+        working-directory: ./code
+      - name: Generate repros
+        run: yarn generate-sandboxes --local-registry
+        working-directory: ./code
+      - name: Publish sandboxes to GitHub
+        run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push
+        working-directory: ./code

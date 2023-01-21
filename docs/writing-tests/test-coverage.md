@@ -26,6 +26,7 @@ Run the following command to install the addon.
   paths={[
     'common/storybook-coverage-addon-install.yarn.js.mdx',
     'common/storybook-coverage-addon-install.npm.js.mdx',
+    'common/storybook-coverage-addon-install.pnpm.js.mdx',
   ]}
 />
 
@@ -52,6 +53,7 @@ Start your Storybook with:
   paths={[
     'common/storybook-run-dev.yarn.js.mdx',
     'common/storybook-run-dev.npm.js.mdx',
+    'common/storybook-run-dev.pnpm.js.mdx',
   ]}
 />
 
@@ -65,6 +67,7 @@ Finally, open a new terminal window and run the test-runner with:
   paths={[
     'common/storybook-test-runner-coverage.yarn.js.mdx',
     'common/storybook-test-runner-coverage.npm.js.mdx',
+    'common/storybook-test-runner-coverage.pnpm.js.mdx',
   ]}
 />
 

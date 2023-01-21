@@ -58,11 +58,12 @@ test.describe('addon-docs', () => {
     await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
 
     // The `<Primary>` block should render the "Basic" story, and the `<Stories/>` block should
-    // render the "Another" story
+    // render both the "Basic" and "Another" story
     const root = sbPage.previewRoot();
     const stories = root.locator('.sbdocs-h3');
 
-    await expect(await stories.count()).toBe(1);
-    await expect(stories.first()).toHaveText('Another');
+    await expect(await stories.count()).toBe(2);
+    await expect(stories.first()).toHaveText('Basic');
+    await expect(stories.last()).toHaveText('Another');
   });
 });

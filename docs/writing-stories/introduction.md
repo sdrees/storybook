@@ -12,7 +12,7 @@ A component’s stories are defined in a story file that lives alongside the com
 
 ```
 Button.js | ts | jsx | tsx | vue | svelte
-Button.stories.js | ts | jsx | tsx | mdx
+Button.stories.js | ts | jsx | tsx
 ```
 
 ## Component Story Format

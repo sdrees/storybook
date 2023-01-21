@@ -97,21 +97,3 @@ WithCustomDecorator.decorators = [
     };
   },
 ] as Story['decorators'];
-
-export const AngularLegacyRendering = (args: Args) => ({
-  template: `Child Template`,
-  props: {
-    ...args,
-  },
-});
-AngularLegacyRendering.parameters = { angularLegacyRendering: true };
-AngularLegacyRendering.decorators = [
-  (storyFunc) => {
-    const story = storyFunc();
-
-    return {
-      ...story,
-      template: `Custom Decorator <div style="margin: 3em">${story.template}</div>`,
-    };
-  },
-] as Story['decorators'];

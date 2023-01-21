@@ -4,8 +4,7 @@ import { Title } from './Title';
 import { Subtitle } from './Subtitle';
 import { Description } from './Description';
 import { Primary } from './Primary';
-import { PRIMARY_STORY } from './types';
-import { ArgsTable } from './ArgsTable';
+import { Controls } from './Controls';
 import { Stories } from './Stories';
 
 export const DocsPage: FC = () => (
@@ -14,7 +13,7 @@ export const DocsPage: FC = () => (
     <Subtitle />
     <Description />
     <Primary />
-    <ArgsTable story={PRIMARY_STORY} />
+    <Controls />
     <Stories />
   </>
 );

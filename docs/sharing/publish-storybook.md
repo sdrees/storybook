@@ -23,6 +23,7 @@ First, we'll need to build Storybook as a static web application. The functional
     'angular/build-storybook-production-mode.with-builder.js.mdx',
     'common/build-storybook-production-mode.yarn.js.mdx',
     'common/build-storybook-production-mode.npm.js.mdx',
+    'common/build-storybook-production-mode.pnpm.js.mdx',
   ]}
 />
 
@@ -36,9 +37,16 @@ First, we'll need to build Storybook as a static web application. The functional
 
 Storybook will create a static web application capable of being served by any web server. Preview it locally by running the following command:
 
-```shell
-npx http-server ./path/to/build
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/preview-storybook-production-mode.npm.js.mdx',
+    'common/preview-storybook-production-mode.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Publish Storybook with Chromatic
 

@@ -169,6 +169,10 @@ export class CsfFile {
 
   _storyExports: Record<string, t.VariableDeclarator | t.FunctionDeclaration> = {};
 
+  _metaStatement: t.Statement | undefined;
+
+  _metaNode: t.Expression | undefined;
+
   _storyStatements: Record<string, t.ExportNamedDeclaration> = {};
 
   _storyAnnotations: Record<string, Record<string, t.Node>> = {};
@@ -259,10 +263,27 @@ export class CsfFile {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
           let metaNode: t.ObjectExpression;
-          const decl =
-            t.isIdentifier(node.declaration) && t.isProgram(parent)
-              ? findVarInitialization(node.declaration.name, parent)
-              : node.declaration;
+          const isVariableReference = t.isIdentifier(node.declaration) && t.isProgram(parent);
+          let decl;
+          if (isVariableReference) {
+            // const meta = { ... };
+            // export default meta;
+            const variableName = (node.declaration as t.Identifier).name;
+            const isVariableDeclarator = (declaration: t.VariableDeclarator) =>
+              t.isIdentifier(declaration.id) && declaration.id.name === variableName;
+
+            self._metaStatement = self._ast.program.body.find(
+              (topLevelNode) =>
+                t.isVariableDeclaration(topLevelNode) &&
+                topLevelNode.declarations.find(isVariableDeclarator)
+            );
+            decl = (self._metaStatement as t.VariableDeclaration).declarations.find(
+              isVariableDeclarator
+            ).init;
+          } else {
+            self._metaStatement = node;
+            decl = node.declaration;
+          }
 
           if (t.isObjectExpression(decl)) {
             // export default { ... };
@@ -276,6 +297,7 @@ export class CsfFile {
           }
 
           if (!self._meta && metaNode && t.isProgram(parent)) {
+            self._metaNode = metaNode;
             self._parseMeta(metaNode, parent);
           }
         },

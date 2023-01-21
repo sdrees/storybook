@@ -55,12 +55,10 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
       We've found ${chalk.yellow(storiesMdxFiles.length)} '.stories.mdx' files in your project.
       
       Storybook has upgraded to MDX2 (https://mdxjs.com/blog/v2/), which contains breaking changes from V1.
-
       We can try to automatically upgrade your MDX files to MDX2 format using some common patterns.
       
-      For a full guide for how to manually upgrade your files, see the MDX2 migration guide:
-      
-      ${chalk.cyan('https://mdxjs.com/migrating/v2/#update-mdx-files')}
+      Some steps might require manual intervention. You can find a full guide for how to manually upgrade your files here:
+      ${chalk.cyan('https://storybook.js.org/docs/7.0/react/writing-docs/mdx#breaking-changes')}
     `;
   },
 

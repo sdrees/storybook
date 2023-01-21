@@ -176,19 +176,20 @@ export function addToDevDependenciesIfNotPresent(
   }
 }
 
-export function copyTemplate(templateRoot: string) {
+export function copyTemplate(templateRoot: string, destination = '.') {
   const templateDir = path.resolve(templateRoot, `template-csf/`);
 
   if (!fs.existsSync(templateDir)) {
     throw new Error(`Couldn't find template dir`);
   }
 
-  fse.copySync(templateDir, '.', { overwrite: true });
+  fse.copySync(templateDir, destination, { overwrite: true });
 }
 
 export async function copyComponents(
   renderer: SupportedFrameworks | SupportedRenderers,
-  language: SupportedLanguage
+  language: SupportedLanguage,
+  destination?: string
 ) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     [SupportedLanguage.JAVASCRIPT]: 'js',
@@ -232,7 +233,7 @@ export async function copyComponents(
     return './stories';
   };
 
-  const destinationPath = await targetPath();
+  const destinationPath = destination ?? (await targetPath());
   await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
     overwrite: true,
   });

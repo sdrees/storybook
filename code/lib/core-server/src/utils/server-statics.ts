@@ -9,11 +9,9 @@ import favicon from 'serve-favicon';
 
 import { dedent } from 'ts-dedent';
 
-const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.svg');
-
 export async function useStatics(router: any, options: Options) {
-  let hasCustomFavicon = false;
   const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const faviconPath = await options.presets.apply<string>('favicon');
 
   if (staticDirs && options.staticDir) {
     throw new Error(dedent`
@@ -45,14 +43,6 @@ export async function useStatics(router: any, options: Options) {
             chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
           );
           router.use(targetEndpoint, express.static(staticPath, { index: false }));
-
-          if (!hasCustomFavicon && targetEndpoint === '/') {
-            const faviconPath = path.join(staticPath, 'favicon.svg');
-            if (await pathExists(faviconPath)) {
-              hasCustomFavicon = true;
-              router.use(favicon(faviconPath));
-            }
-          }
         } catch (e) {
           logger.warn(e.message);
         }
@@ -60,9 +50,7 @@ export async function useStatics(router: any, options: Options) {
     );
   }
 
-  if (!hasCustomFavicon) {
-    router.use(favicon(defaultFavIcon));
-  }
+  router.use(favicon(faviconPath));
 }
 
 export const parseStaticDir = async (arg: string) => {

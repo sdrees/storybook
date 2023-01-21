@@ -123,6 +123,7 @@ Until now, we only used auto-generated controls based on the component we're wri
 <CodeSnippets
   paths={[
     'react/table-story-fully-customize-controls.js.mdx',
+    'react/table-story-fully-customize-controls.ts.mdx',
     'vue/table-story-fully-customize-controls.2.js.mdx',
     'vue/table-story-fully-customize-controls.ts-2.ts.mdx',
     'vue/table-story-fully-customize-controls.3.js.mdx',

@@ -57,6 +57,37 @@ describe('NPM Proxy', () => {
     });
   });
 
+  describe('runScript', () => {
+    describe('npm6', () => {
+      it('should execute script `npm exec -- compodoc -e json -d .`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('6.0.0');
+
+        npmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
+          undefined,
+          undefined
+        );
+      });
+    });
+    describe('npm7', () => {
+      it('should execute script `npm run compodoc -- -e json -d .`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.1.0');
+
+        npmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
+          undefined,
+          undefined
+        );
+      });
+    });
+  });
+
   describe('addDependencies', () => {
     describe('npm6', () => {
       it('with devDep it should run `npm install -D @storybook/preview-api`', () => {

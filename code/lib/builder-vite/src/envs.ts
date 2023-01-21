@@ -1,7 +1,6 @@
 import { stringifyEnvs } from '@storybook/core-common';
 import type { UserConfig as ViteConfig } from 'vite';
-import type { Builder_EnvsRaw } from '@storybook/types';
-import type { ExtendedOptions } from './types';
+import type { Builder_EnvsRaw, Options } from '@storybook/types';
 
 // Allowed env variables on the client
 const allowedEnvVariables = [
@@ -41,7 +40,7 @@ export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: ViteConfig
 }
 
 // Sanitize environment variables if needed
-export async function sanitizeEnvVars(options: ExtendedOptions, config: ViteConfig) {
+export async function sanitizeEnvVars(options: Options, config: ViteConfig) {
   const { presets } = options;
   const envsRaw = await presets.apply<Promise<Builder_EnvsRaw>>('env');
   let { define } = config;

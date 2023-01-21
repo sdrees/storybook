@@ -27,7 +27,7 @@ import {
   allTemplates as TEMPLATES,
   type TemplateKey,
   type Template,
-} from '../code/lib/cli/src/repro-templates';
+} from '../code/lib/cli/src/sandbox-templates';
 
 import { version } from '../code/package.json';
 

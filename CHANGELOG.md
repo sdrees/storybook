@@ -1,3 +1,120 @@
+## 7.0.0-beta.31 (January 20, 2023)
+
+#### Features
+
+-   Docs: Added source stories and updated API [#20603](https://github.com/storybooks/storybook/pull/20603)
+-   Docs: Implement Controls block [#20683](https://github.com/storybooks/storybook/pull/20683)
+-   Docs: Created `ArgTypes` component and stories [#20664](https://github.com/storybooks/storybook/pull/20664)
+-   Docs: Show primary story description and headline in autodocs [#20604](https://github.com/storybooks/storybook/pull/20604)
+
+#### Bug Fixes
+
+-   Source-loader: Fix export default variable references [#20688](https://github.com/storybooks/storybook/pull/20688)
+
+#### Maintenance
+
+-   CLI: Make missing-babelrc an automatic migration [#20689](https://github.com/storybooks/storybook/pull/20689)
+-   Addon-docs: Update story index generator glob [#20679](https://github.com/storybooks/storybook/pull/20679)
+-   Docs: Move validation logic into `context.resolveOf` [#20662](https://github.com/storybooks/storybook/pull/20662)
+-   Csf-plugin: Move source to docs.source.originalSource [#20665](https://github.com/storybooks/storybook/pull/20665)
+
+#### Build
+
+-   Fix ui example story [#20692](https://github.com/storybooks/storybook/pull/20692)
+
+## 7.0.0-beta.30 (January 18, 2023)
+
+#### Features
+
+-   UI: Add Sun, Moon, Sidebyside, and stacked icons [#20621](https://github.com/storybooks/storybook/pull/20621)
+-   Angular: Add multi-project setup for ng workspaces [#20559](https://github.com/storybooks/storybook/pull/20559)
+-   Addon-docs: Support @deprecated jsdoc tag [#20154](https://github.com/storybooks/storybook/pull/20154)
+-   Csf-plugin: Support meta description comments [#20632](https://github.com/storybooks/storybook/pull/20632)
+
+#### Bug Fixes
+
+-   Core: Fix `core` preset default value [#20646](https://github.com/storybooks/storybook/pull/20646)
+-   Addon-docs: Fix issue with unattached `.mdx` files [#20661](https://github.com/storybooks/storybook/pull/20661)
+-   Webpack: aAd error catching when template is not set [#20669](https://github.com/storybooks/storybook/pull/20669)
+-   Addons: Fix Viewport resetting shortcut key not working [#20167](https://github.com/storybooks/storybook/pull/20167)
+-   Core: Show "booting" progress until story is specified or errors [#20425](https://github.com/storybooks/storybook/pull/20425)
+-   Vue: Update events binding in Vue render [#19860](https://github.com/storybooks/storybook/pull/19860)
+-   Addon-actions: Fix webpack hot reload code in manager bundle [#20649](https://github.com/storybooks/storybook/pull/20649)
+-   UI: Fix HMR issue in Manager UI [#20654](https://github.com/storybooks/storybook/pull/20654)
+
+#### Maintenance
+
+-   Docs: Refactor props of Story block [#20530](https://github.com/storybooks/storybook/pull/20530)
+-   Vite: TypeScript type cleanup [#20642](https://github.com/storybooks/storybook/pull/20642)
+
+#### Build
+
+-   Add required jobs to daily workflow [#20263](https://github.com/storybooks/storybook/pull/20263)
+-   Fix typings files to ensure this the check command succeeds [#20598](https://github.com/storybooks/storybook/pull/20598)
+
+#### Dependency Upgrades
+
+-   Svelte: Remove babel/core peer dep [#20650](https://github.com/storybooks/storybook/pull/20650)
+
+## 7.0.0-beta.29 (January 17, 2023)
+
+#### Features
+
+-   CLI: Add codemod to upgrade deprecated types [#20618](https://github.com/storybooks/storybook/pull/20618)
+-   CLI: overhaul `storybook repro` command and rename it to `storybook sandbox` [#20507](https://github.com/storybooks/storybook/pull/20507)
+-   Vue3: Add source decorator vue template and setup script + supports of multi slots  [#20498](https://github.com/storybooks/storybook/pull/20498)
+
+#### Bug Fixes
+
+-   Angular: Fix handling of docsMode option in angular builder  [#20608](https://github.com/storybooks/storybook/pull/20608)
+-   UI: Bring back support for `favicon.ico` [#20612](https://github.com/storybooks/storybook/pull/20612)
+-   CLI: Fix missing css import on Vue3 button [#20470](https://github.com/storybooks/storybook/pull/20470)
+-   Codemods: Fix `csf-2-to-3` ignores Typescript types [#20273](https://github.com/storybooks/storybook/pull/20273)
+-   NextJS: Fix image loader [#20615](https://github.com/storybooks/storybook/pull/20615)
+-   Storyshots: Fix transpilation [#20630](https://github.com/storybooks/storybook/pull/20630)
+
+#### Maintenance
+
+-   React: Change deprecated `React.VFC` to `React.FC` [#20619](https://github.com/storybooks/storybook/pull/20619)
+
+#### Dependency Upgrades
+
+-   Upgrade babel-loader to ^9.0.0 [#20577](https://github.com/storybooks/storybook/pull/20577)
+
+## 7.0.0-beta.28 (January 14, 2023)
+
+#### Maintenance
+
+-  CSF: Remove deprecated ArgTypes.defaultValue [#19492](https://github.com/storybooks/storybook/pull/19492)
+
+#### Dependency Upgrades
+
+-   Addon-controls: Fix version of preview api [#20622](https://github.com/storybooks/storybook/pull/20622)
+
+## 7.0.0-beta.27 (January 14, 2023)
+
+#### Features
+
+-   CLI: Add "missing-babelrc" automigration [#20341](https://github.com/storybooks/storybook/pull/20341)
+
+#### Bug Fixes
+
+-   Angular: Fix isStandaloneComponent check [#20295](https://github.com/storybooks/storybook/pull/20295)
+-   Blocks: Do not copy code snippet when text inside preview is selected [#19788](https://github.com/storybooks/storybook/pull/19788)
+-   Vue: Fix type.name check in extractArgTypes [#19956](https://github.com/storybooks/storybook/pull/19956)
+-   TypeScript: Add children to CanvasProps [#20451](https://github.com/storybooks/storybook/pull/20451)
+-   CLI: Fix angular/core version in init using devDependencies [#20609](https://github.com/storybooks/storybook/pull/20609)
+
+#### Maintenance
+
+-   Svelte: don't add `svelte-loader` nor `svelte` when initializing Svelte projects [#18799](https://github.com/storybooks/storybook/pull/18799)
+-   Core: prepareMeta function similar to prepareStory [#20592](https://github.com/storybooks/storybook/pull/20592)
+
+#### Build
+
+-   Build: Enable Scorecard Github Action and Badge [#19755](https://github.com/storybooks/storybook/pull/19755)
+-   Build: Add e2e test for static JSON files [#19463](https://github.com/storybooks/storybook/pull/19463)
+
 ## 7.0.0-beta.26 (January 14, 2023)
 
 #### Features

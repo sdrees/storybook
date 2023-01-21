@@ -12,6 +12,10 @@ const meta = {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
+  parameters: {
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 } satisfies Meta<typeof Button>;
 
 export default meta;

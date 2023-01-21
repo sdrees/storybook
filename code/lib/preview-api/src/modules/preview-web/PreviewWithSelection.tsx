@@ -277,7 +277,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     if (entry.type === 'story') {
       this.view.showPreparingStory({ immediate: viewModeChanged });
     } else {
-      this.view.showPreparingDocs();
+      this.view.showPreparingDocs({ immediate: viewModeChanged });
     }
 
     // If the last render is still preparing, let's drop it right now. Either

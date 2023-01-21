@@ -90,7 +90,9 @@ Run the following commands to install MSW, the addon, and generate a mock servic
   paths={[
     'common/storybook-msw-install.yarn.js.mdx',
     'common/storybook-msw-install.npm.js.mdx',
+    'common/storybook-msw-install.pnpm.js.mdx',
     'common/storybook-msw-generate.msw.js.mdx',
+    'common/storybook-msw-generate.msw-pnpm.js.mdx',
   ]}
 />
 
@@ -152,6 +154,7 @@ To test your screen with the mocked data, you could write a similar set of stori
   paths={[
     'common/documentscreen-story-msw-rest-request.js.mdx',
     'web-components/documentscreen-story-msw-rest-request.js.mdx',
+    'web-components/documentscreen-story-msw-rest-request.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-rest-request"
@@ -174,7 +177,9 @@ In addition to mocking RESTful requests, the other noteworthy feature of the [MS
 <CodeSnippets
   paths={[
     'react/document-screen-with-graphql.js.mdx',
+    'react/document-screen-with-graphql.ts.mdx',
     'vue/document-screen-with-graphql.3.js.mdx',
+    'vue/document-screen-with-graphql.ts-3.ts.mdx',
     'angular/document-screen-with-graphql.ts.mdx',
     'svelte/document-screen-with-grapqhl.js.mdx',
   ]}
@@ -189,6 +194,7 @@ To test your screen with the GraphQL mocked data, you could write the following 
 <CodeSnippets
   paths={[
     'react/documentscreen-story-msw-graphql-query.js.mdx',
+    'react/documentscreen-story-msw-graphql-query.ts.mdx',
     'vue/documentscreen-story-msw-graphql-query.3.js.mdx',
     'vue/documentscreen-story-msw-graphql-query.ts-3.ts.mdx',
     'vue/apollo-wrapper-component.with-mock-implementation-3.js.mdx',

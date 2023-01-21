@@ -2,6 +2,7 @@ import { writeFile, pathExists } from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 import path from 'path';
 import prompts from 'prompts';
+import chalk from 'chalk';
 import { JsPackageManagerFactory } from './js-package-manager';
 
 export const generateStorybookBabelConfigInCWD = async () => {
@@ -19,7 +20,7 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
   if (exists) {
     const { overwrite } = await prompts({
       type: 'confirm',
-      initial: true,
+      initial: false,
       name: 'overwrite',
       message: `${fileName} already exists. Would you like overwrite it?`,
     });
@@ -30,16 +31,22 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
     }
   }
 
+  logger.info(
+    `The config will contain ${chalk.yellow(
+      '@babel/preset-env'
+    )} and you will be prompted for additional presets, if you wish to add them depending on your project needs.`
+  );
+
   const { typescript, jsx } = await prompts([
     {
       type: 'confirm',
-      initial: true,
+      initial: false,
       name: 'typescript',
       message: `Do you want to add the TypeScript preset?`,
     },
     {
       type: 'confirm',
-      initial: true,
+      initial: false,
       name: 'jsx',
       message: `Do you want to add the React preset?`,
     },

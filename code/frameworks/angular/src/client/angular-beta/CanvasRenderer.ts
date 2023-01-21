@@ -13,7 +13,7 @@ export class CanvasRenderer extends AbstractRenderer {
   }
 
   async beforeFullRender(): Promise<void> {
-    await CanvasRenderer.resetPlatformBrowserDynamic();
+    CanvasRenderer.resetApplications();
   }
 
   async afterFullRender(): Promise<void> {

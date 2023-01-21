@@ -188,13 +188,13 @@ npx storybook@next link --local /path/to/local-repro-directory
 
 <div class="aside">
 
-💡 The `storybook link` command relies on [Yarn 2 linking](https://yarnpkg.com/cli/link/) under the hood. It requires your local reproduction to be using [Yarn 2](https://yarnpkg.com/) as well, which is the case if you're already enabled it with the [`storybook repro`](./how-to-reproduce.md) command per our contribution guidelines. The process will fail if you're trying to link a non-Yarn 2 project.
+💡 The `storybook link` command relies on [Yarn 2 linking](https://yarnpkg.com/cli/link/) under the hood. It requires your local reproduction to be using [Yarn 2](https://yarnpkg.com/) as well, which is the case if you're already enabled it with the [`storybook sandbox`](./how-to-reproduce.md) command per our contribution guidelines. The process will fail if you're trying to link a non-Yarn 2 project.
 
 </div>
 
 ## Developing a template
 
-The first step is to add an entry to `code/lib/cli/src/repro-templates.ts`, which is the master list of all repro templates:
+The first step is to add an entry to `code/lib/cli/src/sandbox-templates.ts`, which is the master list of all repro templates:
 
 ```ts
 'cra/default-js': {
@@ -209,7 +209,7 @@ The first step is to add an entry to `code/lib/cli/src/repro-templates.ts`, whic
   },
 ```
 
-Add the `isDevelopment` flag until the PR is merged (you can fast-follow it with a second PR to remove the flag), as it'll make the development process much easier.
+Add the `inDevelopment` flag until the PR is merged (you can fast-follow it with a second PR to remove the flag), as it'll make the development process much easier.
 
 The **`key`** `cra/default-js` consists of two parts:
 

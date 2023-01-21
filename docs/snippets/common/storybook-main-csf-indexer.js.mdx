@@ -1,0 +1,23 @@
+```js
+// .storybook/main.js
+
+const { readFileSync }  = require('fs');
+const { loadCsf } = require('@storybook/csf-tools');
+
+module.exports = {
+  storyIndexers = (indexers) => {
+    const indexer = async (fileName, opts) => {
+      const code = readFileSync(fileName, { encoding: 'utf-8' });
+      return loadCsf(code, { ...opts, fileName }).parse();
+    };
+
+    return [
+      {
+        test: /(stories|story)\.[tj]sx?$/,
+        indexer,
+      },
+      ...(indexers || [])
+    ]
+  }
+};
+```

@@ -12,5 +12,5 @@ export const Primary: FC<PrimaryProps> = ({ name }) => {
   const docsContext = useContext(DocsContext);
   const storyId = name && docsContext.storyIdByName(name);
   const story = docsContext.storyById(storyId);
-  return story ? <DocsStory {...story} expanded={false} withToolbar /> : null;
+  return story ? <DocsStory {...story} expanded={false} withToolbar __primary /> : null;
 };

@@ -15,7 +15,7 @@ export type CLIStep<TOptions extends OptionSpecifier> = {
 
 export const steps = {
   repro: {
-    command: 'repro-next',
+    command: 'repro',
     description: 'Bootstrapping Template',
     icon: '👷',
     hasArgument: true,

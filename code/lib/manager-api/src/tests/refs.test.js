@@ -252,7 +252,9 @@ describe('Refs API', () => {
         Object {
           "refs": Object {
             "fake": Object {
-              "error": Object {
+              "id": "fake",
+              "index": undefined,
+              "indexError": Object {
                 "message": "Error: Loading of ref failed
           at fetch (lib/api/src/modules/refs.ts)
 
@@ -263,9 +265,6 @@ describe('Refs API', () => {
 
         Please check your dev-tools network tab.",
               },
-              "id": "fake",
-              "ready": false,
-              "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -340,8 +339,7 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
-              "stories": Object {},
+              "index": Object {},
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -418,8 +416,7 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
-              "stories": Object {},
+              "index": Object {},
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -496,9 +493,8 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
+              "index": undefined,
               "loginUrl": "https://example.com/login",
-              "ready": false,
-              "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -638,9 +634,8 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
+              "index": undefined,
               "loginUrl": "https://example.com/login",
-              "ready": false,
-              "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -720,8 +715,7 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
-              "stories": Object {},
+              "index": Object {},
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -798,8 +792,7 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
-              "stories": Object {},
+              "index": Object {},
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -866,7 +859,7 @@ describe('Refs API', () => {
         });
 
         const { refs } = store.setState.mock.calls[0][0];
-        const hash = refs.fake.stories;
+        const hash = refs.fake.index;
 
         // We need exact key ordering, even if in theory JS doesn't guarantee it
         expect(Object.keys(hash)).toEqual([
@@ -922,7 +915,7 @@ describe('Refs API', () => {
         });
 
         const { refs } = store.setState.mock.calls[0][0];
-        const hash = refs.fake.stories;
+        const hash = refs.fake.index;
 
         // We need exact key ordering, even if in theory JS doesn't guarantee it
         expect(Object.keys(hash)).toEqual(['component-a', 'component-a--docs']);

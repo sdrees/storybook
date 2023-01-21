@@ -1,5 +1,5 @@
 export const parameters = {
   docs: {
-    inlineStories: true,
+    story: { inline: true },
   },
 };

@@ -1,9 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import prettier from 'prettier';
 import * as t from '@babel/types';
+import { isIdentifier, isTSTypeAnnotation, isTSTypeReference } from '@babel/types';
 import type { CsfFile } from '@storybook/csf-tools';
-import { formatCsf, loadCsf } from '@storybook/csf-tools';
-import type { API, FileInfo, Options } from 'jscodeshift';
+import { loadCsf } from '@storybook/csf-tools';
+import type { API, FileInfo } from 'jscodeshift';
+import type { BabelFile, NodePath } from '@babel/core';
+import * as babel from '@babel/core';
+import * as recast from 'recast';
+import { upgradeDeprecatedTypes } from './upgrade-deprecated-types';
 
 const logger = console;
 
@@ -89,18 +94,27 @@ const isReactGlobalRenderFn = (csf: CsfFile, storyFn: t.Expression) => {
 const isSimpleCSFStory = (init: t.Expression, annotations: t.ObjectProperty[]) =>
   annotations.length === 0 && t.isArrowFunctionExpression(init) && init.params.length === 0;
 
-export default function transform({ source, path }: FileInfo, api: API, options: Options) {
+export default function transform(info: FileInfo, api: API, options: { parser?: string }) {
   const makeTitle = (userTitle?: string) => {
     return userTitle || 'FIXME';
   };
-  const csf = loadCsf(source, { makeTitle });
+  const csf = loadCsf(info.source, { makeTitle });
 
   try {
     csf.parse();
   } catch (err) {
     logger.log(`Error ${err}, skipping`);
-    return source;
+    return info.source;
   }
+
+  // This allows for showing buildCodeFrameError messages
+  // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
+  const file: BabelFile = new babel.File(
+    { filename: info.path },
+    { code: info.source, ast: csf._ast }
+  );
+
+  const importHelper = new StorybookImportHelper(file, info);
 
   const objectExports: Record<string, t.Statement> = {};
   Object.entries(csf._storyExports).forEach(([key, decl]) => {
@@ -111,12 +125,15 @@ export default function transform({ source, path }: FileInfo, api: API, options:
     if (t.isVariableDeclarator(decl)) {
       const { init, id } = decl;
       // only replace arrow function expressions && template
-      // ignore no-arg stories without annotations
       const template = getTemplateBindVariable(init);
-      if (
-        (!t.isArrowFunctionExpression(init) && !template) ||
-        isSimpleCSFStory(init, annotations)
-      ) {
+      if (!t.isArrowFunctionExpression(init) && !template) return;
+      // Do change the type of no-arg stories without annotations to StoryFn when applicable
+      if (isSimpleCSFStory(init, annotations)) {
+        objectExports[key] = t.exportNamedDeclaration(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(importHelper.updateTypeTo(id, 'StoryFn'), init),
+          ])
+        );
         return;
       }
 
@@ -128,26 +145,24 @@ export default function transform({ source, path }: FileInfo, api: API, options:
         storyFn = init;
       }
 
-      const keyId = t.identifier(key);
-      // @ts-expect-error (Converted from ts-ignore)
-      const { typeAnnotation } = id;
-      if (typeAnnotation) {
-        keyId.typeAnnotation = typeAnnotation;
-      }
-
       const renderAnnotation = isReactGlobalRenderFn(csf, storyFn)
         ? []
         : [t.objectProperty(t.identifier('render'), storyFn)];
 
       objectExports[key] = t.exportNamedDeclaration(
         t.variableDeclaration('const', [
-          t.variableDeclarator(keyId, t.objectExpression([...renderAnnotation, ...annotations])),
+          t.variableDeclarator(
+            importHelper.updateTypeTo(id, 'StoryObj'),
+            t.objectExpression([...renderAnnotation, ...annotations])
+          ),
         ])
       );
     }
   });
 
-  const updatedBody = csf._ast.program.body.reduce((acc, stmt) => {
+  importHelper.removeDeprecatedStoryImport();
+
+  csf._ast.program.body = csf._ast.program.body.reduce((acc, stmt) => {
     // remove story annotations & template declarations
     if (isStoryAnnotation(stmt, objectExports) || isTemplateDeclaration(stmt, csf._templates)) {
       return acc;
@@ -164,8 +179,10 @@ export default function transform({ source, path }: FileInfo, api: API, options:
     acc.push(stmt);
     return acc;
   }, []);
-  csf._ast.program.body = updatedBody;
-  let output = formatCsf(csf);
+
+  upgradeDeprecatedTypes(file);
+
+  let output = recast.print(csf._ast, {}).code;
 
   try {
     const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
@@ -179,13 +196,117 @@ export default function transform({ source, path }: FileInfo, api: API, options:
     output = prettier.format(output, {
       ...prettierConfig,
       // This will infer the parser from the filename.
-      filepath: path,
+      filepath: info.path,
     });
   } catch (e) {
-    logger.log(`Failed applying prettier to ${path}.`);
+    logger.log(`Failed applying prettier to ${info.path}.`);
   }
 
   return output;
+}
+
+class StorybookImportHelper {
+  constructor(file: BabelFile, info: FileInfo) {
+    this.sbImportDeclarations = this.getAllSbImportDeclarations(file);
+  }
+
+  private sbImportDeclarations: NodePath<t.ImportDeclaration>[];
+
+  private getAllSbImportDeclarations = (file: BabelFile) => {
+    const found: NodePath<t.ImportDeclaration>[] = [];
+
+    file.path.traverse({
+      ImportDeclaration: (path) => {
+        const source = path.node.source.value;
+        if (source.startsWith('@storybook/csf') || !source.startsWith('@storybook')) return;
+        const isRendererImport = path.get('specifiers').some((specifier) => {
+          if (specifier.isImportNamespaceSpecifier()) {
+            throw path.buildCodeFrameError(
+              `This codemod does not support namespace imports for a ${path.node.source.value} package.\n` +
+                'Replace the namespace import with named imports and try again.'
+            );
+          }
+          if (!specifier.isImportSpecifier()) return false;
+          const imported = specifier.get('imported');
+          if (!imported.isIdentifier()) return false;
+
+          return [
+            'Story',
+            'StoryFn',
+            'StoryObj',
+            'Meta',
+            'ComponentStory',
+            'ComponentStoryFn',
+            'ComponentStoryObj',
+            'ComponentMeta',
+          ].includes(imported.node.name);
+        });
+
+        if (isRendererImport) found.push(path);
+      },
+    });
+    return found;
+  };
+
+  getOrAddImport = (type: string): string | undefined => {
+    // prefer type import
+    const sbImport =
+      this.sbImportDeclarations.find((path) => path.node.importKind === 'type') ??
+      this.sbImportDeclarations[0];
+    if (sbImport == null) return undefined;
+
+    const specifiers = sbImport.get('specifiers');
+    const importSpecifier = specifiers.find((specifier) => {
+      if (!specifier.isImportSpecifier()) return false;
+      const imported = specifier.get('imported');
+      if (!imported.isIdentifier()) return false;
+      return imported.node.name === type;
+    });
+    if (importSpecifier) return importSpecifier.node.local.name;
+    specifiers[0].insertBefore(t.importSpecifier(t.identifier(type), t.identifier(type)));
+    return type;
+  };
+
+  removeDeprecatedStoryImport = () => {
+    const specifiers = this.sbImportDeclarations.flatMap((it) => it.get('specifiers'));
+    const storyImports = specifiers.filter((specifier) => {
+      if (!specifier.isImportSpecifier()) return false;
+      const imported = specifier.get('imported');
+      if (!imported.isIdentifier()) return false;
+      return imported.node.name === 'Story';
+    });
+    storyImports.forEach((path) => path.remove());
+  };
+
+  getAllLocalImports = () => {
+    return this.sbImportDeclarations
+      .flatMap((it) => it.get('specifiers'))
+      .map((it) => it.node.local.name);
+  };
+
+  updateTypeTo = (id: t.LVal, type: string): t.LVal => {
+    if (
+      isIdentifier(id) &&
+      isTSTypeAnnotation(id.typeAnnotation) &&
+      isTSTypeReference(id.typeAnnotation.typeAnnotation) &&
+      isIdentifier(id.typeAnnotation.typeAnnotation.typeName)
+    ) {
+      const { name } = id.typeAnnotation.typeAnnotation.typeName;
+      if (this.getAllLocalImports().includes(name)) {
+        const localTypeImport = this.getOrAddImport(type);
+        return {
+          ...id,
+          typeAnnotation: t.tsTypeAnnotation(
+            t.tsTypeReference(
+              t.identifier(localTypeImport),
+              id.typeAnnotation.typeAnnotation.typeParameters
+            )
+          ),
+        };
+      }
+    }
+    return id;
+  };
 }
 
 export const parser = 'tsx';

@@ -1,6 +1,6 @@
 module.exports = {
   coreFrameworks: ['react', 'vue', 'angular', 'web-components'],
-  communityFrameworks: ['ember', 'html', 'svelte', 'preact'],
+  communityFrameworks: ['ember', 'html', 'svelte', 'preact', 'qwik'],
   featureGroups: [
     {
       name: 'Essentials',

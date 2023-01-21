@@ -27,6 +27,7 @@ If you want to configure how the composed Storybook behaves, you can disable the
 <CodeSnippets
   paths={[
     'common/storybook-main-disable-refs.js.mdx',
+    'common/storybook-main-disable-refs.ts.mdx',
   ]}
 />
 

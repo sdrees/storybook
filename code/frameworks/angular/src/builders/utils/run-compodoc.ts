@@ -1,7 +1,7 @@
 import { BuilderContext } from '@angular-devkit/architect';
-import { spawn } from 'child_process';
 import { Observable } from 'rxjs';
 import * as path from 'path';
+import { JsPackageManagerFactory } from '@storybook/cli';
 
 const hasTsConfigArg = (args: string[]) => args.indexOf('-p') !== -1;
 const hasOutputArg = (args: string[]) =>
@@ -20,37 +20,26 @@ export const runCompodoc = (
   return new Observable<void>((observer) => {
     const tsConfigPath = toRelativePath(tsconfig);
     const finalCompodocArgs = [
-      'compodoc',
-      // Default options
       ...(hasTsConfigArg(compodocArgs) ? [] : ['-p', tsConfigPath]),
-      ...(hasOutputArg(compodocArgs) ? [] : ['-d', `${context.workspaceRoot}`]),
+      ...(hasOutputArg(compodocArgs) ? [] : ['-d', `${context.workspaceRoot || '.'}`]),
       ...compodocArgs,
     ];
 
+    const packageManager = JsPackageManagerFactory.getPackageManager();
+
     try {
-      context.logger.info(finalCompodocArgs.join(' '));
-      const child = spawn('npx', finalCompodocArgs, {
-        cwd: context.workspaceRoot,
-        shell: true,
-      });
+      const stdout = packageManager.runPackageCommand(
+        'compodoc',
+        finalCompodocArgs,
+        context.workspaceRoot
+      );
 
-      child.stdout.on('data', (data) => {
-        context.logger.info(data.toString());
-      });
-      child.stderr.on('data', (data) => {
-        context.logger.error(data.toString());
-      });
-
-      child.on('close', (code) => {
-        if (code === 0) {
-          observer.next();
-          observer.complete();
-        } else {
-          observer.error();
-        }
-      });
-    } catch (error) {
-      observer.error(error);
+      context.logger.info(stdout);
+      observer.next();
+      observer.complete();
+    } catch (e) {
+      context.logger.error(e);
+      observer.error();
     }
   });
 };

@@ -25,7 +25,7 @@ export const NoAutoplay = {
 
 // Should autoplay
 export const Autoplay = {
-  parameters: { docs: { autoplay: true } },
+  parameters: { docs: { story: { autoplay: true } } },
   play: async ({ canvasElement }) => {
     const pre = await within(canvasElement).findByText('Play has not run');
     pre.innerText = 'Play has run';

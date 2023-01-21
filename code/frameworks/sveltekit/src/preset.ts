@@ -1,9 +1,10 @@
-import { type StorybookConfig } from '@storybook/svelte-vite';
 // @ts-expect-error -- TS picks up the type from preset.js instead of dist/preset.d.ts
 import { viteFinal as svelteViteFinal } from '@storybook/svelte-vite/preset';
+import type { PresetProperty } from '@storybook/types';
 import { withoutVitePlugins } from '@storybook/builder-vite';
+import { type StorybookConfig } from './types';
 
-export const core: StorybookConfig['core'] = {
+export const core: PresetProperty<'core', StorybookConfig> = {
   builder: '@storybook/builder-vite',
   renderer: '@storybook/svelte',
 };

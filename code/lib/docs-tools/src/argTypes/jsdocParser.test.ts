@@ -222,6 +222,22 @@ describe('parseJsDoc', () => {
     });
   });
 
+  describe('@deprecated', () => {
+    it('should ignore invalid @deprecated', () => {
+      const { extractedTags } = parseJsDoc('@deprecated');
+
+      expect(extractedTags.returns).toBeNull();
+    });
+
+    it('should return a @deprecated with a name', () => {
+      const { extractedTags } = parseJsDoc('@deprecated string');
+
+      expect(extractedTags.deprecated).not.toBeNull();
+      expect(extractedTags.deprecated.name).not.toBeNull();
+      expect(extractedTags.deprecated.name).toBe('string');
+    });
+  });
+
   describe('@returns', () => {
     it('should ignore invalid @returns', () => {
       const { extractedTags } = parseJsDoc('@returns');

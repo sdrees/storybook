@@ -24,9 +24,6 @@ export const UseState = {
   ],
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const button = await within(canvasElement).findByText('Clicked 0 times');
-    // FIXME: onClick does not properly register in vue2
-    // https://github.com/storybookjs/storybook/issues/19318
-    if (globalThis.storybookRenderer === 'vue') return;
 
     await userEvent.click(button);
     await within(canvasElement).findByText('Clicked 1 times');

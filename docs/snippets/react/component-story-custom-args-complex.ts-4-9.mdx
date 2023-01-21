@@ -1,0 +1,48 @@
+```tsx
+// YourComponent.stories.ts|tsx
+
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { YourComponent } from './your-component';
+
+const meta = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'YourComponent',
+
+  //👇 Creates specific argTypes with options
+  argTypes: {
+    propertyA: {
+      options: ['Item One', 'Item Two', 'Item Three'],
+      control: { type: 'select' }, // Automatically inferred when 'options' is defined
+    },
+    propertyB: {
+      options: ['Another Item One', 'Another Item Two', 'Another Item Three'],
+    },
+  },
+} satisfies Meta<typeof YourComponent>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+//👇 Some function to demonstrate the behavior
+const someFunction = (valuePropertyA, valuePropertyB) => {
+  // Makes some computations and returns something
+};
+
+export const ExampleStory: Story = {
+  render: (args) => {
+    const { propertyA, propertyB } = args;
+    //👇 Assigns the function result to a variable
+    const someFunctionResult = someFunction(propertyA, propertyB);
+
+    return <YourComponent {...args} someProperty={someFunctionResult} />;
+  },
+  args: {
+    propertyA: 'Item One',
+    propertyB: 'Another Item One',
+  },
+};
+```

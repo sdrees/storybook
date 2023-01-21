@@ -1,43 +1,30 @@
-import { NgModule, PlatformRef, enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { NgModule, enableProdMode, Type, ApplicationRef } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 import { Subject, BehaviorSubject } from 'rxjs';
 import { stringify } from 'telejson';
 import { ICollection, StoryFnAngularReturnType, Parameters } from '../types';
-import { createStorybookModule, getStorybookModuleMetadata } from './StorybookModule';
+import { getApplication } from './StorybookModule';
+import { storyPropsProvider } from './StorybookProvider';
+import { componentNgModules } from './StorybookWrapperComponent';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
   moduleMetadataSnapshot: string;
 };
 
-// platform must be init only if render is called at least once
-let platformRef: PlatformRef;
-function getPlatform(newPlatform?: boolean): PlatformRef {
-  if (!platformRef || newPlatform) {
-    platformRef = platformBrowserDynamic();
-  }
-  return platformRef;
-}
+const applicationRefs = new Set<ApplicationRef>();
 
 export abstract class AbstractRenderer {
   /**
    * Wait and destroy the platform
    */
-  public static resetPlatformBrowserDynamic() {
-    return new Promise<void>((resolve) => {
-      if (platformRef && !platformRef.destroyed) {
-        platformRef.onDestroy(async () => {
-          resolve();
-        });
-        // Destroys the current Angular platform and all Angular applications on the page.
-        // So call each angular ngOnDestroy and avoid memory leaks
-        platformRef.destroy();
-        return;
+  public static resetApplications() {
+    componentNgModules.clear();
+    applicationRefs.forEach((appRef) => {
+      if (!appRef.destroyed) {
+        appRef.destroy();
       }
-      resolve();
-    }).then(() => {
-      getPlatform(true);
     });
   }
 
@@ -106,18 +93,16 @@ export abstract class AbstractRenderer {
     parameters: Parameters;
     targetDOMNode: HTMLElement;
   }) {
-    const targetSelector = `${this.generateTargetSelectorFromStoryId()}`;
+    const targetSelector = this.generateTargetSelectorFromStoryId(targetDOMNode.id);
 
     const newStoryProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
-    const moduleMetadata = getStorybookModuleMetadata(
-      { storyFnAngular, component, targetSelector },
-      newStoryProps$
-    );
 
     if (
       !this.fullRendererRequired({
         storyFnAngular,
-        moduleMetadata,
+        moduleMetadata: {
+          ...storyFnAngular.moduleMetadata,
+        },
         forced,
       })
     ) {
@@ -125,7 +110,6 @@ export abstract class AbstractRenderer {
 
       return;
     }
-    await this.beforeFullRender();
 
     // Complete last BehaviorSubject and set a new one for the current module
     if (this.storyProps$) {
@@ -135,10 +119,14 @@ export abstract class AbstractRenderer {
 
     this.initAngularRootElement(targetDOMNode, targetSelector);
 
-    await getPlatform().bootstrapModule(
-      createStorybookModule(moduleMetadata),
-      parameters.bootstrapModuleOptions ?? undefined
-    );
+    const application = getApplication({ storyFnAngular, component, targetSelector });
+
+    const applicationRef = await bootstrapApplication(application, {
+      providers: [storyPropsProvider(newStoryProps$)],
+    });
+
+    applicationRefs.add(applicationRef);
+
     await this.afterFullRender();
   }
 
@@ -154,12 +142,10 @@ export abstract class AbstractRenderer {
    * @protected
    * @memberof AbstractRenderer
    */
-  protected generateTargetSelectorFromStoryId() {
+  protected generateTargetSelectorFromStoryId(id: string) {
     const invalidHtmlTag = /[^A-Za-z0-9-]/g;
-    const storyIdIsInvalidHtmlTagName = invalidHtmlTag.test(this.storyId);
-    return storyIdIsInvalidHtmlTagName
-      ? `sb-${this.storyId.replace(invalidHtmlTag, '')}-component`
-      : this.storyId;
+    const storyIdIsInvalidHtmlTagName = invalidHtmlTag.test(id);
+    return storyIdIsInvalidHtmlTagName ? `sb-${id.replace(invalidHtmlTag, '')}-component` : id;
   }
 
   protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {

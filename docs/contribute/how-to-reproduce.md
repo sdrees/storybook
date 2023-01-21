@@ -21,24 +21,20 @@ Make sure you have:
 First, open a terminal and run the following command:
 
 ```shell
-npx storybook@next repro
+npx storybook@next sandbox
 ```
 
 <div class="aside">
-💡 You can add the <code>--template</code> flag to include a custom template.
+💡 You can append a template name in the command to get filtered results e.g. <code>npx storybook@next sandbox react</code>
 </div>
 
-Next, select the framework, for example, `react`:
+Next, choose the template you want to work with:
 
-![Storybook reproduction generator framework selector](./storybook-reproductions-framework-selector-optimized.png)
-
-Then, choose the template you want to work with:
-
-![Storybook reproduction generator template](./storybook-reproduction-generator-template-optimized.png)
+![Storybook reproduction generator template](./storybook-reproduction-generator-template.png)
 
 Finally, enter a location for your reproduction:
 
-![Storybook reproduction location](./storybook-reproduction-generator-location-optimized.png)
+![Storybook reproduction location](./storybook-reproduction-generator-location.png)
 
 <div class="aside">
 💡 If you don't provide a full path for the reproduction it will be generated in the current directory.

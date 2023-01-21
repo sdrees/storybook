@@ -6,7 +6,7 @@ import type {
   API_Refs,
   API_SetRefData,
   SetStoriesStoryData,
-  API_StoriesHash,
+  API_IndexHash,
   API_StoryMapper,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
@@ -33,7 +33,7 @@ export interface SubAPI {
   getRefs: () => API_Refs;
   checkRef: (ref: API_SetRefData) => Promise<void>;
   changeRefVersion: (id: string, url: string) => void;
-  changeRefState: (id: string, ready: boolean) => void;
+  changeRefState: (id: string, previewInitialized: boolean) => void;
 }
 
 export const getSourceType = (source: string, refId: string) => {
@@ -56,10 +56,10 @@ export const defaultStoryMapper: API_StoryMapper = (b, a) => {
   return { ...a, kind: a.kind.replace('|', '/') };
 };
 
-const addRefIds = (input: API_StoriesHash, ref: API_ComposedRef): API_StoriesHash => {
+const addRefIds = (input: API_IndexHash, ref: API_ComposedRef): API_IndexHash => {
   return Object.entries(input).reduce((acc, [id, item]) => {
     return { ...acc, [id]: { ...item, refId: ref.id } };
-  }, {} as API_StoriesHash);
+  }, {} as API_IndexHash);
 };
 
 async function handleRequest(
@@ -83,8 +83,8 @@ async function handleRequest(
     }
 
     return json as API_SetRefData;
-  } catch (error) {
-    return { error };
+  } catch (err) {
+    return { indexError: err };
   }
 }
 
@@ -139,10 +139,10 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
 
       api.checkRef(ref);
     },
-    changeRefState: (id, ready) => {
+    changeRefState: (id, previewInitialized) => {
       const { [id]: ref, ...updated } = api.getRefs();
 
-      updated[id] = { ...ref, ready };
+      updated[id] = { ...ref, previewInitialized };
 
       store.setState({
         refs: updated,
@@ -205,7 +205,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
         // In theory the `/iframe.html` could be private and the `stories.json` could not exist, but in practice
         // the only private servers we know about (Chromatic) always include `stories.json`. So we can tell
         // if the ref actually exists by simply checking `stories.json` w/ credentials.
-        loadedData.error = {
+        loadedData.indexError = {
           message: dedent`
             Error: Loading of ref failed
               at fetch (lib/api/src/modules/refs.ts)
@@ -245,18 +245,18 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let storiesHash: API_StoriesHash;
+      let index: API_IndexHash;
       if (setStoriesData) {
-        storiesHash = transformSetStoriesStoryDataToStoriesHash(
+        index = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),
           { provider, docsOptions }
         );
       } else if (storyIndex) {
-        storiesHash = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
+        index = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
       }
-      if (storiesHash) storiesHash = addRefIds(storiesHash, ref);
+      if (index) index = addRefIds(index, ref);
 
-      api.updateRef(id, { stories: storiesHash, ...rest, ready });
+      api.updateRef(id, { index, ...rest });
     },
 
     updateRef: (id, data) => {

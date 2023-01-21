@@ -1,5 +1,4 @@
 import {
-  ComponentFactory,
   Type,
   Component,
   ComponentFactoryResolver,
@@ -238,18 +237,14 @@ describe('isComponent', () => {
 
 describe('isStandaloneComponent', () => {
   it('should return true with a Component with "standalone: true"', () => {
-    // TODO: `standalone` is only available in Angular v14. Remove cast to `any` once
-    // Angular deps are updated to v14.x.x.
-    @Component({ standalone: true } as any)
+    @Component({ standalone: true })
     class FooComponent {}
 
     expect(isStandaloneComponent(FooComponent)).toEqual(true);
   });
 
   it('should return false with a Component with "standalone: false"', () => {
-    // TODO: `standalone` is only available in Angular v14. Remove cast to `any` once
-    // Angular deps are updated to v14.x.x.
-    @Component({ standalone: false } as any)
+    @Component({ standalone: false })
     class FooComponent {}
 
     expect(isStandaloneComponent(FooComponent)).toEqual(false);
@@ -268,11 +263,48 @@ describe('isStandaloneComponent', () => {
     expect(isStandaloneComponent(FooPipe)).toEqual(false);
   });
 
-  it('should return false with Directive', () => {
+  it('should return true with a Directive with "standalone: true"', () => {
+    @Directive({ standalone: true })
+    class FooDirective {}
+
+    expect(isStandaloneComponent(FooDirective)).toEqual(true);
+  });
+
+  it('should return false with a Directive with "standalone: false"', () => {
+    @Directive({ standalone: false })
+    class FooDirective {}
+
+    expect(isStandaloneComponent(FooDirective)).toEqual(false);
+  });
+
+  it('should return false with Directive without the "standalone" property', () => {
     @Directive()
     class FooDirective {}
 
     expect(isStandaloneComponent(FooDirective)).toEqual(false);
+  });
+
+  it('should return true with a Pipe with "standalone: true"', () => {
+    @Pipe({ name: 'FooPipe', standalone: true })
+    class FooPipe {}
+
+    expect(isStandaloneComponent(FooPipe)).toEqual(true);
+  });
+
+  it('should return false with a Pipe with "standalone: false"', () => {
+    @Pipe({ name: 'FooPipe', standalone: false })
+    class FooPipe {}
+
+    expect(isStandaloneComponent(FooPipe)).toEqual(false);
+  });
+
+  it('should return false with Pipe without the "standalone" property', () => {
+    @Pipe({
+      name: 'fooPipe',
+    })
+    class FooPipe {}
+
+    expect(isStandaloneComponent(FooPipe)).toEqual(false);
   });
 });
 
@@ -311,7 +343,7 @@ function sortByPropName(
   return array.sort((a, b) => a.propName.localeCompare(b.propName));
 }
 
-function resolveComponentFactory<T extends Type<any>>(component: T): ComponentFactory<T> {
+function resolveComponentFactory<T extends Type<any>>(component: T) {
   TestBed.configureTestingModule({
     declarations: [component],
   }).overrideModule(BrowserDynamicTestingModule, {

@@ -10,9 +10,9 @@ export interface View<TStorybookRoot> {
 
   showNoPreview(): void;
 
-  showPreparingStory(options: { immediate: boolean }): void;
+  showPreparingStory(options?: { immediate: boolean }): void;
 
-  showPreparingDocs(): void;
+  showPreparingDocs(options?: { immediate: boolean }): void;
 
   showMain(): void;
 

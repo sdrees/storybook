@@ -80,7 +80,7 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
   useEffect(() => {
     const newFrames = Object.values(refs)
       .filter((r) => {
-        if (r.error) {
+        if (r.indexError) {
           return false;
         }
         if (r.type === 'auto-inject') {

@@ -1,7 +1,7 @@
 import memoize from 'memoizerific';
 import { global } from '@storybook/global';
 import type { SyntheticEvent } from 'react';
-import type { HashEntry, StoriesHash } from '@storybook/manager-api';
+import type { HashEntry, IndexHash } from '@storybook/manager-api';
 
 // eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from './Sidebar';
@@ -30,11 +30,11 @@ export const getParents = memoize(1000)((id: string, dataset: Dataset): Item[] =
   const parent = getParent(id, dataset);
   return parent ? [parent, ...getParents(parent.id, dataset)] : [];
 });
-export const getAncestorIds = memoize(1000)((data: StoriesHash, id: string): string[] =>
+export const getAncestorIds = memoize(1000)((data: IndexHash, id: string): string[] =>
   getParents(id, data).map((item) => item.id)
 );
 export const getDescendantIds = memoize(1000)(
-  (data: StoriesHash, id: string, skipLeafs: boolean): string[] => {
+  (data: IndexHash, id: string, skipLeafs: boolean): string[] => {
     const entry = data[id];
     const children = entry.type === 'story' || entry.type === 'docs' ? [] : entry.children;
     return children.reduce((acc, childId) => {
@@ -47,7 +47,7 @@ export const getDescendantIds = memoize(1000)(
 );
 
 export function getPath(item: Item, ref: RefType): string[] {
-  const parent = item.type !== 'root' && item.parent ? ref.stories[item.parent] : null;
+  const parent = item.type !== 'root' && item.parent ? ref.index[item.parent] : null;
   if (parent) return [...getPath(parent, ref), parent.name];
   return ref.id === DEFAULT_REF_ID ? [] : [ref.title || ref.id];
 }

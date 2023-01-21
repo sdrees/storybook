@@ -1,6 +1,7 @@
+import '@angular/compiler';
+
 import { RenderContext, ArgsStoryFn } from '@storybook/types';
 
-import { renderNgApp } from './angular/helpers';
 import { AngularRenderer } from './types';
 
 import { RendererFactory } from './angular-beta/RendererFactory';
@@ -20,11 +21,6 @@ export async function renderToCanvas(
   element: HTMLElement
 ) {
   showMain();
-
-  if (parameters.angularLegacyRendering) {
-    renderNgApp(storyFn, !forceRemount);
-    return;
-  }
 
   const renderer = await rendererFactory.getRendererInstance(id, element);
 

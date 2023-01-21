@@ -9,74 +9,127 @@ export interface EnrichCsfOptions {
   disableDescription?: boolean;
 }
 
-export const enrichCsf = (csf: CsfFile, options?: EnrichCsfOptions) => {
-  Object.keys(csf._storyExports).forEach((key) => {
-    const storyExport = csf.getStoryExport(key);
-    const source = !options?.disableSource && extractSource(storyExport);
-    const description =
-      !options?.disableDescription && extractDescription(csf._storyStatements[key]);
-    const parameters = [];
-    const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
-    parameters.push(t.spreadElement(originalParameters));
+export const enrichCsfStory = (csf: CsfFile, key: string, options?: EnrichCsfOptions) => {
+  const storyExport = csf.getStoryExport(key);
+  const source = !options?.disableSource && extractSource(storyExport);
+  const description = !options?.disableDescription && extractDescription(csf._storyStatements[key]);
+  const parameters = [];
+  const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
+  parameters.push(t.spreadElement(originalParameters));
+  const optionalDocs = t.optionalMemberExpression(
+    originalParameters,
+    t.identifier('docs'),
+    false,
+    true
+  );
+  const extraDocsParameters = [];
 
-    // storySource: { source: %%source%% },
-    if (source) {
-      const optionalStorySource = t.optionalMemberExpression(
-        originalParameters,
-        t.identifier('storySource'),
-        false,
-        true
-      );
+  // docs: { source: { originalSource: %%source%% } },
+  if (source) {
+    const optionalSource = t.optionalMemberExpression(
+      optionalDocs,
+      t.identifier('source'),
+      false,
+      true
+    );
 
-      parameters.push(
-        t.objectProperty(
-          t.identifier('storySource'),
-          t.objectExpression([
-            t.objectProperty(t.identifier('source'), t.stringLiteral(source)),
-            t.spreadElement(optionalStorySource),
-          ])
-        )
-      );
-    }
+    extraDocsParameters.push(
+      t.objectProperty(
+        t.identifier('source'),
+        t.objectExpression([
+          t.objectProperty(t.identifier('originalSource'), t.stringLiteral(source)),
+          t.spreadElement(optionalSource),
+        ])
+      )
+    );
+  }
 
-    // docs: { description: { story: %%description%% } },
-    if (description) {
-      const optionalDocs = t.optionalMemberExpression(
-        originalParameters,
-        t.identifier('docs'),
-        false,
-        true
-      );
-
-      const optionalDescription = t.optionalMemberExpression(
-        optionalDocs,
+  // docs: { description: { story: %%description%% } },
+  if (description) {
+    const optionalDescription = t.optionalMemberExpression(
+      optionalDocs,
+      t.identifier('description'),
+      false,
+      true
+    );
+    extraDocsParameters.push(
+      t.objectProperty(
         t.identifier('description'),
-        false,
-        true
-      );
+        t.objectExpression([
+          t.objectProperty(t.identifier('story'), t.stringLiteral(description)),
+          t.spreadElement(optionalDescription),
+        ])
+      )
+    );
+  }
 
-      parameters.push(
-        t.objectProperty(
-          t.identifier('docs'),
-          t.objectExpression([
-            t.spreadElement(optionalDocs),
-            t.objectProperty(
-              t.identifier('description'),
-              t.objectExpression([
-                t.objectProperty(t.identifier('story'), t.stringLiteral(description)),
-                t.spreadElement(optionalDescription),
-              ])
-            ),
-          ])
-        )
+  if (extraDocsParameters.length > 0) {
+    parameters.push(
+      t.objectProperty(
+        t.identifier('docs'),
+        t.objectExpression([t.spreadElement(optionalDocs), ...extraDocsParameters])
+      )
+    );
+    const addParameter = t.expressionStatement(
+      t.assignmentExpression('=', originalParameters, t.objectExpression(parameters))
+    );
+    csf._ast.program.body.push(addParameter);
+  }
+};
+
+const addComponentDescription = (
+  node: t.ObjectExpression,
+  path: string[],
+  value: t.ObjectProperty
+) => {
+  if (!path.length) {
+    const hasExistingComponent = node.properties.find(
+      (p) => t.isObjectProperty(p) && t.isIdentifier(p.key) && p.key.name === 'component'
+    );
+    if (!hasExistingComponent) {
+      // make this the lowest-priority so that if the user is object-spreading on top of it,
+      // the users' code will "win"
+      node.properties.unshift(value);
+    }
+    return;
+  }
+  const [first, ...rest] = path;
+  const existing = node.properties.find(
+    (p) =>
+      t.isObjectProperty(p) &&
+      t.isIdentifier(p.key) &&
+      p.key.name === first &&
+      t.isObjectExpression(p.value)
+  );
+  let subNode: t.ObjectExpression;
+  if (existing) {
+    subNode = (existing as t.ObjectProperty).value as t.ObjectExpression;
+  } else {
+    subNode = t.objectExpression([]);
+    node.properties.push(t.objectProperty(t.identifier(first), subNode));
+  }
+  addComponentDescription(subNode, rest, value);
+};
+
+export const enrichCsfMeta = (csf: CsfFile, options?: EnrichCsfOptions) => {
+  const description = !options?.disableDescription && extractDescription(csf._metaStatement);
+  // docs: { description: { component: %%description%% } },
+  if (description) {
+    const metaNode = csf._metaNode;
+    if (metaNode && t.isObjectExpression(metaNode)) {
+      addComponentDescription(
+        metaNode,
+        ['parameters', 'docs', 'description'],
+        t.objectProperty(t.identifier('component'), t.stringLiteral(description))
       );
     }
-    if (parameters.length > 1) {
-      const addParameter = t.expressionStatement(
-        t.assignmentExpression('=', originalParameters, t.objectExpression(parameters))
-      );
-      csf._ast.program.body.push(addParameter);
-    }
+  }
+};
+
+export const enrichCsf = (csf: CsfFile, options?: EnrichCsfOptions) => {
+  enrichCsfMeta(csf, options);
+  Object.keys(csf._storyExports).forEach((key) => {
+    enrichCsfStory(csf, key, options);
   });
 };
 

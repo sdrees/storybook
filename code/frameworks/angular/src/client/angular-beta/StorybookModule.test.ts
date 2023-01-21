@@ -4,7 +4,8 @@ import { TestBed } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ICollection } from '../types';
-import { getStorybookModuleMetadata } from './StorybookModule';
+import { getApplication } from './StorybookModule';
+import { storyPropsProvider } from './StorybookProvider';
 
 describe('StorybookModule', () => {
   describe('getStorybookModuleMetadata', () => {
@@ -54,16 +55,16 @@ describe('StorybookModule', () => {
           localFunction: () => 'localFunction',
         };
 
-        const ngModule = getStorybookModuleMetadata(
-          {
-            storyFnAngular: { props },
-            component: FooComponent,
-            targetSelector: 'my-selector',
-          },
-          new BehaviorSubject<ICollection>(props)
-        );
+        const application = getApplication({
+          storyFnAngular: { props },
+          component: FooComponent,
+          targetSelector: 'my-selector',
+        });
 
-        const { fixture } = await configureTestingModule(ngModule);
+        const { fixture } = await configureTestingModule({
+          imports: [application],
+          providers: [storyPropsProvider(new BehaviorSubject<ICollection>(props))],
+        });
         fixture.detectChanges();
 
         expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(props.input);
@@ -90,16 +91,16 @@ describe('StorybookModule', () => {
           },
         };
 
-        const ngModule = getStorybookModuleMetadata(
-          {
-            storyFnAngular: { props },
-            component: FooComponent,
-            targetSelector: 'my-selector',
-          },
-          new BehaviorSubject<ICollection>(props)
-        );
+        const application = getApplication({
+          storyFnAngular: { props },
+          component: FooComponent,
+          targetSelector: 'my-selector',
+        });
 
-        const { fixture } = await configureTestingModule(ngModule);
+        const { fixture } = await configureTestingModule({
+          imports: [application],
+          providers: [storyPropsProvider(new BehaviorSubject<ICollection>(props))],
+        });
         fixture.detectChanges();
 
         fixture.nativeElement.querySelector('p#output').click();
@@ -116,15 +117,15 @@ describe('StorybookModule', () => {
         };
         const storyProps$ = new BehaviorSubject<ICollection>(initialProps);
 
-        const ngModule = getStorybookModuleMetadata(
-          {
-            storyFnAngular: { props: initialProps },
-            component: FooComponent,
-            targetSelector: 'my-selector',
-          },
-          storyProps$
-        );
-        const { fixture } = await configureTestingModule(ngModule);
+        const application = getApplication({
+          storyFnAngular: { props: initialProps },
+          component: FooComponent,
+          targetSelector: 'my-selector',
+        });
+        const { fixture } = await configureTestingModule({
+          imports: [application],
+          providers: [storyPropsProvider(storyProps$)],
+        });
         fixture.detectChanges();
 
         expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(
@@ -169,15 +170,15 @@ describe('StorybookModule', () => {
         };
         const storyProps$ = new BehaviorSubject<ICollection>(initialProps);
 
-        const ngModule = getStorybookModuleMetadata(
-          {
-            storyFnAngular: { props: initialProps },
-            component: FooComponent,
-            targetSelector: 'my-selector',
-          },
-          storyProps$
-        );
-        const { fixture } = await configureTestingModule(ngModule);
+        const application = getApplication({
+          storyFnAngular: { props: initialProps },
+          component: FooComponent,
+          targetSelector: 'my-selector',
+        });
+        const { fixture } = await configureTestingModule({
+          imports: [application],
+          providers: [storyPropsProvider(storyProps$)],
+        });
         fixture.detectChanges();
 
         const newProps = {
@@ -207,18 +208,18 @@ describe('StorybookModule', () => {
         };
         const storyProps$ = new BehaviorSubject<ICollection>(initialProps);
 
-        const ngModule = getStorybookModuleMetadata(
-          {
-            storyFnAngular: {
-              props: initialProps,
-              template: '<p [style.color]="color"><foo [input]="input"></foo></p>',
-            },
-            component: FooComponent,
-            targetSelector: 'my-selector',
+        const application = getApplication({
+          storyFnAngular: {
+            props: initialProps,
+            template: '<p [style.color]="color"><foo [input]="input"></foo></p>',
           },
-          storyProps$
-        );
-        const { fixture } = await configureTestingModule(ngModule);
+          component: FooComponent,
+          targetSelector: 'my-selector',
+        });
+        const { fixture } = await configureTestingModule({
+          imports: [application],
+          providers: [storyPropsProvider(storyProps$)],
+        });
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('p').style.color).toEqual('red');
         expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(
@@ -242,15 +243,16 @@ describe('StorybookModule', () => {
         };
         const storyProps$ = new BehaviorSubject<ICollection>(initialProps);
 
-        const ngModule = getStorybookModuleMetadata(
-          {
-            storyFnAngular: { props: initialProps },
-            component: FooComponent,
-            targetSelector: 'my-selector',
-          },
-          storyProps$
-        );
-        const { fixture } = await configureTestingModule(ngModule);
+        const application = getApplication({
+          storyFnAngular: { props: initialProps },
+          component: FooComponent,
+          targetSelector: 'my-selector',
+        });
+        const { fixture } = await configureTestingModule({
+          imports: [application],
+          providers: [storyPropsProvider(storyProps$)],
+        });
+
         fixture.detectChanges();
 
         expect(fixture.nativeElement.querySelector('p#setterCallNb').innerHTML).toEqual('1');
@@ -274,19 +276,19 @@ describe('StorybookModule', () => {
       it('should display the component', async () => {
         const props = {};
 
-        const ngModule = getStorybookModuleMetadata(
-          {
-            storyFnAngular: {
-              props,
-              moduleMetadata: { entryComponents: [WithoutSelectorComponent] },
-            },
-            component: WithoutSelectorComponent,
-            targetSelector: 'my-selector',
+        const application = getApplication({
+          storyFnAngular: {
+            props,
+            moduleMetadata: { entryComponents: [WithoutSelectorComponent] },
           },
-          new BehaviorSubject<ICollection>(props)
-        );
+          component: WithoutSelectorComponent,
+          targetSelector: 'my-selector',
+        });
 
-        const { fixture } = await configureTestingModule(ngModule);
+        const { fixture } = await configureTestingModule({
+          imports: [application],
+          providers: [storyPropsProvider(new BehaviorSubject<ICollection>(props))],
+        });
         fixture.detectChanges();
 
         expect(fixture.nativeElement.innerHTML).toContain('The content');
@@ -300,16 +302,16 @@ describe('StorybookModule', () => {
       })
       class FooComponent {}
 
-      const ngModule = getStorybookModuleMetadata(
-        {
-          storyFnAngular: { template: '' },
-          component: FooComponent,
-          targetSelector: 'my-selector',
-        },
-        new BehaviorSubject({})
-      );
+      const application = getApplication({
+        storyFnAngular: { template: '' },
+        component: FooComponent,
+        targetSelector: 'my-selector',
+      });
 
-      const { fixture } = await configureTestingModule(ngModule);
+      const { fixture } = await configureTestingModule({
+        imports: [application],
+        providers: [storyPropsProvider(new BehaviorSubject<ICollection>({}))],
+      });
       fixture.detectChanges();
 
       expect(fixture.nativeElement.innerHTML).toEqual('');
@@ -317,18 +319,9 @@ describe('StorybookModule', () => {
   });
 
   async function configureTestingModule(ngModule: NgModule) {
-    await TestBed.configureTestingModule({
-      declarations: ngModule.declarations,
-      providers: ngModule.providers,
-    })
-      .overrideModule(BrowserModule, {
-        set: {
-          entryComponents: [...ngModule.entryComponents],
-        },
-      })
-      .compileComponents();
+    await TestBed.configureTestingModule(ngModule).compileComponents();
 
-    const fixture = TestBed.createComponent(ngModule.bootstrap[0] as Type<unknown>);
+    const fixture = TestBed.createComponent(ngModule.imports[0] as any);
 
     return {
       fixture,

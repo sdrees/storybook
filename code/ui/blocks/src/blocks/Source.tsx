@@ -1,15 +1,15 @@
 import type { ComponentProps, FC } from 'react';
 import React, { useContext } from 'react';
-import type { StoryId, PreparedStory } from '@storybook/types';
+import type { StoryId, PreparedStory, ModuleExport } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
-import { Source as PureSource, SourceError } from '../components';
+import type { SourceCodeProps } from '../components/Source';
+import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps, SourceItem } from './SourceContainer';
 import { SourceContext } from './SourceContainer';
 
-import { enhanceSource } from './enhanceSource';
 import { useStories } from './useStory';
 
 export enum SourceState {
@@ -18,28 +18,40 @@ export enum SourceState {
   NONE = 'none',
 }
 
-interface CommonProps {
-  language?: string;
-  dark?: boolean;
-  format?: PureSourceProps['format'];
-  code?: string;
-}
+type SourceParameters = SourceCodeProps & {
+  /**
+   * Where to read the source code from, see `SourceType`
+   */
+  type?: SourceType;
+  /**
+   * Transform the detected source for display
+   */
+  transformSource?: (code: string, story: PreparedStory) => string;
+  /**
+   * Internal: set by our CSF loader (`enrichCsf` in `@storybook/csf-tools`).
+   */
+  originalSource?: string;
+};
 
-type SingleSourceProps = {
-  id: string;
-} & CommonProps;
+type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
+  /**
+   * Pass the export defining a story to render its source
+   *
+   * ```jsx
+   * import { Source } from '@storybook/blocks';
+   * import * as ButtonStories from './Button.stories';
+   *
+   * <Source of={ButtonStories.Primary} />
+   * ```
+   */
+  of?: ModuleExport;
 
-type MultiSourceProps = {
-  ids: string[];
-} & CommonProps;
+  /** @deprecated use of={storyExport} instead */
+  id?: string;
 
-type CodeProps = {
-  code: string;
-} & CommonProps;
-
-type NoneProps = CommonProps;
-
-type SourceProps = SingleSourceProps | MultiSourceProps | CodeProps | NoneProps;
+  /** @deprecated use of={storyExport} instead */
+  ids?: string[];
+};
 
 const getSourceState = (stories: PreparedStory[]) => {
   const states = stories.map((story) => story.parameters.docs?.source?.state).filter(Boolean);
@@ -52,40 +64,36 @@ const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): So
   const { sources } = sourceContext;
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
-  return sources?.[storyId] || { code: '', format: false };
+  return sources?.[storyId] || { code: '' };
 };
 
-const getSnippet = (snippet: string, story?: PreparedStory<any>): string => {
-  if (!story) {
-    return snippet;
-  }
+const getSnippet = (
+  snippet: string,
+  story: PreparedStory<any>,
+  typeFromProps: SourceType
+): string => {
+  const { __isArgsStory: isArgsStory } = story.parameters;
+  const sourceParameters = (story.parameters.docs?.source || {}) as SourceParameters;
 
-  const { parameters } = story;
-  // eslint-disable-next-line no-underscore-dangle
-  const isArgsStory = parameters.__isArgsStory;
-  const type = parameters.docs?.source?.type || SourceType.AUTO;
+  const type = typeFromProps || sourceParameters.type || SourceType.AUTO;
 
   // if user has hard-coded the snippet, that takes precedence
-  const userCode = parameters.docs?.source?.code;
-  if (userCode !== undefined) {
-    return userCode;
+  if (sourceParameters.code !== undefined) {
+    return sourceParameters.code;
   }
 
-  // if user has explicitly set this as dynamic, use snippet
-  if (type === SourceType.DYNAMIC) {
-    return parameters.docs?.transformSource?.(snippet, story) || snippet;
-  }
+  const useSnippet =
+    // if user has explicitly set this as dynamic, use snippet
+    type === SourceType.DYNAMIC ||
+    // if this is an args story and there's a snippet
+    (type === SourceType.AUTO && snippet && isArgsStory);
 
-  // if this is an args story and there's a snippet
-  if (type === SourceType.AUTO && snippet && isArgsStory) {
-    return parameters.docs?.transformSource?.(snippet, story) || snippet;
-  }
+  const code = useSnippet ? snippet : sourceParameters.originalSource || '';
 
-  // otherwise, use the source code logic
-  const enhanced = enhanceSource(story) || parameters;
-  return enhanced?.docs?.source?.code || '';
+  return sourceParameters.transformSource?.(code, story) || code;
 };
 
+// state is used by the Canvas block, which also calls useSourceProps
 type SourceStateProps = { state: SourceState };
 type PureSourceProps = ComponentProps<typeof PureSource>;
 
@@ -94,50 +102,50 @@ export const useSourceProps = (
   docsContext: DocsContextProps<any>,
   sourceContext: SourceContextProps
 ): PureSourceProps & SourceStateProps => {
-  const { id: primaryId, parameters } = docsContext.storyById();
-
-  const codeProps = props as CodeProps;
-  const singleProps = props as SingleSourceProps;
-  const multiProps = props as MultiSourceProps;
-
-  let { format, code: source } = codeProps; // prefer user-specified code
-
-  const targetIds = multiProps.ids || [singleProps.id || primaryId];
-  const storyIds = targetIds.map((targetId) => {
-    return targetId;
-  });
-
-  const stories = useStories(storyIds, docsContext);
-  if (!stories.every(Boolean)) {
+  const storyIds = props.ids || (props.id ? [props.id] : []);
+  const storiesFromIds = useStories(storyIds, docsContext);
+  if (!storiesFromIds.every(Boolean)) {
     return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
   }
 
-  if (!source) {
-    // just take the format from the first story, given how they're all concatinated together...
-    // TODO: we should consider sending an event with all the sources separately, instead of concatenating them here
-    ({ format } = getStorySource(storyIds[0], sourceContext));
-    source = storyIds
-      .map((storyId, idx) => {
-        const { code: storySource } = getStorySource(storyId, sourceContext);
-        const storyObj = stories[idx] as PreparedStory;
-        return getSnippet(storySource, storyObj);
+  // The check didn't actually change the type.
+  let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
+  if (props.of) {
+    const resolved = docsContext.resolveOf(props.of, ['story']);
+    stories = [resolved.story];
+  } else if (stories.length === 0) {
+    stories = [docsContext.storyById()];
+  }
+
+  const sourceParameters = (stories[0].parameters.docs?.source || {}) as SourceParameters;
+  let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
+  let format = props.format ?? sourceParameters.format;
+  const language = props.language ?? sourceParameters.language ?? 'jsx';
+  const dark = props.dark ?? sourceParameters.dark ?? false;
+
+  if (!code) {
+    code = stories
+      .map((story, index) => {
+        const source = getStorySource(story.id, sourceContext);
+        if (index === 0) {
+          // Take the format from the first story
+          format = source.format ?? story.parameters.docs?.source?.format ?? false;
+        }
+        return getSnippet(source.code, story, props.type);
       })
       .join('\n\n');
   }
 
   const state = getSourceState(stories as PreparedStory[]);
 
-  const { docs: docsParameters = {} } = parameters;
-  const { source: sourceParameters = {} } = docsParameters;
-  const { language: docsLanguage = null } = sourceParameters;
-
-  return source
+  return code
     ? {
-        code: source,
-        state,
+        code,
         format,
-        language: props.language || docsLanguage || 'jsx',
-        dark: props.dark || false,
+        language,
+        dark,
+        // state is used by the Canvas block when it calls this function
+        state,
       }
     : { error: SourceError.SOURCE_UNAVAILABLE, state };
 };
@@ -147,9 +155,9 @@ export const useSourceProps = (
  * or the source for a story if `storyId` is provided, or
  * the source for the current story if nothing is provided.
  */
-export const Source: FC<PureSourceProps> = (props) => {
+export const Source: FC<SourceProps> = (props) => {
   const sourceContext = useContext(SourceContext);
   const docsContext = useContext(DocsContext);
-  const sourceProps = useSourceProps(props, docsContext, sourceContext);
+  const { state, ...sourceProps } = useSourceProps(props, docsContext, sourceContext);
   return <PureSource {...sourceProps} />;
 };

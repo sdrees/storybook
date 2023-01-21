@@ -5,7 +5,6 @@ exports[`Renders CSF2Secondary story 1`] = `
   <div>
     <button
       class="storybook-button storybook-button--medium storybook-button--secondary"
-      label="Button"
       type="button"
     >
       Children coming from story args!
@@ -32,7 +31,6 @@ exports[`Renders CSF2StoryWithParamsAndDecorator story 1`] = `
   <div>
     <button
       class="storybook-button storybook-button--medium storybook-button--secondary"
-      label="Button"
       type="button"
     >
       foo
@@ -46,7 +44,6 @@ exports[`Renders CSF3Button story 1`] = `
   <div>
     <button
       class="storybook-button storybook-button--medium storybook-button--secondary"
-      label="Button"
       type="button"
     >
       foo
@@ -66,7 +63,6 @@ exports[`Renders CSF3ButtonWithRender story 1`] = `
       </p>
       <button
         class="storybook-button storybook-button--medium storybook-button--secondary"
-        label="Button"
         type="button"
       >
         foo
@@ -91,7 +87,6 @@ exports[`Renders CSF3Primary story 1`] = `
   <div>
     <button
       class="storybook-button storybook-button--large storybook-button--primary"
-      label="Button"
       type="button"
     >
       foo

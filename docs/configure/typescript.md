@@ -25,6 +25,7 @@ The following code snippets show the fields for you to use with TypeScript:
 <CodeSnippets
   paths={[
     'common/storybook-main-add-ts-config.js.mdx',
+    'common/storybook-main-add-ts-config.ts.mdx',
   ]}
 />
 
@@ -50,6 +51,7 @@ Adjust the configuration as demonstrated below. And the next time you restart yo
 <CodeSnippets
   paths={[
     'common/storybook-main-extend-ts-config.js.mdx',
+    'common/storybook-main-extend-ts-config.ts.mdx',
   ]}
 />
 

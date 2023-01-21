@@ -25,6 +25,7 @@ If you're upgrading from a previous Storybook version, you'll need to run the fo
   paths={[
     'common/storybook-addon-essentials-install.yarn.js.mdx',
     'common/storybook-addon-essentials-install.npm.js.mdx',
+    'common/storybook-addon-essentials-install.pnpm.js.mdx',
   ]}
 />
 
@@ -37,6 +38,7 @@ Update your Storybook configuration (in [`.storybook/main.js`](../configure/over
 <CodeSnippets
   paths={[
     'common/storybook-main-register-essentials-addon.js.mdx',
+    'common/storybook-main-register-essentials-addon.ts.mdx',
   ]}
 />
 
@@ -54,6 +56,7 @@ If you need to reconfigure any of the [individual Essentials addons](https://sto
   paths={[
     'common/storybook-addon-actions-install.yarn.js.mdx',
     'common/storybook-addon-actions-install.npm.js.mdx',
+    'common/storybook-addon-actions-install.pnpm.js.mdx',
   ]}
 />
 
@@ -64,6 +67,7 @@ If you need to reconfigure any of the [individual Essentials addons](https://sto
 <CodeSnippets
   paths={[
     'common/storybook-main-register-individual-actions-addon.js.mdx',
+    'common/storybook-main-register-individual-actions-addon.ts.mdx',
   ]}
 />
 
@@ -76,6 +80,7 @@ Below is an abridged configuration and table with all the available options for 
 <CodeSnippets
   paths={[
     'common/storybook-main-full-individual-essentials-config.js.mdx',
+    'common/storybook-main-full-individual-essentials-config.ts.mdx',
   ]}
 />
 
@@ -107,6 +112,7 @@ For example, if you wanted to disable the [backgrounds addon](./backgrounds.md),
 <CodeSnippets
   paths={[
     'common/storybook-main-disable-addon.js.mdx',
+    'common/storybook-main-disable-addon.ts.mdx',
   ]}
 />
 

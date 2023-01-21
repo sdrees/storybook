@@ -22,6 +22,7 @@ import {
   isPreservingSymlinks,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
@@ -189,6 +190,15 @@ export default async (
           lazyCompilation: { entries: false },
         }
       : {};
+
+  if (!template) {
+    throw new Error(dedent`
+      Storybook's Webpack5 builder requires a template to be specified.
+      Somehow you've ended up with a falsy value for the template option.
+
+      Please file an issue at https://github.com/storybookjs/storybook with a reproduction.
+    `);
+  }
 
   return {
     name: 'preview',

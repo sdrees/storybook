@@ -144,6 +144,7 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
     'common/storybook-main-disable-telemetry.main-ts.ts.mdx',
     'common/storybook-disable-telemetry-flag.yarn.js.mdx',
     'common/storybook-disable-telemetry-flag.npm.js.mdx',
+    'common/storybook-disable-telemetry-flag.pnpm.js.mdx',
     'common/storybook-disable-telemetry-env.env-var.js.mdx',
   ]}
 />
@@ -153,8 +154,6 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
 <div class="aside">
   💡 There is a <code>boot</code> event that contains no metadata at all (simply used to ensure the telemetry is working). It is sent prior to evaluating your <code>main.js</code>, so it is unaffected by the <code>disableTelemetry</code> option. If you want to ensure that event is not sent, be sure to use the <code>STORYBOOK_DISABLE_TELEMETRY</code> environment variable.
 </div>
-
-
 
 ## Crash reports (disabled by default)
 
@@ -168,6 +167,7 @@ In addition to general usage telemetry, you may also choose to share crash repor
     'common/storybook-telemetry-main-enable-crash-reports.main-ts.ts.mdx',
     'common/storybook-telemetry-storybook-enable-crash-reports.yarn.js.mdx',
     'common/storybook-telemetry-storybook-enable-crash-reports.npm.js.mdx',
+    'common/storybook-telemetry-storybook-enable-crash-reports.pnpm.js.mdx',
     'common/storybook-telemetry-storybook-enable-crash-reports.env-var.js.mdx',
   ]}
 />

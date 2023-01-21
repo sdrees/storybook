@@ -1,11 +1,11 @@
 /* eslint-disable storybook/use-storybook-testing-library */
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
-import type { ComponentEntry, StoriesHash } from '@storybook/manager-api';
+import type { ComponentEntry, IndexHash } from '@storybook/manager-api';
 import { screen } from '@testing-library/dom';
 
 import { Tree } from './Tree';
-import { stories } from './mockdata.large';
+import { index } from './mockdata.large';
 import { DEFAULT_REF_ID } from './Sidebar';
 
 export default {
@@ -17,7 +17,7 @@ export default {
 };
 
 const refId = DEFAULT_REF_ID;
-const storyId = Object.values(stories).find((story) => story.type === 'story').id;
+const storyId = Object.values(index).find((story) => story.type === 'story').id;
 
 const log = (id: string) => console.log(id);
 
@@ -29,7 +29,7 @@ export const Full = () => {
       isBrowsing
       isMain
       refId={refId}
-      data={stories}
+      data={index}
       highlightedRef={{ current: { itemId: selectedId, refId } }}
       setHighlightedItemId={log}
       selectedStoryId={selectedId}
@@ -38,10 +38,10 @@ export const Full = () => {
   );
 };
 
-const tooltipStories = Object.keys(stories).reduce((acc, key) => {
+const tooltipStories = Object.keys(index).reduce((acc, key) => {
   if (key === 'tooltip-tooltipselect--default') {
     acc['tooltip-tooltipselect--tooltipselect'] = {
-      ...stories[key],
+      ...index[key],
       id: 'tooltip-tooltipselect--tooltipselect',
       name: 'TooltipSelect',
     };
@@ -49,16 +49,16 @@ const tooltipStories = Object.keys(stories).reduce((acc, key) => {
   }
   if (key === 'tooltip-tooltipselect') {
     acc[key] = {
-      ...(stories[key] as ComponentEntry),
+      ...(index[key] as ComponentEntry),
       children: ['tooltip-tooltipselect--tooltipselect'],
     };
     return acc;
   }
-  if (key.startsWith('tooltip')) acc[key] = stories[key];
+  if (key.startsWith('tooltip')) acc[key] = index[key];
   return acc;
-}, {} as StoriesHash);
+}, {} as IndexHash);
 
-const singleStoryComponent: StoriesHash = {
+const singleStoryComponent: IndexHash = {
   // @ts-expect-error (invalid input)
   single: {
     type: 'component',
@@ -102,7 +102,7 @@ export const SingleStoryComponents = () => {
   );
 };
 
-const docsOnlySinglesStoryComponent: StoriesHash = {
+const docsOnlySinglesStoryComponent: IndexHash = {
   // @ts-expect-error (invalid input)
   single: {
     type: 'component',
@@ -147,7 +147,7 @@ export const SkipToCanvasLinkFocused = {
     isBrowsing: true,
     isMain: true,
     refId,
-    data: stories,
+    data: index,
     highlightedRef: { current: { itemId: 'tooltip-tooltipbuildlist--default', refId } },
     setHighlightedItemId: log,
     selectedStoryId: 'tooltip-tooltipbuildlist--default',

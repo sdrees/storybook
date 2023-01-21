@@ -34,9 +34,11 @@ import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
 
-export async function buildStaticStandalone(
-  options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
-) {
+export type BuildStaticStandaloneOptions = CLIOptions &
+  LoadOptions &
+  BuilderOptions & { outputDir: string };
+
+export async function buildStaticStandalone(options: BuildStaticStandaloneOptions) {
   /* eslint-disable no-param-reassign */
   options.configType = 'PRODUCTION';
 
@@ -82,7 +84,7 @@ export async function buildStaticStandalone(
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
-  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
+  const { renderer } = await presets.apply<CoreConfig>('core', {});
 
   presets = await loadAllPresets({
     corePresets: [

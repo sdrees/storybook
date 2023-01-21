@@ -38,9 +38,16 @@ In addition to the above, Storybook is under constant development, and we publis
 
 To upgrade to the latest pre-release:
 
-```sh
-npx storybook@next upgrade --prerelease
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-upgrade-prerelease.npm.js.mdx',
+    'common/storybook-upgrade-prerelease.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 If you'd like to downgrade to a stable version, manually edit the package version numbers in your `package.json` and re-install.
 

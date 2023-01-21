@@ -8,8 +8,9 @@ import type {
   InlineConfig,
 } from 'vite';
 import { viteExternalsPlugin } from 'vite-plugin-externals';
-import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
+import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
+import type { Options } from '@storybook/types';
 import {
   codeGeneratorPlugin,
   csfPlugin,
@@ -17,7 +18,7 @@ import {
   mdxPlugin,
   stripStoryHMRBoundary,
 } from './plugins';
-import type { ExtendedOptions } from './types';
+import type { BuilderOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
 
@@ -35,16 +36,17 @@ const configEnvBuild: ConfigEnv = {
 
 // Vite config that is common to development and production mode
 export async function commonConfig(
-  options: ExtendedOptions,
+  options: Options,
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
+  const { viteConfigPath } = await getBuilderOptions<BuilderOptions>(options);
 
   // I destructure away the `build` property from the user's config object
   // I do this because I can contain config that breaks storybook, such as we had in a lit project.
   // If the user needs to configure the `build` they need to do so in the viteFinal function in main.js.
   const { config: { build: buildProperty = undefined, ...userConfig } = {} } =
-    (await loadConfigFromFile(configEnv)) ?? {};
+    (await loadConfigFromFile(configEnv, viteConfigPath)) ?? {};
 
   const sbConfig: InlineConfig = {
     configFile: false,
@@ -69,7 +71,7 @@ export async function commonConfig(
   return config;
 }
 
-export async function pluginConfig(options: ExtendedOptions) {
+export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
 
   const plugins = [
@@ -91,7 +93,7 @@ export async function pluginConfig(options: ExtendedOptions) {
         }
       },
     },
-    viteExternalsPlugin(globals, { useWindow: false }),
+    viteExternalsPlugin(globals, { useWindow: false, disableInServe: true }),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built

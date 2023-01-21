@@ -35,13 +35,14 @@ Afterward, you can use any asset in your stories:
 
 We recommend serving static files via Storybook to ensure that your components always have the assets they need to load. We recommend this technique for assets that your components often use, like logos, fonts, and icons.
 
-Configure a directory (or a list of directories) where your assets live when starting Storybook. Use the `staticDirs` configuration element in your main Storybook configuration file (i.e., `.storybook/main.js`) to specify the directories:
+Configure a directory (or a list of directories) where your assets live when starting Storybook. Use the `staticDirs` configuration element in your main Storybook configuration file (i.e., `.storybook/main.js|ts`) to specify the directories:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'common/storybook-main-with-single-static-dir.js.mdx',
+    'common/storybook-main-with-single-static-dir.ts.mdx',
   ]}
 />
 
@@ -75,6 +76,7 @@ You can also pass a list of directories separated by commas without spaces inste
 <CodeSnippets
   paths={[
     'common/storybook-main-with-multiple-static-dir.js.mdx',
+    'common/storybook-main-with-multiple-static-dir.ts.mdx',
   ]}
 />
 
@@ -87,6 +89,7 @@ Or even use a configuration object to define the directories:
 <CodeSnippets
   paths={[
     'common/storybook-main-with-object-configuration-static-dir.js.mdx',
+    'common/storybook-main-with-object-configuration-static-dir.ts.mdx',
   ]}
 />
 

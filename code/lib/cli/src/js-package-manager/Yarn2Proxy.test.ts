@@ -31,6 +31,21 @@ describe('Yarn 2 Proxy', () => {
     });
   });
 
+  describe('runScript', () => {
+    it('should execute script `yarn compodoc -- -e json -d .`', () => {
+      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('7.1.0');
+
+      yarn2Proxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
+
+      expect(executeCommandSpy).toHaveBeenLastCalledWith(
+        'yarn',
+        ['compodoc', '-e', 'json', '-d', '.'],
+        undefined,
+        undefined
+      );
+    });
+  });
+
   describe('setRegistryUrl', () => {
     it('should run `yarn config set npmRegistryServer https://foo.bar`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');

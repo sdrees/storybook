@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Provider as ManagerProvider } from '@storybook/manager-api';
+import type { API } from '@storybook/manager-api';
+import { Consumer, Provider as ManagerProvider } from '@storybook/manager-api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
@@ -37,32 +38,41 @@ const ThemeStack = styled.div(
   })
 );
 
-export const Default = () => (
-  <ManagerProvider
-    key="manager"
-    provider={new FakeProvider()}
-    path="/story/ui-app--loading-state"
-    storyId="ui-app--loading-state"
-    location={{ search: '' }}
-    navigate={() => {}}
-    docsOptions={{ docsMode: false }}
-  >
-    <App
-      key="app"
-      viewMode="story"
-      layout={{
-        initialActive: 'addons',
-        isFullscreen: false,
-        showToolbar: true,
-        panelPosition: 'right',
-        showNav: true,
-        showPanel: true,
-        showTabs: true,
-      }}
-      panelCount={0}
-    />
-  </ManagerProvider>
-);
+function setPreviewInitialized({ api }: { api: API }) {
+  api.setPreviewInitialized();
+  return {};
+}
+
+export const Default = () => {
+  const provider = new FakeProvider();
+  return (
+    <ManagerProvider
+      key="manager"
+      provider={provider}
+      path="/story/ui-app--loading-state"
+      storyId="ui-app--loading-state"
+      location={{ search: '' }}
+      navigate={() => {}}
+      docsOptions={{ docsMode: false }}
+    >
+      <Consumer filter={setPreviewInitialized}>{() => <></>}</Consumer>
+      <App
+        key="app"
+        viewMode="story"
+        layout={{
+          initialActive: 'addons',
+          isFullscreen: false,
+          showToolbar: true,
+          panelPosition: 'right',
+          showNav: true,
+          showPanel: true,
+          showTabs: true,
+        }}
+        panelCount={0}
+      />
+    </ManagerProvider>
+  );
+};
 
 export const LoadingState = () => (
   <ManagerProvider

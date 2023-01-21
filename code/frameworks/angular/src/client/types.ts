@@ -37,8 +37,6 @@ export interface AngularRenderer extends WebRenderer {
 }
 
 export type Parameters = DefaultParameters & {
-  /** Uses legacy angular rendering engine that use dynamic component */
-  angularLegacyRendering?: boolean;
   bootstrapModuleOptions?: unknown;
 };
 

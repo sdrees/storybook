@@ -28,16 +28,28 @@ export enum SourceError {
   SOURCE_UNAVAILABLE = 'Oh no! The source is not available.',
 }
 
-interface SourceErrorProps {
-  isLoading?: boolean;
-  error?: SourceError;
+export interface SourceCodeProps {
+  /**
+   * The language the syntax highlighter uses for your story’s code
+   */
+  language?: string;
+  /**
+   * Use this to override the content of the source block.
+   */
+  code?: string;
+  /**
+   * The (prettier) formatter the syntax highlighter uses for your story’s code.
+   */
+  format?: ComponentProps<typeof SyntaxHighlighter>['format'];
+  /**
+   * Display the source snippet in a dark mode.
+   */
+  dark?: boolean;
 }
 
-interface SourceCodeProps {
-  language?: string;
-  code?: string;
-  format?: ComponentProps<typeof SyntaxHighlighter>['format'];
-  dark?: boolean;
+export interface SourceProps extends SourceCodeProps {
+  isLoading?: boolean;
+  error?: SourceError;
 }
 
 const SourceSkeletonWrapper = styled.div(({ theme }) => ({
@@ -71,23 +83,24 @@ const SourceSkeleton = () => (
   </SourceSkeletonWrapper>
 );
 
-// FIXME: Using | causes a typescript error, so stubbing it with & for now
-// and making `error` optional
-export type SourceProps = SourceErrorProps & SourceCodeProps;
-
 /**
  * Syntax-highlighted source code for a component (or anything!)
  */
-const Source: FunctionComponent<SourceProps> = (props) => {
-  const { isLoading, error } = props as SourceErrorProps;
+const Source: FunctionComponent<SourceProps> = ({
+  isLoading,
+  error,
+  language,
+  code,
+  dark,
+  format,
+  ...rest
+}) => {
   if (isLoading) {
     return <SourceSkeleton />;
   }
   if (error) {
     return <EmptyBlock>{error}</EmptyBlock>;
   }
-
-  const { language, code, dark, format, ...rest } = props as SourceCodeProps;
 
   const syntaxHighlighter = (
     <StyledSyntaxHighlighter

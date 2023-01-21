@@ -19,7 +19,7 @@ export async function transform(inputSource) {
     // @ts-expect-error (Converted from ts-ignore)
     var __STORY__ = ${sourceJson};
     // @ts-expect-error (Converted from ts-ignore)
-    var __LOCATIONS_MAP__ = ${JSON.stringify(addsMap)};
+    var __LOCATIONS_MAP__ = ${JSON.stringify(addsMap, null, 2).trim()};
     `;
   return `${preamble}\n${source}`;
 }

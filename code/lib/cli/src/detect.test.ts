@@ -90,6 +90,16 @@ const MOCK_FRAMEWORK_FILES: {
     },
   },
   {
+    name: ProjectType.QWIK,
+    files: {
+      'package.json': {
+        devDependencies: {
+          '@builder.io/qwik': '1.0.0',
+        },
+      },
+    },
+  },
+  {
     name: ProjectType.REACT_NATIVE,
     files: {
       'package.json': {
@@ -343,14 +353,6 @@ describe('Detect', () => {
           true
         )
       ).toBe(false);
-    });
-
-    it('ALREADY_HAS_STORYBOOK if lib is present', () => {
-      expect(
-        isStorybookInstalled({
-          devDependencies: { '@storybook/react': '4.0.0-alpha.21' },
-        })
-      ).toBe(ProjectType.ALREADY_HAS_STORYBOOK);
     });
   });
 

@@ -4,9 +4,7 @@ export default {
   title: 'welcome-banner',
   component: 'WelcomeBanner',
   parameters: {
-    docs: {
-      iframeHeight: 200,
-    },
+    docs: { story: { iframeHeight: '200px' }, },
   },
   argTypes: {
     backgroundColor: { control: 'color' },

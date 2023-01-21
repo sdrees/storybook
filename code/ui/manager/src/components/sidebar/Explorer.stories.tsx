@@ -25,9 +25,9 @@ const simple: Record<string, RefType> = {
     title: undefined,
     id: 'storybook_internal',
     url: 'iframe.html',
-    ready: true,
+    previewInitialized: true,
     // @ts-expect-error (invalid input)
-    stories: mockDataset.withRoot,
+    index: mockDataset.withRoot,
   },
 };
 
@@ -37,37 +37,37 @@ const withRefs: Record<string, RefType> = {
     id: 'basic',
     title: 'Basic ref',
     url: 'https://example.com',
-    ready: true,
+    previewInitialized: true,
     type: 'auto-inject',
     // @ts-expect-error (invalid input)
-    stories: mockDataset.noRoot,
+    index: mockDataset.noRoot,
   },
   injected: {
     id: 'injected',
     title: 'Not ready',
     url: 'https://example.com',
-    ready: false,
+    previewInitialized: false,
     type: 'auto-inject',
     // @ts-expect-error (invalid input)
-    stories: mockDataset.noRoot,
+    index: mockDataset.noRoot,
   },
   unknown: {
     id: 'unknown',
     title: 'Unknown ref',
     url: 'https://example.com',
-    ready: true,
+    previewInitialized: true,
     type: 'unknown',
     // @ts-expect-error (invalid input)
-    stories: mockDataset.noRoot,
+    index: mockDataset.noRoot,
   },
   lazy: {
     id: 'lazy',
     title: 'Lazy loaded ref',
     url: 'https://example.com',
-    ready: false,
+    previewInitialized: false,
     type: 'lazy',
     // @ts-expect-error (invalid input)
-    stories: mockDataset.withRoot,
+    index: mockDataset.withRoot,
   },
 };
 

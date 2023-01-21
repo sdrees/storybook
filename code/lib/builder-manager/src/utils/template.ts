@@ -50,6 +50,7 @@ export async function getManagerMainTemplate() {
 export const renderHTML = async (
   template: Promise<string>,
   title: Promise<string | false>,
+  favicon: Promise<string>,
   customHead: Promise<string | false>,
   cssFiles: string[],
   jsFiles: string[],
@@ -66,6 +67,7 @@ export const renderHTML = async (
   return render(templateRef, {
     title: titleRef ? `${titleRef} - Storybook` : 'Storybook',
     files: { js: jsFiles, css: cssFiles },
+    favicon: await favicon,
     globals: {
       FEATURES: JSON.stringify(await features, null, 2),
       REFS: JSON.stringify(await refs, null, 2),

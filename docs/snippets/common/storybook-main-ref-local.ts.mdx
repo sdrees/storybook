@@ -1,0 +1,22 @@
+```ts
+// .storybook/main.ts
+
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
+  // Your Storybook configuration
+  refs: {
+    react: {
+      title: 'React',
+      url: 'http://localhost:7007',
+    },
+    angular: {
+      title: 'Angular',
+      url: 'http://localhost:7008',
+    },
+  },
+};
+
+export default config;
+```

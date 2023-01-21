@@ -53,6 +53,7 @@ Depending on your framework, first, build your app and then check that everythin
     'angular/storybook-run-dev.with-builder.js.mdx',
     'common/storybook-run-dev.npm.js.mdx',
     'common/storybook-run-dev.yarn.js.mdx',
+    'common/storybook-run-dev.pnpm.js.mdx',
   ]}
 />
 

@@ -46,6 +46,21 @@ describe('NPM Proxy', () => {
     });
   });
 
+  describe('runScript', () => {
+    it('should execute script `yarn compodoc -- -e json -d .`', () => {
+      const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockReturnValue('7.1.0');
+
+      pnpmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
+
+      expect(executeCommandSpy).toHaveBeenLastCalledWith(
+        'pnpm',
+        ['run', 'compodoc', '-e', 'json', '-d', '.'],
+        undefined,
+        undefined
+      );
+    });
+  });
+
   describe('addDependencies', () => {
     it('with devDep it should run `pnpm add -D @storybook/preview-api`', () => {
       const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockReturnValue('6.0.0');

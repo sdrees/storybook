@@ -19,6 +19,7 @@ Loaders are helpful when you need to load story data externally (e.g., from a re
 <CodeSnippets
   paths={[
     'react/loader-story.js.mdx',
+    'react/loader-story.ts.mdx',
     'vue/loader-story.3.js.mdx',
     'vue/loader-story.ts-3.ts.mdx',
     'angular/loader-story.ts.mdx',

@@ -1,9 +1,8 @@
 import * as path from 'path';
 import { normalizePath, resolveConfig } from 'vite';
 import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
+import type { Options } from '@storybook/types';
 import { listStories } from './list-stories';
-
-import type { ExtendedOptions } from './types';
 
 const INCLUDE_CANDIDATES = [
   '@base2/pretty-print-object',
@@ -101,7 +100,7 @@ const INCLUDE_CANDIDATES = [
 const asyncFilter = async (arr: string[], predicate: (val: string) => Promise<boolean>) =>
   Promise.all(arr.map(predicate)).then((results) => arr.filter((_v, index) => results[index]));
 
-export async function getOptimizeDeps(config: ViteInlineConfig, options: ExtendedOptions) {
+export async function getOptimizeDeps(config: ViteInlineConfig, options: Options) {
   const { root = process.cwd() } = config;
   const absoluteStories = await listStories(options);
   const stories = absoluteStories.map((storyPath) => normalizePath(path.relative(root, storyPath)));

@@ -69,6 +69,7 @@ Run the following command to install the addon.
   paths={[
     'common/storybook-figma-addon-install.yarn.js.mdx',
     'common/storybook-figma-addon-install.npm.js.mdx',
+    'common/storybook-figma-addon-install.pnpm.js.mdx',
   ]}
 />
 

@@ -34,7 +34,7 @@ const prepareMain = (
 ): AngularRenderer['storyResult'] => {
   let { template } = story;
 
-  const component = story.component ?? context.component;
+  const { component } = context;
   const userDefinedTemplate = !hasNoTemplate(template);
 
   if (!userDefinedTemplate && component) {

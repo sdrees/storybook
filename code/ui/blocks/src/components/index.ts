@@ -6,7 +6,6 @@ export * from './DocsPage';
 export * from './Preview';
 // eslint-disable-next-line import/no-cycle
 export * from './ArgsTable';
-// eslint-disable-next-line import/no-cycle
 export * from './Story';
 export * from './IFrame';
 export * from './Typeset';

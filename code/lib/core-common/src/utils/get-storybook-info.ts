@@ -17,6 +17,7 @@ const rendererPackages: Record<string, string> = {
   '@storybook/riot': 'riot',
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
+  'storybook-framework-qwik': 'qwik',
   '@storybook/rax': 'rax',
   '@storybook/server': 'server',
 };

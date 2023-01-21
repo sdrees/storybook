@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { basename, join } from 'path';
 import type { DocsOptions, Options } from '@storybook/types';
 import { getRefs } from '@storybook/core-common';
 
@@ -9,6 +9,8 @@ import { safeResolve } from './safeResolve';
 
 export const getData = async (options: Options) => {
   const refs = getRefs(options);
+  const favicon = options.presets.apply<string>('favicon').then((p) => basename(p));
+
   const features = options.presets.apply<Record<string, string | boolean>>('features');
   const logLevel = options.presets.apply<string>('logLevel');
   const title = options.presets.apply<string>('title');
@@ -33,5 +35,6 @@ export const getData = async (options: Options) => {
     instance,
     config,
     logLevel,
+    favicon,
   };
 };

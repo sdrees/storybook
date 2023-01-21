@@ -2,17 +2,11 @@
 
 import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
-import type {
-  Renderer,
-  ArgsEnhancer,
-  PlayFunctionContext,
-  SBObjectType,
-  SBScalarType,
-} from '@storybook/types';
+import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@storybook/types';
 import { addons, HooksContext } from '../../addons';
 
 import { NO_TARGET_NAME } from '../args';
-import { prepareStory } from './prepareStory';
+import { prepareStory, prepareMeta } from './prepareStory';
 
 jest.mock('@storybook/global', () => ({
   global: {
@@ -32,20 +26,6 @@ const moduleExport = {};
 const stringType: SBScalarType = { name: 'string' };
 const numberType: SBScalarType = { name: 'number' };
 const booleanType: SBScalarType = { name: 'boolean' };
-const complexType: SBObjectType = {
-  name: 'object',
-  value: {
-    complex: {
-      name: 'object',
-      value: {
-        object: {
-          name: 'array',
-          value: { name: 'string' },
-        },
-      },
-    },
-  },
-};
 
 beforeEach(() => {
   global.FEATURES = { breakingChangesV7: true };
@@ -193,44 +173,6 @@ describe('prepareStory', () => {
       const { initialArgs } = prepareStory({ id, name, moduleExport }, { id, title }, { render });
 
       expect(initialArgs).toEqual({});
-    });
-
-    it('are initialized to argTypes[x].defaultValue if unset', () => {
-      const { initialArgs } = prepareStory(
-        {
-          id,
-          name,
-          args: {
-            arg2: 3,
-            arg4: 'foo',
-            arg7: false,
-          },
-          argTypes: {
-            arg1: { name: 'arg1', type: stringType, defaultValue: 'arg1' },
-            arg2: { name: 'arg2', type: numberType, defaultValue: 2 },
-            arg3: {
-              name: 'arg3',
-              type: complexType,
-              defaultValue: { complex: { object: ['type'] } },
-            },
-            arg4: { name: 'arg4', type: stringType },
-            arg5: { name: 'arg5', type: stringType },
-            arg6: { name: 'arg6', type: numberType, defaultValue: 0 }, // See https://github.com/storybookjs/storybook/issues/12767 }
-          },
-          moduleExport,
-        },
-        { id, title },
-        { render: () => {} }
-      );
-
-      expect(initialArgs).toEqual({
-        arg1: 'arg1',
-        arg2: 3,
-        arg3: { complex: { object: ['type'] } },
-        arg4: 'foo',
-        arg6: 0,
-        arg7: false,
-      });
     });
 
     describe('argsEnhancers', () => {
@@ -702,5 +644,47 @@ describe('moduleExport', () => {
     const storyObj = {};
     const story = prepareStory({ id, name, moduleExport: storyObj }, { id, title }, { render });
     expect(story.moduleExport).toBe(storyObj);
+  });
+});
+
+describe('prepareMeta', () => {
+  it('returns the same as prepareStory', () => {
+    const meta = {
+      id,
+      title,
+      moduleExport,
+      tags: ['some-tag'],
+      parameters: {
+        a: { name: 'component' },
+        b: { name: 'component' },
+        nested: { z: { name: 'component' }, y: { name: 'component' } },
+      },
+      args: {
+        a: 'component',
+        b: 'component',
+        nested: { z: 'component', y: 'component' },
+      },
+      argTypes: {
+        a: { name: 'a-story', type: booleanType },
+        nested: { name: 'nested', type: booleanType, a: 'story' },
+      },
+    };
+    const preparedStory = prepareStory({ id, name, moduleExport }, meta, { render });
+    const preparedMeta = prepareMeta(meta, { render }, {});
+
+    // omitting the properties from preparedStory that are not in preparedMeta
+    const {
+      name: storyName,
+      story,
+      applyLoaders,
+      originalStoryFn,
+      unboundStoryFn,
+      undecoratedStoryFn,
+      playFunction,
+      ...expectedPreparedMeta
+    } = preparedStory;
+
+    expect(preparedMeta).toMatchObject(expectedPreparedMeta);
+    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length);
   });
 });

@@ -1,9 +1,8 @@
 import type { Plugin } from 'vite';
 import { vite } from '@storybook/csf-plugin';
-import type { StorybookConfig } from '@storybook/types';
-import type { ExtendedOptions } from '../types';
+import type { StorybookConfig, Options } from '@storybook/types';
 
-export async function csfPlugin(config: ExtendedOptions): Promise<Plugin> {
+export async function csfPlugin(config: Options): Promise<Plugin> {
   const { presets } = config;
 
   const addons = await presets.apply<StorybookConfig['addons']>('addons', []);

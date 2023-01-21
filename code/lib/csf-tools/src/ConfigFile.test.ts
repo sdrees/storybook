@@ -747,4 +747,89 @@ describe('ConfigFile', () => {
       });
     });
   });
+
+  describe('config helpers', () => {
+    describe('getNameFromPath', () => {
+      it(`supports string literal node`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: 'foo',
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toEqual('foo');
+      });
+
+      it(`supports object expression node with name property`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: { name: 'foo', options: { bar: require('baz') } },
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toEqual('foo');
+      });
+
+      it(`returns undefined when accessing a field that does not exist`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = { }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toBeUndefined();
+      });
+
+      it(`throws an error when node is of unexpected type`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: makesNoSense(),
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(() => config.getNameFromPath(['framework'])).toThrowError(
+          `The given node must be a string literal or an object expression with a "name" property that is a string literal.`
+        );
+      });
+    });
+
+    describe('getNamesFromPath', () => {
+      it(`supports an array with string literal and object expression with name property`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            addons: [
+              'foo',
+              { name: 'bar', options: {} },
+            ]
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+      });
+    });
+
+    it(`returns undefined when accessing a field that does not exist`, () => {
+      const source = dedent`
+        import type { StorybookConfig } from '@storybook/react-webpack5';
+
+        const config: StorybookConfig = { }
+        export default config;
+      `;
+      const config = loadConfig(source).parse();
+      expect(config.getNamesFromPath(['addons'])).toBeUndefined();
+    });
+  });
 });

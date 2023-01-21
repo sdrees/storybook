@@ -24,6 +24,7 @@ In your [`.storybook/main.js`](../configure/overview.md#configure-story-renderin
 <CodeSnippets
   paths={[
     'common/storybook-main-ref-remote.js.mdx',
+    'common/storybook-main-ref-remote.ts.mdx',
   ]}
 />
 
@@ -42,6 +43,7 @@ You can also compose multiple Storybooks that are running locally. For instance,
 <CodeSnippets
   paths={[
     'common/storybook-main-ref-local.js.mdx',
+    'common/storybook-main-ref-local.ts.mdx',
   ]}
 />
 
@@ -58,6 +60,7 @@ You can also compose Storybooks based on the current development environment (e.
 <CodeSnippets
   paths={[
     'common/storybook-main-ref-per-environment.js.mdx',
+    'common/storybook-main-ref-per-environment.ts.mdx',
   ]}
 />
 
@@ -82,6 +85,7 @@ If you're using Storybook 6.4, or higher, you can optimize your composition via 
 <CodeSnippets
   paths={[
     'common/storybook-enable-buildstoriesjson.js.mdx',
+    'common/storybook-enable-buildstoriesjson.ts.mdx',
   ]}
 />
 

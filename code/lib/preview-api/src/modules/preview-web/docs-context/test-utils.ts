@@ -15,7 +15,7 @@ export function csfFileParts() {
   const story = { id: 'meta--story', moduleExport: storyExport } as PreparedStory;
   const meta = { id: 'meta', title: 'Meta', component, moduleExports } as CSFFile['meta'];
   const csfFile = {
-    stories: { story: storyAnnotations },
+    stories: { 'meta--story': storyAnnotations },
     meta,
     moduleExports,
   } as CSFFile;

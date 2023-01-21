@@ -45,7 +45,7 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
       },
       getProjectAnnotations: () =>
         composeConfigs([
-          { parameters: { docs: { inlineStories: true } } },
+          { parameters: { docs: { story: { inline: true } } } },
           this.projectAnnotations,
         ]),
     });

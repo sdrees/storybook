@@ -1,0 +1,21 @@
+```ts
+// .storybook/main.ts
+
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
+  addons: [
+    {
+      name: '@storybook/preset-scss',
+      options: {
+        cssLoaderOptions: {
+          modules: { localIdentName: '[name]__[local]--[hash:base64:5]' },
+        },
+      },
+    },
+  ],
+};
+
+export default config;
+```

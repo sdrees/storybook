@@ -2,7 +2,6 @@ import { loadPreviewOrConfigFile } from '@storybook/core-common';
 import type { Options } from '@storybook/types';
 import slash from 'slash';
 import { normalizePath } from 'vite';
-import type { ExtendedOptions } from './types';
 import { listStories } from './list-stories';
 
 const absoluteFilesToImport = (files: string[], name: string) =>
@@ -10,7 +9,7 @@ const absoluteFilesToImport = (files: string[], name: string) =>
     .map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'/@fs/${normalizePath(el)}'`)
     .join('\n');
 
-export async function generateVirtualStoryEntryCode(options: ExtendedOptions) {
+export async function generateVirtualStoryEntryCode(options: Options) {
   const storyEntries = await listStories(options);
   const resolveMap = storyEntries.reduce<Record<string, string>>(
     (prev, entry) => ({ ...prev, [entry]: entry.replace(slash(process.cwd()), '.') }),

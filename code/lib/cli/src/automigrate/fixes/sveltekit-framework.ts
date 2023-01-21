@@ -57,17 +57,15 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     }
 
     const main = await readConfig(mainConfig);
-    const frameworkConfig = main.getFieldValue(['framework']);
+    const framework = main.getNameFromPath(['framework']);
 
-    if (!frameworkConfig) {
+    if (!framework) {
       logger.warn(dedent`
       ❌ Unable to determine Storybook framework, skipping ${chalk.cyan(fixId)} fix.
       🤔 Are you running automigrate from your project directory?
     `);
       return null;
     }
-
-    const framework = typeof frameworkConfig === 'string' ? frameworkConfig : frameworkConfig.name;
 
     if (framework === '@storybook/sveltekit') {
       // already using the new framework

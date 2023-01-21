@@ -1,23 +1,25 @@
 ```ts
 // .storybook/main.ts
 
-// Imports Storybook's configuration API
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
 import type { StorybookConfig } from '@storybook/types';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/preset-create-react-app',
   ],
-  framework: '@storybook/react',
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {},
+  },
   core: {
-    builder: '@storybook/builder-webpack5',
     disableTelemetry: true, // 👈 Disables telemetry
   },
 };
 
-module.exports = config;
+export default config;
 ```

@@ -168,7 +168,7 @@ export const RefIndicator = React.memo(
   forwardRef<HTMLElement, RefType & { state: ReturnType<typeof getStateType> }>(
     ({ state, ...ref }, forwardedRef) => {
       const api = useStorybookApi();
-      const list = useMemo(() => Object.values(ref.stories || {}), [ref.stories]);
+      const list = useMemo(() => Object.values(ref.index || {}), [ref.index]);
       const componentCount = useMemo(
         () => list.filter((v) => v.type === 'component').length,
         [list]

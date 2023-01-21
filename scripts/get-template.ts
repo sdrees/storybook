@@ -7,7 +7,7 @@ import {
   type Cadence,
   type Template as TTemplate,
   type SkippableTask,
-} from '../code/lib/cli/src/repro-templates';
+} from '../code/lib/cli/src/sandbox-templates';
 
 const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
 

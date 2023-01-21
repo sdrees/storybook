@@ -13,6 +13,7 @@ const skipOnWindows = [
   'addons/storyshots-core/src/frameworks/configure.test.ts',
   'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
   'lib/cli/src/helpers.test.ts',
+  'lib/csf-tools/src/enrichCsf.test.ts',
 ];
 
 module.exports = {

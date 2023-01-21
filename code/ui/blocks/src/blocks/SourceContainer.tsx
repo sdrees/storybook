@@ -10,7 +10,7 @@ import type { StoryId } from '@storybook/types';
 
 export interface SourceItem {
   code: string;
-  format: SyntaxHighlighterFormatTypes;
+  format?: SyntaxHighlighterFormatTypes;
 }
 export type StorySources = Record<StoryId, SourceItem>;
 

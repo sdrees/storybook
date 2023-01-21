@@ -23,7 +23,7 @@ export class DocsRenderer extends AbstractRenderer {
      *
      */
     channel.once(STORY_CHANGED, async () => {
-      await DocsRenderer.resetPlatformBrowserDynamic();
+      await DocsRenderer.resetApplications();
     });
 
     /**
@@ -32,13 +32,15 @@ export class DocsRenderer extends AbstractRenderer {
      * for previous component
      */
     channel.once(DOCS_RENDERED, async () => {
-      await DocsRenderer.resetPlatformBrowserDynamic();
+      await DocsRenderer.resetApplications();
     });
 
     await super.render({ ...options, forced: false });
   }
 
-  async beforeFullRender(): Promise<void> {}
+  async beforeFullRender(): Promise<void> {
+    DocsRenderer.resetApplications();
+  }
 
   async afterFullRender(): Promise<void> {
     await AbstractRenderer.resetCompiledComponents();

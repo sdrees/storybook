@@ -1,0 +1,30 @@
+```tsx
+// ButtonGroup.stories.ts|tsx
+
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { ButtonGroup } from '../ButtonGroup';
+
+//👇 Imports the Button stories
+import * as ButtonStories from './Button.stories';
+
+const meta = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'ButtonGroup',
+
+  component: ButtonGroup,
+} satisfies Meta<typeof ButtonGroup>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Pair: Story = {
+  args: {
+    buttons: [{ ...ButtonStories.Primary.args }, { ...ButtonStories.Secondary.args }],
+    orientation: 'horizontal',
+  },
+};
+```

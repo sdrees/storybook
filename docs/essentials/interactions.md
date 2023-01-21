@@ -26,18 +26,20 @@ Run the following command to install the interactions addon and related dependen
   paths={[
     'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
     'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
+    'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-Next, update [`.storybook/main.js`](../configure/overview.md#configure-story-rendering) to the following:
+Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'common/storybook-interactions-addon-registration.js.mdx',
+    'common/storybook-interactions-addon-registration.ts.mdx',
   ]}
 />
 
@@ -60,8 +62,6 @@ Interactions run as part of the `play` function of your stories. We rely on Test
 Make sure to import the Storybook wrappers for Jest and Testing Library rather than importing Jest and Testing Library directly.
 
 <!-- prettier-ignore-start -->
-
-<!-- this is for the common database -->
 
 <CodeSnippets
   paths={[

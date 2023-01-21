@@ -61,7 +61,7 @@
       "type": "array",
       "description": "Global styles to be included in the build.",
       "items": {
-        "$ref": "#/definitions/extraEntryPoint"
+        "$ref": "#/definitions/styleElement"
       },
       "default": ""
     },
@@ -83,7 +83,7 @@
   },
   "additionalProperties": false,
   "definitions": {
-    "extraEntryPoint": {
+    "styleElement": {
       "oneOf": [
         {
           "type": "object",

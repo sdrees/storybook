@@ -1,5 +1,6 @@
 import React from 'react';
 
+import type { IndexHash } from 'lib/manager-api/src';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
@@ -18,30 +19,39 @@ export default {
 };
 
 const { menu } = standardHeaderData;
-const stories = mockDataset.withRoot;
+const index = mockDataset.withRoot as IndexHash;
 const refId = DEFAULT_REF_ID;
 const storyId = 'root-1-child-a2--grandchild-a1-1';
 
-export const simpleData = { menu, stories, storyId };
-export const loadingData = { menu, stories: {} };
+export const simpleData = { menu, index, storyId };
+export const loadingData = { menu };
 
 const refs: Record<string, RefType> = {
   optimized: {
     id: 'optimized',
     title: 'This is a ref',
     url: 'https://example.com',
-    ready: false,
     type: 'lazy',
-    // @ts-expect-error (needs to be converted to CSF3)
-    stories,
+    index,
+    previewInitialized: true,
+  },
+};
+
+const indexError = new Error('Failed to load index');
+
+const refsError = {
+  optimized: {
+    ...refs.optimized,
+    index: undefined as IndexHash,
+    indexError,
   },
 };
 
 export const Simple = () => (
   <Sidebar
-    storiesConfigured
+    previewInitialized
     menu={menu}
-    stories={stories as any}
+    index={index as any}
     storyId={storyId}
     refId={refId}
     refs={{}}
@@ -49,25 +59,29 @@ export const Simple = () => (
 );
 
 export const Loading = () => (
+  <Sidebar previewInitialized={false} menu={menu} storyId={storyId} refId={refId} refs={{}} />
+);
+
+export const Empty = () => (
+  <Sidebar previewInitialized menu={menu} index={{}} storyId={storyId} refId={refId} refs={{}} />
+);
+
+export const IndexError = () => (
   <Sidebar
-    storiesConfigured={false}
+    previewInitialized
+    indexError={indexError}
     menu={menu}
-    stories={{}}
     storyId={storyId}
     refId={refId}
     refs={{}}
   />
 );
 
-export const Empty = () => (
-  <Sidebar storiesConfigured menu={menu} stories={{}} storyId={storyId} refId={refId} refs={{}} />
-);
-
 export const WithRefs = () => (
   <Sidebar
-    storiesConfigured
+    previewInitialized
     menu={menu}
-    stories={stories as any}
+    index={index as any}
     storyId={storyId}
     refId={refId}
     refs={refs}
@@ -75,12 +89,15 @@ export const WithRefs = () => (
 );
 
 export const LoadingWithRefs = () => (
+  <Sidebar previewInitialized={false} menu={menu} storyId={storyId} refId={refId} refs={refs} />
+);
+
+export const LoadingWithRefError = () => (
   <Sidebar
-    storiesConfigured={false}
+    previewInitialized={false}
     menu={menu}
-    stories={stories as any}
     storyId={storyId}
     refId={refId}
-    refs={refs}
+    refs={refsError}
   />
 );

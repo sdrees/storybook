@@ -27,7 +27,7 @@ export const generate: Task = {
     }
 
     // This uses an async import as it depends on `lib/cli` which requires `code` to be installed.
-    const { generate: generateRepro } = await import('../next-repro-generators/generate-repros');
+    const { generate: generateRepro } = await import('../sandbox-generators/generate-sandboxes');
 
     await generateRepro({
       template: details.key,

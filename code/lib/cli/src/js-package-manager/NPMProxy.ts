@@ -38,6 +38,10 @@ export class NPMProxy extends JsPackageManager {
     return this.uninstallArgs;
   }
 
+  public runPackageCommand(command: string, args: string[], cwd?: string): string {
+    return this.executeCommand(`npm`, ['exec', '--', command, ...args], undefined, cwd);
+  }
+
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
     return {
       overrides: {

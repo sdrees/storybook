@@ -1,11 +1,10 @@
 import { normalizeStories } from '@storybook/core-common';
-import type { CoreConfig, DocsOptions } from '@storybook/types';
-import type { ExtendedOptions } from './types';
+import type { CoreConfig, DocsOptions, Options } from '@storybook/types';
 
 export type PreviewHtml = string | undefined;
 
-export async function transformIframeHtml(html: string, options: ExtendedOptions) {
-  const { configType, features, presets, serverChannelUrl, title } = options;
+export async function transformIframeHtml(html: string, options: Options) {
+  const { configType, features, presets, serverChannelUrl } = options;
   const frameworkOptions = await presets.apply<Record<string, any> | null>('frameworkOptions');
   const headHtmlSnippet = await presets.apply<PreviewHtml>('previewHead');
   const bodyHtmlSnippet = await presets.apply<PreviewHtml>('previewBody');
@@ -22,7 +21,6 @@ export async function transformIframeHtml(html: string, options: ExtendedOptions
   }));
 
   return html
-    .replace('<!-- [TITLE HERE] -->', title || 'Storybook')
     .replace('[CONFIG_TYPE HERE]', configType || '')
     .replace('[LOGLEVEL HERE]', logLevel || '')
     .replace(`'[FRAMEWORK_OPTIONS HERE]'`, JSON.stringify(frameworkOptions))

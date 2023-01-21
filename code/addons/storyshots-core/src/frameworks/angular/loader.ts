@@ -17,11 +17,7 @@ function setupAngularJestPreset() {
   // is running inside jest -  one of the things that `jest-preset-angular/build/setupJest` does is
   // extending the `window.Reflect` with all the needed metadata functions, that are required
   // for emission of the TS decorations like 'design:paramtypes'
-  try {
-    jest.requireActual('jest-preset-angular/build/setupJest');
-  } catch (e) {
-    jest.requireActual('jest-preset-angular/build/setup-jest');
-  }
+  jest.requireActual('jest-preset-angular/setup-jest');
 }
 
 function test(options: StoryshotsOptions): boolean {

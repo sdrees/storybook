@@ -24,6 +24,10 @@ export class PNPMProxy extends JsPackageManager {
     return this.executeCommand('pnpm', ['--version']);
   }
 
+  runPackageCommand(command: string, args: string[], cwd?: string): string {
+    return this.executeCommand(`pnpm`, ['run', command, ...args], undefined, cwd);
+  }
+
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
     return {
       overrides: {

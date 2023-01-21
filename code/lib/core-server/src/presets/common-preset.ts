@@ -1,6 +1,11 @@
-import fs from 'fs-extra';
-import { deprecate } from '@storybook/node-logger';
-import { getPreviewBodyTemplate, getPreviewHeadTemplate, loadEnvs } from '@storybook/core-common';
+import { pathExists, readFile } from 'fs-extra';
+import { deprecate, logger } from '@storybook/node-logger';
+import {
+  getDirectoryFromWorkingDir,
+  getPreviewBodyTemplate,
+  getPreviewHeadTemplate,
+  loadEnvs,
+} from '@storybook/core-common';
 import type {
   CLIOptions,
   IndexerOptions,
@@ -10,6 +15,72 @@ import type {
   StorybookConfig,
 } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
+import { join } from 'path';
+import { dedent } from 'ts-dedent';
+import { parseStaticDir } from '../utils/server-statics';
+
+const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
+
+export const favicon = async (
+  value: string,
+  options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
+) => {
+  if (value) {
+    return value;
+  }
+  const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+
+  const statics = staticDirs
+    ? staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
+    : options.staticDir;
+
+  if (statics && statics.length > 0) {
+    const lists = await Promise.all(
+      statics.map(async (dir) => {
+        const results = [];
+        const relativeDir = staticDirs
+          ? getDirectoryFromWorkingDir({
+              configDir: options.configDir,
+              workingDir: process.cwd(),
+              directory: dir,
+            })
+          : dir;
+
+        const { staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+
+        if (targetEndpoint === '/') {
+          const url = 'favicon.svg';
+          const path = join(staticPath, url);
+          if (await pathExists(path)) {
+            results.push(path);
+          }
+        }
+        if (targetEndpoint === '/') {
+          const url = 'favicon.ico';
+          const path = join(staticPath, url);
+          if (await pathExists(path)) {
+            results.push(path);
+          }
+        }
+
+        return results;
+      })
+    );
+    const flatlist = lists.reduce((l1, l2) => l1.concat(l2), []);
+
+    if (flatlist.length > 1) {
+      logger.warn(dedent`
+        Looks like multiple favicons were detected. Using the first one.
+        
+        ${flatlist.join(', ')}
+        `);
+    }
+
+    return flatlist[0] || defaultFavicon;
+  }
+
+  return defaultFavicon;
+};
 
 export const babel = async (_: unknown, options: Options) => {
   const { presets } = options;
@@ -104,7 +175,7 @@ export const features = async (
 
 export const storyIndexers = async (indexers?: StoryIndexer[]) => {
   const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
-    const code = (await fs.readFile(fileName, 'utf-8')).toString();
+    const code = (await readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();
   };
   return [

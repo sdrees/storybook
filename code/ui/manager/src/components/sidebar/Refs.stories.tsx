@@ -22,13 +22,13 @@ export default {
 };
 
 const { menu } = standardHeaderData;
-const stories = mockDataset.withRoot;
+const index = mockDataset.withRoot;
 const storyId = '1-12-121';
 
-export const simpleData = { menu, stories, storyId };
-export const loadingData = { menu, stories: {} };
+export const simpleData = { menu, index, storyId };
+export const loadingData = { menu, index: {} };
 
-const error: Error = (() => {
+const indexError: Error = (() => {
   try {
     throw new Error('There was a severe problem');
   } catch (e) {
@@ -41,45 +41,45 @@ const refs: Record<string, RefType> = {
     id: 'optimized',
     title: 'It is optimized',
     url: 'https://example.com',
-    ready: false,
+    previewInitialized: false,
     type: 'lazy',
     // @ts-expect-error (invalid input)
-    stories,
+    index,
   },
   empty: {
     id: 'empty',
     title: 'It is empty because no stories were loaded',
     url: 'https://example.com',
-    ready: false,
     type: 'lazy',
-    stories: {},
+    index: {},
+    previewInitialized: false,
   },
   startInjected_unknown: {
     id: 'startInjected_unknown',
     title: 'It started injected and is unknown',
     url: 'https://example.com',
     type: 'unknown',
-    ready: false,
+    previewInitialized: false,
     // @ts-expect-error (invalid input)
-    stories,
+    index,
   },
   startInjected_loading: {
     id: 'startInjected_loading',
     title: 'It started injected and is loading',
     url: 'https://example.com',
     type: 'auto-inject',
-    ready: false,
+    previewInitialized: false,
     // @ts-expect-error (invalid input)
-    stories,
+    index,
   },
   startInjected_ready: {
     id: 'startInjected_ready',
     title: 'It started injected and is ready',
     url: 'https://example.com',
     type: 'auto-inject',
-    ready: true,
+    previewInitialized: true,
     // @ts-expect-error (invalid input)
-    stories,
+    index,
   },
   versions: {
     id: 'versions',
@@ -87,8 +87,9 @@ const refs: Record<string, RefType> = {
     url: 'https://example.com',
     type: 'lazy',
     // @ts-expect-error (invalid input)
-    stories,
+    index,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com' },
+    previewInitialized: true,
   },
   versionsMissingCurrent: {
     id: 'versions_missing_current',
@@ -96,36 +97,38 @@ const refs: Record<string, RefType> = {
     url: 'https://example.com',
     type: 'lazy',
     // @ts-expect-error (invalid input)
-    stories,
+    index,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com/v2' },
+    previewInitialized: true,
   },
   error: {
     id: 'error',
     title: 'This has problems',
     url: 'https://example.com',
     type: 'lazy',
-    stories: {},
-    error,
+    indexError,
+    previewInitialized: true,
   },
   auth: {
     id: 'Authentication',
     title: 'This requires a login',
     url: 'https://example.com',
     type: 'lazy',
-    stories: {},
     loginUrl: 'https://example.com',
+    previewInitialized: true,
   },
   long: {
     id: 'long',
     title: 'This storybook has a very very long name for some reason',
     url: 'https://example.com',
     // @ts-expect-error (invalid input)
-    stories,
+    index,
     type: 'lazy',
     versions: {
       '111.111.888-new': 'https://example.com/new',
       '111.111.888': 'https://example.com',
     },
+    previewInitialized: true,
   },
 };
 

@@ -74,7 +74,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  if(!watch) {
+  if (!watch) {
     console.log('done');
   }
 };

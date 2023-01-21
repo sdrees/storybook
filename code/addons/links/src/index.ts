@@ -4,6 +4,9 @@ import { dedent } from 'ts-dedent';
 
 let hasWarned = false;
 
+/**
+ * @deprecated please import this specific function from @storybook/addon-links/react
+ */
 export function LinkTo(): null {
   if (!hasWarned) {
     // eslint-disable-next-line no-console

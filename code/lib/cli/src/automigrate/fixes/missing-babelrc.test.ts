@@ -49,18 +49,33 @@ describe('missing-babelrc fix', () => {
 
     // different babel extensions
     await expect(
-      check({ extraFiles: { '.babelrc': babelContent }, packageJson })
+      check({
+        extraFiles: { '.babelrc': babelContent },
+        packageJson,
+        main: { framework: '@storybook/react' },
+      })
     ).resolves.toBeNull();
     await expect(
-      check({ extraFiles: { '.babelrc.json': babelContent }, packageJson })
+      check({
+        extraFiles: { '.babelrc.json': babelContent },
+        packageJson,
+        main: { framework: '@storybook/react' },
+      })
     ).resolves.toBeNull();
     await expect(
-      check({ extraFiles: { 'babel.config.json': babelContent }, packageJson })
+      check({
+        extraFiles: { 'babel.config.json': babelContent },
+        packageJson,
+        main: { framework: '@storybook/react' },
+      })
     ).resolves.toBeNull();
 
     // babel field in package.json
     await expect(
-      check({ packageJson: { ...packageJson, babel: babelContent } })
+      check({
+        packageJson: { ...packageJson, babel: babelContent },
+        main: { framework: '@storybook/react' },
+      })
     ).resolves.toBeNull();
   });
 
@@ -72,7 +87,9 @@ describe('missing-babelrc fix', () => {
       },
     };
 
-    await expect(check({ packageJson })).resolves.toBeNull();
+    await expect(
+      check({ packageJson, main: { framework: '@storybook/nextjs' } })
+    ).resolves.toBeNull();
   });
 
   it('skips when using CRA preset', async () => {
@@ -84,7 +101,10 @@ describe('missing-babelrc fix', () => {
     };
 
     await expect(
-      check({ packageJson, main: { addons: ['@storybook/preset-create-react-app'] } })
+      check({
+        packageJson,
+        main: { framework: '@storybook/react', addons: ['@storybook/preset-create-react-app'] },
+      })
     ).resolves.toBeNull();
   });
 

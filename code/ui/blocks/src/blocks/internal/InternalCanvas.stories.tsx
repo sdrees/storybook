@@ -40,7 +40,7 @@ const expectAmountOfStoriesInSource =
     await userEvent.click(showCodeButton);
 
     // Assert - check that the correct amount of stories' source is shown
-    const booleanControlNodes = await canvas.findAllByText('onClick');
+    const booleanControlNodes = await canvas.findAllByText(`label`);
     await expect(booleanControlNodes).toHaveLength(amount);
   };
 

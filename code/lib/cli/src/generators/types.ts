@@ -2,6 +2,7 @@ import type { NpmOptions } from '../NpmOptions';
 import type { SupportedLanguage, Builder, ProjectType } from '../project_types';
 import type { JsPackageManager } from '../js-package-manager/JsPackageManager';
 import { type PackageManagerName } from '../js-package-manager/JsPackageManager';
+import type { FrameworkPreviewParts } from './configure';
 
 export type GeneratorOptions = {
   language: SupportedLanguage;
@@ -9,6 +10,7 @@ export type GeneratorOptions = {
   linkable: boolean;
   pnp: boolean;
   commonJs: boolean;
+  frameworkPreviewParts?: FrameworkPreviewParts;
 };
 
 export interface FrameworkOptions {
@@ -16,6 +18,7 @@ export interface FrameworkOptions {
   extraAddons?: string[];
   staticDir?: string;
   addScripts?: boolean;
+  addMainFile?: boolean;
   addComponents?: boolean;
   addBabel?: boolean;
   addESLint?: boolean;
@@ -23,13 +26,16 @@ export interface FrameworkOptions {
   extensions?: string[];
   framework?: Record<string, any>;
   commonJs?: boolean;
+  storybookConfigFolder?: string;
+  componentsDestinationPath?: string;
 }
 
-export type Generator = (
+export type Generator<T = void> = (
   packageManagerInstance: JsPackageManager,
   npmOptions: NpmOptions,
-  generatorOptions: GeneratorOptions
-) => Promise<void>;
+  generatorOptions: GeneratorOptions,
+  commandOptions?: CommandOptions
+) => Promise<T>;
 
 export type CommandOptions = {
   packageManager: PackageManagerName;
@@ -40,6 +46,7 @@ export type CommandOptions = {
   html?: boolean;
   skipInstall?: boolean;
   parser?: string;
+  // Automatically answer yes to prompts
   yes?: boolean;
   builder?: Builder;
   linkable?: boolean;

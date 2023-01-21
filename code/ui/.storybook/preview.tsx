@@ -10,13 +10,14 @@ import {
   styled,
   useTheme,
 } from '@storybook/theming';
-import { useArgs, DocsContext } from '@storybook/preview-api';
+import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
 import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
 
-import { DocsContainer } from '../blocks/src/blocks/DocsContainer';
+import { DocsContext } from '@storybook/blocks';
+
 import { DocsContent, DocsWrapper } from '../blocks/src/components';
 
 const { document } = global;
@@ -121,7 +122,7 @@ export const loaders = [
         return preview.storyStore.loadCSFFileByStoryId(entry.id);
       })
     );
-    const docsContext = new DocsContext(
+    const docsContext = new DocsContextProps(
       channel,
       preview.storyStore,
       preview.renderStoryToElement.bind(preview),
@@ -138,9 +139,9 @@ export const decorators = [
   // This decorator adds the DocsContext created in the loader above
   (Story, { loaded: { docsContext } }) =>
     docsContext ? (
-      <DocsContainer context={docsContext}>
+      <DocsContext.Provider value={docsContext}>
         <Story />
-      </DocsContainer>
+      </DocsContext.Provider>
     ) : (
       <Story />
     ),
@@ -213,6 +214,7 @@ export const decorators = [
           </Fragment>
         );
       }
+      case 'default':
       default: {
         return (
           <ThemeProvider theme={convert(themes[theme])}>

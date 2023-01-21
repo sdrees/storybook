@@ -3,7 +3,7 @@ import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { CoreBuilder } from '../project_types';
+import { externalFrameworks, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
@@ -17,13 +17,16 @@ const defaultOptions: FrameworkOptions = {
   extraAddons: [],
   staticDir: undefined,
   addScripts: true,
+  addMainFile: true,
   addComponents: true,
   addBabel: false,
   addESLint: false,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
+  componentsDestinationPath: undefined,
   commonJs: false,
+  storybookConfigFolder: '.storybook',
 };
 
 const getBuilderDetails = (builder: string) => {
@@ -39,6 +42,19 @@ const getBuilderDetails = (builder: string) => {
   }
 
   return builder;
+};
+
+const getExternalFramework = (framework: string) =>
+  externalFrameworks.find(
+    (exFramework) => exFramework.name === framework || exFramework.packageName === framework
+  );
+
+const getFrameworkPackage = (framework: string, renderer: string, builder: string) => {
+  const externalFramework = getExternalFramework(framework);
+  if (externalFramework) {
+    return externalFramework.packageName;
+  }
+  return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
 };
 
 const wrapForPnp = (packageName: string) =>
@@ -57,9 +73,8 @@ const getFrameworkDetails = (
   renderer?: string;
   rendererId: SupportedRenderers;
 } => {
-  const frameworkPackage = framework
-    ? `@storybook/${framework}`
-    : `@storybook/${renderer}-${builder}`;
+  const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
+
   const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
 
   const rendererPackage = `@storybook/${renderer}`;
@@ -68,7 +83,9 @@ const getFrameworkDetails = (
   const builderPackage = getBuilderDetails(builder);
   const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
 
-  const isKnownFramework = !!(packageVersions as Record<string, string>)[frameworkPackage];
+  const isExternalFramework = !!getExternalFramework(frameworkPackage);
+  const isKnownFramework =
+    isExternalFramework || !!(packageVersions as Record<string, string>)[frameworkPackage];
   const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
 
   if (isKnownFramework) {
@@ -106,7 +123,13 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  { language, builder = CoreBuilder.Webpack5, pnp, commonJs }: GeneratorOptions,
+  {
+    language,
+    builder = CoreBuilder.Webpack5,
+    pnp,
+    commonJs,
+    frameworkPreviewParts,
+  }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
@@ -116,11 +139,14 @@ export async function baseGenerator(
     extraPackages,
     staticDir,
     addScripts,
+    addMainFile,
     addComponents,
     addBabel,
     addESLint,
     extraMain,
     extensions,
+    storybookConfigFolder,
+    componentsDestinationPath,
   } = {
     ...defaultOptions,
     ...options,
@@ -182,7 +208,7 @@ export async function baseGenerator(
 
   const packages = [
     'storybook',
-    `@storybook/${rendererId}`,
+    getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
@@ -194,26 +220,29 @@ export async function baseGenerator(
 
   const versionedPackages = await packageManager.getVersionedPackages(packages);
 
-  await fse.ensureDir('./.storybook');
+  await fse.ensureDir(`./${storybookConfigFolder}`);
 
-  await configureMain({
-    framework: { name: frameworkInclude, options: options.framework || {} },
-    docs: { autodocs: 'tag' },
-    addons: pnp ? addons.map(wrapForPnp) : addons,
-    extensions,
-    commonJs,
-    ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
-    ...extraMain,
-    ...(type !== 'framework'
-      ? {
-          core: {
-            builder: builderInclude,
-          },
-        }
-      : {}),
-  });
+  if (addMainFile) {
+    await configureMain({
+      framework: { name: frameworkInclude, options: options.framework || {} },
+      storybookConfigFolder,
+      docs: { autodocs: 'tag' },
+      addons: pnp ? addons.map(wrapForPnp) : addons,
+      extensions,
+      commonJs,
+      ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
+      ...extraMain,
+      ...(type !== 'framework'
+        ? {
+            core: {
+              builder: builderInclude,
+            },
+          }
+        : {}),
+    });
+  }
 
-  await configurePreview(rendererId);
+  await configurePreview({ frameworkPreviewParts, storybookConfigFolder });
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
   if (
@@ -226,7 +255,9 @@ export async function baseGenerator(
         window.global = window;
       </script>
     `;
-    await fse.writeFile(`.storybook/preview-head.html`, previewHead, { encoding: 'utf8' });
+    await fse.writeFile(`${storybookConfigFolder}/preview-head.html`, previewHead, {
+      encoding: 'utf8',
+    });
   }
 
   const babelDependencies =
@@ -256,6 +287,6 @@ export async function baseGenerator(
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
-    await copyComponents(templateLocation, language);
+    await copyComponents(templateLocation, language, componentsDestinationPath);
   }
 }

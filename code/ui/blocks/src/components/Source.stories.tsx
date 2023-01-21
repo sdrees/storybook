@@ -1,16 +1,19 @@
+import type { Meta, StoryObj } from '@storybook/react';
 import { Source, SourceError } from './Source';
 
-export default {
+const meta: Meta<typeof Source> = {
   component: Source,
 };
 
-export const Loading = {
-  args: {
-    isLoading: true,
-  },
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Loading: Story = {
+  args: { isLoading: true },
 };
 
-export const JSX = {
+export const JSX: Story = {
   args: {
     code: `
 <MyComponent boolProp scalarProp={1} complexProp={{ foo: 1, bar: '2' }}>
@@ -22,7 +25,7 @@ export const JSX = {
   },
 };
 
-export const CSSWithDarkMode = {
+export const CSSWithDarkMode: Story = {
   args: {
     code: `
 @-webkit-keyframes blinker {
@@ -43,7 +46,7 @@ export const CSSWithDarkMode = {
   },
 };
 
-export const GraphQLWithFormatting = {
+export const GraphQLWithFormatting: Story = {
   args: {
     code: `query HeroNameAndFriends($episode: Episode) {
           hero(episode: $episode) {
@@ -59,14 +62,14 @@ export const GraphQLWithFormatting = {
   },
 };
 
-export const NoStory = {
+export const NoStory: Story = {
   args: {
     error: SourceError.NO_STORY,
     format: false,
   },
 };
 
-export const SourceUnavailable = {
+export const SourceUnavailable: Story = {
   args: {
     error: SourceError.SOURCE_UNAVAILABLE,
     format: false,

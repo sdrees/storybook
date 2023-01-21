@@ -127,7 +127,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     // If in the future the eslint plugin has a framework option, using main to extract the framework field will be very useful
     const main = await readConfig(mainConfig);
 
-    const frameworkPackage = main.getFieldValue(['framework']) as keyof typeof packagesMap;
+    const frameworkPackage = main.getNameFromPath(['framework']) as keyof typeof packagesMap;
     const builder = main.getFieldValue(['core', 'builder']);
 
     if (!frameworkPackage) {

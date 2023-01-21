@@ -10,7 +10,7 @@ interface StoriesProps {
   includePrimary?: boolean;
 }
 
-export const Stories: FC<StoriesProps> = ({ title, includePrimary = false }) => {
+export const Stories: FC<StoriesProps> = ({ title, includePrimary = true }) => {
   const { componentStories } = useContext(DocsContext);
 
   let stories: DocsStoryProps[] = componentStories();
@@ -23,7 +23,9 @@ export const Stories: FC<StoriesProps> = ({ title, includePrimary = false }) => 
   return (
     <>
       <Heading>{title}</Heading>
-      {stories.map((story) => story && <DocsStory key={story.id} {...story} expanded />)}
+      {stories.map(
+        (story) => story && <DocsStory key={story.id} {...story} expanded __forceInitialArgs />
+      )}
     </>
   );
 };

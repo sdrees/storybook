@@ -1,53 +1,93 @@
 import type { FC, ComponentProps } from 'react';
-import React, { useContext, useRef, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import type {
   Renderer,
   ModuleExport,
   ModuleExports,
-  PreparedStory as StoryType,
+  PreparedStory,
   StoryAnnotations,
   StoryId,
 } from '@storybook/types';
+import { deprecate } from '@storybook/client-logger';
 
 import { Story as PureStory, StorySkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import { useStory } from './useStory';
 
-export const storyBlockIdFromId = (storyId: string) => `story--${storyId}`;
-
 type PureStoryProps = ComponentProps<typeof PureStory>;
 
-type CommonProps = StoryAnnotations & {
-  height?: string;
-  inline?: boolean;
-};
+/**
+ * Props to define a story
+ *
+ * @deprecated Define stories in CSF files
+ */
+type StoryDefProps = StoryAnnotations;
 
-type StoryDefProps = {
-  name: string;
-};
-
+/**
+ * Props to reference another story
+ */
 type StoryRefProps = {
+  /**
+   * @deprecated Use of={storyExport} instead
+   */
   id?: string;
+  /**
+   * Pass the export defining a story to render that story
+   *
+   * ```jsx
+   * import { Meta, Story } from '@storybook/blocks';
+   * import * as ButtonStories from './Button.stories';
+   *
+   * <Meta of={ButtonStories} />
+   * <Story of={ButtonStories.Primary} />
+   * ```
+   */
   of?: ModuleExport;
+  /**
+   * Pass all exports of the CSF file if this MDX file is unattached
+   *
+   * ```jsx
+   * import { Story } from '@storybook/blocks';
+   * import * as ButtonStories from './Button.stories';
+   *
+   * <Story of={ButtonStories.Primary} meta={ButtonStories} />
+   * ```
+   */
   meta?: ModuleExports;
 };
 
-type StoryImportProps = {
-  name: string;
+type StoryParameters = {
+  /**
+   * Render the story inline or in an iframe
+   */
+  inline?: boolean;
+  /**
+   * When rendering in an iframe (`inline={false}`), set the story height
+   */
+  height?: string;
+  /**
+   * Whether to run the story's play function
+   */
+  autoplay?: boolean;
+  /**
+   * Internal prop to control if a story re-renders on args updates
+   */
+  __forceInitialArgs?: boolean;
+  /**
+   * Internal prop if this story is the primary story
+   */
+  __primary?: boolean;
 };
 
-export type StoryProps = (StoryDefProps | StoryRefProps | StoryImportProps) & CommonProps;
+export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
   const { id, of, meta } = props as StoryRefProps;
 
   if (of) {
     if (meta) context.referenceMeta(meta, false);
-    const resolved = context.resolveModuleExport(of);
-    if (resolved.type !== 'story') {
-      throw new Error('Unexpected component/module/meta exports passed to `Story` block.');
-    }
+    const resolved = context.resolveOf(of, ['story']);
     return resolved.story.id;
   }
 
@@ -55,87 +95,85 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   return id || context.storyIdByName(name);
 };
 
+// Find the first option that isn't undefined
+function getProp<T>(...options: (T | undefined)[]) {
+  return options.find((option) => typeof option !== 'undefined');
+}
+
 export const getStoryProps = <TFramework extends Renderer>(
-  { height, inline }: StoryProps,
-  story: StoryType<TFramework>
+  props: StoryParameters,
+  story: PreparedStory<TFramework>,
+  context: DocsContextProps<TFramework>
 ): PureStoryProps => {
-  const { name: storyName, parameters = {} } = story || {};
+  const { parameters = {} } = story || {};
   const { docs = {} } = parameters;
+  const storyParameters = (docs.story || {}) as StoryParameters & { iframeHeight?: string };
 
   if (docs.disable) {
     return null;
   }
 
-  // prefer block props, then story parameters defined by the framework-specific settings and optionally overridden by users
-  const { inlineStories = false, iframeHeight = 100 } = docs;
-  const storyIsInline = typeof inline === 'boolean' ? inline : inlineStories;
+  // prefer block props, then story parameters defined by the framework-specific settings
+  // and optionally overridden by users
 
+  // Deprecated parameters
+  const { inlineStories, iframeHeight } = docs as {
+    inlineStories?: boolean;
+    iframeHeight?: string;
+    autoplay?: boolean;
+  };
+  if (typeof inlineStories !== 'undefined')
+    deprecate('The `docs.inlineStories` parameter is deprecated, use `docs.story.inline` instead');
+  const inline = getProp(props.inline, storyParameters.inline, inlineStories) || false;
+
+  if (typeof iframeHeight !== 'undefined')
+    deprecate(
+      'The `docs.iframeHeight` parameter is deprecated, use `docs.story.iframeHeight` instead'
+    );
+
+  if (inline) {
+    const height = getProp(props.height, storyParameters.height);
+    const autoplay = getProp(props.autoplay, storyParameters.autoplay) || false;
+    return {
+      story,
+      inline: true,
+      height,
+      autoplay,
+      // eslint-disable-next-line no-underscore-dangle
+      forceInitialArgs: !!props.__forceInitialArgs,
+      // eslint-disable-next-line no-underscore-dangle
+      primary: !!props.__primary,
+      renderStoryToElement: context.renderStoryToElement,
+    };
+  }
+
+  const height =
+    getProp(props.height, storyParameters.height, storyParameters.iframeHeight, iframeHeight) ||
+    '100px';
   return {
-    inline: storyIsInline,
-    id: story?.id,
-    height: height || (storyIsInline ? undefined : iframeHeight),
-    title: storyName,
-    ...(storyIsInline && {
-      parameters,
-    }),
+    story,
+    inline: false,
+    height,
+    // eslint-disable-next-line no-underscore-dangle
+    primary: !!props.__primary,
   };
 };
 
-const Story: FC<StoryProps> = (props) => {
+const Story: FC<StoryProps> = (props = { __forceInitialArgs: false, __primary: false }) => {
   const context = useContext(DocsContext);
-  const storyRef = useRef();
   const storyId = getStoryId(props, context);
   const story = useStory(storyId, context);
-  const [showLoader, setShowLoader] = useState(true);
-
-  useEffect(() => {
-    if (!(story && storyRef.current)) {
-      return () => {};
-    }
-    const element = storyRef.current as HTMLElement;
-    const { autoplay } = story.parameters.docs || {};
-    const cleanup = context.renderStoryToElement(story, element, { autoplay });
-    setShowLoader(false);
-    return () => {
-      cleanup();
-    };
-  }, [context, story]);
 
   if (!story) {
     return <StorySkeleton />;
   }
 
-  const storyProps = getStoryProps(props, story);
+  const storyProps = getStoryProps(props, story, context);
   if (!storyProps) {
     return null;
   }
 
-  if (storyProps.inline) {
-    // We do this so React doesn't complain when we replace the span in a secondary render
-    const htmlContents = `<span></span>`;
-
-    // FIXME: height/style/etc. lifted from PureStory
-    const { height } = storyProps;
-    return (
-      <div id={storyBlockIdFromId(story.id)} className="sb-story">
-        {height ? (
-          <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
-        ) : null}
-        {showLoader && <StorySkeleton />}
-        <div
-          ref={storyRef}
-          data-name={story.name}
-          dangerouslySetInnerHTML={{ __html: htmlContents }}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div id={storyBlockIdFromId(story.id)}>
-      <PureStory {...storyProps} />
-    </div>
-  );
+  return <PureStory {...storyProps} />;
 };
 
 export { Story };

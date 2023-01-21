@@ -13,7 +13,6 @@ import { Source } from '.';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Toolbar } from './Toolbar';
 import { ZoomContext } from './ZoomContext';
-// eslint-disable-next-line import/no-cycle
 import { StorySkeleton } from './Story';
 
 export interface PreviewProps {
@@ -223,6 +222,14 @@ export const Preview: FC<PreviewProps> = ({
   }, []);
 
   const onCopyCapture = (e: ClipboardEvent<HTMLInputElement>) => {
+    // When the selection range is neither empty nor collapsed, we can assume
+    // user's intention is to copy the selected text, instead of the story's
+    // code snippet.
+    const selection: Selection | null = globalWindow.getSelection();
+    if (selection && selection.type === 'Range') {
+      return;
+    }
+
     e.preventDefault();
     if (additionalActionItems.filter((item) => item.title === 'Copied').length === 0) {
       copyToClipboard(source.props.code).then(() => {

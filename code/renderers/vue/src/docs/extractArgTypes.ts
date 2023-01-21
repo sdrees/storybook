@@ -5,13 +5,13 @@ import { hasDocgen, extractComponentProps, convert } from '@storybook/docs-tools
 const SECTIONS = ['props', 'events', 'slots', 'methods'];
 
 /**
- * Check if "@values" tag is defined within docgenInfo.
- * If true, then propDef is mutated.
+ * As @enum tag is not implemented in vuedocgen, infers propdef enum type
+ * from the presence of @values tag.
  */
-function isEnum(propDef: PropDef, docgenInfo: DocgenInfo): false | PropDef {
+function inferEnum(propDef: PropDef, docgenInfo: DocgenInfo): false | PropDef {
   // cast as any, since "values" doesn't exist in DocgenInfo type
   const { type, values } = docgenInfo as any;
-  const matched = Array.isArray(values) && values.length && type?.name === 'enum';
+  const matched = Array.isArray(values) && values.length && type && type.name !== 'enum';
 
   if (!matched) {
     return false;
@@ -42,7 +42,7 @@ function verifyPropDef(propDef: PropDef, docgenInfo: DocgenInfo): [PropDef, bool
 
   // another callback can be added here.
   // callback is mutually exclusive from each other.
-  const callbacks = [isEnum];
+  const callbacks = [inferEnum];
   for (let i = 0, len = callbacks.length; i < len; i += 1) {
     const matched = callbacks[i](propDef, docgenInfo);
     if (matched) {

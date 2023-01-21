@@ -21,6 +21,7 @@ Run the following command to install it.
   paths={[
     'common/storybook-test-runner-install.yarn.js.mdx',
     'common/storybook-test-runner-install.npm.js.mdx',
+    'common/storybook-test-runner-install.pnpm.js.mdx',
   ]}
 />
 
@@ -45,6 +46,7 @@ Start your Storybook with:
     'angular/storybook-run-dev.with-builder.js.mdx',
     'common/storybook-run-dev.yarn.js.mdx',
     'common/storybook-run-dev.npm.js.mdx',
+    'common/storybook-run-dev.pnpm.js.mdx',
   ]}
 />
 
@@ -62,6 +64,7 @@ Finally, open a new terminal window and run the test-runner with:
   paths={[
     'common/storybook-test-runner-execute.yarn.js.mdx',
     'common/storybook-test-runner-execute.npm.js.mdx',
+    'common/storybook-test-runner-execute.pnpm.js.mdx',
   ]}
 />
 
@@ -99,6 +102,7 @@ If you're already using any of those flags in your project, you should be able t
   paths={[
     'common/storybook-test-runner-execute-with-flags.yarn.js.mdx',
     'common/storybook-test-runner-execute-with-flags.npm.js.mdx',
+    'common/storybook-test-runner-execute-with-flags.pnpm.js.mdx',
   ]}
 />
 
@@ -114,6 +118,7 @@ By default, the test-runner assumes that you're running it against a locally ser
   paths={[
     'common/storybook-test-runner-execute-with-url.yarn.js.mdx',
     'common/storybook-test-runner-execute-with-url.npm.js.mdx',
+    'common/storybook-test-runner-execute-with-url.pnpm.js.mdx',
     'common/storybook-test-runner-execute-with-url.env-var.js.mdx',
   ]}
 />
@@ -253,6 +258,7 @@ Suppose you run into a situation where the local and remote Storybooks appear ou
   paths={[
     'common/storybook-test-runner-with-stories-json.yarn.js.mdx',
     'common/storybook-test-runner-with-stories-json.npm.js.mdx',
+    'common/storybook-test-runner-with-stories-json.pnpm.js.mdx',
   ]}
 />
 
@@ -272,6 +278,7 @@ If you need to disable it, use the `--no-stories-json` flag:
   paths={[
     'common/storybook-test-runner-disable-stories-json.yarn.js.mdx',
     'common/storybook-test-runner-disable-stories-json.npm.js.mdx',
+    'common/storybook-test-runner-disable-stories-json.pnpm.js.mdx',
   ]}
 />
 

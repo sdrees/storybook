@@ -43,16 +43,19 @@ describe('eventToShortcut', () => {
     expect(output).toEqual(['escape']);
   });
   test('it capitalizes a letter key through', () => {
-    const output = eventToShortcut(ev({ key: 'a' }));
+    const output = eventToShortcut(ev({ key: 'a', code: 'KeyA' }));
     expect(output).toEqual(['A']);
   });
   test('it passes regular key through', () => {
-    const output = eventToShortcut(ev({ key: '1' }));
+    const output = eventToShortcut(ev({ key: '1', code: 'Digit1' }));
     expect(output).toEqual(['1']);
   });
   test('it passes modified regular key through', () => {
-    const output = eventToShortcut(ev({ altKey: true, key: '1' }));
+    const output = eventToShortcut(ev({ altKey: true, key: '1', code: 'Digit1' }));
     expect(output).toEqual(['alt', '1']);
+    // on macos
+    const outputMacOs = eventToShortcut(ev({ altKey: true, key: '√', code: 'KeyV' }));
+    expect(outputMacOs).toEqual(['alt', ['√', 'V']]);
   });
 });
 

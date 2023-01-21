@@ -14,6 +14,8 @@ const meta = {
     backgroundColor: { control: 'color' },
   },
   parameters: {
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
     docs: {
       description: {
         component: `

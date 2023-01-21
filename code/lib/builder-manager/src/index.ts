@@ -119,8 +119,18 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 }) {
   logger.info('=> Starting manager..');
 
-  const { config, customHead, features, instance, refs, template, title, logLevel, docsOptions } =
-    await getData(options);
+  const {
+    config,
+    favicon,
+    customHead,
+    features,
+    instance,
+    refs,
+    template,
+    title,
+    logLevel,
+    docsOptions,
+  } = await getData(options);
 
   yield;
 
@@ -150,6 +160,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const html = await renderHTML(
     template,
     title,
+    favicon,
     customHead,
     cssFiles,
     jsFiles,
@@ -190,8 +201,18 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     throw new Error('outputDir is required');
   }
   logger.info('=> Building manager..');
-  const { config, customHead, features, instance, refs, template, title, logLevel, docsOptions } =
-    await getData(options);
+  const {
+    config,
+    customHead,
+    favicon,
+    features,
+    instance,
+    refs,
+    template,
+    title,
+    logLevel,
+    docsOptions,
+  } = await getData(options);
   yield;
 
   const addonsDir = config.outdir;
@@ -223,6 +244,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const html = await renderHTML(
     template,
     title,
+    favicon,
     customHead,
     cssFiles,
     jsFiles,

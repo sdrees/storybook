@@ -13,8 +13,7 @@ import { add } from './add';
 import { migrate } from './migrate';
 import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
-import { repro } from './repro';
-import { reproNext } from './repro-next';
+import { sandbox } from './sandbox';
 import { link } from './link';
 import { automigrate } from './automigrate';
 import { generateStorybookBabelConfigInCWD } from './babel-config';
@@ -142,31 +141,14 @@ program
   );
 
 program
-  .command('repro [outputDirectory]')
-  .description('Create a reproduction from a set of possible templates')
-  .option('-f --renderer <renderer>', 'Filter on given renderer')
-  .option('-t --template <template>', 'Use the given template')
-  .option('-l --list', 'List available templates')
-  .option('-g --generator <generator>', 'Use custom generator command')
-  .option('--registry <registry>', 'which registry to use for storybook packages')
-  .option('--pnp', "Use Yarn Plug'n'Play mode instead of node_modules one")
-  .option('--local', "use storybook's local packages instead of yarn's registry")
-  .option('--e2e', 'Used in e2e context')
-  .action((outputDirectory, { renderer, template, list, e2e, generator, pnp, local }) =>
-    repro({ outputDirectory, renderer, template, list, e2e, local, generator, pnp }).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
-  );
-
-program
-  .command('repro-next [filterValue]')
-  .description('Create a reproduction from a set of possible templates')
+  .command('sandbox [filterValue]')
+  .alias('repro') // for retrocompatibility purposes
+  .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    reproNext({ filterValue, ...options }).catch((e) => {
+    sandbox({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })

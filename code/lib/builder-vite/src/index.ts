@@ -1,48 +1,31 @@
 // noinspection JSUnusedGlobalSymbols
 
 import * as fs from 'fs-extra';
-import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
 import type { RequestHandler } from 'express';
-import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
+import type { ViteDevServer } from 'vite';
 import express from 'express';
 import { dirname, join, parse } from 'path';
+import type { Options, StorybookConfig as StorybookBaseConfig } from '@storybook/types';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
-import type { ExtendedOptions } from './types';
+import type { ViteBuilder, StorybookConfigVite } from './types';
 
 export { withoutVitePlugins } from './utils/without-vite-plugins';
 export { hasVitePlugins } from './utils/has-vite-plugins';
 
-// TODO remove
-export type { TypescriptOptions } from '@storybook/types';
-
-// Storybook's Stats are optional Webpack related property
-export type ViteStats = {
-  toJson: () => any;
-};
-
-export type ViteBuilder = Builder<UserConfig, ViteStats>;
-
-export type ViteFinal = (
-  config: InlineConfig,
-  options: Options
-) => InlineConfig | Promise<InlineConfig>;
-
-export type StorybookConfig = StorybookBaseConfig & {
-  viteFinal?: ViteFinal;
-};
+export * from './types';
 
 /**
  * @deprecated
  *
- * Use `import { StorybookConfig } from '@storybook/builder-vite';`
+ * Import `StorybookConfig` from your framework, such as:
  *
- * Or better yet, import from your framework.
+ * `import type { StorybookConfig } from '@storybook/react-vite';`
  */
-export type StorybookViteConfig = StorybookConfig;
+export type StorybookViteConfig = StorybookBaseConfig & StorybookConfigVite;
 
-function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): RequestHandler {
+function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandler {
   return async (req, res, next) => {
     if (!req.url.match(/^\/iframe\.html($|\?)/)) {
       next();
@@ -79,14 +62,14 @@ export const start: ViteBuilder['start'] = async ({
   router,
   server: devServer,
 }) => {
-  server = await createViteServer(options as ExtendedOptions, devServer);
+  server = await createViteServer(options as Options, devServer);
 
   const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
   const previewDirOrigin = join(previewResolvedDir, 'dist');
 
   router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
 
-  router.use(iframeMiddleware(options as ExtendedOptions, server));
+  router.use(iframeMiddleware(options as Options, server));
   router.use(server.middlewares);
 
   return {
@@ -97,7 +80,7 @@ export const start: ViteBuilder['start'] = async ({
 };
 
 export const build: ViteBuilder['build'] = async ({ options }) => {
-  const viteCompilation = viteBuild(options as ExtendedOptions);
+  const viteCompilation = viteBuild(options as Options);
 
   const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
   const previewDirOrigin = join(previewResolvedDir, 'dist');

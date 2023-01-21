@@ -12,7 +12,8 @@ import {
 import { extractSource } from '../extract-source';
 
 export function sanitizeSource(source) {
-  return JSON.stringify(source)
+  return JSON.stringify(source, null, 2)
+    .trim()
     .replace(/\u2028/g, '\\u2028')
     .replace(/\u2029/g, '\\u2029');
 }
@@ -155,9 +156,15 @@ export function generateSourcesInExportedParameters(source, ast, additionalParam
   const { splicedSource, parametersSliceOfCode, indexWhereToAppend, foundParametersProperty } =
     popParametersObjectFromDefaultExport(source, ast);
   if (indexWhereToAppend !== -1) {
-    const additionalParametersAsJson = JSON.stringify({
-      storySource: transformLocationMapToIds(additionalParameters),
-    }).slice(0, -1);
+    const additionalParametersAsJson = JSON.stringify(
+      {
+        storySource: transformLocationMapToIds(additionalParameters),
+      },
+      null,
+      2
+    )
+      .trim()
+      .slice(0, -1);
     const propertyDeclaration = foundParametersProperty ? '' : 'parameters: ';
     const comma = foundParametersProperty ? '' : ',';
     const newParameters = `${propertyDeclaration}${additionalParametersAsJson},${parametersSliceOfCode.substring(

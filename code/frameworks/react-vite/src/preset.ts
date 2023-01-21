@@ -1,8 +1,9 @@
 /* eslint-disable global-require */
-import type { StorybookConfig } from '@storybook/builder-vite';
+import type { PresetProperty } from '@storybook/types';
 import { hasVitePlugins } from '@storybook/builder-vite';
+import type { StorybookConfig } from './types';
 
-export const core: StorybookConfig['core'] = {
+export const core: PresetProperty<'core', StorybookConfig> = {
   builder: '@storybook/builder-vite',
   renderer: '@storybook/react',
 };

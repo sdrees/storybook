@@ -28,4 +28,4 @@ const nextImageLoaderStub: RawLoaderDefinition<LoaderOptions> = function (conten
 
 nextImageLoaderStub.raw = true;
 
-export default nextImageLoaderStub;
+export = nextImageLoaderStub;

@@ -376,9 +376,16 @@ export abstract class JsPackageManager {
   ): // Use generic and conditional type to force `string[]` if fetchAllVersions is true and `string` if false
   Promise<T extends true ? string[] : string>;
 
-  public executeCommand(command: string, args: string[], stdio?: 'pipe' | 'inherit'): string {
+  public abstract runPackageCommand(command: string, args: string[], cwd?: string): string;
+
+  public executeCommand(
+    command: string,
+    args: string[],
+    stdio?: 'pipe' | 'inherit',
+    cwd?: string
+  ): string {
     const commandResult = spawnSync(command, args, {
-      cwd: this.cwd,
+      cwd: cwd ?? this.cwd,
       stdio: stdio ?? 'pipe',
       encoding: 'utf-8',
       shell: true,

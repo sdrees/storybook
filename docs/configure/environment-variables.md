@@ -83,6 +83,7 @@ Additionally, you can extend your Storybook configuration file (i.e., [`.storybo
 <CodeSnippets
   paths={[
     'common/storybook-main-env-field-config.js.mdx',
+    'common/storybook-main-env-field-config.ts.mdx',
   ]}
 />
 

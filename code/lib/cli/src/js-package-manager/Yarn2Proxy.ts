@@ -17,6 +17,10 @@ export class Yarn2Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
+  runPackageCommand(command: string, args: string[], cwd?: string): string {
+    return this.executeCommand(`yarn`, [command, ...args], undefined, cwd);
+  }
+
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
     return {
       resolutions: {

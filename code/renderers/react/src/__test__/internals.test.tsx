@@ -13,7 +13,6 @@ const { CSF2StoryWithParamsAndDecorator } = composeStories(stories);
 test('returns composed args including default values from argtypes', () => {
   expect(CSF2StoryWithParamsAndDecorator.args).toEqual({
     ...stories.CSF2StoryWithParamsAndDecorator.args,
-    label: stories.default.argTypes!.label!.defaultValue,
   });
 });
 

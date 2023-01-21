@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ElementRef,
@@ -8,13 +9,20 @@ import {
   Inject,
   ViewChild,
   ViewContainerRef,
+  NgModule,
 } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 
-import { ICollection } from '../types';
+import { ICollection, NgModuleMetadata } from '../types';
 import { STORY_PROPS } from './StorybookProvider';
-import { ComponentInputsOutputs, getComponentInputsOutputs } from './utils/NgComponentAnalyzer';
+import {
+  ComponentInputsOutputs,
+  getComponentInputsOutputs,
+  isDeclarable,
+  isStandaloneComponent,
+} from './utils/NgComponentAnalyzer';
+import { isComponentAlreadyDeclaredInModules } from './utils/NgModulesAnalyzer';
 
 const getNonInputsOutputsProps = (
   ngComponentInputsOutputs: ComponentInputsOutputs,
@@ -29,6 +37,8 @@ const getNonInputsOutputsProps = (
   return Object.keys(props).filter((k) => ![...inputs, ...outputs].includes(k));
 };
 
+export const componentNgModules = new Map<any, Type<any>>();
+
 /**
  * Wraps the story template into a component
  *
@@ -40,16 +50,65 @@ export const createStorybookWrapperComponent = (
   template: string,
   storyComponent: Type<unknown> | undefined,
   styles: string[],
+  moduleMetadata: NgModuleMetadata,
   initialProps?: ICollection
 ): Type<any> => {
   // In ivy, a '' selector is not allowed, therefore we need to just set it to anything if
   // storyComponent was not provided.
   const viewChildSelector = storyComponent ?? '__storybook-noop';
 
+  const isStandalone = isStandaloneComponent(storyComponent);
+  // Look recursively (deep) if the component is not already declared by an import module
+  const requiresComponentDeclaration =
+    isDeclarable(storyComponent) &&
+    !isComponentAlreadyDeclaredInModules(
+      storyComponent,
+      moduleMetadata.declarations,
+      moduleMetadata.imports
+    ) &&
+    !isStandalone;
+
+  const providersNgModules = (moduleMetadata.providers ?? []).map((provider) => {
+    if (!componentNgModules.get(provider)) {
+      @NgModule({
+        providers: [provider],
+      })
+      class ProviderModule {}
+
+      componentNgModules.set(provider, ProviderModule);
+    }
+
+    return componentNgModules.get(provider);
+  });
+
+  if (!componentNgModules.get(storyComponent)) {
+    const declarations = [
+      ...(requiresComponentDeclaration ? [storyComponent] : []),
+      ...(moduleMetadata.declarations ?? []),
+    ];
+
+    @NgModule({
+      declarations,
+      imports: [CommonModule, ...(moduleMetadata.imports ?? [])],
+      exports: [...declarations, ...(moduleMetadata.imports ?? [])],
+    })
+    class StorybookComponentModule {}
+
+    componentNgModules.set(storyComponent, StorybookComponentModule);
+  }
+
   @Component({
     selector,
     template,
+    standalone: true,
+    imports: [
+      CommonModule,
+      componentNgModules.get(storyComponent),
+      ...providersNgModules,
+      ...(isStandalone ? [storyComponent] : []),
+    ],
     styles,
+    schemas: moduleMetadata.schemas,
   })
   class StorybookWrapperComponent implements AfterViewInit, OnDestroy {
     private storyComponentPropsSubscription: Subscription;

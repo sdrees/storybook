@@ -58,10 +58,10 @@ export const panels: Addon_Collection = {
 };
 
 const realSidebarProps: SidebarProps = {
-  stories: mockDataset.withRoot as SidebarProps['stories'],
+  index: mockDataset.withRoot as SidebarProps['index'],
   menu: [],
   refs: {},
-  storiesConfigured: true,
+  previewInitialized: true,
 };
 
 const PlaceholderBlock = styled.div(({ color }) => ({

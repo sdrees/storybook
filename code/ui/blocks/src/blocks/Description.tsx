@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
 import { deprecate } from '@storybook/client-logger';
-import { combineParameters } from '@storybook/preview-api';
 import { Description } from '../components';
 
 import type { DocsContextProps } from './DocsContext';
@@ -52,36 +51,38 @@ const getInfo = (info?: Info) => info && (typeof info === 'string' ? info : str(
 const noDescription = (component?: Component): string | null => null;
 
 const getDescriptionFromResolvedOf = (resolvedOf: ReturnType<typeof useOf>): string | null => {
-  const { projectAnnotations, ...resolvedModule } = resolvedOf;
-  switch (resolvedModule.type) {
+  switch (resolvedOf.type) {
     case 'story': {
-      return resolvedModule.story.parameters.docs?.description?.story || null;
+      return resolvedOf.story.parameters.docs?.description?.story || null;
     }
     case 'meta': {
-      const { meta } = resolvedModule.csfFile;
-      const metaDescription = meta.parameters.docs?.description?.component;
+      const { parameters, component } = resolvedOf.preparedMeta;
+      const metaDescription = parameters.docs?.description?.component;
       if (metaDescription) {
         return metaDescription;
       }
       return (
-        projectAnnotations.parameters.docs?.extractComponentDescription?.(meta.component, {
-          component: meta.component,
-          ...combineParameters(projectAnnotations.parameters, meta.parameters),
+        parameters.docs?.extractComponentDescription?.(component, {
+          component,
+          parameters,
         }) || null
       );
     }
     case 'component': {
-      const { component } = resolvedModule;
+      const {
+        component,
+        projectAnnotations: { parameters },
+      } = resolvedOf;
       return (
-        projectAnnotations.parameters.docs?.extractComponentDescription?.(component, {
+        parameters.docs?.extractComponentDescription?.(component, {
           component,
-          ...projectAnnotations.parameters,
+          parameters,
         }) || null
       );
     }
     default: {
       throw new Error(
-        `Unrecognized module type resolved from 'useOf', got: ${(resolvedModule as any).type}`
+        `Unrecognized module type resolved from 'useOf', got: ${(resolvedOf as any).type}`
       );
     }
   }

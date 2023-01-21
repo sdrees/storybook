@@ -254,6 +254,88 @@ export class ConfigFile {
     }
   }
 
+  /**
+   * Returns the name of a node in a given path, supporting the following formats:
+   * 1. { framework: 'value' }
+   * 2. { framework: { name: 'value', options: {} } }
+   */
+  /**
+   * Returns the name of a node in a given path, supporting the following formats:
+   * @example
+   * // 1. { framework: 'framework-name' }
+   * // 2. { framework: { name: 'framework-name', options: {} }
+   * getNameFromPath(['framework']) // => 'framework-name'
+   */
+  getNameFromPath(path: string[]): string | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    return this._getPresetValue(node, 'name');
+  }
+
+  /**
+   * Returns an array of names of a node in a given path, supporting the following formats:
+   * @example
+   * const config = {
+   *   addons: [
+   *     'first-addon',
+   *     { name: 'second-addon', options: {} }
+   *   ]
+   * }
+   * // => ['first-addon', 'second-addon']
+   * getNamesFromPath(['addons'])
+   *
+   */
+  getNamesFromPath(path: string[]): string[] | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    const pathNames: string[] = [];
+    if (t.isArrayExpression(node)) {
+      node.elements.forEach((element) => {
+        pathNames.push(this._getPresetValue(element, 'name'));
+      });
+    }
+
+    return pathNames;
+  }
+
+  /**
+   * Given a node and a fallback property, returns a **non-evaluated** string value of the node.
+   * 1. { node: 'value' }
+   * 2. { node: { fallbackProperty: 'value' } }
+   */
+  _getPresetValue(node: t.Node, fallbackProperty: string) {
+    let value;
+    if (t.isStringLiteral(node)) {
+      value = node.value;
+    } else if (t.isObjectExpression(node)) {
+      node.properties.forEach((prop) => {
+        if (
+          t.isObjectProperty(prop) &&
+          t.isIdentifier(prop.key) &&
+          prop.key.name === fallbackProperty
+        ) {
+          if (t.isStringLiteral(prop.value)) {
+            value = prop.value.value;
+          }
+        }
+      });
+    }
+
+    if (!value) {
+      throw new Error(
+        `The given node must be a string literal or an object expression with a "${fallbackProperty}" property that is a string literal.`
+      );
+    }
+
+    return value;
+  }
+
   removeField(path: string[]) {
     const removeProperty = (properties: t.ObjectProperty[], prop: string) => {
       const index = properties.findIndex(

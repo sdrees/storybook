@@ -1,0 +1,14 @@
+```ts
+// .storybook/main.ts
+
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+import type { StorybookConfig } from '@storybook/types';
+
+const config: StorybookConfig = {
+  // 👇 Storybook will load all existing stories within the MyStories folder
+  stories: ['../packages/MyStories'],
+  addons: ['@storybook/addon-essentials'],
+};
+
+export default config;
+```

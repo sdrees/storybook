@@ -31,6 +31,7 @@ Run the following command to install the interactions addon and related dependen
   paths={[
     'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
     'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
+    'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
   ]}
 />
 
@@ -147,6 +148,7 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
   paths={[
     'common/storybook-test-runner-execute.yarn.js.mdx',
     'common/storybook-test-runner-execute.npm.js.mdx',
+    'common/storybook-test-runner-execute.pnpm.js.mdx',
   ]}
 />
 

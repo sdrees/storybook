@@ -16,7 +16,7 @@ export const WithParams = () => <Button>WithParams</Button>;
 WithParams.parameters = { foo: 'bar' }
 
 export const WithDocsParams = () => <Button>WithDocsParams</Button>;
-WithDocsParams.parameters = { docs: { iframeHeight: 200 } };
+WithDocsParams.parameters = { docs: { story: { iframeHeight: '200px' } } };
 
 export const WithStorySourceParams = () => <Button>WithStorySourceParams</Button>;
 WithStorySourceParams.parameters = { storySource: { source: 'foo' } };

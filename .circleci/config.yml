@@ -599,23 +599,23 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 16
+          parallelism: 15
           requires:
             - build
       - build-sandboxes:
-          parallelism: 16
+          parallelism: 15
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 16
+          parallelism: 15
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 16
+          parallelism: 15
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 16
+          parallelism: 15
           requires:
             - build-sandboxes
   daily:
@@ -623,26 +623,32 @@ workflows:
       equal: [daily, << pipeline.parameters.workflow >>]
     jobs:
       - build
+      - lint:
+          requires:
+            - build
+      - unit-tests:
+          requires:
+            - build
       - create-sandboxes:
-          parallelism: 28
+          parallelism: 27
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 28
+          parallelism: 27
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 28
+          parallelism: 27
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 28
+          parallelism: 27
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 28
+          parallelism: 27
           requires:
             - build-sandboxes

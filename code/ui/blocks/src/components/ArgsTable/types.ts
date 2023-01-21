@@ -6,12 +6,17 @@ export interface JsDocParam {
   description?: string;
 }
 
+export interface JsDocParamDeprecated {
+  deprecated?: string;
+}
+
 export interface JsDocReturns {
   description?: string;
 }
 
 export interface JsDocTags {
   params?: JsDocParam[];
+  deprecated?: JsDocParamDeprecated;
   returns?: JsDocReturns;
 }
 

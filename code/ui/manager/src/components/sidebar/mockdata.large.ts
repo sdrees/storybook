@@ -14,7 +14,7 @@
 import type { Dataset } from './types';
 
 // @ts-expect-error (TODO)
-export const stories = {
+export const index = {
   images: {
     name: 'Images',
     id: 'images',

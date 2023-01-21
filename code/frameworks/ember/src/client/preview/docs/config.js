@@ -2,7 +2,7 @@ import { extractArgTypes, extractComponentDescription } from './jsondoc';
 
 export const parameters = {
   docs: {
-    iframeHeight: 80,
+    story: { iframeHeight: '80px' },
     extractArgTypes,
     extractComponentDescription,
   },

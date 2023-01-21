@@ -55,12 +55,12 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 <!-- prettier-ignore-end -->
 
-| Option        | Description                                                                                            |
-| ------------- | ------------------------------------------------------------------------------------------------------ |
-| `disable`     | Toggles support for all documentation pages <br/> `docs: { disable:true }`                            |
-| `autodocs`    | Disables auto-generated documentation pages created via `tags` <br/> `docs: { autodocs: false }`       |
-| true   | Enables auto-generated documentation pages for every component <br/> `docs: { autodocs: true }` |
-| `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`            |
+| Option        | Description                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------ |
+| `disable`     | Toggles support for all documentation pages <br/> `docs: { disable:true }`                       |
+| `autodocs`    | Disables auto-generated documentation pages created via `tags` <br/> `docs: { autodocs: false }` |
+| `true`        | Enables auto-generated documentation pages for every component <br/> `docs: { autodocs: true }`  |
+| `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`      |
 
 ### Write a custom template
 
@@ -109,6 +109,12 @@ Create an MDX file for your component in the same directory as your stories and 
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+💡 If you're overriding an existing auto-generated documentation page, you may see a warning in the console. We recommend removing the `tags` configuration property from your story to avoid this warning.
+
+</div>
 
 Once the MDX documentation is loaded, Storybook will render it alongside your component's story overriding any existing documentation enabled via the [`tags`](#setup-automated-docs) configuration property.
 

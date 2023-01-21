@@ -142,7 +142,7 @@ export function isStorybookInstalled(
         false
       )
     ) {
-      return ProjectType.ALREADY_HAS_STORYBOOK;
+      return true;
     }
   }
   return false;
@@ -194,9 +194,8 @@ export function detect(
     return ProjectType.UNDETECTED;
   }
 
-  const storyBookInstalled = isStorybookInstalled(packageJson, options.force);
-  if (storyBookInstalled) {
-    return storyBookInstalled;
+  if (isNxProject(packageJson)) {
+    return ProjectType.NX;
   }
 
   if (options.html) {
@@ -204,4 +203,8 @@ export function detect(
   }
 
   return detectFrameworkPreset(packageJson || bowerJson);
+}
+
+function isNxProject(packageJSON: PackageJson) {
+  return !!packageJSON.devDependencies?.nx || fs.existsSync('nx.json');
 }

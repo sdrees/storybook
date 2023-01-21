@@ -5,8 +5,8 @@ import type { API } from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 
 import { ActionLogger as ActionLoggerComponent } from '../../components/ActionLogger';
-import { EVENT_ID } from '../..';
 import type { ActionDisplay } from '../../models';
+import { EVENT_ID } from '../../constants';
 
 interface ActionLoggerProps {
   active: boolean;

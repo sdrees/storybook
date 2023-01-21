@@ -15,7 +15,7 @@ Storybook provides support for the leading industry builders and frameworks. How
 | Builder | Framework                                                                |
 | ------- | ------------------------------------------------------------------------ |
 | Webpack | React, Angular, Vue, Web Components, NextJS, HTML, Ember, Preact, Svelte |
-| Vite    | React, Vue, Web Components, HTML, Svelte, SvelteKit                      |
+| Vite    | React, Vue, Web Components, HTML, Svelte, SvelteKit, Qwik                |
 
 ## Configure
 

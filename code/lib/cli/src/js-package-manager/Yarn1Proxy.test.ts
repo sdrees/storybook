@@ -46,6 +46,21 @@ describe('Yarn 1 Proxy', () => {
     });
   });
 
+  describe('runScript', () => {
+    it('should execute script `yarn compodoc -- -e json -d .`', () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('7.1.0');
+
+      yarn1Proxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
+
+      expect(executeCommandSpy).toHaveBeenLastCalledWith(
+        'yarn',
+        ['compodoc', '-e', 'json', '-d', '.'],
+        undefined,
+        undefined
+      );
+    });
+  });
+
   describe('addDependencies', () => {
     it('with devDep it should run `yarn install -D --ignore-workspace-root-check @storybook/preview-api`', () => {
       const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');

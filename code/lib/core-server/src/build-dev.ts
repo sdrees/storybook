@@ -88,10 +88,7 @@ export async function buildDevStandalone(
     ...options,
   });
 
-  const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>(
-    'core',
-    undefined
-  );
+  const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
 
   if (!options.disableTelemetry && !disableTelemetry) {
     if (versionCheck.success && !versionCheck.cached) {

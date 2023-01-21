@@ -2,11 +2,20 @@
 // .storybook/main.js
 
 module.exports = {
-  stories: ['../src/**/*.stories.@(js|mdx)'],
-  addons: ['@storybook/addon-essentials'],
-  framework: '@storybook/react',
-  core: {
-    builder: '@storybook/builder-webpack5',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  staticDirs: ['../public'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/preset-create-react-app',
+    '@storybook/addon-interactions',
+  ],
+  docs: {
+    autodocs: 'tag',
+  },
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {},
   },
   babel: async (options) => ({
     // Update your babel configuration here

@@ -55,6 +55,12 @@ export const Table = styled.table(({ theme }) => ({
 
     code: codeCommon({ theme }),
 
+    div: {
+      span: {
+        fontWeight: 'bold',
+      },
+    },
+
     '& code': {
       margin: 0,
       display: 'inline-block',
@@ -66,6 +72,7 @@ export const Table = styled.table(({ theme }) => ({
 export const ArgJsDoc: FC<ArgJsDocArgs> = ({ tags }) => {
   const params = (tags.params || []).filter((x) => x.description);
   const hasDisplayableParams = params.length !== 0;
+  const hasDisplayableDeprecated = tags.deprecated != null;
   const hasDisplayableReturns = tags.returns != null && tags.returns.description != null;
 
   if (!hasDisplayableParams && !hasDisplayableReturns) {
@@ -81,6 +88,11 @@ export const ArgJsDoc: FC<ArgJsDocArgs> = ({ tags }) => {
               <tr key={x.name}>
                 <td>
                   <code>{x.name}</code>
+                  {hasDisplayableDeprecated && (
+                    <div>
+                      <span>Deprecated</span> {tags.deprecated}
+                    </div>
+                  )}
                 </td>
                 <td>{x.description}</td>
               </tr>

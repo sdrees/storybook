@@ -3,12 +3,25 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
 import { Spaced, Button } from '@storybook/components';
+import type { DocsContextProps, ModuleExport } from '@storybook/types';
 import { Preview, PreviewSkeleton } from './Preview';
 import { Story } from './Story';
 import * as sourceStories from './Source.stories';
+import * as ButtonStories from '../examples/Button.stories';
 
 export default {
   component: Preview,
+  parameters: {
+    relativeCsfPaths: ['../examples/Button.stories'],
+  },
+};
+
+// eslint-disable-next-line no-underscore-dangle
+const preview = (window as any).__STORYBOOK_PREVIEW__;
+const renderStoryToElement = preview.renderStoryToElement.bind(preview);
+
+const getPreparedStory = (docsContext: DocsContextProps, moduleExport: ModuleExport) => {
+  return docsContext.resolveOf(moduleExport, ['story']).story;
 };
 
 export const Loading = () => <PreviewSkeleton />;
@@ -65,7 +78,7 @@ export const GridWith3Columns = () => (
     <Button secondary>Button 4</Button>
     <Button secondary>Button 5</Button>
     <Button secondary>Button 6</Button>
-    <Button secondary>Button 7 long long long long long title</Button>
+    <Button secondary>Button 7 long long long long long </Button>
     <Button secondary>Button 8</Button>
     <Button secondary>Button 9</Button>
     <Button secondary>Button 10</Button>
@@ -82,11 +95,20 @@ export const GridWith3Columns = () => (
   </Preview>
 );
 
-const buttonFn = () => <Button secondary>Hello Button</Button>;
-
-export const WithToolbar = () => (
+export const WithToolbar = (
+  args: any,
+  { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
+) => (
   <Preview withToolbar>
-    <Story id="a" inline storyFn={buttonFn} title="with toolbar" />
+    <Story
+      inline
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
+    />
   </Preview>
 );
 
@@ -105,88 +127,122 @@ export const Wide = () => (
   </Preview>
 );
 
-export const WithToolbarMulti = () => (
-  <Preview withToolbar>
-    <Story id="a" inline storyFn={buttonFn} title="story1" />
-    <Story id="b" inline storyFn={buttonFn} title="story2" />
-  </Preview>
-);
-
-export const WithFullscreenSingle = () => (
+export const WithToolbarMulti = (
+  args: any,
+  { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
+) => (
   <Preview withToolbar>
     <Story
-      id="a"
       inline
-      storyFn={buttonFn}
-      title="story1"
-      parameters={{
-        layout: 'fullscreen',
-      }}
-    />
-  </Preview>
-);
-
-export const WithFullscreenMulti = () => (
-  <Preview withToolbar>
-    <Story
-      id="a"
-      inline
-      storyFn={buttonFn}
-      title="story1"
-      parameters={{
-        layout: 'fullscreen',
-      }}
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
     />
     <Story
-      id="b"
       inline
-      storyFn={buttonFn}
-      title="story2"
-      parameters={{
-        layout: 'fullscreen',
-      }}
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
     />
   </Preview>
 );
 
-export const WithCenteredSingle = () => (
+export const WithFullscreenSingle = (
+  args: any,
+  { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
+) => (
   <Preview withToolbar>
     <Story
-      id="a"
       inline
-      storyFn={buttonFn}
-      title="story1"
-      parameters={{
-        layout: 'centered',
-      }}
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
     />
   </Preview>
 );
 
-export const WithCenteredMulti = () => (
+export const WithFullscreenMulti = (
+  args: any,
+  { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
+) => (
   <Preview withToolbar>
     <Story
-      id="a"
       inline
-      storyFn={buttonFn}
-      title="story1"
-      parameters={{
-        layout: 'centered',
-      }}
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
     />
     <Story
-      id="b"
       inline
-      storyFn={buttonFn}
-      title="story2"
-      parameters={{
-        layout: 'centered',
-      }}
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
     />
   </Preview>
 );
 
-export const WithAdditionalActions = () => (
+export const WithCenteredSingle = (
+  args: any,
+  { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
+) => (
+  <Preview withToolbar>
+    <Story
+      inline
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
+    />
+  </Preview>
+);
+
+export const WithCenteredMulti = (
+  args: any,
+  { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
+) => (
+  <Preview withToolbar>
+    <Story
+      inline
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
+    />
+    <Story
+      inline
+      story={getPreparedStory(docsContext, ButtonStories.Primary)}
+      renderStoryToElement={renderStoryToElement}
+      autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
+      height="100px"
+    />
+  </Preview>
+);
+
+export const WithAdditionalActions = (
+  args: any,
+  { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
+) => (
   <Preview
     additionalActions={[
       {

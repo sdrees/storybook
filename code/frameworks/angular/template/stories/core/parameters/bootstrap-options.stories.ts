@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'component-with-whitespace',
+  preserveWhitespaces: true,
   template: ` <div>
     <p>Some content</p>
   </div>`,
@@ -12,11 +13,6 @@ class ComponentWithWhitespace {}
 export default {
   // title: 'Core / Parameters / With Bootstrap Options',
   component: ComponentWithWhitespace,
-  parameters: {
-    bootstrapOptions: {
-      preserveWhitespaces: true,
-    },
-  },
 } as Meta;
 
 export const WithPreserveWhitespaces: StoryFn = (_args) => ({});

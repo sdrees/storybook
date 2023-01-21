@@ -51,7 +51,6 @@ For example, if you're working with React's Styled Components and your component
     'vue/storybook-preview-with-hoc-component-decorator.2-component.js.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.3-component.js.mdx',
     'vue/storybook-preview-with-mixin-decorator.2-mixin.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.3-mixin.js.mdx',
     'angular/add-localize-package-to-polyfills.ts.mdx',
     'angular/storybook-preview-with-angular-polyfills.js.mdx',
   ]}

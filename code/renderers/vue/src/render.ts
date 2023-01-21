@@ -75,10 +75,27 @@ export const render: ArgsStoryFn<VueRenderer> = (args, context) => {
     componentName = component.__docgenInfo?.displayName;
   }
 
+  let eventsBinding = '';
+  const eventProps = Object.values(argTypes)
+    .filter((argType) => argType?.table?.category === 'events')
+    .map((argType) => argType.name);
+
+  if (eventProps.length) {
+    eventsBinding = eventProps.map((name) => `@${name}="$props.${name}"`).join(' ');
+    eventsBinding = `${eventsBinding} `;
+  }
+
   return {
     props: Object.keys(argTypes),
     components: { [componentName]: component },
-    template: `<${componentName} v-bind="$props" />`,
+    template: `<${componentName} ${eventsBinding}v-bind="filterOutEventProps($props)" />`,
+    methods: {
+      filterOutEventProps(props: object) {
+        return Object.fromEntries(
+          Object.entries(props).filter(([key]) => !eventProps.includes(key))
+        );
+      },
+    },
   };
 };
 

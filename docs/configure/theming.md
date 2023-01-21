@@ -12,9 +12,17 @@ Storybook includes two themes that look good out of the box: "light" and "dark".
 
 Make sure you have installed [`@storybook/addons`](https://www.npmjs.com/package/@storybook/addons) and [`@storybook/theming`](https://www.npmjs.com/package/@storybook/theming) packages.
 
-```sh
-yarn add --dev @storybook/addons @storybook/theming
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-theming-packages-install.yarn.js.mdx',
+    'common/storybook-theming-packages-install.npm.js.mdx',
+    'common/storybook-theming-packages-install.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 As an example, you can tell Storybook to use the "dark" theme by modifying [`.storybook/manager.js`](./overview.md#configure-story-rendering):
 

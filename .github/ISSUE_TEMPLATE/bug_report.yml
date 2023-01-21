@@ -19,7 +19,7 @@ body:
     attributes:
       label: To Reproduce
       description: >-
-        Please create a reproduction by running `npx sb@next repro` and
+        Please create a reproduction by running `npx sb@next sandbox` and
         following the instructions. Read our
         [documentation](https://storybook.js.org/docs/react/contribute/how-to-reproduce)
         to learn more about creating reproductions.

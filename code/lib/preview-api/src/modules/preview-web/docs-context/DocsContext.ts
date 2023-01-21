@@ -7,11 +7,12 @@ import type {
   StoryContextForLoaders,
   StoryId,
   StoryName,
-  ResolvedModuleExport,
+  ResolvedModuleExportType,
+  ResolvedModuleExportFromType,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
-import type { StoryStore } from '../../store';
 
+import type { StoryStore } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
@@ -58,11 +59,9 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
 
     const stories = this.store.componentStoriesFromCSFFile({ csfFile });
 
-    Object.values(csfFile.stories).forEach((annotation) => {
+    stories.forEach((story) => {
+      const annotation = csfFile.stories[story.id];
       this.storyIdToCSFFile.set(annotation.id, csfFile);
-      const story = stories.find((s) => s.id === annotation.id);
-      if (!story)
-        throw new Error(`Unexpected missing story ${annotation.id} from referenced CSF file.`);
       this.exportToStory.set(annotation.moduleExport, story);
     });
   }
@@ -98,46 +97,75 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     return projectAnnotations;
   }
 
-  resolveModuleExport(moduleExportOrType: ModuleExport | ResolvedModuleExport<TRenderer>['type']) {
-    // If passed a type, we return the attached file, component or primary story
-    if (moduleExportOrType === 'story') {
+  private resolveAttachedModuleExportType<TType extends ResolvedModuleExportType>(
+    moduleExportType: TType
+  ): ResolvedModuleExportFromType<TType, TRenderer> {
+    type TResolvedExport = ResolvedModuleExportFromType<TType, TRenderer>;
+
+    if (moduleExportType === 'story') {
+      // If passed a type, we return the attached file, component or primary story
       if (!this.primaryStory)
         throw new Error(
           `No primary story attached to this docs file, did you forget to use <Meta of={} />?`
         );
 
-      return { type: 'story', story: this.primaryStory } as const;
+      return { type: 'story', story: this.primaryStory } as TResolvedExport;
     }
-    if (moduleExportOrType === 'meta') {
-      if (!this.attachedCSFFile)
-        throw new Error(
-          `No CSF file attached to this docs file, did you forget to use <Meta of={} />?`
-        );
 
-      return { type: 'meta', csfFile: this.attachedCSFFile } as const;
-    }
-    if (moduleExportOrType === 'component') {
-      if (!this.attachedCSFFile)
-        throw new Error(
-          `No CSF file attached to this docs file, did you forget to use <Meta of={} />?`
-        );
+    if (!this.attachedCSFFile)
+      throw new Error(
+        `No CSF file attached to this docs file, did you forget to use <Meta of={} />?`
+      );
 
-      const { component } = this.attachedCSFFile.meta;
-      if (!component)
-        throw new Error(
-          `Attached CSF file does not defined a component, did you forget to export one?`
-        );
-      return { type: 'component', component } as const;
-    }
+    if (moduleExportType === 'meta')
+      return { type: 'meta', csfFile: this.attachedCSFFile } as TResolvedExport;
+
+    const { component } = this.attachedCSFFile.meta;
+    if (!component)
+      throw new Error(
+        `Attached CSF file does not defined a component, did you forget to export one?`
+      );
+    return { type: 'component', component } as TResolvedExport;
+  }
+
+  private resolveModuleExport<TType extends ResolvedModuleExportType>(
+    moduleExportOrType: ModuleExport
+  ): ResolvedModuleExportFromType<TType, TRenderer> {
+    type TResolvedExport = ResolvedModuleExportFromType<TType, TRenderer>;
 
     const csfFile = this.exportsToCSFFile.get(moduleExportOrType);
-    if (csfFile) return { type: 'meta', csfFile } as const;
+    if (csfFile) return { type: 'meta', csfFile } as TResolvedExport;
 
     const story = this.exportToStory.get(moduleExportOrType);
-    if (story) return { type: 'story', story } as const;
+    if (story) return { type: 'story', story } as TResolvedExport;
 
     // If the export isn't a module, default or story export, we assume it is a component
-    return { type: 'component', component: moduleExportOrType } as const;
+    return { type: 'component', component: moduleExportOrType } as TResolvedExport;
+  }
+
+  resolveOf<TType extends ResolvedModuleExportType>(
+    moduleExportOrType: ModuleExport | TType,
+    validTypes: TType[] = []
+  ): ResolvedModuleExportFromType<TType, TRenderer> {
+    type TResolvedExport = ResolvedModuleExportFromType<TType, TRenderer>;
+
+    let resolved: TResolvedExport;
+    if (['component', 'meta', 'story'].includes(moduleExportOrType)) {
+      const type = moduleExportOrType as TType;
+      resolved = this.resolveAttachedModuleExportType(type);
+    } else {
+      resolved = this.resolveModuleExport(moduleExportOrType);
+    }
+
+    if (validTypes.length && !validTypes.includes(resolved.type as TType)) {
+      const prettyType = resolved.type === 'component' ? 'component or unknown' : resolved.type;
+      throw new Error(
+        `Invalid value passed to the 'of' prop. The value was resolved to a '${prettyType}' type but the only types for this block are: ${validTypes.join(
+          ', '
+        )}`
+      );
+    }
+    return resolved;
   }
 
   storyIdByName = (storyName: StoryName) => {
