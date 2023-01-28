@@ -7,11 +7,16 @@
       "devDependencies": "*"
     }
   },
+  "pluginsConfig": {
+    "@nrwl/js": {
+      "analyzeSourceFiles": false
+    }
+  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "test", "lint", "package", "prep", "check"],
+        "cacheableOperations": ["prep"],
         "accessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true,

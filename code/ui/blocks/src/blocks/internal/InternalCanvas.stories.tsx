@@ -4,16 +4,16 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import { Canvas } from '../Canvas';
+import { Canvas, SourceState } from '../Canvas';
 import { Story as StoryComponent } from '../Story';
 import * as ButtonStories from '../../examples/Button.stories';
+import * as CanvasParameterStories from '../../examples/CanvasParameters.stories';
 
 const meta: Meta<typeof Canvas> = {
-  title: 'Blocks/Internal/Canvas',
   component: Canvas,
   parameters: {
     theme: 'light',
-    relativeCsfPaths: ['../examples/Button.stories'],
+    relativeCsfPaths: ['../examples/Button.stories', '../examples/CanvasParameters.stories'],
   },
   render: (args) => {
     return (
@@ -40,9 +40,86 @@ const expectAmountOfStoriesInSource =
     await userEvent.click(showCodeButton);
 
     // Assert - check that the correct amount of stories' source is shown
-    const booleanControlNodes = await canvas.findAllByText(`label`);
-    await expect(booleanControlNodes).toHaveLength(amount);
+    const buttonNodes = await canvas.findAllByText(`label`);
+    await expect(buttonNodes).toHaveLength(amount);
   };
+
+export const BasicStoryChild: Story = {};
+
+export const BasicStoryChildUnattached: Story = {
+  parameters: { attached: false },
+};
+
+export const WithSourceOpen: Story = {
+  args: {
+    withSource: SourceState.OPEN,
+  },
+};
+export const WithSourceClosed: Story = {
+  args: {
+    withSource: SourceState.CLOSED,
+  },
+};
+
+export const WithMdxSource: Story = {
+  name: 'With MDX Source',
+  args: {
+    withSource: SourceState.OPEN,
+    mdxSource: `<Button
+  label="Button"
+  primary
+  onClick={() => {
+    console.log('this is custom source for the source viewer')
+  }}
+/>`,
+  },
+};
+
+export const WithoutSource: Story = {
+  args: {
+    withSource: SourceState.NONE,
+  },
+};
+
+export const LayoutProp: Story = {
+  args: {
+    layout: 'fullscreen',
+  },
+};
+
+export const LayoutAsChildProp: Story = {
+  render: (args) => {
+    return (
+      <Canvas {...args}>
+        <StoryComponent of={ButtonStories.Primary} parameters={{ layout: 'fullscreen' }} />
+      </Canvas>
+    );
+  },
+};
+
+export const LayoutAsChildPropMultiple: Story = {
+  args: { isColumn: true },
+  render: (args) => {
+    return (
+      <Canvas {...args}>
+        <h1>Fullscreen</h1>
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Large} parameters={{ layout: 'fullscreen' }} />
+        <StoryComponent of={ButtonStories.Primary} />
+      </Canvas>
+    );
+  },
+};
+
+export const LayoutAsParameter: Story = {
+  render: (args) => {
+    return (
+      <Canvas {...args}>
+        <StoryComponent of={CanvasParameterStories.LayoutFullscreen} />
+      </Canvas>
+    );
+  },
+};
 
 export const MultipleChildren: Story = {
   render: (args) => {

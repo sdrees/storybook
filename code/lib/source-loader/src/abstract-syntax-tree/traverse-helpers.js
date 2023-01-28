@@ -28,9 +28,12 @@ function isFunctionVariable(declarations, includeExclude) {
     declarations[0].id &&
     declarations[0].id.name &&
     declarations[0].init &&
-    ['CallExpression', 'ArrowFunctionExpression', 'FunctionExpression'].includes(
-      declarations[0].init.type
-    ) &&
+    [
+      'CallExpression',
+      'ArrowFunctionExpression',
+      'FunctionExpression',
+      'ObjectExpression', // CSF3
+    ].includes(declarations[0].init.type) &&
     isExportStory(declarations[0].id.name, includeExclude)
   );
 }
@@ -171,9 +174,12 @@ export function findExportsMap(ast) {
         node.declaration.declarations[0].id &&
         node.declaration.declarations[0].id.name &&
         node.declaration.declarations[0].init &&
-        ['CallExpression', 'ArrowFunctionExpression', 'FunctionExpression'].includes(
-          node.declaration.declarations[0].init.type
-        );
+        [
+          'CallExpression',
+          'ArrowFunctionExpression',
+          'FunctionExpression',
+          'ObjectExpression', // CSF3
+        ].includes(node.declaration.declarations[0].init.type);
 
       const isFunctionDeclarationExport =
         isNamedExport &&

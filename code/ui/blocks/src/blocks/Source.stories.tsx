@@ -78,6 +78,11 @@ export const Code: Story = {
   args: { code },
 };
 
+export const CodeUnattached: Story = {
+  args: { code },
+  parameters: { attached: false },
+};
+
 export const CodeParameters: Story = {
   args: { of: ParametersStories.Code },
 };

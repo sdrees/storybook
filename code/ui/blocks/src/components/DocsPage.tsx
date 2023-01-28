@@ -23,7 +23,13 @@ const UNSTYLED_SELECTORS = [
   '.sbdocs-pre',
   '.sb-story',
   '.docblock-source',
-  '.sb-anchor',
+  '.docblock-argstable',
+  '.sbdocs-title',
+  '.sbdocs-subtitle',
+  '.docblock-icongallery',
+  '.docblock-emptyblock',
+  '.docblock-typeset',
+  '.docblock-colorpalette',
 ].join(', ');
 const toGlobalSelector = (element: string): string =>
   `& :where(${element}:not(${UNSTYLED_SELECTORS}, :where(${UNSTYLED_SELECTORS}) ${element}))`;

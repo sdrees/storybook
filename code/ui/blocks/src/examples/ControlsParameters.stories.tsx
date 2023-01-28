@@ -5,7 +5,7 @@ import { ControlsParameters } from './ControlsParameters';
  * Reference stories to be used by the Controls stories
  */
 const meta = {
-  title: 'Example/Stories for the Controls Block',
+  title: 'examples/Stories for the Controls Block',
   component: ControlsParameters,
   args: { b: 'b' },
   argTypes: {

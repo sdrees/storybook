@@ -33,7 +33,7 @@ type SourceParameters = SourceCodeProps & {
   originalSource?: string;
 };
 
-type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
+export type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
   /**
    * Pass the export defining a story to render its source
    *
@@ -114,10 +114,16 @@ export const useSourceProps = (
     const resolved = docsContext.resolveOf(props.of, ['story']);
     stories = [resolved.story];
   } else if (stories.length === 0) {
-    stories = [docsContext.storyById()];
+    try {
+      // Always fall back to the primary story for source parameters, even if code is set.
+      stories = [docsContext.storyById()];
+    } catch (err) {
+      // You are allowed to use <Story code="..." /> unattached.
+      if (!props.code) throw err;
+    }
   }
 
-  const sourceParameters = (stories[0].parameters.docs?.source || {}) as SourceParameters;
+  const sourceParameters = (stories[0]?.parameters?.docs?.source || {}) as SourceParameters;
   let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
   let format = props.format ?? sourceParameters.format;
   const language = props.language ?? sourceParameters.language ?? 'jsx';

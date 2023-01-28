@@ -1,9 +1,11 @@
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
 
-import TooltipTrigger from 'react-popper-tooltip';
+import type { TriggerType } from 'react-popper-tooltip';
+import { usePopperTooltip } from 'react-popper-tooltip';
 import type { Modifier, Placement } from '@popperjs/core';
 import { Tooltip } from './Tooltip';
 
@@ -25,7 +27,7 @@ interface WithHideFn {
 
 export interface WithTooltipPureProps {
   svg?: boolean;
-  trigger?: 'none' | 'hover' | 'click' | 'right-click';
+  trigger?: TriggerType;
   closeOnClick?: boolean;
   placement?: Placement;
   modifiers?: Array<Partial<Modifier<string, {}>>>;
@@ -52,42 +54,41 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
   ...props
 }) => {
   const Container = svg ? TargetSvgContainer : TargetContainer;
+  const { getArrowProps, getTooltipProps, setTooltipRef, setTriggerRef, visible, state } =
+    usePopperTooltip(
+      {
+        trigger,
+        placement,
+        defaultVisible: tooltipShown,
+        closeOnOutsideClick: closeOnClick,
+        onVisibleChange: onVisibilityChange,
+      },
+      {
+        modifiers,
+      }
+    );
 
   return (
-    <TooltipTrigger
-      placement={placement}
-      trigger={trigger}
-      modifiers={modifiers}
-      tooltipShown={tooltipShown}
-      onVisibilityChange={onVisibilityChange}
-      tooltip={({
-        getTooltipProps,
-        getArrowProps,
-        tooltipRef,
-        arrowRef,
-        placement: tooltipPlacement,
-      }) => (
-        <Tooltip
-          hasChrome={hasChrome}
-          placement={tooltipPlacement}
-          tooltipRef={tooltipRef}
-          arrowRef={arrowRef}
-          arrowProps={getArrowProps()}
-          {...getTooltipProps()}
-        >
-          {typeof tooltip === 'function'
-            ? tooltip({ onHide: () => onVisibilityChange(false) })
-            : tooltip}
-        </Tooltip>
-      )}
-    >
-      {({ getTriggerProps, triggerRef }) => (
-        // @ts-expect-error (Converted from ts-ignore)
-        <Container ref={triggerRef} {...getTriggerProps()} {...props}>
-          {children}
-        </Container>
-      )}
-    </TooltipTrigger>
+    <>
+      <Container mode={trigger} ref={setTriggerRef as any} {...props}>
+        {children}
+      </Container>
+      {visible &&
+        ReactDOM.createPortal(
+          <Tooltip
+            placement={state?.placement}
+            ref={setTooltipRef}
+            hasChrome={hasChrome}
+            arrowProps={getArrowProps()}
+            {...getTooltipProps()}
+          >
+            {typeof tooltip === 'function'
+              ? tooltip({ onHide: () => onVisibilityChange(false) })
+              : tooltip}
+          </Tooltip>,
+          document.body
+        )}
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/types",
-  "version": "7.0.0-beta.31",
+  "version": "7.0.0-beta.36",
   "description": "Core Storybook Types",
   "keywords": [
     "storybook"
@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/channels": "7.0.0-beta.31",
+    "@storybook/channels": "7.0.0-beta.36",
     "@types/babel__core": "^7.0.0",
     "@types/express": "^4.7.0",
     "express": "^4.17.3",
@@ -63,5 +63,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "6d1ea7647fce605b2029077cbd02f655cafe1807"
+  "gitHead": "5268eb0fa26e2e31cc410c27cbff7189f3b7eba1"
 }

@@ -61,7 +61,11 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'react/login-form-with-play-function.ts.mdx',
     'angular/login-form-with-play-function.ts.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
+    'vue/login-form-with-play-function.ts-2.ts.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
+    'vue/login-form-with-play-function.ts-3.ts.mdx',
+    'web-components/login-form-with-play-function.js.mdx',
+    'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
   ]}
   usesCsf3

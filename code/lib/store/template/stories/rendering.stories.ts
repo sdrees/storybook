@@ -9,14 +9,14 @@ export default {
     label: 'Click me',
   },
 };
-
+// this is the story should be remove it will always fail, because forceReRender Api is removed in V7
 export const ForceReRender = {
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const button = await within(canvasElement).findByRole('button');
     await button.focus();
     await expect(button).toHaveFocus();
-
+    //  forceRender is not called in V7
     // By forcing the component to rerender, we reset the focus state
     await channel.emit('forceReRender');
     await waitFor(() => expect(button).not.toHaveFocus());

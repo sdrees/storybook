@@ -18,14 +18,15 @@ export const componentOneExports = {
     title: 'Component One',
     argTypes: {
       foo: { type: { name: 'string' } },
+      one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
     },
     loaders: [jest.fn()],
     parameters: {
       docs: { page: jest.fn(), container: jest.fn() },
     },
   },
-  a: { args: { foo: 'a' }, play: jest.fn() },
-  b: { args: { foo: 'b' }, play: jest.fn() },
+  a: { args: { foo: 'a', one: 1 }, play: jest.fn() },
+  b: { args: { foo: 'b', one: 1 }, play: jest.fn() },
 };
 export const componentTwoExports = {
   default: { title: 'Component Two' },

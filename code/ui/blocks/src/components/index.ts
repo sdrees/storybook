@@ -1,6 +1,5 @@
 export * from './Source';
 export * from './EmptyBlock';
-export * from './Description';
 export * from './DocsPage';
 // eslint-disable-next-line import/no-cycle
 export * from './Preview';

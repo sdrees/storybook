@@ -15,5 +15,6 @@ declare var FEATURES:
       interactionsDebugger?: boolean;
       breakingChangesV7?: boolean;
       argTypeTargetsV7?: boolean;
+      legacyMdx1?: boolean;
     }
   | undefined;

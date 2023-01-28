@@ -48,7 +48,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     });
   }
 
-  // This docs entry references this CSF file and can syncronously load the stories, as well
+  // This docs entry references this CSF file and can synchronously load the stories, as well
   // as reference them by module export. If the CSF is part of the "component" stories, they
   // can also be referenced by name and are in the componentStories list.
   referenceCSFFile(csfFile: CSFFile<TRenderer>) {

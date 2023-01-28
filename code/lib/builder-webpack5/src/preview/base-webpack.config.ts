@@ -74,6 +74,13 @@ export async function createDefaultWebpackConfig(
               : 'static/media/[path][name][ext]',
           },
         },
+        {
+          // any imports from './some-file.md?raw' will be imported as raw string
+          // see https://webpack.js.org/guides/asset-modules/#replacing-inline-loader-syntax
+          // used to support import raw .md files in MDX
+          resourceQuery: /raw/,
+          type: 'asset/source',
+        },
       ],
     },
     resolve: {

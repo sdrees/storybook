@@ -13,6 +13,7 @@ import {
 } from 'fs-extra';
 import { join, resolve, sep } from 'path';
 
+import slash from 'slash';
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
@@ -262,8 +263,8 @@ function addStoriesEntry(mainConfig: ConfigFile, path: string) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
 
   const entry = {
-    directory: join('../template-stories', path),
-    titlePrefix: path,
+    directory: slash(join('../template-stories', path)),
+    titlePrefix: slash(path),
     files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
 
@@ -432,9 +433,9 @@ export const addStories: Task['run'] = async (
 
   if (isCoreRenderer) {
     const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
-    await Promise.all(
-      existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
-    );
+    for (const packageDir of existingStories) {
+      await linkPackageStories(packageDir, { mainConfig, cwd });
+    }
 
     // Add some extra settings (see above for what these do)
     if (template.expected.builder === '@storybook/builder-webpack5') {

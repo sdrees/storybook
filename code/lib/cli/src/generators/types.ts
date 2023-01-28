@@ -52,4 +52,6 @@ export type CommandOptions = {
   linkable?: boolean;
   commonJs?: boolean;
   disableTelemetry?: boolean;
+  enableCrashReports?: boolean;
+  debug?: boolean;
 };

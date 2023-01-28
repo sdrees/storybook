@@ -317,6 +317,11 @@ export interface StorybookConfig {
      * Will be removed in 7.0.
      */
     warnOnLegacyHierarchySeparator?: boolean;
+
+    /**
+     * Use legacy MDX1, to help smooth migration to 7.0
+     */
+    legacyMdx1?: boolean;
   };
 
   /**

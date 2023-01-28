@@ -5,7 +5,7 @@ import { expect } from '@jest/globals';
 import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@storybook/types';
 import { addons, HooksContext } from '../../addons';
 
-import { NO_TARGET_NAME } from '../args';
+import { UNTARGETED } from '../args';
 import { prepareStory, prepareMeta } from './prepareStory';
 
 jest.mock('@storybook/global', () => ({
@@ -410,8 +410,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = { args: story.initialArgs, ...story };
-      story.undecoratedStoryFn(context as any);
+      const context = story.prepareContext({ args: story.initialArgs, ...story } as any);
+      story.undecoratedStoryFn(context);
       expect(renderMock).toHaveBeenCalledWith(
         { one: 'mapped', two: 2, three: 3 },
         expect.objectContaining({ args: { one: 'mapped', two: 2, three: 3 } })
@@ -471,6 +471,50 @@ describe('prepareStory', () => {
 
       hooks.clean();
     });
+
+    it('prepared context is applied to decorators', () => {
+      const renderMock = jest.fn();
+      let ctx1;
+      let ctx2;
+      let ctx3;
+
+      const globalDecorator = jest.fn((fn, ctx) => {
+        ctx1 = ctx;
+        return fn();
+      });
+      const componentDecorator = jest.fn((fn, ctx) => {
+        ctx2 = ctx;
+        return fn();
+      });
+      const storyDecorator = jest.fn((fn, ctx) => {
+        ctx3 = ctx;
+        return fn();
+      });
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
+          },
+          args: { one: 1 },
+          decorators: [storyDecorator],
+          moduleExport,
+        },
+        { id, title, decorators: [componentDecorator] },
+        { render: renderMock, decorators: [globalDecorator] }
+      );
+
+      const hooks = new HooksContext();
+      const context = story.prepareContext({ args: story.initialArgs, hooks, ...story } as any);
+      story.unboundStoryFn(context);
+
+      expect(ctx1).toMatchObject({ args: { one: 'mapped-1' } });
+      expect(ctx2).toMatchObject({ args: { one: 'mapped-1' } });
+      expect(ctx3).toMatchObject({ args: { one: 'mapped-1' } });
+
+      hooks.clean();
+    });
   });
 
   describe('with `FEATURES.argTypeTargetsV7`', () => {
@@ -491,11 +535,12 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      firstStory.unboundStoryFn({
+      const context = firstStory.prepareContext({
         args: firstStory.initialArgs,
         hooks: new HooksContext(),
         ...firstStory,
       } as any);
+      firstStory.unboundStoryFn(context);
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ args: { a: 1 }, allArgs: { a: 1, b: 2 } })
@@ -516,11 +561,12 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      firstStory.unboundStoryFn({
+      const context = firstStory.prepareContext({
         args: firstStory.initialArgs,
         hooks: new HooksContext(),
         ...firstStory,
       } as any);
+      firstStory.unboundStoryFn(context);
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ args: { a: 1 }, allArgs: { a: 1, b: 2 } })
@@ -541,14 +587,15 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      firstStory.unboundStoryFn({
+      const context = firstStory.prepareContext({
         args: firstStory.initialArgs,
         hooks: new HooksContext(),
         ...firstStory,
       } as any);
+      firstStory.unboundStoryFn(context);
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
-        expect.objectContaining({ argsByTarget: { [NO_TARGET_NAME]: { a: 1 }, foo: { b: 2 } } })
+        expect.objectContaining({ argsByTarget: { [UNTARGETED]: { a: 1 }, foo: { b: 2 } } })
       );
     });
 
@@ -566,11 +613,12 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      firstStory.unboundStoryFn({
+      const context = firstStory.prepareContext({
         args: firstStory.initialArgs,
         hooks: new HooksContext(),
         ...firstStory,
       } as any);
+      firstStory.unboundStoryFn(context);
       expect(renderMock).toHaveBeenCalledWith(
         {},
         expect.objectContaining({ argsByTarget: { foo: { b: 2 } } })
@@ -589,11 +637,12 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      firstStory.unboundStoryFn({
+      const context = firstStory.prepareContext({
         args: firstStory.initialArgs,
         hooks: new HooksContext(),
         ...firstStory,
       } as any);
+      firstStory.unboundStoryFn(context);
       expect(renderMock).toHaveBeenCalledWith({}, expect.objectContaining({ argsByTarget: {} }));
     });
   });
@@ -681,6 +730,7 @@ describe('prepareMeta', () => {
       unboundStoryFn,
       undecoratedStoryFn,
       playFunction,
+      prepareContext,
       ...expectedPreparedMeta
     } = preparedStory;
 

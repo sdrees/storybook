@@ -1,5 +1,5 @@
 import { Component, NgModule } from '@angular/core';
-import { isComponentAlreadyDeclaredInModules } from './NgModulesAnalyzer';
+import { isComponentAlreadyDeclared } from './NgModulesAnalyzer';
 
 const FooComponent = Component({})(class {});
 
@@ -11,16 +11,14 @@ const AlphaModule = NgModule({ imports: [BetaModule] })(class {});
 
 describe('isComponentAlreadyDeclaredInModules', () => {
   it('should return true when the component is already declared in one of modules', () => {
-    expect(isComponentAlreadyDeclaredInModules(FooComponent, [], [AlphaModule])).toEqual(true);
+    expect(isComponentAlreadyDeclared(FooComponent, [], [AlphaModule])).toEqual(true);
   });
 
   it('should return true if the component is in moduleDeclarations', () => {
-    expect(
-      isComponentAlreadyDeclaredInModules(BarComponent, [BarComponent], [AlphaModule])
-    ).toEqual(true);
+    expect(isComponentAlreadyDeclared(BarComponent, [BarComponent], [AlphaModule])).toEqual(true);
   });
 
   it('should return false if the component is not declared', () => {
-    expect(isComponentAlreadyDeclaredInModules(BarComponent, [], [AlphaModule])).toEqual(false);
+    expect(isComponentAlreadyDeclared(BarComponent, [], [AlphaModule])).toEqual(false);
   });
 });

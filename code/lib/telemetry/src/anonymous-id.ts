@@ -6,7 +6,7 @@ import { oneWayHash } from './one-way-hash';
 
 export function normalizeGitUrl(rawUrl: string) {
   // I don't *think* its possible to set a hash on a origin URL, but just in case
-  const urlWithoutHash = rawUrl.replace(/#.*$/, '');
+  const urlWithoutHash = rawUrl.trim().replace(/#.*$/, '');
 
   // Strip anything ahead of an @
   const urlWithoutUser = urlWithoutHash.replace(/^.*@/, '');

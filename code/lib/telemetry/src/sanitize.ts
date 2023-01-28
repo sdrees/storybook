@@ -33,11 +33,15 @@ export function cleanPaths(str: string, separator: string = sep): string {
 
 // Takes an Error and returns a sanitized JSON String
 export function sanitizeError(error: Error, pathSeparator: string = sep) {
-  // Hack because Node
-  error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+  try {
+    // Hack because Node
+    error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
 
-  // Removes all user paths
-  const errorString = cleanPaths(JSON.stringify(error), pathSeparator);
+    // Removes all user paths
+    const errorString = cleanPaths(JSON.stringify(error), pathSeparator);
 
-  return JSON.parse(errorString);
+    return JSON.parse(errorString);
+  } catch (err: any) {
+    return `Sanitization error: ${err?.message}`;
+  }
 }

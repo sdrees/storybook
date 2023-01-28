@@ -769,11 +769,13 @@ describe('ConfigFile', () => {
 
           const config: StorybookConfig = {
             framework: { name: 'foo', options: { bar: require('baz') } },
+            "otherField": { "name": 'foo', options: { bar: require('baz') } },
           }
           export default config;
         `;
         const config = loadConfig(source).parse();
         expect(config.getNameFromPath(['framework'])).toEqual('foo');
+        expect(config.getNameFromPath(['otherField'])).toEqual('foo');
       });
 
       it(`returns undefined when accessing a field that does not exist`, () => {
@@ -812,12 +814,17 @@ describe('ConfigFile', () => {
             addons: [
               'foo',
               { name: 'bar', options: {} },
-            ]
+            ],
+            "otherField": [
+              "foo",
+              { "name": 'bar', options: {} },
+            ],
           }
           export default config;
         `;
         const config = loadConfig(source).parse();
         expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+        expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
       });
     });
 

@@ -13,7 +13,7 @@ const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith
  * @see https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx
  */
 export async function mdxPlugin(options: Options): Promise<Plugin> {
-  const include = /\.mdx?$/;
+  const include = /\.mdx$/;
   const filter = createFilter(include);
   const addons = await options.presets.apply<StorybookConfig['addons']>('addons', []);
   const docsOptions =

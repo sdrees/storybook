@@ -33,6 +33,18 @@ describe('inject-decorator', () => {
 
       expect(result.source).toEqual(expect.stringContaining('"source": "import React from'));
     });
+
+    it('includes storySource parameter in CSf3', async () => {
+      const mockFilePath = './__mocks__/inject-decorator.ts.csf3.txt';
+      const source = await readFile(mockFilePath, 'utf-8');
+      const result = injectDecorator(source, path.resolve(__dirname, mockFilePath), {
+        parser: 'typescript',
+      });
+
+      expect(getParser('typescript').parse(result.source)).toBeTruthy();
+
+      expect(result.source).toEqual(expect.stringContaining('"source": "import React from'));
+    });
   });
 
   describe('injectStoryParameters - ts - csf', () => {

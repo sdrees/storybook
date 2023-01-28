@@ -1,20 +1,21 @@
-/// <reference types="vite/client" />
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Story as StoryBlock } from './Story';
 import * as ButtonStories from '../examples/Button.stories';
 import * as StoryComponentStories from '../components/Story.stories';
+import * as StoryParametersStories from '../examples/StoryParameters.stories';
 
 const meta: Meta<typeof StoryBlock> = {
   component: StoryBlock,
   parameters: {
-    relativeCsfPaths: ['../examples/Button.stories', '../blocks/Story.stories'],
+    relativeCsfPaths: ['../examples/Button.stories', '../examples/StoryParameters.stories'],
   },
 };
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+export const DefaultAttached: Story = {};
 
 export const Of: Story = {
   args: {
@@ -29,55 +30,17 @@ export const OfWithMeta: Story = {
   },
 };
 
-const blocksAwareId = `${
-  import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
-}example-button--primary`;
-
-export const Id: Story = {
+export const OfWithMetaUnattached: Story = {
+  parameters: { attached: false },
   args: {
-    id: blocksAwareId,
-  },
-};
-
-export const Name: Story = {
-  args: {
-    name: 'Secondary',
-  },
-};
-
-export const SimpleSizeTest: Story = {
-  render: () => {
-    return (
-      <div
-        style={{
-          background: '#fd5c9355',
-          padding: '3rem',
-          height: '500px',
-          width: '800px',
-          // a global decorator is applying a default padding that we want to negate here
-          margin: '-4rem -20px',
-        }}
-      >
-        <p>
-          This story does nothing. Its only purpose is to show how its size renders in different
-          conditions (inline/iframe/fixed height) when used in a <code>{'<Story />'}</code> block.
-        </p>
-        <p>
-          It has a fixed <code>height</code> of <code>500px</code> and a fixed <code>width</code> of{' '}
-          <code>800px</code>
-        </p>
-      </div>
-    );
-  },
-  parameters: {
-    // Stop *this* story from being stacked in Chromatic
-    theme: 'default',
+    of: ButtonStories.Secondary,
+    meta: ButtonStories.default,
   },
 };
 
 export const Inline: Story = {
   args: {
-    of: SimpleSizeTest,
+    of: StoryParametersStories.NoParameters,
     inline: true,
   },
 };
@@ -85,25 +48,16 @@ export const Inline: Story = {
 export const InlineWithHeightProps: Story = {
   ...Inline,
   args: {
-    of: SimpleSizeTest,
+    of: StoryParametersStories.NoParameters,
     inline: true,
     height: '600px',
-  },
-};
-
-export const SimpleSizeTestWithHeightParameter = {
-  ...SimpleSizeTest,
-  parameters: {
-    docs: { story: { height: '600px' } },
-    // Stop *this* story from being stacked in Chromatic
-    theme: 'default',
   },
 };
 
 export const InlineWithHeightParameter: Story = {
   ...Inline,
   args: {
-    of: SimpleSizeTestWithHeightParameter,
+    of: StoryParametersStories.Height,
   },
 };
 
@@ -111,57 +65,26 @@ export const IFrameProps: Story = {
   ...Inline,
   name: 'IFrame Props',
   args: {
-    of: SimpleSizeTest,
+    of: StoryParametersStories.NoParameters,
     inline: false,
   },
 };
 
-export const SimpleSizeTestWithIFrameParameter = {
-  ...SimpleSizeTest,
-  parameters: { docs: { story: { inline: false } } },
-};
-
-export const IframeWithParameter: Story = {
+export const IFrameWithParameter: Story = {
   ...Inline,
   name: 'IFrame With Parameter',
   args: {
-    of: SimpleSizeTestWithIFrameParameter,
+    of: StoryParametersStories.InlineFalse,
   },
 };
 
-export const IframeWithHeightProps: Story = {
+export const IFrameWithHeightProps: Story = {
   ...Inline,
   name: 'IFrame With Height Props',
   args: {
-    of: SimpleSizeTest,
+    of: StoryParametersStories.NoParameters,
     inline: false,
     height: '300px',
-  },
-};
-
-export const SimpleSizeTestWithIFrameAndIFrameHeightParameter = {
-  ...SimpleSizeTest,
-  parameters: {
-    docs: { story: { inline: false, iframeHeight: '300px' } },
-    // Stop *this* story from being stacked in Chromatic
-    theme: 'default',
-  },
-};
-
-export const IFrameWithIFrameHeightParameter: Story = {
-  ...Inline,
-  name: 'IFrame With IFrame Height Parameter',
-  args: {
-    of: SimpleSizeTestWithIFrameAndIFrameHeightParameter,
-  },
-};
-
-export const SimpleSizeTestWithIFrameAndHeightParameter = {
-  ...SimpleSizeTest,
-  parameters: {
-    docs: { story: { inline: false, height: '300px' } },
-    // Stop *this* story from being stacked in Chromatic
-    theme: 'default',
   },
 };
 
@@ -169,7 +92,15 @@ export const IFrameWithHeightParameter: Story = {
   ...Inline,
   name: 'IFrame With Height Parameter',
   args: {
-    of: SimpleSizeTestWithIFrameAndHeightParameter,
+    of: StoryParametersStories.InlineFalseWithHeight,
+  },
+};
+
+export const IFrameWithIFrameHeightParameter: Story = {
+  ...Inline,
+  name: 'IFrame With IFrame Height Parameter',
+  args: {
+    of: StoryParametersStories.InlineFalseWithIframeHeight,
   },
 };
 
@@ -192,7 +123,7 @@ export const WithInteractionsAutoplayInProps: Story = {
   },
 };
 
-export const WithInteractionsAutoplayInStory: Story = {
+export const WithInteractionsAutoplayInParameters: Story = {
   args: {
     of: ButtonStories.ClickingInDocs,
   },

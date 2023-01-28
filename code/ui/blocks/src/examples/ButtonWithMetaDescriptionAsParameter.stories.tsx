@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './Button';
 
 const meta = {
-  title: 'Blocks/Description/Button',
+  title: 'examples/Button with Meta Description as Parameter',
   component: Button,
   argTypes: {
     backgroundColor: { control: 'color' },

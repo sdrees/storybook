@@ -13,7 +13,6 @@ export const dev = async (cliOptions: any) => {
       configDir: cliOptions.configDir || './.storybook',
       configType: 'DEVELOPMENT',
       ignorePreview: !!cliOptions.previewUrl && !cliOptions.forceBuildPreview,
-      docsMode: !!cliOptions.docs,
       cache,
       packageJson: readUpSync({ cwd: __dirname }).packageJson,
     };

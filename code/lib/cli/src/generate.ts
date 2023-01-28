@@ -24,18 +24,19 @@ import { parseList, getEnvConfig } from './utils';
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
 
-program
-  .option(
-    '--disable-telemetry',
-    'disable sending telemetry data',
-    // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
-    process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
-  )
-  .option('--debug', 'Get more logs in debug mode', false)
-  .option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
+const command = (name: string) =>
+  program
+    .command(name)
+    .option(
+      '--disable-telemetry',
+      'disable sending telemetry data',
+      // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
+      process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
+    )
+    .option('--debug', 'Get more logs in debug mode', false)
+    .option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
 
-program
-  .command('init')
+command('init')
   .description('Initialize Storybook into your project.')
   .option('-f --force', 'Force add Storybook')
   .option('-s --skip-install', 'Skip installing deps')
@@ -47,15 +48,14 @@ program
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
-  .action((options: CommandOptions) =>
+  .action((options: CommandOptions) => {
     initiate(options, pkg).catch((err) => {
       logger.error(err);
       process.exit(1);
-    })
-  );
+    });
+  });
 
-program
-  .command('add <addon>')
+command('add <addon>')
   .description('Add an addon to your Storybook')
   .option(
     '--package-manager <npm|pnpm|yarn1|yarn2>',
@@ -65,13 +65,11 @@ program
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
 
-program
-  .command('babelrc')
+command('babelrc')
   .description('generate the default storybook babel config into your current working directory')
   .action(() => generateStorybookBabelConfigInCWD());
 
-program
-  .command('upgrade')
+command('upgrade')
   .description('Upgrade your Storybook packages to the latest')
   .option(
     '--package-manager <npm|pnpm|yarn1|yarn2>',
@@ -85,8 +83,7 @@ program
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .action((options: UpgradeOptions) => upgrade(options));
 
-program
-  .command('info')
+command('info')
   .description('Prints debugging information about the local environment')
   .action(() => {
     consoleLogger.log(chalk.bold('\nEnvironment Info:'));
@@ -101,8 +98,7 @@ program
       .then(consoleLogger.log);
   });
 
-program
-  .command('migrate [migration]')
+command('migrate [migration]')
   .description('Run a Storybook codemod migration on your source files')
   .option('-l --list', 'List available migrations')
   .option('-g --glob <glob>', 'Glob for files upon which to apply the migration', '**/*.js')
@@ -130,8 +126,7 @@ program
     });
   });
 
-program
-  .command('extract [location] [output]')
+command('extract [location] [output]')
   .description('extract stories.json from a built version')
   .action((location = 'storybook-static', output = path.join(location, 'stories.json')) =>
     extract(location, output).catch((e) => {
@@ -140,8 +135,7 @@ program
     })
   );
 
-program
-  .command('sandbox [filterValue]')
+command('sandbox [filterValue]')
   .alias('repro') // for retrocompatibility purposes
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
@@ -154,8 +148,7 @@ program
     })
   );
 
-program
-  .command('link <repo-url-or-directory>')
+command('link <repo-url-or-directory>')
   .description('Pull down a repro from a URL (or a local directory), link it, and run storybook')
   .option('--local', 'Link a local directory already in your file system')
   .option('--no-start', 'Start the storybook', true)
@@ -166,8 +159,7 @@ program
     })
   );
 
-program
-  .command('automigrate [fixId]')
+command('automigrate [fixId]')
   .description('Check storybook for known problems or migrations and apply fixes')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
@@ -181,8 +173,7 @@ program
     });
   });
 
-program
-  .command('dev')
+command('dev')
   .option('-p, --port <number>', 'Port to run Storybook', (str) => parseInt(str, 10))
   .option('-h, --host <string>', 'Host to run Storybook')
   .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
@@ -239,8 +230,7 @@ program
     dev({ ...options, packageJson: pkg });
   });
 
-program
-  .command('build')
+command('build')
   .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-o, --output-dir <dir-name>', 'Directory where to store built files')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')

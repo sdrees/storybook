@@ -315,6 +315,7 @@ export class ConfigFile {
       value = node.value;
     } else if (t.isObjectExpression(node)) {
       node.properties.forEach((prop) => {
+        // { framework: { name: 'value' } }
         if (
           t.isObjectProperty(prop) &&
           t.isIdentifier(prop.key) &&
@@ -323,6 +324,16 @@ export class ConfigFile {
           if (t.isStringLiteral(prop.value)) {
             value = prop.value.value;
           }
+        }
+
+        // { "framework": { "name": "value" } }
+        if (
+          t.isObjectProperty(prop) &&
+          t.isStringLiteral(prop.key) &&
+          prop.key.value === 'name' &&
+          t.isStringLiteral(prop.value)
+        ) {
+          value = prop.value.value;
         }
       });
     }

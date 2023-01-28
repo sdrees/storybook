@@ -7,7 +7,7 @@ import React from 'react';
 import { Button } from './Button';
 
 const meta = {
-  title: 'Example/Button',
+  title: 'examples/Button',
   component: Button,
   tags: ['autodocs'],
   argTypes: {

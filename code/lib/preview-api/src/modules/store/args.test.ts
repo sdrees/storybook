@@ -6,7 +6,7 @@ import {
   combineArgs,
   groupArgsByTarget,
   mapArgsToTypes,
-  NO_TARGET_NAME,
+  UNTARGETED,
   validateOptions,
 } from './args';
 
@@ -295,7 +295,7 @@ describe('groupArgsByTarget', () => {
       argTypes: { b: { name: 'b', target: 'group2' }, c: {} },
     } as any);
     expect(groups).toEqual({
-      [NO_TARGET_NAME]: {
+      [UNTARGETED]: {
         a: 1,
         c: 3,
       },

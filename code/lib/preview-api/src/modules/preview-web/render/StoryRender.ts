@@ -163,6 +163,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
       applyLoaders,
       unboundStoryFn,
       playFunction,
+      prepareContext,
       initialArgs,
     } = this.story;
 
@@ -179,10 +180,11 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     const abortSignal = (this.abortController as AbortController).signal;
 
     try {
-      const getCurrentContext = () => ({
-        ...this.storyContext(),
-        ...(this.renderOptions.forceInitialArgs && { args: initialArgs }),
-      });
+      const getCurrentContext = () =>
+        prepareContext({
+          ...this.storyContext(),
+          ...(this.renderOptions.forceInitialArgs && { args: initialArgs }),
+        } as StoryContext);
 
       let loadedContext: Awaited<ReturnType<typeof applyLoaders>>;
       await this.runPhase(abortSignal, 'loading', async () => {

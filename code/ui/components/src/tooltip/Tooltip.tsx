@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import React from 'react';
 import memoize from 'memoizerific';
 
@@ -42,10 +41,10 @@ const Arrow = styled.div<ArrowProps>(
     return { transform };
   },
   ({ theme, color, placement }) => ({
-    bottom: `${match('top', placement, ArrowSpacing * -1, 'auto')}px`,
-    top: `${match('bottom', placement, ArrowSpacing * -1, 'auto')}px`,
-    right: `${match('left', placement, ArrowSpacing * -1, 'auto')}px`,
-    left: `${match('right', placement, ArrowSpacing * -1, 'auto')}px`,
+    bottom: `${match('top', placement, `${ArrowSpacing * -1}px`, 'auto')}`,
+    top: `${match('bottom', placement, `${ArrowSpacing * -1}px`, 'auto')}`,
+    right: `${match('left', placement, `${ArrowSpacing * -1}px`, 'auto')}`,
+    left: `${match('right', placement, `${ArrowSpacing * -1}px`, 'auto')}`,
 
     borderBottomWidth: `${match('top', placement, '0', ArrowSpacing)}px`,
     borderTopWidth: `${match('bottom', placement, '0', ArrowSpacing)}px`,
@@ -89,7 +88,6 @@ const Arrow = styled.div<ArrowProps>(
 
 export interface WrapperProps {
   color: keyof Color;
-  placement: string;
   hidden?: boolean;
   hasChrome: boolean;
 }
@@ -118,7 +116,6 @@ const Wrapper = styled.div<WrapperProps>(
 
 export interface TooltipProps {
   children?: React.ReactNode;
-  arrowRef?: any;
   tooltipRef?: any;
   hasChrome?: boolean;
   arrowProps?: any;
@@ -126,27 +123,20 @@ export interface TooltipProps {
   color?: keyof Color;
 }
 
-export const Tooltip: FC<TooltipProps> = ({
-  placement,
-  hasChrome,
-  children,
-  arrowProps,
-  tooltipRef,
-  arrowRef,
-  color,
-  ...props
-}) => {
-  return (
-    <Wrapper hasChrome={hasChrome} placement={placement} ref={tooltipRef} {...props} color={color}>
-      {hasChrome && <Arrow placement={placement} ref={arrowRef} {...arrowProps} color={color} />}
-      {children}
-    </Wrapper>
-  );
-};
+export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
+  ({ placement, hasChrome, children, arrowProps, tooltipRef, color, ...props }, ref) => {
+    return (
+      <Wrapper hasChrome={hasChrome} ref={ref} {...props} color={color}>
+        {hasChrome && <Arrow placement={placement} {...arrowProps} color={color} />}
+        {children}
+      </Wrapper>
+    );
+  }
+);
 
+Tooltip.displayName = 'Tooltip';
 Tooltip.defaultProps = {
   color: undefined,
-  arrowRef: undefined,
   tooltipRef: undefined,
   hasChrome: true,
   placement: 'top',

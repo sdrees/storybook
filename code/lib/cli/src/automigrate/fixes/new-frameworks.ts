@@ -183,6 +183,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       `);
     }
 
+    if (!dependenciesToRemove.length && !dependenciesToAdd.length) {
+      return null;
+    }
+
     return {
       main,
       dependenciesToAdd,

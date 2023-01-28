@@ -2,13 +2,13 @@ import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
 import { deprecate } from '@storybook/client-logger';
-import { Description } from '../components';
 
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { Component } from './types';
 import type { Of } from './useOf';
 import { useOf } from './useOf';
+import { Markdown } from './Markdown';
 
 export enum DescriptionType {
   INFO = 'info',
@@ -151,7 +151,7 @@ const DescriptionContainer: FC<DescriptionProps> = (props) => {
       `The 'children' prop on the Description block is deprecated. See ${DEPRECATION_MIGRATION_LINK}`
     );
   }
-  return markdown ? <Description markdown={markdown} /> : null;
+  return markdown ? <Markdown>{markdown}</Markdown> : null;
 };
 
 export { DescriptionContainer as Description };

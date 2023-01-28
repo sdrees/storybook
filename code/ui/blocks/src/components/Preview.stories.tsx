@@ -157,7 +157,7 @@ export const WithFullscreenSingle = (
   args: any,
   { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
 ) => (
-  <Preview withToolbar>
+  <Preview withToolbar layout="fullscreen">
     <Story
       inline
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
@@ -174,7 +174,7 @@ export const WithFullscreenMulti = (
   args: any,
   { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
 ) => (
-  <Preview withToolbar>
+  <Preview withToolbar layout="fullscreen">
     <Story
       inline
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
@@ -200,7 +200,7 @@ export const WithCenteredSingle = (
   args: any,
   { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
 ) => (
-  <Preview withToolbar>
+  <Preview withToolbar layout="centered">
     <Story
       inline
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
@@ -217,7 +217,7 @@ export const WithCenteredMulti = (
   args: any,
   { loaded: { docsContext } }: { loaded: { docsContext: DocsContextProps } }
 ) => (
-  <Preview withToolbar>
+  <Preview withToolbar layout="centered">
     <Story
       inline
       story={getPreparedStory(docsContext, ButtonStories.Primary)}

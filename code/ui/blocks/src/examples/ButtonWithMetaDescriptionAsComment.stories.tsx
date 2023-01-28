@@ -7,7 +7,7 @@ import { Button } from './Button';
  * _this description was written as a comment above the default export_
  */
 const meta = {
-  title: 'Blocks/Description/Button',
+  title: 'Examples/Button with Meta Description as Comment',
   component: Button,
   argTypes: {
     backgroundColor: { control: 'color' },

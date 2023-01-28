@@ -4,38 +4,27 @@ import { Subheading } from './Subheading';
 import type { DocsStoryProps } from './types';
 import { Anchor } from './Anchor';
 import { Description } from './Description';
-import { Story } from './Story';
 import { Canvas } from './Canvas';
+import { useOf } from './useOf';
 
 export const DocsStory: FC<DocsStoryProps> = ({
-  id,
-  name,
+  of,
   expanded = true,
   withToolbar = false,
-  parameters = {},
   __forceInitialArgs = false,
   __primary = false,
 }) => {
-  let description;
-  const { docs } = parameters;
-  if (expanded && docs) {
-    description = docs.description?.story;
-  }
-
-  const subheading = expanded && name;
+  const { story } = useOf(of || 'story', ['story']);
 
   return (
-    <Anchor storyId={id}>
-      {subheading && <Subheading>{subheading}</Subheading>}
-      {description && <Description markdown={description} />}
-      <Canvas withToolbar={withToolbar}>
-        <Story
-          id={id}
-          parameters={parameters}
-          __forceInitialArgs={__forceInitialArgs}
-          __primary={__primary}
-        />
-      </Canvas>
+    <Anchor storyId={story.id}>
+      {expanded && (
+        <>
+          <Subheading>{story.name}</Subheading>
+          <Description of={of} />
+        </>
+      )}
+      <Canvas of={of} withToolbar={withToolbar} story={{ __forceInitialArgs, __primary }} />
     </Anchor>
   );
 };

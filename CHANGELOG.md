@@ -1,3 +1,96 @@
+## 7.0.0-beta.36 (January 28, 2023)
+
+#### Features
+
+-   Core: Story context is prepared before for supporting fine grained updates [#20755](https://github.com/storybooks/storybook/pull/20755)
+-   Addon-docs: New Markdown block [#20796](https://github.com/storybooks/storybook/pull/20796)
+-   Addon-docs: Disable Markdown transclusion and support ?raw .md files [#20790](https://github.com/storybooks/storybook/pull/20790)
+
+#### Bug Fixes
+
+-   Addon-docs: Allow using `<Source code=".." />` unattached. [#20807](https://github.com/storybooks/storybook/pull/20807)
+-   Vite: Replace vite-plugin-externals with custom plugin [#20698](https://github.com/storybooks/storybook/pull/20698)
+-   Sveltekit: Ensure SSR is disabled [#20804](https://github.com/storybooks/storybook/pull/20804)
+
+## 7.0.0-beta.35 (January 27, 2023)
+
+#### Bug Fixes
+
+-   Storysource: Support CSF3 object exports, co-exist with addon-docs [#20799](https://github.com/storybooks/storybook/pull/20799)
+-   Vite: Do not pre-bundle @vitejs/plugin-vue [#20787](https://github.com/storybooks/storybook/pull/20787)
+-   CLI: Fix new-frameworks automigration in angular projects [#20788](https://github.com/storybooks/storybook/pull/20788)
+
+## 7.0.0-beta.34 (January 26, 2023)
+
+#### Features
+
+-   Addon-docs: Add legacy transitional support for MDX1 [#20747](https://github.com/storybooks/storybook/pull/20747)
+
+#### Bug Fixes
+
+-   CLI: Fix global flag corner case [#20776](https://github.com/storybooks/storybook/pull/20776)
+-   Csf-tools: Fix ConfigFile string literal property handling [#20785](https://github.com/storybooks/storybook/pull/20785)
+-   Angular: Ensure docsMode flag has effect [#20711](https://github.com/storybooks/storybook/pull/20711)
+-   Angular: Use Providers in boostrapApplication option [#20746](https://github.com/storybooks/storybook/pull/20746)
+-   WebComponents: Fix Button type error [#20722](https://github.com/storybooks/storybook/pull/20722)
+
+#### Build
+
+-   Verify consistency of anonymous id [#20781](https://github.com/storybooks/storybook/pull/20781)
+-   Build: fix playwright unsynced version in CI [#20778](https://github.com/storybooks/storybook/pull/20778)
+-   Upgrade playwright [#20777](https://github.com/storybooks/storybook/pull/20777)
+
+#### Dependency Upgrades
+
+-   Deps: Upgrade fs-extra to 11.1.0 [#20772](https://github.com/storybooks/storybook/pull/20772)
+
+## 7.0.0-beta.33 (January 24, 2023)
+
+#### Features
+
+-   Addon-docs: Allow `<Story/>` to reference the first story [#20765](https://github.com/storybooks/storybook/pull/20765)
+
+#### Bug Fixes
+
+-   Angular: Fix issue if BrowserAnimationsModule is imported [#20709](https://github.com/storybooks/storybook/pull/20709)
+-   Core: Fix issue with inconsistent CSF ordering in sandboxes [#20705](https://github.com/storybooks/storybook/pull/20705)
+-   Fixed paths in generated main.cjs for the default sandbox on Windows [#20724](https://github.com/storybooks/storybook/pull/20724)
+-   Blocks: Ignore known blocks with global CSS selector [#20757](https://github.com/storybooks/storybook/pull/20757)
+
+#### Maintenance
+
+-   Docs: Make reference stories consistent [#20759](https://github.com/storybooks/storybook/pull/20759)
+-   Blocks: New Canvas API [#20723](https://github.com/storybooks/storybook/pull/20723)
+
+#### Build
+
+-   Fix vue sandbox: remove the lang=ts in a file, that should remain agnostic [#20768](https://github.com/storybooks/storybook/pull/20768)
+-   Build: do not treat check as a cache-able operation && cleanup [#20762](https://github.com/storybooks/storybook/pull/20762)
+
+## 7.0.0-beta.32 (January 24, 2023)
+
+#### Features
+
+-   CLI: Add init support for qwik projects [#20411](https://github.com/storybooks/storybook/pull/20411)
+
+#### Bug Fixes
+
+-   Vue3: Fix reactive args + many vue app creation issue  [#20712](https://github.com/storybooks/storybook/pull/20712)
+-   Docs: Allow "declaring" stories with `story={}` [#20702](https://github.com/storybooks/storybook/pull/20702)
+-   Addon-links: Fix the d.ts file, deprecate LinkTo [#20671](https://github.com/storybooks/storybook/pull/20671)
+-   CLI: Fix package execution for npm package manager [#20708](https://github.com/storybooks/storybook/pull/20708)
+
+#### Maintenance
+
+-   Upgrade react-popper-tooltip [#20736](https://github.com/storybooks/storybook/pull/20736)
+-   CLI: Upgrade automigrations to use new safe helpers [#20693](https://github.com/storybooks/storybook/pull/20693)
+-   Csf-tools: Add helpers to get name from node path [#20691](https://github.com/storybooks/storybook/pull/20691)
+-   Build: remove preact-webpack5 from babelrc automigration [#20706](https://github.com/storybooks/storybook/pull/20706)
+
+#### Build
+
+-   Fix windows snapshot [#20707](https://github.com/storybooks/storybook/pull/20707)
+
 ## 7.0.0-beta.31 (January 20, 2023)
 
 #### Features

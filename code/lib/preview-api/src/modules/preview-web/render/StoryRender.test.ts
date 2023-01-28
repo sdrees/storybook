@@ -59,6 +59,7 @@ describe('StoryRender', () => {
       applyLoaders: jest.fn(),
       unboundStoryFn: jest.fn(),
       playFunction: jest.fn(),
+      prepareContext: jest.fn(),
     };
 
     const render = new StoryRender(
@@ -85,6 +86,7 @@ describe('StoryRender', () => {
       applyLoaders: jest.fn(),
       unboundStoryFn: jest.fn(),
       playFunction: jest.fn(),
+      prepareContext: jest.fn(),
     };
 
     const render = new StoryRender(
@@ -112,6 +114,7 @@ describe('StoryRender', () => {
       applyLoaders: jest.fn(),
       unboundStoryFn: jest.fn(),
       playFunction: jest.fn(),
+      prepareContext: jest.fn((ctx) => ctx),
     };
 
     const renderToScreen = jest.fn();

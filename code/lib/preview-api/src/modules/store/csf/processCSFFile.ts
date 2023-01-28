@@ -8,8 +8,9 @@ import type {
   NormalizedComponentAnnotations,
 } from '@storybook/types';
 import { isExportStory } from '@storybook/csf';
-import { logger } from '@storybook/client-logger';
+import { deprecate, logger } from '@storybook/client-logger';
 
+import dedent from 'ts-dedent';
 import { normalizeStory } from './normalizeStory';
 import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
 
@@ -38,6 +39,15 @@ const checkDisallowedParameters = (parameters?: Parameters) => {
   checkStorySort(parameters);
 };
 
+const checkSubcomponents = (meta: ModuleExports) => {
+  if (meta.subcomponents) {
+    deprecate(dedent`The \`subcomponents\` annotation is deprecated. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#argstable-block'
+    `);
+  }
+};
+
 // Given the raw exports of a CSF file, check and normalize it.
 export function processCSFFile<TRenderer extends Renderer>(
   moduleExports: ModuleExports,
@@ -53,6 +63,7 @@ export function processCSFFile<TRenderer extends Renderer>(
     importPath
   );
   checkDisallowedParameters(meta.parameters);
+  checkSubcomponents(meta);
 
   const csfFile: CSFFile<TRenderer> = { meta, stories: {}, moduleExports };
 

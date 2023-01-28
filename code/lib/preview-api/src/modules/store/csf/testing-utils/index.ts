@@ -80,7 +80,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
       args: { ...story.initialArgs, ...extraArgs },
     };
 
-    return story.unboundStoryFn(context as StoryContext);
+    return story.unboundStoryFn(story.prepareContext(context as StoryContext));
   };
 
   composedStory.storyName = storyName;

@@ -1,6 +1,7 @@
 import assert from 'assert';
 import fetch from 'node-fetch';
 import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
+import { oneWayHash } from '../code/lib/telemetry/src/one-way-hash';
 
 const PORT = process.env.PORT || 6007;
 
@@ -45,6 +46,9 @@ async function run() {
   assert.equal(mainEvent.eventType, eventType);
   assert.notEqual(mainEvent.eventId, bootEvent.eventId);
   assert.equal(mainEvent.sessionId, bootEvent.sessionId);
+  const templateDir = `sandbox/${templateName.replace('/', '-')}`;
+  const unhashedId = `github.com/storybookjs/storybook.git${templateDir}`;
+  assert.equal(mainEvent.context.anonymousId, oneWayHash(unhashedId));
 
   const {
     expected: { renderer, builder, framework },

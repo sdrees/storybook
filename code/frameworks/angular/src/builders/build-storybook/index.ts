@@ -22,7 +22,7 @@ import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-ha
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
-  docsMode: boolean;
+  docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
   styles?: StyleElement[];
@@ -59,7 +59,7 @@ function commandBuilder(
         stylePreprocessorOptions,
         styles,
         configDir,
-        docsMode,
+        docs,
         loglevel,
         outputDir,
         quiet,
@@ -70,7 +70,7 @@ function commandBuilder(
       const standaloneOptions: StandaloneBuildOptions = {
         packageJson: readUpSync({ cwd: __dirname }).packageJson,
         configDir,
-        docsMode,
+        ...(docs ? { docs } : {}),
         loglevel,
         outputDir,
         quiet,

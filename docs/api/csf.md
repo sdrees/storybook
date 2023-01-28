@@ -178,6 +178,8 @@ A good use case for the `play` function is a form component. With previous Story
     'vue/login-form-with-play-function.ts-2.ts.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
     'vue/login-form-with-play-function.ts-3.ts.mdx',
+    'web-components/login-form-with-play-function.js.mdx',
+    'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
   ]}
   usesCsf3

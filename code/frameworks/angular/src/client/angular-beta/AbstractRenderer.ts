@@ -1,9 +1,10 @@
-import { NgModule, enableProdMode, Type, ApplicationRef } from '@angular/core';
+import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimations, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
-import { ICollection, StoryFnAngularReturnType, Parameters } from '../types';
+import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { componentNgModules } from './StorybookWrapperComponent';
@@ -97,6 +98,16 @@ export abstract class AbstractRenderer {
 
     const newStoryProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
 
+    const hasAnimationsDefined =
+      !!storyFnAngular.moduleMetadata?.imports?.includes(BrowserAnimationsModule);
+
+    if (hasAnimationsDefined && storyFnAngular?.moduleMetadata?.imports) {
+      // eslint-disable-next-line no-param-reassign
+      storyFnAngular.moduleMetadata.imports = storyFnAngular.moduleMetadata.imports.filter(
+        (importedModule) => importedModule !== BrowserAnimationsModule
+      );
+    }
+
     if (
       !this.fullRendererRequired({
         storyFnAngular,
@@ -122,7 +133,10 @@ export abstract class AbstractRenderer {
     const application = getApplication({ storyFnAngular, component, targetSelector });
 
     const applicationRef = await bootstrapApplication(application, {
-      providers: [storyPropsProvider(newStoryProps$)],
+      providers: [
+        ...(hasAnimationsDefined ? [provideAnimations()] : []),
+        storyPropsProvider(newStoryProps$),
+      ],
     });
 
     applicationRefs.add(applicationRef);

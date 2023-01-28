@@ -66,6 +66,9 @@ export const Expanded = () => {
 // @ts-expect-error (needs to be converted to CSF3)
 Expanded.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
+  await new Promise((res) => {
+    setTimeout(res, 500);
+  });
   const menuButton = await canvas.findByRole('button');
   await userEvent.click(menuButton);
   const aboutStorybookBtn = await screen.findByText(/About your Storybook/);
@@ -97,6 +100,9 @@ export const ExpandedWithoutReleaseNotes = () => {
 // @ts-expect-error (needs to be converted to CSF3)
 ExpandedWithoutReleaseNotes.play = async (context) => {
   const canvas = within(context.canvasElement);
+  await new Promise((res) => {
+    setTimeout(res, 500);
+  });
   await Expanded.play(context);
   const releaseNotes = await canvas.queryByText(/Release notes/);
   await expect(releaseNotes).not.toBeInTheDocument();

@@ -138,6 +138,7 @@ If you're working with pure presentational screens, adding stories through [args
   paths={[
     'react/document-screen-fetch.js.mdx',
     'vue/document-screen-fetch.3.js.mdx',
+    'vue/document-screen-fetch.ts-3.ts.mdx',
     'angular/document-screen-fetch.ts.mdx',
     'svelte/document-screen-fetch.js.mdx',
     'web-components/document-screen-fetch.js.mdx',
@@ -153,6 +154,7 @@ To test your screen with the mocked data, you could write a similar set of stori
 <CodeSnippets
   paths={[
     'common/documentscreen-story-msw-rest-request.js.mdx',
+    'common/documentscreen-story-msw-rest-request.ts.mdx',
     'web-components/documentscreen-story-msw-rest-request.js.mdx',
     'web-components/documentscreen-story-msw-rest-request.ts.mdx',
   ]}

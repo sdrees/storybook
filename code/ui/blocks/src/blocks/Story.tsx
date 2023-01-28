@@ -10,6 +10,7 @@ import type {
 } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 
+import dedent from 'ts-dedent';
 import { Story as PureStory, StorySkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
@@ -32,6 +33,10 @@ type StoryRefProps = {
    * @deprecated Use of={storyExport} instead
    */
   id?: string;
+  /**
+   * @deprecated Use of={storyExport} and define the story in the CSF file
+   */
+  story?: StoryAnnotations;
   /**
    * Pass the export defining a story to render that story
    *
@@ -83,22 +88,37 @@ type StoryParameters = {
 export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
-  const { id, of, meta } = props as StoryRefProps;
-
-  if (of) {
-    if (meta) context.referenceMeta(meta, false);
-    const resolved = context.resolveOf(of, ['story']);
-    return resolved.story.id;
+  const { id, of, meta, story } = props as StoryRefProps;
+  if (id) {
+    deprecate(dedent`Referencing stories by \`id\` is deprecated, please use \`of\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
+    return id;
   }
 
   const { name } = props as StoryDefProps;
-  return id || context.storyIdByName(name);
-};
+  if (name) {
+    deprecate(dedent`Referencing stories by \`name\` is deprecated, please use \`of\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
+    return context.storyIdByName(name);
+  }
 
-// Find the first option that isn't undefined
-function getProp<T>(...options: (T | undefined)[]) {
-  return options.find((option) => typeof option !== 'undefined');
-}
+  // The `story={moduleExports}` prop is a legacy prop for stories defined in CSF files, but
+  // "declared" in MDX files (the CSF file has no meta export or doesn't match the stories glob).
+  // In this case, the `.stories.mdx` file will have actually ended up declaring the story
+  // so we can reference the story just the same as an `of={moduleExports}` would have.
+  // See https://github.com/storybookjs/mdx2-csf/issues/3
+  if (story) {
+    deprecate(dedent`The \`story\` prop is deprecated, please export your stories from CSF files and reference them with \`of={}\`.
+
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
+  }
+
+  if (meta) context.referenceMeta(meta, false);
+  const resolved = context.resolveOf(of || story || 'story', ['story']);
+  return resolved.story.id;
+};
 
 export const getStoryProps = <TFramework extends Renderer>(
   props: StoryParameters,
@@ -123,17 +143,22 @@ export const getStoryProps = <TFramework extends Renderer>(
     autoplay?: boolean;
   };
   if (typeof inlineStories !== 'undefined')
-    deprecate('The `docs.inlineStories` parameter is deprecated, use `docs.story.inline` instead');
-  const inline = getProp(props.inline, storyParameters.inline, inlineStories) || false;
+    deprecate(dedent`The \`docs.inlineStories\` parameter is deprecated, use \`docs.story.inline\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
+    `);
+  const inline = props.inline ?? storyParameters.inline ?? inlineStories ?? false;
 
-  if (typeof iframeHeight !== 'undefined')
-    deprecate(
-      'The `docs.iframeHeight` parameter is deprecated, use `docs.story.iframeHeight` instead'
-    );
+  if (typeof iframeHeight !== 'undefined') {
+    deprecate(dedent`The \`docs.iframeHeight\` parameter is deprecated, use \`docs.story.iframeHeight\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
+    `);
+  }
 
   if (inline) {
-    const height = getProp(props.height, storyParameters.height);
-    const autoplay = getProp(props.autoplay, storyParameters.autoplay) || false;
+    const height = props.height ?? storyParameters.height;
+    const autoplay = props.autoplay ?? storyParameters.autoplay ?? false;
     return {
       story,
       inline: true,
@@ -148,7 +173,10 @@ export const getStoryProps = <TFramework extends Renderer>(
   }
 
   const height =
-    getProp(props.height, storyParameters.height, storyParameters.iframeHeight, iframeHeight) ||
+    props.height ??
+    storyParameters.height ??
+    storyParameters.iframeHeight ??
+    iframeHeight ??
     '100px';
   return {
     story,

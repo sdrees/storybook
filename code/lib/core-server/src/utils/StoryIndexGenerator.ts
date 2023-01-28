@@ -113,7 +113,7 @@ export class StoryIndexGenerator {
 
   async initialize() {
     // Find all matching paths for each specifier
-    await Promise.all(
+    const specifiersAndCaches = await Promise.all(
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
@@ -132,8 +132,14 @@ export class StoryIndexGenerator {
           pathToSubIndex[absolutePath] = false;
         });
 
-        this.specifierToCache.set(specifier, pathToSubIndex);
+        return [specifier, pathToSubIndex] as const;
       })
+    );
+
+    // We do this in a second step to avoid timing issues with the Promise.all above -- to ensure
+    // the keys in the `specifierToCache` object are consistent with the order of specifiers.
+    specifiersAndCaches.forEach(([specifier, cache]) =>
+      this.specifierToCache.set(specifier, cache)
     );
 
     // Extract stories for each file

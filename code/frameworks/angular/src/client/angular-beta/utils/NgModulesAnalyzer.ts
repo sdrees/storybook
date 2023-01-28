@@ -7,7 +7,7 @@ const reflectionCapabilities = new ReflectionCapabilities();
  *
  * Checks recursively if the component has already been declared in all import Module
  */
-export const isComponentAlreadyDeclaredInModules = (
+export const isComponentAlreadyDeclared = (
   componentToFind: any,
   moduleDeclarations: any[],
   moduleImports: any[]
@@ -29,7 +29,7 @@ export const isComponentAlreadyDeclaredInModules = (
       // Not an NgModule
       return false;
     }
-    return isComponentAlreadyDeclaredInModules(
+    return isComponentAlreadyDeclared(
       componentToFind,
       extractedNgModuleMetadata.declarations,
       extractedNgModuleMetadata.imports

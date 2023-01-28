@@ -4,7 +4,6 @@ import { Description, DescriptionType } from '../Description';
 import { Button } from '../../examples/Button';
 
 const meta: Meta<typeof Description> = {
-  title: 'Blocks/Internal/Description',
   component: Description,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],

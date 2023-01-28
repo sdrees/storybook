@@ -122,6 +122,14 @@ export const ToolbarMenu: FC<{
       placement="bottom"
       trigger="click"
       closeOnClick
+      modifiers={[
+        {
+          name: 'flip',
+          options: {
+            allowedAutoPlacements: [],
+          },
+        },
+      ]}
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
       <IconButton title="Shortcuts" aria-label="Shortcuts">

@@ -112,6 +112,8 @@ Another option that is more “data”-based is to create a special “story-gen
     'vue/list-story-template.3.js.mdx',
     'vue/list-story-template.ts-3.ts.mdx',
     'angular/list-story-template.ts.mdx',
+    'web-components/list-story-template.js.mdx',
+    'web-components/list-story-template.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-template"

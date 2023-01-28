@@ -72,4 +72,14 @@ describe('normalizeGitUrl', () => {
       'github.com/storybookjs/storybook.git'
     );
   });
+
+  it('trims off extra whitespace', () => {
+    expect(normalizeGitUrl('https://github.com/storybookjs/storybook.git#next\n')).toEqual(
+      'github.com/storybookjs/storybook.git'
+    );
+
+    expect(normalizeGitUrl('https://github.com/storybookjs/storybook.git\n')).toEqual(
+      'github.com/storybookjs/storybook.git'
+    );
+  });
 });

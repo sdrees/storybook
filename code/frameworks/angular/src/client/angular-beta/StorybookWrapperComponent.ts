@@ -1,28 +1,22 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ElementRef,
-  OnDestroy,
-  Type,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Inject,
+  NgModule,
+  OnDestroy,
+  Type,
   ViewChild,
   ViewContainerRef,
-  NgModule,
 } from '@angular/core';
-import { Subscription, Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 
 import { ICollection, NgModuleMetadata } from '../types';
 import { STORY_PROPS } from './StorybookProvider';
-import {
-  ComponentInputsOutputs,
-  getComponentInputsOutputs,
-  isDeclarable,
-  isStandaloneComponent,
-} from './utils/NgComponentAnalyzer';
-import { isComponentAlreadyDeclaredInModules } from './utils/NgModulesAnalyzer';
+import { ComponentInputsOutputs, getComponentInputsOutputs } from './utils/NgComponentAnalyzer';
+import { extractDeclarations, extractImports, extractProviders } from './utils/PropertyExtractor';
 
 const getNonInputsOutputsProps = (
   ngComponentInputsOutputs: ComponentInputsOutputs,
@@ -37,6 +31,7 @@ const getNonInputsOutputsProps = (
   return Object.keys(props).filter((k) => ![...inputs, ...outputs].includes(k));
 };
 
+// component modules cache
 export const componentNgModules = new Map<any, Type<any>>();
 
 /**
@@ -57,56 +52,33 @@ export const createStorybookWrapperComponent = (
   // storyComponent was not provided.
   const viewChildSelector = storyComponent ?? '__storybook-noop';
 
-  const isStandalone = isStandaloneComponent(storyComponent);
-  // Look recursively (deep) if the component is not already declared by an import module
-  const requiresComponentDeclaration =
-    isDeclarable(storyComponent) &&
-    !isComponentAlreadyDeclaredInModules(
-      storyComponent,
-      moduleMetadata.declarations,
-      moduleMetadata.imports
-    ) &&
-    !isStandalone;
+  const imports = extractImports(moduleMetadata);
+  const declarations = extractDeclarations(moduleMetadata, storyComponent);
+  const providers = extractProviders(moduleMetadata);
 
-  const providersNgModules = (moduleMetadata.providers ?? []).map((provider) => {
-    if (!componentNgModules.get(provider)) {
-      @NgModule({
-        providers: [provider],
-      })
-      class ProviderModule {}
-
-      componentNgModules.set(provider, ProviderModule);
-    }
-
-    return componentNgModules.get(provider);
-  });
-
-  if (!componentNgModules.get(storyComponent)) {
-    const declarations = [
-      ...(requiresComponentDeclaration ? [storyComponent] : []),
-      ...(moduleMetadata.declarations ?? []),
-    ];
-
+  // Only create a new module if it doesn't already exist
+  // This is to prevent the module from being recreated on every story change
+  // Declarations & Imports are only added once
+  // Providers are added on every story change to allow for story-specific providers
+  let ngModule = componentNgModules.get(storyComponent);
+  if (!ngModule) {
     @NgModule({
       declarations,
-      imports: [CommonModule, ...(moduleMetadata.imports ?? [])],
-      exports: [...declarations, ...(moduleMetadata.imports ?? [])],
+      imports,
+      exports: [...declarations, ...imports],
     })
     class StorybookComponentModule {}
 
     componentNgModules.set(storyComponent, StorybookComponentModule);
+    ngModule = componentNgModules.get(storyComponent);
   }
 
   @Component({
     selector,
     template,
     standalone: true,
-    imports: [
-      CommonModule,
-      componentNgModules.get(storyComponent),
-      ...providersNgModules,
-      ...(isStandalone ? [storyComponent] : []),
-    ],
+    imports: [ngModule],
+    providers,
     styles,
     schemas: moduleMetadata.schemas,
   })

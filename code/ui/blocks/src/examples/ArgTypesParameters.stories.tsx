@@ -5,7 +5,7 @@ import { ArgTypesParameters } from './ArgTypesParameters';
  * Reference stories to be used by the ArgTypes stories
  */
 const meta = {
-  title: 'Example/Stories for ArgTypes',
+  title: 'examples/Stories for the ArgTypes Block',
   component: ArgTypesParameters,
   args: { b: 'b' },
   argTypes: {

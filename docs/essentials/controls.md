@@ -97,10 +97,10 @@ This replaces the input with a radio group for a more intuitive experience.
 
 For a few types, Controls can automatically be inferred with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
 
-| Data type | Default regex |                       Description                        |
-| :-------: | :-----------: | :------------------------------------------------------: | --------------------------------------------------------- |
-| **color** | `/(background |                        color)$/i`                        | Will display a color picker UI for the args that match it |
-| **date**  |   `/Date$/`   | Will display a date picker UI for the args that match it |
+| Data type | Default regex                            | Description                                               |
+| :-------: | :--------------------------------------: | :-------------------------------------------------------: |
+| **color** | <code>/(background&#124;color)$/i</code> | Will display a color picker UI for the args that match it |
+| **date**  | `/Date$/`                                | Will display a date picker UI for the args that match it  |
 
 If you haven't used the CLI to setup the configuration, or if you want to define your own patterns, use the `matchers` property in the `controls` parameter:
 

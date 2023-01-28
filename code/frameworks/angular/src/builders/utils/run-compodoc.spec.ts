@@ -1,4 +1,3 @@
-import { BuilderContext } from '@angular-devkit/architect';
 import { LoggerApi } from '@angular-devkit/core/src/logger';
 import { take } from 'rxjs/operators';
 
@@ -41,7 +40,7 @@ describe('runCompodoc', () => {
       {
         workspaceRoot: 'path/to/project',
         logger: builderContextLoggerMock,
-      } as BuilderContext
+      }
     )
       .pipe(take(1))
       .subscribe();
@@ -65,7 +64,7 @@ describe('runCompodoc', () => {
       {
         workspaceRoot: 'path/to/project',
         logger: builderContextLoggerMock,
-      } as BuilderContext
+      }
     )
       .pipe(take(1))
       .subscribe();
@@ -89,7 +88,7 @@ describe('runCompodoc', () => {
       {
         workspaceRoot: 'path/to/project',
         logger: builderContextLoggerMock,
-      } as BuilderContext
+      }
     )
       .pipe(take(1))
       .subscribe();
@@ -112,7 +111,7 @@ describe('runCompodoc', () => {
       {
         workspaceRoot: 'path/to/project',
         logger: builderContextLoggerMock,
-      } as BuilderContext
+      }
     )
       .pipe(take(1))
       .subscribe();
@@ -135,7 +134,7 @@ describe('runCompodoc', () => {
       {
         workspaceRoot: 'path/to/project',
         logger: builderContextLoggerMock,
-      } as BuilderContext
+      }
     )
       .pipe(take(1))
       .subscribe();

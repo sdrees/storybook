@@ -186,7 +186,7 @@ const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
 
   await Promise.all(
     additionalFiles.map(async (file) => {
-      await outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'UTF-8' });
+      await outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'utf-8' });
     })
   );
 };
