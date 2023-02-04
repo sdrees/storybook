@@ -89,5 +89,3 @@ export type Control =
   | OptionsConfig
   | RangeConfig
   | TextConfig;
-
-export type Controls = Record<string, Control>;

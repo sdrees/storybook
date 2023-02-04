@@ -1,7 +1,7 @@
 import type { FC, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
-import { Code, components } from '@storybook/components';
+import { Code, components, nameSpaceClassNames } from '@storybook/components';
 import { global } from '@storybook/global';
 import { styled } from '@storybook/theming';
 import { Source } from '../components';
@@ -120,13 +120,12 @@ export const AnchorMdx: FC<AnchorMdxProps> = (props) => {
   return <A {...props} />;
 };
 
-const SUPPORTED_MDX_HEADERS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+const SUPPORTED_MDX_HEADERS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
 
 const OcticonHeaders = SUPPORTED_MDX_HEADERS.reduce(
   (acc, headerType) => ({
     ...acc,
-    // @ts-expect-error (Converted from ts-ignore)
-    [headerType]: styled(components[headerType])({
+    [headerType]: styled(headerType)({
       '& svg': {
         visibility: 'hidden',
       },
@@ -213,12 +212,10 @@ export const HeaderMdx: FC<HeaderMdxProps> = (props) => {
       </HeaderWithOcticonAnchor>
     );
   }
-
-  // @ts-expect-error (Converted from ts-ignore)
-  const Header = components[as];
-
   // Make sure it still work if "remark-slug" plugin is not present.
-  return <Header {...props} />;
+  const Component = as as React.ElementType;
+  const { as: omittedAs, ...withoutAs } = props;
+  return <Component {...nameSpaceClassNames(withoutAs, as)} />;
 };
 
 export const HeadersMdx = SUPPORTED_MDX_HEADERS.reduce(

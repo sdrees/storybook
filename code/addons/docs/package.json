@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.0.0-beta.36",
+  "version": "7.0.0-beta.43",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -10,7 +10,7 @@
     "essentials",
     "organize"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/docs",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/docs",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -103,18 +103,18 @@
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.0.0-beta.36",
-    "@storybook/client-logger": "7.0.0-beta.36",
-    "@storybook/components": "7.0.0-beta.36",
-    "@storybook/csf-plugin": "7.0.0-beta.36",
-    "@storybook/csf-tools": "7.0.0-beta.36",
+    "@storybook/blocks": "7.0.0-beta.43",
+    "@storybook/client-logger": "7.0.0-beta.43",
+    "@storybook/components": "7.0.0-beta.43",
+    "@storybook/csf-plugin": "7.0.0-beta.43",
+    "@storybook/csf-tools": "7.0.0-beta.43",
     "@storybook/global": "^5.0.0",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-beta.36",
-    "@storybook/postinstall": "7.0.0-beta.36",
-    "@storybook/preview-api": "7.0.0-beta.36",
-    "@storybook/theming": "7.0.0-beta.36",
-    "@storybook/types": "7.0.0-beta.36",
+    "@storybook/node-logger": "7.0.0-beta.43",
+    "@storybook/postinstall": "7.0.0-beta.43",
+    "@storybook/preview-api": "7.0.0-beta.43",
+    "@storybook/theming": "7.0.0-beta.43",
+    "@storybook/types": "7.0.0-beta.43",
     "fs-extra": "^11.1.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
@@ -147,7 +147,7 @@
       "./src/shims/mdx-react-shim.ts"
     ]
   },
-  "gitHead": "5268eb0fa26e2e31cc410c27cbff7189f3b7eba1",
+  "gitHead": "b1b7c2bc998decc21eb8352fcccd3c939048df02",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

@@ -3,6 +3,9 @@ import { Anchor } from './Anchor';
 
 const meta = {
   component: Anchor,
+  parameters: {
+    docsStyles: true,
+  },
 } as Meta<typeof Anchor>;
 
 export default meta;

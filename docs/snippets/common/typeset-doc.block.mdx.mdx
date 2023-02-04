@@ -12,8 +12,6 @@ export const typography = {
   weight: {
     regular: '400',
     bold: '700',
-    extrabold: '800',
-    black: '900',
   },
   size: {
     s1: 12,
@@ -34,7 +32,7 @@ export const SampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing el
 
 **Font:** Nunito Sans
 
-**Weights:** 400(regular), 700(bold), 800(extrabold), 900(black)
+**Weights:** 400(regular), 700(bold)
 
 <Typeset
   fontSizes={[
@@ -48,7 +46,7 @@ export const SampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing el
     Number(typography.size.l2),
     Number(typography.size.l3),
   ]}
-  fontWeight={typography.weight.black}
+  fontWeight={typography.weight.bold}
   sampleText={SampleText}
   fontFamily={typography.type.primary}
 />

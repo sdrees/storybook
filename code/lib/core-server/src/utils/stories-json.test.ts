@@ -117,10 +117,10 @@ describe('useStoriesJson', () => {
       expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
         Object {
           "entries": Object {
-            "a--docs": Object {
-              "id": "a--docs",
+            "a--metaof": Object {
+              "id": "a--metaof",
               "importPath": "./src/docs2/MetaOf.mdx",
-              "name": "docs",
+              "name": "MetaOf",
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
@@ -277,20 +277,20 @@ describe('useStoriesJson', () => {
       expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
         Object {
           "stories": Object {
-            "a--docs": Object {
-              "id": "a--docs",
+            "a--metaof": Object {
+              "id": "a--metaof",
               "importPath": "./src/docs2/MetaOf.mdx",
               "kind": "A",
-              "name": "docs",
+              "name": "MetaOf",
               "parameters": Object {
-                "__id": "a--docs",
+                "__id": "a--metaof",
                 "docsOnly": true,
                 "fileName": "./src/docs2/MetaOf.mdx",
               },
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
-              "story": "docs",
+              "story": "MetaOf",
               "tags": Array [
                 "docs",
               ],

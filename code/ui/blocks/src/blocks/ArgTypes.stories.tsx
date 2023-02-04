@@ -8,6 +8,7 @@ const meta: Meta<typeof ArgTypes> = {
   component: ArgTypes,
   parameters: {
     relativeCsfPaths: ['../examples/ArgTypesParameters.stories'],
+    docsStyles: true,
   },
 };
 export default meta;

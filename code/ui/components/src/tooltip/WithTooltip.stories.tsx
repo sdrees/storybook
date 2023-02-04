@@ -112,7 +112,7 @@ export const SimpleClickCloseOnClick: StoryObj<ComponentProps<typeof WithTooltip
   args: {
     placement: 'top',
     trigger: 'click',
-    closeOnClick: true,
+    closeOnOutsideClick: true,
   },
   render: (args) => (
     <WithTooltip tooltip={<Tooltip />} {...args}>

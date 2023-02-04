@@ -7,6 +7,7 @@ const meta: Meta<typeof Controls> = {
   component: Controls,
   parameters: {
     relativeCsfPaths: ['../examples/ControlsParameters.stories'],
+    docsStyles: true,
   },
 };
 export default meta;

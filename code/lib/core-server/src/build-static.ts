@@ -63,7 +63,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   await emptyDir(options.outputDir);
   await ensureDir(options.outputDir);
 
-  const { framework } = loadMainConfig(options);
+  const { framework } = await loadMainConfig(options);
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;

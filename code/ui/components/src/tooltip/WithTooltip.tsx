@@ -4,90 +4,135 @@ import ReactDOM from 'react-dom';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
 
-import type { TriggerType } from 'react-popper-tooltip';
+import type { Config as ReactPopperTooltipConfig, PopperOptions } from 'react-popper-tooltip';
 import { usePopperTooltip } from 'react-popper-tooltip';
-import type { Modifier, Placement } from '@popperjs/core';
 import { Tooltip } from './Tooltip';
 
 const { document } = global;
 
 // A target that doesn't speak popper
-const TargetContainer = styled.div<{ mode: string }>`
+const TargetContainer = styled.div<{ trigger: ReactPopperTooltipConfig['trigger'] }>`
   display: inline-block;
-  cursor: ${(props) => (props.mode === 'hover' ? 'default' : 'pointer')};
+  cursor: ${(props) =>
+    props.trigger === 'hover' || props.trigger.includes('hover') ? 'default' : 'pointer'};
 `;
 
-const TargetSvgContainer = styled.g<{ mode: string }>`
-  cursor: ${(props) => (props.mode === 'hover' ? 'default' : 'pointer')};
+const TargetSvgContainer = styled.g<{ trigger: ReactPopperTooltipConfig['trigger'] }>`
+  cursor: ${(props) =>
+    props.trigger === 'hover' || props.trigger.includes('hover') ? 'default' : 'pointer'};
 `;
 
 interface WithHideFn {
   onHide: () => void;
 }
 
-export interface WithTooltipPureProps {
+export interface WithTooltipPureProps
+  extends Omit<ReactPopperTooltipConfig, 'closeOnOutsideClick'>,
+    PopperOptions {
   svg?: boolean;
-  trigger?: TriggerType;
-  closeOnClick?: boolean;
-  placement?: Placement;
-  modifiers?: Array<Partial<Modifier<string, {}>>>;
+  withArrows?: boolean;
   hasChrome?: boolean;
   tooltip: ReactNode | ((p: WithHideFn) => ReactNode);
   children: ReactNode;
-  tooltipShown?: boolean;
-  onVisibilityChange?: (visibility: boolean) => void | boolean;
   onDoubleClick?: () => void;
+  /**
+   * @deprecated use `defaultVisible` property instead. This property will be removed in SB 8.0
+   */
+  tooltipShown?: boolean;
+  /**
+   * @deprecated use `closeOnOutsideClick` property instead. This property will be removed in SB 8.0
+   */
+  closeOnClick?: boolean;
+  /**
+   * @deprecated use `onVisibleChange` property instead. This property will be removed in SB 8.0
+   */
+  onVisibilityChange?: (visibility: boolean) => void | boolean;
+  /**
+   * If `true`, a click outside the trigger element closes the tooltip
+   * @default false
+   */
+  closeOnOutsideClick?: boolean;
 }
 
 // Pure, does not bind to the body
 const WithTooltipPure: FC<WithTooltipPureProps> = ({
   svg,
   trigger,
-  closeOnClick,
+  closeOnOutsideClick,
   placement,
-  modifiers,
   hasChrome,
+  withArrows,
+  offset,
   tooltip,
   children,
+  closeOnTriggerHidden,
+  mutationObserverOptions,
+  closeOnClick,
   tooltipShown,
   onVisibilityChange,
+  defaultVisible,
+  delayHide,
+  visible,
+  interactive,
+  delayShow,
+  modifiers,
+  strategy,
+  followCursor,
+  onVisibleChange,
   ...props
 }) => {
   const Container = svg ? TargetSvgContainer : TargetContainer;
-  const { getArrowProps, getTooltipProps, setTooltipRef, setTriggerRef, visible, state } =
-    usePopperTooltip(
-      {
-        trigger,
-        placement,
-        defaultVisible: tooltipShown,
-        closeOnOutsideClick: closeOnClick,
-        onVisibleChange: onVisibilityChange,
+  const {
+    getArrowProps,
+    getTooltipProps,
+    setTooltipRef,
+    setTriggerRef,
+    visible: isVisible,
+    state,
+  } = usePopperTooltip(
+    {
+      trigger,
+      placement,
+      defaultVisible: defaultVisible ?? tooltipShown,
+      delayHide,
+      interactive,
+      closeOnOutsideClick: closeOnOutsideClick ?? closeOnClick,
+      closeOnTriggerHidden,
+      onVisibleChange: (_isVisible) => {
+        onVisibilityChange?.(_isVisible);
+        onVisibleChange?.(_isVisible);
       },
-      {
-        modifiers,
-      }
-    );
+      delayShow,
+      followCursor,
+      mutationObserverOptions,
+      visible,
+      offset,
+    },
+    {
+      modifiers,
+      strategy,
+    }
+  );
+
+  const tooltipComponent = (
+    <Tooltip
+      placement={state?.placement}
+      ref={setTooltipRef}
+      hasChrome={hasChrome}
+      arrowProps={getArrowProps()}
+      withArrows={withArrows}
+      {...getTooltipProps()}
+    >
+      {typeof tooltip === 'function' ? tooltip({ onHide: () => onVisibleChange(false) }) : tooltip}
+    </Tooltip>
+  );
 
   return (
     <>
-      <Container mode={trigger} ref={setTriggerRef as any} {...props}>
+      <Container trigger={trigger} ref={setTriggerRef as any} {...props}>
         {children}
       </Container>
-      {visible &&
-        ReactDOM.createPortal(
-          <Tooltip
-            placement={state?.placement}
-            ref={setTooltipRef}
-            hasChrome={hasChrome}
-            arrowProps={getArrowProps()}
-            {...getTooltipProps()}
-          >
-            {typeof tooltip === 'function'
-              ? tooltip({ onHide: () => onVisibilityChange(false) })
-              : tooltip}
-          </Tooltip>,
-          document.body
-        )}
+      {isVisible && ReactDOM.createPortal(tooltipComponent, document.body)}
     </>
   );
 };
@@ -95,7 +140,7 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
 WithTooltipPure.defaultProps = {
   svg: false,
   trigger: 'hover',
-  closeOnClick: false,
+  closeOnOutsideClick: false,
   placement: 'top',
   modifiers: [
     {
@@ -118,17 +163,18 @@ WithTooltipPure.defaultProps = {
     },
   ],
   hasChrome: true,
-  tooltipShown: false,
+  defaultVisible: false,
 };
 
 const WithToolTipState: FC<
-  WithTooltipPureProps & {
+  Omit<WithTooltipPureProps, 'onVisibleChange'> & {
     startOpen?: boolean;
+    onVisibleChange?: (visible: boolean) => void | boolean;
   }
-> = ({ startOpen = false, onVisibilityChange: onChange, ...rest }) => {
+> = ({ startOpen = false, onVisibleChange: onChange, ...rest }) => {
   const [tooltipShown, setTooltipShown] = useState(startOpen);
-  const onVisibilityChange: (visibility: boolean) => void = useCallback(
-    (visibility) => {
+  const onVisibilityChange = useCallback(
+    (visibility: boolean) => {
       if (onChange && onChange(visibility) === false) return;
       setTooltipShown(visibility);
     },
@@ -176,11 +222,7 @@ const WithToolTipState: FC<
   });
 
   return (
-    <WithTooltipPure
-      {...rest}
-      tooltipShown={tooltipShown}
-      onVisibilityChange={onVisibilityChange}
-    />
+    <WithTooltipPure {...rest} defaultVisible={tooltipShown} onVisibleChange={onVisibilityChange} />
   );
 };
 

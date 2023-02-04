@@ -13,7 +13,7 @@ import SettingsFooter from './SettingsFooter';
 const Header = styled.header(({ theme }) => ({
   marginBottom: 20,
   fontSize: theme.typography.size.m3,
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
   alignItems: 'center',
   display: 'flex',
 }));

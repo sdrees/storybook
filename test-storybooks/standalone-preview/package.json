@@ -3,7 +3,7 @@
   "version": "7.0.0-alpha.43",
   "private": true,
   "scripts": {
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" storybook dev -p 9011 -c ../official-storybook --no-manager-cache --preview-url=http://localhost:1337/external-iframe.html",
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" storybook dev -p 9011 -c ../official-storybook --preview-url=http://localhost:1337/external-iframe.html",
     "storybook-preview": "cross-env PREVIEW_URL=external-iframe.html NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" parcel ./storybook.html --port 1337"
   },
   "devDependencies": {

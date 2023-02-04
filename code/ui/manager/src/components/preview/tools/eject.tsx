@@ -1,8 +1,8 @@
 import { global } from '@storybook/global';
 import React from 'react';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
-import { Consumer, type Combo } from '@storybook/manager-api';
-import type { Addon } from '@storybook/manager-api';
+import { Consumer } from '@storybook/manager-api';
+import type { Addon, Combo } from '@storybook/manager-api';
 
 const { PREVIEW_URL } = global;
 

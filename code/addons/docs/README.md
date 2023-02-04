@@ -1,5 +1,5 @@
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/hero.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/docs/docs/media/hero.png" width="100%" />
 </center>
 
 # Storybook Docs
@@ -33,7 +33,7 @@ When you [install Docs](#installation), every story gets a `DocsPage`. `DocsPage
 Click on the `Docs` tab to see it:
 
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/docs-tab.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/docs/docs/media/docs-tab.png" width="100%" />
 </center>
 
 For more information on how it works, see the [`DocsPage` reference](https://github.com/storybookjs/storybook/blob/next/code/addons/docs/docs/docspage.md).
@@ -67,7 +67,7 @@ markdown documentation.
 And here's how that's rendered in Storybook:
 
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/mdx-simple.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/docs/docs/media/mdx-simple.png" width="100%" />
 </center>
 
 For more information on `MDX`, see the [`MDX` reference](https://github.com/storybookjs/storybook/blob/next/code/addons/docs/docs/mdx.md).
@@ -99,9 +99,9 @@ yarn add -D react
 Then add the following to your `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   stories: [
-    '../src/**/*.mdx)', // 👈 Add this, to match your project's structure
+    '../src/**/*.mdx', // 👈 Add this, to match your project's structure
     '../src/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [
@@ -138,13 +138,14 @@ Add the following to your Jest configuration:
 The `addon-docs` preset has a few configuration options that can be used to configure its babel/webpack loading behavior. Here's an example of how to use the preset with options:
 
 ```js
-module.exports = {
+export default {
   addons: [
     {
       name: '@storybook/addon-docs',
       options: {
         jsxOptions: {},
         csfPluginOptions: null,
+        mdxPluginOptions: {},
         transcludeMarkdown: true,
       },
     },

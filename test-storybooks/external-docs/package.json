@@ -8,7 +8,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" storybook dev -p 9011 --no-manager-cache -c .storybook"
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" storybook dev -p 9011 -c .storybook"
   },
   "dependencies": {
     "@storybook/addon-docs": "7.0.0-alpha.43",

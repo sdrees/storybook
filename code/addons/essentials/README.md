@@ -28,7 +28,7 @@ npm install --save-dev @storybook/addon-essentials
 And then add the following line to your `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-essentials'],
 };
 ```
@@ -44,7 +44,7 @@ If you want to reconfigure an addon, simply install that addon per that addon's 
 You can disable any of Essential's addons using the following configuration scheme in `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   addons: [{
     name: '@storybook/addon-essentials',
     options: {

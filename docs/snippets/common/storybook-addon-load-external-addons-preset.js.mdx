@@ -9,7 +9,7 @@ const config = (entry = [], options) => {
   return [...entry, require.resolve('my-other-addon/addDecorator')];
 };
 
-module.exports = {
+export default {
   managerEntries,
   config,
 };

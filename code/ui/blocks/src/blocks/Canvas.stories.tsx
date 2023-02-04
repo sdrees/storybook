@@ -25,6 +25,7 @@ const meta: Meta<typeof Canvas> = {
           />`,
       },
     },
+    docsStyles: true,
   },
   decorators: SourceStoriesMeta.decorators,
 };

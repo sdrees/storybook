@@ -2,7 +2,9 @@
 
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
+    - [ESM format in Main.js](#esm-format-in-mainjs)
     - [Modern browser support](#modern-browser-support)
     - [React peer dependencies required](#react-peer-dependencies-required)
     - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
@@ -23,7 +25,7 @@
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [Vite](#vite)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [Webpack](#webpack)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Postcss removed](#postcss-removed)
@@ -49,7 +51,7 @@
       - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
       - [Story block](#story-block)
       - [Source block](#source-block)
-    - [Canvas block](#canvas-block)
+      - [Canvas block](#canvas-block)
       - [ArgsTable block](#argstable-block)
     - [Configuring Autodocs](#configuring-autodocs)
     - [MDX2 upgrade](#mdx2-upgrade)
@@ -62,7 +64,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -289,6 +291,48 @@ For avoiding that, this change passes the mapped args instead of raw args at `re
 #### Dropped support for Node 15 and below
 
 Storybook 7.0 requires **Node 16** or above. If you are using an older version of Node, you will need to upgrade or keep using Storybook 6 in the meantime.
+
+#### ESM format in Main.js
+
+Storybook 7.0 supports ESM in `.storybook/main.js`, and the configurations can be part of a default export. The default export will be the recommended way going forward.
+
+If your main.js file looks like this:
+
+```js
+module.exports = {
+  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: { name: '@storybook/react-vite' },
+};
+```
+
+Or like this:
+
+```js
+export const stories = ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'];
+export const framework = { name: '@storybook/react-vite' };
+```
+
+Please migrate them to be default exported instead:
+
+```js
+const config = {
+  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: { name: '@storybook/react-vite' },
+};
+export default config;
+```
+
+For Typescript users, we introduced types for that default export, so you can import it in your main.ts file. The `StorybookConfig` type will come from the Storybook package for the framework you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
+
+```ts
+import { StorybookConfig } from '@storybook/react-vite';
+
+const config: StorybookConfig = {
+  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: { name: '@storybook/react-vite' },
+};
+export default config;
+```
 
 #### Modern browser support
 
@@ -826,7 +870,7 @@ import * as ComponentStories from './some-component.stories';
 <Story of={ComponentStories.Primary} />
 ```
 
-You can create as many docs entries as you like for a given component. Note that if you attach a docs entry to a component it will replace the automatically generated entry from Autodocs.
+You can create as many docs entries as you like for a given component. By default the docs entry will be named the same as the `.mdx` file (e.g. `Introduction.mdx` becomes `Introduction`). If the docs file is named the same as the component (e.g. `Button.mdx`, it will use the default autodocs name (`"Docs"`) and override autodocs).
 
 By default docs entries are listed first for the component. You can sort them using story sorting.
 
@@ -912,7 +956,7 @@ The source block now references a single story, the component, or a CSF file its
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
 
-#### Canvas block
+##### Canvas block
 
 The Canvas block follows the same changes as [the Story block described above](#story-block).
 

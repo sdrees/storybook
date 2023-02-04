@@ -184,7 +184,7 @@ export const ViewportTool: FC = memo(
           tooltip={({ onHide }) => (
             <TooltipLinkList links={toLinks(list, item, setState, state, onHide)} />
           )}
-          closeOnClick
+          closeOnOutsideClick
         >
           <IconButtonWithLabel
             key="viewport"

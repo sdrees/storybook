@@ -1,3 +1,103 @@
+## 7.0.0-beta.43 (February 4, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix globs on windows [#20929](https://github.com/storybooks/storybook/pull/20929)
+-   Revert addon-docs: update story index generator [#20809](https://github.com/storybooks/storybook/pull/20809)
+
+## 7.0.0-beta.42 (February 4, 2023)
+
+#### Features
+
+-   CLI: Add type annotations in javascript main config files [#20887](https://github.com/storybooks/storybook/pull/20887)
+-   UI: Tab Improvements [#20783](https://github.com/storybooks/storybook/pull/20783)
+
+#### Build
+
+-   Build: fix next [#20924](https://github.com/storybooks/storybook/pull/20924)
+
+#### Dependency Upgrades
+
+-   Upgrade jscodeshift to 0.14.0 [#20925](https://github.com/storybooks/storybook/pull/20925)
+-   Upgrade glob to 8.1.0 [#20927](https://github.com/storybooks/storybook/pull/20927)
+
+## 7.0.0-beta.41 (February 3, 2023)
+
+#### Features
+
+-   UI: Add nunito sans font [#20846](https://github.com/storybooks/storybook/pull/20846)
+
+#### Bug Fixes
+
+-   Vite/Addon-docs: Fix customization of MDX plugins [#20116](https://github.com/storybooks/storybook/pull/20116)
+-   Angular: Support NoopAnimationsModule [#20868](https://github.com/storybooks/storybook/pull/20868)
+-   Core: Fix index error handling [#20906](https://github.com/storybooks/storybook/pull/20906)
+-   Outline: Fix outline initial state [#20818](https://github.com/storybooks/storybook/pull/20818)
+
+#### Maintenance
+
+-   CLI: Remove the deprecated `--no-manager-cache` flag [#20895](https://github.com/storybooks/storybook/pull/20895)
+
+#### Build
+
+-   Build: Change `rootDir` in TS plugin [#20911](https://github.com/storybooks/storybook/pull/20911)
+-   Build: Improve task log and error messages for event log [#20902](https://github.com/storybooks/storybook/pull/20902)
+-   Build: minor fixes [#20894](https://github.com/storybooks/storybook/pull/20894)
+
+## 7.0.0-beta.40 (February 2, 2023)
+
+#### Features
+
+-   Addo-docs: Turn on autodocs for CSF with attached meta [#20867](https://github.com/storybooks/storybook/pull/20867)
+
+#### Bug Fixes
+
+-   Vue3: Fix args losing reactivity when using decorators [#20854](https://github.com/storybooks/storybook/pull/20854)
+-   Doc Blocks: Fix styling and parameter bugs [#20803](https://github.com/storybooks/storybook/pull/20803)
+-   Addon-docs: Export controls from doc blocks [#20806](https://github.com/storybooks/storybook/pull/20806)
+-   Webpack: Support builder options from framework [#20842](https://github.com/storybooks/storybook/pull/20842)
+
+## 7.0.0-beta.39 (February 1, 2023)
+
+#### Features
+
+-   Core: return address of dev server from buildDevStandalone [#20820](https://github.com/storybooks/storybook/pull/20820)
+-   Addons: Fix env variables not available inside addons [#20834](https://github.com/storybooks/storybook/pull/20834)
+-   CLI: Add warning when main config does not use default exports [#20802](https://github.com/storybooks/storybook/pull/20802)
+
+#### Bug Fixes
+
+-   SvelteKit: Disable failing `vite-plugin-sveltekit-guard` [#20870](https://github.com/storybooks/storybook/pull/20870)
+
+#### Maintenance
+
+-   Core: Remove core-js as a dependency [#20833](https://github.com/storybooks/storybook/pull/20833)
+
+#### Build
+
+-   Build: cleanup CI config [#20853](https://github.com/storybooks/storybook/pull/20853)
+-   Change forceReRender story to forceRemount [#20752](https://github.com/storybooks/storybook/pull/20752)
+
+## 7.0.0-beta.38 (January 31, 2023)
+
+#### Features
+
+-   CLI: Generate main config with default exports [#20797](https://github.com/storybooks/storybook/pull/20797)
+
+#### Bug Fixes
+
+-   CLI: Only add dependencies on sb init if they do not exist [#20811](https://github.com/storybooks/storybook/pull/20811)
+-   CLI: Install prerelease of @storybook/testing-library in CLI starters [#20819](https://github.com/storybooks/storybook/pull/20819)
+
+#### Dependency Upgrades
+
+-   Update lazy-universal-dotenv & regen lockfile [#20832](https://github.com/storybooks/storybook/pull/20832)
+-   Instrumenter: Remove unused core-js dependency [#20831](https://github.com/storybooks/storybook/pull/20831)
+
+## 7.0.0-beta.37 (January 31, 2023)
+
+Failed publish 
+
 ## 7.0.0-beta.36 (January 28, 2023)
 
 #### Features

@@ -212,5 +212,30 @@ describe('getStorySortParameter', () => {
         }"
       `);
     });
+
+    it('order var', () => {
+      expect(() =>
+        getStorySortParameter(dedent`
+          const order = [];
+          export const parameters = {
+            options: {
+              storySort: {
+                method: "",
+                order,
+                locales: "",
+              }
+            },
+          };
+      `)
+      ).toThrowErrorMatchingInlineSnapshot(`
+        "Unexpected 'order'. Parameter 'options.storySort' should be defined inline e.g.:
+
+        export const parameters = {
+          options: {
+            storySort: <array | object | function>
+          }
+        }"
+      `);
+    });
   });
 });

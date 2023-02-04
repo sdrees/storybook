@@ -14,6 +14,7 @@ const meta: Meta<typeof Canvas> = {
   parameters: {
     theme: 'light',
     relativeCsfPaths: ['../examples/Button.stories', '../examples/CanvasParameters.stories'],
+    docsStyles: true,
   },
   render: (args) => {
     return (
@@ -48,6 +49,23 @@ export const BasicStoryChild: Story = {};
 
 export const BasicStoryChildUnattached: Story = {
   parameters: { attached: false },
+};
+
+export const NoStoryChildrenUnattached: Story = {
+  parameters: { attached: false },
+  render: (args) => {
+    return (
+      <Canvas {...args}>
+        <p>This is a plain paragraph, no stories</p>
+      </Canvas>
+    );
+  },
+};
+export const NoStoryChildrenUnattachedWithMDXSource: Story = {
+  ...NoStoryChildrenUnattached,
+  args: {
+    mdxSource: `const customStaticSource = true;`,
+  },
 };
 
 export const WithSourceOpen: Story = {

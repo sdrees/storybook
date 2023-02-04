@@ -7,6 +7,7 @@ const meta: Meta<typeof Description> = {
   component: Description,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
+    docsStyles: true,
   },
   args: {
     of: Button,

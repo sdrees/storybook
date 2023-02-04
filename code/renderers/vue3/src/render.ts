@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { dedent } from 'ts-dedent';
-import { createApp, h, reactive } from 'vue';
+import { createApp, h, reactive, toRefs } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { Args, StoryContext } from '@storybook/csf';
@@ -30,19 +30,19 @@ const map = new Map<
 export function renderToCanvas(
   {
     storyFn,
-    name,
+    forceRemount,
     showMain,
     showError,
     showException,
-    id,
+    name,
     title,
-    forceRemount,
     storyContext,
   }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  // TODO: explain cyclical nature of these app => story => mount
-  const element: StoryFnVueReturnType = storyFn();
+  let { reactiveArgs } = useReactive(storyContext);
+  // fetch the story with the updated context (with reactive args)
+  const element: StoryFnVueReturnType = storyFn(storyContext);
 
   if (!element) {
     showError({
@@ -54,19 +54,19 @@ export function renderToCanvas(
     });
     return () => {};
   }
-
-  const storyArgs = element.props || (element as any).render?.().props || storyContext.args || {};
+  // getting the props from the render function
+  const props = (element as any).render?.().props;
+  if (props) reactiveArgs = reactive(props);
 
   const existingApp = map.get(canvasElement);
 
   if (existingApp && !forceRemount) {
-    updateArgs(existingApp.reactiveArgs, storyArgs);
+    updateArgs(existingApp.reactiveArgs, reactiveArgs);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
   }
 
-  const reactiveArgs = reactive(storyArgs) as Args;
   const storybookApp = createApp({
     render() {
       map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
@@ -119,4 +119,16 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
+}
+
+/**
+ *  create a reactive args and return it and the refs to avoid losing reactivity when passing it to the story
+ * @param storyContext
+ * @returns
+ */
+
+function useReactive(storyContext: StoryContext<VueRenderer, Args>) {
+  const reactiveArgs = reactive(storyContext.args || {});
+  storyContext.args = toRefs(reactiveArgs);
+  return { reactiveArgs, refsArgs: storyContext.args };
 }

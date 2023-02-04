@@ -14,7 +14,7 @@ test.describe('addon-backgrounds', () => {
     const sbPage = new SbPage(page);
 
     await sbPage.navigateToStory('example/button', 'primary');
-    await sbPage.selectToolbar('[title="Change the background of the preview"]', '#dark');
+    await sbPage.selectToolbar('[title="Change the background of the preview"]', '#list-item-dark');
 
     await expect(sbPage.getCanvasBodyElement()).toHaveCSS('background-color', 'rgb(51, 51, 51)');
   });

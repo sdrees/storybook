@@ -137,7 +137,7 @@ export const RootNode = styled.div(({ theme }) => ({
   marginTop: 16,
   marginBottom: 4,
   fontSize: `${theme.typography.size.s1 - 1}px`,
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
   lineHeight: '16px',
   minHeight: 20,
   letterSpacing: '0.35em',

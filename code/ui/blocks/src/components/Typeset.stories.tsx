@@ -6,7 +6,7 @@ export default {
 };
 
 const fontSizes = ['12px', '14px', '16px', '20px', '24px', '32px', '40px', '48px'];
-const fontWeight = 900;
+const fontWeight = 700;
 const fontFamily = 'monospace';
 
 export const WithFontSizes = () => <Typeset fontSizes={fontSizes} />;

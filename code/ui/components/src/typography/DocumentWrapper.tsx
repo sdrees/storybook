@@ -6,7 +6,7 @@ export const DocumentWrapper = styled.div(({ theme }) => ({
 
   h1: {
     fontSize: `${theme.typography.size.l1}px`,
-    fontWeight: theme.typography.weight.black,
+    fontWeight: theme.typography.weight.bold,
   },
   h2: {
     fontSize: `${theme.typography.size.m2}px`,

@@ -16,6 +16,7 @@ const meta: Meta<typeof Description> = {
     // workaround for https://github.com/storybookjs/storybook/issues/20505
     docs: { source: { type: 'code' } },
     attached: false,
+    docsStyles: true,
   },
 };
 export default meta;

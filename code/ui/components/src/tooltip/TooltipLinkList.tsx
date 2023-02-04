@@ -29,7 +29,7 @@ export interface TooltipLinkListProps {
 }
 
 const Item: FC<TooltipLinkListProps['links'][number]> = (props) => {
-  const { LinkWrapper, onClick: onClickFromProps, ...rest } = props;
+  const { LinkWrapper, onClick: onClickFromProps, id, ...rest } = props;
   const { title, href, active } = rest;
   const onClick = useCallback(
     (event: SyntheticEvent) => {
@@ -45,6 +45,7 @@ const Item: FC<TooltipLinkListProps['links'][number]> = (props) => {
       title={title}
       active={active}
       href={href}
+      id={`list-item-${id}`}
       LinkWrapper={LinkWrapper}
       {...rest}
       {...(hasOnClick ? { onClick } : {})}

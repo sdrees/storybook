@@ -723,7 +723,7 @@ If you use [Component Story Format](https://storybook.js.org/docs/react/api/csf)
 
 ```js
 // jest.config.js
-module.exports = {
+export default {
   transform: {
     '^.+\\.stories\\.jsx?$': '@storybook/addon-storyshots/injectFileName',
     '^.+\\.jsx?$': 'babel-jest',

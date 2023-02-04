@@ -39,7 +39,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 In case you are having trouble with Angular Ivy you can deactivate it in your `main.js`:
 
 ```javascript
-module.exports = {
+export default {
   stories: [
     /* ... */
   ],
@@ -60,7 +60,7 @@ module.exports = {
 In case you postinstall ngcc, you can disable it:
 
 ```javascript
-module.exports = {
+export default {
   stories: [
     /* ... */
   ],
@@ -102,7 +102,7 @@ Next automatically defines `React` for all of your files via a babel plugin. In 
 You can generally reuse webpack rules by placing them in a file that is `require()`-ed from both your `next.config.js` and your `.storybook/main.js` files. For example:
 
 ```js
-module.exports = {
+export default {
   webpackFinal: async (baseConfig) => {
     const nextConfig = require('/path/to/next.config.js');
 
@@ -126,7 +126,7 @@ FAST_REFRESH=true
 - Or you can set the following properties in your `.storybook/main.js` files:
 
 ```js
-module.exports = {
+export default {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
@@ -147,7 +147,7 @@ If your installed React Version equals or is higher than 18.0.0, the new React R
 You can opt-out from the new React Root API by setting the following property in your `.storybook/main.js` file:
 
 ```js
-module.exports = {
+export default {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
@@ -178,7 +178,7 @@ If you're adding Storybook's dependencies manually, make sure you include the [`
 ```js
 // .storybook/main.js
 
-module.exports = {
+export default {
   addons: ['@storybook/addon-controls'],
 };
 ```

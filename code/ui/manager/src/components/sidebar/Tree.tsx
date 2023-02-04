@@ -20,7 +20,7 @@ import type { ExpandAction, ExpandedState } from './useExpanded';
 // eslint-disable-next-line import/no-cycle
 import { useExpanded } from './useExpanded';
 import type { Highlight, Item } from './types';
-// eslint-disable-next-line import/no-cycle
+
 import { isStoryHoistable, createId, getAncestorIds, getDescendantIds, getLink } from './utils';
 
 export const Action = styled.button(({ theme }) => ({

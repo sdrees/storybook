@@ -30,7 +30,7 @@ import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 
 export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
-): Promise<{ port: number }> {
+): Promise<{ port: number; address: string; networkAddress: string }> {
   const { packageJson, versionUpdates, releaseNotes } = options;
   const { version } = packageJson;
 
@@ -67,7 +67,7 @@ export async function buildDevStandalone(
   options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
 
-  const { framework } = loadMainConfig(options);
+  const { framework } = await loadMainConfig(options);
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
@@ -171,5 +171,5 @@ export async function buildDevStandalone(
       previewTotalTime,
     });
   }
-  return { port };
+  return { port, address, networkAddress };
 }

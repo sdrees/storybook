@@ -7,20 +7,34 @@ import { auto } from '@popperjs/core';
 interface BarButtonProps
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   href?: void;
+  target?: void;
 }
 interface BarLinkProps
   extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
+  disabled?: void;
   href: string;
 }
 
-const ButtonOrLink = ({ children, ...restProps }: BarButtonProps | BarLinkProps) =>
-  restProps.href != null ? (
-    <a {...(restProps as BarLinkProps)}>{children}</a>
+const ButtonOrLink = React.forwardRef<
+  HTMLAnchorElement | HTMLButtonElement,
+  BarLinkProps | BarButtonProps
+>(({ children, ...restProps }, ref) => {
+  return restProps.href != null ? (
+    <a ref={ref as React.ForwardedRef<HTMLAnchorElement>} {...(restProps as BarLinkProps)}>
+      {children}
+    </a>
   ) : (
-    <button type="button" {...(restProps as BarButtonProps)}>
+    <button
+      ref={ref as React.ForwardedRef<HTMLButtonElement>}
+      type="button"
+      {...(restProps as BarButtonProps)}
+    >
       {children}
     </button>
   );
+});
+
+ButtonOrLink.displayName = 'ButtonOrLink';
 
 export interface TabButtonProps {
   active?: boolean;

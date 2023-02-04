@@ -189,7 +189,7 @@ export const getStorybookMetadata = async (_configDir?: string) => {
         '--config-dir'
       ) as string)) ??
     '.storybook';
-  const mainConfig = loadMainConfig({ configDir });
+  const mainConfig = await loadMainConfig({ configDir });
   cachedMetadata = await computeStorybookMetadata({ mainConfig, packageJson });
   return cachedMetadata;
 };

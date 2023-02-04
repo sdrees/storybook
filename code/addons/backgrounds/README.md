@@ -19,7 +19,7 @@ npm i -D @storybook/addon-backgrounds
 Then, add following content to [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project):
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-backgrounds'],
 };
 ```

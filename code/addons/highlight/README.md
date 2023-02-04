@@ -17,7 +17,7 @@ npm i -D @storybook/addon-highlight
 Add `"@storybook/addon-highlight"` to the addons array in your `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-highlight'],
 };
 ```

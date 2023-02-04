@@ -26,7 +26,7 @@ You can add configuration for this addon by using a preset or by using the addon
 Add the following to your `.storybook/main.js` exports:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-storysource'],
 };
 ```
@@ -34,7 +34,7 @@ module.exports = {
 You can pass configurations into the addon-storysource loader in your `.storybook/main.js` file, e.g.:
 
 ```js
-module.exports = {
+export default {
   addons: [
     {
       name: '@storybook/addon-storysource',
@@ -52,7 +52,7 @@ module.exports = {
 };
 ```
 
-To customize the `source-loader`, pass `loaderOptions`. Valid configurations are documented in the [`source-loader` README](https://github.com/storybookjs/storybook/tree/main/lib/source-loader/README.md#options).
+To customize the `source-loader`, pass `loaderOptions`. Valid configurations are documented in the [`source-loader` README](https://github.com/storybookjs/storybook/tree/next/code/lib/source-loader/README.md#options).
 
 ## Theming
 
@@ -67,7 +67,7 @@ Storybook 6.0 introduced an unintentional change to `source-loader`, in which on
 If you're using `addon-docs`:
 
 ```js
-module.exports = {
+export default {
   addons: [
     {
       name: '@storybook/addon-docs',
@@ -84,7 +84,7 @@ module.exports = {
 If not:
 
 ```js
-module.exports = {
+export default {
   addons: [
     {
       name: '@storybook/addon-storysource',

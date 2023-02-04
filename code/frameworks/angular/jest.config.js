@@ -9,4 +9,23 @@ module.exports = {
     escapeString: true,
     printBasicPrototype: true,
   },
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.spec.json',
+      stringifyContentPathRegex: '\\.(html|svg)$',
+    },
+  },
+  coverageDirectory: './coverage/testapp',
+  transform: {
+    '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
+  },
+  snapshotSerializers: [
+    'jest-preset-angular/build/serializers/no-ng-attributes',
+    'jest-preset-angular/build/serializers/ng-snapshot',
+    'jest-preset-angular/build/serializers/html-comment',
+  ],
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.[jt]s?(x)',
+    '<rootDir>/src/**/?(*.)+(spec|test).[jt]s?(x)',
+  ],
 };

@@ -13,13 +13,22 @@ import type {
   CoreConfig,
   Options,
   StorybookConfig,
+  PresetPropertyFn,
 } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
-import { join } from 'path';
+import { dirname, join } from 'path';
 import { dedent } from 'ts-dedent';
 import { parseStaticDir } from '../utils/server-statics';
 
 const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
+
+export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) => [
+  {
+    from: join(dirname(require.resolve('@storybook/manager/package.json')), 'static'),
+    to: '/sb-manager-assets',
+  },
+  ...values,
+];
 
 export const favicon = async (
   value: string,
@@ -28,17 +37,17 @@ export const favicon = async (
   if (value) {
     return value;
   }
-  const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const staticDirsValue = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
 
-  const statics = staticDirs
-    ? staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
+  const statics = staticDirsValue
+    ? staticDirsValue.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
     : options.staticDir;
 
   if (statics && statics.length > 0) {
     const lists = await Promise.all(
       statics.map(async (dir) => {
         const results = [];
-        const relativeDir = staticDirs
+        const relativeDir = staticDirsValue
           ? getDirectoryFromWorkingDir({
               configDir: options.configDir,
               workingDir: process.cwd(),

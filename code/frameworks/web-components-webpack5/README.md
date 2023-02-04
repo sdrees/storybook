@@ -37,7 +37,7 @@ For example if you have a library called `my-library` which is in ES2017 then yo
 ```js
 // .storybook/main.js
 
-module.exports = {
+export default {
   webpackFinal: async (config) => {
     // find web-components rule for extra transpilation
     const webComponentsRule = config.module.rules.find(

@@ -29,7 +29,7 @@ yarn add -D @storybook/addon-docs@next
 Then add the following to your `.storybook/main.js` list of `addons`:
 
 ```js
-module.exports = {
+export default {
   // other settings
   addons: ['@storybook/addon-docs'];
 }
@@ -70,7 +70,7 @@ storiesOf('InfoButton', module)
 Then update your `.storybook/main.js` to make sure you load MDX files:
 
 ```js
-module.exports = {
+export default {
   stories: ['../src/stories/**/*.stories.@(js|mdx)'],
 };
 ```
@@ -115,7 +115,7 @@ If you're using TypeScript, there are two different options for generating props
 You can add the following lines to your `.storybook/main.js` to switch between the two (or disable docgen):
 
 ```js
-module.exports = {
+export default {
   typescript: {
     // also valid 'react-docgen-typescript' | false
     reactDocgen: 'react-docgen',

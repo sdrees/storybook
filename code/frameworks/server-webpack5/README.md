@@ -55,7 +55,7 @@ To write a story, use whatever API is natural for your server-side rendering fra
 In your `.storybook/main.js` you simply provide a glob specifying the location of those JSON files, e.g.
 
 ```js
-module.exports = {
+export default {
   stories: ['../stories/**/*.stories.json'],
 };
 ```

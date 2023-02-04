@@ -141,7 +141,7 @@ export const VisionSimulator = () => {
           });
           return <TooltipLinkList links={colorList} />;
         }}
-        closeOnClick
+        closeOnOutsideClick
         onDoubleClick={() => setFilter(null)}
       >
         <IconButton key="filter" active={!!filter} title="Vision simulator">

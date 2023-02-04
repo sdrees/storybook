@@ -11,6 +11,8 @@ import {
   RESET_STORY_ARGS,
   GLOBALS_UPDATED,
 } from '@storybook/core-events';
+import { deprecate } from '@storybook/client-logger';
+import dedent from 'ts-dedent';
 import type { ArgsTableProps as PureArgsTableProps, SortType } from '../components';
 import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '../components';
 
@@ -213,6 +215,10 @@ export const ComponentsTable: FC<ComponentsProps> = (props) => {
 };
 
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
+  deprecate(dedent`The ArgsTable doc block is deprecated. Instead use the ArgTypes doc block for static tables or the Controls doc block for tables with controls.
+    
+  Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#argstable-block
+  `);
   const context = useContext(DocsContext);
   const {
     parameters: { controls },

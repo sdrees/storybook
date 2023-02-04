@@ -29,6 +29,9 @@ jest.mock('fs-extra', () => {
     pathExists: jest.fn((p: string) => {
       return false;
     }),
+    existsSync: jest.fn((p: string) => {
+      return false;
+    }),
   };
 });
 

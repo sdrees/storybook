@@ -1,16 +1,9 @@
 import type { ReactElement } from 'react';
 import React, { Component, Fragment } from 'react';
-import { styled } from '@storybook/theming';
 import { Tabs, Icons, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
-
-const DesktopOnlyIconButton = styled(IconButton)({
-  // Hides full screen icon at mobile breakpoint defined in app.js
-  '@media (max-width: 599px)': {
-    display: 'none',
-  },
-});
+import useMediaQuery from '../hooks/useMedia';
 
 export interface SafeTabProps {
   title: (() => string) | string;
@@ -63,38 +56,46 @@ const AddonPanel = React.memo<{
     selectedPanel = null,
     panelPosition = 'right',
     absolute = true,
-  }) => (
-    <Tabs
-      absolute={absolute}
-      {...(selectedPanel ? { selected: selectedPanel } : {})}
-      actions={actions}
-      tools={
-        <Fragment>
-          <DesktopOnlyIconButton
-            key="position"
-            onClick={actions.togglePosition}
-            title={`Change addon orientation [${shortcutToHumanString(shortcuts.panelPosition)}]`}
-          >
-            <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
-          </DesktopOnlyIconButton>
-          <DesktopOnlyIconButton
-            key="visibility"
-            onClick={actions.toggleVisibility}
-            title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
-          >
-            <Icons icon="close" />
-          </DesktopOnlyIconButton>
-        </Fragment>
-      }
-      id="storybook-panel-root"
-    >
-      {Object.entries(panels).map(([k, v]) => (
-        <SafeTab key={k} id={k} title={v.title}>
-          {v.render}
-        </SafeTab>
-      ))}
-    </Tabs>
-  )
+  }) => {
+    const isTablet = useMediaQuery('(min-width: 599px)');
+    return (
+      <Tabs
+        absolute={absolute}
+        {...(selectedPanel ? { selected: selectedPanel } : {})}
+        menuName="Addons"
+        actions={actions}
+        tools={
+          isTablet ? (
+            <Fragment>
+              <IconButton
+                key="position"
+                onClick={actions.togglePosition}
+                title={`Change addon orientation [${shortcutToHumanString(
+                  shortcuts.panelPosition
+                )}]`}
+              >
+                <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
+              </IconButton>
+              <IconButton
+                key="visibility"
+                onClick={actions.toggleVisibility}
+                title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
+              >
+                <Icons icon="close" />
+              </IconButton>
+            </Fragment>
+          ) : undefined
+        }
+        id="storybook-panel-root"
+      >
+        {Object.entries(panels).map(([k, v]) => (
+          <SafeTab key={k} id={k} title={typeof v.title === 'function' ? v.title() : v.title}>
+            {v.render}
+          </SafeTab>
+        ))}
+      </Tabs>
+    );
+  }
 );
 
 AddonPanel.displayName = 'AddonPanel';

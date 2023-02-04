@@ -74,7 +74,7 @@ export function watchStorySpecifiers(
               path.basename(specifier.files)
             );
             // glob only supports forward slashes
-            const files = await glob(dirGlob.replace(/\\/g, '/'));
+            const files = await glob(slash(dirGlob));
 
             files.forEach((filePath) => {
               const fileImportPath = toImportPath(

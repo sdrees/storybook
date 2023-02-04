@@ -84,7 +84,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
             });
           return <TooltipLinkList links={links} />;
         }}
-        closeOnClick
+        closeOnOutsideClick
       >
         <ToolbarMenuButton
           active={hasGlobalValue}

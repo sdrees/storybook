@@ -5,6 +5,7 @@ export * from './ArgTypes';
 export * from './ArgsTable';
 // eslint-disable-next-line import/export
 export * from './Canvas';
+export * from './Controls';
 export * from './Description';
 export * from './Docs';
 export * from './DocsContext';

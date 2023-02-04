@@ -33,7 +33,7 @@ import type {
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
-// eslint-disable-next-line import/no-cycle
+
 import {
   denormalizeStoryParameters,
   transformStoryIndexToStoriesHash,

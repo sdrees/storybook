@@ -56,12 +56,15 @@ const generator: Generator<{ projectName: string }> = async (
       .join('');
 
     fs.writeFileSync(
-      `${storybookFolder}/main.js`,
+      `${storybookFolder}/main.ts`,
       dedent(`
-        const mainRoot = require('${rootReferencePathFromStorybookFolder}../.storybook/main.js');
-        module.exports = {
+        import { StorybookConfig } from'@storybook/angular';
+        import mainRoot from'${rootReferencePathFromStorybookFolder}../.storybook/main';
+        
+        const config: StorybookConfig = {
           ...mainRoot
         };
+        export default config;
       `)
     );
   }

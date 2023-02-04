@@ -11,14 +11,10 @@ At any point during your development, you can preview the documentation you've w
 ```json
 {
   "scripts": {
-    "storybook-docs": "storybook dev --docs --no-manager-cache"
+    "storybook-docs": "storybook dev --docs"
   }
 }
 ```
-
-<div class="aside">
-💡 The <code>--no-manager-cache</code> flag is required to generate a successful preview of the documentation. But it comes with a cost as you're disabling Storybook's internal caching mechanism which can lead to increased loading times.
-</div>
 
 Depending on your configuration, when you execute the `storybook-docs` script. Storybook will be put into documentation mode and will generate a different build.
 

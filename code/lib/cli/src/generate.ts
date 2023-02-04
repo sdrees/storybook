@@ -200,7 +200,6 @@ command('dev')
     'Suppress automatic redirects to the release notes after upgrading',
     true
   )
-  .option('--no-manager-cache', 'Do not cache the manager UI')
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
   .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
   .option(
@@ -244,7 +243,6 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .option('--no-manager-cache', 'Do not cache the manager UI')
   .action((options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);

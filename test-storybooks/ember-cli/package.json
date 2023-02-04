@@ -6,7 +6,7 @@
     "--build-storybook": "yarn storybook-prebuild && NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" storybook build",
     "build": "ember build --output-path ember-output",
     "dev": "ember serve",
-    "storybook": "yarn build && storybook dev -p 9009 --no-manager-cache",
+    "storybook": "yarn build && storybook dev -p 9009",
     "storybook-prebuild": "yarn build && shx cp -r public/* ember-output",
     "storybook:dev": "yarn dev & NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" storybook dev -p 9009"
   },

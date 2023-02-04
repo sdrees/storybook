@@ -188,25 +188,25 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   if (props.withSource) {
     deprecate(dedent`Setting source state with \`withSource\` is deprecated, please use \`sourceState\` with 'hidden', 'shown' or 'none' instead. 
     
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block
     `);
   }
   if (props.mdxSource) {
     deprecate(dedent`Setting source code with \`mdxSource\` is deprecated, please use source={{code: '...'}} instead. 
     
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block
     `);
   }
   if (props.isColumn !== undefined || props.columns !== undefined) {
     deprecate(dedent`\`isColumn\` and \`columns\` props are deprecated as the Canvas block now only supports showing a single story. 
     
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block
     `);
   }
   if (children) {
     deprecate(dedent`Passing children to Canvas is deprecated, please use the \`of\` prop instead to reference a story. 
     
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block
   `);
     return isLoading ? (
       <PreviewSkeleton />

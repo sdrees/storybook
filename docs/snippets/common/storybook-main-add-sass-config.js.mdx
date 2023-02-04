@@ -1,10 +1,10 @@
 ```js
 // .storybook/main.js
 
-const path = require('path');
+import * as path from 'path';
 
 // Export a function. Accept the base config as the only param.
-module.exports = {
+export default {
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.

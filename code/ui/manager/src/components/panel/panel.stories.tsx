@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import Panel from './panel';
 import { panels, shortcuts } from '../layout/app.mockdata';
@@ -12,15 +12,18 @@ export default {
   component: Panel,
 };
 
-export const Default = () => (
-  <Panel
-    absolute={false}
-    panels={panels}
-    actions={{ onSelect, toggleVisibility, togglePosition }}
-    selectedPanel="test2"
-    shortcuts={shortcuts}
-  />
-);
+export const Default = () => {
+  const [selectedPanel, setSelectedPanel] = useState('test2');
+  return (
+    <Panel
+      absolute={false}
+      panels={panels}
+      actions={{ onSelect: setSelectedPanel, toggleVisibility, togglePosition }}
+      selectedPanel={selectedPanel}
+      shortcuts={shortcuts}
+    />
+  );
+};
 
 export const NoPanels = () => (
   <Panel

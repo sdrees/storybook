@@ -340,6 +340,11 @@ async function run() {
     sortedTasks.map((t) => t.ready(details, optionValues))
   );
 
+  if (templateKey) {
+    logger.info(`👉 Selected sandbox: ${templateKey}`);
+    logger.info();
+  }
+
   logger.info(`Task readiness up to ${taskKey}`);
   const initialTaskStatus = (task: Task, ready: boolean) => {
     if (task.service) {

@@ -7,17 +7,18 @@ import { ScrollArea } from '../ScrollArea/ScrollArea';
 export interface SideProps {
   left?: boolean;
   right?: boolean;
+  scrollable?: boolean;
 }
 
-const Side = styled.div<SideProps>(
+export const Side = styled.div<SideProps>(
   {
     display: 'flex',
     whiteSpace: 'nowrap',
     flexBasis: 'auto',
-    flexShrink: 0,
     marginLeft: 3,
     marginRight: 3,
   },
+  ({ scrollable }) => (scrollable ? { flexShrink: 0 } : {}),
   ({ left }) =>
     left
       ? {
@@ -38,18 +39,25 @@ const Side = styled.div<SideProps>(
 );
 Side.displayName = 'Side';
 
-const UnstyledBar: FC<ComponentProps<typeof ScrollArea>> = ({ children, className }) => (
-  <ScrollArea horizontal vertical={false} className={className}>
-    {children}
-  </ScrollArea>
-);
-export const Bar = styled(UnstyledBar)<{ border?: boolean }>(
-  ({ theme }) => ({
+const UnstyledBar: FC<ComponentProps<typeof ScrollArea> & { scrollable?: boolean }> = ({
+  children,
+  className,
+  scrollable,
+}) =>
+  scrollable ? (
+    <ScrollArea vertical={false} className={className}>
+      {children}
+    </ScrollArea>
+  ) : (
+    <div className={className}>{children}</div>
+  );
+export const Bar = styled(UnstyledBar)<{ border?: boolean; scrollable?: boolean }>(
+  ({ theme, scrollable = true }) => ({
     color: theme.barTextColor,
     width: '100%',
     height: 40,
     flexShrink: 0,
-    overflow: 'auto',
+    overflow: scrollable ? 'auto' : 'hidden',
     overflowY: 'hidden',
   }),
   ({ theme, border = false }) =>
@@ -72,9 +80,8 @@ const BarInner = styled.div<{ bgColor: string }>(({ bgColor }) => ({
   backgroundColor: bgColor || '',
 }));
 
-export interface FlexBarProps {
+export interface FlexBarProps extends ComponentProps<typeof Bar> {
   border?: boolean;
-  children?: any;
   backgroundColor?: string;
 }
 
@@ -83,7 +90,9 @@ export const FlexBar: FC<FlexBarProps> = ({ children, backgroundColor, ...rest }
   return (
     <Bar {...rest}>
       <BarInner bgColor={backgroundColor}>
-        <Side left>{left}</Side>
+        <Side scrollable={rest.scrollable} left>
+          {left}
+        </Side>
         {right ? <Side right>{right}</Side> : null}
       </BarInner>
     </Bar>

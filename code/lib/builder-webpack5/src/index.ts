@@ -179,7 +179,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
 
   router.use(compilation);
-  router.use(webpackHotMiddleware(compiler as any));
+  router.use(webpackHotMiddleware(compiler, { log: false }));
 
   const stats = await new Promise<Stats>((ready, stop) => {
     compilation?.waitUntilValid(ready as any);

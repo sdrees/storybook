@@ -72,7 +72,9 @@ const config: StorybookConfig = {
         },
       },
       plugins: [
-        configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
+        configType === 'PRODUCTION'
+          ? pluginTurbosnap({ rootDir: path.resolve(__dirname, '../..') })
+          : [],
       ],
       optimizeDeps: { force: true },
       build: {

@@ -1,6 +1,6 @@
-Issue: #
+Closes #
 
-<!-- Thank you for contributing to Storybook! If your PR is related to an issue, provide the number(s) above, e.g. #1000, #1001 -->
+<!-- Thank you for contributing to Storybook! If your PR is related to an issue, provide the number(s) above; if it resolves multiple issues, be sure to break them up (e.g. "closes #1000, closes #1001"). -->
 
 ## What I did
 

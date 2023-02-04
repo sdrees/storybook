@@ -60,10 +60,11 @@ test.describe('addon-docs', () => {
     // The `<Primary>` block should render the "Basic" story, and the `<Stories/>` block should
     // render both the "Basic" and "Another" story
     const root = sbPage.previewRoot();
-    const stories = root.locator('.sbdocs-h3');
+    const stories = root.locator('.sb-story button');
 
-    await expect(await stories.count()).toBe(2);
+    await expect(await stories.count()).toBe(3);
     await expect(stories.first()).toHaveText('Basic');
+    await expect(stories.nth(1)).toHaveText('Basic');
     await expect(stories.last()).toHaveText('Another');
   });
 });

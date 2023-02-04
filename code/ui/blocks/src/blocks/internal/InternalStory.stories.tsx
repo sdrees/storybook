@@ -8,6 +8,7 @@ const meta: Meta<typeof StoryBlock> = {
   component: StoryBlock,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
+    docsStyles: true,
   },
 };
 export default meta;

@@ -38,7 +38,7 @@ const Section = styled.td(({ theme }) => ({
   position: 'relative',
   letterSpacing: '0.35em',
   textTransform: 'uppercase',
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
   fontSize: theme.typography.size.s1 - 1,
   color:
     theme.base === 'light'

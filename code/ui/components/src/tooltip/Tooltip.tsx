@@ -121,13 +121,17 @@ export interface TooltipProps {
   arrowProps?: any;
   placement?: string;
   color?: keyof Color;
+  withArrows?: boolean;
 }
 
 export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
-  ({ placement, hasChrome, children, arrowProps, tooltipRef, color, ...props }, ref) => {
+  (
+    { placement, hasChrome, children, arrowProps, tooltipRef, color, withArrows = true, ...props },
+    ref
+  ) => {
     return (
-      <Wrapper hasChrome={hasChrome} ref={ref} {...props} color={color}>
-        {hasChrome && <Arrow placement={placement} {...arrowProps} color={color} />}
+      <Wrapper data-testid="tooltip" hasChrome={hasChrome} ref={ref} {...props} color={color}>
+        {hasChrome && withArrows && <Arrow placement={placement} {...arrowProps} color={color} />}
         {children}
       </Wrapper>
     );

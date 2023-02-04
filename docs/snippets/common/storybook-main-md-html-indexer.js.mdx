@@ -25,7 +25,7 @@ const indexer = async (fileName, opts) => {
   return loadCsf(code, { ...opts, fileName }).parse();
 };
 
-module.exports = {
+export default {
   storyIndexers: (indexers) => {
     return [
       {

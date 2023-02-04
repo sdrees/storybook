@@ -15,7 +15,7 @@ yarn add -D @storybook/addon-links
 within `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-links'],
 };
 ```
@@ -144,4 +144,4 @@ It accepts all the props the `a` element does, plus `story` and `kind`. It the `
 </LinkTo>
 ```
 
-To implement such a component for another framework, you need to add special handling for `click` event on native `a` element. See [`RoutedLink` sources](https://github.com/storybookjs/storybook/blob/main/addons/links/src/react/components/RoutedLink.tsx) for reference.
+To implement such a component for another framework, you need to add special handling for `click` event on native `a` element. See [`RoutedLink` sources](https://github.com/storybookjs/storybook/blob/next/code/addons/links/src/react/components/RoutedLink.tsx) for reference.

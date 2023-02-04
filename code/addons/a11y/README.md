@@ -17,7 +17,7 @@ $ yarn add @storybook/addon-a11y --dev
 Add this line to your `main.js` file (create this file inside your Storybook config directory if needed).
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-a11y'],
 };
 ```

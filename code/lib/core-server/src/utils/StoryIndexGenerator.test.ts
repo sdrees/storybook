@@ -463,14 +463,14 @@ describe('StoryIndexGenerator', () => {
         );
       });
 
-      it('throws an error if you attach a MetaOf entry to a tagged autodocs entry', async () => {
+      it('throws an error if you attach a named MetaOf entry which clashes with a tagged autodocs entry', async () => {
         const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/B.stories.ts',
           options
         );
 
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './errors/MetaOfAutodocs.mdx',
+          './errors/MetaOfClashingDefaultName.mdx',
           options
         );
 
@@ -478,8 +478,144 @@ describe('StoryIndexGenerator', () => {
         await generator.initialize();
 
         await expect(generator.getIndex()).rejects.toThrowError(
-          `You created a component docs page for B (./errors/MetaOfAutodocs.mdx), but also tagged the CSF file (./src/B.stories.ts) with 'autodocs'. This is probably a mistake.`
+          `You created a component docs page for B (./errors/MetaOfClashingDefaultName.mdx), but also tagged the CSF file (./src/B.stories.ts) with 'autodocs'. This is probably a mistake.`
         );
+      });
+
+      it('throws an error if you attach a unnamed MetaOf entry with the same name as the CSF file that clashes with a tagged autodocs entry', async () => {
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/B.stories.ts',
+          options
+        );
+
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './errors/B.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
+        await generator.initialize();
+
+        await expect(generator.getIndex()).rejects.toThrowError(
+          `You created a component docs page for B (./errors/B.mdx), but also tagged the CSF file (./src/B.stories.ts) with 'autodocs'. This is probably a mistake.`
+        );
+      });
+
+      it('allows you to create a second unnamed MetaOf entry that does not clash with autodocs', async () => {
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/B.stories.ts',
+          options
+        );
+
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './errors/MetaOfNoName.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "b--docs": Object {
+                "id": "b--docs",
+                "importPath": "./src/B.stories.ts",
+                "name": "docs",
+                "storiesImports": Array [],
+                "tags": Array [
+                  "autodocs",
+                  "docs",
+                ],
+                "title": "B",
+                "type": "docs",
+              },
+              "b--metaofnoname": Object {
+                "id": "b--metaofnoname",
+                "importPath": "./errors/MetaOfNoName.mdx",
+                "name": "MetaOfNoName",
+                "storiesImports": Array [
+                  "./src/B.stories.ts",
+                ],
+                "tags": Array [
+                  "docs",
+                ],
+                "title": "B",
+                "type": "docs",
+              },
+              "b--story-one": Object {
+                "id": "b--story-one",
+                "importPath": "./src/B.stories.ts",
+                "name": "Story One",
+                "tags": Array [
+                  "autodocs",
+                  "story",
+                ],
+                "title": "B",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+      it('allows you to create a second MetaOf entry with a different name to autodocs', async () => {
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/B.stories.ts',
+          options
+        );
+
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './errors/MetaOfName.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "b--docs": Object {
+                "id": "b--docs",
+                "importPath": "./src/B.stories.ts",
+                "name": "docs",
+                "storiesImports": Array [],
+                "tags": Array [
+                  "autodocs",
+                  "docs",
+                ],
+                "title": "B",
+                "type": "docs",
+              },
+              "b--name": Object {
+                "id": "b--name",
+                "importPath": "./errors/MetaOfName.mdx",
+                "name": "name",
+                "storiesImports": Array [
+                  "./src/B.stories.ts",
+                ],
+                "tags": Array [
+                  "docs",
+                ],
+                "title": "B",
+                "type": "docs",
+              },
+              "b--story-one": Object {
+                "id": "b--story-one",
+                "importPath": "./src/B.stories.ts",
+                "name": "Story One",
+                "tags": Array [
+                  "autodocs",
+                  "story",
+                ],
+                "title": "B",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
       });
 
       it('allows you to override autodocs with MetaOf if it is automatic', async () => {
@@ -489,7 +625,7 @@ describe('StoryIndexGenerator', () => {
         );
 
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/docs2/MetaOf.mdx',
+          './errors/A.mdx',
           options
         );
 
@@ -504,7 +640,7 @@ describe('StoryIndexGenerator', () => {
             "entries": Object {
               "a--docs": Object {
                 "id": "a--docs",
-                "importPath": "./src/docs2/MetaOf.mdx",
+                "importPath": "./errors/A.mdx",
                 "name": "docs",
                 "storiesImports": Array [
                   "./src/A.stories.js",
@@ -613,10 +749,10 @@ describe('StoryIndexGenerator', () => {
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
             "entries": Object {
-              "a--docs": Object {
-                "id": "a--docs",
+              "a--metaof": Object {
+                "id": "a--metaof",
                 "importPath": "./src/docs2/MetaOf.mdx",
-                "name": "docs",
+                "name": "MetaOf",
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
@@ -748,10 +884,10 @@ describe('StoryIndexGenerator', () => {
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
             "entries": Object {
-              "a--info": Object {
-                "id": "a--info",
+              "a--metaof": Object {
+                "id": "a--metaof",
                 "importPath": "./src/docs2/MetaOf.mdx",
-                "name": "Info",
+                "name": "MetaOf",
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
@@ -829,7 +965,7 @@ describe('StoryIndexGenerator', () => {
     describe('duplicates', () => {
       it('warns when two MDX entries reference the same CSF file without a name', async () => {
         const docsErrorSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './errors/DuplicateMetaOf.mdx',
+          './errors/**/A.mdx',
           options
         );
 
@@ -842,10 +978,11 @@ describe('StoryIndexGenerator', () => {
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
           Array [
             "a--story-one",
-            "a--docs",
+            "a--metaof",
             "notitle--docs",
             "a--second-docs",
             "docs2-yabbadabbadooo--docs",
+            "a--docs",
           ]
         `);
 
@@ -870,7 +1007,7 @@ describe('StoryIndexGenerator', () => {
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
           Array [
             "a--story-one",
-            "a--docs",
+            "a--metaof",
             "notitle--docs",
             "a--second-docs",
             "docs2-yabbadabbadooo--docs",
@@ -884,15 +1021,24 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('warns when a story has the default docs name', async () => {
-        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], {
-          ...options,
-          docs: { ...options.docs, defaultName: 'Story One' },
-        });
+        const docsErrorSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './errors/A.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator(
+          [storiesSpecifier, docsSpecifier, docsErrorSpecifier],
+          {
+            ...options,
+            docs: { ...options.docs, defaultName: 'Story One' },
+          }
+        );
         await generator.initialize();
 
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
           Array [
             "a--story-one",
+            "a--metaof",
             "notitle--story-one",
             "a--second-docs",
             "docs2-yabbadabbadooo--story-one",
@@ -952,7 +1098,7 @@ describe('StoryIndexGenerator', () => {
           "d--story-one",
           "b--story-one",
           "nested-button--story-one",
-          "a--docs",
+          "a--metaof",
           "a--second-docs",
           "a--story-one",
           "second-nested-g--story-one",
@@ -1200,11 +1346,11 @@ describe('StoryIndexGenerator', () => {
         await generator.getIndex();
         expect(toId).toHaveBeenCalledTimes(5);
 
-        expect(Object.keys((await generator.getIndex()).entries)).toContain('a--docs');
+        expect(Object.keys((await generator.getIndex()).entries)).toContain('a--metaof');
 
         generator.invalidate(docsSpecifier, './src/docs2/MetaOf.mdx', true);
 
-        expect(Object.keys((await generator.getIndex()).entries)).not.toContain('a--docs');
+        expect(Object.keys((await generator.getIndex()).entries)).not.toContain('a--metaof');
 
         // this will throw if MetaOf is not removed from A's dependents
         generator.invalidate(storiesSpecifier, './src/A.stories.js', false);

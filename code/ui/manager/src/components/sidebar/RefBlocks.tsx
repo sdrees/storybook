@@ -170,7 +170,6 @@ export const ErrorBlock: FC<{ error: Error }> = ({ error }) => (
         <br />
         <WithTooltip
           trigger="click"
-          closeOnClick={false}
           tooltip={
             <ErrorDisplay>
               <ErrorFormatter error={error} />

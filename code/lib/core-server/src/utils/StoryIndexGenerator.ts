@@ -24,6 +24,7 @@ import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
+import { autoName } from './autoName';
 
 /** A .mdx file will produce a docs entry */
 type DocsCacheEntry = DocsIndexEntry;
@@ -170,8 +171,8 @@ export class StoryIndexGenerator {
     );
   }
 
-  isStoryFile(absolutePath: Path) {
-    return /(\.(js|jsx|ts|tsx)|\.stories\.mdx)$/i.test(absolutePath);
+  isDocsMdx(absolutePath: Path) {
+    return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
   async ensureExtracted(): Promise<IndexEntry[]> {
@@ -180,7 +181,7 @@ export class StoryIndexGenerator {
     // files may use the `<Meta of={XStories} />` syntax, which requires
     // that the story file that contains the meta be processed first.
     await this.updateExtracted(async (specifier, absolutePath) =>
-      this.isStoryFile(absolutePath) ? this.extractStories(specifier, absolutePath) : false
+      this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
 
     if (!this.options.docs.disable) {
@@ -323,24 +324,24 @@ export class StoryIndexGenerator {
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
-      let ofTitle: string;
+      let csfEntry: StoryIndexEntry;
       if (result.of) {
         const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
         dependencies.forEach((dep) => {
           if (dep.entries.length > 0) {
-            const first = dep.entries[0];
+            const first = dep.entries.find((e) => e.type !== 'docs') as StoryIndexEntry;
 
             if (
               path
                 .normalize(path.resolve(this.options.workingDir, first.importPath))
                 .startsWith(path.normalize(absoluteOf))
             ) {
-              ofTitle = first.title;
+              csfEntry = first;
             }
           }
         });
 
-        if (!ofTitle)
+        if (!csfEntry)
           throw new Error(`Could not find "${result.of}" for docs file "${relativePath}".`);
       }
 
@@ -349,8 +350,12 @@ export class StoryIndexGenerator {
         dep.dependents.push(absolutePath);
       });
 
-      const title = ofTitle || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
-      const name = result.name || this.options.docs.defaultName;
+      const title =
+        csfEntry?.title || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
+      const { defaultName } = this.options.docs;
+      const name =
+        result.name ||
+        (csfEntry ? autoName(importPath, csfEntry.importPath, defaultName) : defaultName);
       const id = toId(title, name);
 
       const docsEntry: DocsCacheEntry = {

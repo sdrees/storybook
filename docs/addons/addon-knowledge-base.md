@@ -115,8 +115,6 @@ If you're developing a standalone addon, add a new script to `package.json` with
 
 If you're developing a local Storybook addon built on top of an existing Storybook installation, HMR (hot module replacement) is available out of the box.
 
-If you don't see the changes being reflected, add the flag `--no-manager-cache` to the `storybook` script and restart Storybook.
-
 ### Composing addons in presets
 
 If you're working on a preset that loads third-party addons, which you don't have control over, and you need access to certain features (e.g., decorators) or provide additional configurations. In that case, you'll need to update your preset to the following to allow you to load and configure the other addons:

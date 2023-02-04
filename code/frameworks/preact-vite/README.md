@@ -37,7 +37,7 @@ Update your `main.js` to change the framework property:
 
 ```js
 // .storybook/main.js
-module.exports = {
+export default {
   // ...
   framework: {
     name: '@storybook/preact-vite', // <- Change this

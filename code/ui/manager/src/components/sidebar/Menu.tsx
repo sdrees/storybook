@@ -104,7 +104,7 @@ export const SidebarMenu: FC<{
     <WithTooltip
       placement="top"
       trigger="click"
-      closeOnClick
+      closeOnOutsideClick
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
       <SidebarIconButton title="Shortcuts" aria-label="Shortcuts" highlighted={isHighlighted}>
@@ -121,7 +121,7 @@ export const ToolbarMenu: FC<{
     <WithTooltip
       placement="bottom"
       trigger="click"
-      closeOnClick
+      closeOnOutsideClick
       modifiers={[
         {
           name: 'flip',

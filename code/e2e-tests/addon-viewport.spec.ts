@@ -15,7 +15,7 @@ test.describe('addon-viewport', () => {
 
     // Click on viewport button and select small mobile
     await sbPage.navigateToStory('example/button', 'primary');
-    await sbPage.selectToolbar('[title="Change the size of the preview"]', '#mobile1');
+    await sbPage.selectToolbar('[title="Change the size of the preview"]', '#list-item-mobile1');
 
     // Check that Button story is still displayed
     await expect(sbPage.previewRoot()).toContainText('Button');

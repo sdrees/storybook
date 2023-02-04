@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-beta.36",
+  "version": "7.0.0-beta.43",
   "private": true,
   "homepage": "https://storybook.js.org/",
   "repository": {
@@ -48,7 +48,7 @@
     "storybook:blocks": "STORYBOOK_BLOCKS_ONLY=true yarn storybook:ui",
     "storybook:blocks:build": "STORYBOOK_BLOCKS_ONLY=true yarn storybook:ui:build",
     "storybook:blocks:chromatic": "STORYBOOK_BLOCKS_ONLY=true yarn storybook:ui:chromatic --project-token=${CHROMATIC_TOKEN_STORYBOOK_BLOCKS:-MISSING_PROJECT_TOKEN}",
-    "storybook:ui": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" ./lib/cli/bin/index.js dev --port 6006 --config-dir ./ui/.storybook --no-manager-cache",
+    "storybook:ui": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" ./lib/cli/bin/index.js dev --port 6006 --config-dir ./ui/.storybook",
     "storybook:ui:build": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" ./lib/cli/bin/index.js build --config-dir ./ui/.storybook",
     "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir ./code --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded",
     "task": "cd .. && yarn task",
@@ -226,7 +226,7 @@
     "eslint-plugin-storybook": "^0.6.6",
     "fs-extra": "^11.1.0",
     "github-release-from-changelog": "^2.1.1",
-    "glob": "^7.1.6",
+    "glob": "^8.1.0",
     "http-server": "^0.12.3",
     "husky": "^4.3.7",
     "jest": "^29.3.1",

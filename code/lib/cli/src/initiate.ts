@@ -61,7 +61,6 @@ const installStorybook = <Project extends ProjectType>(
     language,
     builder: options.builder || detectBuilder(packageManager),
     linkable: !!options.linkable,
-    commonJs: options.commonJs,
     pnp: options.usePnp,
   };
 
@@ -294,7 +293,6 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   const done = commandLog(infoText);
 
   const packageJson = packageManager.retrievePackageJson();
-  const isEsm = packageJson && packageJson.type === 'module';
 
   try {
     if (projectTypeProvided) {
@@ -329,10 +327,11 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     return;
   }
 
-  const installResult = await installStorybook(projectType as ProjectType, packageManager, {
-    ...options,
-    ...(isEsm ? { commonJs: true } : undefined),
-  }).catch((e) => {
+  const installResult = await installStorybook(
+    projectType as ProjectType,
+    packageManager,
+    options
+  ).catch((e) => {
     process.exit();
   });
 

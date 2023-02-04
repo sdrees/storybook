@@ -15,7 +15,8 @@ const cssCache = new Map<string, Promise<string>>();
 export async function getFontFaceDeclarations(options: LoaderOptions) {
   const { fontFamily, weights, styles, selectedVariableAxes, display, variable } = validateData(
     options.fontFamily,
-    [options.props]
+    [options.props],
+    null
   );
 
   const fontAxes = getFontAxes(fontFamily, weights, styles, selectedVariableAxes);

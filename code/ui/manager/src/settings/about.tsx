@@ -13,7 +13,7 @@ const Header = styled.header(({ theme }) => ({
   marginBottom: 20,
   fontSize: theme.typography.size.m3,
   color: theme.base === 'light' ? theme.color.darkest : theme.color.lightest,
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
   alignItems: 'center',
   display: 'flex',
 
@@ -27,7 +27,7 @@ const Header = styled.header(({ theme }) => ({
 const Subheading = styled.span(({ theme }) => ({
   letterSpacing: '0.35em',
   textTransform: 'uppercase',
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
   fontSize: theme.typography.size.s2 - 1,
   lineHeight: '24px',
   color: theme.textMutedColor,

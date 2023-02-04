@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { useStorybookApi } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
@@ -8,7 +9,6 @@ import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
-// eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from './Sidebar';
 import type {
   CombinedDataset,
@@ -19,7 +19,7 @@ import type {
   Selection,
 } from './types';
 import { isSearchResult, isExpandType, isClearType, isCloseType } from './types';
-// eslint-disable-next-line import/no-cycle
+
 import { searchItem } from './utils';
 
 const { document } = global;

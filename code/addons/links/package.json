@@ -1,13 +1,13 @@
 {
   "name": "@storybook/addon-links",
-  "version": "7.0.0-beta.36",
+  "version": "7.0.0-beta.43",
   "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",
     "storybook",
     "organize"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/links",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/links",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -80,14 +80,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.36",
-    "@storybook/core-events": "7.0.0-beta.36",
+    "@storybook/client-logger": "7.0.0-beta.43",
+    "@storybook/core-events": "7.0.0-beta.43",
     "@storybook/csf": "next",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.36",
-    "@storybook/preview-api": "7.0.0-beta.36",
-    "@storybook/router": "7.0.0-beta.36",
-    "@storybook/types": "7.0.0-beta.36",
+    "@storybook/manager-api": "7.0.0-beta.43",
+    "@storybook/preview-api": "7.0.0-beta.43",
+    "@storybook/router": "7.0.0-beta.43",
+    "@storybook/types": "7.0.0-beta.43",
     "prop-types": "^15.7.2",
     "ts-dedent": "^2.0.0"
   },
@@ -119,7 +119,7 @@
     ],
     "post": "./scripts/fix-preview-api-reference.ts"
   },
-  "gitHead": "5268eb0fa26e2e31cc410c27cbff7189f3b7eba1",
+  "gitHead": "b1b7c2bc998decc21eb8352fcccd3c939048df02",
   "storybook": {
     "displayName": "Links",
     "icon": "https://user-images.githubusercontent.com/263385/101991673-48355c80-3c7c-11eb-9b6e-b627c96a75f6.png",

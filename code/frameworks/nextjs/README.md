@@ -116,7 +116,7 @@ Update your `main.js` to change the framework property:
 
 ```js
 // .storybook/main.js
-module.exports = {
+export default {
   // ...
   framework: {
     // name: '@storybook/react-webpack5', // Remove this
@@ -130,7 +130,7 @@ If you were using Storybook plugins to integrate with Next.js, those are no long
 
 ```js
 // .storybook/main.js
-module.exports = {
+export default {
   // ...
   addons: [
     // ...
@@ -151,9 +151,9 @@ For example:
 
 ```js
 // .storybook/main.js
-const path = require('path');
+import * as path from 'path';
 
-module.exports = {
+export default {
   // ...
   framework: {
     name: '@storybook/nextjs',
@@ -244,7 +244,7 @@ You have to tell Storybook where the `fonts` directory is located. The `from` va
 
 ```js
 // .storybook/main.js
-module.exports = {
+export default {
   ...
   "staticDirs": [
     {
@@ -618,9 +618,9 @@ This will automatically include any of your [custom sass configurations](https:/
 
 ```js
 // next.config.js
-const path = require('path');
+import * as path from 'path';
 
-module.exports = {
+export default {
   // Any options here are included in Sass compilation for your stories
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
@@ -784,7 +784,7 @@ Below is an example of how to add svgr support to Storybook with this framework.
 
 ```js
 // .storybook/main.js
-module.exports = {
+export default {
   // ...
   webpackFinal: async (config) => {
     // This modifies the existing image rule to exclude .svg files

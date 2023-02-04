@@ -37,12 +37,7 @@ Usage: start-storybook [options]
 | `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`start-storybook --debug-webpack`                                                                           |
 | `--webpack-stats-json`          | Write Webpack Stats JSON to disk<br/>`start-storybook --webpack-stats-json /tmp/webpack-stats`                                                                              |
 | `--docs`                        | Starts Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#preview-storybooks-documentation)<br/>`start-storybook --docs` |
-| `--no-manager-cache`            | Disables Storybook's manager caching mechanism. See note below<br/>`start-storybook --no-manager-cache`                                                                     |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md)<br/>`start-storybook --disable-telemetry`                                             |
-
-<div class="aside">
-💡 The flag <code>--no-manager-cache</code> disables the internal caching of Storybook and can severely impact your Storybook loading time, so only use it when you need to refresh Storybook's UI, such as when editing themes.
-</div>
 
 <div class="aside" id="static-dir-deprecation">
 

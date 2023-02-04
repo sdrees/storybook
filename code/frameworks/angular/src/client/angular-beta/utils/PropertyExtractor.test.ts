@@ -1,6 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, Directive, Injectable, InjectionToken, NgModule } from '@angular/core';
-import { extractDeclarations, extractImports, extractProviders } from './PropertyExtractor';
+import { BrowserModule } from '@angular/platform-browser';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+  provideAnimations,
+  provideNoopAnimations,
+} from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  analyzeMetadata,
+  extractDeclarations,
+  extractImports,
+  extractProviders,
+  extractSingletons,
+  REMOVED_MODULES,
+} from './PropertyExtractor';
+import { WithAnimationsModule, WithOfficialModule } from '../__testfixtures__/test.module';
 
 const TEST_TOKEN = new InjectionToken('testToken');
 const TestTokenProvider = { provide: TEST_TOKEN, useValue: 123 };
@@ -16,32 +32,93 @@ const TestModuleWithImportsAndProviders = NgModule({
 })(class {});
 
 describe('PropertyExtractor', () => {
-  describe('extractImports', () => {
-    it('should return an array of imports', () => {
-      const imports = extractImports({ imports: [TestModuleWithImportsAndProviders] });
-      expect(imports).toEqual([CommonModule, TestModuleWithImportsAndProviders]);
+  describe('analyzeMetadata', () => {
+    it('should remove BrowserModule', () => {
+      const metadata = {
+        imports: [BrowserModule],
+      };
+      const { imports, providers, singletons } = analyzeMetadata(metadata);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(singletons.flat(Number.MAX_VALUE)).toEqual([]);
     });
 
-    it('should return an array of unique imports without providers', () => {
+    it('should remove BrowserAnimationsModule and use its providers instead', () => {
+      const metadata = {
+        imports: [BrowserAnimationsModule],
+      };
+      const { imports, providers, singletons } = analyzeMetadata(metadata);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(singletons.flat(Number.MAX_VALUE)).toEqual(provideAnimations());
+    });
+
+    it('should remove NoopAnimationsModule and use its providers instead', () => {
+      const metadata = {
+        imports: [NoopAnimationsModule],
+      };
+      const { imports, providers, singletons } = analyzeMetadata(metadata);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(singletons.flat(Number.MAX_VALUE)).toEqual(provideNoopAnimations());
+    });
+
+    it('should remove Browser/Animations modules recursively', () => {
+      const metadata = {
+        imports: [WithAnimationsModule],
+      };
+      const { imports, providers, singletons } = analyzeMetadata(metadata);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(providers.flat(Number.MAX_VALUE)).toEqual([
+        { provide: REMOVED_MODULES, useValue: WithAnimationsModule, multi: true },
+      ]);
+      expect(singletons.flat(Number.MAX_VALUE)).toEqual(provideAnimations());
+    });
+
+    it('should not destructure Angular official module', () => {
+      const metadata = {
+        imports: [WithOfficialModule],
+      };
+      const { imports, providers, singletons } = analyzeMetadata(metadata);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule, HttpClientModule]);
+      expect(providers.flat(Number.MAX_VALUE)).toEqual([
+        { provide: REMOVED_MODULES, useValue: WithOfficialModule, multi: true },
+      ]);
+      expect(singletons.flat(Number.MAX_VALUE)).toEqual([]);
+    });
+  });
+
+  describe('extractImports', () => {
+    it('should return Angular official modules', () => {
+      const imports = extractImports({ imports: [TestModuleWithImportsAndProviders] });
+      expect(imports).toEqual([CommonModule]);
+    });
+
+    it('should return standalone components', () => {
+      const imports = extractImports({
+        imports: [TestModuleWithImportsAndProviders, StandaloneTestComponent],
+      });
+      expect(imports).toEqual([CommonModule, StandaloneTestComponent]);
+    });
+
+    it('should not return any regular modules (they get destructured)', () => {
       const imports = extractImports({
         imports: [
-          TestModuleWithImportsAndProviders,
+          TestModuleWithDeclarations,
           { ngModule: TestModuleWithImportsAndProviders, providers: [] },
         ],
       });
-      expect(imports).toEqual([CommonModule, TestModuleWithImportsAndProviders]);
+      expect(imports).toEqual([CommonModule]);
     });
   });
 
   describe('extractDeclarations', () => {
-    it('should return an array of declarations', () => {
+    it('should return an array of declarations that contains `storyComponent`', () => {
       const declarations = extractDeclarations({ declarations: [TestComponent1] }, TestComponent2);
       expect(declarations).toEqual([TestComponent1, TestComponent2]);
     });
 
-    it('should ignore pre-declared components', () => {
-      // TestComponent1 is declared as part of TestModuleWithDeclarations
-      // TestModuleWithDeclarations is imported by TestModuleWithImportsAndProviders
+    it('should ignore `storyComponent` if it is already declared', () => {
       const declarations = extractDeclarations(
         {
           imports: [TestModuleWithImportsAndProviders],
@@ -49,10 +126,15 @@ describe('PropertyExtractor', () => {
         },
         TestComponent1
       );
-      expect(declarations).toEqual([TestComponent2, StandaloneTestComponent, TestDirective]);
+      expect(declarations).toEqual([
+        TestComponent1,
+        TestComponent2,
+        StandaloneTestComponent,
+        TestDirective,
+      ]);
     });
 
-    it('should ignore standalone components', () => {
+    it('should ignore `storyComponent` if it is standalone', () => {
       const declarations = extractDeclarations(
         {
           imports: [TestModuleWithImportsAndProviders],
@@ -63,7 +145,7 @@ describe('PropertyExtractor', () => {
       expect(declarations).toEqual([TestComponent1, TestComponent2, TestDirective]);
     });
 
-    it('should ignore non components/directives/pipes', () => {
+    it('should ignore `storyComponent` if it is not a component/directive/pipe', () => {
       const declarations = extractDeclarations(
         {
           imports: [TestModuleWithImportsAndProviders],
@@ -87,7 +169,12 @@ describe('PropertyExtractor', () => {
       const providers = extractProviders({
         imports: [{ ngModule: TestModuleWithImportsAndProviders, providers: [TestService] }],
       });
-      expect(providers).toEqual([TestService]);
+      expect(providers).toEqual([
+        { provide: TEST_TOKEN, useValue: 123 },
+        { provide: REMOVED_MODULES, useValue: TestModuleWithDeclarations, multi: true },
+        TestService,
+        { provide: REMOVED_MODULES, useValue: TestModuleWithImportsAndProviders, multi: true },
+      ]);
     });
 
     it('should return an array of unique providers', () => {
@@ -96,12 +183,27 @@ describe('PropertyExtractor', () => {
         providers: [TestService, { provide: TEST_TOKEN, useValue: 123 }],
       });
       expect(providers).toEqual([
+        { provide: TEST_TOKEN, useValue: 123 },
+        { provide: REMOVED_MODULES, useValue: TestModuleWithDeclarations, multi: true },
         TestService,
         {
           provide: new InjectionToken('testToken'),
           useValue: 123,
         },
+        {
+          provide: REMOVED_MODULES,
+          useValue: TestModuleWithImportsAndProviders,
+          multi: true,
+        },
       ]);
+    });
+
+    it('should return an array of singletons extracted', () => {
+      const singeltons = extractSingletons({
+        imports: [BrowserAnimationsModule],
+      });
+
+      expect(singeltons).toEqual(provideAnimations());
     });
   });
 });

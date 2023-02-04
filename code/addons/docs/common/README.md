@@ -21,7 +21,7 @@ yarn add -D @storybook/addon-docs@next
 Then add the following to your `.storybook/main.js` addons:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-docs'],
 };
 ```
@@ -43,7 +43,7 @@ yarn add -D react
 Then update your `.storybook/main.js` to make sure you load MDX files:
 
 ```js
-module.exports = {
+export default {
   stories: ['../src/stories/**/*.stories.@(js|mdx)'],
 };
 ```

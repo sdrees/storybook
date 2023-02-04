@@ -21,7 +21,7 @@ npm i -D @storybook/addon-measure
 Add `"@storybook/addon-measure"` to the addons array in your `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-measure'],
 };
 ```

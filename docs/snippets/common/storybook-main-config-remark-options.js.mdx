@@ -1,9 +1,9 @@
 ```js
 // .storybook/main.js
 
-const remarkGfm = require('remark-gfm');
+import remarkGfm from 'remark-gfm';
 
-module.exports = {
+export default {
   stories: ['../src/**/*.stories.@(js|ts)'],
   addons: [
     // Other addons go here

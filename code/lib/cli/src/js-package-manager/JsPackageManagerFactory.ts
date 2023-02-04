@@ -5,8 +5,7 @@ import { sync as findUpSync } from 'find-up';
 import { NPMProxy } from './NPMProxy';
 import { PNPMProxy } from './PNPMProxy';
 
-import type { JsPackageManager } from './JsPackageManager';
-import { type PackageManagerName } from './JsPackageManager';
+import type { JsPackageManager, PackageManagerName } from './JsPackageManager';
 
 import { Yarn2Proxy } from './Yarn2Proxy';
 import { Yarn1Proxy } from './Yarn1Proxy';

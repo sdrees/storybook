@@ -3,6 +3,8 @@ import React, { useContext } from 'react';
 import type { StoryId, PreparedStory, ModuleExport } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
+import { deprecate } from '@storybook/client-logger';
+import dedent from 'ts-dedent';
 import type { SourceCodeProps } from '../components/Source';
 import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';
@@ -118,8 +120,7 @@ export const useSourceProps = (
       // Always fall back to the primary story for source parameters, even if code is set.
       stories = [docsContext.storyById()];
     } catch (err) {
-      // You are allowed to use <Story code="..." /> unattached.
-      if (!props.code) throw err;
+      // You are allowed to use <Source code="..." /> and <Canvas /> unattached.
     }
   }
 
@@ -162,6 +163,18 @@ export const useSourceProps = (
  * the source for the current story if nothing is provided.
  */
 export const Source: FC<SourceProps> = (props) => {
+  if (props.id) {
+    deprecate(dedent`The \`id\` prop on Source is deprecated, please use the \`of\` prop instead to reference a story. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
+  if (props.ids) {
+    deprecate(dedent`The \`ids\` prop on Source is deprecated, please use the \`of\` prop instead to reference a story. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
   const sourceContext = useContext(SourceContext);
   const docsContext = useContext(DocsContext);
   const { state, ...sourceProps } = useSourceProps(props, docsContext, sourceContext);

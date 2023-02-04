@@ -15,12 +15,11 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
 
   let { plugins = [] } = baseConfig;
 
-  // Remove vite-plugin-svelte-kit from plugins if using SvelteKit
-  // see https://github.com/storybookjs/storybook/issues/19280#issuecomment-1281204341
+  // disable specific plugins that are not compatible with Storybook
   plugins = (
     await withoutVitePlugins(plugins, [
-      // @sveltejs/kit@1.0.0-next.587 and later
       'vite-plugin-sveltekit-compile',
+      'vite-plugin-sveltekit-guard',
     ])
   ).concat(configOverrides());
 

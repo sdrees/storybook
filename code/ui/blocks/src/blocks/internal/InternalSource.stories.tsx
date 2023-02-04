@@ -7,6 +7,7 @@ const meta: Meta<typeof Source> = {
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
     attached: false,
+    docsStyles: true,
   },
 };
 

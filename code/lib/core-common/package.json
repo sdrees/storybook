@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.0-beta.36",
+  "version": "7.0.0-beta.43",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -44,8 +44,9 @@
   },
   "dependencies": {
     "@babel/core": "^7.20.2",
-    "@storybook/node-logger": "7.0.0-beta.36",
-    "@storybook/types": "7.0.0-beta.36",
+    "@storybook/csf-tools": "7.0.0-beta.43",
+    "@storybook/node-logger": "7.0.0-beta.43",
+    "@storybook/types": "7.0.0-beta.43",
     "@types/babel__core": "^7.1.20",
     "@types/express": "^4.7.0",
     "@types/node": "^16.0.0",
@@ -57,9 +58,10 @@
     "file-system-cache": "^2.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
-    "glob": "^7.1.6",
+    "glob": "^8.1.0",
+    "glob-promise": "^4.2.0",
     "handlebars": "^4.7.7",
-    "lazy-universal-dotenv": "^3.0.1",
+    "lazy-universal-dotenv": "^4.0.0",
     "picomatch": "^2.3.0",
     "pkg-dir": "^5.0.0",
     "pretty-hrtime": "^1.0.3",
@@ -83,5 +85,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "5268eb0fa26e2e31cc410c27cbff7189f3b7eba1"
+  "gitHead": "b1b7c2bc998decc21eb8352fcccd3c939048df02"
 }

@@ -30,12 +30,16 @@ export async function storybookDevServer(options: Options) {
 
   const serverChannel = getServerChannel(server);
 
+  let indexError: Error;
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
   const initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = getStoryIndexGenerator(
     features,
     options,
     serverChannel
-  );
+  ).catch((err) => {
+    indexError = err;
+    return undefined;
+  });
 
   app.use(compression({ level: 1 }));
 
@@ -112,11 +116,18 @@ export async function storybookDevServer(options: Options) {
     previewStarted.catch(() => {}).then(() => next());
   });
 
-  Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
-    if (!options.ci && !options.smokeTest && options.open) {
-      openInBrowser(host ? networkAddress : address);
+  await Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(
+    async ([indexGenerator]) => {
+      if (indexGenerator && !options.ci && !options.smokeTest && options.open) {
+        openInBrowser(host ? networkAddress : address);
+      }
     }
-  });
+  );
+  if (indexError) {
+    await managerBuilder?.bail().catch();
+    await previewBuilder?.bail().catch();
+    throw indexError;
+  }
 
   const previewResult = await previewStarted;
 

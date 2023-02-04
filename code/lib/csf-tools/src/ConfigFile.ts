@@ -119,6 +119,8 @@ export class ConfigFile {
 
   fileName?: string;
 
+  hasDefaultExport = false;
+
   constructor(ast: t.File, code: string, fileName?: string) {
     this._ast = ast;
     this._code = code;
@@ -131,6 +133,7 @@ export class ConfigFile {
     traverse.default(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
+          self.hasDefaultExport = true;
           const decl =
             t.isIdentifier(node.declaration) && t.isProgram(parent)
               ? _findVarInitialization(node.declaration.name, parent)

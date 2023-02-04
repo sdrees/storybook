@@ -5,7 +5,7 @@ import { styled } from '@storybook/theming';
 import { Link } from '../typography/link/link';
 
 const Title = styled.div(({ theme }) => ({
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
 }));
 
 const Desc = styled.span();
@@ -16,7 +16,7 @@ const Links = styled.div(({ theme }) => ({
 
   '> *': {
     margin: '0 8px',
-    fontWeight: theme.typography.weight.black,
+    fontWeight: theme.typography.weight.bold,
   },
 }));
 

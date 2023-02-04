@@ -1,7 +1,6 @@
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedLanguage, Builder, ProjectType } from '../project_types';
-import type { JsPackageManager } from '../js-package-manager/JsPackageManager';
-import { type PackageManagerName } from '../js-package-manager/JsPackageManager';
+import type { JsPackageManager, PackageManagerName } from '../js-package-manager/JsPackageManager';
 import type { FrameworkPreviewParts } from './configure';
 
 export type GeneratorOptions = {
@@ -9,7 +8,6 @@ export type GeneratorOptions = {
   builder: Builder;
   linkable: boolean;
   pnp: boolean;
-  commonJs: boolean;
   frameworkPreviewParts?: FrameworkPreviewParts;
 };
 
@@ -25,7 +23,6 @@ export interface FrameworkOptions {
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;
-  commonJs?: boolean;
   storybookConfigFolder?: string;
   componentsDestinationPath?: string;
 }
@@ -50,7 +47,6 @@ export type CommandOptions = {
   yes?: boolean;
   builder?: Builder;
   linkable?: boolean;
-  commonJs?: boolean;
   disableTelemetry?: boolean;
   enableCrashReports?: boolean;
   debug?: boolean;
