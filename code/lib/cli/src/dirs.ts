@@ -8,7 +8,8 @@ export function getCliDir() {
 
 export function getRendererDir(renderer: SupportedFrameworks | SupportedRenderers) {
   const externalFramework = externalFrameworks.find((framework) => framework.name === renderer);
-  const frameworkPackageName = externalFramework?.packageName ?? `@storybook/${renderer}`;
+  const frameworkPackageName =
+    externalFramework?.renderer || externalFramework?.packageName || `@storybook/${renderer}`;
   return dirname(
     require.resolve(`${frameworkPackageName}/package.json`, {
       paths: [process.cwd()],

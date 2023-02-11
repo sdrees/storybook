@@ -116,7 +116,6 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
     <Fragment>
       <WithTooltip
         placement="top"
-        trigger="click"
         closeOnOutsideClick
         tooltip={({ onHide }) => {
           return (

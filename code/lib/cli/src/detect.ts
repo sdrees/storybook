@@ -1,4 +1,3 @@
-import path from 'path';
 import fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
@@ -85,7 +84,7 @@ const getFrameworkPreset = (
   }
 
   if (Array.isArray(files) && files.length > 0) {
-    matcher.files = files.map((name) => fs.existsSync(path.join(process.cwd(), name)));
+    matcher.files = files.map((name) => fs.existsSync(name));
   }
 
   return matcherFunction(matcher) ? preset : null;
@@ -151,7 +150,9 @@ export function isStorybookInstalled(
 export function detectLanguage(packageJson?: PackageJson) {
   let language = SupportedLanguage.JAVASCRIPT;
 
-  if (!packageJson) {
+  // TODO: we may need to also detect whether a jsconfig.json file is present
+  // in a monorepo root directory
+  if (!packageJson || fs.existsSync('jsconfig.json')) {
     return language;
   }
 

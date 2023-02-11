@@ -86,7 +86,6 @@ export const SimpleHoverFunctional: StoryObj<ComponentProps<typeof WithTooltip>>
 export const SimpleClick: StoryObj<ComponentProps<typeof WithTooltip>> = {
   args: {
     placement: 'top',
-    trigger: 'click',
   },
   render: (args) => (
     <WithTooltip tooltip={<Tooltip />} {...args}>
@@ -98,7 +97,6 @@ export const SimpleClick: StoryObj<ComponentProps<typeof WithTooltip>> = {
 export const SimpleClickStartOpen: StoryObj<ComponentProps<typeof WithTooltip>> = {
   args: {
     placement: 'top',
-    trigger: 'click',
     startOpen: true,
   },
   render: (args) => (
@@ -111,7 +109,6 @@ export const SimpleClickStartOpen: StoryObj<ComponentProps<typeof WithTooltip>> 
 export const SimpleClickCloseOnClick: StoryObj<ComponentProps<typeof WithTooltip>> = {
   args: {
     placement: 'top',
-    trigger: 'click',
     closeOnOutsideClick: true,
   },
   render: (args) => (
@@ -124,7 +121,6 @@ export const SimpleClickCloseOnClick: StoryObj<ComponentProps<typeof WithTooltip
 export const WithoutChrome: StoryObj<ComponentProps<typeof WithTooltip>> = {
   args: {
     placement: 'top',
-    trigger: 'click',
     hasChrome: false,
   },
   render: (args) => (

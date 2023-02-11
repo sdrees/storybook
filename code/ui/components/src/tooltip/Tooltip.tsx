@@ -108,7 +108,7 @@ const Wrapper = styled.div<WrapperProps>(
             drop-shadow(0px 5px 5px rgba(0,0,0,0.05))
             drop-shadow(0 1px 3px rgba(0,0,0,0.1))
           `,
-          borderRadius: theme.appBorderRadius * 2,
+          borderRadius: theme.appBorderRadius,
           fontSize: theme.typography.size.s1,
         }
       : {}
@@ -126,7 +126,7 @@ export interface TooltipProps {
 
 export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
   (
-    { placement, hasChrome, children, arrowProps, tooltipRef, color, withArrows = true, ...props },
+    { placement, hasChrome, children, arrowProps, tooltipRef, color, withArrows, ...props },
     ref
   ) => {
     return (

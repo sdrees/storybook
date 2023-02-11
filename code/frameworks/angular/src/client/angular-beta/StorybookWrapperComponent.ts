@@ -52,7 +52,7 @@ export const createStorybookWrapperComponent = (
   // storyComponent was not provided.
   const viewChildSelector = storyComponent ?? '__storybook-noop';
 
-  const imports = extractImports(moduleMetadata);
+  const imports = extractImports(moduleMetadata, storyComponent);
   const declarations = extractDeclarations(moduleMetadata, storyComponent);
   const providers = extractProviders(moduleMetadata);
 
@@ -97,7 +97,7 @@ export const createStorybookWrapperComponent = (
 
     constructor(
       @Inject(STORY_PROPS) private storyProps$: Subject<ICollection | undefined>,
-      private changeDetectorRef: ChangeDetectorRef
+      @Inject(ChangeDetectorRef) private changeDetectorRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {

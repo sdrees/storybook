@@ -320,7 +320,6 @@ export const ColorControl: FC<ColorControlProps> = ({
   return (
     <Wrapper>
       <PickerTooltip
-        trigger="click"
         startOpen={startOpen}
         closeOnOutsideClick
         onVisibleChange={() => addPreset(color)}

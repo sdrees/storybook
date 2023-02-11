@@ -12,7 +12,7 @@ export default {
           height: '300px',
         }}
       >
-        <WithTooltip placement="top" trigger="click" startOpen tooltip={storyFn()}>
+        <WithTooltip placement="top" startOpen tooltip={storyFn()}>
           <div>Tooltip</div>
         </WithTooltip>
       </div>

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.0.0-beta.43",
+  "version": "7.0.0-beta.46",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -55,19 +55,19 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.0.0-beta.43",
-    "@storybook/api": "7.0.0-beta.43",
-    "@storybook/channel-postmessage": "7.0.0-beta.43",
-    "@storybook/channel-websocket": "7.0.0-beta.43",
-    "@storybook/channels": "7.0.0-beta.43",
-    "@storybook/client-logger": "7.0.0-beta.43",
-    "@storybook/components": "7.0.0-beta.43",
-    "@storybook/core-events": "7.0.0-beta.43",
+    "@storybook/addons": "7.0.0-beta.46",
+    "@storybook/api": "7.0.0-beta.46",
+    "@storybook/channel-postmessage": "7.0.0-beta.46",
+    "@storybook/channel-websocket": "7.0.0-beta.46",
+    "@storybook/channels": "7.0.0-beta.46",
+    "@storybook/client-logger": "7.0.0-beta.46",
+    "@storybook/components": "7.0.0-beta.46",
+    "@storybook/core-events": "7.0.0-beta.46",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.43",
-    "@storybook/router": "7.0.0-beta.43",
-    "@storybook/theming": "7.0.0-beta.43",
-    "@storybook/types": "7.0.0-beta.43",
+    "@storybook/manager-api": "7.0.0-beta.46",
+    "@storybook/router": "7.0.0-beta.46",
+    "@storybook/theming": "7.0.0-beta.46",
+    "@storybook/types": "7.0.0-beta.46",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
     "copy-to-clipboard": "^3.3.1",
@@ -101,5 +101,5 @@
       "./src/runtime.ts"
     ]
   },
-  "gitHead": "b1b7c2bc998decc21eb8352fcccd3c939048df02"
+  "gitHead": "ddbb9cfded3d2e6374a9abc9a6e8990a2f0052ed"
 }

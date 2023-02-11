@@ -25,7 +25,7 @@ const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.sv
 export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) => [
   {
     from: join(dirname(require.resolve('@storybook/manager/package.json')), 'static'),
-    to: '/sb-manager-assets',
+    to: '/sb-common-assets',
   },
   ...values,
 ];

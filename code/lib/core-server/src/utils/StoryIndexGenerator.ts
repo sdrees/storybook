@@ -1,4 +1,5 @@
 import path from 'path';
+import chalk from 'chalk';
 import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
@@ -369,7 +370,14 @@ export class StoryIndexGenerator {
       };
       return docsEntry;
     } catch (err) {
-      logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
+      logger.warn(`🚨 Extraction error on ${chalk.blue(relativePath)}: ${err}`);
+      if (err.source?.match(/mdast-util-mdx-jsx/g)) {
+        logger.warn(
+          `💡 This seems to be an MDX2 syntax error. Please refer to the MDX section in the following resource for assistance on how to fix this: ${chalk.yellow(
+            'https://storybook.js.org/migration-guides/7.0'
+          )}`
+        );
+      }
       throw err;
     }
   }

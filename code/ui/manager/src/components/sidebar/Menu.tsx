@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-import type { Button } from '@storybook/components';
+import type { Button, TooltipLinkListLink } from '@storybook/components';
 import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
@@ -66,6 +66,10 @@ export interface ListItemIconProps {
   imgSrc?: string;
 }
 
+/**
+ * @deprecated Please use `Icons` from `@storybook/components` instead
+ * Component will be removed in SB 8.0
+ */
 export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   if (icon) {
     return <Icon icon={icon} />;
@@ -76,7 +80,7 @@ export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   return <Placeholder />;
 };
 
-type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
+type ClickHandler = TooltipLinkListLink['onClick'];
 
 const SidebarMenuList: FC<{
   menu: MenuList;
@@ -103,7 +107,6 @@ export const SidebarMenu: FC<{
   return (
     <WithTooltip
       placement="top"
-      trigger="click"
       closeOnOutsideClick
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
@@ -120,7 +123,6 @@ export const ToolbarMenu: FC<{
   return (
     <WithTooltip
       placement="bottom"
-      trigger="click"
       closeOnOutsideClick
       modifiers={[
         {

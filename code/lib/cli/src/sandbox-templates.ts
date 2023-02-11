@@ -128,7 +128,7 @@ const baseTemplates = {
     },
   },
   'react-webpack/18-ts': {
-    name: 'React Webpack5 (TS)',
+    name: 'React 18 Webpack5 (TS)',
     script: 'yarn create webpack5-react .',
     expected: {
       framework: '@storybook/react-webpack5',
@@ -137,13 +137,35 @@ const baseTemplates = {
     },
   },
   'react-webpack/17-ts': {
-    name: 'React Webpack5 (TS)',
+    name: 'React 17 Webpack5 (TS)',
     script: 'yarn create webpack5-react . --version-react="17" --version-react-dom="17"',
     expected: {
       framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+  },
+  'solid-vite/default-js': {
+    name: 'SolidJS Vite (JS)',
+    script: 'npx degit solidjs/templates/js .',
+    expected: {
+      framework: 'storybook-solidjs-vite',
+      renderer: 'storybook-solidjs',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once solid-vite framework is released
+    inDevelopment: true,
+  },
+  'solid-vite/default-ts': {
+    name: 'SolidJS Vite (TS)',
+    script: 'npx degit solidjs/templates/ts .',
+    expected: {
+      framework: 'storybook-solidjs-vite',
+      renderer: 'storybook-solidjs',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once solid-vite framework is released
+    inDevelopment: true,
   },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
@@ -195,8 +217,6 @@ const baseTemplates = {
       renderer: '@storybook/html',
       builder: '@storybook/builder-vite',
     },
-    // TODO: remove this once html-vite framework is released
-    inDevelopment: true,
   },
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
@@ -206,8 +226,6 @@ const baseTemplates = {
       renderer: '@storybook/html',
       builder: '@storybook/builder-vite',
     },
-    // TODO: remove this once html-vite framework is released
-    inDevelopment: true,
   },
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -357,8 +375,10 @@ const baseTemplates = {
   'qwik-vite/default-ts': {
     name: 'Qwik CLI (Default TS)',
     script: 'yarn create qwik basic {{beforeDir}} --no-install',
-    inDevelopment: true,
+    // TODO: The community template does not provide standard stories, which is required for e2e tests.
     skipTasks: ['e2e-tests'],
+    // TODO: Re-enable once problems are fixed.
+    inDevelopment: true,
     expected: {
       framework: 'storybook-framework-qwik',
       renderer: 'storybook-framework-qwik',
@@ -376,7 +396,6 @@ const internalTemplates = {
   'internal/ssv6-vite': {
     ...baseTemplates['react-vite/default-ts'],
     name: 'StoryStore v6 (react-vite/default-ts)',
-    inDevelopment: true,
     isInternal: true,
     modifications: {
       mainConfig: {
@@ -389,7 +408,6 @@ const internalTemplates = {
   'internal/ssv6-webpack': {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'StoryStore v6 (react-webpack/18-ts)',
-    inDevelopment: true,
     isInternal: true,
     modifications: {
       mainConfig: {
@@ -425,6 +443,7 @@ export const merged: TemplateKey[] = [
   'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
+  'html-vite/default-ts',
   'internal/ssv6-vite',
   'internal/ssv6-webpack',
 ];
@@ -443,6 +462,7 @@ export const daily: TemplateKey[] = [
   'qwik-vite/default-ts',
   'preact-webpack5/default-js',
   'preact-vite/default-js',
+  'html-vite/default-js',
 ];
 
 export const templatesByCadence = { ci, pr, merged, daily };

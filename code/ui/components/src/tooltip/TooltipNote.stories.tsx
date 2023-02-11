@@ -11,13 +11,7 @@ export default {
           height: '300px',
         }}
       >
-        <WithTooltip
-          hasChrome={false}
-          placement="top"
-          trigger="click"
-          startOpen
-          tooltip={storyFn()}
-        >
+        <WithTooltip hasChrome={false} placement="top" startOpen tooltip={storyFn()}>
           <div>Tooltip</div>
         </WithTooltip>
       </div>

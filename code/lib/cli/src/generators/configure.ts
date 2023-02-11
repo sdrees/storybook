@@ -30,6 +30,23 @@ interface ConfigurePreviewOptions {
   language: SupportedLanguage;
 }
 
+const logger = console;
+
+/**
+ * We need to clean up the paths in case of pnp
+ * input: "path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))"
+ * output: "@storybook/react-webpack5"
+ * */
+const sanitizeFramework = (framework: string) => {
+  // extract either @storybook/<framework> or storybook-<framework>
+  const matches = framework.match(/(@storybook\/\w+(?:-\w+)*)|(storybook-(\w+(?:-\w+)*))/g);
+  if (!matches) {
+    return undefined;
+  }
+
+  return matches[0];
+};
+
 export async function configureMain({
   addons,
   extensions = ['js', 'jsx', 'ts', 'tsx'],
@@ -47,18 +64,27 @@ export async function configureMain({
   const isTypescript =
     language === SupportedLanguage.TYPESCRIPT || language === SupportedLanguage.TYPESCRIPT_LEGACY;
 
-  const mainConfigTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
-  export default config;`;
+  let mainConfigTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
+    export default config;`;
+
+  const frameworkPackage = sanitizeFramework(custom.framework?.name);
+
+  if (!frameworkPackage) {
+    mainConfigTemplate = mainConfigTemplate.replace('<<import>>', '').replace('<<type>>', '');
+    logger.warn('Could not find framework package name');
+  }
 
   const mainJsContents = mainConfigTemplate
     .replace(
       '<<import>>',
       isTypescript
-        ? `import type { StorybookConfig } from '${custom.framework.name}';\n\n`
-        : `/** @type { import('${custom.framework.name}').StorybookConfig } */\n`
+        ? `import type { StorybookConfig } from '${frameworkPackage}';\n\n`
+        : `/** @type { import('${frameworkPackage}').StorybookConfig } */\n`
     )
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
-    .replace('<<mainContents>>', JSON.stringify(config, null, 2));
+    .replace('<<mainContents>>', JSON.stringify(config, null, 2))
+    .replace(/['"]%%/g, '')
+    .replace(/%%['"]/g, '');
 
   await fse.writeFile(
     `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
@@ -83,6 +109,9 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
   const preview = dedent`
     ${prefix}
     export const parameters = {
+      backgrounds: {
+        default: 'light',
+      },
       actions: { argTypesRegex: "^on[A-Z].*" },
       controls: {
         matchers: {

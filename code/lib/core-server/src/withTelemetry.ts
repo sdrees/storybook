@@ -1,7 +1,7 @@
 import prompts from 'prompts';
 import type { CLIOptions, CoreConfig } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
 
 type TelemetryOptions = {
@@ -76,7 +76,12 @@ export async function withTelemetry(
 
         await telemetry(
           'error',
-          { eventType, precedingUpgrade, error: errorLevel === 'full' ? error : undefined },
+          {
+            eventType,
+            precedingUpgrade,
+            error: errorLevel === 'full' ? error : undefined,
+            errorHash: oneWayHash(error.message),
+          },
           {
             immediate: true,
             configDir: options.cliOptions.configDir || options.presetOptions?.configDir,

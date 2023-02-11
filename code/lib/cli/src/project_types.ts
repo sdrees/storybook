@@ -16,12 +16,20 @@ function eqMajor(versionRange: string, major: number) {
 }
 
 /** A list of all frameworks that are supported, but use a package outside the storybook monorepo */
-export const externalFrameworks: { name: SupportedFrameworks; packageName: string }[] = [
+export type ExternalFramework = {
+  name: SupportedFrameworks;
+  packageName?: string;
+  frameworks?: string[];
+  renderer?: string;
+};
+
+export const externalFrameworks: ExternalFramework[] = [
   { name: 'qwik', packageName: 'storybook-framework-qwik' },
+  { name: 'solid', frameworks: ['storybook-solidjs-vite'], renderer: 'storybook-solidjs' },
 ];
 
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik';
+export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
@@ -42,7 +50,8 @@ export type SupportedRenderers =
   | 'aurelia'
   | 'html'
   | 'web-components'
-  | 'server';
+  | 'server'
+  | 'solid';
 
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
@@ -60,6 +69,7 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'qwik',
   'rax',
   'aurelia',
+  'solid',
 ];
 
 export enum ProjectType {
@@ -90,6 +100,7 @@ export enum ProjectType {
   AURELIA = 'AURELIA',
   SERVER = 'SERVER',
   NX = 'NX',
+  SOLID = 'SOLID',
 }
 
 export enum CoreBuilder {
@@ -281,6 +292,13 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.AURELIA,
     dependencies: ['aurelia-bootstrapper'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
+  {
+    preset: ProjectType.SOLID,
+    dependencies: ['solid-js'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },

@@ -64,7 +64,7 @@ export async function commonConfig(
     },
     // If an envPrefix is specified in the vite config, add STORYBOOK_ to it,
     // otherwise, add VITE_ and STORYBOOK_ so that vite doesn't lose its default.
-    envPrefix: userConfig.envPrefix ? 'STORYBOOK_' : ['VITE_', 'STORYBOOK_'],
+    envPrefix: userConfig.envPrefix ? ['STORYBOOK_'] : ['VITE_', 'STORYBOOK_'],
   };
 
   const config: ViteConfig = mergeConfig(userConfig, sbConfig);

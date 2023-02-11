@@ -4,7 +4,14 @@ import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
 import type { Meta, StoryObj } from '@storybook/react';
-import { within, fireEvent, waitFor, screen, getByText } from '@storybook/testing-library';
+import {
+  within,
+  fireEvent,
+  waitFor,
+  screen,
+  getByText,
+  userEvent,
+} from '@storybook/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
@@ -220,10 +227,18 @@ export const StatefulDynamicWithOpenTooltip = {
     const addonsTab = await canvas.findByRole('tab', { name: /Addons/ });
 
     await waitFor(async () => {
-      await fireEvent(addonsTab, new MouseEvent('mouseenter', { bubbles: true }));
-      const tooltip = await screen.getByTestId('tooltip');
-      await expect(tooltip).toBeInTheDocument();
+      const tooltip = await screen.queryByTestId('tooltip');
+
+      if (!tooltip) {
+        await userEvent.click(addonsTab);
+      }
+
+      if (!tooltip) {
+        throw new Error('Tooltip not found');
+      }
     });
+
+    expect(screen.queryByTestId('tooltip')).toBeInTheDocument();
   },
   render: (args) => (
     <TabsState initial="test1" {...args}>

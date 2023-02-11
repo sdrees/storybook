@@ -20,6 +20,7 @@ const rendererPackages: Record<string, string> = {
   'storybook-framework-qwik': 'qwik',
   '@storybook/rax': 'rax',
   '@storybook/server': 'server',
+  'storybook-solidjs': 'solid',
 };
 
 const logger = console;

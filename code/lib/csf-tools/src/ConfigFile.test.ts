@@ -763,6 +763,48 @@ describe('ConfigFile', () => {
         expect(config.getNameFromPath(['framework'])).toEqual('foo');
       });
 
+      describe('satisfies', () => {
+        it(`supports string literal node`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            const config = {
+              framework: 'foo',
+            } satisfies StorybookConfig
+            export default config;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+        });
+
+        it(`supports string literal node without variables`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            export default {
+              framework: 'foo',
+            } satisfies StorybookConfig;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+        });
+
+        it(`supports object expression node with name property`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            const config = {
+              framework: { name: 'foo', options: { bar: require('baz') } },
+              "otherField": { "name": 'foo', options: { bar: require('baz') } },
+            } satisfies StorybookConfig
+            export default config;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+          expect(config.getNameFromPath(['otherField'])).toEqual('foo');
+        });
+      });
+
       it(`supports object expression node with name property`, () => {
         const source = dedent`
           import type { StorybookConfig } from '@storybook/react-webpack5';
@@ -825,6 +867,49 @@ describe('ConfigFile', () => {
         const config = loadConfig(source).parse();
         expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
         expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+      });
+
+      describe('satisfies', () => {
+        it(`supports an array with string literal and object expression with name property`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            const config = {
+              addons: [
+                'foo',
+                { name: 'bar', options: {} },
+              ],
+              "otherField": [
+                "foo",
+                { "name": 'bar', options: {} },
+              ],
+            } satisfies StorybookConfig
+            export default config;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+          expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+        });
+
+        it(`supports an array with string literal and object expression with name property without variable`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            export default {
+              addons: [
+                'foo',
+                { name: 'bar', options: {} },
+              ],
+              "otherField": [
+                "foo",
+                { "name": 'bar', options: {} },
+              ],
+            } satisfies StorybookConfig;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+          expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+        });
       });
     });
 

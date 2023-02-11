@@ -59,6 +59,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       '.svg': 'dataurl',
       '.webp': 'dataurl',
       '.webm': 'dataurl',
+      '.woff2': 'dataurl',
     },
     target: ['chrome100'],
     platform: 'browser',

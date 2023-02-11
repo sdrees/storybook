@@ -133,7 +133,6 @@ export const VisionSimulator = () => {
       )}
       <WithTooltip
         placement="top"
-        trigger="click"
         tooltip={({ onHide }) => {
           const colorList = getColorList(filter, (i) => {
             setFilter(i);

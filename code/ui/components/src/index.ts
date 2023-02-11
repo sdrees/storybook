@@ -56,7 +56,8 @@ export { Form } from './form/index';
 export { WithTooltip, WithTooltipPure } from './tooltip/lazy-WithTooltip';
 export { TooltipMessage } from './tooltip/TooltipMessage';
 export { TooltipNote } from './tooltip/TooltipNote';
-export { TooltipLinkList } from './tooltip/TooltipLinkList';
+export { TooltipLinkList, type Link as TooltipLinkListLink } from './tooltip/TooltipLinkList';
+export { default as ListItem } from './tooltip/ListItem';
 
 // Toolbar and subcomponents
 export { Tabs, TabsState, TabBar, TabWrapper } from './tabs/tabs';
@@ -68,6 +69,7 @@ export { AddonPanel } from './addon-panel/addon-panel';
 // Graphics
 export type { IconsProps } from './icon/icon';
 export { Icons, Symbols } from './icon/icon';
+export { icons } from './icon/icons';
 export { StorybookLogo } from './brand/StorybookLogo';
 export { StorybookIcon } from './brand/StorybookIcon';
 

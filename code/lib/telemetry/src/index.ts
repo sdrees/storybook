@@ -5,6 +5,8 @@ import { sendTelemetry } from './telemetry';
 import { notify } from './notify';
 import { sanitizeError } from './sanitize';
 
+export { oneWayHash } from './one-way-hash';
+
 export * from './storybook-metadata';
 
 export * from './types';

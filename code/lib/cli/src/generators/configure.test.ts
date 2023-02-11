@@ -70,6 +70,46 @@ describe('configureMain', () => {
       export default config;"
     `);
   });
+
+  test('should handle resolved paths in pnp', async () => {
+    await configureMain({
+      language: SupportedLanguage.JAVASCRIPT,
+      addons: [
+        "%%path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@storybook/preset-create-react-app', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@storybook/addon-interactions', 'package.json')))%%",
+      ],
+      storybookConfigFolder: '.storybook',
+      framework: {
+        name: "%%path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))%%",
+      },
+    });
+
+    const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
+    const [mainConfigPath, mainConfigContent] = calls[0];
+
+    expect(mainConfigPath).toEqual('./.storybook/main.js');
+    expect(mainConfigContent).toMatchInlineSnapshot(`
+      "/** @type { import('@storybook/react-webpack5').StorybookConfig } */
+      const config = {
+        \\"stories\\": [
+          \\"../stories/**/*.mdx\\",
+          \\"../stories/**/*.stories.@(js|jsx|ts|tsx)\\"
+        ],
+        \\"addons\\": [
+          path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json'))),
+          path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json'))),
+          path.dirname(require.resolve(path.join('@storybook/preset-create-react-app', 'package.json'))),
+          path.dirname(require.resolve(path.join('@storybook/addon-interactions', 'package.json')))
+        ],
+        \\"framework\\": {
+          \\"name\\": path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))
+        }
+      };
+      export default config;"
+    `);
+  });
 });
 
 describe('configurePreview', () => {
@@ -85,6 +125,9 @@ describe('configurePreview', () => {
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
     expect(previewConfigContent).toMatchInlineSnapshot(`
       "export const parameters = {
+        backgrounds: {
+          default: 'light',
+        },
         actions: { argTypesRegex: \\"^on[A-Z].*\\" },
         controls: {
           matchers: {
@@ -108,6 +151,9 @@ describe('configurePreview', () => {
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
     expect(previewConfigContent).toMatchInlineSnapshot(`
       "export const parameters = {
+        backgrounds: {
+          default: 'light',
+        },
         actions: { argTypesRegex: \\"^on[A-Z].*\\" },
         controls: {
           matchers: {
@@ -150,6 +196,9 @@ describe('configurePreview', () => {
       import docJson from \\"../documentation.json\\";
       setCompodocJson(docJson);
       export const parameters = {
+        backgrounds: {
+          default: 'light',
+        },
         actions: { argTypesRegex: \\"^on[A-Z].*\\" },
         controls: {
           matchers: {

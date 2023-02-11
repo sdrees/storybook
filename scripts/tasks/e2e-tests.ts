@@ -9,13 +9,13 @@ export const e2eTests: Task = {
   async ready() {
     return false;
   },
-  async run({ codeDir, junitFilename, template }, { dryRun, debug }) {
+  async run({ codeDir, junitFilename, key }, { dryRun, debug }) {
     await exec(
       `yarn playwright test`,
       {
         env: {
           STORYBOOK_URL: `http://localhost:${PORT}`,
-          STORYBOOK_TEMPLATE_NAME: template.name,
+          STORYBOOK_TEMPLATE_NAME: key,
           ...(junitFilename && {
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: junitFilename,
           }),

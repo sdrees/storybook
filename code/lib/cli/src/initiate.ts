@@ -29,6 +29,7 @@ import svelteGenerator from './generators/SVELTE';
 import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import raxGenerator from './generators/RAX';
+import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
@@ -205,6 +206,11 @@ const installStorybook = <Project extends ProjectType>(
         );
         paddedLog('For more information, please see https://nx.dev/packages/storybook');
         return Promise.reject();
+
+      case ProjectType.SOLID:
+        return solidGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "SolidJS" app\n')
+        );
 
       case ProjectType.UNSUPPORTED:
         paddedLog(`We detected a project type that we don't support yet.`);

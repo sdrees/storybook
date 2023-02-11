@@ -95,9 +95,12 @@ describe('PropertyExtractor', () => {
     });
 
     it('should return standalone components', () => {
-      const imports = extractImports({
-        imports: [TestModuleWithImportsAndProviders, StandaloneTestComponent],
-      });
+      const imports = extractImports(
+        {
+          imports: [TestModuleWithImportsAndProviders],
+        },
+        StandaloneTestComponent
+      );
       expect(imports).toEqual([CommonModule, StandaloneTestComponent]);
     });
 

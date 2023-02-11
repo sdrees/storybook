@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, InjectionToken, NgModule, Provider } from '@angular/core';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { InjectionToken, NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   BrowserAnimationsModule,
@@ -39,6 +40,13 @@ const analyzeRestricted = (ngModule: NgModule) => {
    */
   if (ngModule === NoopAnimationsModule) {
     return [true, provideNoopAnimations()];
+  }
+
+  /**
+   * HttpClient has to be provided manually as a singleton
+   */
+  if (ngModule === HttpClientModule) {
+    return [true, provideHttpClient()];
   }
 
   return [false];
@@ -115,8 +123,12 @@ export const analyzeMetadata = (metadata: NgModuleMetadata) => {
  * Only standalone components are imported
  *
  */
-export const extractImports = (metadata: NgModuleMetadata) => {
+export const extractImports = (metadata: NgModuleMetadata, storyComponent?: any) => {
   const { imports } = analyzeMetadata(metadata);
+
+  if (isStandaloneComponent(storyComponent)) {
+    imports.push(storyComponent);
+  }
 
   return uniqueArray([CommonModule, imports]);
 };

@@ -9,11 +9,17 @@ export const testRunner: Task = {
   async ready() {
     return false;
   },
-  async run({ sandboxDir, junitFilename }, { dryRun, debug }) {
+  async run({ sandboxDir, junitFilename, template }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
+    const flags = [`--url http://localhost:${PORT}`, '--junit', '--maxWorkers=2'];
+
+    // index-json mode is only supported in ssv7
+    if (template.modifications?.mainConfig?.features?.storyStoreV7 !== false) {
+      flags.push('--index-json');
+    }
 
     await exec(
-      `yarn test-storybook --url http://localhost:${PORT} --junit --index-json --maxWorkers=2`,
+      `yarn test-storybook ${flags.join(' ')}`,
       {
         ...execOptions,
         env: {

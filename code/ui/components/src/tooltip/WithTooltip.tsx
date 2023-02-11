@@ -139,7 +139,7 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
 
 WithTooltipPure.defaultProps = {
   svg: false,
-  trigger: 'hover',
+  trigger: 'click',
   closeOnOutsideClick: false,
   placement: 'top',
   modifiers: [

@@ -1,8 +1,10 @@
-import type { FC, ReactNode, ComponentProps } from 'react';
+import type { FC, ReactNode, ComponentProps, ReactElement } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
 import { transparentize } from 'polished';
+import { Icons } from '../icon/icon';
+import { icons } from '../icon/icons';
 
 export interface TitleProps {
   children?: ReactNode;
@@ -47,42 +49,28 @@ export interface RightProps {
   active?: boolean;
 }
 
-const Right = styled.span<RightProps>(
-  {
-    '& svg': {
-      transition: 'all 200ms ease-out',
-      opacity: 0,
-      height: 12,
-      width: 12,
-      margin: '3px 0',
-      verticalAlign: 'top',
-    },
-    '& path': {
-      fill: 'inherit',
-    },
+const Right = styled.span<RightProps>({
+  display: 'flex',
+  '& svg': {
+    height: 12,
+    width: 12,
+    margin: '3px 0',
+    verticalAlign: 'top',
   },
-  ({ active, theme }) =>
-    active
-      ? {
-          '& svg': {
-            opacity: 1,
-          },
-          '& path': {
-            fill: theme.color.secondary,
-          },
-        }
-      : {}
-);
-
-const Center = styled.span({
-  flex: 1,
-  textAlign: 'left',
-  display: 'inline-flex',
-
-  '& > * + *': {
-    paddingLeft: 10,
+  '& path': {
+    fill: 'inherit',
   },
 });
+
+const Center = styled.span<{ isIndented: boolean }>(
+  {
+    flex: 1,
+    textAlign: 'left',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  ({ isIndented }) => (isIndented ? { marginLeft: 24 } : {})
+);
 
 export interface CenterTextProps {
   active?: boolean;
@@ -90,10 +78,10 @@ export interface CenterTextProps {
 }
 
 const CenterText = styled.span<CenterTextProps>(
-  {
-    flex: 1,
-    textAlign: 'center',
-  },
+  ({ theme }) => ({
+    fontSize: '11px',
+    lineHeight: '14px',
+  }),
   ({ active, theme }) =>
     active
       ? {
@@ -112,17 +100,22 @@ export interface LeftProps {
   active?: boolean;
 }
 
-const Left = styled.span<LeftProps>(({ active, theme }) =>
-  active
-    ? {
-        '& svg': {
-          opacity: 1,
-        },
-        '& path': {
-          fill: theme.color.primary,
-        },
-      }
-    : {}
+const Left = styled.span<LeftProps>(
+  ({ active, theme }) =>
+    active
+      ? {
+          '& svg': {
+            opacity: 1,
+          },
+          '& svg path': {
+            fill: theme.color.secondary,
+          },
+        }
+      : {},
+  () => ({
+    display: 'flex',
+    maxWidth: 14,
+  })
 );
 
 export interface ItemProps {
@@ -139,7 +132,7 @@ const Item = styled.a<ItemProps>(
     justifyContent: 'space-between',
 
     lineHeight: '18px',
-    padding: '7px 15px',
+    padding: '7px 10px',
     display: 'flex',
     alignItems: 'center',
 
@@ -188,14 +181,20 @@ export type LinkWrapperType = FC<any>;
 
 export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' | 'title'> {
   loading?: boolean;
+  /**
+   * @deprecated This property will be removed in SB 8.0
+   * Use `icon` property instead.
+   */
   left?: ReactNode;
   title?: ReactNode;
   center?: ReactNode;
   right?: ReactNode;
+  icon?: keyof typeof icons | ReactElement;
   active?: boolean;
   disabled?: boolean;
   href?: string;
   LinkWrapper?: LinkWrapperType;
+  isIndented?: boolean;
 }
 
 const ListItem: FC<ListItemProps> = ({
@@ -204,8 +203,10 @@ const ListItem: FC<ListItemProps> = ({
   title,
   center,
   right,
+  icon,
   active,
   disabled,
+  isIndented,
   href,
   onClick,
   LinkWrapper,
@@ -214,11 +215,17 @@ const ListItem: FC<ListItemProps> = ({
   const itemProps = getItemProps(onClick, href, LinkWrapper);
   const commonProps = { active, disabled };
 
+  const isStorybookIcon = typeof icon === 'string' && icons[icon];
+
   return (
     <Item {...commonProps} {...rest} {...itemProps}>
-      {left && <Left {...commonProps}>{left}</Left>}
+      {icon ? (
+        <Left {...commonProps}>{isStorybookIcon ? <Icons icon={icon} /> : icon}</Left>
+      ) : (
+        left && <Left {...commonProps}>{left}</Left>
+      )}
       {title || center ? (
-        <Center>
+        <Center isIndented={!left && !icon && isIndented}>
           {title && (
             <Title {...commonProps} loading={loading}>
               {title}

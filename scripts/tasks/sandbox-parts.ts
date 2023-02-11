@@ -233,7 +233,7 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
       ...config.server,
       fs: {
         ...config.server?.fs,
-        allow: ['src', 'template-stories', 'node_modules', ...(config.server?.fs?.allow || [])],
+        allow: ['stories', 'src', 'template-stories', 'node_modules', ...(config.server?.fs?.allow || [])],
       },
     },
   })`;
