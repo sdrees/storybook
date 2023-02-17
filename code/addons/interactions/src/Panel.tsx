@@ -29,7 +29,6 @@ interface Interaction extends Call {
 }
 
 const INITIAL_CONTROL_STATES = {
-  debugger: false,
   start: false,
   back: false,
   goto: false,

@@ -241,6 +241,15 @@ export class ConfigFile {
     return undefined;
   }
 
+  getSafeFieldValue(path: string[]) {
+    try {
+      return this.getFieldValue(path);
+    } catch (e) {
+      //
+    }
+    return undefined;
+  }
+
   setFieldNode(path: string[], expr: t.Expression) {
     const [first, ...rest] = path;
     const exportNode = this._exports[first];

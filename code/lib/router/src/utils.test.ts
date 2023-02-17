@@ -134,7 +134,7 @@ describe('buildArgsParam', () => {
 
   it('builds booleans', () => {
     const param = buildArgsParam({}, { yes: true, no: false });
-    expect(param).toEqual('yes:true;no:false');
+    expect(param).toEqual('yes:!true;no:!false');
   });
 
   it('builds arrays', () => {

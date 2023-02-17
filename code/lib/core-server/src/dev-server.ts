@@ -49,9 +49,6 @@ export async function storybookDevServer(options: Options) {
 
   app.use(getAccessControlMiddleware(core?.crossOriginIsolated));
 
-  // User's own static files
-  const usingStatics = useStatics(router, options);
-
   getMiddleware(options.configDir)(router);
 
   app.use(router);
@@ -70,6 +67,7 @@ export async function storybookDevServer(options: Options) {
   const [previewBuilder, managerBuilder] = await Promise.all([
     getPreviewBuilder(builderName, options.configDir),
     getManagerBuilder(),
+    useStatics(router, options),
   ]);
 
   if (options.debugWebpack) {
@@ -116,13 +114,11 @@ export async function storybookDevServer(options: Options) {
     previewStarted.catch(() => {}).then(() => next());
   });
 
-  await Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(
-    async ([indexGenerator]) => {
-      if (indexGenerator && !options.ci && !options.smokeTest && options.open) {
-        openInBrowser(host ? networkAddress : address);
-      }
+  await Promise.all([initializedStoryIndexGenerator, listening]).then(async ([indexGenerator]) => {
+    if (indexGenerator && !options.ci && !options.smokeTest && options.open) {
+      openInBrowser(host ? networkAddress : address);
     }
-  );
+  });
   if (indexError) {
     await managerBuilder?.bail().catch();
     await previewBuilder?.bail().catch();

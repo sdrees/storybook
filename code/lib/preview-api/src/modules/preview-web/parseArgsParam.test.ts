@@ -25,6 +25,16 @@ describe('parseArgsParam', () => {
     expect(args).toStrictEqual({ key: undefined });
   });
 
+  it('parses true', () => {
+    const args = parseArgsParam('key:!true');
+    expect(args).toStrictEqual({ key: true });
+  });
+
+  it('parses false', () => {
+    const args = parseArgsParam('key:!false');
+    expect(args).toStrictEqual({ key: false });
+  });
+
   it('parses hex color values', () => {
     const args = parseArgsParam('key:!hex(ff4785)');
     expect(args).toStrictEqual({ key: '#ff4785' });

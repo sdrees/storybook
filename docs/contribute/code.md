@@ -6,7 +6,7 @@ Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com
 
 ## Prerequisites
 
-- Ensure you have node version 14 installed (suggestion: v14.18.1).
+- Ensure you have node version 16 installed (suggestion: v16.17.1).
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
 
 ## Initial setup

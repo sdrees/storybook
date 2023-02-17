@@ -29,11 +29,11 @@ const runWebComponentsAnalyzer = (inputPath: string) => {
 };
 
 describe('web-components component properties', () => {
-  // we need to mock lit-html and dynamically require custom-elements
-  // because lit-html is distributed as ESM not CJS
+  // we need to mock lit and dynamically require custom-elements
+  // because lit is distributed as ESM not CJS
   // https://github.com/Polymer/lit-html/issues/516
-  jest.mock('lit-html', () => {});
-  jest.mock('lit-html/directive-helpers.js', () => {});
+  jest.mock('lit', () => {});
+  jest.mock('lit/directive-helpers.js', () => {});
   // eslint-disable-next-line global-require
   const { extractArgTypesFromElements } = require('./custom-elements');
 

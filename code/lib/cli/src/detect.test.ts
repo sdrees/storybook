@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-
+import { logger } from '@storybook/node-logger';
 import { getBowerJson } from './helpers';
 import { detect, detectFrameworkPreset, detectLanguage, isStorybookInstalled } from './detect';
 import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
@@ -16,10 +16,16 @@ jest.mock('fs', () => ({
   access: jest.fn(),
 }));
 
+jest.mock('fs-extra', () => ({
+  pathExistsSync: jest.fn(() => true),
+}));
+
 jest.mock('path', () => ({
   // make it return just the second path, for easier testing
   join: jest.fn((_, p) => p),
 }));
+
+jest.mock('@storybook/node-logger');
 
 const MOCK_FRAMEWORK_FILES: {
   name: string;
@@ -298,27 +304,40 @@ describe('Detect', () => {
     expect(detect(undefined)).toBe(ProjectType.UNDETECTED);
   });
 
-  it(`should return language legacy typescript if the dependency is present`, () => {
+  it(`should return language javascript if the TS dependency is present but less than minimum supported`, () => {
+    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
     expect(detectLanguage({ dependencies: { typescript: '1.0.0' } })).toBe(
-      SupportedLanguage.TYPESCRIPT_LEGACY
+      SupportedLanguage.JAVASCRIPT
+    );
+    expect(logger.warn).toHaveBeenCalledWith(
+      'Detected TypeScript < 3.8, populating with JavaScript examples'
     );
   });
 
-  it(`should return language typescript if the dependency is >TS4.9`, () => {
+  it(`should return language typescript-3-8 if the TS dependency is >=3.8 and <4.9`, () => {
+    expect(detectLanguage({ dependencies: { typescript: '3.8.0' } })).toBe(
+      SupportedLanguage.TYPESCRIPT_3_8
+    );
+    expect(detectLanguage({ dependencies: { typescript: '4.8.0' } })).toBe(
+      SupportedLanguage.TYPESCRIPT_3_8
+    );
+  });
+
+  it(`should return language typescript-4-9 if the dependency is >TS4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '4.9.1' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      SupportedLanguage.TYPESCRIPT_4_9
     );
   });
 
   it(`should return language typescript if the dependency is =TS4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '4.9.0' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      SupportedLanguage.TYPESCRIPT_4_9
     );
   });
 
   it(`should return language typescript if the dependency is =TS4.9beta`, () => {
     expect(detectLanguage({ dependencies: { typescript: '^4.9.0-beta' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      SupportedLanguage.TYPESCRIPT_4_9
     );
   });
 

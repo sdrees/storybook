@@ -15,7 +15,6 @@ export default {
       rerun: action('rerun'),
     },
     controlStates: {
-      debugger: true,
       start: true,
       back: true,
       goto: true,
@@ -50,7 +49,6 @@ export const AtStart = {
   args: {
     status: CallStates.WAITING,
     controlStates: {
-      debugger: true,
       start: false,
       back: false,
       goto: true,
@@ -64,7 +62,6 @@ export const Midway = {
   args: {
     status: CallStates.WAITING,
     controlStates: {
-      debugger: true,
       start: true,
       back: true,
       goto: true,
@@ -78,7 +75,6 @@ export const Locked = {
   args: {
     status: CallStates.ACTIVE,
     controlStates: {
-      debugger: true,
       start: false,
       back: false,
       goto: false,

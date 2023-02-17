@@ -108,9 +108,7 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
   const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
   const { stdout } = await command('yarn workspaces list --json', { cwd: workspaceDir });
 
-  console.log({ stdout, workspaceDir });
   const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`);
-  console.log({ workspaces });
 
   packageJson.resolutions = Object.keys(storybookVersions).reduce((acc, key) => {
     return {
@@ -126,6 +124,7 @@ const installYarn2 = async ({ cwd, pnp, name }: Options) => {
   const command = [
     `yarn set version berry`,
     `yarn config set enableGlobalCache true`,
+    `yarn config set checksumBehavior ignore`,
     `yarn config set nodeLinker ${pnp ? 'pnp' : 'node-modules'}`,
   ];
 

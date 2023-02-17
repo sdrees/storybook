@@ -289,7 +289,8 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   useEffect(() => {
     if (!skip && source) {
-      channel.emit(SNIPPET_RENDERED, (context || {}).id, source, 'vue');
+      const { id, args } = context;
+      channel.emit(SNIPPET_RENDERED, { id, args, source, format: 'vue' });
     }
   });
 

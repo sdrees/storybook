@@ -189,7 +189,7 @@ describe('await computeStorybookMetadata', () => {
 
   test('should return user specified features', async () => {
     const features = {
-      interactionsDebugger: true,
+      storyStoreV7: true,
     };
 
     const result = await computeStorybookMetadata({

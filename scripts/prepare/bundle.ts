@@ -1,6 +1,6 @@
 #!/usr/bin/env ../../node_modules/.bin/ts-node
 
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 import path, { dirname, join, relative } from 'path';
 import type { Options } from 'tsup';
 import type { PackageJson } from 'type-fest';
@@ -127,11 +127,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  if (tsConfigExists && !optimized) {
-    tasks.push(...entries.map(generateDTSMapperFile));
-  }
-
   await Promise.all(tasks);
+
+  if (tsConfigExists && !optimized) {
+    await Promise.all(entries.map(generateDTSMapperFile));
+  }
 
   if (post) {
     await exec(
@@ -186,7 +186,6 @@ async function generateDTSMapperFile(file: string) {
 
   const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
   const srcName = join(process.cwd(), file);
-
   const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
 
   await fs.ensureFile(pathName);
@@ -195,7 +194,8 @@ async function generateDTSMapperFile(file: string) {
     dedent`
       // dev-mode
       export * from '${rel}/${entryName}';
-    `
+    `,
+    { encoding: 'utf-8' }
   );
 }
 

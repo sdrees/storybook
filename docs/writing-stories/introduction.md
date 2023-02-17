@@ -2,6 +2,8 @@
 title: 'How to write stories'
 ---
 
+<YouTubeCallout id="P0WHt_L0-2g" title="How to write Storybook stories | Component Story Format" />
+
 A story captures the rendered state of a UI component. It’s a function that returns a component’s state given a set of arguments.
 
 Storybook uses the generic term arguments (args for short) when talking about React’s `props`, Vue’s `props`, Angular’s `@Input`, and other similar concepts.

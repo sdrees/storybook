@@ -103,27 +103,6 @@ describe('new-frameworks fix', () => {
       ).resolves.toBeFalsy();
     });
 
-    // TODO: once we have a @storybook/vue-vite framework, we should remove this test
-    it('in sb 7 with vue and vite', async () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/vue': '^7.0.0',
-          '@storybook/builder-vite': 'x.y.z',
-        },
-      };
-      await expect(
-        checkNewFrameworks({
-          packageJson,
-          main: {
-            framework: '@storybook/vue',
-            core: {
-              builder: '@storybook/builder-vite',
-            },
-          },
-        })
-      ).resolves.toBeFalsy();
-    });
-
     it('in sb 7 with vite < 3', async () => {
       const packageJson = {
         dependencies: {

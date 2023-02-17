@@ -1,3 +1,68 @@
+## 7.0.0-beta.49 (February 17, 2023)
+
+#### Bug Fixes
+
+-   NextJS: Fix static dirs lookup [#21119](https://github.com/storybooks/storybook/pull/21119)
+-   Svelte/Vue: Use Vite by default [#21002](https://github.com/storybooks/storybook/pull/21002)
+-   Storyshots: Fix issue with default export in main.js [#21097](https://github.com/storybooks/storybook/pull/21097)
+-   Args: Fix boolean arg types parsing and encoding [#21102](https://github.com/storybooks/storybook/pull/21102)
+
+#### Maintenance
+
+-   CRA: Add CRA preset to monorepo [#21107](https://github.com/storybooks/storybook/pull/21107)
+-   Web-components: Drop lit1 support [#21106](https://github.com/storybooks/storybook/pull/21106)
+-   NextJS: Fix some dependency warnings [#21117](https://github.com/storybooks/storybook/pull/21117)
+-   Types: Remove unnecessary dependencies [#20993](https://github.com/storybooks/storybook/pull/20993)
+
+#### Build
+
+-   Build: regen lockfiles [#21126](https://github.com/storybooks/storybook/pull/21126)
+
+## 7.0.0-beta.48 (February 15, 2023)
+
+#### Features
+
+-   Interactions: Add debugger to the addon panel [#21088](https://github.com/storybooks/storybook/pull/21088)
+
+#### Bug Fixes
+
+-   CLI: Fix pnp support & add auto-detection [#21046](https://github.com/storybooks/storybook/pull/21046)
+-   Vite: Fix storysource addon support [#21096](https://github.com/storybooks/storybook/pull/21096)
+-   NextJS: Fix dynamic source snippets [#21029](https://github.com/storybooks/storybook/pull/21029)
+-   Addon-docs: Fix source snippets for duplicate source blocks [#20915](https://github.com/storybooks/storybook/pull/20915)
+
+#### Maintenance
+
+-   TypeScript: Fix some unsound type check errors [#21081](https://github.com/storybooks/storybook/pull/21081)
+
+#### Build
+
+-   Build: Fix yarn build command [#21099](https://github.com/storybooks/storybook/pull/21099)
+-   Tech: upgrades [#21086](https://github.com/storybooks/storybook/pull/21086)
+
+#### Dependency Upgrades
+
+-   Remove unused dependencies from core-common [#20994](https://github.com/storybooks/storybook/pull/20994)
+-   Upgrade react-docgen-typescript-plugin [#21095](https://github.com/storybooks/storybook/pull/21095)
+
+## 7.0.0-beta.47 (February 14, 2023)
+
+#### Features
+
+-   Vite: Support legacyMdx1 fallback flag [#20823](https://github.com/storybooks/storybook/pull/20823)
+-   CLI: Automigration to update `mdx` stories config [#21035](https://github.com/storybooks/storybook/pull/21035)
+
+#### Bug Fixes
+
+-   Vue3: Fix CSF2 support with decorators [#20995](https://github.com/storybooks/storybook/pull/20995)
+-   CLI: Do not use modern TS assets in legacy TS projects [#20458](https://github.com/storybooks/storybook/pull/20458)
+-   CLI: Fix conflicts in static dirs [#21064](https://github.com/storybooks/storybook/pull/21064)
+
+#### Maintenance
+
+-   CLI: Update init script for react-native v6.5 [#20719](https://github.com/storybooks/storybook/pull/20719)
+-   CLI: Re-enable vue-vite in new-frameworks automigration [#20970](https://github.com/storybooks/storybook/pull/20970)
+
 ## 7.0.0-beta.46 (February 10, 2023)
 
 #### Features

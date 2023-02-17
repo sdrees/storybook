@@ -22,19 +22,6 @@ export default {
 
 Note that `@storybook/addon-interactions` must be listed **after** `@storybook/addon-actions` or `@storybook/addon-essentials`.
 
-## Experimental step debugging
-
-Step debugging features are experimental and disabled by default. To enable them:
-
-```js
-// main.js
-export default {
-  features: {
-    interactionsDebugger: true,
-  },
-};
-```
-
 ## Usage
 
 Interactions relies on "instrumented" versions of Jest and Testing Library, that you import from `@storybook/jest` and

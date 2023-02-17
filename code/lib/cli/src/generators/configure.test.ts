@@ -42,7 +42,7 @@ describe('configureMain', () => {
 
   test('should generate main.ts', async () => {
     await configureMain({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       addons: [],
       storybookConfigFolder: '.storybook',
       framework: {
@@ -56,7 +56,6 @@ describe('configureMain', () => {
     expect(mainConfigPath).toEqual('./.storybook/main.ts');
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "import type { StorybookConfig } from '@storybook/react-vite';
-
       const config: StorybookConfig = {
         \\"stories\\": [
           \\"../stories/**/*.mdx\\",
@@ -91,7 +90,9 @@ describe('configureMain', () => {
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
     expect(mainConfigContent).toMatchInlineSnapshot(`
-      "/** @type { import('@storybook/react-webpack5').StorybookConfig } */
+      "import path from 'path';
+
+      /** @type { import('@storybook/react-webpack5').StorybookConfig } */
       const config = {
         \\"stories\\": [
           \\"../stories/**/*.mdx\\",
@@ -141,7 +142,7 @@ describe('configurePreview', () => {
 
   test('should generate preview.ts', async () => {
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
     });
 
@@ -168,7 +169,7 @@ describe('configurePreview', () => {
   test('should not do anything if the framework template already included a preview', async () => {
     (fse.pathExists as unknown as jest.Mock).mockReturnValueOnce(true);
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
     });
     expect(fse.writeFile).not.toHaveBeenCalled();
@@ -176,7 +177,7 @@ describe('configurePreview', () => {
 
   test('should add prefix if frameworkParts are passed', async () => {
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
       frameworkPreviewParts: {
         prefix: dedent`

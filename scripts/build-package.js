@@ -1,15 +1,21 @@
 #!/usr/bin/env node
 
 /* eslint-disable global-require */
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 const { readJSON } = require('fs-extra');
 
 const getStorybookPackages = async () => {
-  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'code', 'workspace.json'));
-  return Object.entries(workspaceJSON.projects).map(([k, v]) => ({
-    location: v.root,
-    name: k,
-  }));
+  const process = require('util').promisify(require('child_process').exec);
+  const contents = await process('lerna ls --json', { cwd: join(__dirname, '..', 'code') });
+
+  const projects = JSON.parse(contents.stdout);
+  return projects.reduce((acc, project) => {
+    acc.push({
+      name: project.name,
+      location: project.location,
+    });
+    return acc;
+  }, []);
 };
 
 async function run() {

@@ -60,7 +60,8 @@ function getConfigPathParts(input: string): Output {
       output.preview = preview;
     }
     if (main) {
-      const { stories = [], features = {} } = jest.requireActual(main);
+      const { default: defaultExport, ...rest } = jest.requireActual(main);
+      const { stories = [], features = {} } = defaultExport || rest;
 
       output.features = features;
 

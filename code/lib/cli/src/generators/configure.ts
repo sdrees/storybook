@@ -62,7 +62,7 @@ export async function configureMain({
   };
 
   const isTypescript =
-    language === SupportedLanguage.TYPESCRIPT || language === SupportedLanguage.TYPESCRIPT_LEGACY;
+    language === SupportedLanguage.TYPESCRIPT_4_9 || language === SupportedLanguage.TYPESCRIPT_3_8;
 
   let mainConfigTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
     export default config;`;
@@ -74,18 +74,26 @@ export async function configureMain({
     logger.warn('Could not find framework package name');
   }
 
-  const mainJsContents = mainConfigTemplate
-    .replace(
-      '<<import>>',
-      isTypescript
-        ? `import type { StorybookConfig } from '${frameworkPackage}';\n\n`
-        : `/** @type { import('${frameworkPackage}').StorybookConfig } */\n`
-    )
-    .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
-    .replace('<<mainContents>>', JSON.stringify(config, null, 2))
+  const mainContents = JSON.stringify(config, null, 2)
     .replace(/['"]%%/g, '')
     .replace(/%%['"]/g, '');
 
+  const imports = [];
+
+  if (custom.framework?.name.includes('path.dirname(')) {
+    imports.push(`import path from 'path';`);
+  }
+
+  if (isTypescript) {
+    imports.push(`import type { StorybookConfig } from '${frameworkPackage}';`);
+  } else {
+    imports.push(`/** @type { import('${frameworkPackage}').StorybookConfig } */`);
+  }
+
+  const mainJsContents = mainConfigTemplate
+    .replace('<<import>>', `${imports.join('\n\n')}\n`)
+    .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
+    .replace('<<mainContents>>', mainContents);
   await fse.writeFile(
     `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
     dedent(mainJsContents),
@@ -96,8 +104,8 @@ export async function configureMain({
 export async function configurePreview(options: ConfigurePreviewOptions) {
   const { prefix = '' } = options.frameworkPreviewParts || {};
   const isTypescript =
-    options.language === SupportedLanguage.TYPESCRIPT ||
-    options.language === SupportedLanguage.TYPESCRIPT_LEGACY;
+    options.language === SupportedLanguage.TYPESCRIPT_4_9 ||
+    options.language === SupportedLanguage.TYPESCRIPT_3_8;
 
   const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;
 

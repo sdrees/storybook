@@ -26,7 +26,6 @@ body:
       placeholder: >-
         Paste your repository and deployed reproduction here. We prioritize
         issues with reproductions over those without.
-      render: shell
   - type: textarea
     id: system
     attributes:

@@ -1,6 +1,6 @@
 import type { ComponentProps, FC } from 'react';
 import React, { useContext } from 'react';
-import type { StoryId, PreparedStory, ModuleExport } from '@storybook/types';
+import type { StoryId, PreparedStory, ModuleExport, Args } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
 import { deprecate } from '@storybook/client-logger';
@@ -10,9 +10,10 @@ import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps, SourceItem } from './SourceContainer';
-import { SourceContext } from './SourceContainer';
+import { UNKNOWN_ARGS_HASH, argsHash, SourceContext } from './SourceContainer';
 
 import { useStories } from './useStory';
+import { useArgsList } from './useArgs';
 
 export enum SourceState {
   OPEN = 'open',
@@ -53,6 +54,11 @@ export type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySourc
 
   /** @deprecated use of={storyExport} instead */
   ids?: string[];
+
+  /**
+   * Internal prop to control if a story re-renders on args updates
+   */
+  __forceInitialArgs?: boolean;
 };
 
 const getSourceState = (stories: PreparedStory[]) => {
@@ -62,11 +68,22 @@ const getSourceState = (stories: PreparedStory[]) => {
   return states[0];
 };
 
-const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): SourceItem => {
+const getStorySource = (
+  storyId: StoryId,
+  args: Args,
+  sourceContext: SourceContextProps
+): SourceItem => {
   const { sources } = sourceContext;
+
+  const sourceMap = sources?.[storyId];
+  // If the source decorator hasn't provided args, we fallback to the "unknown args"
+  // version of the source (which means if you render a story >1 time with different args
+  // you'll get the same source value both times).
+  const source = sourceMap?.[argsHash(args)] || sourceMap?.[UNKNOWN_ARGS_HASH];
+
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
-  return sources?.[storyId] || { code: '' };
+  return source || { code: '' };
 };
 
 const getSnippet = (
@@ -106,9 +123,6 @@ export const useSourceProps = (
 ): PureSourceProps & SourceStateProps => {
   const storyIds = props.ids || (props.id ? [props.id] : []);
   const storiesFromIds = useStories(storyIds, docsContext);
-  if (!storiesFromIds.every(Boolean)) {
-    return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
-  }
 
   // The check didn't actually change the type.
   let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
@@ -123,6 +137,11 @@ export const useSourceProps = (
       // You are allowed to use <Source code="..." /> and <Canvas /> unattached.
     }
   }
+  const argsFromStories = useArgsList(stories, docsContext);
+
+  if (!storiesFromIds.every(Boolean)) {
+    return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
+  }
 
   const sourceParameters = (stories[0]?.parameters?.docs?.source || {}) as SourceParameters;
   let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
@@ -133,7 +152,18 @@ export const useSourceProps = (
   if (!code) {
     code = stories
       .map((story, index) => {
-        const source = getStorySource(story.id, sourceContext);
+        // In theory you can use a storyId from a different CSF file that hasn't loaded yet.
+        if (!story) return '';
+
+        // NOTE: args *does* have to be defined here due to the null check on story above
+        const [args] = argsFromStories[index] || [];
+
+        // eslint-disable-next-line no-underscore-dangle
+        const argsForSource = props.__forceInitialArgs
+          ? docsContext.getStoryContext(story).initialArgs
+          : args;
+
+        const source = getStorySource(story.id, argsForSource, sourceContext);
         if (index === 0) {
           // Take the format from the first story
           format = source.format ?? story.parameters.docs?.source?.format ?? false;

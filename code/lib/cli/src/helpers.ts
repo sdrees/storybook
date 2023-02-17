@@ -186,44 +186,51 @@ export function copyTemplate(templateRoot: string, destination = '.') {
   fse.copySync(templateDir, destination, { overwrite: true });
 }
 
-export async function copyComponents(
-  renderer: SupportedFrameworks | SupportedRenderers,
-  language: SupportedLanguage,
-  destination?: string
-) {
+type CopyTemplateFilesOptions = {
+  packageManager?: JsPackageManager;
+  renderer: SupportedFrameworks | SupportedRenderers;
+  language: SupportedLanguage;
+  includeCommonAssets?: boolean;
+  destination?: string;
+};
+
+export async function copyTemplateFiles({
+  packageManager,
+  renderer,
+  language,
+  destination,
+  includeCommonAssets = true,
+}: CopyTemplateFilesOptions) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     [SupportedLanguage.JAVASCRIPT]: 'js',
-    [SupportedLanguage.TYPESCRIPT]: 'ts',
-    [SupportedLanguage.TYPESCRIPT_LEGACY]: 'ts-legacy',
+    [SupportedLanguage.TYPESCRIPT_3_8]: 'ts-3-8',
+    [SupportedLanguage.TYPESCRIPT_4_9]: 'ts-4-9',
   };
-  const componentsPath = async () => {
-    const baseDir = getRendererDir(renderer);
+  const templatePath = async () => {
+    const baseDir = await getRendererDir(packageManager, renderer);
     const assetsDir = join(baseDir, 'template/cli');
 
     const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
     const assetsJS = join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
-    const assetsTSLegacy = join(
-      assetsDir,
-      languageFolderMapping[SupportedLanguage.TYPESCRIPT_LEGACY]
-    );
-    const assetsTS = join(assetsDir, languageFolderMapping[SupportedLanguage.TYPESCRIPT]);
+    const assetsTS38 = join(assetsDir, languageFolderMapping[SupportedLanguage.TYPESCRIPT_3_8]);
 
+    // Ideally use the assets that match the language & version.
     if (await fse.pathExists(assetsLanguage)) {
       return assetsLanguage;
     }
-    if (language === SupportedLanguage.TYPESCRIPT && (await fse.pathExists(assetsTSLegacy))) {
-      return assetsTSLegacy;
+    // Use fallback typescript 3.8 assets if new ones aren't available
+    if (language === SupportedLanguage.TYPESCRIPT_4_9 && (await fse.pathExists(assetsTS38))) {
+      return assetsTS38;
     }
-    if (language === SupportedLanguage.TYPESCRIPT_LEGACY && (await fse.pathExists(assetsTS))) {
-      return assetsTS;
-    }
+    // Fallback further to JS
     if (await fse.pathExists(assetsJS)) {
       return assetsJS;
     }
+    // As a last resort, look for the root of the asset directory
     if (await fse.pathExists(assetsDir)) {
       return assetsDir;
     }
-    throw new Error(`Unsupported renderer: ${renderer}`);
+    throw new Error(`Unsupported renderer: ${renderer} (${baseDir})`);
   };
 
   const targetPath = async () => {
@@ -234,10 +241,12 @@ export async function copyComponents(
   };
 
   const destinationPath = destination ?? (await targetPath());
-  await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
-    overwrite: true,
-  });
-  await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
+  if (includeCommonAssets) {
+    await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
+      overwrite: true,
+    });
+  }
+  await fse.copy(await templatePath(), destinationPath, { overwrite: true });
 }
 
 // Given a package.json, finds any official storybook package within it

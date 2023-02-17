@@ -43,6 +43,8 @@ const QS_OPTIONS = {
     if (type === 'value' && str.startsWith('!')) {
       if (str === '!undefined') return undefined;
       if (str === '!null') return null;
+      if (str === '!true') return true;
+      if (str === '!false') return false;
       if (str.startsWith('!date(') && str.endsWith(')')) return new Date(str.slice(6, -1));
       if (str.startsWith('!hex(') && str.endsWith(')')) return `#${str.slice(5, -1)}`;
 

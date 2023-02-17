@@ -54,7 +54,13 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
         // @ts-expect-error TS says it is called $vnode
         const code = vnodeToString(storyNode._vnode);
 
-        channel.emit(SNIPPET_RENDERED, (context || {}).id, `<template>${code}</template>`, 'vue');
+        const { id, args } = context;
+        channel.emit(SNIPPET_RENDERED, {
+          id,
+          args,
+          source: `<template>${code}</template>`,
+          format: 'vue',
+        });
       } catch (e) {
         logger.warn(`Failed to generate dynamic story source: ${e}`);
       }

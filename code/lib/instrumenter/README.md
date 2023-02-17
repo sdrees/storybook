@@ -101,7 +101,6 @@ An example `sync` payload may look like this:
 ```js
 {
   controlStates: {
-    debugger: true,
     start: false,
     back: false,
     goto: true,
@@ -130,7 +129,6 @@ Remounting is achieved through emitting Storybook's `forceRemount` event. In som
 
 Besides patching functions, the instrumenter keeps track of "control states". These indicate whether the debugger is available, and which control events are available for use:
 
-- `debugger: boolean` - Whether the `interactionsDebugger` feature flag is enabled
 - `start: boolean` - Whether emitting `storybook/instrumenter/start` would work
 - `back: boolean` - Whether emitting `storybook/instrumenter/back` would work
 - `goto: boolean` - Whether emitting `storybook/instrumenter/goto` would work

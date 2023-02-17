@@ -14,3 +14,11 @@ function addNextHeadCount() {
 addNextHeadCount();
 
 export const decorators = [StyledJsxDecorator, RouterDecorator, HeadManagerDecorator];
+
+export const parameters = {
+  docs: {
+    source: {
+      excludeDecorators: true,
+    },
+  },
+};

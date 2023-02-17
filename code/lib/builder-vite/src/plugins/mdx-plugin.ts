@@ -15,10 +15,8 @@ const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith
 export async function mdxPlugin(options: Options): Promise<Plugin> {
   const include = /\.mdx$/;
   const filter = createFilter(include);
-  const { mdxPluginOptions, jsxOptions } = await options.presets.apply<Record<string, any>>(
-    'options',
-    {}
-  );
+  const { features, presets } = options;
+  const { mdxPluginOptions, jsxOptions } = await presets.apply<Record<string, any>>('options', {});
 
   return {
     name: 'storybook:mdx-plugin',
@@ -26,7 +24,9 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
     async transform(src, id) {
       if (!filter(id)) return undefined;
 
-      const { compile } = await import('@storybook/mdx2-csf');
+      const { compile } = features?.legacyMdx1
+        ? await import('@storybook/mdx1-csf')
+        : await import('@storybook/mdx2-csf');
 
       const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
         ...mdxPluginOptions,

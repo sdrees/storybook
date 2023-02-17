@@ -9,6 +9,7 @@ export const webpack: StorybookConfig['webpack'] = (config) => {
       test: [
         new RegExp(`src(.*)\\.js$`),
         new RegExp(`packages(\\/|\\\\)*(\\/|\\\\)src(\\/|\\\\)(.*)\\.js$`),
+        new RegExp(`node_modules(\\/|\\\\)lit\\/(.*)\\.js$`),
         new RegExp(`node_modules(\\/|\\\\)lit-html(.*)\\.js$`),
         new RegExp(`node_modules(\\/|\\\\)lit-element(.*)\\.js$`),
         new RegExp(`node_modules(\\/|\\\\)@open-wc(.*)\\.js$`),

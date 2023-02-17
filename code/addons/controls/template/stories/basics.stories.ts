@@ -2,10 +2,9 @@ import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, StoryContext } from '@storybook/types';
 
 export default {
-  component: null,
+  component: globalThis.Components.Pre,
   decorators: [
-    (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ component: globalThis.Components.Pre, args: { object: context.args } }),
+    (storyFn: PartialStoryFn, context: StoryContext) => storyFn({ args: { object: context.args } }),
   ],
   argTypes: {
     boolean: { control: 'boolean' },

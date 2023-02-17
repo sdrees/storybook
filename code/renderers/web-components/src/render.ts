@@ -4,10 +4,10 @@
 import { global } from '@storybook/global';
 
 import { dedent } from 'ts-dedent';
-import { render as litRender } from 'lit-html';
+import { render as litRender } from 'lit';
 // Keep `.js` extension to avoid issue with Webpack (related to export map?)
 
-import { isTemplateResult } from 'lit-html/directive-helpers.js';
+import { isTemplateResult } from 'lit/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { WebComponentsRenderer } from './types';

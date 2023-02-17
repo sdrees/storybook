@@ -14,6 +14,7 @@ module.exports = {
         'import/no-extraneous-dependencies': ignore,
         'global-require': ignore,
         'no-redeclare': ignore,
+        'react/prop-types': ignore,
       },
     },
     {

@@ -27,7 +27,12 @@ export const DocsStory: FC<DocsStoryProps> = ({
           <Description of={of} />
         </>
       )}
-      <Canvas of={of} withToolbar={withToolbar} story={{ __forceInitialArgs, __primary }} />
+      <Canvas
+        of={of}
+        withToolbar={withToolbar}
+        story={{ __forceInitialArgs, __primary }}
+        source={{ __forceInitialArgs }}
+      />
     </Anchor>
   );
 };

@@ -6,14 +6,16 @@ import express from 'express';
 import { pathExists } from 'fs-extra';
 import path from 'path';
 import favicon from 'serve-favicon';
+import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
+import { defaultStaticDirs } from './constants';
 
 export async function useStatics(router: any, options: Options) {
   const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
   const faviconPath = await options.presets.apply<string>('favicon');
 
-  if (staticDirs && options.staticDir) {
+  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
     throw new Error(dedent`
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
@@ -23,9 +25,10 @@ export async function useStatics(router: any, options: Options) {
     `);
   }
 
-  const statics = staticDirs
-    ? staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
-    : options.staticDir;
+  const statics = [
+    ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
+    ...(options.staticDir || []),
+  ];
 
   if (statics && statics.length > 0) {
     await Promise.all(

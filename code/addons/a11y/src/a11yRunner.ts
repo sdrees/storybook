@@ -1,3 +1,5 @@
+/// <reference types="webpack-env" />
+
 import { global } from '@storybook/global';
 import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';

@@ -59,9 +59,6 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
-  features: {
-    interactionsDebugger: true,
-  },
   viteFinal: (viteConfig, { configType }) =>
     mergeConfig(viteConfig, {
       resolve: {

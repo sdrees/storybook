@@ -1,4 +1,4 @@
-import { readJSON, writeJSON } from 'fs-extra';
+import { pathExists, readJSON, writeJSON } from 'fs-extra';
 import path from 'path';
 
 import { exec } from './exec';
@@ -29,14 +29,20 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
 };
 
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
+  const pnpApiExists = await pathExists(path.join(cwd, '.pnp.cjs'));
+
   const command = [
     touch('yarn.lock'),
     touch('.yarnrc.yml'),
     `yarn set version berry`,
     // Use the global cache so we aren't re-caching dependencies each time we run sandbox
     `yarn config set enableGlobalCache true`,
-    `yarn config set nodeLinker node-modules`,
+    `yarn config set checksumBehavior ignore`,
   ];
+
+  if (!pnpApiExists) {
+    command.push(`yarn config set nodeLinker node-modules`);
+  }
 
   await exec(
     command,

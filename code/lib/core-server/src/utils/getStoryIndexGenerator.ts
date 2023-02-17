@@ -11,7 +11,6 @@ export async function getStoryIndexGenerator(
     previewCsfV3?: boolean;
     storyStoreV7?: boolean;
     breakingChangesV7?: boolean;
-    interactionsDebugger?: boolean;
     argTypeTargetsV7?: boolean;
     warnOnLegacyHierarchySeparator?: boolean;
   },

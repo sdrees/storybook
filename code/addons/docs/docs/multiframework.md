@@ -129,7 +129,9 @@ export const jsxDecorator = (storyFn: any, context: StoryContext) => {
 
   const options = {}; // retrieve from story parameters
   const jsx = renderJsx(story, options);
-  channel.emit(SNIPPET_RENDERED, (context || {}).id, jsx);
+
+  const { id, args } = context;
+  channel.emit(SNIPPET_RENDERED, { id, args, source: jsx });
 
   return story;
 };

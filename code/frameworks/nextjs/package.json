@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.0.0-beta.46",
+  "version": "7.0.0-beta.49",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -60,20 +60,21 @@
   },
   "dependencies": {
     "@next/font": "^13.0.7",
-    "@storybook/addon-actions": "7.0.0-beta.46",
-    "@storybook/builder-webpack5": "7.0.0-beta.46",
-    "@storybook/core-common": "7.0.0-beta.46",
-    "@storybook/node-logger": "7.0.0-beta.46",
-    "@storybook/preset-react-webpack": "7.0.0-beta.46",
-    "@storybook/preview-api": "7.0.0-beta.46",
-    "@storybook/react": "7.0.0-beta.46",
+    "@storybook/addon-actions": "7.0.0-beta.49",
+    "@storybook/builder-webpack5": "7.0.0-beta.49",
+    "@storybook/core-common": "7.0.0-beta.49",
+    "@storybook/node-logger": "7.0.0-beta.49",
+    "@storybook/preset-react-webpack": "7.0.0-beta.49",
+    "@storybook/preview-api": "7.0.0-beta.49",
+    "@storybook/react": "7.0.0-beta.49",
     "@types/node": "^16.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
     "image-size": "^1.0.0",
     "loader-utils": "^3.2.0",
     "pnp-webpack-plugin": "^1.7.0",
-    "postcss-loader": "^6.2.1",
+    "postcss": "^8.4.21",
+    "postcss-loader": "^7.0.2",
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^12.4.0",
     "semver": "^7.3.5",
@@ -105,6 +106,9 @@
     },
     "typescript": {
       "optional": true
+    },
+    "webpack": {
+      "optional": true
     }
   },
   "engines": {
@@ -123,5 +127,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "ddbb9cfded3d2e6374a9abc9a6e8990a2f0052ed"
+  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472"
 }

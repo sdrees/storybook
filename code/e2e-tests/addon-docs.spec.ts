@@ -41,6 +41,54 @@ test.describe('addon-docs', () => {
     }
   });
 
+  test('source snippet should not change in stories block', async ({ page }) => {
+    const skipped = [
+      'vue3',
+      'vue-cli',
+      'preact',
+      // SSv6 does not render stories in the correct order in our sandboxes
+      'internal\\/ssv6',
+      // Angular bug: https://github.com/storybookjs/storybook/issues/21066
+      'angular',
+      // Lit seems to render incorrectly for our template-stories but not real stories
+      //   - template: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/addons-docs-docspage-basic--docs
+      //   - real: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/example-button--docs
+      'lit-vite',
+      // Vue doesn't update when you change args, apparently fixed by this:
+      //   https://github.com/storybookjs/storybook/pull/20995
+      'vue2-vite',
+    ];
+    test.skip(
+      new RegExp(`^${skipped.join('|')}`, 'i').test(`${templateName}`),
+      `Skipping ${templateName}, which does not support dynamic source snippets`
+    );
+
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
+    const root = sbPage.previewRoot();
+    const toggles = root.locator('.docblock-code-toggle');
+
+    // Open up the first and second code toggle (i.e the "Basic" story outside and inside the Stories block)
+    await (await toggles.nth(0)).click({ force: true });
+    await (await toggles.nth(1)).click({ force: true });
+
+    // Check they both say "Basic"
+    const codes = root.locator('pre.prismjs');
+    const primaryCode = await codes.nth(0);
+    const storiesCode = await codes.nth(1);
+    await expect(primaryCode).toContainText('Basic');
+    await expect(storiesCode).toContainText('Basic');
+
+    const labelControl = root.locator('textarea[name=label]');
+    labelControl.fill('Changed');
+    labelControl.blur();
+
+    // Check the Primary one has changed
+    await expect(primaryCode).toContainText('Changed');
+    // Check the stories one still says "Basic"
+    await expect(storiesCode).toContainText('Basic');
+  });
+
   test('should not run autoplay stories without parameter', async ({ page }) => {
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('addons/docs/docspage/autoplay', 'docs');

@@ -28,8 +28,7 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   },
   '@storybook/vue': {
     webpack5: '@storybook/vue-webpack5',
-    // TODO: bring this back if we ever want to support vue 2 + vite. Else delete this!
-    // vite: '@storybook/vue-vite',
+    vite: '@storybook/vue-vite',
   },
   '@storybook/vue3': {
     webpack5: '@storybook/vue3-webpack5',

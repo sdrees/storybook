@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { render } from 'lit-html';
+import { render } from 'lit';
 import type { ArgsStoryFn, PartialStoryFn, StoryContext } from '@storybook/types';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
@@ -43,7 +43,8 @@ export function sourceDecorator(
   let source: string;
 
   useEffect(() => {
-    if (source) addons.getChannel().emit(SNIPPET_RENDERED, context.id, source);
+    const { id, args } = context;
+    if (source) addons.getChannel().emit(SNIPPET_RENDERED, { id, source, args });
   });
   if (!skipSourceRender(context)) {
     const container = window.document.createElement('div');

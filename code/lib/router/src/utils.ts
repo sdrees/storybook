@@ -100,6 +100,11 @@ const encodeSpecialValues = (value: unknown): any => {
     if (COLOR_REGEXP.test(value)) return `!${value.replace(/[\s%]/g, '')}`;
     return value;
   }
+
+  if (typeof value === 'boolean') {
+    return `!${value}`;
+  }
+
   if (Array.isArray(value)) return value.map(encodeSpecialValues);
   if (isPlainObject(value)) {
     return Object.entries(value as Record<string, any>).reduce(

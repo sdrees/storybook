@@ -1,7 +1,10 @@
 import fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
+import { logger } from '@storybook/node-logger';
 
+import { pathExistsSync } from 'fs-extra';
+import { join } from 'path';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
@@ -13,7 +16,7 @@ import {
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
 import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
-import { detectNextJS } from './detect-nextjs';
+import { detectWebpack } from './detect-webpack';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 
@@ -101,28 +104,34 @@ export function detectFrameworkPreset(
 }
 
 /**
- * Attempts to detect which builder to use, by searching for a vite config file.  If one is found, the vite builder
- * will be used, otherwise, webpack5 is the default.
+ * Attempts to detect which builder to use, by searching for a vite config file or webpack installation.
+ * If neither are found it will choose the default builder based on the project type.
  *
  * @returns CoreBuilder
  */
-export function detectBuilder(packageManager: JsPackageManager) {
+export function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
   const viteConfig = findUp.sync(viteConfigFiles);
-
   if (viteConfig) {
-    paddedLog('Detected vite project, setting builder to @storybook/builder-vite');
+    paddedLog('Detected Vite project. Setting builder to Vite');
     return CoreBuilder.Vite;
   }
 
-  const nextJSVersion = detectNextJS(packageManager);
-  if (nextJSVersion) {
-    if (nextJSVersion >= 11) {
-      return CoreBuilder.Webpack5;
-    }
+  if (detectWebpack(packageManager)) {
+    paddedLog('Detected webpack project. Setting builder to webpack');
+    return CoreBuilder.Webpack5;
   }
 
-  // Fallback to webpack5
-  return CoreBuilder.Webpack5;
+  // Fallback to Vite or Webpack based on project type
+  switch (projectType) {
+    case ProjectType.SVELTE:
+    case ProjectType.SVELTEKIT:
+    case ProjectType.VUE:
+    case ProjectType.VUE3:
+    case ProjectType.SFC_VUE:
+      return CoreBuilder.Vite;
+    default:
+      return CoreBuilder.Webpack5;
+  }
 }
 
 export function isStorybookInstalled(
@@ -145,6 +154,10 @@ export function isStorybookInstalled(
     }
   }
   return false;
+}
+
+export function detectPnp() {
+  return pathExistsSync(join(process.cwd(), '.pnp.cjs'));
 }
 
 export function detectLanguage(packageJson?: PackageJson) {
@@ -177,9 +190,19 @@ export function detectLanguage(packageJson?: PackageJson) {
         semver.gte(semver.coerce(version), '0.6.8')
       ))
   ) {
-    language = SupportedLanguage.TYPESCRIPT;
-  } else if (hasDependency(packageJson, 'typescript')) {
-    language = SupportedLanguage.TYPESCRIPT_LEGACY;
+    language = SupportedLanguage.TYPESCRIPT_4_9;
+  } else if (
+    hasDependency(packageJson, 'typescript', (version) =>
+      semver.gte(semver.coerce(version), '3.8.0')
+    )
+  ) {
+    language = SupportedLanguage.TYPESCRIPT_3_8;
+  } else if (
+    hasDependency(packageJson, 'typescript', (version) =>
+      semver.lt(semver.coerce(version), '3.8.0')
+    )
+  ) {
+    logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
   }
 
   return language;

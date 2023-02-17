@@ -97,7 +97,6 @@ export const Paused: Story = {
     isPlaying: true,
     interactions: getInteractions(CallStates.WAITING),
     controlStates: {
-      debugger: true,
       start: false,
       back: false,
       goto: true,
@@ -120,10 +119,6 @@ export const Failed: Story = {
     hasException: true,
     interactions: getInteractions(CallStates.ERROR),
   },
-};
-
-export const NoDebugger: Story = {
-  args: { controlStates: { ...SubnavStories.args.controlStates, debugger: false } },
 };
 
 export const NoInteractions: Story = {

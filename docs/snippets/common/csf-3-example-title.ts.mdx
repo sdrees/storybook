@@ -1,8 +1,20 @@
 ```ts
-// CSF 3
+// src/components/Button/Button.stories.tsx
+
 const meta: Meta<Button> = {
+  // Sets the name for the stories container
   title: 'components/Button',
+  // The component name will be used if `title` is not set
   component: Button,
 };
 export default meta;
+
+// The story variable name will be used if `name` is not set
+const Primary: Story = {
+  // Sets the name for that particular story
+  name: 'Primary',
+  args: {
+    label: 'Button',
+  },
+};
 ```

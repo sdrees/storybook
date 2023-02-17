@@ -303,11 +303,6 @@ export interface StorybookConfig {
     breakingChangesV7?: boolean;
 
     /**
-     * Enable the step debugger functionality in Addon-interactions.
-     */
-    interactionsDebugger?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;

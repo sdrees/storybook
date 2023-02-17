@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-beta.46",
+  "version": "7.0.0-beta.49",
   "private": true,
   "homepage": "https://storybook.js.org/",
   "repository": {
@@ -157,6 +157,7 @@
     "@storybook/preact": "workspace:*",
     "@storybook/preact-vite": "workspace:*",
     "@storybook/preact-webpack5": "workspace:*",
+    "@storybook/preset-create-react-app": "workspace:*",
     "@storybook/preset-html-webpack": "workspace:*",
     "@storybook/preset-preact-webpack": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",

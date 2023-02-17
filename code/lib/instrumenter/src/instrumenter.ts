@@ -28,9 +28,7 @@ type PatchedObj<TObj> = {
   [Property in keyof TObj]: TObj[Property] & { __originalFn__: PatchedObj<TObj> };
 };
 
-const debuggerDisabled = global.FEATURES?.interactionsDebugger !== true;
 const controlsDisabled: ControlStates = {
-  debugger: !debuggerDisabled,
   start: false,
   back: false,
   goto: false,
@@ -571,7 +569,7 @@ export class Instrumenter {
         .find((item) => item.status === CallStates.WAITING)?.callId;
 
       const hasActive = logItems.some((item) => item.status === CallStates.ACTIVE);
-      if (debuggerDisabled || isLocked || hasActive || logItems.length === 0) {
+      if (isLocked || hasActive || logItems.length === 0) {
         const payload: SyncPayload = { controlStates: controlsDisabled, logItems };
         this.channel.emit(EVENTS.SYNC, payload);
         return;
@@ -581,7 +579,6 @@ export class Instrumenter {
         [CallStates.DONE, CallStates.ERROR].includes(item.status)
       );
       const controlStates: ControlStates = {
-        debugger: true,
         start: hasPrevious,
         back: hasPrevious,
         goto: true,

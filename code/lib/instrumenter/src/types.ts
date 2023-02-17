@@ -41,7 +41,6 @@ export interface ElementRef {
 }
 
 export interface ControlStates {
-  debugger: boolean;
   start: boolean;
   back: boolean;
   goto: boolean;

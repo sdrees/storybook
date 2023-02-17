@@ -4,7 +4,7 @@ import { dedent } from 'ts-dedent';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { externalFrameworks, CoreBuilder } from '../project_types';
-import { getBabelDependencies, copyComponents } from '../helpers';
+import { getBabelDependencies, copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
@@ -309,6 +309,10 @@ export async function baseGenerator(
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
-    await copyComponents(templateLocation, language, componentsDestinationPath);
+    await copyTemplateFiles({
+      renderer: templateLocation,
+      language,
+      destination: componentsDestinationPath,
+    });
   }
 }

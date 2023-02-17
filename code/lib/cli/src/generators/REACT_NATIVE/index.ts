@@ -1,54 +1,34 @@
-import { join } from 'path';
-import chalk from 'chalk';
-import shell from 'shelljs';
-import { getBabelDependencies, paddedLog, copyTemplate } from '../../helpers';
-import { getCliDir } from '../../dirs';
+import { copyTemplateFiles, getBabelDependencies } from '../../helpers';
 import type { JsPackageManager } from '../../js-package-manager';
 import type { NpmOptions } from '../../NpmOptions';
+import { SupportedLanguage } from '../../project_types';
 
 const generator = async (
   packageManager: JsPackageManager,
-  npmOptions: NpmOptions,
-  installServer: boolean
+  npmOptions: NpmOptions
 ): Promise<void> => {
-  // set correct project name on entry files if possible
-  const dirname = shell.ls('-d', 'ios/*.xcodeproj').stdout;
-
-  // Only notify about app name if running in React Native vanilla (Expo projects do not have ios directory)
-  if (dirname) {
-    const projectName = dirname.slice('ios/'.length, dirname.length - '.xcodeproj'.length - 1);
-
-    if (projectName) {
-      shell.sed('-i', '%APP_NAME%', projectName, 'storybook/index.js');
-    } else {
-      paddedLog(
-        chalk.red(
-          'ERR: Could not determine project name, to fix: https://github.com/storybookjs/storybook/issues/1277'
-        )
-      );
-    }
-  }
-
   const packageJson = packageManager.retrievePackageJson();
 
   const missingReactDom =
     !packageJson.dependencies['react-dom'] && !packageJson.devDependencies['react-dom'];
   const reactVersion = packageJson.dependencies.react;
 
-  // should resolve to latest 5.3 version, this is required until react-native storybook supports v6
-  const webAddonsV5 = [
-    '@storybook/addon-links@^5.3',
-    '@storybook/addon-knobs@^5.3',
-    '@storybook/addon-actions@^5.3',
+  const packagesToResolve = [
+    // addon-ondevice-controls peer deps
+    'react-native-safe-area-context',
+    '@react-native-async-storage/async-storage',
+    '@react-native-community/datetimepicker',
+    '@react-native-community/slider',
   ];
 
-  const nativeAddons = ['@storybook/addon-ondevice-knobs', '@storybook/addon-ondevice-actions'];
-
-  const packagesToResolve = [
-    ...nativeAddons,
-    '@storybook/react-native',
-    installServer && '@storybook/react-native-server',
-  ].filter(Boolean);
+  // change these to latest version once v6 stable is released
+  const packagesWithFixedVersion = [
+    '@storybook/addon-actions@^6.5.14',
+    '@storybook/addon-controls@^6.5.14',
+    '@storybook/addon-ondevice-controls@6.5.0-rc.0',
+    '@storybook/addon-ondevice-actions@6.5.0-rc.0',
+    '@storybook/react-native@6.5.0-rc.0',
+  ];
 
   const resolvedPackages = await packageManager.getVersionedPackages(packagesToResolve);
 
@@ -56,21 +36,26 @@ const generator = async (
 
   const packages = [
     ...babelDependencies,
+    ...packagesWithFixedVersion,
     ...resolvedPackages,
-    ...webAddonsV5,
     missingReactDom && reactVersion && `react-dom@${reactVersion}`,
   ].filter(Boolean);
 
   packageManager.addDependencies({ ...npmOptions, packageJson }, packages);
+  packageManager.addScripts({
+    'storybook-generate': 'sb-rn-get-stories',
+    'storybook-watch': 'sb-rn-watcher',
+  });
 
-  if (installServer) {
-    packageManager.addStorybookCommandInScripts({
-      port: 7007,
-    });
-  }
+  const storybookConfigFolder = '.storybook';
 
-  const templateDir = join(getCliDir(), 'templates', 'react-native');
-  copyTemplate(templateDir);
+  await copyTemplateFiles({
+    packageManager,
+    renderer: 'react-native',
+    language: SupportedLanguage.JAVASCRIPT,
+    destination: storybookConfigFolder,
+    includeCommonAssets: false,
+  });
 };
 
 export default generator;

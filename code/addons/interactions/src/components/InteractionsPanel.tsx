@@ -98,21 +98,20 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
     return (
       <AddonPanel {...panelProps}>
         <Container withException={!!caughtException}>
-          {controlStates.debugger &&
-            (interactions.length > 0 || hasException || isRerunAnimating) && (
-              <Subnav
-                controls={controls}
-                controlStates={controlStates}
-                status={
-                  // eslint-disable-next-line no-nested-ternary
-                  isPlaying ? CallStates.ACTIVE : hasException ? CallStates.ERROR : CallStates.DONE
-                }
-                storyFileName={fileName}
-                onScrollToEnd={onScrollToEnd}
-                isRerunAnimating={isRerunAnimating}
-                setIsRerunAnimating={setIsRerunAnimating}
-              />
-            )}
+          {(interactions.length > 0 || hasException || isRerunAnimating) && (
+            <Subnav
+              controls={controls}
+              controlStates={controlStates}
+              status={
+                // eslint-disable-next-line no-nested-ternary
+                isPlaying ? CallStates.ACTIVE : hasException ? CallStates.ERROR : CallStates.DONE
+              }
+              storyFileName={fileName}
+              onScrollToEnd={onScrollToEnd}
+              isRerunAnimating={isRerunAnimating}
+              setIsRerunAnimating={setIsRerunAnimating}
+            />
+          )}
           <div aria-label="Interactions list">
             {interactions.map((call) => (
               <Interaction

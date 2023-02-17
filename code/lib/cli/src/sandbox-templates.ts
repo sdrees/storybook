@@ -417,6 +417,13 @@ const internalTemplates = {
       },
     },
   },
+  'internal/pnp': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'PNP (react-webpack/18-ts)',
+    script: 'yarn create react-app . --use-pnp',
+    isInternal: true,
+    inDevelopment: true,
+  },
 } satisfies Record<`internal/${string}`, Template & { isInternal: true }>;
 
 export const allTemplates: Record<TemplateKey, Template> = {

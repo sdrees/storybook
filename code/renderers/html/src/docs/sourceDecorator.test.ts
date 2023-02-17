@@ -47,11 +47,11 @@ describe('sourceDecorator', () => {
     const context = makeContext('args', { __isArgsStory: true }, {});
     sourceDecorator(storyFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'html-test--args',
-      '<div>args story</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'html-test--args',
+      args: {},
+      source: '<div>args story</div>',
+    });
   });
 
   it('should dedent source by default', async () => {
@@ -63,11 +63,11 @@ describe('sourceDecorator', () => {
     const context = makeContext('args', { __isArgsStory: true }, {});
     sourceDecorator(storyFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'html-test--args',
-      ['<div>', '  args story', '</div>'].join('\n')
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'html-test--args',
+      args: {},
+      source: ['<div>', '  args story', '</div>'].join('\n'),
+    });
   });
 
   it('should skip dynamic rendering for no-args stories', async () => {
@@ -98,11 +98,11 @@ describe('sourceDecorator', () => {
     );
     sourceDecorator(decoratedStoryFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'html-test--args',
-      '<div>args story</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'html-test--args',
+      args: {},
+      source: '<div>args story</div>',
+    });
   });
 
   it('allows the snippet output to be modified by transformSource', async () => {
@@ -112,11 +112,11 @@ describe('sourceDecorator', () => {
     const context = makeContext('args', { __isArgsStory: true, docs }, {});
     sourceDecorator(storyFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'html-test--args',
-      '<p><div>args story</div></p>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'html-test--args',
+      args: {},
+      source: '<p><div>args story</div></p>',
+    });
   });
 
   it('provides the story context to transformSource', () => {

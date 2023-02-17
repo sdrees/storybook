@@ -2,7 +2,6 @@
 
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
-    - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
     - [ESM format in Main.js](#esm-format-in-mainjs)
     - [Modern browser support](#modern-browser-support)
@@ -19,6 +18,7 @@
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
     - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [7.0 feature flags removed](#70-feature-flags-removed)
+    - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
   - [Core addons](#core-addons)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
@@ -36,6 +36,7 @@
     - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
+    - [Web-components: dropped lit-html v1 support](#web-components-dropped-lit-html-v1-support)
   - [Addon authors](#addon-authors)
     - [register.js removed](#registerjs-removed)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -281,12 +282,6 @@
 A number of these changes can be made automatically by the Storybook CLI. To take advantage of these "automigrations", run `npx storybook@next upgrade --prerelease` or `pnpx storybook@next upgrade --prerelease`.
 
 ### 7.0 breaking changes
-
-#### Story context is prepared before for supporting fine grained updates
-
-This change modifies the way Storybook prepares stories to avoid reactive args to get lost for fine-grained updates JS frameworks as `SolidJS` or `Vue`. That's because those frameworks handle args/props as proxies behind the scenes to make reactivity work. So when `argType` mapping was done in `prepareStory` the Proxies were destroyed and args becomes a plain object again, losing the reactivity.
-
-For avoiding that, this change passes the mapped args instead of raw args at `renderToCanvas` so that the proxies stay intact. Also decorators will benefit from this as well by receiving mapped args instead of raw args.
 
 #### Dropped support for Node 15 and below
 
@@ -629,6 +624,12 @@ In 7.0 we've removed the following feature flags:
 | `breakingChangesV7` | This flag is no longer needed and should be deleted.        |
 | `babelModeV7`       | See [Babel mode v7 exclusively](#babel-mode-v7-exclusively) |
 
+#### Story context is prepared before for supporting fine grained updates
+
+This change modifies the way Storybook prepares stories to avoid reactive args to get lost for fine-grained updates JS frameworks as `SolidJS` or `Vue`. That's because those frameworks handle args/props as proxies behind the scenes to make reactivity work. So when `argType` mapping was done in `prepareStory` the Proxies were destroyed and args becomes a plain object again, losing the reactivity.
+
+For avoiding that, this change passes the mapped args instead of raw args at `renderToCanvas` so that the proxies stay intact. Also decorators will benefit from this as well by receiving mapped args instead of raw args.
+
 ### Core addons
 
 #### Removed auto injection of @storybook/addon-actions decorator
@@ -754,6 +755,10 @@ setup((app) => {
   app.component('GlobalButton', Button);
 });
 ```
+
+#### Web-components: dropped lit-html v1 support
+
+In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2. In 7.0 we've dropped support for `lit-html` v1 and now uses `lit` v2 instead. Please upgrade your project's `lit-html` dependency if you're still on 1.x.
 
 ### Addon authors
 
@@ -995,7 +1000,7 @@ import * as ComponentStories from './some-component.stories';
 
 ##### ArgsTable block
 
-The `ArgsTable` block is now deprecated, and two new blocks: `ArgsTypes` and `Controls` should be preferred.
+The `ArgsTable` block is now deprecated, and two new blocks: `ArgTypes` and `Controls` should be preferred.
 
 - `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` ommitted and the MDX file is attached it will render the arg types defined at the CSF file level.
 
@@ -1087,8 +1092,6 @@ export default {
 ```
 
 NOTE: This only affects `.(stories|story).mdx` files. Notably, if you want to use Storybook 7's "pure" `.mdx` format, you'll need to use MDX2 for that.
-
-NOTE: Legacy MDX1 support is only for Webpack projects. There is currently no legacy support for Vite.
 
 #### Default docs styles will leak into non-story user components
 

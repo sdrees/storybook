@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "7.0.0-beta.46",
+  "version": "7.0.0-beta.49",
   "description": "",
   "keywords": [
     "storybook"
@@ -24,13 +24,11 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -45,7 +43,7 @@
   "dependencies": {
     "@babel/types": "^7.20.2",
     "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-beta.46",
+    "@storybook/types": "7.0.0-beta.49",
     "fs-extra": "^11.1.0",
     "recast": "^0.23.1",
     "ts-dedent": "^2.0.0"
@@ -65,7 +63,10 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
+    ],
+    "formats": [
+      "cjs"
     ]
   },
-  "gitHead": "ddbb9cfded3d2e6374a9abc9a6e8990a2f0052ed"
+  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472"
 }

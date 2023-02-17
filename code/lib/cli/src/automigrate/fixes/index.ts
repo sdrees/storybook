@@ -18,6 +18,7 @@ import { sveltekitFramework } from './sveltekit-framework';
 import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
 import { missingBabelRc } from './missing-babelrc';
+import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
 
 export * from '../types';
 
@@ -37,6 +38,7 @@ export const fixes: Fix[] = [
   nextjsFramework,
   removedGlobalClientAPIs,
   mdx1to2,
+  bareMdxStoriesGlob,
   autodocsTrue,
   addReact,
   missingBabelRc,
