@@ -135,7 +135,7 @@ export const enrichCsf = (csf: CsfFile, options?: EnrichCsfOptions) => {
 
 export const extractSource = (node: t.Node) => {
   const src = t.isVariableDeclarator(node) ? node.init : node;
-  const { code } = generate.default(src, {});
+  const { code } = generate.default(src as t.Node, {});
   return code;
 };
 

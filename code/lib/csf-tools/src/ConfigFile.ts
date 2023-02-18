@@ -23,7 +23,7 @@ const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
   }
   if (t.isObjectExpression(node)) {
     const [first, ...rest] = path;
-    const field = node.properties.find((p: t.ObjectProperty) => propKey(p) === first);
+    const field = (node.properties as t.ObjectProperty[]).find((p) => propKey(p) === first);
     if (field) {
       return _getPath(rest, (field as t.ObjectProperty).value);
     }
@@ -41,7 +41,7 @@ const _getPathProperties = (path: string[], node: t.Node): t.ObjectProperty[] | 
   }
   if (t.isObjectExpression(node)) {
     const [first, ...rest] = path;
-    const field = node.properties.find((p: t.ObjectProperty) => propKey(p) === first);
+    const field = (node.properties as t.ObjectProperty[]).find((p) => propKey(p) === first);
     if (field) {
       // FXIME handle spread etc.
       if (rest.length === 0) return node.properties as t.ObjectProperty[];
@@ -92,8 +92,8 @@ const _makeObjectExpression = (path: string[], value: t.Expression): t.Expressio
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const _updateExportNode = (path: string[], expr: t.Expression, existing: t.ObjectExpression) => {
   const [first, ...rest] = path;
-  const existingField = existing.properties.find(
-    (p: t.ObjectProperty) => propKey(p) === first
+  const existingField = (existing.properties as t.ObjectProperty[]).find(
+    (p) => propKey(p) === first
   ) as t.ObjectProperty;
   if (!existingField) {
     existing.properties.push(
@@ -113,7 +113,7 @@ export class ConfigFile {
 
   _exports: Record<string, t.Expression> = {};
 
-  _exportsObject: t.ObjectExpression;
+  _exportsObject: t.ObjectExpression | undefined;
 
   _quotes: 'single' | 'double' | undefined;
 
@@ -144,12 +144,12 @@ export class ConfigFile {
 
           if (t.isObjectExpression(decl)) {
             self._exportsObject = decl;
-            decl.properties.forEach((p: t.ObjectProperty) => {
+            (decl.properties as t.ObjectProperty[]).forEach((p) => {
               const exportName = propKey(p);
               if (exportName) {
                 let exportVal = p.value;
                 if (t.isIdentifier(exportVal)) {
-                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program);
+                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program) as any;
                 }
                 self._exports[exportName] = exportVal as t.Expression;
               }
@@ -166,9 +166,9 @@ export class ConfigFile {
             node.declaration.declarations.forEach((decl) => {
               if (t.isVariableDeclarator(decl) && t.isIdentifier(decl.id)) {
                 const { name: exportName } = decl.id;
-                let exportVal = decl.init;
+                let exportVal = decl.init as t.Expression;
                 if (t.isIdentifier(exportVal)) {
-                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program);
+                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program) as any;
                 }
                 self._exports[exportName] = exportVal;
               }
@@ -191,16 +191,19 @@ export class ConfigFile {
             ) {
               let exportObject = right;
               if (t.isIdentifier(right)) {
-                exportObject = _findVarInitialization(right.name, parent as t.Program);
+                exportObject = _findVarInitialization(right.name, parent as t.Program) as any;
               }
               if (t.isObjectExpression(exportObject)) {
                 self._exportsObject = exportObject;
-                exportObject.properties.forEach((p: t.ObjectProperty) => {
+                (exportObject.properties as t.ObjectProperty[]).forEach((p) => {
                   const exportName = propKey(p);
                   if (exportName) {
-                    let exportVal = p.value;
+                    let exportVal = p.value as t.Expression;
                     if (t.isIdentifier(exportVal)) {
-                      exportVal = _findVarInitialization(exportVal.name, parent as t.Program);
+                      exportVal = _findVarInitialization(
+                        exportVal.name,
+                        parent as t.Program
+                      ) as any;
                     }
                     self._exports[exportName] = exportVal as t.Expression;
                   }
@@ -311,7 +314,7 @@ export class ConfigFile {
 
     const pathNames: string[] = [];
     if (t.isArrayExpression(node)) {
-      node.elements.forEach((element) => {
+      (node.elements as t.Expression[]).forEach((element) => {
         pathNames.push(this._getPresetValue(element, 'name'));
       });
     }
@@ -414,7 +417,7 @@ export class ConfigFile {
 
     const properties = this.getFieldProperties(path) as t.ObjectProperty[];
     if (properties) {
-      const lastPath = path.at(-1);
+      const lastPath = path.at(-1) as string;
       removeProperty(properties, lastPath);
     }
   }

@@ -80,15 +80,16 @@ export const render: ArgsStoryFn<VueRenderer> = (args, context) => {
     .filter((argType) => argType?.table?.category === 'events')
     .map((argType) => argType.name);
 
+  const camelCase = (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+
   if (eventProps.length) {
-    eventsBinding = eventProps.map((name) => `@${name}="$props.${name}"`).join(' ');
-    eventsBinding = `${eventsBinding} `;
+    eventsBinding = eventProps.map((name) => `@${name}="$props['${camelCase(name)}']"`).join(' ');
   }
 
   return {
     props: Object.keys(argTypes),
     components: { [componentName]: component },
-    template: `<${componentName} ${eventsBinding}v-bind="filterOutEventProps($props)" />`,
+    template: `<${componentName} ${eventsBinding} v-bind="filterOutEventProps($props)" />`,
     methods: {
       filterOutEventProps(props: object) {
         return Object.fromEntries(

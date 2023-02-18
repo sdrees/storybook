@@ -132,7 +132,7 @@ export const Subnav: React.FC<SubnavProps> = ({
 
             <StyledSeparator />
 
-            <WithTooltip hasChrome={false} tooltip={<Note note="Go to start" />}>
+            <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Go to start" />}>
               <RewindButton
                 aria-label="Go to start"
                 containsIcon
@@ -143,7 +143,7 @@ export const Subnav: React.FC<SubnavProps> = ({
               </RewindButton>
             </WithTooltip>
 
-            <WithTooltip hasChrome={false} tooltip={<Note note="Go back" />}>
+            <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Go back" />}>
               <StyledIconButton
                 aria-label="Go back"
                 containsIcon
@@ -154,7 +154,7 @@ export const Subnav: React.FC<SubnavProps> = ({
               </StyledIconButton>
             </WithTooltip>
 
-            <WithTooltip hasChrome={false} tooltip={<Note note="Go forward" />}>
+            <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Go forward" />}>
               <StyledIconButton
                 aria-label="Go forward"
                 containsIcon
@@ -165,7 +165,7 @@ export const Subnav: React.FC<SubnavProps> = ({
               </StyledIconButton>
             </WithTooltip>
 
-            <WithTooltip hasChrome={false} tooltip={<Note note="Go to end" />}>
+            <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Go to end" />}>
               <StyledIconButton
                 aria-label="Go to end"
                 containsIcon
@@ -176,7 +176,7 @@ export const Subnav: React.FC<SubnavProps> = ({
               </StyledIconButton>
             </WithTooltip>
 
-            <WithTooltip hasChrome={false} tooltip={<Note note="Rerun" />}>
+            <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Rerun" />}>
               <RerunButton
                 aria-label="Rerun"
                 containsIcon

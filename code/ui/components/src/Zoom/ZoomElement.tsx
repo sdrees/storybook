@@ -6,18 +6,19 @@ import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 
 const hasBrowserSupportForCssZoom = browserSupportsCssZoom();
 
-const ZoomElementWrapper = styled.div<{ scale: number; height: number }>(({ scale = 1, height }) =>
-  hasBrowserSupportForCssZoom
-    ? {
-        '> *': {
-          zoom: 1 / scale,
-        },
-      }
-    : {
-        height: height ? height + 50 : 'auto',
-        transformOrigin: 'top left',
-        transform: `scale(${1 / scale})`,
-      }
+const ZoomElementWrapper = styled.div<{ scale: number; elementHeight: number }>(
+  ({ scale = 1, elementHeight }) =>
+    hasBrowserSupportForCssZoom
+      ? {
+          '> *': {
+            zoom: 1 / scale,
+          },
+        }
+      : {
+          height: elementHeight || 'auto',
+          transformOrigin: 'top left',
+          transform: `scale(${1 / scale})`,
+        }
 );
 
 const useMutationObserver = ({
@@ -43,7 +44,7 @@ const useMutationObserver = ({
     }
 
     return () => observer.current.disconnect();
-  }, [element, observer, options]);
+  }, [callback, element, observer, options]);
 };
 
 const mutationObserverOptions = { subtree: true, childList: true };
@@ -55,17 +56,17 @@ type ZoomProps = {
 
 export function ZoomElement({ scale, children }: ZoomProps) {
   const componentWrapperRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState(0);
+  const [elementHeight, setElementHeight] = useState(0);
 
   const handleMutations = useCallback(() => {
-    setHeight(componentWrapperRef.current.getBoundingClientRect().height);
+    setElementHeight(componentWrapperRef.current.getBoundingClientRect().height);
   }, []);
 
   useEffect(() => {
     if (componentWrapperRef.current) {
-      setHeight(componentWrapperRef.current.getBoundingClientRect().height);
+      setElementHeight(componentWrapperRef.current.getBoundingClientRect().height);
     }
-  }, [scale, componentWrapperRef.current]);
+  }, [scale]);
 
   useMutationObserver({
     element: componentWrapperRef,
@@ -74,7 +75,7 @@ export function ZoomElement({ scale, children }: ZoomProps) {
   });
 
   return (
-    <ZoomElementWrapper scale={scale} height={height}>
+    <ZoomElementWrapper scale={scale} elementHeight={elementHeight}>
       <div
         ref={hasBrowserSupportForCssZoom ? null : componentWrapperRef}
         className="innerZoomElementWrapper"

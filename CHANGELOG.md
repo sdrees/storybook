@@ -1,3 +1,24 @@
+## 7.0.0-beta.50 (February 18, 2023)
+
+#### Bug Fixes
+
+-   Revert upgrade to react-docgen-typescript-plugin [#21147](https://github.com/storybooks/storybook/pull/21147)
+-   Revert Vite fix storysource addon support [#21146](https://github.com/storybooks/storybook/pull/21146)
+-   UI: Fix Canvas zoom height [#21138](https://github.com/storybooks/storybook/pull/21138)
+-   Addon-interaction: Fix tooltips don't disappear correctly [#21105](https://github.com/storybooks/storybook/pull/21105)
+-   UI: Fix CSS zoom in Safari [#21069](https://github.com/storybooks/storybook/pull/21069)
+
+#### Maintenance
+
+-   Storysource: Rename "Story" tab to "Code" [#21132](https://github.com/storybooks/storybook/pull/21132)
+-   TypeScript: Fix `@ts-expect-error` strict types [#20981](https://github.com/storybooks/storybook/pull/20981)
+-   UI: Update border color to match Design System proposal [#20660](https://github.com/storybooks/storybook/pull/20660)
+-   CLI: Don't render issue template reproduction section with shell [#21128](https://github.com/storybooks/storybook/pull/21128)
+
+#### Dependency Upgrades
+
+-   Vite: Update dep range for @storybook/mdx1-csf [#21123](https://github.com/storybooks/storybook/pull/21123)
+
 ## 7.0.0-beta.49 (February 17, 2023)
 
 #### Bug Fixes

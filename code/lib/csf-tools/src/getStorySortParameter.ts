@@ -9,8 +9,8 @@ import { babelParse } from './babelParse';
 const logger = console;
 
 const getValue = (obj: t.ObjectExpression, key: string) => {
-  let value: t.Expression;
-  obj.properties.forEach((p: t.ObjectProperty) => {
+  let value: t.Expression | undefined;
+  (obj.properties as t.ObjectProperty[]).forEach((p) => {
     if (t.isIdentifier(p.key) && p.key.name === key) {
       value = p.value as t.Expression;
     }
@@ -20,12 +20,12 @@ const getValue = (obj: t.ObjectExpression, key: string) => {
 
 const parseValue = (expr: t.Expression): any => {
   if (t.isArrayExpression(expr)) {
-    return expr.elements.map((o: t.Expression) => {
+    return (expr.elements as t.Expression[]).map((o) => {
       return parseValue(o);
     });
   }
   if (t.isObjectExpression(expr)) {
-    return expr.properties.reduce((acc, p: t.ObjectProperty) => {
+    return (expr.properties as t.ObjectProperty[]).reduce((acc, p) => {
       if (t.isIdentifier(p.key)) {
         acc[p.key.name] = parseValue(p.value as t.Expression);
       }
@@ -60,7 +60,7 @@ const unsupported = (unexpectedVar: string, isError: boolean) => {
 };
 
 export const getStorySortParameter = (previewCode: string) => {
-  let storySort: t.Expression;
+  let storySort: t.Expression | undefined;
   const ast = babelParse(previewCode);
   traverse.default(ast, {
     ExportNamedDeclaration: {
@@ -109,7 +109,7 @@ export const getStorySortParameter = (previewCode: string) => {
 
   if (t.isFunctionExpression(storySort)) {
     const { code: sortCode } = generate.default(storySort, {});
-    const functionName = storySort.id.name;
+    const functionName = storySort.id?.name;
     // Wrap the function within an arrow function, call it, and return
     const wrapper = `(a, b) => {
       ${sortCode};
