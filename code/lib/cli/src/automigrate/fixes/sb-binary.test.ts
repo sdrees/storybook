@@ -1,11 +1,15 @@
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '../../js-package-manager';
+import { makePackageManager } from '../helpers/testing-helpers';
 import { sbBinary } from './sb-binary';
 
-const checkStorybookBinary = async ({ packageJson }: { packageJson: PackageJson }) => {
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return sbBinary.check({ packageManager });
+const checkStorybookBinary = async ({
+  packageJson,
+  storybookVersion = '7.0.0',
+}: {
+  packageJson: PackageJson;
+  storybookVersion?: string;
+}) => {
+  return sbBinary.check({ packageManager: makePackageManager(packageJson) });
 };
 
 describe('storybook-binary fix', () => {
@@ -16,6 +20,7 @@ describe('storybook-binary fix', () => {
         await expect(
           checkStorybookBinary({
             packageJson,
+            storybookVersion: '6.2.0',
           })
         ).resolves.toBeFalsy();
       });
@@ -23,6 +28,17 @@ describe('storybook-binary fix', () => {
   });
 
   describe('sb >= 7.0', () => {
+    it('should no-op in NX projects', async () => {
+      const packageJson = {
+        dependencies: { '@storybook/react': '^7.0.0', '@nrwl/storybook': '^15.7.1' },
+      };
+      await expect(
+        checkStorybookBinary({
+          packageJson,
+        })
+      ).resolves.toBeFalsy();
+    });
+
     it('should add storybook dependency if not present', async () => {
       const packageJson = {
         dependencies: {

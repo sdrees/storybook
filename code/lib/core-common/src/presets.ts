@@ -26,6 +26,15 @@ export function filterPresetsConfig(presetsConfig: PresetConfig[]): PresetConfig
   });
 }
 
+function resolvePathToMjs(filePath: string): string {
+  const { dir, name } = parse(filePath);
+  const mjsPath = join(dir, `${name}.mjs`);
+  if (safeResolve(mjsPath)) {
+    return mjsPath;
+  }
+  return filePath;
+}
+
 function resolvePresetFunction<T = any>(
   input: T[] | Function,
   presetOptions: any,
@@ -76,7 +85,7 @@ export const resolveAddonName = (
         // we remove the extension
         // this is a bit of a hack to try to find .mjs files
         // node can only ever resolve .js files; it does not look at the exports field in package.json
-        managerEntries: [join(fdir, fname)],
+        managerEntries: [resolvePathToMjs(join(fdir, fname))],
       };
     }
     if (name.match(/\/(preset)(\.(js|mjs|ts|tsx|jsx))?$/)) {
@@ -98,15 +107,21 @@ export const resolveAddonName = (
   // serve it up correctly  when yarn pnp or pnpm is being used.
   // Vite will be broken in such cases, because it does not process absolute paths,
   // and it will try to import from the bare import, breaking in pnp/pnpm.
-  const absolutizeExport = (exportName: string) => {
-    return resolve(`${name}${exportName}`);
+  const absolutizeExport = (exportName: string, preferMJS: boolean) => {
+    const found = resolve(`${name}${exportName}`);
+
+    if (found) {
+      return preferMJS ? resolvePathToMjs(found) : found;
+    }
+    return undefined;
   };
 
-  const managerFile = absolutizeExport(`/manager`);
-  const registerFile = absolutizeExport(`/register`) || absolutizeExport(`/register-panel`);
+  const managerFile = absolutizeExport(`/manager`, true);
+  const registerFile =
+    absolutizeExport(`/register`, true) || absolutizeExport(`/register-panel`, true);
   const previewFile = checkExists(`/preview`);
-  const previewFileAbsolute = absolutizeExport('/preview');
-  const presetFile = absolutizeExport(`/preset`);
+  const previewFileAbsolute = absolutizeExport('/preview', true);
+  const presetFile = absolutizeExport(`/preset`, false);
 
   if (!(managerFile || previewFile) && presetFile) {
     return {
@@ -119,19 +134,11 @@ export const resolveAddonName = (
     const managerEntries = [];
 
     if (managerFile) {
-      // we remove the extension
-      // this is a bit of a hack to try to find .mjs files
-      // node can only ever resolve .js files; it does not look at the exports field in package.json
-      const { dir: fdir, name: fname } = parse(managerFile);
-      managerEntries.push(join(fdir, fname));
+      managerEntries.push(managerFile);
     }
     // register file is the old way of registering addons
     if (!managerFile && registerFile && !presetFile) {
-      // we remove the extension
-      // this is a bit of a hack to try to find .mjs files
-      // node can only ever resolve .js files; it does not look at the exports field in package.json
-      const { dir: fdir, name: fname } = parse(registerFile);
-      managerEntries.push(join(fdir, fname));
+      managerEntries.push(registerFile);
     }
 
     return {

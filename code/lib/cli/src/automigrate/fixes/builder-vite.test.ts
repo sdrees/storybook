@@ -1,30 +1,27 @@
-/* eslint-disable no-underscore-dangle */
-import * as path from 'path';
 import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '../../js-package-manager';
 import { builderVite } from './builder-vite';
-
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 
 const checkBuilderVite = async ({
   packageJson = {},
-  main,
+  main: mainConfig,
+  storybookVersion = '7.0.0',
 }: {
   packageJson?: PackageJson;
-  main: Partial<StorybookConfig>;
+  main: Partial<StorybookConfig> & Record<string, unknown>;
+  storybookVersion?: string;
 }) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
-    [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
+  mockStorybookData({ mainConfig, storybookVersion });
+
+  return builderVite.check({
+    packageManager: makePackageManager(packageJson),
   });
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return builderVite.check({ packageManager });
 };
 
 describe('builder-vite fix', () => {
+  afterEach(jest.restoreAllMocks);
+
   describe('storybook-builder-vite', () => {
     it('using storybook-builder-vite', async () => {
       const main = { core: { builder: 'storybook-builder-vite' } };

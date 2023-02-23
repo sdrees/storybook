@@ -1,15 +1,8 @@
 import { dedent } from 'ts-dedent';
 
-const rendererNames = [
-  '@storybook/html',
-  '@storybook/preact',
-  '@storybook/react',
-  '@storybook/server',
-  '@storybook/svelte',
-  '@storybook/vue',
-  '@storybook/vue3',
-  '@storybook/web-components',
-];
+const renderers = ['html', 'preact', 'react', 'server', 'svelte', 'vue', 'vue3', 'web-components'];
+
+const rendererNames = [...renderers, ...renderers.map((renderer) => `@storybook/${renderer}`)];
 
 // Checks that the framework name is not a renderer
 export function validateFrameworkName(frameworkName: string) {

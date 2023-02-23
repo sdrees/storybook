@@ -22,10 +22,10 @@ export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
   id: 'removedglobalclientapis',
   promptOnly: true,
 
-  async check({ packageManager }) {
+  async check({ packageManager, configDir }) {
     const packageJson = packageManager.retrievePackageJson();
 
-    const { previewConfig } = getStorybookInfo(packageJson);
+    const { previewConfig } = getStorybookInfo(packageJson, configDir);
 
     if (previewConfig) {
       const contents = await readFile(previewConfig, 'utf8');

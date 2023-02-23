@@ -22,7 +22,7 @@ export function snapshotWithOptions(
 
     function match(tree: any) {
       let target = tree;
-      const isReact = story.parameters.framework === 'react';
+      const isReact = story.parameters.renderer === 'react';
 
       if (isReact && typeof tree.childAt === 'function') {
         target = tree.childAt(0);

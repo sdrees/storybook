@@ -1,46 +1,44 @@
-/* eslint-disable no-underscore-dangle */
-import * as path from 'path';
 import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '../../js-package-manager';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { angular12 } from './angular12';
-
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
 const checkAngular12 = async ({
   packageJson,
-  main,
+  main: mainConfig = {},
+  storybookVersion = '7.0.0',
 }: {
   packageJson: PackageJson;
-  main: Partial<StorybookConfig>;
+  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  storybookVersion?: string;
 }) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
-    [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
+  mockStorybookData({ mainConfig, storybookVersion });
+
+  return angular12.check({
+    packageManager: makePackageManager(packageJson),
+    configDir: '',
   });
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return angular12.check({ packageManager });
 };
 
 describe('angular12 fix', () => {
+  afterEach(jest.restoreAllMocks);
+
   describe('sb < 6.3', () => {
     describe('angular12 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/react': '^6.2.0', '@angular/core': '^12.0.0' },
+        dependencies: { '@storybook/angular': '^6.2.0', '@angular/core': '^12.0.0' },
       };
       it('should fail', async () => {
         await expect(
           checkAngular12({
             packageJson,
-            main: {},
+            storybookVersion: '6.2.0',
           })
         ).rejects.toThrow();
       });
     });
     describe('no angular dependency', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0' } };
+      const packageJson = { dependencies: { '@storybook/angular': '^6.2.0' } };
       it('should no-op', async () => {
         await expect(
           checkAngular12({
@@ -54,7 +52,7 @@ describe('angular12 fix', () => {
   describe('sb 6.3 - 7.0', () => {
     describe('angular12 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/react': '^6.3.0', '@angular/core': '^12.0.0' },
+        dependencies: { '@storybook/angular': '^6.3.0', '@angular/core': '^12.0.0' },
       };
       describe('webpack5 builder', () => {
         it('should no-op', async () => {
@@ -62,6 +60,7 @@ describe('angular12 fix', () => {
             checkAngular12({
               packageJson,
               main: { core: { builder: 'webpack5' } },
+              storybookVersion: '6.3.0',
             })
           ).resolves.toBeFalsy();
         });
@@ -82,10 +81,11 @@ describe('angular12 fix', () => {
             checkAngular12({
               packageJson,
               main: { core: { builder: 'webpack4' } },
+              storybookVersion: '6.3.0',
             })
           ).resolves.toMatchObject({
             angularVersion: '^12.0.0',
-            storybookVersion: '^6.3.0',
+            storybookVersion: '6.3.0',
           });
         });
       });
@@ -94,11 +94,11 @@ describe('angular12 fix', () => {
           await expect(
             checkAngular12({
               packageJson,
-              main: {},
+              storybookVersion: '6.3.0',
             })
           ).resolves.toMatchObject({
             angularVersion: '^12.0.0',
-            storybookVersion: '^6.3.0',
+            storybookVersion: '6.3.0',
           });
         });
       });
@@ -108,7 +108,6 @@ describe('angular12 fix', () => {
         await expect(
           checkAngular12({
             packageJson: {},
-            main: {},
           })
         ).resolves.toBeFalsy();
       });
@@ -117,13 +116,12 @@ describe('angular12 fix', () => {
   describe('sb 7.0+', () => {
     describe('angular12 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/react': '^7.0.0-alpha.0', '@angular/core': '^12.0.0' },
+        dependencies: { '@storybook/angular': '^7.0.0-alpha.0', '@angular/core': '^12.0.0' },
       };
       it('should no-op', async () => {
         await expect(
           checkAngular12({
             packageJson,
-            main: {},
           })
         ).resolves.toBeFalsy();
       });

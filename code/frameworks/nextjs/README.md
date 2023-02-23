@@ -45,6 +45,7 @@
     - [Stories for pages/components which fetch data](#stories-for-pagescomponents-which-fetch-data)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
     - [Module not found: Error: Can't resolve \[package name\]](#module-not-found-error-cant-resolve-package-name)
+    - [What if I'm using the Vite builder?](#what-if-im-using-the-vite-builder)
 - [Acknowledgements](#acknowledgements)
 
 ## Supported Features
@@ -928,6 +929,10 @@ See [local images](https://nextjs.org/docs/basic-features/image-optimization#loc
 #### Module not found: Error: Can't resolve [package name]
 
 You might get this if you're using Yarn v2 or v3. See [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users) for more details.
+
+#### What if I'm using the Vite builder?
+
+The `@storybook/nextjs` package abstracts the Webpack 5 builder and provides all the necessary Webpack configuration needed (and used internally) by Next.js. Webpack is currently the official builder in Next.js, and Next.js does not support Vite, therefore it is not possible to use Vite with `@storybook/nextjs`. You can use `@storybook/react-vite` framework instead, but at the cost of having a degraded experience, and we won't be able to provide you official support.
 
 ## Acknowledgements
 

@@ -1,14 +1,20 @@
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '../../js-package-manager';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { getStorybookScripts, sbScripts } from './sb-scripts';
 
-const checkSbScripts = async ({ packageJson }: { packageJson: PackageJson }) => {
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return sbScripts.check({ packageManager });
+const checkSbScripts = async ({
+  packageJson,
+  storybookVersion = '7.0.0',
+}: {
+  packageJson: PackageJson;
+  storybookVersion?: string;
+}) => {
+  mockStorybookData({ mainConfig: {}, storybookVersion });
+  return sbScripts.check({ packageManager: makePackageManager(packageJson) });
 };
 
 describe('getStorybookScripts', () => {
+  afterEach(jest.restoreAllMocks);
   it('detects default storybook scripts', () => {
     expect(
       getStorybookScripts({
@@ -57,6 +63,7 @@ describe('sb-scripts fix', () => {
         await expect(
           checkSbScripts({
             packageJson,
+            storybookVersion: '6.2.0',
           })
         ).resolves.toBeFalsy();
       });
@@ -91,7 +98,6 @@ describe('sb-scripts fix', () => {
                 before: 'start-storybook -p 6006',
               },
             },
-            storybookVersion: '^7.0.0-alpha.0',
           })
         );
       });
@@ -130,7 +136,6 @@ describe('sb-scripts fix', () => {
                   'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "CI=true storybook build --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
               },
             },
-            storybookVersion: '^7.0.0-alpha.0',
           })
         );
       });

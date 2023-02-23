@@ -9,6 +9,7 @@ import type {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
+  ProjectAnnotations,
 } from '@storybook/types';
 import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
 import type { SetOptional, Simplify } from 'type-fest';
@@ -142,3 +143,4 @@ export type DecoratorFn = DecoratorFunction<ReactRenderer>;
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<ReactRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<ReactRenderer, TArgs>;
 export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<ReactRenderer, TArgs>;
+export type Preview = ProjectAnnotations<ReactRenderer>;

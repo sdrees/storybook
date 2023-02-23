@@ -22,9 +22,6 @@ export class DocsRenderer<TRenderer extends Renderer> {
       element: HTMLElement,
       callback: () => void
     ): void => {
-      // Use a random key to force the container to re-render each time we call `renderDocs`
-      //   TODO: do we still need this? It was needed for angular (legacy) inline rendering:
-      //   https://github.com/storybookjs/storybook/pull/16149
       const components = {
         ...defaultComponents,
         ...docsParameter?.components,
@@ -33,7 +30,7 @@ export class DocsRenderer<TRenderer extends Renderer> {
       import('@mdx-js/react').then(({ MDXProvider }) => {
         ReactDOM.render(
           <MDXProvider components={components}>
-            <Docs key={Math.random()} context={context} docsParameter={docsParameter} />
+            <Docs context={context} docsParameter={docsParameter} />
           </MDXProvider>,
           element,
           callback

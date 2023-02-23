@@ -32,7 +32,7 @@ The `main.js|ts` configuration file is a [preset](../addons/addon-types.md) and,
 - `webpackFinal` - custom [Webpack configuration](../builders/webpack.md#extending-storybooks-webpack-config).
 - `babel` - custom [babel configuration](./babel.md).
 - `framework` - [framework specific configurations](./frameworks.md) to help the loading and building process.
-- `docs` - [auto-generated documentation](../writing-docs/docs-page.md.md) configuration.
+- `docs` - [auto-generated documentation](../writing-docs/autodocs.md) configuration.
 
 <div class="aside">
  💡 Tip: Customize your default story by referencing it first in the `stories` array.
@@ -44,10 +44,11 @@ See all the [available](#using-storybook-types-in-your-configuration) fields bel
 
 Additionally, you can also provide additional feature flags to your Storybook configuration. Below is an abridged list of available features that are currently available.
 
-| Configuration element | Description                                                                                                                                      |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up. <br/> `features: { storyStoreV7: true }` |
-| `buildStoriesJson`    | Generates a `stories.json` file to help story loading with the on demand mode. <br/> `features: { buildStoriesJson: true }`                      |
+| Configuration element | Description                                                                                                                                                            |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up <br/> `features: { storyStoreV7: true }`                        |
+| `buildStoriesJson`    | Generates a `stories.json` file to help story loading with the on demand mode <br/> `features: { buildStoriesJson: true }`                                             |
+| `legacyMdx1`          | Enables support for MDX version 1 as a fallback. Requires [`@storybook/mdx1-csf@next`](https://github.com/storybookjs/mdx1-csf) <br/> `features: { legacyMdx1: true }` |
 
 ## Configure story loading
 
@@ -188,7 +189,7 @@ See the vite builder [TypeScript documentation](https://github.com/storybookjs/b
 | `typescript`          | Configures how Storybook handles [TypeScript files](./typescript.md) <br/> `typescript: { check: false, checkOptions: {} }`                                                                              |
 | `framework`           | Configures Storybook based on a set of [framework-specific](./frameworks.md) settings <br/> `framework: { name: '@storybook/svelte-vite', options:{} }`                                                  |
 | `core`                | Configures Storybook's internal features.<br/> `core: { disableTelemetry: true, }`                                                                                                                       |
-| `docs`                | Configures Storybook's [auto-generated documentation](../writing-docs/docs-page.md)<br/> `docs: { autodocs: 'tag' }`                                                                                     |
+| `docs`                | Configures Storybook's [auto-generated documentation](../writing-docs/autodocs.md)<br/> `docs: { autodocs: 'tag' }`                                                                                      |
 | `features`            | Enables Storybook's additional features<br/> See table below for a list of available features `features: { storyStoreV7: true }`                                                                         |
 | `refs`                | Configures [Storybook composition](../sharing/storybook-composition.md) <br/> `refs:{ example: { title: 'ExampleStorybook', url:'https://your-url.com' } }`                                              |
 | `logLevel`            | Configures Storybook's logs in the browser terminal. Useful for debugging <br/> `logLevel: 'debug'`                                                                                                      |

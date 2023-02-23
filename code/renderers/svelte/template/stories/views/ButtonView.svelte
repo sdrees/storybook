@@ -22,7 +22,7 @@
    */
   export let text = 'You clicked';
 
-  function handleClick(event) {
+  function handleClick(_event) {
     count += 1;
   }
 </script>

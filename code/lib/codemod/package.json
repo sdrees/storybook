@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-beta.50",
+  "version": "7.0.0-beta.53",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -24,13 +24,13 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./dist/transforms/add-component-parameters.js": "./dist/transforms/add-component-parameters.js",
     "./dist/transforms/csf-2-to-3.js": "./dist/transforms/csf-2-to-3.js",
     "./dist/transforms/csf-hoist-story-annotations.js": "./dist/transforms/csf-hoist-story-annotations.js",
     "./dist/transforms/move-builtin-addons.js": "./dist/transforms/move-builtin-addons.js",
+    "./dist/transforms/mdx-to-csf.js": "./dist/transforms/mdx-to-csf.js",
     "./dist/transforms/storiesof-to-csf.js": "./dist/transforms/storiesof-to-csf.js",
     "./dist/transforms/update-addon-info.js": "./dist/transforms/update-addon-info.js",
     "./dist/transforms/update-organisation-name.js": "./dist/transforms/update-organisation-name.js",
@@ -39,7 +39,6 @@
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
@@ -50,9 +49,9 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/types": "^7.20.7",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-beta.50",
-    "@storybook/node-logger": "7.0.0-beta.50",
-    "@storybook/types": "7.0.0-beta.50",
+    "@storybook/csf-tools": "7.0.0-beta.53",
+    "@storybook/node-logger": "7.0.0-beta.53",
+    "@storybook/types": "7.0.0-beta.53",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.14.0",
@@ -66,25 +65,37 @@
     "ansi-regex": "^5.0.1",
     "jest": "^29.3.1",
     "jest-specific-snapshot": "^7.0.0",
-    "typescript": "~4.9.3"
+    "mdast-util-mdx-jsx": "^2.1.2",
+    "mdast-util-mdxjs-esm": "^1.3.1",
+    "remark": "^14.0.2",
+    "remark-mdx": "^2.2.1",
+    "ts-dedent": "^2.2.0",
+    "typescript": "~4.9.3",
+    "unist-util-is": "^5.2.0",
+    "unist-util-select": "^4.0.3",
+    "unist-util-visit": "^4.1.2",
+    "vfile": "^5.3.7"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "platform": "node",
     "entries": [
       "./src/index.js",
       "./src/transforms/add-component-parameters.js",
       "./src/transforms/csf-2-to-3.ts",
       "./src/transforms/csf-hoist-story-annotations.js",
+      "./src/transforms/mdx-to-csf.ts",
       "./src/transforms/move-builtin-addons.js",
       "./src/transforms/storiesof-to-csf.js",
       "./src/transforms/update-addon-info.js",
       "./src/transforms/update-organisation-name.js",
       "./src/transforms/upgrade-deprecated-types.ts",
       "./src/transforms/upgrade-hierarchy-separators.js"
+    ],
+    "formats": [
+      "cjs"
     ]
   },
-  "gitHead": "ecbe308bda919d3cc60188dbb17dc4511f6b7a0e"
+  "gitHead": "b1da06450dc3e4124a935785a2041b18204533ae"
 }

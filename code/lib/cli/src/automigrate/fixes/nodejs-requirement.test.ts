@@ -1,22 +1,16 @@
 /// <reference types="@types/jest" />;
 
-import type { JsPackageManager } from '../../js-package-manager';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { nodeJsRequirement } from './nodejs-requirement';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
-const check = async ({ packageJson = {} }: any) => {
-  const packageManager = {
-    retrievePackageJson: () => ({
-      dependencies: {
-        '@storybook/react': '^7.0.0',
-      },
-      devDependencies: {},
-      ...packageJson,
-    }),
-  } as JsPackageManager;
-  return nodeJsRequirement.check({ packageManager });
+const check = async ({ storybookVersion = '7.0.0' }) => {
+  mockStorybookData({ mainConfig: {}, storybookVersion });
+  return nodeJsRequirement.check({
+    packageManager: makePackageManager({}),
+  });
 };
 
 const originalNodeVersion = process.version;
@@ -31,6 +25,12 @@ const mockNodeVersion = (version: string) => {
 describe('nodejs-requirement fix', () => {
   afterAll(() => {
     mockNodeVersion(originalNodeVersion);
+    jest.restoreAllMocks();
+  });
+
+  it('skips when sb <= 7.0.0', async () => {
+    mockNodeVersion('14.0.0');
+    await expect(check({ storybookVersion: '6.3.2' })).resolves.toBeNull();
   });
 
   it('skips when node >= 16.0.0', async () => {

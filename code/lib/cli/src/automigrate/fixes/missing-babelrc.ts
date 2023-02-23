@@ -1,11 +1,10 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import { getStorybookInfo } from '@storybook/core-common';
 import { loadPartialConfigAsync } from '@babel/core';
-import { readConfig } from '@storybook/csf-tools';
 import type { Fix } from '../types';
 import { generateStorybookBabelConfigInCWD } from '../../babel-config';
+import { getStorybookData } from '../helpers/mainConfigFile';
 
 interface MissingBabelRcOptions {
   needsBabelRc: boolean;
@@ -23,32 +22,17 @@ const frameworksThatNeedBabelConfig = [
 export const missingBabelRc: Fix<MissingBabelRcOptions> = {
   id: 'missing-babelrc',
 
-  async check({ packageManager }) {
+  async check({ configDir, packageManager }) {
     const packageJson = packageManager.retrievePackageJson();
-    const { mainConfig, version: storybookVersion } = getStorybookInfo(packageJson);
+    const { mainConfig, storybookVersion } = await getStorybookData({ configDir, packageManager });
 
-    const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!storybookCoerced) {
-      throw new Error(dedent`
-        ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
-      `);
-    }
-
-    if (!semver.gte(storybookCoerced, '7.0.0')) {
+    if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    if (!mainConfig) {
-      logger.warn('Unable to find storybook main.js config, skipping');
-      return null;
-    }
+    const { framework, addons } = mainConfig;
 
-    const main = await readConfig(mainConfig);
-
-    const frameworkPackage = main.getNameFromPath(['framework']);
-
-    const addons = main.getNamesFromPath(['addons']);
+    const frameworkPackage = typeof framework === 'string' ? framework : framework.name;
 
     const hasCraPreset =
       addons && addons.find((addon) => addon === '@storybook/preset-create-react-app');

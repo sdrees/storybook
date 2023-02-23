@@ -1,3 +1,57 @@
+## 7.0.0-beta.53 (February 22, 2023)
+
+#### Features
+
+-   Codemod: Convert `.stories.mdx` to MDX and CSF [#21073](https://github.com/storybooks/storybook/pull/21073)
+
+#### Bug Fixes
+
+-   Csf Tools: Fix overriding scalar named export values [#21190](https://github.com/storybooks/storybook/pull/21190)
+-   Csf Tools: Support satisfies and as TS operator with module.exports [#21188](https://github.com/storybooks/storybook/pull/21188)
+-   Core: try harder to resolve `.mjs` files for the browser entries [#21161](https://github.com/storybooks/storybook/pull/21161)
+-   CLI: Fix jscodeshift error: env: node\r: No such file or directory [#21180](https://github.com/storybooks/storybook/pull/21180)
+-   Angular: Fix NG0800 error [#21181](https://github.com/storybooks/storybook/pull/21181)
+-   Addon-docs: Fix style bleeding [#21150](https://github.com/storybooks/storybook/pull/21150)
+-   CLI: Improve how automigrations read `main.js` [#21168](https://github.com/storybooks/storybook/pull/21168)
+
+#### Build
+
+-   Build: Add check step to `ci:daily` workflow [#21169](https://github.com/storybooks/storybook/pull/21169)
+
+## 7.0.0-beta.52 (February 21, 2023)
+
+#### Features
+
+-   Core: Coalesce multiple indexing errors into one [#21114](https://github.com/storybooks/storybook/pull/21114)
+-   Core: Don't crash when there are errors indexing [#21112](https://github.com/storybooks/storybook/pull/21112)
+
+#### Bug Fixes
+
+-   CLI: Fix CRA init, ensure the new version of the preset [#21166](https://github.com/storybooks/storybook/pull/21166)
+-   Angular: Fix 'isStandalone' function not available error [#21167](https://github.com/storybooks/storybook/pull/21167)
+-   Angular: Fix constructor dependencies [#21059](https://github.com/storybooks/storybook/pull/21059)
+-   NextJS: Add missing dependencies to fix pnpm [#21162](https://github.com/storybooks/storybook/pull/21162)
+
+## 7.0.0-beta.51 (February 20, 2023)
+
+#### Features
+
+-   CLI: Improve monorepo support in `automigrate` and revamp framework-related migrations [#20647](https://github.com/storybooks/storybook/pull/20647)
+
+#### Bug Fixes
+
+-   UI: Correctly detect Safari in browser supports CSS Zoom [#21163](https://github.com/storybooks/storybook/pull/21163)
+-   Web-components: Fix StorybookConfig of webcomponents-webpack5 [#21144](https://github.com/storybooks/storybook/pull/21144)
+-   Storysource: Fallback to the `docs.source.originalSource` parameter [#21159](https://github.com/storybooks/storybook/pull/21159)
+-   UI: Fix skip to canvas link style [#21021](https://github.com/storybooks/storybook/pull/21021)
+-   Vue2: Fix events to use bracket notation [#20754](https://github.com/storybooks/storybook/pull/20754)
+
+### Maintenance
+
+-   Maintenance: Fix type errors on automigrate `check` step [#21164](https://github.com/storybooks/storybook/pull/21164)
+-   Core: Rename `framework` parameter to `renderer` [#21108](https://github.com/storybooks/storybook/pull/21108)
+-   Docs: Remove `DocsOptions.disable` [#21098](https://github.com/storybooks/storybook/pull/21098)
+
 ## 7.0.0-beta.50 (February 18, 2023)
 
 #### Bug Fixes

@@ -4,7 +4,7 @@ import { global } from '@storybook/global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import type { Renderer } from '@storybook/types';
-import { DocsWrapper, DocsContent } from '../components';
+import { DocsPageWrapper } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import { SourceContainer } from './SourceContainer';
@@ -45,9 +45,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({
     <DocsContext.Provider value={context}>
       <SourceContainer channel={context.channel}>
         <ThemeProvider theme={ensureTheme(theme)}>
-          <DocsWrapper className="sbdocs sbdocs-wrapper">
-            <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
-          </DocsWrapper>
+          <DocsPageWrapper>{children}</DocsPageWrapper>
         </ThemeProvider>
       </SourceContainer>
     </DocsContext.Provider>

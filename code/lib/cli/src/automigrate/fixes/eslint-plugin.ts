@@ -1,8 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getStorybookInfo } from '@storybook/core-common';
 import { readFile, readJson, writeJson } from 'fs-extra';
 import detectIndent from 'detect-indent';
 
@@ -13,7 +11,6 @@ import type { Fix } from '../types';
 const logger = console;
 
 interface EslintPluginRunOptions {
-  main: ConfigFile;
   eslintFile: string;
   unsupportedExtension?: string;
 }
@@ -28,21 +25,12 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
   id: 'eslintPlugin',
 
   async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { dependencies, devDependencies } = packageJson;
+    const allDependencies = packageManager.getAllDependencies();
 
-    const eslintPluginStorybook =
-      dependencies['eslint-plugin-storybook'] || devDependencies['eslint-plugin-storybook'];
-    const eslintDependency = dependencies.eslint || devDependencies.eslint;
+    const eslintPluginStorybook = allDependencies['eslint-plugin-storybook'];
+    const eslintDependency = allDependencies.eslint;
 
     if (eslintPluginStorybook || !eslintDependency) {
-      return null;
-    }
-
-    const { mainConfig } = getStorybookInfo(packageJson);
-
-    if (!mainConfig) {
-      logger.warn('Unable to find storybook main.js config, skipping');
       return null;
     }
 
@@ -59,10 +47,7 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
       return null;
     }
 
-    // If in the future the eslint plugin has a framework option, using main to extract the framework field will be very useful
-    const main = await readConfig(mainConfig);
-
-    return { eslintFile, main, unsupportedExtension };
+    return { eslintFile, unsupportedExtension };
   },
 
   prompt() {
@@ -75,11 +60,12 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
     `;
   },
 
-  async run({ result: { eslintFile, unsupportedExtension }, packageManager, dryRun }) {
+  async run({ result: { eslintFile, unsupportedExtension }, packageManager, dryRun, skipInstall }) {
     const deps = [`eslint-plugin-storybook`];
 
     logger.info(`✅ Adding dependencies: ${deps}`);
-    if (!dryRun) packageManager.addDependencies({ installAsDevDependencies: true }, deps);
+    if (!dryRun)
+      packageManager.addDependencies({ installAsDevDependencies: true, skipInstall }, deps);
 
     if (!dryRun && unsupportedExtension) {
       logger.info(dedent`

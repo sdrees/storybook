@@ -7,6 +7,7 @@ import type {
   LoaderFunction,
   StoryContext as GenericStoryContext,
   StrictArgs,
+  ProjectAnnotations,
 } from '@storybook/types';
 import type { PreactRenderer } from './types';
 
@@ -48,3 +49,4 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<PreactRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<PreactRenderer, TArgs>;
 export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<PreactRenderer, TArgs>;
+export type Preview = ProjectAnnotations<PreactRenderer>;

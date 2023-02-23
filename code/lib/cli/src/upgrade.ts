@@ -213,7 +213,18 @@ export const doUpgrade = async ({
 
   if (!options.disableTelemetry) {
     const afterVersion = await getStorybookCoreVersion();
-    telemetry('upgrade', { prerelease, tag, automigrationResults, beforeVersion, afterVersion });
+    const { preCheckFailure, ...results } = automigrationResults || {};
+    const automigrationTelemetry = {
+      automigrationResults: preCheckFailure ? null : results,
+      automigrationPreCheckFailure: preCheckFailure || null,
+    };
+    telemetry('upgrade', {
+      prerelease,
+      tag,
+      beforeVersion,
+      afterVersion,
+      ...automigrationTelemetry,
+    });
   }
 };
 

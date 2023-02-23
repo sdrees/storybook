@@ -7,6 +7,7 @@ import type {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
+  ProjectAnnotations,
 } from '@storybook/types';
 import type { WebComponentsRenderer } from './types';
 
@@ -48,3 +49,4 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<WebComponentsRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<WebComponentsRenderer, TArgs>;
 export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<WebComponentsRenderer, TArgs>;
+export type Preview = ProjectAnnotations<WebComponentsRenderer>;

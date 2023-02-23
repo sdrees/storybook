@@ -1,8 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 /// <reference types="@types/jest" />;
 
-import path from 'path';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { StorybookConfig } from '@storybook/types';
+import type { PackageJson } from '../../js-package-manager';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { missingBabelRc } from './missing-babelrc';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
@@ -25,20 +26,34 @@ const babelContent = JSON.stringify({
   plugins: [],
 });
 
-const check = async ({ packageJson = {}, main = {}, extraFiles }: any) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
-    [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
-    ...(extraFiles || {}),
-  });
+const check = async ({
+  packageJson = {},
+  main: mainConfig,
+  storybookVersion = '7.0.0',
+  extraFiles,
+}: {
+  packageJson?: PackageJson;
+  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  storybookVersion?: string;
+  extraFiles?: Record<string, any>;
+}) => {
+  if (extraFiles) {
+    // eslint-disable-next-line global-require
+    require('fs-extra').__setMockFiles(extraFiles);
+  }
 
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return missingBabelRc.check({ packageManager });
+  mockStorybookData({ mainConfig, storybookVersion });
+
+  return missingBabelRc.check({ packageManager: makePackageManager(packageJson) });
 };
 
 describe('missing-babelrc fix', () => {
+  afterEach(jest.restoreAllMocks);
+
+  it('skips when storybook version < 7.0.0', async () => {
+    await expect(check({ storybookVersion: '6.3.2' })).resolves.toBeNull();
+  });
+
   it('skips when babelrc config is present', async () => {
     const packageJson = {
       devDependencies: {

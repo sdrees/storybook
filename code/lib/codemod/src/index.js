@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint import/prefer-default-export: "off" */
 import fs from 'fs';
 import path from 'path';
@@ -55,16 +56,22 @@ export async function runCodemod(codemod, { glob, logger, dryRun, rename, parser
 
   const files = await globby([glob, '!**/node_modules', '!**/dist']);
   logger.log(`=> Applying ${codemod}: ${files.length} files`);
-  if (!dryRun) {
+  if (files.length === 0) {
+    logger.log(`=> No matching files for glob: ${glob}`);
+    return;
+  }
+
+  if (!dryRun && files.length > 0) {
     const parserArgs = inferredParser ? ['--parser', inferredParser] : [];
-    spawnSync(
-      'npx',
+    const result = spawnSync(
+      'node',
       [
-        'jscodeshift',
+        require.resolve('jscodeshift/bin/jscodeshift'),
         // this makes sure codeshift doesn't transform our own source code with babel
         // which is faster, and also makes sure the user won't see babel messages such as:
         // [BABEL] Note: The code generator has deoptimised the styling of repo/node_modules/prettier/index.js as it exceeds the max of 500KB.
         '--no-babel',
+        '--fail-on-error',
         '-t',
         `${TRANSFORM_DIR}/${codemod}.js`,
         ...parserArgs,
@@ -75,6 +82,15 @@ export async function runCodemod(codemod, { glob, logger, dryRun, rename, parser
         shell: true,
       }
     );
+    if (result.status === 1) {
+      logger.log('Skipped renaming because of errors.');
+      return;
+    }
+  }
+
+  if (!renameParts && codemod === 'mdx-to-csf') {
+    renameParts = ['.stories.mdx', '.mdx'];
+    rename = '.stories.mdx:.mdx;';
   }
 
   if (renameParts) {

@@ -36,6 +36,7 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
 import type { CommandOptions } from './generators/types';
+import { initFixes } from './automigrate/fixes';
 
 const logger = console;
 
@@ -339,7 +340,11 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   }
 
   if (projectType !== ProjectType.REACT_NATIVE) {
-    await automigrate({ yes: options.yes || process.env.CI === 'true', packageManager: pkgMgr });
+    await automigrate({
+      yes: options.yes || process.env.CI === 'true',
+      packageManager: pkgMgr,
+      fixes: initFixes,
+    });
   }
 
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));

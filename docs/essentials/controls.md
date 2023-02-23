@@ -97,10 +97,10 @@ This replaces the input with a radio group for a more intuitive experience.
 
 For a few types, Controls can automatically be inferred with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
 
-| Data type | Default regex                            | Description                                               |
+| Data type |              Default regex               |                        Description                        |
 | :-------: | :--------------------------------------: | :-------------------------------------------------------: |
 | **color** | <code>/(background&#124;color)$/i</code> | Will display a color picker UI for the args that match it |
-| **date**  | `/Date$/`                                | Will display a date picker UI for the args that match it  |
+| **date**  |                `/Date$/`                 | Will display a date picker UI for the args that match it  |
 
 If you haven't used the CLI to setup the configuration, or if you want to define your own patterns, use the `matchers` property in the `controls` parameter:
 
@@ -140,7 +140,7 @@ Until now, we only used auto-generated controls based on the component we're wri
 
 By default, Storybook will add controls for all args that:
 
-- It infers from the component definition [if your framework supports it](../api/frameworks-feature-support.md).
+- It infers from the component definition [if your framework supports it](../configure/frameworks-feature-support.md).
 
 - Appear in the list of args for your story.
 
@@ -241,7 +241,7 @@ Controls supports the following configuration [parameters](../writing-stories/pa
 
 ## Show full documentation for each property
 
-Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [ArgsTable](../writing-docs/doc-block-argstable.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
+Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [`Controls`](../api/doc-block-controls.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
 
 To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
 

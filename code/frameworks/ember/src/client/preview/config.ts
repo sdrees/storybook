@@ -1,3 +1,3 @@
 export { renderToCanvas } from './render';
 
-export const parameters = { framework: 'ember' as const };
+export const parameters = { renderer: 'ember' as const };

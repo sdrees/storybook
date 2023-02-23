@@ -1,30 +1,27 @@
-/* eslint-disable no-underscore-dangle */
-import * as path from 'path';
 import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '../../js-package-manager';
 import { cra5 } from './cra5';
-
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 
 const checkCra5 = async ({
   packageJson,
-  main,
+  main: mainConfig,
+  storybookVersion = '7.0.0',
 }: {
   packageJson: PackageJson;
-  main: Partial<StorybookConfig>;
+  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  storybookVersion?: string;
 }) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
-    [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
+  mockStorybookData({ mainConfig, storybookVersion });
+
+  return cra5.check({
+    packageManager: makePackageManager(packageJson),
   });
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return cra5.check({ packageManager });
 };
 
 describe('cra5 fix', () => {
+  afterEach(jest.restoreAllMocks);
+
   describe('sb < 6.3', () => {
     describe('cra5 dependency', () => {
       const packageJson = {
@@ -34,7 +31,7 @@ describe('cra5 fix', () => {
         await expect(
           checkCra5({
             packageJson,
-            main: {},
+            storybookVersion: '6.2.0',
           })
         ).rejects.toThrow();
       });
@@ -82,10 +79,11 @@ describe('cra5 fix', () => {
             checkCra5({
               packageJson,
               main: { core: { builder: 'webpack4' } },
+              storybookVersion: '6.3.0',
             })
           ).resolves.toMatchObject({
             craVersion: '^5.0.0',
-            storybookVersion: '^6.3.0',
+            storybookVersion: '6.3.0',
           });
         });
       });
@@ -95,10 +93,11 @@ describe('cra5 fix', () => {
             checkCra5({
               packageJson,
               main: {},
+              storybookVersion: '6.3.0',
             })
           ).resolves.toMatchObject({
             craVersion: '^5.0.0',
-            storybookVersion: '^6.3.0',
+            storybookVersion: '6.3.0',
           });
         });
       });

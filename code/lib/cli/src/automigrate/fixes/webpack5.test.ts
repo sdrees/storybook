@@ -1,30 +1,28 @@
-/* eslint-disable no-underscore-dangle */
-import * as path from 'path';
 import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '../../js-package-manager';
 import { webpack5 } from './webpack5';
-
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 
 const checkWebpack5 = async ({
   packageJson,
-  main,
+  main: mainConfig,
+  storybookVersion = '6.3.0',
 }: {
   packageJson: PackageJson;
-  main: Partial<StorybookConfig>;
+  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  storybookVersion?: string;
 }) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
-    [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
+  mockStorybookData({ mainConfig, storybookVersion });
+
+  return webpack5.check({
+    packageManager: makePackageManager(packageJson),
+    configDir: '',
   });
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return webpack5.check({ packageManager });
 };
 
 describe('webpack5 fix', () => {
+  afterEach(jest.restoreAllMocks);
+
   describe('sb < 6.3', () => {
     describe('webpack5 dependency', () => {
       const packageJson = { dependencies: { '@storybook/react': '^6.2.0', webpack: '^5.0.0' } };
@@ -32,7 +30,7 @@ describe('webpack5 fix', () => {
         await expect(
           checkWebpack5({
             packageJson,
-            main: {},
+            storybookVersion: '6.2.0',
           })
         ).rejects.toThrow();
       });
@@ -43,7 +41,7 @@ describe('webpack5 fix', () => {
         await expect(
           checkWebpack5({
             packageJson,
-            main: {},
+            storybookVersion: '6.2.0',
           })
         ).resolves.toBeFalsy();
       });
@@ -81,7 +79,7 @@ describe('webpack5 fix', () => {
             })
           ).resolves.toMatchObject({
             webpackVersion: '^5.0.0',
-            storybookVersion: '^6.3.0',
+            storybookVersion: '6.3.0',
           });
         });
       });
@@ -94,7 +92,7 @@ describe('webpack5 fix', () => {
             })
           ).resolves.toMatchObject({
             webpackVersion: '^5.0.0',
-            storybookVersion: '^6.3.0',
+            storybookVersion: '6.3.0',
           });
         });
       });
@@ -104,7 +102,6 @@ describe('webpack5 fix', () => {
         await expect(
           checkWebpack5({
             packageJson: {},
-            main: {},
           })
         ).resolves.toBeFalsy();
       });
@@ -118,7 +115,6 @@ describe('webpack5 fix', () => {
                 webpack: '4',
               },
             },
-            main: {},
           })
         ).resolves.toBeFalsy();
       });
@@ -134,6 +130,7 @@ describe('webpack5 fix', () => {
           checkWebpack5({
             packageJson,
             main: {},
+            storybookVersion: '7.0.0',
           })
         ).resolves.toBeFalsy();
       });

@@ -1,6 +1,7 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
-import { SupportedLanguage } from '../project_types';
+import prettier from 'prettier';
+import { externalFrameworks, SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
@@ -28,6 +29,7 @@ interface ConfigurePreviewOptions {
   frameworkPreviewParts?: FrameworkPreviewParts;
   storybookConfigFolder: string;
   language: SupportedLanguage;
+  rendererId: string;
 }
 
 const logger = console;
@@ -94,18 +96,28 @@ export async function configureMain({
     .replace('<<import>>', `${imports.join('\n\n')}\n`)
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', mainContents);
-  await fse.writeFile(
-    `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
-    dedent(mainJsContents),
-    { encoding: 'utf8' }
-  );
+
+  const mainPath = `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`;
+  const prettyMain = prettier.format(dedent(mainJsContents), {
+    ...prettier.resolveConfig.sync(process.cwd()),
+    filepath: mainPath,
+  });
+  await fse.writeFile(mainPath, prettyMain, { encoding: 'utf8' });
 }
 
 export async function configurePreview(options: ConfigurePreviewOptions) {
-  const { prefix = '' } = options.frameworkPreviewParts || {};
+  const { prefix: frameworkPrefix = '' } = options.frameworkPreviewParts || {};
   const isTypescript =
     options.language === SupportedLanguage.TYPESCRIPT_4_9 ||
     options.language === SupportedLanguage.TYPESCRIPT_3_8;
+
+  // We filter out community packages here, as we are not certain if they export a Preview type.
+  // Let's make this configurable in the future.
+  const rendererPackage =
+    options.rendererId &&
+    !externalFrameworks.map(({ name }) => name as string).includes(options.rendererId)
+      ? `@storybook/${options.rendererId}`
+      : null;
 
   const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;
 
@@ -114,22 +126,42 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     return;
   }
 
+  const prefix = [
+    isTypescript && rendererPackage ? `import type { Preview } from '${rendererPackage}'` : '',
+    frameworkPrefix,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
   const preview = dedent`
-    ${prefix}
-    export const parameters = {
-      backgrounds: {
-        default: 'light',
-      },
-      actions: { argTypesRegex: "^on[A-Z].*" },
-      controls: {
-        matchers: {
-          color: /(background|color)$/i,
-          date: /Date$/,
+    ${prefix}${prefix.length > 0 ? '\n' : ''}
+    ${
+      !isTypescript && rendererPackage
+        ? `/** @type { import('${rendererPackage}').Preview } */\n`
+        : ''
+    }const preview${isTypescript ? ': Preview' : ''} = {
+      parameters: {
+        backgrounds: {
+          default: 'light',
+        },
+        actions: { argTypesRegex: '^on[A-Z].*' },
+        controls: {
+          matchers: {
+           color: /(background|color)$/i,
+           date: /Date$/,
+          },
         },
       },
-    }`
+    };
+    
+    export default preview;
+    `
     .replace('  \n', '')
     .trim();
 
-  await fse.writeFile(previewPath, preview, { encoding: 'utf8' });
+  const prettyPreview = prettier.format(preview, {
+    ...prettier.resolveConfig.sync(process.cwd()),
+    filepath: previewPath,
+  });
+  await fse.writeFile(previewPath, prettyPreview, { encoding: 'utf8' });
 }

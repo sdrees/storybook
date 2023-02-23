@@ -1,29 +1,23 @@
 /* eslint-disable no-underscore-dangle */
-import * as path from 'path';
 import { dedent } from 'ts-dedent';
-import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '../../js-package-manager';
 import { eslintPlugin } from './eslint-plugin';
+import { makePackageManager } from '../helpers/testing-helpers';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
 const checkEslint = async ({
   packageJson,
-  main = {},
   hasEslint = true,
   eslintExtension = 'js',
 }: {
   packageJson: PackageJson;
-  main?: Partial<StorybookConfig> & Record<string, unknown>;
   hasEslint?: boolean;
   eslintExtension?: string;
 }) => {
   // eslint-disable-next-line global-require
   require('fs-extra').__setMockFiles({
-    [path.join('.storybook', 'main.js')]: !main
-      ? null
-      : `module.exports = ${JSON.stringify(main)};`,
     [`.eslintrc.${eslintExtension}`]: !hasEslint
       ? null
       : dedent(`
@@ -45,10 +39,9 @@ const checkEslint = async ({
       }
     `),
   });
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return eslintPlugin.check({ packageManager });
+  return eslintPlugin.check({
+    packageManager: makePackageManager(packageJson),
+  });
 };
 
 describe('eslint-plugin fix', () => {
@@ -78,19 +71,6 @@ describe('eslint-plugin fix', () => {
     const packageJson = { dependencies: { '@storybook/react': '^6.2.0', eslint: '^7.0.0' } };
 
     describe('should no-op and warn when', () => {
-      it('main.js is not found', async () => {
-        const loggerSpy = jest.spyOn(console, 'warn').mockImplementationOnce(jest.fn);
-        const result = await checkEslint({
-          packageJson,
-          main: null,
-          hasEslint: false,
-        });
-
-        expect(loggerSpy).toHaveBeenCalledWith('Unable to find storybook main.js config, skipping');
-
-        await expect(result).toBeFalsy();
-      });
-
       it('.eslintrc is not found', async () => {
         const loggerSpy = jest.spyOn(console, 'warn').mockImplementationOnce(jest.fn);
         const result = await checkEslint({

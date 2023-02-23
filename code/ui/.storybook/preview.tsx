@@ -18,7 +18,7 @@ import type { Channel } from '@storybook/channels';
 
 import { DocsContext } from '@storybook/blocks';
 
-import { DocsContent, DocsWrapper } from '../blocks/src/components';
+import { DocsPageWrapper } from '../blocks/src/components';
 
 const { document } = global;
 
@@ -150,11 +150,9 @@ export const decorators = [
    * Activated with parameters.docsStyles = true
    */ (Story, { parameters: { docsStyles } }) =>
     docsStyles ? (
-      <DocsWrapper className="sbdocs sbdocs-wrapper">
-        <DocsContent className="sbdocs sbdocs-content">
-          <Story />
-        </DocsContent>
-      </DocsWrapper>
+      <DocsPageWrapper>
+        <Story />
+      </DocsPageWrapper>
     ) : (
       <Story />
     ),

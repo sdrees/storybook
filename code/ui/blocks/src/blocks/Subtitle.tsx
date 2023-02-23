@@ -14,5 +14,5 @@ export const Subtitle: FunctionComponent<SubtitleProps> = ({ children }) => {
   if (!text) {
     text = parameters?.componentSubtitle;
   }
-  return text ? <PureSubtitle className="sbdocs-subtitle">{text}</PureSubtitle> : null;
+  return text ? <PureSubtitle className="sbdocs-subtitle sb-unstyled">{text}</PureSubtitle> : null;
 };

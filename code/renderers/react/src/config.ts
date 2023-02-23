@@ -1,9 +1,6 @@
 import { parameters as docsParams } from './docs/config';
 
-export const parameters = {
-  framework: 'react',
-  ...docsParams,
-};
+export const parameters = { renderer: 'react', ...docsParams };
 
 export { decorators, argTypesEnhancers } from './docs/config';
 

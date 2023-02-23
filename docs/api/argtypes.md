@@ -12,9 +12,9 @@ ArgTypes are a first-class feature in Storybook for specifying the behaviour of 
 
 You can also use argTypes to “annotate” args with information used by addons that make use of those args. For instance, to instruct the controls addon to render a color, you could choose a string-valued arg.
 
-The most concrete realization of argTypes is the [Args Table](../writing-docs/doc-block-argstable.md) doc block. Each row in the table corresponds to a single argType and the current value of that arg.
+The most concrete realization of argTypes is the [`ArgTypes` doc block](./doc-block-argtypes.md) ([`Controls`](./doc-block-controls.md) is similar). Each row in the table corresponds to a single argType and the current value of that arg.
 
-![Storybook inferring automatically the argType](./argstable.png)
+![Storybook inferring automatically the argType](./doc-block-argtypes.png)
 
 ## Automatic argType inference
 
@@ -48,18 +48,13 @@ The format of the generated argType will look something like this:
 
 This ArgTypes data structure, name, type, defaultValue, and description are standard fields in all ArgTypes (analogous to PropTypes in React). The table and control fields are addon-specific annotations. So, for example, the table annotation provides extra information to customize how the label gets rendered, and the control annotation includes additional information for the control editing the property.
 
-<div class="aside">
-
-💡 The `@storybook/addon-docs` provide a shorthand for common tasks:
-
-- `type: 'number'` is shorthand for type: { name: 'number' }
-- `control: 'radio'` is shorthand for control: { type: 'radio' }
-
-</div>
-
-#### Manual specification
+## Manual specification
 
 If you want more control over the args table or any other aspect of using argTypes, you can overwrite the generated argTypes for your component on a per-arg basis. For instance, with the above-inferred argTypes and the following default export:
+
+<div class="aside">
+💡 As with other Storybook properties (e.g., args, decorators), you can also override ArgTypes per story basis.
+</div>
 
 <!-- prettier-ignore-start -->
 
@@ -85,9 +80,101 @@ The `values.description`, `table.type`, and `controls.type` are merged into the 
 
 In particular, this would render a row with a modified description, a type display with a dropdown that shows the detail, and no control.
 
+### Available properties
+
+Here's an explanation of each available property:
+
+| Property                     | Description                                                                                                                                                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                       | The name of the property. <br/> `argTypes: { label: { name: 'Something' } }`                                                                                                                       |
+| `type.name`                  | Sets a type for the property. <br/> `argTypes: { label: { type: { name: 'number' } } }`                                                                                                            |
+| `type.required`              | Sets the property as optional or required. <br/> `argTypes: { label: { type: { required: true } }`                                                                                                 |
+| `description`                | Sets a Markdown description for the property. <br/> `argTypes: { label: { description: 'Something' } }`                                                                                            |
+| `table.type.summary`         | Provide a short version of the type. <br/> `argTypes: { label: { table: { type: { summary: 'a short summary' } }}}`                                                                                |
+| `table.type.detail`          | Provides an extended version of the type. <br/> `argTypes: { label: { table: { type: { detail: 'something' } }}}`                                                                                  |
+| `table.defaultValue.summary` | Provide a short version of the default value. <br/> `argTypes: { label: { table: { defaultValue: { summary: 'Hello World' } }}}`                                                                   |
+| `table.defaultValue.detail`  | Provides a longer version of the default value. <br/> `argTypes: { label: { table: { defaultValue: { detail: 'Something' } }}}`                                                                    |
+| `control`                    | Associates a control for the property. <br/> `argTypes: { label: { control: { type: 'text'} } }` <br/>Read the [Essentials documentation](../essentials/controls.md) to learn more about controls. |
+
+#### Shorthands
+
 <div class="aside">
-💡 As with other Storybook properties (e.g., args, decorators), you can also override ArgTypes per story basis.
+
+💡 The `@storybook/addon-docs` provide a shorthand for common tasks:
+
+- `type: 'number'` is shorthand for type: { name: 'number' }
+- `control: 'radio'` is shorthand for control: { type: 'radio' }
+
 </div>
+
+### Grouping
+
+You can also manually specify groups to organize related `argTypes` into categories or even subcategories. Based on the following component implementation:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/button-implementation.js.mdx',
+    'react/button-implementation.ts.mdx',
+    'angular/button-implementation.ts.mdx',
+    'vue/button-implementation.2.js.mdx',
+    'vue/button-implementation.ts-2.ts.mdx',
+    'vue/button-implementation.3.js.mdx',
+    'vue/button-implementation.ts-3.ts.mdx',
+    'svelte/button-implementation.js.mdx',
+    'web-components/button-implementation.js.mdx',
+    'web-components/button-implementation.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+You could group similar properties for better organization and structure. Using the table below as a reference:
+
+| Field               | Category |
+| :------------------ | :------: |
+| **backgroundColor** |  Colors  |
+| **primary**         |  Colors  |
+| **label**           |   Text   |
+| **onClick**         |  Events  |
+| **size**            |  Sizes   |
+
+Results in the following change into your story and UI.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/button-story-argtypes-with-categories.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+![button story with args grouped into categories](./button-args-grouped-categories.png)
+
+You can also extend the formula above and introduce subcategories, allowing better structuring and organization. Using the table below as a reference leads to the following change to your story and UI:
+
+| Field               | Category |   Subcategory   |
+| :------------------ | :------: | :-------------: |
+| **backgroundColor** |  Colors  |  Button colors  |
+| **primary**         |  Colors  |  Button style   |
+| **label**           |   Text   | Button contents |
+| **onClick**         |  Events  |  Button Events  |
+| **size**            |  Sizes   |                 |
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/button-story-argtypes-with-subcategories.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+![button story with args grouped into categories](./button-args-grouped-subcategories.png)
 
 #### Global `argTypes`
 

@@ -89,7 +89,7 @@ export function start<TRenderer extends Renderer>(
     // This gets called each time the user calls configure (i.e. once per HMR)
     // The first time, it constructs the preview, subsequently it updates it
     configure(
-      framework: string,
+      renderer: string,
       loadable: Loadable,
       m?: NodeModule,
       disableBackwardCompatibility = true
@@ -98,7 +98,7 @@ export function start<TRenderer extends Renderer>(
         throw new Error('unexpected configure() call');
       }
 
-      clientApi.addParameters({ framework });
+      clientApi.addParameters({ renderer });
 
       // We need to run the `executeLoadableForChanges` function *inside* the `getProjectAnnotations
       // function in case it throws. So we also need to process its output there also

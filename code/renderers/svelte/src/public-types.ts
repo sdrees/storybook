@@ -9,6 +9,7 @@ import type {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
+  ProjectAnnotations,
 } from '@storybook/types';
 
 import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
@@ -61,3 +62,4 @@ export type { SvelteRenderer };
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<SvelteRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<SvelteRenderer, TArgs>;
 export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<SvelteRenderer, TArgs>;
+export type Preview = ProjectAnnotations<SvelteRenderer>;

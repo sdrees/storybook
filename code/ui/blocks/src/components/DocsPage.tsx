@@ -7,39 +7,21 @@ import React from 'react';
 
 /**
  * This selector styles all raw elements inside the DocsPage like this example with a `<div/>`:
- * :where(div:not(.sb-unstyled, .sbdocs-preview... :where(.sb-unstyled, .sbdocs-preview...) div))
+ * :where(div:not(.sb-unstyled, .sb-anchor, .sb-unstyled div, .sb-unstyled div))
  *
- * 1. first ':where': ensures this has a specificity of 0, making it easy to override.
- * 2. 'div:not(...)': selects all div elements that are not...
- * 3. '.sb-unstyled, .sbdocs-preview...': any of the elements we don't want to style
- * 3. ':where(.sb-unstyled, .sbdocs-preview...) div': or are descendants of an .sb-unstyled or .sbdocs-preview, etc. It is a shorthand for '.sb-unstyled div, sbdocs-preview div...'
- * 4. .sb-unstyled is an escape hatch that allows the user to opt-out of the default styles
- *    by wrapping their content in an element with this class: <Unstyled />
- * 5. the other UNSTYLED_SELECTORS are elements we don't want the styles to bleed into, like canvas, story and source blocks.
+ * 1. ':where': ensures this has a specificity of 0, making it easier to override.
+ * 3. 'div:not(...)': selects all div elements that are not...
+ * 4. '.sb-anchor': Ensures anchors are not styled, which would have led to inheritable styles bleeding all the way down to stories
+ * 5. '.sb-unstyled, .sb-unstyled div': any element with sb-unstyled class, or descendants thereof
+ * 6. .sb-unstyled is an escape hatch that allows the user to opt-out of the default styles
+ *    by wrapping their content in an element with the 'sb-unstyled' class or the <Unstyled /> block.
+ *
+ * Most Storybook doc blocks has the sb-unstyled class to opt-out of the default styles.
  */
-const UNSTYLED_SELECTORS = [
-  '.sb-unstyled',
-  '.sbdocs-preview',
-  '.sbdocs-pre',
-  '.sb-story',
-  '.docblock-source',
-  '.docblock-argstable',
-  '.sbdocs-title',
-  '.sbdocs-subtitle',
-  '.docblock-icongallery',
-  '.docblock-emptyblock',
-  '.docblock-typeset',
-  '.docblock-colorpalette',
-].join(', ');
 const toGlobalSelector = (element: string): string =>
-  `& :where(${element}:not(${UNSTYLED_SELECTORS}, :where(${UNSTYLED_SELECTORS}) ${element}))`;
+  `& :where(${element}:not(.sb-anchor, .sb-unstyled, .sb-unstyled ${element}))`;
 
 const breakpoint = 600;
-
-export interface DocsPageProps {
-  title: string;
-  subtitle?: string;
-}
 
 export const Title = styled.h1(withReset, ({ theme }) => ({
   color: theme.color.defaultText,
@@ -455,7 +437,7 @@ interface DocsPageWrapperProps {
 }
 
 export const DocsPageWrapper: FC<DocsPageWrapperProps> = ({ children }) => (
-  <DocsWrapper>
-    <DocsContent>{children}</DocsContent>
+  <DocsWrapper className="sbdocs sbdocs-wrapper">
+    <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
   </DocsWrapper>
 );

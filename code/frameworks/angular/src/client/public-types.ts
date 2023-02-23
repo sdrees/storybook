@@ -7,6 +7,7 @@ import {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
+  ProjectAnnotations,
 } from '@storybook/types';
 import { AngularRenderer } from './types';
 
@@ -49,3 +50,4 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<AngularRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<AngularRenderer, TArgs>;
 export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<AngularRenderer, TArgs>;
+export type Preview = ProjectAnnotations<AngularRenderer>;

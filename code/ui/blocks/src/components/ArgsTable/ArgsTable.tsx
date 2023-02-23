@@ -423,7 +423,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
       <TableWrapper
         aria-hidden={isLoading}
         {...{ compact, inAddonPanel, isLoading }}
-        className="docblock-argstable"
+        className="docblock-argstable sb-unstyled"
       >
         <thead className="docblock-argstable-head">
           <tr>

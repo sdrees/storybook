@@ -9,6 +9,7 @@ import type {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
+  ProjectAnnotations,
 } from '@storybook/types';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { ComponentOptions, ConcreteComponent, FunctionalComponent } from 'vue';
@@ -84,3 +85,4 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<VueRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<VueRenderer, TArgs>;
 export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<VueRenderer, TArgs>;
+export type Preview = ProjectAnnotations<VueRenderer>;

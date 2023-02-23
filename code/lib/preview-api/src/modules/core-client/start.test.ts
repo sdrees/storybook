@@ -34,9 +34,7 @@ jest.mock('@storybook/global', () => ({
     FEATURES: {
       breakingChangesV7: true,
     },
-    DOCS_OPTIONS: {
-      disable: false,
-    },
+    DOCS_OPTIONS: {},
   },
 }));
 
@@ -111,7 +109,7 @@ function makeRequireContext(importMap: Record<Path, ModuleExports>) {
 
 describe('start', () => {
   beforeEach(() => {
-    global.DOCS_OPTIONS = { disable: true };
+    global.DOCS_OPTIONS = {};
     // @ts-expect-error (setting this to undefined is indeed what we want to do)
     global.__STORYBOOK_CLIENT_API__ = undefined;
     // @ts-expect-error (setting this to undefined is indeed what we want to do)
@@ -154,7 +152,7 @@ describe('start', () => {
                 "__id": "component-a--story-one",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -174,7 +172,7 @@ describe('start', () => {
                 "__id": "component-a--story-two",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -194,7 +192,7 @@ describe('start', () => {
                 "__id": "component-b--story-three",
                 "__isArgsStory": false,
                 "fileName": "file2",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -440,7 +438,7 @@ describe('start', () => {
                 "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -460,7 +458,7 @@ describe('start', () => {
                 "__id": "component-a--new",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -511,7 +509,7 @@ describe('start', () => {
                 "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -531,7 +529,7 @@ describe('start', () => {
                 "__id": "component-b--default",
                 "__isArgsStory": false,
                 "fileName": "file2",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -563,7 +561,7 @@ describe('start', () => {
                 "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -612,7 +610,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -631,7 +629,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -733,7 +731,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -752,7 +750,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -772,7 +770,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -824,7 +822,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -843,7 +841,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -863,7 +861,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -896,7 +894,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -915,7 +913,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -962,7 +960,7 @@ describe('start', () => {
 
     describe('docs', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { disable: false };
+        global.DOCS_OPTIONS = {};
       });
 
       // NOTE: MDX files are only ever passed as CSF
@@ -1044,7 +1042,7 @@ describe('start', () => {
                 "__id": "component-a--story-one",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -1064,7 +1062,7 @@ describe('start', () => {
                 "__id": "component-a--story-two",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -1084,7 +1082,7 @@ describe('start', () => {
                 "__id": "component-b--story-three",
                 "__isArgsStory": false,
                 "fileName": "file2",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -1102,7 +1100,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -1121,7 +1119,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -1149,7 +1147,7 @@ describe('start', () => {
 
     describe('autodocs', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { disable: false, autodocs: 'tag', defaultName: 'Docs' };
+        global.DOCS_OPTIONS = { autodocs: 'tag', defaultName: 'Docs' };
       });
 
       it('adds stories for each component with autodocs tag', async () => {
@@ -1187,7 +1185,7 @@ describe('start', () => {
                   "__id": "component-a--story-one",
                   "__isArgsStory": false,
                   "fileName": "file1",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "story",
@@ -1207,7 +1205,7 @@ describe('start', () => {
                   "__id": "component-a--story-two",
                   "__isArgsStory": false,
                   "fileName": "file1",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "story",
@@ -1240,7 +1238,7 @@ describe('start', () => {
                   "__id": "component-b--story-three",
                   "__isArgsStory": false,
                   "fileName": "file2",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "autodocs",
@@ -1272,7 +1270,7 @@ describe('start', () => {
                 "parameters": Object {
                   "__isArgsStory": false,
                   "fileName": "exports-map-0",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "story-tag",
@@ -1291,7 +1289,7 @@ describe('start', () => {
                 "parameters": Object {
                   "__isArgsStory": false,
                   "fileName": "exports-map-0",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "component-tag",
@@ -1309,7 +1307,7 @@ describe('start', () => {
     });
     describe('when docsOptions.autodocs = true', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { disable: false, autodocs: true, defaultName: 'Docs' };
+        global.DOCS_OPTIONS = { autodocs: true, defaultName: 'Docs' };
       });
 
       it('adds stories for each component with autodocs tag', async () => {
@@ -1379,7 +1377,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",

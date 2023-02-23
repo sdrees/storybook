@@ -148,7 +148,6 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
 const docs = (docsOptions: DocsOptions) => {
   return {
     ...docsOptions,
-    disable: false,
     defaultName: 'Docs',
     autodocs: 'tag',
   };

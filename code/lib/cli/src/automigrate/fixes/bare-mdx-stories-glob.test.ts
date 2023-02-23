@@ -1,47 +1,40 @@
-/* eslint-disable no-underscore-dangle */
 /// <reference types="@types/jest" />;
 
 import type { StorybookConfig } from '@storybook/types';
-import path from 'path';
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '../../js-package-manager';
 import { ansiRegex } from '../helpers/cleanLog';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import type { BareMdxStoriesGlobRunOptions } from './bare-mdx-stories-glob';
 import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
 
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
-
 const checkBareMdxStoriesGlob = async ({
   packageJson,
-  main,
+  main: mainConfig,
+  storybookVersion = '7.0.0',
 }: {
   packageJson: PackageJson;
-  main?: Partial<StorybookConfig>;
+  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  storybookVersion?: string;
 }) => {
-  if (main) {
-    // eslint-disable-next-line global-require
-    require('fs-extra').__setMockFiles({
-      [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
-    });
-  } else {
-    // eslint-disable-next-line global-require
-    require('fs-extra').__setMockFiles({});
-  }
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
+  mockStorybookData({ mainConfig, storybookVersion });
 
-  return bareMdxStoriesGlob.check({ packageManager });
+  return bareMdxStoriesGlob.check({
+    packageManager: makePackageManager(packageJson),
+  });
 };
 
 describe('bare-mdx fix', () => {
+  afterEach(jest.restoreAllMocks);
+
   describe('should no-op', () => {
     it('in SB < v7.0.0', async () => {
       const packageJson = {
         dependencies: { '@storybook/react': '^6.2.0' },
       };
       const main = { stories: ['../**/*.stories.mdx'] };
-      await expect(checkBareMdxStoriesGlob({ packageJson, main })).resolves.toBeFalsy();
+      await expect(
+        checkBareMdxStoriesGlob({ packageJson, main, storybookVersion: '6.5.0' })
+      ).resolves.toBeFalsy();
     });
 
     describe('in SB >= v7.0.0', () => {
@@ -58,24 +51,6 @@ describe('bare-mdx fix', () => {
         };
         const main = {};
         await expect(checkBareMdxStoriesGlob({ packageJson, main })).rejects.toThrow();
-      });
-
-      it('with variable references in stories field', async () => {
-        // eslint-disable-next-line global-require
-        require('fs-extra').__setMockFiles({
-          [path.join('.storybook', 'main.js')]: `
-          const globVar = '../**/*.stories.mdx';
-          module.exports = { stories: [globVar] };`,
-        });
-
-        const packageManager = {
-          retrievePackageJson: () => ({
-            dependencies: { '@storybook/react': '^7.0.0' },
-            devDependencies: {},
-          }),
-        } as unknown as JsPackageManager;
-
-        await expect(bareMdxStoriesGlob.check({ packageManager })).rejects.toThrow();
       });
 
       it('without .stories.mdx in globs', async () => {

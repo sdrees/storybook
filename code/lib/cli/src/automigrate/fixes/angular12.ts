@@ -1,15 +1,14 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import type { ConfigFile } from '@storybook/csf-tools';
 import type { Fix } from '../types';
 import { webpack5 } from './webpack5';
+import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';
 
 interface Angular12RunOptions {
   angularVersion: string;
   // FIXME angularPresetVersion: string;
   storybookVersion: string;
-  main: ConfigFile;
 }
 
 /**
@@ -21,17 +20,16 @@ interface Angular12RunOptions {
 export const angular12: Fix<Angular12RunOptions> = {
   id: 'angular12',
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { dependencies, devDependencies } = packageJson;
-    const angularVersion = dependencies['@angular/core'] || devDependencies['@angular/core'];
+  async check({ packageManager, configDir }) {
+    const allDependencies = packageManager.getAllDependencies();
+    const angularVersion = allDependencies['@angular/core'];
     const angularCoerced = semver.coerce(angularVersion)?.version;
 
     if (!angularCoerced || semver.lt(angularCoerced, '12.0.0')) {
       return null;
     }
 
-    const builderInfo = await webpack5.checkWebpack5Builder(packageJson);
+    const builderInfo = await checkWebpack5Builder({ packageManager, configDir });
     return builderInfo ? { angularVersion, ...builderInfo } : null;
   },
 

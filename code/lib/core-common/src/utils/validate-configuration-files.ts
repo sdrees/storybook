@@ -22,7 +22,7 @@ export async function validateConfigurationFiles(configDir: string) {
   if (!mainConfigPath) {
     throw new Error(dedent`
       No configuration files have been found in your configDir (${path.resolve(configDir)}).
-      Storybook needs "main.js" file, please add it.
+      Storybook needs "main.js" file, please add it (or pass a custom config dir flag to Storybook to tell where your main.js file is located at).
     `);
   }
 }

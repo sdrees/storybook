@@ -3,7 +3,7 @@ import fse from 'fs-extra';
 import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 
-const rendererPackages: Record<string, string> = {
+export const rendererPackages: Record<string, string> = {
   '@storybook/react': 'react',
   '@storybook/vue': 'vue',
   '@storybook/vue3': 'vue3',
@@ -17,9 +17,35 @@ const rendererPackages: Record<string, string> = {
   '@storybook/riot': 'riot',
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
-  'storybook-framework-qwik': 'qwik',
   '@storybook/rax': 'rax',
   '@storybook/server': 'server',
+  // community (outside of monorepo)
+  'storybook-framework-qwik': 'qwik',
+  'storybook-solidjs': 'solid',
+};
+
+export const frameworkPackages: Record<string, string> = {
+  '@storybook/angular': 'angular',
+  '@storybook/ember': 'ember',
+  '@storybook/html-vite': 'html-vite',
+  '@storybook/html-webpack5': 'html-webpack5',
+  '@storybook/nextjs': 'nextjs',
+  '@storybook/preact-vite': 'preact-vite',
+  '@storybook/preact-webpack5': 'preact-webpack5',
+  '@storybook/react-vite': 'react-vite',
+  '@storybook/react-webpack5': 'react-webpack5',
+  '@storybook/server-webpack5': 'server-webpack5',
+  '@storybook/svelte-vite': 'svelte-vite',
+  '@storybook/svelte-webpack5': 'svelte-webpack5',
+  '@storybook/sveltekit': 'sveltekit',
+  '@storybook/vue3-vite': 'vue3-vite',
+  '@storybook/vue3-webpack5': 'vue3-webpack5',
+  '@storybook/vue-vite': 'vue-vite',
+  '@storybook/vue-webpack5': 'vue-webpack5',
+  '@storybook/web-components-vite': 'web-components-vite',
+  '@storybook/web-components-webpack5': 'web-components-webpack5',
+  // community (outside of monorepo)
+  'storybook-framework-qwik': 'qwik',
   'storybook-solidjs': 'solid',
 };
 
@@ -70,25 +96,25 @@ const findConfigFile = (prefix: string, configDir: string) => {
   return extension ? `${filePrefix}.${extension}` : null;
 };
 
-const getConfigInfo = (packageJson: PackageJson) => {
-  let configDir = '.storybook';
+const getConfigInfo = (packageJson: PackageJson, configDir?: string) => {
+  let storybookConfigDir = configDir ?? '.storybook';
   const storybookScript = packageJson.scripts?.['storybook'];
-  if (storybookScript) {
+  if (storybookScript && !configDir) {
     const configParam = getStorybookConfiguration(storybookScript, '-c', '--config-dir');
-    if (configParam) configDir = configParam;
+    if (configParam) storybookConfigDir = configParam;
   }
 
   return {
     configDir,
-    mainConfig: findConfigFile('main', configDir),
-    previewConfig: findConfigFile('preview', configDir),
-    managerConfig: findConfigFile('manager', configDir),
+    mainConfig: findConfigFile('main', storybookConfigDir),
+    previewConfig: findConfigFile('preview', storybookConfigDir),
+    managerConfig: findConfigFile('manager', storybookConfigDir),
   };
 };
 
-export const getStorybookInfo = (packageJson: PackageJson) => {
+export const getStorybookInfo = (packageJson: PackageJson, configDir?: string) => {
   const rendererInfo = getRendererInfo(packageJson);
-  const configInfo = getConfigInfo(packageJson);
+  const configInfo = getConfigInfo(packageJson, configDir);
 
   return {
     ...rendererInfo,

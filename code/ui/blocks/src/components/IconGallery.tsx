@@ -68,7 +68,7 @@ interface IconGalleryProps {
  */
 export const IconGallery: FunctionComponent<IconGalleryProps> = ({ children, ...props }) => (
   <ResetWrapper>
-    <List {...props} className="docblock-icongallery">
+    <List {...props} className="docblock-icongallery sb-unstyled">
       {children}
     </List>
   </ResetWrapper>

@@ -1,5 +1,11 @@
 const os = require('os');
+const fs = require('fs');
 const path = require('path');
+
+const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
+
+// This is needed for proper jest mocking, see https://github.com/swc-project/swc/discussions/5151#discussioncomment-3149154
+((swcrc.jsc ??= {}).experimental ??= {}).plugins = [['jest_workaround', {}]];
 
 /**
  * TODO: Some windows related tasks are still commented out, because they are behaving differently on
@@ -16,6 +22,31 @@ const skipOnWindows = [
   'lib/csf-tools/src/enrichCsf.test.ts',
 ];
 
+const modulesToTransform = [
+  '@angular',
+  'ccount',
+  'rxjs',
+  'nanoid',
+  'uuid',
+  'lit-html',
+  'lit',
+  '@lit',
+  '@mdx-js',
+  'remark',
+  'unified',
+  'vfile',
+  'vfile-message',
+  'mdast',
+  'micromark',
+  'unist',
+  'estree',
+  'decode-named-character-reference',
+  'character-entities',
+  'zwitch',
+  'stringify-entities',
+];
+
+/** @type { import('jest').Config } */
 module.exports = {
   cacheDirectory: path.resolve('.cache/jest'),
   clearMocks: true,
@@ -27,12 +58,10 @@ module.exports = {
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
   },
   transform: {
-    '^.+\\.(t|j)sx?$': '@swc/jest',
+    '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
-  transformIgnorePatterns: [
-    '/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|lit|@mdx-js|@lit)',
-  ],
+  transformIgnorePatterns: [`(?<!node_modules.+)node_modules/(?!${modulesToTransform.join('|')})`],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/storybook-static/',

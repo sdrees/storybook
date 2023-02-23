@@ -354,7 +354,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       // Now we need to patch in the existing prepared stories
       const oldHash = store.getState().index;
 
-      await store.setState({ index: addPreparedStories(newHash, oldHash) });
+      await store.setState({ index: addPreparedStories(newHash, oldHash), indexError: undefined });
     },
     updateStory: async (
       storyId: StoryId,

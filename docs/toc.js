@@ -111,8 +111,8 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'docs-page',
-          title: 'Docs',
+          pathSegment: 'autodocs',
+          title: 'AutoDocs',
           type: 'link',
         },
         {
@@ -121,51 +121,9 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: '',
-          title: 'Doc Blocks',
-          type: 'menu',
-          children: [
-            {
-              pathSegment: 'doc-block-argstable',
-              title: 'ArgsTable',
-              type: 'link',
-            },
-            {
-              pathSegment: 'doc-block-canvas',
-              title: 'Canvas',
-              type: 'link',
-            },
-            {
-              pathSegment: 'doc-block-colorpalette',
-              title: 'ColorPalette',
-              type: 'link',
-            },
-            {
-              pathSegment: 'doc-block-description',
-              title: 'Description',
-              type: 'link',
-            },
-            {
-              pathSegment: 'doc-block-icongallery',
-              title: 'IconGallery',
-              type: 'link',
-            },
-            {
-              pathSegment: 'doc-block-source',
-              title: 'Source',
-              type: 'link',
-            },
-            {
-              pathSegment: 'doc-block-story',
-              title: 'Story',
-              type: 'link',
-            },
-            {
-              pathSegment: 'doc-block-typeset',
-              title: 'Typeset',
-              type: 'link',
-            },
-          ],
+          pathSegment: 'doc-blocks',
+          title: 'Doc blocks',
+          type: 'link',
         },
         {
           pathSegment: 'build-documentation',
@@ -377,9 +335,14 @@ module.exports = {
           title: 'Integration',
           type: 'menu',
           children: [
-           {
+            {
               pathSegment: 'frameworks',
               title: 'Frameworks',
+              type: 'link',
+            },
+            {
+              pathSegment: 'frameworks-feature-support',
+              title: 'Feature support for frameworks',
               type: 'link',
             },
             {
@@ -481,6 +444,98 @@ module.exports = {
       type: 'menu',
       children: [
         {
+          title: '@storybook/blocks',
+          pathSegment: '',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'doc-block-argtypes',
+              title: 'ArgTypes',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-canvas',
+              title: 'Canvas',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-colorpalette',
+              title: 'ColorPalette',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-controls',
+              title: 'Controls',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-description',
+              title: 'Description',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-icongallery',
+              title: 'IconGallery',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-markdown',
+              title: 'Markdown',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-meta',
+              title: 'Meta',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-primary',
+              title: 'Primary',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-source',
+              title: 'Source',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-stories',
+              title: 'Stories',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-story',
+              title: 'Story',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-subtitle',
+              title: 'Subtitle',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-title',
+              title: 'Title',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-typeset',
+              title: 'Typeset',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-unstyled',
+              title: 'Unstyled',
+              type: 'link',
+            },
+            {
+              pathSegment: 'doc-block-useof',
+              title: 'useOf',
+              type: 'link',
+            },
+          ],
+        },
+        {
           title: 'Stories',
           pathSegment: '',
           type: 'menu',
@@ -505,11 +560,6 @@ module.exports = {
         {
           pathSegment: 'cli-options',
           title: 'CLI options',
-          type: 'link',
-        },
-        {
-          pathSegment: 'frameworks-feature-support',
-          title: 'Feature support for frameworks',
           type: 'link',
         },
       ],

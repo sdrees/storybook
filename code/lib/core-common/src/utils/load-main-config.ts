@@ -4,7 +4,7 @@ import { serverRequire } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';
 
 export async function loadMainConfig({
-  configDir,
+  configDir = '.storybook',
 }: {
   configDir: string;
 }): Promise<StorybookConfig> {

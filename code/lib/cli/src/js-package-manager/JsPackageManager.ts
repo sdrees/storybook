@@ -98,7 +98,28 @@ export abstract class JsPackageManager {
   }
 
   writePackageJson(packageJson: PackageJson) {
-    const content = `${JSON.stringify(packageJson, null, 2)}\n`;
+    const packageJsonToWrite = { ...packageJson };
+    // make sure to not accidentally add empty fields
+    if (
+      packageJsonToWrite.dependencies &&
+      Object.keys(packageJsonToWrite.dependencies).length === 0
+    ) {
+      delete packageJsonToWrite.dependencies;
+    }
+    if (
+      packageJsonToWrite.devDependencies &&
+      Object.keys(packageJsonToWrite.devDependencies).length === 0
+    ) {
+      delete packageJsonToWrite.devDependencies;
+    }
+    if (
+      packageJsonToWrite.dependencies &&
+      Object.keys(packageJsonToWrite.peerDependencies).length === 0
+    ) {
+      delete packageJsonToWrite.peerDependencies;
+    }
+
+    const content = `${JSON.stringify(packageJsonToWrite, null, 2)}\n`;
     fs.writeFileSync(this.packageJsonPath(), content, 'utf8');
   }
 
@@ -119,6 +140,17 @@ export abstract class JsPackageManager {
       ...packageJson,
       dependencies: { ...packageJson.dependencies },
       devDependencies: { ...packageJson.devDependencies },
+      peerDependencies: { ...packageJson.peerDependencies },
+    };
+  }
+
+  public getAllDependencies(): Record<string, string> {
+    const { dependencies, devDependencies, peerDependencies } = this.retrievePackageJson();
+
+    return {
+      ...dependencies,
+      ...devDependencies,
+      ...peerDependencies,
     };
   }
 
@@ -164,7 +196,6 @@ export abstract class JsPackageManager {
           ...dependenciesMap,
         };
       }
-
       this.writePackageJson(packageJson);
     } else {
       try {

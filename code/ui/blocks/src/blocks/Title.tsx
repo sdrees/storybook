@@ -21,5 +21,5 @@ export const Title: FunctionComponent<TitleProps> = ({ children }) => {
   if (!text) {
     text = extractTitle(context.storyById().title);
   }
-  return text ? <PureTitle className="sbdocs-title">{text}</PureTitle> : null;
+  return text ? <PureTitle className="sbdocs-title sb-unstyled">{text}</PureTitle> : null;
 };

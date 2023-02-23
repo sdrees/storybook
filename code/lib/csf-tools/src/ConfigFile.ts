@@ -113,6 +113,11 @@ export class ConfigFile {
 
   _exports: Record<string, t.Expression> = {};
 
+  // FIXME: this is a hack. this is only used in the case where the user is
+  // modifying a named export that's a scalar. The _exports map is not suitable
+  // for that. But rather than refactor the whole thing, we just use this as a stopgap.
+  _exportDecls: Record<string, t.VariableDeclarator> = {};
+
   _exportsObject: t.ObjectExpression | undefined;
 
   _quotes: 'single' | 'double' | undefined;
@@ -138,6 +143,7 @@ export class ConfigFile {
             t.isIdentifier(node.declaration) && t.isProgram(parent)
               ? _findVarInitialization(node.declaration.name, parent)
               : node.declaration;
+
           if (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) {
             decl = decl.expression;
           }
@@ -171,6 +177,7 @@ export class ConfigFile {
                   exportVal = _findVarInitialization(exportVal.name, parent as t.Program) as any;
                 }
                 self._exports[exportName] = exportVal;
+                self._exportDecls[exportName] = decl;
               }
             });
           } else {
@@ -193,6 +200,11 @@ export class ConfigFile {
               if (t.isIdentifier(right)) {
                 exportObject = _findVarInitialization(right.name, parent as t.Program) as any;
               }
+
+              if (t.isTSAsExpression(exportObject) || t.isTSSatisfiesExpression(exportObject)) {
+                exportObject = exportObject.expression;
+              }
+
               if (t.isObjectExpression(exportObject)) {
                 self._exportsObject = exportObject;
                 (exportObject.properties as t.ObjectProperty[]).forEach((p) => {
@@ -237,6 +249,7 @@ export class ConfigFile {
     const node = this.getFieldNode(path);
     if (node) {
       const { code } = generate.default(node, {});
+
       // eslint-disable-next-line no-eval
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
@@ -261,6 +274,16 @@ export class ConfigFile {
       this._exports[path[0]] = expr;
     } else if (exportNode && t.isObjectExpression(exportNode) && rest.length > 0) {
       _updateExportNode(rest, expr, exportNode);
+    } else if (exportNode && rest.length === 0 && this._exportDecls[path[0]]) {
+      const decl = this._exportDecls[path[0]];
+      decl.init = _makeObjectExpression([], expr);
+    } else if (this.hasDefaultExport) {
+      // This means the main.js of the user has a default export that is not an object expression, therefore we can't change the AST.
+      throw new Error(
+        `Could not set the "${path.join(
+          '.'
+        )}" field as the default export is not an object in this file.`
+      );
     } else {
       // create a new named export and add it to the top level
       const exportObj = _makeObjectExpression(rest, expr);

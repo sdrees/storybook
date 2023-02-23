@@ -193,7 +193,7 @@ export const Preview: FC<PreviewProps> = ({
   const [expanded, setExpanded] = useState(isExpanded);
   const { source, actionItem } = getSource(withSource, expanded, setExpanded);
   const [scale, setScale] = useState(1);
-  const previewClasses = [className].concat(['sbdocs', 'sbdocs-preview']);
+  const previewClasses = [className].concat(['sbdocs', 'sbdocs-preview', 'sb-unstyled']);
 
   const defaultActionItems = withSource ? [actionItem] : [];
   const [additionalActionItems, setAdditionalActionItems] = useState(

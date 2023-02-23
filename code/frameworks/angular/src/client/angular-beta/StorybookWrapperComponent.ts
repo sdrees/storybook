@@ -16,7 +16,7 @@ import { map, skip } from 'rxjs/operators';
 import { ICollection, NgModuleMetadata } from '../types';
 import { STORY_PROPS } from './StorybookProvider';
 import { ComponentInputsOutputs, getComponentInputsOutputs } from './utils/NgComponentAnalyzer';
-import { extractDeclarations, extractImports, extractProviders } from './utils/PropertyExtractor';
+import { PropertyExtractor } from './utils/PropertyExtractor';
 
 const getNonInputsOutputsProps = (
   ngComponentInputsOutputs: ComponentInputsOutputs,
@@ -52,9 +52,8 @@ export const createStorybookWrapperComponent = (
   // storyComponent was not provided.
   const viewChildSelector = storyComponent ?? '__storybook-noop';
 
-  const imports = extractImports(moduleMetadata, storyComponent);
-  const declarations = extractDeclarations(moduleMetadata, storyComponent);
-  const providers = extractProviders(moduleMetadata);
+  const analyzedMetadata = new PropertyExtractor(moduleMetadata, storyComponent);
+  const { imports, declarations, providers } = analyzedMetadata;
 
   // Only create a new module if it doesn't already exist
   // This is to prevent the module from being recreated on every story change

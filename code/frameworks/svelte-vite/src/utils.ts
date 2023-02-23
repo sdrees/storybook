@@ -31,7 +31,7 @@ export async function handleSvelteKit(plugins: PluginOption[], options: Options)
       Please use the @storybook/sveltekit framework instead.
       You can migrate automatically by running
       
-      npx sb@next automigrate sveltekitFramework
+      npx sb@next automigrate
 
       See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework
       `

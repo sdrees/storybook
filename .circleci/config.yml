@@ -180,7 +180,7 @@ jobs:
             cd bench/cra-default-ts
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@next sb-bench 'yarn install' --label cra
+            ../../code/node_modules/.bin/sb-bench 'yarn install' --label cra
       - report-workflow-on-failure
       - run:
           name: prep artifacts
@@ -221,7 +221,7 @@ jobs:
             cd bench/react-vite-default-ts
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@next sb-bench 'yarn install' --label react-vite
+            ../../code/node_modules/.bin/sb-bench 'yarn install' --label react-vite
       - report-workflow-on-failure
       - run:
           name: prep artifacts
@@ -624,6 +624,9 @@ workflows:
     jobs:
       - build
       - lint:
+          requires:
+            - build
+      - check:
           requires:
             - build
       - unit-tests:

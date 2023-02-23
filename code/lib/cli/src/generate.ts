@@ -81,6 +81,7 @@ command('upgrade')
   .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .action((options: UpgradeOptions) => upgrade(options));
 
 command('info')
@@ -166,6 +167,12 @@ command('automigrate [fixId]')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
   .option('-N --use-npm', 'Use npm as package manager (deprecated)')
   .option('-l --list', 'List available migrations')
+  .option('-c, --config-dir <dir-name>', 'Directory of Storybook configurations to migrate')
+  .option('-s --skip-install', 'Skip installing deps')
+  .option(
+    '--renderer <renderer-pkg-name>',
+    'The renderer package for the framework Storybook is using.'
+  )
   .action(async (fixId, options) => {
     await automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);

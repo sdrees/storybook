@@ -175,7 +175,7 @@ describe('Story args can be inferred', () => {
   });
 
   const withDecorator: Decorator<{ decoratorArg: string }> = (
-    storyFn,
+    _storyFn,
     { args: { decoratorArg } }
   ) => ({
     Component: Decorator1,
@@ -205,7 +205,7 @@ describe('Story args can be inferred', () => {
     type Props = ComponentProps<Button> & { decoratorArg: string; decoratorArg2: string };
 
     const secondDecorator: Decorator<{ decoratorArg2: string }> = (
-      storyFn,
+      _storyFn,
       { args: { decoratorArg2 } }
     ) => ({
       Component: Decorator2,

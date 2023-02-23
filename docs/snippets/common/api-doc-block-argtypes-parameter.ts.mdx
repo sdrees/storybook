@@ -1,0 +1,18 @@
+```tsx
+// Button.stories.ts|tsx
+
+import type { Meta } from '@storybook/<your-framework>';
+
+import { Button } from './Button';
+
+const meta: Meta<typeof Button> = {
+  component: Button,
+  parameters: {
+    docs: {
+      controls: { exclude: ['style'] },
+    },
+  },
+};
+
+export default meta;
+```

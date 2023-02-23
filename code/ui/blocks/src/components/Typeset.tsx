@@ -51,7 +51,7 @@ export const Typeset: FC<TypesetProps> = ({
   sampleText,
   ...props
 }) => (
-  <Wrapper {...props} className="docblock-typeset">
+  <Wrapper {...props} className="docblock-typeset sb-unstyled">
     {fontSizes.map((size) => (
       <TypeSpecimen key={size}>
         <Label>{size}</Label>

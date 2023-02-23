@@ -8,7 +8,7 @@ import type {
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
 
-type FrameworkName = '@storybook/react-webpack5';
+type FrameworkName = '@storybook/web-components-webpack5';
 type BuilderName = '@storybook/builder-webpack5';
 
 export type FrameworkOptions = {

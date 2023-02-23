@@ -32,6 +32,7 @@ export const generate: Task = {
     await generateRepro({
       template: details.key,
       localRegistry: true,
+      debug: options.debug,
     });
   },
 };

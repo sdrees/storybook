@@ -202,7 +202,7 @@ interface ColorPaletteProps {
  */
 export const ColorPalette: FunctionComponent<ColorPaletteProps> = ({ children, ...props }) => (
   <ResetWrapper>
-    <List {...props} className="docblock-colorpalette">
+    <List {...props} className="docblock-colorpalette sb-unstyled">
       <ListHeading>
         <ListName>Name</ListName>
         <ListSwatches>Swatches</ListSwatches>

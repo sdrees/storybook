@@ -16,6 +16,7 @@ import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('watchpack');
 jest.mock('lodash/debounce');
+jest.mock('@storybook/node-logger');
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
@@ -62,7 +63,7 @@ const getInitializedStoryIndexGenerator = async (
     workingDir,
     storiesV2Compatibility: false,
     storyStoreV7: true,
-    docs: { disable: false, defaultName: 'docs', autodocs: false },
+    docs: { defaultName: 'docs', autodocs: false },
     ...overrides,
   });
   await generator.initialize();
@@ -652,9 +653,14 @@ describe('useStoriesJson', () => {
       await route(request, response);
 
       expect(send).toHaveBeenCalledTimes(1);
-      expect(send.mock.calls[0][0]).toEqual(
-        'You cannot use `.mdx` files without using `storyStoreV7`.'
-      );
+      expect(send.mock.calls[0][0]).toMatchInlineSnapshot(`
+        "Unable to index files:
+        - ./src/docs2/MetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/NoTitle.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/SecondMetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/Template.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/Title.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`."
+      `);
     });
 
     it('allows disabling storyStoreV7 if no .mdx files are used', async () => {

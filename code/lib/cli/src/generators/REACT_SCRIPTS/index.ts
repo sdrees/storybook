@@ -2,9 +2,11 @@ import path from 'path';
 import fs from 'fs';
 import semver from 'semver';
 
+import dedent from 'ts-dedent';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
+import versions from '../../versions';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const monorepoRootPath = path.join(__dirname, '..', '..', '..', '..', '..', '..');
@@ -26,11 +28,11 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const craVersion = semver.coerce(
     packageManager.retrievePackageJson().dependencies['react-scripts']
   )?.version;
-  const isCra5 = craVersion && semver.gte(craVersion, '5.0.0');
-  const updatedOptions = isCra5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
-  // `@storybook/preset-create-react-app` has `@storybook/node-logger` as peerDep
-  const extraPackages = ['@storybook/node-logger'];
-  if (isCra5) {
+  const isCra5OrHigher = craVersion && semver.gte(craVersion, '5.0.0');
+  const updatedOptions = isCra5OrHigher ? { ...options, builder: CoreBuilder.Webpack5 } : options;
+
+  const extraPackages = [];
+  if (isCra5OrHigher) {
     extraPackages.push('webpack');
     // Miscellaneous dependency used in `babel-preset-react-app` but not listed as dep there
     extraPackages.push('babel-plugin-named-exports-order');
@@ -38,8 +40,16 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     extraPackages.push('prop-types');
   }
 
-  // preset v3 is compat with older versions of CRA, otherwise let version float
-  const extraAddons = [`@storybook/preset-create-react-app${isCra5 ? '' : '@3'}`];
+  const version = versions['@storybook/preset-create-react-app'];
+  const extraAddons = [`@storybook/preset-create-react-app@${version}`];
+
+  if (!isCra5OrHigher) {
+    throw new Error(dedent`
+      Storybook 7.0+ doesn't support react-scripts@<5.0.0.
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#create-react-app-dropped-cra4-support
+    `);
+  }
 
   await baseGenerator(packageManager, npmOptions, updatedOptions, 'react', {
     extraAddons,

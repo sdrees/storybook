@@ -51,7 +51,7 @@ export function useStoriesJson({
       res.send(JSON.stringify(index));
     } catch (err) {
       res.status(500);
-      res.send(err.message);
+      res.send(err.toString());
     }
   });
 
@@ -63,7 +63,7 @@ export function useStoriesJson({
       res.send(JSON.stringify(index));
     } catch (err) {
       res.status(500);
-      res.send(err.message);
+      res.send(err.toString());
     }
   });
 }

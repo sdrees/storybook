@@ -17,4 +17,6 @@ const Wrapper = styled.div(withReset, ({ theme }) => ({
   fontSize: theme.typography.size.s2,
 }));
 
-export const EmptyBlock = (props: any) => <Wrapper {...props} className="docblock-emptyblock" />;
+export const EmptyBlock = (props: any) => (
+  <Wrapper {...props} className="docblock-emptyblock sb-unstyled" />
+);

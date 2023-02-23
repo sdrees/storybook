@@ -1,3 +1,3 @@
 export { render, renderToCanvas } from './render';
 
-export const parameters = { framework: 'server' as const };
+export const parameters = { renderer: 'server' as const };

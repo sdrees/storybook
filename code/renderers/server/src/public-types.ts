@@ -7,6 +7,7 @@ import type {
   DecoratorFunction,
   LoaderFunction,
   StrictArgs,
+  ProjectAnnotations,
 } from '@storybook/types';
 import type { ServerRenderer } from './types';
 
@@ -48,3 +49,4 @@ export type { ServerRenderer };
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<ServerRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<ServerRenderer, TArgs>;
 export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<ServerRenderer, TArgs>;
+export type Preview = ProjectAnnotations<ServerRenderer>;

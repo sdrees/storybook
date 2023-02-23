@@ -13,7 +13,7 @@ Storybook gives you tools to expand this essential documentation with prose and 
   />
 </video>
 
-If you're including Storybook in your project for the [first time](../get-started/install.md), we provide you with a [documentation page](./docs-page.md.md) ("Docs" for short), positioned near your stories. It's a baseline template automatically generated, listing your existing stories and relevant metadata.
+If you're including Storybook in your project for the [first time](../get-started/install.md), we provide you with a [documentation page](./autodocs.md) ("AutoDocs" for short), positioned near your stories. It's a baseline template automatically generated, listing your existing stories and relevant metadata.
 
 Additionally, you can customize this template if needed or create free-form pages for each component using [MDX](./mdx.md). In both cases, you’ll use Doc Blocks as the building blocks to create full-featured documentation.
 

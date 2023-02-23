@@ -1,18 +1,13 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import type { ConfigFile } from '@storybook/csf-tools';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getStorybookInfo } from '@storybook/core-common';
-import type { StoriesEntry } from 'lib/types/src';
+import type { StoriesEntry } from '@storybook/types';
+import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 
 const logger = console;
 
-const fixId = 'bare-mdx-stories-glob';
-
 export interface BareMdxStoriesGlobRunOptions {
-  main: ConfigFile;
   existingStoriesEntries: StoriesEntry[];
   nextStoriesEntries: StoriesEntry[];
 }
@@ -35,41 +30,24 @@ const getNextGlob = (glob: string) => {
 };
 
 export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
-  id: fixId,
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
+  id: 'bare-mdx-stories-glob',
+  async check({ packageManager, configDir }) {
+    const { storybookVersion, mainConfig } = await getStorybookData({
+      configDir,
+      packageManager,
+    });
 
-    const { mainConfig, version: storybookVersion } = getStorybookInfo(packageJson);
-    if (!mainConfig) {
-      logger.warn('Unable to find storybook main.js config, skipping');
+    if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!sbVersionCoerced) {
-      throw new Error(dedent`
-        ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
-      `);
-    }
-
-    if (!semver.gte(sbVersionCoerced, '7.0.0')) {
-      return null;
-    }
-
-    const main = await readConfig(mainConfig);
-
-    let existingStoriesEntries;
-
-    try {
-      existingStoriesEntries = main.getFieldValue(['stories']) as StoriesEntry[];
-    } catch (e) {
-      // throws in next null check below
-    }
+    const existingStoriesEntries = mainConfig.stories as StoriesEntry[];
 
     if (!existingStoriesEntries) {
       throw new Error(dedent`
-      ❌ Unable to determine Storybook stories globs, skipping ${chalk.cyan(fixId)} fix.
+      ❌ Unable to determine Storybook stories globs in ${chalk.blue(
+        mainConfig
+      )}, skipping ${chalk.cyan(this.id)} fix.
       
       In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
 
@@ -112,7 +90,7 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       return null;
     }
 
-    return { existingStoriesEntries, nextStoriesEntries, main };
+    return { existingStoriesEntries, nextStoriesEntries };
   },
 
   prompt({ existingStoriesEntries, nextStoriesEntries }) {
@@ -138,13 +116,14 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
   `;
   },
 
-  async run({ dryRun, result: { nextStoriesEntries, main } }) {
+  async run({ dryRun, mainConfigPath, result: { nextStoriesEntries } }) {
     logger.info(dedent`✅ Setting 'stories' config:
       ${JSON.stringify(nextStoriesEntries, null, 2)}`);
 
-    main.setFieldValue(['stories'], nextStoriesEntries);
     if (!dryRun) {
-      await writeConfig(main);
+      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+        main.setFieldValue(['stories'], nextStoriesEntries);
+      });
     }
   },
 };

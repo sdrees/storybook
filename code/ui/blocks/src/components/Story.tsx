@@ -105,7 +105,7 @@ const Story: FunctionComponent<StoryProps> = (props) => {
   const { inline } = props;
 
   return (
-    <div id={storyBlockIdFromId(props)} className="sb-story">
+    <div id={storyBlockIdFromId(props)} className="sb-story sb-unstyled">
       {inline ? (
         <InlineStory {...(props as InlineStoryProps)} />
       ) : (

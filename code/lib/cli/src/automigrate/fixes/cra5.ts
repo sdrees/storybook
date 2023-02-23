@@ -1,15 +1,14 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import type { ConfigFile } from '@storybook/csf-tools';
 import type { Fix } from '../types';
 import { webpack5 } from './webpack5';
+import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';
 
 interface CRA5RunOptions {
   craVersion: string;
   // FIXME craPresetVersion: string;
   storybookVersion: string;
-  main: ConfigFile;
 }
 
 /**
@@ -21,24 +20,21 @@ interface CRA5RunOptions {
 export const cra5: Fix<CRA5RunOptions> = {
   id: 'cra5',
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { dependencies, devDependencies } = packageJson;
-    const craVersion = dependencies['react-scripts'] || devDependencies['react-scripts'];
+  async check({ packageManager, configDir }) {
+    const allDependencies = packageManager.getAllDependencies();
+    const craVersion = allDependencies['react-scripts'];
     const craCoerced = semver.coerce(craVersion)?.version;
 
     if (!craCoerced || semver.lt(craCoerced, '5.0.0')) {
       return null;
     }
 
-    const builderInfo = await webpack5.checkWebpack5Builder(packageJson);
+    const builderInfo = await checkWebpack5Builder({ configDir, packageManager });
     return builderInfo ? { craVersion, ...builderInfo } : null;
   },
 
-  prompt({ craVersion, ...rest }) {
+  prompt({ craVersion }) {
     const craFormatted = chalk.cyan(`Create React App (CRA) ${craVersion}`);
-
-    console.log({ ...rest });
 
     return dedent`
       We've detected you are running ${craFormatted} which is powered by webpack5.

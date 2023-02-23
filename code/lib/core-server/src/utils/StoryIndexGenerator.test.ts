@@ -13,7 +13,7 @@ import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/node-logger';
 
-import { StoryIndexGenerator, DuplicateEntriesError } from './StoryIndexGenerator';
+import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
 jest.mock('@storybook/csf', () => {
@@ -53,7 +53,7 @@ const options = {
   ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
-  docs: { disable: false, defaultName: 'docs', autodocs: false },
+  docs: { defaultName: 'docs', autodocs: false },
 };
 
 describe('StoryIndexGenerator', () => {
@@ -270,37 +270,6 @@ describe('StoryIndexGenerator', () => {
           }
         `);
       });
-      it('does not add docs entry with docs disabled', async () => {
-        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/A.stories.js',
-          options
-        );
-
-        const generator = new StoryIndexGenerator([specifier], {
-          ...options,
-          docs: { disable: true },
-        });
-        await generator.initialize();
-
-        expect(await generator.getIndex()).toMatchInlineSnapshot(`
-          Object {
-            "entries": Object {
-              "a--story-one": Object {
-                "id": "a--story-one",
-                "importPath": "./src/A.stories.js",
-                "name": "Story One",
-                "tags": Array [
-                  "story-tag",
-                  "story",
-                ],
-                "title": "A",
-                "type": "story",
-              },
-            },
-            "v": 4,
-          }
-        `);
-      });
     });
 
     describe('autodocs', () => {
@@ -477,8 +446,8 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
         await generator.initialize();
 
-        await expect(generator.getIndex()).rejects.toThrowError(
-          `You created a component docs page for B (./errors/MetaOfClashingDefaultName.mdx), but also tagged the CSF file (./src/B.stories.ts) with 'autodocs'. This is probably a mistake.`
+        await expect(generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Unable to index ./errors/MetaOfClashingDefaultName.mdx,./src/B.stories.ts"`
         );
       });
 
@@ -496,8 +465,8 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
         await generator.initialize();
 
-        await expect(generator.getIndex()).rejects.toThrowError(
-          `You created a component docs page for B (./errors/B.mdx), but also tagged the CSF file (./src/B.stories.ts) with 'autodocs'. This is probably a mistake.`
+        await expect(generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Unable to index ./errors/B.mdx,./src/B.stories.ts"`
         );
       });
 
@@ -841,36 +810,6 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
-      it('generates no docs entries when docs are disabled', async () => {
-        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], {
-          ...options,
-          docs: {
-            ...options.docs,
-            disable: true,
-          },
-        });
-        await generator.initialize();
-
-        expect(await generator.getIndex()).toMatchInlineSnapshot(`
-          Object {
-            "entries": Object {
-              "a--story-one": Object {
-                "id": "a--story-one",
-                "importPath": "./src/A.stories.js",
-                "name": "Story One",
-                "tags": Array [
-                  "story-tag",
-                  "story",
-                ],
-                "title": "A",
-                "type": "story",
-              },
-            },
-            "v": 4,
-          }
-        `);
-      });
-
       it('Allows you to override default name for docs files', async () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], {
           ...options,
@@ -956,8 +895,9 @@ describe('StoryIndexGenerator', () => {
           [normalizeStoriesEntry('./src/docs2/MetaOf.mdx', options)],
           options
         );
-        await expect(() => generator.initialize()).rejects.toThrowError(
-          /Could not find "..\/A.stories" for docs file/
+        await generator.initialize();
+        await expect(() => generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Unable to index ./src/docs2/MetaOf.mdx"`
         );
       });
     });
@@ -1064,12 +1004,7 @@ describe('StoryIndexGenerator', () => {
         };
         expect(() => {
           generator.chooseDuplicate(mockEntry, mockEntry);
-        }).toThrow(
-          new DuplicateEntriesError(`Duplicate stories with id: ${mockEntry.id}`, [
-            mockEntry,
-            mockEntry,
-          ])
-        );
+        }).toThrowErrorMatchingInlineSnapshot(`"Duplicate stories with id: StoryId"`);
       });
     });
   });
