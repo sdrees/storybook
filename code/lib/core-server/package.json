@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.0.0-beta.53",
+  "version": "7.0.0-beta.54",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -58,18 +58,18 @@
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.0.0-beta.53",
-    "@storybook/core-common": "7.0.0-beta.53",
-    "@storybook/core-events": "7.0.0-beta.53",
+    "@storybook/builder-manager": "7.0.0-beta.54",
+    "@storybook/core-common": "7.0.0-beta.54",
+    "@storybook/core-events": "7.0.0-beta.54",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-beta.53",
+    "@storybook/csf-tools": "7.0.0-beta.54",
     "@storybook/docs-mdx": "next",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager": "7.0.0-beta.53",
-    "@storybook/node-logger": "7.0.0-beta.53",
-    "@storybook/preview-api": "7.0.0-beta.53",
-    "@storybook/telemetry": "7.0.0-beta.53",
-    "@storybook/types": "7.0.0-beta.53",
+    "@storybook/manager": "7.0.0-beta.54",
+    "@storybook/node-logger": "7.0.0-beta.54",
+    "@storybook/preview-api": "7.0.0-beta.54",
+    "@storybook/telemetry": "7.0.0-beta.54",
+    "@storybook/types": "7.0.0-beta.54",
     "@types/detect-port": "^1.3.0",
     "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.5.7",
@@ -120,5 +120,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "b1da06450dc3e4124a935785a2041b18204533ae"
+  "gitHead": "dbdaa1b77a1f00ea90d6c1f018bf0c772d7b9afd"
 }

@@ -7,7 +7,7 @@ export function getField<TFieldType = any>(
   moduleExportList: ModuleExports[],
   field: string
 ): TFieldType | TFieldType[] {
-  return moduleExportList.map((xs) => xs[field]).filter(Boolean);
+  return moduleExportList.map((xs) => xs.default?.[field] ?? xs[field]).filter(Boolean);
 }
 
 export function getArrayField<TFieldType = any>(

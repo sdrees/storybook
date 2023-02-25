@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
+    - [Default export in Preview.js](#default-export-in-previewjs)
     - [ESM format in Main.js](#esm-format-in-mainjs)
     - [Modern browser support](#modern-browser-support)
     - [React peer dependencies required](#react-peer-dependencies-required)
@@ -293,6 +294,52 @@ A number of these changes can be made automatically by the Storybook CLI. To tak
 
 Storybook 7.0 requires **Node 16** or above. If you are using an older version of Node, you will need to upgrade or keep using Storybook 6 in the meantime.
 
+#### Default export in Preview.js
+
+Storybook 7.0 supports a default export in `.storybook/preview.js`, which will be the recommended way going forward.
+
+If your preview.js file looks like this:
+
+```js
+export const parameters = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+};
+```
+
+Please migrate it to a default exported instead:
+
+```js
+const preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
+Additionally, we introduced typings for that default export (Preview), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `preview.ts`.
+
+The `Preview` type will come from the Storybook package for the **renderer** you are using. For example, if you are using Angular, you will import it from `@storybook/angular`, or if you're using Vue3, you will import it from `@storybook/vue3`:
+
+```ts
+import { Preview } from '@storybook/react';
+
+const preview: Preview = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+};
+export default preview;
+```
+
+In JavaScript projects using `preview.js`, it's also possible to use the `Preview` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```ts
+/** @type { import('@storybook/react').Preview } */
+const preview: Preview = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+};
+export default preview;
+```
+
 #### ESM format in Main.js
 
 Storybook 7.0 supports ESM in `.storybook/main.js`, and the configurations can be part of a default export. The default export will be the recommended way going forward.
@@ -323,12 +370,25 @@ const config = {
 export default config;
 ```
 
-For Typescript users, we introduced types for that default export, so you can import it in your main.ts file. The `StorybookConfig` type will come from the Storybook package for the framework you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
+Additionally, we introduced typings for that default export (StorybookConfig), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `main.ts`.
+
+The `StorybookConfig` type will come from the Storybook package for the **framework** you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
 
 ```ts
 import { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
+  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: { name: '@storybook/react-vite' },
+};
+export default config;
+```
+
+In JavaScript projects using `main.js`, it's also possible to use the `StorybookConfig` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```ts
+/** @type { import('@storybook/react-vite').StorybookConfig } */
+const config = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   framework: { name: '@storybook/react-vite' },
 };

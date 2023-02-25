@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
-import { autodocsTrue } from './autodocs-true';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import { autodocsTrue } from './autodocs-true';
 
 const checkAutodocs = async ({
   packageJson = {},

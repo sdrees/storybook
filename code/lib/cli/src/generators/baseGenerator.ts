@@ -311,6 +311,7 @@ export async function baseGenerator(
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
     await copyTemplateFiles({
       renderer: templateLocation,
+      packageManager,
       language,
       destination: componentsDestinationPath,
     });

@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 
 import * as fs from 'fs';
-import { mergeConfig } from 'vite';
 import type { Plugin } from 'vite';
 import type { Options } from '@storybook/types';
 import { transformIframeHtml } from '../transform-iframe-html';
@@ -64,21 +63,6 @@ export function codeGeneratorPlugin(options: Options): Plugin {
           ...config.build.rollupOptions,
           input: iframePath,
         };
-      }
-
-      // Detect if react 18 is installed.  If not, alias it to a virtual placeholder file.
-      try {
-        require.resolve('react-dom/client', { paths: [config.root || process.cwd()] });
-      } catch (e) {
-        if (isNodeError(e) && e.code === 'MODULE_NOT_FOUND') {
-          config.resolve = mergeConfig(config.resolve ?? {}, {
-            alias: {
-              'react-dom/client': require.resolve(
-                '@storybook/builder-vite/input/react-dom-client-placeholder.js'
-              ),
-            },
-          });
-        }
       }
     },
     configResolved(config) {
@@ -144,6 +128,3 @@ export function codeGeneratorPlugin(options: Options): Plugin {
     },
   };
 }
-
-// Refines an error received from 'catch' to be a NodeJS exception
-const isNodeError = (error: unknown): error is NodeJS.ErrnoException => error instanceof Error;

@@ -54,7 +54,7 @@ describe('NPM Proxy', () => {
 
       expect(executeCommandSpy).toHaveBeenLastCalledWith(
         'pnpm',
-        ['run', 'compodoc', '-e', 'json', '-d', '.'],
+        ['exec', 'compodoc', '-e', 'json', '-d', '.'],
         undefined,
         undefined
       );

@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import type { PackageJson } from '../../js-package-manager';
 import { builderVite } from './builder-vite';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 
 const checkBuilderVite = async ({
   packageJson = {},

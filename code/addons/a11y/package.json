@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "7.0.0-beta.53",
+  "version": "7.0.0-beta.54",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -63,16 +63,16 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-highlight": "7.0.0-beta.53",
-    "@storybook/channels": "7.0.0-beta.53",
-    "@storybook/client-logger": "7.0.0-beta.53",
-    "@storybook/components": "7.0.0-beta.53",
-    "@storybook/core-events": "7.0.0-beta.53",
+    "@storybook/addon-highlight": "7.0.0-beta.54",
+    "@storybook/channels": "7.0.0-beta.54",
+    "@storybook/client-logger": "7.0.0-beta.54",
+    "@storybook/components": "7.0.0-beta.54",
+    "@storybook/core-events": "7.0.0-beta.54",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.53",
-    "@storybook/preview-api": "7.0.0-beta.53",
-    "@storybook/theming": "7.0.0-beta.53",
-    "@storybook/types": "7.0.0-beta.53",
+    "@storybook/manager-api": "7.0.0-beta.54",
+    "@storybook/preview-api": "7.0.0-beta.54",
+    "@storybook/theming": "7.0.0-beta.54",
+    "@storybook/types": "7.0.0-beta.54",
     "axe-core": "^4.2.0",
     "lodash": "^4.17.21",
     "react-resize-detector": "^7.1.2"
@@ -104,7 +104,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "b1da06450dc3e4124a935785a2041b18204533ae",
+  "gitHead": "dbdaa1b77a1f00ea90d6c1f018bf0c772d7b9afd",
   "storybook": {
     "displayName": "Accessibility",
     "icon": "https://user-images.githubusercontent.com/263385/101991665-47042f80-3c7c-11eb-8f00-64b5a18f498a.png",

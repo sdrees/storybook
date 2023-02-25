@@ -3,7 +3,7 @@ import type { StorybookConfig } from './types';
 
 export * from './types';
 
-export const babel: StorybookConfig['babelDefault'] = (config) => {
+export const babel: StorybookConfig['babelDefault'] = (config, options) => {
   return {
     ...config,
     plugins: [
@@ -18,6 +18,13 @@ export const babel: StorybookConfig['babelDefault'] = (config) => {
         }
         return true;
       }),
+    ],
+    overrides: [
+      // Transforms to apply only to first-party code:
+      {
+        exclude: '**/node_modules/**',
+        presets: [require.resolve('@babel/preset-typescript')],
+      },
     ],
   };
 };

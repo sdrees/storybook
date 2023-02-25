@@ -2,6 +2,11 @@ import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 import type { GetStorybookData } from './mainConfigFile';
 import * as mainConfigFile from './mainConfigFile';
 
+jest.mock('./mainConfigFile', () => ({
+  ...jest.requireActual('./mainConfigFile'),
+  getStorybookData: jest.fn(),
+}));
+
 jest.mock('@storybook/core-common', () => ({
   ...jest.requireActual('@storybook/core-common'),
   loadMainConfig: jest.fn(),

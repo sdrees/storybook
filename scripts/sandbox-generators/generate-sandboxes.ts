@@ -142,7 +142,7 @@ const runGenerators = async (
 
         // We do the creation inside a temp dir to avoid yarn container problems
         const createBaseDir = directory();
-        if (!script.includes('yarn')) {
+        if (!script.includes('pnp')) {
           await setupYarn({ cwd: createBaseDir });
         }
 

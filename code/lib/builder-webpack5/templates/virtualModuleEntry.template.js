@@ -12,8 +12,10 @@ import {
 } from '@storybook/preview-api';
 import * as previewAnnotations from '{{previewAnnotationFilename}}';
 
-Object.keys(previewAnnotations).forEach((key) => {
-  const value = previewAnnotations[key];
+const config = previewAnnotations.default ?? previewAnnotations;
+
+Object.keys(config).forEach((key) => {
+  const value = config[key];
   switch (key) {
     case 'args': {
       return addArgs(value);

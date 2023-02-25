@@ -1,3 +1,35 @@
+## 7.0.0-beta.54 (February 24, 2023)
+
+#### Features
+
+-   Core: Add `preview.js` default export support [#21227](https://github.com/storybooks/storybook/pull/21227)
+-   TypeScript: Add preview type and update CLI template [#21205](https://github.com/storybooks/storybook/pull/21205)
+-   Autodocs: Hide Stories block when only primary story exists [#21178](https://github.com/storybooks/storybook/pull/21178)
+-   CLI: Add automigration for GFM in MDX [#21186](https://github.com/storybooks/storybook/pull/21186)
+
+#### Bug Fixes
+
+-   Docs: Remove `react-dom@18` warning in docs [#21197](https://github.com/storybooks/storybook/pull/21197)
+-   mdx-to-csf codemod: Fix wrong export referenced in generated mdx [#21226](https://github.com/storybooks/storybook/pull/21226)
+-   Preact: Enable ts plugin by default [#21225](https://github.com/storybooks/storybook/pull/21225)
+-   pnpm: Fix run command for pnpm API [#21165](https://github.com/storybooks/storybook/pull/21165)
+-   Angular: Properly destroy component when switching to another Story [#21219](https://github.com/storybooks/storybook/pull/21219)
+-   CLI: Fix SvelteKit automigration package name [#21210](https://github.com/storybooks/storybook/pull/21210)
+-   Angular: Initialize .storybook without references to root in sub projects [#21202](https://github.com/storybooks/storybook/pull/21202)
+
+#### Maintenance
+
+-   CLI: Only run useful automigrations on init [#21203](https://github.com/storybooks/storybook/pull/21203)
+
+#### Build
+
+-   Build: Disable broken cra-bench [#21238](https://github.com/storybooks/storybook/pull/21238)
+-   Revert "Remove vue-cli as sandbox template is currently busted" [#21237](https://github.com/storybooks/storybook/pull/21237)
+-   Build: Add mixed exports test case to composeConfigs [#21230](https://github.com/storybooks/storybook/pull/21230)
+-   Build: pass debug option to sandbox generate task [#21200](https://github.com/storybooks/storybook/pull/21200)
+-   Build: add @storybook/bench [#21199](https://github.com/storybooks/storybook/pull/21199)
+-   Build: Fix Playwright to v1.30.0 [#21194](https://github.com/storybooks/storybook/pull/21194)
+
 ## 7.0.0-beta.53 (February 22, 2023)
 
 #### Features

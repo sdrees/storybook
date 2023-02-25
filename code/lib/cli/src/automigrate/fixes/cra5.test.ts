@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
-import { cra5 } from './cra5';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import { cra5 } from './cra5';
 
 const checkCra5 = async ({
   packageJson,

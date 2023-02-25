@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
-import { webpack5 } from './webpack5';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import { webpack5 } from './webpack5';
 
 const checkWebpack5 = async ({
   packageJson,

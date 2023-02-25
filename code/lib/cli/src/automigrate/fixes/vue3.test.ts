@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
-import { vue3 } from './vue3';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import { vue3 } from './vue3';
 
 const checkVue3 = async ({
   packageJson,

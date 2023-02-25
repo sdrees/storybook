@@ -90,4 +90,4 @@ Here's what the workflow looks like:
 
 You can access the story definition from the stories file or make it available in your published Storybook using the [Storysource addon](https://storybook.js.org/addons/@storybook/addon-storysource/) or the [Docs addon](../api/doc-block-source).
 
-![Docs blocks with source](../writing-docs/docblock-source.png)
+![Docs blocks with source](./docblock-source.png)

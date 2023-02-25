@@ -30,9 +30,9 @@ type Story = StoryObj<typeof meta>;
 export const ManyItems: Story = {
   render: (args) => (
     <List {...args}>
-      <ListItem {...Selected.args} />
-      <ListItem {...Unselected.args} />
-      <ListItem {...Unselected.args} />
+      <ListItem {...ListItemStories.Selected.args} />
+      <ListItem {...ListItemStories.Unselected.args} />
+      <ListItem {...ListItemStories.Unselected.args} />
     </List>
   ),
 };

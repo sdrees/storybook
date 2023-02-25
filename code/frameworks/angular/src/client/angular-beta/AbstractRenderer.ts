@@ -112,6 +112,8 @@ export abstract class AbstractRenderer {
       return;
     }
 
+    await this.beforeFullRender();
+
     // Complete last BehaviorSubject and set a new one for the current module
     if (this.storyProps$) {
       this.storyProps$.complete();

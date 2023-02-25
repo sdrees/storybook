@@ -187,7 +187,7 @@ export function copyTemplate(templateRoot: string, destination = '.') {
 }
 
 type CopyTemplateFilesOptions = {
-  packageManager?: JsPackageManager;
+  packageManager: JsPackageManager;
   renderer: SupportedFrameworks | SupportedRenderers;
   language: SupportedLanguage;
   includeCommonAssets?: boolean;

@@ -24,13 +24,14 @@ Run the following command to install the addon and the required dependencies.
 
 <!-- prettier-ignore-end -->
 
-Update your Storybook configuration (in `.storybook/main.js`) to include the interactions addon.
+Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-   'common/storybook-addon-interaction-registration.js.mdx',
+   'common/storybook-interactions-addon-registration.js.mdx',
+   'common/storybook-interactions-addon-registration.ts.mdx',
   ]}
 />
 

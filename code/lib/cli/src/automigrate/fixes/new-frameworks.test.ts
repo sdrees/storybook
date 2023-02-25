@@ -1,11 +1,14 @@
 import type { StorybookConfig } from '@storybook/types';
 import * as findUp from 'find-up';
 import type { PackageJson } from '../../js-package-manager';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import * as rendererHelpers from '../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 
 jest.mock('find-up');
+jest.mock('../helpers/detectRenderer', () => ({
+  detectRenderer: jest.fn(jest.requireActual('../helpers/detectRenderer').detectRenderer),
+}));
 
 const checkNewFrameworks = async ({
   packageJson,

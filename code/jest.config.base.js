@@ -4,9 +4,6 @@ const path = require('path');
 
 const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
 
-// This is needed for proper jest mocking, see https://github.com/swc-project/swc/discussions/5151#discussioncomment-3149154
-((swcrc.jsc ??= {}).experimental ??= {}).plugins = [['jest_workaround', {}]];
-
 /**
  * TODO: Some windows related tasks are still commented out, because they are behaving differently on
  * a local Windows machine compared to the Windows Server 2022 machine running in GitHub Actions.

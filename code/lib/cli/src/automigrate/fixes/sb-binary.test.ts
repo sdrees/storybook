@@ -1,5 +1,5 @@
 import type { PackageJson } from '../../js-package-manager';
-import { makePackageManager } from '../helpers/testing-helpers';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { sbBinary } from './sb-binary';
 
 const checkStorybookBinary = async ({
@@ -9,6 +9,7 @@ const checkStorybookBinary = async ({
   packageJson: PackageJson;
   storybookVersion?: string;
 }) => {
+  mockStorybookData({ mainConfig: {}, storybookVersion });
   return sbBinary.check({ packageManager: makePackageManager(packageJson) });
 };
 

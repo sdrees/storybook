@@ -42,20 +42,89 @@ describe('composeConfigs', () => {
     });
   });
 
+  it('composes export defaults', () => {
+    expect(
+      composeConfigs([
+        {
+          default: {
+            parameters: { obj: { a: '1', b: '1' } },
+          },
+        },
+        {
+          default: {
+            parameters: { obj: { a: '2', c: '2' } },
+          },
+        },
+      ])
+    ).toEqual({
+      parameters: { obj: { a: '2', b: '1', c: '2' } },
+      decorators: [],
+      args: {},
+      argsEnhancers: [],
+      argTypes: {},
+      argTypesEnhancers: [],
+      globals: {},
+      globalTypes: {},
+      loaders: [],
+      runStep: expect.any(Function),
+    });
+  });
+
   it('overrides object fields by key', () => {
     expect(
       composeConfigs([
         {
-          args: { x: '1', y: '1', obj: { a: '1', b: '1' } },
-          argTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
-          globals: { x: '1', y: '1', obj: { a: '1', b: '1' } },
-          globalTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+          default: {
+            args: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            argTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            globals: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            globalTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+          },
+        },
+        {
+          default: {
+            args: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+            argTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+            globals: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+            globalTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+          },
+        },
+      ])
+    ).toEqual({
+      parameters: {},
+      decorators: [],
+      args: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
+      argsEnhancers: [],
+      argTypes: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
+      argTypesEnhancers: [],
+      globals: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
+      globalTypes: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
+      loaders: [],
+      runStep: expect.any(Function),
+    });
+  });
+
+  it('overrides object fields by key with mixed named and default exports', () => {
+    expect(
+      // configs could come from user, addons, presets, frameworks.. so they will likely be mixed in format
+      composeConfigs([
+        {
+          default: {
+            args: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            argTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            globals: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            globalTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+          },
         },
         {
           args: { x: '2', z: '2', obj: { a: '2', c: '2' } },
           argTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
           globals: { x: '2', z: '2', obj: { a: '2', c: '2' } },
-          globalTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+        },
+        {
+          default: {
+            globalTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+          },
         },
       ])
     ).toEqual({

@@ -233,3 +233,10 @@ By default, most elements (like `h1`, `p`, etc.) in docs have a few default styl
 ## Make your own doc blocks
 
 Storybook also provides a [`useOf` hook](../api/doc-block-useof.md) to make it easier to create your own blocks that function in the same manner as the built-in blocks.
+
+#### Learn more about Storybook documentation
+
+- [AutoDocs](./autodocs.md) for creating documentation for your stories
+- [MDX](./mdx.md) for customizing your documentation
+- Doc Blocks for authoring your documentation
+- [Publishing docs](./build-documentation.md) to automate the process of publishing your documentation

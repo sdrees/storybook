@@ -24,8 +24,8 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
     // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
-    '@playwright/test': '1.30.0',
-    playwright: '1.30.0',
+    '@playwright/test': '1.31.1',
+    playwright: '1.31.1',
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };

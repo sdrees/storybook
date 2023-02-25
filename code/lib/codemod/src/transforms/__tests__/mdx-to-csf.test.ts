@@ -368,10 +368,23 @@ test('duplicate story name', () => {
       
     `;
 
-  jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
-
+  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
   const [, csf] = fs.writeFileSync.mock.calls[0];
 
+  expect(mdx).toMatchInlineSnapshot(`
+    import { Meta, Story } from '@storybook/blocks';
+    import { Button } from './Button';
+    import * as FoobarStories from './Foobar.stories';
+
+    export const Default = (args) => <Button {...args} />;
+
+    <Meta of={FoobarStories} />
+
+    <Story of={FoobarStories.Default_} />
+
+    <Story of={FoobarStories.Second} />
+
+  `);
   expect(csf).toMatchInlineSnapshot(`
     import { Button } from './Button';
 

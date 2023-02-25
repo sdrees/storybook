@@ -25,7 +25,7 @@ export class PNPMProxy extends JsPackageManager {
   }
 
   runPackageCommand(command: string, args: string[], cwd?: string): string {
-    return this.executeCommand(`pnpm`, ['run', command, ...args], undefined, cwd);
+    return this.executeCommand(`pnpm`, ['exec', command, ...args], undefined, cwd);
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

@@ -1,24 +1,13 @@
 import { global } from '@storybook/global';
-
-import type { FC, ReactElement } from 'react';
-import React, {
-  Component as ReactComponent,
-  StrictMode,
-  Fragment,
-  useLayoutEffect,
-  useRef,
-} from 'react';
-import ReactDOM, { version as reactDomVersion } from 'react-dom';
-import type { Root as ReactRoot } from 'react-dom/client';
+import type { FC } from 'react';
+import React, { Component as ReactComponent, StrictMode, Fragment } from 'react';
+import { renderElement, unmountElement } from '@storybook/react-dom-shim';
 
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { ReactRenderer, StoryContext } from './types';
 
 const { FRAMEWORK_OPTIONS } = global;
-
-// A map of all rendered React 18 nodes
-const nodes = new Map<Element, ReactRoot>();
 
 export const render: ArgsStoryFn<ReactRenderer> = (args, context) => {
   const { id, component: Component } = context;
@@ -29,68 +18,6 @@ export const render: ArgsStoryFn<ReactRenderer> = (args, context) => {
   }
 
   return <Component {...args} />;
-};
-
-const WithCallback: FC<{ callback: () => void; children: ReactElement }> = ({
-  callback,
-  children,
-}) => {
-  // See https://github.com/reactwg/react-18/discussions/5#discussioncomment-2276079
-  const once = useRef<() => void>();
-  useLayoutEffect(() => {
-    if (once.current === callback) return;
-    once.current = callback;
-    callback();
-  }, [callback]);
-
-  return children;
-};
-
-const renderElement = async (node: ReactElement, el: Element) => {
-  // Create Root Element conditionally for new React 18 Root Api
-  const root = await getReactRoot(el);
-
-  return new Promise((resolve) => {
-    if (root) {
-      root.render(<WithCallback callback={() => resolve(null)}>{node}</WithCallback>);
-    } else {
-      ReactDOM.render(node, el, () => resolve(null));
-    }
-  });
-};
-
-const canUseNewReactRootApi =
-  reactDomVersion && (reactDomVersion.startsWith('18') || reactDomVersion.startsWith('0.0.0'));
-
-const shouldUseNewRootApi = FRAMEWORK_OPTIONS?.legacyRootApi !== true;
-
-const isUsingNewReactRootApi = shouldUseNewRootApi && canUseNewReactRootApi;
-
-const unmountElement = (el: Element) => {
-  const root = nodes.get(el);
-  if (root && isUsingNewReactRootApi) {
-    root.unmount();
-    nodes.delete(el);
-  } else {
-    ReactDOM.unmountComponentAtNode(el);
-  }
-};
-
-const getReactRoot = async (el: Element): Promise<ReactRoot | null> => {
-  if (!isUsingNewReactRootApi) {
-    return null;
-  }
-  let root = nodes.get(el);
-
-  if (!root) {
-    // eslint-disable-next-line import/no-unresolved
-    const reactDomClient = (await import('react-dom/client')).default;
-    root = reactDomClient.createRoot(el);
-
-    nodes.set(el, root);
-  }
-
-  return root;
 };
 
 class ErrorBoundary extends ReactComponent<{

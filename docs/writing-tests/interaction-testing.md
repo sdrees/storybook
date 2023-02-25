@@ -37,13 +37,14 @@ Run the following command to install the interactions addon and related dependen
 
 <!-- prettier-ignore-end -->
 
-Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon and enable playback controls for debugging.
+Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-enable-interactive-debugger.js.mdx',
+    'common/storybook-interactions-addon-registration.js.mdx',
+    'common/storybook-interactions-addon-registration.ts.mdx',
   ]}
 />
 

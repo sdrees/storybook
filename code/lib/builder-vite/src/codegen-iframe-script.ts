@@ -51,7 +51,7 @@ export async function generateIframeScriptCode(options: Options) {
       .concat('preview.default')
       .join(',')}].filter(Boolean)
 
-    configs.forEach(config => {
+    configs.map(config => config.default ? config.default : config).forEach(config => {
       Object.keys(config).forEach((key) => {
         const value = config[key];
         switch (key) {
