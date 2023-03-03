@@ -20,11 +20,13 @@ const customViewports = {
   },
 };
 
-export const parameters = {
-  viewport: {
-    viewports: {
-      ...MINIMAL_VIEWPORTS,
-      ...customViewports,
+export default {
+  parameters: {
+    viewport: {
+      viewports: {
+        ...MINIMAL_VIEWPORTS,
+        ...customViewports,
+      },
     },
   },
 };

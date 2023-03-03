@@ -177,6 +177,17 @@ describe('useStoriesJson', () => {
               "title": "D",
               "type": "story",
             },
+            "docs2-componentreference--docs": Object {
+              "id": "docs2-componentreference--docs",
+              "importPath": "./src/docs2/ComponentReference.mdx",
+              "name": "docs",
+              "storiesImports": Array [],
+              "tags": Array [
+                "docs",
+              ],
+              "title": "docs2/ComponentReference",
+              "type": "docs",
+            },
             "docs2-notitle--docs": Object {
               "id": "docs2-notitle--docs",
               "importPath": "./src/docs2/NoTitle.mdx",
@@ -366,6 +377,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "D",
+            },
+            "docs2-componentreference--docs": Object {
+              "id": "docs2-componentreference--docs",
+              "importPath": "./src/docs2/ComponentReference.mdx",
+              "kind": "docs2/ComponentReference",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-componentreference--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/ComponentReference.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "docs",
+              ],
+              "title": "docs2/ComponentReference",
             },
             "docs2-notitle--docs": Object {
               "id": "docs2-notitle--docs",
@@ -655,6 +683,7 @@ describe('useStoriesJson', () => {
       expect(send).toHaveBeenCalledTimes(1);
       expect(send.mock.calls[0][0]).toMatchInlineSnapshot(`
         "Unable to index files:
+        - ./src/docs2/ComponentReference.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
         - ./src/docs2/MetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
         - ./src/docs2/NoTitle.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
         - ./src/docs2/SecondMetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.

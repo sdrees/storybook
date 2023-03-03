@@ -1,3 +1,4 @@
+import { pathExistsSync } from 'fs-extra';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 
@@ -6,7 +7,12 @@ export class PNPMProxy extends JsPackageManager {
 
   installArgs: string[] | undefined;
 
-  uninstallArgs: string[] | undefined;
+  detectWorkspaceRoot() {
+    const CWD = process.cwd();
+
+    const pnpmWorkspaceYaml = `${CWD}/pnpm-workspace.yaml`;
+    return pathExistsSync(pnpmWorkspaceYaml);
+  }
 
   initPackageJson() {
     return this.executeCommand('pnpm', ['init', '-y']);
@@ -24,6 +30,17 @@ export class PNPMProxy extends JsPackageManager {
     return this.executeCommand('pnpm', ['--version']);
   }
 
+  getInstallArgs(): string[] {
+    if (!this.installArgs) {
+      this.installArgs = [];
+
+      if (this.detectWorkspaceRoot()) {
+        this.installArgs.push('-w');
+      }
+    }
+    return this.installArgs;
+  }
+
   runPackageCommand(command: string, args: string[], cwd?: string): string {
     return this.executeCommand(`pnpm`, ['exec', command, ...args], undefined, cwd);
   }
@@ -38,7 +55,7 @@ export class PNPMProxy extends JsPackageManager {
   }
 
   protected runInstall(): void {
-    this.executeCommand('pnpm', ['install'], 'inherit');
+    this.executeCommand('pnpm', ['install', ...this.getInstallArgs()], 'inherit');
   }
 
   protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
@@ -48,13 +65,13 @@ export class PNPMProxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('pnpm', ['add', ...args], 'inherit');
+    this.executeCommand('pnpm', ['add', ...args, ...this.getInstallArgs()], 'inherit');
   }
 
   protected runRemoveDeps(dependencies: string[]): void {
     const args = [...dependencies];
 
-    this.executeCommand('pnpm', ['remove', ...args], 'inherit');
+    this.executeCommand('pnpm', ['remove', ...args, ...this.getInstallArgs()], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

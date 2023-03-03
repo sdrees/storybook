@@ -177,6 +177,7 @@ export const features = async (
   storyStoreV7: true,
   breakingChangesV7: true,
   argTypeTargetsV7: true,
+  legacyDecoratorFileOrder: false,
 });
 
 export const storyIndexers = async (indexers?: StoryIndexer[]) => {

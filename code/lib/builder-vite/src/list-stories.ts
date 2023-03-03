@@ -1,4 +1,5 @@
-import * as posixPath from 'node:path/posix'; // Glob requires forward-slashes
+import * as path from 'path';
+import slash from 'slash';
 import { promise as glob } from 'glob-promise';
 import { normalizeStories } from '@storybook/core-common';
 
@@ -11,14 +12,12 @@ export async function listStories(options: Options) {
         configDir: options.configDir,
         workingDir: options.configDir,
       }).map(({ directory, files }) => {
-        const pattern = posixPath.join(directory, files);
+        const pattern = path.join(directory, files);
+        const absolutePattern = path.isAbsolute(pattern)
+          ? pattern
+          : path.join(options.configDir, pattern);
 
-        return glob(
-          posixPath.isAbsolute(pattern) ? pattern : posixPath.join(options.configDir, pattern),
-          {
-            follow: true,
-          }
-        );
+        return glob(slash(absolutePattern), { follow: true });
       })
     )
   ).reduce((carry, stories) => carry.concat(stories), []);

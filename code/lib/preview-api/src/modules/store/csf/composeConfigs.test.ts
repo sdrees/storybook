@@ -1,6 +1,13 @@
 import { expect } from '@jest/globals';
+import { global } from '@storybook/global';
 
 import { composeConfigs } from './composeConfigs';
+
+jest.mock('@storybook/global', () => ({
+  global: {
+    FEATURES: {},
+  },
+}));
 
 describe('composeConfigs', () => {
   it('sets default (empty) values for fields', () => {
@@ -145,13 +152,11 @@ describe('composeConfigs', () => {
     expect(
       composeConfigs([
         {
-          decorators: ['1', '2'],
           argsEnhancers: ['1', '2'],
           argTypesEnhancers: ['1', '2'],
           loaders: ['1', '2'],
         },
         {
-          decorators: ['3', '4'],
           argsEnhancers: ['3', '4'],
           argTypesEnhancers: ['3', '4'],
           loaders: ['3', '4'],
@@ -159,7 +164,7 @@ describe('composeConfigs', () => {
       ])
     ).toEqual({
       parameters: {},
-      decorators: ['1', '2', '3', '4'],
+      decorators: [],
       args: {},
       argsEnhancers: ['1', '2', '3', '4'],
       argTypes: {},
@@ -167,6 +172,30 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: ['1', '2', '3', '4'],
+      runStep: expect.any(Function),
+    });
+  });
+
+  it('combines decorators in reverse file order', () => {
+    expect(
+      composeConfigs([
+        {
+          decorators: ['1', '2'],
+        },
+        {
+          decorators: ['3', '4'],
+        },
+      ])
+    ).toEqual({
+      parameters: {},
+      decorators: ['3', '4', '1', '2'],
+      args: {},
+      argsEnhancers: [],
+      argTypes: {},
+      argTypesEnhancers: [],
+      globals: {},
+      globalTypes: {},
+      loaders: [],
       runStep: expect.any(Function),
     });
   });
@@ -246,5 +275,30 @@ describe('composeConfigs', () => {
     expect(fn).toHaveBeenNthCalledWith(1, 'Label3', expect.anything());
     expect(fn).toHaveBeenNthCalledWith(2, 'Label2', expect.anything());
     expect(fn).toHaveBeenNthCalledWith(3, 'Label1', expect.anything());
+  });
+
+  describe('FEATURES.legacyDecoratorFileOrder set to true', () => {
+    beforeEach(() => {
+      global.FEATURES!.legacyDecoratorFileOrder = true;
+    });
+
+    afterEach(() => {
+      global.FEATURES!.legacyDecoratorFileOrder = false;
+    });
+
+    it('should merge decorators in the order they are defined file-wise', () => {
+      expect(
+        composeConfigs([
+          {
+            decorators: ['1', '2'],
+          },
+          {
+            decorators: ['3', '4'],
+          },
+        ])
+      ).toMatchObject({
+        decorators: ['1', '2', '3', '4'],
+      });
+    });
   });
 });

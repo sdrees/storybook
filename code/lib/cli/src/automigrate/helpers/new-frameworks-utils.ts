@@ -1,3 +1,4 @@
+import { frameworkPackages } from '@storybook/core-common';
 import type { Preset, StorybookConfig } from '@storybook/types';
 import findUp from 'find-up';
 
@@ -83,12 +84,10 @@ export const detectBuilderInfo = async ({
       builderOptions = builder.options || {};
     }
   } else if (framework) {
-    if (typeof framework === 'string') {
-      builderOrFrameworkName = framework;
-    } else {
-      builderOrFrameworkName = framework.name;
-
-      builderOptions = framework.options?.builder || {};
+    const frameworkName = typeof framework === 'string' ? framework : framework.name;
+    if (Object.keys(frameworkPackages).includes(frameworkName)) {
+      builderOrFrameworkName = frameworkName;
+      builderOptions = typeof framework === 'object' ? framework.options?.builder : {};
     }
   }
 

@@ -47,6 +47,7 @@ export { Placeholder } from './placeholder/placeholder';
 export { ScrollArea } from './ScrollArea/ScrollArea';
 export { Zoom } from './Zoom/Zoom';
 export type { ActionItem } from './ActionBar/ActionBar';
+export { ErrorFormatter } from './ErrorFormatter/ErrorFormatter';
 
 // Forms
 export { Button } from './Button/Button';

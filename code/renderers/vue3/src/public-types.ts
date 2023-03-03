@@ -11,8 +11,8 @@ import type {
   StrictArgs,
   ProjectAnnotations,
 } from '@storybook/types';
-import type { SetOptional, Simplify } from 'type-fest';
-import type { ComponentOptions, ConcreteComponent, FunctionalComponent } from 'vue';
+import type { SetOptional, Simplify, RemoveIndexSignature } from 'type-fest';
+import type { ComponentOptions, ConcreteComponent, FunctionalComponent, VNodeChild } from 'vue';
 import type { VueRenderer } from './types';
 
 export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
@@ -59,8 +59,16 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
     : never
   : StoryAnnotations<VueRenderer, ComponentPropsOrProps<TMetaOrCmpOrArgs>>;
 
-type ComponentProps<C> = C extends ComponentOptions<infer P>
-  ? P
+type ExtractSlots<C> = C extends new (...args: any[]) => { $slots: infer T }
+  ? AllowNonFunctionSlots<Partial<RemoveIndexSignature<T>>>
+  : unknown;
+
+type AllowNonFunctionSlots<Slots> = {
+  [K in keyof Slots]: Slots[K] | VNodeChild;
+};
+
+export type ComponentProps<C> = C extends ComponentOptions<infer P>
+  ? P & ExtractSlots<C>
   : C extends FunctionalComponent<infer P>
   ? P
   : unknown;

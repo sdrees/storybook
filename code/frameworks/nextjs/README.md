@@ -16,9 +16,9 @@
     - [Remote Images](#remote-images)
     - [AVIF](#avif)
   - [Next.js Font Optimization](#nextjs-font-optimization)
-    - [@next/font/google](#nextfontgoogle)
-    - [@next/font/local](#nextfontlocal)
-    - [Not supported features of @next/font](#not-supported-features-of-nextfont)
+    - [next/font/google](#nextfontgoogle)
+    - [next/font/local](#nextfontlocal)
+    - [Not supported features of next/font](#not-supported-features-of-nextfont)
   - [Next.js Routing](#nextjs-routing)
     - [Overriding defaults](#overriding-defaults)
     - [Global Defaults](#global-defaults)
@@ -221,13 +221,13 @@ This format is not supported by this framework yet. Feel free to [open up an iss
 
 ### Next.js Font Optimization
 
-[@next/font](https://nextjs.org/docs/basic-features/font-optimization) is partially supported in Storybook. The packages `@next/font/google` and `@next/font/local` are supported.
+[next/font](https://nextjs.org/docs/basic-features/font-optimization) is partially supported in Storybook. The packages `next/font/google` and `next/font/local` are supported.
 
-#### @next/font/google
+#### next/font/google
 
-You don't have to do anything. `@next/font/google` is supported out of the box.
+You don't have to do anything. `next/font/google` is supported out of the box.
 
-#### @next/font/local
+#### next/font/local
 
 For local fonts you have to define the [src](https://nextjs.org/docs/api-reference/next/font#src) property.
 The path is relative to the directory where the font loader function is called.
@@ -236,7 +236,7 @@ If the following component defines your localFont like this:
 
 ```js
 // src/components/MyComponent.js
-import localFont from '@next/font/local';
+import localFont from 'next/font/local';
 
 const localRubikStorm = localFont({ src: './fonts/RubikStorm-Regular.ttf' });
 ```
@@ -256,7 +256,7 @@ export default {
 }
 ```
 
-#### Not supported features of @next/font
+#### Not supported features of next/font
 
 The following features are not supported (yet). Support for these features might be planned for the future:
 

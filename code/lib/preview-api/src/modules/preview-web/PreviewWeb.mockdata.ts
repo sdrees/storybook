@@ -56,7 +56,7 @@ export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
 );
 
 export const docsRenderer = {
-  render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
+  render: jest.fn().mockImplementation((context, parameters, element) => Promise.resolve()),
   unmount: jest.fn(),
 };
 export const teardownrenderToCanvas: jest.Mock<TeardownRenderToCanvas> = jest.fn();

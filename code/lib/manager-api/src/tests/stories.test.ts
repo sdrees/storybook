@@ -85,10 +85,6 @@ function createMockStore(initialState = {}) {
 function initStoriesAndSetState({ store, ...options }: any) {
   const { state, ...result } = initStories({ store, ...options } as any);
 
-  // Remove deprecated fields (which would trigger warnings)
-  delete state.storiesHash;
-  delete state.storiesConfigured;
-  delete state.storiesFailed;
   store?.setState(state);
 
   return { state, ...result };
@@ -119,11 +115,6 @@ describe('stories API', () => {
       storyId: 'id',
       viewMode: 'story',
     } as ModuleArgs);
-
-    // Remove deprecated fields (which would trigger warnings)
-    delete state.storiesHash;
-    delete state.storiesConfigured;
-    delete state.storiesFailed;
 
     expect(state).toEqual({
       previewInitialized: false,

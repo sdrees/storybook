@@ -1,8 +1,8 @@
 ## @storybook/addon-mdx-gfm
 
-The "@storybook/addon-mdx-gfm" addon is meant as a migration assistant for Storybook 7.0, providing Github Flavored Markdown support to Storybook docs. 
+The "@storybook/addon-mdx-gfm" addon is meant as a migration assistant for Storybook 7.0, providing Github Flavored Markdown support to Storybook docs.
 
-> Note: 
+> Note:
 > This addon will likely be removed in a future version.
 
 It's recommended you read this document and follow its instructions instead:

@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import loaderUtils from 'next/dist/compiled/loader-utils3';
-import { validateData } from '@next/font/dist/local/utils';
 import path from 'path';
 
 import type { LoaderOptions } from '../types';
@@ -14,6 +13,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
   // Parent folder relative to the root context
   const parentFolder = options.filename.split('/').slice(0, -1).join('/').replace(rootContext, '');
 
+  const { validateData } = require('../utils/local-font-utils');
   const { weight, style, variable } = validateData('', options.props);
 
   const id = `font-${loaderUtils.getHashDigest(

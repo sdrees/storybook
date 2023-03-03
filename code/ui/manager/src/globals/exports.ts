@@ -58,6 +58,7 @@ export default {
     'DL',
     'Div',
     'DocumentWrapper',
+    'ErrorFormatter',
     'FlexBar',
     'Form',
     'H1',

@@ -1,5 +1,5 @@
 import { Channel } from '@storybook/channels';
-import type { Renderer, DocsIndexEntry } from '@storybook/types';
+import type { Renderer, DocsIndexEntry, RenderContextCallbacks } from '@storybook/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
@@ -36,7 +36,8 @@ it('throws PREPARE_ABORTED if torndown during prepare', async () => {
   const render = new CsfDocsRender(
     new Channel(),
     mockStore as unknown as StoryStore<Renderer>,
-    entry
+    entry,
+    {} as RenderContextCallbacks<Renderer>
   );
 
   const preparePromise = render.prepare();
@@ -61,7 +62,12 @@ it('attached immediately', async () => {
     storyFromCSFFile: () => story,
   } as unknown as StoryStore<Renderer>;
 
-  const render = new CsfDocsRender(new Channel(), store, entry);
+  const render = new CsfDocsRender(
+    new Channel(),
+    store,
+    entry,
+    {} as RenderContextCallbacks<Renderer>
+  );
   await render.prepare();
 
   const context = render.docsContext(jest.fn());

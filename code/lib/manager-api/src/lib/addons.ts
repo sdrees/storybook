@@ -97,7 +97,11 @@ export class AddonStore {
   setConfig = (value: Addon_Config) => {
     Object.assign(this.config, value);
     if (this.hasChannel()) {
-      this.getChannel().emit(SET_CONFIG, value);
+      this.getChannel().emit(SET_CONFIG, this.config);
+    } else {
+      this.ready().then((channel) => {
+        channel.emit(SET_CONFIG, this.config);
+      });
     }
   };
 

@@ -6,8 +6,6 @@ export class NPMProxy extends JsPackageManager {
 
   installArgs: string[] | undefined;
 
-  uninstallArgs: string[] | undefined;
-
   initPackageJson() {
     return this.executeCommand('npm', ['init', '-y']);
   }
@@ -26,16 +24,9 @@ export class NPMProxy extends JsPackageManager {
 
   getInstallArgs(): string[] {
     if (!this.installArgs) {
-      this.installArgs = ['install'];
+      this.installArgs = [];
     }
     return this.installArgs;
-  }
-
-  getUninstallArgs(): string[] {
-    if (!this.uninstallArgs) {
-      this.uninstallArgs = ['uninstall'];
-    }
-    return this.uninstallArgs;
   }
 
   public runPackageCommand(command: string, args: string[], cwd?: string): string {
@@ -52,7 +43,7 @@ export class NPMProxy extends JsPackageManager {
   }
 
   protected runInstall(): void {
-    this.executeCommand('npm', this.getInstallArgs(), 'inherit');
+    this.executeCommand('npm', ['install', ...this.getInstallArgs()], 'inherit');
   }
 
   protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
@@ -62,13 +53,13 @@ export class NPMProxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('npm', [...this.getInstallArgs(), ...args], 'inherit');
+    this.executeCommand('npm', ['install', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runRemoveDeps(dependencies: string[]): void {
     const args = [...dependencies];
 
-    this.executeCommand('npm', [...this.getUninstallArgs(), ...args], 'inherit');
+    this.executeCommand('npm', ['uninstall', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

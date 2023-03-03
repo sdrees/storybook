@@ -2,7 +2,7 @@
 title: 'Automatic documentation and Storybook'
 ---
 
-Storybook AutoDocs is a powerful tool that can help you quickly generate comprehensive documentation for your UI components. By leveraging AutoDocs, you're transforming your stories into living documentation which can be further extended with [MDX](./mdx.md) and [Doc Blocks](./doc-blocks.md) to provide a clear and concise understanding of your components' functionality.
+Storybook Autodocs is a powerful tool that can help you quickly generate comprehensive documentation for your UI components. By leveraging Autodocs, you're transforming your stories into living documentation which can be further extended with [MDX](./mdx.md) and [Doc Blocks](./doc-blocks.md) to provide a clear and concise understanding of your components' functionality.
 
 ## Setup automated documentation
 
@@ -83,13 +83,25 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 #### With MDX
 
-Nevertheless, not all projects are built by adopting a single convention. There may be some situations where you want to use MDX to generate the documentation template. In that case, you can customize the template by adding the [`Meta`](../api/doc-block-meta.md) Doc Block and supplying the `isTemplate` property to tell Storybook to treat this file as a documentation template. For example:
+You can also use MDX to generate the documentation template. This is useful in non-React projects where JSX-handling is not configured. Normally, when you create an MDX file in your project, it is treated as normal documentation. To indicate that an MDX file is a documentation template, supply the `isTemplate` property to its [`Meta`](../api/doc-block-meta.md) Doc Block. For example:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'common/storybook-mdx-template-with-prop.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Then you can use it in your `.storybook/preview.js` or an individual story file by importing it:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-preview-auto-docs-custom-mdx-template.js.mdx',
   ]}
 />
 
@@ -103,7 +115,7 @@ Nevertheless, not all projects are built by adopting a single convention. There 
 
 ### Customize component documentation
 
-Creating automated documentation with Storybook's AutoDocs provides you with the starting point to build a sustainable documentation pattern. Nevertheless, it may not be suited for every case, and you may want to extend it and provide additional information. We recommend combining [MDX](./mdx.md) alongside Storybook's [Doc Blocks](./doc-blocks.md) for such cases to author your documentation.
+Creating automated documentation with Storybook's Autodocs provides you with the starting point to build a sustainable documentation pattern. Nevertheless, it may not be suited for every case, and you may want to extend it and provide additional information. We recommend combining [MDX](./mdx.md) alongside Storybook's [Doc Blocks](./doc-blocks.md) for such cases to author your documentation.
 
 ## Advanced configuration
 
@@ -159,7 +171,7 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 ### The auto-generated documentation is not showing up in a monorepo setup
 
-Out of the box, Storybook's AutoDocs feature is built to generate documentation for your stories automatically. Nevertheless, if you're working with a monorepo setup (e.g., [`Yarn Workspaces`](https://yarnpkg.com/features/workspaces), [`pnpm Workspaces`](https://pnpm.io/workspaces)), you may run into issues where part of the documentation may not be generated for you. To help you troubleshoot those issues, we've prepared some recommendations that might help you.
+Out of the box, Storybook's Autodocs feature is built to generate documentation for your stories automatically. Nevertheless, if you're working with a monorepo setup (e.g., [`Yarn Workspaces`](https://yarnpkg.com/features/workspaces), [`pnpm Workspaces`](https://pnpm.io/workspaces)), you may run into issues where part of the documentation may not be generated for you. To help you troubleshoot those issues, we've prepared some recommendations that might help you.
 
 Update your import statements to reference the component directly instead of the package's root. For example:
 
@@ -193,7 +205,7 @@ If you're still encountering issues, we recommend reaching out to the maintainer
 
 #### Learn more about Storybook documentation
 
-- AutoDocs for creating documentation for your stories
+- Autodocs for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation
 - [Doc Blocks](./doc-blocks.md) for authoring your documentation
 - [Publishing docs](./build-documentation.md) to automate the process of publishing your documentation

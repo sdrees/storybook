@@ -1,5 +1,5 @@
 import { Channel } from '@storybook/channels';
-import type { Renderer, DocsIndexEntry } from '@storybook/types';
+import type { Renderer, DocsIndexEntry, RenderContextCallbacks } from '@storybook/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
@@ -35,7 +35,8 @@ it('throws PREPARE_ABORTED if torndown during prepare', async () => {
   const render = new MdxDocsRender(
     new Channel(),
     mockStore as unknown as StoryStore<Renderer>,
-    entry
+    entry,
+    {} as RenderContextCallbacks<Renderer>
   );
 
   const preparePromise = render.prepare();
@@ -60,7 +61,12 @@ describe('attaching', () => {
   } as unknown as StoryStore<Renderer>;
 
   it('is not attached if you do not call setMeta', async () => {
-    const render = new MdxDocsRender(new Channel(), store, entry);
+    const render = new MdxDocsRender(
+      new Channel(),
+      store,
+      entry,
+      {} as RenderContextCallbacks<Renderer>
+    );
     await render.prepare();
 
     const context = render.docsContext(jest.fn());
@@ -69,7 +75,12 @@ describe('attaching', () => {
   });
 
   it('is attached if you call referenceMeta with attach=true', async () => {
-    const render = new MdxDocsRender(new Channel(), store, entry);
+    const render = new MdxDocsRender(
+      new Channel(),
+      store,
+      entry,
+      {} as RenderContextCallbacks<Renderer>
+    );
     await render.prepare();
 
     const context = render.docsContext(jest.fn());

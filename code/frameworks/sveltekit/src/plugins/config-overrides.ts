@@ -2,14 +2,11 @@ import type { Plugin } from 'vite';
 
 export function configOverrides() {
   return {
+    // SvelteKit sets SSR, we need it to be false when building
     name: 'storybook:sveltekit-overrides',
-    config: (conf) => {
-      // Some versions of sveltekit set ssr, we need it to be false
-      if (conf.build?.ssr) {
-        // eslint-disable-next-line no-param-reassign
-        conf.build.ssr = false;
-      }
-      return conf;
+    apply: 'build',
+    config: () => {
+      return { build: { ssr: false } };
     },
   } satisfies Plugin;
 }

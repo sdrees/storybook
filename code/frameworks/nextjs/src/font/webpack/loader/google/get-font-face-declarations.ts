@@ -1,18 +1,18 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import loaderUtils from 'next/dist/compiled/loader-utils3';
-import {
-  fetchCSSFromGoogleFonts,
-  getFontAxes,
-  getUrl,
-  validateData,
-} from '@next/font/dist/google/utils';
-
 import type { LoaderOptions } from '../types';
 
 const cssCache = new Map<string, Promise<string>>();
 
 export async function getFontFaceDeclarations(options: LoaderOptions) {
+  const {
+    fetchCSSFromGoogleFonts,
+    getFontAxes,
+    getUrl,
+    validateData,
+  } = require('../utils/google-font-utils');
+
   const { fontFamily, weights, styles, selectedVariableAxes, display, variable } = validateData(
     options.fontFamily,
     [options.props],

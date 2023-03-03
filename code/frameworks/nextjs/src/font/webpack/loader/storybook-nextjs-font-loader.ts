@@ -21,11 +21,11 @@ export default async function storybookNextjsFontLoader(this: any) {
 
   let fontFaceDeclaration: FontFaceDeclaration | undefined;
 
-  if (options.source === '@next/font/google') {
+  if (options.source === 'next/font/google' || options.source === '@next/font/google') {
     fontFaceDeclaration = await getGoogleFontFaceDeclarations(options);
   }
 
-  if (options.source === '@next/font/local') {
+  if (options.source === 'next/font/local' || options.source === '@next/font/local') {
     fontFaceDeclaration = await getLocalFontFaceDeclarations(options, rootCtx);
   }
 

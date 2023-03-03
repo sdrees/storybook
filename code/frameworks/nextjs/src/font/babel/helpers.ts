@@ -10,7 +10,7 @@ export type VariableMeta = {
   /**
    * Variable Declaration name of the assigned function call
    * @example
-   * import { Roboto } from '@next/font/google'
+   * import { Roboto } from 'next/font/google'
    * const robotoName = Roboto({
    *   weight: '400'
    * })
@@ -21,7 +21,7 @@ export type VariableMeta = {
   /**
    * Properties of the assigned function call
    * @example
-   * import { Roboto } from '@next/font/google'
+   * import { Roboto } from 'next/font/google'
    * const robotoName = Roboto({
    *   weight: '400'
    * })
@@ -30,9 +30,9 @@ export type VariableMeta = {
    */
   properties: JSReturnValue;
   /**
-   * Function name of the imported @next/font/google function
+   * Function name of the imported next/font/google function
    * @example
-   * import { Roboto } from '@next/font/google'
+   * import { Roboto } from 'next/font/google'
    * const robotoName = Roboto({
    *   weight: '400'
    * })
@@ -110,7 +110,7 @@ export function isDefined<T>(value: T): value is Exclude<T, undefined> {
  * Removes transformed variable declarations, which were already replaced with parameterized imports
  * @example
  * // AST
- * import { Roboto, Inter } from '@next/font/google'
+ * import { Roboto, Inter } from 'next/font/google'
  * const interName = Inter({
  *  subsets: ['latin'],
  * })
@@ -119,7 +119,7 @@ export function isDefined<T>(value: T): value is Exclude<T, undefined> {
  * })
  *
  * // Result
- * import { Roboto, Inter } from '@next/font/google'
+ * import { Roboto, Inter } from 'next/font/google'
  *
  * // Variable declarations are removed
  */
@@ -172,10 +172,10 @@ export function removeTransformedVariableDeclarations(
 }
 
 /**
- * Replaces `@next/font` import with a parameterized import
+ * Replaces `next/font` import with a parameterized import
  * @example
  * // AST of src/example.js
- * import { Roboto, Inter } from '@next/font/google'
+ * import { Roboto, Inter } from 'next/font/google'
  * const interName = Inter({
  *  subsets: ['latin'],
  * })
@@ -184,8 +184,8 @@ export function removeTransformedVariableDeclarations(
  * })
  *
  * // Result
- * import interName from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "@next/font/google", fontFamily: "Inter", props: {"subsets":["latin"]}}!@next/font/google'
- * import robotoName from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "@next/font/google", fontFamily: "Roboto", props: {"weight": "400"}}!@next/font/google'
+ * import interName from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "next/font/google", fontFamily: "Inter", props: {"subsets":["latin"]}}!next/font/google'
+ * import robotoName from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "next/font/google", fontFamily: "Roboto", props: {"weight": "400"}}!next/font/google'
  *
  * // Following code will be removed from removeUnusedVariableDeclarations function
  * const interName = Inter({
@@ -225,7 +225,7 @@ export function replaceImportWithParamterImport(
  * Get meta information for the provided import specifier
  * @example
  * // AST
- * import { Roboto, Inter } from '@next/font/google'
+ * import { Roboto, Inter } from 'next/font/google'
  * const interName = Inter({
  *  subsets: ['latin'],
  * })
@@ -297,14 +297,14 @@ export function getVariableMetasBySpecifier(
 
       if (!types.isObjectExpression(options)) {
         throw program.buildCodeFrameError(
-          'Please pass an options object to the call expression of @next/font functions'
+          'Please pass an options object to the call expression of next/font functions'
         );
       }
 
       options.properties.forEach((property) => {
         if (types.isSpreadElement(property)) {
           throw program.buildCodeFrameError(
-            'Please do not use spread elements in the options object in @next/font function calls'
+            'Please do not use spread elements in the options object in next/font function calls'
           );
         }
       });

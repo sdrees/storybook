@@ -1,6 +1,5 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
-import prettier from 'prettier';
 import { externalFrameworks, SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
@@ -97,6 +96,8 @@ export async function configureMain({
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', mainContents);
 
+  const prettier = (await import('prettier')).default;
+
   const mainPath = `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`;
   const prettyMain = prettier.format(dedent(mainJsContents), {
     ...prettier.resolveConfig.sync(process.cwd()),
@@ -158,6 +159,8 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     `
     .replace('  \n', '')
     .trim();
+
+  const prettier = (await import('prettier')).default;
 
   const prettyPreview = prettier.format(preview, {
     ...prettier.resolveConfig.sync(process.cwd()),

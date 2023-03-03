@@ -39,6 +39,12 @@ export const OfWithMetaUnattached: Story = {
   },
 };
 
+export const OfError: Story = {
+  args: {
+    of: ButtonStories.ErrorStory,
+  },
+};
+
 export const Inline: Story = {
   args: {
     of: StoryParametersStories.NoParameters,

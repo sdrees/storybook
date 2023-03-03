@@ -42,7 +42,7 @@ function getNameFromFilename(filename: string) {
   return base[0].toUpperCase() + base.slice(1);
 }
 
-export function svelteDocgen(svelteOptions: Record<string, any>): PluginOption {
+export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOption {
   const cwd = process.cwd();
   const { preprocess: preprocessOptions, logDocgen = false } = svelteOptions;
   const include = /\.(svelte)$/;

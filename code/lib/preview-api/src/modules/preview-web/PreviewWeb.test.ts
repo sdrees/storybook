@@ -677,8 +677,7 @@ describe('PreviewWeb', () => {
             page: componentOneExports.default.parameters.docs.page,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 
@@ -736,8 +735,7 @@ describe('PreviewWeb', () => {
             page: unattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 
@@ -1105,6 +1103,7 @@ describe('PreviewWeb', () => {
       });
 
       describe('when renderStoryToElement was called', () => {
+        const callbacks = { showMain: jest.fn(), showError: jest.fn(), showException: jest.fn() };
         it('re-renders the story', async () => {
           document.location.search = '?id=component-one--docs&viewMode=docs';
 
@@ -1113,7 +1112,7 @@ describe('PreviewWeb', () => {
 
           mockChannel.emit.mockClear();
           const story = await preview.storyStore.loadStory({ storyId: 'component-one--a' });
-          preview.renderStoryToElement(story, 'story-element' as any, {});
+          preview.renderStoryToElement(story, 'story-element' as any, callbacks, {});
           await waitForRender();
 
           expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
@@ -1151,7 +1150,9 @@ describe('PreviewWeb', () => {
 
           mockChannel.emit.mockClear();
           const story = await preview.storyStore.loadStory({ storyId: 'component-one--a' });
-          preview.renderStoryToElement(story, 'story-element' as any, { forceInitialArgs: true });
+          preview.renderStoryToElement(story, 'story-element' as any, callbacks, {
+            forceInitialArgs: true,
+          });
           await waitForRender();
 
           expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
@@ -3197,8 +3198,7 @@ describe('PreviewWeb', () => {
             page: newUnattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 

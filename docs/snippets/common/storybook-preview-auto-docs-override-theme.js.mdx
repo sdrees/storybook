@@ -3,16 +3,18 @@
 
 import { themes, ensure } from '@storybook/theming';
 
-export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+export default {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
     },
-  },
-  docs: {
-    theme: ensure(themes.dark), // The replacement theme to use
+    docs: {
+      theme: ensure(themes.dark), // The replacement theme to use
+    },
   },
 };
 ```

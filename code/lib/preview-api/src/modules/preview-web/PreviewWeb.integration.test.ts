@@ -25,6 +25,7 @@ import {
 // This file lets them rip.
 
 jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
+jest.mock('@storybook/client-logger');
 
 jest.mock('./WebView');
 
@@ -112,6 +113,30 @@ describe('PreviewWeb', () => {
           </div>
         </div>
       `);
+    });
+
+    it('sends docs rendering exceptions to showException', async () => {
+      const { DocsRenderer } = await import('@storybook/addon-docs');
+      projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
+      document.location.search = '?id=component-one--docs&viewMode=docs';
+      const preview = new PreviewWeb();
+
+      const docsRoot = document.createElement('div');
+      (
+        preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
+      ).mockReturnValue(docsRoot as any);
+      componentOneExports.default.parameters.docs.container.mockImplementationOnce(() => {
+        throw new Error('Docs rendering error');
+      });
+
+      (
+        preview.view.showErrorDisplay as any as jest.Mock<typeof preview.view.showErrorDisplay>
+      ).mockClear();
+      await preview.initialize({ importFn, getProjectAnnotations });
+      await waitForRender();
+
+      expect(preview.view.showErrorDisplay).toHaveBeenCalled();
     });
   });
 

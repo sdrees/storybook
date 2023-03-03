@@ -14,7 +14,7 @@ function Component() {
   const segment = useSelectedLayoutSegment();
   const segments = useSelectedLayoutSegments();
 
-  const searchParamsList = Array.from(searchParams.entries());
+  const searchParamsList = searchParams ? Array.from(searchParams.entries()) : [];
 
   const routerActions = [
     {

@@ -1,4 +1,5 @@
 import type { Renderer, ModuleExports, ProjectAnnotations } from '@storybook/types';
+import { global } from '@storybook/global';
 
 import { combineParameters } from '../parameters';
 import { composeStepRunners } from './stepRunners';
@@ -12,9 +13,13 @@ export function getField<TFieldType = any>(
 
 export function getArrayField<TFieldType = any>(
   moduleExportList: ModuleExports[],
-  field: string
+  field: string,
+  options: { reverseFileOrder?: boolean } = {}
 ): TFieldType[] {
-  return getField(moduleExportList, field).reduce((a: any, b: any) => [...a, ...b], []);
+  return getField(moduleExportList, field).reduce(
+    (a: any, b: any) => (options.reverseFileOrder ? [...b, ...a] : [...a, ...b]),
+    []
+  );
 }
 
 export function getObjectField<TFieldType = Record<string, any>>(
@@ -39,7 +44,9 @@ export function composeConfigs<TRenderer extends Renderer>(
 
   return {
     parameters: combineParameters(...getField(moduleExportList, 'parameters')),
-    decorators: getArrayField(moduleExportList, 'decorators'),
+    decorators: getArrayField(moduleExportList, 'decorators', {
+      reverseFileOrder: !(global.FEATURES?.legacyDecoratorFileOrder ?? false),
+    }),
     args: getObjectField(moduleExportList, 'args'),
     argsEnhancers: getArrayField(moduleExportList, 'argsEnhancers'),
     argTypes: getObjectField(moduleExportList, 'argTypes'),

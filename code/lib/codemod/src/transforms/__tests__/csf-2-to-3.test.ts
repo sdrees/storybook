@@ -235,11 +235,6 @@ describe('csf-2-to-3', () => {
       ).toThrowErrorMatchingInlineSnapshot(`
         This codemod does not support namespace imports for a @storybook/react package.
         Replace the namespace import with named imports and try again.
-        > 1 | import * as SB from '@storybook/react';
-            | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-          2 | import { CatProps } from './Cat';
-          3 |
-          4 | const meta = { title: 'Cat', component: Cat } as Meta<CatProps>
       `);
     });
     it('should keep local names', () => {

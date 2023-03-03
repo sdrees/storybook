@@ -18,16 +18,18 @@ export const MyDocsContainer = (props) => (
   </MDXProvider>
 );
 
-export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+export default {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
     },
-  },
-  docs: {
-    container: MyDocsContainer,
+    docs: {
+      container: MyDocsContainer,
+    },
   },
 };
 ```

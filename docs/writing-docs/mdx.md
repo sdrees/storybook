@@ -428,7 +428,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`), and provide th
 
 #### Learn more about Storybook documentation
 
-- [AutoDocs](./autodocs.md) for creating documentation for your stories
+- [Autodocs](./autodocs.md) for creating documentation for your stories
 - MDX for customizing your documentation
 - [Doc Blocks](./doc-blocks.md) for authoring your documentation
 - [Publishing docs](./build-documentation.md) to automate the process of publishing your documentation

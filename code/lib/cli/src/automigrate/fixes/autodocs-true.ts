@@ -47,6 +47,10 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
 
   prompt({ value }) {
     const autodocsFormatted = chalk.cyan(`docs: { autodocs: ${JSON.stringify(value ?? true)} }`);
+    const tagWarning = dedent`
+      NOTE: if you're upgrading from an older 7.0-beta using the 'docsPage' tag,
+      please update your story files to use the 'autodocs' tag instead.
+    `;
 
     if (value) {
       return dedent`
@@ -58,12 +62,7 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
       Based on your prior configuration,  we can set the \`docs.autodocs\` to keep your old behaviour:
 
       ${autodocsFormatted}
-
-      ${
-        value === 'tag' &&
-        `NOTE: it is important you change all CSF files to use the 'autodocs' tag rather than the 'docsPage' tag.`
-      }
-
+      ${value === 'tag' ? tagWarning : ''}
       More info: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs'
       )}

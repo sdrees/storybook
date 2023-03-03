@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-beta.54",
+  "version": "7.0.0-beta.60",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -45,20 +45,19 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/types": "^7.20.7",
+    "@babel/core": "~7.21.0",
+    "@babel/preset-env": "~7.20.2",
+    "@babel/types": "~7.21.2",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-beta.54",
-    "@storybook/node-logger": "7.0.0-beta.54",
-    "@storybook/types": "7.0.0-beta.54",
+    "@storybook/csf-tools": "7.0.0-beta.60",
+    "@storybook/node-logger": "7.0.0-beta.60",
+    "@storybook/types": "7.0.0-beta.60",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.14.0",
     "lodash": "^4.17.21",
     "prettier": "^2.8.0",
-    "recast": "^0.23.1",
-    "util": "^0.12.4"
+    "recast": "^0.23.1"
   },
   "devDependencies": {
     "@types/jscodeshift": "^0.11.6",
@@ -74,6 +73,7 @@
     "unist-util-is": "^5.2.0",
     "unist-util-select": "^4.0.3",
     "unist-util-visit": "^4.1.2",
+    "util": "^0.12.4",
     "vfile": "^5.3.7"
   },
   "publishConfig": {
@@ -97,5 +97,5 @@
       "cjs"
     ]
   },
-  "gitHead": "dbdaa1b77a1f00ea90d6c1f018bf0c772d7b9afd"
+  "gitHead": "325e0406b449b740d94d481a32a62304a8b2fd11"
 }

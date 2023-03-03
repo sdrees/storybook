@@ -168,6 +168,7 @@ export interface BuilderOptions {
   cache?: FileSystemCache;
   configDir: string;
   docsMode?: boolean;
+  env?: (envs: Record<string, string>) => Record<string, string>;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
   releaseNotesData?: ReleaseNotesData;
@@ -313,6 +314,11 @@ export interface StorybookConfig {
      * Use legacy MDX1, to help smooth migration to 7.0
      */
     legacyMdx1?: boolean;
+
+    /**
+     * Apply decorators from preview.js before decorators from addons or frameworks
+     */
+    legacyDecoratorFileOrder?: boolean;
   };
 
   /**

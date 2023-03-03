@@ -253,7 +253,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     },
   };
 
-  const persisted = pick(store.getState(), 'layout', 'ui', 'selectedPanel');
+  const persisted = pick(store.getState(), 'layout', 'selectedPanel');
 
   return {
     api,

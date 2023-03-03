@@ -127,76 +127,104 @@ When using a doc block in MDX, it can also be customized with its props:
 
 Each block has a dedicated API reference page, detailing usage, available options, and technical details.
 
-If a doc block accepts parameters, it is marked with **(P)**.
+### [ArgTypes](../api/doc-block-argtypes.md)
 
-### [`ArgTypes`](../api/doc-block-argtypes.md) (P)
+<div class="aside">
+
+Accepts parameters in the namespace `parameters.docs.argTypes`.
+
+</div>
 
 The `ArgTypes` block can be used to show a static table of [arg types](../api/argtypes.md) for a given component, as a way to document its interface.
 
 ![Screenshot of ArgTypes block](../api/doc-block-argtypes.png)
 
-### [`Canvas`](../api/doc-block-canvas.md) (P)
+### [Canvas](../api/doc-block-canvas.md)
+
+<div class="aside">
+
+Accepts parameters in the namespace `parameters.docs.canvas`.
+
+</div>
 
 The `Canvas` block is a wrapper around a [`Story`](../api/doc-block-story.md), featuring a toolbar that allows you to interact with its content while automatically providing the required [`Source`](../api/doc-block-source.md) snippets.
 
 ![Screenshot of Canvas block](../api/doc-block-canvas.png)
 
-### [`ColorPalette`](../api/doc-block-colorpalette.md)
+### [ColorPalette](../api/doc-block-colorpalette.md)
 
 The `ColorPalette` block allows you to document all color-related items (e.g., swatches) used throughout your project.
 
 ![Screenshot of ColorPalette and ColorItem blocks](../api/doc-block-colorpalette.png)
 
-### [`Controls`](../api/doc-block-controls.md) (P)
+### [Controls](../api/doc-block-controls.md)
+
+<div class="aside">
+
+Accepts parameters in the namespace `parameters.docs.controls`.
+
+</div>
 
 The `Controls` block can be used to show a dynamic table of args for a given story, as a way to document its interface, and to allow you to change the args for a (separately) rendered story (via the [`Story`](../api/doc-block-story.md) or [`Canvas`](../api/doc-block-canvas.md) blocks).
 
 ![Screenshot of Controls block](../api/doc-block-controls.png)
 
-### [`Description`](../api/doc-block-description.md)
+### [Description](../api/doc-block-description.md)
 
 The `Description` block displays the description for a component, story, or meta, obtained from their respective JSDoc comments.
 
 ![Screenshot of Description block](../api/doc-block-title-subtitle-description.png)
 
-### [`IconGallery`](../api/doc-block-icongallery.md)
+### [IconGallery](../api/doc-block-icongallery.md)
 
 The `IconGallery` block enables you to easily document all icons associated with your project, displayed in a neat grid.
 
 ![Screenshot of IconGallery and IconItem blocks](../api/doc-block-icongallery.png)
 
-### [`Markdown`](../api/doc-block-markdown.md)
+### [Markdown](../api/doc-block-markdown.md)
 
 The `Markdown` block allows you to import and include plain markdown in your MDX files.
 
 ![Screenshot of Markdown block](../api/doc-block-markdown.png)
 
-### [`Meta`](../api/doc-block-meta.md)
+### [Meta](../api/doc-block-meta.md)
 
 The `Meta` block is used to [attach](#attached-vs-unattached) a custom MDX docs page alongside a component’s list of stories. It doesn’t render any content, but serves two purposes in an MDX file:
 
 - Attaches the MDX file to a component and its stories, or
 - Controls the location of the unattached docs entry in the sidebar.
 
-### [`Primary`](../api/doc-block-primary.md)
+### [Primary](../api/doc-block-primary.md)
 
 The `Primary` block displays the primary (first defined in the stories file) story, in a [`Story`](../api/doc-block-story.md) block. It is typically rendered immediately under the title in a docs entry.
 
 ![Screenshot of Primary block](../api/doc-block-primary.png)
 
-### [`Source`](../api/doc-block-source.md) (P)
+### [Source](../api/doc-block-source.md)
+
+<div class="aside">
+
+Accepts parameters in the namespace `parameters.docs.source`.
+
+</div>
 
 The `Source` block is used to render a snippet of source code directly.
 
 ![Screenshot of Source block](../api/doc-block-source.png)
 
-### [`Stories`](../api/doc-block-stories.md)
+### [Stories](../api/doc-block-stories.md)
 
 The `Stories` block renders the full collection of stories in a stories file.
 
 ![Screenshot of Stories block](../api/doc-block-stories.png)
 
-### [`Story`](../api/doc-block-story.md) (P)
+### [Story](../api/doc-block-story.md)
+
+<div class="aside">
+
+Accepts parameters in the namespace `parameters.docs.story`.
+
+</div>
 
 Stories (component tests) are Storybook's fundamental building blocks.
 
@@ -204,25 +232,25 @@ In Storybook Docs, you can render any of your stories from your CSF files in the
 
 ![Screenshot of Story block](../api/doc-block-story.png)
 
-### [`Subtitle`](../api/doc-block-subtitle.md)
+### [Subtitle](../api/doc-block-subtitle.md)
 
 The `Subtitle` block can serve as a secondary heading for your docs entry.
 
 ![Screenshot of Subtitle block](../api/doc-block-title-subtitle-description.png)
 
-### [`Title`](../api/doc-block-title.md)
+### [Title](../api/doc-block-title.md)
 
 The `Title` block serves as the primary heading for your docs entry. It is typically used to provide the component or page name.
 
 ![Screenshot of Title block](../api/doc-block-title-subtitle-description.png)
 
-### [`Typeset`](../api/doc-block-typeset.md)
+### [Typeset](../api/doc-block-typeset.md)
 
 The `Typeset` block helps document the fonts used throughout your project.
 
 ![Screenshot of Typeset block](../api/doc-block-typeset.png)
 
-### [`Unstyled`](../api/doc-block-unstyled.md)
+### [Unstyled](../api/doc-block-unstyled.md)
 
 The `Unstyled` block is a special block that disables Storybook's default styling in MDX docs wherever it is added.
 
@@ -236,7 +264,7 @@ Storybook also provides a [`useOf` hook](../api/doc-block-useof.md) to make it e
 
 #### Learn more about Storybook documentation
 
-- [AutoDocs](./autodocs.md) for creating documentation for your stories
+- [Autodocs](./autodocs.md) for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation
 - Doc Blocks for authoring your documentation
 - [Publishing docs](./build-documentation.md) to automate the process of publishing your documentation

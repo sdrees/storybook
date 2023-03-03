@@ -46,6 +46,12 @@ export const DefaultUnattached: Story = {
   parameters: { attached: false },
 };
 
+export const DefaultError: Story = {
+  args: {
+    of: ButtonStories.ErrorStory,
+  },
+};
+
 export const UndefinedOf: Story = {};
 
 export const PropWithToolbar: Story = {

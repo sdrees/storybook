@@ -13,6 +13,7 @@ declare var FEATURES:
       breakingChangesV7?: boolean;
       argTypeTargetsV7?: boolean;
       legacyMdx1?: boolean;
+      legacyDecoratorFileOrder?: boolean;
     }
   | undefined;
 

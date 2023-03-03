@@ -2,13 +2,13 @@ import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React, { useState, useCallback, Fragment } from 'react';
 
-import { Icons, WithTooltip, Spaced, Button, Link } from '@storybook/components';
+import { Icons, WithTooltip, Spaced, Button, Link, ErrorFormatter } from '@storybook/components';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 
 import { Loader, Contained } from './Loader';
 
-const { window: globalWindow, document } = global;
+const { window: globalWindow } = global;
 
 const TextStyle = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2 - 1,
@@ -43,69 +43,6 @@ const ErrorDisplay = styled.pre(
     color: theme.color.dark,
   })
 );
-
-const ErrorName = styled.strong(({ theme }) => ({
-  color: theme.color.orange,
-}));
-const ErrorImportant = styled.strong(({ theme }) => ({
-  color: theme.color.ancillary,
-  textDecoration: 'underline',
-}));
-const ErrorDetail = styled.em(({ theme }) => ({
-  color: theme.textMutedColor,
-}));
-
-const firstLineRegex = /(Error): (.*)\n/;
-const linesRegex = /at (?:(.*) )?\(?(.+)\)?/;
-const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
-  if (!error) {
-    return <Fragment>This error has no stack or message</Fragment>;
-  }
-  if (!error.stack) {
-    return <Fragment>{error.message || 'This error has no stack or message'}</Fragment>;
-  }
-
-  const input = error.stack.toString();
-  const match = input.match(firstLineRegex);
-
-  if (!match) {
-    return <Fragment>{input}</Fragment>;
-  }
-
-  const [, type, name] = match;
-
-  const rawLines = input.split(/\n/).slice(1);
-  const [, ...lines] = rawLines
-    .map((line) => {
-      const r = line.match(linesRegex);
-
-      return r ? { name: r[1], location: r[2].replace(document.location.origin, '') } : null;
-    })
-    .filter(Boolean);
-
-  return (
-    <Fragment>
-      <span>{type}</span>: <ErrorName>{name}</ErrorName>
-      <br />
-      {lines.map((l, i) =>
-        l.name ? (
-          // eslint-disable-next-line react/no-array-index-key
-          <Fragment key={i}>
-            {'  '}at <ErrorImportant>{l.name}</ErrorImportant> (
-            <ErrorDetail>{l.location}</ErrorDetail>)
-            <br />
-          </Fragment>
-        ) : (
-          // eslint-disable-next-line react/no-array-index-key
-          <Fragment key={i}>
-            {'  '}at <ErrorDetail>{l.location}</ErrorDetail>
-            <br />
-          </Fragment>
-        )
-      )}
-    </Fragment>
-  );
-};
 
 export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }) => {
   const [isAuthAttempted, setAuthAttempted] = useState(false);

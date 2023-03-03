@@ -36,5 +36,6 @@ export const sandbox: Task = {
       await addStories(details, options);
     }
     await extendMain(details, options);
+    logger.info(`✅ Storybook sandbox created at ${details.sandboxDir}`);
   },
 };

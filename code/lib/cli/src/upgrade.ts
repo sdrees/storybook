@@ -144,6 +144,7 @@ export interface UpgradeOptions {
   dryRun: boolean;
   yes: boolean;
   disableTelemetry: boolean;
+  configDir?: string;
 }
 
 export const doUpgrade = async ({
@@ -153,6 +154,7 @@ export const doUpgrade = async ({
   useNpm,
   packageManager: pkgMgr,
   dryRun,
+  configDir,
   yes,
   ...options
 }: UpgradeOptions) => {
@@ -208,7 +210,7 @@ export const doUpgrade = async ({
   let automigrationResults;
   if (!skipCheck) {
     checkVersionConsistency();
-    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr });
+    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
   }
 
   if (!options.disableTelemetry) {

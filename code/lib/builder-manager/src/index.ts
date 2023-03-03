@@ -48,6 +48,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     write: false,
+    ignoreAnnotations: true,
     resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
     outExtension: { '.js': '.mjs' },
     loader: {

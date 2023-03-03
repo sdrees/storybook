@@ -1,6 +1,7 @@
 import type {
   Renderer,
   RenderContext,
+  RenderContextCallbacks,
   RenderToCanvas,
   PreparedStory,
   TeardownRenderToCanvas,
@@ -41,11 +42,6 @@ function serializeError(error: any) {
     return { name: 'Error', message: String(error) };
   }
 }
-
-export type RenderContextCallbacks<TRenderer extends Renderer> = Pick<
-  RenderContext<TRenderer>,
-  'showMain' | 'showError' | 'showException'
->;
 
 export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public type: RenderType = 'story';

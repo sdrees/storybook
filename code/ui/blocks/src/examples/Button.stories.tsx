@@ -118,3 +118,19 @@ export const ClickingInDocs: Story = {
   ...Clicking,
   parameters: { docs: { story: { autoplay: true } } },
 };
+
+export const ErrorStory: Story = {
+  render: () => {
+    const err = new Error('Rendering problem');
+    // force stack for consistency in capture
+    err.stack = err.stack
+      .replace(/\d+:\d+(:\d+)?/g, `000:0001`)
+      .replace(/v=[^:]+/g, 'v=00000000')
+      .replace(/[^/]+\.js/g, 'file.js');
+    throw err;
+  },
+  args: { label: 'Button' },
+  parameters: {
+    chromatic: { disable: true },
+  },
+};

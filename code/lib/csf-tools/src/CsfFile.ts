@@ -10,6 +10,7 @@ import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
 import { babelParse } from './babelParse';
+import { findVarInitialization } from './findVarInitialization';
 
 const logger = console;
 
@@ -38,34 +39,6 @@ function parseTags(prop: t.Node) {
     throw new Error(`CSF: Expected tag to be string literal`);
   }) as Tag[];
 }
-
-const findVarInitialization = (identifier: string, program: t.Program) => {
-  let init: t.Expression = null as any;
-  let declarations: t.VariableDeclarator[] = null as any;
-  program.body.find((node: t.Node) => {
-    if (t.isVariableDeclaration(node)) {
-      declarations = node.declarations;
-    } else if (t.isExportNamedDeclaration(node) && t.isVariableDeclaration(node.declaration)) {
-      declarations = node.declaration.declarations;
-    }
-
-    return (
-      declarations &&
-      declarations.find((decl: t.Node) => {
-        if (
-          t.isVariableDeclarator(decl) &&
-          t.isIdentifier(decl.id) &&
-          decl.id.name === identifier
-        ) {
-          init = decl.init as t.Expression;
-          return true; // stop looking
-        }
-        return false;
-      })
-    );
-  });
-  return init;
-};
 
 const formatLocation = (node: t.Node, fileName?: string) => {
   const { line, column } = node.loc?.start || {};

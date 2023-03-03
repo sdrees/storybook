@@ -42,7 +42,11 @@ describe('Yarn 1 Proxy', () => {
 
       yarn1Proxy.installDependencies();
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [], expect.any(String));
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        'yarn',
+        ['install', '--ignore-workspace-root-check'],
+        expect.any(String)
+      );
     });
   });
 
@@ -69,7 +73,7 @@ describe('Yarn 1 Proxy', () => {
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         'yarn',
-        ['add', '-D', '--ignore-workspace-root-check', '@storybook/preview-api'],
+        ['add', '--ignore-workspace-root-check', '-D', '@storybook/preview-api'],
         expect.any(String)
       );
     });

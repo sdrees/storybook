@@ -25,6 +25,7 @@ import { logger } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
+import dedent from 'ts-dedent';
 import { autoName } from './autoName';
 import { IndexingError, MultipleIndexingError } from './IndexingError';
 
@@ -212,31 +213,21 @@ export class StoryIndexGenerator {
   }
 
   findDependencies(absoluteImports: Path[]) {
-    const dependencies = [] as StoriesCacheEntry[];
-    const foundImports = new Set();
-    this.specifierToCache.forEach((cache) => {
-      const fileNames = Object.keys(cache).filter((fileName) => {
-        const foundImport = absoluteImports.find((storyImport) => fileName.startsWith(storyImport));
-        if (foundImport) foundImports.add(foundImport);
-        return !!foundImport;
-      });
-      fileNames.forEach((fileName) => {
-        const cacheEntry = cache[fileName];
-        if (cacheEntry && cacheEntry.type === 'stories') {
-          dependencies.push(cacheEntry);
-        } else {
-          throw new Error(`Unexpected dependency: ${cacheEntry}`);
-        }
-      });
-    });
+    return [...this.specifierToCache.values()].flatMap((cache: SpecifierStoriesCache) =>
+      Object.entries(cache)
+        .filter(([fileName, cacheEntry]) => {
+          // We are only interested in stories cache entries (and assume they've been processed already)
+          // If we found a match in the cache that's still null or not a stories file,
+          // it is a docs file and it isn't a dependency / storiesImport.
+          // See https://github.com/storybookjs/storybook/issues/20958
+          if (!cacheEntry || cacheEntry.type !== 'stories') return false;
 
-    // imports can include non-story imports, so it's ok if
-    // there are fewer foundImports than absoluteImports
-    // if (absoluteImports.length !== foundImports.size) {
-    //   throw new Error(`Missing dependencies: ${absoluteImports.filter((p) => !foundImports.has(p))}`));
-    // }
-
-    return dependencies;
+          return !!absoluteImports.find((storyImport) =>
+            fileName.match(new RegExp(`^${storyImport}(\\.[^.]+)?$`))
+          );
+        })
+        .map(([_, cacheEntry]) => cacheEntry as StoriesCacheEntry)
+    );
   }
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
@@ -345,7 +336,13 @@ export class StoryIndexGenerator {
         });
 
         if (!csfEntry)
-          throw new Error(`Could not find "${result.of}" for docs file "${relativePath}".`);
+          throw new Error(
+            dedent`Could not find CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
+            
+              - Does that file exist?
+              - If so, is it a CSF file (\`.stories.*\`)?
+              - If so, is it matched by the \`stories\` glob in \`main.js\`?`
+          );
       }
 
       // Track that we depend on this for easy invalidation later.

@@ -2,17 +2,10 @@ import * as React from 'react';
 // this will be aliased by webpack at runtime (this is just for typing)
 import type { action as originalAction } from '@storybook/addon-actions';
 import type { Addon_StoryContext } from '@storybook/types';
+import AppRouterProvider from './app-router-provider';
 
 import PageRouterProvider from './page-router-provider';
 import type { RouteParams, NextAppDirectory } from './types';
-
-/**
- * Dynamic import necessary because otherwise
- * older versions of Next.js will throw an error
- * because some imports in './app-router-provider' only exists
- * in Next.js > v13
- */
-const AppRouterProvider = React.lazy(() => import('./app-router-provider'));
 
 let action: typeof originalAction;
 

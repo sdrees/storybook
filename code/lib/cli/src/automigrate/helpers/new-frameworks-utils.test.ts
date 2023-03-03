@@ -129,7 +129,7 @@ describe('getBuilderInfo', () => {
     });
   });
 
-  it('should infer vite info from community framework', async () => {
+  it('should infer vite info from known community frameworks', async () => {
     await expect(
       getBuilderInfo({
         mainConfig: {
@@ -151,6 +151,29 @@ describe('getBuilderInfo', () => {
       name: 'vite',
       options: { foo: 'bar' },
     });
+  });
+
+  it('when main.js has legacy renderer as framework, it should infer vite info from vite config file', async () => {
+    const findUpSpy = jest
+      .spyOn(findUp, 'default')
+      .mockReturnValueOnce(Promise.resolve('vite.config.js'));
+    await expect(getBuilderInfo({ mainConfig: { framework: 'react' } })).resolves.toEqual({
+      name: 'vite',
+      options: {},
+    });
+    expect(findUpSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('when main.js has legacy renderer as framework, it should infer webpack info from webpack config file', async () => {
+    const findUpSpy = jest
+      .spyOn(findUp, 'default')
+      .mockReturnValueOnce(Promise.resolve(undefined))
+      .mockReturnValueOnce(Promise.resolve('webpack.config.js'));
+    await expect(getBuilderInfo({ mainConfig: { framework: 'react' } })).resolves.toEqual({
+      name: 'webpack5',
+      options: {},
+    });
+    expect(findUpSpy).toHaveBeenCalledTimes(2);
   });
 
   it('when main.js has no builder or framework, it should infer vite info from vite config file', async () => {

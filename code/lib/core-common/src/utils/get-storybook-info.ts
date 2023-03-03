@@ -46,7 +46,7 @@ export const frameworkPackages: Record<string, string> = {
   '@storybook/web-components-webpack5': 'web-components-webpack5',
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',
-  'storybook-solidjs': 'solid',
+  'storybook-solidjs-vite': 'solid',
 };
 
 const logger = console;

@@ -1,7 +1,6 @@
 import { dirname, join } from 'path';
 
-// @ts-expect-error (has no typings)
-import downloadTarball from 'download-tarball';
+import downloadTarball from '@ndelangen/get-tarball';
 import getNpmTarballUrl from 'get-npm-tarball-url';
 import * as tempy from 'tempy';
 

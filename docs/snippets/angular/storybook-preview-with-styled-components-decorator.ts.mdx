@@ -2,22 +2,29 @@
 // .storybook/preview.ts
 
 import { componentWrapperDecorator } from '@storybook/angular';
-
-import type { Decorator } from '@storybook/angular';
+import type { Preview } from '@storybook/angular';
 
 import { ThemeProvider } from './theme-provider.component';
 
-export const decorators: Decorator[] = [
-  moduleMetadata({ declarations: [ThemeProvider] }),
-  componentWrapperDecorator((story) => `<theme-provider class="default">${story}</theme-provider>`),
-];
+const preview: Preview = {
+  decorators: [
+    moduleMetadata({ declarations: [ThemeProvider] }),
+    componentWrapperDecorator(
+      (story) => `<theme-provider class="default">${story}</theme-provider>`
+    ),
+  ],
+};
+export default preview;
 
 // or with globals of story context
-export const decorators: Decorator[] = [
-  moduleMetadata({ declarations: [ThemeProvider] }),
-  componentWrapperDecorator(
-    (story) => `<theme-provider [class]="theme">${story}</theme-provider>`,
-    ({ globals }) => ({ theme: globals.theme })
-  ),
-];
+const preview: Preview = {
+  decorators: [
+    moduleMetadata({ declarations: [ThemeProvider] }),
+    componentWrapperDecorator(
+      (story) => `<theme-provider [class]="theme">${story}</theme-provider>`,
+      ({ globals }) => ({ theme: globals.theme })
+    ),
+  ],
+};
+export default preview;
 ```

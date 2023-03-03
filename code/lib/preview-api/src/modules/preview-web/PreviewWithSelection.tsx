@@ -305,9 +305,19 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
         'story'
       );
     } else if (isMdxEntry(entry)) {
-      render = new MdxDocsRender<TFramework>(this.channel, this.storyStore, entry);
+      render = new MdxDocsRender<TFramework>(
+        this.channel,
+        this.storyStore,
+        entry,
+        this.mainStoryCallbacks(storyId)
+      );
     } else {
-      render = new CsfDocsRender<TFramework>(this.channel, this.storyStore, entry);
+      render = new CsfDocsRender<TFramework>(
+        this.channel,
+        this.storyStore,
+        entry,
+        this.mainStoryCallbacks(storyId)
+      );
     }
 
     // We need to store this right away, so if the story changes during
@@ -434,15 +444,6 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
       showMain: () => this.view.showMain(),
       showError: (err: { title: string; description: string }) => this.renderError(storyId, err),
       showException: (err: Error) => this.renderException(storyId, err),
-    };
-  }
-
-  inlineStoryCallbacks(storyId: StoryId) {
-    return {
-      showMain: () => {},
-      showError: (err: { title: string; description: string }) =>
-        logger.error(`Error rendering docs story (${storyId})`, err),
-      showException: (err: Error) => logger.error(`Error rendering docs story (${storyId})`, err),
     };
   }
 

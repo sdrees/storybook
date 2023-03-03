@@ -13,10 +13,12 @@ library.add(fasPlusSquare);
 //👇 Storybook Vue app being extended and registering the component
 app.component('font-awesome-icon', FontAwesomeIcon);
 
-export const decorators = [
-  (story) => ({
-    components: { story },
-    template: '<div style="margin: 3em;"><story /></div>',
-  }),
-];
+export default {
+  decorators: [
+    (story) => ({
+      components: { story },
+      template: '<div style="margin: 3em;"><story /></div>',
+    }),
+  ],
+};
 ```

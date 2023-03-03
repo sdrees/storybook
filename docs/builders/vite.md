@@ -38,7 +38,9 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 
 ## Configuration
 
-Out of the box, Storybook's Vite builder includes a set of configuration defaults for the supported frameworks. You can also fine-tune them or override them to match your existing configuration as, by default, the builder does not read your `vite.config.js` file. For example, if you need to set up aliasing, you can adjust your Storybook configuration file (`.storybook/main.js|ts`) and provide the following:
+Out of the box, Storybook's Vite builder includes a set of configuration defaults for the supported frameworks, which are merged alongside your existing configuration file. For an optimal experience when using the Vite builder, we recommend applying any configuration directly inside Vite's configuration file (i.e., [`vite.config.js`](https://vitejs.dev/config/)).
+
+When Storybook loads, it automatically merges the configuration into its own. However, not all projects have the same requirements, and you may need to provide a custom configuration created specifically for Storybook. In that case, you can adjust your configuration file (.storybook/main.js|ts) and add the `viteFinal` configuration function as follows:
 
 <!-- prettier-ignore-start -->
 
@@ -50,7 +52,7 @@ Out of the box, Storybook's Vite builder includes a set of configuration default
 
 <!-- prettier-ignore-end -->
 
-The asynchronous function`viteFinal` receives a `config` object with the default builder configuration and returns the updated configuration with the defined alias.
+The asynchronous function `viteFinal` receives a `config` object with the default builder configuration and returns the updated configuration.
 
 You can also override the builder's configuration based on the environment. For instance, if you need to provide a custom configuration for development purposes and another for production, you can extend the default configuration as follows:
 
@@ -59,20 +61,6 @@ You can also override the builder's configuration based on the environment. For 
 <CodeSnippets
   paths={[
     'common/storybook-vite-builder-config-env.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-### Svelte configuration
-
-If you're working with Svelte's Vite plugin ([`vite-plugin-svelte`](https://github.com/sveltejs/vite-plugin-svelte/tree/main/packages/vite-plugin-svelte)), you can extend your existing configuration and include an additional `SvelteOptions` object to customize it. For example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-svelte-plugin.js.mdx',
   ]}
 />
 
@@ -103,7 +91,7 @@ If you need to override it, you can use the `viteFinal` function and adjust it.
 
 ### ArgTypes are not generated automatically
 
-Currently, [automatic argType inference](../api/argtypes.md#automatic-argtype-inference) is only available for React and Vue3. With React, the Vite builder defaults to `react-docgen-typescript` if TypeScript is listed as a dependency. If you run into any issues, you can revert to `react-docgen` by updating your Storybook configuration file as follows:
+Currently, [automatic argType inference](../api/argtypes.md#automatic-argtype-inference) is only available for React, Vue3 and Svelte (JSDocs only). With React, the Vite builder defaults to `react-docgen-typescript` if TypeScript is listed as a dependency. If you run into any issues, you can revert to `react-docgen` by updating your Storybook configuration file as follows:
 
 <!-- prettier-ignore-start -->
 

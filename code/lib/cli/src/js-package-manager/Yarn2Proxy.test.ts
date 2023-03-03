@@ -27,7 +27,7 @@ describe('Yarn 2 Proxy', () => {
 
       yarn2Proxy.installDependencies();
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [], expect.any(String));
+      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', ['install'], expect.any(String));
     });
   });
 

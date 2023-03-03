@@ -19,7 +19,6 @@ import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
-import { logger } from '@storybook/node-logger';
 import { storybookDevServer } from './dev-server';
 import { getReleaseNotesData, getReleaseNotesFailedState } from './utils/release-notes';
 import { outputStats } from './utils/output-stats';
@@ -73,11 +72,7 @@ export async function buildDevStandalone(
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
   validateFrameworkName(frameworkName);
 
-  if (frameworkName) {
-    corePresets.push(join(frameworkName, 'preset'));
-  } else {
-    logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
-  }
+  corePresets.push(join(frameworkName, 'preset'));
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account

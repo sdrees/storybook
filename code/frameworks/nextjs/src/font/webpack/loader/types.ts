@@ -1,10 +1,10 @@
 export type LoaderOptions = {
   /**
-   * Initial import name. Can be `@next/font/google` or `@next/font/local`
+   * Initial import name. Can be `next/font/google` or `next/font/local`
    */
   source: string;
   /**
-   * Props passed to the `@next/font` function call
+   * Props passed to the `next/font` function call
    */
   props: Record<string, any>;
   /**
@@ -12,7 +12,7 @@ export type LoaderOptions = {
    */
   fontFamily: string;
   /**
-   * Filename of the issuer file, which imports `@next/font/google` or `@next/font/local
+   * Filename of the issuer file, which imports `next/font/google` or `next/font/local
    */
   filename: string;
 };

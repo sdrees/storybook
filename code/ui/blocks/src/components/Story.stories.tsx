@@ -56,6 +56,17 @@ export const Inline: Story = {
   },
 };
 
+export const InlineError: Story = {
+  args: {
+    storyExport: ButtonStories.ErrorStory,
+    inline: true,
+    // @ts-expect-error getting too complex with props
+    autoplay: false,
+    forceInitialArgs: false,
+    renderStoryToElement,
+  },
+};
+
 export const IFrame: Story = {
   name: 'IFrame',
   args: {
