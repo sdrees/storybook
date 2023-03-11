@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-beta.60",
+  "version": "7.0.0-rc.1",
   "private": true,
   "homepage": "https://storybook.js.org/",
   "repository": {

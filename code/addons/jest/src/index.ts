@@ -1,5 +1,3 @@
-/// <reference types="webpack-env" />
-
 import { addons } from '@storybook/preview-api';
 import { normalize, sep } from 'upath';
 import { ADD_TESTS, defineJestParameter } from './shared';
@@ -62,7 +60,3 @@ export const withTests = (userOptions: { results: any; filesExt?: string }) => {
     return storyFn();
   };
 };
-
-if (module && module.hot && module.hot.decline) {
-  module.hot.decline();
-}

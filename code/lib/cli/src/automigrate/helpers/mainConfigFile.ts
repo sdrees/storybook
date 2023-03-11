@@ -30,7 +30,7 @@ export const getStorybookData = async ({
 
   let mainConfig: StorybookConfig;
   try {
-    mainConfig = await loadMainConfig({ configDir });
+    mainConfig = await loadMainConfig({ configDir, noCache: true });
   } catch (err) {
     throw new Error(
       dedent`Unable to find or evaluate ${chalk.blue(mainConfigPath)}: ${err.message}`

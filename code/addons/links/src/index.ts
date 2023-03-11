@@ -1,5 +1,3 @@
-/// <reference types="webpack-env" />
-
 import { dedent } from 'ts-dedent';
 
 let hasWarned = false;
@@ -20,7 +18,3 @@ export function LinkTo(): null {
 }
 
 export { linkTo, hrefTo, withLinks, navigate } from './utils';
-
-if (module && module.hot && module.hot.decline) {
-  module.hot.decline();
-}

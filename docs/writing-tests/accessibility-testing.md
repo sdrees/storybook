@@ -32,6 +32,12 @@ Run the following command to install the addon.
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the accessibility addon.
 
 <!-- prettier-ignore-start -->
@@ -65,10 +71,12 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
     'react/component-story-with-accessibility.js.mdx',
     'react/component-story-with-accessibility.ts.mdx',
     'angular/component-story-with-accessibility.ts.mdx',
-    'vue/component-story-with-accessibility.2.js.mdx',
-    'vue/component-story-with-accessibility.ts-2.ts.mdx',
-    'vue/component-story-with-accessibility.3.js.mdx',
-    'vue/component-story-with-accessibility.ts-3.ts.mdx',
+    'vue/component-story-with-accessibility.v2-js.js.mdx',
+    'vue/component-story-with-accessibility.v2-ts.ts.mdx',
+    'vue/component-story-with-accessibility.v2-ts-4-9.ts.mdx',
+    'vue/component-story-with-accessibility.v3-js.js.mdx',
+    'vue/component-story-with-accessibility.v3-ts.ts.mdx',
+    'vue/component-story-with-accessibility.v3-ts-4-9.ts.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
     'web-components/component-story-with-accessibility.js.mdx',
     'web-components/component-story-with-accessibility.ts.mdx',
@@ -96,6 +104,7 @@ If you need to dismiss an accessibility rule or modify its settings across all s
 <CodeSnippets
   paths={[
     'common/storybook-addon-a11y-global-config.js.mdx',
+    'common/storybook-addon-a11y-global-config.ts.mdx',
   ]}
 />
 
@@ -109,7 +118,11 @@ You can also customize your own set of rules for all stories of a component. Upd
 
 <CodeSnippets
   paths={[
+    'angular/storybook-addon-a11y-component-config.ts.mdx',
+    'web-components/storybook-addon-a11y-component-config.js.mdx',
+    'web-components/storybook-addon-a11y-component-config.ts.mdx',
     'common/storybook-addon-a11y-component-config.js.mdx',
+    'common/storybook-addon-a11y-component-config.ts.mdx',
   ]}
 />
 

@@ -36,8 +36,10 @@ describe('resolveOf', () => {
   const { story, csfFile, storyExport, metaExport, moduleExports, component } = csfFileParts();
 
   describe('attached', () => {
+    const projectAnnotations = { render: jest.fn() };
     const store = {
       componentStoriesFromCSFFile: () => [story],
+      projectAnnotations,
     } as unknown as StoryStore<Renderer>;
     const context = new DocsContext(channel, store, renderStoryToElement, [csfFile]);
     context.attachCSFFile(csfFile);
@@ -47,15 +49,27 @@ describe('resolveOf', () => {
     });
 
     it('works for meta exports', () => {
-      expect(context.resolveOf(metaExport)).toEqual({ type: 'meta', csfFile });
+      expect(context.resolveOf(metaExport)).toEqual({
+        type: 'meta',
+        csfFile,
+        preparedMeta: expect.any(Object),
+      });
     });
 
     it('works for full module exports', () => {
-      expect(context.resolveOf(moduleExports)).toEqual({ type: 'meta', csfFile });
+      expect(context.resolveOf(moduleExports)).toEqual({
+        type: 'meta',
+        csfFile,
+        preparedMeta: expect.any(Object),
+      });
     });
 
     it('works for components', () => {
-      expect(context.resolveOf(component)).toEqual({ type: 'component', component });
+      expect(context.resolveOf(component)).toEqual({
+        type: 'component',
+        component,
+        projectAnnotations: expect.objectContaining(projectAnnotations),
+      });
     });
 
     it('finds primary story', () => {
@@ -63,11 +77,19 @@ describe('resolveOf', () => {
     });
 
     it('finds attached CSF file', () => {
-      expect(context.resolveOf('meta')).toEqual({ type: 'meta', csfFile });
+      expect(context.resolveOf('meta')).toEqual({
+        type: 'meta',
+        csfFile,
+        preparedMeta: expect.any(Object),
+      });
     });
 
     it('finds attached component', () => {
-      expect(context.resolveOf('component')).toEqual({ type: 'component', component });
+      expect(context.resolveOf('component')).toEqual({
+        type: 'component',
+        component,
+        projectAnnotations: expect.objectContaining(projectAnnotations),
+      });
     });
 
     describe('validation allowed', () => {
@@ -76,17 +98,26 @@ describe('resolveOf', () => {
       });
 
       it('works for meta exports', () => {
-        expect(context.resolveOf(metaExport, ['meta'])).toEqual({ type: 'meta', csfFile });
+        expect(context.resolveOf(metaExport, ['meta'])).toEqual({
+          type: 'meta',
+          csfFile,
+          preparedMeta: expect.any(Object),
+        });
       });
 
       it('works for full module exports', () => {
-        expect(context.resolveOf(moduleExports, ['meta'])).toEqual({ type: 'meta', csfFile });
+        expect(context.resolveOf(moduleExports, ['meta'])).toEqual({
+          type: 'meta',
+          csfFile,
+          preparedMeta: expect.any(Object),
+        });
       });
 
       it('works for components', () => {
         expect(context.resolveOf(component, ['component'])).toEqual({
           type: 'component',
           component,
+          projectAnnotations: expect.objectContaining(projectAnnotations),
         });
       });
 
@@ -95,13 +126,18 @@ describe('resolveOf', () => {
       });
 
       it('finds attached CSF file', () => {
-        expect(context.resolveOf('meta', ['meta'])).toEqual({ type: 'meta', csfFile });
+        expect(context.resolveOf('meta', ['meta'])).toEqual({
+          type: 'meta',
+          csfFile,
+          preparedMeta: expect.any(Object),
+        });
       });
 
       it('finds attached component', () => {
         expect(context.resolveOf('component', ['component'])).toEqual({
           type: 'component',
           component,
+          projectAnnotations: expect.objectContaining(projectAnnotations),
         });
       });
     });
@@ -140,8 +176,10 @@ describe('resolveOf', () => {
   });
 
   describe('unattached', () => {
+    const projectAnnotations = { render: jest.fn() };
     const store = {
       componentStoriesFromCSFFile: () => [story],
+      projectAnnotations,
     } as unknown as StoryStore<Renderer>;
     const context = new DocsContext(channel, store, renderStoryToElement, [csfFile]);
 
@@ -150,15 +188,27 @@ describe('resolveOf', () => {
     });
 
     it('works for meta exports', () => {
-      expect(context.resolveOf(metaExport)).toEqual({ type: 'meta', csfFile });
+      expect(context.resolveOf(metaExport)).toEqual({
+        type: 'meta',
+        csfFile,
+        preparedMeta: expect.any(Object),
+      });
     });
 
     it('works for full module exports', () => {
-      expect(context.resolveOf(moduleExports)).toEqual({ type: 'meta', csfFile });
+      expect(context.resolveOf(moduleExports)).toEqual({
+        type: 'meta',
+        csfFile,
+        preparedMeta: expect.any(Object),
+      });
     });
 
     it('works for components', () => {
-      expect(context.resolveOf(component)).toEqual({ type: 'component', component });
+      expect(context.resolveOf(component)).toEqual({
+        type: 'component',
+        component,
+        projectAnnotations: expect.objectContaining(projectAnnotations),
+      });
     });
 
     it('throws for primary story', () => {

@@ -17,8 +17,8 @@ const localStorageMock = {
   setItem: jest.fn().mockName('setItem'),
   clear: jest.fn().mockName('clear'),
 };
-// @ts-expect-error (Converted from ts-ignore)
-global.localStorage = localStorageMock;
+
+Object.defineProperty(global, 'localStorage', { value: localStorageMock, writable: true });
 
 /* Fail tests on PropType warnings
  This allows us to throw an error in tests environments when there are prop-type warnings.

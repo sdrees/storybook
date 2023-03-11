@@ -36,9 +36,11 @@ The following `language` configurations are equivalent:
 
 <CodeSnippets
   paths={[
+    'angular/api-doc-block-source-parameter.ts.mdx',
+    'web-components/api-doc-block-source-parameter.js.mdx',
+    'web-components/api-doc-block-source-parameter.ts.mdx',
     'common/api-doc-block-source-parameter.js.mdx',
     'common/api-doc-block-source-parameter.ts.mdx',
-    'common/api-doc-block-source-parameter.ts-4-9.mdx',
   ]}
 />
 

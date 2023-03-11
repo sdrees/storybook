@@ -68,12 +68,12 @@ describe('when command fails', () => {
     expect(telemetry).toHaveBeenCalledTimes(0);
     expect(telemetry).not.toHaveBeenCalledWith(
       'error',
-      { eventType: 'dev', error },
+      expect.objectContaining({}),
       expect.objectContaining({})
     );
   });
 
-  it('does not send error message when crash reports are disabled', async () => {
+  it('does not send full error message when crash reports are disabled', async () => {
     jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ enableCrashReports: false } as any),
     });
@@ -106,7 +106,7 @@ describe('when command fails', () => {
     );
   });
 
-  it('does not send full error message when telemetry is disabled', async () => {
+  it('does not send any error message when telemetry is disabled', async () => {
     jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ disableTelemetry: true } as any),
     });
@@ -140,7 +140,7 @@ describe('when command fails', () => {
     );
   });
 
-  it('does not send error messages when disabled crash reports are cached', async () => {
+  it('does not send  full  error messages when disabled crash reports are cached', async () => {
     jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
@@ -176,7 +176,7 @@ describe('when command fails', () => {
     );
   });
 
-  it('does not send error messages when disabled crash reports are prompted', async () => {
+  it('does not send full error messages when disabled crash reports are prompted', async () => {
     jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
@@ -214,18 +214,19 @@ describe('when command fails', () => {
     );
   });
 
-  // if main.js has errors, we have no way to tell if they've disabled telemetry
-  it('does not send error messages when presets fail to evaluate', async () => {
+  // if main.js has errors, we have no way to tell if they've disabled error reporting,
+  // so we assume they have.
+  it('does not send full error messages when presets fail to evaluate', async () => {
     jest.mocked(loadAllPresets).mockRejectedValueOnce(error);
 
     await expect(async () =>
       withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
-    expect(telemetry).toHaveBeenCalledTimes(1);
-    expect(telemetry).not.toHaveBeenCalledWith(
+    expect(telemetry).toHaveBeenCalledTimes(2);
+    expect(telemetry).toHaveBeenCalledWith(
       'error',
-      { eventType: 'dev', error },
+      { eventType: 'dev' },
       expect.objectContaining({})
     );
   });

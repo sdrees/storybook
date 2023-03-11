@@ -36,6 +36,6 @@ Storybook addons allow you to extend what's already possible with Storybook, eve
 
 ### Preset addons
 
-[Preset addons](./addon-types.md#preset-addons) help you integrate Storybook with other technologies and libraries. Examples of preset addons are: [preset-scss](https://github.com/storybookjs/presets/tree/master/packages/preset-scss) and [preset-create-react-app](https://github.com/storybookjs/presets/tree/master/packages/preset-create-react-app).
+[Preset addons](./addon-types.md#preset-addons) help you integrate Storybook with other technologies and libraries. An examples of a preset addons is [preset-create-react-app](https://github.com/storybookjs/presets/tree/master/packages/preset-create-react-app).
 
 [Learn how to write a preset addon »](./writing-presets.md)

@@ -22,6 +22,12 @@ For example, to include accessibility testing in Storybook, run the following co
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->

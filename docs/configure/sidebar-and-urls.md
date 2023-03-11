@@ -36,6 +36,9 @@ Consider the following story:
 
 <CodeSnippets
   paths={[
+    'angular/foo-bar-baz-story.ts.mdx',
+    'web-components/foo-bar-baz-story.js.mdx',
+    'web-components/foo-bar-baz-story.ts.mdx',
     'common/foo-bar-baz-story.js.mdx',
     'common/foo-bar-baz-story.ts.mdx',
   ]}
@@ -53,6 +56,9 @@ It is possible to manually set the story's id, which is helpful if you want to r
 
 <CodeSnippets
   paths={[
+    'angular/other-foo-bar-story.ts.mdx',
+    'web-components/other-foo-bar-story.js.mdx',
+    'web-components/other-foo-bar-story.ts.mdx',
     'common/other-foo-bar-story.js.mdx',
     'common/other-foo-bar-story.ts.mdx',
   ]}
@@ -74,6 +80,9 @@ Storybook 6.4 introduced [CSF 3.0](https://storybook.js.org/blog/component-story
   paths={[
     'common/storybook-main-configuration-src-dir.main-js.js.mdx',
     'common/storybook-main-configuration-src-dir.main-ts.ts.mdx',
+    'angular/component-story-auto-title.csf3-story-ts.ts.mdx',
+    'web-components/component-story-auto-title.csf3-story-ts.js.mdx',
+    'web-components/component-story-auto-title.csf3-story-ts.ts.mdx',
     'common/component-story-auto-title.csf3-story.js.mdx',
     'common/component-story-auto-title.csf3-story-ts.ts.mdx',
   ]}
@@ -110,6 +119,7 @@ If you need to preserve the naming scheme, you can add the `title` element to th
 
 <CodeSnippets
   paths={[
+    'angular/storybook-csf-3-auto-title-redundant.ts.mdx',
     'common/storybook-csf-3-auto-title-redundant.js.mdx',
     'common/storybook-csf-3-auto-title-redundant.ts.mdx',
   ]}

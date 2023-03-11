@@ -96,8 +96,10 @@ async function webpack(
     ...webpackConfig,
     plugins: [
       ...(webpackConfig.plugins || []),
-      // eslint-disable-next-line global-require
-      ...(csfPluginOptions ? [require('@storybook/csf-plugin').webpack(csfPluginOptions)] : []),
+
+      ...(csfPluginOptions
+        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
+        : []),
     ],
 
     module: {

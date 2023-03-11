@@ -401,6 +401,7 @@ const internalTemplates = {
       mainConfig: {
         features: {
           storyStoreV7: false,
+          storyStoreV7MdxErrors: false,
         },
       },
     },
@@ -413,6 +414,7 @@ const internalTemplates = {
       mainConfig: {
         features: {
           storyStoreV7: false,
+          storyStoreV7MdxErrors: false,
         },
       },
     },

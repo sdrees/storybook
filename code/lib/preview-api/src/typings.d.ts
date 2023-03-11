@@ -10,6 +10,7 @@ declare module '@aw-web-design/x-default-browser';
 declare var FEATURES:
   | {
       storyStoreV7?: boolean;
+      storyStoreV7MdxErrors?: boolean;
       breakingChangesV7?: boolean;
       argTypeTargetsV7?: boolean;
       legacyMdx1?: boolean;

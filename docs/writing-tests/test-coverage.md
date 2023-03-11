@@ -32,6 +32,12 @@ Run the following command to install the addon.
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the coverage addon.
 
 <!-- prettier-ignore-start -->

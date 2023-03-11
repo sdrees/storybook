@@ -1,15 +1,28 @@
 #!/usr/bin/env node
 
+const { promisify } = require('util');
 const { readJson, writeFile } = require('fs-extra');
 const { exec } = require('child_process');
 const path = require('path');
-const globby = require('globby');
 const semver = require('semver');
 const { default: dedent } = require('ts-dedent');
 
 const rootDirectory = path.join(__dirname, '..', '..', '..');
 
 const logger = console;
+
+const getMonorepoPackages = async () => {
+  const process = promisify(exec);
+  const contents = await process('yarn lerna ls --json', {
+    cwd: rootDirectory,
+  });
+
+  const projects = JSON.parse(contents.stdout);
+  return projects.reduce((acc, project) => {
+    acc[project.name] = path.join(project.location, 'package.json');
+    return acc;
+  }, []);
+};
 
 const run = async () => {
   const updatedVersion = process.argv[process.argv.length - 1];
@@ -18,17 +31,12 @@ const run = async () => {
 
   logger.log(`Generating versions.ts with v${updatedVersion}`);
 
-  const storybookPackagesPaths = await globby(
-    `${rootDirectory}/@(frameworks|addons|lib|renderers|presets)/**/package.json`,
-    {
-      ignore: '**/node_modules/**/*',
-    }
-  );
+  const storybookPackages = await getMonorepoPackages();
 
   const packageToVersionMap = (
     await Promise.all(
-      storybookPackagesPaths.map(async (storybookPackagePath) => {
-        const { name, version } = await readJson(storybookPackagePath);
+      Object.keys(storybookPackages).map(async (pkgName) => {
+        const { name, version } = await readJson(storybookPackages[pkgName]);
 
         return {
           name,

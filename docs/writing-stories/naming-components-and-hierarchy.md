@@ -8,10 +8,11 @@ The title of the component you export in the `default` export controls the name 
 
 <CodeSnippets
   paths={[
-    'common/button-story-default-export.js.mdx',
-    'common/button-story-default-export.ts.mdx',
+    'angular/button-story-default-export.ts.mdx',
     'web-components/button-story-default-export.js.mdx',
     'web-components/button-story-default-export.ts.mdx',
+    'common/button-story-default-export.js.mdx',
+    'common/button-story-default-export.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-default-export"
@@ -31,10 +32,11 @@ It is also possible to group related components in an expandable interface in or
 
 <CodeSnippets
   paths={[
-    'common/button-story-grouped.js.mdx',
-    'common/button-story-grouped.ts.mdx',
+    'angular/button-story-grouped.ts.mdx',
     'web-components/button-story-grouped.js.mdx',
     'web-components/button-story-grouped.ts.mdx',
+    'common/button-story-grouped.js.mdx',
+    'common/button-story-grouped.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-grouped"
@@ -46,10 +48,11 @@ It is also possible to group related components in an expandable interface in or
 
 <CodeSnippets
   paths={[
-    'common/checkbox-story-grouped.js.mdx',
-    'common/checkbox-story-grouped.ts.mdx',
+    'angular/checkbox-story-grouped.ts.mdx',
     'web-components/checkbox-story-grouped.js.mdx',
     'web-components/checkbox-story-grouped.ts.mdx',
+    'common/checkbox-story-grouped.js.mdx',
+    'common/checkbox-story-grouped.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/naming-components-and-hierarchy#snippet-checkbox-story-grouped"
@@ -75,10 +78,11 @@ Stories which have **no siblings** (i.e. the component has only one story) and w
 
 <CodeSnippets
   paths={[
-    'common/button-story-hoisted.js.mdx',
-    'common/button-story-hoisted.ts.mdx',
+    'angular/button-story-hoisted.ts.mdx',
     'web-components/button-story-hoisted.js.mdx',
     'web-components/button-story-hoisted.ts.mdx',
+    'common/button-story-hoisted.js.mdx',
+    'common/button-story-hoisted.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-hoisted"
@@ -103,6 +107,7 @@ The most powerful method of sorting is to provide a function to `storySort`. Any
 <CodeSnippets
   paths={[
     'common/storybook-preview-sort-function.js.mdx',
+    'common/storybook-preview-sort-function.ts.mdx',
   ]}
 />
 
@@ -115,6 +120,7 @@ The `storySort` can also accept a configuration object.
 <CodeSnippets
   paths={[
     'common/storybook-preview-empty-sort-object.js.mdx',
+    'common/storybook-preview-empty-sort-object.ts.mdx',
   ]}
 />
 
@@ -136,6 +142,7 @@ The `order` array can accept a nested array in order to sort 2nd-level story kin
 <CodeSnippets
   paths={[
     'common/storybook-preview-with-ordered-pages.js.mdx',
+    'common/storybook-preview-with-ordered-pages.ts.mdx',
   ]}
 />
 
@@ -159,6 +166,7 @@ If you want certain categories to sort to the end of the list, you can insert a 
 <CodeSnippets
   paths={[
     'common/storybook-preview-with-ordered-pages-and-wildcard.js.mdx',
+    'common/storybook-preview-with-ordered-pages-and-wildcard.ts.mdx',
   ]}
 />
 

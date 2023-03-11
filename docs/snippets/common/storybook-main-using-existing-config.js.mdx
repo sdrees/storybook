@@ -6,7 +6,10 @@ import custom from '../webpack.config.js';
 
 export default {
   webpackFinal: async (config) => {
-    return { ...config, module: { ...config.module, rules: custom.module.rules } };
+    return {
+      ...config,
+      module: { ...config.module, rules: [...config.module.rules, ...custom.module.rules] },
+    };
   },
 };
 ```

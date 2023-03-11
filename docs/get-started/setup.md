@@ -13,10 +13,12 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'react/your-component.js.mdx',
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
-    'vue/your-component.2.js.mdx',
-    'vue/your-component.ts-2.ts.mdx',
-    'vue/your-component.3.js.mdx',
-    'vue/your-component.ts-3.ts.mdx',
+    'vue/your-component.v2-js.js.mdx',
+    'vue/your-component.v2-ts.ts.mdx',
+    'vue/your-component.v2-ts-4-9.ts.mdx',
+    'vue/your-component.v3-js.js.mdx',
+    'vue/your-component.v3-ts.ts.mdx',
+    'vue/your-component.v3-ts-4-9.ts.mdx',
     'web-components/your-component.js.mdx',
     'web-components/your-component.ts.mdx',
     'svelte/your-component.js.mdx',
@@ -45,7 +47,7 @@ Your project may have additional requirements before components can be rendered 
 
 If you see errors on the CLI when you run the `yarn storybook` command, you likely need to make changes to Storybook’s build configuration. Here are some things to try:
 
-- [Presets](../addons/addon-types.md) bundle common configurations for various technologies into Storybook. In particular, presets exist for Create React App, SCSS and Ant Design.
+- [Presets](../addons/addon-types.md) bundle common configurations for various technologies into Storybook. In particular, presets exist for Create React App and Ant Design.
 - Specify a custom [Babel configuration](../configure/babel.md#custom-babel-config) for Storybook. Storybook automatically tries to use your project’s config if it can.
 - Adjust the [Webpack configuration](../builders/webpack.md) that Storybook uses. Try patching in your own configuration if needed.
 
@@ -72,13 +74,18 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
 <CodeSnippets
   paths={[
     'react/storybook-preview-with-styled-components-decorator.js.mdx',
-    'react/storybook-preview-with-styled-components-decorator.story-function.js.mdx',
-    'vue/storybook-preview-with-library-decorator.2-library.js.mdx',
-    'vue/storybook-preview-with-library-decorator.3-library.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.2-component.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.3-component.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.2-mixin.js.mdx',
-    'angular/storybook-preview-with-styled-components-decorator.ts.mdx'
+    'react/storybook-preview-with-styled-components-decorator.ts.mdx',
+    'vue/storybook-preview-with-library-decorator.library-v2-js.js.mdx',
+    'vue/storybook-preview-with-library-decorator.library-v2-ts.ts.mdx',
+    'vue/storybook-preview-with-library-decorator.library-v3-js.js.mdx',
+    'vue/storybook-preview-with-library-decorator.library-v3-ts.ts.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-v2-js.js.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-v2-ts.ts.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-v3.js.js.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-v3-ts.ts.mdx',
+    'vue/storybook-preview-with-mixin-decorator.mixin-v2-js.js.mdx',
+    'vue/storybook-preview-with-mixin-decorator.mixin-v2-ts.ts.mdx',
+    'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
   ]}
 />
 

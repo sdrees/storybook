@@ -32,6 +32,12 @@ Run the following command to install the interactions addon and related dependen
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
@@ -65,6 +71,9 @@ Make sure to import the Storybook wrappers for Jest and Testing Library rather t
 
 <CodeSnippets
   paths={[
+    'angular/storybook-interactions-play-function.ts.mdx',
+    'web-components/storybook-interactions-play-function.js.mdx',
+    'web-components/storybook-interactions-play-function.ts.mdx',
     'common/storybook-interactions-play-function.js.mdx',
     'common/storybook-interactions-play-function.ts.mdx',
   ]}

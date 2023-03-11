@@ -26,6 +26,9 @@ The `component` field is required and used by addons for automatic prop table ge
 
 <CodeSnippets
   paths={[
+    'angular/my-component-story-mandatory-export.ts.mdx',
+    'web-components/my-component-story-mandatory-export.js.mdx',
+    'web-components/my-component-story-mandatory-export.ts.mdx',
     'common/my-component-story-mandatory-export.js.mdx',
     'common/my-component-story-mandatory-export.ts.mdx',
   ]}
@@ -78,6 +81,9 @@ Storybook's `name` configuration element is helpful in specific circumstances. C
 
 <CodeSnippets
   paths={[
+    'angular/my-component-story-with-storyname.ts.mdx',
+    'web-components/my-component-story-with-storyname.js.mdx',
+    'web-components/my-component-story-with-storyname.ts.mdx',
     'common/my-component-story-with-storyname.js.mdx',
     'common/my-component-story-with-storyname.ts.mdx',
   ]}
@@ -99,10 +105,12 @@ Consider Storybook’s ["Button" example](../writing-stories/introduction.md#def
   paths={[
     'react/button-story-click-handler.js.mdx',
     'react/button-story-click-handler.ts.mdx',
-    'vue/button-story-click-handler.2.js.mdx',
-    'vue/button-story-click-handler.ts-2.ts.mdx',
-    'vue/button-story-click-handler.3.js.mdx',
-    'vue/button-story-click-handler.ts-3.ts.mdx',
+    'vue/button-story-click-handler.v2-js.js.mdx',
+    'vue/button-story-click-handler.v2-ts.ts.mdx',
+    'vue/button-story-click-handler.v2-ts-4-9.ts.mdx',
+    'vue/button-story-click-handler.v3-js.js.mdx',
+    'vue/button-story-click-handler.v3-ts.ts.mdx',
+    'vue/button-story-click-handler.v3-ts-4-9.ts.mdx',
     'svelte/button-story-click-handler.js.mdx',
     'angular/button-story-click-handler.ts.mdx',
     'web-components/button-story-click-handler.js.mdx',
@@ -122,10 +130,12 @@ Now consider the same example, re-written with args:
   paths={[
     'react/button-story-click-handler-args.js.mdx',
     'react/button-story-click-handler-args.ts.mdx',
-    'vue/button-story-click-handler-args.2.js.mdx',
-    'vue/button-story-click-handler-args.ts-2.ts.mdx',
-    'vue/button-story-click-handler-args.3.js.mdx',
-    'vue/button-story-click-handler-args.ts-3.ts.mdx',
+    'vue/button-story-click-handler-args.v2-js.js.mdx',
+    'vue/button-story-click-handler-args.v2-ts.ts.mdx',
+    'vue/button-story-click-handler-args.v2-ts-4-9.ts.mdx',
+    'vue/button-story-click-handler-args.v3-js.js.mdx',
+    'vue/button-story-click-handler-args.v3-ts.ts.mdx',
+    'vue/button-story-click-handler-args.v3-ts-4-9.ts.mdx',
     'angular/button-story-click-handler-args.ts.mdx',
     'svelte/button-story-click-handler-args.js.mdx',
     'web-components/button-story-click-handler-args.js.mdx',
@@ -174,10 +184,8 @@ A good use case for the `play` function is a form component. With previous Story
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.2.js.mdx',
-    'vue/login-form-with-play-function.ts-2.ts.mdx',
-    'vue/login-form-with-play-function.3.js.mdx',
-    'vue/login-form-with-play-function.ts-3.ts.mdx',
+    'vue/login-form-with-play-function.js.mdx',
+    'vue/login-form-with-play-function.ts.mdx',
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
@@ -253,10 +261,8 @@ Consider the following story file:
   paths={[
     'react/my-component-story-with-nonstory.js.mdx',
     'react/my-component-story-with-nonstory.ts.mdx',
-    'vue/my-component-story-with-nonstory.2.js.mdx',
-    'vue/my-component-story-with-nonstory.ts-2.ts.mdx',
-    'vue/my-component-story-with-nonstory.3.js.mdx',
-    'vue/my-component-story-with-nonstory.ts-3.ts.mdx',
+    'vue/my-component-story-with-nonstory.js.mdx',
+    'vue/my-component-story-with-nonstory.ts.mdx',
     'svelte/my-component-story-with-nonstory.js.mdx',
     'angular/my-component-story-with-nonstory.ts.mdx',
     'web-components/my-component-story-with-nonstory.js.mdx',
@@ -313,8 +319,7 @@ Here's the CSF 3 equivalent:
   paths={[
     'common/csf-3-example-starter.js.mdx',
     'react/csf-3-example-starter.ts.mdx',
-    'vue/csf-3-example-starter.ts-2.ts.mdx',
-    'vue/csf-3-example-starter.ts-3.ts.mdx',
+    'vue/csf-3-example-starter.ts.mdx',
     'angular/csf-3-example-starter.ts.mdx',
     'web-components/csf-3-example-starter.js.mdx',
     'web-components/csf-3-example-starter.ts.mdx',

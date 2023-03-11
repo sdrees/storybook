@@ -3,10 +3,12 @@ import type { CLIOptions, CoreConfig } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
+import { logger } from '@storybook/node-logger';
 
 type TelemetryOptions = {
   cliOptions: CLIOptions;
   presetOptions?: Parameters<typeof loadAllPresets>[0];
+  printError?: (err: any) => void;
 };
 
 const promptCrashReports = async () => {
@@ -17,7 +19,7 @@ const promptCrashReports = async () => {
   const { enableCrashReports } = await prompts({
     type: 'confirm',
     name: 'enableCrashReports',
-    message: `Would you like to send crash reports to Storybook?`,
+    message: `Would you like to help improve Storybook by sending anonymous crash reports?`,
     initial: true,
   });
 
@@ -64,7 +66,12 @@ export async function sendTelemetryError(
   options: TelemetryOptions
 ) {
   try {
-    const errorLevel = await getErrorLevel(options);
+    let errorLevel = 'error';
+    try {
+      errorLevel = await getErrorLevel(options);
+    } catch (err) {
+      // If this throws, eg. due to main.js breaking, we fall back to 'error'
+    }
     if (errorLevel !== 'none') {
       const precedingUpgrade = await getPrecedingUpgrade();
 
@@ -74,7 +81,7 @@ export async function sendTelemetryError(
           eventType,
           precedingUpgrade,
           error: errorLevel === 'full' ? error : undefined,
-          errorHash: oneWayHash(error.message),
+          errorHash: oneWayHash(error.message || ''),
         },
         {
           immediate: true,
@@ -88,17 +95,20 @@ export async function sendTelemetryError(
   }
 }
 
-export async function withTelemetry(
+export async function withTelemetry<T>(
   eventType: EventType,
   options: TelemetryOptions,
-  run: () => Promise<any>
-) {
+  run: () => Promise<T>
+): Promise<T> {
   if (!options.cliOptions.disableTelemetry)
     telemetry('boot', { eventType }, { stripMetadata: true });
 
   try {
-    await run();
+    return await run();
   } catch (error) {
+    const { printError = logger.error } = options;
+    printError(error);
+
     await sendTelemetryError(error, eventType, options);
     throw error;
   }

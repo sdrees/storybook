@@ -31,6 +31,12 @@ If you're upgrading from a previous Storybook version, you'll need to run the fo
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 Update your Storybook configuration (in [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)) to include the Essentials addon.
 
 <!-- prettier-ignore-start -->
@@ -62,6 +68,12 @@ If you need to reconfigure any of the [individual Essentials addons](https://sto
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
@@ -87,14 +99,13 @@ Below is an abridged configuration and table with all the available options for 
 <!-- prettier-ignore-end -->
 
 | Addon                          | Configuration element | Description                                                                                                                                      |
-| ------------------------------ |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `@storybook/addon-actions`     | N/A                   | N/A                                                                                                                                              |
 | `@storybook/addon-viewport`    | N/A                   | N/A                                                                                                                                              |
 | `@storybook/addon-docs`        | `configureJSX`        | Enables JSX support in MDX for projects that aren't configured to handle the format. <br/> `configureJSX: true`                                  |
 |                                | `babelOptions`        | Provides additional Babel configurations for file transpilation. <br/> `babelOptions: { plugins: [], presets: []}` <br/> Extends `configureJSX`. |
 |                                | `csfPluginOptions`    | Provides additional configuration for Storybook's CSF plugin. Can be disabled with `null`                                                        |
-|                                | `mdxPluginOptions`    | Provides additional configuration for Storybook's MDX plugin.                                                   |
-|                                | `transcludeMarkdown`  | Enables Markdown file support into MDX and render them as components. <br/> `transcludeMarkdown: true`                                           |
+|                                | `mdxPluginOptions`    | Provides additional configuration for Storybook's MDX plugin.                                                                                    |
 | `@storybook/addon-controls`    | N/A                   | N/A                                                                                                                                              |
 | `@storybook/addon-backgrounds` | N/A                   | N/A                                                                                                                                              |
 | `@storybook/addon-toolbars`    | N/A                   | N/A                                                                                                                                              |

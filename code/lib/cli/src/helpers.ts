@@ -265,3 +265,7 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
 
   return allDeps[storybookPackage];
 }
+
+export function isNxProject(packageJSON: PackageJson) {
+  return !!packageJSON.devDependencies?.nx || fs.existsSync('nx.json');
+}

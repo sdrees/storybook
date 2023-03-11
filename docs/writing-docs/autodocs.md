@@ -63,6 +63,7 @@ To replace the default documentation template used by Storybook, you can extend 
 <CodeSnippets
   paths={[
     'common/storybook-preview-auto-docs-custom-template-function.js.mdx',
+    'common/storybook-preview-auto-docs-custom-template-function.ts.mdx',
   ]}
 />
 
@@ -128,6 +129,7 @@ The Docs Container is the component that wraps up the documentation page. It's r
 <CodeSnippets
   paths={[
     'common/storybook-preview-auto-docs-custom-docs-container.js.mdx',
+    'common/storybook-preview-auto-docs-custom-docs-container.ts.mdx',
   ]}
 />
 
@@ -142,6 +144,7 @@ By default, Storybook provides two themes for the UI: `light` and `dark`. If you
 <CodeSnippets
   paths={[
     'common/storybook-preview-auto-docs-override-theme.js.mdx',
+    'common/storybook-preview-auto-docs-override-theme.ts.mdx',
   ]}
 />
 
@@ -156,6 +159,7 @@ Out of the box, Storybook has a set of components that you can use to customize 
 <CodeSnippets
   paths={[
     'common/storybook-preview-auto-docs-override-mdx-container.js.mdx',
+    'common/storybook-preview-auto-docs-override-mdx-container.ts.mdx',
   ]}
 />
 

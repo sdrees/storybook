@@ -1,0 +1,20 @@
+```ts
+// ButtonGroup.stories.ts|tsx
+
+// Replace your-framework with the name of your framework
+import type { Meta, StoryObj } from '@storybook/your-framework';
+
+import { Button, ButtonGroup } from './ButtonGroup';
+
+const meta = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'ButtonGroup',
+  component: ButtonGroup,
+  subcomponents: { Button },
+} satisfies Meta<typeof Button>;
+
+export default meta;
+```

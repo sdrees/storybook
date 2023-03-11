@@ -126,8 +126,13 @@ export const useSourceProps = (
 
   // The check didn't actually change the type.
   let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
-  if (props.of) {
-    const resolved = docsContext.resolveOf(props.of, ['story']);
+  const { of } = props;
+  if ('of' in props && of === undefined) {
+    throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
+  }
+
+  if (of) {
+    const resolved = docsContext.resolveOf(of, ['story']);
     stories = [resolved.story];
   } else if (stories.length === 0) {
     try {

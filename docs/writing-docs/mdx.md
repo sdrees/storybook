@@ -34,6 +34,9 @@ This MDX file references a story file, `Checkbox.stories.js|ts`, that is written
 
 <CodeSnippets
   paths={[
+    'angular/checkbox-story-csf.ts.mdx',
+    'web-components/checkbox-story-csf.js.mdx',
+    'web-components/checkbox-story-csf.ts.mdx',
     'common/checkbox-story-csf.js.mdx',
     'common/checkbox-story-csf.ts.mdx',
   ]}

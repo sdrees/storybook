@@ -14,7 +14,7 @@ import {
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
-import { getBowerJson, paddedLog } from './helpers';
+import { getBowerJson, isNxProject, paddedLog } from './helpers';
 import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
 import { detectWebpack } from './detect-webpack';
 
@@ -227,8 +227,4 @@ export function detect(
   }
 
   return detectFrameworkPreset(packageJson || bowerJson);
-}
-
-function isNxProject(packageJSON: PackageJson) {
-  return !!packageJSON.devDependencies?.nx || fs.existsSync('nx.json');
 }

@@ -414,9 +414,10 @@ export class CsfFile {
           const { callee } = node;
           if (t.isIdentifier(callee) && callee.name === 'storiesOf') {
             throw new Error(dedent`
-              CSF: unexpected storiesOf call ${formatLocation(node, self._fileName)}
+              Unexpected \`storiesOf\` usage: ${formatLocation(node, self._fileName)}.
 
-              More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-v7
+              In SB7, we use the next-generation \`storyStoreV7\` by default, which does not support \`storiesOf\`. 
+              More info, with details about how to opt-out here: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev7-enabled-by-default
             `);
           }
         },

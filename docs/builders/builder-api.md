@@ -23,6 +23,12 @@ To opt into a builder, the user must add it as a dependency and then edit their 
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 <!-- prettier-ignore-start -->
 
 <CodeSnippets

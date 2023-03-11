@@ -295,6 +295,12 @@ export interface StorybookConfig {
     storyStoreV7?: boolean;
 
     /**
+     * Do not throw errors if using `.mdx` files in SSv7
+     * (for internal use in sandboxes)
+     */
+    storyStoreV7MdxErrors?: boolean;
+
+    /**
      * Enable a set of planned breaking changes for SB7.0
      */
     breakingChangesV7?: boolean;

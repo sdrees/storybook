@@ -44,9 +44,11 @@ The following `sourceState` configurations are equivalent:
 
 <CodeSnippets
   paths={[
+    'angular/api-doc-block-canvas-parameter.ts.mdx',
+    'web-components/api-doc-block-canvas-parameter.js.mdx',
+    'web-components/api-doc-block-canvas-parameter.ts.mdx',
     'common/api-doc-block-canvas-parameter.js.mdx',
     'common/api-doc-block-canvas-parameter.ts.mdx',
-    'common/api-doc-block-canvas-parameter.ts-4-9.mdx',
   ]}
 />
 
@@ -74,7 +76,7 @@ Array<{
   className?: string;
   onClick: () => void;
   disabled?: boolean;
-}>
+}>;
 ```
 
 Default: `parameters.docs.canvas.additionalActions`

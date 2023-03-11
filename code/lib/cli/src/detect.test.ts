@@ -6,6 +6,7 @@ import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_t
 import type { PackageJsonWithMaybeDeps } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
+  isNxProject: jest.fn(),
   getBowerJson: jest.fn(),
 }));
 

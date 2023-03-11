@@ -1,10 +1,10 @@
 ```ts
 // MyComponent.stories.ts
 
-import MyComponent from './MyComponent.vue';
+// Replace vue3 with vue if you are using Storybook for Vue 2
+import type { Meta, StoryObj } from '@storybook/vue3';
 
-// Replace @storybook/vue with @storybook/vue3 if you are using Storybook for Vue 3.
-import type { Meta, StoryObj } from '@storybook/vue';
+import MyComponent from './MyComponent.vue';
 
 const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.

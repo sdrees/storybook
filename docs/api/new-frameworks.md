@@ -123,7 +123,8 @@ Consider the following hypothetical example:
 
 <CodeSnippets
   paths={[
-    'common/button-story-hypothetical-example.js.mdx'
+    'common/button-story-hypothetical-example.js.mdx',
+    'common/button-story-hypothetical-example.ts.mdx'
   ]}
   usesCsf3
   csf2Path="api/new-frameworks#snippet-button-story-hypothetical-example"

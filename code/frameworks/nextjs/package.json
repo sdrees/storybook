@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.0.0-beta.60",
+  "version": "7.0.0-rc.1",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -71,13 +71,13 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/runtime": "^7.21.0",
-    "@storybook/addon-actions": "7.0.0-beta.60",
-    "@storybook/builder-webpack5": "7.0.0-beta.60",
-    "@storybook/core-common": "7.0.0-beta.60",
-    "@storybook/node-logger": "7.0.0-beta.60",
-    "@storybook/preset-react-webpack": "7.0.0-beta.60",
-    "@storybook/preview-api": "7.0.0-beta.60",
-    "@storybook/react": "7.0.0-beta.60",
+    "@storybook/addon-actions": "7.0.0-rc.1",
+    "@storybook/builder-webpack5": "7.0.0-rc.1",
+    "@storybook/core-common": "7.0.0-rc.1",
+    "@storybook/node-logger": "7.0.0-rc.1",
+    "@storybook/preset-react-webpack": "7.0.0-rc.1",
+    "@storybook/preview-api": "7.0.0-rc.1",
+    "@storybook/react": "7.0.0-rc.1",
     "@types/node": "^16.0.0",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
@@ -99,11 +99,10 @@
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/types": "^7.20.5",
-    "@next/font": "^13.2.0",
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
-    "next": "^13.2.0",
+    "next": "^13.2.4",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },
@@ -148,5 +147,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "325e0406b449b740d94d481a32a62304a8b2fd11"
+  "gitHead": "115d69123dc7c4dfab9538d2b273cb0fcc372852"
 }

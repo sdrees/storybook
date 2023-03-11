@@ -37,6 +37,12 @@ Run the following command to install the interactions addon and related dependen
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon.
 
 <!-- prettier-ignore-start -->
@@ -61,10 +67,8 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.2.js.mdx',
-    'vue/login-form-with-play-function.ts-2.ts.mdx',
-    'vue/login-form-with-play-function.3.js.mdx',
-    'vue/login-form-with-play-function.ts-3.ts.mdx',
+    'vue/login-form-with-play-function.js.mdx',
+    'vue/login-form-with-play-function.ts.mdx',
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
@@ -110,7 +114,11 @@ For complex flows, it can be worthwhile to group sets of related interactions to
 
 <CodeSnippets
   paths={[
+    'angular/storybook-interactions-step-function.ts.mdx',
+    'web-components/storybook-interactions-step-function.js.mdx',
+    'web-components/storybook-interactions-step-function.ts.mdx',
     'common/storybook-interactions-step-function.js.mdx',
+    'common/storybook-interactions-step-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function"

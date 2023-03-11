@@ -52,6 +52,9 @@ For instance, suppose you have a `variant` arg on your story that should be `pri
 
 <CodeSnippets
   paths={[
+    'angular/button-story-controls-primary-variant.ts.mdx',
+    'web-components/button-story-controls-primary-variant.js.mdx',
+    'web-components/button-story-controls-primary-variant.ts.mdx',
     'common/button-story-controls-primary-variant.js.mdx',
     'common/button-story-controls-primary-variant.ts.mdx',
   ]}
@@ -75,6 +78,9 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 
 <CodeSnippets
   paths={[
+    'angular/button-story-controls-radio-group.ts.mdx',
+    'web-components/button-story-controls-radio-group.js.mdx',
+    'web-components/button-story-controls-radio-group.ts.mdx',
     'common/button-story-controls-radio-group.js.mdx',
     'common/button-story-controls-radio-group.ts.mdx',
   ]}
@@ -109,6 +115,7 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 <CodeSnippets
   paths={[
     'common/storybook-addon-controls-custom-matchers.js.mdx',
+    'common/storybook-addon-controls-custom-matchers.ts.mdx',
   ]}
 />
 
@@ -124,10 +131,12 @@ Until now, we only used auto-generated controls based on the component we're wri
   paths={[
     'react/table-story-fully-customize-controls.js.mdx',
     'react/table-story-fully-customize-controls.ts.mdx',
-    'vue/table-story-fully-customize-controls.2.js.mdx',
-    'vue/table-story-fully-customize-controls.ts-2.ts.mdx',
-    'vue/table-story-fully-customize-controls.3.js.mdx',
-    'vue/table-story-fully-customize-controls.ts-3.ts.mdx',
+    'vue/table-story-fully-customize-controls.v2-js.js.mdx',
+    'vue/table-story-fully-customize-controls.v2-ts.ts.mdx',
+    'vue/table-story-fully-customize-controls.v2-ts-4-9.ts.mdx',
+    'vue/table-story-fully-customize-controls.v3-js.js.mdx',
+    'vue/table-story-fully-customize-controls.v3-ts.ts.mdx',
+    'vue/table-story-fully-customize-controls.v3-ts-4-9.ts.mdx',
     'angular/table-story-fully-customize-controls.ts.mdx',
     'web-components/table-story-fully-customize-controls.js.mdx',
     'web-components/table-story-fully-customize-controls.ts.mdx',
@@ -158,8 +167,8 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
   paths={[
     'react/component-story-custom-args-complex.js.mdx',
     'react/component-story-custom-args-complex.ts.mdx',
-    'vue/component-story-custom-args-complex.3.js.mdx',
-    'vue/component-story-custom-args-complex.ts-3.ts.mdx',
+    'vue/component-story-custom-args-complex.js.mdx',
+    'vue/component-story-custom-args-complex.ts.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.js.mdx',
@@ -177,6 +186,9 @@ Unless you need the flexibility of a function, an easier way to map primitives t
 
 <CodeSnippets
   paths={[
+    'angular/component-story-custom-args-mapping.ts.mdx',
+    'web-components/component-story-custom-args-mapping.js.mdx',
+    'web-components/component-story-custom-args-mapping.ts.mdx',
     'common/component-story-custom-args-mapping.js.mdx',
     'common/component-story-custom-args-mapping.ts.mdx',
   ]}
@@ -223,6 +235,9 @@ As shown above, you can configure individual controls with the “control" annot
 
 <CodeSnippets
   paths={[
+    'angular/gizmo-story-controls-customization.ts.mdx',
+    'web-components/gizmo-story-controls-customization.js.mdx',
+    'web-components/gizmo-story-controls-customization.ts.mdx',
     'common/gizmo-story-controls-customization.js.mdx',
     'common/gizmo-story-controls-customization.ts.mdx',
   ]}
@@ -250,6 +265,7 @@ To enable expanded mode globally, add the following to [`.storybook/preview.js`]
 <CodeSnippets
   paths={[
     'common/storybook-preview-expanded-controls.js.mdx',
+    'common/storybook-preview-expanded-controls.ts.mdx',
   ]}
 />
 
@@ -268,6 +284,7 @@ For `color` controls, you can specify an array of `presetColors`, either on the 
 <CodeSnippets
   paths={[
     'common/storybook-preview-parameters-color-swatches.js.mdx',
+    'common/storybook-preview-parameters-color-swatches.ts.mdx',
   ]}
 />
 
@@ -285,6 +302,9 @@ Suppose you want to disable Controls for a property called `foo` in a component'
 
 <CodeSnippets
   paths={[
+    'angular/component-story-disable-controls.ts.mdx',
+    'web-components/component-story-disable-controls.js.mdx',
+    'web-components/component-story-disable-controls.ts.mdx',
     'common/component-story-disable-controls.js.mdx',
     'common/component-story-disable-controls.ts.mdx',
   ]}
@@ -307,6 +327,9 @@ The previous example also removed the prop documentation from the table. In some
 
 <CodeSnippets
   paths={[
+    'angular/component-story-disable-controls-alt.ts.mdx',
+    'web-components/component-story-disable-controls-alt.js.mdx',
+    'web-components/component-story-disable-controls-alt.ts.mdx',
     'common/component-story-disable-controls-alt.js.mdx',
     'common/component-story-disable-controls-alt.ts.mdx',
   ]}
@@ -330,6 +353,9 @@ Consider a collection of "advanced" settings that are only visible when the user
 
 <CodeSnippets
   paths={[
+    'angular/component-story-conditional-controls-toggle.ts.mdx',
+    'web-components/component-story-conditional-controls-toggle.js.mdx',
+    'web-components/component-story-conditional-controls-toggle.ts.mdx',
     'common/component-story-conditional-controls-toggle.js.mdx',
     'common/component-story-conditional-controls-toggle.ts.mdx',
   ]}
@@ -343,6 +369,9 @@ Or consider a constraint where if the user sets one control value, it doesn't ma
 
 <CodeSnippets
   paths={[
+    'angular/component-story-conditional-controls-mutual-exclusion.ts.mdx',
+    'web-components/component-story-conditional-controls-mutual-exclusion.js.mdx',
+    'web-components/component-story-conditional-controls-mutual-exclusion.ts.mdx',
     'common/component-story-conditional-controls-mutual-exclusion.js.mdx',
     'common/component-story-conditional-controls-mutual-exclusion.ts.mdx',
   ]}
@@ -376,6 +405,9 @@ If you don't plan to handle the control args inside your Story, you can remove t
 
 <CodeSnippets
   paths={[
+   'angular/button-story-hide-nocontrols-warning.ts.mdx',
+   'web-components/button-story-hide-nocontrols-warning.js.mdx',
+   'web-components/button-story-hide-nocontrols-warning.ts.mdx',
    'common/button-story-hide-nocontrols-warning.js.mdx',
    'common/button-story-hide-nocontrols-warning.ts.mdx',
   ]}
@@ -397,6 +429,9 @@ Consider the following story snippets:
 
 <CodeSnippets
   paths={[
+    'angular/component-story-disable-controls-regex.ts.mdx',
+    'web-components/component-story-disable-controls-regex.js.mdx',
+    'web-components/component-story-disable-controls-regex.ts.mdx',
     'common/component-story-disable-controls-regex.js.mdx',
     'common/component-story-disable-controls-regex.ts.mdx',
   ]}
@@ -416,6 +451,9 @@ Consider the following snippet to force required args first:
 
 <CodeSnippets
   paths={[
+    'angular/component-story-sort-controls.ts.mdx',
+    'web-components/component-story-sort-controls.js.mdx',
+    'web-components/component-story-sort-controls.ts.mdx',
     'common/component-story-sort-controls.js.mdx',
     'common/component-story-sort-controls.ts.mdx',
   ]}

@@ -1,5 +1,5 @@
 import type { PreviewAnnotation } from '@storybook/types';
-import { resolve } from 'path';
+import { resolve, isAbsolute, relative } from 'path';
 import slash from 'slash';
 import { transformAbsPath } from './transform-abs-path';
 
@@ -8,10 +8,9 @@ import { transformAbsPath } from './transform-abs-path';
  * a bit more restrained.
  *
  * For node_modules, we want bare imports (so vite can process them),
- * and for files in the user's source,
- * we want absolute paths.
+ * and for files in the user's source, we want URLs absolute relative to project root.
  */
-export function processPreviewAnnotation(path: PreviewAnnotation | undefined) {
+export function processPreviewAnnotation(path: PreviewAnnotation | undefined, projectRoot: string) {
   // If entry is an object, take the first, which is the
   // bare (non-absolute) specifier.
   // This is so that webpack can use an absolute path, and
@@ -21,10 +20,7 @@ export function processPreviewAnnotation(path: PreviewAnnotation | undefined) {
   if (typeof path === 'object') {
     return path.bare;
   }
-  // resolve relative paths into absolute paths, but don't resolve "bare" imports
-  if (path?.startsWith('./') || path?.startsWith('../')) {
-    return slash(resolve(path));
-  }
+
   // This should not occur, since we use `.filter(Boolean)` prior to
   // calling this function, but this makes typescript happy
   if (!path) {
@@ -37,5 +33,20 @@ export function processPreviewAnnotation(path: PreviewAnnotation | undefined) {
     return transformAbsPath(path);
   }
 
-  return slash(path);
+  // resolve absolute paths relative to project root
+  const relativePath = isAbsolute(path) ? slash(relative(projectRoot, path)) : path;
+
+  // resolve relative paths into absolute urls
+  // note: this only works if vite's projectRoot === cwd.
+  if (relativePath.startsWith('./')) {
+    return slash(relativePath.replace(/^\.\//, '/'));
+  }
+
+  // If something is outside of root, convert to absolute.  Uncommon?
+  if (relativePath.startsWith('../')) {
+    return slash(resolve(projectRoot, relativePath));
+  }
+
+  // At this point, it must be relative to the root but not start with a ./ or ../
+  return slash(`/${relativePath}`);
 }

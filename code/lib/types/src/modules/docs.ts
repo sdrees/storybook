@@ -7,6 +7,7 @@ import type {
   PreparedStory,
   NormalizedProjectAnnotations,
   RenderContext,
+  PreparedMeta,
 } from './story';
 
 export type RenderContextCallbacks<TRenderer extends Renderer> = Pick<
@@ -21,14 +22,6 @@ export type StoryRenderOptions = {
 
 export type ResolvedModuleExportType = 'component' | 'meta' | 'story';
 
-export type ResolvedModuleExportFromType<
-  TType extends ResolvedModuleExportType,
-  TRenderer extends Renderer = Renderer
-> = TType extends 'component'
-  ? { type: 'component'; component: TRenderer['component'] }
-  : TType extends 'meta'
-  ? { type: 'meta'; csfFile: CSFFile<TRenderer> }
-  : { type: 'story'; story: PreparedStory<TRenderer> };
 /**
  * What do we know about an of={} call?
  *
@@ -37,6 +30,19 @@ export type ResolvedModuleExportFromType<
  *   - story === `PreparedStory`
  * But these shorthands capture the idea of what is being talked about
  */
+export type ResolvedModuleExportFromType<
+  TType extends ResolvedModuleExportType,
+  TRenderer extends Renderer = Renderer
+> = TType extends 'component'
+  ? {
+      type: 'component';
+      component: TRenderer['component'];
+      projectAnnotations: NormalizedProjectAnnotations<Renderer>;
+    }
+  : TType extends 'meta'
+  ? { type: 'meta'; csfFile: CSFFile<TRenderer>; preparedMeta: PreparedMeta }
+  : { type: 'story'; story: PreparedStory<TRenderer> };
+
 export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> = {
   type: ResolvedModuleExportType;
 } & (

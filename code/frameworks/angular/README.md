@@ -2,9 +2,16 @@
 
 - [Storybook for Angular](#storybook-for-angular)
   - [Getting Started](#getting-started)
-    - [Setup Compodoc](#setup-compodoc)
-  - [Support for multi-project workspace](#support-for-multi-project-workspace)
+  - [Setup Storybook for your Angular projects](#setup-storybook-for-your-angular-projects)
   - [Run Storybook](#run-storybook)
+  - [Setup Compodoc](#setup-compodoc)
+    - [Automatic setup](#automatic-setup)
+    - [Manual setup](#manual-setup)
+  - [FAQ](#faq)
+    - [How do I migrate to a Angular Storybook builder?](#how-do-i-migrate-to-a-angular-storybook-builder)
+      - [Do you have only one Angular project in your workspace?](#do-you-have-only-one-angular-project-in-your-workspace)
+        - [Adjust your `package.json`](#adjust-your-packagejson)
+      - [I have multiple projects in my Angular workspace](#i-have-multiple-projects-in-my-angular-workspace)
 
 Storybook for Angular is a UI development environment for your Angular components.
 With it, you can visualize different states of your UI components and develop them interactively.
@@ -21,15 +28,9 @@ cd my-angular-app
 npx storybook init
 ```
 
-### Setup Compodoc
+## Setup Storybook for your Angular projects
 
-When installing, you will be given the option to set up Compodoc, which is a tool for creating documentation for Angular projects.
-
-You can include JSDoc comments above components, directives, and other parts of your Angular code to include documentation for those elements. Compodoc uses these comments to generate documentation for your application. In Storybook, it is useful to add explanatory comments above @Inputs and @Outputs, since these are the main elements that Storybook displays in its user interface. The @Inputs and @Outputs are the elements that you can interact with in Storybook, such as controls.
-
-## Support for multi-project workspace
-
-Storybook supports Angular multi-project workspace. You can setup Storybook for each project in the workspace. When running `npx storybook init` you will be asked for which project Storybook should be set up. Essentially, during initialization, the `angular.json` will be edited to add the Storybook configuration for the selected project. The configuration looks approximately like this:
+Storybook supports Angular multi-project workspace. You can setup Storybook for each project in the workspace. When running `npx storybook init` you will be asked for which project Storybook should be set up. Essentially, during initialization, the `.storybook` folder will be created and the `angular.json` will be edited to add the Storybook configuration for the selected project. The configuration looks approximately like this:
 
 ```json
 // angular.json
@@ -44,10 +45,14 @@ Storybook supports Angular multi-project workspace. You can setup Storybook for 
         "storybook": {
           "builder": "@storybook/angular:start-storybook",
           "options": {
+            // the path to the storybook config directory
             "configDir": ".storybook",
+            // the build target of your project
             "browserTarget": "your-project:build",
-            "compodoc": false,
+            // the port you want to start Storybook on
             "port": 6006
+            // further options are available and can be found in
+            // https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular/src/builders/start-storybook/schema.json
           }
         },
         "build-storybook": {
@@ -55,8 +60,9 @@ Storybook supports Angular multi-project workspace. You can setup Storybook for 
           "options": {
             "configDir": ".storybook",
             "browserTarget": "your-project:build",
-            "compodoc": false,
             "outputDir": "dist/storybook/your-project"
+            // further options are available and can be found in
+            // https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular/src/builders/build-storybook/schema.json
           }
         }
       }
@@ -70,18 +76,160 @@ Storybook supports Angular multi-project workspace. You can setup Storybook for 
 To run Storybook for a particular project, please run:
 
 ```sh
-ng run your-project:storybook
+ng run <your-project>:storybook
 ```
 
 To build Storybook, run:
 
 ```sh
-ng run your-project:build-storybook
+ng run <your-project>:build-storybook
 ```
 
 You will find the output in `dist/storybook/your-project`.
 
 For more information visit: [storybook.js.org](https://storybook.js.org)
+
+## Setup Compodoc
+
+You can include JSDoc comments above components, directives, and other parts of your Angular code to include documentation for those elements. Compodoc uses these comments to generate documentation for your application. In Storybook, it is useful to add explanatory comments above @Inputs and @Outputs, since these are the main elements that Storybook displays in its user interface. The @Inputs and @Outputs are the elements that you can interact with in Storybook, such as controls.
+
+### Automatic setup
+
+When installing Storybook via `sb init`, you will be given the option to set up Compodoc automatically.
+
+### Manual setup
+
+If you have already installed Storybook, you can set up Compodoc manually.
+
+Install the following dependencies:
+
+```sh
+npm i -D @compodoc/compodoc
+```
+
+Add the following option to your to the Storybook Builder:
+
+```json
+{
+  ...
+  "projects": {
+    ...
+    "your-project": {
+      ...
+      "architect": {
+        ...
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            ...
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              // Where to store the generated documentation. It's usually the root of your Angular project. It's not necessarily the root of your Angular Workspace!
+              "."
+            ],
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            ...
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Go to your `.storybook/preview.js` and add the following:
+
+```js
+import { setCompodocJson } from '@storybook/addon-docs/angular';
+import docJson from '../documentation.json';
+setCompodocJson(docJson);
+
+const preview: Preview = {
+  ...
+};
+
+export default preview;
+```
+
+## FAQ
+
+### How do I migrate to a Angular Storybook builder?
+
+The Storybook [Angular builder](https://angular.io/guide/glossary#builder) is a new way to run Storybook in an Angular workspace. It is a drop-in replacement for running `storybook dev` and `storybook build` directly.
+
+#### Do you have only one Angular project in your workspace?
+
+In this case go to your `angular.json` and add `storybook` and `build-storybook` entries in `architect` section of your project like shown above.
+
+##### Adjust your `package.json`
+
+Go to your `package.json` and adjust your script section. Usually, it will look like this:
+
+```json
+{
+  "scripts": {
+    "storybook": "start-storybook -p 6006", // or `storybook dev -p 6006`
+    "build-storybook": "build-storybook" // or `storybook build`
+  }
+}
+```
+
+Now, you can run Storybook with `ng run <your-project>:storybook` and build it with `ng run <your-project>:build-storybook`. Adjust the scripts in your `package.json` accordingly.
+
+```json
+{
+  "scripts": {
+    "storybook": "ng run <project-name>:storybook", // or `storybook dev -p 6006`
+    "build-storybook": "ng run <project-name>:build-storybook" // or `storybook build`
+  }
+}
+```
+
+Also remove the compodoc part in your script section if you have set it up previously.
+It is now built-in in `@storybook/angular` and you don't have to call it explicitly:
+
+```json
+{
+  "scripts": {
+    "docs:json": "compodoc -p tsconfig.json -e json -d ./documentation",
+    "storybook": "npm run docs:json && start-storybook -p 6006",
+    "build-storybook": "npm run docs:json && build-storybook"
+  }
+}
+```
+
+Change it to:
+
+```json
+{
+  "scripts": {
+    "storybook": "ng run <project-name>:storybook",
+    "build-storybook": "ng run <project-name>:build-storybook"
+  }
+}
+```
+
+#### I have multiple projects in my Angular workspace
+
+In this case you have to adjust your `angular.json` and `package.json` as described above for each project in which you want to use Storybook. Please note, that each project should have a dedicated `.storybook` folder, which should be placed in the root of the project.
+
+You can run `npx sb init` sequentially for each project to setup Storybook for each of them to automatically create the `.storybook` folder and create the necessary configuration in your `angular.json`.
+
+You can then use [Storybook composition](https://storybook.js.org/docs/angular/sharing/storybook-composition) to composite multiple Storybooks into one.
 
 ---
 
