@@ -113,7 +113,7 @@ test('Comment out story nodes with id', () => {
 
     <Meta of={FoobarStories} />
 
-    {/* <Story id="button--primary" /> is deprecated, please migrate it to <Story of={referenceToStory} /> */}
+    {/* <Story id="button--primary" /> is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */}
 
     <Story id="button--primary" />
 

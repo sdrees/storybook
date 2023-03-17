@@ -6,7 +6,7 @@ The actions addon is used to display data received by event handler (callback) a
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-actions-optimized.mp4"
+    src="addon-actions-demo-optimized.mp4"
     type="video/mp4"
   />
 </video>

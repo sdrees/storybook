@@ -1,7 +1,7 @@
 import type { PreviewAnnotation } from '@storybook/types';
 import { resolve, isAbsolute, relative } from 'path';
 import slash from 'slash';
-import { transformAbsPath } from './transform-abs-path';
+import { stripAbsNodeModulesPath } from '@storybook/core-common';
 
 /**
  * Preview annotations can take several forms, and vite needs them to be
@@ -29,8 +29,9 @@ export function processPreviewAnnotation(path: PreviewAnnotation | undefined, pr
 
   // For addon dependencies that use require.resolve(), we need to convert to a bare path
   // so that vite will process it as a dependency (cjs -> esm, etc).
+  // TODO: Evaluate if searching for node_modules in a yarn pnp environment is correct
   if (path.includes('node_modules')) {
-    return transformAbsPath(path);
+    return stripAbsNodeModulesPath(path);
   }
 
   // resolve absolute paths relative to project root

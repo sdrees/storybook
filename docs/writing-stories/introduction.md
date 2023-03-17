@@ -160,12 +160,10 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
   paths={[
     'react/button-story-using-args.js.mdx',
     'react/button-story-using-args.ts.mdx',
-    'vue/button-story-using-args.v2-js.js.mdx',
-    'vue/button-story-using-args.v2-ts.ts.mdx',
-    'vue/button-story-using-args.v2-ts-4-9.ts.mdx',
-    'vue/button-story-using-args.v3-js.js.mdx',
-    'vue/button-story-using-args.v3-ts.ts.mdx',
-    'vue/button-story-using-args.v3-ts-4-9.ts.mdx',
+    'vue/button-story-using-args.2.js.mdx',
+    'vue/button-story-using-args.2.ts.mdx',
+    'vue/button-story-using-args.3.js.mdx',
+    'vue/button-story-using-args.3.ts.mdx',
     'angular/button-story-using-args.ts.mdx',
     'web-components/button-story-using-args.js.mdx',
     'web-components/button-story-using-args.ts.mdx',
@@ -190,12 +188,10 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'react/button-group-story.js.mdx',
     'react/button-group-story.ts.mdx',
     'angular/button-group-story.ts.mdx',
-    'vue/button-group-story.v2-js.js.mdx',
-    'vue/button-group-story.v2-ts.ts.mdx',
-    'vue/button-group-story.v2-ts-4-9.ts.mdx',
-    'vue/button-group-story.v3-js.js.mdx',
-    'vue/button-group-story.v3-ts.ts.mdx',
-    'vue/button-group-story.v3-ts-4-9.ts.mdx',
+    'vue/button-group-story.2.js.mdx',
+    'vue/button-group-story.2.ts.mdx',
+    'vue/button-group-story.3.js.mdx',
+    'vue/button-group-story.3.ts.mdx',
     'web-components/button-group-story.js.mdx',
     'web-components/button-group-story.ts.mdx',
     'svelte/button-group-story.js.mdx',
@@ -275,12 +271,8 @@ For instance, suppose you wanted to test your Button component against a differe
 
 <!-- prettier-ignore-end -->
 
-<video autoPlay muted playsInline loop>
-  <source
-    src="storybook-story-parameters-demo-optimized.mp4"
-    type="video/mp4"
-  />
-</video>
+
+![Parameters background color](./parameters-background-colors.png)
 
 This parameter would instruct the backgrounds addon to reconfigure itself whenever a Button story is selected. Most addons are configured via a parameter-based API and can be influenced at a [global](./parameters.md#global-parameters), [component](./parameters.md#component-parameters) and [story](./parameters.md#story-parameters) level.
 
@@ -366,12 +358,10 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
     'react/list-story-reuse-data.js.mdx',
     'react/list-story-reuse-data.ts.mdx',
     'angular/list-story-reuse-data.ts.mdx',
-    'vue/list-story-reuse-data.v2-js.js.mdx',
-    'vue/list-story-reuse-data.v2-ts.ts.mdx',
-    'vue/list-story-reuse-data.v2-ts-4-9.ts.mdx',
-    'vue/list-story-reuse-data.v3-js.js.mdx',
-    'vue/list-story-reuse-data.v3-ts.ts.mdx',
-    'vue/list-story-reuse-data.v3-ts-4-9.ts.mdx',
+    'vue/list-story-reuse-data.2.js.mdx',
+    'vue/list-story-reuse-data.2.ts.mdx',
+    'vue/list-story-reuse-data.3.js.mdx',
+    'vue/list-story-reuse-data.3.ts.mdx',
     'web-components/list-story-reuse-data.js.mdx',
     'web-components/list-story-reuse-data.ts.mdx',
     'html/list-story-reuse-data.js.mdx',

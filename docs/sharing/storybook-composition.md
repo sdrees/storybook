@@ -4,7 +4,7 @@ title: 'Storybook Composition'
 
 Composition allows you to browse components from any Storybook accessible via URL inside your local Storybook. You can compose any [Storybook published online](./publish-storybook.md) or running locally no matter the view layer, tech stack, or dependencies.
 
-![Storybook reference external](./reference-external-storybooks-composition.jpg)
+![Storybook reference external](./reference-external-storybooks-composition.png)
 
 You’ll see the composed Storybook’s stories in the sidebar alongside your own. This unlocks common workflows that teams often struggle with:
 

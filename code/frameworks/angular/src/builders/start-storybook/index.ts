@@ -14,7 +14,10 @@ import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
-import { StyleElement } from '@angular-devkit/build-angular/src/builders/browser/schema';
+import {
+  AssetPattern,
+  StyleElement,
+} from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { printErrorDetails, errorSummary } from '../utils/error-handler';
@@ -27,6 +30,7 @@ export type StorybookBuilderOptions = JsonObject & {
   compodocArgs: string[];
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
+  assets?: AssetPattern[];
 } & Pick<
     // makes sure the option exists
     CLIOptions,
@@ -78,6 +82,7 @@ function commandBuilder(
         sslCert,
         sslKey,
         disableTelemetry,
+        assets,
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
@@ -99,6 +104,7 @@ function commandBuilder(
         angularBuilderOptions: {
           ...(stylePreprocessorOptions ? { stylePreprocessorOptions } : {}),
           ...(styles ? { styles } : {}),
+          ...(assets ? { assets } : {}),
         },
         tsConfig,
       };

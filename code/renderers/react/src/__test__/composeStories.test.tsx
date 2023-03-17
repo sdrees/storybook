@@ -2,8 +2,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
+import type { Meta } from '@storybook/react';
+import { expectTypeOf } from 'expect-type';
 import { setProjectAnnotations, composeStories, composeStory } from '..';
 
+import type { Button } from './Button';
 import * as stories from './Button.stories';
 
 setProjectAnnotations([]);
@@ -22,7 +25,6 @@ test('renders primary button', () => {
 
 test('reuses args from composed story', () => {
   render(<Secondary />);
-
   const buttonElement = screen.getByRole('button');
   expect(buttonElement.textContent).toEqual(Secondary.args.children);
 });
@@ -84,5 +86,21 @@ describe('CSF3', () => {
 
     const input = screen.getByTestId('input') as HTMLInputElement;
     expect(input.value).toEqual('Hello world!');
+  });
+});
+
+describe('ComposeStories types', () => {
+  test('Should support typescript operators', () => {
+    type ComposeStoriesParam = Parameters<typeof composeStories>[0];
+
+    expectTypeOf({
+      ...stories,
+      default: stories.default as Meta<typeof Button>,
+    }).toMatchTypeOf<ComposeStoriesParam>();
+
+    expectTypeOf({
+      ...stories,
+      default: stories.default satisfies Meta<typeof Button>,
+    }).toMatchTypeOf<ComposeStoriesParam>();
   });
 });

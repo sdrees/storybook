@@ -8,7 +8,12 @@ In a nutshell, you start by supplying the appropriate props for the initial stat
 
 In Storybook, this familiar workflow happens in your browser. That makes it easier to debug failures because you're running tests in the same environment as you develop components: the browser.
 
-![Storybook interaction testing](./storybook-interaction-tests.gif)
+<video autoPlay muted playsInline loop>
+  <source
+    src="component-interaction-testing.mp4"
+    type="video/mp4"
+  />
+</video>
 
 ## How does component testing in Storybook work?
 

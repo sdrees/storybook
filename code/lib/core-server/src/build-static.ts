@@ -23,6 +23,7 @@ import {
   resolveAddonName,
 } from '@storybook/core-common';
 
+import isEqual from 'lodash/isEqual.js';
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
@@ -33,6 +34,7 @@ import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
+import { defaultStaticDirs } from './utils/constants';
 
 export type BuildStaticStandaloneOptions = CLIOptions &
   LoadOptions &
@@ -114,7 +116,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     features,
   };
 
-  if (staticDirs && options.staticDir) {
+  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
     throw new Error(dedent`
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'

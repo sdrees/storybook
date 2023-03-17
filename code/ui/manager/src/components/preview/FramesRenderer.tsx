@@ -9,8 +9,8 @@ import { IFrame } from './iframe';
 import type { FramesRendererProps } from './utils/types';
 import { stringifyQueryParams } from './utils/stringifyQueryParams';
 
-const getActive = (refId: FramesRendererProps['refId']) => {
-  if (refId) {
+const getActive = (refId: FramesRendererProps['refId'], refs: FramesRendererProps['refs']) => {
+  if (refId && refs[refId]) {
     return `storybook-ref-${refId}`;
   }
 
@@ -55,7 +55,7 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
     ...queryParams,
     ...(version && { version }),
   });
-  const active = getActive(refId);
+  const active = getActive(refId, refs);
 
   const styles = useMemo<CSSObject>(() => {
     // add #root to make the selector high enough in specificity

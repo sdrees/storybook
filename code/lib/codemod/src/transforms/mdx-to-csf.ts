@@ -131,7 +131,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
           const nodeString = mdxProcessor.stringify({ type: 'root', children: [node] }).trim();
           const newNode: MdxFlowExpression = {
             type: 'mdxFlowExpression',
-            value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> */`,
+            value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */`,
           };
           storiesMap.set(idAttribute.value as string, { type: 'id' });
           parent.children.splice(index, 0, newNode);

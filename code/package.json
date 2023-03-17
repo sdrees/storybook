@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-rc.1",
+  "version": "7.0.0-rc.4",
   "private": true,
   "homepage": "https://storybook.js.org/",
   "repository": {
@@ -28,7 +28,6 @@
     "changelog:next": "pr-log --sloppy --since-prerelease",
     "check": "NODE_ENV=production node ../scripts/check-package.js",
     "ci-tests": "yarn task --task check --no-link --start-from=install && yarn lint && yarn test && cd ../scripts && yarn test",
-    "coverage": "codecov",
     "danger": "danger",
     "generate-sandboxes": "ts-node --swc ../scripts/sandbox-generators/generate-sandboxes.ts",
     "github-release": "github-release-from-changelog",
@@ -217,7 +216,6 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^9.1.2",
     "chromatic": "6.11.2",
-    "codecov": "^3.8.1",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
     "danger": "^10.6.2",

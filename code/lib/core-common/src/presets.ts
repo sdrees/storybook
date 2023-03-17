@@ -14,6 +14,7 @@ import { join, parse } from 'path';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
+import { stripAbsNodeModulesPath } from './utils/strip-abs-node-modules-path';
 
 const isObject = (val: unknown): val is Record<string, any> =>
   val != null && typeof val === 'object' && Array.isArray(val) === false;
@@ -149,7 +150,13 @@ export const resolveAddonName = (
         ? {
             previewAnnotations: [
               previewFileAbsolute
-                ? { bare: previewFile, absolute: previewFileAbsolute }
+                ? {
+                    // TODO: Evaluate if searching for node_modules in a yarn pnp environment is correct
+                    bare: previewFile.includes('node_modules')
+                      ? stripAbsNodeModulesPath(previewFile)
+                      : previewFile,
+                    absolute: previewFileAbsolute,
+                  }
                 : previewFile,
             ],
           }

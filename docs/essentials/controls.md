@@ -8,7 +8,7 @@ Storybook Controls gives you a graphical UI to interact with a component's argum
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-controls-optimized.mp4"
+    src="addon-controls-demo-optimized.mp4"
     type="video/mp4"
   />
 </video>
@@ -131,12 +131,10 @@ Until now, we only used auto-generated controls based on the component we're wri
   paths={[
     'react/table-story-fully-customize-controls.js.mdx',
     'react/table-story-fully-customize-controls.ts.mdx',
-    'vue/table-story-fully-customize-controls.v2-js.js.mdx',
-    'vue/table-story-fully-customize-controls.v2-ts.ts.mdx',
-    'vue/table-story-fully-customize-controls.v2-ts-4-9.ts.mdx',
-    'vue/table-story-fully-customize-controls.v3-js.js.mdx',
-    'vue/table-story-fully-customize-controls.v3-ts.ts.mdx',
-    'vue/table-story-fully-customize-controls.v3-ts-4-9.ts.mdx',
+    'vue/table-story-fully-customize-controls.2.js.mdx',
+    'vue/table-story-fully-customize-controls.2.ts.mdx',
+    'vue/table-story-fully-customize-controls.3.js.mdx',
+    'vue/table-story-fully-customize-controls.3.ts.mdx',
     'angular/table-story-fully-customize-controls.ts.mdx',
     'web-components/table-story-fully-customize-controls.js.mdx',
     'web-components/table-story-fully-customize-controls.ts.mdx',
@@ -316,7 +314,7 @@ Resulting in the following change in Storybook UI:
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-controls-disable-specific-prop.mp4"
+    src="addon-controls-disable-specific-prop-optimized.mp4"
     type="video/mp4"
   />
 </video>

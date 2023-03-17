@@ -52,6 +52,7 @@ orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.4.1
   browser-tools: circleci/browser-tools@1.4.0
   discord: antonioned/discord@0.1.0
+  codecov: codecov/codecov@3.2.4
 
 commands:
   cancel-workflow-on-failure:
@@ -309,11 +310,7 @@ jobs:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
-      - run:
-          name: Upload coverage
-          command: |
-            cd code
-            yarn coverage
+      - codecov/upload
       - report-workflow-on-failure
   chromatic-internal-storybooks:
     executor:
@@ -633,25 +630,25 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 31
+          parallelism: 30
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 31
+          parallelism: 30
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 31
+          parallelism: 30
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 31
+          parallelism: 30
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 31
+          parallelism: 30
           requires:
             - build-sandboxes

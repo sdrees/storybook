@@ -1,4 +1,4 @@
-import type { FC, SyntheticEvent } from 'react';
+import type { FC, MouseEvent, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
 import { Code, components, Icons, nameSpaceClassNames } from '@storybook/components';
@@ -101,11 +101,22 @@ export const AnchorMdx: FC<AnchorMdxProps> = (props) => {
       return (
         <A
           href={href}
-          onClick={(event: SyntheticEvent) => {
-            event.preventDefault();
-            // use the A element's href, which has been modified for
-            // local paths without a `?path=` query param prefix
-            navigate(context, event.currentTarget.getAttribute('href'));
+          onClick={(event: MouseEvent<HTMLAnchorElement>) => {
+            // Cmd/Ctrl/Shift/Alt + Click should trigger default browser behaviour. Same applies to non-left clicks
+            const LEFT_BUTTON = 0;
+            const isLeftClick =
+              event.button === LEFT_BUTTON &&
+              !event.altKey &&
+              !event.ctrlKey &&
+              !event.metaKey &&
+              !event.shiftKey;
+
+            if (isLeftClick) {
+              event.preventDefault();
+              // use the A element's href, which has been modified for
+              // local paths without a `?path=` query param prefix
+              navigate(context, event.currentTarget.getAttribute('href'));
+            }
           }}
           target={target}
           {...rest}

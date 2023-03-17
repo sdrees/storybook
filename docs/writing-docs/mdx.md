@@ -328,7 +328,6 @@ However, cross-linking documentation isn't restricted to documentation pages. Yo
 
 <!--You can also use anchors to target a specific section of a page: -->
 
-![MDX anchor example](./mdx-anchor.webp)
 
 <div class="aside">
 💡 By applying this pattern with the Controls addon, all anchors will be ignored in Canvas based on how Storybook handles URLs to track the args values.

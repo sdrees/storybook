@@ -140,7 +140,7 @@ If you're working with pure presentational screens, adding stories through [args
   paths={[
     'react/document-screen-fetch.js.mdx',
     'vue/document-screen-fetch.3.js.mdx',
-    'vue/document-screen-fetch.ts-3.ts.mdx',
+    'vue/document-screen-fetch.3.ts.mdx',
     'angular/document-screen-fetch.ts.mdx',
     'svelte/document-screen-fetch.js.mdx',
     'web-components/document-screen-fetch.js.mdx',
@@ -184,7 +184,7 @@ In addition to mocking RESTful requests, the other noteworthy feature of the [MS
     'react/document-screen-with-graphql.js.mdx',
     'react/document-screen-with-graphql.ts.mdx',
     'vue/document-screen-with-graphql.3.js.mdx',
-    'vue/document-screen-with-graphql.ts-3.ts.mdx',
+    'vue/document-screen-with-graphql.3.ts.mdx',
     'angular/document-screen-with-graphql.ts.mdx',
     'svelte/document-screen-with-grapqhl.js.mdx',
   ]}
@@ -200,7 +200,7 @@ To test your screen with the GraphQL mocked data, you could write the following 
   paths={[
     'react/documentscreen-story-msw-graphql-query.js.mdx',
     'react/documentscreen-story-msw-graphql-query.ts.mdx',
-    'vue/apollo-wrapper-component.with-mock-implementation-3.js.mdx',
+    'vue/apollo-wrapper-component.with-mock-implementation.3.js.mdx',
     'vue/documentscreen-story-msw-graphql-query.js.mdx',
     'vue/documentscreen-story-msw-graphql-query.ts.mdx',
     'angular/apollo-module.mock-apollo-module.ts.mdx',

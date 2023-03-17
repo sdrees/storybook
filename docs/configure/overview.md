@@ -6,7 +6,7 @@ Storybook is configured via a folder called `.storybook`, which contains various
 
 <div class="aside">
 
-Note that you can change the folder that Storybook uses by setting the `-c` flag to your `storybook` and `build-storybook` scripts.
+Note that you can change the folder that Storybook uses by setting the `-c` flag to your `storybook dev` and `storybook build` [CLI commands](../api/cli-options.md).
 
 </div>
 

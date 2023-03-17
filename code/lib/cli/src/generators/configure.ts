@@ -142,9 +142,6 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
         : ''
     }const preview${isTypescript ? ': Preview' : ''} = {
       parameters: {
-        backgrounds: {
-          default: 'light',
-        },
         actions: { argTypesRegex: '^on[A-Z].*' },
         controls: {
           matchers: {

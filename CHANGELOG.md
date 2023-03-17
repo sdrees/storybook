@@ -1,3 +1,62 @@
+## 7.0.0-rc.4 (March 17, 2023)
+
+#### Features
+
+-   Angular: Add "assets" build option [#21116](https://github.com/storybooks/storybook/pull/21116)
+
+#### Bug Fixes
+
+-   React: Fix missing framework options in shim [#21644](https://github.com/storybooks/storybook/pull/21644)
+-   Docs: Update MDX `Link` component to be more user friendly [#21570](https://github.com/storybooks/storybook/pull/21570)
+-   Links: Update LinkTo component [#21569](https://github.com/storybooks/storybook/pull/21569)
+-   Vite: Allow vue files in importfn [#21550](https://github.com/storybooks/storybook/pull/21550)
+-   Controls: Fix glitchy range control [#21459](https://github.com/storybooks/storybook/pull/21459)
+-   CLI: Fix styling regression on CLI starter Introduction.mdx file [#21466](https://github.com/storybooks/storybook/pull/21466)
+-   Addon-docs: Fix csf-plugin for Angular [#21629](https://github.com/storybooks/storybook/pull/21629)
+-   Vite: Fix alias array converted incorrectly to an object [#21480](https://github.com/storybooks/storybook/pull/21480)
+-   UI: Default white preview background [#21593](https://github.com/storybooks/storybook/pull/21593)
+-   Vite: Fix dev and yarn pnp by adding lodash files to optimizeDeps.include [#21535](https://github.com/storybooks/storybook/pull/21535)
+-   Composition: Fix blank page when ref is missing but specified in url [#21598](https://github.com/storybooks/storybook/pull/21598)
+-   Core: Disable cache in dev-mode [#21574](https://github.com/storybooks/storybook/pull/21574)
+-   Vite: Fix react-vite and projects with absolute path preview entries on Windows [#21545](https://github.com/storybooks/storybook/pull/21545)
+-   UI: Change the way of preloading fonts [#21599](https://github.com/storybooks/storybook/pull/21599)
+-   Core: Add preload and prefetch links for runtime.mjs and related files [#21594](https://github.com/storybooks/storybook/pull/21594)
+-   React: Fix type inconsistencies in composeStories [#21575](https://github.com/storybooks/storybook/pull/21575)
+-   UI: Fix WithTooltip to use visible prop instead of defaultVisible [#21589](https://github.com/storybooks/storybook/pull/21589)
+
+#### Maintenance
+
+-   Blocks: Iprove error messages [#21615](https://github.com/storybooks/storybook/pull/21615)
+
+#### Build
+
+-   Build: Regen lockfiles [#21576](https://github.com/storybooks/storybook/pull/21576)
+-   Build: Fix coverage job in CircleCI [#21633](https://github.com/storybooks/storybook/pull/21633)
+-   Vite: Update sandbox template for vue2 script [#20750](https://github.com/storybooks/storybook/pull/20750)
+
+## 7.0.0-rc.3 (March 14, 2023)
+
+#### Bug Fixes
+
+-   Revert "CLI: Upgrade non-core storybook packages better" [#21583](https://github.com/storybooks/storybook/pull/21583)
+-   CLI: Fix loading main.cjs files in automigration [#21582](https://github.com/storybooks/storybook/pull/21582)
+-   Outline: Fixed a typo [#21515](https://github.com/storybooks/storybook/pull/21515)
+
+#### Maintenance
+
+-   CLI: Improve MDX codemod message regarding Story.id deprecation [#21541](https://github.com/storybooks/storybook/pull/21541)
+
+## 7.0.0-rc.2 (March 13, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix MDX codemod to update imports even when no stories are extracted [#21549](https://github.com/storybooks/storybook/pull/21549)
+-   NextJS: Support next/font in Next v13.2.4 [#21560](https://github.com/storybooks/storybook/pull/21560)
+
+#### Build
+
+-   Fix 'yarn build' command on windows systems [#21531](https://github.com/storybooks/storybook/pull/21531)
+
 ## 7.0.0-rc.1 (March 10, 2023)
 
 #### Bug Fixes

@@ -93,7 +93,6 @@ export const Button = () => <button>Click me</button>;
     'web-components/api-doc-block-description-example.ts.mdx',
     'common/api-doc-block-description-example.js.mdx',
     'common/api-doc-block-description-example.ts.mdx',
-    'common/api-doc-block-description-example.ts-4-9.mdx',
   ]}
 />
 

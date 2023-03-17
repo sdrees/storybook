@@ -1,4 +1,4 @@
-import { addExtraFlags, getStorybookVersion, isCorePackage, NON_CANARY_REGEX } from './upgrade';
+import { addExtraFlags, getStorybookVersion, isCorePackage } from './upgrade';
 
 describe.each([
   ['│ │ │ ├── @babel/code-frame@7.10.3 deduped', null],
@@ -24,9 +24,9 @@ describe.each([
 describe.each([
   ['@storybook/react', true],
   ['@storybook/node-logger', true],
-  ['@storybook/addon-info', false],
-  ['@storybook/something-random', false],
-  ['@storybook/preset-create-react-app', true],
+  ['@storybook/addon-info', true],
+  ['@storybook/something-random', true],
+  ['@storybook/preset-create-react-app', false],
   ['@storybook/linter-config', false],
   ['@storybook/design-system', false],
 ])('isCorePackage', (input, output) => {
@@ -68,32 +68,5 @@ describe('extra flags', () => {
         devDependencies,
       })
     ).toEqual([]);
-  });
-});
-
-// https://github.com/sindresorhus/semver-regex/blob/main/test.js
-describe('filter out canary releases', () => {
-  it.each([
-    ['6.0.0'],
-    ['6.0.0-alpha.0'],
-    ['6.0.0-foobar.0'],
-    ['1.2.3-4'],
-    ['^1.2.3-4'],
-    ['~1.2.3-4'],
-    ['>1.2.3-4'],
-    ['>=1.2.3-4'],
-  ])('should match %s', (version) => {
-    expect(NON_CANARY_REGEX.test(version)).toEqual(true);
-  });
-  it.each([
-    ['yahooo'],
-    ['6.0.0-canary.0.0'],
-    ['0.7.6--canary.18.9b6563c.0'],
-    ['0.7.6--next.18.0'],
-    ['0.7.1-next.18.0'],
-    ['~0.7.1-next.18.0'],
-    ['^0.7.1-next.18.0'],
-  ])('should not match %s', (version) => {
-    expect(NON_CANARY_REGEX.test(version)).toEqual(false);
   });
 });

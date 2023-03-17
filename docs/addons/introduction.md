@@ -20,7 +20,7 @@ The **Manager** is the UI responsible for rendering the:
 
 The **Preview** area is an `iframe` where your stories are rendered.
 
-![Storybook detailed window](./manager-preview.jpg)
+![Storybook detailed window](./manager-preview.png)
 
 Because both elements run in their own separate `iframes`, they use a communication channel to keep in sync. For example, when you select a story in the Manager an event is dispatched across the channel notifying the Preview to render the story.
 

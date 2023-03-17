@@ -26,7 +26,7 @@ Yields this:
 
 ## Grouping
 
-It is also possible to group related components in an expandable interface in order to help with Storybook organization. To do so, use the `/` as a separator:
+It is also possible to group related components in an expandable interface to help with Storybook organization. To do so, use the `/` as a separator:
 
 <!-- prettier-ignore-start -->
 
@@ -66,13 +66,11 @@ Yields this:
 
 ## Roots
 
-By default the top-level grouping will be displayed as a “root” in the UI (the all-caps, non expandable grouping in the screenshot above). If you prefer, you can [configure Storybook](../configure/sidebar-and-urls.md#roots) to not show roots.
+By default, the top-level grouping will be displayed as “root” in the Storybook UI (i.e., the uppercased, non-expandable items). If you need, you can [configure Storybook](../configure/sidebar-and-urls.md#roots) and disable this behavior. Useful if you need to provide a streamlined experience for your users; nevertheless, if you have a large Storybook composed of multiple component stories, we recommend naming your components according to the file hierarchy.
 
-We recommend naming components according to the file hierarchy.
+## Single-story hoisting
 
-## Single story hoisting
-
-Stories which have **no siblings** (i.e. the component has only one story) and which **display name** exactly matches the component name (last part of `title`) will be hoisted up to replace their parent component in the sidebar. This means you can have stories files like this:
+Single-story components (i.e., component stories without **siblings**) whose **display name** exactly matches the component's name (last part of `title`) are automatically hoisted up to replace their parent component in the UI. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -90,17 +88,13 @@ Stories which have **no siblings** (i.e. the component has only one story) and w
 
 <!-- prettier-ignore-end -->
 
-This will then be visually presented in the sidebar like this:
-
 ![Stories hierarchy with single story hoisting](./naming-hierarchy-single-story-hoisting.png)
 
-Because story exports are automatically "start cased" (`myStory` becomes `"My Story"`), your component name should match that. Alternatively you can override the story name using `myStory.storyName = '...'` to match the component name.
+Because story exports are automatically "start cased" (`myStory` becomes `"My Story"`), your component name should match that. Alternatively, you can override the story name using `myStory.storyName = '...'` to match the component name.
 
 ## Sorting stories
 
-By default, stories are sorted in the order in which they were imported. This can be overridden by adding `storySort` to the `options` parameters in your `preview.js` file.
-
-The most powerful method of sorting is to provide a function to `storySort`. Any custom sorting can be achieved with this method.
+Out of the box, Storybook sorts stories based on the order in which they are imported. However, you can customize this pattern to suit your needs and provide a more intuitive experience by adding `storySort` to the `options` parameter in your `preview.js` file.
 
 <!-- prettier-ignore-start -->
 
@@ -112,6 +106,12 @@ The most powerful method of sorting is to provide a function to `storySort`. Any
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+ℹ️ Asides from the unique story identifier, you can also use the `title`, `name`, and import path to sort your stories using the `storySort` function.
+
+</div>
 
 The `storySort` can also accept a configuration object.
 
@@ -135,7 +135,7 @@ The `storySort` can also accept a configuration object.
 
 To sort your stories alphabetically, set `method` to `'alphabetical'` and optionally set the `locales` string. To sort your stories using a custom list, use the `order` array; stories that don't match an item in the `order` list will appear after the items in the list.
 
-The `order` array can accept a nested array in order to sort 2nd-level story kinds. For example:
+The `order` array can accept a nested array to sort 2nd-level story kinds. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -159,7 +159,7 @@ Which would result in this story ordering:
 7. `Components` and `Components/*` stories
 8. All other stories
 
-If you want certain categories to sort to the end of the list, you can insert a `*` into your `order` array to indicate where "all other stories" should go:
+If you want specific categories to sort to the end of the list, you can insert a `*` into your `order` array to indicate where "all other stories" should go:
 
 <!-- prettier-ignore-start -->
 

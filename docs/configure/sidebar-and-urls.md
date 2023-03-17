@@ -4,7 +4,7 @@ title: 'Sidebar & URLS'
 
 Storybook’s sidebar lists all your stories grouped by component. When you have many components, you may also wish to group those components. To do so, you can add the `/` separator to the `title` of your CSF file, and Storybook will group the stories into groups based on common prefixes:
 
-![Storybook sidebar anatomy](./sidebar-anatomy.jpg)
+![Storybook sidebar anatomy](./sidebar-anatomy.png)
 
 We recommend using a nesting scheme that mirrors the filesystem path of the components. For example, if you have a file `components/modals/Alert.js`, name the CSF file `components/modals/Alert.stories.js` and title it `Components/Modals/Alert`.
 
@@ -12,7 +12,7 @@ We recommend using a nesting scheme that mirrors the filesystem path of the comp
 
 By default, Storybook will treat your top-level nodes as “roots”. Roots are displayed in the UI as “sections” of the hierarchy. Lower level groups will show up as folders:
 
-![Storybook sidebar story roots](./sidebar-roots.jpg)
+![Storybook sidebar story roots](./sidebar-roots.png)
 
 If you’d prefer to show top-level nodes as folders rather than roots, you can set the `sidebar.showRoots` option to `false` in [`./storybook/manager.js`](./overview.md#configure-story-rendering):
 

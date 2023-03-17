@@ -168,6 +168,11 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
         {
           test: [/\\/template-stories\\//],
           exclude: [/\\.mdx$/],
+          /**
+           * We need to run esbuild-loader after the csf-plugin loader, so we use the "enforce: 'post'" option.
+           * Otherwise, the csf-plugin loader does not have any effect.
+           */
+          enforce: 'post',
           loader: '${esbuildLoaderPath}',
           options: {
             loader: 'tsx',
