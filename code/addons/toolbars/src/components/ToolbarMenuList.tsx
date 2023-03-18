@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useGlobals } from '@storybook/manager-api';
 import { deprecate } from '@storybook/client-logger';
 import { WithTooltip, TooltipLinkList } from '@storybook/components';
@@ -20,6 +20,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
     toolbar: { icon: _icon, items, title: _title, showName, preventDynamicIcon, dynamicTitle },
   }) => {
     const [globals, updateGlobals] = useGlobals();
+    const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
     const currentValue = globals[id];
     const hasGlobalValue = !!currentValue;
@@ -84,9 +85,10 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
           return <TooltipLinkList links={links} />;
         }}
         closeOnOutsideClick
+        onVisibleChange={setIsTooltipVisible}
       >
         <ToolbarMenuButton
-          active={hasGlobalValue}
+          active={isTooltipVisible || hasGlobalValue}
           description={description || ''}
           icon={icon}
           title={title || ''}

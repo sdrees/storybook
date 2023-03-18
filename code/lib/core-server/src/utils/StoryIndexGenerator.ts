@@ -590,7 +590,7 @@ export class StoryIndexGenerator {
   }
 
   async getStorySortParameter() {
-    const previewFile = ['js', 'jsx', 'ts', 'tsx']
+    const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs']
       .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
       .find((fname) => fs.existsSync(fname));
     let storySortParameter;
