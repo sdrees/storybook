@@ -3,6 +3,8 @@ import { getSourceType, init as initRefs } from '../modules/refs';
 
 const { fetch } = global;
 
+const fetchMock = jest.mocked(fetch);
+
 jest.mock('@storybook/global', () => {
   const globalMock = {
     fetch: jest.fn(() => Promise.resolve({})),
@@ -46,8 +48,34 @@ const store = {
       },
     },
   }),
-  setState: jest.fn(() => {}),
+  setState: jest.fn((a: any) => {}),
 };
+
+interface ResponseResult {
+  ok?: boolean;
+  err?: Error;
+  response?: () => never | object | Promise<object>;
+}
+
+type ResponseKeys =
+  | 'indexPrivate'
+  | 'indexPublic'
+  | 'storiesPrivate'
+  | 'storiesPublic'
+  | 'iframe'
+  | 'metadata';
+
+function respond(result: ResponseResult): Promise<Response> {
+  const { err, ok, response } = result;
+  if (err) {
+    return Promise.reject(err);
+  }
+
+  return Promise.resolve({
+    ok: ok ?? !!response,
+    json: response,
+  } as Response);
+}
 
 const setupResponses = ({
   indexPrivate,
@@ -56,46 +84,32 @@ const setupResponses = ({
   storiesPublic,
   iframe,
   metadata,
-}) => {
-  fetch.mockClear();
+}: Partial<Record<ResponseKeys, ResponseResult>>) => {
+  fetchMock.mockClear();
   store.setState.mockClear();
 
-  fetch.mockImplementation((l, o) => {
+  fetchMock.mockImplementation((l, o) => {
+    if (typeof l !== 'string') {
+      throw new Error('Wrong request type');
+    }
+
     if (l.includes('index') && o.credentials === 'include' && indexPrivate) {
-      return Promise.resolve({
-        ok: indexPrivate.ok,
-        json: indexPrivate.response,
-      });
+      return respond(indexPrivate);
     }
     if (l.includes('index') && o.credentials === 'omit' && indexPublic) {
-      return Promise.resolve({
-        ok: indexPublic.ok,
-        json: indexPublic.response,
-      });
+      return respond(indexPublic);
     }
     if (l.includes('stories') && o.credentials === 'include' && storiesPrivate) {
-      return Promise.resolve({
-        ok: storiesPrivate.ok,
-        json: storiesPrivate.response,
-      });
+      return respond(storiesPrivate);
     }
     if (l.includes('stories') && o.credentials === 'omit' && storiesPublic) {
-      return Promise.resolve({
-        ok: storiesPublic.ok,
-        json: storiesPublic.response,
-      });
+      return respond(storiesPublic);
     }
     if (l.includes('iframe') && iframe) {
-      return Promise.resolve({
-        ok: iframe.ok,
-        json: iframe.response,
-      });
+      return respond(iframe);
     }
     if (l.includes('metadata') && metadata) {
-      return Promise.resolve({
-        ok: metadata.ok,
-        json: metadata.response,
-      });
+      return respond(metadata);
     }
     throw new Error(`Called URL ${l} without setting up mock`);
   });
@@ -138,9 +152,9 @@ describe('Refs API', () => {
   describe('checkRef', () => {
     it('on initialization it checks refs', async () => {
       // given
-      initRefs({ provider, store });
+      initRefs({ provider, store } as any);
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -174,9 +188,9 @@ describe('Refs API', () => {
           version: '2.1.3-rc.2',
         },
       };
-      initRefs({ provider, store });
+      initRefs({ provider, store } as any);
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json?version=2.1.3-rc.2",
@@ -202,7 +216,7 @@ describe('Refs API', () => {
 
     it('checks refs (all fail)', async () => {
       // given
-      const { api } = initRefs({ provider, store }, { runCheck: false });
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPrivate: {
@@ -225,7 +239,7 @@ describe('Refs API', () => {
         title: 'Fake',
       });
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -274,9 +288,223 @@ describe('Refs API', () => {
       `);
     });
 
+    it('checks refs (all throw)', async () => {
+      // given
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
+
+      setupResponses({
+        indexPrivate: {
+          err: new Error('TypeError: Failed to fetch'),
+        },
+        storiesPrivate: {
+          err: new Error('TypeError: Failed to fetch'),
+        },
+      });
+
+      await api.checkRef({
+        id: 'fake',
+        url: 'https://example.com',
+        title: 'Fake',
+      });
+
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
+        Array [
+          Array [
+            "https://example.com/index.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/stories.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+        ]
+      `);
+
+      expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
+        Object {
+          "refs": Object {
+            "fake": Object {
+              "id": "fake",
+              "index": undefined,
+              "indexError": Object {
+                "message": "Error: Loading of ref failed
+          at fetch (lib/api/src/modules/refs.ts)
+
+        URL: https://example.com
+
+        We weren't able to load the above URL,
+        it's possible a CORS error happened.
+
+        Please check your dev-tools network tab.",
+              },
+              "title": "Fake",
+              "type": "auto-inject",
+              "url": "https://example.com",
+            },
+          },
+        }
+      `);
+    });
+
+    it('checks refs (index throws)', async () => {
+      // given
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
+
+      setupResponses({
+        indexPrivate: {
+          err: new Error('TypeError: Failed to fetch'),
+        },
+        storiesPrivate: {
+          ok: true,
+          response: async () => ({ v: 3, stories: {} }),
+        },
+        metadata: {
+          ok: true,
+          response: async () => ({
+            versions: {},
+          }),
+        },
+      });
+
+      await api.checkRef({
+        id: 'fake',
+        url: 'https://example.com',
+        title: 'Fake',
+      });
+
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
+        Array [
+          Array [
+            "https://example.com/index.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/stories.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/metadata.json",
+            Object {
+              "cache": "no-cache",
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+        ]
+      `);
+    });
+
+    it('checks refs (metadata throws)', async () => {
+      // given
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
+
+      setupResponses({
+        indexPrivate: {
+          ok: true,
+          response: async () => ({ v: 4, entries: {} }),
+        },
+        storiesPrivate: {
+          ok: true,
+          response: async () => ({ v: 3, stories: {} }),
+        },
+        metadata: {
+          err: new Error('TypeError: Failed to fetch'),
+        },
+      });
+
+      await api.checkRef({
+        id: 'fake',
+        url: 'https://example.com',
+        title: 'Fake',
+      });
+
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
+        Array [
+          Array [
+            "https://example.com/index.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/stories.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/metadata.json",
+            Object {
+              "cache": "no-cache",
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+        ]
+      `);
+
+      expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
+        Object {
+          "refs": Object {
+            "fake": Object {
+              "id": "fake",
+              "index": Object {},
+              "title": "Fake",
+              "type": "lazy",
+              "url": "https://example.com",
+            },
+          },
+        }
+      `);
+
+      expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
+        Object {
+          "refs": Object {
+            "fake": Object {
+              "id": "fake",
+              "index": Object {},
+              "title": "Fake",
+              "type": "lazy",
+              "url": "https://example.com",
+            },
+          },
+        }
+      `);
+    });
+
     it('checks refs (success)', async () => {
       // given
-      const { api } = initRefs({ provider, store }, { runCheck: false });
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPrivate: {
@@ -301,7 +529,7 @@ describe('Refs API', () => {
         title: 'Fake',
       });
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -352,7 +580,7 @@ describe('Refs API', () => {
 
     it('checks refs (not replace versions)', async () => {
       // given
-      const { api } = initRefs({ provider, store }, { runCheck: false });
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPrivate: {
@@ -378,7 +606,7 @@ describe('Refs API', () => {
         versions: { a: 'http://example.com/a', b: 'http://example.com/b' },
       });
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -432,7 +660,7 @@ describe('Refs API', () => {
 
     it('checks refs (auth)', async () => {
       // given
-      const { api } = initRefs({ provider, store }, { runCheck: false });
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPrivate: {
@@ -455,7 +683,7 @@ describe('Refs API', () => {
         title: 'Fake',
       });
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -506,7 +734,7 @@ describe('Refs API', () => {
 
     it('checks refs (basic-auth)', async () => {
       // given
-      const { api } = initRefs({ provider, store }, { runCheck: false });
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPrivate: {
@@ -529,7 +757,7 @@ describe('Refs API', () => {
         title: 'Fake',
       });
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -568,9 +796,9 @@ describe('Refs API', () => {
 
     it('checks refs (mixed)', async () => {
       // given
-      const { api } = initRefs({ provider, store }, { runCheck: false });
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
-      fetch.mockClear();
+      fetchMock.mockClear();
       store.setState.mockClear();
 
       setupResponses({
@@ -596,7 +824,7 @@ describe('Refs API', () => {
         title: 'Fake',
       });
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -651,7 +879,7 @@ describe('Refs API', () => {
 
     it('checks refs (serverside-success)', async () => {
       // given
-      const { api } = initRefs({ provider, store }, { runCheck: false });
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPublic: {
@@ -677,7 +905,7 @@ describe('Refs API', () => {
         type: 'server-checked',
       });
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -728,7 +956,7 @@ describe('Refs API', () => {
 
     it('checks refs (serverside-fail)', async () => {
       // given
-      const { api } = initRefs({ provider, store }, { runCheck: false });
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPrivate: {
@@ -754,7 +982,7 @@ describe('Refs API', () => {
         type: 'unknown',
       });
 
-      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         Array [
           Array [
             "https://example.com/index.json",
@@ -806,7 +1034,7 @@ describe('Refs API', () => {
     describe('v3 compatibility', () => {
       it('infers docs only if there is only one story and it has the name "Page"', async () => {
         // given
-        const { api } = initRefs({ provider, store }, { runCheck: false });
+        const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
         const index = {
           v: 3,
@@ -878,7 +1106,7 @@ describe('Refs API', () => {
       });
 
       it('prefers parameters.docsOnly to inferred docsOnly status', async () => {
-        const { api } = initRefs({ provider, store }, { runCheck: false });
+        const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
         const index = {
           v: 3,
@@ -926,7 +1154,7 @@ describe('Refs API', () => {
 
   it('errors on unknown version', async () => {
     // given
-    const { api } = initRefs({ provider, store }, { runCheck: false });
+    const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
     setupResponses({
       indexPrivate: {

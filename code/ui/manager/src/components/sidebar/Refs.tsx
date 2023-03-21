@@ -136,6 +136,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
     (storyId: string) => api && api.selectStory(storyId, undefined, { ref: !isMain && refId }),
     [api, isMain, refId]
   );
+
   return (
     <>
       {isMain || (

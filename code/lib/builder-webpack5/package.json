@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-webpack5",
-  "version": "7.0.0-rc.4",
+  "version": "7.0.0-rc.5",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -58,25 +58,25 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/addons": "7.0.0-rc.4",
-    "@storybook/api": "7.0.0-rc.4",
-    "@storybook/channel-postmessage": "7.0.0-rc.4",
-    "@storybook/channel-websocket": "7.0.0-rc.4",
-    "@storybook/channels": "7.0.0-rc.4",
-    "@storybook/client-api": "7.0.0-rc.4",
-    "@storybook/client-logger": "7.0.0-rc.4",
-    "@storybook/components": "7.0.0-rc.4",
-    "@storybook/core-common": "7.0.0-rc.4",
-    "@storybook/core-events": "7.0.0-rc.4",
-    "@storybook/core-webpack": "7.0.0-rc.4",
+    "@storybook/addons": "7.0.0-rc.5",
+    "@storybook/api": "7.0.0-rc.5",
+    "@storybook/channel-postmessage": "7.0.0-rc.5",
+    "@storybook/channel-websocket": "7.0.0-rc.5",
+    "@storybook/channels": "7.0.0-rc.5",
+    "@storybook/client-api": "7.0.0-rc.5",
+    "@storybook/client-logger": "7.0.0-rc.5",
+    "@storybook/components": "7.0.0-rc.5",
+    "@storybook/core-common": "7.0.0-rc.5",
+    "@storybook/core-events": "7.0.0-rc.5",
+    "@storybook/core-webpack": "7.0.0-rc.5",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-rc.4",
-    "@storybook/node-logger": "7.0.0-rc.4",
-    "@storybook/preview": "7.0.0-rc.4",
-    "@storybook/preview-api": "7.0.0-rc.4",
-    "@storybook/router": "7.0.0-rc.4",
-    "@storybook/store": "7.0.0-rc.4",
-    "@storybook/theming": "7.0.0-rc.4",
+    "@storybook/manager-api": "7.0.0-rc.5",
+    "@storybook/node-logger": "7.0.0-rc.5",
+    "@storybook/preview": "7.0.0-rc.5",
+    "@storybook/preview-api": "7.0.0-rc.5",
+    "@storybook/router": "7.0.0-rc.5",
+    "@storybook/store": "7.0.0-rc.5",
+    "@storybook/theming": "7.0.0-rc.5",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
     "babel-loader": "^9.0.0",
@@ -131,5 +131,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc"
+  "gitHead": "851e100b53f1c58b6a79ca3bc0a9c295b385264d"
 }

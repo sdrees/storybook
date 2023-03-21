@@ -164,7 +164,8 @@ type ModuleWithoutInit<APIType = unknown, StateType = unknown> = Omit<
 >;
 
 export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
-  m: ModuleArgs
+  m: ModuleArgs,
+  options?: any
 ) => HasInit extends true
   ? ModuleWithInit<APIType, StateType>
   : ModuleWithoutInit<APIType, StateType>;

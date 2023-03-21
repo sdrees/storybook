@@ -1,3 +1,15 @@
+## 7.0.0-rc.5 (March 20, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix IconButton to be in active state when corresponding menu is open [#21622](https://github.com/storybooks/storybook/pull/21622)
+-   Angular:  Fix `sb init` library support [#21675](https://github.com/storybooks/storybook/pull/21675)
+-   CLI: Fix Vue3 template CSS [#21674](https://github.com/storybooks/storybook/pull/21674)
+-   Core: fix storySort not reading from `.mjs` & `.cjs` files [#21637](https://github.com/storybooks/storybook/pull/21637)
+-   Core: Fix cts/mts file extensions for config files [#21465](https://github.com/storybooks/storybook/pull/21465)
+-   Core: Fix conflicting staticDirs case when -s flag is used [#21591](https://github.com/storybooks/storybook/pull/21591)
+-   Angular: Fix source preview for angular stories [#21609](https://github.com/storybooks/storybook/pull/21609)
+
 ## 7.0.0-rc.4 (March 17, 2023)
 
 #### Features

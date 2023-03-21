@@ -344,6 +344,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
       yes: options.yes || process.env.CI === 'true',
       packageManager: pkgMgr,
       fixes: initFixes,
+      configDir: installResult?.configDir,
     });
   }
 
