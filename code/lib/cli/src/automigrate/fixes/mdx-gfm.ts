@@ -1,4 +1,3 @@
-import type { Preset } from '@storybook/types';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
@@ -69,13 +68,9 @@ export const mdxgfm: Fix<Options> = {
       );
 
       await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
-        const addonsToAdd = ['@storybook/addon-mdx-gfm'];
-
-        const existingAddons = main.getFieldValue(['addons']) as Preset[];
-        const updatedAddons = [...existingAddons, ...addonsToAdd];
         logger.info(`✅ Adding "@storybook/addon-mdx-gfm" addon`);
         if (!dryRun) {
-          main.setFieldValue(['addons'], updatedAddons);
+          main.appendValueToArray(['addons'], '@storybook/addon-mdx-gfm');
         }
       });
     }

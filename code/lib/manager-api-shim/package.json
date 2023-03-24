@@ -1,6 +1,6 @@
 {
   "name": "@storybook/api",
-  "version": "7.0.0-rc.5",
+  "version": "7.0.0-rc.7",
   "description": "Storybook Manager API (facade)",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-rc.5",
-    "@storybook/manager-api": "7.0.0-rc.5"
+    "@storybook/client-logger": "7.0.0-rc.7",
+    "@storybook/manager-api": "7.0.0-rc.7"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -66,5 +66,5 @@
     ],
     "shim": "@storybook/manager-api"
   },
-  "gitHead": "851e100b53f1c58b6a79ca3bc0a9c295b385264d"
+  "gitHead": "908868e02f55605ad5ebe4299c2d5432fb41e1b8"
 }

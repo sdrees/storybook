@@ -352,7 +352,8 @@ In CSF 3, we can spread the `Primary` object to carry over all its annotations:
 
 <CodeSnippets
   paths={[
-    'common/csf-3-example-primary-dark-story.js.mdx'
+    'common/csf-3-example-primary-dark-story.js.mdx',
+    'common/csf-3-example-primary-dark-story.ts.mdx',
   ]}
 />
 

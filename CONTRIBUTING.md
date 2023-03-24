@@ -6,10 +6,9 @@
 
 The `yarn start` script will generate a React Vite TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc).
 
-
 # Running against different sandbox templates
 
-You can also pick a specific template to use as your sandbox by running `yarn task`, which will prompt you to make further choices about which template you want and which task you want to run. 
+You can also pick a specific template to use as your sandbox by running `yarn task`, which will prompt you to make further choices about which template you want and which task you want to run.
 
 # Making code changes
 
@@ -30,7 +29,6 @@ yarn build --watch react core-server api addon-docs
 yarn task --task dev --template <your template> --start-from=publish
 ```
 
-
 # Contributing to Storybook
 
-For further advice on how to contribute, please refer to our [NEW contributing guide on the Storybook website](https://storybook.js.org/docs/react/contribute/how-to-contribute).
+For further advice on how to contribute, please refer to our [NEW contributing guide on the Storybook website](https://storybook.js.org/docs/next/react/contribute/how-to-contribute).

@@ -7,11 +7,13 @@ import {
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
 import { Observable, from, of, throwError } from 'rxjs';
-import { CLIOptions } from '@storybook/types';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
+
+import { CLIOptions } from '@storybook/types';
+import { getEnvConfig } from '@storybook/cli';
 
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import {
@@ -58,6 +60,12 @@ function commandBuilder(
       return runCompodoc$.pipe(mapTo({ tsConfig }));
     }),
     map(({ tsConfig }) => {
+      getEnvConfig(options, {
+        staticDir: 'SBCONFIG_STATIC_DIR',
+        outputDir: 'SBCONFIG_OUTPUT_DIR',
+        configDir: 'SBCONFIG_CONFIG_DIR',
+      });
+
       const {
         browserTarget,
         stylePreprocessorOptions,

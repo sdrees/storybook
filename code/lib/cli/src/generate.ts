@@ -216,9 +216,9 @@ command('dev')
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
 
-    // The key is the field created in `program` variable for
+    // The key is the field created in `options` variable for
     // each command line argument. Value is the env variable.
-    getEnvConfig(program, {
+    getEnvConfig(options, {
       port: 'SBCONFIG_PORT',
       host: 'SBCONFIG_HOSTNAME',
       staticDir: 'SBCONFIG_STATIC_DIR',
@@ -226,9 +226,8 @@ command('dev')
       ci: 'CI',
     });
 
-    if (typeof program.port === 'string' && program.port.length > 0) {
-      program.port = parseInt(program.port, 10);
-    }
+    // eslint-disable-next-line no-param-reassign
+    options.port = parseInt(`${options.port}`, 10);
 
     await dev({ ...options, packageJson: pkg }).catch(() => process.exit(1));
   });
@@ -252,9 +251,9 @@ command('build')
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
 
-    // The key is the field created in `program` variable for
+    // The key is the field created in `options` variable for
     // each command line argument. Value is the env variable.
-    getEnvConfig(program, {
+    getEnvConfig(options, {
       staticDir: 'SBCONFIG_STATIC_DIR',
       outputDir: 'SBCONFIG_OUTPUT_DIR',
       configDir: 'SBCONFIG_CONFIG_DIR',

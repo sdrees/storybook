@@ -146,10 +146,12 @@ export const Tabs: FC<TabsProps> = memo(
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
         <FlexBar scrollable={false} border backgroundColor={backgroundColor}>
           <TabBar style={{ whiteSpace: 'normal' }} ref={tabBarRef} role="tablist">
-            {visibleList.map(({ title, id, active, color }) => {
+            {visibleList.map(({ title, id, active, color }, index) => {
+              const indexId = `index-${index}`;
+
               return (
                 <TabButton
-                  id={`tabbutton-${sanitize(title)}`}
+                  id={`tabbutton-${sanitize(id) ?? indexId}`}
                   ref={(ref: HTMLButtonElement) => {
                     tabRefs.current.set(id, ref);
                   }}

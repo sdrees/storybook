@@ -18,7 +18,7 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
       try {
         const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
         enrichCsf(csf, options);
-        return formatCsf(csf);
+        return formatCsf(csf, { sourceMaps: true });
       } catch (err: any) {
         // This can be called on legacy storiesOf files, so just ignore
         // those errors. But warn about other errors.

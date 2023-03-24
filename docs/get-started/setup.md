@@ -4,7 +4,7 @@ title: 'Setup Storybook'
 
 Now that you’ve learned what stories are and how to browse them, let’s demo working on one of your components.
 
-Pick a simple component from your project, like a Button, and write a `.stories.js`, or a `.stories.mdx` file to go along with it. It might look something like this:
+Pick a simple component from your project, like a Button, and write a `.stories.js`, or a `.stories.ts` file to go along with it. It might look something like this:
 
 <!-- prettier-ignore-start -->
 
