@@ -168,7 +168,6 @@ export interface BuilderOptions {
   cache?: FileSystemCache;
   configDir: string;
   docsMode?: boolean;
-  env?: (envs: Record<string, string>) => Record<string, string>;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
   releaseNotesData?: ReleaseNotesData;
@@ -356,6 +355,11 @@ export interface StorybookConfig {
     config: TransformOptions,
     options: Options
   ) => TransformOptions | Promise<TransformOptions>;
+
+  /**
+   * Modify or return env config.
+   */
+  env?: PresetValue<Record<string, string>>;
 
   /**
    * Modify or return babel config.

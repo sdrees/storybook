@@ -2,16 +2,17 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 import { PORT } from './serve';
 
-export const testRunner: Task = {
-  description: 'Run the test runner against a sandbox',
+export const testRunnerBuild: Task & { port: number } = {
+  description: 'Run the test runner against a built sandbox',
   junit: true,
   dependsOn: ['serve'],
+  port: PORT,
   async ready() {
     return false;
   },
   async run({ sandboxDir, junitFilename, template }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
-    const flags = [`--url http://localhost:${PORT}`, '--junit', '--maxWorkers=2'];
+    const flags = [`--url http://localhost:${this.port}`, '--junit', '--maxWorkers=2'];
 
     // index-json mode is only supported in ssv7
     if (template.modifications?.mainConfig?.features?.storyStoreV7 !== false) {

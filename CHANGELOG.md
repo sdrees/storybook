@@ -1,3 +1,16 @@
+## 7.0.0-rc.8 (March 25, 2023)
+
+#### Bug Fixes
+
+-   TypeScript: Fix missing env in StorybookConfig [#21732](https://github.com/storybooks/storybook/pull/21732)
+-   Composition: Fix src of iframe unless the version changes [#21713](https://github.com/storybooks/storybook/pull/21713)
+-   Composition: Fix the ref loading state showing up as empty instead [#21690](https://github.com/storybooks/storybook/pull/21690)
+
+#### Build
+
+-   Build: Add e2e-tests-dev task [#21546](https://github.com/storybooks/storybook/pull/21546)
+-   Build: Fix CI after github.com SSH change [#21764](https://github.com/storybooks/storybook/pull/21764)
+
 ## 7.0.0-rc.7 (March 23, 2023)
 
 #### Bug Fixes

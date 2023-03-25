@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.0.0-rc.7",
+  "version": "7.0.0-rc.8",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -72,16 +72,16 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-rc.7",
-    "@storybook/components": "7.0.0-rc.7",
-    "@storybook/core-common": "7.0.0-rc.7",
-    "@storybook/core-events": "7.0.0-rc.7",
+    "@storybook/client-logger": "7.0.0-rc.8",
+    "@storybook/components": "7.0.0-rc.8",
+    "@storybook/core-common": "7.0.0-rc.8",
+    "@storybook/core-events": "7.0.0-rc.8",
     "@storybook/global": "^5.0.0",
-    "@storybook/instrumenter": "7.0.0-rc.7",
-    "@storybook/manager-api": "7.0.0-rc.7",
-    "@storybook/preview-api": "7.0.0-rc.7",
-    "@storybook/theming": "7.0.0-rc.7",
-    "@storybook/types": "7.0.0-rc.7",
+    "@storybook/instrumenter": "7.0.0-rc.8",
+    "@storybook/manager-api": "7.0.0-rc.8",
+    "@storybook/preview-api": "7.0.0-rc.8",
+    "@storybook/theming": "7.0.0-rc.8",
+    "@storybook/types": "7.0.0-rc.8",
     "jest-mock": "^27.0.6",
     "polished": "^4.2.2",
     "ts-dedent": "^2.2.0"
@@ -118,7 +118,7 @@
     ],
     "platform": "node"
   },
-  "gitHead": "908868e02f55605ad5ebe4299c2d5432fb41e1b8",
+  "gitHead": "42cc9d76db87614261e067f49b0123db30365233",
   "storybook": {
     "displayName": "Interactions",
     "unsupportedFrameworks": [
