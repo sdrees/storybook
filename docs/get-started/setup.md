@@ -107,7 +107,7 @@ If you are using CSS-in-JS, chances are your styles are working because they’r
 <details>
   <summary>@import CSS into components</summary>
 
-Storybook allows you to import CSS files in your components directly. But in some cases you may need to [tweak its Webpack configuration](../builders/webpack.md#extendingstorybooks-webpack-config). Angular components require [a special import](../configure/styling-and-css.md#importing-css-files).
+Storybook allows you to import CSS files in your components directly. But in some cases you may need to [tweak its Webpack configuration](../builders/webpack.md#override-the-default-configuration). Angular components require [a special import](../configure/styling-and-css.md#importing-css-files).
 
 </details>
 

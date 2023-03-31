@@ -1,4 +1,4 @@
-import type { FC, MouseEvent, SyntheticEvent } from 'react';
+import type { FC, MouseEvent, PropsWithChildren, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
 import { Code, components, Icons, nameSpaceClassNames } from '@storybook/components';
@@ -61,7 +61,7 @@ interface AnchorInPageProps {
   hash: string;
 }
 
-const AnchorInPage: FC<AnchorInPageProps> = ({ hash, children }) => {
+const AnchorInPage: FC<PropsWithChildren<AnchorInPageProps>> = ({ hash, children }) => {
   const context = useContext(DocsContext);
 
   return (
@@ -86,7 +86,7 @@ interface AnchorMdxProps {
   target: string;
 }
 
-export const AnchorMdx: FC<AnchorMdxProps> = (props) => {
+export const AnchorMdx: FC<PropsWithChildren<AnchorMdxProps>> = (props) => {
   const { href, target, children, ...rest } = props;
   const context = useContext(DocsContext);
 
@@ -162,10 +162,9 @@ const OcticonAnchor = styled.a(() => ({
 interface HeaderWithOcticonAnchorProps {
   as: string;
   id: string;
-  children: any;
 }
 
-const HeaderWithOcticonAnchor: FC<HeaderWithOcticonAnchorProps> = ({
+const HeaderWithOcticonAnchor: FC<PropsWithChildren<HeaderWithOcticonAnchorProps>> = ({
   as,
   id,
   children,
@@ -203,7 +202,7 @@ interface HeaderMdxProps {
   id: string;
 }
 
-export const HeaderMdx: FC<HeaderMdxProps> = (props) => {
+export const HeaderMdx: FC<PropsWithChildren<HeaderMdxProps>> = (props) => {
   const { as, id, children, ...rest } = props;
 
   // An id should have been added on every header by the "remark-slug" plugin.

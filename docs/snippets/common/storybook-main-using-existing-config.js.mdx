@@ -1,10 +1,15 @@
 ```js
 // .storybook/main.js
 
-// your app's webpack.config.js
-import custom from '../webpack.config.js';
+import custom from '../webpack.config.js'; // 👈 Custom Webpack configuration being imported.
 
 export default {
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+  ],
   webpackFinal: async (config) => {
     return {
       ...config,

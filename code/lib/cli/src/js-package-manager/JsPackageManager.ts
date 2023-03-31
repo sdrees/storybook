@@ -7,6 +7,7 @@ import fs from 'fs';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
+import type { InstallationMetadata } from './types';
 
 const logger = console;
 
@@ -408,6 +409,7 @@ export abstract class JsPackageManager {
   Promise<T extends true ? string[] : string>;
 
   public abstract runPackageCommand(command: string, args: string[], cwd?: string): string;
+  public abstract findInstallations(pattern?: string[]): InstallationMetadata | undefined;
 
   public executeCommand(
     command: string,

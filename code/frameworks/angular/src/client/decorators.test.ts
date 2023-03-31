@@ -1,7 +1,7 @@
 import { Addon_StoryContext } from '@storybook/types';
 
 import { Component } from '@angular/core';
-import { moduleMetadata } from './decorators';
+import { moduleMetadata, applicationConfig } from './decorators';
 import { AngularRenderer } from './types';
 
 const defaultContext: Addon_StoryContext<AngularRenderer> = {
@@ -30,6 +30,65 @@ class MockModuleTwo {}
 class MockService {}
 @Component({})
 class MockComponent {}
+
+describe('applicationConfig', () => {
+  const provider1 = () => {};
+  const provider2 = () => {};
+
+  it('should apply global config', () => {
+    expect(
+      applicationConfig({
+        providers: [provider1] as any,
+      })(() => ({}), defaultContext)
+    ).toEqual({
+      applicationConfig: {
+        providers: [provider1],
+      },
+    });
+  });
+
+  it('should apply story config', () => {
+    expect(
+      applicationConfig({
+        providers: [],
+      })(
+        () => ({
+          applicationConfig: {
+            providers: [provider2] as any,
+          },
+        }),
+        {
+          ...defaultContext,
+        }
+      )
+    ).toEqual({
+      applicationConfig: {
+        providers: [provider2],
+      },
+    });
+  });
+
+  it('should merge global and story config', () => {
+    expect(
+      applicationConfig({
+        providers: [provider1] as any,
+      })(
+        () => ({
+          applicationConfig: {
+            providers: [provider2] as any,
+          },
+        }),
+        {
+          ...defaultContext,
+        }
+      )
+    ).toEqual({
+      applicationConfig: {
+        providers: [provider1, provider2],
+      },
+    });
+  });
+});
 
 describe('moduleMetadata', () => {
   it('should add metadata to a story without it', () => {

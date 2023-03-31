@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-dom-shim",
-  "version": "7.0.0-rc.8",
+  "version": "7.0.0-rc.11",
   "description": "",
   "keywords": [
     "storybook"
@@ -54,7 +54,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "@storybook/types": "7.0.0-rc.8",
+    "@storybook/types": "7.0.0-rc.11",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
@@ -71,5 +71,5 @@
       "./src/react-18.tsx"
     ]
   },
-  "gitHead": "42cc9d76db87614261e067f49b0123db30365233"
+  "gitHead": "908c324acf53fc0f97fbdd1ff14d39a5dde396ff"
 }

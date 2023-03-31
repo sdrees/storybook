@@ -226,8 +226,10 @@ command('dev')
       ci: 'CI',
     });
 
-    // eslint-disable-next-line no-param-reassign
-    options.port = parseInt(`${options.port}`, 10);
+    if (parseInt(`${options.port}`, 10)) {
+      // eslint-disable-next-line no-param-reassign
+      options.port = parseInt(`${options.port}`, 10);
+    }
 
     await dev({ ...options, packageJson: pkg }).catch(() => process.exit(1));
   });

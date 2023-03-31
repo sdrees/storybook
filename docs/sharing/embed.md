@@ -8,7 +8,7 @@ Storybook supports `<iframe>` embeds out of the box. If you use Chromatic to [pu
 
 ## Embed a story with the toolbar
 
-Embed a story with the toolbar, paste the published story URL. For example:
+Embed a story with the toolbar, and paste the published story URL. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -53,19 +53,19 @@ https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=/story/
 
 <iframe src="https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--default&viewMode=story&shortcuts=false&singleStory=true" width="800" height="200"></iframe>
 
-## Embed a docs page
+## Embed documentation
 
-Embed a component's docs page by replacing the viewMode=story with viewMode=docs in the story URL.
+Embed a documentation page by replacing `viewMode=story` with the uniquely auto-generated documentation entry for the story.
 
 <!-- prettier-ignore-start -->
 
 ```js
 // oEmbed
-https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=/story/shadowboxcta--default&viewMode=docs
+https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--docs&viewMode=docs&shortcuts=false&singleStory=true
 
 // iframe embed
  <iframe
-  src="https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--default&viewMode=docs&shortcuts=false&singleStory=true"
+  src="https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--docs&viewMode=docs&shortcuts=false&singleStory=true"
   width="800"
   height="400"
 ></iframe>
@@ -75,7 +75,7 @@ https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=/story/
 
 <br/>
 
-<iframe src="https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--default&viewMode=docs&shortcuts=false&singleStory=true" width="800" height="400"></iframe>
+<iframe src="https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--docs&viewMode=docs&shortcuts=false&singleStory=true" width="800" height="400"></iframe>
 
 ## Embed stories on other platforms
 

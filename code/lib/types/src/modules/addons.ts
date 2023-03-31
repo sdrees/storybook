@@ -271,6 +271,8 @@ export interface Addon_BaseMeta<ComponentType> {
    * }
    *
    * By defining them each component will have its tab in the args table.
+   *
+   * @deprecated
    */
   subcomponents?: Record<string, ComponentType>;
 }

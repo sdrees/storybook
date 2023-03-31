@@ -2,40 +2,11 @@
 title: 'Stories for multiple components'
 ---
 
-It's useful to write stories that [render two or more components](../writing-stories/introduction.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components. Here's an example with `List` and `ListItem` components:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/list-story-with-subcomponents.js.mdx',
-    'react/list-story-with-subcomponents.ts.mdx',
-    'angular/list-story-with-subcomponents.ts.mdx',
-    'vue/list-story-with-sub-components.js.mdx',
-    'vue/list-story-with-sub-components.ts.mdx',
-    'web-components/list-story-with-subcomponents.js.mdx',
-    'web-components/list-story-with-subcomponents.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
-/>
-
-<!-- prettier-ignore-end -->
-
-Note that by adding `subcomponents` to the default export, we get an extra panel on the ArgsTable, listing the props of `ListItem`:
-
-![Storybook story with subcomponent argstable](./argstable-subcomponents.png)
-
-The downside of the approach used above, where each story creates its own combination of components, is that it does not take advantage of Storybook [Args](../writing-stories/args.md) meaning:
-
-1. You cannot change the stories via the controls panel
-2. There is no [args reuse](../writing-stories/introduction.md#using-args) possible, which makes the stories harder to maintain.
-
-Let's talk about some techniques you can use to mitigate the above, which are especially useful in more complicated situations.
+It's useful to write stories that [render two or more components](../writing-stories/introduction.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components.
 
 ## Reusing subcomponent stories
 
-The simplest change we can make to the above is to reuse the stories of the `ListItem` in the `List`:
+The simplest approach we can take is to reuse the stories of the `ListItem` in the `List`:
 
 <!-- prettier-ignore-start -->
 

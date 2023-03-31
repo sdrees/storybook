@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import { addons, types, useChannel } from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import ActionLogger from './containers/ActionLogger';
-import { ADDON_ID, EVENT_ID, PANEL_ID, PARAM_KEY } from './constants';
+import { ADDON_ID, CLEAR_ID, EVENT_ID, PANEL_ID, PARAM_KEY } from './constants';
 
 function Title({ count }: { count: { current: number } }) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const [_, setRerender] = useState(false);
 
-  // Reactivity hack - force re-render on STORY_CHANGED and EVENT_ID events
+  // Reactivity hack - force re-render on STORY_CHANGED, EVENT_ID and CLEAR_ID events
   useChannel({
     [EVENT_ID]: () => {
       setRerender((r) => !r);
     },
     [STORY_CHANGED]: () => {
+      setRerender((r) => !r);
+    },
+    [CLEAR_ID]: () => {
       setRerender((r) => !r);
     },
   });
@@ -31,6 +34,10 @@ addons.register(ADDON_ID, (api) => {
 
   api.on(EVENT_ID, () => {
     countRef.current += 1;
+  });
+
+  api.on(CLEAR_ID, () => {
+    countRef.current = 0;
   });
 
   addons.addPanel(PANEL_ID, {

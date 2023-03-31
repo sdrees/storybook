@@ -40,12 +40,14 @@
   - [7.0 Framework-specific changes](#70-framework-specific-changes)
     - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
     - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
+    - [Angular: Application providers and ModuleWithProviders](#angular-application-providers-and-modulewithproviders)
     - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
     - [Next.js: use the `@storybook/nextjs` framework](#nextjs-use-the-storybooknextjs-framework)
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [Web-components: dropped lit-html v1 support](#web-components-dropped-lit-html-v1-support)
     - [Create React App: dropped CRA4 support](#create-react-app-dropped-cra4-support)
+    - [HTML: No longer auto-dedents source code](#html-no-longer-auto-dedents-source-code)
   - [7.0 Addon authors changes](#70-addon-authors-changes)
     - [register.js removed](#registerjs-removed)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -76,6 +78,7 @@
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
     - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [parameters.docs.source.excludeDecorators defaults to true](#parametersdocssourceexcludedecorators-defaults-to-true)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -926,6 +929,67 @@ Starting in 7.0, we drop support for Angular < 14
 
 In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
 
+#### Angular: Application providers and ModuleWithProviders
+
+In Storybook 7.0 we use the new bootstrapApplication API to bootstrap a standalone component to the DOM. The component is configured in a way to respect your configured imports, declarations and schemas, which you can define via the `moduleMetadata` decorator imported from `@storybook/angular`.
+
+This means also, that there is no root ngModule anymore. Previously you were able to add ModuleWithProviders, likely the result of a 'Module.forRoot()'-style call, to your 'imports' array of the moduleMetadata definition. This is now discouraged. Instead, you should use the `applicationConfig` decorator to add your application-wide providers. These providers will be passed to the bootstrapApplication function.
+
+For example, if you want to configure BrowserAnimationModule in your stories, please extract the necessary providers the following way and provide them via the `applicationConfig` decorator:
+
+```js
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { importProvidersFrom } from '@angular/core';
+import { applicationConfig, Meta, StoryObj } from '@storybook/angular';
+import {ExampleComponent} from './example.component';
+
+const meta: Meta = {
+  title: 'Example',
+  component: ExampleComponent,
+  decorators: [
+    // Define application-wide providers with the applicationConfig decorator
+    applicationConfig({
+      providers: [
+        importProvidersFrom(BrowserAnimationsModule),
+        // Extract all providers (and nested ones) from a ModuleWithProviders
+        importProvidersFrom(SomeOtherModule.forRoot()),
+      ],
+    }
+  ],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof ExampleComponent>
+
+export const Default: Story = {
+  render: () => ({
+    // Define application-wide providers directly in the render function
+    applicationConfig: {
+      providers: [importProvidersFrom(BrowserAnimationsModule)],
+    }
+  }),
+};
+```
+
+You can also use the `provide-style` decorator to provide an application-wide service:
+
+```js
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { moduleMetadata } from '@storybook/angular';
+
+export default {
+  title: 'Example',
+  decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
+  ],
+};
+```
+
+Please visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information.
+
 #### Angular: Removed legacy renderer
 
 The `parameters.angularLegacyRendering` option is removed. You cannot use the old legacy renderer anymore.
@@ -980,6 +1044,12 @@ In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2
 #### Create React App: dropped CRA4 support
 
 Since v7 [drops webpack4 support](#webpack4-support-discontinued), it longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
+
+#### HTML: No longer auto-dedents source code
+
+The `@storybook/html` renderer doesn't dedent the source code when displayed in the "Show Code" source viewer any more.
+
+You can get the same result by setting [the parameter `parameters.docs.source.format = "dedent"`](https://storybook.js.org/docs/7.0/html/api/doc-block-source#format) either on a story level or globally in `preview.js`.
 
 ### 7.0 Addon authors changes
 
@@ -1190,6 +1260,8 @@ Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with
 The source block now references a single story, the component, or a CSF file itself via the `of={}` parameter.
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
+
+The parameter to transform the source has been consolidated from the multiple parameters of `parameters.docs.transformSource`, `parameters.docs.source.transformSource`, and `parameters.jsx.transformSource` to the single `parameters.docs.source.transform`. The behavior is otherwise unchanged.
 
 ##### Canvas block
 
@@ -1415,6 +1487,10 @@ If your story depends on a play function to render correctly, _and_ you are conf
 #### Removed STORYBOOK_REACT_CLASSES global
 
 This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
+
+#### parameters.docs.source.excludeDecorators defaults to true
+
+By default we don't render decorators in the Source/Canvas blocks. If you want to render decorators, you can set the parameter to `false`.
 
 ### 7.0 Deprecations and default changes
 

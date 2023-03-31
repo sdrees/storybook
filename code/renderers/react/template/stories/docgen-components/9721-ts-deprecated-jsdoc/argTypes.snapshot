@@ -38,7 +38,14 @@ Object {
     "name": "width",
     "table": Object {
       "defaultValue": null,
-      "jsDocTags": undefined,
+      "jsDocTags": Object {
+        "deprecated": "Do not use! Use \`size\` instead!
+
+Width of foo",
+        "ignore": false,
+        "params": undefined,
+        "returns": null,
+      },
       "type": Object {
         "detail": undefined,
         "summary": "number",

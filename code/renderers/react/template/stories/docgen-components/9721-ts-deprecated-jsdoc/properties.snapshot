@@ -6,6 +6,14 @@ Object {
     Object {
       "defaultValue": null,
       "description": "",
+      "jsDocTags": Object {
+        "deprecated": "Do not use! Use \`size\` instead!
+
+Width of foo",
+        "ignore": false,
+        "params": undefined,
+        "returns": null,
+      },
       "name": "width",
       "required": true,
       "sbType": Object {

@@ -7,6 +7,8 @@
   - [Setup Compodoc](#setup-compodoc)
     - [Automatic setup](#automatic-setup)
     - [Manual setup](#manual-setup)
+  - [moduleMetadata decorator](#modulemetadata-decorator)
+  - [applicationConfig decorator](#applicationconfig-decorator)
   - [FAQ](#faq)
     - [How do I migrate to a Angular Storybook builder?](#how-do-i-migrate-to-a-angular-storybook-builder)
       - [Do you have only one Angular project in your workspace?](#do-you-have-only-one-angular-project-in-your-workspace)
@@ -163,6 +165,89 @@ const preview: Preview = {
 };
 
 export default preview;
+```
+
+## moduleMetadata decorator
+
+If your component has dependencies on other Angular directives and modules, these can be supplied using the moduleMetadata decorator either for all stories or for individual stories.
+
+```js
+import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
+import { SomeComponent } from './some.component';
+
+export default {
+  component: SomeComponent,
+  decorators: [
+    // Apply metadata to all stories
+    moduleMetadata({
+      // import necessary ngModules or standalone components
+      imports: [...],
+      // declare components that are used in the template
+      declarations: [...],
+      // List of providers that should be available to the root component and all its children.
+      providers: [...],
+    }),
+  ],
+} as Meta;
+
+const Template = (): StoryFn => (args) => ({
+  props: args,
+});
+
+export const Base = Template();
+
+export const WithCustomProvider = Template();
+WithCustomProvider.decorators = [
+  // Apply metadata to a specific story
+  moduleMetadata({
+    imports: [...],
+    declarations: [...],
+    providers: [...]
+  }),
+];
+```
+
+## applicationConfig decorator
+
+If your component relies on application-wide providers, like the ones defined by BrowserAnimationsModule or any other modules which use the forRoot pattern to provide a ModuleWithProviders, you can use the applicationConfig decorator on the meta default export to provide them to the [bootstrapApplication function](https://angular.io/guide/standalone-components#configuring-dependency-injection), which we use to bootstrap the component in Storybook.
+
+```js
+
+import { StoryObj, Meta, applicationConfig } from '@storybook/angular';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { importProvidersFrom } from '@angular/core';
+import { ChipsModule } from './angular-src/chips.module';
+
+const meta: Meta = {
+  component: ChipsGroupComponent,
+  decorators: [
+    // Apply application config to all stories
+    applicationConfig({
+      // List of providers and environment providers that should be available to the root component and all its children.
+      providers: [
+        ...
+        // Import application-wide providers from a module
+        importProvidersFrom(BrowserAnimationsModule)
+        // Or use provide-style functions if available instead, e.g.
+        provideAnimations()
+      ],
+    }),
+  ],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof ChipsGroupComponent>;
+
+export const WithCustomApplicationProvider: Story = {
+  render: () => ({
+    // Apply application config to a specific story
+    applicationConfig: {
+      // The providers will be merged with the ones defined in the applicationConfig decorators providers array of the global meta object
+      providers: [...]
+    }
+  })
+}
 ```
 
 ## FAQ
