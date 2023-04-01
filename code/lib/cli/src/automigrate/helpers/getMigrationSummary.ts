@@ -76,7 +76,10 @@ export function getMigrationSummary({
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `);
 
-  if (installationMetadata) {
+  if (
+    installationMetadata?.duplicatedDependencies &&
+    Object.keys(installationMetadata.duplicatedDependencies).length > 0
+  ) {
     messages.push(getWarnings(installationMetadata).join(messageDivider));
   }
 

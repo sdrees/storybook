@@ -8,6 +8,9 @@
     - [Modern browser support](#modern-browser-support)
     - [React peer dependencies required](#react-peer-dependencies-required)
     - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
+    - [New Addons API](#new-addons-api)
+      - [Specific instructions for addon creators](#specific-instructions-for-addon-creators)
+      - [Specific instructions for addon users](#specific-instructions-for-addon-users)
     - [New Framework API](#new-framework-api)
       - [Available framework packages](#available-framework-packages)
       - [Framework field mandatory](#framework-field-mandatory)
@@ -29,6 +32,7 @@
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
+    - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
@@ -494,6 +498,110 @@ The new CLI commands remove the following flags:
 | -------- | --------------------------------------------------------------------------------------------- |
 | --modern | No migration needed. [All ESM code is modern in SB7](#modern-esm--ie11-support-discontinued). |
 
+#### New Addons API
+
+Storybook 7 adds 2 new packages for addon authors to use: `@storybook/preview-api` and `@storybook/manager-api`.
+These 2 packages replace `@storybook/addons`.
+
+When adding addons to storybook, you can (for example) add panels:
+  
+```js
+import { addons } from '@storybook/manager-api';
+
+addons.addPanel('my-panel', {
+  title: 'My Panel',
+  render: ({ active, key }) => <div>My Panel</div>,
+});
+```
+
+Note that this before would import `addons` from `@storybook/addons`, but now it imports `{ addons }` from `@storybook/manager-api`.
+The `addons` export is now a named export only, there's no default export anymore, so make sure to update this usage.
+
+The package `@storybook/addons` is still available, but it's only for backwards compatibility. It's not recommended to use it anymore.
+
+It's also been used by addon creators to gain access to a few APIs like `makeDecorator`. 
+These APIs are now available in `@storybook/preview-api`.
+
+Storybook users have had access to a few storybook-lifecycle hooks such as `useChannel`, `useParameter`, `useStorybookState`;
+when these hooks are used in panels, they should be imported from `@storybook/manager-api`.
+When these hooks are used in decorators/stories, they should be imported from `@storybook/preview-api`.
+
+Storybook 7 includes `@storybook/addons` shim package that provides the old API and calls the new API under the hood.
+This backwards compatibility will be removed in a future release of storybook.
+
+Here's an example of using the new API:
+The `@storybook/preview-api` is used here, because the `useEffect` hook is used in a decorator.
+
+```js
+import { useEffect, makeDecorator } from '@storybook/preview-api';
+
+export const withMyAddon = makeDecorator({
+  name: 'withMyAddon',
+  parameterName: 'myAddon',
+  wrapper: (getStory) => {
+    useEffect(() => {
+      // do something with the options
+    }, []);
+    return getStory(context);
+  },
+});
+```
+
+##### Specific instructions for addon creators
+
+If you're an addon creator, you'll have to update your addon to use the new APIs.
+
+That means you'll have to release a breaking release of your addon to make it compatible with Storybook 7.
+It should no longer depend on `@storybook/addons`, but instead on `@storybook/preview-api` and/or `@storybook/manager-api`.
+
+You might also depend (and use) these packages in your addon's decorators: `@storybook/store`, `@storybook/preview-web`, `@storybook/core-client`, `@storybook/client-api`; these have all been consolidated into `@storybook/preview-api`.
+So if you use any of these packages, please import what you need from `@storybook/preview-api` instead.
+
+
+Storybook 7 will prepare manager-code for the browser using ESbuild (before it was using a combination of webpack + babel).
+This is a very important change, though it will not affect most addons.
+It means that when creating custom addons, particularly custom addons within the repo in which they are consumed,
+you will need to be aware that this code is not passed though babel, and thus will not use your babel config.
+This can result in errors if you are using experimental JS features in your addon code, not supported yet by ESbuild,
+or using babel dependent features such as Component selectors in Emotion.
+
+ESbuild also places some constraints on things you can import into your addon's manager code: only woff2 files are supported, and not all image file types are supported.
+Here's the list of supported file types:
+https://github.com/storybookjs/storybook/blob/4a37372f649e85e7a0c35b0493da016dbb5dee17/code/lib/builder-manager/src/index.ts#L54-L64
+This is not configurable.
+
+If this is a problem for your addon, you need to pre-compile your addon's manager code to ensure it works.
+
+If you addon also introduces preview code (such a decorators) it will be passed though whatever builder + config the user has configured for their project; this hasn't changed.
+
+In both the preview and manager code it's good to remember [Storybook now targets modern browser only](#modern-browser-support).
+
+The package `@storybook/components` contain a lot of components useful for building addons.
+Some of these addons have been moved to a new package `@storybook/blocks`.
+These components were moved: `ColorControl`, `ColorPalette`, `ArgsTable`, `ArgRow`, `TabbedArgsTable`, `SectionRow`, `Source`, `Code`.
+
+##### Specific instructions for addon users
+
+All of storybook's core addons have been updated and are ready to use with Storybook 7.
+
+We're working with the community to update the most popular addons.
+But if you're using an addon that hasn't been updated yet, it might not work.
+
+It's possible for example for older addons to use APIs that are no longer available in Storybook 7. 
+Your addon might not show upside of the storybook (manager) UI, or storybook might fail to start entirely.
+
+When this happens to you please open an issue on the addon's repo, and ask the addon author to update their addon to be compatible with Storybook 7.
+It's also useful for the storybook team to know which addons are not yet compatible, so please open an issue on the storybook repo as well; particularly if the addon is popular and causes a critical failure.
+
+Here's a list of popular addons that are known not to be compatible with Storybook 7 yet:
+- [ ] [storybook-addon-jsx](https://github.com/storybookjs/addon-jsx)
+- [ ] [storybook-addon-dark-mode](https://github.com/hipstersmoothie/storybook-dark-mode)
+
+Though storybook should de-duplicate storybook packages, storybook CLI's `upgrade` command will warn you when you have multiple storybook-dependencies, because it is a possibility that this causes addons/storybook to not work, so when running into issues, please run this:
+```
+npx sb upgrade
+```
+
 #### New Framework API
 
 _Has automigration_
@@ -502,6 +610,7 @@ Storybook 7 introduces the concept of `frameworks`, which abstracts configuratio
 
 > Note:
 > All of the following changes can be done automatically either via `npx storybook@next upgrade --prerelease` or via the `npx storybook@next automigrate` command. It's highly recommended to use these commands, which will tell you exactly what to do.
+
 
 ##### Available framework packages
 
@@ -862,6 +971,21 @@ Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.ce
 #### Addon-a11y: Removed deprecated withA11y decorator
 
 We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
+
+#### Addon-interactions: Interactions debugger is now default
+
+The interactions debugger in the panel is now displayed by default. The feature flag is now removed.
+
+```js
+// .storybook/main.js
+
+const config = {
+  features: {
+    interactionsDebugger: true, // This should be removed!
+  },
+};
+export default config;
+```
 
 ### 7.0 Vite changes
 

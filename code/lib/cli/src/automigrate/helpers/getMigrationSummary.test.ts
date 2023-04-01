@@ -149,4 +149,24 @@ describe('getMigrationSummary', () => {
       You can find more information for a given dependency by running yarn why <package-name>"
     `);
   });
+
+  test('renders a basic summary if there are no duplicated dependencies or migrations', () => {
+    const summary = getMigrationSummary({
+      fixResults: {},
+      fixSummary: { succeeded: [], failed: {}, manual: [], skipped: [] },
+      installationMetadata: undefined,
+      logFile,
+    });
+
+    expect(summary).toMatchInlineSnapshot(`
+      "No migrations were applicable to your project
+
+      If you'd like to run the migrations again, you can do so by running 'npx storybook@next automigrate'
+
+      The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
+
+      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0
+      And reach out on Discord if you need help: https://discord.gg/storybook"
+    `);
+  });
 });

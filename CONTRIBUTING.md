@@ -2,9 +2,9 @@
 
 - Ensure you have node version 16 installed (suggestion: v16.5).
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
-- Run `yarn start` directory to run a basic test Storybook "sandbox".
+- Run `yarn start` in the root directory to run a basic test Storybook "sandbox".
 
-The `yarn start` script will generate a React Vite TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc).
+The `yarn start` script will generate a React Vite TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc). There is no need to run `yarn` or `yarn install` as `yarn start` will do this for you.
 
 # Running against different sandbox templates
 
