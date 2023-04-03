@@ -31,9 +31,6 @@ jest.mock('@storybook/global', () => ({
         search: '?id=*',
       },
     },
-    FEATURES: {
-      breakingChangesV7: true,
-    },
     DOCS_OPTIONS: {},
   },
 }));

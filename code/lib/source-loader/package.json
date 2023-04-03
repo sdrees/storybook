@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -44,8 +44,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/csf": "next",
-    "@storybook/types": "7.0.0",
+    "@storybook/csf": "^0.1.0",
+    "@storybook/types": "7.0.1",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
     "prettier": "^2.8.0"
@@ -67,5 +67,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "4f2afa644d7f2833181fc03187f5597d442285a6"
+  "gitHead": "2fe0c39167a40d6856f5cbc2ab927b3b65fc384b"
 }

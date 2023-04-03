@@ -86,4 +86,28 @@ export const updateMainConfig = async (
     );
   }
 };
-export type SafeWriteMainConfig = typeof updateMainConfig;
+
+export const getAddonNames = (mainConfig: StorybookConfig): string[] => {
+  const addons = mainConfig.addons || [];
+  const addonList = addons.map((addon) => {
+    let name = '';
+    if (typeof addon === 'string') {
+      name = addon;
+    } else if (typeof addon === 'object') {
+      name = addon.name;
+    }
+
+    if (name.startsWith('.')) {
+      return undefined;
+    }
+
+    return name
+      .replace(/\/dist\/.*/, '')
+      .replace(/\.[mc]?[tj]?s[x]?$/, '')
+      .replace(/\/register$/, '')
+      .replace(/\/manager$/, '')
+      .replace(/\/preset$/, '');
+  });
+
+  return addonList.filter(Boolean);
+};

@@ -1,3 +1,22 @@
+## 7.0.1 (April 3, 2023)
+
+#### Bug Fixes
+
+-   CLI: Always send error events if init doesn't succeed [#21879](https://github.com/storybooks/storybook/pull/21879)
+-   CLI: Warn when community addons are incompatible with Storybook 7 [#21863](https://github.com/storybooks/storybook/pull/21863)
+-   CLI: Fix migration summary message [#21862](https://github.com/storybooks/storybook/pull/21862)
+-   CLI: Fix link to new framework API migrations [#21875](https://github.com/storybooks/storybook/pull/21875)
+
+#### Maintenance
+
+-   Angular: Remove deprecated `component`/`propsMeta` from story [#21807](https://github.com/storybooks/storybook/pull/21807)
+-   Remove deprecated flags and properties [#21852](https://github.com/storybooks/storybook/pull/21852)
+
+#### Dependencies
+
+-   Fix codemod dependency conflict [#21876](https://github.com/storybooks/storybook/pull/21876)
+-   Upgrade satellite repos for 7.0 [#21881](https://github.com/storybooks/storybook/pull/21881)
+
 ## 7.0.0 (March 31, 2023)
 
 Storybook 7.0 is here! 🎉

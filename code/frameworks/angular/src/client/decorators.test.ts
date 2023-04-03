@@ -96,15 +96,12 @@ describe('moduleMetadata', () => {
       imports: [MockModule],
       providers: [MockService],
     })(
-      () => ({
-        component: MockComponent,
-      }),
+      () => ({}),
       // deepscan-disable-next-line
       defaultContext
     );
 
     expect(result).toEqual({
-      component: MockComponent,
       moduleMetadata: {
         declarations: [],
         entryComponents: [],

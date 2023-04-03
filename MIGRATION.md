@@ -42,6 +42,7 @@
     - [Postcss removed](#postcss-removed)
     - [Removed DLL flags](#removed-dll-flags)
   - [7.0 Framework-specific changes](#70-framework-specific-changes)
+    - [Angular: Removed deprecated `component` and `propsMeta` field](#angular-removed-deprecated-component-and-propsmeta-field)
     - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
     - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
     - [Angular: Application providers and ModuleWithProviders](#angular-application-providers-and-modulewithproviders)
@@ -915,6 +916,7 @@ In 7.0 we've removed the following feature flags:
 | ------------------- | ----------------------------------------------------------- |
 | `emotionAlias`      | This flag is no longer needed and should be deleted.        |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted.        |
+| `previewCsfV3`      | This flag is no longer needed and should be deleted.        |
 | `babelModeV7`       | See [Babel mode v7 exclusively](#babel-mode-v7-exclusively) |
 
 #### Story context is prepared before for supporting fine grained updates
@@ -1044,6 +1046,10 @@ Storybook 6.x installed postcss by default. In 7.0 built-in support has been rem
 Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. In 7.0 those options are removed.
 
 ### 7.0 Framework-specific changes
+
+#### Angular: Removed deprecated `component` and `propsMeta` field
+
+The deprecated fields `component` and `propsMeta` on the NgStory type have been removed.
 
 #### Angular: Drop support for Angular < 14
 

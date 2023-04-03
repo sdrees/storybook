@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -68,15 +68,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/blocks": "7.0.0",
-    "@storybook/client-logger": "7.0.0",
-    "@storybook/components": "7.0.0",
-    "@storybook/core-common": "7.0.0",
-    "@storybook/manager-api": "7.0.0",
-    "@storybook/node-logger": "7.0.0",
-    "@storybook/preview-api": "7.0.0",
-    "@storybook/theming": "7.0.0",
-    "@storybook/types": "7.0.0",
+    "@storybook/blocks": "7.0.1",
+    "@storybook/client-logger": "7.0.1",
+    "@storybook/components": "7.0.1",
+    "@storybook/core-common": "7.0.1",
+    "@storybook/manager-api": "7.0.1",
+    "@storybook/node-logger": "7.0.1",
+    "@storybook/preview-api": "7.0.1",
+    "@storybook/theming": "7.0.1",
+    "@storybook/types": "7.0.1",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
@@ -102,7 +102,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "4f2afa644d7f2833181fc03187f5597d442285a6",
+  "gitHead": "2fe0c39167a40d6856f5cbc2ab927b3b65fc384b",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",

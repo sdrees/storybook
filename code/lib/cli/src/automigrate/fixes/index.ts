@@ -17,6 +17,7 @@ import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
 import { missingBabelRc } from './missing-babelrc';
 import { angularBuilders } from './angular-builders';
+import { incompatibleAddons } from './incompatible-addons';
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
 
 export * from '../types';
@@ -32,6 +33,7 @@ export const allFixes: Fix[] = [
   sbBinary,
   sbScripts,
   newFrameworks,
+  incompatibleAddons,
   removedGlobalClientAPIs,
   mdx1to2,
   mdxgfm,
