@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
+import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
 import { install } from './tasks/install';
@@ -33,9 +34,7 @@ import {
 
 import { version } from '../code/package.json';
 
-const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
-const codeDir = resolve(__dirname, '../code');
-const junitDir = resolve(__dirname, '../test-results');
+const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 
 export const extraAddons = ['a11y', 'storysource'];
 
@@ -180,7 +179,7 @@ type PassedOptionValues = Omit<OptionValues<typeof options>, 'task' | 'startFrom
 const logger = console;
 
 function getJunitFilename(taskKey: TaskKey) {
-  return join(junitDir, `${taskKey}.xml`);
+  return join(JUNIT_DIRECTORY, `${taskKey}.xml`);
 }
 
 async function writeJunitXml(
@@ -336,7 +335,7 @@ async function run() {
   const details: TemplateDetails = {
     key: templateKey,
     template,
-    codeDir,
+    codeDir: CODE_DIRECTORY,
     selectedTask: taskKey,
     sandboxDir: templateSandboxDir,
     builtSandboxDir: templateKey && join(templateSandboxDir, 'storybook-static'),

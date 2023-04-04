@@ -21,11 +21,13 @@ import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import type { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
 import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
-
-const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
-const BEFORE_DIR_NAME = 'before-storybook';
-const AFTER_DIR_NAME = 'after-storybook';
-const SCRIPT_TIMEOUT = 5 * 60 * 1000;
+import {
+  BEFORE_DIR_NAME,
+  AFTER_DIR_NAME,
+  SCRIPT_TIMEOUT,
+  REPROS_DIRECTORY,
+  LOCAL_REGISTRY_URL,
+} from '../utils/constants';
 
 const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
@@ -35,7 +37,6 @@ const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env }, debug);
 };
 
-const LOCAL_REGISTRY_URL = 'http://localhost:6001';
 const withLocalRegistry = async (packageManager: JsPackageManager, action: () => Promise<void>) => {
   const prevUrl = packageManager.getRegistryURL();
   let error;
@@ -89,7 +90,7 @@ const addStorybook = async ({
   await rename(tmpDir, afterDir);
 };
 
-export const runCommand = async (script: string, options: ExecaOptions, debug: boolean) => {
+export const runCommand = async (script: string, options: ExecaOptions, debug = false) => {
   if (debug) {
     console.log(`Running command: ${script}`);
   }
@@ -136,7 +137,7 @@ const runGenerators = async (
         const time = process.hrtime();
         console.log(`🧬 generating ${name}`);
 
-        const baseDir = join(OUTPUT_DIRECTORY, dirName);
+        const baseDir = join(REPROS_DIRECTORY, dirName);
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);
         await emptyDir(baseDir);
 
@@ -239,7 +240,7 @@ export const generate = async ({
 
 if (require.main === module) {
   program
-    .description('Create a reproduction from a set of possible templates')
+    .description('Generate sandboxes from a set of possible templates')
     .option('--template <template>', 'Create a single template')
     .option('--debug', 'Print all the logs to the console')
     .option('--local-registry', 'Use local registry', false)

@@ -1,13 +1,9 @@
-name: Generate and push repros to Github
+name: Generate and push sandboxes (main)
 
 on:
   schedule:
     - cron: '2 2 */1 * *'
   workflow_dispatch:
-  # To remove when the branch will be merged
-  push:
-    branches:
-      - vite-frameworks-xyz
 
 jobs:
   generate:
@@ -20,6 +16,8 @@ jobs:
         with:
           node-version: 16
       - uses: actions/checkout@v3
+        with:
+          ref: main
       - name: Setup git user
         run: |
           git config --global user.name "Storybook Bot"
@@ -29,14 +27,14 @@ jobs:
       - name: Compile Storybook libraries
         run: yarn task --task publish --start-from=auto --no-link
       - name: Running local registry
-        run: yarn local-registry --open &
+        run: yarn local-registry --publish --open &
         working-directory: ./code
       - name: Wait for registry
         run: yarn wait-on http://localhost:6001
         working-directory: ./code
-      - name: Generate repros
+      - name: Generate
         run: yarn generate-sandboxes --local-registry
         working-directory: ./code
-      - name: Publish sandboxes to GitHub
-        run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push
+      - name: Publish
+        run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=main
         working-directory: ./code

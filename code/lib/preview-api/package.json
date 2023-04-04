@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-api",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "",
   "keywords": [
     "storybook"
@@ -67,13 +67,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.0.1",
-    "@storybook/channels": "7.0.1",
-    "@storybook/client-logger": "7.0.1",
-    "@storybook/core-events": "7.0.1",
+    "@storybook/channel-postmessage": "7.0.2",
+    "@storybook/channels": "7.0.2",
+    "@storybook/client-logger": "7.0.2",
+    "@storybook/core-events": "7.0.2",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/types": "7.0.1",
+    "@storybook/types": "7.0.2",
     "@types/qs": "^6.9.5",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
@@ -85,7 +85,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^26.6.2",
-    "@storybook/core-common": "7.0.1",
+    "@storybook/core-common": "7.0.2",
     "ansi-to-html": "^0.6.11",
     "react": "^16.14.0",
     "slash": "^5.0.0"
@@ -103,5 +103,5 @@
       "./src/store.ts"
     ]
   },
-  "gitHead": "2fe0c39167a40d6856f5cbc2ab927b3b65fc384b"
+  "gitHead": "96b498debee8b89d0c4050c13172a5a818c9997a"
 }
