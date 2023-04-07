@@ -304,6 +304,11 @@ module.exports = {
           title: 'Addon API',
           type: 'link',
         },
+        {
+          pathSegment: 'addon-migration-guide',
+          title: 'Migrate addons to 7.0',
+          type: 'link',
+        },
       ],
     },
     {

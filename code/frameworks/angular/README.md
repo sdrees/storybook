@@ -27,12 +27,12 @@ So you can develop UI components in isolation without worrying about app specifi
 
 ```sh
 cd my-angular-app
-npx storybook init
+npx storybook@latest init
 ```
 
 ## Setup Storybook for your Angular projects
 
-Storybook supports Angular multi-project workspace. You can setup Storybook for each project in the workspace. When running `npx storybook init` you will be asked for which project Storybook should be set up. Essentially, during initialization, the `.storybook` folder will be created and the `angular.json` will be edited to add the Storybook configuration for the selected project. The configuration looks approximately like this:
+Storybook supports Angular multi-project workspace. You can setup Storybook for each project in the workspace. When running `npx storybook@latest init` you will be asked for which project Storybook should be set up. Essentially, during initialization, the `.storybook` folder will be created and the `angular.json` will be edited to add the Storybook configuration for the selected project. The configuration looks approximately like this:
 
 ```json
 // angular.json

@@ -205,8 +205,6 @@ const baseTemplates = {
   'vue2-vite/2.7-js': {
     name: 'Vue2 Vite (vue 2.7 JS)',
     script: 'npx create-vue@2 {{beforeDir}} --default',
-    // TODO: reenable this once sandbox is available
-    inDevelopment: true,
     expected: {
       framework: '@storybook/vue-vite',
       renderer: '@storybook/vue',
@@ -442,13 +440,13 @@ const internalTemplates = {
       },
     },
   },
-  'internal/pnp': {
-    ...baseTemplates['cra/default-ts'],
-    name: 'PNP (cra/default-ts)',
-    script: 'yarn create react-app . --use-pnp',
-    isInternal: true,
-    inDevelopment: true,
-  },
+  // 'internal/pnp': {
+  //   ...baseTemplates['cra/default-ts'],
+  //   name: 'PNP (cra/default-ts)',
+  //   script: 'yarn create react-app . --use-pnp',
+  //   isInternal: true,
+  //   inDevelopment: true,
+  // },
 } satisfies Record<`internal/${string}`, Template & { isInternal: true }>;
 
 export const allTemplates: Record<TemplateKey, Template> = {

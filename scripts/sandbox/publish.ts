@@ -23,7 +23,7 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
 
   const scriptPath = __dirname;
   const branch = inputBranch || 'next';
-  const templatesData = await getTemplatesData();
+  const templatesData = await getTemplatesData(branch === 'main' ? 'main' : 'next');
 
   logger.log(`👯‍♂️ Cloning the repository ${remote} in branch ${branch}`);
   await execaCommand(`git clone ${remote} .`, { cwd: tmpFolder });
@@ -45,7 +45,7 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   logger.log(`🚚 Moving template files into the repository`);
 
   const templatePath = join(scriptPath, 'templates', 'root.ejs');
-  const templateData = { data: templatesData, version: branch };
+  const templateData = { data: templatesData, version: branch === 'main' ? 'latest' : 'next' };
 
   const output = await renderTemplate(templatePath, templateData);
 

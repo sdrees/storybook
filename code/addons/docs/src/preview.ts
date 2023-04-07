@@ -4,8 +4,5 @@ export const parameters: any = {
       const { DocsRenderer } = (await import('./DocsRenderer')) as any;
       return new DocsRenderer();
     },
-    source: {
-      excludeDecorators: true,
-    },
   },
 };

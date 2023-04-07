@@ -1,3 +1,31 @@
+## 7.1.0-alpha.0 (April 5, 2023)
+
+#### Bug Fixes
+
+-   Angular: Fix components disappearing on docs page on property change [#21944](https://github.com/storybooks/storybook/pull/21944)
+-   React: Don't show decorators in JSX snippets [#21907](https://github.com/storybooks/storybook/pull/21907)
+-   Docs: Include decorators by default in source decorators [#21902](https://github.com/storybooks/storybook/pull/21902)
+-   CLI: Fix npm list command [#21947](https://github.com/storybooks/storybook/pull/21947)
+-   Core: Revert Emotion `:first-child` (etc) workarounds [#21213](https://github.com/storybooks/storybook/pull/21213)
+-   Addon-actions: Fix non-included type file [#21922](https://github.com/storybooks/storybook/pull/21922)
+-   Addon GFM: Fix node-logger dependency [#21938](https://github.com/storybooks/storybook/pull/21938)
+
+#### Build
+
+-   Build: Update trigger circle ci workflow to include main [#21888](https://github.com/storybooks/storybook/pull/21888)
+-   Build: Update dangerfile temporarily to check for patch label [#21945](https://github.com/storybooks/storybook/pull/21945)
+-   Build: Re-enable Vue2 Vite sandbox [#21940](https://github.com/storybooks/storybook/pull/21940)
+-   Build: Fix release badge on repros [#21923](https://github.com/storybooks/storybook/pull/21923)
+-   Build: fix the workflows to generate sandboxes [#21912](https://github.com/storybooks/storybook/pull/21912)
+-   Build: bump the node version in CI [#21917](https://github.com/storybooks/storybook/pull/21917)
+-   Build: no `pnp.cjs` in the root, regen lockfiles [#21908](https://github.com/storybooks/storybook/pull/21908)
+-   Build: remove pnp sandbox template [#21913](https://github.com/storybooks/storybook/pull/21913)
+-   Build: make the CI config ready for 7.0 release [#21808](https://github.com/storybooks/storybook/pull/21808)
+
+#### Dependency Upgrades
+
+-   Update `@emotion/cache` version [#21941](https://github.com/storybooks/storybook/pull/21941)
+
 ## 7.0.2 (April 3, 2023)
 
 Storybook 7.0 is here! 🎉

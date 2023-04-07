@@ -486,7 +486,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
-  const args = data.type === 'story' ? data.args : {};
+  const args = data?.type === 'story' ? data.args : {};
   const updateArgs = useCallback(
     (newArgs: Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
     [data, updateStoryArgs]

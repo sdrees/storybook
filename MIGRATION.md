@@ -35,7 +35,7 @@
     - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -82,8 +82,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
-    - [parameters.docs.source.excludeDecorators defaults to true](#parametersdocssourceexcludedecorators-defaults-to-true)
+    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -297,7 +296,7 @@
 
 ## From version 6.5.x to 7.0.0
 
-A number of these changes can be made automatically by the Storybook CLI. To take advantage of these "automigrations", run `npx storybook@next upgrade --prerelease` or `pnpx storybook@next upgrade --prerelease`.
+A number of these changes can be made automatically by the Storybook CLI. To take advantage of these "automigrations", run `npx storybook@latest upgrade --prerelease` or `pnpx dlx storybook@latest upgrade --prerelease`.
 
 ### 7.0 breaking changes
 
@@ -610,7 +609,7 @@ _Has automigration_
 Storybook 7 introduces the concept of `frameworks`, which abstracts configuration for `renderers` (e.g. React, Vue), `builders` (e.g. Webpack, Vite) and defaults to make integrations easier. This requires quite a few changes, depending on what your project is using. **We recommend you to use the automigrations**, but in case the command fails or you'd like to do the changes manually, here's a guide:
 
 > Note:
-> All of the following changes can be done automatically either via `npx storybook@next upgrade --prerelease` or via the `npx storybook@next automigrate` command. It's highly recommended to use these commands, which will tell you exactly what to do.
+> All of the following changes can be done automatically either via `npx storybook@latest upgrade --prerelease` or via the `npx storybook@latest automigrate` command. It's highly recommended to use these commands, which will tell you exactly what to do.
 
 
 ##### Available framework packages
@@ -1032,7 +1031,7 @@ Storybook now uses [Babel mode v7](#babel-mode-v7) exclusively. In 6.x, Storyboo
 In the new mode, Storybook expects you to provide a configuration file. Depending on the complexity your project, Storybook will fail to run without a babel configuration. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
 
 ```sh
-npx storybook@next babelrc
+npx storybook@latest babelrc
 ```
 
 This command will create a `.babelrc.json` file in your project, containing a few babel plugins which will be installed as dev dependencies.
@@ -1510,7 +1509,7 @@ If you get stuck with the [MDX2 upgrade](#mdx2-upgrade), we also provide opt-in 
 To process your `.stories.mdx` files with MDX1, first install the `@storybook/mdx1-csf` package in your project:
 
 ```
-yarn add -D @storybook/mdx1-csf@next
+yarn add -D @storybook/mdx1-csf@latest
 ```
 
 Then enable the `legacyMdx1` feature flag in your `.storybook/main.js` file:
@@ -1617,10 +1616,6 @@ If your story depends on a play function to render correctly, _and_ you are conf
 #### Removed STORYBOOK_REACT_CLASSES global
 
 This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
-
-#### parameters.docs.source.excludeDecorators defaults to true
-
-By default we don't render decorators in the Source/Canvas blocks. If you want to render decorators, you can set the parameter to `false`.
 
 ### 7.0 Deprecations and default changes
 
@@ -1946,7 +1941,7 @@ You can run the existing suite of automigrations to see which ones apply to your
 
 ```
 
-npx sb@next automigrate
+npx sb@latest automigrate
 
 ```
 
@@ -1958,7 +1953,7 @@ Storybook 6.3 supports CRA5 out of the box when you install it fresh. However, i
 
 ```
 
-npx sb@next automigrate
+npx sb@latest automigrate
 
 ```
 
@@ -2212,7 +2207,7 @@ module.exports = {
 In the new mode, Storybook expects you to provide a configuration file. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
 
 ```sh
-npx sb@next babelrc
+npx sb@latest babelrc
 ```
 
 This will create a `.babelrc.json` file. This file includes a bunch of babel plugins, so you may need to add new package devDependencies accordingly.
@@ -2796,7 +2791,7 @@ Basic.decorators = [ ... ];
 To help you upgrade your stories, we've created a codemod:
 
 ```
-npx @storybook/cli@next migrate csf-hoist-story-annotations --glob="**/*.stories.js"
+npx @storybook/cli@latest migrate csf-hoist-story-annotations --glob="**/*.stories.js"
 ```
 
 For more information, [see the documentation](https://github.com/storybookjs/storybook/blob/next/lib/codemod/README.md#csf-hoist-story-annotations).
@@ -3090,7 +3085,7 @@ We've removed the ability to specify the hierarchy separators (how you control t
 If you are currently using custom separators, we encourage you to migrate to using `/` as the sole separator. If you are using `|` or `.` as a separator currently, we provide a codemod, [`upgrade-hierarchy-separators`](https://github.com/storybookjs/storybook/blob/next/lib/codemod/README.md#upgrade-hierarchy-separators), that can be used to rename your components. **Note: the codemod will not work for `.mdx` components, you will need to make the changes by hand.**
 
 ```
-npx sb@next migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
+npx sb@latest migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
 ```
 
 We also now default to showing "roots", which are non-expandable groupings in the sidebar for the top-level groups. If you'd like to disable this, set the `showRoots` option in `.storybook/manager.js`:
@@ -4210,7 +4205,7 @@ Storybook now uses Babel 7. There's a couple of cases when it can break with you
 - If you aren't using Babel yourself, and don't have .babelrc, install following dependencies:
 
   ```
-  npm i -D @babel/core babel-loader@next
+  npm i -D @babel/core babel-loader@latest
   ```
 
 - If you're using Babel 6, make sure that you have direct dependencies on `babel-core@6` and `babel-loader@7` and that you have a `.babelrc` in your project directory.

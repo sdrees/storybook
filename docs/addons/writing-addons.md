@@ -66,7 +66,7 @@ We'll need to add the necessary dependencies and make some adjustments. Run the 
 Initialize a local Storybook instance to allow you to test your addon.
 
 ```shell
-npx storybook init
+npx storybook@latest init
 ```
 
 <div class="aside">

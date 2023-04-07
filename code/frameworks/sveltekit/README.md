@@ -52,7 +52,7 @@ This is just the beginning. We're close to adding basic support for many of the 
 Run the following command in your SvelteKit project's root directory, and follow the prompts:
 
 ```bash
-npx storybook@next init
+npx storybook@latest init
 ```
 
 [More on getting started with Storybook](https://storybook.js.org/docs/svelte/get-started/install)
@@ -62,7 +62,7 @@ npx storybook@next init
 This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
 
 ```bash
-npx storybook@next upgrade --prerelease
+npx storybook@latest upgrade --prerelease
 ```
 
 #### Automatic migration
@@ -76,7 +76,7 @@ Storybook 7.0 automatically loads your Vite config, and by extension your Svelte
 Install the framework:
 
 ```bash
-yarn add -D @storybook/sveltekit@next
+yarn add -D @storybook/sveltekit
 ```
 
 Update your `main.js` to change the framework property:

@@ -31,12 +31,6 @@ If you're upgrading from a previous Storybook version, you'll need to run the fo
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
-
 Update your Storybook configuration (in [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)) to include the Essentials addon.
 
 <!-- prettier-ignore-start -->
@@ -67,12 +61,6 @@ If you need to reconfigure any of the [individual Essentials addons](https://sto
 />
 
 <!-- prettier-ignore-end -->
-
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
 
 <!-- prettier-ignore-start -->
 

@@ -51,11 +51,11 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 
 Additionally, you can also provide additional feature flags to your Storybook configuration. Below is an abridged list of available features that are currently available.
 
-| Configuration element | Description                                                                                                                                                            |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up <br/> `features: { storyStoreV7: true }`                        |
-| `buildStoriesJson`    | Generates a `stories.json` file to help story loading with the on-demand mode <br/> `features: { buildStoriesJson: true }`                                             |
-| `legacyMdx1`          | Enables support for MDX version 1 as a fallback. Requires [`@storybook/mdx1-csf@next`](https://github.com/storybookjs/mdx1-csf) <br/> `features: { legacyMdx1: true }` |
+| Configuration element | Description                                                                                                                                                       |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up <br/> `features: { storyStoreV7: true }`                   |
+| `buildStoriesJson`    | Generates a `stories.json` file to help story loading with the on-demand mode <br/> `features: { buildStoriesJson: true }`                                        |
+| `legacyMdx1`          | Enables support for MDX version 1 as a fallback. Requires [`@storybook/mdx1-csf`](https://github.com/storybookjs/mdx1-csf) <br/> `features: { legacyMdx1: true }` |
 
 ## Configure story loading
 

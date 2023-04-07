@@ -25,9 +25,12 @@ jobs:
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
       - name: Compile Storybook libraries
-        run: yarn task --task publish --start-from=auto --no-link
+        run: yarn task --task compile --start-from=auto --no-link
+      - name: Publishing to local registry
+        run: yarn local-registry --publish
+        working-directory: ./code
       - name: Running local registry
-        run: yarn local-registry --publish --open &
+        run: yarn local-registry --open &
         working-directory: ./code
       - name: Wait for registry
         run: yarn wait-on http://localhost:6001

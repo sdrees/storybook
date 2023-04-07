@@ -1,4 +1,5 @@
 import sort from 'semver/functions/sort';
+import { platform } from 'os';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -51,7 +52,8 @@ export class NPMProxy extends JsPackageManager {
   }
 
   public findInstallations() {
-    const commandResult = this.executeCommand('npm', ['ls', '--json', '--depth=99']);
+    const pipeToNull = platform() === 'win32' ? '2>NUL' : '2>/dev/null';
+    const commandResult = this.executeCommand('npm', ['ls', '--json', '--depth=99', pipeToNull]);
 
     try {
       const parsedOutput = JSON.parse(commandResult);
