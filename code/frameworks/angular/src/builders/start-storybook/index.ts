@@ -13,8 +13,8 @@ import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { CLIOptions } from '@storybook/types';
-import { getEnvConfig } from '@storybook/cli';
-
+import { getEnvConfig, versions } from '@storybook/cli';
+import { addToGlobalContext } from '@storybook/telemetry';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import {
   AssetPattern,
@@ -23,6 +23,8 @@ import {
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { printErrorDetails, errorSummary } from '../utils/error-handler';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;

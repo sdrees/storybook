@@ -2,7 +2,7 @@
 title: Doc blocks
 ---
 
-Storybook offers a number of doc blocks to help document your components and other aspects of your project.
+Storybook offers several doc blocks to help document your components and other aspects of your project.
 
 There are two common ways to use doc blocks in Storybook, within MDX and as part of the docs page template.
 
@@ -35,11 +35,11 @@ A button is ...
 
 ### Primary
 
-Button can be of primary importance
+A button can be of primary importance.
 
 <Story of={ButtonStories.Primary} />
 
-Button can be of secondary importance
+A button can be of secondary importance.
 
 <Story of={ButtonStories.Secondary} />
 
@@ -68,7 +68,7 @@ export const autoDocsTemplate = () => (
 );
 ```
 
-If you [override the default page template](./autodocs.md#write-a-custom-template), you can use doc blocks in a similar manner to build the perfect docs page for your project.
+If you [override the default page template](./autodocs.md#write-a-custom-template), you can similarly use Doc Blocks to build the perfect documentation page for your project.
 
 Note that some doc blocks render other blocks. For example, the `<Stories />` block expands to:
 
@@ -107,11 +107,11 @@ For example, you can filter out the `style` prop from all [`Controls`](../api/do
 
 <div class="aside">
 
-ℹ️ Parameters can also be defined at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or the [story](../writing-stories/parameters.md#story-parameters) level, allowing you to customize doc blocks exactly as you need, where you need.
+ℹ️ Parameters can also be defined at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or the [story](../writing-stories/parameters.md#story-parameters) level, allowing you to customize Doc Blocks exactly as you need, where you need.
 
 </div>
 
-The blocks that accept customization via parameters are marked in the list of available blocks, below.
+The blocks that accept customization via parameters are marked in the list of available blocks below.
 
 When using a doc block in MDX, it can also be customized with its props:
 
@@ -123,7 +123,7 @@ When using a doc block in MDX, it can also be customized with its props:
 
 ## Available blocks
 
-Each block has a dedicated API reference page, detailing usage, available options, and technical details.
+Each block has a dedicated API reference page detailing usage, available options, and technical details.
 
 ### [ArgTypes](../api/doc-block-argtypes.md)
 
@@ -133,7 +133,7 @@ Accepts parameters in the namespace `parameters.docs.argTypes`.
 
 </div>
 
-The `ArgTypes` block can be used to show a static table of [arg types](../api/argtypes.md) for a given component, as a way to document its interface.
+The `ArgTypes` block can be used to show a static table of [arg types](../api/argtypes.md) for a given component as a way to document its interface.
 
 ![Screenshot of ArgTypes block](../api/doc-block-argtypes.png)
 
@@ -145,7 +145,7 @@ Accepts parameters in the namespace `parameters.docs.canvas`.
 
 </div>
 
-The `Canvas` block is a wrapper around a [`Story`](../api/doc-block-story.md), featuring a toolbar that allows you to interact with its content while automatically providing the required [`Source`](../api/doc-block-source.md) snippets.
+The `Canvas` block is a wrapper around a [`Story`](../api/doc-block-story.md), featuring a toolbar that allows you to interact with its content while automatically providing the required [`Source`](../api/doc-block-source.md) snippets.
 
 ![Screenshot of Canvas block](../api/doc-block-canvas.png)
 
@@ -169,32 +169,32 @@ The `Controls` block can be used to show a dynamic table of args for a given sto
 
 ### [Description](../api/doc-block-description.md)
 
-The `Description` block displays the description for a component, story, or meta, obtained from their respective JSDoc comments.
+The `Description` block displays the description for a component, story, or meta obtained from their respective JSDoc comments.
 
 ![Screenshot of Description block](../api/doc-block-title-subtitle-description.png)
 
 ### [IconGallery](../api/doc-block-icongallery.md)
 
-The `IconGallery` block enables you to easily document all icons associated with your project, displayed in a neat grid.
+The `IconGallery` block lets you quickly document all icons associated with your project, displayed in a neat grid.
 
 ![Screenshot of IconGallery and IconItem blocks](../api/doc-block-icongallery.png)
 
 ### [Markdown](../api/doc-block-markdown.md)
 
-The `Markdown` block allows you to import and include plain markdown in your MDX files.
+The `Markdown` block allows you to import and include plain markdown in your MDX files.
 
 ![Screenshot of Markdown block](../api/doc-block-markdown.png)
 
 ### [Meta](../api/doc-block-meta.md)
 
-The `Meta` block is used to [attach](#attached-vs-unattached) a custom MDX docs page alongside a component’s list of stories. It doesn’t render any content, but serves two purposes in an MDX file:
+The `Meta` block is used to [attach](#attached-vs-unattached) a custom MDX docs page alongside a component’s list of stories. It doesn’t render any content but serves two purposes in an MDX file:
 
 - Attaches the MDX file to a component and its stories, or
 - Controls the location of the unattached docs entry in the sidebar.
 
 ### [Primary](../api/doc-block-primary.md)
 
-The `Primary` block displays the primary (first defined in the stories file) story, in a [`Story`](../api/doc-block-story.md) block. It is typically rendered immediately under the title in a docs entry.
+The `Primary` block displays the primary (first defined in the stories file) story in a [`Story`](../api/doc-block-story.md) block. It is typically rendered immediately under the title in a docs entry.
 
 ![Screenshot of Primary block](../api/doc-block-primary.png)
 
@@ -250,15 +250,31 @@ The `Typeset` block helps document the fonts used throughout your project.
 
 ### [Unstyled](../api/doc-block-unstyled.md)
 
-The `Unstyled` block is a special block that disables Storybook's default styling in MDX docs wherever it is added.
+The `Unstyled` block is a unique block that disables Storybook's default styling in MDX docs wherever it is added.
 
-By default, most elements (like `h1`, `p`, etc.) in docs have a few default styles applied to ensure the docs look good. However, sometimes you might want some of your content to not have these styles applied. In those cases, wrap the content with the `Unstyled` block to remove the default styles.
+By default, most elements (like `h1`, `p`, etc.) in docs have a few default styles applied to ensure the docs look good. However, sometimes you might want some of your content not to have these styles applied. In those cases, wrap the content with the `Unstyled` block to remove the default styles.
 
 ![Screenshot of Unstyled block](../api/doc-block-unstyled.png)
 
-## Make your own doc blocks
+## Make your own Doc Blocks
 
-Storybook also provides a [`useOf` hook](../api/doc-block-useof.md) to make it easier to create your own blocks that function in the same manner as the built-in blocks.
+Storybook also provides a [`useOf` hook](../api/doc-block-useof.md) to make it easier to create your own blocks that function like the built-in blocks.
+
+## Troubleshooting
+
+### Why can't I use the Doc Blocks inside my stories?
+
+Storybook's Doc Blocks are highly customizable and helpful building blocks to assist you with building your custom documentation. Although most of them enable you to customize them with parameters or globally to create custom [documentation templates](#customizing-the-automatic-docs-page), they are primarily designed for MDX files. For example, if you try to add the `ColorPalette` block to your stories as follows, you'll get an error message when the story loads in Storybook.
+
+<!-- prettier-ignore-start -->
+<CodeSnippets
+  paths={[
+    'common/storybook-canvas-doc-block-story.js.mdx',
+    'common/storybook-canvas-doc-block-story.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 #### Learn more about Storybook documentation
 

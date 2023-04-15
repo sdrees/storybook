@@ -105,7 +105,7 @@ To define a decorator for a single story, use the `decorators` key on a named ex
 
 <!-- prettier-ignore-end -->
 
-It is useful to ensure that the story remains a “pure” rendering of the component under test, and any extra HTML or components don't pollute that. In particular the [Source](../api/doc-block-source.md) doc block works best when you do this.
+It is useful to ensure that the story remains a “pure” rendering of the component under test and that any extra HTML or components are used only as decorators. In particular the [Source](../api/doc-block-source.md) Doc Block works best when you do this.
 
 ## Component decorators
 

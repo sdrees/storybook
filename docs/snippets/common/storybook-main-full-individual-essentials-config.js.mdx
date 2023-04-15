@@ -10,9 +10,13 @@ export default {
     {
       name: '@storybook/addon-docs',
       options: {
-        configureJSX: true,
-        babelOptions: {},
-        transcludeMarkdown: true,
+        csfPluginOptions: null,
+        jsxOptions: {},
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [],
+          },
+        },
       },
     },
     '@storybook/addon-controls',

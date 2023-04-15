@@ -1,6 +1,6 @@
 {
   "name": "@storybook/docs-tools",
-  "version": "7.1.0-alpha.0",
+  "version": "7.1.0-alpha.4",
   "description": "Shared utility functions for frameworks to implement docs",
   "keywords": [
     "storybook"
@@ -44,9 +44,9 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/core-common": "7.1.0-alpha.0",
-    "@storybook/preview-api": "7.1.0-alpha.0",
-    "@storybook/types": "7.1.0-alpha.0",
+    "@storybook/core-common": "7.1.0-alpha.4",
+    "@storybook/preview-api": "7.1.0-alpha.4",
+    "@storybook/types": "7.1.0-alpha.4",
     "@types/doctrine": "^0.0.3",
     "doctrine": "^3.0.0",
     "lodash": "^4.17.21"
@@ -64,5 +64,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "18dcfa6073157150da60c328f6f64abd477ddcad"
 }

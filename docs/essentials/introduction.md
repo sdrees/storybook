@@ -15,9 +15,9 @@ A major strength of Storybook are [addons](https://storybook.js.org/addons) that
 
 ### Installation
 
-If you ran `storybook init` to include Storybook in your project, the Essentials addon ([`@storybook/addon-essentials`](https://storybook.js.org/addons/tag/essentials)) is already installed and configured for you. You can skip the rest of this section.
+If you ran `npx storybook@latest init` to include Storybook in your project, the latest version of the Essentials addon ([`@storybook/addon-essentials`](https://storybook.js.org/addons/tag/essentials)) is already installed and configured for you. You can go ahead and skip the rest of this section.
 
-If you're upgrading from a previous Storybook version, you'll need to run the following command in your terminal:
+However, if you intend to install the Essentials addon manually into an existing Storybook instance, you can do so by running the following command in your terminal:
 
 <!-- prettier-ignore-start -->
 
@@ -31,7 +31,7 @@ If you're upgrading from a previous Storybook version, you'll need to run the fo
 
 <!-- prettier-ignore-end -->
 
-Update your Storybook configuration (in [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)) to include the Essentials addon.
+Update your Storybook configuration (in [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering)) to include the Essentials addon.
 
 <!-- prettier-ignore-start -->
 
@@ -48,7 +48,7 @@ Update your Storybook configuration (in [`.storybook/main.js`](../configure/over
 
 Essentials is "zero-config”. It comes with a recommended configuration out of the box.
 
-If you need to reconfigure any of the [individual Essentials addons](https://storybook.js.org/addons/tag/essentials), install them manually by following the installation instructions, register them in your Storybook configuration file (i.e., [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)) and adjust the configuration to suit your needs. For example:
+If you need to reconfigure any of the [individual Essentials addons](https://storybook.js.org/addons/tag/essentials), install them manually by following the installation instructions, and depending on the method of choice, register them in your Storybook configuration file (i.e., [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering)) and adjust the configuration to suit your needs. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -86,18 +86,17 @@ Below is an abridged configuration and table with all the available options for 
 
 <!-- prettier-ignore-end -->
 
-| Addon                          | Configuration element | Description                                                                                                                                      |
-| ------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `@storybook/addon-actions`     | N/A                   | N/A                                                                                                                                              |
-| `@storybook/addon-viewport`    | N/A                   | N/A                                                                                                                                              |
-| `@storybook/addon-docs`        | `configureJSX`        | Enables JSX support in MDX for projects that aren't configured to handle the format. <br/> `configureJSX: true`                                  |
-|                                | `babelOptions`        | Provides additional Babel configurations for file transpilation. <br/> `babelOptions: { plugins: [], presets: []}` <br/> Extends `configureJSX`. |
-|                                | `csfPluginOptions`    | Provides additional configuration for Storybook's CSF plugin. Can be disabled with `null`                                                        |
-|                                | `mdxPluginOptions`    | Provides additional configuration for Storybook's MDX plugin.                                                                                    |
-| `@storybook/addon-controls`    | N/A                   | N/A                                                                                                                                              |
-| `@storybook/addon-backgrounds` | N/A                   | N/A                                                                                                                                              |
-| `@storybook/addon-toolbars`    | N/A                   | N/A                                                                                                                                              |
-| `@storybook/addon-measure`     | N/A                   | N/A                                                                                                                                              |
+| Addon                          | Option             | Description                                                                                                                                              |
+| ------------------------------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@storybook/addon-actions`     | N/A                | N/A                                                                                                                                                      |
+| `@storybook/addon-viewport`    | N/A                | N/A                                                                                                                                                      |
+| `@storybook/addon-docs`        | `csfPluginOptions` | Provides additional configuration for Storybook's CSF plugin. Can be disabled with `null`.                                                               |
+|                                | `jsxOptions`       | Extends the default Babel configuration options for processing Markdown and MDX files.                                                                   |
+|                                | `mdxPluginOptions` | Provides additional configuration options and plugin configuration for [MDX documentation](../writing-docs/mdx.md#lack-of-github-flavored-markdown-gfm). |
+| `@storybook/addon-controls`    | N/A                | N/A                                                                                                                                                      |
+| `@storybook/addon-backgrounds` | N/A                | N/A                                                                                                                                                      |
+| `@storybook/addon-toolbars`    | N/A                | N/A                                                                                                                                                      |
+| `@storybook/addon-measure`     | N/A                | N/A                                                                                                                                                      |
 
 When you start Storybook, your custom configuration will override the default.
 

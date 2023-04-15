@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-vite",
-  "version": "7.1.0-alpha.0",
+  "version": "7.1.0-alpha.4",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
   "bugs": {
@@ -42,16 +42,16 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.1.0-alpha.0",
-    "@storybook/channel-websocket": "7.1.0-alpha.0",
-    "@storybook/client-logger": "7.1.0-alpha.0",
-    "@storybook/core-common": "7.1.0-alpha.0",
-    "@storybook/csf-plugin": "7.1.0-alpha.0",
+    "@storybook/channel-postmessage": "7.1.0-alpha.4",
+    "@storybook/channel-websocket": "7.1.0-alpha.4",
+    "@storybook/client-logger": "7.1.0-alpha.4",
+    "@storybook/core-common": "7.1.0-alpha.4",
+    "@storybook/csf-plugin": "7.1.0-alpha.4",
     "@storybook/mdx2-csf": "^1.0.0",
-    "@storybook/node-logger": "7.1.0-alpha.0",
-    "@storybook/preview": "7.1.0-alpha.0",
-    "@storybook/preview-api": "7.1.0-alpha.0",
-    "@storybook/types": "7.1.0-alpha.0",
+    "@storybook/node-logger": "7.1.0-alpha.4",
+    "@storybook/preview": "7.1.0-alpha.4",
+    "@storybook/preview-api": "7.1.0-alpha.4",
+    "@storybook/types": "7.1.0-alpha.4",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
     "express": "^4.17.3",
@@ -64,7 +64,6 @@
     "rollup": "^2.25.0 || ^3.3.0"
   },
   "devDependencies": {
-    "@storybook/mdx1-csf": ">=1.0.0-next.1",
     "@types/express": "^4.17.13",
     "@types/node": "^16.0.0",
     "rollup": "^3.20.1",
@@ -74,16 +73,12 @@
   },
   "peerDependencies": {
     "@preact/preset-vite": "*",
-    "@storybook/mdx1-csf": ">=1.0.0-next.1",
     "typescript": ">= 4.3.x",
     "vite": "^3.0.0 || ^4.0.0",
     "vite-plugin-glimmerx": "*"
   },
   "peerDependenciesMeta": {
     "@preact/preset-vite": {
-      "optional": true
-    },
-    "@storybook/mdx1-csf": {
       "optional": true
     },
     "typescript": {
@@ -100,7 +95,10 @@
     "entries": [
       "./src/index.ts"
     ],
+    "externals": [
+      "@storybook/mdx1-csf"
+    ],
     "platform": "node"
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "18dcfa6073157150da60c328f6f64abd477ddcad"
 }

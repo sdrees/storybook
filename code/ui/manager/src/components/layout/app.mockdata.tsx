@@ -34,6 +34,7 @@ export const shortcuts: State['shortcuts'] = {
   escape: ['escape'],
   collapseAll: ['ctrl', 'shift', 'ArrowUp'],
   expandAll: ['ctrl', 'shift', 'ArrowDown'],
+  remount: ['alt', 'R'],
 };
 
 export const panels: Addon_Collection = {

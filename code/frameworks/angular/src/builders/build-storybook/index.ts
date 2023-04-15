@@ -13,7 +13,8 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
 import { CLIOptions } from '@storybook/types';
-import { getEnvConfig } from '@storybook/cli';
+import { getEnvConfig, versions } from '@storybook/cli';
+import { addToGlobalContext } from '@storybook/telemetry';
 
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import {
@@ -23,6 +24,8 @@ import {
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { errorSummary, printErrorDetails } from '../utils/error-handler';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;

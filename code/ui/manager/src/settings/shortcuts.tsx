@@ -124,6 +124,7 @@ const shortcutLabels = {
   aboutPage: 'Go to about page',
   collapseAll: 'Collapse all items on sidebar',
   expandAll: 'Expand all items on sidebar',
+  remount: 'Remount component',
 };
 
 export type Feature = keyof typeof shortcutLabels;

@@ -48,12 +48,19 @@ export class NPMProxy extends JsPackageManager {
   }
 
   public runPackageCommand(command: string, args: string[], cwd?: string): string {
-    return this.executeCommand(`npm`, ['exec', '--', command, ...args], undefined, cwd);
+    return this.executeCommand('npm', ['exec', '--', command, ...args], undefined, cwd);
   }
 
   public findInstallations() {
     const pipeToNull = platform() === 'win32' ? '2>NUL' : '2>/dev/null';
-    const commandResult = this.executeCommand('npm', ['ls', '--json', '--depth=99', pipeToNull]);
+    const commandResult = this.executeCommand(
+      'npm',
+      ['ls', '--json', '--depth=99', pipeToNull],
+      undefined,
+      undefined,
+      // ignore errors, because npm ls will exit with code 1 if there are e.g. unmet peer dependencies
+      true
+    );
 
     try {
       const parsedOutput = JSON.parse(commandResult);

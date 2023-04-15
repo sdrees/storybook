@@ -24,6 +24,7 @@ const menuMapper = ({ api, state }: Combo) => {
   return {
     storyId,
     remount: () => api.emit(FORCE_REMOUNT, { storyId: state.storyId }),
+    api,
   };
 };
 
@@ -33,19 +34,22 @@ export const remountTool: Addon = {
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={menuMapper}>
-      {({ remount, storyId }) => {
+      {({ remount, storyId, api }) => {
         const [isAnimating, setIsAnimating] = useState(false);
-        const animateAndReplay = () => {
+        const remountComponent = () => {
           if (!storyId) return;
-          setIsAnimating(true);
           remount();
         };
+
+        api.on(FORCE_REMOUNT, () => {
+          setIsAnimating(true);
+        });
 
         return (
           <StyledAnimatedIconButton
             key="remount"
             title="Remount component"
-            onClick={animateAndReplay}
+            onClick={remountComponent}
             onAnimationEnd={() => setIsAnimating(false)}
             animating={isAnimating}
             disabled={!storyId}

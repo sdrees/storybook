@@ -23,6 +23,7 @@ const defaultShortcuts = {
   escape: ['escape'], // This one is not customizable
   collapseAll: ['ctrl', 'shift', 'ArrowUp'],
   expandAll: ['ctrl', 'shift', 'ArrowDown'],
+  remount: ['alt', 'R'],
 };
 
 const actions = makeActions(

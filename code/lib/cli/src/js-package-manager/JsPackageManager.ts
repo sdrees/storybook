@@ -115,7 +115,7 @@ export abstract class JsPackageManager {
       delete packageJsonToWrite.devDependencies;
     }
     if (
-      packageJsonToWrite.dependencies &&
+      packageJsonToWrite.peerDependencies &&
       Object.keys(packageJsonToWrite.peerDependencies).length === 0
     ) {
       delete packageJsonToWrite.peerDependencies;
@@ -416,7 +416,8 @@ export abstract class JsPackageManager {
     command: string,
     args: string[],
     stdio?: 'pipe' | 'inherit',
-    cwd?: string
+    cwd?: string,
+    ignoreError?: boolean
   ): string {
     const commandResult = spawnSync(command, args, {
       cwd: cwd ?? this.cwd,
@@ -425,7 +426,7 @@ export abstract class JsPackageManager {
       shell: true,
     });
 
-    if (commandResult.status !== 0) {
+    if (commandResult.status !== 0 && ignoreError !== true) {
       throw new Error(commandResult.stderr ?? '');
     }
 

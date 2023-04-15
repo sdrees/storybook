@@ -172,7 +172,7 @@ export const sandbox = async ({
 
     const initMessage = init
       ? chalk.yellow(`yarn install\nyarn storybook`)
-      : `Recreate your setup, then ${chalk.yellow(`run npx storybook init`)}`;
+      : `Recreate your setup, then ${chalk.yellow(`npx storybook@latest init`)}`;
 
     logger.info(
       boxen(

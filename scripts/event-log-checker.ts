@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import assert from 'assert';
 import fetch from 'node-fetch';
 import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
+import versions from '../code/lib/cli/src/versions';
 import { oneWayHash } from '../code/lib/telemetry/src/one-way-hash';
 
 const PORT = process.env.PORT || 6007;
@@ -47,6 +48,12 @@ async function run() {
     });
 
     const [bootEvent, mainEvent] = events;
+
+    test(`both events should have cliVersion in context`, () => {
+      const cliVersion = versions.storybook;
+      assert.equal(bootEvent.context.cliVersion, cliVersion);
+      assert.equal(mainEvent.context.cliVersion, cliVersion);
+    });
 
     test(`Should log a boot event with a payload of type ${eventType}`, () => {
       assert.equal(bootEvent.eventType, 'boot');

@@ -160,7 +160,7 @@ const AboutScreen: FC<{
               <b>Upgrade all Storybook packages to latest:</b>
             </p>
             <SyntaxHighlighter language="bash" copyable padded bordered>
-              npx sb upgrade
+              npx storybook@latest upgrade
             </SyntaxHighlighter>
           </DocumentWrapper>
         </Upgrade>

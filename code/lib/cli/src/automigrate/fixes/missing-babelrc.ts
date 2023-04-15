@@ -64,14 +64,20 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
 
       If your project does not have a babel configuration file, we can generate one that's equivalent to the 6.x defaults for you. Keep in mind that this can affect your project if it uses babel, and you may need to make additional changes based on your projects needs.
 
+      ${chalk.bold(
+        'Note:'
+      )} This automatic setup doesn't work in a monorepo, see the babel documentation for how to setup babel manually:
+      ${chalk.yellow('https://babeljs.io/docs')}
+
       We can create a ${chalk.blue(
         '.babelrc.json'
       )} file with some basic configuration and add any necessary package devDependencies.
-
+      
       Please see the migration guide for more information:
       ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#babel-mode-v7-exclusively'
       )}
+     
     `;
   },
   async run() {

@@ -16,6 +16,18 @@ let tasks: Promise<any>[] = [];
 // send telemetry
 const sessionId = nanoid();
 
+export const addToGlobalContext = (key: string, value: any) => {
+  globalContext[key] = value;
+};
+
+// context info sent with all events, provided
+// by the app. currently:
+// - cliVersion
+const globalContext = {
+  inCI: Boolean(process.env.CI),
+  isTTY: process.stdout.isTTY,
+} as Record<string, any>;
+
 export async function sendTelemetry(
   data: TelemetryData,
   options: Partial<Options> = { retryDelay: 1000, immediate: false }
@@ -27,11 +39,10 @@ export async function sendTelemetry(
   // flatten the data before we send it
   const { eventType, payload, metadata, ...rest } = data;
   const context = options.stripMetadata
-    ? {}
+    ? globalContext
     : {
+        ...globalContext,
         anonymousId: getAnonymousProjectId(),
-        inCI: Boolean(process.env.CI),
-        isTTY: process.stdout.isTTY,
       };
   const eventId = nanoid();
   const body = { ...rest, eventType, eventId, sessionId, metadata, payload, context };

@@ -6,6 +6,7 @@ import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
+import { addToGlobalContext } from '@storybook/telemetry';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
@@ -20,6 +21,9 @@ import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
+import versions from './versions';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;

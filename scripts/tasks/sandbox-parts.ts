@@ -167,11 +167,6 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
         {
           test: [/\\/template-stories\\//],
           exclude: [/\\.mdx$/],
-          /**
-           * We need to run esbuild-loader after the csf-plugin loader, so we use the "enforce: 'post'" option.
-           * Otherwise, the csf-plugin loader does not have any effect.
-           */
-          enforce: 'post',
           loader: '${esbuildLoaderPath}',
           options: {
             loader: 'tsx',
@@ -350,7 +345,11 @@ function addExtraDependencies({
   debug: boolean;
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
-  const extraDeps = ['@storybook/jest', '@storybook/testing-library', '@storybook/test-runner'];
+  const extraDeps = [
+    '@storybook/jest@future',
+    '@storybook/testing-library@future',
+    '@storybook/test-runner@future',
+  ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);

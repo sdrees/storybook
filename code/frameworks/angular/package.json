@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.1.0-alpha.0",
+  "version": "7.1.0-alpha.4",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -36,20 +36,21 @@
     "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.1.0-alpha.0",
-    "@storybook/cli": "7.1.0-alpha.0",
-    "@storybook/client-logger": "7.1.0-alpha.0",
-    "@storybook/core-client": "7.1.0-alpha.0",
-    "@storybook/core-common": "7.1.0-alpha.0",
-    "@storybook/core-events": "7.1.0-alpha.0",
-    "@storybook/core-server": "7.1.0-alpha.0",
-    "@storybook/core-webpack": "7.1.0-alpha.0",
-    "@storybook/docs-tools": "7.1.0-alpha.0",
+    "@storybook/builder-webpack5": "7.1.0-alpha.4",
+    "@storybook/cli": "7.1.0-alpha.4",
+    "@storybook/client-logger": "7.1.0-alpha.4",
+    "@storybook/core-client": "7.1.0-alpha.4",
+    "@storybook/core-common": "7.1.0-alpha.4",
+    "@storybook/core-events": "7.1.0-alpha.4",
+    "@storybook/core-server": "7.1.0-alpha.4",
+    "@storybook/core-webpack": "7.1.0-alpha.4",
+    "@storybook/docs-tools": "7.1.0-alpha.4",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.0",
-    "@storybook/node-logger": "7.1.0-alpha.0",
-    "@storybook/preview-api": "7.1.0-alpha.0",
-    "@storybook/types": "7.1.0-alpha.0",
+    "@storybook/manager-api": "7.1.0-alpha.4",
+    "@storybook/node-logger": "7.1.0-alpha.4",
+    "@storybook/preview-api": "7.1.0-alpha.4",
+    "@storybook/telemetry": "7.1.0-alpha.4",
+    "@storybook/types": "7.1.0-alpha.4",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
@@ -123,5 +124,5 @@
   "bundler": {
     "tsConfig": "tsconfig.build.json"
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "18dcfa6073157150da60c328f6f64abd477ddcad"
 }

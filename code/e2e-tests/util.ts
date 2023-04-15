@@ -37,8 +37,9 @@ export class SbPage {
     // assert url changes
     const viewMode = name === 'docs' ? 'docs' : 'story';
 
-    const url = this.page.url();
-    await expect(url).toContain(`path=/${viewMode}/${titleId}--${storyId}`);
+    await this.page.waitForURL((url) =>
+      url.search.includes(`path=/${viewMode}/${titleId}--${storyId}`)
+    );
 
     const selected = await storyLink.getAttribute('data-selected');
     await expect(selected).toBe('true');

@@ -211,7 +211,7 @@ export const ViewportTool: FC = memo(
               styles={{
                 [`iframe[data-is-storybook="true"]`]: {
                   margin: `auto`,
-                  transition: 'width .3s, height .3s',
+                  transition: 'none',
                   position: 'relative',
                   border: `1px solid black`,
                   boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',

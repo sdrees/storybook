@@ -27,4 +27,14 @@ export const Disabled = {
  */
 export const Another = {
   args: { label: 'Another' },
+  parameters: {
+    docs: {
+      source: {
+        type: 'code',
+      },
+    },
+  },
+  play: async () => {
+    await new Promise((resolve) => resolve('Play function'));
+  },
 };

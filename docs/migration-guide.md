@@ -24,7 +24,8 @@ To upgrade your Storybook:
 <CodeSnippets
   paths={[
     'common/storybook-upgrade.npm.js.mdx',
-    'common/storybook-upgrade.pnpm.js.mdx'
+    'common/storybook-upgrade.pnpm.js.mdx',
+    'common/storybook-upgrade.yarn.js.mdx'
   ]}
 />
 
@@ -45,7 +46,8 @@ To add Storybook to a project that isn’t currently using Storybook:
 <CodeSnippets
   paths={[
     'common/init-command.npx.js.mdx',
-    'common/init-command.pnpm.js.mdx'
+    'common/init-command.pnpm.js.mdx',
+    'common/init-command.yarn.js.mdx'
   ]}
 />
 
@@ -139,7 +141,7 @@ The automatic upgrade should get your Storybook into a working state. If you enc
 
 1. If you’re running `storybook` with the `dev` command, try using the `build` command instead. Sometimes `build` errors are more legible than `dev` errors!
 2. Check [the full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700), which contains an exhaustive list of noteworthy changes in Storybook 7. Many of these are already handled by automigrations when you upgrade, but not all are. It’s also possible that you’re experiencing a corner case that we’re not aware of.
-3. Search [Storybook issues on Github](https://github.com/storybookjs/storybook/issues). If you’re seeing a problem, there’s a good chance other people are too. If so, upvote the issue, try out any workarounds described in the comments, and comment back if you have useful info to contribute.
+3. Search [Storybook issues on GitHub](https://github.com/storybookjs/storybook/issues). If you’re seeing a problem, there’s a good chance other people are too. If so, upvote the issue, try out any workarounds described in the comments, and comment back if you have useful info to contribute.
 4. If there’s no existing issue, you can [file one](https://github.com/storybookjs/storybook/issues/new/choose), ideally with a reproduction attached. We’ll be on top of Storybook 7 issues as we’re stabilizing the release.
 5. If you prefer a more interactive medium, try out the `#prerelease` forum in the [Storybook Discord](https://discord.gg/storybook). We have Storybook maintainers and a large community of users who should be able to give you a hand.
 
