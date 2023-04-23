@@ -14,7 +14,7 @@ interface WebsocketTransportArgs {
 }
 
 interface CreateChannelArgs {
-  url: string;
+  url?: string;
   async?: boolean;
   onError?: OnError;
 }
@@ -82,7 +82,14 @@ export function createChannel({
   async = false,
   onError = (err) => logger.warn(err),
 }: CreateChannelArgs) {
-  const transport = new WebsocketTransport({ url, onError });
+  let channelUrl = url;
+  if (!channelUrl) {
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    const { hostname, port } = window.location;
+    channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
+  }
+
+  const transport = new WebsocketTransport({ url: channelUrl, onError });
   return new Channel({ transport, async });
 }
 

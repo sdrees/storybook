@@ -3,4 +3,4 @@
 export { storiesOf, configure, forceReRender, raw } from './client/preview';
 
 // optimization: stop HMR propagation in webpack
-module?.hot?.decline();
+if (typeof module !== 'undefined') module?.hot?.decline();

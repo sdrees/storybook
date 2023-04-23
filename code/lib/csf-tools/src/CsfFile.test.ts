@@ -548,6 +548,19 @@ describe('CsfFile', () => {
       ).toThrow('CSF: missing default export');
     });
 
+    it('bad meta', () => {
+      expect(() =>
+        parse(
+          dedent`
+          const foo = bar();
+          export default foo;
+          export const A = () => {};
+          export const B = () => {};
+      `
+        )
+      ).toThrow('CSF: default export must be an object');
+    });
+
     it('no metadata', () => {
       expect(() =>
         parse(

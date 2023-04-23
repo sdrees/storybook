@@ -2,8 +2,14 @@ import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { loadConfig } from 'tsconfig-paths';
 import type { Configuration as WebpackConfig } from 'webpack';
 
-export const configureImports = (baseConfig: WebpackConfig): void => {
-  const configLoadResult = loadConfig();
+export const configureImports = ({
+  baseConfig,
+  configDir,
+}: {
+  baseConfig: WebpackConfig;
+  configDir: string;
+}): void => {
+  const configLoadResult = loadConfig(configDir);
 
   if (configLoadResult.resultType === 'failed' || !configLoadResult.baseUrl) {
     // either not a typescript project or tsconfig contains no baseUrl

@@ -105,9 +105,9 @@ export interface CsfOptions {
 }
 
 export class NoMetaError extends Error {
-  constructor(ast: t.Node, fileName?: string) {
+  constructor(message: string, ast: t.Node, fileName?: string) {
     super(dedent`
-      CSF: missing default export ${formatLocation(ast, fileName)}
+      CSF: ${message} ${formatLocation(ast, fileName)}
 
       More info: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
     `);
@@ -272,6 +272,14 @@ export class CsfFile {
             self._metaNode = metaNode;
             self._parseMeta(metaNode, parent);
           }
+
+          if (self._metaStatement && !self._metaNode) {
+            throw new NoMetaError(
+              'default export must be an object',
+              self._metaStatement,
+              self._fileName
+            );
+          }
         },
       },
       ExportNamedDeclaration: {
@@ -435,7 +443,7 @@ export class CsfFile {
     });
 
     if (!self._meta) {
-      throw new NoMetaError(self._ast, self._fileName);
+      throw new NoMetaError('missing default export', self._ast, self._fileName);
     }
 
     if (!self._meta.title && !self._meta.component) {

@@ -30,6 +30,7 @@ export const getIncompatibleAddons = async (mainConfig: StorybookConfig) => {
     'storybook-addon-mock': '3.2.0',
     '@chakra-ui/storybook-addon': '4.0.16',
     'storybook-mobile-addon': '1.0.2',
+    '@storybook/addon-queryparams': '6.2.9',
   };
 
   const addons = getAddonNames(mainConfig).filter((addon) => addon in incompatibleList);

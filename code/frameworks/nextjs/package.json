@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.1.0-alpha.4",
+  "version": "7.1.0-alpha.7",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -71,13 +71,13 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/runtime": "^7.21.0",
-    "@storybook/addon-actions": "7.1.0-alpha.4",
-    "@storybook/builder-webpack5": "7.1.0-alpha.4",
-    "@storybook/core-common": "7.1.0-alpha.4",
-    "@storybook/node-logger": "7.1.0-alpha.4",
-    "@storybook/preset-react-webpack": "7.1.0-alpha.4",
-    "@storybook/preview-api": "7.1.0-alpha.4",
-    "@storybook/react": "7.1.0-alpha.4",
+    "@storybook/addon-actions": "7.1.0-alpha.7",
+    "@storybook/builder-webpack5": "7.1.0-alpha.7",
+    "@storybook/core-common": "7.1.0-alpha.7",
+    "@storybook/node-logger": "7.1.0-alpha.7",
+    "@storybook/preset-react-webpack": "7.1.0-alpha.7",
+    "@storybook/preview-api": "7.1.0-alpha.7",
+    "@storybook/react": "7.1.0-alpha.7",
     "@types/node": "^16.0.0",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
@@ -147,5 +147,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "18dcfa6073157150da60c328f6f64abd477ddcad"
+  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc"
 }

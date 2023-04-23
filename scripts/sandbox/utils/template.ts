@@ -9,7 +9,12 @@ export async function renderTemplate(templatePath: string, templateData: Record<
 
   const output = format(render(template, templateData), {
     parser: 'html',
-  }).replace(new RegExp('</li>\\n\\n', 'g'), '</li>\n');
+  })
+    // overly complicated regex replacements to fix prettier's bad formatting
+    .replace(new RegExp('</li>\\n\\n', 'g'), '</li>\n')
+    .replace(new RegExp('<a\\n', 'g'), '<a')
+    .replace(new RegExp('node"\\n>', 'g'), 'node=">')
+    .replace(new RegExp('/\\n</a>/', 'g'), '</a>');
   return output;
 }
 

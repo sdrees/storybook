@@ -63,7 +63,6 @@ export default async (
     babelOptions,
     typescriptOptions,
     features,
-    serverChannelUrl,
   } = options;
 
   const isProd = configType === 'PRODUCTION';
@@ -260,7 +259,6 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
-            SERVER_CHANNEL_URL: serverChannelUrl,
           },
           headHtmlSnippet,
           bodyHtmlSnippet,

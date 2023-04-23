@@ -15,6 +15,9 @@ import type {
   StoryIndex,
   API_LoadedRefData,
   API_IndexHash,
+  StoryPreparedPayload,
+  DocsPreparedPayload,
+  API_DocsEntry,
 } from '@storybook/types';
 import {
   PRELOAD_ENTRIES,
@@ -31,6 +34,7 @@ import {
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
+  DOCS_PREPARED,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
@@ -54,7 +58,10 @@ type Direction = -1 | 1;
 type ParameterName = string;
 
 type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
-type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes' | 'args'>;
+type StoryUpdate = Partial<
+  Pick<API_StoryEntry, 'prepared' | 'parameters' | 'initialArgs' | 'argTypes' | 'args'>
+>;
+type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
@@ -93,6 +100,7 @@ export interface SubAPI {
   ): StoryId;
   fetchIndex: () => Promise<void>;
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
+  updateDocs: (storyId: StoryId, update: DocsUpdate, ref?: API_ComposedRef) => Promise<void>;
   setPreviewInitialized: (ref?: ComposedRef) => Promise<void>;
 }
 
@@ -157,7 +165,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           : storyIdOrCombo;
       const data = api.getData(storyId, refId);
 
-      if (data?.type === 'story') {
+      if (['story', 'docs'].includes(data?.type)) {
         const { parameters } = data;
 
         if (parameters) {
@@ -370,6 +378,27 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         await fullAPI.updateRef(refId, { index });
       }
     },
+    updateDocs: async (
+      docsId: StoryId,
+      update: DocsUpdate,
+      ref?: API_ComposedRef
+    ): Promise<void> => {
+      if (!ref) {
+        const { index } = store.getState();
+        index[docsId] = {
+          ...index[docsId],
+          ...update,
+        } as API_DocsEntry;
+        await store.setState({ index });
+      } else {
+        const { id: refId, index } = ref;
+        index[docsId] = {
+          ...index[docsId],
+          ...update,
+        } as API_DocsEntry;
+        await fullAPI.updateRef(refId, { index });
+      }
+    },
     setPreviewInitialized: async (ref?: ComposedRef): Promise<void> => {
       if (!ref) {
         store.setState({ previewInitialized: true });
@@ -428,7 +457,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     });
 
-    fullAPI.on(STORY_PREPARED, function handler({ id, ...update }) {
+    fullAPI.on(STORY_PREPARED, function handler({ id, ...update }: StoryPreparedPayload) {
       const { ref, sourceType } = getEventMetadata(this, fullAPI);
       fullAPI.updateStory(id, { ...update, prepared: true }, ref);
 
@@ -456,6 +485,11 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           options: { target: refId },
         });
       }
+    });
+
+    fullAPI.on(DOCS_PREPARED, function handler({ id, ...update }: DocsPreparedPayload) {
+      const { ref } = getEventMetadata(this, fullAPI);
+      fullAPI.updateStory(id, { ...update, prepared: true }, ref);
     });
 
     fullAPI.on(SET_INDEX, function handler(index: API_PreparedStoryIndex) {

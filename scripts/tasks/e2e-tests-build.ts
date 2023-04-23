@@ -15,13 +15,13 @@ export const e2eTestsBuild: Task & { port: number } = {
     if (process.env.DEBUG) {
       // eslint-disable-next-line no-console
       console.log(dedent`
-        Running e2e tests in Playwright debug mode for chromium only.
+        Running e2e tests in Playwright's ui mode for chromium only (for brevity sake).
         You can change the browser by changing the --project flag in the e2e-tests task file.
       `);
     }
 
     const playwrightCommand = process.env.DEBUG
-      ? 'PWDEBUG=1 yarn playwright test --project=chromium'
+      ? 'yarn playwright test --project=chromium --ui'
       : 'yarn playwright test';
 
     await exec(

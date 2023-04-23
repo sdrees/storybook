@@ -25,6 +25,8 @@ enum events {
   PRELOAD_ENTRIES = 'preloadStories',
   // The story has been loaded into the store, we have parameters/args/etc
   STORY_PREPARED = 'storyPrepared',
+  // The a docs entry has been loaded into the store, we have parameters
+  DOCS_PREPARED = 'docsPrepared',
   // The next 6 events are emitted by the StoryRenderer when rendering the current story
   STORY_CHANGED = 'storyChanged',
   STORY_UNCHANGED = 'storyUnchanged',
@@ -73,6 +75,7 @@ export const {
   CHANNEL_CREATED,
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,
+  DOCS_PREPARED,
   DOCS_RENDERED,
   FORCE_RE_RENDER,
   FORCE_REMOUNT,

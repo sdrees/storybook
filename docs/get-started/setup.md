@@ -34,6 +34,22 @@ Go to your Storybook to view the rendered component. It’s OK if it looks a bit
 
 Depending on your technology stack, you also might need to configure the Storybook environment further.
 
+## Render component styles
+
+Storybook isn’t opinionated about how you generate or load CSS. It renders whatever DOM elements you provide. But sometimes, things won’t “look right” out of the box.
+
+You may have to configure your CSS tooling for Storybook’s rendering environment. Here are some setup guides for popular tools in the community.
+
+- [Tailwind](https://storybook.js.org/recipes/tailwindcss/)
+- [Material UI](https://storybook.js.org/recipes/@mui/material/)
+- [Vuetify](https://storybook.js.org/recipes/vuetify/)
+- [Styled Components](https://storybook.js.org/recipes/styled-components/)
+- [Emotion](https://storybook.js.org/recipes/@emotion/styled/)
+- [Sass](https://storybook.js.org/recipes/sass/)
+- [Bootstrap](https://storybook.js.org/recipes/bootstrap/)
+
+Don't see the tool that you're looking for? Check out the [styling and css](../configure/styling-and-css.md) page for more details.
+
 ## Configure Storybook for your stack
 
 Storybook comes with a permissive [default configuration](../configure/overview.md). It attempts to customize itself to fit your setup. But it’s not foolproof.
@@ -88,47 +104,6 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
 />
 
 <!-- prettier-ignore-end -->
-
-</details>
-
-## Render component styles
-
-Storybook isn’t opinionated about how you generate or load CSS. It renders whatever DOM elements you provide. But sometimes, things won’t “look right” out of the box.
-
-You may have to configure your CSS tooling for Storybook’s rendering environment. Here are some tips on what could help:
-
-<details>
-  <summary>CSS-in-JS like styled-components and Emotion</summary>
-
-If you are using CSS-in-JS, chances are your styles are working because they’re generated in JavaScript and served alongside each component. Theme users may need to add a decorator to `.storybook/preview.js`, [see above](#component-context).
-
-</details>
-
-<details>
-  <summary>@import CSS into components</summary>
-
-Storybook allows you to import CSS files in your components directly. But in some cases you may need to [tweak its Webpack configuration](../builders/webpack.md#override-the-default-configuration). Angular components require [a special import](../configure/styling-and-css.md#importing-css-files).
-
-</details>
-
-<details>
-  <summary>Global imported styles</summary>
-
-If you have global imported styles, create a file called [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) and import the styles there. They will be added by Storybook automatically for all stories.
-
-</details>
-
-<details>
-  <summary>Add external CSS or webfonts in the &lt;head&gt;</summary>
-
-Alternatively, if you want to inject a CSS link tag to the `<head>` directly (or some other resource like a webfont link), you can use [`.storybook/preview-head.html`](../configure/story-rendering.md#adding-to-&#60head&#62) to add arbitrary HTML.
-
-</details>
-
-<details>
-  <summary>Load fonts or images from a local directory</summary>
-
-If you're referencing fonts or images from a local directory, you'll need to configure the Storybook script to [serve the static files](../configure/images-and-assets.md).
 
 </details>
 

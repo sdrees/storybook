@@ -28,6 +28,7 @@ import {
   STORY_UNCHANGED,
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
+  DOCS_PREPARED,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
@@ -652,6 +653,19 @@ describe('PreviewWeb', () => {
     });
 
     describe('CSF docs entries', () => {
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=component-one--docs';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'component-one--docs',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+        });
+      });
+
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=component-one--docs';
         await createAndRenderPreview();
@@ -709,12 +723,39 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('mdx docs entries', () => {
+    describe('MDX docs entries', () => {
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=introduction--docs';
         await createAndRenderPreview();
 
         expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'introduction--docs');
+      });
+
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=introduction--docs';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'introduction--docs',
+          parameters: {
+            docs: expect.any(Object),
+          },
+        });
+      });
+
+      describe('attached', () => {
+        it('emits DOCS_PREPARED with component parameters', async () => {
+          document.location.search = '?id=component-one--attached-docs';
+          await createAndRenderPreview();
+
+          expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+            id: 'component-one--attached-docs',
+            parameters: {
+              docs: expect.any(Object),
+              fileName: './src/ComponentOne.stories.js',
+            },
+          });
+        });
       });
 
       it('calls view.prepareForDocs', async () => {
@@ -2261,6 +2302,26 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing from story viewMode to docs', () => {
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--docs',
+          viewMode: 'docs',
+        });
+        await waitForSetCurrentStory();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'component-one--docs',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+        });
+      });
+
       it('calls renderToCanvass teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -3180,6 +3241,24 @@ describe('PreviewWeb', () => {
 
       const newImportFn = jest.fn(async (path: string) => {
         return path === './src/Introduction.mdx' ? newUnattachedDocsExports : importFn(path);
+      });
+
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=introduction--docs';
+        const preview = await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        docsRenderer.render.mockClear();
+
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await waitForRender();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'introduction--docs',
+          parameters: {
+            docs: expect.any(Object),
+          },
+        });
       });
 
       it('renders with the generated docs parameters', async () => {

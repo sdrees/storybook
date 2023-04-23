@@ -118,6 +118,7 @@ export default {
     'CHANNEL_CREATED',
     'CONFIG_ERROR',
     'CURRENT_STORY_WAS_SET',
+    'DOCS_PREPARED',
     'DOCS_RENDERED',
     'FORCE_REMOUNT',
     'FORCE_RE_RENDER',

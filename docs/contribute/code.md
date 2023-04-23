@@ -33,7 +33,6 @@ If all goes well, you should see the sandbox running.
 
 ![Storybook sandbox running](../get-started/example-welcome.png)
 
-
 ## Running a different sandbox template
 
 By default, the `start` command is configured to initialize a Vite-based React template. If you're planning on working on a different renderer instead, you can do so as well. Start by running the `task` command as follows:
@@ -122,6 +121,12 @@ To run an e2e test against a sandbox, you can use the `e2e-tests` task:
 
 ```shell
 yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
+```
+
+If there are issues and you'd like to debug them, you can pass a `DEBUG=1` environment variable, and Playwright will run in watch mode.
+
+```shell
+DEBUG=1 yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
 ```
 
 ## Submit a pull request

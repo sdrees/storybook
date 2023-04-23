@@ -8,6 +8,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
 - [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
 - [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
+- [How do I fix module resolutions while using pnpm Plug-n-Play](#how-do-i-fix-module-resolution-while-using-pnpm-plug-n-play)
 - [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
 - [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
 - [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
@@ -110,6 +111,28 @@ export default {
   },
 };
 ```
+
+### How do I fix module resolution while using pnpm Plug-n-Play?
+
+In case you are using [pnpm](https://pnpm.io/), you might run into issues with module resolution similar to this when running Storybook:
+
+```shell
+WARN   Failed to load preset: "@storybook/react-webpack5/preset"`
+Required package: @storybook/react-webpack5 (via "@storybook/react-webpack5/preset")
+```
+
+To fix this, you can wrap the package name inside your Storybook configuration file (i.e., `.storybook/main.js|ts`) as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-main-pnpm-with-module-resolution.js.mdx',
+    'common/storybook-main-pnpm-with-module-resolution.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ### How do I setup React Fast Refresh with Storybook?
 
@@ -412,7 +435,7 @@ Storybook allows you to use most characters while naming your stories. Still, sp
 We're aware that the default Typescript story construct might seem outdated and could potentially introduce a less than ideal way of handling type safety and strictness and could be rewritten as such:
 
 ```ts
-// Button.stories.ts | tsx
+// Button.stories.ts|tsx
 
 import React from 'react';
 import type { ComponentStory, ComponentMeta } from '@storybook/react';

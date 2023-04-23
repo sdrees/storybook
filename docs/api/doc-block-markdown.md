@@ -33,7 +33,7 @@ import { Markdown } from '@storybook/blocks';
 
 # A header 
 
-<Markdown>{ReadMe}</Markdown />
+<Markdown>{ReadMe}</Markdown>
 ```
 <!-- prettier-ignore-end -->
 

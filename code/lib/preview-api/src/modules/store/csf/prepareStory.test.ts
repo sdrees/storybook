@@ -724,10 +724,12 @@ describe('prepareMeta', () => {
       undecoratedStoryFn,
       playFunction,
       prepareContext,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      parameters: { __isArgsStory, ...parameters },
       ...expectedPreparedMeta
     } = preparedStory;
 
-    expect(preparedMeta).toMatchObject(expectedPreparedMeta);
-    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length);
+    expect(preparedMeta).toMatchObject({ ...expectedPreparedMeta, parameters });
+    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length + 1);
   });
 });

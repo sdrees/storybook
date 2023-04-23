@@ -322,6 +322,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'styling-and-css',
+          title: 'Styling and CSS',
+          type: 'link',
+        },
+        {
           pathSegment: 'upgrading',
           title: 'Upgrading',
           type: 'link',
@@ -354,11 +359,6 @@ module.exports = {
             {
               pathSegment: 'typescript',
               title: 'TypeScript',
-              type: 'link',
-            },
-            {
-              pathSegment: 'styling-and-css',
-              title: 'Styling and CSS',
               type: 'link',
             },
             {

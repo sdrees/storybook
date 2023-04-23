@@ -20,6 +20,7 @@ import type {
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StoryId,
+  PreparedMeta,
 } from '@storybook/types';
 import mapValues from 'lodash/mapValues.js';
 import pick from 'lodash/pick.js';
@@ -29,7 +30,7 @@ import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
-import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf';
+import { processCSFFile, prepareStory, prepareMeta, normalizeProjectAnnotations } from './csf';
 
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
@@ -52,6 +53,8 @@ export class StoryStore<TRenderer extends Renderer> {
 
   processCSFFileWithCache: typeof processCSFFile;
 
+  prepareMetaWithCache: typeof prepareMeta;
+
   prepareStoryWithCache: typeof prepareStory;
 
   initializationPromise: SynchronousPromise<void>;
@@ -67,6 +70,7 @@ export class StoryStore<TRenderer extends Renderer> {
     //  1. For performance
     //  2. To ensure that when the same story is prepared with the same inputs you get the same output
     this.processCSFFileWithCache = memoize(CSF_CACHE_SIZE)(processCSFFile) as typeof processCSFFile;
+    this.prepareMetaWithCache = memoize(CSF_CACHE_SIZE)(prepareMeta) as typeof prepareMeta;
     this.prepareStoryWithCache = memoize(STORY_CACHE_SIZE)(prepareStory) as typeof prepareStory;
 
     // We cannot call `loadStory()` until we've been initialized properly. But we can wait for it.
@@ -187,6 +191,18 @@ export class StoryStore<TRenderer extends Renderer> {
       this.loadAllCSFFiles().then((csfFiles) => {
         this.cachedCSFFiles = csfFiles;
       })
+    );
+  }
+
+  preparedMetaFromCSFFile({ csfFile }: { csfFile: CSFFile<TRenderer> }): PreparedMeta<TRenderer> {
+    if (!this.projectAnnotations) throw new Error(`storyFromCSFFile called before initialization`);
+
+    const componentAnnotations = csfFile.meta;
+
+    return this.prepareMetaWithCache(
+      componentAnnotations,
+      this.projectAnnotations,
+      csfFile.moduleExports.default
     );
   }
 
@@ -372,6 +388,9 @@ export class StoryStore<TRenderer extends Renderer> {
 
   getSetIndexPayload(): API_PreparedStoryIndex {
     if (!this.storyIndex) throw new Error('getSetIndexPayload called before initialization');
+    if (!this.cachedCSFFiles)
+      throw new Error('Cannot call getSetIndexPayload() unless you call cacheAllCSFFiles() first');
+    const { cachedCSFFiles } = this;
 
     const stories = this.extract({ includeDocsOnly: true });
 
@@ -388,7 +407,12 @@ export class StoryStore<TRenderer extends Renderer> {
                 argTypes: stories[id].argTypes,
                 parameters: stories[id].parameters,
               }
-            : entry,
+            : {
+                ...entry,
+                parameters: this.preparedMetaFromCSFFile({
+                  csfFile: cachedCSFFiles[entry.importPath],
+                }).parameters,
+              },
         ])
       ),
     };

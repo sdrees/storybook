@@ -39,6 +39,7 @@ describe('resolveOf', () => {
     const projectAnnotations = { render: jest.fn() };
     const store = {
       componentStoriesFromCSFFile: () => [story],
+      preparedMetaFromCSFFile: () => ({ prepareMeta: 'preparedMeta' }),
       projectAnnotations,
     } as unknown as StoryStore<Renderer>;
     const context = new DocsContext(channel, store, renderStoryToElement, [csfFile]);
@@ -179,6 +180,7 @@ describe('resolveOf', () => {
     const projectAnnotations = { render: jest.fn() };
     const store = {
       componentStoriesFromCSFFile: () => [story],
+      preparedMetaFromCSFFile: () => ({ prepareMeta: 'preparedMeta' }),
       projectAnnotations,
     } as unknown as StoryStore<Renderer>;
     const context = new DocsContext(channel, store, renderStoryToElement, [csfFile]);

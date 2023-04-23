@@ -75,6 +75,12 @@ Run the following command to install the addon.
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ This addon is still being converted to fully support Storybook 7.0. If you're adding this addon to a Storybook 7.0 instance or migrating from a previous version, you must install the `beta` version.
+
+</div>
+
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the addon.
 
 <!-- prettier-ignore-start -->

@@ -986,6 +986,10 @@ describe('start', () => {
                 "id": "introduction",
                 "importPath": "./Introduction.stories.mdx",
                 "name": undefined,
+                "parameters": Object {
+                  "fileName": "./Introduction.stories.mdx",
+                  "renderer": "test",
+                },
                 "storiesImports": Array [],
                 "tags": Array [
                   "stories-mdx",
@@ -1244,6 +1248,10 @@ describe('start', () => {
                 "id": "component-b--docs",
                 "importPath": "file2",
                 "name": "Docs",
+                "parameters": Object {
+                  "fileName": "file2",
+                  "renderer": "test",
+                },
                 "storiesImports": Array [],
                 "tags": Array [
                   "autodocs",
@@ -1277,6 +1285,10 @@ describe('start', () => {
                 "id": "component-c--docs",
                 "importPath": "exports-map-0",
                 "name": "Docs",
+                "parameters": Object {
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
                 "storiesImports": Array [],
                 "tags": Array [
                   "component-tag",

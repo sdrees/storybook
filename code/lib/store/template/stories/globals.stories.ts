@@ -29,6 +29,7 @@ export const Events = {
   ],
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+    await channel.emit('updateGlobals', { globals: { foo: 'fooValue' } });
     await within(canvasElement).findByText('fooValue');
 
     await channel.emit('updateGlobals', { globals: { foo: 'updated' } });

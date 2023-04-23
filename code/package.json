@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.1.0-alpha.4",
+  "version": "7.1.0-alpha.7",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -78,13 +78,13 @@
     "defaults"
   ],
   "resolutions": {
-    "@playwright/test": "1.31.1",
+    "@playwright/test": "1.32.3",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/experimental-utils": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "esbuild": "^0.17.0",
     "eslint": "^8.28.0",
-    "playwright": "1.31.1",
+    "playwright": "1.32.3",
     "serialize-javascript": "^3.1.0"
   },
   "dependencies": {
@@ -99,7 +99,7 @@
     "@nrwl/cli": "^15.4.5",
     "@nrwl/nx-cloud": "^15.0.2",
     "@nrwl/workspace": "^15.4.5",
-    "@playwright/test": "1.31.1",
+    "@playwright/test": "1.32.3",
     "@storybook/addon-a11y": "workspace:*",
     "@storybook/addon-actions": "workspace:*",
     "@storybook/addon-backgrounds": "workspace:*",
@@ -245,7 +245,7 @@
     "lodash": "^4.17.21",
     "node-gyp": "^8.4.0",
     "nx": "^15.4.5",
-    "playwright": "1.31.1",
+    "playwright": "1.32.3",
     "prettier": "2.8.0",
     "process": "^0.11.10",
     "raf": "^3.4.1",

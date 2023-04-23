@@ -1,5 +1,6 @@
 import { global } from '@storybook/global';
 import { useEffect, makeDecorator } from '@storybook/preview-api';
+import type { Addon_DecoratorFunction } from '@storybook/types';
 import { actions } from './runtime/actions';
 
 import { PARAM_KEY } from './constants';
@@ -51,7 +52,7 @@ const applyEventHandlers = (actionsFn: any, ...handles: any[]) => {
   }, [root, actionsFn, handles]);
 };
 
-export const withActions = makeDecorator({
+export const withActions: Addon_DecoratorFunction = makeDecorator({
   name: 'withActions',
   parameterName: PARAM_KEY,
   skipIfNoParametersOrOptions: true,

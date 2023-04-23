@@ -1,3 +1,40 @@
+## 7.1.0-alpha.7 (April 19, 2023)
+
+#### Bug Fixes
+
+-   Vue3: Fix reactive decorators [#21954](https://github.com/storybooks/storybook/pull/21954)
+
+#### Build
+
+-   Build: Improve sandboxes commit message [#22136](https://github.com/storybooks/storybook/pull/22136)
+
+## 7.1.0-alpha.6 (April 18, 2023)
+
+#### Bug Fixes
+
+-   Core: Restore Docs `useParameter` using `DOCS_PREPARED` [#22118](https://github.com/storybooks/storybook/pull/22118)
+-   Core: Add new tags to distinguish docs attachment [#22120](https://github.com/storybooks/storybook/pull/22120)
+-   Core: Fix `module` guard in non-webpack environments [#22085](https://github.com/storybooks/storybook/pull/22085)
+
+#### Build
+
+-   Build: Skip docs pages e2e tests for ssv6 examples [#22141](https://github.com/storybooks/storybook/pull/22141)
+-   Build: Upgrade Playwright to 1.32.3 [#22087](https://github.com/storybooks/storybook/pull/22087)
+
+#### Dependency Upgrades
+
+-   Remove unused babel dependencies [#21984](https://github.com/storybooks/storybook/pull/21984)
+
+## 7.1.0-alpha.5 (April 17, 2023)
+
+#### Maintenance
+
+-   CLI: Mark qwik as using addon-interactions [#22000](https://github.com/storybooks/storybook/pull/22000)
+
+#### Build
+
+-   Revert "Build: Update dangerfile temporarily to check for patch label" [#22108](https://github.com/storybooks/storybook/pull/22108)
+
 ## 7.1.0-alpha.4 (April 15, 2023)
 
 #### Bug Fixes

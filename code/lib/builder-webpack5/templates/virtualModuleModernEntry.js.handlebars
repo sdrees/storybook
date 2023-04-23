@@ -6,19 +6,15 @@ import { createChannel as createWebSocketChannel } from '@storybook/channel-webs
 
 import { importFn } from './{{storiesFilename}}';
 
-const { SERVER_CHANNEL_URL } = global;
-
 const getProjectAnnotations = () =>
   composeConfigs([{{#each previewAnnotations}}require('{{this}}'),{{/each}}]);
 
 const channel = createPostMessageChannel({ page: 'preview' });
 addons.setChannel(channel);
 
-if (SERVER_CHANNEL_URL) {
-  const serverChannel = createWebSocketChannel({ url: SERVER_CHANNEL_URL, });
-  addons.setServerChannel(serverChannel);
-  window.__STORYBOOK_SERVER_CHANNEL__ = serverChannel;
-}
+const serverChannel = createWebSocketChannel({});
+addons.setServerChannel(serverChannel);
+window.__STORYBOOK_SERVER_CHANNEL__ = serverChannel;
 
 const preview = new PreviewWeb();
 

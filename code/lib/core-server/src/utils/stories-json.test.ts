@@ -126,6 +126,7 @@ describe('useStoriesJson', () => {
                 "./src/A.stories.js",
               ],
               "tags": Array [
+                "attached-mdx",
                 "docs",
               ],
               "title": "A",
@@ -139,6 +140,7 @@ describe('useStoriesJson', () => {
                 "./src/A.stories.js",
               ],
               "tags": Array [
+                "attached-mdx",
                 "docs",
               ],
               "title": "A",
@@ -183,6 +185,7 @@ describe('useStoriesJson', () => {
               "name": "docs",
               "storiesImports": Array [],
               "tags": Array [
+                "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/ComponentReference",
@@ -194,6 +197,7 @@ describe('useStoriesJson', () => {
               "name": "docs",
               "storiesImports": Array [],
               "tags": Array [
+                "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/NoTitle",
@@ -205,6 +209,7 @@ describe('useStoriesJson', () => {
               "name": "docs",
               "storiesImports": Array [],
               "tags": Array [
+                "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/Yabbadabbadooo",
@@ -304,6 +309,7 @@ describe('useStoriesJson', () => {
               ],
               "story": "MetaOf",
               "tags": Array [
+                "attached-mdx",
                 "docs",
               ],
               "title": "A",
@@ -323,6 +329,7 @@ describe('useStoriesJson', () => {
               ],
               "story": "Second Docs",
               "tags": Array [
+                "attached-mdx",
                 "docs",
               ],
               "title": "A",
@@ -391,6 +398,7 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
+                "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/ComponentReference",
@@ -408,6 +416,7 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
+                "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/NoTitle",
@@ -425,6 +434,7 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
+                "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/Yabbadabbadooo",

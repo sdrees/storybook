@@ -64,6 +64,11 @@ export interface API_DocsEntry extends API_BaseEntry {
   /** @deprecated */
   kind: ComponentTitle;
   importPath: Path;
+  tags: Tag[];
+  prepared: boolean;
+  parameters?: {
+    [parameterName: string]: any;
+  };
 
   /** @deprecated */
   isRoot: false;

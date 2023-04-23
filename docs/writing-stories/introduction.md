@@ -85,6 +85,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 <CodeSnippets
   paths={[
     'react/button-story.with-hooks.js.mdx',
+    'react/button-story.with-hooks.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-button-story-with-hooks"
@@ -270,7 +271,6 @@ For instance, suppose you wanted to test your Button component against a differe
 />
 
 <!-- prettier-ignore-end -->
-
 
 ![Parameters background color](./parameters-background-colors.png)
 

@@ -29,6 +29,8 @@ import { DocsContext } from '../docs-context/DocsContext';
 export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public readonly type: RenderType = 'docs';
 
+  public readonly subtype = 'mdx';
+
   public readonly id: StoryId;
 
   private exports?: ModuleExports;
@@ -43,7 +45,7 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
 
   public preparing = false;
 
-  private csfFiles?: CSFFile<TRenderer>[];
+  public csfFiles?: CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,

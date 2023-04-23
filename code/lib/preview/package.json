@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.1.0-alpha.4",
+  "version": "7.1.0-alpha.7",
   "description": "",
   "keywords": [
     "storybook"
@@ -57,12 +57,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "@storybook/channel-postmessage": "7.1.0-alpha.4",
-    "@storybook/channel-websocket": "7.1.0-alpha.4",
-    "@storybook/channels": "7.1.0-alpha.4",
-    "@storybook/client-logger": "7.1.0-alpha.4",
-    "@storybook/core-events": "7.1.0-alpha.4",
-    "@storybook/preview-api": "7.1.0-alpha.4",
+    "@storybook/channel-postmessage": "7.1.0-alpha.7",
+    "@storybook/channel-websocket": "7.1.0-alpha.7",
+    "@storybook/channels": "7.1.0-alpha.7",
+    "@storybook/client-logger": "7.1.0-alpha.7",
+    "@storybook/core-events": "7.1.0-alpha.7",
+    "@storybook/preview-api": "7.1.0-alpha.7",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
@@ -74,5 +74,5 @@
       "./src/globals.ts"
     ]
   },
-  "gitHead": "18dcfa6073157150da60c328f6f64abd477ddcad"
+  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc"
 }

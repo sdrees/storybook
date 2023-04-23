@@ -48,6 +48,14 @@ jest.mock('@storybook/global', () => ({
 const getEventMetadataMock = getEventMetadata as ReturnType<typeof jest.fn>;
 
 const mockEntries: StoryIndex['entries'] = {
+  'component-a--docs': {
+    type: 'docs',
+    id: 'component-a--docs',
+    title: 'Component A',
+    name: 'Docs',
+    importPath: './path/to/component-a.ts',
+    storiesImports: [],
+  },
   'component-a--story-1': {
     type: 'story',
     id: 'component-a--story-1',
@@ -139,6 +147,7 @@ describe('stories API', () => {
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index)).toEqual([
         'component-a',
+        'component-a--docs',
         'component-a--story-1',
         'component-a--story-2',
         'component-b',
@@ -147,7 +156,17 @@ describe('stories API', () => {
       expect(index['component-a']).toMatchObject({
         type: 'component',
         id: 'component-a',
-        children: ['component-a--story-1', 'component-a--story-2'],
+        children: ['component-a--docs', 'component-a--story-1', 'component-a--story-2'],
+      });
+
+      expect(index['component-a--docs']).toMatchObject({
+        type: 'docs',
+        id: 'component-a--docs',
+        parent: 'component-a',
+        title: 'Component A',
+        name: 'Docs',
+        storiesImports: [],
+        prepared: false,
       });
 
       expect(index['component-a--story-1']).toMatchObject({
@@ -232,6 +251,7 @@ describe('stories API', () => {
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index)).toEqual([
         'component-a',
+        'component-a--docs',
         'component-a--story-1',
         'component-a--story-2',
         'component-b',
@@ -1421,6 +1441,37 @@ describe('stories API', () => {
       });
 
       expect(fullAPI.setOptions).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('DOCS_PREPARED', () => {
+    it('prepares the docs entry', async () => {
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setStories: jest.fn(),
+        setOptions: jest.fn(),
+      });
+
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      await init();
+      fullAPI.emit(STORY_PREPARED, {
+        id: 'component-a--docs',
+        parameters: { a: 'b' },
+      });
+
+      const { index } = store.getState();
+      expect(index['component-a--docs']).toMatchObject({
+        type: 'docs',
+        id: 'component-a--docs',
+        parent: 'component-a',
+        title: 'Component A',
+        name: 'Docs',
+        prepared: true,
+        parameters: { a: 'b' },
+      });
     });
   });
 

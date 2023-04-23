@@ -54,7 +54,7 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   logger.log(`🚛 Moving all the repros into the repository`);
   await copy(REPROS_DIRECTORY, tmpFolder);
 
-  await commitAllToGit(tmpFolder);
+  await commitAllToGit({ cwd: tmpFolder, branch });
 
   logger.info(`
      🙌 All the examples were bootstrapped:

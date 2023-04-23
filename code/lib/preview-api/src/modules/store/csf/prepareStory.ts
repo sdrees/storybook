@@ -169,8 +169,6 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const id = storyAnnotations?.id || componentAnnotations.id;
-
   const tags = [...(storyAnnotations?.tags || componentAnnotations.tags || []), 'story'];
 
   const parameters: Parameters = combineParameters(
@@ -182,24 +180,26 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // Currently it is only possible to set these globally
   const { argTypesEnhancers = [], argsEnhancers = [] } = projectAnnotations;
 
-  // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
-  // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
-  const render =
-    storyAnnotations?.userStoryFn ||
-    storyAnnotations?.render ||
-    componentAnnotations.render ||
-    projectAnnotations.render;
-
-  if (!render) throw new Error(`No render function available for id '${id}'`);
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
     storyAnnotations?.argTypes
   ) as StrictArgTypes;
 
-  const { passArgsFirst = true } = parameters;
-  // eslint-disable-next-line no-underscore-dangle
-  parameters.__isArgsStory = passArgsFirst && render.length > 0;
+  if (storyAnnotations) {
+    // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
+    // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
+    const render =
+      storyAnnotations?.userStoryFn ||
+      storyAnnotations?.render ||
+      componentAnnotations.render ||
+      projectAnnotations.render;
+
+    const { passArgsFirst = true } = parameters;
+
+    // eslint-disable-next-line no-underscore-dangle
+    parameters.__isArgsStory = passArgsFirst && render && render.length > 0;
+  }
 
   // Pull out args[X] into initialArgs for argTypes enhancers
   const passedArgs: Args = {

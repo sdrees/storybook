@@ -117,7 +117,6 @@ const INCLUDE_CANDIDATES = [
   'ts-dedent',
   'unfetch',
   'util-deprecate',
-  'uuid-browser/v4',
   'vue',
   'warning',
 ];

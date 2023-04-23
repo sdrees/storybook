@@ -9,8 +9,6 @@ declare var FEATURES:
     }
   | undefined;
 
-declare var SERVER_CHANNEL_URL: any;
-
 declare var __REACT__: any;
 declare var __REACTDOM__: any;
 declare var __STORYBOOKCOMPONENTS__: any;

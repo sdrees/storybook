@@ -325,6 +325,10 @@ export class StoryIndexGenerator {
       // are invalidated.f
       const dependencies = this.findDependencies(absoluteImports);
 
+      // To ensure the `<Meta of={}/>` import is always first in the list, we'll bring the dependency
+      // that contains it to the front of the list.
+      let sortedDependencies = dependencies;
+
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
       let csfEntry: StoryIndexEntry;
@@ -342,6 +346,8 @@ export class StoryIndexGenerator {
               csfEntry = first;
             }
           }
+
+          sortedDependencies = [dep, ...dependencies.filter((d) => d !== dep)];
         });
 
         if (!csfEntry)
@@ -372,9 +378,9 @@ export class StoryIndexGenerator {
         title,
         name,
         importPath,
-        storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
+        storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
-        tags: [...(result.tags || []), 'docs'],
+        tags: [...(result.tags || []), csfEntry ? 'attached-mdx' : 'unattached-mdx', 'docs'],
       };
       return docsEntry;
     } catch (err) {

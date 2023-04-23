@@ -4,7 +4,7 @@ import type { CoreConfig, DocsOptions, Options } from '@storybook/types';
 export type PreviewHtml = string | undefined;
 
 export async function transformIframeHtml(html: string, options: Options) {
-  const { configType, features, presets, serverChannelUrl } = options;
+  const { configType, features, presets } = options;
   const frameworkOptions = await presets.apply<Record<string, any> | null>('frameworkOptions');
   const headHtmlSnippet = await presets.apply<PreviewHtml>('previewHead');
   const bodyHtmlSnippet = await presets.apply<PreviewHtml>('previewBody');
@@ -31,7 +31,6 @@ export async function transformIframeHtml(html: string, options: Options) {
     .replace(`'[FEATURES HERE]'`, JSON.stringify(features || {}))
     .replace(`'[STORIES HERE]'`, JSON.stringify(stories || {}))
     .replace(`'[DOCS_OPTIONS HERE]'`, JSON.stringify(docsOptions || {}))
-    .replace(`'[SERVER_CHANNEL_URL HERE]'`, JSON.stringify(serverChannelUrl))
     .replace('<!-- [HEAD HTML SNIPPET HERE] -->', headHtmlSnippet || '')
     .replace('<!-- [BODY HTML SNIPPET HERE] -->', bodyHtmlSnippet || '');
 }

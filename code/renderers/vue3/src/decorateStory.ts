@@ -1,8 +1,9 @@
 import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
 import { h } from 'vue';
-import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn, Args } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { looseEqual } from '@vue/shared';
 import type { VueRenderer } from './types';
 
 /*
@@ -11,6 +12,7 @@ import type { VueRenderer } from './types';
   The concept is taken from Vue 3's `defineComponent` but changed from creating a `setup`
   method on the ComponentOptions so end-users don't need to specify a "thunk" as a decorator.
  */
+
 function normalizeFunctionalComponent(options: ConcreteComponent): ComponentOptions {
   return typeof options === 'function' ? { render: options, name: options.name } : options;
 }
@@ -20,11 +22,10 @@ function prepare(
   innerStory?: ConcreteComponent
 ): Component | null {
   const story = rawStory as ComponentOptions;
-
-  if (story == null) {
+  if (story === null) {
     return null;
   }
-
+  if (typeof story === 'function') return story; // we don't need to wrap a functional component nor to convert it to a component options
   if (innerStory) {
     return {
       // Normalize so we can always spread an object
@@ -44,6 +45,7 @@ export function decorateStory(
   storyFn: LegacyStoryFn<VueRenderer>,
   decorators: DecoratorFunction<VueRenderer>[]
 ): LegacyStoryFn<VueRenderer> {
+  let updatedArgs: Args;
   return decorators.reduce(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
       let story: VueRenderer['storyResult'] | undefined;
@@ -53,18 +55,21 @@ export function decorateStory(
           ...context,
           ...sanitizeStoryContextUpdate(update),
         });
+
+        if (update && update.args && !looseEqual(update.args, context.args))
+          updatedArgs ??= update.args;
         return story;
       }, context);
 
-      if (!story) {
-        story = decorated(context);
-      }
+      context.args = updatedArgs ?? context.args;
+      if (!story) story = decorated(context);
 
       if (decoratedStory === story) {
         return story;
       }
 
-      return prepare(decoratedStory, h(story, context.args)) as VueRenderer['storyResult'];
+      const innerStory = () => h(story!, context.args);
+      return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );
