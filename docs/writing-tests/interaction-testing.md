@@ -71,6 +71,8 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function"

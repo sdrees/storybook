@@ -44,6 +44,8 @@ When you are building screens in this way, it is typical that the inputs of a co
     'web-components/simple-page-implementation.js.mdx',
     'web-components/simple-page-implementation.ts.mdx',
     'svelte/simple-page-implementation.js.mdx',
+    'solid/simple-page-implementation.js.mdx',
+    'solid/simple-page-implementation.ts.mdx',
   ]}
 />
 
@@ -144,6 +146,7 @@ If you're working with pure presentational screens, adding stories through [args
     'angular/document-screen-fetch.ts.mdx',
     'svelte/document-screen-fetch.js.mdx',
     'web-components/document-screen-fetch.js.mdx',
+    'solid/document-screen-fetch.js.mdx',
   ]}
 />
 
@@ -316,6 +319,7 @@ First, create a React context, and name it `ProfilePageContext`. It does nothing
 <CodeSnippets
   paths={[
     'react/mock-context-create.js.mdx',
+    'solid/mock-context-create.js.mdx',
   ]}
 />
 
@@ -328,6 +332,7 @@ First, create a React context, and name it `ProfilePageContext`. It does nothing
 <CodeSnippets
   paths={[
     'react/mock-context-in-use.js.mdx',
+    'solid/mock-context-in-use.js.mdx',
   ]}
 />
 
@@ -342,6 +347,7 @@ In the context of Storybook, instead of providing container components through c
 <CodeSnippets
   paths={[
     'react/mock-context-container.js.mdx',
+    'solid/mock-context-container.js.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-mock-context-container"
@@ -366,6 +372,7 @@ For example, in Next.js, this would be your `pages/profile.js` component.
 <CodeSnippets
   paths={[
     'react/mock-context-container-provider.js.mdx',
+    'solid/mock-context-container-provider.js.mdx',
   ]}
 />
 
@@ -379,8 +386,10 @@ If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator
 
 <CodeSnippets
   paths={[
-    'react/mock-context-container-global.js.mdx',
+    'react/mock-context-container-global.js.mdx',    
     'react/mock-context-container-global.ts.mdx',
+    'solid/mock-context-container-global.js.mdx',
+    'solid/mock-context-container-global.ts.mdx',
   ]}
 />
 

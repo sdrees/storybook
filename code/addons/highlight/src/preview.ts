@@ -53,7 +53,7 @@ const resetHighlight = () => {
   const id = HIGHLIGHT_STYLE_ID;
   const sheetToBeRemoved = document.getElementById(id);
   if (sheetToBeRemoved) {
-    sheetToBeRemoved.parentNode.removeChild(sheetToBeRemoved);
+    sheetToBeRemoved.parentNode?.removeChild(sheetToBeRemoved);
   }
 };
 

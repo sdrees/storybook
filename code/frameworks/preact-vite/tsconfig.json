@@ -5,7 +5,8 @@
     "types": ["node"],
     "resolveJsonModule": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "strict": false
   },
   "include": ["src/**/*"]
 }

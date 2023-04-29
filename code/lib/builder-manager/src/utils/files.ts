@@ -19,7 +19,7 @@ export async function readOrderedFiles(
     }) || []
   );
 
-  const jsFiles = files.filter((file) => file.endsWith('.mjs'));
+  const jsFiles = files.filter((file) => file.endsWith('.js'));
   const cssFiles = files.filter((file) => file.endsWith('.css'));
   return { cssFiles, jsFiles };
 }

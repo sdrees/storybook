@@ -135,7 +135,7 @@ const runGenerators = async (
         const flags = expected.renderer === '@storybook/html' ? ['--type html'] : [];
 
         const time = process.hrtime();
-        console.log(`🧬 generating ${name}`);
+        console.log(`🧬 Generating ${name}`);
 
         const baseDir = join(REPROS_DIRECTORY, dirName);
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);

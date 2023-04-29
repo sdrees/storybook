@@ -296,7 +296,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     filter: (src) => {
       const { ext } = parse(src);
       if (ext) {
-        return ext === '.mjs';
+        return ext === '.js';
       }
       return true;
     },

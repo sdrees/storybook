@@ -57,6 +57,8 @@ Then you can access this environment variable anywhere, even within your stories
     'web-components/my-component-with-env-variables.js.mdx',
     'web-components/my-component-with-env-variables.ts.mdx',
     'svelte/my-component-with-env-variables.js.mdx',
+    'solid/my-component-with-env-variables.js.mdx',
+    'solid/my-component-with-env-variables.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/environment-variables#snippet-my-component-with-env-variables"

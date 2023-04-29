@@ -1,4 +1,4 @@
-import type { IOptions } from 'glob';
+import type { GlobOptionsWithFileTypesFalse } from 'glob';
 import type { Stories2SnapsConverter } from '../Stories2SnapsConverter';
 import type { SupportedFramework } from '../frameworks';
 import type { RenderTree } from '../frameworks/Loader';
@@ -25,7 +25,7 @@ export interface StoryshotsTestMethod {
 export interface StoryshotsOptions {
   asyncJest?: boolean;
   config?: (options: any) => void;
-  integrityOptions?: IOptions | false;
+  integrityOptions?: GlobOptionsWithFileTypesFalse | false;
   configPath?: string;
   suite?: string;
   storyKindRegex?: RegExp | string;

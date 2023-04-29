@@ -28,6 +28,7 @@ Object.defineProperty(global, 'localStorage', { value: localStorageMock, writabl
 const ignoreList = [
   (error: any) => error.message.includes('":nth-child" is potentially unsafe'),
   (error: any) => error.message.includes('":first-child" is potentially unsafe'),
+  (error: any) => error.message.match(/Browserslist: .* is outdated. Please run:/),
   (error: any) => error.message.includes('Failed prop type') && error.stack.includes('storyshots'),
   (error: any) =>
     error.message.includes('react-async-component-lifecycle-hooks') &&

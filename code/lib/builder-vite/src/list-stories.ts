@@ -1,6 +1,6 @@
 import * as path from 'path';
 import slash from 'slash';
-import { promise as glob } from 'glob-promise';
+import { glob } from 'glob';
 import { normalizeStories } from '@storybook/core-common';
 
 import type { Options } from '@storybook/types';

@@ -131,6 +131,8 @@ Update your story through [parameters](../writing-stories/parameters.md) to incl
     'web-components/my-component-story-configure-viewports.js.mdx',
     'web-components/my-component-story-configure-viewports.ts.mdx',
     'svelte/my-component-story-configure-viewports.js.mdx',
+    'solid/my-component-story-configure-viewports.js.mdx',
+    'solid/my-component-story-configure-viewports.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/viewport#snippet-my-component-story-configure-viewports"

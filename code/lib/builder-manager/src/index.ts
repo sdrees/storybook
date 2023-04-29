@@ -50,7 +50,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     write: false,
     ignoreAnnotations: true,
     resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
-    outExtension: { '.js': '.mjs' },
+    outExtension: { '.js': '.js' },
     loader: {
       '.js': 'jsx',
       '.png': 'dataurl',
@@ -235,7 +235,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     filter: (src) => {
       const { ext } = parse(src);
       if (ext) {
-        return ext === '.mjs';
+        return ext === '.js';
       }
       return true;
     },

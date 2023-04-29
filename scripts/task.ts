@@ -16,6 +16,7 @@ import { publish } from './tasks/publish';
 import { runRegistryTask } from './tasks/run-registry';
 import { generate } from './tasks/generate';
 import { sandbox } from './tasks/sandbox';
+import { syncDocs } from './tasks/sync-docs';
 import { dev } from './tasks/dev';
 import { smokeTest } from './tasks/smoke-test';
 import { build } from './tasks/build';
@@ -92,6 +93,7 @@ export const tasks = {
   compile,
   check,
   publish,
+  'sync-docs': syncDocs,
   'run-registry': runRegistryTask,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
   generate,
@@ -109,7 +111,7 @@ export const tasks = {
 type TaskKey = keyof typeof tasks;
 
 function isSandboxTask(taskKey: TaskKey) {
-  return !['install', 'compile', 'publish', 'run-registry', 'check'].includes(taskKey);
+  return !['install', 'compile', 'publish', 'run-registry', 'check', 'sync-docs'].includes(taskKey);
 }
 
 export const options = createOptions({

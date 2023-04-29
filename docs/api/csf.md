@@ -54,6 +54,8 @@ With CSF, every named export in the file represents a story object by default.
     'angular/my-component-story-basic-and-props.ts.mdx',
     'web-components/my-component-story-basic-and-props.js.mdx',
     'web-components/my-component-story-basic-and-props.ts.mdx',
+    'solid/my-component-story-basic-and-props.js.mdx',
+    'solid/my-component-story-basic-and-props.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-my-component-story-basic-and-props"
@@ -113,6 +115,8 @@ Consider Storybook’s ["Button" example](../writing-stories/introduction.md#def
     'angular/button-story-click-handler.ts.mdx',
     'web-components/button-story-click-handler.js.mdx',
     'web-components/button-story-click-handler.ts.mdx',
+    'solid/button-story-click-handler.js.mdx',
+    'solid/button-story-click-handler.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler"
@@ -136,6 +140,8 @@ Now consider the same example, re-written with args:
     'svelte/button-story-click-handler-args.js.mdx',
     'web-components/button-story-click-handler-args.js.mdx',
     'web-components/button-story-click-handler-args.ts.mdx',
+    'solid/button-story-click-handler-args.js.mdx',
+    'solid/button-story-click-handler-args.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler-args"
@@ -156,6 +162,8 @@ Or even more simply:
     'vue/button-story-click-handler-simplificated.ts.mdx',
     'web-components/button-story-click-handler-simplificated.js.mdx',
     'web-components/button-story-click-handler-simplificated.ts.mdx',
+    'solid/button-story-click-handler-simplificated.js.mdx',
+    'solid/button-story-click-handler-simplificated.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler-simplificated"
@@ -185,6 +193,8 @@ A good use case for the `play` function is a form component. With previous Story
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-login-form-with-play-function"
@@ -210,6 +220,8 @@ Starting in Storybook 6.4, you can write your stories as JavaScript objects, red
    'preact/component-story-with-custom-render-function.js.mdx',
    'web-components/component-story-with-custom-render-function.js.mdx',
    'web-components/component-story-with-custom-render-function.ts.mdx',
+   'solid/component-story-with-custom-render-function.js.mdx',
+   'solid/component-story-with-custom-render-function.ts.mdx',
   ]}
   usesCsf3
 />
@@ -263,6 +275,8 @@ Consider the following story file:
     'angular/my-component-story-with-nonstory.ts.mdx',
     'web-components/my-component-story-with-nonstory.js.mdx',
     'web-components/my-component-story-with-nonstory.ts.mdx',
+    'solid/my-component-story-with-nonstory.js.mdx',
+    'solid/my-component-story-with-nonstory.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-my-component-story-with-nonstory"
@@ -300,6 +314,8 @@ In CSF 2, the named exports are always functions that instantiate a component, a
     'angular/csf-2-example-starter.ts.mdx',
     'web-components/csf-2-example-starter.js.mdx',
     'web-components/csf-2-example-starter.ts.mdx',
+    'solid/csf-2-example-starter.js.mdx',
+    'solid/csf-2-example-starter.ts.mdx',
   ]}
 />
 
@@ -319,6 +335,7 @@ Here's the CSF 3 equivalent:
     'angular/csf-3-example-starter.ts.mdx',
     'web-components/csf-3-example-starter.js.mdx',
     'web-components/csf-3-example-starter.ts.mdx',
+    'solid/csf-3-example-starter.ts.mdx',
   ]}
 />
 
@@ -380,6 +397,8 @@ Let's start with a simple CSF 2 story function:
     'angular/csf-2-example-story.ts.mdx',
     'web-components/csf-2-example-story.js.mdx',
     'web-components/csf-2-example-story.ts.mdx',
+    'solid/csf-2-example-story.js.mdx',
+    'solid/csf-2-example-story.ts.mdx',
   ]}
 />
 
@@ -400,6 +419,8 @@ Now, let's rewrite it as a story object in CSF 3 with an explicit `render` funct
     'angular/csf-3-example-render.ts.mdx',
     'web-components/csf-3-example-render.js.mdx',
     'web-components/csf-3-example-render.ts.mdx',
+    'solid/csf-3-example-render.js.mdx',
+    'solid/csf-3-example-render.ts.mdx',
   ]}
 />
 

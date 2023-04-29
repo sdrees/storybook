@@ -1,6 +1,6 @@
 /* eslint-disable jest/no-export */
 import fs from 'fs';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { global } from '@storybook/global';
 import { dedent } from 'ts-dedent';
 
@@ -50,7 +50,7 @@ function integrityTest(integrityOptions: any, stories2snapsConverter: any) {
   describe('Storyshots Integrity', () => {
     it('Abandoned Storyshots', () => {
       const snapshotExtension = stories2snapsConverter.getSnapshotExtension();
-      const storyshots = glob.sync(`**/*${snapshotExtension}`, integrityOptions);
+      const storyshots = globSync(`**/*${snapshotExtension}`, integrityOptions);
 
       // @ts-expect-error (ts doesn't 'get' the extension happening on line 9)
       expect(storyshots).notToBeAbandoned(stories2snapsConverter);

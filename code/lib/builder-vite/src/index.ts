@@ -92,7 +92,7 @@ export const build: ViteBuilder['build'] = async ({ options }) => {
     filter: (src) => {
       const { ext } = parse(src);
       if (ext) {
-        return ext === '.mjs';
+        return ext === '.js';
       }
       return true;
     },

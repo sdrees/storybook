@@ -3,7 +3,8 @@
   "compilerOptions": {
     "rootDir": "./src",
     "types": ["node"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "strict": false
   },
   "include": ["src/**/*"]
 }

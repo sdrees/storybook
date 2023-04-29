@@ -8,7 +8,7 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 Hundreds of thousands of developers use Storybook daily to build, test, and document components. Storybook is framework agnostic and integrates with the front-end ecosystem:
 
-- **JavaScript frameworks** such as [React](https://reactjs.org/), [Vue](https://vuejs.org/), and [Svelte](https://svelte.dev/)
+- **JavaScript frameworks** such as [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/) and [Solid](https://www.solidjs.com/)
 - **Libraries** such as [Styled-Components](https://styled-components.com/), [Tailwind](https://tailwindcss.com/), [Redux](https://redux.js.org/)
 - **Design tools** such as [Figma](https://figma.com/), [Sketch](https://www.sketch.com/), [Zeplin](https://zeplin.io/) and [InVision](https://www.invisionapp.com/)
 - **Workflow tools** such as [Notion](https://www.notion.so/product), [Confluence](https://www.atlassian.com/software/confluence), and [Jira](https://www.atlassian.com/software/jira)

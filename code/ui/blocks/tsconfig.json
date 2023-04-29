@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "esnext",
     "rootDir": "./src",
-    "types": ["jest"]
+    "types": ["jest"],
+    "strict": false
   },
   "include": ["src/**/*"]
 }

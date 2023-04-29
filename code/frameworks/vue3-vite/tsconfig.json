@@ -4,7 +4,8 @@
     "rootDir": "./src",
     "types": ["node"],
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "strict": false
   },
   "include": ["src/**/*"]
 }

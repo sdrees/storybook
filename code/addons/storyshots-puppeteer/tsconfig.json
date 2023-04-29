@@ -3,7 +3,8 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "types": ["node"],
-    "declaration": true
+    "declaration": true,
+    "strict": false
   },
   "include": ["src/**/*"]
 }

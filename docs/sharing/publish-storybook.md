@@ -161,20 +161,6 @@ Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3
 
 If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
 
-### Title
-
-Storybook will generate the document title (i.e. `<title>`) for you automatically, to include the currently-viewed component and story. By default, it looks something like "Components / Button - Primary ⋅ Storybook". You can modify the "Storybook" portion by adding the following to the `main.js` file in your config directory:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/seo-title.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 ### Description
 
 You can provide a description for search engines to display in the results listing, by adding the following to the `manager-head.html` file in your config directory:

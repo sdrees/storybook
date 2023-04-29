@@ -3,6 +3,7 @@ import * as React from 'react';
 import type * as _NextImage from 'next/image';
 import type * as _NextLegacyImage from 'next/legacy/image';
 import semver from 'semver';
+import { ImageContext } from './context';
 
 const defaultLoader = ({ src, width, quality }: _NextImage.ImageLoaderProps) => {
   const missingValues = [];
@@ -38,7 +39,11 @@ const OriginalNextImage = NextImage.default;
 Object.defineProperty(NextImage, 'default', {
   configurable: true,
   value: (props: _NextImage.ImageProps) => {
-    return <OriginalNextImage {...props} loader={props.loader ?? defaultLoader} />;
+    const imageParameters = React.useContext(ImageContext);
+
+    return (
+      <OriginalNextImage {...imageParameters} {...props} loader={props.loader ?? defaultLoader} />
+    );
   },
 });
 
@@ -48,9 +53,17 @@ if (semver.satisfies(process.env.__NEXT_VERSION!, '^13.0.0')) {
 
   Object.defineProperty(OriginalNextLegacyImage, 'default', {
     configurable: true,
-    value: (props: _NextLegacyImage.ImageProps) => (
-      <OriginalNextLegacyImage {...props} loader={props.loader ?? defaultLoader} />
-    ),
+    value: (props: _NextLegacyImage.ImageProps) => {
+      const imageParameters = React.useContext(ImageContext);
+
+      return (
+        <OriginalNextLegacyImage
+          {...imageParameters}
+          {...props}
+          loader={props.loader ?? defaultLoader}
+        />
+      );
+    },
   });
 }
 
@@ -60,8 +73,16 @@ if (semver.satisfies(process.env.__NEXT_VERSION!, '^12.2.0')) {
 
   Object.defineProperty(OriginalNextFutureImage, 'default', {
     configurable: true,
-    value: (props: _NextImage.ImageProps) => (
-      <OriginalNextFutureImage {...props} loader={props.loader ?? defaultLoader} />
-    ),
+    value: (props: _NextImage.ImageProps) => {
+      const imageParameters = React.useContext(ImageContext);
+
+      return (
+        <OriginalNextFutureImage
+          {...imageParameters}
+          {...props}
+          loader={props.loader ?? defaultLoader}
+        />
+      );
+    },
   });
 }

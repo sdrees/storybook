@@ -22,15 +22,15 @@ type Story = StoryObj<typeof meta>;
 const chromeError = new Error('Rendering Problem');
 chromeError.stack = `Error: Rendering problem
   at render (http://localhost:6006/blocks/src/examples/Button.stories.tsx?t=1677124831161:147:11)
-  at undecoratedStoryFn (http://localhost:6006/sb-preview/runtime.mjs:8255:38)
-  at http://localhost:6006/sb-preview/runtime.mjs:7286:21
-  at http://localhost:6006/sb-preview/runtime.mjs:8225:12
+  at undecoratedStoryFn (http://localhost:6006/sb-preview/runtime.js:8255:38)
+  at http://localhost:6006/sb-preview/runtime.js:7286:21
+  at http://localhost:6006/sb-preview/runtime.js:8225:12
   at jsxDecorator (http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_react_preview.js?v=0fc15c2d:1892:17)
-  at http://localhost:6006/sb-preview/runtime.mjs:7286:21
-  at http://localhost:6006/sb-preview/runtime.mjs:8200:23
-  at http://localhost:6006/sb-preview/runtime.mjs:8225:12
+  at http://localhost:6006/sb-preview/runtime.js:7286:21
+  at http://localhost:6006/sb-preview/runtime.js:8200:23
+  at http://localhost:6006/sb-preview/runtime.js:8225:12
   at wrapper (http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_addon-links_preview.js?v=0fc15c2d:66:12)
-  at http://localhost:6006/sb-preview/runtime.mjs:11942:12`;
+  at http://localhost:6006/sb-preview/runtime.js:11942:12`;
 export const Chrome: Story = {
   args: {
     error: chromeError,
@@ -39,14 +39,14 @@ export const Chrome: Story = {
 
 const safariError = new Error('Rendering Problem');
 safariError.stack = dedent`render@http://localhost:6006/blocks/src/examples/Button.stories.tsx?t=1677211545729:147:26
-  @http://localhost:6006/sb-preview/runtime.mjs:7:17017
+  @http://localhost:6006/sb-preview/runtime.js:7:17017
   jsxDecorator@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_react_preview.js?v=0fc15c2d:1469:22
-  @http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  @http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  @http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  @http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  @http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  @http://localhost:6006/sb-preview/runtime.mjs:7:17017
+  @http://localhost:6006/sb-preview/runtime.js:7:17017
+  @http://localhost:6006/sb-preview/runtime.js:7:17017
+  @http://localhost:6006/sb-preview/runtime.js:7:17017
+  @http://localhost:6006/sb-preview/runtime.js:7:17017
+  @http://localhost:6006/sb-preview/runtime.js:7:17017
+  @http://localhost:6006/sb-preview/runtime.js:7:17017
   renderWithHooks@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/chunk-DEJXHLHT.js?v=0fc15c2d:11346:35
   mountIndeterminateComponent@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/chunk-DEJXHLHT.js?v=0fc15c2d:13419:36
   callCallback2@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/chunk-DEJXHLHT.js?v=0fc15c2d:1079:27
@@ -77,35 +77,35 @@ export const Safari: Story = {
 
 const firefoxError = new Error('Rendering Problem');
 firefoxError.stack = dedent`render@http://localhost:6006/blocks/src/examples/Button.stories.tsx?t=1677211545729:147:17
-  undecoratedStoryFn@http://localhost:6006/sb-preview/runtime.mjs:34:2794
-  hookify/<@http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.mjs:34:1915
+  undecoratedStoryFn@http://localhost:6006/sb-preview/runtime.js:34:2794
+  hookify/<@http://localhost:6006/sb-preview/runtime.js:7:17017
+  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.js:34:1915
   jsxDecorator@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_react_preview.js?v=0fc15c2d:1469:15
-  hookify/<@http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  decorateStory/<@http://localhost:6006/sb-preview/runtime.mjs:34:1463
-  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.mjs:34:1915
+  hookify/<@http://localhost:6006/sb-preview/runtime.js:7:17017
+  decorateStory/<@http://localhost:6006/sb-preview/runtime.js:34:1463
+  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.js:34:1915
   wrapper@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_addon-links_preview.js?v=0fc15c2d:43:225
-  makeDecorator/decorator/<@http://localhost:6006/sb-preview/runtime.mjs:93:3440
-  makeDecorator/<@http://localhost:6006/sb-preview/runtime.mjs:93:3553
-  hookify/<@http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  decorateStory/<@http://localhost:6006/sb-preview/runtime.mjs:34:1463
-  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.mjs:34:1915
+  makeDecorator/decorator/<@http://localhost:6006/sb-preview/runtime.js:93:3440
+  makeDecorator/<@http://localhost:6006/sb-preview/runtime.js:93:3553
+  hookify/<@http://localhost:6006/sb-preview/runtime.js:7:17017
+  decorateStory/<@http://localhost:6006/sb-preview/runtime.js:34:1463
+  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.js:34:1915
   withGrid@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_addon-essentials_backgrounds_preview.js?v=0fc15c2d:116:40
-  hookify/<@http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  decorateStory/<@http://localhost:6006/sb-preview/runtime.mjs:34:1463
-  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.mjs:34:1915
+  hookify/<@http://localhost:6006/sb-preview/runtime.js:7:17017
+  decorateStory/<@http://localhost:6006/sb-preview/runtime.js:34:1463
+  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.js:34:1915
   withBackground@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_addon-essentials_backgrounds_preview.js?v=0fc15c2d:91:46
-  hookify/<@http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  decorateStory/<@http://localhost:6006/sb-preview/runtime.mjs:34:1463
-  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.mjs:34:1915
+  hookify/<@http://localhost:6006/sb-preview/runtime.js:7:17017
+  decorateStory/<@http://localhost:6006/sb-preview/runtime.js:34:1463
+  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.js:34:1915
   withMeasure@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_addon-essentials_measure_preview.js?v=0fc15c2d:201:25
-  hookify/<@http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  decorateStory/<@http://localhost:6006/sb-preview/runtime.mjs:34:1463
-  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.mjs:34:1915
+  hookify/<@http://localhost:6006/sb-preview/runtime.js:7:17017
+  decorateStory/<@http://localhost:6006/sb-preview/runtime.js:34:1463
+  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.js:34:1915
   withOutline@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/@storybook_addon-essentials_outline_preview.js?v=0fc15c2d:443:43
-  hookify/<@http://localhost:6006/sb-preview/runtime.mjs:7:17017
-  decorateStory/<@http://localhost:6006/sb-preview/runtime.mjs:34:1463
-  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.mjs:34:1915
+  hookify/<@http://localhost:6006/sb-preview/runtime.js:7:17017
+  decorateStory/<@http://localhost:6006/sb-preview/runtime.js:34:1463
+  defaultDecorateStory/bindWithContext/<@http://localhost:6006/sb-preview/runtime.js:34:1915
   renderWithHooks@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/chunk-DEJXHLHT.js?v=0fc15c2d:11346:35
   mountIndeterminateComponent@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/chunk-DEJXHLHT.js?v=0fc15c2d:13419:21
   beginWork@http://localhost:6006/node_modules/.cache/.vite-storybook/deps/chunk-DEJXHLHT.js?v=0fc15c2d:14153:22

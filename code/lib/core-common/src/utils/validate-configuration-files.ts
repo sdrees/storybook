@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { promise as glob } from 'glob-promise';
+import { glob } from 'glob';
 import path from 'path';
 import slash from 'slash';
 import { once } from '@storybook/node-logger';

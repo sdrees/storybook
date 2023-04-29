@@ -42,7 +42,7 @@ export async function wrapManagerEntries(entrypoints: string[]) {
       const base = relative(process.cwd(), dir);
       const location = join(
         cacheLocation,
-        sanitizeFinal(join(`${sanitizeBase(base)}-${i}`, `${sanitizeBase(name)}-bundle.mjs`))
+        sanitizeFinal(join(`${sanitizeBase(base)}-${i}`, `${sanitizeBase(name)}-bundle.js`))
       );
 
       await fs.ensureFile(location);

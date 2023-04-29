@@ -17,6 +17,7 @@ const frameworksThatNeedBabelConfig = [
   '@storybook/vue-webpack5',
   '@storybook/vue3-webpack5',
   '@storybook/html-webpack5',
+  '@storybook/web-components-webpack5',
 ];
 
 export const missingBabelRc: Fix<MissingBabelRcOptions> = {

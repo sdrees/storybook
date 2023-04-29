@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.1.0-alpha.7",
+  "version": "7.1.0-alpha.10",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
-    "@storybook/client-logger": "7.1.0-alpha.7",
+    "@storybook/client-logger": "7.1.0-alpha.10",
     "@storybook/global": "^5.0.0",
     "memoizerific": "^1.11.3"
   },
@@ -80,5 +80,5 @@
     ],
     "post": "./scripts/fix-theme-type-export.ts"
   },
-  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc"
+  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
 }

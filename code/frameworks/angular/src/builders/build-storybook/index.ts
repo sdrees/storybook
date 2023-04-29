@@ -1,6 +1,8 @@
 import {
   BuilderContext,
+  BuilderHandlerFn,
   BuilderOutput,
+  BuilderOutputLike,
   Target,
   createBuilder,
   targetFromTargetString,
@@ -42,17 +44,15 @@ export type StorybookBuilderOptions = JsonObject & {
     'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson' | 'disableTelemetry'
   >;
 
-export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
+export type StorybookBuilderOutput = JsonObject & BuilderOutput & { [key: string]: any };
 
 type StandaloneBuildOptions = StandaloneOptions & { outputDir: string };
 
-export default createBuilder<any, any>(commandBuilder);
-
-function commandBuilder(
-  options: StorybookBuilderOptions,
-  context: BuilderContext
-): Observable<StorybookBuilderOutput> {
-  return from(setup(options, context)).pipe(
+const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
+  options,
+  context
+): BuilderOutputLike => {
+  const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
       const runCompodoc$ = options.compodoc
         ? runCompodoc({ compodocArgs: options.compodocArgs, tsconfig: tsConfig }, context).pipe(
@@ -109,7 +109,11 @@ function commandBuilder(
       return { success: true };
     })
   );
-}
+
+  return builder as any as BuilderOutput;
+};
+
+export default createBuilder(commandBuilder);
 
 async function setup(options: StorybookBuilderOptions, context: BuilderContext) {
   let browserOptions: (JsonObject & BrowserBuilderOptions) | undefined;

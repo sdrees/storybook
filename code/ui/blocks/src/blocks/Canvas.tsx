@@ -189,6 +189,7 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
     }
   }
   if (hookError) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw hookError;
   }
 

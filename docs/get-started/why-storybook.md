@@ -52,6 +52,8 @@ You write stories for granular UI component variation and then use those stories
     'preact/histogram-story.js.mdx',
     'html/histogram-story.js.mdx',
     'html/histogram-story.ts.mdx',
+    'solid/histogram-story.js.mdx',
+    'solid/histogram-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="why-storybook#snippet-histogram-story"

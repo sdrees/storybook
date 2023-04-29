@@ -78,7 +78,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   return (
     <>
       {height ? (
-        <style>{`${storyBlockIdFromId(
+        <style>{`#${storyBlockIdFromId(
           props
         )} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
       ) : null}

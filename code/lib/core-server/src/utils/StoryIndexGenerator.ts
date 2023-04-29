@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
+import invariant from 'tiny-invariant';
 
 import type {
   IndexEntry,
@@ -552,6 +553,7 @@ export class StoryIndexGenerator {
     } catch (err) {
       this.lastError = err;
       logger.warn(`🚨 ${this.lastError.toString()}`);
+      invariant(this.lastError);
       throw this.lastError;
     }
   }

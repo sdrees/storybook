@@ -3,7 +3,7 @@
 import { join } from 'path';
 import fs, { move } from 'fs-extra';
 import * as ts from 'typescript';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
@@ -57,7 +57,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       options: { ...compilerOptions, module: ts.ModuleKind.ES2020, declaration: false },
     }).emit();
 
-    const files = glob.sync(join(process.cwd(), 'dist', '*.js'));
+    const files = globSync(join(process.cwd(), 'dist', '*.js'));
     await Promise.all(files.map((file) => move(file, file.replace('.js', '.mjs'), {})));
 
     ts.createProgram({

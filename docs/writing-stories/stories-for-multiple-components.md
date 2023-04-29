@@ -21,6 +21,8 @@ The simplest approach we can take is to reuse the stories of the `ListItem` in t
     'angular/list-story-unchecked.ts.mdx',
     'web-components/list-story-unchecked.js.mdx',
     'web-components/list-story-unchecked.ts.mdx',
+    'solid/list-story-unchecked.js.mdx',
+    'solid/list-story-unchecked.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-unchecked"
@@ -41,7 +43,7 @@ One way we improve that situation is by pulling the rendered subcomponent out in
 <CodeSnippets
   paths={[
     'react/list-story-with-unchecked-children.js.mdx',
-    'react/list-story-with-unchecked-children.ts.mdx',
+    'react/list-story-with-unchecked-children.ts.mdx',    
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-unchecked-children"
@@ -83,6 +85,8 @@ Another option that is more “data”-based is to create a special “story-gen
     'angular/list-story-template.ts.mdx',
     'web-components/list-story-template.js.mdx',
     'web-components/list-story-template.ts.mdx',
+    'solid/list-story-template.js.mdx',
+    'solid/list-story-template.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-template"

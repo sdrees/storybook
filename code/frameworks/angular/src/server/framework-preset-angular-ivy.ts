@@ -1,4 +1,5 @@
 import { Configuration } from 'webpack';
+import { VERSION } from '@angular/core';
 import * as path from 'path';
 import { Preset } from '@storybook/types';
 
@@ -30,13 +31,12 @@ function loadEsmModule<T>(modulePath: string): Promise<T> {
  * Information about Ivy can be found here https://angular.io/guide/ivy
  */
 export const runNgcc = async () => {
-  let ngcc: typeof import('@angular/compiler-cli/ngcc');
+  let ngcc: any;
   try {
-    ngcc = await import('@angular/compiler-cli/ngcc');
+    // eslint-disable-next-line global-require
+    ngcc = require('@angular/compiler-cli/ngcc');
   } catch (error) {
-    ngcc = await loadEsmModule<typeof import('@angular/compiler-cli/ngcc')>(
-      '@angular/compiler-cli/ngcc'
-    );
+    ngcc = await loadEsmModule('@angular/compiler-cli/ngcc');
   }
 
   ngcc.process({
@@ -52,29 +52,30 @@ export const runNgcc = async () => {
 export const webpack = async (webpackConfig: Configuration, options: PresetOptions) => {
   const framework = await options.presets.apply<Preset>('framework');
   const angularOptions = (typeof framework === 'object' ? framework.options : {}) as AngularOptions;
+  const isAngular16OrNewer = parseInt(VERSION.major, 10) >= 16;
 
   // Default to true, if undefined
   if (angularOptions.enableIvy === false) {
     return webpackConfig;
   }
 
-  if (angularOptions.enableNgcc !== false) {
+  let extraMainFields: string[] = [];
+
+  if (angularOptions.enableNgcc !== false && !isAngular16OrNewer) {
+    // TODO: Drop if Angular 14 and 15 are not supported anymore
     runNgcc();
+    extraMainFields = ['es2015_ivy_ngcc', 'module_ivy_ngcc', 'main_ivy_ngcc'];
+  }
+
+  if (!isAngular16OrNewer) {
+    extraMainFields.push('es2015');
   }
 
   return {
     ...webpackConfig,
     resolve: {
       ...webpackConfig.resolve,
-      mainFields: [
-        'es2015_ivy_ngcc',
-        'module_ivy_ngcc',
-        'main_ivy_ngcc',
-        'es2015',
-        'browser',
-        'module',
-        'main',
-      ],
+      mainFields: [...extraMainFields, 'browser', 'module', 'main'],
     },
   };
 };

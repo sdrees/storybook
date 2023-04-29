@@ -94,4 +94,4 @@ To make it easier to adopt the new [Component Story Format (CSF)](https://storyb
 sb migrate storiesof-to-csf --glob=src/**/*.stories.js
 ```
 
-For more information, see the CLI's [Codemod README](https://github.com/storybookjs/storybook/tree/next/lib/codemod).
+For more information, see the CLI's [Codemod README](https://github.com/storybookjs/storybook/tree/next/code/lib/codemod).

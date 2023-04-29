@@ -37,11 +37,6 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
       deprecate(
         '`showName` is deprecated as `name` will stop having dual purposes in the future. Please specify a `title` in `globalTypes` instead.'
       );
-    } else if (!icon && !title) {
-      title = name;
-      deprecate(
-        `Using the \`name\` "${name}" as toolbar title for backward compatibility. \`name\` will stop having dual purposes in the future. Please specify either a \`title\` or an \`icon\` in \`globalTypes\` instead.`
-      );
     }
 
     if (dynamicTitle) {

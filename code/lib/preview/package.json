@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.1.0-alpha.7",
+  "version": "7.1.0-alpha.10",
   "description": "",
   "keywords": [
     "storybook"
@@ -22,19 +22,17 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/runtime.mjs",
-      "require": "./dist/runtime.js",
+      "import": "./dist/runtime.js",
       "types": "./dist/runtime.d.ts"
     },
     "./globals": {
-      "import": "./dist/globals.mjs",
       "require": "./dist/globals.js",
       "types": "./dist/globals.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/runtime.js",
-  "module": "dist/runtime.mjs",
+  "module": "dist/runtime.js",
   "types": "dist/runtime.d.ts",
   "typesVersions": {
     "*": {
@@ -54,25 +52,27 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
-    "@storybook/channel-postmessage": "7.1.0-alpha.7",
-    "@storybook/channel-websocket": "7.1.0-alpha.7",
-    "@storybook/channels": "7.1.0-alpha.7",
-    "@storybook/client-logger": "7.1.0-alpha.7",
-    "@storybook/core-events": "7.1.0-alpha.7",
-    "@storybook/preview-api": "7.1.0-alpha.7",
+    "@storybook/channel-postmessage": "7.1.0-alpha.10",
+    "@storybook/channel-websocket": "7.1.0-alpha.10",
+    "@storybook/channels": "7.1.0-alpha.10",
+    "@storybook/client-logger": "7.1.0-alpha.10",
+    "@storybook/core-events": "7.1.0-alpha.10",
+    "@storybook/preview-api": "7.1.0-alpha.10",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/runtime.ts",
+    "browserEntries": [
+      "./src/runtime.ts"
+    ],
+    "nodeEntries": [
       "./src/globals.ts"
     ]
   },
-  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc"
+  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
 }

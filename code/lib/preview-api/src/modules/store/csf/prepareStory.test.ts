@@ -510,6 +510,51 @@ describe('prepareStory', () => {
     });
   });
 
+  describe('mapping', () => {
+    it('maps labels to values in prepareContext', () => {
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', mapping: { 1: 'mapped-1' } },
+          },
+          moduleExport,
+        },
+        { id, title },
+        { render: jest.fn() }
+      );
+
+      const context = story.prepareContext({ args: { one: 1 }, ...story } as any);
+      expect(context).toMatchObject({
+        args: { one: 'mapped-1' },
+      });
+    });
+
+    it('maps arrays of labels to values in prepareContext', () => {
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', mapping: { 1: 'mapped-1' } },
+          },
+          moduleExport,
+        },
+        { id, title },
+        { render: jest.fn() }
+      );
+
+      const context = story.prepareContext({
+        args: { one: [1, 1] },
+        ...story,
+      } as any);
+      expect(context).toMatchObject({
+        args: { one: ['mapped-1', 'mapped-1'] },
+      });
+    });
+  });
+
   describe('with `FEATURES.argTypeTargetsV7`', () => {
     beforeEach(() => {
       global.FEATURES = { argTypeTargetsV7: true };

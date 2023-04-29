@@ -346,11 +346,7 @@ function sortByPropName(
 function resolveComponentFactory<T extends Type<any>>(component: T) {
   TestBed.configureTestingModule({
     declarations: [component],
-  }).overrideModule(BrowserDynamicTestingModule, {
-    set: {
-      entryComponents: [component],
-    },
-  });
+  }).overrideModule(BrowserDynamicTestingModule, {});
   const componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
 
   return componentFactoryResolver.resolveComponentFactory(component);

@@ -4,7 +4,7 @@
 
 import { join, resolve } from 'path';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { directory } from 'tempy';
 import { execaCommand } from './utils/exec';
 
@@ -12,7 +12,7 @@ const logger = console;
 
 // Find all symlinks in a directory. There may be more efficient ways to do this, but this works.
 async function findSymlinks(dir: string) {
-  const potentialDirs = await glob.sync(`${dir}/**/*/`);
+  const potentialDirs = await globSync(`${dir}/**/*/`);
 
   return (
     await Promise.all(

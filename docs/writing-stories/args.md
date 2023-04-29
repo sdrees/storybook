@@ -34,6 +34,8 @@ To define the args of a single story, use the `args` CSF story key:
     'svelte/button-story-with-args.js.mdx',
     'html/button-story-with-args.ts.mdx',
     'html/button-story-with-args.js.mdx',
+    'solid/button-story-with-args.js.mdx',
+    'solid/button-story-with-args.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/args#snippet-button-story-with-args"
@@ -78,6 +80,8 @@ You can also define args at the component level; they will apply to all the comp
     'web-components/button-story-component-args-primary.js.mdx',
     'web-components/button-story-component-args-primary.ts.mdx',
     'svelte/button-story-component-args-primary.js.mdx',
+    'solid/button-story-component-args-primary.js.mdx',
+    'solid/button-story-component-args-primary.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/args#snippet-button-story-component-args-primary"
@@ -142,6 +146,8 @@ Args are useful when writing stories for composite components that are assembled
     'web-components/page-story.js.mdx',
     'web-components/page-story.ts.mdx',
     'svelte/page-story.js.mdx',
+    'solid/page-story.js.mdx',
+    'solid/page-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/args#snippet-page-story"
@@ -166,6 +172,8 @@ You can use args in your stories to configure the component's appearance, simila
     'angular/page-story-slots.ts.mdx',
     'web-components/page-story-slots.js.mdx',
     'web-components/page-story-slots.ts.mdx',
+    'solid/page-story-slots.js.mdx',
+    'solid/page-story-slots.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/args#snippet-page-story-slots"

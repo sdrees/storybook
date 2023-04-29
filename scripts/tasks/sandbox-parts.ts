@@ -278,7 +278,7 @@ function addStoriesEntry(mainConfig: ConfigFile, path: string) {
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
 }
 
-function addVariantToFolder(variant?: string, folder = 'stories') {
+function getStoriesFolderWithVariant(variant?: string, folder = 'stories') {
   return variant ? `${folder}_${variant}` : folder;
 }
 
@@ -286,9 +286,9 @@ function addVariantToFolder(variant?: string, folder = 'stories') {
 async function linkPackageStories(
   packageDir: string,
   { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string },
-  frameworkVariant?: string
+  variant?: string
 ) {
-  const storiesFolderName = frameworkVariant ? addVariantToFolder(frameworkVariant) : 'stories';
+  const storiesFolderName = variant ? getStoriesFolderWithVariant(variant) : 'stories';
   const source = join(CODE_DIRECTORY, packageDir, 'template', storiesFolderName);
   // By default we link `stories` directories
   //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
@@ -297,10 +297,7 @@ async function linkPackageStories(
   // The files must be linked in the cwd, in order to ensure that any dependencies they
   // reference are resolved in the cwd. In particular 'react' resolved by MDX files.
   const target = linkInDir
-    ? resolve(
-        linkInDir,
-        frameworkVariant ? addVariantToFolder(frameworkVariant, packageDir) : packageDir
-      )
+    ? resolve(linkInDir, variant ? getStoriesFolderWithVariant(variant, packageDir) : packageDir)
     : resolve(cwd, 'template-stories', packageDir);
 
   await ensureSymlink(source, target);
@@ -325,11 +322,11 @@ async function linkPackageStories(
       if (await pathExists(previewPath)) {
         let storiesDir = 'template-stories';
         if (linkInDir) {
-          storiesDir = (await pathExists(join(cwd, `src/${storiesFolderName}`)))
-            ? `src/${storiesFolderName}`
-            : storiesFolderName;
+          storiesDir = (await pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
         }
-        addPreviewAnnotations(mainConfig, [`./${join(storiesDir, packageDir, previewFile)}`]);
+        addPreviewAnnotations(mainConfig, [
+          `./${join(storiesDir, variant ? `${packageDir}_${variant}` : packageDir, previewFile)}`,
+        ]);
       }
     })
   );
@@ -372,6 +369,10 @@ export const addStories: Task['run'] = async (
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
   const isCoreRenderer = template.expected.renderer.startsWith('@storybook/');
+
+  const sandboxSpecificStoriesFolder = key.replaceAll('/', '-');
+  const storiesVariantFolder = getStoriesFolderWithVariant(sandboxSpecificStoriesFolder);
+
   if (isCoreRenderer) {
     // Link in the template/components/index.js from store, the renderer and the addons
     const rendererPath = await workspacePath('renderer', template.expected.renderer);
@@ -387,6 +388,22 @@ export const addStories: Task['run'] = async (
       cwd,
       linkInDir: resolve(cwd, storiesPath),
     });
+
+    if (
+      await pathExists(
+        resolve(CODE_DIRECTORY, rendererPath, join('template', storiesVariantFolder))
+      )
+    ) {
+      await linkPackageStories(
+        rendererPath,
+        {
+          mainConfig,
+          cwd,
+          linkInDir: resolve(cwd, storiesPath),
+        },
+        sandboxSpecificStoriesFolder
+      );
+    }
   }
 
   const isCoreFramework = template.expected.framework.startsWith('@storybook/');
@@ -403,8 +420,7 @@ export const addStories: Task['run'] = async (
       });
     }
 
-    const frameworkVariant = key.split('/')[1];
-    const storiesVariantFolder = addVariantToFolder(frameworkVariant);
+    console.log({ sandboxSpecificStoriesFolder, storiesVariantFolder });
 
     if (
       await pathExists(
@@ -418,7 +434,7 @@ export const addStories: Task['run'] = async (
           cwd,
           linkInDir: resolve(cwd, storiesPath),
         },
-        frameworkVariant
+        sandboxSpecificStoriesFolder
       );
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.1.0-alpha.7",
+  "version": "7.1.0-alpha.10",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -58,18 +58,18 @@
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.1.0-alpha.7",
-    "@storybook/core-common": "7.1.0-alpha.7",
-    "@storybook/core-events": "7.1.0-alpha.7",
+    "@storybook/builder-manager": "7.1.0-alpha.10",
+    "@storybook/core-common": "7.1.0-alpha.10",
+    "@storybook/core-events": "7.1.0-alpha.10",
     "@storybook/csf": "^0.1.0",
-    "@storybook/csf-tools": "7.1.0-alpha.7",
+    "@storybook/csf-tools": "7.1.0-alpha.10",
     "@storybook/docs-mdx": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager": "7.1.0-alpha.7",
-    "@storybook/node-logger": "7.1.0-alpha.7",
-    "@storybook/preview-api": "7.1.0-alpha.7",
-    "@storybook/telemetry": "7.1.0-alpha.7",
-    "@storybook/types": "7.1.0-alpha.7",
+    "@storybook/manager": "7.1.0-alpha.10",
+    "@storybook/node-logger": "7.1.0-alpha.10",
+    "@storybook/preview-api": "7.1.0-alpha.10",
+    "@storybook/telemetry": "7.1.0-alpha.10",
+    "@storybook/types": "7.1.0-alpha.10",
     "@types/detect-port": "^1.3.0",
     "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.5.7",
@@ -94,6 +94,7 @@
     "semver": "^7.3.7",
     "serve-favicon": "^2.5.0",
     "telejson": "^7.0.3",
+    "tiny-invariant": "^1.3.1",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
     "watchpack": "^2.2.0",
@@ -120,5 +121,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc"
+  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
 }

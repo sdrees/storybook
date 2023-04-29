@@ -17,8 +17,8 @@ const replacementMap = new Map([
 ]);
 
 /**
- * This plugin swaps out imports of pre-bundled storybook preview modules for destructures from global
- * variables that are added in runtime.mjs.
+ * This plugin swaps out imports of pre-bundled storybook preview modules for destructured from global
+ * variables that are added in runtime.js.
  *
  * For instance:
  *

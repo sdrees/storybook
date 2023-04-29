@@ -159,12 +159,16 @@ export default {
   framework: {
     name: '@storybook/nextjs',
     options: {
+      image: {
+        loading: 'eager',
+      },
       nextConfigPath: path.resolve(__dirname, '../next.config.js'),
     },
   },
 };
 ```
 
+- `image`: Props to pass to every instance of `next/image`
 - `nextConfigPath`: The absolute path to the `next.config.js`
 
 ### Next.js's Image Component

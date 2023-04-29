@@ -48,3 +48,30 @@ export const Sized = {
     ],
   },
 };
+
+export const Lazy = {
+  args: {
+    src: 'https://storybook.js.org/images/placeholders/50x50.png',
+    width: 50,
+    height: 50,
+  },
+  decorators: [
+    (Story) => (
+      <>
+        <div style={{ height: '200vh' }} />
+        {Story()}
+      </>
+    ),
+  ],
+};
+
+export const Eager = {
+  ...Lazy,
+  parameters: {
+    nextjs: {
+      image: {
+        loading: 'eager',
+      },
+    },
+  },
+};

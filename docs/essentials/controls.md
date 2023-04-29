@@ -138,6 +138,8 @@ Until now, we only used auto-generated controls based on the component we're wri
     'angular/table-story-fully-customize-controls.ts.mdx',
     'web-components/table-story-fully-customize-controls.js.mdx',
     'web-components/table-story-fully-customize-controls.ts.mdx',
+    'solid/table-story-fully-customize-controls.js.mdx',
+    'solid/table-story-fully-customize-controls.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/controls#snippet-table-story-fully-customize-controls"
@@ -171,6 +173,8 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
     'svelte/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.ts.mdx',
+    'solid/component-story-custom-args-complex.js.mdx',
+    'solid/component-story-custom-args-complex.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/controls#snippet-component-story-custom-args-complex"

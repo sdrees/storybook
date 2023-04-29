@@ -11,8 +11,8 @@ test('sanitizePath', () => {
   const text = 'demo text';
   const file = {
     path: isWindows
-      ? 'C:\\Users\\username\\Projects\\projectname\\storybook\\node_modules\\@storybook\\addon-x+y\\dist\\manager.mjs'
-      : '/Users/username/Projects/projectname/storybook/node_modules/@storybook/addon-x+y/dist/manager.mjs',
+      ? 'C:\\Users\\username\\Projects\\projectname\\storybook\\node_modules\\@storybook\\addon-x+y\\dist\\manager.js'
+      : '/Users/username/Projects/projectname/storybook/node_modules/@storybook/addon-x+y/dist/manager.js',
     contents: Uint8Array.from(Array.from(text).map((letter) => letter.charCodeAt(0))),
     text,
   };
@@ -20,10 +20,10 @@ test('sanitizePath', () => {
 
   expect(location).toEqual(
     isWindows
-      ? 'C:\\Users\\username\\Projects\\projectname\\storybook\\node_modules\\@storybook\\addon-x+y\\dist\\manager.mjs'
-      : '/Users/username/Projects/projectname/storybook/node_modules/@storybook/addon-x+y/dist/manager.mjs'
+      ? 'C:\\Users\\username\\Projects\\projectname\\storybook\\node_modules\\@storybook\\addon-x+y\\dist\\manager.js'
+      : '/Users/username/Projects/projectname/storybook/node_modules/@storybook/addon-x+y/dist/manager.js'
   );
   expect(url).toMatchInlineSnapshot(
-    `"./sb-addons/node_modules/%40storybook/addon-x%2By/dist/manager.mjs"`
+    `"./sb-addons/node_modules/%40storybook/addon-x%2By/dist/manager.js"`
   );
 });

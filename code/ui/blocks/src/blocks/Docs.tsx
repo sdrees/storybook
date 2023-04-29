@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FunctionComponent, ComponentType } from 'react';
+import type { ComponentType } from 'react';
 import type { Renderer, Parameters } from '@storybook/types';
 import type { Theme } from '@storybook/theming';
 
@@ -12,7 +12,7 @@ export type DocsProps<TFramework extends Renderer = Renderer> = {
   context: DocsContextProps<TFramework>;
 };
 
-export const Docs: FunctionComponent<DocsProps> = ({ docsParameter, context }) => {
+export const Docs = <T extends Renderer>({ docsParameter, context }: DocsProps<T>) => {
   const Container: ComponentType<{ context: DocsContextProps; theme: Theme }> =
     docsParameter.container || DocsContainer;
 

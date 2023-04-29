@@ -11,6 +11,7 @@ import {
   SET_INDEX,
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
+  DOCS_PREPARED,
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
@@ -1457,7 +1458,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
 
       await init();
-      fullAPI.emit(STORY_PREPARED, {
+      fullAPI.emit(DOCS_PREPARED, {
         id: 'component-a--docs',
         parameters: { a: 'b' },
       });

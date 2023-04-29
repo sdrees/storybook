@@ -21,6 +21,31 @@ test.describe('Next.js', () => {
     await new SbPage(page).waitUntilLoaded();
   });
 
+  test.describe('next/image', () => {
+    let sbPage: SbPage;
+
+    test.beforeEach(async ({ page }) => {
+      sbPage = new SbPage(page);
+    });
+
+    test('should lazy load images by default', async () => {
+      await sbPage.navigateToStory('frameworks/nextjs/Image', 'lazy');
+
+      const img = sbPage.previewRoot().locator('img');
+
+      expect(await img.evaluate<boolean, HTMLImageElement>((image) => image.complete)).toBeFalsy();
+    });
+
+    // TODO: Test is very flaky, investigate why
+    // test('should eager load images when loading parameter is set to eager', async () => {
+    //   await sbPage.navigateToStory('frameworks/nextjs/Image', 'eager');
+
+    //   const img = sbPage.previewRoot().locator('img');
+
+    //   expect(await img.evaluate<boolean, HTMLImageElement>((image) => image.complete)).toBeTruthy();
+    // });
+  });
+
   test.describe('next/navigation', () => {
     let root: Locator;
     let sbPage: SbPage;
@@ -41,7 +66,7 @@ test.describe('Next.js', () => {
     test.beforeEach(async ({ page }) => {
       sbPage = new SbPage(page);
 
-      await sbPage.navigateToStory('frameworks/nextjs_default-js/Navigation', 'default');
+      await sbPage.navigateToStory('frameworks/nextjs-nextjs-default-js/Navigation', 'default');
       root = sbPage.previewRoot();
     });
 
@@ -73,7 +98,7 @@ test.describe('Next.js', () => {
     test.beforeEach(async ({ page }) => {
       sbPage = new SbPage(page);
 
-      await sbPage.navigateToStory('frameworks/nextjs_default-js/Router', 'default');
+      await sbPage.navigateToStory('frameworks/nextjs-nextjs-default-js/Router', 'default');
       root = sbPage.previewRoot();
     });
 

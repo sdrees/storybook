@@ -1,5 +1,6 @@
 import {
   BuilderContext,
+  BuilderHandlerFn,
   BuilderOutput,
   Target,
   createBuilder,
@@ -53,13 +54,8 @@ export type StorybookBuilderOptions = JsonObject & {
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
 
-export default createBuilder<any, any>(commandBuilder);
-
-function commandBuilder(
-  options: StorybookBuilderOptions,
-  context: BuilderContext
-): Observable<StorybookBuilderOutput> {
-  return from(setup(options, context)).pipe(
+const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, context) => {
+  const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
       const runCompodoc$ = options.compodoc
         ? runCompodoc({ compodocArgs: options.compodocArgs, tsconfig: tsConfig }, context).pipe(
@@ -130,7 +126,11 @@ function commandBuilder(
       return { success: true, info: { port } };
     })
   );
-}
+
+  return builder as any as BuilderOutput;
+};
+
+export default createBuilder(commandBuilder);
 
 async function setup(options: StorybookBuilderOptions, context: BuilderContext) {
   let browserOptions: (JsonObject & BrowserBuilderOptions) | undefined;
