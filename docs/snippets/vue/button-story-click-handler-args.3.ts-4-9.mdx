@@ -33,7 +33,7 @@ export const Primary: Story = {
         onClick: action('clicked'),
       };
     },
-    template: '<Button @onClick="onClick" :label="label" />',
+    template: '<Button @click="onClick" :label="label" />',
   }),
   args: {
     label: 'Hello',

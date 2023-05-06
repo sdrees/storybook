@@ -1,18 +1,18 @@
 {
   "name": "@storybook/builder-webpack5",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/builder-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/core"
+    "directory": "code/lib/builder-webpack5"
   },
   "funding": {
     "type": "opencollective",
@@ -21,22 +21,20 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./presets/custom-webpack-preset": {
+      "types": "./dist/presets/custom-webpack-preset.d.ts",
       "node": "./dist/presets/custom-webpack-preset.js",
-      "require": "./dist/presets/custom-webpack-preset.js",
-      "import": "./dist/presets/custom-webpack-preset.mjs",
-      "types": "./dist/presets/custom-webpack-preset.d.ts"
+      "require": "./dist/presets/custom-webpack-preset.js"
     },
     "./presets/preview-preset": {
+      "types": "./dist/presets/preview-preset.d.ts",
       "node": "./dist/presets/preview-preset.js",
-      "require": "./dist/presets/preview-preset.js",
-      "import": "./dist/presets/preview-preset.mjs",
-      "types": "./dist/presets/preview-preset.d.ts"
+      "require": "./dist/presets/preview-preset.js"
     },
     "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
     "./templates/preview.ejs": "./templates/preview.ejs",
@@ -58,25 +56,25 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/addons": "7.1.0-alpha.10",
-    "@storybook/api": "7.1.0-alpha.10",
-    "@storybook/channel-postmessage": "7.1.0-alpha.10",
-    "@storybook/channel-websocket": "7.1.0-alpha.10",
-    "@storybook/channels": "7.1.0-alpha.10",
-    "@storybook/client-api": "7.1.0-alpha.10",
-    "@storybook/client-logger": "7.1.0-alpha.10",
-    "@storybook/components": "7.1.0-alpha.10",
-    "@storybook/core-common": "7.1.0-alpha.10",
-    "@storybook/core-events": "7.1.0-alpha.10",
-    "@storybook/core-webpack": "7.1.0-alpha.10",
+    "@storybook/addons": "7.1.0-alpha.13",
+    "@storybook/api": "7.1.0-alpha.13",
+    "@storybook/channel-postmessage": "7.1.0-alpha.13",
+    "@storybook/channel-websocket": "7.1.0-alpha.13",
+    "@storybook/channels": "7.1.0-alpha.13",
+    "@storybook/client-api": "7.1.0-alpha.13",
+    "@storybook/client-logger": "7.1.0-alpha.13",
+    "@storybook/components": "7.1.0-alpha.13",
+    "@storybook/core-common": "7.1.0-alpha.13",
+    "@storybook/core-events": "7.1.0-alpha.13",
+    "@storybook/core-webpack": "7.1.0-alpha.13",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.10",
-    "@storybook/node-logger": "7.1.0-alpha.10",
-    "@storybook/preview": "7.1.0-alpha.10",
-    "@storybook/preview-api": "7.1.0-alpha.10",
-    "@storybook/router": "7.1.0-alpha.10",
-    "@storybook/store": "7.1.0-alpha.10",
-    "@storybook/theming": "7.1.0-alpha.10",
+    "@storybook/manager-api": "7.1.0-alpha.13",
+    "@storybook/node-logger": "7.1.0-alpha.13",
+    "@storybook/preview": "7.1.0-alpha.13",
+    "@storybook/preview-api": "7.1.0-alpha.13",
+    "@storybook/router": "7.1.0-alpha.13",
+    "@storybook/store": "7.1.0-alpha.13",
+    "@storybook/theming": "7.1.0-alpha.13",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
     "babel-loader": "^9.0.0",
@@ -131,5 +129,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

@@ -1,11 +1,11 @@
 {
   "name": "@storybook/blocks",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook Doc Blocks",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/ui/blocks",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/ui/blocks",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -22,10 +22,10 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -43,17 +43,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.1.0-alpha.10",
-    "@storybook/client-logger": "7.1.0-alpha.10",
-    "@storybook/components": "7.1.0-alpha.10",
-    "@storybook/core-events": "7.1.0-alpha.10",
+    "@storybook/channels": "7.1.0-alpha.13",
+    "@storybook/client-logger": "7.1.0-alpha.13",
+    "@storybook/components": "7.1.0-alpha.13",
+    "@storybook/core-events": "7.1.0-alpha.13",
     "@storybook/csf": "^0.1.0",
-    "@storybook/docs-tools": "7.1.0-alpha.10",
+    "@storybook/docs-tools": "7.1.0-alpha.13",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.10",
-    "@storybook/preview-api": "7.1.0-alpha.10",
-    "@storybook/theming": "7.1.0-alpha.10",
-    "@storybook/types": "7.1.0-alpha.10",
+    "@storybook/manager-api": "7.1.0-alpha.13",
+    "@storybook/preview-api": "7.1.0-alpha.13",
+    "@storybook/theming": "7.1.0-alpha.13",
+    "@storybook/types": "7.1.0-alpha.13",
     "@types/lodash": "^4.14.167",
     "color-convert": "^2.0.1",
     "dequal": "^2.0.2",
@@ -67,7 +67,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "7.1.0-alpha.10",
+    "@storybook/addon-actions": "7.1.0-alpha.13",
     "@types/color-convert": "^2.0.0"
   },
   "peerDependencies": {
@@ -82,5 +82,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

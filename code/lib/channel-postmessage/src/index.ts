@@ -1,10 +1,11 @@
 import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
 import { Channel } from '@storybook/channels';
-import type { ChannelHandler, ChannelEvent } from '@storybook/channels';
+import type { ChannelHandler, ChannelEvent, ChannelTransport } from '@storybook/channels';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
+import invariant from 'tiny-invariant';
 
 const { document, location } = global;
 
@@ -26,16 +27,15 @@ const defaultEventOptions = { allowFunction: true, maxDepth: 25 };
 // that way we can send postMessage to child windows as well, not just iframe
 // https://stackoverflow.com/questions/6340160/how-to-get-the-references-of-all-already-opened-child-windows
 
-export class PostmsgTransport {
+export class PostmsgTransport implements ChannelTransport {
   private buffer: BufferedEvent[];
 
-  private handler: ChannelHandler;
+  private handler?: ChannelHandler;
 
-  private connected: boolean;
+  private connected = false;
 
   constructor(private readonly config: Config) {
     this.buffer = [];
-    this.handler = null;
 
     if (typeof global?.addEventListener === 'function') {
       global.addEventListener('message', this.handleEvent.bind(this), false);
@@ -125,7 +125,7 @@ export class PostmsgTransport {
       try {
         f.postMessage(data, '*');
       } catch (e) {
-        console.error('sending over postmessage fail');
+        logger.error('sending over postmessage fail');
       }
     });
 
@@ -146,18 +146,20 @@ export class PostmsgTransport {
         document.querySelectorAll('iframe[data-is-storybook][data-is-loaded]')
       );
 
-      const list = nodes
-        .filter((e) => {
-          try {
-            return !!e.contentWindow && e.dataset.isStorybook !== undefined && e.id === target;
-          } catch (er) {
-            return false;
+      const list = nodes.flatMap((e) => {
+        try {
+          if (!!e.contentWindow && e.dataset.isStorybook !== undefined && e.id === target) {
+            return [e.contentWindow];
           }
-        })
-        .map((e) => e.contentWindow);
+          return [];
+        } catch (er) {
+          return [];
+        }
+      });
 
-      return list.length ? list : this.getCurrentFrames();
+      return list?.length ? list : this.getCurrentFrames();
     }
+
     if (global && global.parent && global.parent !== global.self) {
       return [global.parent];
     }
@@ -170,7 +172,7 @@ export class PostmsgTransport {
       const list: HTMLIFrameElement[] = Array.from(
         document.querySelectorAll('[data-is-storybook="true"]')
       );
-      return list.map((e) => e.contentWindow);
+      return list.flatMap((e) => (e.contentWindow ? [e.contentWindow] : []));
     }
     if (global && global.parent) {
       return [global.parent];
@@ -184,7 +186,7 @@ export class PostmsgTransport {
       const list: HTMLIFrameElement[] = Array.from(
         document.querySelectorAll('#storybook-preview-iframe')
       );
-      return list.map((e) => e.contentWindow);
+      return list.flatMap((e) => (e.contentWindow ? [e.contentWindow] : []));
     }
     if (global && global.parent) {
       return [global.parent];
@@ -231,6 +233,7 @@ export class PostmsgTransport {
           ...event.args
         );
 
+        invariant(this.handler, 'ChannelHandler should be set');
         this.handler(event);
       }
     } catch (error) {
@@ -256,6 +259,10 @@ const getEventSourceUrl = (event: MessageEvent) => {
     let origin;
 
     try {
+      if (!src) {
+        return false;
+      }
+
       ({ origin } = new URL(src, document.location.toString()));
     } catch (err) {
       return false;
@@ -263,8 +270,8 @@ const getEventSourceUrl = (event: MessageEvent) => {
     return origin === event.origin;
   });
 
-  if (frame && remainder.length === 0) {
-    const src = frame.getAttribute('src');
+  const src = frame?.getAttribute('src');
+  if (src && remainder.length === 0) {
     const { protocol, host, pathname } = new URL(src, document.location.toString());
     return `${protocol}//${host}${pathname}`;
   }

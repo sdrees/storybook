@@ -30,7 +30,13 @@ import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
-import { processCSFFile, prepareStory, prepareMeta, normalizeProjectAnnotations } from './csf';
+import {
+  processCSFFile,
+  prepareStory,
+  prepareMeta,
+  normalizeProjectAnnotations,
+  prepareContext,
+} from './csf';
 
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
@@ -276,16 +282,17 @@ export class StoryStore<TRenderer extends Renderer> {
   // A prepared story does not include args, globals or hooks. These are stored in the story store
   // and updated separtely to the (immutable) story.
   getStoryContext(
-    story: PreparedStory<TRenderer>
-  ): Omit<StoryContextForLoaders<TRenderer>, 'viewMode'> {
+    story: PreparedStory<TRenderer>,
+    { forceInitialArgs = false } = {}
+  ): Omit<StoryContextForLoaders, 'viewMode'> {
     if (!this.globals) throw new Error(`getStoryContext called before initialization`);
 
-    return {
+    return prepareContext({
       ...story,
-      args: this.args.get(story.id),
+      args: forceInitialArgs ? story.initialArgs : this.args.get(story.id),
       globals: this.globals.get(),
       hooks: this.hooks[story.id] as unknown,
-    };
+    });
   }
 
   cleanupStory(story: PreparedStory<TRenderer>): void {

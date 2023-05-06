@@ -175,11 +175,11 @@ export const jsxDecorator = (
 
   useEffect(() => {
     if (!skip) {
-      const { id, args } = context;
+      const { id, unmappedArgs } = context;
       channel.emit(SNIPPET_RENDERED, {
         id,
         source: jsx,
-        args,
+        args: unmappedArgs,
       });
     }
   });

@@ -3,8 +3,7 @@ import type {
   StoryContext as DefaultStoryContext,
   WebRenderer,
 } from '@storybook/types';
-
-import type { parameters } from './config';
+import type { SourceType } from '@storybook/docs-tools';
 
 export type { RenderContext } from '@storybook/types';
 
@@ -24,6 +23,19 @@ export interface HtmlRenderer extends WebRenderer {
   storyResult: StoryFnHtmlReturnType;
 }
 
+export interface Parameters {
+  renderer: 'html';
+  docs?: {
+    story: { inline: boolean };
+    source: {
+      type: SourceType.DYNAMIC;
+      language: 'html';
+      code: any;
+      excludeDecorators: any;
+    };
+  };
+}
+
 export type StoryContext = DefaultStoryContext<HtmlRenderer> & {
-  parameters: DefaultStoryContext<HtmlRenderer>['parameters'] & typeof parameters;
+  parameters: DefaultStoryContext<HtmlRenderer>['parameters'] & Parameters;
 };

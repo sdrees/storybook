@@ -13,7 +13,7 @@ function parseWithFlowOrTypescript(source: string, parserOptions: babelParser.Pa
   // Merge the provided parserOptions with the custom parser plugins
   const mergedParserOptions = {
     ...parserOptions,
-    plugins: [...parserOptions.plugins, ...parserPlugins],
+    plugins: [...(parserOptions.plugins ?? []), ...parserPlugins],
   };
 
   return babelParser.parse(source, mergedParserOptions);

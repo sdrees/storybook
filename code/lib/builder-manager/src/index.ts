@@ -15,7 +15,6 @@ import { wrapManagerEntries } from './utils/managerEntries';
 import type {
   BuilderBuildResult,
   BuilderFunction,
-  BuilderStartOptions,
   BuilderStartResult,
   Compilation,
   ManagerBuilder,
@@ -282,7 +281,7 @@ export const bail: ManagerBuilder['bail'] = async () => {
   }
 };
 
-export const start = async (options: BuilderStartOptions) => {
+export const start: ManagerBuilder['start'] = async (options) => {
   asyncIterator = starter(options);
   let result;
 
@@ -294,7 +293,7 @@ export const start = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const build = async (options: BuilderStartOptions) => {
+export const build: ManagerBuilder['build'] = async (options) => {
   asyncIterator = builder(options);
   let result;
 

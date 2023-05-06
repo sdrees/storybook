@@ -2814,7 +2814,7 @@ To help you upgrade your stories, we've created a codemod:
 npx @storybook/cli@latest migrate csf-hoist-story-annotations --glob="**/*.stories.js"
 ```
 
-For more information, [see the documentation](https://github.com/storybookjs/storybook/blob/next/lib/codemod/README.md#csf-hoist-story-annotations).
+For more information, [see the documentation](https://github.com/storybookjs/storybook/blob/next/code/lib/codemod/README.md#csf-hoist-story-annotations).
 
 ### Zero config typescript
 
@@ -2868,7 +2868,7 @@ npm install core-js@^3.0.1 --save-dev
 
 ### Args passed as first argument to story
 
-Starting in 6.0, the first argument to a story function is an [Args object](https://storybook.js.org/docs/react/api/csf#args-story-inputs). In 5.3 and earlier, the first argument was a [StoryContext](https://github.com/storybookjs/storybook/blob/next/lib/addons/src/types.ts#L49-L61), and that context is now passed as the second argument by default.
+Starting in 6.0, the first argument to a story function is an [Args object](https://storybook.js.org/docs/react/api/csf#args-story-inputs). In 5.3 and earlier, the first argument was a [StoryContext](https://github.com/storybookjs/storybook/blob/release/5.3/lib/addons/src/types.ts#L24-L31), and that context is now passed as the second argument by default.
 
 This breaking change only affects you if your stories actually use the context, which is not common. If you have any stories that use the context, you can either (1) update your stories, or (2) set a flag to opt-out of new behavior.
 
@@ -3102,7 +3102,7 @@ The story store no longer emits `renderCurrentStory`/`RENDER_CURRENT_STORY` to t
 
 We've removed the ability to specify the hierarchy separators (how you control the grouping of story kinds in the sidebar). From Storybook 6.0 we have a single separator `/`, which cannot be configured.
 
-If you are currently using custom separators, we encourage you to migrate to using `/` as the sole separator. If you are using `|` or `.` as a separator currently, we provide a codemod, [`upgrade-hierarchy-separators`](https://github.com/storybookjs/storybook/blob/next/lib/codemod/README.md#upgrade-hierarchy-separators), that can be used to rename your components. **Note: the codemod will not work for `.mdx` components, you will need to make the changes by hand.**
+If you are currently using custom separators, we encourage you to migrate to using `/` as the sole separator. If you are using `|` or `.` as a separator currently, we provide a codemod, [`upgrade-hierarchy-separators`](https://github.com/storybookjs/storybook/blob/next/code/lib/codemod/README.md#upgrade-hierarchy-separators), that can be used to rename your components. **Note: the codemod will not work for `.mdx` components, you will need to make the changes by hand.**
 
 ```
 npx sb@latest migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|jsx|ts|js)"
@@ -3593,7 +3593,7 @@ Addon-docs configuration gets simpler in 5.3. In 5.2, each framework had its own
 
 We've deprecated the ability to specify the hierarchy separators (how you control the grouping of story kinds in the sidebar). From Storybook 6.0 we will have a single separator `/`, which cannot be configured.
 
-If you are currently using custom separators, we encourage you to migrate to using `/` as the sole separator. If you are using `|` or `.` as a separator currently, we provide a codemod, [`upgrade-hierarchy-separators`](https://github.com/storybookjs/storybook/blob/next/lib/codemod/README.md#upgrade-hierarchy-separators), that can be used to rename all your components.
+If you are currently using custom separators, we encourage you to migrate to using `/` as the sole separator. If you are using `|` or `.` as a separator currently, we provide a codemod, [`upgrade-hierarchy-separators`](https://github.com/storybookjs/storybook/blob/next/code/lib/codemod/README.md#upgrade-hierarchy-separators), that can be used to rename all your components.
 
 ```
 yarn sb migrate upgrade-hierarchy-separators --glob="*.stories.js"
@@ -4461,7 +4461,7 @@ The new package names are:
 
 If your codebase is small, it's probably doable to replace them by hand (in your codebase and in `package.json`).
 
-But if you have a lot of occurrences in your codebase, you can use a [codemod we created](./lib/codemod) for you.
+But if you have a lot of occurrences in your codebase, you can use a [codemod we created](./code/lib/codemod) for you.
 
 > A codemod makes automatic changed to your app's code.
 

@@ -1,18 +1,18 @@
 {
   "name": "@storybook/preset-create-react-app",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook for Create React App preset",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/create-react-app",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/create-react-app",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/create-react-app"
+    "directory": "code/presets/create-react-app"
   },
   "funding": {
     "type": "opencollective",
@@ -21,16 +21,16 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -50,14 +50,14 @@
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
-    "@storybook/types": "7.1.0-alpha.10",
+    "@storybook/types": "7.1.0-alpha.13",
     "@types/babel__core": "^7.1.7",
     "babel-plugin-react-docgen": "^4.1.0",
     "pnp-webpack-plugin": "^1.7.0",
     "semver": "^7.3.5"
   },
   "devDependencies": {
-    "@storybook/node-logger": "7.1.0-alpha.10",
+    "@storybook/node-logger": "7.1.0-alpha.13",
     "@types/node": "^16.0.0",
     "typescript": "~4.9.3"
   },
@@ -76,5 +76,5 @@
       "cjs"
     ]
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

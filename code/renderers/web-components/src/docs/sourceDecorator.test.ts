@@ -22,6 +22,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: Partial<S
     kind: 'js-text',
     name,
     parameters,
+    unmappedArgs: args,
     args,
     argTypes: {},
     globals: {},

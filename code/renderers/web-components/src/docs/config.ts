@@ -1,10 +1,11 @@
+import type { Addon_DecoratorFunction, ArgTypesEnhancer } from '@storybook/types';
 import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
 import { extractArgTypes, extractComponentDescription } from './custom-elements';
 import { sourceDecorator } from './sourceDecorator';
 
-export const decorators = [sourceDecorator];
+export const decorators: Addon_DecoratorFunction<unknown>[] = [sourceDecorator];
 
-export const parameters = {
+export const parameters: {} = {
   docs: {
     extractArgTypes,
     extractComponentDescription,
@@ -16,4 +17,4 @@ export const parameters = {
   },
 };
 
-export const argTypesEnhancers = [enhanceArgTypes];
+export const argTypesEnhancers: ArgTypesEnhancer[] = [enhanceArgTypes];

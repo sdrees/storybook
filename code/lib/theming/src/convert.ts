@@ -1,6 +1,6 @@
 import { opacify } from 'polished';
 import { background, typography, color } from './base';
-import type { Color, ThemeVars, StorybookTheme } from './types';
+import type { Color, StorybookTheme, ThemeVars, ThemeVarsColors } from './types';
 import { easing, animation } from './animation';
 import { create as createSyntax, chromeLight, chromeDark } from './modules/syntax';
 import { getPreferredColorScheme } from './utils';
@@ -32,7 +32,7 @@ const darkSyntaxColors = {
   blue2: '#00009f',
 };
 
-const createColors = (vars: ThemeVars): Color => ({
+const createColors = (vars: ThemeVarsColors): Color => ({
   // Changeable colors
   primary: vars.colorPrimary,
   secondary: vars.colorSecondary,

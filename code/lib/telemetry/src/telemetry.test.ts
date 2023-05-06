@@ -5,6 +5,17 @@ import fetch from 'isomorphic-unfetch';
 import { sendTelemetry } from './telemetry';
 
 jest.mock('isomorphic-unfetch');
+jest.mock('./event-cache', () => {
+  return { set: jest.fn() };
+});
+
+jest.mock('./session-id', () => {
+  return {
+    getSessionId: async () => {
+      return 'session-id';
+    },
+  };
+});
 
 const fetchMock = fetch as jest.Mock;
 
@@ -54,7 +65,11 @@ it('await all pending telemetry when passing in immediate = true', async () => {
   let numberOfResolvedTasks = 0;
 
   fetchMock.mockImplementation(async () => {
-    await Promise.resolve(null);
+    // wait 10ms so that the "fetch" is still running while
+    // getSessionId resolves immediately below. tricky!
+    await new Promise((resolve) => {
+      setTimeout(resolve, 10);
+    });
     numberOfResolvedTasks += 1;
     return { status: 200 };
   });
@@ -70,6 +85,11 @@ it('await all pending telemetry when passing in immediate = true', async () => {
   sendTelemetry({
     eventType: 'dev',
     payload: { foo: 'bar' },
+  });
+
+  // wait for getSessionId to finish, but not for fetches
+  await new Promise((resolve) => {
+    setTimeout(resolve, 0);
   });
 
   expect(fetch).toHaveBeenCalledTimes(2);

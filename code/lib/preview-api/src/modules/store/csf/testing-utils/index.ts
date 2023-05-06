@@ -15,7 +15,7 @@ import type {
 
 import { HooksContext } from '../../../addons';
 import { composeConfigs } from '../composeConfigs';
-import { prepareStory } from '../prepareStory';
+import { prepareContext, prepareStory } from '../prepareStory';
 import { normalizeStory } from '../normalizeStory';
 import { normalizeComponentAnnotations } from '../normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from '../getValuesFromArgTypes';
@@ -81,7 +81,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
       args: { ...story.initialArgs, ...extraArgs },
     };
 
-    return story.unboundStoryFn(story.prepareContext(context as StoryContext));
+    return story.unboundStoryFn(prepareContext(context as StoryContext));
   };
 
   composedStory.storyName = storyName;

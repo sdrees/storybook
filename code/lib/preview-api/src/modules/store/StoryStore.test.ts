@@ -8,6 +8,7 @@ import type { HooksContext } from './hooks';
 
 // Spy on prepareStory/processCSFFile
 jest.mock('./csf/prepareStory', () => ({
+  ...jest.requireActual('./csf/prepareStory'),
   prepareStory: jest.fn(jest.requireActual('./csf/prepareStory').prepareStory),
 }));
 jest.mock('./csf/processCSFFile', () => ({
@@ -425,6 +426,20 @@ describe('StoryStore', () => {
       });
     });
 
+    it('can force initial args', async () => {
+      const store = new StoryStore();
+      store.setProjectAnnotations(projectAnnotations);
+      store.initialize({ storyIndex, importFn, cache: false });
+
+      const story = await store.loadStory({ storyId: 'component-one--a' });
+
+      store.args.update(story.id, { foo: 'bar' });
+
+      expect(store.getStoryContext(story, { forceInitialArgs: true })).toMatchObject({
+        args: { foo: 'a' },
+      });
+    });
+
     it('returns the same hooks each time', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
@@ -735,7 +750,6 @@ describe('StoryStore', () => {
               "fileName": "./src/ComponentOne.stories.js",
             },
             "playFunction": undefined,
-            "prepareContext": [Function],
             "story": "A",
             "storyFn": [Function],
             "subcomponents": undefined,
@@ -781,7 +795,6 @@ describe('StoryStore', () => {
               "fileName": "./src/ComponentOne.stories.js",
             },
             "playFunction": undefined,
-            "prepareContext": [Function],
             "story": "B",
             "storyFn": [Function],
             "subcomponents": undefined,
@@ -827,7 +840,6 @@ describe('StoryStore', () => {
               "fileName": "./src/ComponentTwo.stories.js",
             },
             "playFunction": undefined,
-            "prepareContext": [Function],
             "story": "C",
             "storyFn": [Function],
             "subcomponents": undefined,

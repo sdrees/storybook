@@ -1,4 +1,4 @@
-import type { FunctionComponent } from 'react';
+import type { PropsWithChildren } from 'react';
 import React, { useRef } from 'react';
 import type { Renderer, ProjectAnnotations } from '@storybook/types';
 import { composeConfigs } from '@storybook/preview-api';
@@ -6,28 +6,30 @@ import { composeConfigs } from '@storybook/preview-api';
 import { Docs } from '../Docs';
 import { ExternalPreview } from './ExternalPreview';
 
-export type ExternalDocsProps<TFramework extends Renderer = Renderer> = {
-  projectAnnotationsList: ProjectAnnotations<TFramework>[];
+export type ExternalDocsProps<TRenderer extends Renderer = Renderer> = {
+  projectAnnotationsList: ProjectAnnotations<TRenderer>[];
 };
 
-function usePreview<TFramework extends Renderer = Renderer>(
-  projectAnnotations: ProjectAnnotations<TFramework>
+function usePreview<TRenderer extends Renderer = Renderer>(
+  projectAnnotations: ProjectAnnotations<TRenderer>
 ) {
-  const previewRef = useRef<ExternalPreview>();
-  if (!previewRef.current) previewRef.current = new ExternalPreview(projectAnnotations);
+  const previewRef = useRef<ExternalPreview<TRenderer>>();
+  if (!previewRef.current) previewRef.current = new ExternalPreview<TRenderer>(projectAnnotations);
   return previewRef.current;
 }
 
-export const ExternalDocs: FunctionComponent<ExternalDocsProps> = ({
+export function ExternalDocs<TRenderer extends Renderer = Renderer>({
   projectAnnotationsList,
   children,
-}) => {
-  const projectAnnotations = composeConfigs(projectAnnotationsList);
-  const preview = usePreview(projectAnnotations);
+}: PropsWithChildren<ExternalDocsProps<TRenderer>>) {
+  const projectAnnotations = composeConfigs<TRenderer>(projectAnnotationsList);
+  const preview = usePreview<TRenderer>(projectAnnotations);
   const docsParameter = {
     ...projectAnnotations.parameters?.docs,
     page: () => children,
   };
 
-  return <Docs docsParameter={docsParameter} context={preview.docsContext()} />;
-};
+  const TDocs = Docs as typeof Docs<TRenderer>;
+
+  return <TDocs docsParameter={docsParameter} context={preview.docsContext()} />;
+}

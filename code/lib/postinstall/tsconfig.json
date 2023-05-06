@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "types": ["node"],
-    "strict": false
+    "strict": true
   },
   "include": ["src/**/*"]
 }

@@ -136,7 +136,8 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
 
   private storyContext() {
     if (!this.story) throw new Error(`Cannot call storyContext before preparing`);
-    return this.store.getStoryContext(this.story);
+    const { forceInitialArgs } = this.renderOptions;
+    return this.store.getStoryContext(this.story, { forceInitialArgs });
   }
 
   async render({
@@ -150,18 +151,8 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     if (!this.story) throw new Error('cannot render when not prepared');
     if (!canvasElement) throw new Error('cannot render when canvasElement is unset');
 
-    const {
-      id,
-      componentId,
-      title,
-      name,
-      tags,
-      applyLoaders,
-      unboundStoryFn,
-      playFunction,
-      prepareContext,
-      initialArgs,
-    } = this.story;
+    const { id, componentId, title, name, tags, applyLoaders, unboundStoryFn, playFunction } =
+      this.story;
 
     if (forceRemount && !initial) {
       // NOTE: we don't check the cancel actually worked here, so the previous
@@ -176,16 +167,10 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     const abortSignal = (this.abortController as AbortController).signal;
 
     try {
-      const getCurrentContext = () =>
-        prepareContext({
-          ...this.storyContext(),
-          ...(this.renderOptions.forceInitialArgs && { args: initialArgs }),
-        } as StoryContext);
-
       let loadedContext: Awaited<ReturnType<typeof applyLoaders>>;
       await this.runPhase(abortSignal, 'loading', async () => {
         loadedContext = await applyLoaders({
-          ...getCurrentContext(),
+          ...this.storyContext(),
           viewMode: this.viewMode,
         } as StoryContextForLoaders<TRenderer>);
       });
@@ -197,7 +182,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         ...loadedContext!,
         // By this stage, it is possible that new args/globals have been received for this story
         // and we need to ensure we render it with the new values
-        ...getCurrentContext(),
+        ...this.storyContext(),
         abortSignal,
         // We should consider parameterizing the story types with TRenderer['canvasElement'] in the future
         canvasElement: canvasElement as any,

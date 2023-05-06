@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -22,25 +22,24 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./preview.js": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./next-image-loader-stub.js": {
+      "types": "./dist/next-image-loader-stub.d.ts",
       "require": "./dist/next-image-loader-stub.js",
-      "import": "./dist/next-image-loader-stub.mjs",
-      "types": "./dist/next-image-loader-stub.d.ts"
+      "import": "./dist/next-image-loader-stub.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -71,13 +70,13 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/runtime": "^7.21.0",
-    "@storybook/addon-actions": "7.1.0-alpha.10",
-    "@storybook/builder-webpack5": "7.1.0-alpha.10",
-    "@storybook/core-common": "7.1.0-alpha.10",
-    "@storybook/node-logger": "7.1.0-alpha.10",
-    "@storybook/preset-react-webpack": "7.1.0-alpha.10",
-    "@storybook/preview-api": "7.1.0-alpha.10",
-    "@storybook/react": "7.1.0-alpha.10",
+    "@storybook/addon-actions": "7.1.0-alpha.13",
+    "@storybook/builder-webpack5": "7.1.0-alpha.13",
+    "@storybook/core-common": "7.1.0-alpha.13",
+    "@storybook/node-logger": "7.1.0-alpha.13",
+    "@storybook/preset-react-webpack": "7.1.0-alpha.13",
+    "@storybook/preview-api": "7.1.0-alpha.13",
+    "@storybook/react": "7.1.0-alpha.13",
     "@types/node": "^16.0.0",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
@@ -147,5 +146,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

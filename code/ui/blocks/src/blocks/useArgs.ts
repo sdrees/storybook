@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { Args, DocsContextProps, PreparedStory, Renderer } from '@storybook/types';
+import type { Args, DocsContextProps, PreparedStory } from '@storybook/types';
 import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@storybook/core-events';
 
 export const useArgs = (
@@ -38,10 +38,3 @@ export const useArgsIfDefined = (
   );
   return story && [args, updateArgs, resetArgs];
 };
-
-export function useArgsList<TRenderer extends Renderer = Renderer>(
-  stories: (PreparedStory<TRenderer> | void)[],
-  context: DocsContextProps<TRenderer>
-) {
-  return stories.map((story) => useArgsIfDefined(story, context));
-}

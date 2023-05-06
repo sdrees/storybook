@@ -3,6 +3,7 @@ import { Channel } from '@storybook/channels';
 import type { ChannelHandler } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
+import invariant from 'tiny-invariant';
 
 const { WebSocket } = global;
 
@@ -22,14 +23,28 @@ interface CreateChannelArgs {
 export class WebsocketTransport {
   private socket: WebSocket;
 
-  private handler: ChannelHandler;
+  private handler?: ChannelHandler;
 
   private buffer: string[] = [];
 
   private isReady = false;
 
   constructor({ url, onError }: WebsocketTransportArgs) {
-    this.connect(url, onError);
+    this.socket = new WebSocket(url);
+    this.socket.onopen = () => {
+      this.isReady = true;
+      this.flush();
+    };
+    this.socket.onmessage = ({ data }) => {
+      const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
+      invariant(this.handler, 'WebsocketTransport handler should be set');
+      this.handler(event);
+    };
+    this.socket.onerror = (e) => {
+      if (onError) {
+        onError(e);
+      }
+    };
   }
 
   setHandler(handler: ChannelHandler) {
@@ -57,23 +72,6 @@ export class WebsocketTransport {
     const { buffer } = this;
     this.buffer = [];
     buffer.forEach((event) => this.send(event));
-  }
-
-  private connect(url: string, onError: OnError) {
-    this.socket = new WebSocket(url);
-    this.socket.onopen = () => {
-      this.isReady = true;
-      this.flush();
-    };
-    this.socket.onmessage = ({ data }) => {
-      const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
-      this.handler(event);
-    };
-    this.socket.onerror = (e) => {
-      if (onError) {
-        onError(e);
-      }
-    };
   }
 }
 

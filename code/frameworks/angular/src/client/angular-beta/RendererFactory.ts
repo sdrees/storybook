@@ -8,10 +8,7 @@ export class RendererFactory {
 
   private rendererMap = new Map<string, AbstractRenderer>();
 
-  public async getRendererInstance(
-    storyId: string,
-    targetDOMNode: HTMLElement
-  ): Promise<AbstractRenderer | null> {
+  public async getRendererInstance(targetDOMNode: HTMLElement): Promise<AbstractRenderer | null> {
     const targetId = targetDOMNode.id;
     // do nothing if the target node is null
     // fix a problem when the docs asks 2 times the same component at the same time
@@ -29,22 +26,23 @@ export class RendererFactory {
     }
 
     if (!this.rendererMap.has(targetId)) {
-      this.rendererMap.set(targetId, this.buildRenderer(storyId, renderType));
+      this.rendererMap.set(targetId, this.buildRenderer(renderType));
     }
 
     this.lastRenderType = renderType;
     return this.rendererMap.get(targetId);
   }
 
-  private buildRenderer(storyId: string, renderType: RenderType) {
+  private buildRenderer(renderType: RenderType) {
     if (renderType === 'docs') {
-      return new DocsRenderer(storyId);
+      return new DocsRenderer();
     }
-    return new CanvasRenderer(storyId);
+    return new CanvasRenderer();
   }
 }
 
 export const getRenderType = (targetDOMNode: HTMLElement): RenderType => {
+  console.log(targetDOMNode);
   return targetDOMNode.id === 'storybook-root' ? 'canvas' : 'docs';
 };
 

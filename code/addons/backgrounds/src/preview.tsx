@@ -1,8 +1,9 @@
+import type { Addon_DecoratorFunction } from '@storybook/types';
 import { withBackground } from './decorators/withBackground';
 import { withGrid } from './decorators/withGrid';
 import { PARAM_KEY } from './constants';
 
-export const decorators = [withGrid, withBackground];
+export const decorators: Addon_DecoratorFunction[] = [withGrid, withBackground];
 export const parameters = {
   [PARAM_KEY]: {
     grid: {

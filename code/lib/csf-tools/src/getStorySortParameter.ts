@@ -105,7 +105,7 @@ export const getStorySortParameter = (previewCode: string) => {
           node.declaration.declarations.forEach((decl) => {
             if (t.isVariableDeclarator(decl) && t.isIdentifier(decl.id)) {
               const { name: exportName } = decl.id;
-              if (exportName === 'parameters') {
+              if (exportName === 'parameters' && decl.init) {
                 const paramsObject = stripTSModifiers(decl.init);
                 storySort = parseParameters(paramsObject);
               }

@@ -3,7 +3,7 @@ import 'jest-preset-angular/setup-jest';
 
 import { webcrypto } from 'node:crypto';
 
-Object.defineProperty(window, 'crypto', {
+Object.defineProperty(global, 'crypto', {
   get() {
     return webcrypto;
   },

@@ -8,7 +8,7 @@ import {
   targetFromTargetString,
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import { Observable, from, of, throwError } from 'rxjs';
+import { from, of, throwError } from 'rxjs';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';

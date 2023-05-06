@@ -3,6 +3,11 @@ import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { mdxgfm } from './mdx-gfm';
 
+jest.mock('globby', () => ({
+  __esModule: true,
+  default: jest.fn().mockResolvedValue(['a/fake/file.mdx']),
+}));
+
 const check = async ({
   packageJson,
   main: mainConfig,
@@ -88,7 +93,9 @@ describe('continue', () => {
     await expect(
       check({
         packageJson,
-        main: {},
+        main: {
+          stories: ['**/*.stories.mdx'],
+        },
       })
     ).resolves.toBeTruthy();
   });
@@ -97,6 +104,7 @@ describe('continue', () => {
       check({
         packageJson,
         main: {
+          stories: ['**/*.stories.mdx'],
           addons: [
             {
               name: '@storybook/addon-essentials',
@@ -118,6 +126,7 @@ describe('continue', () => {
       check({
         packageJson,
         main: {
+          stories: ['**/*.stories.mdx'],
           addons: ['@storybook/addon-essentials'],
         },
       })

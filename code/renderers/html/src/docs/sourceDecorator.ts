@@ -37,8 +37,8 @@ export function sourceDecorator(storyFn: PartialStoryFn<HtmlRenderer>, context: 
     }
   }
   useEffect(() => {
-    const { id, args } = context;
-    if (source) addons.getChannel().emit(SNIPPET_RENDERED, { id, args, source });
+    const { id, unmappedArgs } = context;
+    if (source) addons.getChannel().emit(SNIPPET_RENDERED, { id, args: unmappedArgs, source });
   });
 
   return story;

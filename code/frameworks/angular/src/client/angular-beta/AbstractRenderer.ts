@@ -55,7 +55,7 @@ export abstract class AbstractRenderer {
   // Observable to change the properties dynamically without reloading angular module&component
   protected storyProps$: Subject<ICollection | undefined>;
 
-  constructor(public storyId: string) {
+  constructor() {
     if (typeof NODE_ENV === 'string' && NODE_ENV !== 'development') {
       try {
         // platform should be set after enableProdMode()
@@ -79,19 +79,16 @@ export abstract class AbstractRenderer {
    * - true render will only use the StoryFn `props' in storyProps observable that will update sotry's component/template properties. Improves performance without reloading the whole module&component if props changes
    * - false fully recharges or initializes angular module & component
    * @param component {Component}
-   * @param parameters {Parameters}
    */
   public async render({
     storyFnAngular,
     forced,
-    parameters,
     component,
     targetDOMNode,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
     forced: boolean;
     component?: any;
-    parameters: Parameters;
     targetDOMNode: HTMLElement;
   }) {
     const targetSelector = this.generateTargetSelectorFromStoryId(targetDOMNode.id);

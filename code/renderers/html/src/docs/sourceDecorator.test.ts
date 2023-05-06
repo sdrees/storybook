@@ -15,6 +15,7 @@ expect.addSnapshotSerializer({
 const tick = () => new Promise((r) => setTimeout(r, 0));
 
 const makeContext = (name: string, parameters: any, args: any, extra?: object): StoryContext =>
+  // @ts-expect-error haven't added unmapped args to StoryContext yet
   ({
     id: `html-test--${name}`,
     kind: 'js-text',
@@ -23,6 +24,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: object): 
     componentId: '',
     title: '',
     story: '',
+    unmappedArgs: args,
     args,
     argTypes: {},
     globals: {},

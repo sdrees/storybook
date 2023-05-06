@@ -145,7 +145,8 @@ export function useList(list: ChildrenList) {
 
       const crossBorder = x + widthSum + tabWidth > rightBorder;
 
-      if (!crossBorder) {
+      //  `!tabButton` happens when new tab has just been added
+      if (!crossBorder || !tabButton) {
         newVisibleList.push(item);
       }
 

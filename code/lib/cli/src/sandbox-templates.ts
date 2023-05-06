@@ -276,7 +276,6 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
-    inDevelopment: true,
   },
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
@@ -473,8 +472,6 @@ export const allTemplates: Record<TemplateKey, Template> = {
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
   ...ci,
-  // TODO: add this after the sandbox is ready in the sandboxes repo
-  // 'angular-cli/prerelease',
   'angular-cli/default-ts',
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
@@ -497,6 +494,7 @@ export const merged: TemplateKey[] = [
 ];
 export const daily: TemplateKey[] = [
   ...merged,
+  'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',

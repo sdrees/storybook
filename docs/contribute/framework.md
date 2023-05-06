@@ -63,19 +63,19 @@ Because a framework is a node package, it must contain a `package.json` file. He
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "import": "./dist/preset.mjs"
     },
     "./preview.js": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./package.json": "./package.json"
   },

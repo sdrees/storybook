@@ -1,18 +1,18 @@
 {
   "name": "@storybook/preset-svelte-webpack",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/svelte-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/svelte-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/svelte-webpack"
+    "directory": "code/presets/svelte-webpack"
   },
   "funding": {
     "type": "opencollective",
@@ -21,31 +21,31 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./dist/framework-preset-svelte-docs": {
+      "types": "./dist/framework-preset-svelte-docs.d.ts",
       "require": "./dist/framework-preset-svelte-docs.js",
-      "import": "./dist/framework-preset-svelte-docs.mjs",
-      "types": "./dist/framework-preset-svelte-docs.d.ts"
+      "import": "./dist/framework-preset-svelte-docs.mjs"
     },
     "./dist/framework-preset-svelte": {
+      "types": "./dist/framework-preset-svelte.d.ts",
       "require": "./dist/framework-preset-svelte.js",
-      "import": "./dist/framework-preset-svelte.mjs",
-      "types": "./dist/framework-preset-svelte.d.ts"
+      "import": "./dist/framework-preset-svelte.mjs"
     },
     "./dist/svelte-docgen-loader": {
+      "types": "./dist/svelte-docgen-loader.d.ts",
       "require": "./dist/svelte-docgen-loader.js",
-      "import": "./dist/svelte-docgen-loader.mjs",
-      "types": "./dist/svelte-docgen-loader.d.ts"
+      "import": "./dist/svelte-docgen-loader.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -63,8 +63,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-webpack": "7.1.0-alpha.10",
-    "@storybook/node-logger": "7.1.0-alpha.10",
+    "@storybook/core-webpack": "7.1.0-alpha.13",
+    "@storybook/node-logger": "7.1.0-alpha.13",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.0.0"
   },
@@ -93,5 +93,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

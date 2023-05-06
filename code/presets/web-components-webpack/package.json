@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-web-components-webpack",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
   "keywords": [
     "lit",
@@ -8,14 +8,14 @@
     "storybook",
     "web-components"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/web-components-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/web-components-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/web-components-webpack"
+    "directory": "code/presets/web-components-webpack"
   },
   "funding": {
     "type": "opencollective",
@@ -24,16 +24,16 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -54,7 +54,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.20.2",
-    "@storybook/core-webpack": "7.1.0-alpha.10",
+    "@storybook/core-webpack": "7.1.0-alpha.13",
     "@types/node": "^16.0.0",
     "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "babel-plugin-bundled-import-meta": "^0.3.1"
@@ -78,5 +78,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

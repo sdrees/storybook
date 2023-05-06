@@ -2,7 +2,7 @@
 import lightThemeVars from './themes/light';
 import darkThemeVars from './themes/dark';
 
-import type { ThemeVars } from './types';
+import type { ThemeVars, ThemeVarsPartial } from './types';
 import { getPreferredColorScheme } from './utils';
 
 export const themes: { light: ThemeVars; dark: ThemeVars; normal: ThemeVars } = {
@@ -18,7 +18,7 @@ interface Rest {
 const preferredColorScheme = getPreferredColorScheme();
 
 export const create = (
-  vars: ThemeVars = { base: preferredColorScheme },
+  vars: ThemeVarsPartial = { base: preferredColorScheme },
   rest?: Rest
 ): ThemeVars => {
   const inherit: ThemeVars = {

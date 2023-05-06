@@ -1,23 +1,30 @@
+/* eslint-disable prefer-destructuring */
 import { start } from '@storybook/preview-api';
+import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { decorateStory } from './decorators';
 
 import type { SvelteRenderer } from './types';
 import { render, renderToCanvas } from './render';
 
-const {
-  configure: coreConfigure,
-  clientApi,
-  forceReRender,
-} = start<SvelteRenderer>(renderToCanvas, {
+const RENDERER = 'svelte';
+
+interface ClientApi extends Addon_ClientStoryApi<SvelteRenderer['storyResult']> {
+  configure(loader: Addon_Loadable, module: NodeModule): void;
+  forceReRender(): void;
+  raw: () => any; // todo add type
+}
+
+const api = start<SvelteRenderer>(renderToCanvas, {
   decorateStory,
   render,
 });
 
-export const { raw } = clientApi;
+export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
+  return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
+    renderer: RENDERER,
+  });
+};
 
-const RENDERER = 'svelte';
-export const storiesOf = (kind: string, m: any) =>
-  clientApi.storiesOf(kind, m).addParameters({ renderer: RENDERER });
-export const configure = (...args: any[]) => coreConfigure(RENDERER, ...args);
-
-export { forceReRender };
+export const configure: ClientApi['configure'] = (...args) => api.configure(RENDERER, ...args);
+export const forceReRender: ClientApi['forceReRender'] = api.forceReRender;
+export const raw: ClientApi['raw'] = api.clientApi.raw;

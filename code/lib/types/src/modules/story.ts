@@ -84,7 +84,6 @@ export type PreparedStory<TRenderer extends Renderer = Renderer> =
       context: StoryContextForLoaders<TRenderer>
     ) => Promise<StoryContextForLoaders<TRenderer> & { loaded: StoryContext<TRenderer>['loaded'] }>;
     playFunction?: (context: StoryContext<TRenderer>) => Promise<void> | void;
-    prepareContext: (context: StoryContext<TRenderer>) => StoryContext<TRenderer>;
   };
 
 export type PreparedMeta<TRenderer extends Renderer = Renderer> = Omit<

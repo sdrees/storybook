@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import type { ReactNode, FC } from 'react';
 import React, { useState, Fragment, useEffect, useRef, memo } from 'react';
 import memoize from 'memoizerific';
@@ -37,25 +36,16 @@ const baseViewports: ViewportItem[] = [responsiveViewport];
 
 const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state, close): Link[] => {
   return list
+    .filter((i) => i.id !== responsiveViewport.id || active.id !== i.id)
     .map((i) => {
-      switch (i.id) {
-        case responsiveViewport.id: {
-          if (active.id === i.id) {
-            return null;
-          }
-        }
-        default: {
-          return {
-            ...i,
-            onClick: () => {
-              set({ ...state, selected: i.id });
-              close();
-            },
-          };
-        }
-      }
-    })
-    .filter(Boolean);
+      return {
+        ...i,
+        onClick: () => {
+          set({ ...state, selected: i.id });
+          close();
+        },
+      };
+    });
 });
 
 const wrapperId = 'storybook-preview-wrapper';
@@ -112,12 +102,12 @@ interface ViewportToolState {
 }
 
 const getStyles = (
-  prevStyles: ViewportStyles,
+  prevStyles: ViewportStyles | undefined,
   styles: Styles,
   isRotated: boolean
-): ViewportStyles => {
-  if (styles === null) {
-    return null;
+): ViewportStyles | undefined => {
+  if (!styles || !prevStyles) {
+    return undefined;
   }
   const result = typeof styles === 'function' ? styles(prevStyles) : styles;
   return isRotated ? flip(result) : result;
@@ -154,7 +144,8 @@ export const ViewportTool: FC = memo(
     useEffect(() => {
       setState({
         selected:
-          defaultViewport || (viewports[state.selected] ? state.selected : responsiveViewport.id),
+          defaultViewport ||
+          (state.selected && viewports[state.selected] ? state.selected : responsiveViewport.id),
         isRotated: defaultOrientation === 'landscape',
       });
     }, [defaultOrientation, defaultViewport]);

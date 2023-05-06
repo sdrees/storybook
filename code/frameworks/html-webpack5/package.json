@@ -1,18 +1,18 @@
 {
   "name": "@storybook/html-webpack5",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook for HTML: View HTML snippets in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/html-webpack5",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/html-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/html-webpack5"
+    "directory": "code/frameworks/html-webpack5"
   },
   "funding": {
     "type": "opencollective",
@@ -21,15 +21,14 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -48,11 +47,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.1.0-alpha.10",
-    "@storybook/core-common": "7.1.0-alpha.10",
+    "@storybook/builder-webpack5": "7.1.0-alpha.13",
+    "@storybook/core-common": "7.1.0-alpha.13",
     "@storybook/global": "^5.0.0",
-    "@storybook/html": "7.1.0-alpha.10",
-    "@storybook/preset-html-webpack": "7.1.0-alpha.10",
+    "@storybook/html": "7.1.0-alpha.13",
+    "@storybook/preset-html-webpack": "7.1.0-alpha.13",
     "@types/node": "^16.0.0"
   },
   "devDependencies": {
@@ -76,5 +75,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

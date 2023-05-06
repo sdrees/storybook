@@ -54,10 +54,10 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
         // @ts-expect-error TS says it is called $vnode
         const code = vnodeToString(storyNode._vnode);
 
-        const { id, args } = context;
+        const { id, unmappedArgs } = context;
         channel.emit(SNIPPET_RENDERED, {
           id,
-          args,
+          args: unmappedArgs,
           source: `<template>${code}</template>`,
           format: 'vue',
         });

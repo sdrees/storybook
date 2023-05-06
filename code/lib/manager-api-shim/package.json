@@ -1,11 +1,11 @@
 {
   "name": "@storybook/api",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook Manager API (facade)",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/api",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -22,9 +22,9 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/entry.d.ts",
       "require": "./dist/entry.js",
-      "import": "./dist/entry.mjs",
-      "types": "./dist/entry.d.ts"
+      "import": "./dist/entry.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.10",
-    "@storybook/manager-api": "7.1.0-alpha.10"
+    "@storybook/client-logger": "7.1.0-alpha.13",
+    "@storybook/manager-api": "7.1.0-alpha.13"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -66,5 +66,5 @@
     ],
     "shim": "@storybook/manager-api"
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

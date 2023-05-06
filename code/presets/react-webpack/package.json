@@ -1,18 +1,18 @@
 {
   "name": "@storybook/preset-react-webpack",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/react-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/react-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/react-webpack"
+    "directory": "code/presets/react-webpack"
   },
   "funding": {
     "type": "opencollective",
@@ -21,31 +21,31 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./dist/framework-preset-cra": {
+      "types": "./dist/framework-preset-cra.d.ts",
       "require": "./dist/framework-preset-cra.js",
-      "import": "./dist/framework-preset-cra.mjs",
-      "types": "./dist/framework-preset-cra.d.ts"
+      "import": "./dist/framework-preset-cra.mjs"
     },
     "./dist/framework-preset-react-docs": {
+      "types": "./dist/framework-preset-react-docs.d.ts",
       "require": "./dist/framework-preset-react-docs.js",
-      "import": "./dist/framework-preset-react-docs.mjs",
-      "types": "./dist/framework-preset-react-docs.d.ts"
+      "import": "./dist/framework-preset-react-docs.mjs"
     },
     "./dist/framework-preset-react": {
+      "types": "./dist/framework-preset-react.d.ts",
       "require": "./dist/framework-preset-react.js",
-      "import": "./dist/framework-preset-react.mjs",
-      "types": "./dist/framework-preset-react.d.ts"
+      "import": "./dist/framework-preset-react.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -66,10 +66,10 @@
     "@babel/preset-flow": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
-    "@storybook/core-webpack": "7.1.0-alpha.10",
-    "@storybook/docs-tools": "7.1.0-alpha.10",
-    "@storybook/node-logger": "7.1.0-alpha.10",
-    "@storybook/react": "7.1.0-alpha.10",
+    "@storybook/core-webpack": "7.1.0-alpha.13",
+    "@storybook/docs-tools": "7.1.0-alpha.13",
+    "@storybook/node-logger": "7.1.0-alpha.13",
+    "@storybook/react": "7.1.0-alpha.13",
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
@@ -111,5 +111,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

@@ -45,6 +45,8 @@ const extractApplicationProviders = (metadata: NgModuleMetadata, component?: any
 };
 
 describe('PropertyExtractor', () => {
+  jest.spyOn(console, 'warn').mockImplementation(() => {});
+
   describe('analyzeMetadata', () => {
     it('should remove BrowserModule', () => {
       const metadata = {

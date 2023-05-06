@@ -87,49 +87,6 @@ export function prepareStory<TRenderer extends Renderer>(
   const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
   const unboundStoryFn = (context: StoryContext<TRenderer>) => decoratedStoryFn(context);
 
-  // prepareContext is invoked at StoryRender.render()
-  // the context is prepared before invoking the render function, instead of here directly
-  // to ensure args don't loose there special properties set by the renderer
-  // eg. reactive proxies set by frameworks like SolidJS or Vue
-  const prepareContext = (context: StoryContext<TRenderer>) => {
-    let finalContext: StoryContext<TRenderer> = context;
-
-    if (global.FEATURES?.argTypeTargetsV7) {
-      const argsByTarget = groupArgsByTarget(context);
-      finalContext = {
-        ...context,
-        allArgs: context.args,
-        argsByTarget,
-        args: argsByTarget[UNTARGETED] || {},
-      };
-    }
-
-    const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
-      if (!finalContext.argTypes[key]?.mapping) {
-        acc[key] = val;
-
-        return acc;
-      }
-
-      const mappingFn = (originalValue: any) =>
-        originalValue in finalContext.argTypes[key].mapping
-          ? finalContext.argTypes[key].mapping[originalValue]
-          : originalValue;
-
-      acc[key] = Array.isArray(val) ? val.map(mappingFn) : mappingFn(val);
-
-      return acc;
-    }, {} as Args);
-
-    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
-      const argType = finalContext.argTypes[key] || {};
-      if (includeConditionalArg(argType, mappedArgs, finalContext.globals)) acc[key] = val;
-      return acc;
-    }, {} as Args);
-
-    return { ...finalContext, args: includedArgs };
-  };
-
   const play = storyAnnotations?.play || componentAnnotations.play;
 
   const playFunction =
@@ -156,7 +113,6 @@ export function prepareStory<TRenderer extends Renderer>(
     unboundStoryFn,
     applyLoaders,
     playFunction,
-    prepareContext,
   };
 }
 
@@ -257,4 +213,57 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   const { name, story, ...withoutStoryIdentifiers } = contextForEnhancers;
 
   return withoutStoryIdentifiers;
+}
+
+// the context is prepared before invoking the render function, instead of here directly
+// to ensure args don't loose there special properties set by the renderer
+// eg. reactive proxies set by frameworks like SolidJS or Vue
+export function prepareContext<
+  TRenderer extends Renderer,
+  TContext extends Pick<StoryContextForLoaders<TRenderer>, 'args' | 'argTypes' | 'globals'>
+>(
+  context: TContext
+): TContext & Pick<StoryContextForLoaders<TRenderer>, 'allArgs' | 'argsByTarget' | 'unmappedArgs'> {
+  const { args: unmappedArgs } = context;
+
+  let targetedContext: TContext &
+    Pick<StoryContextForLoaders<TRenderer>, 'allArgs' | 'argsByTarget'> = {
+    ...context,
+    allArgs: undefined,
+    argsByTarget: undefined,
+  };
+  if (global.FEATURES?.argTypeTargetsV7) {
+    const argsByTarget = groupArgsByTarget(context);
+    targetedContext = {
+      ...context,
+      allArgs: context.args,
+      argsByTarget,
+      args: argsByTarget[UNTARGETED] || {},
+    };
+  }
+
+  const mappedArgs = Object.entries(targetedContext.args).reduce((acc, [key, val]) => {
+    if (!targetedContext.argTypes[key]?.mapping) {
+      acc[key] = val;
+
+      return acc;
+    }
+
+    const mappingFn = (originalValue: any) =>
+      originalValue in targetedContext.argTypes[key].mapping
+        ? targetedContext.argTypes[key].mapping[originalValue]
+        : originalValue;
+
+    acc[key] = Array.isArray(val) ? val.map(mappingFn) : mappingFn(val);
+
+    return acc;
+  }, {} as Args);
+
+  const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
+    const argType = targetedContext.argTypes[key] || {};
+    if (includeConditionalArg(argType, mappedArgs, targetedContext.globals)) acc[key] = val;
+    return acc;
+  }, {} as Args);
+
+  return { ...targetedContext, unmappedArgs, args: includedArgs };
 }

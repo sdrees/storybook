@@ -1,3 +1,68 @@
+## 7.1.0-alpha.13 (May 5, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix virtual modules excluded for babel-loader [#22331](https://github.com/storybooks/storybook/pull/22331)
+
+#### Maintenance
+
+-   Angular: Allow TypeScript 4.0.0 and 5.0.0 [#22391](https://github.com/storybooks/storybook/pull/22391)
+-   Angular: Enable Angular Unit tests [#22355](https://github.com/storybooks/storybook/pull/22355)
+-   TypeScript: Migrate @storybook/theming to strict TS [#22376](https://github.com/storybooks/storybook/pull/22376)
+-   TypeScript: Migrate @storybook/channel-websocket to strict TS [#22364](https://github.com/storybooks/storybook/pull/22364)
+-   TypeScript: Migrate @storybook/addon-outline to strict TS [#22369](https://github.com/storybooks/storybook/pull/22369)
+-   TypeScript: Migrate @storybook/addon-viewbook to strict ts [#22339](https://github.com/storybooks/storybook/pull/22339)
+-   TypeScript: Migrate @storybook/channels to strict TS [#22365](https://github.com/storybooks/storybook/pull/22365)
+
+#### Build
+
+-   Add Angular Prerelease sandbox [#22379](https://github.com/storybooks/storybook/pull/22379)
+
+## 7.1.0-alpha.12 (May 3, 2023)
+
+#### Bug Fixes
+
+-   Migrate: skip the automigration for gf markdown when user isn't using mdx [#22186](https://github.com/storybooks/storybook/pull/22186)
+-   UI: Addon panel does not update after disabling/enabling an addon [#22258](https://github.com/storybooks/storybook/pull/22258)
+-   Typescript: Fix bad typings caused by tsup bug [#22261](https://github.com/storybooks/storybook/pull/22261)
+-   Core: Fix source snippets for stories with mapped args [#22135](https://github.com/storybooks/storybook/pull/22135)
+
+#### Maintenance
+
+-   Telemetry: Persist sessionId across runs [#22325](https://github.com/storybooks/storybook/pull/22325)
+-   Packaging: Move `types` condition to the front in all `package.json.exports` maps [#22321](https://github.com/storybooks/storybook/pull/22321)
+-   Packaging: Don't generate ESM dist for preset files [#22330](https://github.com/storybooks/storybook/pull/22330)
+-   Typescript: Migrate `@storybook/csf-tools` to strict TS [#22312](https://github.com/storybooks/storybook/pull/22312)
+-   Typescript: Migrate @storybook/postinstall and @storybook/router to strict TS [#22200](https://github.com/storybooks/storybook/pull/22200)
+-   Maintenance: Fix urls for all packages in package.json [#22101](https://github.com/storybooks/storybook/pull/22101)
+-   Docs: Improve component typings [#22050](https://github.com/storybooks/storybook/pull/22050)
+
+#### Build
+
+-   Build: Comment out flaky test [#22310](https://github.com/storybooks/storybook/pull/22310)
+-   Build: Migrate `@storybook/web-components-vite` to strict TS [#22309](https://github.com/storybooks/storybook/pull/22309)
+-   Build: Migrate `@storybook/html-vite` to strict TS [#22293](https://github.com/storybooks/storybook/pull/22293)
+-   Build: Migrate @storybook/preset-vue-webpack to strict TS [#22320](https://github.com/storybooks/storybook/pull/22320)
+-   Build: Use `next` branch for sandbox and repro commands [#22238](https://github.com/storybooks/storybook/pull/22238)
+
+## 7.1.0-alpha.11 (April 28, 2023)
+
+#### Features
+
+-   Feature: Add support for Angular 16 [#22096](https://github.com/storybooks/storybook/pull/22096)
+
+#### Bug Fixes
+
+-   Vue3: Rollback v7 breaking change and keep reactive v6-compatible API [#22229](https://github.com/storybooks/storybook/pull/22229)
+
+#### Maintenance
+
+-   Core: Add tests for mapping behaviour in #22169 [#22301](https://github.com/storybooks/storybook/pull/22301)
+
+#### Dependency Upgrades
+
+-   Update glob to v10.0.0 [#22171](https://github.com/storybooks/storybook/pull/22171)
+
 ## 7.1.0-alpha.10 (April 28, 2023)
 
 #### Bug Fixes

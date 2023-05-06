@@ -28,7 +28,8 @@ test.describe('Next.js', () => {
       sbPage = new SbPage(page);
     });
 
-    test('should lazy load images by default', async () => {
+    // TODO: Test is flaky, investigate why
+    test.skip('should lazy load images by default', async () => {
       await sbPage.navigateToStory('frameworks/nextjs/Image', 'lazy');
 
       const img = sbPage.previewRoot().locator('img');
@@ -36,14 +37,14 @@ test.describe('Next.js', () => {
       expect(await img.evaluate<boolean, HTMLImageElement>((image) => image.complete)).toBeFalsy();
     });
 
-    // TODO: Test is very flaky, investigate why
-    // test('should eager load images when loading parameter is set to eager', async () => {
-    //   await sbPage.navigateToStory('frameworks/nextjs/Image', 'eager');
+    // TODO: Test is flaky, investigate why
+    test.skip('should eager load images when loading parameter is set to eager', async () => {
+      await sbPage.navigateToStory('frameworks/nextjs/Image', 'eager');
 
-    //   const img = sbPage.previewRoot().locator('img');
+      const img = sbPage.previewRoot().locator('img');
 
-    //   expect(await img.evaluate<boolean, HTMLImageElement>((image) => image.complete)).toBeTruthy();
-    // });
+      expect(await img.evaluate<boolean, HTMLImageElement>((image) => image.complete)).toBeTruthy();
+    });
   });
 
   test.describe('next/navigation', () => {

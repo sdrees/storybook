@@ -19,7 +19,6 @@ import type { SourceContextProps, SourceItem } from './SourceContainer';
 import { UNKNOWN_ARGS_HASH, argsHash, SourceContext } from './SourceContainer';
 
 import { useStories } from './useStory';
-import { useArgsList } from './useArgs';
 
 export enum SourceState {
   OPEN = 'open',
@@ -186,8 +185,6 @@ export const useSourceProps = (
       // You are allowed to use <Source code="..." /> and <Canvas /> unattached.
     }
   }
-  const argsFromStories = useArgsList(stories, docsContext);
-
   if (!storiesFromIds.every(Boolean)) {
     return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
   }
@@ -204,12 +201,12 @@ export const useSourceProps = (
         // In theory you can use a storyId from a different CSF file that hasn't loaded yet.
         if (!story) return '';
 
-        // NOTE: args *does* have to be defined here due to the null check on story above
-        const [args] = argsFromStories[index] || [];
         const storyContext = docsContext.getStoryContext(story);
 
         // eslint-disable-next-line no-underscore-dangle
-        const argsForSource = props.__forceInitialArgs ? storyContext.initialArgs : args;
+        const argsForSource = props.__forceInitialArgs
+          ? storyContext.initialArgs
+          : storyContext.unmappedArgs;
 
         const source = getStorySource(story.id, argsForSource, sourceContext);
         if (index === 0) {

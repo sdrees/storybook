@@ -447,7 +447,7 @@ export class ConfigFile {
 
   appendValueToArray(path: string[], value: any) {
     const node = this.valueToNode(value);
-    this.appendNodeToArray(path, node);
+    if (node) this.appendNodeToArray(path, node);
   }
 
   appendNodeToArray(path: string[], node: t.Expression) {

@@ -2,41 +2,47 @@ import type { easing, animation } from './animation';
 
 import type { color, background, typography } from './base';
 
-export interface ThemeVars {
-  base: 'light' | 'dark';
+export interface ThemeVars extends ThemeVarsBase, ThemeVarsColors {}
 
-  colorPrimary?: string;
-  colorSecondary?: string;
+export interface ThemeVarsPartial extends ThemeVarsBase, Partial<ThemeVarsColors> {}
+
+interface ThemeVarsBase {
+  base: 'light' | 'dark';
+}
+
+export interface ThemeVarsColors {
+  colorPrimary: string;
+  colorSecondary: string;
 
   // UI
-  appBg?: string;
-  appContentBg?: string;
-  appBorderColor?: string;
-  appBorderRadius?: number;
+  appBg: string;
+  appContentBg: string;
+  appBorderColor: string;
+  appBorderRadius: number;
 
   // Typography
-  fontBase?: string;
-  fontCode?: string;
+  fontBase: string;
+  fontCode: string;
 
   // Text colors
-  textColor?: string;
-  textInverseColor?: string;
-  textMutedColor?: string;
+  textColor: string;
+  textInverseColor: string;
+  textMutedColor: string;
 
   // Toolbar default and active colors
-  barTextColor?: string;
-  barSelectedColor?: string;
-  barBg?: string;
+  barTextColor: string;
+  barSelectedColor: string;
+  barBg: string;
 
   // Form colors
-  buttonBg?: string;
-  buttonBorder?: string;
-  booleanBg?: string;
-  booleanSelectedBg?: string;
-  inputBg?: string;
-  inputBorder?: string;
-  inputTextColor?: string;
-  inputBorderRadius?: number;
+  buttonBg: string;
+  buttonBorder: string;
+  booleanBg: string;
+  booleanSelectedBg: string;
+  inputBg: string;
+  inputBorder: string;
+  inputTextColor: string;
+  inputBorderRadius: number;
 
   brandTitle?: string;
   brandUrl?: string;

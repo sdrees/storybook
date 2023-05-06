@@ -6,7 +6,7 @@ import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '
 import { addons, HooksContext } from '../../addons';
 
 import { UNTARGETED } from '../args';
-import { prepareStory, prepareMeta } from './prepareStory';
+import { prepareStory, prepareMeta, prepareContext } from './prepareStory';
 
 jest.mock('@storybook/global', () => ({
   global: {
@@ -23,6 +23,15 @@ const moduleExport = {};
 const stringType: SBScalarType = { name: 'string' };
 const numberType: SBScalarType = { name: 'number' };
 const booleanType: SBScalarType = { name: 'boolean' };
+
+// Extra fields that must be added to the story context after enhancers
+const storyContextExtras = () => ({
+  hooks: new HooksContext(),
+  viewMode: 'story' as const,
+  loaded: {},
+  abortSignal: new AbortController().signal,
+  canvasElement: {},
+});
 
 describe('prepareStory', () => {
   describe('tags', () => {
@@ -403,8 +412,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = story.prepareContext({ args: story.initialArgs, ...story } as any);
-      story.undecoratedStoryFn(context);
+      const context = prepareContext({ args: story.initialArgs, globals: {}, ...story });
+      story.undecoratedStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { one: 'mapped', two: 2, three: 3 },
         expect.objectContaining({ args: { one: 'mapped', two: 2, three: 3 } })
@@ -499,12 +508,12 @@ describe('prepareStory', () => {
       );
 
       const hooks = new HooksContext();
-      const context = story.prepareContext({ args: story.initialArgs, hooks, ...story } as any);
-      story.unboundStoryFn(context);
+      const context = prepareContext({ args: story.initialArgs, globals: {}, ...story });
+      story.unboundStoryFn({ ...context, ...storyContextExtras(), hooks });
 
-      expect(ctx1).toMatchObject({ args: { one: 'mapped-1' } });
-      expect(ctx2).toMatchObject({ args: { one: 'mapped-1' } });
-      expect(ctx3).toMatchObject({ args: { one: 'mapped-1' } });
+      expect(ctx1).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
+      expect(ctx2).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
+      expect(ctx3).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
 
       hooks.clean();
     });
@@ -525,7 +534,7 @@ describe('prepareStory', () => {
         { render: jest.fn() }
       );
 
-      const context = story.prepareContext({ args: { one: 1 }, ...story } as any);
+      const context = prepareContext({ args: { one: 1 }, globals: {}, ...story });
       expect(context).toMatchObject({
         args: { one: 'mapped-1' },
       });
@@ -545,10 +554,11 @@ describe('prepareStory', () => {
         { render: jest.fn() }
       );
 
-      const context = story.prepareContext({
+      const context = prepareContext({
         args: { one: [1, 1] },
+        globals: {},
         ...story,
-      } as any);
+      });
       expect(context).toMatchObject({
         args: { one: ['mapped-1', 'mapped-1'] },
       });
@@ -573,12 +583,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ args: { a: 1 }, allArgs: { a: 1, b: 2 } })
@@ -599,12 +605,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ args: { a: 1 }, allArgs: { a: 1, b: 2 } })
@@ -625,12 +627,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ argsByTarget: { [UNTARGETED]: { a: 1 }, foo: { b: 2 } } })
@@ -651,12 +649,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         {},
         expect.objectContaining({ argsByTarget: { foo: { b: 2 } } })
@@ -675,12 +669,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith({}, expect.objectContaining({ argsByTarget: {} }));
     });
   });
@@ -768,7 +758,6 @@ describe('prepareMeta', () => {
       unboundStoryFn,
       undecoratedStoryFn,
       playFunction,
-      prepareContext,
       // eslint-disable-next-line @typescript-eslint/naming-convention
       parameters: { __isArgsStory, ...parameters },
       ...expectedPreparedMeta

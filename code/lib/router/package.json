@@ -1,18 +1,18 @@
 {
   "name": "@storybook/router",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.13",
   "description": "Core Storybook Router",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/router",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/router",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/router"
+    "directory": "code/lib/router"
   },
   "funding": {
     "type": "opencollective",
@@ -22,15 +22,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./utils": {
+      "types": "./dist/utils.d.ts",
       "require": "./dist/utils.js",
-      "import": "./dist/utils.mjs",
-      "types": "./dist/utils.d.ts"
+      "import": "./dist/utils.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -48,7 +48,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.10",
+    "@storybook/client-logger": "7.1.0-alpha.13",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0"
   },
@@ -74,5 +74,5 @@
       "./src/utils.ts"
     ]
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53"
 }

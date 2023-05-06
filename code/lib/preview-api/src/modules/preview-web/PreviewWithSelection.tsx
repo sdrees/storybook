@@ -380,7 +380,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
 
     if (isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
-      const { parameters, initialArgs, argTypes, args } = this.storyStore.getStoryContext(
+      const { parameters, initialArgs, argTypes, unmappedArgs } = this.storyStore.getStoryContext(
         render.story
       );
 
@@ -390,7 +390,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
           parameters,
           initialArgs,
           argTypes,
-          args,
+          args: unmappedArgs,
         });
       }
 
@@ -398,7 +398,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
       // If the implementation changed, or args were persisted, the args may have changed,
       // and the STORY_PREPARED event above may not be respected.
       if (implementationChanged || persistedArgs) {
-        this.channel.emit(STORY_ARGS_UPDATED, { storyId, args });
+        this.channel.emit(STORY_ARGS_UPDATED, { storyId, args: unmappedArgs });
       }
     } else if (global.FEATURES?.storyStoreV7) {
       if (!this.storyStore.projectAnnotations) throw new Error('Store not initialized');

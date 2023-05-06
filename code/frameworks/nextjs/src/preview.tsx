@@ -1,3 +1,4 @@
+import type { Addon_DecoratorFunction } from '@storybook/types';
 import './config/preview';
 import { ImageDecorator } from './images/decorator';
 import { RouterDecorator } from './routing/decorator';
@@ -14,7 +15,7 @@ function addNextHeadCount() {
 
 addNextHeadCount();
 
-export const decorators = [
+export const decorators: Addon_DecoratorFunction<any>[] = [
   StyledJsxDecorator,
   ImageDecorator,
   RouterDecorator,

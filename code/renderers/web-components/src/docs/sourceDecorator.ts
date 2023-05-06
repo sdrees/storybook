@@ -35,8 +35,8 @@ export function sourceDecorator(
   let source: string;
 
   useEffect(() => {
-    const { id, args } = context;
-    if (source) addons.getChannel().emit(SNIPPET_RENDERED, { id, source, args });
+    const { id, unmappedArgs } = context;
+    if (source) addons.getChannel().emit(SNIPPET_RENDERED, { id, source, args: unmappedArgs });
   });
   if (!skipSourceRender(context)) {
     const container = window.document.createElement('div');
