@@ -1,7 +1,10 @@
 {
   "title": "Example/Button",
   "parameters": {
-    "server": { "id": "button" }
+    "server": {
+      "url": "https://storybook-server-demo.netlify.app/api",
+      "id": "button"
+    }
   },
   "args": { "label": "Button" },
   "argTypes": {

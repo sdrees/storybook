@@ -12,12 +12,8 @@ export const rendererPackages: Record<string, string> = {
   '@storybook/web-components': 'web-components',
   '@storybook/polymer': 'polymer',
   '@storybook/ember': 'ember',
-  '@storybook/marko': 'marko',
-  '@storybook/mithril': 'mithril',
-  '@storybook/riot': 'riot',
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
-  '@storybook/rax': 'rax',
   '@storybook/server': 'server',
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',

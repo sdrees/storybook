@@ -8,7 +8,7 @@ const mockRunScript = jest.fn();
 jest.mock('@storybook/cli', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({
-      runPackageCommand: mockRunScript,
+      runPackageCommandSync: mockRunScript,
     }),
   },
 }));
@@ -45,7 +45,8 @@ describe('runCompodoc', () => {
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
       ['-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
-      'path/to/project'
+      'path/to/project',
+      'inherit'
     );
   });
 
@@ -66,7 +67,8 @@ describe('runCompodoc', () => {
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
       ['-d', 'path/to/project', '-p', 'path/to/tsconfig.stories.json'],
-      'path/to/project'
+      'path/to/project',
+      'inherit'
     );
   });
 
@@ -87,7 +89,8 @@ describe('runCompodoc', () => {
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
       ['-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
-      'path/to/project'
+      'path/to/project',
+      'inherit'
     );
   });
 
@@ -108,7 +111,8 @@ describe('runCompodoc', () => {
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
       ['-p', 'path/to/tsconfig.json', '--output', 'path/to/customFolder'],
-      'path/to/project'
+      'path/to/project',
+      'inherit'
     );
   });
 
@@ -129,7 +133,8 @@ describe('runCompodoc', () => {
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
       ['-p', 'path/to/tsconfig.json', '-d', 'path/to/customFolder'],
-      'path/to/project'
+      'path/to/project',
+      'inherit'
     );
   });
 });

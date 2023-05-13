@@ -18,13 +18,13 @@ export const angularBuilders: Fix<AngularBuildersRunOptions> = {
   id: 'angular-builders',
 
   async check({ packageManager, configDir }) {
-    const packageJSON = packageManager.retrievePackageJson();
+    const packageJSON = await packageManager.retrievePackageJson();
 
     // Skip in case of NX
     if (isNxProject(packageJSON)) {
       return null;
     }
-    const allDependencies = packageManager.getAllDependencies();
+    const allDependencies = await packageManager.getAllDependencies();
 
     const angularVersion = allDependencies['@angular/core'];
     const angularCoerced = semver.coerce(angularVersion)?.version;
@@ -98,7 +98,7 @@ export const angularBuilders: Fix<AngularBuildersRunOptions> = {
 
     angularJSON.write();
 
-    packageManager.addScripts({
+    await packageManager.addScripts({
       storybook: `ng run ${angularProjectName}:storybook`,
       'build-storybook': `ng run ${angularProjectName}:build-storybook`,
     });

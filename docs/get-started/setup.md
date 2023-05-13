@@ -49,6 +49,8 @@ You may have to configure your CSS tooling for Storybook’s rendering environme
 - [Emotion](https://storybook.js.org/recipes/@emotion/styled/)
 - [Sass](https://storybook.js.org/recipes/sass/)
 - [Bootstrap](https://storybook.js.org/recipes/bootstrap/)
+- [Less](https://storybook.js.org/recipes/less/)
+- [Vanilla-extract](https://storybook.js.org/recipes/@vanilla-extract/css/)
 
 Don't see the tool that you're looking for? Check out the [styling and css](../configure/styling-and-css.md) page for more details.
 

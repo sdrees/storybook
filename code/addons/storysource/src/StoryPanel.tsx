@@ -7,6 +7,7 @@ import {
   type SyntaxHighlighterProps,
   type SyntaxHighlighterRendererProps,
 } from '@storybook/components';
+import invariant from 'tiny-invariant';
 
 // @ts-expect-error Typedefs don't currently expose `createElement` even though it exists
 import { createElement as createSyntaxHighlighterElement } from 'react-syntax-highlighter';
@@ -58,21 +59,25 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
   // prefer to use the source from source-loader, but fallback to
   // source provided by csf-plugin for vite usage
   const source = loaderSource || docsSource || 'loading source...';
-  const currentLocation = locationsMap
-    ? locationsMap[
-        Object.keys(locationsMap).find((key: string) => {
-          const sourceLoaderId = key.split('--');
-          return story.id.endsWith(sourceLoaderId[sourceLoaderId.length - 1]);
-        })
-      ]
+  const currentLocationIndex = locationsMap
+    ? Object.keys(locationsMap).find((key: string) => {
+        const sourceLoaderId = key.split('--');
+        return story.id.endsWith(sourceLoaderId[sourceLoaderId.length - 1]);
+      })
     : undefined;
+  const currentLocation =
+    locationsMap && currentLocationIndex ? locationsMap[currentLocationIndex] : undefined;
   React.useEffect(() => {
     if (selectedStoryRef.current) {
       selectedStoryRef.current.scrollIntoView();
     }
   }, [selectedStoryRef.current]);
 
-  const createPart = ({ rows, stylesheet, useInlineStyles }: SyntaxHighlighterRendererProps) =>
+  const createPart = ({
+    rows,
+    stylesheet,
+    useInlineStyles,
+  }: SyntaxHighlighterRendererProps): React.ReactNode[] =>
     rows.map((node, i) =>
       createSyntaxHighlighterElement({
         node,
@@ -112,8 +117,10 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
   };
 
   const createParts = ({ rows, stylesheet, useInlineStyles }: SyntaxHighlighterRendererProps) => {
-    const parts = [];
+    const parts: React.ReactNode[] = [];
     let lastRow = 0;
+
+    invariant(locationsMap, 'locationsMap should be defined while creating parts');
 
     Object.keys(locationsMap).forEach((key) => {
       const location = locationsMap[key];
@@ -126,7 +133,7 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
       const start = createPart({ rows: rows.slice(lastRow, first), stylesheet, useInlineStyles });
       const storyPart = createStoryPart({ rows, stylesheet, useInlineStyles, location, id, refId });
 
-      parts.push(start);
+      parts.push(...start);
       parts.push(storyPart);
 
       lastRow = last;
@@ -134,7 +141,7 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
 
     const lastPart = createPart({ rows: rows.slice(lastRow), stylesheet, useInlineStyles });
 
-    parts.push(lastPart);
+    parts.push(...lastPart);
 
     return parts;
   };

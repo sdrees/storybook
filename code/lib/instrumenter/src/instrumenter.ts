@@ -40,8 +40,10 @@ const alreadyCompletedException = new Error(
   `This function ran after the play function completed. Did you forget to \`await\` it?`
 );
 
-const isObject = (o: unknown) => Object.prototype.toString.call(o) === '[object Object]';
-const isModule = (o: unknown) => Object.prototype.toString.call(o) === '[object Module]';
+const isObject = (o: unknown): o is object =>
+  Object.prototype.toString.call(o) === '[object Object]';
+const isModule = (o: unknown): o is NodeModule =>
+  Object.prototype.toString.call(o) === '[object Module]';
 const isInstrumentable = (o: unknown) => {
   if (!isObject(o) && !isModule(o)) return false;
   if (o.constructor === undefined) return true;
@@ -108,7 +110,7 @@ export class Instrumenter {
       isPlaying = true,
       isDebugging = false,
     }: {
-      storyId?: StoryId;
+      storyId: StoryId;
       isPlaying?: boolean;
       isDebugging?: boolean;
     }) => {
@@ -575,8 +577,8 @@ export class Instrumenter {
         return;
       }
 
-      const hasPrevious = logItems.some((item) =>
-        [CallStates.DONE, CallStates.ERROR].includes(item.status)
+      const hasPrevious = logItems.some(
+        (item) => item.status === CallStates.DONE || item.status === CallStates.ERROR
       );
       const controlStates: ControlStates = {
         start: hasPrevious,

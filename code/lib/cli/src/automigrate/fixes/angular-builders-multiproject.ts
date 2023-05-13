@@ -12,14 +12,14 @@ export const angularBuildersMultiproject: Fix<AngularBuildersMultiprojectRunOpti
   id: 'angular-builders-multiproject',
   promptOnly: true,
 
-  async check({ packageManager, configDir }) {
-    const packageJSON = packageManager.retrievePackageJson();
+  async check({ packageManager }) {
+    const packageJSON = await packageManager.retrievePackageJson();
 
     // Skip in case of NX
     if (isNxProject(packageJSON)) {
       return null;
     }
-    const allDependencies = packageManager.getAllDependencies();
+    const allDependencies = await packageManager.getAllDependencies();
 
     const angularVersion = allDependencies['@angular/core'];
     const angularCoerced = semver.coerce(angularVersion)?.version;

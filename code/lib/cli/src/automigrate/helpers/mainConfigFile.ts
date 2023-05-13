@@ -16,7 +16,7 @@ export const getStorybookData = async ({
   packageManager: JsPackageManager;
   configDir: string;
 }) => {
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
   const {
     mainConfig: mainConfigPath,
     version: storybookVersionSpecifier,

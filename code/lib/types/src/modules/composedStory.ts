@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { Renderer } from '@storybook/csf';
+import type { Renderer, StoryId } from '@storybook/csf';
 
 import type {
   AnnotatedStoryFn,
@@ -33,7 +33,7 @@ export type ComposedStoryPlayFn<TRenderer extends Renderer = Renderer, TArgs = A
 export type PreparedStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = AnnotatedStoryFn<
   TRenderer,
   TArgs
-> & { play: ComposedStoryPlayFn<TRenderer, TArgs>; args: TArgs };
+> & { play: ComposedStoryPlayFn<TRenderer, TArgs>; args: TArgs; id: StoryId };
 
 export type ComposedStory<TRenderer extends Renderer = Renderer, TArgs = Args> =
   | StoryFn<TRenderer, TArgs>

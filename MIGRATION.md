@@ -22,7 +22,9 @@
     - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [Stories field in .storybook/main.js is mandatory](#stories-field-in-storybookmainjs-is-mandatory)
     - [Stricter global types](#stricter-global-types)
-    - [Dropped support for file URLs](#dropped-support-for-file-urls)
+    - [Deploying build artifacts](#deploying-build-artifacts)
+      - [Dropped support for file URLs](#dropped-support-for-file-urls)
+      - [Serving with nginx](#serving-with-nginx)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -800,11 +802,36 @@ Please follow up the [Configure your Storybook project](https://storybook.js.org
 
 In 6.x, you could declare and use [`globals`](https://storybook.js.org/docs/react/essentials/toolbars-and-globals) without declaring their corresponding `globalTypes`. We've made this more strict in 7.0, so that the `globalTypes` declaration is required, and undeclared globals will be ignored.
 
-#### Dropped support for file URLs
+#### Deploying build artifacts
 
-In 6.x it was possible to open a storybook from the file system. In 7.x, you must serve your static storybook with an HTTP server, e.g. `npx http-server storybook-static`.
+Starting with 7.x, we are using modern [ECMAScript Modules (ESM)](https://nodejs.org/api/esm.html).
 
-The reason for this change is that we're now using `.mjs` (modern ESM) and these are incompatible with the browser's CORS settings for file URLs.
+Those end up as `.mjs` files in your static Storybook artifact and need to be served as `application/javascript`, indicated by the `Content-Type` HTTP header.
+
+For a simple HTTP server to view a Storybook build, you can run `npx http-server storybook-static`.
+
+Note that [using the serve package](https://storybook.js.org/docs/react/faq#i-see-a-no-preview-error-with-a-storybook-production-build) will not work.
+
+##### Dropped support for file URLs
+
+In 6.x it was possible to open a Storybook build from the file system.
+
+ESM requires loading over HTTP(S), which is incompatible with the browser's CORS settings for `file://` URLs.
+
+So you now need to use a web server as described above.
+
+##### Serving with nginx
+
+With [nginx](https://www.nginx.com/), you need to extend [the MIME type handling](https://github.com/nginx/nginx/blob/master/conf/mime.types) in your configuration:
+
+```
+    include mime.types;
+    types {
+        application/javascript mjs;
+    }
+```
+
+It would otherwise default to serving the `.mjs` files as `application/octet-stream`.
 
 ### 7.0 Core changes
 

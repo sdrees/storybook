@@ -81,8 +81,10 @@ export const mdxgfm: Fix<Options> = {
 
   async run({ packageManager, dryRun, mainConfigPath, skipInstall }) {
     if (!dryRun) {
-      const packageJson = packageManager.retrievePackageJson();
-      const versionToInstall = getStorybookVersionSpecifier(packageManager.retrievePackageJson());
+      const packageJson = await packageManager.retrievePackageJson();
+      const versionToInstall = getStorybookVersionSpecifier(
+        await packageManager.retrievePackageJson()
+      );
       await packageManager.addDependencies(
         { installAsDevDependencies: true, skipInstall, packageJson },
         [`@storybook/addon-mdx-gfm@${versionToInstall}`]

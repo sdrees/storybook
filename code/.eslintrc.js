@@ -140,12 +140,6 @@ module.exports = {
       },
     },
     {
-      files: ['**/mithril/**/*'],
-      rules: {
-        'react/no-unknown-property': 'off', // Need to deactivate otherwise eslint replaces some unknown properties with React ones
-      },
-    },
-    {
       files: ['**/e2e-tests/**/*'],
       rules: {
         'jest/no-test-callback': 'off', // These aren't jest tests

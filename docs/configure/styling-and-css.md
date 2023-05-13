@@ -8,11 +8,18 @@ There are many ways to include CSS in a web application, and correspondingly the
 
 Storybook is pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.js`](./overview.md#configure-story-rendering).
 
-<FeatureSnippets paths={['configure/import-css/import-css.js.mdx', 'configure/import-css/import-css.ts.mdx']} />
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-preview-import-global-styles.js.mdx',
+    'common/storybook-preview-import-global-styles.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 If your component files import their CSS files, this will work too. The noticeable exception to this is if you're using CSS processor tools like Sass or Postcss.
-
-<FeatureSnippets paths={['configure/css-troubleshooting/angular.mdx']} />
 
 ## CSS processors
 
@@ -27,3 +34,90 @@ CSS-in-JS libraries are designed to use basic JavaScript, and they often work in
 ## Adding webfonts
 
 If you need webfonts to be available, you may need to add some code to the [`.storybook/preview-head.html`](./story-rendering.md#adding-to-head) file. We recommend including any assets with your Storybook if possible, in which case you likely want to configure the [static file location](./images-and-assets.md#serving-static-files-via-storybook-configuration).
+
+## Troubleshooting
+
+### Styles aren't being applied with Angular
+
+The latest Angular releases introduced significant changes in configuring and styling projects. If you're working with an Angular version greater than 13 and your styles aren't being applied, you may need to check your `angular.json` ad adjust the `builder` configuration to import your CSS:
+
+```json
+{
+  "my-project": {
+    "architect": {
+      "build": {
+        "builder": "@angular-devkit/build-angular:browser",
+        "options": {
+          "styles": ["src/styles.css", "src/styles.scss"]
+        }
+      }
+    }
+  }
+}
+```
+
+Additionally, if you need Storybook-specific styles that are separate from your application, you can configure the styles with [Storybook's custom builder](../get-started/install.md), which will override the application's styles:
+
+```json
+{
+  "storybook": {
+    "builder": "@storybook/angular:start-storybook",
+    "options": {
+      "browserTarget": "my-default-project:build",
+      "styles": [".storybook/custom-styles.scss"]
+    }
+  }
+}
+```
+
+### NX component libraries not loading styles
+
+If you're working with Storybook and [Nx libraries](https://nx.dev/structure/library-types),
+you can extend your project's configuration (i.e., `project.json`) and provide the application's styles.
+
+For earlier Nx versions (before `14.1.8`), your configuration would look like this:
+
+```json
+ "build-storybook": {
+    "executor": "@nrwl/storybook:build",
+    "outputs": ["{options.outputPath}"],
+    "options": {
+      "uiFramework": "@storybook/angular",
+      "outputPath": "dist/storybook/example-lib",
+      "config": {
+        "configFolder": "libs/example-lib/storybook/.storybook"
+      },
+      "projectBuildConfig": "example-lib:build-storybook",
+      "styles": ["apps/example-app/src/styles.scss"]
+    }
+  }
+```
+
+Starting with version `14.1.8`, Nx uses the Storybook builder directly, which means any configuration supplied to the builder also applies to the NX setup. If you're working with a library, you'll need to configure the styling options ( e.g., preprocessors) inside the `build-storybook` `options` configuration object. For example:
+
+```json
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "configDir": "apps/example-lib/.storybook",
+        "browserTarget": "example-lib:build-storybook",
+      },
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputDir": "dist/storybook/example-lib",
+        "configDir": "apps/example-lib/.storybook",
+        "browserTarget": "example-lib:build-storybook",
+        "styles": [".storybook/custom-styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/design-system/src/lib"
+          ]
+        }
+      }
+    }
+```
+
+When Nx runs, it will load Storybook's configuration and styling based on [`storybook`'s `browserTarget`](https://nx.dev/storybook/extra-topics-for-angular-projects#setting-up-browsertarget).

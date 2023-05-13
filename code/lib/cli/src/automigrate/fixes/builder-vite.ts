@@ -27,7 +27,7 @@ export const builderVite: Fix<BuilderViteOptions> = {
   id: 'builder-vite',
 
   async check({ configDir, packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
+    const packageJson = await packageManager.retrievePackageJson();
     const { mainConfig } = await getStorybookData({ configDir, packageManager });
     const builder = mainConfig.core?.builder;
     const builderName = typeof builder === 'string' ? builder : builder?.name;
@@ -64,12 +64,12 @@ export const builderVite: Fix<BuilderViteOptions> = {
     if (!dryRun) {
       delete dependencies['storybook-builder-vite'];
       delete devDependencies['storybook-builder-vite'];
-      packageManager.writePackageJson(packageJson);
+      await packageManager.writePackageJson(packageJson);
     }
 
     logger.info(`✅ Adding '@storybook/builder-vite' as dev dependency`);
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, [
+      await packageManager.addDependencies({ installAsDevDependencies: true }, [
         '@storybook/builder-vite',
       ]);
     }

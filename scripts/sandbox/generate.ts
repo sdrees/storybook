@@ -38,7 +38,7 @@ const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
 };
 
 const withLocalRegistry = async (packageManager: JsPackageManager, action: () => Promise<void>) => {
-  const prevUrl = packageManager.getRegistryURL();
+  const prevUrl = await packageManager.getRegistryURL();
   let error;
   try {
     console.log(`📦 Configuring local registry: ${LOCAL_REGISTRY_URL}`);
@@ -48,7 +48,7 @@ const withLocalRegistry = async (packageManager: JsPackageManager, action: () =>
     error = e;
   } finally {
     console.log(`📦 Restoring registry: ${prevUrl}`);
-    packageManager.setRegistryURL(prevUrl);
+    await packageManager.setRegistryURL(prevUrl);
 
     if (error) {
       // eslint-disable-next-line no-unsafe-finally
@@ -80,7 +80,7 @@ const addStorybook = async ({
   const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
   if (localRegistry) {
     await withLocalRegistry(packageManager, async () => {
-      packageManager.addPackageResolutions(storybookVersions);
+      await packageManager.addPackageResolutions(storybookVersions);
 
       await sbInit(tmpDir, flags, debug);
     });
@@ -132,7 +132,9 @@ const runGenerators = async (
   await Promise.all(
     generators.map(({ dirName, name, script, expected }) =>
       limit(async () => {
-        const flags = expected.renderer === '@storybook/html' ? ['--type html'] : [];
+        let flags: string[] = [];
+        if (expected.renderer === '@storybook/html') flags = ['--type html'];
+        else if (expected.renderer === '@storybook/server') flags = ['--type server'];
 
         const time = process.hrtime();
         console.log(`🧬 Generating ${name}`);

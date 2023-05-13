@@ -15,8 +15,8 @@ jest.mock('@storybook/core-common', () => ({
 export const makePackageManager = (packageJson: PackageJson) => {
   const { dependencies = {}, devDependencies = {}, peerDependencies = {} } = packageJson;
   return {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-    getAllDependencies: () => ({
+    retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
+    getAllDependencies: async () => ({
       ...dependencies,
       ...devDependencies,
       ...peerDependencies,

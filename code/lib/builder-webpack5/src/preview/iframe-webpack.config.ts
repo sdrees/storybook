@@ -148,7 +148,7 @@ export default async (
     const rendererName = await getRendererName(options);
 
     const rendererInitEntry = resolve(join(workingDir, 'storybook-init-renderer-entry.js'));
-    virtualModuleMapping[rendererInitEntry] = `import '${rendererName}';`;
+    virtualModuleMapping[rendererInitEntry] = `import '${slash(rendererName)}';`;
     entries.push(rendererInitEntry);
 
     const entryTemplate = await readTemplate(

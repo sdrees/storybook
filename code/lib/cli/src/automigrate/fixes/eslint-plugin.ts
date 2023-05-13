@@ -1,10 +1,12 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { readFile, readJson, writeJson } from 'fs-extra';
-import detectIndent from 'detect-indent';
 
-import { findEslintFile, SUPPORTED_ESLINT_EXTENSIONS } from '../helpers/getEslintInfo';
+import {
+  configureEslintPlugin,
+  extractEslintInfo,
+  findEslintFile,
+  SUPPORTED_ESLINT_EXTENSIONS,
+} from '../helpers/eslintPlugin';
 
 import type { Fix } from '../types';
 
@@ -25,12 +27,9 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
   id: 'eslintPlugin',
 
   async check({ packageManager }) {
-    const allDependencies = packageManager.getAllDependencies();
+    const { hasEslint, isStorybookPluginInstalled } = await extractEslintInfo(packageManager);
 
-    const eslintPluginStorybook = allDependencies['eslint-plugin-storybook'];
-    const eslintDependency = allDependencies.eslint;
-
-    if (eslintPluginStorybook || !eslintDependency) {
+    if (isStorybookPluginInstalled || !hasEslint) {
       return null;
     }
 
@@ -64,8 +63,9 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
     const deps = [`eslint-plugin-storybook`];
 
     logger.info(`✅ Adding dependencies: ${deps}`);
-    if (!dryRun)
-      packageManager.addDependencies({ installAsDevDependencies: true, skipInstall }, deps);
+    if (!dryRun) {
+      await packageManager.addDependencies({ installAsDevDependencies: true, skipInstall }, deps);
+    }
 
     if (!dryRun && unsupportedExtension) {
       logger.info(dedent`
@@ -81,26 +81,8 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
       return;
     }
 
-    logger.info(`✅ Adding Storybook plugin to ${eslintFile}`);
     if (!dryRun) {
-      if (eslintFile.endsWith('json')) {
-        const eslintConfig = (await readJson(eslintFile)) as { extends?: string[] };
-        const existingConfigValue = Array.isArray(eslintConfig.extends)
-          ? eslintConfig.extends
-          : [eslintConfig.extends];
-        eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
-
-        const eslintFileContents = await readFile(eslintFile, 'utf8');
-        const spaces = detectIndent(eslintFileContents).amount || 2;
-        await writeJson(eslintFile, eslintConfig, { spaces });
-      } else {
-        const eslint = await readConfig(eslintFile);
-        const extendsConfig = eslint.getFieldValue(['extends']) || [];
-        const existingConfigValue = Array.isArray(extendsConfig) ? extendsConfig : [extendsConfig];
-        eslint.setFieldValue(['extends'], [...existingConfigValue, 'plugin:storybook/recommended']);
-
-        await writeConfig(eslint);
-      }
+      await configureEslintPlugin(eslintFile, packageManager);
     }
   },
 };

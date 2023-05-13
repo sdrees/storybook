@@ -7,7 +7,7 @@ const generator = async (
   packageManager: JsPackageManager,
   npmOptions: NpmOptions
 ): Promise<void> => {
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
 
   const missingReactDom =
     !packageJson.dependencies['react-dom'] && !packageJson.devDependencies['react-dom'];
@@ -41,7 +41,7 @@ const generator = async (
     missingReactDom && reactVersion && `react-dom@${reactVersion}`,
   ].filter(Boolean);
 
-  packageManager.addDependencies({ ...npmOptions, packageJson }, packages);
+  await packageManager.addDependencies({ ...npmOptions, packageJson }, packages);
   packageManager.addScripts({
     'storybook-generate': 'sb-rn-get-stories',
     'storybook-watch': 'sb-rn-watcher',

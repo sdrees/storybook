@@ -33,7 +33,7 @@ jest.mock('path', () => {
 });
 
 const packageManagerMock = {
-  retrievePackageJson: () => ({ dependencies: {}, devDependencies: {} }),
+  retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {} }),
 } as JsPackageManager;
 
 describe('Helpers', () => {

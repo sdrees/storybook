@@ -4,12 +4,13 @@ title: 'Frequently Asked Questions'
 
 Here are some answers to frequently asked questions. If you have a question, you can ask it by opening an issue on the [Storybook Repository](https://github.com/storybookjs/storybook/).
 
+- [Error: No angular.json file found](#error-no-angularjson-file-found)
 - [How can I opt-out of Angular Ivy?](#how-can-i-opt-out-of-angular-ivy)
 - [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
 - [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
 - [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
-- [How do I fix module resolutions while using pnpm Plug-n-Play](#how-do-i-fix-module-resolution-while-using-pnpm-plug-n-play)
 - [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
+- [How do I fix module resolution while using pnpm Plug-n-Play?](#how-do-i-fix-module-resolution-while-using-pnpm-plug-n-play)
 - [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
 - [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
 - [Why is there no addons channel?](#why-is-there-no-addons-channel)
@@ -34,7 +35,11 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [Why isn't Storybook's test runner working?](#why-isnt-storybooks-test-runner-working)
 - [How does Storybook handle environment variables?](#how-does-storybook-handle-environment-variables)
 
-### How can I opt-out of Angular Ivy?
+## Error: No angular.json file found
+
+Storybook can be set up for both single-project and multi-project Angular workspaces. To set up Storybook for a project, run `npx storybook@latest init` at the root of the workspace where the `angular.json` file is located. During initialization, the `.storybook` folder will be created and the `angular.json` file will be edited to add the Storybook configuration for the selected project. It's important to run the command at the root level to ensure that Storybook detects all projects correctly.
+
+## How can I opt-out of Angular Ivy?
 
 In case you are having trouble with Angular Ivy you can deactivate it in your `main.js`:
 
@@ -55,7 +60,7 @@ export default {
 };
 ```
 
-### How can I opt-out of Angular ngcc?
+## How can I opt-out of Angular ngcc?
 
 In case you postinstall ngcc, you can disable it:
 
@@ -78,7 +83,7 @@ export default {
 
 Please report any issues related to Ivy in our [GitHub Issue Tracker](https://github.com/storybookjs/storybook/labels/app%3A%20angular) as the support for View Engine will be dropped in a future release of Angular.
 
-### How can I run coverage tests with Create React App and leave out stories?
+## How can I run coverage tests with Create React App and leave out stories?
 
 Create React App does not allow providing options to Jest in your `package.json`, however you can run `jest` with commandline arguments:
 
@@ -90,14 +95,14 @@ npm test -- --coverage --collectCoverageFrom='["src/**/*.{js,jsx}","!src/**/stor
 💡 If you're using <a href="https://yarnpkg.com/">yarn</a> as a package manager, you'll need to adjust the command accordingly.
 </div>
 
-### I see `ReferenceError: React is not defined` when using Storybook with Next.js
+## I see `ReferenceError: React is not defined` when using Storybook with Next.js
 
 Next automatically defines `React` for all of your files via a babel plugin. In Storybook, you can solve this either by:
 
 1.  Adding `import React from 'react'` to your component files.
 2.  Adding a `.babelrc` that includes [`babel-plugin-react-require`](https://www.npmjs.com/package/babel-plugin-react-require)
 
-### How do I setup Storybook to share Webpack configuration with Next.js?
+## How do I setup Storybook to share Webpack configuration with Next.js?
 
 You can generally reuse Webpack rules by placing them in a file that is `require()`-ed from both your `next.config.js` and your `.storybook/main.js` files. For example:
 
@@ -112,7 +117,7 @@ export default {
 };
 ```
 
-### How do I fix module resolution while using pnpm Plug-n-Play?
+## How do I fix module resolution while using pnpm Plug-n-Play?
 
 In case you are using [pnpm](https://pnpm.io/), you might run into issues with module resolution similar to this when running Storybook:
 
@@ -134,7 +139,7 @@ To fix this, you can wrap the package name inside your Storybook configuration f
 
 <!-- prettier-ignore-end -->
 
-### How do I setup React Fast Refresh with Storybook?
+## How do I setup React Fast Refresh with Storybook?
 
 Fast refresh is an opt-in feature that can be used in Storybook React.
 There are two ways that you can enable it, go ahead and pick one:
@@ -162,7 +167,7 @@ export default {
 💡 Fast Refresh only works in development mode with React 16.10 or higher.
 </div>
 
-### How do I setup the new React Context Root API with Storybook?
+## How do I setup the new React Context Root API with Storybook?
 
 If your installed React Version equals or is higher than 18.0.0, the new React Root API is automatically used and the newest React [concurrent features](https://reactjs.org/docs/concurrent-mode-intro.html) can be used.
 
@@ -179,7 +184,7 @@ export default {
 };
 ```
 
-### Why is there no addons channel?
+## Why is there no addons channel?
 
 A common error is that an addon tries to access the "channel", but the channel is not set. It can happen in a few different cases:
 
@@ -193,7 +198,7 @@ A common error is that an addon tries to access the "channel", but the channel i
 
 2.  In React Native, it's a special case documented in [#1192](https://github.com/storybookjs/storybook/issues/1192)
 
-### Why aren't Controls visible in the Canvas panel but visible in Docs?
+## Why aren't Controls visible in the Canvas panel but visible in Docs?
 
 If you're adding Storybook's dependencies manually, make sure you include the [`@storybook/addon-controls`](https://www.npmjs.com/package/@storybook/addon-controls) dependency in your project and reference it in your `.storybook/main.js` as follows:
 
@@ -205,7 +210,7 @@ export default {
 };
 ```
 
-### Why aren't the addons working in a composed Storybook?
+## Why aren't the addons working in a composed Storybook?
 
 Composition is a new feature that we released with version 6.0, and there are still some limitations to it.
 
@@ -213,7 +218,7 @@ For now, the addons you're using in a composed Storybook will not work.
 
 We're working on overcoming this limitation, and soon you'll be able to use them as if you are working with a non-composed Storybook.
 
-### Which community addons are compatible with the latest version of Storybook?
+## Which community addons are compatible with the latest version of Storybook?
 
 Starting with Storybook version 6.0, we've introduced some great features aimed at streamlining your development workflow.
 
@@ -221,7 +226,7 @@ With this, we would like to point out that if you plan on using addons created b
 
 We're actively working to provide a better way to address this situation, but in the meantime, we would ask for a bit of caution on your end so that you don't run into unexpected problems. Let us know by creating an issue in the [Storybook repo](https://github.com/storybookjs/storybook/issues) so that we can gather information and create a curated list with those addons to help not only you but the rest of the community.
 
-### Is it possible to browse the documentation for past versions of Storybook?
+## Is it possible to browse the documentation for past versions of Storybook?
 
 With the release of version 6.0, we updated our documentation as well. That doesn't mean that the old documentation was removed. We kept it to help you with your Storybook migration process. Use the content from the table below in conjunction with our <a href="https://github.com/storybookjs/storybook/blob/next/MIGRATION.md">migration guide</a> .
 
@@ -308,14 +313,14 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 With the release of version 5.3, we've updated how you can write your stories more compactly and easily. It doesn't mean that the <code>storiesOf</code> format has been removed. For the time being, we're still supporting it, and we have documentation for it. But be advised that this is bound to change in the future.
 </div>
 
-### What icons are available for my toolbar or my addon?
+## What icons are available for my toolbar or my addon?
 
 With the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package, you get a set of icons that you can use to customize your UI. Use the table below as a reference while writing your addon or defining your Storybook global types.
 Go through this [story](https://main--5a375b97f4b14f0020b0cda3.chromatic.com/?path=/story/basics-icon--labels) to see how the icons look.
 
 <iframe src="https://main--5a375b97f4b14f0020b0cda3.chromatic.com/iframe.html?args=&id=basics-icon--labels&viewMode=story&shortcuts=false&singleStory=true" width="100%" height="600"></iframe>
 
-### I see a "No Preview" error with a Storybook production build
+## I see a "No Preview" error with a Storybook production build
 
 If you're using the `serve` package to verify your production build of Storybook, you'll get that error. It relates to how `serve` handles rewrites. For instance, `/iframe.html` is rewritten into `/iframe`, and you'll get that error.
 
@@ -329,11 +334,11 @@ npx http-server storybook-static
 Suppose you don't want to run the command above frequently. Add <code>http-server</code> as a development dependency and create a new script to preview your production build of Storybook.
 </div>
 
-### Can I use Storybook with Vue 3?
+## Can I use Storybook with Vue 3?
 
 Yes, with the release of version 6.2, Storybook now includes support for Vue 3. See the [install page](./get-started/install.md) for instructions.
 
-### Is snapshot testing with Storyshots supported for Vue 3?
+## Is snapshot testing with Storyshots supported for Vue 3?
 
 Yes, with the release of version 6.2, the [`Storyshots addon`](https://www.npmjs.com/package/@storybook/addon-storyshots) will automatically detect Vue 3 projects.
 
@@ -341,11 +346,11 @@ If you run into a situation where this is not the case, you can adjust the `conf
 
 See our documentation on how to customize the [Storyshots configuration](./writing-tests/snapshot-testing.md).
 
-### Why aren't my code blocks highlighted with Storybook MDX
+## Why aren't my code blocks highlighted with Storybook MDX
 
 Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) you can use with your code blocks. Currently, there's a know limitation when you try and register a custom language to get syntax highlighting. We're working on a fix for this And will update this section once it's available.
 
-### Why aren't my MDX 2 stories working in Storybook?
+## Why aren't my MDX 2 stories working in Storybook?
 
 MDX 2 introduced some changes to how the code is rendered. For example, if you enabled it in your Storybook and you have the following code block:
 
@@ -380,7 +385,7 @@ You'll need to update it to make it compatible with MDX 2.
 
 See the following [issue](https://github.com/mdx-js/mdx/issues/1945) for more information.
 
-### Why are my mocked GraphQL queries failing with Storybook's MSW addon?
+## Why are my mocked GraphQL queries failing with Storybook's MSW addon?
 
 If you're working with Vue 3, you'll need to install [`@vue/apollo-composable`](https://www.npmjs.com/package/@vue/apollo-composable). With Svelte, you'll need to install [`@rollup/plugin-replace`](https://www.npmjs.com/package/@rollup/plugin-replace) and update your `rollup.config` file to the following:
 
@@ -414,23 +419,23 @@ export default {
 
 With Angular, the most common issue is the placement of the `mockServiceWorker.js` file. Use this [example](https://github.com/mswjs/examples/tree/master/examples/rest-angular/) as a point of reference.
 
-### Can I use other GraphQL providers with Storybook's MSW addon?
+## Can I use other GraphQL providers with Storybook's MSW addon?
 
 Yes, check the [addon's examples](https://github.com/mswjs/msw-storybook-addon/tree/master/packages/docs/src/demos) to learn how to integrate different providers.
 
-### Can I mock GraphQL mutations with Storybook's MSW addon?
+## Can I mock GraphQL mutations with Storybook's MSW addon?
 
 No, currently, the MSW addon only has support for GraphQL queries. If you're interested in including this feature, open an issue in the [MSW addon repository](https://github.com/mswjs/msw-storybook-addon) and follow up with the maintainer.
 
-### How can my code detect if it is running in Storybook?
+## How can my code detect if it is running in Storybook?
 
 You can do this by checking for the `IS_STORYBOOK` global variable, which will equal `true` when running in Storybook. The environment variable `process.env.STORYBOOK` is also set to `true`.
 
-### Why are my stories not showing up correctly when using certain characters?
+## Why are my stories not showing up correctly when using certain characters?
 
 Storybook allows you to use most characters while naming your stories. Still, specific characters (e.g., `#`) can lead to issues when Storybook generates the internal identifier for the story, leading to collisions and incorrectly outputting the correct story. We recommend using such characters sparsely.
 
-### Why are the TypeScript examples and documentation using `as` for type safety?
+## Why are the TypeScript examples and documentation using `as` for type safety?
 
 We're aware that the default Typescript story construct might seem outdated and could potentially introduce a less than ideal way of handling type safety and strictness and could be rewritten as such:
 
@@ -494,11 +499,11 @@ export default {
 };
 ```
 
-### Why isn't Storybook's test runner working?
+## Why isn't Storybook's test runner working?
 
 There's an issue with Storybook's test runner and the latest version of Jest (i.e., version 28), which prevents it from running effectively. As a workaround, you can downgrade Jest to the previous stable version (i.e., version 27), and you'll be able to run it. See the following [issue](https://github.com/storybookjs/test-runner/issues/99) for more information.
 
-### How does Storybook handle environment variables?
+## How does Storybook handle environment variables?
 
 Storybook has built-in support for [environment variables](./configure/environment-variables.md). By default, environment variables are only available in Node.js code and are not available in the browser as some variables should be kept secret (e.g., API keys) and **not** exposed to anyone visiting the published Storybook.
 

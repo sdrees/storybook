@@ -40,7 +40,11 @@ export function sourceDecorator(
   });
   if (!skipSourceRender(context)) {
     const container = window.document.createElement('div');
-    render(renderedForSource, container);
+    if (renderedForSource instanceof DocumentFragment) {
+      render(renderedForSource.cloneNode(true), container);
+    } else {
+      render(renderedForSource, container);
+    }
     source = container.innerHTML.replace(LIT_EXPRESSION_COMMENTS, '');
   }
 

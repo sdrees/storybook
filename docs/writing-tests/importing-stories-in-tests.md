@@ -78,6 +78,7 @@ For example, if you were working on a login component and wanted to test the inv
 <CodeSnippets
   paths={[
     'react/component-test-with-testing-library.js.mdx',
+    'react/component-test-with-testing-library.ts.mdx',
     'vue/component-test-with-testing-library.js.mdx',
     'angular/component-test-with-testing-library.ts.mdx',
     'svelte/component-test-with-testing-library.js.mdx',

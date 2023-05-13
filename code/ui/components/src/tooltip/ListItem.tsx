@@ -126,7 +126,7 @@ const Item = styled.a<ItemProps>(
   ({ theme }) => ({
     fontSize: theme.typography.size.s1,
     transition: 'all 150ms ease-out',
-    color: transparentize(0.5, theme.color.defaultText),
+    color: theme.color.dark,
     textDecoration: 'none',
     cursor: 'pointer',
     justifyContent: 'space-between',

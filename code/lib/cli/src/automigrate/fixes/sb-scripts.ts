@@ -72,7 +72,7 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
   id: 'sb-scripts',
 
   async check({ packageManager, configDir }) {
-    const packageJson = packageManager.retrievePackageJson();
+    const packageJson = await packageManager.retrievePackageJson();
     const { scripts = {} } = packageJson;
     const { storybookVersion } = await getStorybookData({ packageManager, configDir });
 
@@ -133,7 +133,7 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
 
       logger.log();
 
-      packageManager.addScripts(newScripts);
+      await packageManager.addScripts(newScripts);
     }
   },
 };

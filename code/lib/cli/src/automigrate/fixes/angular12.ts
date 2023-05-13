@@ -21,7 +21,7 @@ export const angular12: Fix<Angular12RunOptions> = {
   id: 'angular12',
 
   async check({ packageManager, configDir }) {
-    const allDependencies = packageManager.getAllDependencies();
+    const allDependencies = await packageManager.getAllDependencies();
     const angularVersion = allDependencies['@angular/core'];
     const angularCoerced = semver.coerce(angularVersion)?.version;
 

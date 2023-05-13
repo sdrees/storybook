@@ -18,8 +18,7 @@ export interface FrameworkOptions {
   addScripts?: boolean;
   addMainFile?: boolean;
   addComponents?: boolean;
-  addBabel?: boolean;
-  addESLint?: boolean;
+  skipBabel?: boolean;
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;

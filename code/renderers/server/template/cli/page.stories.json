@@ -1,7 +1,10 @@
 {
   "title": "Example/Page",
   "parameters": {
-    "server": { "id": "page" }
+    "server": {
+      "url": "https://storybook-server-demo.netlify.app/api",
+      "id": "page"
+    }
   },
   "stories": [
     {

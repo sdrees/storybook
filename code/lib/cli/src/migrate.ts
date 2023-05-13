@@ -22,8 +22,8 @@ export async function migrate(migration: any, { glob, dryRun, list, rename, pars
 
 export async function addStorybookBlocksPackage() {
   const packageManager = JsPackageManagerFactory.getPackageManager();
-  const packageJson = packageManager.retrievePackageJson();
-  const versionToInstall = getStorybookVersionSpecifier(packageManager.retrievePackageJson());
+  const packageJson = await packageManager.retrievePackageJson();
+  const versionToInstall = getStorybookVersionSpecifier(await packageManager.retrievePackageJson());
   logger.info(`✅ Adding "@storybook/blocks" package`);
   await packageManager.addDependencies({ installAsDevDependencies: true, packageJson }, [
     `@storybook/blocks@${versionToInstall}`,

@@ -21,7 +21,7 @@ export const cra5: Fix<CRA5RunOptions> = {
   id: 'cra5',
 
   async check({ packageManager, configDir }) {
-    const allDependencies = packageManager.getAllDependencies();
+    const allDependencies = await packageManager.getAllDependencies();
     const craVersion = allDependencies['react-scripts'];
     const craCoerced = semver.coerce(craVersion)?.version;
 

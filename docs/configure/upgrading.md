@@ -16,6 +16,7 @@ To help ease the pain of keeping Storybook up-to-date, we provide a command-line
   paths={[
     'common/storybook-upgrade.npm.js.mdx',
     'common/storybook-upgrade.pnpm.js.mdx',
+    'common/storybook-upgrade.yarn.js.mdx'
   ]}
 />
 

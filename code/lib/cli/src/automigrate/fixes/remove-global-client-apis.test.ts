@@ -16,7 +16,7 @@ const check = async ({ packageJson = {}, contents }: any) => {
     });
   }
   const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
+    retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
   } as JsPackageManager;
   return migration.check({ packageManager });
 };

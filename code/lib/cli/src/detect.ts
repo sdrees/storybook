@@ -4,21 +4,21 @@ import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
 import { pathExistsSync } from 'fs-extra';
-import { join } from 'path';
+import { join, resolve } from 'path';
+import prompts from 'prompts';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
   supportedTemplates,
-  SUPPORTED_RENDERERS,
   SupportedLanguage,
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
-import { getBowerJson, isNxProject, paddedLog } from './helpers';
+import { commandLog, getBowerJson, isNxProject } from './helpers';
 import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
-import { detectWebpack } from './detect-webpack';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
+const webpackConfigFiles = ['webpack.config.js'];
 
 const hasDependency = (
   packageJson: PackageJsonWithMaybeDeps,
@@ -109,51 +109,49 @@ export function detectFrameworkPreset(
  *
  * @returns CoreBuilder
  */
-export function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
+export async function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
   const viteConfig = findUp.sync(viteConfigFiles);
-  if (viteConfig) {
-    paddedLog('Detected Vite project. Setting builder to Vite');
+  const webpackConfig = findUp.sync(webpackConfigFiles);
+  const dependencies = await packageManager.getAllDependencies();
+
+  if (viteConfig || (dependencies['vite'] && dependencies['webpack'] === undefined)) {
+    commandLog('Detected Vite project. Setting builder to Vite')();
     return CoreBuilder.Vite;
   }
 
-  if (detectWebpack(packageManager)) {
-    paddedLog('Detected webpack project. Setting builder to webpack');
+  // REWORK
+  if (webpackConfig || (dependencies['webpack'] && dependencies['vite'] !== undefined)) {
+    commandLog('Detected webpack project. Setting builder to webpack')();
     return CoreBuilder.Webpack5;
   }
 
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
-    case ProjectType.SVELTE:
-    case ProjectType.SVELTEKIT:
-    case ProjectType.VUE:
-    case ProjectType.VUE3:
     case ProjectType.SFC_VUE:
       return CoreBuilder.Vite;
-    default:
+    case ProjectType.REACT_SCRIPTS:
+    case ProjectType.ANGULAR:
+    case ProjectType.NEXTJS:
       return CoreBuilder.Webpack5;
+    default:
+      // eslint-disable-next-line no-case-declarations
+      const { builder } = await prompts({
+        type: 'select',
+        name: 'builder',
+        message:
+          'We were not able to detect the right builder for your project. Please select one:',
+        choices: [
+          { title: 'Vite', value: CoreBuilder.Vite },
+          { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
+        ],
+      });
+
+      return builder;
   }
 }
 
-export function isStorybookInstalled(
-  dependencies: Pick<PackageJson, 'devDependencies'> | false,
-  force?: boolean
-) {
-  if (!dependencies) {
-    return false;
-  }
-
-  if (!force && dependencies.devDependencies) {
-    if (
-      SUPPORTED_RENDERERS.reduce(
-        (storybookPresent, framework) =>
-          storybookPresent || !!dependencies.devDependencies[`@storybook/${framework}`],
-        false
-      )
-    ) {
-      return true;
-    }
-  }
-  return false;
+export function isStorybookInstantiated(configDir = resolve(process.cwd(), '.storybook')) {
+  return fs.existsSync(configDir);
 }
 
 export function detectPnp() {

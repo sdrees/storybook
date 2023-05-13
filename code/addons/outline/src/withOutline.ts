@@ -11,7 +11,7 @@ export const withOutline = (StoryFn: StoryFunction<Renderer>, context: StoryCont
   const isInDocs = context.viewMode === 'docs';
 
   const outlineStyles = useMemo(() => {
-    const selector = isInDocs ? `#anchor--${context.id} .docs-story` : '.sb-show-main';
+    const selector = isInDocs ? `[data-story-block="true"]` : '.sb-show-main';
 
     return outlineCSS(selector);
   }, [context]);

@@ -61,7 +61,14 @@ export interface SyncPayload {
 }
 
 export interface State {
-  renderPhase: 'loading' | 'rendering' | 'playing' | 'played' | 'completed' | 'aborted' | 'errored';
+  renderPhase?:
+    | 'loading'
+    | 'rendering'
+    | 'playing'
+    | 'played'
+    | 'completed'
+    | 'aborted'
+    | 'errored';
   isDebugging: boolean;
   isPlaying: boolean;
   isLocked: boolean;
@@ -73,7 +80,7 @@ export interface State {
   ancestors: Call['id'][];
   playUntil?: Call['id'];
   resolvers: Record<Call['id'], Function>;
-  syncTimeout: ReturnType<typeof setTimeout>;
+  syncTimeout?: ReturnType<typeof setTimeout>;
   forwardedException?: Error;
 }
 

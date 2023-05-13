@@ -3,10 +3,8 @@ export type SupportedFramework =
   | 'html'
   | 'preact'
   | 'react'
-  | 'riot'
   | 'react-native'
   | 'svelte'
   | 'vue'
   | 'vue3'
-  | 'web-components'
-  | 'rax';
+  | 'web-components';

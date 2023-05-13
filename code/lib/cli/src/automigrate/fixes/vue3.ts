@@ -20,7 +20,7 @@ export const vue3: Fix<Vue3RunOptions> = {
   id: 'vue3',
 
   async check({ configDir, packageManager }) {
-    const allDependencies = packageManager.getAllDependencies();
+    const allDependencies = await packageManager.getAllDependencies();
     const vueVersion = allDependencies.vue;
     const vueCoerced = semver.coerce(vueVersion)?.version;
 

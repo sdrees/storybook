@@ -1,7 +1,10 @@
 {
   "title": "Example/Header",
   "parameters": {
-    "server": { "id": "header" }
+    "server": {
+      "url": "https://storybook-server-demo.netlify.app/api",
+      "id": "header"
+    }
   },
   "stories": [
     {

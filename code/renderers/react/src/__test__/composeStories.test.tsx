@@ -9,8 +9,6 @@ import { setProjectAnnotations, composeStories, composeStory } from '..';
 import type { Button } from './Button';
 import * as stories from './Button.stories';
 
-setProjectAnnotations([]);
-
 // example with composeStories, returns an object with all stories composed with args/decorators
 const { CSF3Primary } = composeStories(stories);
 
@@ -43,21 +41,27 @@ test('reuses args from composeStories', () => {
   expect(buttonElement).not.toBeNull();
 });
 
-describe('GlobalConfig', () => {
-  test('renders with default globalConfig', () => {
+describe('projectAnnotations', () => {
+  test('renders with default projectAnnotations', () => {
     const WithEnglishText = composeStory(stories.CSF2StoryWithLocale, stories.default);
     const { getByText } = render(<WithEnglishText />);
     const buttonElement = getByText('Hello!');
     expect(buttonElement).not.toBeNull();
   });
 
-  test('renders with custom globalConfig', () => {
+  test('renders with custom projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
       globalTypes: { locale: { defaultValue: 'pt' } } as any,
     });
     const { getByText } = render(<WithPortugueseText />);
     const buttonElement = getByText('Olá!');
     expect(buttonElement).not.toBeNull();
+  });
+
+  test('renders with custom projectAnnotations via setProjectAnnotations', () => {
+    setProjectAnnotations([{ parameters: { injected: true } }]);
+    const Story = composeStory(stories.CSF2StoryWithLocale, stories.default);
+    expect(Story.parameters?.injected).toBe(true);
   });
 });
 

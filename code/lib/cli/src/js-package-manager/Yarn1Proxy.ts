@@ -30,8 +30,8 @@ export class Yarn1Proxy extends JsPackageManager {
     return this.installArgs;
   }
 
-  initPackageJson() {
-    return this.executeCommand('yarn', ['init', '-y']);
+  async initPackageJson() {
+    await this.executeCommand({ command: 'yarn', args: ['init', '-y'] });
   }
 
   getRunStorybookCommand(): string {
@@ -42,18 +42,24 @@ export class Yarn1Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
-  runPackageCommand(command: string, args: string[], cwd?: string): string {
-    return this.executeCommand(`yarn`, [command, ...args], undefined, cwd);
+  public runPackageCommandSync(
+    command: string,
+    args: string[],
+    cwd?: string,
+    stdio?: 'pipe' | 'inherit'
+  ): string {
+    return this.executeCommandSync({ command: `yarn`, args: [command, ...args], cwd, stdio });
   }
 
-  public findInstallations(pattern: string[]) {
-    const commandResult = this.executeCommand('yarn', [
-      'list',
-      '--pattern',
-      pattern.map((p) => `"${p}"`).join(' '),
-      '--recursive',
-      '--json',
-    ]);
+  async runPackageCommand(command: string, args: string[], cwd?: string): Promise<string> {
+    return this.executeCommand({ command: `yarn`, args: [command, ...args], cwd });
+  }
+
+  public async findInstallations(pattern: string[]) {
+    const commandResult = await this.executeCommand({
+      command: 'yarn',
+      args: ['list', '--pattern', pattern.map((p) => `"${p}"`).join(' '), '--recursive', '--json'],
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);
@@ -72,33 +78,48 @@ export class Yarn1Proxy extends JsPackageManager {
     };
   }
 
-  protected runInstall(): void {
-    this.executeCommand('yarn', ['install', ...this.getInstallArgs()], 'inherit');
+  protected async runInstall() {
+    await this.executeCommand({
+      command: 'yarn',
+      args: ['install', ...this.getInstallArgs()],
+      stdio: 'inherit',
+    });
   }
 
-  protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
+  protected async runAddDeps(dependencies: string[], installAsDevDependencies: boolean) {
     let args = [...dependencies];
 
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('yarn', ['add', ...this.getInstallArgs(), ...args], 'inherit');
+    await this.executeCommand({
+      command: 'yarn',
+      args: ['add', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
-  protected runRemoveDeps(dependencies: string[]): void {
+  protected async runRemoveDeps(dependencies: string[]) {
     const args = [...dependencies];
 
-    this.executeCommand('yarn', ['remove', ...this.getInstallArgs(), ...args], 'inherit');
+    await this.executeCommand({
+      command: 'yarn',
+      args: ['remove', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
-  protected runGetVersions<T extends boolean>(
+  protected async runGetVersions<T extends boolean>(
     packageName: string,
     fetchAllVersions: T
   ): Promise<T extends true ? string[] : string> {
     const args = [fetchAllVersions ? 'versions' : 'version', '--json'];
 
-    const commandResult = this.executeCommand('yarn', ['info', packageName, ...args]);
+    const commandResult = await this.executeCommand({
+      command: 'yarn',
+      args: ['info', packageName, ...args],
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);

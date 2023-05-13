@@ -59,7 +59,11 @@ export const automigrate = async ({
   configDir: userSpecifiedConfigDir,
   renderer: rendererPackage,
   skipInstall,
-}: FixOptions = {}) => {
+  hideMigrationSummary = false,
+}: FixOptions = {}): Promise<{
+  fixResults: Record<string, FixStatus>;
+  preCheckFailure: PreCheckFailure;
+}> => {
   if (list) {
     logAvailableMigrations();
     return null;
@@ -78,7 +82,7 @@ export const automigrate = async ({
 
   logger.info('🔎 checking possible migrations..');
 
-  const { fixResults, fixSummary } = await runFixes({
+  const { fixResults, fixSummary, preCheckFailure } = await runFixes({
     fixes,
     useNpm,
     pkgMgr,
@@ -100,21 +104,23 @@ export const automigrate = async ({
     await remove(TEMP_LOG_FILE_PATH);
   }
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-  const installationMetadata = await packageManager.findInstallations([
-    '@storybook/*',
-    'storybook',
-  ]);
+  if (!hideMigrationSummary) {
+    const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+    const installationMetadata = await packageManager.findInstallations([
+      '@storybook/*',
+      'storybook',
+    ]);
 
-  logger.info();
-  logger.info(
-    getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
-  );
-  logger.info();
+    logger.info();
+    logger.info(
+      getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
+    );
+    logger.info();
+  }
 
   cleanup();
 
-  return fixResults;
+  return { fixResults, preCheckFailure };
 };
 
 export async function runFixes({
@@ -135,7 +141,11 @@ export async function runFixes({
   userSpecifiedConfigDir?: string;
   rendererPackage?: string;
   skipInstall?: boolean;
-}) {
+}): Promise<{
+  preCheckFailure?: PreCheckFailure;
+  fixResults: Record<FixId, FixStatus>;
+  fixSummary: FixSummary;
+}> {
   if (useNpm) {
     useNpmWarning();
     // eslint-disable-next-line no-param-reassign
@@ -144,11 +154,14 @@ export async function runFixes({
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
+  const fixResults = {} as Record<FixId, FixStatus>;
+  const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
+
   const {
     configDir: inferredConfigDir,
     mainConfig: mainConfigPath,
     version: storybookVersion,
-  } = getStorybookInfo(packageManager.retrievePackageJson(), userSpecifiedConfigDir);
+  } = getStorybookInfo(await packageManager.retrievePackageJson(), userSpecifiedConfigDir);
 
   const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
   if (!sbVersionCoerced) {
@@ -157,6 +170,8 @@ export async function runFixes({
         🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
       `);
     return {
+      fixResults,
+      fixSummary,
       preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION,
     };
   }
@@ -172,6 +187,8 @@ export async function runFixes({
         )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`
       );
       return {
+        fixResults,
+        fixSummary,
         preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND,
       };
     }
@@ -183,12 +200,11 @@ export async function runFixes({
     logger.info('Please fix the error and try again.');
 
     return {
+      fixResults,
+      fixSummary,
       preCheckFailure: PreCheckFailure.MAINJS_EVALUATION,
     };
   }
-
-  const fixResults = {} as Record<FixId, FixStatus>;
-  const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
 
   for (let i = 0; i < fixes.length; i += 1) {
     const f = fixes[i] as Fix;

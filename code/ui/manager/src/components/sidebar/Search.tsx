@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
@@ -115,7 +115,7 @@ const FocusKey = styled.code(({ theme }) => ({
   position: 'absolute',
   top: 8,
   right: 16,
-  width: 16,
+  minWidth: 16,
   height: 16,
   zIndex: 1,
   lineHeight: '16px',
@@ -165,6 +165,7 @@ export const Search = React.memo<{
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputPlaceholder, setPlaceholder] = useState('Find components');
   const [allComponents, showAllComponents] = useState(false);
+  const searchShortcut = api ? shortcutToHumanString(api.getShortcutKeys().search) : '/';
 
   const selectStory = useCallback(
     (id: string, refId: string) => {
@@ -354,7 +355,7 @@ export const Search = React.memo<{
               <SearchIcon icon="search" />
               {/* @ts-expect-error (TODO) */}
               <Input {...inputProps} />
-              {enableShortcuts && <FocusKey>/</FocusKey>}
+              {enableShortcuts && <FocusKey>{searchShortcut}</FocusKey>}
               <ClearIcon icon="cross" onClick={() => clearSelection()} />
             </SearchField>
             <FocusContainer tabIndex={0} id="storybook-explorer-menu">

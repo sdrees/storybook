@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import { logger } from '@storybook/node-logger';
 import { getBowerJson } from './helpers';
-import { detect, detectFrameworkPreset, detectLanguage, isStorybookInstalled } from './detect';
-import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
+import { detect, detectFrameworkPreset, detectLanguage } from './detect';
+import { ProjectType, SupportedLanguage } from './project_types';
 import type { PackageJsonWithMaybeDeps } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
@@ -213,46 +213,6 @@ const MOCK_FRAMEWORK_FILES: {
     },
   },
   {
-    name: ProjectType.MITHRIL,
-    files: {
-      'package.json': {
-        dependencies: {
-          mithril: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.MARIONETTE,
-    files: {
-      'package.json': {
-        dependencies: {
-          'backbone.marionette': '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.MARKO,
-    files: {
-      'package.json': {
-        dependencies: {
-          marko: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.RIOT,
-    files: {
-      'package.json': {
-        dependencies: {
-          riot: '1.0.0',
-        },
-      },
-    },
-  },
-  {
     name: ProjectType.PREACT,
     files: {
       'package.json': {
@@ -268,27 +228,6 @@ const MOCK_FRAMEWORK_FILES: {
       'package.json': {
         dependencies: {
           svelte: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.RAX,
-    files: {
-      '.rax': 'file content',
-      'package.json': {
-        dependencies: {
-          rax: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.AURELIA,
-    files: {
-      'package.json': {
-        dependencies: {
-          'aurelia-bootstrapper': '1.0.0',
         },
       },
     },
@@ -344,36 +283,6 @@ describe('Detect', () => {
 
   it(`should return language javascript by default`, () => {
     expect(detectLanguage()).toBe(SupportedLanguage.JAVASCRIPT);
-  });
-
-  describe('isStorybookInstalled should return', () => {
-    it('false if empty devDependency', () => {
-      expect(isStorybookInstalled({ devDependencies: {} }, false)).toBe(false);
-    });
-
-    it('false if no devDependency', () => {
-      expect(isStorybookInstalled({}, false)).toBe(false);
-    });
-
-    SUPPORTED_RENDERERS.forEach((framework) => {
-      it(`true if devDependencies has ${framework} Storybook version`, () => {
-        const devDependencies = {
-          [`@storybook/${framework}`]: '4.0.0-alpha.21',
-        };
-        expect(isStorybookInstalled({ devDependencies }, false)).toBeTruthy();
-      });
-    });
-
-    it('false if forced flag', () => {
-      expect(
-        isStorybookInstalled(
-          {
-            devDependencies: { '@storybook/react': '4.0.0-alpha.21' },
-          },
-          true
-        )
-      ).toBe(false);
-    });
   });
 
   describe('detectFrameworkPreset should return', () => {

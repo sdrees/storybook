@@ -67,7 +67,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     configDir: userDefinedConfigDir,
     packageManager,
   }) {
-    const packageJson = packageManager.retrievePackageJson();
+    const packageJson = await packageManager.retrievePackageJson();
     const { storybookVersion, mainConfig, mainConfigPath, configDir } = await getStorybookData({
       packageManager,
       configDir: userDefinedConfigDir,
@@ -108,7 +108,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    const allDependencies = packageManager.getAllDependencies();
+    const allDependencies = await packageManager.getAllDependencies();
 
     const builderInfo = await detectBuilderInfo({
       mainConfig,
@@ -448,7 +448,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     if (dependenciesToRemove.length > 0) {
       logger.info(`✅ Removing dependencies: ${dependenciesToRemove.join(', ')}`);
       if (!dryRun) {
-        packageManager.removeDependencies(
+        await packageManager.removeDependencies(
           { skipInstall: skipInstall || dependenciesToAdd.length > 0, packageJson },
           dependenciesToRemove
         );
@@ -460,7 +460,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       if (!dryRun) {
         const versionToInstall = getStorybookVersionSpecifier(packageJson);
         const depsToAdd = dependenciesToAdd.map((dep) => `${dep}@${versionToInstall}`);
-        packageManager.addDependencies(
+        await packageManager.addDependencies(
           { installAsDevDependencies: true, skipInstall, packageJson },
           depsToAdd
         );

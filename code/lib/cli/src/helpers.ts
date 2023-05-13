@@ -119,6 +119,7 @@ export function codeLog(codeLines: string[], leftPadAmount?: number) {
 
 /**
  * Detect if any babel dependencies need to be added to the project
+ * This is currently used by react-native generator
  * @param {Object} packageJson The current package.json so we can inspect its contents
  * @returns {Array} Contains the packages and versions that need to be installed
  * @example

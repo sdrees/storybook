@@ -40,21 +40,6 @@ describe('new-frameworks fix', () => {
       ).resolves.toBeFalsy();
     });
 
-    it('in sb 7 with unsupported package', async () => {
-      const packageJson = { dependencies: { '@storybook/riot': '^7.0.0' } };
-      await expect(
-        checkNewFrameworks({
-          packageJson,
-          main: {
-            framework: '@storybook/riot',
-            core: {
-              builder: 'webpack5',
-            },
-          },
-        })
-      ).resolves.toBeFalsy();
-    });
-
     it('in sb 7 with correct structure already', async () => {
       const packageJson = { dependencies: { '@storybook/angular': '^7.0.0' } };
       await expect(

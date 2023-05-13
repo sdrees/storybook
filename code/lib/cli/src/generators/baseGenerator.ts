@@ -3,14 +3,19 @@ import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { externalFrameworks, CoreBuilder } from '../project_types';
-import { getBabelDependencies, copyTemplateFiles } from '../helpers';
+import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
+import { copyTemplateFiles, paddedLog } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
-import { generateStorybookBabelConfigInCWD } from '../babel-config';
+import { getBabelPresets, writeBabelConfigFile } from '../babel-config';
 import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
+import {
+  configureEslintPlugin,
+  extractEslintInfo,
+  suggestESLintPlugin,
+} from '../automigrate/helpers/eslintPlugin';
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
@@ -19,8 +24,7 @@ const defaultOptions: FrameworkOptions = {
   addScripts: true,
   addMainFile: true,
   addComponents: true,
-  addBabel: false,
-  addESLint: false,
+  skipBabel: false,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
@@ -154,8 +158,7 @@ export async function baseGenerator(
     addScripts,
     addMainFile,
     addComponents,
-    addBabel,
-    addESLint,
+    skipBabel,
     extraMain,
     extensions,
     storybookConfigFolder,
@@ -197,7 +200,7 @@ export async function baseGenerator(
 
   const files = await fse.readdir(process.cwd());
 
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
   const installedDependencies = new Set(
     Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
   );
@@ -260,31 +263,67 @@ export async function baseGenerator(
 
   await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
 
-  const babelDependencies =
-    addBabel && builder !== CoreBuilder.Vite
-      ? await getBabelDependencies(packageManager, packageJson)
-      : [];
-  const isNewFolder = !files.some(
-    (fname) => fname.startsWith('.babel') || fname.startsWith('babel') || fname === 'package.json'
-  );
-  if (isNewFolder) {
-    await generateStorybookBabelConfigInCWD();
+  const depsToInstall = [...versionedPackages];
+
+  // Add basic babel config for a select few frameworks that need it, if they do not have a babel config file already
+  if (builder !== CoreBuilder.Vite && !skipBabel) {
+    const frameworksThatNeedBabelConfig = [
+      '@storybook/react-webpack5',
+      '@storybook/vue-webpack5',
+      '@storybook/vue3-webpack5',
+      '@storybook/html-webpack5',
+      '@storybook/web-components-webpack5',
+    ];
+    const needsBabelConfig = frameworkPackages.find((pkg) =>
+      frameworksThatNeedBabelConfig.includes(pkg)
+    );
+    const hasNoBabelFile = !files.some(
+      (fname) => fname.startsWith('.babel') || fname.startsWith('babel')
+    );
+
+    if (hasNoBabelFile && needsBabelConfig) {
+      const isTypescript = language !== SupportedLanguage.JAVASCRIPT;
+      const isReact = rendererId === 'react';
+      depsToInstall.push(
+        ...getBabelPresets({
+          typescript: isTypescript,
+          jsx: isReact,
+        })
+      );
+      await writeBabelConfigFile({
+        typescript: isTypescript,
+        jsx: isReact,
+      });
+    }
   }
 
-  const depsToInstall = [...versionedPackages, ...babelDependencies];
+  try {
+    if (process.env.CI !== 'true') {
+      const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } = await extractEslintInfo(
+        packageManager
+      );
+
+      if (hasEslint && !isStorybookPluginInstalled) {
+        const shouldInstallESLintPlugin = await suggestESLintPlugin();
+        if (shouldInstallESLintPlugin) {
+          depsToInstall.push('eslint-plugin-storybook');
+          await configureEslintPlugin(eslintConfigFile, packageManager);
+        }
+      }
+    }
+  } catch (err) {
+    // any failure regarding configuring the eslint plugin should not fail the whole generator
+  }
 
   if (depsToInstall.length > 0) {
-    packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+    paddedLog('Installing Storybook dependencies');
+    await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
   }
 
   if (addScripts) {
-    packageManager.addStorybookCommandInScripts({
+    await packageManager.addStorybookCommandInScripts({
       port: 6006,
     });
-  }
-
-  if (addESLint) {
-    packageManager.addESLintConfig();
   }
 
   if (addComponents) {

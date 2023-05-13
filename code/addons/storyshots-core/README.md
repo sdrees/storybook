@@ -603,11 +603,10 @@ initStoryshots({
 
 Use this table as a reference for manually specifying the framework.
 
-| angular        | html | preact       |
-| -------------- | ---- | ------------ |
-| react          | riot | react-native |
-| svelte         | vue  | vue3         |
-| web-components | rax  |              |
+| angular | html         | preact         |
+| ------- | ------------ | -------------- |
+| react   | react-native | vue3           |
+| svelte  | vue          | web-components |
 
 ### `test`
 

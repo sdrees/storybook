@@ -14,7 +14,7 @@ export const addReact: Fix<AddReactOptions> = {
   id: 'addReact',
 
   async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
+    const packageJson = await packageManager.retrievePackageJson();
     const installedDependencies = new Set(
       Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
     );
@@ -63,7 +63,10 @@ export const addReact: Fix<AddReactOptions> = {
 
   async run({ packageManager, result: { additionalDependencies }, dryRun }) {
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, additionalDependencies);
+      await packageManager.addDependencies(
+        { installAsDevDependencies: true },
+        additionalDependencies
+      );
     }
   },
 };

@@ -52,6 +52,7 @@ describe('eslint-plugin fix', () => {
       await expect(
         checkEslint({
           packageJson,
+          hasEslint: false,
         })
       ).resolves.toBeFalsy();
     });

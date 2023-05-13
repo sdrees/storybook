@@ -52,8 +52,6 @@ Use the list below as a reference when filling in the values for both the `suppo
 - html
 - svelte
 - preact
-- aurelia
-- marionette
 - react-native
 
 <div class="aside">

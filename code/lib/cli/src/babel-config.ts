@@ -2,15 +2,63 @@ import { writeFile, pathExists } from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 import path from 'path';
 import prompts from 'prompts';
-import chalk from 'chalk';
 import { JsPackageManagerFactory } from './js-package-manager';
 
 export const generateStorybookBabelConfigInCWD = async () => {
   const target = process.cwd();
   return generateStorybookBabelConfig({ target });
 };
+
+export const getBabelPresets = ({ typescript, jsx }: { typescript: boolean; jsx: boolean }) => {
+  const dependencies = ['@babel/preset-env'];
+
+  if (typescript) {
+    dependencies.push('@babel/preset-typescript');
+  }
+
+  if (jsx) {
+    dependencies.push('@babel/preset-react');
+  }
+
+  return dependencies;
+};
+
+export const writeBabelConfigFile = async ({
+  location,
+  typescript,
+  jsx,
+}: {
+  location?: string;
+  typescript: boolean;
+  jsx: boolean;
+}) => {
+  const fileLocation = location || path.join(process.cwd(), '.babelrc.json');
+
+  const presets: (string | [string, any])[] = [['@babel/preset-env', { targets: { chrome: 100 } }]];
+
+  if (typescript) {
+    presets.push('@babel/preset-typescript');
+  }
+
+  if (jsx) {
+    presets.push('@babel/preset-react');
+  }
+
+  const contents = JSON.stringify(
+    {
+      sourceType: 'unambiguous',
+      presets,
+      plugins: [],
+    },
+    null,
+    2
+  );
+
+  await writeFile(fileLocation, contents);
+};
+
 export const generateStorybookBabelConfig = async ({ target }: { target: string }) => {
-  logger.info(`Generating the storybook default babel config at ${target}`);
+  logger.info(`Generating the Storybook default babel config at ${target}`);
 
   const fileName = '.babelrc.json';
   const location = path.join(target, fileName);
@@ -31,12 +79,6 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
     }
   }
 
-  logger.info(
-    `The config will contain ${chalk.yellow(
-      '@babel/preset-env'
-    )} and you will be prompted for additional presets, if you wish to add them depending on your project needs.`
-  );
-
   const { typescript, jsx } = await prompts([
     {
       type: 'confirm',
@@ -52,48 +94,13 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
     },
   ]);
 
-  const added = ['@babel/preset-env'];
-  const presets: (string | [string, any])[] = [['@babel/preset-env', { targets: { chrome: 100 } }]];
-
-  if (typescript) {
-    added.push('@babel/preset-typescript');
-    presets.push('@babel/preset-typescript');
-  }
-
-  if (jsx) {
-    added.push('@babel/preset-react');
-    presets.push('@babel/preset-react');
-  }
-
-  const contents = JSON.stringify(
-    {
-      sourceType: 'unambiguous',
-      presets,
-      plugins: [],
-    },
-    null,
-    2
-  );
+  const dependencies = getBabelPresets({ typescript, jsx });
 
   logger.info(`Writing file to ${location}`);
-  await writeFile(location, contents);
+  await writeBabelConfigFile({ location, typescript, jsx });
 
-  const { runInstall } = await prompts({
-    type: 'confirm',
-    initial: true,
-    name: 'runInstall',
-    message: `Shall we install the required dependencies now? (${added.join(', ')})`,
-  });
+  const packageManager = JsPackageManagerFactory.getPackageManager();
 
-  if (runInstall) {
-    logger.info(`Installing dependencies...`);
-
-    const packageManager = JsPackageManagerFactory.getPackageManager();
-
-    packageManager.addDependencies({ installAsDevDependencies: true }, added);
-  } else {
-    logger.info(
-      `⚠️ Please remember to install the required dependencies yourself: (${added.join(', ')})`
-    );
-  }
+  logger.info(`Installing dependencies (${dependencies.join(', ')})`);
+  await packageManager.addDependencies({ installAsDevDependencies: true }, dependencies);
 };

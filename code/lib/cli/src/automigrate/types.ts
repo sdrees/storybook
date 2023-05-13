@@ -41,6 +41,7 @@ export interface FixOptions {
   configDir?: string;
   renderer?: string;
   skipInstall?: boolean;
+  hideMigrationSummary?: boolean;
 }
 
 export enum FixStatus {

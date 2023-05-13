@@ -46,7 +46,7 @@ export const withMeasure = (StoryFn: StoryFunction<Renderer>, context: StoryCont
       });
     };
 
-    if (measureEnabled) {
+    if (context.viewMode === 'story' && measureEnabled) {
       document.addEventListener('pointerover', onPointerOver);
       init();
       window.addEventListener('resize', onResize);
@@ -58,7 +58,7 @@ export const withMeasure = (StoryFn: StoryFunction<Renderer>, context: StoryCont
       window.removeEventListener('resize', onResize);
       destroy();
     };
-  }, [measureEnabled]);
+  }, [measureEnabled, context.viewMode]);
 
   return StoryFn();
 };

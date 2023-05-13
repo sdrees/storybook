@@ -26,8 +26,8 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
   id: 'storybook-binary',
 
   async check({ packageManager, configDir }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const allDependencies = packageManager.getAllDependencies();
+    const packageJson = await packageManager.retrievePackageJson();
+    const allDependencies = await packageManager.getAllDependencies();
     const { storybookVersion } = await getStorybookData({ packageManager, configDir });
 
     // Nx provides their own binary, so we don't need to do anything
@@ -82,7 +82,7 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
     if (hasSbBinary) {
       logger.info(`✅ Removing 'sb' dependency`);
       if (!dryRun) {
-        packageManager.removeDependencies(
+        await packageManager.removeDependencies(
           { skipInstall: skipInstall || !hasStorybookBinary, packageJson },
           ['sb']
         );
@@ -95,7 +95,7 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       logger.log();
       if (!dryRun) {
         const versionToInstall = getStorybookVersionSpecifier(packageJson);
-        packageManager.addDependencies(
+        await packageManager.addDependencies(
           { installAsDevDependencies: true, packageJson, skipInstall },
           [`storybook@${versionToInstall}`]
         );

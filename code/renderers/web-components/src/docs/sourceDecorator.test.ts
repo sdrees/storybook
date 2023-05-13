@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, render } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -84,5 +84,35 @@ describe('sourceDecorator', () => {
       args: {},
       source: '<div>args story</div>',
     });
+  });
+
+  it('should handle document fragment without removing its child nodes', async () => {
+    const storyFn = () =>
+      html`my
+        <div>args story</div>`;
+    const decoratedStoryFn = () => {
+      const fragment = document.createDocumentFragment();
+      render(storyFn(), fragment);
+      return fragment;
+    };
+    const context = makeContext('args', { __isArgsStory: true }, {});
+    const story = sourceDecorator(decoratedStoryFn, context);
+    await tick();
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'lit-test--args',
+      args: {},
+      source: `my
+        <div>args story</div>`,
+    });
+    expect(story).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <!---->
+        my
+              
+        <div>
+          args story
+        </div>
+      </DocumentFragment>
+    `);
   });
 });

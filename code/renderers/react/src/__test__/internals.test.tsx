@@ -24,6 +24,25 @@ test('returns composed parameters from story', () => {
   );
 });
 
+describe('Id of the story', () => {
+  test('is exposed correctly when composeStories is used', () => {
+    expect(CSF2StoryWithParamsAndDecorator.id).toBe(
+      'example-button--csf-2-story-with-params-and-decorator'
+    );
+  });
+  test('is exposed correctly when composeStory is used and exportsName is passed', () => {
+    const exportName = Object.entries(stories).filter(
+      ([_, story]) => story === stories.CSF3Primary
+    )[0][0];
+    const Primary = composeStory(stories.CSF3Primary, stories.default, {}, exportName);
+    expect(Primary.id).toBe('example-button--csf-3-primary');
+  });
+  test("is not unique when composeStory is used and exportsName isn't passed", () => {
+    const Primary = composeStory(stories.CSF3Primary, stories.default);
+    expect(Primary.id).toContain('unknown');
+  });
+});
+
 // common in addons that need to communicate between manager and preview
 test('should pass with decorators that need addons channel', () => {
   const PrimaryWithChannels = composeStory(stories.CSF3Primary, stories.default, {

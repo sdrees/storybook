@@ -21,7 +21,7 @@ export const ToolbarMenuListItem = ({
   const Icon = icon && <Icons style={{ opacity: 1 }} icon={icon} />;
 
   const Item: TooltipLinkListLink = {
-    id: value || currentValue,
+    id: value ?? '_reset',
     active: currentValue === value,
     right,
     title,

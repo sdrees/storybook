@@ -103,7 +103,7 @@ module.exports = {
         },
         {
           name: 'events',
-          unsupported: ['svelte', 'riot'],
+          unsupported: ['svelte'],
         },
         {
           name: 'google-analytics',

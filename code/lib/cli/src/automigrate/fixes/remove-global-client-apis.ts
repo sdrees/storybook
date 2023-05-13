@@ -23,7 +23,7 @@ export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
   promptOnly: true,
 
   async check({ packageManager, configDir }) {
-    const packageJson = packageManager.retrievePackageJson();
+    const packageJson = await packageManager.retrievePackageJson();
 
     const { previewConfig } = getStorybookInfo(packageJson, configDir);
 

@@ -189,7 +189,7 @@ export const doUpgrade = async ({
   if (!dryRun) flags.push('--upgrade');
   flags.push('--target');
   flags.push(target);
-  flags = addExtraFlags(EXTRA_FLAGS, flags, packageManager.retrievePackageJson());
+  flags = addExtraFlags(EXTRA_FLAGS, flags, await packageManager.retrievePackageJson());
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
     shell: true,
@@ -204,7 +204,7 @@ export const doUpgrade = async ({
 
   if (!dryRun) {
     commandLog(`Installing upgrades`);
-    packageManager.installDependencies();
+    await packageManager.installDependencies();
   }
 
   let automigrationResults;
@@ -212,12 +212,11 @@ export const doUpgrade = async ({
     checkVersionConsistency();
     automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
   }
-
   if (!options.disableTelemetry) {
     const afterVersion = await getStorybookCoreVersion();
-    const { preCheckFailure, ...results } = automigrationResults || {};
+    const { preCheckFailure, fixResults } = automigrationResults || {};
     const automigrationTelemetry = {
-      automigrationResults: preCheckFailure ? null : results,
+      automigrationResults: preCheckFailure ? null : fixResults,
       automigrationPreCheckFailure: preCheckFailure || null,
     };
     telemetry('upgrade', {

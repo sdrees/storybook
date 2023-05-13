@@ -24,8 +24,8 @@ export class NPMProxy extends JsPackageManager {
 
   installArgs: string[] | undefined;
 
-  initPackageJson() {
-    return this.executeCommand('npm', ['init', '-y']);
+  async initPackageJson() {
+    await this.executeCommand({ command: 'npm', args: ['init', '-y'] });
   }
 
   getRunStorybookCommand(): string {
@@ -36,8 +36,8 @@ export class NPMProxy extends JsPackageManager {
     return `npm run ${command}`;
   }
 
-  getNpmVersion(): string {
-    return this.executeCommand('npm', ['--version']);
+  async getNpmVersion(): Promise<string> {
+    return this.executeCommand({ command: 'npm', args: ['--version'] });
   }
 
   getInstallArgs(): string[] {
@@ -47,20 +47,36 @@ export class NPMProxy extends JsPackageManager {
     return this.installArgs;
   }
 
-  public runPackageCommand(command: string, args: string[], cwd?: string): string {
-    return this.executeCommand('npm', ['exec', '--', command, ...args], undefined, cwd);
+  public runPackageCommandSync(
+    command: string,
+    args: string[],
+    cwd?: string,
+    stdio?: 'pipe' | 'inherit'
+  ): string {
+    return this.executeCommandSync({
+      command: 'npm',
+      args: ['exec', '--', command, ...args],
+      cwd,
+      stdio,
+    });
   }
 
-  public findInstallations() {
+  public async runPackageCommand(command: string, args: string[], cwd?: string): Promise<string> {
+    return this.executeCommand({
+      command: 'npm',
+      args: ['exec', '--', command, ...args],
+      cwd,
+    });
+  }
+
+  public async findInstallations() {
     const pipeToNull = platform() === 'win32' ? '2>NUL' : '2>/dev/null';
-    const commandResult = this.executeCommand(
-      'npm',
-      ['ls', '--json', '--depth=99', pipeToNull],
-      undefined,
-      undefined,
+    const commandResult = await this.executeCommand({
+      command: 'npm',
+      args: ['ls', '--json', '--depth=99', pipeToNull],
       // ignore errors, because npm ls will exit with code 1 if there are e.g. unmet peer dependencies
-      true
-    );
+      ignoreError: true,
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);
@@ -79,33 +95,48 @@ export class NPMProxy extends JsPackageManager {
     };
   }
 
-  protected runInstall(): void {
-    this.executeCommand('npm', ['install', ...this.getInstallArgs()], 'inherit');
+  protected async runInstall() {
+    await this.executeCommand({
+      command: 'npm',
+      args: ['install', ...this.getInstallArgs()],
+      stdio: 'inherit',
+    });
   }
 
-  protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
+  protected async runAddDeps(dependencies: string[], installAsDevDependencies: boolean) {
     let args = [...dependencies];
 
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('npm', ['install', ...this.getInstallArgs(), ...args], 'inherit');
+    await this.executeCommand({
+      command: 'npm',
+      args: ['install', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
-  protected runRemoveDeps(dependencies: string[]): void {
+  protected async runRemoveDeps(dependencies: string[]) {
     const args = [...dependencies];
 
-    this.executeCommand('npm', ['uninstall', ...this.getInstallArgs(), ...args], 'inherit');
+    await this.executeCommand({
+      command: 'npm',
+      args: ['uninstall', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
-  protected runGetVersions<T extends boolean>(
+  protected async runGetVersions<T extends boolean>(
     packageName: string,
     fetchAllVersions: T
   ): Promise<T extends true ? string[] : string> {
     const args = [fetchAllVersions ? 'versions' : 'version', '--json'];
 
-    const commandResult = this.executeCommand('npm', ['info', packageName, ...args]);
+    const commandResult = await this.executeCommand({
+      command: 'npm',
+      args: ['info', packageName, ...args],
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);

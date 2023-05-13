@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import React, { useState, useCallback } from 'react';
 import { useGlobals } from '@storybook/manager-api';
-import { deprecate } from '@storybook/client-logger';
 import { WithTooltip, TooltipLinkList } from '@storybook/components';
 import { ToolbarMenuButton } from './ToolbarMenuButton';
 import type { WithKeyboardCycleProps } from '../hoc/withKeyboardCycle';
@@ -31,16 +30,12 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
       icon = getSelectedIcon({ currentValue, items }) || icon;
     }
 
-    // Deprecation support for old "name of global arg used as title"
-    if (!title) {
-      title = name;
-      deprecate(
-        '`showName` is deprecated as `name` will stop having dual purposes in the future. Please specify a `title` in `globalTypes` instead.'
-      );
-    }
-
     if (dynamicTitle) {
       title = getSelectedTitle({ currentValue, items }) || title;
+    }
+
+    if (!title && !icon) {
+      console.warn(`Toolbar '${name}' has no title or icon`);
     }
 
     const handleItemClick = useCallback(

@@ -2,8 +2,6 @@ import fs from 'fs';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
 
-import { commandLog } from '../../helpers';
-
 export const ANGULAR_JSON_PATH = 'angular.json';
 
 export const compoDocPreviewPrefix = dedent`
@@ -29,11 +27,9 @@ export class AngularJSON {
 
   constructor() {
     if (!fs.existsSync(ANGULAR_JSON_PATH)) {
-      commandLog(
-        'An angular.json file was not found in the current directory. Storybook needs it to work properly.'
+      throw new Error(
+        'An angular.json file was not found in the current working directory. Storybook needs it to work properly, so please rerun the command at the root of your project, where the angular.json file is located. More info: https://storybook.js.org/docs/angular/faq#error-no-angularjson-file-found'
       );
-
-      throw new Error('No angular.json file found');
     }
 
     const jsonContent = fs.readFileSync(ANGULAR_JSON_PATH, 'utf8');

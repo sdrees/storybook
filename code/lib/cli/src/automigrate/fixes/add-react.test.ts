@@ -3,7 +3,7 @@ import { addReact } from './add-react';
 
 const checkAddReact = async (packageJson: PackageJson) => {
   const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
+    retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
   } as JsPackageManager;
   return addReact.check({ packageManager });
 };

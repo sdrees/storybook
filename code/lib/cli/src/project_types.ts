@@ -38,16 +38,10 @@ export type SupportedRenderers =
   | 'vue'
   | 'vue3'
   | 'angular'
-  | 'mithril'
-  | 'riot'
   | 'ember'
-  | 'marionette'
-  | 'marko'
   | 'preact'
   | 'svelte'
   | 'qwik'
-  | 'rax'
-  | 'aurelia'
   | 'html'
   | 'web-components'
   | 'server'
@@ -59,16 +53,10 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'vue',
   'vue3',
   'angular',
-  'mithril',
-  'riot',
   'ember',
-  'marionette',
-  'marko',
   'preact',
   'svelte',
   'qwik',
-  'rax',
-  'aurelia',
   'solid',
 ];
 
@@ -87,17 +75,11 @@ export enum ProjectType {
   ANGULAR = 'ANGULAR',
   EMBER = 'EMBER',
   WEB_COMPONENTS = 'WEB_COMPONENTS',
-  MITHRIL = 'MITHRIL',
-  MARIONETTE = 'MARIONETTE',
-  MARKO = 'MARKO',
   HTML = 'HTML',
   QWIK = 'QWIK',
-  RIOT = 'RIOT',
   PREACT = 'PREACT',
   SVELTE = 'SVELTE',
   SVELTEKIT = 'SVELTEKIT',
-  RAX = 'RAX',
-  AURELIA = 'AURELIA',
   SERVER = 'SERVER',
   NX = 'NX',
   SOLID = 'SOLID',
@@ -233,34 +215,6 @@ export const supportedTemplates: TemplateConfiguration[] = [
     },
   },
   {
-    preset: ProjectType.MITHRIL,
-    dependencies: ['mithril'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.MARIONETTE,
-    dependencies: ['backbone.marionette'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.MARKO,
-    dependencies: ['marko'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.RIOT,
-    dependencies: ['riot'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
     preset: ProjectType.PREACT,
     dependencies: ['preact'],
     matcherFunction: ({ dependencies }) => {
@@ -278,20 +232,6 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.SVELTE,
     dependencies: ['svelte'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.RAX,
-    dependencies: ['rax'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.AURELIA,
-    dependencies: ['aurelia-bootstrapper'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },

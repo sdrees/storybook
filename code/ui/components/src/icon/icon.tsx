@@ -7,7 +7,6 @@ import { icons } from './icons';
 const Svg = styled.svg`
   display: inline-block;
   shape-rendering: inherit;
-  transform: translate3d(0, 0, 0);
   vertical-align: middle;
   fill: currentColor;
 
