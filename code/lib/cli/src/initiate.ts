@@ -35,9 +35,7 @@ import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
-import { automigrate } from './automigrate';
 import type { CommandOptions } from './generators/types';
-import { initFixes } from './automigrate/fixes';
 import { HandledError } from './HandledError';
 
 const logger = console;
@@ -316,16 +314,6 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   if (!options.disableTelemetry) {
     telemetry('init', { projectType });
-  }
-
-  if (projectType !== ProjectType.REACT_NATIVE) {
-    await automigrate({
-      yes: options.yes || process.env.CI === 'true',
-      packageManager: pkgMgr,
-      fixes: initFixes,
-      configDir: installResult?.configDir,
-      hideMigrationSummary: true,
-    });
   }
 
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));

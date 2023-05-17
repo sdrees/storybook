@@ -60,6 +60,10 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       '.webp': 'dataurl',
       '.webm': 'dataurl',
       '.woff2': 'dataurl',
+      // legacy font formats
+      '.woff': 'dataurl',
+      '.eot': 'dataurl',
+      '.ttf': 'dataurl',
     },
     target: ['chrome100'],
     platform: 'browser',

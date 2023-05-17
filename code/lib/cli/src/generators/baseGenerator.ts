@@ -58,13 +58,30 @@ const getExternalFramework = (framework: string) =>
 
 const getFrameworkPackage = (framework: string, renderer: string, builder: string) => {
   const externalFramework = getExternalFramework(framework);
+  const storybookBuilder = builder?.replace(/^@storybook\/builder-/, '');
+  const storybookFramework = framework?.replace(/^@storybook\//, '');
 
   if (externalFramework === undefined) {
-    return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
+    const frameworkPackage = framework
+      ? `@storybook/${storybookFramework}`
+      : `@storybook/${renderer}-${storybookBuilder}`;
+
+    if (packageVersions[frameworkPackage as keyof typeof packageVersions]) {
+      return frameworkPackage;
+    }
+
+    throw new Error(
+      dedent`
+        Could not find framework package: ${frameworkPackage}.
+        Make sure this package exists, and if it does, please file an issue as this might be a bug in Storybook.
+      `
+    );
   }
 
   if (externalFramework.frameworks !== undefined) {
-    return externalFramework.frameworks.find((item) => item.match(new RegExp(`-${builder}`)));
+    return externalFramework.frameworks.find((item) =>
+      item.match(new RegExp(`-${storybookBuilder}`))
+    );
   }
 
   return externalFramework.packageName;

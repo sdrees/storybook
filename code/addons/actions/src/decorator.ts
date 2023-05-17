@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import { useEffect, makeDecorator } from '@storybook/preview-api';
-import type { Addon_DecoratorFunction } from '@storybook/types';
+import type { PartialStoryFn, Renderer } from '@storybook/types';
 import { actions } from './runtime/actions';
 
 import { PARAM_KEY } from './constants';
@@ -52,15 +52,20 @@ const applyEventHandlers = (actionsFn: any, ...handles: any[]) => {
   }, [root, actionsFn, handles]);
 };
 
-export const withActions: Addon_DecoratorFunction = makeDecorator({
-  name: 'withActions',
-  parameterName: PARAM_KEY,
-  skipIfNoParametersOrOptions: true,
-  wrapper: (getStory, context, { parameters }) => {
-    if (parameters?.['handles']) {
-      applyEventHandlers(actions, ...parameters['handles']);
-    }
+// This type is basically the same as DecoratorFunction from @storybook/types.
+// We can not use DecoratorFunction though as the type has to be generic.
+// Hard to explain, but you will understand when you try to solve this issue:
+// https://github.com/storybookjs/storybook/issues/22384
+export const withActions: <T extends Renderer>(storyFn: PartialStoryFn<T>) => T['storyResult'] =
+  makeDecorator({
+    name: 'withActions',
+    parameterName: PARAM_KEY,
+    skipIfNoParametersOrOptions: true,
+    wrapper: (getStory, context, { parameters }) => {
+      if (parameters?.['handles']) {
+        applyEventHandlers(actions, ...parameters['handles']);
+      }
 
-    return getStory(context);
-  },
-});
+      return getStory(context);
+    },
+  });

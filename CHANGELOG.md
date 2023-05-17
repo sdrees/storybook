@@ -1,3 +1,20 @@
+## 7.1.0-alpha.19 (May 16, 2023)
+
+#### Bug Fixes
+
+-   Normalize paths exposed to vite-builder's `storybook-stories.js` file [#22327](https://github.com/storybooks/storybook/pull/22327)
+
+## 7.1.0-alpha.18 (May 15, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix `getFrameworkPackage` logic [#22559](https://github.com/storybooks/storybook/pull/22559)
+-   CLI: Remove automigrate reference from init command [#22561](https://github.com/storybooks/storybook/pull/22561)
+
+#### Maintenance
+
+-   CLI: Detach automigrate command from storybook init [#22523](https://github.com/storybooks/storybook/pull/22523)
+
 ## 7.1.0-alpha.17 (May 12, 2023)
 
 #### Bug Fixes

@@ -30,7 +30,6 @@ import { createBabelLoader } from './babel-loader-preview';
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
 const storybookPaths: Record<string, string> = {
-  global: wrapForPnP('@storybook/global'),
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',

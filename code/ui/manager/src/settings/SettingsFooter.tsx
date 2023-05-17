@@ -23,7 +23,12 @@ const SettingsFooter: FC<any> = (props) => (
     <Link secondary href="https://github.com/storybookjs/storybook" cancel={false} target="_blank">
       GitHub
     </Link>
-    <Link secondary href="https://storybook.js.org/support" cancel={false} target="_blank">
+    <Link
+      secondary
+      href="https://storybook.js.org/community#support"
+      cancel={false}
+      target="_blank"
+    >
       Support
     </Link>
   </Footer>

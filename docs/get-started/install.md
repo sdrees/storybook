@@ -101,7 +101,7 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 </div>
 
-If all else fails, try asking for [help](https://storybook.js.org/support)
+If all else fails, try asking for [help](https://storybook.js.org/community#support)
 
 </details>
 

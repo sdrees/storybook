@@ -2,6 +2,8 @@
 title: 'Naming components and hierarchy'
 ---
 
+<YouTubeCallout id="VPfjrhDlkVc" title="How to Name Stories and Components" />
+
 The title of the component you export in the `default` export controls the name shown in the sidebar.
 
 <!-- prettier-ignore-start -->
