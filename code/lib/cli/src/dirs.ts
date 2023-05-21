@@ -38,7 +38,7 @@ export async function getRendererDir(
   const frameworkPackageName =
     externalFramework?.renderer || externalFramework?.packageName || `@storybook/${renderer}`;
 
-  const packageJsonPath = `${frameworkPackageName}/package.json`;
+  const packageJsonPath = join(frameworkPackageName, 'package.json');
 
   const errors: Error[] = [];
 

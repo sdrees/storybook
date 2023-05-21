@@ -10,7 +10,7 @@ on:
   #   branches:
   #     - <your-branch-name>
   # 2. change the "ref" value to <your-branch-name> in the actions/checkout step below.
-  # 3. don't forget to undo the values back to `next` before you merge your changes.
+  # 3. 👉 DON'T FORGET TO UNDO THE VALUES BACK TO `next` BEFORE YOU MERGE YOUR CHANGES!
 
 jobs:
   generate:
@@ -48,3 +48,10 @@ jobs:
       - name: Publish
         run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=next
         working-directory: ./code
+      - name: The job has failed
+        if: ${{ failure() || cancelled() }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The generation of sandboxes in the **next** branch has failed. [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'

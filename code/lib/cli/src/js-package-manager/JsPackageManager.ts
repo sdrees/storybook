@@ -218,7 +218,7 @@ export abstract class JsPackageManager {
       try {
         await this.runAddDeps(dependencies, options.installAsDevDependencies);
       } catch (e) {
-        logger.error('An error occurred while installing dependencies.');
+        logger.error('\nAn error occurred while installing dependencies:');
         logger.log(e.message);
         throw new HandledError(e);
       }
@@ -421,6 +421,7 @@ export abstract class JsPackageManager {
     stdio?: 'inherit' | 'pipe'
   ): string;
   public abstract findInstallations(pattern?: string[]): Promise<InstallationMetadata | undefined>;
+  public abstract parseErrorFromLogs(logs?: string): string;
 
   public executeCommandSync({
     command,

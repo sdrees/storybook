@@ -1,7 +1,64 @@
+import dedent from 'ts-dedent';
+import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
 import { parsePackageData } from './util';
+
+const YARN2_ERROR_REGEX = /(YN\d{4}):.*?Error:\s+(.*)/i;
+const YARN2_ERROR_CODES = {
+  YN0000: 'UNNAMED',
+  YN0001: 'EXCEPTION',
+  YN0002: 'MISSING_PEER_DEPENDENCY',
+  YN0003: 'CYCLIC_DEPENDENCIES',
+  YN0004: 'DISABLED_BUILD_SCRIPTS',
+  YN0005: 'BUILD_DISABLED',
+  YN0006: 'SOFT_LINK_BUILD',
+  YN0007: 'MUST_BUILD',
+  YN0008: 'MUST_REBUILD',
+  YN0009: 'BUILD_FAILED',
+  YN0010: 'RESOLVER_NOT_FOUND',
+  YN0011: 'FETCHER_NOT_FOUND',
+  YN0012: 'LINKER_NOT_FOUND',
+  YN0013: 'FETCH_NOT_CACHED',
+  YN0014: 'YARN_IMPORT_FAILED',
+  YN0015: 'REMOTE_INVALID',
+  YN0016: 'REMOTE_NOT_FOUND',
+  YN0017: 'RESOLUTION_PACK',
+  YN0018: 'CACHE_CHECKSUM_MISMATCH',
+  YN0019: 'UNUSED_CACHE_ENTRY',
+  YN0020: 'MISSING_LOCKFILE_ENTRY',
+  YN0021: 'WORKSPACE_NOT_FOUND',
+  YN0022: 'TOO_MANY_MATCHING_WORKSPACES',
+  YN0023: 'CONSTRAINTS_MISSING_DEPENDENCY',
+  YN0024: 'CONSTRAINTS_INCOMPATIBLE_DEPENDENCY',
+  YN0025: 'CONSTRAINTS_EXTRANEOUS_DEPENDENCY',
+  YN0026: 'CONSTRAINTS_INVALID_DEPENDENCY',
+  YN0027: 'CANT_SUGGEST_RESOLUTIONS',
+  YN0028: 'FROZEN_LOCKFILE_EXCEPTION',
+  YN0029: 'CROSS_DRIVE_VIRTUAL_LOCAL',
+  YN0030: 'FETCH_FAILED',
+  YN0031: 'DANGEROUS_NODE_MODULES',
+  YN0032: 'NODE_GYP_INJECTED',
+  YN0046: 'AUTOMERGE_FAILED_TO_PARSE',
+  YN0047: 'AUTOMERGE_IMMUTABLE',
+  YN0048: 'AUTOMERGE_SUCCESS',
+  YN0049: 'AUTOMERGE_REQUIRED',
+  YN0050: 'DEPRECATED_CLI_SETTINGS',
+  YN0059: 'INVALID_RANGE_PEER_DEPENDENCY',
+  YN0060: 'INCOMPATIBLE_PEER_DEPENDENCY',
+  YN0061: 'DEPRECATED_PACKAGE',
+  YN0062: 'INCOMPATIBLE_OS',
+  YN0063: 'INCOMPATIBLE_CPU',
+  YN0068: 'UNUSED_PACKAGE_EXTENSION',
+  YN0069: 'REDUNDANT_PACKAGE_EXTENSION',
+  YN0071: 'NM_CANT_INSTALL_EXTERNAL_SOFT_LINK',
+  YN0072: 'NM_PRESERVE_SYMLINKS_REQUIRED',
+  YN0074: 'NM_HARDLINKS_MODE_DOWNGRADED',
+  YN0075: 'PROLOG_INSTANTIATION_ERROR',
+  YN0076: 'INCOMPATIBLE_ARCHITECTURE',
+  YN0077: 'GHOST_ARCHITECTURE',
+};
 
 // This encompasses both yarn 2 and yarn 3
 export class Yarn2Proxy extends JsPackageManager {
@@ -84,11 +141,29 @@ export class Yarn2Proxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    await this.executeCommand({
-      command: 'yarn',
-      args: ['add', ...this.getInstallArgs(), ...args],
-      stdio: 'inherit',
-    });
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream();
+
+    try {
+      await this.executeCommand({
+        command: 'yarn',
+        args: ['add', ...this.getInstallArgs(), ...args],
+        stdio: ['ignore', logStream, logStream],
+      });
+    } catch (err) {
+      const stdout = await readLogFile();
+
+      const errorMessage = this.parseErrorFromLogs(stdout);
+
+      await moveLogFile();
+
+      throw new Error(
+        dedent`${errorMessage}
+        
+        Please check the logfile generated at ./storybook.log for troubleshooting and try again.`
+      );
+    }
+
+    await removeLogFile();
   }
 
   protected async runRemoveDeps(dependencies: string[]) {
@@ -152,5 +227,29 @@ export class Yarn2Proxy extends JsPackageManager {
       duplicatedDependencies,
       infoCommand: 'yarn why',
     };
+  }
+
+  public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'YARN2 error';
+    const match = logs.match(YARN2_ERROR_REGEX);
+
+    if (match) {
+      const errorCode = match[1] as keyof typeof YARN2_ERROR_CODES;
+      if (errorCode) {
+        finalMessage = `${finalMessage} ${errorCode}`;
+      }
+
+      const errorType = YARN2_ERROR_CODES[errorCode];
+      if (errorType) {
+        finalMessage = `${finalMessage} - ${errorType}`;
+      }
+
+      const errorMessage = match[2];
+      if (errorMessage) {
+        finalMessage = `${finalMessage}: ${errorMessage}`;
+      }
+    }
+
+    return finalMessage.trim();
   }
 }

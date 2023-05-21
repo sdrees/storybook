@@ -1,3 +1,23 @@
+## 7.1.0-alpha.20 (May 20, 2023)
+
+#### Bug Fixes
+
+-   CLI: Account for windows paths when copying templates [#22644](https://github.com/storybooks/storybook/pull/22644)
+-   CLI: Fix pnpm init command [#22635](https://github.com/storybooks/storybook/pull/22635)
+-   UI: Add legacy font formats [#22576](https://github.com/storybooks/storybook/pull/22576)
+-   Webpack: Remove the alias for `global` [#22393](https://github.com/storybooks/storybook/pull/22393)
+
+#### Maintenance
+
+-   CLI: Reduce installation noise and improve error handling [#22554](https://github.com/storybooks/storybook/pull/22554)
+-   Actions: Fix type of withActions [#22455](https://github.com/storybooks/storybook/pull/22455)
+
+#### Build
+
+-   Build: add discord notification when generating sandboxes fails [#22638](https://github.com/storybooks/storybook/pull/22638)
+-   Build: set correct ref on sandboxes Github action [#22625](https://github.com/storybooks/storybook/pull/22625)
+-   Build: Fix sandbox generation scripts [#22620](https://github.com/storybooks/storybook/pull/22620)
+
 ## 7.1.0-alpha.19 (May 16, 2023)
 
 #### Bug Fixes

@@ -4,6 +4,13 @@ on:
   schedule:
     - cron: '2 2 */1 * *'
   workflow_dispatch:
+  # To test fixes on push rather than wait for the scheduling, do the following:
+  # 1. Uncomment the lines below and add your branch.
+  # push:
+  #   branches:
+  #     - <your-branch-name>
+  # 2. change the "ref" value to <your-branch-name> in the actions/checkout step below.
+  # 3. 👉 DON'T FORGET TO UNDO THE VALUES BACK TO `main` BEFORE YOU MERGE YOUR CHANGES!
 
 jobs:
   generate:
@@ -41,3 +48,10 @@ jobs:
       - name: Publish
         run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=main
         working-directory: ./code
+      - name: The job has failed
+        if: ${{ failure() || cancelled() }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The generation of sandboxes in the **main** branch has failed. [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'

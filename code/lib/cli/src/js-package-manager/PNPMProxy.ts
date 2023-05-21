@@ -1,7 +1,9 @@
 import { pathExistsSync } from 'fs-extra';
+import dedent from 'ts-dedent';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
+import { createLogStream } from '../utils';
 
 type PnpmDependency = {
   from: string;
@@ -22,6 +24,8 @@ type PnpmListItem = {
 
 export type PnpmListOutput = PnpmListItem[];
 
+const PNPM_ERROR_REGEX = /(ELIFECYCLE|ERR_PNPM_[A-Z_]+)\s+(.*)/i;
+
 export class PNPMProxy extends JsPackageManager {
   readonly type = 'pnpm';
 
@@ -37,7 +41,7 @@ export class PNPMProxy extends JsPackageManager {
   async initPackageJson() {
     await this.executeCommand({
       command: 'pnpm',
-      args: ['init', '-y'],
+      args: ['init'],
     });
   }
 
@@ -126,12 +130,29 @@ export class PNPMProxy extends JsPackageManager {
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream();
 
-    await this.executeCommand({
-      command: 'pnpm',
-      args: ['add', ...args, ...this.getInstallArgs()],
-      stdio: 'inherit',
-    });
+    try {
+      await this.executeCommand({
+        command: 'pnpm',
+        args: ['add', ...args, ...this.getInstallArgs()],
+        stdio: ['ignore', logStream, logStream],
+      });
+    } catch (err) {
+      const stdout = await readLogFile();
+
+      const errorMessage = this.parseErrorFromLogs(stdout);
+
+      await moveLogFile();
+
+      throw new Error(
+        dedent`${errorMessage}
+        
+        Please check the logfile generated at ./storybook.log for troubleshooting and try again.`
+      );
+    }
+
+    await removeLogFile();
   }
 
   protected async runRemoveDeps(dependencies: string[]) {
@@ -211,5 +232,18 @@ export class PNPMProxy extends JsPackageManager {
       duplicatedDependencies,
       infoCommand: 'pnpm list --depth=1',
     };
+  }
+
+  public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'PNPM error';
+    const match = logs.match(PNPM_ERROR_REGEX);
+    if (match) {
+      const [errorCode] = match;
+      if (errorCode) {
+        finalMessage = `${finalMessage} ${errorCode}`;
+      }
+    }
+
+    return finalMessage.trim();
   }
 }

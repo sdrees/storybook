@@ -1,3 +1,4 @@
+import dedent from 'ts-dedent';
 import { Yarn2Proxy } from './Yarn2Proxy';
 
 describe('Yarn 2 Proxy', () => {
@@ -269,6 +270,39 @@ describe('Yarn 2 Proxy', () => {
           "infoCommand": "yarn why",
         }
       `);
+    });
+  });
+
+  describe('parseErrors', () => {
+    it('should parse yarn2 errors', () => {
+      const YARN2_ERROR_SAMPLE = `
+        ➤ YN0000: ┌ Resolution step
+        ➤ YN0001: │ Error: react@npm:28.2.0: No candidates found
+            at ge (/Users/yannbraga/.cache/node/corepack/yarn/3.5.1/yarn.js:439:8124)
+            at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+            at async Promise.allSettled (index 8)
+            at async io (/Users/yannbraga/.cache/node/corepack/yarn/3.5.1/yarn.js:390:10398)
+        ➤ YN0000: └ Completed in 2s 369ms
+        ➤ YN0000: Failed with errors in 2s 372ms
+        ➤ YN0032: fsevents@npm:2.3.2: Implicit dependencies on node-gyp are discouraged
+        ➤ YN0061: @npmcli/move-file@npm:2.0.1 is deprecated: This functionality has been moved to @npmcli/fs
+      `;
+
+      expect(yarn2Proxy.parseErrorFromLogs(YARN2_ERROR_SAMPLE)).toEqual(
+        'YARN2 error YN0001 - EXCEPTION: react@npm:28.2.0: No candidates found'
+      );
+    });
+
+    it('should show unknown yarn2 error', () => {
+      const YARN2_ERROR_SAMPLE = dedent`
+        ➤ YN0000: ┌ Resolution step
+        ➤ YN0000: └ Completed in 2s 369ms
+        ➤ YN0000: Failed with errors in 2s 372ms
+        ➤ YN0032: fsevents@npm:2.3.2: Implicit dependencies on node-gyp are discouraged
+        ➤ YN0061: @npmcli/move-file@npm:2.0.1 is deprecated: This functionality has been moved to @npmcli/fs
+      `;
+
+      expect(yarn2Proxy.parseErrorFromLogs(YARN2_ERROR_SAMPLE)).toEqual(`YARN2 error`);
     });
   });
 });

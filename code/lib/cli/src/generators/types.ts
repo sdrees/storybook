@@ -9,6 +9,8 @@ export type GeneratorOptions = {
   linkable: boolean;
   pnp: boolean;
   frameworkPreviewParts?: FrameworkPreviewParts;
+  // skip prompting the user
+  yes: boolean;
 };
 
 export interface FrameworkOptions {

@@ -1,24 +1,24 @@
 import { PNPMProxy } from './PNPMProxy';
 
-describe('NPM Proxy', () => {
+describe('PNPM Proxy', () => {
   let pnpmProxy: PNPMProxy;
 
   beforeEach(() => {
     pnpmProxy = new PNPMProxy();
   });
 
-  it('type should be npm', () => {
+  it('type should be pnpm', () => {
     expect(pnpmProxy.type).toEqual('pnpm');
   });
 
   describe('initPackageJson', () => {
-    it('should run `npm init -y`', async () => {
+    it('should run `pnpm init`', async () => {
       const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('');
 
       await pnpmProxy.initPackageJson();
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
-        expect.objectContaining({ command: 'pnpm', args: ['init', '-y'] })
+        expect.objectContaining({ command: 'pnpm', args: ['init'] })
       );
     });
   });
@@ -53,7 +53,7 @@ describe('NPM Proxy', () => {
   });
 
   describe('runScript', () => {
-    it('should execute script `yarn compodoc -- -e json -d .`', async () => {
+    it('should execute script `pnpm exec compodoc -- -e json -d .`', async () => {
       const executeCommandSpy = jest
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('7.1.0');
@@ -373,6 +373,32 @@ describe('NPM Proxy', () => {
           "infoCommand": "pnpm list --depth=1",
         }
       `);
+    });
+  });
+
+  describe('parseErrors', () => {
+    it('should parse pnpm errors', () => {
+      const PNPM_ERROR_SAMPLE = `
+        ERR_PNPM_NO_MATCHING_VERSION No matching version found for react@29.2.0
+
+        This error happened while installing a direct dependency of /Users/yannbraga/open-source/sandboxes/react-vite/default-js/before-storybook
+        
+        The latest release of react is "18.2.0".
+        `;
+
+      expect(pnpmProxy.parseErrorFromLogs(PNPM_ERROR_SAMPLE)).toEqual(
+        'PNPM error ERR_PNPM_NO_MATCHING_VERSION No matching version found for react@29.2.0'
+      );
+    });
+
+    it('should show unknown pnpm error', () => {
+      const PNPM_ERROR_SAMPLE = `
+        This error happened while installing a direct dependency of /Users/yannbraga/open-source/sandboxes/react-vite/default-js/before-storybook
+          
+        The latest release of react is "18.2.0".
+      `;
+
+      expect(pnpmProxy.parseErrorFromLogs(PNPM_ERROR_SAMPLE)).toEqual(`PNPM error`);
     });
   });
 });

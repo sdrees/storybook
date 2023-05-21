@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.1.0-alpha.19",
+  "version": "7.1.0-alpha.20",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -57,13 +57,13 @@
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
     "@ndelangen/get-tarball": "^3.0.7",
-    "@storybook/codemod": "7.1.0-alpha.19",
-    "@storybook/core-common": "7.1.0-alpha.19",
-    "@storybook/core-server": "7.1.0-alpha.19",
-    "@storybook/csf-tools": "7.1.0-alpha.19",
-    "@storybook/node-logger": "7.1.0-alpha.19",
-    "@storybook/telemetry": "7.1.0-alpha.19",
-    "@storybook/types": "7.1.0-alpha.19",
+    "@storybook/codemod": "7.1.0-alpha.20",
+    "@storybook/core-common": "7.1.0-alpha.20",
+    "@storybook/core-server": "7.1.0-alpha.20",
+    "@storybook/csf-tools": "7.1.0-alpha.20",
+    "@storybook/node-logger": "7.1.0-alpha.20",
+    "@storybook/telemetry": "7.1.0-alpha.20",
+    "@storybook/types": "7.1.0-alpha.20",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -81,6 +81,7 @@
     "globby": "^11.0.2",
     "jscodeshift": "^0.14.0",
     "leven": "^3.1.0",
+    "ora": "^5.4.1",
     "prettier": "^2.8.0",
     "prompts": "^2.4.0",
     "puppeteer-core": "^2.1.1",
@@ -94,7 +95,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.1.0-alpha.19",
+    "@storybook/client-api": "7.1.0-alpha.20",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -115,5 +116,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "f3e4f1e5a224fa8323a679555c9197335a7bce54"
+  "gitHead": "4d0c4eda02b8afb329f1794fd62088e576fb1ec9"
 }

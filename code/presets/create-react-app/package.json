@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-create-react-app",
-  "version": "7.1.0-alpha.19",
+  "version": "7.1.0-alpha.20",
   "description": "Storybook for Create React App preset",
   "keywords": [
     "storybook"
@@ -50,14 +50,14 @@
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
-    "@storybook/types": "7.1.0-alpha.19",
+    "@storybook/types": "7.1.0-alpha.20",
     "@types/babel__core": "^7.1.7",
     "babel-plugin-react-docgen": "^4.1.0",
     "pnp-webpack-plugin": "^1.7.0",
     "semver": "^7.3.5"
   },
   "devDependencies": {
-    "@storybook/node-logger": "7.1.0-alpha.19",
+    "@storybook/node-logger": "7.1.0-alpha.20",
     "@types/node": "^16.0.0",
     "typescript": "~4.9.3"
   },
@@ -76,5 +76,5 @@
       "cjs"
     ]
   },
-  "gitHead": "f3e4f1e5a224fa8323a679555c9197335a7bce54"
+  "gitHead": "4d0c4eda02b8afb329f1794fd62088e576fb1ec9"
 }

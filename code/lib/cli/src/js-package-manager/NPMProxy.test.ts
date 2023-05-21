@@ -1,5 +1,15 @@
 import { NPMProxy } from './NPMProxy';
 
+// mock createLogStream
+jest.mock('../utils', () => ({
+  createLogStream: jest.fn(() => ({
+    logStream: '',
+    readLogFile: jest.fn(),
+    moveLogFile: jest.fn(),
+    removeLogFile: jest.fn(),
+  })),
+}));
+
 describe('NPM Proxy', () => {
   let npmProxy: NPMProxy;
 
@@ -424,6 +434,52 @@ describe('NPM Proxy', () => {
           "infoCommand": "npm ls --depth=1",
         }
       `);
+    });
+  });
+
+  describe('parseErrors', () => {
+    it('should parse npm errors', () => {
+      const NPM_ERROR_SAMPLE = `
+        npm ERR! code ERESOLVE
+        npm ERR! ERESOLVE unable to resolve dependency tree
+        npm ERR! 
+        npm ERR! While resolving: before-storybook@1.0.0
+        npm ERR! Found: react@undefined
+        npm ERR! node_modules/react
+        npm ERR!   react@"30" from the root project
+        npm ERR! 
+        npm ERR! Could not resolve dependency:
+        npm ERR! peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @storybook/react@7.1.0-alpha.17
+        npm ERR! node_modules/@storybook/react
+        npm ERR!   dev @storybook/react@"^7.1.0-alpha.17" from the root project
+        npm ERR! 
+        npm ERR! Fix the upstream dependency conflict, or retry
+        npm ERR! this command with --force or --legacy-peer-deps
+        npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+        npm ERR! 
+        npm ERR! 
+        npm ERR! For a full report see:
+        npm ERR! /Users/yannbraga/.npm/_logs/2023-05-12T08_38_18_464Z-eresolve-report.txt
+
+        npm ERR! A complete log of this run can be found in:
+        npm ERR!     /Users/yannbraga/.npm/_logs/2023-05-12T08_38_18_464Z-debug-0.log
+        `;
+
+      expect(npmProxy.parseErrorFromLogs(NPM_ERROR_SAMPLE)).toEqual(
+        'NPM error ERESOLVE - Dependency resolution error.'
+      );
+    });
+
+    it('should show unknown npm error', () => {
+      const NPM_ERROR_SAMPLE = `
+        npm ERR! 
+        npm ERR! While resolving: before-storybook@1.0.0
+        npm ERR! Found: react@undefined
+        npm ERR! node_modules/react
+        npm ERR!   react@"30" from the root project
+      `;
+
+      expect(npmProxy.parseErrorFromLogs(NPM_ERROR_SAMPLE)).toEqual(`NPM error`);
     });
   });
 });

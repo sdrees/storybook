@@ -211,7 +211,7 @@ export async function copyTemplateFiles({
   };
   const templatePath = async () => {
     const baseDir = await getRendererDir(packageManager, renderer);
-    const assetsDir = join(baseDir, 'template/cli');
+    const assetsDir = join(baseDir, 'template', 'cli');
 
     const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
     const assetsJS = join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
@@ -250,7 +250,7 @@ export async function copyTemplateFiles({
 
   const destinationPath = destination ?? (await targetPath());
   if (includeCommonAssets) {
-    await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
+    await fse.copy(join(getCliDir(), 'rendererAssets', 'common'), destinationPath, {
       overwrite: true,
     });
   }
