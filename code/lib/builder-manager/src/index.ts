@@ -52,6 +52,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     outExtension: { '.js': '.js' },
     loader: {
       '.js': 'jsx',
+      // media
       '.png': 'dataurl',
       '.gif': 'dataurl',
       '.jpg': 'dataurl',
@@ -59,6 +60,8 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       '.svg': 'dataurl',
       '.webp': 'dataurl',
       '.webm': 'dataurl',
+      '.mp3': 'dataurl',
+      // modern fonts
       '.woff2': 'dataurl',
       // legacy font formats
       '.woff': 'dataurl',

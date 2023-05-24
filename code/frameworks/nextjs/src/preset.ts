@@ -16,6 +16,7 @@ import { configureNextImport } from './nextImport/webpack';
 import TransformFontImports from './font/babel';
 import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
+import { configureNodePolyfills } from './nodePolyfills/webpack';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -150,6 +151,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureImages(baseConfig);
   configureRouting(baseConfig);
   configureStyledJsx(baseConfig);
+  configureNodePolyfills(baseConfig);
 
   return baseConfig;
 };

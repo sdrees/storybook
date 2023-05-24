@@ -58,7 +58,7 @@ export const renderHTML = async (
   refs: Promise<Record<string, Ref>>,
   logLevel: Promise<string>,
   docsOptions: Promise<DocsOptions>,
-  { versionCheck, releaseNotesData, previewUrl, serverChannelUrl, configType }: Options
+  { versionCheck, releaseNotesData, previewUrl, configType }: Options
 ) => {
   const customHeadRef = await customHead;
   const titleRef = await title;

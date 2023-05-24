@@ -100,15 +100,16 @@ export async function withTelemetry<T>(
   options: TelemetryOptions,
   run: () => Promise<T>
 ): Promise<T> {
-  // We catch Ctrl+C user interactions to be able to detect a cancel event
-  process.on('SIGINT', async () => {
-    if (!options.cliOptions.disableTelemetry) {
-      await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
-      process.exit(0);
-    }
+  if (eventType === 'init') {
+    // We catch Ctrl+C user interactions to be able to detect a cancel event
+    process.on('SIGINT', async () => {
+      if (!options.cliOptions.disableTelemetry) {
+        await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
+      }
 
-    process.exit(0);
-  });
+      process.exit(0);
+    });
+  }
 
   if (!options.cliOptions.disableTelemetry)
     telemetry('boot', { eventType }, { stripMetadata: true });

@@ -46,6 +46,8 @@ const excludeList = [
   '@storybook/test-runner',
   '@storybook/testing-library',
   '@storybook/testing-react',
+  '@nrwl/storybook',
+  '@nx/storybook',
 ];
 export const isCorePackage = (pkg: string) =>
   pkg.startsWith('@storybook/') &&
@@ -135,6 +137,28 @@ export const addExtraFlags = (
   );
 };
 
+export const addNxPackagesToReject = (flags: string[]) => {
+  const newFlags = [...flags];
+  const index = flags.indexOf('--reject');
+  if (index > -1) {
+    // Try to understand if it's in the format of a regex pattern
+    if (newFlags[index + 1].endsWith('/') && newFlags[index + 1].startsWith('/')) {
+      // Remove last and first slash so that I can add the parentheses
+      newFlags[index + 1] = newFlags[index + 1].substring(1, newFlags[index + 1].length - 1);
+      newFlags[index + 1] = `/(${newFlags[index + 1]}|@nrwl/storybook|@nx/storybook)/`;
+    } else {
+      // Adding the two packages as comma-separated values
+      // If the existing rejects are in regex format, they will be ignored.
+      // Maybe we need to find a more robust way to treat rejects?
+      newFlags[index + 1] = `${newFlags[index + 1]},@nrwl/storybook,@nx/storybook`;
+    }
+  } else {
+    newFlags.push('--reject');
+    newFlags.push('@nrwl/storybook,@nx/storybook');
+  }
+  return newFlags;
+};
+
 export interface UpgradeOptions {
   tag: string;
   prerelease: boolean;
@@ -190,6 +214,7 @@ export const doUpgrade = async ({
   flags.push('--target');
   flags.push(target);
   flags = addExtraFlags(EXTRA_FLAGS, flags, await packageManager.retrievePackageJson());
+  flags = addNxPackagesToReject(flags);
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
     shell: true,

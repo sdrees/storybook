@@ -13,7 +13,7 @@ import { renderStorybookUI } from './index';
 import { values } from './globals/runtime';
 import { Keys } from './globals/types';
 
-const { FEATURES } = global;
+const { FEATURES, CONFIG_TYPE } = global;
 
 class ReactProvider extends Provider {
   private addons: AddonStore;
@@ -35,7 +35,7 @@ class ReactProvider extends Provider {
     this.addons = addons;
     this.channel = postMessageChannel;
 
-    if (FEATURES?.storyStoreV7) {
+    if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
       const serverChannel = webSocket.createChannel({});
       this.serverChannel = serverChannel;
       addons.setServerChannel(this.serverChannel);

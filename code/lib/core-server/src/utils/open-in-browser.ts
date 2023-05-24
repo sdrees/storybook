@@ -5,14 +5,29 @@ import getDefaultBrowser from '@aw-web-design/x-default-browser';
 import { dedent } from 'ts-dedent';
 
 export function openInBrowser(address: string) {
+  const browserEnvVar = process.env.BROWSER;
+  const userBrowserIsChrome =
+    browserEnvVar === 'chrome' ||
+    browserEnvVar === 'chromium' ||
+    browserEnvVar === 'brave' ||
+    browserEnvVar === 'com.brave.browser';
+
+  const openOptions = browserEnvVar ? { app: { name: browserEnvVar } } : {};
+
   getDefaultBrowser(async (err: any, res: any) => {
     try {
-      if (res && (res.isChrome || res.isChromium || res.identity === 'com.brave.browser')) {
+      if (
+        res &&
+        (res.isChrome ||
+          res.isChromium ||
+          res.identity === 'com.brave.browser' ||
+          userBrowserIsChrome)
+      ) {
         // We use betterOpn for Chrome because it is better at handling which chrome tab
         // or window the preview loads in.
         betterOpn(address);
       } else {
-        await open(address);
+        await open(address, openOptions);
       }
     } catch (error) {
       logger.error(dedent`

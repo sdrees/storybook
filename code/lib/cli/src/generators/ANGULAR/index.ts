@@ -27,6 +27,15 @@ const generator: Generator<{ projectName: string }> = async (
 
   const angularJSON = new AngularJSON();
 
+  if (
+    !angularJSON.projects ||
+    (angularJSON.projects && Object.keys(angularJSON.projects).length === 0)
+  ) {
+    throw new Error(
+      'Storybook was not able to find any projects in your angular.json file. Are you sure this is an Angular CLI project?'
+    );
+  }
+
   if (angularJSON.projectsWithoutStorybook.length === 0) {
     throw new Error(
       'Every project in your workspace is already set up with Storybook. There is nothing to do!'
@@ -34,10 +43,17 @@ const generator: Generator<{ projectName: string }> = async (
   }
 
   const angularProjectName = await angularJSON.getProjectName();
-
   paddedLog(`Adding Storybook support to your "${angularProjectName}" project`);
 
-  const { root, projectType } = angularJSON.getProjectSettingsByName(angularProjectName);
+  const angularProject = angularJSON.getProjectSettingsByName(angularProjectName);
+
+  if (!angularProject) {
+    throw new Error(
+      `Somehow we were not able to retrieve the "${angularProjectName}" project in your angular.json file. This is likely a bug in Storybook, please file an issue.`
+    );
+  }
+
+  const { root, projectType } = angularProject;
   const { projects } = angularJSON;
   const useCompodoc = commandOptions.yes ? true : await promptForCompoDocs();
   const storybookFolder = root ? `${root}/.storybook` : '.storybook';

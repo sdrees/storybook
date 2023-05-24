@@ -42,7 +42,6 @@ export class RendererFactory {
 }
 
 export const getRenderType = (targetDOMNode: HTMLElement): RenderType => {
-  console.log(targetDOMNode);
   return targetDOMNode.id === 'storybook-root' ? 'canvas' : 'docs';
 };
 

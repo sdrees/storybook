@@ -21,7 +21,7 @@ export type NpmListOutput = {
   dependencies: NpmDependencies;
 };
 
-const NPM_ERROR_REGEX = /\bERR! code\s+([A-Z]+)\b/;
+const NPM_ERROR_REGEX = /npm ERR! code (\w+)/;
 const NPM_ERROR_CODES = {
   E401: 'Authentication failed or is required.',
   E403: 'Access to the resource is forbidden.',
@@ -248,7 +248,6 @@ export class NPMProxy extends JsPackageManager {
 
   public parseErrorFromLogs(logs: string): string {
     let finalMessage = 'NPM error';
-    console.log({ logs });
     const match = logs.match(NPM_ERROR_REGEX);
 
     if (match) {

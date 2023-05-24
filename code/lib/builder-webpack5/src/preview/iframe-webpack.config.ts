@@ -25,7 +25,7 @@ import {
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
-import { createBabelLoader } from './babel-loader-preview';
+import { createBabelLoader, createSWCLoader } from './loaders';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
@@ -293,7 +293,9 @@ export default async (
             fullySpecified: false,
           },
         },
-        createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
+        builderOptions.useSWC
+          ? createSWCLoader(Object.keys(virtualModuleMapping))
+          : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
           type: 'asset/source',

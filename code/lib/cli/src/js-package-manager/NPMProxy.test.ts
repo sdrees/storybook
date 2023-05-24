@@ -439,7 +439,8 @@ describe('NPM Proxy', () => {
 
   describe('parseErrors', () => {
     it('should parse npm errors', () => {
-      const NPM_ERROR_SAMPLE = `
+      const NPM_RESOLVE_ERROR_SAMPLE = `
+        npm ERR!
         npm ERR! code ERESOLVE
         npm ERR! ERESOLVE unable to resolve dependency tree
         npm ERR! 
@@ -447,26 +448,25 @@ describe('NPM Proxy', () => {
         npm ERR! Found: react@undefined
         npm ERR! node_modules/react
         npm ERR!   react@"30" from the root project
-        npm ERR! 
-        npm ERR! Could not resolve dependency:
-        npm ERR! peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @storybook/react@7.1.0-alpha.17
-        npm ERR! node_modules/@storybook/react
-        npm ERR!   dev @storybook/react@"^7.1.0-alpha.17" from the root project
-        npm ERR! 
-        npm ERR! Fix the upstream dependency conflict, or retry
-        npm ERR! this command with --force or --legacy-peer-deps
-        npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
-        npm ERR! 
-        npm ERR! 
-        npm ERR! For a full report see:
-        npm ERR! /Users/yannbraga/.npm/_logs/2023-05-12T08_38_18_464Z-eresolve-report.txt
-
-        npm ERR! A complete log of this run can be found in:
-        npm ERR!     /Users/yannbraga/.npm/_logs/2023-05-12T08_38_18_464Z-debug-0.log
         `;
 
-      expect(npmProxy.parseErrorFromLogs(NPM_ERROR_SAMPLE)).toEqual(
+      const NPM_TIMEOUT_ERROR_SAMPLE = `
+          npm notice 
+          npm notice New major version of npm available! 8.5.0 -> 9.6.7
+          npm notice Changelog: <https://github.com/npm/cli/releases/tag/v9.6.7>
+          npm notice Run \`npm install -g npm@9.6.7\` to update!
+          npm notice 
+          npm ERR! code ERR_SOCKET_TIMEOUT
+          npm ERR! errno ERR_SOCKET_TIMEOUT
+          npm ERR! network Invalid response body while trying to fetch https://registry.npmjs.org/@storybook%2ftypes: Socket timeout
+          npm ERR! network This is a problem related to network connectivity.
+      `;
+
+      expect(npmProxy.parseErrorFromLogs(NPM_RESOLVE_ERROR_SAMPLE)).toEqual(
         'NPM error ERESOLVE - Dependency resolution error.'
+      );
+      expect(npmProxy.parseErrorFromLogs(NPM_TIMEOUT_ERROR_SAMPLE)).toEqual(
+        'NPM error ERR_SOCKET_TIMEOUT - Socket timed out.'
       );
     });
 

@@ -12,9 +12,11 @@ const getProjectAnnotations = () =>
 const channel = createPostMessageChannel({ page: 'preview' });
 addons.setChannel(channel);
 
-const serverChannel = createWebSocketChannel({});
-addons.setServerChannel(serverChannel);
-window.__STORYBOOK_SERVER_CHANNEL__ = serverChannel;
+if (global.CONFIG_TYPE === 'DEVELOPMENT'){
+  const serverChannel = createWebSocketChannel({});
+  addons.setServerChannel(serverChannel);
+  window.__STORYBOOK_SERVER_CHANNEL__ = serverChannel;
+}
 
 const preview = new PreviewWeb();
 

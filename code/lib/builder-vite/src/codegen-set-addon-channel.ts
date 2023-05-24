@@ -7,9 +7,11 @@ export async function generateAddonSetupCode() {
     const channel = createPostMessageChannel({ page: 'preview' });
     addons.setChannel(channel);
     window.__STORYBOOK_ADDONS_CHANNEL__ = channel;
-
-    const serverChannel = createWebSocketChannel({});
-    addons.setServerChannel(serverChannel);
-    window.__STORYBOOK_SERVER_CHANNEL__ = serverChannel;
+    
+    if (window.CONFIG_TYPE === 'DEVELOPMENT'){
+      const serverChannel = createWebSocketChannel({});
+      addons.setServerChannel(serverChannel);
+      window.__STORYBOOK_SERVER_CHANNEL__ = serverChannel;
+    }
   `.trim();
 }
