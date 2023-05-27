@@ -445,7 +445,119 @@ module.exports = {
       type: 'menu',
       children: [
         {
-          title: '@storybook/blocks',
+          title: 'main.js|ts configuration',
+          pathSegment: '',
+          type: 'menu',
+          children: [
+            {
+              title: 'Overview',
+              pathSegment: 'main-config',
+              type: 'link',
+            },
+            {
+              title: 'framework',
+              pathSegment: 'main-config-framework',
+              type: 'link',
+            },
+            {
+              title: 'stories',
+              pathSegment: 'main-config-stories',
+              type: 'link',
+            },
+            {
+              title: 'addons',
+              pathSegment: 'main-config-addons',
+              type: 'link',
+            },
+            {
+              title: 'babel',
+              pathSegment: 'main-config-babel',
+              type: 'link',
+            },
+            {
+              title: 'babelDefault',
+              pathSegment: 'main-config-babel-default',
+              type: 'link',
+            },
+            {
+              title: 'core',
+              pathSegment: 'main-config-core',
+              type: 'link',
+            },
+            {
+              title: 'docs',
+              pathSegment: 'main-config-docs',
+              type: 'link',
+            },
+            {
+              title: 'env',
+              pathSegment: 'main-config-env',
+              type: 'link',
+            },
+            {
+              title: 'features',
+              pathSegment: 'main-config-features',
+              type: 'link',
+            },
+            {
+              title: 'logLevel',
+              pathSegment: 'main-config-log-level',
+              type: 'link',
+            },
+            {
+              title: 'managerHead',
+              pathSegment: 'main-config-manager-head',
+              type: 'link',
+            },
+            {
+              title: 'previewAnnotations',
+              pathSegment: 'main-config-preview-annotations',
+              type: 'link',
+            },
+            {
+              title: 'previewBody',
+              pathSegment: 'main-config-preview-body',
+              type: 'link',
+            },
+            {
+              title: 'previewHead',
+              pathSegment: 'main-config-preview-head',
+              type: 'link',
+            },
+            {
+              title: 'refs',
+              pathSegment: 'main-config-refs',
+              type: 'link',
+            },
+            {
+              title: 'staticDirs',
+              pathSegment: 'main-config-static-dirs',
+              type: 'link',
+            },
+            {
+              title: 'typescript',
+              pathSegment: 'main-config-typescript',
+              type: 'link',
+            },
+            {
+              title: 'viteFinal',
+              pathSegment: 'main-config-vite-final',
+              type: 'link',
+            },
+            {
+              title: 'webpackFinal',
+              pathSegment: 'main-config-webpack-final',
+              type: 'link',
+            },
+            {
+              title: 'config',
+              pathSegment: 'main-config-config',
+              type: 'link',
+            },
+          ],
+        },
+        {
+          title: 'Doc blocks',
           pathSegment: '',
           type: 'menu',
           children: [

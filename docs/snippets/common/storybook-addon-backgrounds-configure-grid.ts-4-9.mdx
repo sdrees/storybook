@@ -8,11 +8,6 @@ import { Button } from './Button';
 
 // To apply a set of backgrounds to all stories of Button:
 const meta = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Button',
   component: Button,
   parameters: {
     backgrounds: {
@@ -20,8 +15,8 @@ const meta = {
         cellSize: 20,
         opacity: 0.5,
         cellAmount: 5,
-        offsetX: 16, // default is 0 if story has 'fullscreen' layout, 16 if layout is 'padded'
-        offsetY: 16, // default is 0 if story has 'fullscreen' layout, 16 if layout is 'padded'
+        offsetX: 16, // Default is 0 if story has 'fullscreen' layout, 16 if layout is 'padded'
+        offsetY: 16, // Default is 0 if story has 'fullscreen' layout, 16 if layout is 'padded'
       },
     },
   },

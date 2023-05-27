@@ -108,7 +108,7 @@ const webpack = async (
       : [];
 
   // NOTE: This is code replicated from
-  //   https://github.com/storybookjs/storybook/blob/89830ad76384faeaeb0c19df3cb44232cdde261b/lib/builder-webpack5/src/preview/base-webpack.config.ts#L45-L53
+  //   https://github.com/storybookjs/storybook/blob/89830ad76384faeaeb0c19df3cb44232cdde261b/builders/builder-webpack5/src/preview/base-webpack.config.ts#L45-L53
   // as we are not applying SB's default webpack config here.
   // We need to figure out a better way to apply various layers of webpack config; perhaps
   // these options need to be in a separate preset.

@@ -4,6 +4,9 @@
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 export default {
+  // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   webpackFinal: async (config) => {
     config.resolve.plugins = [
       ...(config.resolve.plugins || []),

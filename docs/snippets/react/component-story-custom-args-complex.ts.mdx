@@ -6,11 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { YourComponent } from './your-component';
 
 const meta: Meta<typeof YourComponent> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'YourComponent',
+  component: YourComponent,
   //👇 Creates specific argTypes with options
   argTypes: {
     propertyA: {
@@ -26,9 +22,8 @@ const meta: Meta<typeof YourComponent> = {
 export default meta;
 type Story = StoryObj<typeof YourComponent>;
 
-//👇 Some function to demonstrate the behavior
 const someFunction = (valuePropertyA, valuePropertyB) => {
-  // Makes some computations and returns something
+  // Do some logic here
 };
 
 export const ExampleStory: Story = {

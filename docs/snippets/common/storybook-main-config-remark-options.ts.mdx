@@ -3,11 +3,12 @@
 
 import remarkGfm from 'remark-gfm';
 
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|ts)'],
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     // Other addons go here
     {
@@ -21,14 +22,6 @@ const config: StorybookConfig = {
       },
     },
   ],
-  framework: {
-    // The name of the framework you want to use goes here
-    name: '@storybook/your-framework',
-    options: {},
-  },
-  docs: {
-    autodocs: 'tag',
-  },
 };
 
 export default config;

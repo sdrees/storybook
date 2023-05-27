@@ -4,11 +4,6 @@
 import YourComponent from './YourComponent.vue';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'YourComponent',
   component: YourComponent,
   //👇 Creates specific argTypes with options
   argTypes: {
@@ -22,9 +17,8 @@ export default {
   },
 };
 
-//👇 Some function to demonstrate the behavior
 const someFunction = (valuePropertyA, valuePropertyB) => {
-  // Makes some computations and returns something
+  // Do some logic here
 };
 
 export const ExampleStory = {

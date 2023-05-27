@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-mdx-gfm",
-  "version": "7.1.0-alpha.22",
+  "version": "7.1.0-alpha.25",
   "description": "GitHub Flavored Markdown in Storybook",
   "keywords": [
     "addon",
@@ -51,7 +51,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/node-logger": "7.1.0-alpha.22",
+    "@storybook/node-logger": "7.1.0-alpha.25",
     "remark-gfm": "^3.0.1",
     "ts-dedent": "^2.0.0"
   },
@@ -69,5 +69,5 @@
       "cjs"
     ]
   },
-  "gitHead": "487ed44ae1fed86a78b0d2170bd53dc819075110"
+  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
 }

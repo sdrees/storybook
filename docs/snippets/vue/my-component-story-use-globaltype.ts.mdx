@@ -7,11 +7,6 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import MyComponent from './MyComponent.vue';
 
 const meta: Meta<typeof MyComponent> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'MyComponent',
   component: MyComponent,
 };
 
@@ -33,11 +28,6 @@ const getCaptionForLocale = (locale) => {
 export default meta;
 type Story = StoryObj<typeof MyComponent>;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/vue/api/csf
- * to learn how to use render functions.
- */
 export const MyStory: Story = {
   render: (args, { globals: { locale } }) => {
     const caption = getCaptionForLocale(locale);

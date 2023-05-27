@@ -7,11 +7,6 @@ import type { Meta } from '@storybook/your-framework';
 import { YourComponent } from './YourComponent';
 
 const meta = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'YourComponent',
   component: YourComponent,
   parameters: { controls: { sort: 'requiredFirst' } },
 } satisfies Meta<typeof YourComponent>;

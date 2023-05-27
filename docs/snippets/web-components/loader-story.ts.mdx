@@ -5,8 +5,12 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 import fetch from 'node-fetch';
 
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/web-components/api/csf
+ * to learn how to use render functions.
+ */
 const meta: Meta = {
-  title: 'Examples/Loader',
   component: 'demo-todo-item',
   render: (args, { loaded: { todo } }) => TodoItem({ ...args, ...todo }),
 };

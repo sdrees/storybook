@@ -412,8 +412,8 @@ Update your Storybook configuration (in `.storybook/main.js|ts`), and provide th
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-fallback-mdx.js.mdx',
-    'common/storybook-main-fallback-mdx.ts.mdx',
+    'common/main-config-features-legacy-mdx-1.js.mdx',
+    'common/main-config-features-legacy-mdx-1.ts.mdx',
   ]}
 />
 

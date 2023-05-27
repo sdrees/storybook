@@ -1,20 +1,17 @@
 ```ts
 // .storybook/main.ts
 
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
-  stories: [{ directory: '../src', titlePrefix: 'Custom' }],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
+  framework: '@storybook/your-framework',
+  stories: [
+    {
+      directory: '../src',
+      titlePrefix: 'Custom', // 👈 Configure the title prefix
+    },
   ],
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {},
-  },
 };
 
 export default config;

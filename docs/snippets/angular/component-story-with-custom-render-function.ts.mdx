@@ -12,11 +12,6 @@ import { Layout } from './Layout.component';
 import { MyComponent } from './MyComponent.component';
 
 const meta: Meta<MyComponent> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'MyComponent',
   component: MyComponent,
   decorators: [
     moduleMetadata({
@@ -29,6 +24,7 @@ const meta: Meta<MyComponent> = {
 export default meta;
 type Story = StoryObj<MyComponent>;
 
+// This story uses a render function to fully control how the component renders.
 export const Example: Story = {
   render: () => ({
     template: `

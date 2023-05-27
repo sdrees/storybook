@@ -33,8 +33,8 @@ Storybook's Webpack configuration is based on [Webpack 5](https://webpack.js.org
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-add-sass-config.js.mdx',
-    'common/storybook-main-add-sass-config.ts.mdx',
+    'common/main-config-webpack-final.js.mdx',
+    'common/main-config-webpack-final.ts.mdx',
   ]}
 />
 

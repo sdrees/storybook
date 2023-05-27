@@ -5,12 +5,12 @@ import type { Meta, StoryObj } from 'storybook-solidjs';
 
 import { TodoItem } from './TodoItem';
 
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/solid/api/csf
+ * to learn how to use render functions.
+ */
 const meta = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/solid/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Examples/Loader',
   component: TodoItem,
   render: (args, { loaded: { todo } }) => <TodoItem {...args} {...todo} />,
 } satisfies Meta<typeof TodoItem>;

@@ -1,3 +1,31 @@
+## 7.1.0-alpha.25 (May 26, 2023)
+
+#### Bug Fixes
+
+-   Vue3: Fix TS 5.0 compat with vue-component-type-helpers [#22814](https://github.com/storybooks/storybook/pull/22814)
+
+#### Build
+
+-   Build: Fix the local storybook [#22805](https://github.com/storybooks/storybook/pull/22805)
+-   Build: Add more checks to ci:daily workflow [#22815](https://github.com/storybooks/storybook/pull/22815)
+-   Build: Revert conditional decorator story and downgrade Typescript version [#22812](https://github.com/storybooks/storybook/pull/22812)
+
+## 7.1.0-alpha.24 (May 26, 2023)
+
+#### Bug Fixes
+
+-   Vue3: Fix reactive args updates in decorators [#22717](https://github.com/storybooks/storybook/pull/22717)
+
+#### Build
+
+-   Build: Update Nx to latest version [#22694](https://github.com/storybooks/storybook/pull/22694)
+
+## 7.1.0-alpha.23 (May 24, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix `managerHead` preset in `main.ts` [#22701](https://github.com/storybooks/storybook/pull/22701)
+
 ## 7.1.0-alpha.22 (May 24, 2023)
 
 #### Bug Fixes

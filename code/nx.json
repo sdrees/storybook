@@ -14,7 +14,7 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/nx-cloud",
+      "runner": "nx-cloud",
       "options": {
         "cacheableOperations": ["prep"],
         "accessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
@@ -29,13 +29,29 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [{ "projects": "dependencies", "target": "build" }]
+      "dependsOn": [
+        {
+          "target": "build",
+          "dependencies": true
+        }
+      ]
     },
     "package": {
-      "dependsOn": [{ "projects": "dependencies", "target": "package" }]
+      "dependsOn": [
+        {
+          "target": "package",
+          "dependencies": true
+        }
+      ]
     },
     "prep": {
-      "dependsOn": [{ "projects": "dependencies", "target": "prep", "params": "forward" }],
+      "dependsOn": [
+        {
+          "target": "prep",
+          "params": "forward",
+          "dependencies": true
+        }
+      ],
       "outputs": ["{projectRoot}/dist"]
     }
   }

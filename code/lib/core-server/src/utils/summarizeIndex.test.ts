@@ -341,11 +341,11 @@ describe('summarizeIndex', () => {
             tags: ['autodocs', 'story'],
             type: 'story',
           },
-          'lib-store-shortcuts--docs': {
-            id: 'lib-store-shortcuts--docs',
-            title: 'lib/store/shortcuts',
+          'lib-preview-api-shortcuts--docs': {
+            id: 'lib-preview-api-shortcuts--docs',
+            title: 'lib/preview-api/shortcuts',
             name: 'Docs',
-            importPath: './template-stories/lib/store/shortcuts.stories.ts',
+            importPath: './template-stories/lib/preview-api/shortcuts.stories.ts',
             type: 'docs',
             tags: ['autodocs', 'docs'],
             storiesImports: [],

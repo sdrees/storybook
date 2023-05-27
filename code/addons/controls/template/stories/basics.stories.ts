@@ -4,7 +4,8 @@ import type { PartialStoryFn, StoryContext } from '@storybook/types';
 export default {
   component: globalThis.Components.Pre,
   decorators: [
-    (storyFn: PartialStoryFn, context: StoryContext) => storyFn({ args: { object: context.args } }),
+    (storyFn: PartialStoryFn, context: StoryContext) =>
+      storyFn({ args: { object: { ...context.args } } }),
   ],
   argTypes: {
     boolean: { control: 'boolean' },

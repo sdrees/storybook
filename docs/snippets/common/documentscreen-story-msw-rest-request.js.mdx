@@ -6,7 +6,6 @@ import { rest } from 'msw';
 import { DocumentScreen } from './YourPage';
 
 export default {
-  title: 'DocumentScreen',
   component: DocumentScreen,
 };
 
@@ -27,30 +26,6 @@ const TestData = {
     {
       id: 1,
       userID: 1,
-      title: 'Something',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      status: 'approved',
-    },
-    {
-      id: 2,
-      userID: 1,
-      title: 'Something else',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      status: 'awaiting review',
-    },
-    {
-      id: 3,
-      userID: 2,
-      title: 'Another document',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      status: 'approved',
-    },
-    {
-      id: 4,
-      userID: 2,
       title: 'Something',
       content:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',

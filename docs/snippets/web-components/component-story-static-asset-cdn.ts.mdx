@@ -6,18 +6,12 @@ import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  title: 'img',
   component: 'my-component',
 };
 
 export default meta;
 type Story = StoryObj;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/web-components/api/csf
- * to learn how to use render functions.
- */
 export const WithAnImage: Story = {
   render: () => html`<img
     src="https://storybook.js.org/images/placeholders/350x150.png"

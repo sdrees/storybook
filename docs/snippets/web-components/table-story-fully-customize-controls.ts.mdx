@@ -7,18 +7,12 @@ import { html } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 
 const meta: Meta = {
-  title: 'Custom Table',
   component: 'custom-table',
 };
 
 export default meta;
 type Story = StoryObj;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/web-components/api/csf
- * to learn how to use render functions.
- */
 export const TableStory: Story = {
   render: ({ data, size }) => {
     return html`

@@ -144,7 +144,9 @@ jobs:
             - code/node_modules
             - code/addons
             - code/frameworks
+            - code/deprecated
             - code/lib
+            - code/builders
             - code/ui
             - code/renderers
             - code/presets
@@ -690,6 +692,7 @@ workflows:
     when:
       equal: [daily, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -698,6 +701,12 @@ workflows:
           requires:
             - build
       - unit-tests:
+          requires:
+            - build
+      - script-unit-tests:
+          requires:
+            - build
+      - chromatic-internal-storybooks:
           requires:
             - build
       - create-sandboxes:

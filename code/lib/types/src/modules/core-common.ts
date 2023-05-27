@@ -389,13 +389,20 @@ export interface StorybookConfig {
   previewBody?: PresetValue<string>;
 
   /**
-   * Programatically override the preview's main page template.
+   * Programmatically override the preview's main page template.
    * This should return a reference to a file containing an `.ejs` template
    * that will be interpolated with environment variables.
    *
    * @example '.storybook/index.ejs'
    */
   previewMainTemplate?: string;
+
+  /**
+   * Programmatically modify the preview head/body HTML.
+   * The managerHead function accept a string,
+   * which is the existing head content, and return a modified string.
+   */
+  managerHead?: PresetValue<string>;
 }
 
 export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);

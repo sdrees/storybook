@@ -4,7 +4,9 @@
 import remarkGfm from 'remark-gfm';
 
 export default {
-  stories: ['../src/**/*.stories.@(js|ts)'],
+  // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     // Other addons go here
     {
@@ -18,13 +20,5 @@ export default {
       },
     },
   ],
-  framework: {
-    // Replace your-framework with the name of your framework (e.g., react-webpack5, vue3-webpack5)
-    name: '@storybook/your-framework',
-    options: {},
-  },
-  docs: {
-    autodocs: 'tag',
-  },
 };
 ```

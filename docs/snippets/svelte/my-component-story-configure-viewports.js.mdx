@@ -6,11 +6,6 @@ import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import MyComponent from './MyComponent.svelte';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/svelte/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'MyComponent',
   component: MyComponent,
   parameters: {
     //👇 The viewports object from the Essentials addon
@@ -23,11 +18,6 @@ export default {
   },
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/svelte/api/csf
- * to learn how to use render functions.
- */
 export const MyStory = {
   render: () => ({
     Component: MyComponent,

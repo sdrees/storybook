@@ -69,7 +69,15 @@ module.exports = {
     },
     {
       // these packages use pre-bundling, dependencies will be bundled, and will be in devDepenencies
-      files: ['addons/**/*', 'frameworks/**/*', 'lib/**/*', 'renderers/**/*', 'ui/**/*'],
+      files: [
+        'addons/**/*',
+        'frameworks/**/*',
+        'lib/**/*',
+        'builders/**/*',
+        'deprecated/**/*',
+        'renderers/**/*',
+        'ui/**/*',
+      ],
       excludedFiles: ['frameworks/angular/**/*', 'frameworks/ember/**/*', 'lib/core-server/**/*'],
       rules: {
         'import/no-extraneous-dependencies': [

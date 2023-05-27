@@ -105,8 +105,8 @@ To use MDX1:
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-fallback-mdx.js.mdx',
-    'common/storybook-main-fallback-mdx.ts.mdx'
+    'common/main-config-features-legacy-mdx-1.js.mdx',
+    'common/main-config-features-legacy-mdx-1.ts.mdx'
   ]}
 />
 
@@ -126,8 +126,8 @@ To opt out, add the `storyStoreV7` feature flag in `.storybook/main.js`:
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
-    'common/storybook-on-demand-story-loading.ts.mdx'
+    'common/main-config-features-story-store-v7.js.mdx',
+    'common/main-config-features-story-store-v7.ts.mdx'
   ]}
 />
 

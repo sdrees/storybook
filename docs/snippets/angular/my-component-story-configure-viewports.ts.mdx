@@ -8,11 +8,6 @@ import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { MyComponent } from './MyComponent.component';
 
 const meta: Meta<MyComponent> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'MyComponent',
   component: MyComponent,
   parameters: {
     //👇 The viewports object from the Essentials addon
@@ -29,11 +24,6 @@ const meta: Meta<MyComponent> = {
 export default meta;
 type Story = StoryObj<MyComponent>;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/angular/api/csf
- * to learn how to use render functions.
- */
 export const MyStory: Story = {
   render: () => ({
     template: '<MyComponent></MyComponent>',

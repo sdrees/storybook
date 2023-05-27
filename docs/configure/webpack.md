@@ -59,7 +59,7 @@ Starting with Storybook 6.4, [bundle splitting](https://v4.webpack.js.org/guides
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
+    'common/main-config-features-story-store-v7.js.mdx',
   ]}
 />
 
@@ -121,13 +121,14 @@ To extend the above configuration, use the `webpackFinal` field of [`.storybook/
 
 The value should export a `function`, which will receive the default config as its first argument. The second argument is an options object from Storybook, and this will have information about where config came from, whether we're in production or development mode, etc.
 
-For example, if you wanted to add [Sass](https://sass-lang.com/) support, you can adjust your configuration as such:
+For example, if you need to adjust the config for a specific environment, you can do so like this:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-add-sass-config.js.mdx',
+    'common/main-config-webpack-final.js.mdx',
+    'common/main-config-webpack-final.ts.mdx',
   ]}
 />
 

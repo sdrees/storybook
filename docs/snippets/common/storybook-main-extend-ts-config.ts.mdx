@@ -1,12 +1,12 @@
 ```ts
 // .storybook/main.ts
 
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
-  stories: [],
-  addons: [],
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   typescript: {
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {
@@ -14,6 +14,7 @@ const config: StorybookConfig = {
         allowSyntheticDefaultImports: false,
         esModuleInterop: false,
       },
+      propFilter: () => true,
     },
   },
 };

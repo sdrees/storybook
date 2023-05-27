@@ -1,12 +1,14 @@
 ```ts
 // .storybook/main.ts
 
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
 import type { StorybookConfig } from '@storybook/your-framework';
 
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const config: StorybookConfig = {
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   webpackFinal: async (config) => {
     config.resolve.plugins = [
       ...(config.resolve.plugins || []),

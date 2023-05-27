@@ -6,7 +6,6 @@ import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  title: 'MyComponent',
   component: 'my-component',
 };
 
@@ -28,11 +27,6 @@ const getCaptionForLocale = (locale) => {
 export default meta;
 type Story = StoryObj;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/web-components/api/csf
- * to learn how to use render functions.
- */
 export const StoryWithLocale: Story = {
   render: (args, { globals: { locale } }) => {
     const caption = getCaptionForLocale(locale);

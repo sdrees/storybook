@@ -9,6 +9,7 @@ import parserHTML from 'prettier/parser-html';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
+import { toRaw } from 'vue';
 
 type ArgEntries = [string, any][];
 type Attribute = {
@@ -60,7 +61,7 @@ function getComponentNameAndChildren(component: any): {
  */
 function generateAttributesSource(_args: Args, argTypes: ArgTypes, byRef?: boolean): string {
   // create a copy of the args object to avoid modifying the original
-  const args = { ..._args };
+  const args = { ...toRaw(_args) };
   // filter out keys that are children or slots, and convert event keys to the proper format
   const argsKeys = Object.keys(args)
     .filter(

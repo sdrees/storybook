@@ -114,7 +114,7 @@ function configure<TRenderer extends Renderer>(
   }));
 
   if (preview) {
-    // This is essentially the same code as lib/builder-webpack5/templates/virtualModuleEntry.template
+    // This is essentially the same code as builders/builder-webpack5/templates/virtualModuleEntry.template
     const {
       parameters,
       decorators,

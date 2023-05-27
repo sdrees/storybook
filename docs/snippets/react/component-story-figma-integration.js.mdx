@@ -1,15 +1,12 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import React from 'react';
-
 import { withDesign } from 'storybook-addon-designs';
 
 import { MyComponent } from './MyComponent';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'FigmaExample',
   component: MyComponent,
   decorators: [withDesign],
 };

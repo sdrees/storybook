@@ -7,11 +7,7 @@ import type { Meta, StoryObj } from 'storybook-solidjs';
 import { YourComponent } from './your-component';
 
 const meta = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/solid/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'YourComponent',
+  component: YourComponent,
   //👇 Creates specific argTypes with options
   argTypes: {
     propertyA: {
@@ -27,9 +23,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-//👇 Some function to demonstrate the behavior
 const someFunction = (valuePropertyA, valuePropertyB) => {
-  // Makes some computations and returns something
+  // Do some logic here
 };
 
 export const ExampleStory: Story = {

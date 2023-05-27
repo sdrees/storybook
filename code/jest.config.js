@@ -3,6 +3,7 @@ module.exports = {
     '<rootDir>/addons/*',
     '<rootDir>/frameworks/*',
     '<rootDir>/lib/*',
+    '<rootDir>/builders/*',
     '<rootDir>/renderers/*',
     '<rootDir>/ui/!(node_modules)*',
   ],

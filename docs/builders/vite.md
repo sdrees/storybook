@@ -60,7 +60,7 @@ You can also override the builder's configuration based on the environment. For 
 
 <CodeSnippets
   paths={[
-    'common/storybook-vite-builder-config-env.js.mdx',
+    'common/main-config-vite-final.js.mdx',
   ]}
 />
 

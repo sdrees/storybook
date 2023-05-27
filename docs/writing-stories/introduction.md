@@ -25,7 +25,7 @@ The key ingredients are the [default export](https://developer.mozilla.org/en-US
 
 ### Default export
 
-The _default_ export metadata controls how Storybook lists your stories and provides information used by addons. For example, here’s the default export for a story file `Button.stories.js`:
+The _default_ export metadata controls how Storybook lists your stories and provides information used by addons. For example, here’s the default export for a story file `Button.stories.js|ts`:
 
 <!-- prettier-ignore-start -->
 

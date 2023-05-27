@@ -2,15 +2,13 @@
 // .storybook/main.js
 
 export default {
-  stories: [{ directory: '../src', titlePrefix: 'Custom' }],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
+  // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
+  framework: '@storybook/your-framework',
+  stories: [
+    {
+      directory: '../src',
+      titlePrefix: 'Custom', // 👈 Configure the title prefix
+    },
   ],
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {},
-  },
 };
 ```

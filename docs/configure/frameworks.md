@@ -29,8 +29,8 @@ Every modern web application has unique requirements and relies on various tools
 
 <CodeSnippets
   paths={[
-    'common/storybook-framework-config-options.js.mdx',
-    'common/storybook-framework-config-options.ts.mdx',
+    'common/main-config-framework.js.mdx',
+    'common/main-config-framework.ts.mdx',
   ]}
 />
 

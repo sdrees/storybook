@@ -2,7 +2,7 @@ import path from 'path';
 import { pathExists } from 'fs-extra';
 import { CODE_DIRECTORY } from './constants';
 
-// packageDirs of the form `lib/store`
+// packageDirs of the form `lib/preview-api`
 // paths to check of the form 'template/stories'
 export const filterExistsInCodeDir = async (packageDirs: string[], pathToCheck: string) =>
   (

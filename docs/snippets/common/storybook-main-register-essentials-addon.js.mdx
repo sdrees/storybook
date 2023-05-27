@@ -2,11 +2,8 @@
 // .storybook/main.js
 
 export default {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-  ],
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-essentials'], // 👈 Register addon-essentials
 };
 ```

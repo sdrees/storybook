@@ -10,7 +10,6 @@ import MyComponent from './MyComponent.vue';
 
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 const meta: Meta<typeof MyComponent> = {
-  title: 'FigmaExample',
   component: MyComponent,
   decorators: [withDesign],
 };
@@ -18,11 +17,6 @@ const meta: Meta<typeof MyComponent> = {
 export default meta;
 type Story = StoryObj<typeof MyComponent>;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/vue/api/csf
- * to learn how to use render functions.
- */
 export const Example: Story = {
   render: () => ({
     components: { MyComponent },

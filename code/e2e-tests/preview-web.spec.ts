@@ -12,7 +12,7 @@ test.describe('preview-web', () => {
 
   test('should pass over shortcuts, but not from play functions, story', async ({ page }) => {
     const sbPage = new SbPage(page);
-    await sbPage.navigateToStory('lib/store/shortcuts', 'keydown-during-play');
+    await sbPage.navigateToStory('lib/preview-api/shortcuts', 'keydown-during-play');
 
     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 
@@ -22,7 +22,7 @@ test.describe('preview-web', () => {
 
   test('should pass over shortcuts, but not from play functions, docs', async ({ page }) => {
     const sbPage = new SbPage(page);
-    await sbPage.navigateToStory('lib/store/shortcuts', 'docs');
+    await sbPage.navigateToStory('lib/preview-api/shortcuts', 'docs');
 
     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 

@@ -6,7 +6,6 @@ import { html } from 'lit';
 import imageFile from './static/image.png';
 
 export default {
-  title: 'img',
   component: 'my-component',
 };
 
@@ -15,11 +14,6 @@ const image = {
   alt: 'my image',
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/web-components/api/csf
- * to learn how to use render functions.
- */
 export const WithAnImage = {
   render: () => html`<img src="${image.src}" alt="${image.alt}" /> `,
 };

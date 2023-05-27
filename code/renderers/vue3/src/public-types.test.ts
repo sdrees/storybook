@@ -3,13 +3,14 @@ import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
 import type { SetOptional } from 'type-fest';
 import { h } from 'vue';
-import type { ComponentOptions, FunctionalComponent, VNodeChild } from 'vue';
-import type { Decorator, Meta, StoryObj } from './public-types';
+import type { ComponentPropsAndSlots, Decorator, Meta, StoryObj } from './public-types';
 import type { VueRenderer } from './types';
 import BaseLayout from './__tests__/BaseLayout.vue';
 import Button from './__tests__/Button.vue';
 import DecoratorTsVue from './__tests__/Decorator.vue';
 import Decorator2TsVue from './__tests__/Decorator2.vue';
+
+type ButtonProps = ComponentPropsAndSlots<typeof Button>;
 
 describe('Meta', () => {
   test('Generic parameter of Meta can be a component', () => {
@@ -18,17 +19,7 @@ describe('Meta', () => {
       args: { label: 'good', disabled: false },
     };
 
-    expectTypeOf(meta).toEqualTypeOf<
-      ComponentAnnotations<
-        VueRenderer,
-        {
-          readonly disabled: boolean;
-          readonly label: string;
-          onMyChangeEvent?: (id: number) => any;
-          onMyClickEvent?: (id: number) => any;
-        }
-      >
-    >();
+    expectTypeOf(meta).toEqualTypeOf<ComponentAnnotations<VueRenderer, ButtonProps>>();
   });
 
   test('Generic parameter of Meta can be the props of the component', () => {
@@ -66,13 +57,6 @@ describe('Meta', () => {
 });
 
 describe('StoryObj', () => {
-  type ButtonProps = {
-    readonly disabled: boolean;
-    readonly label: string;
-    onMyChangeEvent?: ((id: number) => any) | undefined;
-    onMyClickEvent?: ((id: number) => any) | undefined;
-  };
-
   test('✅ Required args may be provided partial in meta and the story', () => {
     const meta = satisfies<Meta<typeof Button>>()({
       component: Button,
@@ -123,15 +107,9 @@ describe('StoryObj', () => {
 
 type ThemeData = 'light' | 'dark';
 
-type ComponentProps<Component> = Component extends ComponentOptions<infer P>
-  ? P
-  : Component extends FunctionalComponent<infer P>
-  ? P
-  : never;
-
 describe('Story args can be inferred', () => {
   test('Correct args are inferred when type is widened for render function', () => {
-    type Props = ComponentProps<typeof Button> & { theme: ThemeData };
+    type Props = ButtonProps & { theme: ThemeData };
 
     const meta = satisfies<Meta<Props>>()({
       component: Button,
@@ -153,7 +131,7 @@ describe('Story args can be inferred', () => {
   ) => h(DecoratorTsVue, { decoratorArg }, h(storyFn()));
 
   test('Correct args are inferred when type is widened for decorators', () => {
-    type Props = ComponentProps<typeof Button> & { decoratorArg: string };
+    type Props = ButtonProps & { decoratorArg: string };
 
     const meta = satisfies<Meta<Props>>()({
       component: Button,
@@ -168,7 +146,10 @@ describe('Story args can be inferred', () => {
   });
 
   test('Correct args are inferred when type is widened for multiple decorators', () => {
-    type Props = ComponentProps<typeof Button> & { decoratorArg: string; decoratorArg2: string };
+    type Props = ButtonProps & {
+      decoratorArg: string;
+      decoratorArg2: string;
+    };
 
     const secondDecorator: Decorator<{ decoratorArg2: string }> = (
       storyFn,
@@ -208,12 +189,7 @@ test('Infer type of slots', () => {
     },
   };
 
-  type Props = {
-    readonly otherProp: boolean;
-    header?: ((headerProps: { title: string }) => any) | VNodeChild;
-    default?: ((defaultProps: {}) => any) | VNodeChild;
-    footer?: ((footerProps: {}) => any) | VNodeChild;
-  };
+  type Props = ComponentPropsAndSlots<typeof BaseLayout>;
 
   type Expected = StoryAnnotations<VueRenderer, Props, Props>;
   expectTypeOf(Basic).toEqualTypeOf<Expected>();

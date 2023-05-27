@@ -4,11 +4,6 @@
 import YourComponent from './YourComponent.svelte';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/svelte/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'YourComponent',
   component: YourComponent,
   //👇 Creates specific argTypes
   argTypes: {
@@ -22,16 +17,10 @@ export default {
   },
 };
 
-//👇 Some function to demonstrate the behavior
 const someFunction = (valuePropertyA, valuePropertyB) => {
-  // Makes some computations and returns something
+  // Do some logic here
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/svelte/api/csf
- * to learn how to use render functions.
- */
 export const ExampleStory = {
   render: ({ propertyA, propertyB }) => {
     //👇 Assigns the function result to a variable
