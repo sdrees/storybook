@@ -65,7 +65,9 @@ export default function jsxPragma({ types: t }: { types: typeof BabelTypes }): P
               }
 
               for (const declar of newPath.get('declarations')) {
-                path.scope.registerBinding(newPath.node.kind, declar as NodePath<BabelTypes.Node>);
+                const kind = (['var', 'let', 'const'].find((k) => newPath.node.kind === k) ||
+                  'const') as 'var' | 'let' | 'const';
+                path.scope.registerBinding(kind, declar as NodePath<BabelTypes.Node>);
               }
             }
 

@@ -7,7 +7,7 @@ describe('getSnapshotFileName', () => {
     const context = { fileName: 'foo.js', kind: 'kind' };
 
     const result = target.getSnapshotFileName(context);
-    const platformAgnosticResult = result.replace(/\\|\//g, '/');
+    const platformAgnosticResult = result?.replace(/\\|\//g, '/');
 
     // This is an absolute path, so we need to use `toContain()`
     expect(platformAgnosticResult).toContain('__snapshots__/foo.storyshot');
@@ -17,7 +17,7 @@ describe('getSnapshotFileName', () => {
     const context = { fileName: 'foo.web.stories.js', kind: 'kind' };
 
     const result = target.getSnapshotFileName(context);
-    const platformAgnosticResult = result.replace(/\\|\//g, '/');
+    const platformAgnosticResult = result?.replace(/\\|\//g, '/');
 
     // This is an absolute path, so we need to use `toContain()`
     expect(platformAgnosticResult).toContain('__snapshots__/foo.web.stories.storyshot');
@@ -27,7 +27,7 @@ describe('getSnapshotFileName', () => {
     const context = { fileName: 'test/foo.js', kind: 'kind' };
 
     const result = target.getSnapshotFileName(context);
-    const platformAgnosticResult = result.replace(/\\|\//g, '/');
+    const platformAgnosticResult = result?.replace(/\\|\//g, '/');
 
     // This is an absolute path, so we need to use `toContain()`
     expect(platformAgnosticResult).toContain('test/__snapshots__/foo.storyshot');

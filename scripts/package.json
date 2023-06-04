@@ -12,10 +12,10 @@
     "lint:js:cmd": "cross-env NODE_ENV=production eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
     "lint:package": "sort-package-json",
     "migrate-docs": "node --require esbuild-register ./ts-to-ts49.ts",
+    "strict-ts": "node --require esbuild-register ./strict-ts.ts",
     "task": "ts-node --swc ./task.ts",
     "test": "jest --config ./jest.config.js",
-    "upgrade": "ts-node --swc ./task.ts",
-    "strict-ts": "node --require esbuild-register ./strict-ts.ts"
+    "upgrade": "ts-node --swc ./task.ts"
   },
   "husky": {
     "hooks": {
@@ -39,17 +39,17 @@
     "serialize-javascript": "^3.1.0"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
+    "@babel/core": "^7.22.0",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-decorators": "^7.20.7",
+    "@babel/plugin-proposal-decorators": "^7.22.0",
     "@babel/plugin-syntax-class-properties": "^7.12.13",
-    "@babel/plugin-syntax-decorators": "^7.19.0",
-    "@babel/plugin-syntax-jsx": "^7.18.6",
-    "@babel/plugin-syntax-typescript": "^7.20.0",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.18.6",
-    "@babel/types": "^7.20.7",
+    "@babel/plugin-syntax-decorators": "^7.22.0",
+    "@babel/plugin-syntax-jsx": "^7.21.0",
+    "@babel/plugin-syntax-typescript": "^7.21.0",
+    "@babel/preset-env": "^7.22.0",
+    "@babel/preset-react": "^7.22.0",
+    "@babel/preset-typescript": "^7.21.0",
+    "@babel/types": "^7.22.0",
     "@emotion/jest": "^11.10.5",
     "@jest/globals": "^29.3.1",
     "@linear/sdk": "^1.22.0",

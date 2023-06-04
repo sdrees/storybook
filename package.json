@@ -1,14 +1,14 @@
 {
   "scripts": {
-    "start": "yarn task --task dev --template react-vite/default-ts --start-from=install",
-    "task": "echo 'Installing Script Dependencies...'; cd scripts; yarn install >/dev/null; yarn task",
-    "get-template": "cd scripts; yarn get-template",
+    "ci-tests": "cd code; yarn ci-tests",
     "get-report-message": "cd scripts; yarn get-report-message",
-    "test": "cd code; yarn test",
+    "get-template": "cd scripts; yarn get-template",
     "lint": "cd code; yarn lint",
     "nx": "cd code; yarn nx",
-    "ci-tests": "cd code; yarn ci-tests",
-    "pretty-docs": "cd scripts; yarn install >/dev/null; yarn docs:prettier:write"
+    "pretty-docs": "cd scripts; yarn install >/dev/null; yarn docs:prettier:write",
+    "start": "yarn task --task dev --template react-vite/default-ts --start-from=install",
+    "task": "echo 'Installing Script Dependencies...'; cd scripts; yarn install >/dev/null; yarn task",
+    "test": "cd code; yarn test"
   },
-  "packageManager": "yarn@3.3.0"
+  "packageManager": "yarn@3.5.1"
 }

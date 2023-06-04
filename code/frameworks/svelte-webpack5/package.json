@@ -1,6 +1,6 @@
 {
   "name": "@storybook/svelte-webpack5",
-  "version": "7.1.0-alpha.25",
+  "version": "7.1.0-alpha.27",
   "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -47,10 +47,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.1.0-alpha.25",
-    "@storybook/core-common": "7.1.0-alpha.25",
-    "@storybook/preset-svelte-webpack": "7.1.0-alpha.25",
-    "@storybook/svelte": "7.1.0-alpha.25"
+    "@storybook/builder-webpack5": "7.1.0-alpha.27",
+    "@storybook/core-common": "7.1.0-alpha.27",
+    "@storybook/preset-svelte-webpack": "7.1.0-alpha.27",
+    "@storybook/svelte": "7.1.0-alpha.27"
   },
   "devDependencies": {
     "svelte": "^3.48.0",
@@ -77,5 +77,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
+  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
 }

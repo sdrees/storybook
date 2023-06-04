@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.1.0-alpha.25",
+  "version": "7.1.0-alpha.27",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -51,19 +51,19 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.1.0-alpha.25",
-    "@storybook/api": "7.1.0-alpha.25",
-    "@storybook/channel-postmessage": "7.1.0-alpha.25",
-    "@storybook/channel-websocket": "7.1.0-alpha.25",
-    "@storybook/channels": "7.1.0-alpha.25",
-    "@storybook/client-logger": "7.1.0-alpha.25",
-    "@storybook/components": "7.1.0-alpha.25",
-    "@storybook/core-events": "7.1.0-alpha.25",
+    "@storybook/addons": "7.1.0-alpha.27",
+    "@storybook/api": "7.1.0-alpha.27",
+    "@storybook/channel-postmessage": "7.1.0-alpha.27",
+    "@storybook/channel-websocket": "7.1.0-alpha.27",
+    "@storybook/channels": "7.1.0-alpha.27",
+    "@storybook/client-logger": "7.1.0-alpha.27",
+    "@storybook/components": "7.1.0-alpha.27",
+    "@storybook/core-events": "7.1.0-alpha.27",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.25",
-    "@storybook/router": "7.1.0-alpha.25",
-    "@storybook/theming": "7.1.0-alpha.25",
-    "@storybook/types": "7.1.0-alpha.25",
+    "@storybook/manager-api": "7.1.0-alpha.27",
+    "@storybook/router": "7.1.0-alpha.27",
+    "@storybook/theming": "7.1.0-alpha.27",
+    "@storybook/types": "7.1.0-alpha.27",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
     "copy-to-clipboard": "^3.3.1",
@@ -99,5 +99,5 @@
       "./src/globals.ts"
     ]
   },
-  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
+  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
 }

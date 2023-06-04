@@ -5,7 +5,8 @@ export default (content: string) => {
     const after = compileCsfModule(JSON.parse(content));
     return after;
   } catch (e) {
-    //
+    // for debugging
+    console.log(content, e);
   }
   return content;
 };

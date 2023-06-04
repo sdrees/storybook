@@ -1,3 +1,4 @@
+import invariant from 'tiny-invariant';
 import type { InputType, ArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import { getCustomElements, isValidComponent, isValidMetaData } from '..';
@@ -80,6 +81,7 @@ function mapData(data: TagItem[], category: string) {
         switch (category) {
           case 'events':
             mapEvent(item).forEach((argType) => {
+              invariant(argType.name, `${argType} should have a name property.`);
               acc[argType.name] = argType;
             });
             break;
@@ -137,13 +139,13 @@ export const extractArgTypesFromElements = (tagName: string, customElements: Cus
   const metaData = getMetaData(tagName, customElements);
   return (
     metaData && {
-      ...mapData(metaData.attributes, 'attributes'),
-      ...mapData(metaData.members, 'properties'),
-      ...mapData(metaData.properties, 'properties'),
-      ...mapData(metaData.events, 'events'),
-      ...mapData(metaData.slots, 'slots'),
-      ...mapData(metaData.cssProperties, 'css custom properties'),
-      ...mapData(metaData.cssParts, 'css shadow parts'),
+      ...mapData(metaData.attributes ?? [], 'attributes'),
+      ...mapData(metaData.members ?? [], 'properties'),
+      ...mapData(metaData.properties ?? [], 'properties'),
+      ...mapData(metaData.events ?? [], 'events'),
+      ...mapData(metaData.slots ?? [], 'slots'),
+      ...mapData(metaData.cssProperties ?? [], 'css custom properties'),
+      ...mapData(metaData.cssParts ?? [], 'css shadow parts'),
     }
   );
 };

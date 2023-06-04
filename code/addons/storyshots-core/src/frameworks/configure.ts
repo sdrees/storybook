@@ -74,7 +74,7 @@ function getConfigPathParts(input: string): Output {
 
         return specifier;
       });
-      output.requireContexts = output.stories.map((specifier) => {
+      output.requireContexts = output.stories?.map((specifier) => {
         const { path: basePath, recursive, match } = toRequireContext(specifier);
 
         // eslint-disable-next-line no-underscore-dangle

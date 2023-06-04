@@ -162,7 +162,11 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
   (story: () => StoryFnReturnType, context: Addon_StoryContext) => StoryFnReturnType
 >;
 
-export interface Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
+export interface Addon_BaseAnnotations<
+  TArgs,
+  StoryFnReturnType,
+  TRenderer extends Renderer = Renderer
+> {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
    * @see [Arg story inputs](https://storybook.js.org/docs/react/api/csf#args-story-inputs)
@@ -192,12 +196,12 @@ export interface Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
    */
-  render?: (args: TArgs, context: Addon_StoryContext) => StoryFnReturnType;
+  render?: (args: TArgs, context: Addon_StoryContext<TRenderer>) => StoryFnReturnType;
 
   /**
    * Function that is executed after the story is rendered.
    */
-  play?: (context: Addon_StoryContext) => Promise<void> | void;
+  play?: (context: Addon_StoryContext<TRenderer>) => Promise<void> | void;
 }
 
 export interface Addon_Annotations<TArgs, StoryFnReturnType>

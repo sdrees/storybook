@@ -28,10 +28,10 @@ interface DirectNavigationOptions {
 
 export interface CommonConfig {
   storybookUrl: string;
-  chromeExecutablePath: string;
-  getGotoOptions: (options: Options) => DirectNavigationOptions;
+  chromeExecutablePath?: string;
+  getGotoOptions: (options: Options) => DirectNavigationOptions | undefined;
   customizePage: (page: Page) => Promise<void>;
-  getCustomBrowser: () => Promise<Browser>;
+  getCustomBrowser?: () => Promise<Browser>;
   /**
    * Puppeteer browser launch options:
    * {@link https://pptr.dev/api/puppeteer.puppeteernode.launch/ puppeteer.launch()}
@@ -48,7 +48,7 @@ export interface PuppeteerTestConfig extends CommonConfig {
 }
 
 export interface ImageSnapshotConfig extends CommonConfig {
-  getMatchOptions: (options: Options) => MatchImageSnapshotOptions;
+  getMatchOptions: (options: Options) => MatchImageSnapshotOptions | undefined;
   getScreenshotOptions: (options: Options) => Base64ScreenShotOptions;
   beforeScreenshot: (page: Page, options: Options) => Promise<void | ElementHandle>;
   afterScreenshot: (options: { image: string | void | Buffer; context: Context }) => Promise<void>;
@@ -95,11 +95,11 @@ export const defaultImageSnapshotConfig: ImageSnapshotConfig = {
   ...defaultCommonConfig,
   getMatchOptions: noop,
   getScreenshotOptions: defaultScreenshotOptions,
-  beforeScreenshot: noop,
-  afterScreenshot: noop,
+  beforeScreenshot: asyncNoop,
+  afterScreenshot: asyncNoop,
 };
 
 export const defaultAxeConfig: AxeConfig = {
   ...defaultCommonConfig,
-  beforeAxeTest: noop,
+  beforeAxeTest: asyncNoop,
 };

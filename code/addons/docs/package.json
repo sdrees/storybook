@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.1.0-alpha.25",
+  "version": "7.1.0-alpha.27",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -99,19 +99,19 @@
   "dependencies": {
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.1.0-alpha.25",
-    "@storybook/client-logger": "7.1.0-alpha.25",
-    "@storybook/components": "7.1.0-alpha.25",
-    "@storybook/csf-plugin": "7.1.0-alpha.25",
-    "@storybook/csf-tools": "7.1.0-alpha.25",
+    "@storybook/blocks": "7.1.0-alpha.27",
+    "@storybook/client-logger": "7.1.0-alpha.27",
+    "@storybook/components": "7.1.0-alpha.27",
+    "@storybook/csf-plugin": "7.1.0-alpha.27",
+    "@storybook/csf-tools": "7.1.0-alpha.27",
     "@storybook/global": "^5.0.0",
     "@storybook/mdx2-csf": "^1.0.0",
-    "@storybook/node-logger": "7.1.0-alpha.25",
-    "@storybook/postinstall": "7.1.0-alpha.25",
-    "@storybook/preview-api": "7.1.0-alpha.25",
-    "@storybook/react-dom-shim": "7.1.0-alpha.25",
-    "@storybook/theming": "7.1.0-alpha.25",
-    "@storybook/types": "7.1.0-alpha.25",
+    "@storybook/node-logger": "7.1.0-alpha.27",
+    "@storybook/postinstall": "7.1.0-alpha.27",
+    "@storybook/preview-api": "7.1.0-alpha.27",
+    "@storybook/react-dom-shim": "7.1.0-alpha.27",
+    "@storybook/theming": "7.1.0-alpha.27",
+    "@storybook/types": "7.1.0-alpha.27",
     "fs-extra": "^11.1.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
@@ -141,7 +141,7 @@
       "@storybook/mdx1-csf"
     ]
   },
-  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920",
+  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

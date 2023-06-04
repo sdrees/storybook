@@ -166,8 +166,6 @@ Using the ThemeProvider example above, you could expand it to display which them
 
 If you're working on a Storybook addon that needs to update the global and refreshes the UI, you can do so. As mentioned previously, the `@storybook/manager-api` package provides the necessary hook for this scenario. You can use the `updateGlobals` function to update any global values you need.
 
-Also, you can use both `@storybook/addons` and `@storybook/core-events` packages together to trigger the refresh.
-
 For example, if you were working on a [toolbar addon](../addons/addon-types.md#toolbars), and you want to refresh the UI and update the global once the user clicks on a button:
 
 <!-- prettier-ignore-start -->

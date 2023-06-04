@@ -28,7 +28,7 @@ function getLoaders(): Loader[] {
       return null;
     })
     .filter(Boolean)
-    .map((loader) => require(loader).default);
+    .map((loader) => loader && require(loader).default);
 }
 
 function loadFramework(options: StoryshotsOptions) {

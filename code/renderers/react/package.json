@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.1.0-alpha.25",
+  "version": "7.1.0-alpha.27",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -52,13 +52,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.25",
-    "@storybook/core-client": "7.1.0-alpha.25",
-    "@storybook/docs-tools": "7.1.0-alpha.25",
+    "@storybook/client-logger": "7.1.0-alpha.27",
+    "@storybook/core-client": "7.1.0-alpha.27",
+    "@storybook/docs-tools": "7.1.0-alpha.27",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.25",
-    "@storybook/react-dom-shim": "7.1.0-alpha.25",
-    "@storybook/types": "7.1.0-alpha.25",
+    "@storybook/preview-api": "7.1.0-alpha.27",
+    "@storybook/react-dom-shim": "7.1.0-alpha.27",
+    "@storybook/types": "7.1.0-alpha.27",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
@@ -75,7 +75,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.2",
+    "@babel/core": "^7.22.0",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.14.2",
     "jest-specific-snapshot": "^7.0.0",
@@ -105,5 +105,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
+  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
 }

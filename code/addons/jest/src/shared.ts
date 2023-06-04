@@ -1,3 +1,4 @@
+import invariant from 'tiny-invariant';
 import type { StorybookInternalParameters } from '@storybook/types';
 
 // addons, panels and events get unique names using a prefix
@@ -23,7 +24,9 @@ export function defineJestParameter(parameters: AddonParameters): string[] | nul
   }
 
   if (jest === undefined && typeof filePath === 'string') {
-    const fileName = filePath.split('/').pop().split('.')[0];
+    const lastPath = filePath.split('/').pop();
+    invariant(lastPath != null, 'split should always return at least one value');
+    const fileName = lastPath.split('.')[0];
     return [fileName];
   }
 

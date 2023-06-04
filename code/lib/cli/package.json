@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.1.0-alpha.25",
+  "version": "7.1.0-alpha.27",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -54,16 +54,16 @@
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
     "@ndelangen/get-tarball": "^3.0.7",
-    "@storybook/codemod": "7.1.0-alpha.25",
-    "@storybook/core-common": "7.1.0-alpha.25",
-    "@storybook/core-server": "7.1.0-alpha.25",
-    "@storybook/csf-tools": "7.1.0-alpha.25",
-    "@storybook/node-logger": "7.1.0-alpha.25",
-    "@storybook/telemetry": "7.1.0-alpha.25",
-    "@storybook/types": "7.1.0-alpha.25",
+    "@storybook/codemod": "7.1.0-alpha.27",
+    "@storybook/core-common": "7.1.0-alpha.27",
+    "@storybook/core-server": "7.1.0-alpha.27",
+    "@storybook/csf-tools": "7.1.0-alpha.27",
+    "@storybook/node-logger": "7.1.0-alpha.27",
+    "@storybook/telemetry": "7.1.0-alpha.27",
+    "@storybook/types": "7.1.0-alpha.27",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -95,7 +95,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.1.0-alpha.25",
+    "@storybook/client-api": "7.1.0-alpha.27",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -116,5 +116,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
+  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
 }

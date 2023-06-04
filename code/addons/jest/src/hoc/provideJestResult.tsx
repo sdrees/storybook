@@ -71,9 +71,9 @@ export const provideTests = (Component: ComponentType<InjectedProps>) =>
       this.setState({ kind, storyName, tests });
     };
 
-    mounted: boolean;
+    mounted!: boolean;
 
-    stopListeningOnStory: () => void;
+    stopListeningOnStory!: () => void;
 
     render() {
       const { active } = this.props;

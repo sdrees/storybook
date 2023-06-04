@@ -7,7 +7,7 @@ import type {
   PathnameContext as TPathnameContext,
   SearchParamsContext as TSearchParamsContext,
 } from 'next/dist/shared/lib/hooks-client-context';
-import type { FlightRouterState } from 'next/dist/server/app-render';
+import type { FlightRouterState } from 'next/dist/server/app-render/types';
 import type { RouteParams } from './types';
 
 /**
@@ -82,6 +82,7 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
             childNodes: new Map(),
             tree: [pathname, { children: getParallelRoutes([...segments]) }],
             url: pathname,
+            // @ts-expect-error Necessary for earlier versions of Next 13. Remove as soon as Next.js should not be supported anymore.
             headRenderedAboveThisLevel: true,
           }}
         >

@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { Icons } from '@storybook/components';
+// eslint-disable-next-line import/no-named-as-default
 import Message from './Message';
 
 const Wrapper = styled.div<{ status: string }>(({ theme, status }) => ({
@@ -8,7 +9,7 @@ const Wrapper = styled.div<{ status: string }>(({ theme, status }) => ({
   width: '100%',
   borderTop: `1px solid ${theme.appBorderColor}`,
   '&:hover': {
-    background: status === `failed` ? theme.background.hoverable : null,
+    background: status === `failed` ? theme.background.hoverable : undefined,
   },
 }));
 
@@ -18,7 +19,7 @@ const HeaderBar = styled.div<{ status: string }>(({ theme, status }) => ({
   background: 'none',
   color: 'inherit',
   textAlign: 'left',
-  cursor: status === `failed` ? 'pointer' : null,
+  cursor: status === `failed` ? 'pointer' : undefined,
   borderLeft: '3px solid transparent',
   width: '100%',
   display: 'flex',
@@ -72,7 +73,7 @@ export function Result(props: ResultProps) {
               }}
             />
           ) : null}
-          <div>{capitalizeFirstLetter(fullName) || capitalizeFirstLetter(title)}</div>
+          <div>{capitalizeFirstLetter(fullName ?? '') || capitalizeFirstLetter(title ?? '')}</div>
         </HeaderBar>
       </Wrapper>
       {isOpen ? (

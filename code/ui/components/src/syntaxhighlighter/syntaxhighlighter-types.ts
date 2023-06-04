@@ -35,6 +35,7 @@ export interface SyntaxHighlighterBaseProps {
   lineProps?: LineTagPropsFunction | React.HTMLProps<HTMLElement>;
   showLineNumbers?: boolean;
   startingLineNumber?: number;
+  wrapLongLines?: boolean;
   style?: any;
   useInlineStyles?: boolean;
 }

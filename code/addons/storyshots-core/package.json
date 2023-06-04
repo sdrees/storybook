@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storyshots",
-  "version": "7.1.0-alpha.25",
+  "version": "7.1.0-alpha.27",
   "description": "Take a code snapshot of every story automatically with Jest",
   "keywords": [
     "addon",
@@ -32,17 +32,18 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@jest/transform": "^29.3.1",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",
-    "@storybook/client-api": "7.1.0-alpha.25",
-    "@storybook/core-common": "7.1.0-alpha.25",
-    "@storybook/core-webpack": "7.1.0-alpha.25",
+    "@storybook/client-api": "7.1.0-alpha.27",
+    "@storybook/core-common": "7.1.0-alpha.27",
+    "@storybook/core-webpack": "7.1.0-alpha.27",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.25",
-    "@storybook/types": "7.1.0-alpha.25",
+    "@storybook/preview-api": "7.1.0-alpha.27",
+    "@storybook/types": "7.1.0-alpha.27",
     "@types/jest-specific-snapshot": "^0.5.6",
     "glob": "^10.0.0",
     "jest-specific-snapshot": "^7.0.0",
@@ -56,11 +57,11 @@
     "@angular/core": "^13.3.6",
     "@angular/platform-browser-dynamic": "^13.3.6",
     "@emotion/jest": "^11.8.0",
-    "@storybook/addon-docs": "7.1.0-alpha.25",
-    "@storybook/angular": "7.1.0-alpha.25",
-    "@storybook/react": "7.1.0-alpha.25",
-    "@storybook/vue": "7.1.0-alpha.25",
-    "@storybook/vue3": "7.1.0-alpha.25",
+    "@storybook/addon-docs": "7.1.0-alpha.27",
+    "@storybook/angular": "7.1.0-alpha.27",
+    "@storybook/react": "7.1.0-alpha.27",
+    "@storybook/vue": "7.1.0-alpha.27",
+    "@storybook/vue3": "7.1.0-alpha.27",
     "babel-loader": "^9.1.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
@@ -141,7 +142,7 @@
     "access": "public"
   },
   "bundler": {},
-  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920",
+  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11",
   "storybook": {
     "displayName": "Storyshots",
     "icon": "https://user-images.githubusercontent.com/263385/101991676-48cdf300-3c7c-11eb-8aa1-944dab6ab29b.png",

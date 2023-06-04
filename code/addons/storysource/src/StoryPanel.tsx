@@ -176,6 +176,8 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
       format={false}
       copyable={false}
       padded
+      wrapLongLines
+      lineProps={{ style: { whiteSpace: 'pre' } }}
     >
       {source}
     </StyledSyntaxHighlighter>

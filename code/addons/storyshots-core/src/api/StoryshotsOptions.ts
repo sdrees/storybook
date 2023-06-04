@@ -9,7 +9,7 @@ export interface TestMethodOptions {
   renderTree: RenderTree;
   renderShallowTree: RenderTree;
   stories2snapsConverter: Stories2SnapsConverter;
-  snapshotFileName: string;
+  snapshotFileName?: string;
   options: any;
   done?: () => void;
 }

@@ -312,8 +312,8 @@ export default function nextTransformSsg({
               ++count;
 
               if (
-                t.isAssignmentExpression(sweepPath.parentPath) ||
-                t.isVariableDeclarator(sweepPath.parentPath)
+                sweepPath.parentPath.isAssignmentExpression() ||
+                sweepPath.parentPath.isVariableDeclaration()
               ) {
                 sweepPath.parentPath.remove();
               } else {

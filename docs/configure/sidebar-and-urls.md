@@ -2,6 +2,8 @@
 title: 'Sidebar & URLS'
 ---
 
+<YouTubeCallout id="zrdcCSTGo4A" title="How to Configure the Sidebar" />
+
 Storybook’s sidebar lists all your stories grouped by component. When you have many components, you may also wish to group those components. To do so, you can add the `/` separator to the `title` of your CSF file, and Storybook will group the stories into groups based on common prefixes:
 
 ![Storybook sidebar anatomy](./sidebar-anatomy.png)

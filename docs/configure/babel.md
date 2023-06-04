@@ -6,7 +6,7 @@ As of version 7.0, Storybook now re-uses your project’s Babel configuration to
 
 <div class="aside">
 
-If you're not using Storybook 7, please reference the <LinkWithVersion version="6.5" href="./babel.md">previous documentation</LinkWithVersion> for guidance on configuring your Babel setup.
+If you're not using Storybook 7, please reference the <LinkWithVersion version="6.5" href="./babel">previous documentation</LinkWithVersion> for guidance on configuring your Babel setup.
 
 </div>
 

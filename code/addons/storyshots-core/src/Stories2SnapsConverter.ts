@@ -55,7 +55,7 @@ export class Stories2SnapsConverter {
               }
         `
       );
-      return null;
+      return undefined;
     }
 
     return this.getStoryshotFile(fileName);

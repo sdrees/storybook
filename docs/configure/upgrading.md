@@ -22,7 +22,10 @@ To help ease the pain of keeping Storybook up-to-date, we provide a command-line
 
 <!-- prettier-ignore-end -->
 
-This upgrades all of the Storybook packages in your project to the latest stable version, perform confidence checks of your package versions, and checks for opportunities to run [automigrations](#automigrate) to update your configuration automatically.
+After running the command the script will:
+
+- Upgrade all Storybook packages in your project to the latest stable version
+- Run the relevant [automigrations](../migration-guide.md#automatic-upgrade) factoring in the [breaking changes](../migration-guide.md#major-breaking-changes) between your current version and the latest stable version
 
 <div class="aside">
 

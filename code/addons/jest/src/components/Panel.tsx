@@ -75,7 +75,7 @@ const SuiteTotals = styled(UnstyledSuiteTotals)(({ theme }) => ({
   },
 }));
 
-const SuiteProgressPortion = styled.div<{ color: any; progressPercent: number }>(
+const SuiteProgressPortion = styled.div<{ color?: string; progressPercent: number }>(
   ({ color, progressPercent }) => ({
     height: 6,
     top: 3,
@@ -114,7 +114,7 @@ const getColorByType = (type: string) => {
     case StatusTypes.TODO_TYPE:
       return convert(themes.light).color.purple;
     default:
-      return null;
+      return undefined;
   }
 };
 
@@ -132,8 +132,8 @@ const TestPanel: FC<{ test: Test }> = ({ test }) => {
   return (
     <section ref={ref}>
       <SuiteHead>
-        <SuiteTotals {...{ result, width }} />
-        {width > 240 ? (
+        <SuiteTotals {...{ result, width: width ?? 0 }} />
+        {width != null && width > 240 ? (
           <ProgressWrapper>
             {sortedTestsByCount.map((entry: any) => {
               return (
@@ -261,7 +261,7 @@ const Content = styled(({ tests, className }: ContentProps) => (
 });
 
 interface PanelProps {
-  tests: null | Test[];
+  tests?: Test[];
 }
 
 const Panel = ({ tests }: PanelProps) => (
@@ -287,7 +287,7 @@ const Panel = ({ tests }: PanelProps) => (
 );
 
 Panel.defaultProps = {
-  tests: null,
+  tests: undefined,
 };
 
 export default provideJestResult(Panel);

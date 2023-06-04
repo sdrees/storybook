@@ -1,6 +1,6 @@
 {
   "name": "@storybook/svelte",
-  "version": "7.1.0-alpha.25",
+  "version": "7.1.0-alpha.27",
   "description": "Storybook Svelte renderer",
   "keywords": [
     "storybook"
@@ -48,25 +48,25 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check": "svelte-check",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.25",
-    "@storybook/core-client": "7.1.0-alpha.25",
-    "@storybook/core-events": "7.1.0-alpha.25",
-    "@storybook/docs-tools": "7.1.0-alpha.25",
+    "@storybook/client-logger": "7.1.0-alpha.27",
+    "@storybook/core-client": "7.1.0-alpha.27",
+    "@storybook/core-events": "7.1.0-alpha.27",
+    "@storybook/docs-tools": "7.1.0-alpha.27",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.25",
-    "@storybook/types": "7.1.0-alpha.25",
+    "@storybook/preview-api": "7.1.0-alpha.27",
+    "@storybook/types": "7.1.0-alpha.27",
     "sveltedoc-parser": "^4.2.1",
     "type-fest": "2.19.0"
   },
   "devDependencies": {
     "expect-type": "^0.14.2",
-    "svelte": "^3.31.2",
-    "svelte-check": "^2.9.2",
-    "typescript": "~4.9.3"
+    "svelte": "^3.59.1",
+    "svelte-check": "^3.4.3",
+    "typescript": "^5.0.4"
   },
   "peerDependencies": {
     "svelte": "^3.1.0"
@@ -84,5 +84,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
+  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
 }

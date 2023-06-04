@@ -1,4 +1,4 @@
-export type Styles = ViewportStyles | ((s: ViewportStyles) => ViewportStyles) | null;
+export type Styles = ViewportStyles | ((s: ViewportStyles | undefined) => ViewportStyles) | null;
 
 export interface Viewport {
   name: string;

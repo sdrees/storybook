@@ -24,8 +24,7 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
     // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
-    '@playwright/test': '1.32.3',
-    playwright: '1.32.3',
+    '@playwright/test': '^1.34.3',
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
@@ -86,7 +85,8 @@ export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOpt
     // We need to be able to update lockfile when bootstrapping the examples
     `yarn config set enableImmutableInstalls false`,
     // Discard all YN0013 - FETCH_NOT_CACHED messages
-    `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`,
+    // Error on YN0060 - INCOMPATIBLE_PEER_DEPENDENCY
+    `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" }, { "code": "YN0060", "level": "error" } ]'`,
   ];
 
   await exec(

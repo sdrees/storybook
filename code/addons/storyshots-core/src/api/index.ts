@@ -54,7 +54,7 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
   // subsequent calls to `it()` etc will all happen within this tick, which is required
   // by Jest (cannot add tests asynchronously)
   globalWindow.__STORYBOOK_STORY_STORE__.initializationPromise.then(() => {
-    const data = storybook.raw().reduce(
+    const data = storybook.raw()?.reduce(
       (acc, item) => {
         if (storyNameRegex && !item.name.match(storyNameRegex)) {
           return acc;
@@ -86,7 +86,7 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
       }[]
     );
 
-    if (data.length) {
+    if (data && data.length) {
       callTestMethodGlobals(testMethod);
 
       snapshotsTests({
