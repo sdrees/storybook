@@ -253,12 +253,12 @@ Default.parameters = {
 
 ## TODO
 
-- [ ] Add coverage
-- [ ] Display nested test better (describe)
-- [ ] Display the date of the test
-- [ ] Add unit tests
-- [ ] Add linting
-- [ ] Split <TestPanel />
+- Add coverage
+- Display nested test better (describe)
+- Display the date of the test
+- Add unit tests
+- Add linting
+- Split <TestPanel />
 
 ## Contributing
 

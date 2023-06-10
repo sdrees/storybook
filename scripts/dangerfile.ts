@@ -49,7 +49,24 @@ const checkRequiredLabels = (labels: string[]) => {
   }
 };
 
+const checkPrTitle = (title: string) => {
+  const match = title.match(/^[A-Z].+:\s[A-Z].+$/);
+  if (!match) {
+    fail(
+      `PR title must be in the format of "Area: Summary", With both Area and Summary starting with a capital letter
+Good examples:
+- "Docs: Describe Canvas Doc Block"
+- "Svelte: Support Svelte v4"
+Bad examples:
+- "add new api docs"
+- "fix: Svelte 4 support"
+- "Vue: improve docs"`
+    );
+  }
+};
+
 if (prLogConfig) {
   const { labels } = danger.github.issue;
   checkRequiredLabels(labels.map((l) => l.name));
+  checkPrTitle(danger.github.pr.title);
 }

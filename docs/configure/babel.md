@@ -6,7 +6,7 @@ As of version 7.0, Storybook now re-uses your project’s Babel configuration to
 
 <div class="aside">
 
-If you're not using Storybook 7, please reference the <LinkWithVersion version="6.5" href="./babel">previous documentation</LinkWithVersion> for guidance on configuring your Babel setup.
+If you're not using Storybook 7, please reference the [previous documentation](../../../release-6-5/docs/configure/babel.md) for guidance on configuring your Babel setup.
 
 </div>
 
@@ -115,6 +115,8 @@ However, when your Storybook refers to files outside of the current project dire
 
 ## Troubleshooting
 
+### Babel configuration not working
+
 To troubleshoot your Babel configuration, set the `BABEL_SHOW_CONFIG_FOR` environment variable. For example, to see how Storybook is transpiling your `.storybook/preview.js` file, add the following environment variable:
 
 ```sh
@@ -130,3 +132,20 @@ When the command finishes running, it will display the available Babel configura
 </div>
 
 For more info, please refer to the [Babel documentation](https://babeljs.io/docs/en/configuration#print-effective-configs).
+
+### SWC fallback
+
+If you're working with a Webpack-based project and having issues with Babel configuration, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler. To do so, update your Storybook configuration file (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-enable-swc-loader.js.mdx',
+    'common/storybook-enable-swc-loader.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+When Storybook loads, it will update Webpack's configuration including the required loaders (e.g., [`TerserPlugin`](https://webpack.js.org/plugins/terser-webpack-plugin/), [`babel-loader`](https://webpack.js.org/loaders/babel-loader/)) with SWC equivalents (e.g., [`swc-loader`](https://swc.rs/docs/usage/swc-loader)) for bundling and minification.

@@ -1,9 +1,8 @@
 import path from 'path';
-import { readJSON, writeJSON, outputFile } from 'fs-extra';
-import type { ExecOptions } from 'shelljs';
-import shell from 'shelljs';
+import { readJSON, writeJSON, outputFile, remove } from 'fs-extra';
 import chalk from 'chalk';
 import { command } from 'execa';
+import spawn from 'cross-spawn';
 import { cra, cra_typescript } from './configs';
 import storybookVersions from '../versions';
 
@@ -42,6 +41,8 @@ interface Configuration {
   registry?: string;
 }
 
+type ExecOptions = globalThis.Parameters<typeof spawn>[2];
+
 export interface Options extends Parameters {
   appName: string;
   creationPath: string;
@@ -69,14 +70,8 @@ export const exec = async (
 
   logger.debug(command);
   return new Promise((resolve, reject) => {
-    const defaultOptions: ExecOptions = {
-      silent: false,
-    };
-    const child = shell.exec(command, {
-      ...defaultOptions,
+    const child = spawn(command, {
       ...options,
-      async: true,
-      silent: false,
     });
 
     child.stderr.pipe(process.stderr);
@@ -221,7 +216,10 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
 
 const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
   // Remove any lockfile generated without Yarn 2
-  shell.rm('-f', path.join(cwd, 'package-lock.json'), path.join(cwd, 'yarn.lock'));
+  await Promise.all([
+    remove(path.join(cwd, 'package-lock.json')),
+    remove(path.join(cwd, 'yarn.lock')),
+  ]);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const command =

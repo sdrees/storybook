@@ -40,8 +40,19 @@ interface Declaration {
 }
 
 function mapItem(item: TagItem, category: string): InputType {
-  const type =
-    category === 'properties' ? { name: item.type?.text || item.type } : { name: 'void' };
+  let type;
+  switch (category) {
+    case 'attributes':
+    case 'properties':
+      type = { name: item.type?.text || item.type };
+      break;
+    case 'slots':
+      type = { name: 'string' };
+      break;
+    default:
+      type = { name: 'void' };
+      break;
+  }
 
   return {
     name: item.name,
@@ -139,9 +150,9 @@ export const extractArgTypesFromElements = (tagName: string, customElements: Cus
   const metaData = getMetaData(tagName, customElements);
   return (
     metaData && {
-      ...mapData(metaData.attributes ?? [], 'attributes'),
       ...mapData(metaData.members ?? [], 'properties'),
       ...mapData(metaData.properties ?? [], 'properties'),
+      ...mapData(metaData.attributes ?? [], 'attributes'),
       ...mapData(metaData.events ?? [], 'events'),
       ...mapData(metaData.slots ?? [], 'slots'),
       ...mapData(metaData.cssProperties ?? [], 'css custom properties'),

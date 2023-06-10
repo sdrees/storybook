@@ -5,8 +5,20 @@ export interface SubState {
   notifications: API_Notification[];
 }
 
+/**
+ * The API for managing notifications.
+ */
 export interface SubAPI {
+  /**
+   * Adds a new notification to the list of notifications.
+   * If a notification with the same ID already exists, it will be replaced.
+   * @param notification - The notification to add.
+   */
   addNotification: (notification: API_Notification) => void;
+  /**
+   * Removes a notification from the list of notifications.
+   * @param id - The ID of the notification to remove.
+   */
   clearNotification: (id: string) => void;
 }
 

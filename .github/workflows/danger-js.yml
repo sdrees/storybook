@@ -1,6 +1,19 @@
 on:
   pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+      - edited
+    branches:
+      - main
+      - next
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}
+  cancel-in-progress: true
 
 name: Danger JS
 jobs:
@@ -13,7 +26,7 @@ jobs:
           node-version: '16'
       - uses: actions/checkout@v3
       - name: Danger JS
-        uses: danger/danger-js@10.9.0
+        uses: danger/danger-js@11.2.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

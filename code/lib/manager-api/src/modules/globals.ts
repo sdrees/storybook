@@ -14,8 +14,21 @@ export interface SubState {
 }
 
 export interface SubAPI {
+  /**
+   * Returns the current global data object.
+   * @returns {Globals} The current global data object.
+   */
   getGlobals: () => Globals;
+  /**
+   * Returns the current global types object.
+   * @returns {GlobalTypes} The current global types object.
+   */
   getGlobalTypes: () => GlobalTypes;
+  /**
+   * Updates the current global data object with the provided new global data object.
+   * @param {Globals} newGlobals - The new global data object to update with.
+   * @returns {void}
+   */
   updateGlobals: (newGlobals: Globals) => void;
 }
 

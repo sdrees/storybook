@@ -51,8 +51,8 @@
           ],
           "slots": [
             {
-              "description": "This is an unnamed slot (the default slot)",
-              "name": ""
+              "name": "prefix",
+              "description": "Label prefix"
             }
           ],
           "members": [

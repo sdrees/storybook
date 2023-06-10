@@ -4,7 +4,7 @@ import { execaCommand } from './exec';
 
 export type Workspace = { name: string; location: string };
 
-async function getWorkspaces() {
+export async function getWorkspaces() {
   const { stdout } = await execaCommand('yarn workspaces list --json', {
     cwd: CODE_DIRECTORY,
     shell: true,

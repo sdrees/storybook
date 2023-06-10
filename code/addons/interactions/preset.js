@@ -1,4 +1,4 @@
-const { checkActionsLoaded } = require('./dist/preset/checkActionsLoaded');
+const { checkActionsLoaded } = require('./dist/preset');
 
 function previewAnnotations(entry = [], options) {
   checkActionsLoaded(options.configDir);

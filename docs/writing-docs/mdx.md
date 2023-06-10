@@ -10,7 +10,7 @@ In addition, you can write pure documentation pages in MDX and add them to Story
 
 <div class="aside">
 
-Writing stories directly in MDX was deprecated in Storybook 7. Please reference the <LinkWithVersion version="6.5" href="./mdx.md">previous documentation</LinkWithVersion> for guidance on that feature.
+Writing stories directly in MDX was deprecated in Storybook 7. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature.
 
 </div>
 

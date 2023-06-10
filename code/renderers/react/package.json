@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.1.0-alpha.27",
+  "version": "7.1.0-alpha.30",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -52,13 +52,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.27",
-    "@storybook/core-client": "7.1.0-alpha.27",
-    "@storybook/docs-tools": "7.1.0-alpha.27",
+    "@storybook/client-logger": "7.1.0-alpha.30",
+    "@storybook/core-client": "7.1.0-alpha.30",
+    "@storybook/docs-tools": "7.1.0-alpha.30",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.27",
-    "@storybook/react-dom-shim": "7.1.0-alpha.27",
-    "@storybook/types": "7.1.0-alpha.27",
+    "@storybook/preview-api": "7.1.0-alpha.30",
+    "@storybook/react-dom-shim": "7.1.0-alpha.30",
+    "@storybook/types": "7.1.0-alpha.30",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
@@ -71,14 +71,14 @@
     "prop-types": "^15.7.2",
     "react-element-to-jsx-string": "^15.0.0",
     "ts-dedent": "^2.0.0",
-    "type-fest": "^2.19.0",
+    "type-fest": "^3.11.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.22.0",
     "@types/util-deprecate": "^1.0.0",
-    "expect-type": "^0.14.2",
-    "jest-specific-snapshot": "^7.0.0",
+    "expect-type": "^0.15.0",
+    "jest-specific-snapshot": "^8.0.0",
     "require-from-string": "^2.0.2",
     "typescript": "~4.9.3"
   },
@@ -105,5 +105,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16"
 }

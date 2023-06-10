@@ -51,9 +51,11 @@ export const Vertical = () => (
 
 export const Horizontal = () => (
   <ScrollArea horizontal>
-    {list((i) => (
-      <Block key={i}>{i}</Block>
-    ))}
+    <div style={{ padding: 5 }}>
+      {list((i) => (
+        <Block key={i}>{i}</Block>
+      ))}
+    </div>
   </ScrollArea>
 );
 

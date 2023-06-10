@@ -21,7 +21,7 @@ import type {
   StoryName,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
-import { normalizeStoryPath } from '@storybook/core-common';
+import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
@@ -122,7 +122,7 @@ export class StoryIndexGenerator {
         const fullGlob = slash(
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
-        const files = await glob(fullGlob);
+        const files = await glob(fullGlob, commonGlobOptions(fullGlob));
 
         if (files.length === 0) {
           once.warn(
@@ -353,11 +353,12 @@ export class StoryIndexGenerator {
 
         if (!csfEntry)
           throw new Error(
-            dedent`Could not find CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
+            dedent`Could not find or load CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
             
               - Does that file exist?
               - If so, is it a CSF file (\`.stories.*\`)?
-              - If so, is it matched by the \`stories\` glob in \`main.js\`?`
+              - If so, is it matched by the \`stories\` glob in \`main.js\`?
+              - If so, has the file successfully loaded in Storybook and are its stories visible?`
           );
       }
 

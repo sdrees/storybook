@@ -27,7 +27,6 @@ To enable auto-generated documentation for your stories, you'll need to add the 
 
 ![Storybook autodocs](./autodocs.png)
 
-
 Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/argtypes.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
 
 ### Configure
@@ -45,10 +44,10 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 <!-- prettier-ignore-end -->
 
-| Option        | Description                                                                                                                         |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `autodocs`    | Configures auto-generated documentation pages. Available options: `true`, `false`,`tag` (default) <br/> `docs: { autodocs: false }` |
-| `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`                                         |
+| Option        | Description                                                                                                                                                                                                                                                                                                                  |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autodocs`    | Configures auto-generated documentation pages. Available options: `true`, `false`,`tag` (default). `true`/`false` enable/disable autodocs globally. `tag` allows you to opt in per component by adding the `tags: ['autodocs']` annotation in the component's default export. <br/> Default: `docs: { autodocs: false }` |
+| `defaultName` | Renames the auto-generated documentation page<br/> Default: `docs: { defaultName: 'Documentation' }`                                                                                                                                                                                                                                  |
 
 ### Write a custom template
 

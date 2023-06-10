@@ -4,7 +4,12 @@ import { join, parse, relative, sep } from 'node:path';
 import slash from 'slash';
 
 const sanitizeBase = (path: string) => {
-  return path.replaceAll('.', '').replaceAll('@', '').replaceAll(sep, '-').replaceAll('/', '-');
+  return path
+    .replaceAll('.', '')
+    .replaceAll('@', '')
+    .replaceAll(sep, '-')
+    .replaceAll('/', '-')
+    .replaceAll(new RegExp(/^(-)+/g), '');
 };
 
 const sanitizeFinal = (path: string) => {

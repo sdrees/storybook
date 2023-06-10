@@ -8,7 +8,11 @@ const OverlayScrollbars = lazy(() => import('./OverlayScrollbars'));
 const Scroller: FC<ScrollAreaProps> = ({ horizontal, vertical, ...props }) => (
   <Suspense fallback={<div {...props} />}>
     <GlobalScrollAreaStyles />
-    <OverlayScrollbars options={{ scrollbars: { autoHide: 'leave' } }} {...props} />
+    <OverlayScrollbars
+      defer
+      options={{ scrollbars: { autoHide: 'leave', visibility: 'auto' } }}
+      {...props}
+    />
   </Suspense>
 );
 

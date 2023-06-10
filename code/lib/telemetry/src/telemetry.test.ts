@@ -1,10 +1,10 @@
 /// <reference types="@types/jest" />;
 
-import fetch from 'isomorphic-unfetch';
+import fetch from 'node-fetch';
 
 import { sendTelemetry } from './telemetry';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('node-fetch');
 jest.mock('./event-cache', () => {
   return { set: jest.fn() };
 });

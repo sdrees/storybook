@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { global } from '@storybook/global';
+import invariant from 'tiny-invariant';
 
 interface Size {
   width: number;
@@ -25,6 +26,7 @@ function createCanvas(): CanvasState {
   const canvas = global.document.createElement('canvas');
   canvas.id = 'storybook-addon-measure';
   const context = canvas.getContext('2d');
+  invariant(context != null);
   // Set canvas width & height
   const { width, height } = getDocumentWidthAndHeight();
   setCanvasWidthAndHeight(canvas, context, { width, height });
@@ -67,16 +69,18 @@ export function init() {
 
 export function clear() {
   if (state.context) {
-    state.context.clearRect(0, 0, state.width, state.height);
+    state.context.clearRect(0, 0, state.width ?? 0, state.height ?? 0);
   }
 }
 
-export function draw(callback: (context: CanvasRenderingContext2D) => void) {
+export function draw(callback: (context?: CanvasRenderingContext2D) => void) {
   clear();
   callback(state.context);
 }
 
 export function rescale() {
+  invariant(state.canvas, 'Canvas should exist in the state.');
+  invariant(state.context, 'Context should exist in the state.');
   // First reset so that the canvas size doesn't impact the container size
   setCanvasWidthAndHeight(state.canvas, state.context, { width: 0, height: 0 });
 
@@ -91,7 +95,7 @@ export function rescale() {
 export function destroy() {
   if (state.canvas) {
     clear();
-    state.canvas.parentNode.removeChild(state.canvas);
+    state.canvas.parentNode?.removeChild(state.canvas);
     state = {};
   }
 }

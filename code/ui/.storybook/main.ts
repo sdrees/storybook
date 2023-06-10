@@ -19,6 +19,30 @@ const allStories = [
     directory: '../blocks/src',
     titlePrefix: '@storybook-blocks',
   },
+  {
+    directory: '../../addons/interactions/template/stories',
+    titlePrefix: '@storybook-addon/interactions',
+  },
+  {
+    directory: '../../addons/actions/template/stories',
+    titlePrefix: '@storybook-addon/actions',
+  },
+  {
+    directory: '../../addons/a11y/template/stories',
+    titlePrefix: '@storybook-addon/accessibility',
+  },
+  {
+    directory: '../../addons/controls/template/stories',
+    titlePrefix: '@storybook-addon/controls',
+  },
+  {
+    directory: '../../addons/docs/template/stories',
+    titlePrefix: '@storybook-addon/docs',
+  },
+  {
+    directory: '../../addons/viewport/template/stories',
+    titlePrefix: '@storybook-addon/viewport',
+  },
 ];
 
 /**
@@ -48,6 +72,7 @@ const config: StorybookConfig = {
   stories: isBlocksOnly ? blocksOnlyStories : allStories,
   addons: [
     '@storybook/addon-links',
+    '@storybook/addon-a11y',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',

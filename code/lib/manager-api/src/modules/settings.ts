@@ -2,9 +2,27 @@ import type { API_Settings } from '@storybook/types';
 import type { ModuleFn } from '../index';
 
 export interface SubAPI {
-  changeSettingsTab: (tab: string) => void;
+  /**
+   * Changes the active settings tab.
+   * @param path - The path of the settings page to navigate to. The path NOT should include the `/settings` prefix.
+   * @example  changeSettingsTab(`about`).
+   */
+  changeSettingsTab: (path: string) => void;
+  /**
+   * Closes the settings screen and returns to the last tracked story or the first story.
+   */
   closeSettings: () => void;
+  /**
+   * Checks if the settings screen is currently active.
+   * @returns A boolean indicating whether the settings screen is active.
+   */
   isSettingsScreenActive: () => boolean;
+  /**
+   * Navigates to the specified settings page.
+   * @param path - The path of the settings page to navigate to. The path should include the `/settings` prefix.
+   * @example  navigateToSettingsPage(`/settings/about`).
+   * @deprecated Use `changeSettingsTab` instead.
+   */
   navigateToSettingsPage: (path: string) => Promise<void>;
 }
 
@@ -29,8 +47,8 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) =
         fullAPI.selectFirstStory();
       }
     },
-    changeSettingsTab: (tab: string) => {
-      navigate(`/settings/${tab}`);
+    changeSettingsTab: (path: string) => {
+      navigate(`/settings/${path}`);
     },
     isSettingsScreenActive,
     navigateToSettingsPage: async (path) => {

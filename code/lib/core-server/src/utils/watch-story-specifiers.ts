@@ -6,6 +6,7 @@ import glob from 'globby';
 import uniq from 'lodash/uniq.js';
 
 import type { NormalizedStoriesSpecifier, Path } from '@storybook/types';
+import { commonGlobOptions } from '@storybook/core-common';
 
 const isDirectory = (directory: Path) => {
   try {
@@ -74,7 +75,7 @@ export function watchStorySpecifiers(
               path.basename(specifier.files)
             );
             // glob only supports forward slashes
-            const files = await glob(slash(dirGlob));
+            const files = await glob(slash(dirGlob), commonGlobOptions(dirGlob));
 
             files.forEach((filePath) => {
               const fileImportPath = toImportPath(

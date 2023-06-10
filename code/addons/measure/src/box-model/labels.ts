@@ -285,7 +285,7 @@ export function labelStacks(
       acc[l.position] = [];
     }
 
-    acc[l.position].push(l);
+    acc[l.position]?.push(l);
 
     return acc;
   }, {});

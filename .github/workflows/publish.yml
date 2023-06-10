@@ -1,0 +1,136 @@
+name: Publish
+run-name: Publish new version on ${{ github.ref_name }}, triggered by ${{ github.triggering_actor }}
+
+on:
+  push:
+    branches:
+      - latest-release
+      - next-release
+
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+
+jobs:
+  publish:
+    name: Publish new version
+    runs-on: ubuntu-latest
+    environment: release
+    defaults:
+      run:
+        working-directory: scripts
+    steps:
+      - name: Checkout ${{ github.ref_name }}
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 100
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.yarn/berry/cache
+          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          restore-keys: |
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+            yarn-v1
+
+      - name: Install script dependencies
+        run: |
+          yarn install
+
+      - name: Get current version
+        id: version
+        run: yarn release:get-current-version
+
+      - name: Check if publish is needed
+        id: publish-needed
+        run: yarn release:is-version-published ${{ steps.version.outputs.current-version }}
+
+      - name: Check release vs prerelease
+        if: steps.publish-needed.outputs.published == 'false'
+        id: is-prerelease
+        run: yarn release:is-prerelease
+
+      - name: Install code dependencies
+        if: steps.publish-needed.outputs.published == 'false'
+        working-directory: .
+        run: yarn task --task=install --start-from=install
+
+      - name: Publish
+        if: steps.publish-needed.outputs.published == 'false'
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn release:publish --tag ${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next' || 'latest' }} --verbose
+
+      - name: Get target branch
+        id: target
+        run: echo "target=${{ github.ref_name == 'next-release' && 'next' || 'main' }}" >> $GITHUB_OUTPUT
+
+      - name: Get changelog for ${{ steps.version.outputs.current-version }}
+        if: steps.publish-needed.outputs.published == 'false'
+        id: changelog
+        run: yarn release:get-changelog-from-file ${{ steps.version.outputs.current-version }}
+
+      # tags are needed to get list of patches to label as picked
+      - name: Fetch git tags
+        if: github.ref_name == 'main-release'
+        run: git fetch --tags origin
+
+      - name: Label patch PRs as picked
+        if: github.ref_name == 'main-release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn release:label-patches
+
+      - name: Create GitHub Release
+        if: steps.publish-needed.outputs.published == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create \
+          v${{ steps.version.outputs.current-version }} \
+            --repo "${{ github.repository }}" \
+            --target ${{ github.ref_name }} \
+            --title "v${{ steps.version.outputs.current-version }}" \
+            --notes "${{ steps.changelog.outputs.changelog }}" \
+            ${{ steps.is-prerelease.outputs.prerelease == 'true' && '--prerelease' || '' }}
+
+      - name: Merge ${{ github.ref_name }} into ${{ steps.target.outputs.target }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin ${{ steps.target.outputs.target }}
+          git checkout ${{ steps.target.outputs.target }}
+          git merge ${{ github.ref_name }}
+          git push origin ${{ steps.target.outputs.target }}
+
+      # Force push from next to main if it is not a prerelease, and this release is from next-release
+      # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
+      # This will keep release-next, next and main all tracking v7.1.0
+      # - name: Force push ${{ steps.target.outputs.target }} to main
+      #   if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease
+      #   run: |
+      #     git push --force origin ${{ steps.target.outputs.target }}:main
+
+      - name: Report job failure to Discord
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The GitHub Action for publishing version ${{ steps.version.outputs.current-version }} (triggered by ${{ github.triggering_actor }}) failed! See run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'

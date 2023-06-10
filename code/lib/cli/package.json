@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.1.0-alpha.27",
+  "version": "7.1.0-alpha.30",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -57,13 +57,13 @@
     "@babel/core": "^7.22.0",
     "@babel/preset-env": "^7.22.0",
     "@ndelangen/get-tarball": "^3.0.7",
-    "@storybook/codemod": "7.1.0-alpha.27",
-    "@storybook/core-common": "7.1.0-alpha.27",
-    "@storybook/core-server": "7.1.0-alpha.27",
-    "@storybook/csf-tools": "7.1.0-alpha.27",
-    "@storybook/node-logger": "7.1.0-alpha.27",
-    "@storybook/telemetry": "7.1.0-alpha.27",
-    "@storybook/types": "7.1.0-alpha.27",
+    "@storybook/codemod": "7.1.0-alpha.30",
+    "@storybook/core-common": "7.1.0-alpha.30",
+    "@storybook/core-server": "7.1.0-alpha.30",
+    "@storybook/csf-tools": "7.1.0-alpha.30",
+    "@storybook/node-logger": "7.1.0-alpha.30",
+    "@storybook/telemetry": "7.1.0-alpha.30",
+    "@storybook/types": "7.1.0-alpha.30",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -87,7 +87,6 @@
     "puppeteer-core": "^2.1.1",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
-    "shelljs": "^0.8.5",
     "simple-update-notifier": "^1.0.0",
     "strip-json-comments": "^3.0.1",
     "tempy": "^1.0.1",
@@ -95,12 +94,11 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.1.0-alpha.27",
+    "@storybook/client-api": "7.1.0-alpha.30",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
     "@types/semver": "^7.3.4",
-    "@types/shelljs": "^0.8.7",
     "@types/util-deprecate": "^1.0.0",
     "slash": "^5.0.0",
     "strip-json-comments": "^3.1.1",
@@ -116,5 +114,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16"
 }

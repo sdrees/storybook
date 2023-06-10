@@ -24,8 +24,23 @@ const getVersionCheckData = memoize(1)((): API_Versions => {
 });
 
 export interface SubAPI {
+  /**
+   * Returns the current version of the Storybook Manager.
+   *
+   * @returns {API_Version} The current version of the Storybook Manager.
+   */
   getCurrentVersion: () => API_Version;
+  /**
+   * Returns the latest version of the Storybook Manager.
+   *
+   * @returns {API_Version} The latest version of the Storybook Manager.
+   */
   getLatestVersion: () => API_Version;
+  /**
+   * Checks if an update is available for the Storybook Manager.
+   *
+   * @returns {boolean} True if an update is available, false otherwise.
+   */
   versionUpdateAvailable: () => boolean;
 }
 

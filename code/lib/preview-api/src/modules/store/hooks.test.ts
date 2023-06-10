@@ -147,6 +147,25 @@ describe('Preview hooks', () => {
       run(story, [decorator]);
       expect(effect).toHaveBeenCalledTimes(1);
     });
+    it('handles decorator conditionally rendering the story', () => {
+      const effect = jest.fn();
+      const story = () => {
+        useEffect(effect, []);
+      };
+      const decorator = (storyFn: any) => {
+        const [counter, setCounter] = useState(0);
+        useEffect(() => {
+          setCounter((prevCounter) => prevCounter + 1);
+        }, [counter]);
+        if (counter % 2 === 1) storyFn();
+        return 'placeholder while waiting';
+      };
+      run(story, [decorator]);
+      run(story, [decorator]);
+      run(story, [decorator]);
+      run(story, [decorator]);
+      expect(effect).toHaveBeenCalledTimes(2);
+    });
     it('retriggers the effect if some of the deps are changed', () => {
       const effect = jest.fn();
       let counter = 0;

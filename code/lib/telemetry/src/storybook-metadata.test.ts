@@ -151,7 +151,7 @@ describe('await computeStorybookMetadata', () => {
           '@storybook/addon-knobs': 'x.x.y',
           'storybook-addon-deprecated': 'x.x.z',
         },
-      },
+      } as PackageJson,
       mainConfig: {
         ...mainJsMock,
         addons: [
@@ -242,7 +242,7 @@ describe('await computeStorybookMetadata', () => {
           dependencies: {
             [metaFramework]: 'x.x.x',
           },
-        },
+        } as PackageJson,
         mainConfig: mainJsMock,
       });
       expect(res.metaFramework).toEqual({

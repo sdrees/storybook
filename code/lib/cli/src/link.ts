@@ -1,10 +1,10 @@
 import fse from 'fs-extra';
 import path from 'path';
-import { sync as spawnSync } from 'cross-spawn';
+import { sync as spawnSync, spawn as spawnAsync } from 'cross-spawn';
 import { logger } from '@storybook/node-logger';
-import shell from 'shelljs';
 import chalk from 'chalk';
-import type { ExecOptions } from 'shelljs';
+
+type ExecOptions = Parameters<typeof spawnAsync>[2];
 
 interface LinkOptions {
   target: string;
@@ -31,14 +31,8 @@ export const exec = async (
 
   logger.info(command);
   return new Promise((resolve, reject) => {
-    const defaultOptions: ExecOptions = {
-      silent: false,
-    };
-    const child = shell.exec(command, {
-      ...defaultOptions,
+    const child = spawnAsync(command, {
       ...options,
-      async: true,
-      silent: false,
     });
 
     child.stderr.pipe(process.stderr);

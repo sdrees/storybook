@@ -57,6 +57,7 @@ import * as releaseNotes from './modules/release-notes';
 // eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
 
+// eslint-disable-next-line import/no-cycle
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';

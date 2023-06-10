@@ -3,6 +3,7 @@ import semver from 'semver';
 import { join } from 'path';
 import slash from 'slash';
 import glob from 'globby';
+import { commonGlobOptions } from '@storybook/core-common';
 import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
@@ -37,7 +38,7 @@ export const mdxgfm: Fix<Options> = {
           ? slash(join(configDir, item))
           : slash(join(configDir, item.directory, item.files));
 
-      const files = await glob(pattern);
+      const files = await glob(pattern, commonGlobOptions(pattern));
 
       return files.some((f) => f.endsWith('.mdx'));
     }, Promise.resolve(false));

@@ -1,8 +1,0 @@
-# Any change inside the `/code` and `/scripts` directories will require approval from @storybookjs/core team.
-
-/.github/ @storybookjs/core
-/.circleci/ @storybookjs/core
-/.yarn/ @storybookjs/core
-/code/ @storybookjs/core
-/scripts/ @storybookjs/core
-/package.json @storybookjs/core

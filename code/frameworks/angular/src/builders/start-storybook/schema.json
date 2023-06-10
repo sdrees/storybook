@@ -56,6 +56,11 @@
       "description": "CI mode (skip interactive prompts, don't open browser).",
       "default": false
     },
+    "open": {
+      "type": "boolean",
+      "description": "Whether to open Storybook automatically in the browser.",
+      "default": true
+    },
     "quiet": {
       "type": "boolean",
       "description": "Suppress verbose build output.",

@@ -1,8 +1,8 @@
-import type { API_Provider } from '@storybook/types';
-import type { API, ModuleFn } from '../index';
+import type { API_IframeRenderer } from '@storybook/types';
+import type { ModuleFn } from '../index';
 
 export interface SubAPI {
-  renderPreview?: API_Provider<API>['renderPreview'];
+  renderPreview?: API_IframeRenderer;
 }
 
 export const init: ModuleFn<SubAPI, {}, true> = ({ provider, fullAPI }) => {

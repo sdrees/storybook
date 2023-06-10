@@ -25,6 +25,7 @@
     - [Deploying build artifacts](#deploying-build-artifacts)
       - [Dropped support for file URLs](#dropped-support-for-file-urls)
       - [Serving with nginx](#serving-with-nginx)
+      - [Ignore story files from node\_modules](#ignore-story-files-from-node_modules)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -832,6 +833,28 @@ With [nginx](https://www.nginx.com/), you need to extend [the MIME type handling
 ```
 
 It would otherwise default to serving the `.mjs` files as `application/octet-stream`.
+
+##### Ignore story files from node_modules
+
+In 6.x Storybook literally followed the glob patterns specified in your `.storybook/main.js` `stories` field. Storybook 7.0 ignores files from `node_modules` unless your glob pattern includes the string `"node_modules"`.
+
+Given the following `main.js`:
+
+```js
+export default {
+  stories: ['../**/*.stories.*']
+}
+```
+
+If you want to restore the previous behavior to include `node_modules`, you can update it to:
+
+```js
+export default {
+  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*']
+}
+```
+
+The first glob would have node_modules automatically excluded by Storybook, and the second glob would include all stories that are under a nested `node_modules` directory.
 
 ### 7.0 Core changes
 

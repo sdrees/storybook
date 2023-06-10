@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue-vite",
-  "version": "7.1.0-alpha.27",
+  "version": "7.1.0-alpha.30",
   "description": "Storybook for Vue2 and Vite: Develop Vue2 Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -47,11 +47,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-vite": "7.1.0-alpha.27",
-    "@storybook/core-common": "7.1.0-alpha.27",
-    "@storybook/core-server": "7.1.0-alpha.27",
-    "@storybook/vue": "7.1.0-alpha.27",
-    "magic-string": "^0.27.0",
+    "@storybook/builder-vite": "7.1.0-alpha.30",
+    "@storybook/core-common": "7.1.0-alpha.30",
+    "@storybook/core-server": "7.1.0-alpha.30",
+    "@storybook/vue": "7.1.0-alpha.30",
+    "magic-string": "^0.30.0",
     "vue-docgen-api": "^4.40.0"
   },
   "devDependencies": {
@@ -78,5 +78,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16"
 }

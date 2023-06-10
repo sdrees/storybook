@@ -15,8 +15,20 @@ const getReleaseNotesData = memoize(1)((): API_ReleaseNotes => {
 });
 
 export interface SubAPI {
+  /**
+   * Returns the current version of the release notes.
+   * @returns {string} The current version of the release notes.
+   */
   releaseNotesVersion: () => string;
+  /**
+   * Sets the release notes as viewed.
+   * @returns {void}
+   */
   setDidViewReleaseNotes: () => void;
+  /**
+   * Determines whether to show the release notes on launch.
+   * @returns {boolean} Whether to show the release notes on launch.
+   */
   showReleaseNotesOnLaunch: () => boolean;
 }
 

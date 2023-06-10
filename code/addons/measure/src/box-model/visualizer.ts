@@ -282,7 +282,7 @@ function drawContent(
 }
 
 function drawBoxModel(element: HTMLElement) {
-  return (context: CanvasRenderingContext2D) => {
+  return (context?: CanvasRenderingContext2D) => {
     if (element && context) {
       const measurements = measureElement(element);
 

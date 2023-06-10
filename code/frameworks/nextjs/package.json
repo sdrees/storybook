@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.1.0-alpha.27",
+  "version": "7.1.0-alpha.30",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -70,13 +70,13 @@
     "@babel/preset-react": "^7.22.0",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/runtime": "^7.22.0",
-    "@storybook/addon-actions": "7.1.0-alpha.27",
-    "@storybook/builder-webpack5": "7.1.0-alpha.27",
-    "@storybook/core-common": "7.1.0-alpha.27",
-    "@storybook/node-logger": "7.1.0-alpha.27",
-    "@storybook/preset-react-webpack": "7.1.0-alpha.27",
-    "@storybook/preview-api": "7.1.0-alpha.27",
-    "@storybook/react": "7.1.0-alpha.27",
+    "@storybook/addon-actions": "7.1.0-alpha.30",
+    "@storybook/builder-webpack5": "7.1.0-alpha.30",
+    "@storybook/core-common": "7.1.0-alpha.30",
+    "@storybook/node-logger": "7.1.0-alpha.30",
+    "@storybook/preset-react-webpack": "7.1.0-alpha.30",
+    "@storybook/preview-api": "7.1.0-alpha.30",
+    "@storybook/react": "7.1.0-alpha.30",
     "@types/node": "^16.0.0",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
@@ -94,7 +94,7 @@
     "styled-jsx": "5.1.1",
     "ts-dedent": "^2.0.0",
     "tsconfig-paths": "^4.0.0",
-    "tsconfig-paths-webpack-plugin": "^3.5.2"
+    "tsconfig-paths-webpack-plugin": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.0",
@@ -147,5 +147,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16"
 }

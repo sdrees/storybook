@@ -11,4 +11,4 @@ A framework calls the `start(renderToCanvas, { render, decorateStory })` functio
 The `start` function will return a `configure()` function, which can be re-exported to be used in `preview.js` (deprecated), or automatically by the `main.js:stories` field to:
 
 - return a list of CSF files
-- [deprecated] make calls to the `storiesOf` API.
+- `deprecated` make calls to the `storiesOf` API.

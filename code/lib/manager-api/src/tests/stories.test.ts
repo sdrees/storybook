@@ -21,6 +21,7 @@ import { Channel } from '@storybook/channels';
 import type { API_StoryEntry, StoryIndex, API_PreparedStoryIndex } from '@storybook/types';
 import { getEventMetadata } from '../lib/events';
 
+import type { SubAPI } from '../modules/stories';
 import { init as initStories } from '../modules/stories';
 import type Store from '../store';
 import type { ModuleArgs } from '..';
@@ -125,12 +126,14 @@ describe('stories API', () => {
       viewMode: 'story',
     } as ModuleArgs);
 
-    expect(state).toEqual({
-      previewInitialized: false,
-      storyId: 'id',
-      viewMode: 'story',
-      hasCalledSetOptions: false,
-    });
+    expect(state).toEqual(
+      expect.objectContaining({
+        previewInitialized: false,
+        storyId: 'id',
+        viewMode: 'story',
+        hasCalledSetOptions: false,
+      })
+    );
   });
 
   describe('setIndex', () => {
@@ -1627,6 +1630,105 @@ describe('stories API', () => {
         },
         true
       );
+    });
+  });
+
+  describe('experimental_updateStatus', () => {
+    it('is included in the initial state', () => {
+      const { state } = initStoriesAndSetState({
+        storyId: 'id',
+        viewMode: 'story',
+      } as ModuleArgs);
+
+      expect(state).toEqual(
+        expect.objectContaining({
+          status: {},
+        })
+      );
+    });
+
+    it('updates a story', async () => {
+      const fullAPI = Object.assign(new EventEmitter());
+      const navigate = jest.fn();
+      const store = createMockStore();
+
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+
+      const API: SubAPI = Object.assign(fullAPI, api, {
+        setIndex: jest.fn(),
+        findRef: jest.fn(),
+        setRef: jest.fn(),
+      });
+
+      await init();
+
+      await expect(
+        API.experimental_updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+        })
+      ).resolves.not.toThrow();
+
+      expect(store.getState().status).toMatchInlineSnapshot(`
+        Object {
+          "a-story-id": Object {
+            "a-addon-id": Object {
+              "description": "an addon description",
+              "status": "pending",
+              "title": "an addon title",
+            },
+          },
+        }
+      `);
+    });
+
+    it('updates multiple stories', async () => {
+      const fullAPI = Object.assign(new EventEmitter());
+      const navigate = jest.fn();
+      const store = createMockStore();
+
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+
+      const API: SubAPI = Object.assign(fullAPI, api, {
+        setIndex: jest.fn(),
+        findRef: jest.fn(),
+        setRef: jest.fn(),
+      });
+
+      await init();
+
+      await expect(
+        API.experimental_updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
+        })
+      ).resolves.not.toThrow();
+
+      expect(store.getState().status).toMatchInlineSnapshot(`
+        Object {
+          "a-story-id": Object {
+            "a-addon-id": Object {
+              "description": "an addon description",
+              "status": "pending",
+              "title": "an addon title",
+            },
+          },
+          "another-story-id": Object {
+            "a-addon-id": Object {
+              "description": "",
+              "status": "success",
+              "title": "a addon title",
+            },
+          },
+        }
+      `);
     });
   });
 });

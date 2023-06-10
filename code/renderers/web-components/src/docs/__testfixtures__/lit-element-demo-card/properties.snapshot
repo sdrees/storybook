@@ -84,7 +84,7 @@ Object {
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "boolean",
     },
   },
   "backSide": Object {
@@ -126,7 +126,7 @@ Object {
     "name": "header",
     "required": false,
     "table": Object {
-      "category": "properties",
+      "category": "attributes",
       "defaultValue": Object {
         "summary": "\\"Your Message\\"",
       },
@@ -152,7 +152,7 @@ Object {
     "name": "rows",
     "required": false,
     "table": Object {
-      "category": "properties",
+      "category": "attributes",
       "defaultValue": Object {
         "summary": "[]",
       },

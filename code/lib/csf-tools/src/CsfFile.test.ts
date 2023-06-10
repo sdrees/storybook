@@ -22,6 +22,8 @@ const parse = (code: string, includeParameters?: boolean) => {
   return { meta, stories: filtered };
 };
 
+//
+
 describe('CsfFile', () => {
   describe('basic', () => {
     it('args stories', () => {
@@ -124,7 +126,7 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          export default { title: 'foo/bar', includeStories: /^Include.*/ };
+          export default { title: 'foo/bar', includeStories: ['IncludeA'] };
           export const SomeHelper = () => {};
           export const IncludeA = () => {};
         `
@@ -132,7 +134,8 @@ describe('CsfFile', () => {
       ).toMatchInlineSnapshot(`
         meta:
           title: foo/bar
-          includeStories: !<tag:yaml.org,2002:js/regexp> /^Include.*/
+          includeStories:
+            - IncludeA
         stories:
           - id: foo-bar--include-a
             name: Include A
@@ -529,10 +532,10 @@ describe('CsfFile', () => {
         }
       `)
       ).toMatchInlineSnapshot(`
-      meta:
-        title: Chip
-      stories: []
-      `);
+              meta:
+                title: Chip
+              stories: []
+            `);
     });
   });
 

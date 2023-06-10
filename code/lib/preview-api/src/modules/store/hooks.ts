@@ -33,6 +33,17 @@ export {
   useGlobals,
 };
 
+/**
+ * @param {string} sharedId - The ID of the shared state.
+ * @param {S} [defaultState] - The default state of the shared state.
+ * @deprecated This API might get dropped, if you are using this, please file an issue.
+ * @returns {[S, (s: S) => void]} - A tuple containing the current state and a function to update the state.
+ * @example
+ * const [state, setState] = useSharedState('my-addon', { count: 0 });
+ * console.log(state); // { count: 0 }
+ * setState({ count: 1 });
+ * console.log(state); // { count: 1 }
+ */
 export function useSharedState<S>(sharedId: string, defaultState?: S): [S, (s: S) => void] {
   const channel = addons.getChannel();
 
@@ -69,6 +80,17 @@ export function useSharedState<S>(sharedId: string, defaultState?: S): [S, (s: S
   ];
 }
 
+/**
+ * @param {string} sharedId - The ID of the shared state.
+ * @param {S} [defaultState] - The default state of the shared state.
+ * @deprecated This API might get dropped, if you are using this, please file an issue.
+ * @returns {[S, (s: S) => void]} - A tuple containing the current state and a function to update the state.
+ * @example
+ * const [state, setState] = useSharedState('my-addon', { count: 0 });
+ * console.log(state); // { count: 0 }
+ * setState({ count: 1 });
+ * console.log(state); // { count: 1 }
+ */
 export function useAddonState<S>(addonId: string, defaultState?: S): [S, (s: S) => void] {
   return useSharedState<S>(addonId, defaultState);
 }

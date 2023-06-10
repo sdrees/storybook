@@ -30,7 +30,6 @@ addToGlobalContext('cliVersion', versions.storybook);
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
-  docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
   styles?: StyleElement[];
@@ -50,6 +49,8 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'ci'
     | 'quiet'
     | 'disableTelemetry'
+    | 'open'
+    | 'docs'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
@@ -58,9 +59,13 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
   const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
       const runCompodoc$ = options.compodoc
-        ? runCompodoc({ compodocArgs: options.compodocArgs, tsconfig: tsConfig }, context).pipe(
-            mapTo({ tsConfig })
-          )
+        ? runCompodoc(
+            {
+              compodocArgs: [...options.compodocArgs, ...(options.quiet ? ['--silent'] : [])],
+              tsconfig: tsConfig,
+            },
+            context
+          ).pipe(mapTo({ tsConfig }))
         : of({});
 
       return runCompodoc$.pipe(mapTo({ tsConfig }));
@@ -93,6 +98,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         sslKey,
         disableTelemetry,
         assets,
+        open,
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
@@ -117,6 +123,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
           ...(assets ? { assets } : {}),
         },
         tsConfig,
+        open,
       };
 
       return standaloneOptions;

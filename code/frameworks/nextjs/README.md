@@ -44,7 +44,7 @@
   - [FAQ](#faq)
     - [Stories for pages/components which fetch data](#stories-for-pagescomponents-which-fetch-data)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
-    - [Module not found: Error: Can't resolve \[package name\]](#module-not-found-error-cant-resolve-package-name)
+    - [Module not found: Error: Can't resolve `package name`](#module-not-found-error-cant-resolve-package-name)
     - [What if I'm using the Vite builder?](#what-if-im-using-the-vite-builder)
 - [Acknowledgements](#acknowledgements)
 
@@ -930,7 +930,7 @@ Therefore, if something in storybook isn't showing the image properly, make sure
 
 See [local images](https://nextjs.org/docs/basic-features/image-optimization#local-images) for more detail on how Next.js treats static image imports.
 
-#### Module not found: Error: Can't resolve [package name]
+#### Module not found: Error: Can't resolve `package name`
 
 You might get this if you're using Yarn v2 or v3. See [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users) for more details.
 
