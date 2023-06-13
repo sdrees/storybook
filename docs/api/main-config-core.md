@@ -35,6 +35,14 @@ Type:
 
 Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../builders/webpack.md).
 
+<div class="aside">
+
+💡 With the new [Framework API](./new-frameworks.md), [`framework.options.builder`](./main-config-framework.md#optionsbuilder) is now the preferred way to configure the builder.
+
+You should only use `core.builder.options` if you need to configure a builder that is not part of a framework.
+
+</div>
+
 <!-- prettier-ignore-start -->
 
 <CodeSnippets

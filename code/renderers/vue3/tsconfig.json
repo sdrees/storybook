@@ -4,8 +4,10 @@
     "strict": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "allowJs": true,
-    "types": ["jest", "testing-library__jest-dom"]
+    "allowJs": true
+  },
+  "vueCompilerOptions": {
+    "target": 3
   },
   "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"]
 }

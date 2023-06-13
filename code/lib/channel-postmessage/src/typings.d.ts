@@ -1,1 +1,2 @@
 declare var CHANNEL_OPTIONS: any;
+declare var CONFIG_TYPE: 'DEVELOPMENT' | 'PRODUCTION';

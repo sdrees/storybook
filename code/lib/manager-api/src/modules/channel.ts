@@ -74,7 +74,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
       }
       provider.channel.emit(type, data, ...args);
     },
-
     collapseAll: () => {
       api.emit(STORIES_COLLAPSE_ALL, {});
     },

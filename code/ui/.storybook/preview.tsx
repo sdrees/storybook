@@ -20,8 +20,6 @@ import { DocsContext } from '@storybook/blocks';
 
 import { DocsPageWrapper } from '../blocks/src/components';
 
-import '../../renderers/react/template/components/index';
-
 const { document } = global;
 
 const ThemeBlock = styled.div<{ side: 'left' | 'right' }>(

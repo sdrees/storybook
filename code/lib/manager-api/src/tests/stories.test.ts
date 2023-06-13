@@ -398,7 +398,7 @@ describe('stories API', () => {
     it('handles properly prepared stories', async () => {
       const navigate = jest.fn();
       const store = createMockStore();
-      const fullAPI = Object.assign(new EventEmitter());
+      const fullAPI = Object.assign(new EventEmitter(), {});
 
       const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
@@ -435,7 +435,9 @@ describe('stories API', () => {
     it('retains prepared-ness of stories', async () => {
       const navigate = jest.fn();
       const store = createMockStore();
-      const fullAPI = Object.assign(new EventEmitter(), { setOptions: jest.fn() });
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setOptions: jest.fn(),
+      });
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
@@ -595,7 +597,7 @@ describe('stories API', () => {
     it('deals with 500 errors', async () => {
       const navigate = jest.fn();
       const store = createMockStore({});
-      const fullAPI = Object.assign(new EventEmitter(), {});
+      const fullAPI = Object.assign(new EventEmitter(), {}, {});
 
       (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockReturnValue(
         Promise.resolve({
@@ -612,7 +614,7 @@ describe('stories API', () => {
       expect(indexError).toBeDefined();
     });
 
-    it('watches for the INVALIDATE event and refetches -- and resets the hash', async () => {
+    it('watches for the INVALIDATE event and re-fetches -- and resets the hash', async () => {
       const navigate = jest.fn();
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {
@@ -636,7 +638,7 @@ describe('stories API', () => {
           importPath: './path/to/component-a.ts',
         },
       });
-      provider.serverChannel.emit(STORY_INDEX_INVALIDATED);
+      fullAPI.emit(STORY_INDEX_INVALIDATED);
       expect(global.fetch).toHaveBeenCalledTimes(1);
 
       // Let the promise/await chain resolve
@@ -677,7 +679,7 @@ describe('stories API', () => {
           importPath: './path/to/component-a.ts',
         },
       });
-      provider.serverChannel.emit(STORY_INDEX_INVALIDATED);
+      fullAPI.emit(STORY_INDEX_INVALIDATED);
       expect(global.fetch).toHaveBeenCalledTimes(1);
 
       // Let the promise/await chain resolve
@@ -741,7 +743,7 @@ describe('stories API', () => {
   describe('CURRENT_STORY_WAS_SET event', () => {
     it('sets previewInitialized', async () => {
       const navigate = jest.fn();
-      const fullAPI = Object.assign(new EventEmitter());
+      const fullAPI = Object.assign(new EventEmitter(), {});
       const store = createMockStore({});
       const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
@@ -754,7 +756,9 @@ describe('stories API', () => {
 
     it('sets a ref to previewInitialized', async () => {
       const navigate = jest.fn();
-      const fullAPI = Object.assign(new EventEmitter(), { updateRef: jest.fn() });
+      const fullAPI = Object.assign(new EventEmitter(), {
+        updateRef: jest.fn(),
+      });
       const store = createMockStore();
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
@@ -801,7 +805,9 @@ describe('stories API', () => {
     it('changes args properly, per story when receiving STORY_ARGS_UPDATED', () => {
       const navigate = jest.fn();
       const store = createMockStore();
-      const fullAPI = new EventEmitter();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        updateRef: jest.fn(),
+      });
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
@@ -1498,7 +1504,9 @@ describe('stories API', () => {
 
     it('sets previewInitialized to true, ref', async () => {
       const navigate = jest.fn();
-      const fullAPI = Object.assign(new EventEmitter(), { updateRef: jest.fn() });
+      const fullAPI = Object.assign(new EventEmitter(), {
+        updateRef: jest.fn(),
+      });
       const store = createMockStore();
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
@@ -1537,7 +1545,9 @@ describe('stories API', () => {
 
     it('sets previewInitialized to true, ref', async () => {
       const navigate = jest.fn();
-      const fullAPI = Object.assign(new EventEmitter(), { updateRef: jest.fn() });
+      const fullAPI = Object.assign(new EventEmitter(), {
+        updateRef: jest.fn(),
+      });
       const store = createMockStore();
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
@@ -1559,12 +1569,12 @@ describe('stories API', () => {
 
   describe('v2 SET_STORIES event', () => {
     it('normalizes parameters and calls setRef for external stories', () => {
-      const fullAPI = Object.assign(new EventEmitter());
+      const fullAPI = Object.assign(new EventEmitter(), {});
       const navigate = jest.fn();
       const store = createMockStore();
 
       const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
-      Object.assign(fullAPI, api, {
+      const finalAPI = Object.assign(fullAPI, api, {
         setIndex: jest.fn(),
         findRef: jest.fn(),
         setRef: jest.fn(),
@@ -1581,10 +1591,10 @@ describe('stories API', () => {
         kindParameters: { a: { kind: 'kind' } },
         stories: { 'a--1': { kind: 'a', parameters: { story: 'story' } } },
       };
-      fullAPI.emit(SET_STORIES, setStoriesPayload);
+      finalAPI.emit(SET_STORIES, setStoriesPayload);
 
-      expect(fullAPI.setIndex).not.toHaveBeenCalled();
-      expect(fullAPI.setRef).toHaveBeenCalledWith(
+      expect(finalAPI.setIndex).not.toHaveBeenCalled();
+      expect(finalAPI.setRef).toHaveBeenCalledWith(
         'ref',
         {
           id: 'ref',

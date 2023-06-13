@@ -43,6 +43,9 @@ const STORY_INDEX_PATH = './index.json';
 export type MaybePromise<T> = Promise<T> | T;
 
 export class Preview<TRenderer extends Renderer> {
+  /**
+   * @deprecated will be removed in 8.0, please use channel instead
+   */
   serverChannel?: Channel;
 
   storyStore: StoryStore<TRenderer>;
@@ -96,8 +99,7 @@ export class Preview<TRenderer extends Renderer> {
   }
 
   setupListeners() {
-    this.serverChannel?.on(STORY_INDEX_INVALIDATED, this.onStoryIndexChanged.bind(this));
-
+    this.channel.on(STORY_INDEX_INVALIDATED, this.onStoryIndexChanged.bind(this));
     this.channel.on(UPDATE_GLOBALS, this.onUpdateGlobals.bind(this));
     this.channel.on(UPDATE_STORY_ARGS, this.onUpdateArgs.bind(this));
     this.channel.on(RESET_STORY_ARGS, this.onResetArgs.bind(this));

@@ -34,7 +34,7 @@ it('throws PREPARE_ABORTED if torndown during prepare', async () => {
   };
 
   const render = new CsfDocsRender(
-    new Channel(),
+    new Channel({}),
     mockStore as unknown as StoryStore<Renderer>,
     entry,
     {} as RenderContextCallbacks<Renderer>
@@ -63,7 +63,7 @@ it('attached immediately', async () => {
   } as unknown as StoryStore<Renderer>;
 
   const render = new CsfDocsRender(
-    new Channel(),
+    new Channel({}),
     store,
     entry,
     {} as RenderContextCallbacks<Renderer>

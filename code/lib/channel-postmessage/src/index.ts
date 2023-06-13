@@ -2,12 +2,13 @@ import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
 import { Channel } from '@storybook/channels';
 import type { ChannelHandler, ChannelEvent, ChannelTransport } from '@storybook/channels';
+import { WebsocketTransport } from '@storybook/channel-websocket';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
 import invariant from 'tiny-invariant';
 
-const { document, location } = global;
+const { document, location, CONFIG_TYPE } = global;
 
 interface Config {
   page: 'manager' | 'preview';
@@ -289,8 +290,17 @@ const getEventSourceUrl = (event: MessageEvent) => {
  * Creates a channel which communicates with an iframe or child window.
  */
 export function createChannel({ page }: Config): Channel {
-  const transport = new PostmsgTransport({ page });
-  return new Channel({ transport });
+  const transports: ChannelTransport[] = [new PostmsgTransport({ page })];
+
+  if (CONFIG_TYPE === 'DEVELOPMENT') {
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    const { hostname, port } = window.location;
+    const channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
+
+    transports.push(new WebsocketTransport({ url: channelUrl, onError: () => {} }));
+  }
+
+  return new Channel({ transports });
 }
 
 // backwards compat with builder-vite

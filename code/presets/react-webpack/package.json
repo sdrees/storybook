@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-react-webpack",
-  "version": "7.1.0-alpha.30",
+  "version": "7.1.0-alpha.31",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading",
   "keywords": [
     "storybook"
@@ -66,10 +66,10 @@
     "@babel/preset-flow": "^7.21.0",
     "@babel/preset-react": "^7.22.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
-    "@storybook/core-webpack": "7.1.0-alpha.30",
-    "@storybook/docs-tools": "7.1.0-alpha.30",
-    "@storybook/node-logger": "7.1.0-alpha.30",
-    "@storybook/react": "7.1.0-alpha.30",
+    "@storybook/core-webpack": "7.1.0-alpha.31",
+    "@storybook/docs-tools": "7.1.0-alpha.31",
+    "@storybook/node-logger": "7.1.0-alpha.31",
+    "@storybook/react": "7.1.0-alpha.31",
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",

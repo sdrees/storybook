@@ -56,7 +56,6 @@ Additionally, you can also provide additional feature flags to your Storybook co
 | `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up <br/> `features: { storyStoreV7: true }`                   |
 | `buildStoriesJson`    | Generates a `stories.json` file to help story loading with the on-demand mode <br/> `features: { buildStoriesJson: true }`                                        |
 | `legacyMdx1`          | Enables support for MDX version 1 as a fallback. Requires [`@storybook/mdx1-csf`](https://github.com/storybookjs/mdx1-csf) <br/> `features: { legacyMdx1: true }` |
-| `useSWC`              | Enables experimental support for [SWC](https://swc.rs/) as a Babel alternative for Webpack-based projects<br/> `builder: { useSWC: true }`                        |
 
 ## Configure story loading
 

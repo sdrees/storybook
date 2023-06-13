@@ -1,9 +1,11 @@
 import { global } from '@storybook/global';
 import { Channel } from '@storybook/channels';
-import type { ChannelHandler } from '@storybook/channels';
+import type { ChannelHandler, ChannelTransport } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import invariant from 'tiny-invariant';
+
+const { CONFIG_TYPE } = global;
 
 const { WebSocket } = global;
 
@@ -80,15 +82,23 @@ export function createChannel({
   async = false,
   onError = (err) => logger.warn(err),
 }: CreateChannelArgs) {
-  let channelUrl = url;
-  if (!channelUrl) {
-    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-    const { hostname, port } = window.location;
-    channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
+  const transports: ChannelTransport[] = [];
+
+  if (url) {
+    transports.push(new WebsocketTransport({ url, onError }));
   }
 
-  const transport = new WebsocketTransport({ url: channelUrl, onError });
-  return new Channel({ transport, async });
+  const isUrlServerChannel = !!url?.includes('storybook-server-channel');
+
+  if (CONFIG_TYPE === 'DEVELOPMENT' && isUrlServerChannel === false) {
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    const { hostname, port } = window.location;
+    const channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
+
+    transports.push(new WebsocketTransport({ url: channelUrl, onError: () => {} }));
+  }
+
+  return new Channel({ transports, async });
 }
 
 // backwards compat with builder-vite

@@ -88,7 +88,9 @@ Opts out of [on-demand story loading](#on-demand-story-loading); loads all stori
 
 <!-- prettier-ignore-end -->
 
-## `argTypeTargetsV7` (EXPERIMENTAL)
+## `argTypeTargetsV7`
+
+(⚠️ **Experimental**)
 
 Type: `boolean`
 

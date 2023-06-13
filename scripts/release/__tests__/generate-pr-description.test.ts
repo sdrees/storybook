@@ -185,7 +185,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
         And for each change below:
 
         1. Ensure the change is appropriate for the version bump. E.g. patch release should only contain patches, not new or de-stabilizing features. If a change is not appropriate, revert the PR.
-        2. Ensure the PR is labeled correctly with \\"BREAKING CHANGE\\", \\"feature request\\", \\"maintainance\\", \\"bug\\", \\"build\\" or \\"documentation\\".
+        2. Ensure the PR is labeled correctly with one of: \\"BREAKING CHANGE\\", \\"feature request\\", \\"bug\\", \\"maintenance\\", \\"dependencies\\", \\"documentation\\", \\"build\\", \\"unknown\\".
         3. Ensure the PR title is correct, and follows the format \\"[Area]: [Summary]\\", e.g. *\\"React: Fix hooks in CSF3 render functions\\"*. If it is not correct, change the title in the PR.
             - Areas include: React, Vue, Core, Docs, Controls, etc.
             - First word of summary indicates the type: “Add”, “Fix”, “Upgrade”, etc.
@@ -305,7 +305,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
         And for each change below:
 
         1. Ensure the change is appropriate for the version bump. E.g. patch release should only contain patches, not new or de-stabilizing features. If a change is not appropriate, revert the PR.
-        2. Ensure the PR is labeled correctly with \\"BREAKING CHANGE\\", \\"feature request\\", \\"maintainance\\", \\"bug\\", \\"build\\" or \\"documentation\\".
+        2. Ensure the PR is labeled correctly with one of: \\"BREAKING CHANGE\\", \\"feature request\\", \\"bug\\", \\"maintenance\\", \\"dependencies\\", \\"documentation\\", \\"build\\", \\"unknown\\".
         3. Ensure the PR title is correct, and follows the format \\"[Area]: [Summary]\\", e.g. *\\"React: Fix hooks in CSF3 render functions\\"*. If it is not correct, change the title in the PR.
             - Areas include: React, Vue, Core, Docs, Controls, etc.
             - First word of summary indicates the type: “Add”, “Fix”, “Upgrade”, etc.

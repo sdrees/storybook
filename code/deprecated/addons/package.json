@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addons",
-  "version": "7.1.0-alpha.30",
+  "version": "7.1.0-alpha.31",
   "description": "Storybook addons store",
   "keywords": [
     "storybook"
@@ -44,9 +44,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/manager-api": "7.1.0-alpha.30",
-    "@storybook/preview-api": "7.1.0-alpha.30",
-    "@storybook/types": "7.1.0-alpha.30"
+    "@storybook/manager-api": "7.1.0-alpha.31",
+    "@storybook/preview-api": "7.1.0-alpha.31",
+    "@storybook/types": "7.1.0-alpha.31"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

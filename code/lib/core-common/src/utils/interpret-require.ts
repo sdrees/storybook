@@ -13,7 +13,7 @@ export function interopRequireDefault(filePath: string) {
     register({
       target: `node${process.version.slice(1)}`,
       format: 'cjs',
-      hookIgnoreNodeModules: false,
+      hookIgnoreNodeModules: true,
       tsconfigRaw: `{
       "compilerOptions": {
         "strict": false,

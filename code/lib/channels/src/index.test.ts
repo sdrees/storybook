@@ -19,7 +19,7 @@ describe('Channel', () => {
     });
 
     it('should not set transport if not passed as an argument', () => {
-      channel = new Channel();
+      channel = new Channel({});
       expect(channel.hasTransport).toBeFalsy();
     });
 
@@ -29,7 +29,7 @@ describe('Channel', () => {
     });
 
     it('should set isAsync to false as default value', () => {
-      channel = new Channel();
+      channel = new Channel({});
       expect(channel.isAsync).toBeFalsy();
     });
 
@@ -104,8 +104,11 @@ describe('Channel', () => {
         listenerOutputData = data;
       });
       const sendSpy = jest.fn();
-      // @ts-expect-error (Converted from ts-ignore)
-      channel.transport.send = sendSpy;
+      // @ts-expect-error (access private property for testing purposes)
+      channel.transports.forEach((t) => {
+        // eslint-disable-next-line no-param-reassign
+        t.send = sendSpy;
+      });
       channel.emit(eventName, ...listenerInputData);
       expect(listenerOutputData).toEqual(listenerInputData);
       expect(sendSpy.mock.calls[0][1]).toEqual({ depth: 1 });

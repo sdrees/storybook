@@ -1,3 +1,9 @@
+## 7.1.0-alpha.31
+
+- Dependencies: Set vue-component-type-helpers to latest - [#23015](https://github.com/storybookjs/storybook/pull/23015), thanks [@ndelangen](https://github.com/ndelangen)!
+- Dependencies: Upgrade `nanoid`, prebundle it, upgrade `remark`, cleanup some `.md` files for warnings - [#23005](https://github.com/storybookjs/storybook/pull/23005), thanks [@ndelangen](https://github.com/ndelangen)!
+- Dependencies: Use `latest` version of `vue-tsc` & sync versions of `angular` - [#23011](https://github.com/storybookjs/storybook/pull/23011), thanks [@ndelangen](https://github.com/ndelangen)!
+
 ## 7.1.0-alpha.30
 
 - Web-components: Fix custom-elements order of property application - [#19183](https://github.com/storybookjs/storybook/pull/19183), thanks [@sonntag-philipp](https://github.com/sonntag-philipp)!

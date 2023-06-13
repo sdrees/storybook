@@ -33,7 +33,7 @@ it('throws PREPARE_ABORTED if torndown during prepare', async () => {
   };
 
   const render = new MdxDocsRender(
-    new Channel(),
+    new Channel({}),
     mockStore as unknown as StoryStore<Renderer>,
     entry,
     {} as RenderContextCallbacks<Renderer>
@@ -62,7 +62,7 @@ describe('attaching', () => {
 
   it('is not attached if you do not call setMeta', async () => {
     const render = new MdxDocsRender(
-      new Channel(),
+      new Channel({}),
       store,
       entry,
       {} as RenderContextCallbacks<Renderer>
@@ -76,7 +76,7 @@ describe('attaching', () => {
 
   it('is attached if you call referenceMeta with attach=true', async () => {
     const render = new MdxDocsRender(
-      new Channel(),
+      new Channel({}),
       store,
       entry,
       {} as RenderContextCallbacks<Renderer>

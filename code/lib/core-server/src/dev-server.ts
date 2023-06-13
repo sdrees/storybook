@@ -29,7 +29,10 @@ export async function storybookDevServer(options: Options) {
     options.presets.apply<CoreConfig>('core'),
   ]);
 
-  const serverChannel = getServerChannel(server);
+  const serverChannel = await options.presets.apply(
+    'experimental_serverChannel',
+    getServerChannel(server)
+  );
 
   let indexError: Error;
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error

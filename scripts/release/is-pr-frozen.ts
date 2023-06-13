@@ -48,7 +48,7 @@ export const run = async (options: unknown) => {
   const { verbose, patch } = options as { verbose?: boolean; patch?: boolean };
 
   const version = await getCurrentVersion();
-  const branch = `version-from-${patch ? 'patch' : 'prerelease'}-${version}`;
+  const branch = `version-${patch ? 'patch' : 'prerelease'}-from-${version}`;
 
   console.log(`💬 Determining if pull request from branch '${chalk.blue(branch)}' is frozen`);
 

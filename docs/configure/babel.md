@@ -133,19 +133,19 @@ When the command finishes running, it will display the available Babel configura
 
 For more info, please refer to the [Babel documentation](https://babeljs.io/docs/en/configuration#print-effective-configs).
 
-### SWC fallback
+### SWC alternative (experimental)
 
-If you're working with a Webpack-based project and having issues with Babel configuration, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler. To do so, update your Storybook configuration file (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
+If you're working with a Webpack-based project, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler, which can be faster for some projects. To do so, update your [Storybook configuration file](../api/main-config.md) (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-enable-swc-loader.js.mdx',
-    'common/storybook-enable-swc-loader.ts.mdx',
+    'common/main-config-framework-options-builder-use-swc.js.mdx',
+    'common/main-config-framework-options-builder-use-swc.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-When Storybook loads, it will update Webpack's configuration including the required loaders (e.g., [`TerserPlugin`](https://webpack.js.org/plugins/terser-webpack-plugin/), [`babel-loader`](https://webpack.js.org/loaders/babel-loader/)) with SWC equivalents (e.g., [`swc-loader`](https://swc.rs/docs/usage/swc-loader)) for bundling and minification.
+See the [`useSWC` API reference](../api/main-config-framework.md#optionsbuilderuseswc) for more information.

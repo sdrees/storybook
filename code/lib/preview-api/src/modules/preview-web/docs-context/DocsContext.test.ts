@@ -5,7 +5,7 @@ import type { StoryStore } from '../../store';
 import { DocsContext } from './DocsContext';
 import { csfFileParts } from './test-utils';
 
-const channel = new Channel();
+const channel = new Channel({});
 const renderStoryToElement = jest.fn();
 
 describe('referenceCSFFile', () => {

@@ -21,10 +21,20 @@ interface EventsKeyValue {
   [key: string]: Listener[];
 }
 
-interface ChannelArgs {
+type ChannelArgs = ChannelArgsSingle | ChannelArgsMulti;
+interface ChannelArgsSingle {
   transport?: ChannelTransport;
   async?: boolean;
 }
+interface ChannelArgsMulti {
+  transports: ChannelTransport[];
+  async?: boolean;
+}
+
+const isMulti = (args: ChannelArgs): args is ChannelArgsMulti => {
+  // @ts-expect-error (we guard against this right here)
+  return args.transports !== undefined;
+};
 
 const generateRandomId = () => {
   // generates a random 13 character string
@@ -40,18 +50,30 @@ export class Channel {
 
   private data: Record<string, any> = {};
 
-  private readonly transport: ChannelTransport | undefined = undefined;
+  private readonly transports: ChannelTransport[] = [];
 
-  constructor({ transport, async = false }: ChannelArgs = {}) {
-    this.isAsync = async;
-    if (transport) {
-      this.transport = transport;
-      this.transport.setHandler((event) => this.handleEvent(event));
+  constructor(input: ChannelArgsMulti);
+  constructor(input: ChannelArgsSingle);
+  constructor(input: ChannelArgs = {}) {
+    this.isAsync = input.async || false;
+
+    if (isMulti(input)) {
+      this.transports = input.transports || [];
+
+      this.transports.forEach((t) => {
+        t.setHandler((event) => this.handleEvent(event));
+      });
+    } else {
+      this.transports = input.transport ? [input.transport] : [];
     }
+
+    this.transports.forEach((t) => {
+      t.setHandler((event) => this.handleEvent(event));
+    });
   }
 
   get hasTransport() {
-    return !!this.transport;
+    return this.transports.length > 0;
   }
 
   addListener(eventName: string, listener: Listener) {
@@ -67,9 +89,9 @@ export class Channel {
     }
 
     const handler = () => {
-      if (this.transport) {
-        this.transport.send(event, options);
-      }
+      this.transports.forEach((t) => {
+        t.send(event, options);
+      });
       this.handleEvent(event);
     };
 

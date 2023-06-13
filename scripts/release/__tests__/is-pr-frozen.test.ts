@@ -43,7 +43,7 @@ describe('isPrFrozen', () => {
     });
     await isPrFrozen({ patch: true });
 
-    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-from-patch-1.0.0', {
+    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-patch-from-1.0.0', {
       '--depth': 1,
     });
   });
@@ -54,7 +54,7 @@ describe('isPrFrozen', () => {
     });
     await isPrFrozen({ patch: false });
 
-    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-from-prerelease-1.0.0', {
+    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-prerelease-from-1.0.0', {
       '--depth': 1,
     });
   });
