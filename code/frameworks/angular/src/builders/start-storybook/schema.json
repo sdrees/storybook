@@ -114,6 +114,10 @@
       "items": {
         "$ref": "#/definitions/assetPattern"
       }
+    },
+    "initialPath": {
+      "type": "string",
+      "description": "URL path to be appended when visiting Storybook for the first time"
     }
   },
   "additionalProperties": false,

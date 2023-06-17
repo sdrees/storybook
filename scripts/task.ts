@@ -325,6 +325,9 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 const controllers: AbortController[] = [];
 
 async function run() {
+  // useful for other scripts to know whether they're running in the creation of a sandbox in the monorepo
+  process.env.IN_STORYBOOK_SANDBOX = 'true';
+
   const allOptionValues = await getOptionsOrPrompt('yarn task', options);
 
   const { task: taskKey, startFrom, junit, ...optionValues } = allOptionValues;

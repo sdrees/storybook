@@ -64,18 +64,19 @@ const ThemeStack = styled.div(
 const PlayFnNotice = styled.div(
   {
     position: 'absolute',
-    bottom: '1rem',
-    right: '1rem',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    padding: '1rem',
-    fontSize: '12px',
+    top: 0,
+    left: 0,
+    width: '100%',
+    borderBottom: '1px solid #ccc',
+    padding: '3px 8px',
+    fontSize: '10px',
+    fontWeight: 'bold',
     '> *': {
       display: 'block',
     },
   },
   ({ theme }) => ({
-    background: theme.background.content,
+    background: '#fffbd9',
     color: theme.color.defaultText,
   })
 );
@@ -219,10 +220,15 @@ export const decorators = [
             <Global styles={createReset} />
             <ThemedSetRoot />
             {!parameters.theme && isChromatic() && playFunction && (
-              <PlayFnNotice>
-                <span>Detected play function.</span>
-                <span>Rendering in a single theme</span>
-              </PlayFnNotice>
+              <>
+                <PlayFnNotice>
+                  <span>
+                    Detected play function in Chromatic. Rendering only light theme to avoid
+                    multiple play functions in the same story.
+                  </span>
+                </PlayFnNotice>
+                <div style={{ marginBottom: 20 }} />
+              </>
             )}
             <StoryFn />
           </ThemeProvider>

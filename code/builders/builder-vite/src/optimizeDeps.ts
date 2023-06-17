@@ -13,6 +13,7 @@ const INCLUDE_CANDIDATES = [
   '@storybook/addon-docs > acorn-jsx',
   '@storybook/addon-docs',
   '@storybook/addon-essentials/docs/mdx-react-shim',
+  '@storybook/channels',
   '@storybook/channel-postmessage',
   '@storybook/channel-websocket',
   '@storybook/client-api',

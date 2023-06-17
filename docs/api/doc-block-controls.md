@@ -10,6 +10,12 @@ The `Controls` block can be used to show a dynamic table of args for a given sto
 
 </div>
 
+<div class="aside">
+
+⚠️ The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.md) (included in [`@storybook/addon-essentials`](../essentials/introduction.md)).
+
+</div>
+
 ![Screenshot of Controls block](./doc-block-controls.png)
 
 <!-- prettier-ignore-start -->
@@ -65,6 +71,12 @@ The following `exclude` configurations are equivalent:
 The example above applied the parameter at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level, but it could also be applied at the [project](../writing-stories/parameters.md#global-parameters) or [story](../writing-stories/parameters.md#story-parameters) level.
 
 </details>
+
+<div class="aside">
+
+💡 This API configures Controls blocks used within docs pages. To configure the Controls addon panel, see the [Controls addon docs](../essentials/controls.md). To configure individual controls, you can specify [argTypes](./arg-types.md#control) for each.
+
+</div>
 
 ### `exclude`
 

@@ -112,22 +112,26 @@ test('it should label the PR associated with cheery picks in the current branch'
     ]
   `);
 
-  expect.addSnapshotSerializer({
-    serialize: (value) => {
-      const stripAnsi = value.map((it: string) => it.replace(ansiRegex(), ''));
-      return JSON.stringify(stripAnsi, null, 2);
-    },
-    test: () => true,
-  });
+  const stderrCalls = writeStderr.mock.calls
+    .map(([text]) =>
+      typeof text === 'string'
+        ? text
+            .replace(ansiRegex(), '')
+            .replace(/[^\x20-\x7E]/g, '')
+            .replaceAll('-', '')
+            .trim()
+        : text
+    )
+    .filter((it) => it !== '');
 
-  expect(writeStderr.mock.calls.map(([text]) => text)).toMatchInlineSnapshot(`
+  expect(stderrCalls).toMatchInlineSnapshot(`
     [
-      "- Looking for latest tag\\n",
-      "✔ Found latest tag: v7.2.1\\n",
-      "- Looking at cherry pick commits since v7.2.1\\n",
-      "✔ Found the following picks 🍒:\\n Commit: 930b47f011f750c44a1782267d698ccdd3c04da3\\n PR: [#55](https://github.com/storybookjs/storybook/pull/55)\\n",
-      "- Labeling the PRs with the picked label...\\n",
-      "✔ Successfully labeled all PRs with the picked label.\\n"
+      "Looking for latest tag",
+      "Found latest tag: v7.2.1",
+      "Looking at cherry pick commits since v7.2.1",
+      "Found the following picks : Commit: 930b47f011f750c44a1782267d698ccdd3c04da3 PR: [#55](https://github.com/storybookjs/storybook/pull/55)",
+      "Labeling the PRs with the picked label...",
+      "Successfully labeled all PRs with the picked label.",
     ]
   `);
 });

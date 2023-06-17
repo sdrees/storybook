@@ -1,21 +1,21 @@
 import type { StorybookConfig } from '@storybook/types';
-import type { PackageJson } from '../../js-package-manager';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import type { JsPackageManager } from '../../js-package-manager';
 import { vue3 } from './vue3';
 
 const checkVue3 = async ({
-  packageJson,
   main: mainConfig = {},
   storybookVersion = '7.0.0',
+  packageManager,
 }: {
-  packageJson: PackageJson;
   main?: Partial<StorybookConfig> & Record<string, unknown>;
+  mainConfig?: Partial<StorybookConfig>;
   storybookVersion?: string;
+  packageManager?: Partial<JsPackageManager>;
 }) => {
-  mockStorybookData({ mainConfig, storybookVersion });
-
   return vue3.check({
-    packageManager: makePackageManager(packageJson),
+    packageManager: packageManager as any,
+    storybookVersion,
+    mainConfig: mainConfig as any,
   });
 };
 
@@ -24,24 +24,43 @@ describe('vue3 fix', () => {
 
   describe('sb < 6.3', () => {
     describe('vue3 dependency', () => {
-      const packageJson = {
-        dependencies: { '@storybook/vue': '^6.2.0', vue: '^3.0.0' },
-      };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/vue':
+              return Promise.resolve('6.2.0');
+            case 'vue':
+              return Promise.resolve('3.0.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
+
       it('should fail', async () => {
         await expect(
           checkVue3({
-            packageJson,
+            packageManager,
             storybookVersion: '6.2.0',
           })
         ).rejects.toThrow();
       });
     });
     describe('no vue dependency', () => {
-      const packageJson = { dependencies: { '@storybook/vue': '^6.2.0' } };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/vue':
+              return Promise.resolve('6.2.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
       it('should no-op', async () => {
         await expect(
           checkVue3({
-            packageJson,
+            packageManager,
             storybookVersion: '6.2.0',
           })
         ).resolves.toBeFalsy();
@@ -50,14 +69,24 @@ describe('vue3 fix', () => {
   });
   describe('sb 6.3 - 7.0', () => {
     describe('vue3 dependency', () => {
-      const packageJson = {
-        dependencies: { '@storybook/vue': '^6.3.0', vue: '^3.0.0' },
-      };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/vue':
+              return Promise.resolve('6.3.0');
+            case 'vue':
+              return Promise.resolve('3.0.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
+
       describe('webpack5 builder', () => {
         it('should no-op', async () => {
           await expect(
             checkVue3({
-              packageJson,
+              packageManager,
               main: { core: { builder: 'webpack5' } },
             })
           ).resolves.toBeFalsy();
@@ -67,7 +96,7 @@ describe('vue3 fix', () => {
         it('should no-op', async () => {
           await expect(
             checkVue3({
-              packageJson,
+              packageManager,
               main: { core: { builder: 'storybook-builder-vite' } },
             })
           ).resolves.toBeFalsy();
@@ -77,12 +106,12 @@ describe('vue3 fix', () => {
         it('should add webpack5 builder', async () => {
           await expect(
             checkVue3({
-              packageJson,
+              packageManager,
               main: { core: { builder: 'webpack4' } },
               storybookVersion: '6.3.0',
             })
           ).resolves.toMatchObject({
-            vueVersion: '^3.0.0',
+            vueVersion: '3.0.0',
             storybookVersion: '6.3.0',
           });
         });
@@ -91,12 +120,12 @@ describe('vue3 fix', () => {
         it('should add webpack5 builder', async () => {
           await expect(
             checkVue3({
-              packageJson,
+              packageManager,
               main: {},
               storybookVersion: '6.3.0',
             })
           ).resolves.toMatchObject({
-            vueVersion: '^3.0.0',
+            vueVersion: '3.0.0',
             storybookVersion: '6.3.0',
           });
         });
@@ -104,23 +133,34 @@ describe('vue3 fix', () => {
     });
     describe('no vue dependency', () => {
       it('should no-op', async () => {
+        const packageManager = {
+          getPackageVersion: (packageName) => {
+            return null;
+          },
+        } as Partial<JsPackageManager>;
+
         await expect(
           checkVue3({
-            packageJson: {},
+            packageManager,
             main: {},
           })
         ).resolves.toBeFalsy();
       });
     });
     describe('vue2 dependency', () => {
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          if (packageName === 'vue') {
+            return Promise.resolve('2.0.0');
+          }
+          return null;
+        },
+      } as Partial<JsPackageManager>;
+
       it('should no-op', async () => {
         await expect(
           checkVue3({
-            packageJson: {
-              dependencies: {
-                vue: '2',
-              },
-            },
+            packageManager,
             main: {},
           })
         ).resolves.toBeFalsy();
@@ -129,13 +169,23 @@ describe('vue3 fix', () => {
   });
   describe('sb 7.0+', () => {
     describe('vue3 dependency', () => {
-      const packageJson = {
-        dependencies: { '@storybook/vue': '^7.0.0-alpha.0', vue: '^3.0.0' },
-      };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/vue':
+              return Promise.resolve('7.0.0-alpha.0');
+            case 'vue':
+              return Promise.resolve('3.0.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
+
       it('should no-op', async () => {
         await expect(
           checkVue3({
-            packageJson,
+            packageManager,
             main: {},
           })
         ).resolves.toBeFalsy();

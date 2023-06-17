@@ -1,6 +1,4 @@
 import type { StorybookConfig } from '@storybook/types';
-import type { PackageJson } from '../../js-package-manager';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { mdxgfm } from './mdx-gfm';
 
 jest.mock('globby', () => ({
@@ -9,28 +7,27 @@ jest.mock('globby', () => ({
 }));
 
 const check = async ({
-  packageJson,
+  packageManager,
   main: mainConfig,
   storybookVersion = '7.0.0',
 }: {
-  packageJson: PackageJson;
+  packageManager: any;
   main: Partial<StorybookConfig> & Record<string, unknown>;
   storybookVersion?: string;
 }) => {
-  mockStorybookData({ mainConfig, storybookVersion });
-
   return mdxgfm.check({
-    packageManager: makePackageManager(packageJson),
+    packageManager,
     configDir: '',
+    mainConfig: mainConfig as any,
+    storybookVersion,
   });
 };
 
 describe('no-ops', () => {
-  const packageJson = {};
   test('sb > 7.0', async () => {
     await expect(
       check({
-        packageJson,
+        packageManager: {},
         main: {},
         storybookVersion: '6.2.0',
       })
@@ -39,7 +36,7 @@ describe('no-ops', () => {
   test('legacyMdx1', async () => {
     await expect(
       check({
-        packageJson,
+        packageManager: {},
         main: {
           features: {
             legacyMdx1: true,
@@ -51,7 +48,7 @@ describe('no-ops', () => {
   test('with addon docs setup', async () => {
     await expect(
       check({
-        packageJson,
+        packageManager: {},
         main: {
           addons: [
             {
@@ -78,7 +75,7 @@ describe('no-ops', () => {
   test('with addon migration assistant addon added', async () => {
     await expect(
       check({
-        packageJson,
+        packageManager: {},
         main: {
           addons: ['@storybook/addon-mdx-gfm'],
         },
@@ -88,11 +85,10 @@ describe('no-ops', () => {
 });
 
 describe('continue', () => {
-  const packageJson = {};
   test('nothing configured at all', async () => {
     await expect(
       check({
-        packageJson,
+        packageManager: {},
         main: {
           stories: ['**/*.stories.mdx'],
         },
@@ -102,7 +98,7 @@ describe('continue', () => {
   test('unconfigured addon-docs', async () => {
     await expect(
       check({
-        packageJson,
+        packageManager: {},
         main: {
           stories: ['**/*.stories.mdx'],
           addons: [
@@ -124,7 +120,7 @@ describe('continue', () => {
   test('unconfigured addon-essentials', async () => {
     await expect(
       check({
-        packageJson,
+        packageManager: {},
         main: {
           stories: ['**/*.stories.mdx'],
           addons: ['@storybook/addon-essentials'],

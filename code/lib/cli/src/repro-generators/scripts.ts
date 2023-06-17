@@ -2,7 +2,8 @@ import path from 'path';
 import { readJSON, writeJSON, outputFile, remove } from 'fs-extra';
 import chalk from 'chalk';
 import { command } from 'execa';
-import spawn from 'cross-spawn';
+import type spawn from 'cross-spawn';
+import { spawn as spawnAsync } from 'cross-spawn';
 import { cra, cra_typescript } from './configs';
 import storybookVersions from '../versions';
 
@@ -70,18 +71,21 @@ export const exec = async (
 
   logger.debug(command);
   return new Promise((resolve, reject) => {
-    const child = spawn(command, {
+    const child = spawnAsync(command, {
       ...options,
+      shell: true,
+      stdio: 'pipe',
     });
 
-    child.stderr.pipe(process.stderr);
+    child.stderr.pipe(process.stdout);
+    child.stdout.pipe(process.stdout);
 
     child.on('exit', (code) => {
       if (code === 0) {
         resolve(undefined);
       } else {
         logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
-        logger.log(errorMessage);
+        logger.info(errorMessage);
         reject(new Error(`command exited with code: ${code}: `));
       }
     });
@@ -143,7 +147,7 @@ const configureYarn2ForE2E = async ({ cwd }: Options) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = [
     // ⚠️ Need to set registry because Yarn 2 is not using the conf of Yarn 1 (URL is hardcoded in CircleCI config.yml)
-    `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6001/" } }'`,
+    `yarn config set npmRegistryServer http://localhost:6001/`,
     // Some required magic to be able to fetch deps from local registry
     `yarn config set unsafeHttpWhitelist --json '["localhost"]'`,
     // Disable fallback mode to make sure everything is required correctly

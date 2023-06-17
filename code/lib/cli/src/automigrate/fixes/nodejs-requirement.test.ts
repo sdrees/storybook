@@ -1,15 +1,15 @@
 /// <reference types="@types/jest" />;
 
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { nodeJsRequirement } from './nodejs-requirement';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
 const check = async ({ storybookVersion = '7.0.0' }) => {
-  mockStorybookData({ mainConfig: {}, storybookVersion });
   return nodeJsRequirement.check({
-    packageManager: makePackageManager({}),
+    storybookVersion,
+    packageManager: {} as any,
+    mainConfig: {} as any,
   });
 };
 

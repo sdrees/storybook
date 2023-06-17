@@ -557,6 +557,16 @@ module.exports = {
           ],
         },
         {
+          pathSegment: 'arg-types',
+          title: 'ArgTypes',
+          type: 'link',
+        },
+        {
+          pathSegment: 'csf',
+          title: 'Component Story Format (CSF)',
+          type: 'link',
+        },
+        {
           title: 'Doc blocks',
           pathSegment: '',
           type: 'menu',
@@ -644,23 +654,6 @@ module.exports = {
             {
               pathSegment: 'doc-block-useof',
               title: 'useOf',
-              type: 'link',
-            },
-          ],
-        },
-        {
-          title: 'Stories',
-          pathSegment: '',
-          type: 'menu',
-          children: [
-            {
-              pathSegment: 'csf',
-              title: 'Component Story Format',
-              type: 'link',
-            },
-            {
-              pathSegment: 'argtypes',
-              title: 'ArgTypes',
               type: 'link',
             },
           ],

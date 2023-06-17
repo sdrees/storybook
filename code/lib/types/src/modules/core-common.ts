@@ -139,6 +139,7 @@ export interface CLIOptions {
   disableTelemetry?: boolean;
   enableCrashReports?: boolean;
   host?: string;
+  initialPath?: string;
   /**
    * @deprecated Use 'staticDirs' Storybook Configuration option instead
    */

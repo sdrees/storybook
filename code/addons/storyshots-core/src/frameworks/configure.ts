@@ -108,6 +108,7 @@ function configure<TRenderer extends Renderer>(
   } = getConfigPathParts(configPath);
 
   global.FEATURES = features;
+  global.CONFIG_TYPE = 'DEVELOPMENT';
   global.STORIES = stories.map((specifier) => ({
     ...specifier,
     importPathMatcher: specifier.importPathMatcher.source,

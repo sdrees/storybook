@@ -4,7 +4,6 @@ import semver from 'semver';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
-import { getStorybookData } from '../helpers/mainConfigFile';
 
 interface SbBinaryRunOptions {
   storybookVersion: string;
@@ -25,18 +24,20 @@ const logger = console;
 export const sbBinary: Fix<SbBinaryRunOptions> = {
   id: 'storybook-binary',
 
-  async check({ packageManager, configDir }) {
+  async check({ packageManager, storybookVersion }) {
     const packageJson = await packageManager.retrievePackageJson();
-    const allDependencies = await packageManager.getAllDependencies();
-    const { storybookVersion } = await getStorybookData({ packageManager, configDir });
+
+    const nrwlStorybookVersion = await packageManager.getPackageVersion('@nrwl/storybook');
+    const sbBinaryVersion = await packageManager.getPackageVersion('sb');
+    const storybookBinaryVersion = await packageManager.getPackageVersion('storybook');
 
     // Nx provides their own binary, so we don't need to do anything
-    if (allDependencies['@nrwl/storybook'] || semver.lt(storybookVersion, '7.0.0')) {
+    if (nrwlStorybookVersion || semver.lt(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    const hasSbBinary = !!allDependencies.sb;
-    const hasStorybookBinary = !!allDependencies.storybook;
+    const hasSbBinary = !!sbBinaryVersion;
+    const hasStorybookBinary = !!storybookBinaryVersion;
 
     if (!hasSbBinary && hasStorybookBinary) {
       return null;

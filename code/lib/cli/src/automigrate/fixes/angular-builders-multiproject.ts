@@ -4,6 +4,7 @@ import chalk from 'chalk';
 import type { Fix } from '../types';
 import { isNxProject } from '../../helpers';
 import { AngularJSON } from '../../generators/ANGULAR/helpers';
+import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AngularBuildersMultiprojectRunOptions {}
@@ -12,25 +13,17 @@ export const angularBuildersMultiproject: Fix<AngularBuildersMultiprojectRunOpti
   id: 'angular-builders-multiproject',
   promptOnly: true,
 
-  async check({ packageManager }) {
-    const packageJSON = await packageManager.retrievePackageJson();
-
+  async check({ packageManager, mainConfig }) {
     // Skip in case of NX
-    if (isNxProject(packageJSON)) {
-      return null;
-    }
-    const allDependencies = await packageManager.getAllDependencies();
+    const angularVersion = await packageManager.getPackageVersion('@angular/core');
+    const frameworkPackageName = getFrameworkPackageName(mainConfig);
 
-    const angularVersion = allDependencies['@angular/core'];
-    const angularCoerced = semver.coerce(angularVersion)?.version;
-
-    // skip non-angular projects
-    if (!angularCoerced) {
-      return null;
-    }
-
-    // Is Angular version lower than 14? -> throw an error (only supports ng 14)
-    if (semver.lt(angularCoerced, '14.0.0')) {
+    if (
+      (await isNxProject(packageManager)) ||
+      frameworkPackageName !== '@storybook/angular' ||
+      !angularVersion ||
+      semver.lt(angularVersion, '14.0.0')
+    ) {
       return null;
     }
 

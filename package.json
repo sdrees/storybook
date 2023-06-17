@@ -1,4 +1,5 @@
 {
+  "name": "@storybook/root",
   "scripts": {
     "ci-tests": "cd code; yarn ci-tests",
     "get-report-message": "cd scripts; yarn get-report-message",

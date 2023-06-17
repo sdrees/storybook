@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.1.0-alpha.31",
+  "version": "7.1.0-alpha.36",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -284,7 +284,7 @@
       "built": false
     }
   },
-  "packageManager": "yarn@3.3.0",
+  "packageManager": "yarn@3.5.1",
   "engines": {
     "node": ">=16.0.0"
   },

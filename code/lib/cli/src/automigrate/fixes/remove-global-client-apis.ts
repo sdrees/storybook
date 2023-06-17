@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
-import { getStorybookInfo } from '@storybook/core-common';
 import { readFile } from 'fs-extra';
 import type { Fix } from '../types';
 
@@ -22,13 +21,9 @@ export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
   id: 'removedglobalclientapis',
   promptOnly: true,
 
-  async check({ packageManager, configDir }) {
-    const packageJson = await packageManager.retrievePackageJson();
-
-    const { previewConfig } = getStorybookInfo(packageJson, configDir);
-
-    if (previewConfig) {
-      const contents = await readFile(previewConfig, 'utf8');
+  async check({ previewConfigPath }) {
+    if (previewConfigPath) {
+      const contents = await readFile(previewConfigPath, 'utf8');
 
       const usedAPIs = Object.values(RemovedAPIs).reduce((acc, item) => {
         if (contents.includes(item)) {
@@ -40,7 +35,7 @@ export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
       if (usedAPIs.length) {
         return {
           usedAPIs,
-          previewPath: previewConfig,
+          previewPath: previewConfigPath,
         };
       }
     }

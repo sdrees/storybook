@@ -105,6 +105,7 @@ class PlaceholderClock extends Component<{ color: string }, { count: number }> {
     return (
       <PlaceholderBlock color={color}>
         <h2
+          data-chromatic="ignore"
           style={{
             position: 'absolute',
             bottom: 0,

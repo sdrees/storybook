@@ -45,22 +45,24 @@ export const frameworkPackages: Record<string, string> = {
   'storybook-solidjs-vite': 'solid',
 };
 
+export const builderPackages = ['@storybook/builder-webpack5', '@storybook/builder-vite'];
+
 const logger = console;
 
 const findDependency = (
   { dependencies, devDependencies, peerDependencies }: PackageJson,
   predicate: (entry: [string, string | undefined]) => string
-) => [
-  Object.entries(dependencies || {}).find(predicate),
-  Object.entries(devDependencies || {}).find(predicate),
-  Object.entries(peerDependencies || {}).find(predicate),
-];
+) =>
+  [
+    Object.entries(dependencies || {}).find(predicate),
+    Object.entries(devDependencies || {}).find(predicate),
+    Object.entries(peerDependencies || {}).find(predicate),
+  ] as const;
 
 const getRendererInfo = (packageJson: PackageJson) => {
   // Pull the viewlayer from dependencies in package.json
   const [dep, devDep, peerDep] = findDependency(packageJson, ([key]) => rendererPackages[key]);
   const [pkg, version] = dep || devDep || peerDep || [];
-  const renderer = pkg ? rendererPackages[pkg] : undefined;
 
   if (dep && devDep && dep[0] === devDep[0]) {
     logger.warn(
@@ -75,10 +77,7 @@ const getRendererInfo = (packageJson: PackageJson) => {
 
   return {
     version,
-    framework: renderer,
     frameworkPackage: pkg,
-    renderer,
-    rendererPackage: pkg,
   };
 };
 

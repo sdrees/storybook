@@ -33,9 +33,12 @@ export const exec = async (
   return new Promise((resolve, reject) => {
     const child = spawnAsync(command, {
       ...options,
+      shell: true,
+      stdio: 'pipe',
     });
 
-    child.stderr.pipe(process.stderr);
+    child.stderr.pipe(process.stdout);
+    child.stdout.pipe(process.stdout);
 
     child.on('exit', (code) => {
       if (code === 0) {

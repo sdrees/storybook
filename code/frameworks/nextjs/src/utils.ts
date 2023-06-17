@@ -94,7 +94,15 @@ export const addScopedAlias = (baseConfig: WebpackConfig, name: string, alias?: 
  * scopedResolve('styled-jsx') === '/some/path/node_modules/styled-jsx'
  */
 export const scopedResolve = (id: string): string => {
-  const scopedModulePath = require.resolve(id, { paths: [path.resolve()] });
+  let scopedModulePath;
+
+  try {
+    // TODO: Remove in next major release (SB 8.0) and use the statement in the catch block per default instead
+    scopedModulePath = require.resolve(id, { paths: [path.resolve()] });
+  } catch (e) {
+    scopedModulePath = require.resolve(id);
+  }
+
   const moduleFolderStrPosition = scopedModulePath.lastIndexOf(
     id.replace(/\//g /* all '/' occurances */, path.sep)
   );

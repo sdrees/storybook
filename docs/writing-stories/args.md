@@ -215,11 +215,11 @@ Complex values such as JSX elements cannot be serialized to the manager (e.g., t
 
 <CodeSnippets
   paths={[
-    'angular/my-component-argtypes-with-mapping.ts.mdx',
-    'web-components/my-component-argtypes-with-mapping.js.mdx',
-    'web-components/my-component-argtypes-with-mapping.ts.mdx',
-    'common/my-component-argtypes-with-mapping.js.mdx',
-    'common/my-component-argtypes-with-mapping.ts.mdx',
+    'angular/arg-types-mapping.ts.mdx',
+    'web-components/arg-types-mapping.js.mdx',
+    'web-components/arg-types-mapping.ts.mdx',
+    'common/arg-types-mapping.js.mdx',
+    'common/arg-types-mapping.ts.mdx',
   ]}
 />
 

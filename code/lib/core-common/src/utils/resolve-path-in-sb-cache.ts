@@ -1,5 +1,5 @@
 import path from 'path';
-import pkgDir from 'pkg-dir';
+import findCacheDirectory from 'find-cache-dir';
 
 /**
  * Get the path of the file or directory with input name inside the Storybook cache directory:
@@ -10,16 +10,8 @@ import pkgDir from 'pkg-dir';
  * @return {string} Absolute path to the file or directory
  */
 export function resolvePathInStorybookCache(fileOrDirectoryName: string): string {
-  const cwd = process.cwd();
-  const projectDir = pkgDir.sync(cwd);
-
-  let cacheDirectory;
-
-  if (!projectDir) {
-    cacheDirectory = path.resolve(cwd, '.cache/storybook');
-  } else {
-    cacheDirectory = path.resolve(projectDir, 'node_modules/.cache/storybook');
-  }
+  let cacheDirectory = findCacheDirectory({ name: 'storybook' });
+  cacheDirectory ||= path.join(process.cwd(), '.cache/storybook');
 
   return path.join(cacheDirectory, fileOrDirectoryName);
 }

@@ -1,3 +1,4 @@
+import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 import { addReact } from './add-react';
 
@@ -5,7 +6,12 @@ const checkAddReact = async (packageJson: PackageJson) => {
   const packageManager = {
     retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
   } as JsPackageManager;
-  return addReact.check({ packageManager });
+
+  return addReact.check({
+    packageManager,
+    mainConfig: {} as StorybookConfig,
+    storybookVersion: '7.0.0',
+  });
 };
 
 describe('addReact fix', () => {

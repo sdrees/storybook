@@ -1,21 +1,19 @@
 import type { StorybookConfig } from '@storybook/types';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import { makePackageManager } from '../helpers/testing-helpers';
 import type { PackageJson } from '../../js-package-manager';
 import { builderVite } from './builder-vite';
 
 const checkBuilderVite = async ({
   packageJson = {},
   main: mainConfig,
-  storybookVersion = '7.0.0',
 }: {
   packageJson?: PackageJson;
   main: Partial<StorybookConfig> & Record<string, unknown>;
-  storybookVersion?: string;
 }) => {
-  mockStorybookData({ mainConfig, storybookVersion });
-
   return builderVite.check({
+    mainConfig: mainConfig as StorybookConfig,
     packageManager: makePackageManager(packageJson),
+    storybookVersion: '7.0.0',
   });
 };
 

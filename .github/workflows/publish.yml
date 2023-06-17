@@ -88,11 +88,11 @@ jobs:
 
       # tags are needed to get list of patches to label as picked
       - name: Fetch git tags
-        if: github.ref_name == 'main-release'
+        if: github.ref_name == 'latest-release'
         run: git fetch --tags origin
 
       - name: Label patch PRs as picked
-        if: github.ref_name == 'main-release'
+        if: github.ref_name == 'latest-release'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn release:label-patches
@@ -118,6 +118,17 @@ jobs:
           git checkout ${{ steps.target.outputs.target }}
           git merge ${{ github.ref_name }}
           git push origin ${{ steps.target.outputs.target }}
+
+      - name: Sync CHANGELOG.md from `main` to `next`
+        if: github.ref_name == 'latest-release'
+        run: |
+          git fetch origin next
+          git checkout next
+          git pull
+          git checkout origin/main ./CHANGELOG.md
+          git add ./CHANGELOG.md
+          git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }}"
+          git push origin next
 
       # Force push from next to main if it is not a prerelease, and this release is from next-release
       # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0

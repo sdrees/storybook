@@ -1,6 +1,7 @@
 import { readJSON } from 'fs-extra';
 import { dirname, join } from 'path';
 import findUp from 'find-up';
+import fetch from 'node-fetch';
 
 import resolveFrom from 'resolve-from';
 import { logger } from '@storybook/node-logger';

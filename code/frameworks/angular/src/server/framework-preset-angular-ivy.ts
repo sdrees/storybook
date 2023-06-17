@@ -1,5 +1,4 @@
 import { Configuration } from 'webpack';
-import { VERSION } from '@angular/core';
 import * as path from 'path';
 import { Preset } from '@storybook/types';
 
@@ -50,6 +49,7 @@ export const runNgcc = async () => {
 };
 
 export const webpack = async (webpackConfig: Configuration, options: PresetOptions) => {
+  const { VERSION } = await loadEsmModule<typeof import('@angular/core')>('@angular/core');
   const framework = await options.presets.apply<Preset>('framework');
   const angularOptions = (typeof framework === 'object' ? framework.options : {}) as AngularOptions;
   const isAngular16OrNewer = parseInt(VERSION.major, 10) >= 16;

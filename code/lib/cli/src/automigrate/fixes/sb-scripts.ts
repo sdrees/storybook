@@ -3,7 +3,6 @@ import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import type { Fix } from '../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
-import { getStorybookData } from '../helpers/mainConfigFile';
 
 interface SbScriptsRunOptions {
   storybookScripts: Record<string, { before: string; after: string }>;
@@ -71,10 +70,9 @@ export const getStorybookScripts = (allScripts: Record<string, string>) => {
 export const sbScripts: Fix<SbScriptsRunOptions> = {
   id: 'sb-scripts',
 
-  async check({ packageManager, configDir }) {
+  async check({ packageManager, storybookVersion }) {
     const packageJson = await packageManager.retrievePackageJson();
     const { scripts = {} } = packageJson;
-    const { storybookVersion } = await getStorybookData({ packageManager, configDir });
 
     if (semver.lt(storybookVersion, '7.0.0')) {
       return null;

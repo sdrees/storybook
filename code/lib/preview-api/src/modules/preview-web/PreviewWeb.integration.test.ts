@@ -24,7 +24,10 @@ import {
 //   - ie. from`renderToCanvas()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
-jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
+jest.mock('@storybook/channels', () => ({
+  ...jest.requireActual('@storybook/channels'),
+  createBrowserChannel: () => mockChannel,
+}));
 jest.mock('@storybook/client-logger');
 
 jest.mock('./WebView');

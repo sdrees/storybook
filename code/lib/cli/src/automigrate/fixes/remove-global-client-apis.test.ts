@@ -8,7 +8,7 @@ import { RemovedAPIs, removedGlobalClientAPIs as migration } from './remove-glob
 // eslint-disable-next-line global-require, jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
-const check = async ({ packageJson = {}, contents }: any) => {
+const check = async ({ contents, previewConfigPath }: any) => {
   if (contents) {
     // eslint-disable-next-line global-require
     require('fs-extra').__setMockFiles({
@@ -16,9 +16,15 @@ const check = async ({ packageJson = {}, contents }: any) => {
     });
   }
   const packageManager = {
-    retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
+    retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {} }),
   } as JsPackageManager;
-  return migration.check({ packageManager });
+
+  return migration.check({
+    packageManager,
+    mainConfig: {} as any,
+    storybookVersion: '7.0.0',
+    previewConfigPath,
+  });
 };
 
 describe('removedGlobalClientAPIs fix', () => {
@@ -30,14 +36,18 @@ describe('removedGlobalClientAPIs fix', () => {
     const contents = `
       export const parameters = {};
     `;
-    await expect(check({ contents })).resolves.toBeNull();
+    await expect(
+      check({ contents, previewConfigPath: path.join('.storybook', 'preview.js') })
+    ).resolves.toBeNull();
   });
   it('uses 1 removed API', async () => {
     const contents = `
       import { addParameters } from '@storybook/react';
       addParameters({});
     `;
-    await expect(check({ contents })).resolves.toEqual(
+    await expect(
+      check({ contents, previewConfigPath: path.join('.storybook', 'preview.js') })
+    ).resolves.toEqual(
       expect.objectContaining({
         usedAPIs: [RemovedAPIs.addParameters],
       })
@@ -49,7 +59,9 @@ describe('removedGlobalClientAPIs fix', () => {
       addParameters({});
       addDecorator((storyFn) => storyFn());
     `;
-    await expect(check({ contents })).resolves.toEqual(
+    await expect(
+      check({ contents, previewConfigPath: path.join('.storybook', 'preview.js') })
+    ).resolves.toEqual(
       expect.objectContaining({
         usedAPIs: expect.arrayContaining([RemovedAPIs.addParameters, RemovedAPIs.addDecorator]),
       })

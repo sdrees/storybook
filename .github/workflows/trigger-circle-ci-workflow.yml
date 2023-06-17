@@ -9,6 +9,8 @@ on:
     branches:
       - next
       - main
+      - version-prerelease-from-**
+      - version-patch-from-**
 
 jobs:
   get-branch:

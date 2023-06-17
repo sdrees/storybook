@@ -49,6 +49,13 @@ export abstract class JsPackageManager {
 
   public readonly cwd?: string;
 
+  public abstract getPackageJSON(
+    packageName: string,
+    basePath?: string
+  ): Promise<PackageJson | null>;
+
+  public abstract getPackageVersion(packageName: string, basePath?: string): Promise<string | null>;
+
   // NOTE: for some reason yarn prefers the npm registry in
   // local development, so always use npm
   async setRegistryURL(url: string) {
@@ -66,7 +73,7 @@ export abstract class JsPackageManager {
   }
 
   constructor(options?: JsPackageManagerOptions) {
-    this.cwd = options?.cwd;
+    this.cwd = options?.cwd || process.cwd();
   }
 
   /**
@@ -90,7 +97,7 @@ export abstract class JsPackageManager {
   }
 
   packageJsonPath(): string {
-    return this.cwd ? path.resolve(this.cwd, 'package.json') : path.resolve('package.json');
+    return path.resolve(this.cwd, 'package.json');
   }
 
   async readPackageJson(): Promise<PackageJson> {
@@ -236,13 +243,13 @@ export abstract class JsPackageManager {
    *   `@storybook/addon-actions`,
    * ]);
    */
-  public removeDependencies(
+  public async removeDependencies(
     options: {
       skipInstall?: boolean;
       packageJson?: PackageJson;
     },
     dependencies: string[]
-  ): void {
+  ): Promise<void> {
     const { skipInstall } = options;
 
     if (skipInstall) {
@@ -257,10 +264,10 @@ export abstract class JsPackageManager {
         }
       });
 
-      this.writePackageJson(packageJson);
+      await this.writePackageJson(packageJson);
     } else {
       try {
-        this.runRemoveDeps(dependencies);
+        await this.runRemoveDeps(dependencies);
       } catch (e) {
         logger.error('An error occurred while removing dependencies.');
         logger.log(e.message);

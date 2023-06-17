@@ -54,7 +54,7 @@ export async function configureEslintPlugin(eslintFile: string, packageManager: 
       const eslintConfig = (await readJson(eslintFile)) as { extends?: string[] };
       const existingConfigValue = Array.isArray(eslintConfig.extends)
         ? eslintConfig.extends
-        : [eslintConfig.extends];
+        : [eslintConfig.extends].filter(Boolean);
       eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
 
       const eslintFileContents = await readFile(eslintFile, 'utf8');
@@ -63,8 +63,13 @@ export async function configureEslintPlugin(eslintFile: string, packageManager: 
     } else {
       const eslint = await readConfig(eslintFile);
       const extendsConfig = eslint.getFieldValue(['extends']) || [];
-      const existingConfigValue = Array.isArray(extendsConfig) ? extendsConfig : [extendsConfig];
-      eslint.setFieldValue(['extends'], [...existingConfigValue, 'plugin:storybook/recommended']);
+      const existingConfigValue = Array.isArray(extendsConfig)
+        ? extendsConfig
+        : [extendsConfig].filter(Boolean);
+      eslint.setFieldValue(
+        ['extends'],
+        [...(existingConfigValue || []), 'plugin:storybook/recommended']
+      );
 
       await writeConfig(eslint);
     }

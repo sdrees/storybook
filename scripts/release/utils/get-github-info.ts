@@ -74,7 +74,7 @@ function makeQuery(repos: ReposWithCommitsAndPRsToFetch) {
                     }    
                     mergeCommit {
                       commitUrl
-                      abbreviatedOid
+                      oid
                     }
                   }`
               )
@@ -285,11 +285,11 @@ export async function getPullInfoFromPullRequest(request: {
     user: user ? user.login : null,
     id: null,
     pull: request.pull,
-    commit: commit ? commit.abbreviatedOid : null,
+    commit: commit ? commit.oid : null,
     title: title || null,
     labels: data ? (data.labels.nodes || []).map((label: { name: string }) => label.name) : null,
     links: {
-      commit: commit ? `[\`${commit.abbreviatedOid}\`](${commit.commitUrl})` : null,
+      commit: commit ? `[\`${commit.oid}\`](${commit.commitUrl})` : null,
       pull: `[#${request.pull}](https://github.com/${request.repo}/pull/${request.pull})`,
       user: user ? `[@${user.login}](${user.url})` : null,
     },

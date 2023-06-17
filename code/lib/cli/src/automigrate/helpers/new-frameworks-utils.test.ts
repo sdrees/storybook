@@ -3,6 +3,7 @@ import {
   detectBuilderInfo as _getBuilderInfo,
   getNextjsAddonOptions,
 } from './new-frameworks-utils';
+import type { JsPackageManager } from '../../js-package-manager';
 
 jest.mock('find-up');
 
@@ -10,17 +11,17 @@ type GetBuilderInfoParams = Parameters<typeof _getBuilderInfo>[0]['mainConfig'];
 
 const getBuilderInfo = async ({
   mainConfig = {},
-  packageDependencies = {},
+  packageManager = {},
   configDir = '.storybook',
 }: {
-  mainConfig: Partial<GetBuilderInfoParams>;
-  packageDependencies?: Record<string, string>;
+  mainConfig?: Partial<GetBuilderInfoParams>;
+  packageManager?: Partial<JsPackageManager>;
   configDir?: string;
 }) => {
   return _getBuilderInfo({
     mainConfig: mainConfig as any,
     configDir,
-    packageDependencies,
+    packageManager: packageManager as any,
   });
 };
 
@@ -29,7 +30,9 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {
-          core: { builder: '@storybook/builder-webpack5' },
+          core: {
+            builder: '@storybook/builder-webpack5',
+          },
         },
       })
     ).resolves.toEqual({ name: 'webpack5', options: {} });
@@ -54,6 +57,15 @@ describe('getBuilderInfo', () => {
   it('should infer webpack5 info from framework', async () => {
     await expect(
       getBuilderInfo({
+        packageManager: {
+          getPackageVersion: (packageName) => {
+            if (packageName === '@storybook/react-webpack5') {
+              return Promise.resolve('1.0.0');
+            }
+
+            return Promise.resolve(null);
+          },
+        },
         mainConfig: {
           framework: '@storybook/react-webpack5',
         },
@@ -204,7 +216,14 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {},
-        packageDependencies: { '@storybook/builder-vite': '^7.0.0' },
+        packageManager: {
+          getPackageVersion: (packageName) => {
+            if (packageName === '@storybook/builder-vite') {
+              return Promise.resolve('7.0.0');
+            }
+            return Promise.resolve(null);
+          },
+        },
       })
     ).resolves.toEqual({
       name: 'vite',
@@ -218,7 +237,14 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {},
-        packageDependencies: { '@storybook/builder-webpack5': '^7.0.0' },
+        packageManager: {
+          getPackageVersion: (packageName) => {
+            if (packageName === '@storybook/builder-webpack5') {
+              return Promise.resolve('7.0.0');
+            }
+            return Promise.resolve(null);
+          },
+        },
       })
     ).resolves.toEqual({
       name: 'webpack5',

@@ -1,32 +1,27 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
-import findUp from 'find-up';
 import semver from 'semver';
 import { frameworkPackages, rendererPackages } from '@storybook/core-common';
 
 import type { Preset } from '@storybook/types';
 import type { Fix } from '../types';
-import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 import { getStorybookVersionSpecifier } from '../../helpers';
-import { detectRenderer } from '../helpers/detectRenderer';
 import {
   getNextjsAddonOptions,
   detectBuilderInfo,
   packagesMap,
 } from '../helpers/new-frameworks-utils';
-import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
+import {
+  getFrameworkPackageName,
+  getRendererPackageNameFromFramework,
+  updateMainConfig,
+} from '../helpers/mainConfigFile';
+import { detectRenderer } from '../helpers/detectRenderer';
 
 const logger = console;
 
-const nextJsConfigFiles = [
-  'next.config.js',
-  'next.config.cjs',
-  'next.config.mjs',
-  'next.config.ts',
-];
 interface NewFrameworkRunOptions {
   mainConfigPath: string;
-  packageJson: PackageJsonWithDepsAndDevDeps;
   dependenciesToAdd: string[];
   dependenciesToRemove: string[];
   hasFrameworkInMainConfig: boolean;
@@ -63,48 +58,37 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
   id: 'new-frameworks',
 
   async check({
-    rendererPackage: userDefinedRendererPackage,
-    configDir: userDefinedConfigDir,
+    configDir,
     packageManager,
+    storybookVersion,
+    mainConfig,
+    mainConfigPath,
+    rendererPackage,
   }) {
-    const packageJson = await packageManager.retrievePackageJson();
-    const { storybookVersion, mainConfig, mainConfigPath, configDir } = await getStorybookData({
-      packageManager,
-      configDir: userDefinedConfigDir,
-    });
-
     if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    const frameworkPackage =
-      typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
-    let hasFrameworkInMainConfig = !!frameworkPackage;
+    const packageJson = await packageManager.retrievePackageJson();
 
-    // if --renderer is passed to the command, just use it.
-    // Useful for monorepo projects to automate the script without getting prompts
-    let rendererPackage = userDefinedRendererPackage;
-    if (!rendererPackage) {
-      if (frameworkPackage && Object.keys(rendererPackages).includes(frameworkPackage)) {
-        // at some point in 6.4 we introduced a framework field, but filled with a renderer package
-        rendererPackage = frameworkPackage;
-      } else if (frameworkPackage && Object.values(rendererPackages).includes(frameworkPackage)) {
-        // for scenarios where the value is e.g. "react" instead of "@storybook/react"
-        rendererPackage = Object.keys(rendererPackages).find(
-          (k) => rendererPackages[k] === frameworkPackage
-        );
-        hasFrameworkInMainConfig = false;
-      } else {
-        // detect the renderer package from the user's dependencies, and if multiple are there (monorepo), prompt the user to choose
-        rendererPackage = await detectRenderer(packageJson);
-      }
+    const frameworkPackageName = getFrameworkPackageName(mainConfig);
+
+    const rendererPackageName =
+      rendererPackage ??
+      (await getRendererPackageNameFromFramework(frameworkPackageName)) ??
+      (await detectRenderer(packageJson));
+
+    let hasFrameworkInMainConfig = !!frameworkPackageName;
+
+    if (frameworkPackageName && !!Object.values(rendererPackages).includes(frameworkPackageName)) {
+      hasFrameworkInMainConfig = false;
     }
 
     const builderConfig = mainConfig.core?.builder;
 
     // bail if we can't detect an official renderer
     const supportedPackages = Object.keys(packagesMap);
-    if (!supportedPackages.includes(rendererPackage)) {
+    if (!supportedPackages.includes(rendererPackageName)) {
       return null;
     }
 
@@ -113,17 +97,16 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     const builderInfo = await detectBuilderInfo({
       mainConfig,
       configDir,
-      packageDependencies: allDependencies,
+      packageManager,
     });
 
     // if the user has a new framework already, use it
     let newFrameworkPackage = Object.keys(frameworkPackages).find(
-      (pkg) => pkg === frameworkPackage
+      (pkg) => pkg === frameworkPackageName
     );
 
     if (!newFrameworkPackage) {
-      newFrameworkPackage =
-        packagesMap[rendererPackage] && packagesMap[rendererPackage][builderInfo.name];
+      newFrameworkPackage = packagesMap[rendererPackageName]?.[builderInfo.name];
     }
 
     // bail if there is no framework that matches the renderer + builder
@@ -131,7 +114,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    const renderer = rendererPackages[rendererPackage];
+    const renderer = rendererPackages[rendererPackageName];
     // @ts-expect-error account for renderer options for packages that supported it: reactOptions, angularOptions. (svelteOptions got removed)
     let rendererOptions = mainConfig[`${renderer}Options`] || {};
 
@@ -151,11 +134,15 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     let addonOptions: Record<string, any> = {};
     let metaFramework: string | undefined;
 
-    if (rendererPackage === '@storybook/react' && allDependencies.next) {
-      const nextConfigFile = await findUp(nextJsConfigFiles, { cwd: configDir });
+    const nextVersion = await packageManager.getPackageVersion('next');
+    const svelteKitVersion = await packageManager.getPackageVersion('@sveltejs/kit');
+    const viteVersion = await packageManager.getPackageVersion('vite');
+
+    if (rendererPackageName === '@storybook/react' && nextVersion) {
       const nextAddonOptions = getNextjsAddonOptions(mainConfig.addons);
+
       const isNextJsCandidate =
-        (semver.gte(semver.coerce(allDependencies.next).version, '12.0.0') && nextConfigFile) ||
+        (nextVersion && semver.gte(nextVersion, '12.0.0')) ||
         Object.keys(nextAddonOptions).length > 0;
 
       if (isNextJsCandidate) {
@@ -184,9 +171,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
         }
       }
     } else if (
-      rendererPackage === '@storybook/svelte' &&
-      allDependencies['@sveltejs/kit'] &&
-      semver.gte(semver.coerce(allDependencies['@sveltejs/kit']).version, '1.0.0')
+      rendererPackageName === '@storybook/svelte' &&
+      svelteKitVersion &&
+      semver.gte(svelteKitVersion, '1.0.0')
     ) {
       metaFramework = 'sveltekit';
       if (newFrameworkPackage === '@storybook/svelte-vite') {
@@ -221,12 +208,12 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    if (allDependencies.vite && semver.lt(semver.coerce(allDependencies.vite).version, '3.0.0')) {
+    if (viteVersion && semver.lt(viteVersion, '3.0.0')) {
       throw new Error(dedent`
         ❌ Your project should be upgraded to use the framework package ${chalk.bold(
           newFrameworkPackage
         )}, but we detected that you are using Vite ${chalk.bold(
-        allDependencies.vite
+        viteVersion
       )}, which is unsupported in ${chalk.bold(
         'Storybook 7.0'
       )}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
@@ -248,7 +235,6 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       addonOptions,
       addonsToRemove,
       builderInfo,
-      packageJson,
       renderer,
       builderConfig,
       metaFramework,
@@ -436,7 +422,6 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       frameworkPackage,
       frameworkOptions,
       builderInfo,
-      packageJson,
       renderer,
       addonsToRemove,
     },
@@ -445,6 +430,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     mainConfigPath,
     skipInstall,
   }) {
+    const packageJson = await packageManager.retrievePackageJson();
     if (dependenciesToRemove.length > 0) {
       logger.info(`✅ Removing dependencies: ${dependenciesToRemove.join(', ')}`);
       if (!dryRun) {

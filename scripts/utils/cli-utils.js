@@ -14,6 +14,7 @@ const checkDependencies = async () => {
     tasks.push(
       spawn('yarn', ['install'], {
         cwd: scriptsPath,
+        shell: true,
         stdio: ['inherit', 'inherit', 'inherit'],
       })
     );
@@ -22,6 +23,7 @@ const checkDependencies = async () => {
     tasks.push(
       spawn('yarn', ['install'], {
         cwd: codePath,
+        shell: true,
         stdio: ['inherit', 'inherit', 'inherit'],
       })
     );

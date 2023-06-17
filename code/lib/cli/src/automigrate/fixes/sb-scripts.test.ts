@@ -1,16 +1,18 @@
-import type { PackageJson } from '../../js-package-manager';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import type { JsPackageManager } from '../../js-package-manager';
 import { getStorybookScripts, sbScripts } from './sb-scripts';
 
 const checkSbScripts = async ({
-  packageJson,
+  packageManager,
   storybookVersion = '7.0.0',
 }: {
-  packageJson: PackageJson;
+  packageManager: Partial<JsPackageManager>;
   storybookVersion?: string;
 }) => {
-  mockStorybookData({ mainConfig: {}, storybookVersion });
-  return sbScripts.check({ packageManager: makePackageManager(packageJson) });
+  return sbScripts.check({
+    packageManager: packageManager as any,
+    storybookVersion,
+    mainConfig: {} as any,
+  });
 };
 
 describe('getStorybookScripts', () => {
@@ -58,11 +60,22 @@ describe('getStorybookScripts', () => {
 describe('sb-scripts fix', () => {
   describe('sb < 7.0', () => {
     describe('does nothing', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0' } };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('6.2.0');
+            default:
+              return null;
+          }
+        },
+        retrievePackageJson: () => Promise.resolve({}),
+      } as Partial<JsPackageManager>;
+
       it('should no-op', async () => {
         await expect(
           checkSbScripts({
-            packageJson,
+            packageManager,
             storybookVersion: '6.2.0',
           })
         ).resolves.toBeFalsy();
@@ -72,19 +85,30 @@ describe('sb-scripts fix', () => {
 
   describe('sb >= 7.0', () => {
     describe('with old scripts', () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('7.0.0-alpha.0');
+            default:
+              return null;
+          }
         },
-        scripts: {
-          storybook: 'start-storybook -p 6006',
-          'build-storybook': 'build-storybook -o build/storybook',
-        },
-      };
+        retrievePackageJson: () =>
+          Promise.resolve({
+            scripts: {
+              storybook: 'start-storybook -p 6006',
+              'build-storybook': 'build-storybook -o build/storybook',
+            },
+            dependencies: {},
+            devDependencies: {},
+          }),
+      } as Partial<JsPackageManager>;
+
       it('should update scripts to new format', async () => {
         await expect(
           checkSbScripts({
-            packageJson,
+            packageManager,
           })
         ).resolves.toEqual(
           expect.objectContaining({
@@ -105,22 +129,32 @@ describe('sb-scripts fix', () => {
 
     describe('with old custom scripts', () => {
       it('should update scripts to new format', async () => {
-        const packageJson = {
-          dependencies: {
-            '@storybook/react': '^7.0.0-alpha.0',
+        const packageManager = {
+          getPackageVersion: (packageName) => {
+            switch (packageName) {
+              case '@storybook/react':
+                return Promise.resolve('7.0.0-alpha.0');
+              default:
+                return null;
+            }
           },
-          scripts: {
-            'storybook:ci': 'yarn start-storybook --ci',
-            'storybook:build': 'build-storybook -o build/storybook',
-            'storybook:build-mocked': 'MOCKS=true yarn storybook:build',
-            'test-storybook:ci':
-              'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "CI=true build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
-          },
-        };
+          retrievePackageJson: () =>
+            Promise.resolve({
+              scripts: {
+                'storybook:ci': 'yarn start-storybook --ci',
+                'storybook:build': 'build-storybook -o build/storybook',
+                'storybook:build-mocked': 'MOCKS=true yarn storybook:build',
+                'test-storybook:ci':
+                  'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "CI=true build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
+              },
+              dependencies: {},
+              devDependencies: {},
+            }),
+        } as Partial<JsPackageManager>;
 
         await expect(
           checkSbScripts({
-            packageJson,
+            packageManager,
           })
         ).resolves.toEqual(
           expect.objectContaining({
@@ -142,19 +176,30 @@ describe('sb-scripts fix', () => {
     });
 
     describe('already containing new scripts', () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('7.0.0-alpha.0');
+            default:
+              return null;
+          }
         },
-        scripts: {
-          storybook: 'storybook dev -p 6006',
-          'build-storybook': 'storybook build -o build/storybook',
-        },
-      };
+        retrievePackageJson: () =>
+          Promise.resolve({
+            scripts: {
+              storybook: 'storybook dev -p 6006',
+              'build-storybook': 'storybook build -o build/storybook',
+            },
+            dependencies: {},
+            devDependencies: {},
+          }),
+      } as Partial<JsPackageManager>;
+
       it('should no-op', async () => {
         await expect(
           checkSbScripts({
-            packageJson,
+            packageManager,
           })
         ).resolves.toBeFalsy();
       });

@@ -5,6 +5,7 @@ import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
 import dedent from 'ts-dedent';
+import boxen from 'boxen';
 import { installableProjectTypes, ProjectType } from './project_types';
 import {
   detect,
@@ -37,6 +38,7 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions } from './generators/types';
 import { HandledError } from './HandledError';
+import { dev } from './dev';
 
 const logger = console;
 
@@ -50,15 +52,8 @@ const installStorybook = async <Project extends ProjectType>(
     skipInstall: options.skipInstall,
   };
 
-  let packageJson;
-  try {
-    packageJson = await packageManager.readPackageJson();
-  } catch (err) {
-    //
-  }
-
-  const language = detectLanguage(packageJson);
-  const pnp = detectPnp();
+  const language = await detectLanguage(packageManager);
+  const pnp = await detectPnp();
 
   const generatorOptions = {
     language,
@@ -256,18 +251,16 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   });
 
-  let projectType;
+  let projectType: ProjectType;
   const projectTypeProvided = options.type;
   const infoText = projectTypeProvided
     ? `Installing Storybook for user specified project type: ${projectTypeProvided}`
     : 'Detecting project type';
   const done = commandLog(infoText);
 
-  const packageJson = await packageManager.retrievePackageJson();
-
   if (projectTypeProvided) {
     if (installableProjectTypes.includes(projectTypeProvided)) {
-      projectType = projectTypeProvided.toUpperCase();
+      projectType = projectTypeProvided.toUpperCase() as ProjectType;
     } else {
       done(`The provided project type was not recognized by Storybook: ${projectTypeProvided}`);
       logger.log(`\nThe project types currently supported by Storybook are:\n`);
@@ -277,7 +270,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     }
   } else {
     try {
-      projectType = detect(packageJson, options);
+      projectType = await detect(packageManager, options);
     } catch (err) {
       done(err.message);
       throw new HandledError(err);
@@ -317,12 +310,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     telemetry('init', { projectType });
   }
 
-  logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
-
-  if (projectType === ProjectType.ANGULAR) {
-    logger.log('\nTo run your Storybook, type:\n');
-    codeLog([`ng run ${installResult.projectName}:storybook`]);
-  } else if (projectType === ProjectType.REACT_NATIVE) {
+  if (projectType === ProjectType.REACT_NATIVE) {
     logger.log();
     logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
     logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
@@ -333,12 +321,61 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
     logger.log();
   } else {
-    logger.log('\nTo run your Storybook, type:\n');
-    codeLog([packageManager.getRunStorybookCommand()]);
-  }
+    const storybookCommand =
+      projectType === ProjectType.ANGULAR
+        ? `ng run ${installResult.projectName}:storybook`
+        : packageManager.getRunStorybookCommand();
+    logger.log(
+      boxen(
+        dedent`
+          Storybook was successfully installed in your project! 🎉
+          To run Storybook manually, run ${chalk.yellow(
+            chalk.bold(storybookCommand)
+          )}. CTRL+C to stop.
+          
+          Wanna know more about Storybook? Check out ${chalk.cyan('https://storybook.js.org/')}
+          Having trouble or want to chat? Join us at ${chalk.cyan('https://discord.gg/storybook/')}
+        `,
+        { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }
+      )
+    );
 
-  // Add a new line for the clear visibility.
-  logger.log();
+    const shouldRunDev = process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true';
+    if (shouldRunDev) {
+      logger.log('\nRunning Storybook');
+
+      switch (projectType) {
+        case ProjectType.ANGULAR: {
+          try {
+            // for angular specifically, we have to run the `ng` command, and to stream the output
+            // it has to be a sync command.
+            packageManager.runPackageCommandSync(
+              `ng run ${installResult.projectName}:storybook`,
+              ['--quiet'],
+              undefined,
+              'inherit'
+            );
+          } catch (e) {
+            if (e.message.includes('Command failed with exit code 129')) {
+              // catch ctrl + c error
+            } else {
+              throw e;
+            }
+          }
+          break;
+        }
+
+        default: {
+          await dev({
+            ...options,
+            port: 6006,
+            open: true,
+            quiet: true,
+          });
+        }
+      }
+    }
+  }
 }
 
 export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {

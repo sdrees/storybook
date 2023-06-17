@@ -1,5 +1,5 @@
-import * as CHANNEL_POSTMESSAGE from '@storybook/channel-postmessage';
-import * as CHANNEL_WEBSOCKET from '@storybook/channel-websocket';
+import * as CHANNEL_POSTMESSAGE from '@storybook/channels/dist/postmessage/index';
+import * as CHANNEL_WEBSOCKET from '@storybook/channels/dist/websocket/index';
 import * as CHANNELS from '@storybook/channels';
 import * as CLIENT_LOGGER from '@storybook/client-logger';
 import * as CORE_EVENTS from '@storybook/core-events';

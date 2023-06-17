@@ -4,7 +4,7 @@ import type { Channel } from '@storybook/channels';
 import type { AddonStore } from '@storybook/manager-api';
 import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
-import * as postMessage from '@storybook/channel-postmessage';
+import { createBrowserChannel } from '@storybook/channels';
 import { CHANNEL_CREATED } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
@@ -27,7 +27,7 @@ class ReactProvider extends Provider {
   constructor() {
     super();
 
-    const channel = postMessage.createChannel({ page: 'manager' });
+    const channel = createBrowserChannel({ page: 'manager' });
 
     addons.setChannel(channel);
 

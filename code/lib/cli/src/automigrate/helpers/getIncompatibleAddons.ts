@@ -1,9 +1,12 @@
 import type { StorybookConfig } from '@storybook/types';
 import semver from 'semver';
-import { getActualPackageVersions } from './getActualPackageVersions';
 import { getAddonNames } from './mainConfigFile';
+import { JsPackageManagerFactory } from '../../js-package-manager';
 
-export const getIncompatibleAddons = async (mainConfig: StorybookConfig) => {
+export const getIncompatibleAddons = async (
+  mainConfig: StorybookConfig,
+  packageManager = JsPackageManagerFactory.getPackageManager()
+) => {
   // TODO: Keep this up to date with https://github.com/storybookjs/storybook/issues/20529 in case more addons get added
   const incompatibleList = {
     '@storybook/addon-knobs': '6.4.0',
@@ -39,29 +42,29 @@ export const getIncompatibleAddons = async (mainConfig: StorybookConfig) => {
     return [];
   }
 
-  const addonVersions = await getActualPackageVersions(addons);
+  const addonVersions = await Promise.all(
+    addons.map(
+      async (addon) =>
+        ({
+          name: addon,
+          version: await packageManager.getPackageVersion(addon),
+        } as { name: keyof typeof incompatibleList; version: string })
+    )
+  );
 
   const incompatibleAddons: { name: string; version: string }[] = [];
-  addonVersions.forEach(
-    ({
-      name,
-      version: installedVersion,
-    }: {
-      name: keyof typeof incompatibleList;
-      version: string;
-    }) => {
-      if (installedVersion === null) return;
+  addonVersions.forEach(({ name, version: installedVersion }) => {
+    if (installedVersion === null) return;
 
-      const addonVersion = incompatibleList[name];
-      try {
-        if (semver.lte(semver.coerce(installedVersion), semver.coerce(addonVersion))) {
-          incompatibleAddons.push({ name, version: installedVersion });
-        }
-      } catch (err) {
-        // we tried our best but if we can't compare, we just no-op for that addon
+    const addonVersion = incompatibleList[name];
+    try {
+      if (semver.lte(semver.coerce(installedVersion), semver.coerce(addonVersion))) {
+        incompatibleAddons.push({ name, version: installedVersion });
       }
+    } catch (err) {
+      // we tried our best but if we can't compare, we just no-op for that addon
     }
-  );
+  });
 
   return incompatibleAddons;
 };

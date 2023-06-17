@@ -2,12 +2,27 @@ import type { WriteStream } from 'fs-extra';
 import { move, remove, writeFile, readFile, createWriteStream } from 'fs-extra';
 import { join } from 'path';
 import tempy from 'tempy';
+import { rendererPackages } from '@storybook/core-common';
+import type { JsPackageManager } from './js-package-manager';
 
 export function parseList(str: string): string[] {
   return str
     .split(',')
     .map((item) => item.trim())
     .filter((item) => item.length > 0);
+}
+
+export async function getStorybookVersion(packageManager: JsPackageManager) {
+  const packages = (
+    await Promise.all(
+      Object.keys(rendererPackages).map(async (pkg) => ({
+        name: pkg,
+        version: await packageManager.getPackageVersion(pkg),
+      }))
+    )
+  ).filter(({ version }) => !!version);
+
+  return packages[0]?.version;
 }
 
 export function getEnvConfig(program: Record<string, any>, configEnv: Record<string, any>): void {

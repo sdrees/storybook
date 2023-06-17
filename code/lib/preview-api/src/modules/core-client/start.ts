@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
 import { global } from '@storybook/global';
 import type { Renderer, ArgsStoryFn, Path, ProjectAnnotations } from '@storybook/types';
-import { createChannel } from '@storybook/channel-postmessage';
+import { createBrowserChannel } from '@storybook/channels';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
 import { addons } from '../../addons';
 import { PreviewWeb } from '../../preview-web';
@@ -94,7 +94,7 @@ export function start<TRenderer extends Renderer>(
     };
   }
 
-  const channel = createChannel({ page: 'preview' });
+  const channel = createBrowserChannel({ page: 'preview' });
   addons.setChannel(channel);
 
   const clientApi = global?.__STORYBOOK_CLIENT_API__ || new ClientApi<TRenderer>();

@@ -19,6 +19,7 @@ jobs:
   prepare-patch-pull-request:
     name: Prepare patch pull request
     runs-on: ubuntu-latest
+    environment: release
     defaults:
       run:
         working-directory: scripts
@@ -27,6 +28,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: main
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -54,7 +56,7 @@ jobs:
         id: check-frozen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release:is-pr-frozen
+        run: yarn release:is-pr-frozen --patch
 
       - name: Cancel when frozen
         if: steps.check-frozen.outputs.frozen == 'true' && github.event_name != 'workflow_dispatch'
@@ -136,12 +138,13 @@ jobs:
           if PR_STATE=$(gh pr view --json state --jq .state 2>/dev/null) && [[ -n "$PR_STATE" && "$PR_STATE" == *"OPEN"* ]]; then
             gh pr edit \
               --repo "${{github.repository }}" \
-              --title "Bump version on \`main\`: patch from ${{ steps.versions.outputs.current }} to ${{ steps.versions.outputs.next }}" \
+              --title "Release: Patch ${{ steps.versions.outputs.next }}" \
               --body "${{ steps.description.outputs.description }}"
           else
             gh pr create \
               --repo "${{github.repository }}" \
-              --title "Bump version on \`main\`: patch from ${{ steps.versions.outputs.current }} to ${{ steps.versions.outputs.next }}" \
+              --title "Release: Patch ${{ steps.versions.outputs.next }}" \
+              --label "maintenance" \
               --base latest-release \
               --head version-patch-from-${{ steps.versions.outputs.current }} \
               --body "${{ steps.description.outputs.description }}"
@@ -155,12 +158,13 @@ jobs:
           if PR_STATE=$(gh pr view --json state --jq .state 2>/dev/null) && [[ -n "$PR_STATE" && "$PR_STATE" == *"OPEN"* ]]; then
             gh pr edit \
               --repo "${{github.repository }}"\
-              --title "Merge patches to \`main\`" \
+              --title "Release: Merge patches to \`main\` (without version bump)" \
               --body "${{ steps.description.outputs.description }}"
           else
             gh pr create \
               --repo "${{github.repository }}"\
-              --title "Merge patches to \`main\`" \
+              --title "Release: Merge patches to \`main\` (without version bump)" \
+              --label "build" \
               --base latest-release \
               --head version-patch-from-${{ steps.versions.outputs.current }} \
               --body "${{ steps.description.outputs.description }}"

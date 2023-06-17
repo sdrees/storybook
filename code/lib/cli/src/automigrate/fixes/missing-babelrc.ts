@@ -4,7 +4,7 @@ import semver from 'semver';
 import { loadPartialConfigAsync } from '@babel/core';
 import type { Fix } from '../types';
 import { generateStorybookBabelConfigInCWD } from '../../babel-config';
-import { getStorybookData } from '../helpers/mainConfigFile';
+import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 
 interface MissingBabelRcOptions {
   needsBabelRc: boolean;
@@ -23,24 +23,28 @@ const frameworksThatNeedBabelConfig = [
 export const missingBabelRc: Fix<MissingBabelRcOptions> = {
   id: 'missing-babelrc',
 
-  async check({ configDir, packageManager }) {
+  async check({ packageManager, mainConfig, storybookVersion }) {
     const packageJson = await packageManager.retrievePackageJson();
-    const { mainConfig, storybookVersion } = await getStorybookData({ configDir, packageManager });
 
     if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    const { framework, addons } = mainConfig;
-
-    const frameworkPackage = typeof framework === 'string' ? framework : framework.name;
+    const { addons } = mainConfig;
 
     const hasCraPreset =
-      addons && addons.find((addon) => addon === '@storybook/preset-create-react-app');
+      addons &&
+      addons.find((addon) =>
+        typeof addon === 'string'
+          ? addon.endsWith('@storybook/preset-create-react-app')
+          : addon.name.endsWith('@storybook/preset-create-react-app')
+      );
+
+    const frameworkPackageName = getFrameworkPackageName(mainConfig);
 
     if (
-      frameworkPackage &&
-      frameworksThatNeedBabelConfig.includes(frameworkPackage) &&
+      frameworkPackageName &&
+      frameworksThatNeedBabelConfig.includes(frameworkPackageName) &&
       !hasCraPreset
     ) {
       const config = await loadPartialConfigAsync({

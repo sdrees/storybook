@@ -2,7 +2,6 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
 import type { Fix } from '../types';
-import { getStorybookData } from '../helpers/mainConfigFile';
 
 interface NodeJsRequirementOptions {
   nodeVersion: string;
@@ -12,9 +11,7 @@ export const nodeJsRequirement: Fix<NodeJsRequirementOptions> = {
   id: 'nodejs-requirement',
   promptOnly: true,
 
-  async check({ packageManager, configDir }) {
-    const { storybookVersion } = await getStorybookData({ packageManager, configDir });
-
+  async check({ storybookVersion }) {
     if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }

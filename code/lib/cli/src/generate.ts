@@ -216,6 +216,10 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option(
+    '--initial-path [path]',
+    'URL path to be appended when visiting Storybook for the first time'
+  )
   .action(async (options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));

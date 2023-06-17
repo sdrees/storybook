@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
 import type { StoriesEntry } from '@storybook/types';
-import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
+import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 
 const logger = console;
@@ -31,12 +31,7 @@ const getNextGlob = (glob: string) => {
 
 export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
   id: 'bare-mdx-stories-glob',
-  async check({ packageManager, configDir }) {
-    const { storybookVersion, mainConfig } = await getStorybookData({
-      configDir,
-      packageManager,
-    });
-
+  async check({ storybookVersion, mainConfig }) {
     if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }

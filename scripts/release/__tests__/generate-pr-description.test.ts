@@ -10,10 +10,11 @@ describe('Generate PR Description', () => {
   const changes: Change[] = [
     {
       user: 'JReinhold',
+      id: 'pr-id-42',
       title: 'Some PR title for a bug',
       labels: ['bug', 'build', 'other label', 'patch'],
       commit: 'abc123',
-      pull: '42',
+      pull: 42,
       links: {
         commit: '[abc123](https://github.com/storybookjs/storybook/commit/abc123)',
         pull: '[#42](https://github.com/storybookjs/storybook/pull/42)',
@@ -22,6 +23,7 @@ describe('Generate PR Description', () => {
     },
     {
       // this Bump version commit should be ignored
+      id: null,
       user: 'github-actions[bot]',
       pull: null,
       commit: '012b58140c3606efeacbe99c0c410624b0a1ed1f',
@@ -35,6 +37,7 @@ describe('Generate PR Description', () => {
       },
     },
     {
+      id: null,
       user: 'shilman',
       title: 'Some title for a "direct commit"',
       labels: null,
@@ -47,11 +50,12 @@ describe('Generate PR Description', () => {
       },
     },
     {
+      id: 'pr-id-11',
       user: 'shilman',
       title: 'Another PR `title` for docs',
       labels: ['another label', 'documentation', 'patch'],
       commit: 'ddd222',
-      pull: '11',
+      pull: 11,
       links: {
         commit: '[ddd222](https://github.com/storybookjs/storybook/commit/ddd222)',
         pull: '[#11](https://github.com/storybookjs/storybook/pull/11)',
@@ -59,11 +63,12 @@ describe('Generate PR Description', () => {
       },
     },
     {
+      id: 'pr-id-48',
       user: 'JReinhold',
       title: "Some PR title for a 'new' feature",
       labels: ['feature request', 'other label'],
       commit: 'wow1337',
-      pull: '48',
+      pull: 48,
       links: {
         commit: '[wow1337](https://github.com/storybookjs/storybook/commit/wow1337)',
         pull: '[#48](https://github.com/storybookjs/storybook/pull/48)',
@@ -71,11 +76,12 @@ describe('Generate PR Description', () => {
       },
     },
     {
+      id: 'pr-id-77',
       user: 'JReinhold',
       title: 'Some PR title with a missing label',
       labels: ['incorrect label', 'other label'],
       commit: 'bad999',
-      pull: '77',
+      pull: 77,
       links: {
         commit: '[bad999](https://github.com/storybookjs/storybook/commit/bad999)',
         pull: '[#77](https://github.com/storybookjs/storybook/pull/77)',
@@ -84,35 +90,22 @@ describe('Generate PR Description', () => {
     },
   ];
   describe('mapToChangelist', () => {
-    it('should return a correct string for releases', () => {
-      expect(mapToChangelist({ changes, isRelease: true })).toMatchInlineSnapshot(`
-        "- **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42)
-        	- [ ] The change is appropriate for the version bump
-        	- [ ] The PR is labeled correctly
-        	- [ ] The PR title is correct
-        - **⚠️ Direct commit**: Some title for a "direct commit" [22bb11](https://github.com/storybookjs/storybook/commit/22bb11)
-        	- [ ] The change is appropriate for the version bump
-        - **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11)
-        	- [ ] The change is appropriate for the version bump
-        	- [ ] The PR is labeled correctly
-        	- [ ] The PR title is correct
-        - **✨ Feature Request**: Some PR title for a 'new' feature [#48](https://github.com/storybookjs/storybook/pull/48)
-        	- [ ] The change is appropriate for the version bump
-        	- [ ] The PR is labeled correctly
-        	- [ ] The PR title is correct
-        - **❔ Missing Label**: Some PR title with a missing label [#77](https://github.com/storybookjs/storybook/pull/77)
-        	- [ ] The change is appropriate for the version bump
-        	- [ ] The PR is labeled correctly
-        	- [ ] The PR title is correct"
+    it('should return a correct string for patch PRs', () => {
+      expect(mapToChangelist({ changes, unpickedPatches: true })).toMatchInlineSnapshot(`
+        "- [ ] **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42)
+        - [ ] **✨ Feature Request**: Some PR title for a 'new' feature [#48](https://github.com/storybookjs/storybook/pull/48)
+        - [ ] **⚠️ Direct commit**: Some title for a "direct commit" [22bb11](https://github.com/storybookjs/storybook/commit/22bb11)
+        - [ ] **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11)
+        - [ ] **❔ Missing Label**: Some PR title with a missing label [#77](https://github.com/storybookjs/storybook/pull/77)"
       `);
     });
-    it('should return a correct string for non-releases', () => {
-      expect(mapToChangelist({ changes, isRelease: false })).toMatchInlineSnapshot(`
-        "- **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42)
-        - **⚠️ Direct commit**: Some title for a "direct commit" [22bb11](https://github.com/storybookjs/storybook/commit/22bb11)
-        - **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11)
-        - **✨ Feature Request**: Some PR title for a 'new' feature [#48](https://github.com/storybookjs/storybook/pull/48)
-        - **❔ Missing Label**: Some PR title with a missing label [#77](https://github.com/storybookjs/storybook/pull/77)"
+    it('should return a correct string for prerelease PRs', () => {
+      expect(mapToChangelist({ changes, unpickedPatches: false })).toMatchInlineSnapshot(`
+        "- [ ] **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42) (will also be patched)
+        - [ ] **✨ Feature Request**: Some PR title for a 'new' feature [#48](https://github.com/storybookjs/storybook/pull/48)
+        - [ ] **⚠️ Direct commit**: Some title for a "direct commit" [22bb11](https://github.com/storybookjs/storybook/commit/22bb11)
+        - [ ] **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11) (will also be patched)
+        - [ ] **❔ Missing Label**: Some PR title with a missing label [#77](https://github.com/storybookjs/storybook/pull/77)"
       `);
     });
   });
@@ -222,8 +215,8 @@ For each pull request below, you need to either manually cherry pick it, or disc
         If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
         When everything above is done:
-        - [ ] Merge this PR
-        - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
+        - Merge this PR
+        - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
 
         ---
 
@@ -273,8 +266,8 @@ For each pull request below, you need to either manually cherry pick it, or disc
         If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
 
         When everything above is done:
-        - [ ] Merge this PR
-        - [ ] [Approve the publish workflow run](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)"
+        - Merge this PR
+        - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)"
       `);
     });
 
@@ -337,8 +330,8 @@ For each pull request below, you need to either manually cherry pick it, or disc
         If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
         When everything above is done:
-        - [ ] Merge this PR
-        - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
+        - Merge this PR
+        - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
 
         ---
 
@@ -383,8 +376,8 @@ For each pull request below, you need to either manually cherry pick it, or disc
         If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
 
         When everything above is done:
-        - [ ] Merge this PR
-        - [ ] [Approve the publish workflow run](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)"
+        - Merge this PR
+        - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)"
       `);
     });
   });

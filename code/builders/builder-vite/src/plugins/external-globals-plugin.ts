@@ -1,7 +1,8 @@
 import { join } from 'node:path';
+import findCacheDirectory from 'find-cache-dir';
 import { init, parse } from 'es-module-lexer';
 import MagicString from 'magic-string';
-import { emptyDir, ensureDir, ensureFile, writeFile } from 'fs-extra';
+import { ensureFile, writeFile } from 'fs-extra';
 import { mergeAlias } from 'vite';
 import type { Alias, Plugin } from 'vite';
 
@@ -47,9 +48,10 @@ export async function externalGlobalsPlugin(externals: Record<string, string>) {
       }
       const newAlias = mergeAlias([], config.resolve?.alias) as Alias[];
 
-      const cachePath = join(process.cwd(), 'node_modules', '.cache', 'vite-plugin-externals');
-      await ensureDir(cachePath);
-      await emptyDir(cachePath);
+      const cachePath = findCacheDirectory({
+        name: 'sb-vite-plugin-externals',
+        create: true,
+      }) as string;
       await Promise.all(
         (Object.keys(externals) as Array<keyof typeof externals>).map(async (externalKey) => {
           const externalCachePath = join(cachePath, `${externalKey}.js`);

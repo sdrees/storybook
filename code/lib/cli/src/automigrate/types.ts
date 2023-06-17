@@ -1,9 +1,14 @@
+import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager, PackageManagerName } from '../js-package-manager';
 
 export interface CheckOptions {
   packageManager: JsPackageManager;
   rendererPackage?: string;
   configDir?: string;
+  mainConfig: StorybookConfig;
+  storybookVersion: string;
+  previewConfigPath?: string;
+  mainConfigPath?: string;
 }
 
 export interface RunOptions<ResultType> {

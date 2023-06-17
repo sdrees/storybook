@@ -1,6 +1,8 @@
 import { frameworkPackages } from '@storybook/core-common';
 import type { Preset, StorybookConfig } from '@storybook/types';
 import findUp from 'find-up';
+import type { JsPackageManager } from '../../js-package-manager';
+import { getBuilderPackageName, getFrameworkPackageName } from './mainConfigFile';
 
 const logger = console;
 
@@ -62,32 +64,29 @@ type BuilderType = 'vite' | 'webpack5';
 export const detectBuilderInfo = async ({
   mainConfig,
   configDir,
-  packageDependencies,
+  packageManager,
 }: {
   mainConfig: StorybookConfig & { builder?: string | Preset };
   configDir: string;
-  packageDependencies: Record<string, string>;
+  packageManager: JsPackageManager;
 }): Promise<{ name: BuilderType; options: any }> => {
-  let builderOptions = {};
   let builderName: BuilderType;
   let builderOrFrameworkName;
 
   const { core = {}, framework } = mainConfig;
   const { builder } = core;
 
-  if (builder) {
-    if (typeof builder === 'string') {
-      builderOrFrameworkName = builder;
-    } else {
-      builderOrFrameworkName = builder.name;
+  const builderPackageName = getBuilderPackageName(mainConfig);
+  const frameworkPackageName = getFrameworkPackageName(mainConfig);
 
-      builderOptions = builder.options || {};
-    }
+  let builderOptions = typeof builder !== 'string' ? builder?.options ?? {} : {};
+
+  if (builderPackageName) {
+    builderOrFrameworkName = builderPackageName;
   } else if (framework) {
-    const frameworkName = typeof framework === 'string' ? framework : framework.name;
-    if (Object.keys(frameworkPackages).includes(frameworkName)) {
-      builderOrFrameworkName = frameworkName;
-      builderOptions = typeof framework === 'object' ? framework.options?.builder : {};
+    if (Object.keys(frameworkPackages).includes(frameworkPackageName)) {
+      builderOrFrameworkName = frameworkPackageName;
+      builderOptions = typeof framework === 'object' ? framework.options?.builder ?? {} : {};
     }
   }
 
@@ -112,15 +111,22 @@ export const detectBuilderInfo = async ({
 
   // if builder is still not detected, rely on package dependencies
   if (!builderOrFrameworkName) {
-    if (
-      packageDependencies['@storybook/builder-vite'] ||
-      packageDependencies['storybook-builder-vite']
-    ) {
+    const storybookBuilderViteVersion = await packageManager.getPackageVersion(
+      '@storybook/builder-vite'
+    );
+    const storybookBuilderVite2Version = await packageManager.getPackageVersion(
+      'storybook-builder-vite'
+    );
+    const storybookBuilderWebpack5Version = await packageManager.getPackageVersion(
+      '@storybook/builder-webpack5'
+    );
+    const storybookBuilderManagerWebpack5Version = await packageManager.getPackageVersion(
+      '@storybook/manager-webpack5'
+    );
+
+    if (storybookBuilderViteVersion || storybookBuilderVite2Version) {
       builderOrFrameworkName = 'vite';
-    } else if (
-      packageDependencies['@storybook/builder-webpack5'] ||
-      packageDependencies['@storybook/manager-webpack5']
-    ) {
+    } else if (storybookBuilderWebpack5Version || storybookBuilderManagerWebpack5Version) {
       builderOrFrameworkName = 'webpack5';
     }
   }
