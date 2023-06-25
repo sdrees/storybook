@@ -82,18 +82,19 @@ export abstract class JsPackageManager {
   public async installDependencies() {
     let done = commandLog('Preparing to install dependencies');
     done();
-    logger.log();
 
     logger.log();
+    logger.log();
+
     done = commandLog('Installing dependencies');
 
     try {
       await this.runInstall();
+      done();
     } catch (e) {
       done('An error occurred while installing dependencies.');
       throw new HandledError(e);
     }
-    done();
   }
 
   packageJsonPath(): string {

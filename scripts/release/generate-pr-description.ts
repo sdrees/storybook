@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import program from 'commander';
 import { z } from 'zod';
 import dedent from 'ts-dedent';
+import semver from 'semver';
 import { setOutput } from '@actions/core';
 import type { Change } from './utils/get-changes';
 import { getChanges, LABELS_BY_IMPORTANCE, RELEASED_LABELS } from './utils/get-changes';
@@ -140,6 +141,9 @@ export const generateReleaseDescription = ({
   changelogText: string;
   manualCherryPicks?: string;
 }): string => {
+  const workflow = semver.prerelease(nextVersion) ? 'prepare-prerelease' : 'prepare-patch-release';
+  const workflowUrl = `https://github.com/storybookjs/storybook/actions/workflows/${workflow}.yml`;
+
   return (
     dedent`This is an automated pull request that bumps the version from \`${currentVersion}\` to \`${nextVersion}\`.
   Once this pull request is merged, it will trigger a new release of version \`${nextVersion}\`.
@@ -150,6 +154,7 @@ export const generateReleaseDescription = ({
   Before merging the PR, there are a few QA steps to go through:
 
   - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
   
   And for each change below:
   
@@ -168,7 +173,7 @@ export const generateReleaseDescription = ({
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](${workflowUrl}) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
   When everything above is done:
   - Merge this PR
@@ -195,13 +200,20 @@ export const generateNonReleaseDescription = (
     dedent`This is an automated pull request. None of the changes requires a version bump, they are only internal or documentation related. Merging this PR will not trigger a new release, but documentation will be updated.
   If you're not a core maintainer with permissions to release you can ignore this pull request.
   
+  ## To do
+
+  Before merging the PR:
+
+  - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
+
   This is a list of all the PRs merged and commits pushed directly to \`next\` since the last release:
   
   ${changeList}
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
   
   When everything above is done:
   - Merge this PR

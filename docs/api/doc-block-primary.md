@@ -27,7 +27,9 @@ import { Primary } from '@storybook/blocks';
 
 `Primary` is configured with the following props:
 
-### `name` (deprecated)
+### `name`
+
+(⛔️ **Deprecated**)
 
 Type: `string`
 

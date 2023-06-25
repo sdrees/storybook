@@ -35,19 +35,25 @@ Specifies where to pull the description from. It can either point to a story or 
 
 Descriptions are pulled from the JSDoc comments or parameters, and they are rendered as markdown. See [Writing descriptions](#writing-descriptions) for more details.
 
-### `children` (deprecated)
+### `children`
+
+(⛔️ **Deprecated**)
 
 Type: `string`
 
 See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo).
 
-### `markdown` (deprecated)
+### `markdown`
+
+(⛔️ **Deprecated**)
 
 Type: `string`
 
 See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo).
 
-### `type` (deprecated)
+### `type`
+
+(⛔️ **Deprecated**)
 
 Type: `'info' | 'notes' | 'docgen' | 'auto'`
 

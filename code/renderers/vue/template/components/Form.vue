@@ -2,7 +2,13 @@
   <form id="interaction-test-form" @submit.prevent="onSubmit">
     <label>
       Enter Value
-      <input type="text" data-testid="value" :value="value" required @click="setValue" />
+      <input
+        type="text"
+        data-testid="value"
+        :value="value"
+        @input="value = $event.target.value"
+        required
+      />
     </label>
     <button type="submit">Submit</button>
     <p v-if="complete">Completed!!</p>
@@ -27,9 +33,6 @@ export default {
   },
 
   methods: {
-    setValue(event) {
-      this.value = event.target.value;
-    },
     onSubmit() {
       this.onSuccess(this.value);
       setTimeout(() => {

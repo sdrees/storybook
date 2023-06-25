@@ -26,7 +26,7 @@
 <form id="interaction-test-form" on:submit|preventDefault={handleSubmit}>
   <label>
     Enter Value
-    <input type="text" data-testid="value" {value} required on:click={handleClick} />
+    <input type="text" data-testid="value" bind:value required on:click={handleClick} />
   </label>
   <button type="submit">Submit</button>
   {#if complete}<p>Completed!!</p>{/if}

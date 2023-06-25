@@ -2,6 +2,8 @@
 title: 'stories'
 ---
 
+(**Required**)
+
 Parent: [main.js|ts configuration](./main-config.md)
 
 Type:
@@ -10,8 +12,6 @@ Type:
 | (string | StoriesSpecifier)[]
 | async (list: (string | StoriesSpecifier)[]) => (string | StoriesSpecifier)[]
 ```
-
-Required: `true`
 
 Configures Storybook to load stories from the specified locations. The intention is for you to colocate a story file along with the component it documents:
 
@@ -91,9 +91,9 @@ Type:
 
 #### `StoriesSpecifier.directory`
 
-Type: `string`
+(**Required**)
 
-Required: `true`
+Type: `string`
 
 Where to start looking for story files, relative to the root of your project.
 
@@ -101,7 +101,7 @@ Where to start looking for story files, relative to the root of your project.
 
 Type: `string`
 
-Default: `'**/*.@(mdx|stories.@(mdx|tsx|ts|jsx|js))'`
+Default: `'**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))'`
 
 A glob, relative to `StoriesSpecifier.directory` (with no leading `./`), that matches the filenames to load.
 

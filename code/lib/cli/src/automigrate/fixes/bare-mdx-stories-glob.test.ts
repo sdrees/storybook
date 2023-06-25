@@ -59,8 +59,8 @@ describe('bare-mdx fix', () => {
         };
         const main = {
           stories: [
-            '../src/**/*.stories.@(js|jsx|ts|tsx)',
-            { directory: '../**', files: '*.stories.@(js|jsx|ts|tsx)' },
+            '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+            { directory: '../**', files: '*.stories.@(js|jsx|mjs|ts|tsx)' },
             { directory: '../**' },
           ],
         };

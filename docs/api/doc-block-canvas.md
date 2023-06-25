@@ -202,37 +202,49 @@ Default: `parameters.docs.canvas.withToolbar`
 
 Determines whether to render a toolbar containing tools to interact with the story.
 
-### `children` (deprecated)
+### `children`
+
+(⛔️ **Deprecated**)
 
 Type: `React.ReactNode`
 
 Expects only [Story](./doc-block-story.md) children. Reference the story with the `of` prop instead.
 
-### `columns` (deprecated)
+### `columns`
+
+(⛔️ **Deprecated**)
 
 Type: `number`
 
 Splits the stories based on the number of defined columns. Multiple stories are not supported.
 
-### `isColumn` (deprecated)
+### `isColumn`
+
+(⛔️ **Deprecated**)
 
 Type: `boolean`
 
 Displays the stories one above the other. Multiple stories are not supported.
 
-### `mdxSource` (deprecated)
+### `mdxSource`
+
+(⛔️ **Deprecated**)
 
 Type: `string`
 
 Provides source to display. Use [`source.code`](#source) instead.
 
-### `withSource` (deprecated)
+### `withSource`
+
+(⛔️ **Deprecated**)
 
 Type: `'open' | 'closed' | 'none'`
 
 Controls the source code block visibility. Use [`sourceState`](#sourcestate) instead.
 
-### `withToolbar` (deprecated)
+### `withToolbar`
+
+(⛔️ **Deprecated**)
 
 Type: `boolean`
 

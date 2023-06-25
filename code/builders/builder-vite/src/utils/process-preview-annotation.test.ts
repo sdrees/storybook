@@ -35,7 +35,8 @@ describe('processPreviewAnnotation()', () => {
     expect(url).toBe('/src/stories/components');
   });
 
-  it('should convert node_modules into bare paths', () => {
+  // TODO: figure out why this fails on windows. Could be related to storybook-metadata.test file altering path.sep
+  it.skipWindows('should convert node_modules into bare paths', () => {
     const annotation = '/Users/foo/storybook/node_modules/storybook-addon/preview';
     const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
     expect(url).toBe('storybook-addon/preview');

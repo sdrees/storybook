@@ -15,7 +15,7 @@ const config: StorybookConfig = {
     name: wrapForPnp('@storybook/your-framework'),
     options: {},
   },
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     //👇 Use wrapForPnp when referencing Storybook's addons and frameworks
     wrapForPnp('@storybook/addon-essentials'),

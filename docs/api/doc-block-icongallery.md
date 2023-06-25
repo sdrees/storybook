@@ -75,7 +75,9 @@ import { IconItem } from '@storybook/blocks';
 
 `IconItem` is configured with the following props:
 
-### `name` (required)
+### `name`
+
+(**Required**)
 
 Type: `string`
 

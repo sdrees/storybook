@@ -27,7 +27,7 @@ describe('configureMain', () => {
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "/** @type { import('@storybook/react-vite').StorybookConfig } */
       const config = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [],
         framework: {
           name: '@storybook/react-vite',
@@ -55,7 +55,7 @@ describe('configureMain', () => {
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "import type { StorybookConfig } from '@storybook/react-vite';
       const config: StorybookConfig = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [],
         framework: {
           name: '@storybook/react-vite',
@@ -90,7 +90,7 @@ describe('configureMain', () => {
 
       /** @type { import('@storybook/react-webpack5').StorybookConfig } */
       const config = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [
           path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json'))),
           path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json'))),

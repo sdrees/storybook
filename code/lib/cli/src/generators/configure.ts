@@ -51,7 +51,7 @@ const sanitizeFramework = (framework: string) => {
 
 export async function configureMain({
   addons,
-  extensions = ['js', 'jsx', 'ts', 'tsx'],
+  extensions = ['js', 'jsx', 'mjs', 'ts', 'tsx'],
   storybookConfigFolder,
   language,
   ...custom

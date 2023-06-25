@@ -151,88 +151,6 @@ jobs:
             - code/renderers
             - code/presets
             - .verdaccio-cache
-  cra-bench:
-    executor:
-      class: large
-      name: sb_playwright
-    working_directory: /tmp/storybook
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Running local registry
-          command: |
-            cd code
-            yarn local-registry --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: |
-            cd code
-            yarn wait-on http://localhost:6001
-      - run:
-          name: set up cra repro, skip tests
-          command: |
-            cd code
-            SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories --start-from=never  --no-link
-      - run:
-          name: Run @storybook/bench on repro
-          command: |
-            cd bench/cra-default-ts
-            rm -rf node_modules
-            mkdir node_modules
-            ../../code/node_modules/.bin/sb-bench 'yarn install' --label cra
-      - report-workflow-on-failure
-      - run:
-          name: prep artifacts
-          when: always
-          command: tar cvzf /tmp/cra-default-ts-bench.tar.gz bench/cra-default-ts
-      - store_artifacts:
-          path: /tmp/cra-default-ts-bench.tar.gz
-          destination: cra-default-ts-bench.tar.gz
-  react-vite-bench:
-    executor:
-      class: large
-      name: sb_playwright
-    working_directory: /tmp/storybook
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Running local registry
-          command: |
-            cd code
-            yarn local-registry --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: |
-            cd code
-            yarn wait-on http://localhost:6001
-      - run:
-          name: set up react-vite repro, skip tests
-          command: |
-            cd code
-            SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories --start-from=never  --no-link
-      - run:
-          name: Run @storybook/bench on repro
-          command: |
-            cd bench/react-vite-default-ts
-            rm -rf node_modules
-            mkdir node_modules
-            ../../code/node_modules/.bin/sb-bench 'yarn install' --label react-vite
-      - report-workflow-on-failure
-      - run:
-          name: prep artifacts
-          when: always
-          command: tar cvzf /tmp/react-vite-default-ts-bench.tar.gz bench/react-vite-default-ts
-      - store_artifacts:
-          path: /tmp/react-vite-default-ts-bench.tar.gz
-          destination: react-vite-default-ts-bench.tar.gz
   lint:
     executor:
       class: large
@@ -351,9 +269,9 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
+          command: yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> sandbox)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox)
       - persist_to_workspace:
           root: .
           paths:
@@ -376,9 +294,9 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn task --task smoke-test --template $(yarn get-template << pipeline.parameters.workflow >> smoke-test) --no-link --start-from=never --junit
+          command: yarn task --task smoke-test --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task smoke-test) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> smoke-test)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task smoke-test)
       - store_test_results:
           path: test-results
   build-sandboxes:
@@ -402,18 +320,19 @@ jobs:
           background: true
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+          command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
       - run:
           name: Verifying Telemetry
-          command: yarn ts-node ./event-log-checker build $(yarn get-template << pipeline.parameters.workflow >> build)
+          command: yarn ts-node ./event-log-checker build $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
           working_directory: scripts
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> build)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
       - store_test_results:
           path: test-results
       - persist_to_workspace:
           root: .
           paths:
+            - sandbox/*/bench/*.json
             - sandbox/*/storybook-static
   test-runner-production:
     parameters:
@@ -431,9 +350,9 @@ jobs:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template << pipeline.parameters.workflow >> test-runner) --no-link --start-from=never --junit
+          command: yarn task --task test-runner --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> test-runner)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner)
       - store_test_results:
           path: test-results
   test-runner-dev:
@@ -452,9 +371,9 @@ jobs:
           at: .
       - run:
           name: Running Test Runner in Dev mode
-          command: yarn task --task test-runner-dev --template $(yarn get-template << pipeline.parameters.workflow >> test-runner-dev) --no-link --start-from=never --junit
+          command: yarn task --task test-runner-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> test-runner-dev)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev)
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
@@ -472,9 +391,9 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
+          command: yarn task --task chromatic --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task chromatic) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> chromatic)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task chromatic)
       - store_test_results:
           path: test-results
   e2e-production:
@@ -493,9 +412,9 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
+          command: yarn task --task e2e-tests --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> e2e-tests)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests)
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
@@ -517,14 +436,36 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests-dev --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests-dev) --no-link --start-from=never --junit
+          command: yarn task --task e2e-tests-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> e2e-tests-dev)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev)
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/playwright-results/
           destination: playwright
+  bench:
+    parameters:
+      parallelism:
+        type: integer
+        default: 2
+    executor:
+      class: medium
+      name: sb_playwright
+    parallelism: << parameters.parallelism >>
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running Bench
+          command: yarn task --task bench --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench) --no-link --start-from=never --junit
+      - run:
+          name: Uploading results
+          command: yarn upload-bench $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
+      - report-workflow-on-failure:
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
 
 workflows:
   ci:
@@ -596,18 +537,12 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - cra-bench:
-          requires:
-            - build
-      - react-vite-bench:
-          requires:
-            - build
       - create-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - build
       - build-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
@@ -623,6 +558,10 @@ workflows:
             - create-sandboxes
       - test-runner-production:
           parallelism: 9
+          requires:
+            - build-sandboxes
+      - bench:
+          parallelism: 2
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -653,18 +592,12 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - cra-bench:
-          requires:
-            - build
-      - react-vite-bench:
-          requires:
-            - build
       - create-sandboxes:
-          parallelism: 18
+          parallelism: 20
           requires:
             - build
       - build-sandboxes:
-          parallelism: 18
+          parallelism: 20
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
@@ -681,6 +614,10 @@ workflows:
             - create-sandboxes
       - test-runner-production:
           parallelism: 18
+          requires:
+            - build-sandboxes
+      - bench:
+          parallelism: 2
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -710,14 +647,14 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 32
+          parallelism: 34
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 32
+          parallelism: 34
           requires:
             - create-sandboxes
       - chromatic-sandboxes:

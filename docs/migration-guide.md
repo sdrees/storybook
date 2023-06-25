@@ -225,7 +225,7 @@ export default {
 // .storybook/main.js
 
 module.exports = {
-  stories: ['../src/**.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**.stories.@(js|jsx|mjs|ts|tsx)'],
 };
 ```
 
@@ -265,6 +265,6 @@ Finally, you’ll need to add the MDX files to `.storybook/main.js` so that they
 // .storybook/main.js
 
 module.exports = {
-  stories: ['../src/**.mdx', '../src/**.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**.mdx', '../src/**.stories.@(js|jsx|mjs|ts|tsx)'],
 };
 ```

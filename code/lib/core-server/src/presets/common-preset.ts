@@ -189,7 +189,7 @@ export const storyIndexers = async (indexers?: StoryIndexer[]) => {
   };
   return [
     {
-      test: /(stories|story)\.[tj]sx?$/,
+      test: /(stories|story)\.(m?js|ts)x?$/,
       indexer: csfIndexer,
     },
     ...(indexers || []),

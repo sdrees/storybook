@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 
-import StackAlt from '../../assets/colors.svg';
+import Accessibility from '../../assets/accessibility.svg';
 
 export default {
   component: Image,
   args: {
-    src: StackAlt,
-    alt: 'Stack Alt',
+    src: Accessibility,
+    alt: 'Accessibility',
   },
 };
 

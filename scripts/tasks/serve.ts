@@ -6,6 +6,7 @@ import { exec } from '../utils/exec';
 export const PORT = process.env.STORYBOOK_SERVE_PORT
   ? parseInt(process.env.STORYBOOK_SERVE_PORT, 10)
   : 8001;
+
 export const serve: Task = {
   description: 'Serve the build storybook for a sandbox',
   service: true,
@@ -16,14 +17,17 @@ export const serve: Task = {
   async run({ builtSandboxDir, codeDir }, { debug, dryRun }) {
     const controller = new AbortController();
     exec(
-      `yarn http-server ${builtSandboxDir} --port ${PORT}`,
+      `yarn http-server ${builtSandboxDir} --port ${PORT} -s`,
       { cwd: codeDir },
       { dryRun, debug, signal: controller.signal as AbortSignal }
     ).catch((err) => {
       // If aborted, we want to make sure the rejection is handled.
-      if (!err.killed) throw err;
+      if (!err.killed) {
+        throw err;
+      }
     });
-    await exec(`yarn wait-on http://localhost:${PORT}`, { cwd: codeDir }, { dryRun, debug });
+    const { default: waitOn } = await import('wait-on');
+    await waitOn({ resources: [`http://localhost:${PORT}`], interval: 16 });
 
     return controller;
   },

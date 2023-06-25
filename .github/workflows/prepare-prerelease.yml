@@ -149,7 +149,7 @@ jobs:
             gh pr create \
               --repo "${{github.repository }}"\
               --title "Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
-              --label "maintenance" \
+              --label "release" \
               --base next-release \
               --head version-prerelease-from-${{ steps.bump-version.outputs.current-version }} \
               --body "${{ steps.description.outputs.description }}"

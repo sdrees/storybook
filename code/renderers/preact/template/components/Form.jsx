@@ -24,7 +24,7 @@ export const Form = ({ onSuccess }) => {
           data-testid="value"
           value={value}
           required
-          onChange={(event) => setValue(event.target.value)}
+          onInput={(event) => setValue(event.target.value)}
         />
       </label>
       <button type="submit">Submit</button>

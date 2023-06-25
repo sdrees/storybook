@@ -163,7 +163,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
         }
       }
 
-      channel.emit(PREVIEW_BUILDER_PROGRESS, [progress]);
+      channel.emit(PREVIEW_BUILDER_PROGRESS, progress);
     },
     modulesCount,
   }).apply(compiler);

@@ -144,7 +144,7 @@ jobs:
             gh pr create \
               --repo "${{github.repository }}" \
               --title "Release: Patch ${{ steps.versions.outputs.next }}" \
-              --label "maintenance" \
+              --label "release" \
               --base latest-release \
               --head version-patch-from-${{ steps.versions.outputs.current }} \
               --body "${{ steps.description.outputs.description }}"

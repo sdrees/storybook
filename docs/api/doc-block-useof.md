@@ -67,7 +67,9 @@ useOf = (
 
 ## Parameters
 
-### `moduleExportOrType` (required)
+### `moduleExportOrType`
+
+(**Required**)
 
 Type: `ModuleExport | 'story' | 'meta' | 'component'`
 

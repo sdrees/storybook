@@ -174,6 +174,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
         Before merging the PR, there are a few QA steps to go through:
 
         - [ ] Add the \\"freeze\\" label to this PR, to ensure it doesn\\'t get automatically forced pushed by new changes.
+        - [ ] Add the \\"ci:daily\\" label to this PR, to trigger the full test suite to run on this PR.
 
         And for each change below:
 
@@ -235,6 +236,13 @@ For each pull request below, you need to either manually cherry pick it, or disc
         "This is an automated pull request. None of the changes requires a version bump, they are only internal or documentation related. Merging this PR will not trigger a new release, but documentation will be updated.
         If you\\'re not a core maintainer with permissions to release you can ignore this pull request.
 
+        ## To do
+
+        Before merging the PR:
+
+        - [ ] Add the \\"freeze\\" label to this PR, to ensure it doesn\\'t get automatically forced pushed by new changes.
+        - [ ] Add the \\"ci:daily\\" label to this PR, to trigger the full test suite to run on this PR.
+
         This is a list of all the PRs merged and commits pushed directly to \\\`next\\\` since the last release:
 
         - **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42)
@@ -263,7 +271,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
         - [ ] [#42](https://github.com/storybookjs/storybook/pull/42): \\\`git cherry-pick -m1 -x abc123\\\`
 
-        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
 
         When everything above is done:
         - Merge this PR
@@ -294,6 +302,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
         Before merging the PR, there are a few QA steps to go through:
 
         - [ ] Add the \\"freeze\\" label to this PR, to ensure it doesn\\'t get automatically forced pushed by new changes.
+        - [ ] Add the \\"ci:daily\\" label to this PR, to trigger the full test suite to run on this PR.
 
         And for each change below:
 
@@ -350,6 +359,13 @@ For each pull request below, you need to either manually cherry pick it, or disc
         "This is an automated pull request. None of the changes requires a version bump, they are only internal or documentation related. Merging this PR will not trigger a new release, but documentation will be updated.
         If you\\'re not a core maintainer with permissions to release you can ignore this pull request.
 
+        ## To do
+
+        Before merging the PR:
+
+        - [ ] Add the \\"freeze\\" label to this PR, to ensure it doesn\\'t get automatically forced pushed by new changes.
+        - [ ] Add the \\"ci:daily\\" label to this PR, to trigger the full test suite to run on this PR.
+
         This is a list of all the PRs merged and commits pushed directly to \\\`next\\\` since the last release:
 
         - **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42)
@@ -373,7 +389,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
 
 
-        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
 
         When everything above is done:
         - Merge this PR

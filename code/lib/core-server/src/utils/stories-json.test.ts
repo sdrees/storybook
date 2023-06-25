@@ -24,7 +24,7 @@ const normalizedStories = [
     {
       titlePrefix: '',
       directory: './src',
-      files: '**/*.stories.@(ts|js|jsx)',
+      files: '**/*.stories.@(ts|js|mjs|jsx)',
     },
     { workingDir, configDir: workingDir }
   ),
@@ -57,7 +57,7 @@ const getInitializedStoryIndexGenerator = async (
   const generator = new StoryIndexGenerator(inputNormalizedStories, {
     storyIndexers: [
       { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
-      { test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer },
+      { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
     ] as StoryIndexer[],
     configDir: workingDir,
     workingDir,
@@ -223,6 +223,17 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "first-nested/deeply/F",
+              "type": "story",
+            },
+            "h--story-one": Object {
+              "id": "h--story-one",
+              "importPath": "./src/H.stories.mjs",
+              "name": "Story One",
+              "tags": Array [
+                "autodocs",
+                "story",
+              ],
+              "title": "H",
               "type": "story",
             },
             "nested-button--story-one": Object {
@@ -455,6 +466,23 @@ describe('useStoriesJson', () => {
               ],
               "title": "first-nested/deeply/F",
             },
+            "h--story-one": Object {
+              "id": "h--story-one",
+              "importPath": "./src/H.stories.mjs",
+              "kind": "H",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "h--story-one",
+                "docsOnly": false,
+                "fileName": "./src/H.stories.mjs",
+              },
+              "story": "Story One",
+              "tags": Array [
+                "autodocs",
+                "story",
+              ],
+              "title": "H",
+            },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
@@ -616,6 +644,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "first-nested/deeply/F",
+            },
+            "h--story-one": Object {
+              "id": "h--story-one",
+              "importPath": "./src/H.stories.mjs",
+              "kind": "H",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "h--story-one",
+                "docsOnly": false,
+                "fileName": "./src/H.stories.mjs",
+              },
+              "story": "Story One",
+              "tags": Array [
+                "autodocs",
+                "story",
+              ],
+              "title": "H",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
@@ -790,6 +835,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "first-nested/deeply/F",
+            },
+            "h--story-one": Object {
+              "id": "h--story-one",
+              "importPath": "./src/H.stories.mjs",
+              "kind": "H",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "h--story-one",
+                "docsOnly": false,
+                "fileName": "./src/H.stories.mjs",
+              },
+              "story": "Story One",
+              "tags": Array [
+                "autodocs",
+                "story",
+              ],
+              "title": "H",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",

@@ -39,7 +39,10 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   }
 
   const version = versions['@storybook/preset-create-react-app'];
-  const extraAddons = [`@storybook/preset-create-react-app@${version}`];
+  const extraAddons = [
+    `@storybook/preset-create-react-app@${version}`,
+    '@storybook/addon-onboarding',
+  ];
 
   if (!isCra5OrHigher) {
     throw new Error(dedent`

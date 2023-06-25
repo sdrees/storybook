@@ -28,7 +28,7 @@
     - [Set `nextjs.appDirectory` to `true`](#set-nextjsappdirectory-to-true)
     - [Overriding defaults](#overriding-defaults-1)
     - [Global Defaults](#global-defaults-1)
-    - [`useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook](#useselectedlayoutsegment-and-useselectedlayoutsegments-hook)
+    - [`useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hook](#useselectedlayoutsegment-useselectedlayoutsegments-and-useparams-hook)
     - [Default Navigation Context](#default-navigation-context)
     - [Actions Integration Caveats](#actions-integration-caveats-1)
   - [Next.js Head](#nextjs-head)
@@ -503,9 +503,9 @@ export const parameters = {
 };
 ```
 
-#### `useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook
+#### `useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hook
 
-The `useSelectedLayoutSegment` and `useSelectedLayoutSegments` hooks are supported in Storybook. You have to set the `nextjs.navigation.segments` parameter to return the segments you want to use.
+The `useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hooks are supported in Storybook. You have to set the `nextjs.navigation.segments` parameter to return the segments or the params you want to use.
 
 ```js
 // SomeComponentThatUsesTheNavigation.stories.js
@@ -526,11 +526,46 @@ export default {
 export const Example = {};
 
 // SomeComponentThatUsesTheNavigation.js
-import { useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation';
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
 
 export default function SomeComponentThatUsesTheNavigation() {
   const segment = useSelectedLayoutSegment(); // dashboard
   const segments = useSelectedLayoutSegments(); // ["dashboard", "analytics"]
+  const params = useParams(); // {}
+  ...
+}
+```
+
+To use `useParams`, you have to use a two string elements array for a segment, the first array element is the param key and the second array element is the param value.
+
+```js
+// SomeComponentThatUsesParams.stories.js
+import SomeComponentThatUsesParams from './SomeComponentThatUsesParams';
+
+export default {
+  component: SomeComponentThatUsesParams,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: [
+          ['slug', 'hello'],
+          ['framework', 'nextjs'],
+        ]
+      },
+    },
+  },
+};
+
+export const Example = {};
+
+// SomeComponentThatUsesParams.js
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
+
+export default function SomeComponentThatUsesParams() {
+  const segment = useSelectedLayoutSegment(); // hello
+  const segments = useSelectedLayoutSegments(); // ["hello", "nextjs"]
+  const params = useParams(); // { slug: "hello", framework: "nextjs" }
   ...
 }
 ```

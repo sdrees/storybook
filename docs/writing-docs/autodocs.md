@@ -2,6 +2,8 @@
 title: 'Automatic documentation and Storybook'
 ---
 
+<YouTubeCallout id="BLUmt0j7OLY" title="INSTANT documentation with Storybook 7 AUTODOCS" />
+
 Storybook Autodocs is a powerful tool that can help you quickly generate comprehensive documentation for your UI components. By leveraging Autodocs, you're transforming your stories into living documentation which can be further extended with [MDX](./mdx.md) and [Doc Blocks](./doc-blocks.md) to provide a clear and concise understanding of your components' functionality.
 
 ## Setup automated documentation

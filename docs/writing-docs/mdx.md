@@ -382,7 +382,7 @@ As Storybook relies on MDX 2 to render documentation, some technical limitations
 
 #### Storybook doesn't create documentation for my component stories
 
-If you run into a situation where Storybook is not able to able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|ts|tsx)`).
+If you run into a situation where Storybook is not able to able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
 
 #### The documentation doesn't render using `stories.mdx`
 

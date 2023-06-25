@@ -6,7 +6,7 @@ import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
   framework: '@storybook/your-framework',
-  stories: ['../src/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   async babel(config, { configType }) {
     if (configType === 'DEVELOPMENT') {
       // Your development configuration goes here

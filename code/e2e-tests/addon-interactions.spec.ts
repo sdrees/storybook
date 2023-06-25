@@ -66,9 +66,9 @@ test.describe('addon-interactions', () => {
     const panel = sbPage.panelContent();
     const runStatusBadge = await panel.locator('[aria-label="Status of the test run"]');
     await expect(runStatusBadge).toContainText(/Pass/);
-    await expect(panel).toContainText(/value: "initial value"/);
-    await expect(panel).toContainText(/value: ""/);
-    await expect(panel).toContainText(/value: "final value"/);
+    await expect(panel).toContainText(/"initial value"/);
+    await expect(panel).toContainText(/clear/);
+    await expect(panel).toContainText(/"final value"/);
     await expect(panel).toBeVisible();
 
     // Test interactions debugger - Stepping through works, count is correct and values are as expected
@@ -94,6 +94,9 @@ test.describe('addon-interactions', () => {
     // Test rerun state (from addon panel) - Interactions have rerun, count is correct and values are as expected
     const rerunInteractionButton = await panel.locator('[aria-label="Rerun"]');
     await rerunInteractionButton.click();
+
+    await expect(formInput).toHaveValue('final value');
+
     await interactionsRow.first().isVisible();
     await interactionsRow.nth(1).isVisible();
     await interactionsRow.nth(2).isVisible();
@@ -108,5 +111,6 @@ test.describe('addon-interactions', () => {
     await interactionsRow.nth(2).isVisible();
     await expect(interactionsTab).toContainText(/(3)/);
     await expect(interactionsTab).toBeVisible();
+    await expect(formInput).toHaveValue('final value');
   });
 });

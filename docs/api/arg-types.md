@@ -479,7 +479,9 @@ If you only need to specify the documented type, you should use [`table.type`](#
 
 <!-- prettier-ignore-end -->
 
-### `defaultValue` (deprecated)
+### `defaultValue`
+
+(⛔️ **Deprecated**)
 
 Type: `any`
 

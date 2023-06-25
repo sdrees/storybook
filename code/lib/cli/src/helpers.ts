@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import path, { join } from 'path';
+import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';
-import chalk from 'chalk';
+import path, { join } from 'path';
 import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
@@ -186,6 +186,24 @@ type CopyTemplateFilesOptions = {
   destination?: string;
 };
 
+const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, SupportedRenderers> = {
+  angular: 'angular',
+  ember: 'ember',
+  html: 'html',
+  nextjs: 'react',
+  preact: 'preact',
+  qwik: 'qwik',
+  react: 'react',
+  'react-native': 'react',
+  server: 'react',
+  solid: 'solid',
+  svelte: 'svelte',
+  sveltekit: 'svelte',
+  vue: 'vue',
+  vue3: 'vue',
+  'web-components': 'web-components',
+};
+
 export async function copyTemplateFiles({
   packageManager,
   renderer,
@@ -246,6 +264,23 @@ export async function copyTemplateFiles({
     });
   }
   await fse.copy(await templatePath(), destinationPath, { overwrite: true });
+
+  if (includeCommonAssets) {
+    const rendererType = frameworkToRenderer[renderer] || 'react';
+    await adjustTemplate(join(destinationPath, 'Configure.mdx'), { renderer: rendererType });
+  }
+}
+
+export async function adjustTemplate(templatePath: string, templateData: Record<string, any>) {
+  // for now, we're just doing a simple string replace
+  // in the future we might replace this with a proper templating engine
+  let template = await fse.readFile(templatePath, 'utf8');
+
+  Object.keys(templateData).forEach((key) => {
+    template = template.replaceAll(`{{${key}}}`, `${templateData[key]}`);
+  });
+
+  await fse.writeFile(templatePath, template);
 }
 
 // Given a package.json, finds any official storybook package within it

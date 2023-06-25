@@ -244,10 +244,7 @@ export async function baseGenerator(
 
   if (hasInteractiveStories(rendererId)) {
     addons.push('@storybook/addon-interactions');
-    addonPackages.push(
-      '@storybook/addon-interactions',
-      '@storybook/testing-library@^0.1.1-future.2'
-    );
+    addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library@^0.2.0-next.0');
   }
 
   const files = await fse.readdir(process.cwd());

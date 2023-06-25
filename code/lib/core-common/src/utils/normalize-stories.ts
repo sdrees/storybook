@@ -8,7 +8,7 @@ import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 
 const DEFAULT_TITLE_PREFIX = '';
-const DEFAULT_FILES = '**/*.@(mdx|stories.@(tsx|ts|jsx|js))';
+const DEFAULT_FILES = '**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))';
 
 const isDirectory = (configDir: string, entry: string) => {
   try {

@@ -2,6 +2,7 @@ import {
   useRouter,
   usePathname,
   useSearchParams,
+  useParams,
   useSelectedLayoutSegment,
   useSelectedLayoutSegments,
 } from 'next/navigation';
@@ -11,6 +12,7 @@ function Component() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const params = useParams();
   const segment = useSelectedLayoutSegment();
   const segments = useSelectedLayoutSegments();
 
@@ -58,6 +60,16 @@ function Component() {
           ))}
         </ul>
       </div>
+      <div>
+        params:{' '}
+        <ul>
+          {Object.entries(params).map(([key, value]) => (
+            <li key={key}>
+              {key}: {value}
+            </li>
+          ))}
+        </ul>
+      </div>
       {routerActions.map(({ cb, name }) => (
         <div key={name} style={{ marginBottom: '1em' }}>
           <button type="button" onClick={cb}>
@@ -92,6 +104,20 @@ export const WithSegmentDefined = {
       appDirectory: true,
       navigation: {
         segments: ['dashboard', 'settings'],
+      },
+    },
+  },
+};
+
+export const WithSegmentDefinedForParams = {
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: [
+          ['slug', 'hello'],
+          ['framework', 'nextjs'],
+        ],
       },
     },
   },

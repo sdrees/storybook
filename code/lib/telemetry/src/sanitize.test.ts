@@ -73,10 +73,10 @@ describe(`Errors Helpers`, () => {
 
         const mockCwd = jest.spyOn(process, `cwd`).mockImplementation(() => cwdMockPath);
 
-        const errorMessage = `This path ${fullPath} is a test ${fullPath}`;
+        const errorMessage = `This path should be sanitized ${fullPath}`;
 
         expect(cleanPaths(errorMessage, `/`)).toBe(
-          `This path $SNIP/${filePath} is a test $SNIP/${filePath}`
+          `This path should be sanitized $SNIP/${filePath}`
         );
         mockCwd.mockRestore();
       }
@@ -90,10 +90,10 @@ describe(`Errors Helpers`, () => {
 
         const mockCwd = jest.spyOn(process, `cwd`).mockImplementation(() => cwdMockPath);
 
-        const errorMessage = `This path ${fullPath} is a test ${fullPath}`;
+        const errorMessage = `This path should be sanitized ${fullPath}`;
 
         expect(cleanPaths(errorMessage, `\\`)).toBe(
-          `This path $SNIP\\${filePath} is a test $SNIP\\${filePath}`
+          `This path should be sanitized $SNIP\\${filePath}`
         );
         mockCwd.mockRestore();
       }

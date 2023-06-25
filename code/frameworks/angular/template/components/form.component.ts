@@ -6,7 +6,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
     <form id="interaction-test-form" (submit)="handleSubmit($event)">
       <label>
         Enter Value
-        <input type="text" data-testid="value" [value]="value" required />
+        <input type="text" data-testid="value" [(ngModel)]="value" required />
       </label>
       <button type="submit">Submit</button>
       <p *ngIf="complete">Completed!!</p>

@@ -6,7 +6,6 @@ import type { StorybookConfig } from '../../frameworks/react-vite';
 const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
 const allStories = [
-  '../../lib/cli/rendererAssets/common/Introduction.mdx',
   {
     directory: '../manager/src',
     titlePrefix: '@storybook-manager',
@@ -40,8 +39,8 @@ const allStories = [
  * src/components/ColorPalette.tsx - IGNORED, not story
  */
 const blocksOnlyStories = [
-  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
-  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))',
+  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))',
 ];
 
 const config: StorybookConfig = {

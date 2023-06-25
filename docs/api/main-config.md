@@ -25,8 +25,8 @@ A typical Storybook configuration file looks like this:
 
 An object to configure Storybook containing the following properties:
 
-- [`framework`](./main-config-framework.md) (required)
-- [`stories`](./main-config-stories.md) (required)
+- [`framework`](./main-config-framework.md) (Required)
+- [`stories`](./main-config-stories.md) (Required)
 - [`addons`](./main-config-addons.md)
 - [`babel`](./main-config-babel.md)
 - [`babelDefault`](./main-config-babel-default.md)
@@ -44,4 +44,4 @@ An object to configure Storybook containing the following properties:
 - [`typescript`](./main-config-typescript.md)
 - [`viteFinal`](./main-config-vite-final.md)
 - [`webpackFinal`](./main-config-webpack-final.md)
-- [`config`](./main-config-config.md) (deprecated)
+- [`config`](./main-config-config.md) (⛔️ Deprecated)

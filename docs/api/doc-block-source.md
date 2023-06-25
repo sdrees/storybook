@@ -151,13 +151,17 @@ Specifies how the source code is rendered.
 
 </div>
 
-### `id` (deprecated)
+### `id`
+
+(⛔️ **Deprecated**)
 
 Type: `string`
 
 Specifies the story id for which to render the source code. Referencing a story this way is no longer supported; use the [`of` prop](#of), instead.
 
-### `ids` (deprecated)
+### `ids`
+
+(⛔️ **Deprecated**)
 
 Type: `string[]`
 

@@ -37,7 +37,7 @@ export function getCSSMeta(options: Options) {
 }
 
 function getClassName({ styles, weights, fontFamily }: Options) {
-  const font = fontFamily.replace(' ', '-').toLowerCase();
+  const font = fontFamily.replaceAll(' ', '-').toLowerCase();
   const style = isNextCSSPropertyValid(styles) ? styles[0] : null;
   const weight = isNextCSSPropertyValid(weights) ? weights[0] : null;
 

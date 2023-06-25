@@ -84,6 +84,10 @@ export class WebView implements View<HTMLElement> {
     this.showMain();
     this.showDocs();
     this.applyLayout('fullscreen');
+
+    document.documentElement.scrollTop = 0;
+    document.documentElement.scrollLeft = 0;
+
     return this.docsRoot();
   }
 

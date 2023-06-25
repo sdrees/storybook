@@ -1,4 +1,7 @@
 import { global } from '@storybook/global';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - types are removed in Svelte 4 but it still works. ts-ignore is safer than ts-expect-error because it's not an error in Svelte 3
+// eslint-disable-next-line import/no-unresolved
 import { set_current_component } from 'svelte/internal';
 
 const { document } = global;

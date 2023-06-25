@@ -31,10 +31,9 @@ export const Step = {
 export const TypeAndClear = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    // TODO: seems like userEvent.type + userEvent.clear + userEvent.type is not working for Svelte and Vue2/3. We should probably investigate, might be a bug in userEvent or in our implementation.
-    await fireEvent.input(canvas.getByTestId('value'), { target: { value: 'initial value' } });
-    await fireEvent.input(canvas.getByTestId('value'), { target: { value: '' } });
-    await fireEvent.input(canvas.getByTestId('value'), { target: { value: 'final value' } });
+    await userEvent.type(canvas.getByTestId('value'), 'initial value');
+    await userEvent.clear(canvas.getByTestId('value'));
+    await userEvent.type(canvas.getByTestId('value'), 'final value');
   },
 };
 
@@ -94,5 +93,30 @@ export const Validation = {
     await step('Submit', async () => fireEvent.click(canvas.getByRole('button')));
 
     await expect(args.onSuccess).not.toHaveBeenCalled();
+  },
+};
+
+export const UserEventSetup = {
+  play: async (context) => {
+    const { args, canvasElement, step } = context;
+    const user = userEvent.setup();
+    const canvas = within(canvasElement);
+    await step('Select, type and paste on input using user-event v14 setup', async () => {
+      const input = await canvas.getByRole('textbox');
+      await user.click(input);
+      await user.type(input, 'Pasting: ');
+      await user.paste('foobar');
+    });
+    await step('Tab and press enter on submit button', async () => {
+      await user.pointer([
+        { keys: '[TouchA>]', target: await canvas.getByRole('textbox') },
+        { keys: '[/TouchA]' },
+      ]);
+      await user.tab();
+      await user.keyboard('{enter}');
+      const submitButton = await canvas.findByRole('button');
+      await expect(submitButton).toHaveFocus();
+      await expect(args.onSuccess).toHaveBeenCalled();
+    });
   },
 };

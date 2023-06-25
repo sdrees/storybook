@@ -72,10 +72,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
-export const install: Task['run'] = async (
-  { sandboxDir, template },
-  { link, dryRun, debug, addon: addons, skipTemplateStories }
-) => {
+export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
   await installYarn2({ cwd, dryRun, debug });
 
@@ -106,10 +103,20 @@ export const install: Task['run'] = async (
       }
     );
   }
+};
+
+export const init: Task['run'] = async (
+  { sandboxDir, template },
+  { dryRun, debug, addon: addons, skipTemplateStories }
+) => {
+  const cwd = sandboxDir;
 
   let extra = {};
-  if (template.expected.renderer === '@storybook/html') extra = { type: 'html' };
-  else if (template.expected.renderer === '@storybook/server') extra = { type: 'server' };
+  if (template.expected.renderer === '@storybook/html') {
+    extra = { type: 'html' };
+  } else if (template.expected.renderer === '@storybook/server') {
+    extra = { type: 'server' };
+  }
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -267,8 +274,9 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 
   // If the project is a JS project, let's make sure any linked in TS stories from the
   // renderer inside src|stories are simply ignored.
+  // TODO: We should definitely improve the logic here, as it will break every time the stories field change format in the generated sandboxes.
   const updatedStories = isJs
-    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    ? stories.map((specifier) => specifier.replace('|ts|tsx', ''))
     : stories;
 
   mainConfig.setFieldValue(['stories'], [...updatedStories]);
@@ -352,9 +360,9 @@ async function addExtraDependencies({
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
   const extraDeps = [
-    '@storybook/jest@future',
-    '@storybook/testing-library@future',
-    '@storybook/test-runner@future',
+    '@storybook/jest@next',
+    '@storybook/testing-library@next',
+    '@storybook/test-runner@next',
   ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {

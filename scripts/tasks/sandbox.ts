@@ -1,6 +1,10 @@
 import { pathExists, remove } from 'fs-extra';
 
+import { join } from 'path';
+import { promisify } from 'util';
+import dirSize from 'fast-folder-size';
 import type { Task } from '../task';
+import { now, saveBench } from '../bench/utils';
 
 const logger = console;
 
@@ -11,7 +15,10 @@ export const sandbox: Task = {
       return ['run-registry', 'generate'];
     }
 
-    if (link) return ['compile'];
+    if (link) {
+      return ['compile'];
+    }
+
     return ['run-registry'];
   },
   async ready({ sandboxDir }) {
@@ -29,13 +36,44 @@ export const sandbox: Task = {
       logger.info('🗑  Removing old sandbox dir');
       await remove(details.sandboxDir);
     }
-    const { create, install, addStories, extendMain } = await import('./sandbox-parts');
+
+    const { create, install, addStories, extendMain, init } = await import('./sandbox-parts');
+
+    let startTime = now();
     await create(details, options);
+    const createTime = now() - startTime;
+    const createSize = 0;
+
+    startTime = now();
     await install(details, options);
+    const generateTime = now() - startTime;
+    const generateSize = await promisify(dirSize)(join(details.sandboxDir, 'node_modules'));
+
+    startTime = now();
+    await init(details, options);
+    const initTime = now() - startTime;
+    const initSize = await promisify(dirSize)(join(details.sandboxDir, 'node_modules'));
+
+    await saveBench(
+      'sandbox',
+      {
+        createTime,
+        generateTime,
+        initTime,
+        createSize,
+        generateSize,
+        initSize,
+        diffSize: initSize - generateSize,
+      },
+      { rootDir: details.sandboxDir }
+    );
+
     if (!options.skipTemplateStories) {
       await addStories(details, options);
     }
+
     await extendMain(details, options);
+
     logger.info(`✅ Storybook sandbox created at ${details.sandboxDir}`);
   },
 };

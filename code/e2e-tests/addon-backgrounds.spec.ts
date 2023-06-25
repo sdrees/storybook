@@ -63,7 +63,7 @@ test.describe('addon-backgrounds', () => {
 
       // We start on the introduction page by default.
       await sbPage.page.waitForURL((url) =>
-        url.search.includes(`path=/docs/example-introduction--docs`)
+        url.search.includes(`path=/docs/configure-your-project--docs`)
       );
 
       await expect(sbPage.page.locator(backgroundToolbarSelector)).toBeVisible();

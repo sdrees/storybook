@@ -2,11 +2,11 @@
 title: 'framework'
 ---
 
+(**Required**)
+
 Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `FrameworkName | { name: FrameworkName; options?: FrameworkOptions }`
-
-Required: `true`
 
 Configures Storybook based on a set of [framework-specific](../configure/frameworks.md) settings.
 

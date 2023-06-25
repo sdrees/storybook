@@ -12,7 +12,7 @@ import type {
   ProjectAnnotations,
 } from '@storybook/types';
 
-import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
+import type { ComponentType, ComponentProps, SvelteComponentTyped } from 'svelte';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { SvelteRenderer } from './types';
 
