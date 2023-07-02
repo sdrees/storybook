@@ -1,13 +1,14 @@
 import semver from 'semver';
 import type { Configuration as WebpackConfig, RuleSetRule } from 'webpack';
+import type { NextConfig } from 'next';
 import { addScopedAlias, getNextjsVersion } from '../utils';
 
-export const configureImages = (baseConfig: WebpackConfig): void => {
-  configureStaticImageImport(baseConfig);
+export const configureImages = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
+  configureStaticImageImport(baseConfig, nextConfig);
   addScopedAlias(baseConfig, 'next/image');
 };
 
-const configureStaticImageImport = (baseConfig: WebpackConfig): void => {
+const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
   const version = getNextjsVersion();
   if (semver.lt(version, '11.0.0')) return;
 
@@ -31,6 +32,7 @@ const configureStaticImageImport = (baseConfig: WebpackConfig): void => {
         loader: require.resolve('@storybook/nextjs/next-image-loader-stub.js'),
         options: {
           filename: assetRule.generator?.filename,
+          nextConfig,
         },
       },
     ],

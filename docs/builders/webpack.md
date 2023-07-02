@@ -128,6 +128,19 @@ Storybook's default Webpack configuration provides support for most project setu
 
 <!-- prettier-ignore-end -->
 
+However, if you're working with a framework that provides a default aliasing configuration (e.g., Next.js, Nuxt) and you want to configure Storybook to use the same aliases, you may not need to install any additional packages. Instead, you can extend the default configuration of Storybook to use the same aliases provided by the framework. For example, to set up an alias for the `@` import path, you can add the following to your `.storybook/main.js|ts` file:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-main-ts-module-resolution-atsign-import.js.mdx',
+    'common/storybook-main-ts-module-resolution-atsign-import.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ### Pre-bundled assets do not show in the Storybook UI
 
 As Storybook relies on [esbuild](https://esbuild.github.io/) to build its internal manager, support for bundling assets with the `managerWebpack` will no longer have an impact on the Storybook UI. We recommend removing existing `managerWebpack` configuration elements from your Storybook configuration file and bundling assets other than images or CSS into JavaScript beforehand.

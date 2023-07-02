@@ -2,13 +2,15 @@
 import { interpolateName } from 'loader-utils';
 import imageSizeOf from 'image-size';
 import type { RawLoaderDefinition } from 'webpack';
+import type { NextConfig } from 'next';
 
 interface LoaderOptions {
   filename: string;
+  nextConfig: NextConfig;
 }
 
 const nextImageLoaderStub: RawLoaderDefinition<LoaderOptions> = function (content) {
-  const { filename } = this.getOptions();
+  const { filename, nextConfig } = this.getOptions();
   const outputPath = interpolateName(this, filename.replace('[ext]', '.[ext]'), {
     context: this.rootContext,
     content,
@@ -17,6 +19,10 @@ const nextImageLoaderStub: RawLoaderDefinition<LoaderOptions> = function (conten
   this.emitFile(outputPath, content);
 
   const { width, height } = imageSizeOf(this.resourcePath);
+
+  if (nextConfig.images?.disableStaticImages) {
+    return `const src = '${outputPath}'; export default src;`;
+  }
 
   return `export default ${JSON.stringify({
     src: outputPath,

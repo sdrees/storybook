@@ -60,7 +60,7 @@ export async function getTemplate(
     
       Parallelism is set to ${total}, but there are ${
       potentialTemplateKeys.length
-    } templates to run:
+    } templates to run for the "${scriptName}" task:
       ${potentialTemplateKeys.map((v) => `- ${v}`).join('\n')}
     
       ${await getParallelismSummary(cadence)}
@@ -120,7 +120,7 @@ async function getParallelismSummary(cadence?: Cadence, scriptName?: string) {
 type RunOptions = { cadence?: Cadence; task?: string; debug: boolean };
 async function run({ cadence, task, debug }: RunOptions) {
   if (debug) {
-    if (task && !(task in tasks)) {
+    if (task && !tasks.includes(task)) {
       throw new Error(
         dedent`The "${task}" task you provided is not valid. Valid tasks (found in .circleci/config.yml) are: 
         ${tasks.map((v) => `- ${v}`).join('\n')}`

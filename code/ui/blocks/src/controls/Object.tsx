@@ -52,7 +52,7 @@ const Wrapper = styled.div(({ theme }) => ({
   '.rejt-plus-menu': {
     marginLeft: 5,
   },
-  '.rejt-object-node > span > *': {
+  '.rejt-object-node > span > *, .rejt-array-node > span > *': {
     position: 'relative',
     zIndex: 2,
   },

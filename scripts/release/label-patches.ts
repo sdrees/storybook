@@ -32,7 +32,7 @@ export const run = async (_: unknown) => {
   spinner.succeed(`Found latest tag: ${latestTag}`);
 
   const spinner2 = ora(`Looking at cherry pick commits since ${latestTag}`).start();
-  const commitsSinceLatest = await git.log({ from: latestTag, '--first-parent': null });
+  const commitsSinceLatest = await git.log({ from: latestTag });
   console.log(commitsSinceLatest);
   const cherryPicked = commitsSinceLatest.all.flatMap((it) => {
     const result = it.body.match(/\(cherry picked from commit (\b[0-9a-f]{7,40}\b)\)/);

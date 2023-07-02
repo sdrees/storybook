@@ -55,7 +55,7 @@ interface Data {
 }
 
 function useFetchInfo() {
-  const { loading, error, data } = useQueryuseQuery<Data>(AllInfoQuery);
+  const { loading, error, data } = useQuery<Data>(AllInfoQuery);
 
   return { loading, error, data };
 }
