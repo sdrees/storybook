@@ -1,27 +1,26 @@
 import type { ComponentProps, FunctionComponent } from 'react';
-import React from 'react';
-import { styled, ThemeProvider, convert, themes, ignoreSsrWarning } from '@storybook/theming';
-import { SyntaxHighlighter } from '@storybook/components';
+import { ThemeProvider, convert, ignoreSsrWarning, styled, themes } from '@storybook/theming';
 
+import React from 'react';
+import { SyntaxHighlighter } from '@storybook/components';
+import type { SyntaxHighlighterProps } from '@storybook/components';
 import { EmptyBlock } from './EmptyBlock';
 
-const StyledSyntaxHighlighter: typeof SyntaxHighlighter = styled(SyntaxHighlighter)(
-  ({ theme }) => ({
-    // DocBlocks-specific styling and overrides
-    fontSize: `${theme.typography.size.s2 - 1}px`,
-    lineHeight: '19px',
-    margin: '25px 0 40px',
-    borderRadius: theme.appBorderRadius,
-    boxShadow:
-      theme.base === 'light'
-        ? 'rgba(0, 0, 0, 0.10) 0 1px 3px 0'
-        : 'rgba(0, 0, 0, 0.20) 0 2px 5px 0',
-    'pre.prismjs': {
-      padding: 20,
-      background: 'inherit',
-    },
-  })
-);
+const StyledSyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> = styled(
+  SyntaxHighlighter
+)(({ theme }) => ({
+  // DocBlocks-specific styling and overrides
+  fontSize: `${theme.typography.size.s2 - 1}px`,
+  lineHeight: '19px',
+  margin: '25px 0 40px',
+  borderRadius: theme.appBorderRadius,
+  boxShadow:
+    theme.base === 'light' ? 'rgba(0, 0, 0, 0.10) 0 1px 3px 0' : 'rgba(0, 0, 0, 0.20) 0 2px 5px 0',
+  'pre.prismjs': {
+    padding: 20,
+    background: 'inherit',
+  },
+}));
 
 export enum SourceError {
   NO_STORY = 'There\u2019s no story here.',

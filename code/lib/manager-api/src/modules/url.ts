@@ -157,7 +157,7 @@ export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...r
       }
     },
     navigateUrl(url, options) {
-      navigate(url, { ...options, plain: true });
+      navigate(url, { plain: true, ...options });
     },
   };
 
@@ -199,10 +199,6 @@ export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...r
     fullAPI.on(NAVIGATE_URL, (url: string, options: NavigateOptions) => {
       fullAPI.navigateUrl(url, options);
     });
-
-    if (fullAPI.showReleaseNotesOnLaunch()) {
-      navigate('/settings/release-notes');
-    }
   };
 
   return {

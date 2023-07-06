@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/types';
+import path from 'path';
 import { getFrameworkInfo } from './get-framework-info';
 import { getActualPackageJson } from './package-json';
 
@@ -25,7 +26,7 @@ describe('getFrameworkInfo', () => {
   });
 
   it('should resolve the framework package json correctly and strip project paths in the metadata', async () => {
-    const packageName = '/path/to/project/@storybook/react';
+    const packageName = `${process.cwd()}/@storybook/react`.split('/').join(path.sep);
     const framework = { name: packageName };
     const frameworkPackageJson = {
       name: packageName,
@@ -35,8 +36,6 @@ describe('getFrameworkInfo', () => {
       },
     };
 
-    jest.spyOn(process, 'cwd').mockReturnValue('/path/to/project');
-
     (getActualPackageJson as jest.Mock).mockResolvedValueOnce(frameworkPackageJson);
 
     const result = await getFrameworkInfo({ framework } as StorybookConfig);
@@ -45,7 +44,7 @@ describe('getFrameworkInfo', () => {
 
     expect(result).toEqual({
       framework: {
-        name: '$SNIP/@storybook/react',
+        name: '$SNIP/@storybook/react'.split('/').join(path.sep),
         options: undefined,
       },
       builder: '@storybook/builder-vite',

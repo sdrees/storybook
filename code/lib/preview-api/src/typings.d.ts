@@ -7,15 +7,7 @@ declare module 'better-opn';
 declare module 'open';
 declare module '@aw-web-design/x-default-browser';
 
-declare var FEATURES:
-  | {
-      storyStoreV7?: boolean;
-      storyStoreV7MdxErrors?: boolean;
-      argTypeTargetsV7?: boolean;
-      legacyMdx1?: boolean;
-      legacyDecoratorFileOrder?: boolean;
-    }
-  | undefined;
+declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
 
 declare var STORIES: any;
 declare var DOCS_OPTIONS: any;

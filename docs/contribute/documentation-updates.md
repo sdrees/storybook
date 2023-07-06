@@ -22,11 +22,10 @@ Scroll down to the bottom of the document page on GitHub and describe what you c
 
 In the Storybook repository, create a pull request that describes changes and includes additional context that would help maintainers review. Once you submit the PR, a maintainer will guide you through the triage and merge process.
 
-## Other ways to contribute
+## Learn more about contributing to Storybook
 
-Learn about other ways you can contribute to Storybook.
-
-- [**Overview**](./how-to-contribute.md): General guidance
-- [**Code**](./code.md): Features, bug fixes, dependency updates
-- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
-- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library
+- [RFC process](./RFC.md) for authoring feature requests
+- [Code](./code.md) for features and bug fixes
+- [Frameworks](./framework.md) to get started with a new framework
+- Documentation for documentation improvements, typos, and clarifications
+- [Examples](./new-snippets.md) for new snippets and examples

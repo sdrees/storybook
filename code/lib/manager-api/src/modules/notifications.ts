@@ -15,8 +15,9 @@ export interface SubAPI {
    * @param notification - The notification to add.
    */
   addNotification: (notification: API_Notification) => void;
+
   /**
-   * Removes a notification from the list of notifications.
+   * Removes a notification from the list of notifications and calls the onClear callback.
    * @param id - The ID of the notification to remove.
    */
   clearNotification: (id: string) => void;
@@ -40,7 +41,7 @@ export const init: ModuleFn = ({ store }) => {
 
       const notification = notifications.find((n) => n.id === id);
       if (notification && notification.onClear) {
-        notification.onClear();
+        notification.onClear({ dismissed: false });
       }
     },
   };

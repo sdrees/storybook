@@ -4,7 +4,7 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readFile, writeFile } from 'fs-extra';
+import { readFile, writeFile, writeJSON } from 'fs-extra';
 import { getChanges } from './utils/get-changes';
 
 program
@@ -54,7 +54,7 @@ const validateOptions = (args: unknown[], options: { [key: string]: any }): opti
   return true;
 };
 
-const writeToFile = async ({
+const writeToChangelogFile = async ({
   changelogText,
   version,
   verbose,
@@ -77,6 +77,35 @@ const writeToFile = async ({
   await writeFile(changelogPath, nextChangelog);
 };
 
+const writeToDocsVersionFile = async ({
+  changelogText,
+  version,
+  verbose,
+}: {
+  changelogText: string;
+  version: string;
+  verbose?: boolean;
+}) => {
+  const isPrerelease = semver.prerelease(version) !== null;
+  const filename = isPrerelease ? 'next.json' : 'latest.json';
+  const filepath = path.join(__dirname, '..', '..', 'docs', 'versions', filename);
+
+  if (verbose) {
+    console.log(`📝 Writing changelog to ${chalk.blue(path)}`);
+  }
+
+  const textWithoutHeading = changelogText.split('\n').slice(2).join('\n');
+
+  const content = {
+    version,
+    info: {
+      plain: textWithoutHeading,
+    },
+  };
+
+  await writeJSON(filepath, content);
+};
+
 export const run = async (args: unknown[], options: unknown) => {
   if (!validateOptions(args, options)) {
     return;
@@ -97,7 +126,8 @@ export const run = async (args: unknown[], options: unknown) => {
     return;
   }
 
-  await writeToFile({ changelogText, version, verbose });
+  await writeToChangelogFile({ changelogText, version, verbose });
+  await writeToDocsVersionFile({ changelogText, version, verbose });
 
   console.log(`✅ Wrote Changelog to file`);
 };

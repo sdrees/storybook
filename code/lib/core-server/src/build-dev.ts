@@ -7,7 +7,6 @@ import type {
   StorybookConfig,
 } from '@storybook/types';
 import {
-  cache,
   loadAllPresets,
   loadMainConfig,
   resolveAddonName,
@@ -20,7 +19,6 @@ import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
 import { storybookDevServer } from './dev-server';
-import { getReleaseNotesData, getReleaseNotesFailedState } from './utils/release-notes';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
@@ -31,18 +29,15 @@ import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
 export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
 ): Promise<{ port: number; address: string; networkAddress: string }> {
-  const { packageJson, versionUpdates, releaseNotes } = options;
+  const { packageJson, versionUpdates } = options;
   const { version } = packageJson;
 
-  // updateInfo and releaseNotesData are cached, so this is typically pretty fast
-  const [port, versionCheck, releaseNotesData] = await Promise.all([
+  // updateInfo are cached, so this is typically pretty fast
+  const [port, versionCheck] = await Promise.all([
     getServerPort(options.port),
     versionUpdates
       ? updateCheck(version)
       : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
-    releaseNotes
-      ? getReleaseNotesData(version, cache)
-      : Promise.resolve(getReleaseNotesFailedState(version)),
   ]);
 
   if (!options.ci && !options.smokeTest && options.port != null && port !== options.port) {
@@ -58,7 +53,6 @@ export async function buildDevStandalone(
   /* eslint-disable no-param-reassign */
   options.port = port;
   options.versionCheck = versionCheck;
-  options.releaseNotesData = releaseNotesData;
   options.configType = 'DEVELOPMENT';
   options.configDir = resolve(options.configDir);
   options.outputDir = options.smokeTest

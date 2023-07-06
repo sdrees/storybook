@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import type { API } from '@storybook/manager-api';
-import { Consumer, Provider as ManagerProvider } from '@storybook/manager-api';
+import { Provider as ManagerProvider, useStorybookApi } from '@storybook/manager-api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
 import App from './app';
-import { PrettyFakeProvider, FakeProvider } from './FakeProvider';
+import { FakeProvider, PrettyFakeProvider } from './FakeProvider';
 
 export default {
   component: App,
@@ -38,13 +37,17 @@ const ThemeStack = styled.div(
   })
 );
 
-function setPreviewInitialized({ api }: { api: API }) {
-  api.setPreviewInitialized();
-  return {};
+function SetPreviewInitialized(): JSX.Element {
+  const api = useStorybookApi();
+  useEffect(() => {
+    api.setPreviewInitialized();
+  }, [api]);
+  return null;
 }
 
 export const Default = () => {
   const provider = new FakeProvider();
+
   return (
     <ManagerProvider
       key="manager"
@@ -55,7 +58,7 @@ export const Default = () => {
       navigate={() => {}}
       docsOptions={{ docsMode: false }}
     >
-      <Consumer filter={setPreviewInitialized}>{() => <></>}</Consumer>
+      <SetPreviewInitialized />
       <App
         key="app"
         viewMode="story"

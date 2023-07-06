@@ -104,12 +104,6 @@ export interface VersionCheck {
   time: number;
 }
 
-export interface ReleaseNotesData {
-  success: boolean;
-  currentVersion: string;
-  showOnFirstLaunch: boolean;
-}
-
 export interface Stats {
   toJson: () => any;
 }
@@ -156,7 +150,6 @@ export interface CLIOptions {
   loglevel?: string;
   quiet?: boolean;
   versionUpdates?: boolean;
-  releaseNotes?: boolean;
   docs?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
@@ -171,7 +164,6 @@ export interface BuilderOptions {
   docsMode?: boolean;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
-  releaseNotesData?: ReleaseNotesData;
   disableWebpackDefaults?: boolean;
   serverChannelUrl?: string;
 }
@@ -313,6 +305,11 @@ export interface StorybookConfig {
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
+
+    /**
+     * Show a notification anytime a What's new? post is published in the Storybook blog.
+     */
+    whatsNewNotifications?: boolean;
   };
 
   /**

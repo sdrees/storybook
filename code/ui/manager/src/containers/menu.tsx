@@ -2,10 +2,10 @@ import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
 import { Badge, Icons } from '@storybook/components';
-import type { API } from '@storybook/manager-api';
-import { styled, useTheme } from '@storybook/theming';
-
+import type { API, State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
+import { styled, useTheme } from '@storybook/theming';
+import { global } from '@storybook/global';
 
 const focusableUIElements = {
   storySearchField: 'storybook-explorer-searchfield',
@@ -49,6 +49,7 @@ export const Shortcut: FC<{ keys: string[] }> = ({ keys }) => (
 );
 
 export const useMenu = (
+  state: State,
   api: API,
   showToolbar: boolean,
   isFullscreen: boolean,
@@ -64,18 +65,22 @@ export const useMenu = (
       id: 'about',
       title: 'About your Storybook',
       onClick: () => api.navigateToSettingsPage('/settings/about'),
-      right: api.versionUpdateAvailable() && <Badge status="positive">Update</Badge>,
     }),
     [api]
   );
 
-  const releaseNotes = useMemo(
+  const whatsNewNotificationsEnabled = global.FEATURES.whatsNewNotifications;
+  const isWhatsNewUnread = api.isWhatsNewUnread();
+  const whatsNew = useMemo(
     () => ({
-      id: 'release-notes',
-      title: 'Release notes',
-      onClick: () => api.navigateToSettingsPage('/settings/release-notes'),
+      id: 'whats-new',
+      title: "What's new?",
+      onClick: () => api.navigateToSettingsPage('/settings/whats-new'),
+      right: whatsNewNotificationsEnabled && isWhatsNewUnread && (
+        <Badge status="positive">Check it out</Badge>
+      ),
     }),
-    [api]
+    [api, whatsNewNotificationsEnabled, isWhatsNewUnread]
   );
 
   const shortcuts = useMemo(
@@ -225,7 +230,7 @@ export const useMenu = (
   return useMemo(
     () => [
       about,
-      ...(api.releaseNotesVersion() ? [releaseNotes] : []),
+      ...(state.whatsNewData?.status === 'SUCCESS' ? [whatsNew] : []),
       shortcuts,
       sidebarToggle,
       toolbarToogle,
@@ -242,8 +247,8 @@ export const useMenu = (
     ],
     [
       about,
-      api,
-      releaseNotes,
+      state,
+      whatsNew,
       shortcuts,
       sidebarToggle,
       toolbarToogle,

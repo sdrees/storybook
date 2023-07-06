@@ -2,237 +2,201 @@
 title: 'Write a preset addon'
 ---
 
-[Storybook preset addons](./addon-types.md#preset-addons) are grouped collections of `babel`, `webpack`, and `addons` configurations that support specific use cases in Storybook, such as TypeScript or MDX support.
+Storybook presets are pre-configured settings or configurations that enable developers quickly set up and customize their environment with a specific set of features, functionalities, or integrations.
 
-This doc covers the [presets API](#presets-api) and how to use the presets mechanism for [advanced configuration](#advanced-configuration).
+## How presets work
+
+Preset addons allow developers to compose various configuration options and plugins via APIs to integrate with Storybook and customize its behavior and functionality. Typically, presets are separated into two files, each with its specific role.
+
+### Local presets
+
+This type of preset allows you to encapsulate and organize configurations specific to the addon, including [builder](../builders/overview.md) support, [Babel](https://babeljs.io/), or third-party integrations. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-addons-local-preset.js.mdx',
+    'common/storybook-addons-local-preset.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Root-level presets
+
+This type of preset is user-facing and responsible for registering the addon without any additional configuration from the user by bundling Storybook-related features (e.g., [parameters](../writing-stories/parameters.md)) via the [`previewAnnotations`](../api/main-config-preview-annotations.md) and UI related features (e.g., addons) via the `managerEntries` API. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-addons-root-preset.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Presets API
 
-A preset is a set of hooks that are called by Storybook on initialization and can override configurations for `babel`, `webpack`, `addons`, and `entries`.
-
-Each configuration has a similar signature, accepting a base configuration object and options, as in this Webpack example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-main-webpack-preset-config.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+When writing a preset, you can access a select set of APIs to interact with the Storybook environment, including the supported builders (e.g., Webpack, Vite), the Storybook configuration, and UI. Below are the available APIs you can use when writing a preset addon.
 
 ### Babel
 
-The babel functions `babel` and `babelDefault` all configure babel in different ways.
-
-All functions take a [Babel configuration object](https://babeljs.io/docs/en/configuration) as their argument and can modify it or return a new object.
-
-For example, Storybook's Mihtril support uses plugins internally and here's how it configures babel:
+To customize Storybook's Babel configuration and add support for additional features, you can use the [`babelDefault`](../api/main-config-babel-default.md) API. It will apply the provided configuration ahead of any other user presets, which can be further customized by the end user via the [`babel`](../api/main-config-babel.md) configuration option. For example:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-babel-configuration-example.ts.mdx',
+    'common/storybook-addons-preset-babelDefault.js.mdx',
+    'common/storybook-addons-preset-babelDefault.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-- `babel` is applied to the preview config, after it has been initialized by storybook
-- `babelDefault` is applied to the preview config before any user presets have been applied
+### Builders
 
-### Webpack
+By default, Storybook provides support for the leading industry builders, including [Webpack](../builders/webpack.md) and [Vite](../builders/vite.md). If you need additional features for any of these builders, you can use APIs to extend the builder configuration based on your specific needs.
 
-The Webpack functions `webpack`, `webpackFinal`, and `managerWebpack` configure Webpack.
+#### Vite
 
-All functions take a [webpack4 configuration object](https://webpack.js.org/configuration/).
-
-For example, here is how Storybook automatically adopts `create-react-app`'s configuration if it's installed, where `applyCRAWebpackConfig` is a set of smart heuristics for modifying the input config.
+If you are creating a preset and want to include Vite support, the `viteFinal` API can be used to modify the default configuration and enable additional features. For example:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-webpackfinal-example.js.mdx',
+    'common/storybook-addons-preset-viteFinal.js.mdx',
+    'common/storybook-addons-preset-viteFinal.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-- `webpack` is applied to the preview config after it has been initialized by Storybook
-- `webpackFinal` is applied to the preview config after all user presets have been applied
-- `managerWebpack` is applied to the manager config
+#### Webpack
 
-As of Storybook 6.3, Storybook can run with either `webpack4` or `webpack5` builder. If your addon needs to know which version of Webpack it's running inside, the version and the actual Webpack instance itself are both available inside your preset:
+To customize the Webpack configuration in Storybook to add support for additional file types, apply specific loaders, configure plugins, or make any other necessary modifications, you can use the `webpackFinal` API. Once invoked, it will extend the default Webpack configuration with the provided configuration. An example of this would be:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-versioned-webpack.js.mdx',
+    'common/storybook-addons-preset-webpackFinal.js.mdx',
+    'common/storybook-addons-preset-webpackFinal.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-### Manager entries
+### ManagerEntries
 
-The addon config `managerEntries` allows you to add addons to Storybook from within a preset. For addons that require custom Webpack/Babel configuration, it is easier to install the preset, and it will take care of everything.
-
-For example, the Storysource preset contains the following code:
+If you're writing a preset that loads third-party addons, which you may not have control over, but require access to specific features or additional configuration, you can use the `managerEntries` API. For example:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-storysource-manager-entries.js.mdx',
+    'common/storybook-addons-root-preset-manager-entries.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-This is equivalent to [registering the addon manually](../get-started/browse-stories.md#addons) in [`main.js`](../configure/overview.md#configure-story-rendering):
+### PreviewAnnotations
+
+If you need additional settings to render stories for a preset, like [decorators](../writing-stories/decorators.md) or [parameters](../writing-stories/parameters.md), you can use the `previewAnnotations` API. For example, to apply a decorator to all stories, create a preview file that includes the decorator and make it available to the preset as follows:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-use-manager-entries.js.mdx',
+    'common/storybook-addons-preset-preview.js.mdx',
+    'common/storybook-addons-preset.root-preset.js.mdx',
+    'common/storybook-addons-preset-preview.ts.mdx',
+    'common/storybook-addons-preset.root-preset.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-### Preview entries
+## Advanced configuration
 
-The addon `config` function allows you to add extra preview configuration from within a preset, for example to add parameters or decorators from an addon.
-
-For example, the Backgrounds preset contains the following code:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-backgrounds-preset-config.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Which in turn invokes:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-backgrounds-addon-default-params.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-This is equivalent to exporting the `backgrounds` parameter manually in `main.js`.
-
-### Addons
-
-For users, the name `managerEntries` might be a bit too technical, so instead both users and preset-authors can simply use the `addons` property:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-main-register-storysource-example.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-The array of values can support both references to other presets and addons that should be included into the manager.
-
-Storybook will automatically detect whether a reference to an addon is a preset or a manager entry by checking if the package contains a `./preset.js` or `./register.js` (manager entry), falling back to preset if it is unsure.
-
-If this heuristic is incorrect for an addon you are using, you can explicitly opt-in to an entry being a manager entry using the `managerEntries` key.
-
-Here's what it looks when combining presets and manager entries in the `addons` property:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-main-register-presets-managerentry.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-### Entries
-
-Entries are the place to register entry points for the preview. For example, it could be used to make a basic configure-storybook preset that loads all the `*.stories.js` files into SB, instead of forcing people to copy-paste the same thing everywhere.
-
-## Advanced Configuration
-
-The presets API is also more powerful than the [standard configuration options](../builders/webpack.md#override-the-default-configuration) available in Storybook, so it's also possible to use presets for more advanced configuration without actually publishing a preset yourself.
-
-For example, some users want to configure the Webpack for Storybook's UI and addons ([issue](https://github.com/storybookjs/storybook/issues/4995)), but this is not possible using [standard Webpack configuration](../builders/webpack.md#configure) (it used to be possible before SB4.1). However, you can achieve this with a private preset.
-
-If it doesn't exist yet, create a file `.storybook/main.js`:
+The presets API is designed to be flexible and allow you to customize Storybook to your specific needs, including using presets for more advanced use cases without publishing them. In such cases, you can rely on a private preset. These private presets contain configuration options meant for development purposes and not for end-users. The `.storybook/main.js|ts` file is an example of such a private preset that empowers you to modify the behavior and functionality of Storybook.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'common/storybook-main-advanced-config-example.js.mdx',
+    'common/storybook-main-advanced-config-example.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-### Preview/Manager templates
+### Addons
 
-It's also possible to programmatically modify the preview head/body HTML using a preset, similar to the way `preview-head.html`/`preview-body.html` can be used to [configure story rendering](../configure/story-rendering.md). The `previewHead` and `previewBody` functions accept a string, which is the existing head/body, and return a modified string.
-
-For example, the following snippet adds a style tag to the preview head programmatically:
+For addon consumers, the [`managerEntries`](#managerentries) API can be too technical, making it difficult to use. To make it easier to add addons to Storybook, the preset API provides the [`addons`](../api/main-config-addons.md) API, which accepts an array of addon names and will automatically load them for you. For example:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-preview-head.js.mdx',
+    'common/storybook-main-register-example-addon.js.mdx',
+    'common/storybook-main-register-example-addon.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-Similarly, the `managerHead` can be used to modify the surrounding "manager" UI, analogous to `manager-head.html`.
+The array of values supports references to additional presets and addons that should be included in the manager. Storybook will automatically detect whether the provided value is a preset or an addon and load it accordingly.
 
-Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/code/lib/core-common/templates/preview.ejs).
+### Entries
 
-## Sharing advanced configuration
+Entries are the place to register entry points for the preview. This feature can be utilized to create a configure-storybook preset that automatically loads all `*.stories.js` files into Storybook, eliminating the need for users to copy-paste the same configuration repeatedly.
 
-Change your `main.js` file to:
+### UI configuration
+
+The Storybook preset API also provides access to the UI configuration, including the `head` and `body` HTML elements of the preview, configured by the [`previewHead`](../api/main-config-preview-head.md) and [`previewBody`](../api/main-config-preview-body.md) APIs. Both allow you to set up Storybook in a way that is similar to using the [`preview-head.html`](../configure/story-rendering.md#adding-to-head) and [`preview-body.html`](../configure/story-rendering.md#adding-to-body) files. These methods accept a string and return a modified version, injecting the provided content into the HTML element.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-import-preset-config.js.mdx',
+    'common/main-config-preview.head.js.mdx',
+    'common/main-config-preview.head.ts.mdx',
+    'common/main-config-preview.body.js.mdx',
+    'common/main-config-preview.body.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-and extract the configuration to a new file `./storybook/my-preset.js`:
+Additionally, if you need to customize the manager (i.e., where Storybook’s search, navigation, toolbars, and addons render), you can use the [`managerHead`](../api/main-config-manager-head.md) to modify the UI, similar to how you would do it with the `manager-head.html` file. For example:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-preset-full-config-object.js.mdx',
+    'common/storybook-custom-manager-head.js.mdx',
+    'common/storybook-custom-manager-head.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-Place your `my-preset.js` file wherever you want, if you want to share it far and wide you'll want to make it its own package.
+However, if you need, you can also customize the template used by Storybook to render the UI. To do so, you can use the `previewMainTemplate` API and provide a reference for a custom template created as a `ejs` file. For an example of how to do this, see the [template](https://github.com/storybookjs/storybook/blob/next/code/builders/builder-webpack5/templates/preview.ejs) used by the Webpack 5 builder.
+
+## Troubleshooting
+
+### Storybook doesn't load files in my preset
+
+As Storybook relies on [esbuild](https://esbuild.github.io/) instead of Webpack to build the UI, presets that depend on the `managerWebpack` API to configure the manager or load additional files other than CSS or images will no longer work. We recommend removing it from your preset and adjusting your configuration to convert any additional files to JavaScript.
+
+- [Types of addons](./addon-types.md) for other types of addons
+- [Writing addons](./writing-addons.md) for the basics of addon development
+- Presets for preset development
+- [Integration catalog](./integration-catalog.md) for requirements and available recipes
+- [API reference](./addons-api.md) to learn about the available APIs

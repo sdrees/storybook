@@ -68,6 +68,7 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
             changeByServerResponse() {
               // NOOP
             },
+            buildId: 'storybook',
             tree,
             focusAndScrollRef: {
               apply: false,

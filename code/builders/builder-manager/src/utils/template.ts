@@ -34,7 +34,7 @@ export const renderHTML = async (
   refs: Promise<Record<string, Ref>>,
   logLevel: Promise<string>,
   docsOptions: Promise<DocsOptions>,
-  { versionCheck, releaseNotesData, previewUrl, configType }: Options
+  { versionCheck, previewUrl, configType }: Options
 ) => {
   const titleRef = await title;
   const templateRef = await template;
@@ -51,7 +51,6 @@ export const renderHTML = async (
       CONFIG_TYPE: JSON.stringify(await configType, null, 2),
       // These two need to be double stringified because the UI expects a string
       VERSIONCHECK: JSON.stringify(JSON.stringify(versionCheck), null, 2),
-      RELEASE_NOTES_DATA: JSON.stringify(JSON.stringify(releaseNotesData), null, 2),
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
     },
     head: (await customHead) || '',

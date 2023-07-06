@@ -123,7 +123,9 @@ export interface API_Notification {
     name: string;
     color?: string;
   };
-  onClear?: () => void;
+  onClear?: (options: {
+    /** True when the user dismissed the notification. */ dismissed: boolean;
+  }) => void;
 }
 
 type API_Versions = Record<string, string>;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { addons, types, type API, useArgTypes } from '@storybook/manager-api';
+import { addons, types, useArgTypes } from '@storybook/manager-api';
 import { AddonPanel } from '@storybook/components';
 import { ControlsPanel } from './ControlsPanel';
 import { ADDON_ID, PARAM_KEY } from './constants';
@@ -14,8 +14,8 @@ function Title() {
   return <>Controls{suffix}</>;
 }
 
-addons.register(ADDON_ID, (api: API) => {
-  addons.addPanel(ADDON_ID, {
+addons.register(ADDON_ID, (api) => {
+  addons.add(ADDON_ID, {
     title: <Title />,
     id: 'controls',
     type: types.PANEL,

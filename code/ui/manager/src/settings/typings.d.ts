@@ -2,12 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 declare module '@storybook/components/src/treeview/utils';
 
-declare var FEATURES:
-  | {
-      storyStoreV7?: boolean;
-      argTypeTargetsV7?: boolean;
-    }
-  | undefined;
+declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
 
 declare var __REACT__: any;
 declare var __REACTDOM__: any;

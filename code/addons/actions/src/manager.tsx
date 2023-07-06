@@ -40,7 +40,7 @@ addons.register(ADDON_ID, (api) => {
     countRef.current = 0;
   });
 
-  addons.addPanel(PANEL_ID, {
+  addons.add(PANEL_ID, {
     title: <Title count={countRef} />,
     id: 'actions',
     type: types.PANEL,

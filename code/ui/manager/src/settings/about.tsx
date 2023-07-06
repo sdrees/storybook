@@ -1,11 +1,10 @@
 import type { FC } from 'react';
-import React, { Fragment } from 'react';
+import React from 'react';
 import semver from 'semver';
 import { styled } from '@storybook/theming';
 import type { State } from '@storybook/manager-api';
-import Markdown from 'markdown-to-jsx';
 
-import { StorybookIcon, SyntaxHighlighter, Link, DocumentWrapper } from '@storybook/components';
+import { StorybookIcon, SyntaxHighlighter, DocumentWrapper } from '@storybook/components';
 
 import SettingsFooter from './SettingsFooter';
 
@@ -23,26 +22,6 @@ const Header = styled.header(({ theme }) => ({
     marginRight: 8,
   },
 }));
-
-const Subheading = styled.span(({ theme }) => ({
-  letterSpacing: '0.35em',
-  textTransform: 'uppercase',
-  fontWeight: theme.typography.weight.bold,
-  fontSize: theme.typography.size.s2 - 1,
-  lineHeight: '24px',
-  color: theme.textMutedColor,
-}));
-
-const SubheadingLink = styled(Link)(({ theme }) => ({
-  fontSize: theme.typography.size.s1,
-}));
-
-const Subheader = styled.div({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginBottom: '.75rem',
-});
 
 const UpdateMessage = styled.div<{ status: 'positive' | 'negative' | string }>(
   ({ status, theme }) => {
@@ -68,11 +47,6 @@ const UpdateMessage = styled.div<{ status: 'positive' | 'negative' | string }>(
     textAlign: 'center',
   })
 );
-
-const ErrorMessage = styled.div(({ theme }) => ({
-  fontWeight: theme.typography.weight.bold,
-  textAlign: 'center',
-}));
 
 const Upgrade = styled.div(({ theme }) => ({
   marginTop: 20,
@@ -120,38 +94,6 @@ const AboutScreen: FC<{
       </Header>
 
       {updateMessage}
-
-      {latest ? (
-        <Fragment>
-          <Subheader>
-            <Subheading>{latest.version} Changelog</Subheading>
-            <SubheadingLink
-              secondary
-              href="https://github.com/storybookjs/storybook/blob/next/CHANGELOG.md"
-              withArrow
-              cancel={false}
-              target="_blank"
-            >
-              Read full changelog
-            </SubheadingLink>
-          </Subheader>
-          <DocumentWrapper>
-            <Markdown>{latest.info.plain}</Markdown>
-          </DocumentWrapper>
-        </Fragment>
-      ) : (
-        <ErrorMessage>
-          <Link
-            href="https://github.com/storybookjs/storybook/releases"
-            target="_blank"
-            withArrow
-            secondary
-            cancel={false}
-          >
-            Check Storybook's release history
-          </Link>
-        </ErrorMessage>
-      )}
 
       {canUpdate && (
         <Upgrade>

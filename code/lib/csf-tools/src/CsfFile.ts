@@ -167,7 +167,13 @@ export class CsfFile {
     const node = t.isIdentifier(value)
       ? findVarInitialization(value.name, this._ast.program)
       : value;
-    if (t.isStringLiteral(node)) return node.value;
+    if (t.isStringLiteral(node)) {
+      return node.value;
+    }
+    if (t.isTSSatisfiesExpression(node) && t.isStringLiteral(node.expression)) {
+      return node.expression.value;
+    }
+
     throw new Error(dedent`
       CSF: unexpected dynamic title ${formatLocation(node, this._fileName)}
 

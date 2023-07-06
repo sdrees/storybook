@@ -1,6 +1,7 @@
+import { ThemeProvider, ensure, themes } from '@storybook/theming';
+
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { ThemeProvider, themes, ensure } from '@storybook/theming';
 import { SyntaxHighlighter } from './lazy-syntaxhighlighter';
 
 export default {
@@ -106,6 +107,24 @@ export const GraphQL = {
   }
 `,
   },
+};
+
+export const CustomSyntax = {
+  args: {
+    language: 'scss',
+    children: `// Custom language syntax registered
+div.parent {
+  div.child {
+    color: $red;
+  }
+}`,
+  },
+  loaders: [
+    async () => {
+      const scss = (await import('react-syntax-highlighter/dist/esm/languages/prism/scss')).default;
+      SyntaxHighlighter.registerLanguage('scss', scss);
+    },
+  ],
 };
 
 export const Unsupported = {

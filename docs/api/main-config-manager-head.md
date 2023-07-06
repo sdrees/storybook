@@ -6,7 +6,7 @@ Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(head: string) => string`
 
-Programmatically adjust the manager's `<head>` of your Storybook. For example, load a custom font or add a script. Most often used by [addon authors](../addons/writing-presets.md#babel).
+Programmatically adjust the manager's `<head>` of your Storybook. For example, load a custom font or add a script. Most often used by [addon authors](../addons/writing-presets.md#ui-configuration).
 
 <div class="aside">
 

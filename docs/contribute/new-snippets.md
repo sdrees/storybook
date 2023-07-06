@@ -126,3 +126,11 @@ Go through the documentation and check your work.
 ## Submit your contribution
 
 Finally, commit, push and open a pull request in the Storybook monorepo. Add a clear description of the work you've done, and one of the maintainers will guide you through the merge process.
+
+## Learn more about contributing to Storybook
+
+- [RFC process](./RFC.md) for authoring feature requests
+- [Code](./code.md) for features and bug fixes
+- [Frameworks](./framework.md) to get started with a new framework
+- [Documentation](./documentation-updates.md) for documentation improvements, typos, and clarifications
+- [Examples](./new-snippets.md) for new snippets and examples

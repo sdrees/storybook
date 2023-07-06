@@ -134,7 +134,9 @@ export function getOptions<TOptions extends OptionSpecifier>(
     .reduce((acc, [key, option]) => {
       const flags = optionFlags(key, option);
 
-      if (option.type === 'boolean') return acc.option(flags, option.description, !!option.inverse);
+      if (option.type === 'boolean') {
+        return acc.option(flags, option.description, !!option.inverse);
+      }
 
       const checkStringValue = (raw: string) => {
         if (option.values && !option.values.includes(raw)) {
@@ -148,8 +150,11 @@ export function getOptions<TOptions extends OptionSpecifier>(
         return raw;
       };
 
-      if (option.type === 'string')
-        return acc.option(flags, option.description, (raw) => checkStringValue(raw));
+      if (option.type === 'string') {
+        return acc.option(flags, option.description, (raw) => {
+          return checkStringValue(raw);
+        });
+      }
 
       if (option.type === 'string[]') {
         return acc.option(
@@ -164,9 +169,15 @@ export function getOptions<TOptions extends OptionSpecifier>(
     }, command)
     .parse(argv);
 
+  const intermediate = command.opts();
+  if (intermediate.task === undefined && argv[2]) {
+    // eslint-disable-next-line prefer-destructuring
+    intermediate.task = argv[2];
+  }
+
   // Note the code above guarantees the types as they come in, so we cast here.
   // Not sure there is an easier way to do this
-  return command.opts() as MaybeOptionValues<TOptions>;
+  return intermediate as MaybeOptionValues<TOptions>;
 }
 
 // Boolean values will have a default, usually `false`, `true` if they are "inverse".

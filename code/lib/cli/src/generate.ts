@@ -203,11 +203,6 @@ command('dev')
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--quiet', 'Suppress verbose build output')
   .option('--no-version-updates', 'Suppress update check', true)
-  .option(
-    '--no-release-notes',
-    'Suppress automatic redirects to the release notes after upgrading',
-    true
-  )
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
   .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
   .option(

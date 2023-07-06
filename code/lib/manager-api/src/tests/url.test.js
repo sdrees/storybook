@@ -199,13 +199,4 @@ describe('initModule', () => {
       expect.objectContaining({ replace: true })
     );
   });
-
-  it('navigates to release notes when needed', () => {
-    fullAPI.showReleaseNotesOnLaunch.mockReturnValueOnce(true);
-
-    const navigate = jest.fn();
-    initURL({ store, state: { location: {} }, navigate, fullAPI }).init();
-
-    expect(navigate).toHaveBeenCalledWith('/settings/release-notes');
-  });
 });

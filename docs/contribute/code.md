@@ -254,11 +254,10 @@ It's troublesome to know which packages you'll change ahead of time, and watchin
 
 </details>
 
-## Other ways to contribute
+## Learn more about contributing to Storybook
 
-Learn about other ways you can contribute to Storybook.
-
-- [**Overview**](./how-to-contribute.md): General guidance
-- [**Docs**](./documentation-updates.md): Typos, clarifications
-- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
-- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library
+- [RFC process](./RFC.md) for authoring feature requests
+- Code for features and bug fixes
+- [Frameworks](./framework.md) to get started with a new framework
+- [Documentation](./documentation-updates.md) for documentation improvements, typos, and clarifications
+- [Examples](./new-snippets.md) for new snippets and examples

@@ -118,7 +118,7 @@ export const run = async (_: unknown) => {
     const prSpinner = ora(`Cherry picking #${pr.number}`).start();
 
     try {
-      await git.raw(['cherry-pick', '-m', '1', '-x', pr.mergeCommit]);
+      await git.raw(['cherry-pick', '-m', '1', '--keep-redundant-commits', '-x', pr.mergeCommit]);
       prSpinner.succeed(`Picked: ${formatPR(pr)}`);
     } catch (pickError) {
       prSpinner.fail(`Failed to automatically pick: ${formatPR(pr)}`);

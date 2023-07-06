@@ -8,16 +8,24 @@ import {
 } from '@storybook/core-common';
 import type {
   CLIOptions,
-  IndexerOptions,
-  StoryIndexer,
   CoreConfig,
+  IndexerOptions,
   Options,
-  StorybookConfig,
   PresetPropertyFn,
+  StorybookConfig,
+  StoryIndexer,
 } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
+import fetch from 'node-fetch';
+import type { Channel } from '@storybook/channels';
+import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
+import {
+  REQUEST_WHATS_NEW_DATA,
+  RESULT_WHATS_NEW_DATA,
+  SET_WHATS_NEW_CACHE,
+} from '@storybook/core-events';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 
@@ -180,6 +188,7 @@ export const features = async (
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
+  whatsNewNotifications: false,
 });
 
 export const storyIndexers = async (indexers?: StoryIndexer[]) => {
@@ -231,4 +240,47 @@ export const managerHead = async (_: any, options: Options) => {
   }
 
   return '';
+};
+
+const WHATS_NEW_CACHE = 'whats-new-cache';
+const WHATS_NEW_URL = 'https://storybook.js.org/whats-new/v1';
+
+// Grabbed from the implementation: https://github.com/storybookjs/dx-functions/blob/main/netlify/functions/whats-new.ts
+type WhatsNewResponse = { title: string; url: string; publishedAt: string; excerpt: string };
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_serverChannel = (channel: Channel, options: Options) => {
+  channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
+    const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE).catch((e) => {
+      logger.verbose(e);
+      return {};
+    });
+    await options.cache.set(WHATS_NEW_CACHE, { ...cache, ...data });
+  });
+
+  channel.on(REQUEST_WHATS_NEW_DATA, async () => {
+    try {
+      const post = (await fetch(WHATS_NEW_URL).then(async (response) => {
+        if (response.ok) return response.json();
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw response;
+      })) as WhatsNewResponse;
+
+      const cache: WhatsNewCache = (await options.cache.get(WHATS_NEW_CACHE)) ?? {};
+      const data = {
+        ...post,
+        status: 'SUCCESS',
+        postIsRead: post.url === cache.lastReadPost,
+        showNotification: post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
+      } satisfies WhatsNewData;
+      channel.emit(RESULT_WHATS_NEW_DATA, { data });
+    } catch (e) {
+      logger.verbose(e);
+      channel.emit(RESULT_WHATS_NEW_DATA, {
+        data: { status: 'ERROR' } satisfies WhatsNewData,
+      });
+    }
+  });
+
+  return channel;
 };

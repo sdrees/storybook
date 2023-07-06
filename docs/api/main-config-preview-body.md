@@ -6,7 +6,7 @@ Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(body: string) => string`
 
-Programmatically adjust the [preview `<body>`](../configure/story-rendering.md#adding-to-body) of your Storybook. Most often used by [addon authors](../addons/writing-presets.md#babel).
+Programmatically adjust the [preview `<body>`](../configure/story-rendering.md#adding-to-body) of your Storybook. Most often used by [addon authors](../addons/writing-presets.md#ui-configuration).
 
 <div class="aside">
 

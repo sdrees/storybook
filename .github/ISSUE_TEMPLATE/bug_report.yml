@@ -19,7 +19,7 @@ body:
     attributes:
       label: To Reproduce
       description: >-
-        Please create a reproduction using [storybook.new](https://storybook.new), or by running `npx sb@next sandbox` and
+        We prioritize bug reports that have a reproduction. You can create a reproduction using [storybook.new](https://storybook.new), or by running `npx sb@next sandbox` and
         following the instructions. Read our
         [documentation](https://storybook.js.org/docs/react/contribute/how-to-reproduce)
         to learn more about creating reproductions.

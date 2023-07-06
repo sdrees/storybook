@@ -1,1 +1,1 @@
-{"version":"7.1.0-alpha.29","info":{"plain":"#### Bug Fixes\n\n-   CLI: Fix upgrade notification message [#22933](https://github.com/storybooks/storybook/pull/22933)\n-   Core: Fix indexing errors by excluding node_modules stories [#22873](https://github.com/storybooks/storybook/pull/22873)"}}
+{"version":"7.1.0-beta.0","info":{"plain":"- Settings: Add what's new page, remove release notes - [#23202](https://github.com/storybookjs/storybook/pull/23202), thanks [@kasperpeulen](https://github.com/kasperpeulen)!"}}

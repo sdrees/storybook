@@ -6,10 +6,4 @@ declare module '@aw-web-design/x-default-browser';
 declare module '@discoveryjs/json-ext';
 declare module 'watchpack';
 
-declare var FEATURES:
-  | {
-      storyStoreV7?: boolean;
-      argTypeTargetsV7?: boolean;
-      legacyMdx1?: boolean;
-    }
-  | undefined;
+declare var FEATURES: import('@storybook/types').StorybookConfig['features'];

@@ -6,7 +6,7 @@ Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(head: string) => string`
 
-Programmatically adjust the [preview `<head>`](../configure/story-rendering.md#adding-to-head) of your Storybook. Most often used by [addon authors](../addons/writing-presets.md#babel).
+Programmatically adjust the [preview `<head>`](../configure/story-rendering.md#adding-to-head) of your Storybook. Most often used by [addon authors](../addons/writing-presets.md#ui-configuration).
 
 <div class="aside">
 

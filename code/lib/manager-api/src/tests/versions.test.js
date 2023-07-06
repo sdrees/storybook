@@ -70,7 +70,6 @@ describe('versions API', () => {
     const store = createMockStore();
     const { state: initialState, init } = initVersions({
       store,
-      fullAPI: { addNotification: jest.fn() },
     });
     store.setState(initialState);
     store.setState.mockReset();
@@ -86,102 +85,6 @@ describe('versions API', () => {
     });
   });
 
-  describe('notifications', () => {
-    it('sets an update notification right away in the init function', async () => {
-      const store = createMockStore();
-      const addNotification = jest.fn();
-      const { init, state: initialState } = initVersions({
-        store,
-        fullAPI: { addNotification },
-      });
-      store.setState(initialState);
-
-      await init();
-      expect(addNotification).toHaveBeenCalled();
-    });
-
-    it('does not set an update notification if it has been dismissed', async () => {
-      const store = createMockStore();
-      store.setState({ dismissedVersionNotification: '5.2.3' });
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification: jest.fn() },
-      });
-      store.setState(initialState);
-
-      const addNotification = jest.fn();
-      await init();
-      expect(addNotification).not.toHaveBeenCalled();
-    });
-
-    it('does not set an update notification if the latest version is a patch', async () => {
-      const store = createMockStore();
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification: jest.fn() },
-      });
-      store.setState({
-        ...initialState,
-        versions: { ...initialState.versions, current: { version: '5.2.1' } },
-      });
-
-      const addNotification = jest.fn();
-      await init();
-      expect(addNotification).not.toHaveBeenCalled();
-    });
-
-    it('does not set an update notification in production mode', async () => {
-      const store = createMockStore();
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification: jest.fn() },
-      });
-      store.setState(initialState);
-
-      const addNotification = jest.fn();
-      await init();
-      expect(addNotification).not.toHaveBeenCalled();
-    });
-
-    it('persists a dismissed notification', async () => {
-      const store = createMockStore();
-      let notification;
-      const addNotification = jest.fn().mockImplementation((n) => {
-        notification = n;
-      });
-
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification },
-      });
-      store.setState(initialState);
-
-      await init();
-
-      notification.onClear();
-      expect(store.setState).toHaveBeenCalledWith(
-        { dismissedVersionNotification: '5.2.3' },
-        { persistence: 'permanent' }
-      );
-    });
-  });
-
   it('getCurrentVersion works', async () => {
     const store = createMockStore();
     const {
@@ -190,7 +93,6 @@ describe('versions API', () => {
       state: initialState,
     } = initVersions({
       store,
-      fullAPI: { addNotification: jest.fn() },
     });
     store.setState(initialState);
 
@@ -209,7 +111,6 @@ describe('versions API', () => {
       state: initialState,
     } = initVersions({
       store,
-      fullAPI: { addNotification: jest.fn() },
     });
     store.setState(initialState);
 
@@ -229,7 +130,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
       store.setState({
         ...initialState,
@@ -253,7 +153,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
       store.setState({
         ...initialState,
@@ -277,7 +176,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
 
       await init();
@@ -302,7 +200,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
 
       await init();
@@ -327,7 +224,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
 
       await init();
@@ -346,14 +242,7 @@ describe('versions API', () => {
 
     it('from older prerelease version', async () => {
       const store = createMockStore();
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification: jest.fn() },
-      });
+      const { init, api, state: initialState } = initVersions({ store });
 
       await init();
 
@@ -377,7 +266,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
 
       await init();

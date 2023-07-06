@@ -8,12 +8,7 @@ declare var PREVIEW_URL: any;
 declare var __STORYBOOK_ADDONS_MANAGER: any;
 declare var RELEASE_NOTES_DATA: any;
 
-declare var FEATURES:
-  | {
-      storyStoreV7?: boolean;
-      argTypeTargetsV7?: boolean;
-    }
-  | undefined;
+declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
 
 declare var REFS: any;
 declare var VERSIONCHECK: any;

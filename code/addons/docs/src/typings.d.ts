@@ -10,12 +10,6 @@ declare module 'sveltedoc-parser' {
   export function parse(options: any): Promise<any>;
 }
 
-declare var FEATURES:
-  | {
-      storyStoreV7?: boolean;
-      argTypeTargetsV7?: boolean;
-      legacyMdx1?: boolean;
-    }
-  | undefined;
+declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
 
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;

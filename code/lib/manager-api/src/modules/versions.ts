@@ -44,7 +44,7 @@ export interface SubAPI {
   versionUpdateAvailable: () => boolean;
 }
 
-export const init: ModuleFn = ({ store, mode, fullAPI }) => {
+export const init: ModuleFn = ({ store }) => {
   const { dismissedVersionNotification } = store.getState();
 
   const state = {
@@ -112,34 +112,6 @@ export const init: ModuleFn = ({ store, mode, fullAPI }) => {
     await store.setState({
       versions: { ...versions, latest, next },
     });
-
-    if (api.versionUpdateAvailable()) {
-      const latestVersion = api.getLatestVersion().version;
-      const diff = semver.diff(versions.current.version, versions.latest.version);
-
-      if (
-        latestVersion !== dismissedVersionNotification &&
-        diff !== 'patch' &&
-        !semver.prerelease(latestVersion) &&
-        mode !== 'production'
-      ) {
-        fullAPI.addNotification({
-          id: 'update',
-          link: '/settings/about',
-          content: {
-            headline: `Storybook ${latestVersion} is available!`,
-            subHeadline: `Your current version is: ${versions.current.version}`,
-          },
-          icon: { name: 'book' },
-          onClear() {
-            store.setState(
-              { dismissedVersionNotification: latestVersion },
-              { persistence: 'permanent' }
-            );
-          },
-        });
-      }
-    }
   };
 
   return { init: initModule, state, api };

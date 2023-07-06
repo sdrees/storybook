@@ -88,6 +88,10 @@ Use this boilerplate code while writing your own preset addon.
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-Learn more about writing your own preset addon <a href="./writing-presets">here</a>.
-</div>
+## Learn more about the Storybook addon ecosystem
+
+- Types of addons for other types of addons
+- [Writing addons](./writing-addons.md) for the basics of addon development
+- [Presets](./writing-presets.md) for preset development
+- [Integration catalog](./integration-catalog.md) for requirements and available recipes
+- [API reference](./addons-api.md) to learn about the available APIs

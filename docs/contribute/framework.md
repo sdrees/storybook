@@ -130,7 +130,7 @@ The [preset API](../addons/writing-presets) is where you will configure the Stor
 
 #### `preview.js` ([example](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/src/preview.tsx))
 
-The (optional) [preview API](../configure/overview#configure-story-rendering) is where you configure the rendering of stories, such as global decorators or initializing some runtime config needed for your framework to behave as expected. If your framework requires this file, note that you also need to [configure the `previewAnnotations` in `preset.js`](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/src/preset.ts#L66-L69).
+The (optional) [preview API](../configure/overview#configure-story-rendering) is where you configure the rendering of stories, such as global decorators or initializing some runtime config needed for your framework to behave as expected. If your framework requires this file, note that you also need to [configure the `previewAnnotations` in `preset.js`](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/src/preset.ts#L71-L74).
 
 #### `types.ts` ([example](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/src/types.ts))
 
@@ -144,11 +144,10 @@ Test it in a fresh project using a Storybook set up as close as possible to your
 
 Once it's fully tested and released, please let us know about your framework by either announcing it in the `#showcase` channel of the [Storybook Discord](https://discord.gg/storybook) or tweeting it and mentioning `@storybookjs`. It's our hope that well-made community frameworks can eventually move into the Storybook codebase and be considered "officially" supported.
 
-## Other ways to contribute
+## Learn more about contributing to Storybook
 
-Learn about other ways you can contribute to Storybook.
-
-- [**Contribution overview**](./how-to-contribute.md): General guidance
-- [**Code**](./code.md): Features, bug fixes, dependency updates
-- [**Docs**](./documentation-updates.md): Typos, clarifications
-- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
+- [RFC process](./RFC.md) for authoring feature requests
+- [Code](./code.md) for features and bug fixes
+- Frameworks to get started with a new framework
+- [Documentation](./documentation-updates.md) for documentation improvements, typos, and clarifications
+- [Examples](./new-snippets.md) for new snippets and examples

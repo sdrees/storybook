@@ -6,14 +6,16 @@ Storybook is a community-oriented open source project that welcomes contribution
 
 ## Contributor covenant
 
-In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.[Continue reading our contributor covenant »](https://github.com/storybookjs/storybook/blob/next/CODE_OF_CONDUCT.md)
+In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation. [Continue reading our contributor covenant »](https://github.com/storybookjs/storybook/blob/next/CODE_OF_CONDUCT.md)
 
 ## Ways to contribute
 
-- [**Code**](./code.md): Features, bug fixes, dependency updates
-- [**Docs**](./documentation-updates.md): Typos, clarifications
-- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
-- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library
+- [**RFC process**](./RFC.md) for authoring feature requests
+- [**Code**](./code.md) for features and bug fixes
+- [**Frameworks**](./framework.md) to get started with a new framework
+- [**Documentation**](./documentation-updates.md) for documentation improvements, typos, and clarifications
+- [**Examples**](./new-snippets.md) for new snippets and examples
+- [**Addons**](./../addons/introduction.md) for new addons
 
 ## Not sure how to get started?
 

@@ -1,11 +1,38 @@
 import semver from 'semver';
 import type { Configuration as WebpackConfig, RuleSetRule } from 'webpack';
 import type { NextConfig } from 'next';
-import { addScopedAlias, getNextjsVersion } from '../utils';
+import path from 'path';
+import { getNextjsVersion } from '../utils';
 
 export const configureImages = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
   configureStaticImageImport(baseConfig, nextConfig);
-  addScopedAlias(baseConfig, 'next/image');
+  configureImageDefaults(baseConfig);
+};
+
+const configureImageDefaults = (baseConfig: WebpackConfig): void => {
+  const version = getNextjsVersion();
+  const resolve = baseConfig.resolve ?? {};
+  resolve.alias = {
+    ...resolve.alias,
+    'sb-original/next/image': require.resolve('next/image'),
+    'next/image': path.resolve(__dirname, './images/next-image'),
+  };
+
+  if (semver.satisfies(version, '^13.0.0')) {
+    resolve.alias = {
+      ...resolve.alias,
+      'sb-original/next/legacy/image': require.resolve('next/legacy/image'),
+      'next/legacy/image': path.resolve(__dirname, './images/next-legacy-image'),
+    };
+  }
+
+  if (semver.satisfies(version, '^12.2.0')) {
+    resolve.alias = {
+      ...resolve.alias,
+      'sb-original/next/future/image': require.resolve('next/future/image'),
+      'next/future/image': path.resolve(__dirname, './images/next-future-image'),
+    };
+  }
 };
 
 const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
