@@ -9,6 +9,8 @@ export const configureImages = (baseConfig: WebpackConfig, nextConfig: NextConfi
   configureImageDefaults(baseConfig);
 };
 
+const fallbackFilename = 'static/media/[path][name][ext]';
+
 const configureImageDefaults = (baseConfig: WebpackConfig): void => {
   const version = getNextjsVersion();
   const resolve = baseConfig.resolve ?? {};
@@ -58,7 +60,7 @@ const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextC
       {
         loader: require.resolve('@storybook/nextjs/next-image-loader-stub.js'),
         options: {
-          filename: assetRule.generator?.filename,
+          filename: assetRule.generator?.filename ?? fallbackFilename,
           nextConfig,
         },
       },
@@ -69,7 +71,7 @@ const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextC
     issuer: /\.(css|scss|sass)$/,
     type: 'asset/resource',
     generator: {
-      filename: assetRule.generator?.filename,
+      filename: assetRule.generator?.filename ?? fallbackFilename,
     },
   });
 };

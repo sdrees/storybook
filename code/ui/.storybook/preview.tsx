@@ -277,6 +277,7 @@ export const parameters = {
   },
   docs: {
     theme: themes.light,
+    toc: {},
   },
   controls: {
     presetColors: [

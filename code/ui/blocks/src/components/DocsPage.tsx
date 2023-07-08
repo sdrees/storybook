@@ -1,9 +1,9 @@
+import type { FC } from 'react';
+import React from 'react';
+import { transparentize } from 'polished';
 import { withReset } from '@storybook/components';
 import type { CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
-import { transparentize } from 'polished';
-import type { FC } from 'react';
-import React from 'react';
 
 /**
  * This selector styles all raw elements inside the DocsPage like this example with a `<div/>`:
@@ -429,16 +429,19 @@ export const DocsWrapper = styled.div(({ theme }) => ({
   padding: '4rem 20px',
   minHeight: '100vh',
   boxSizing: 'border-box',
+  gap: '3rem',
 
   [`@media (min-width: ${breakpoint}px)`]: {},
 }));
 
 interface DocsPageWrapperProps {
   children?: React.ReactNode;
+  toc?: React.ReactNode;
 }
 
-export const DocsPageWrapper: FC<DocsPageWrapperProps> = ({ children }) => (
+export const DocsPageWrapper: FC<DocsPageWrapperProps> = ({ children, toc }) => (
   <DocsWrapper className="sbdocs sbdocs-wrapper">
     <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
+    {toc}
   </DocsWrapper>
 );

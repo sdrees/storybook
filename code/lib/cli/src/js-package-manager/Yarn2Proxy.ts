@@ -2,8 +2,8 @@ import dedent from 'ts-dedent';
 import { sync as findUpSync, sync as syncFindUp } from 'find-up';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
-import { PosixFS } from '@yarnpkg/fslib';
-import { getLibzipSync, ZipOpenFS } from '@yarnpkg/libzip';
+import { PosixFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
+import { getLibzipSync } from '@yarnpkg/libzip';
 import semver from 'semver';
 import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
@@ -142,16 +142,12 @@ export class Yarn2Proxy extends JsPackageManager {
           libzip: getLibzipSync(),
         });
 
-        const crossFs = new PosixFS(zipOpenFs);
+        const virtualFs = new VirtualFS({ baseFs: zipOpenFs });
+        const crossFs = new PosixFS(virtualFs);
 
-        // On Windows "crossFs.readJsonSync" does not resolve virtual paths. Unknown bug
-        if (process.platform === 'win32' && !!pnpApi.VERSIONS.resolveVirtual) {
-          const virtualPath = path.join(pkg.packageLocation, 'package.json');
-          const physicalPath = pnpApi.resolveVirtual(virtualPath);
-          return crossFs.readJsonSync(physicalPath);
-        }
+        const virtualPath = path.join(pkg.packageLocation, 'package.json');
 
-        return crossFs.readJsonSync(path.join(pkg.packageLocation, 'package.json') as any);
+        return crossFs.readJsonSync(virtualPath);
       } catch (error) {
         if (error.code !== 'MODULE_NOT_FOUND') {
           console.error('Error while fetching package version in Yarn PnP mode:', error);
