@@ -9,6 +9,10 @@ test.describe('JSON files', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
   });
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => window.localStorage.clear());
+    await page.evaluate(() => window.sessionStorage.clear());
+  });
 
   test('should have index.json', async ({ page }) => {
     test.skip(

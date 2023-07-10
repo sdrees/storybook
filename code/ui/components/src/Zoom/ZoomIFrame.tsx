@@ -1,6 +1,5 @@
 import type { RefObject, ReactElement } from 'react';
 import { Component } from 'react';
-import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 
 export type IZoomIFrameProps = {
   scale: number;
@@ -36,19 +35,12 @@ export class ZoomIFrame extends Component<IZoomIFrameProps> {
 
   setIframeInnerZoom(scale: number) {
     try {
-      if (browserSupportsCssZoom()) {
-        Object.assign(this.iframe.contentDocument.body.style, {
-          zoom: 1 / scale,
-          minHeight: `calc(100vh / ${1 / scale})`,
-        });
-      } else {
-        Object.assign(this.iframe.contentDocument.body.style, {
-          width: `${scale * 100}%`,
-          height: `${scale * 100}%`,
-          transform: `scale(${1 / scale})`,
-          transformOrigin: 'top left',
-        });
-      }
+      Object.assign(this.iframe.contentDocument.body.style, {
+        width: `${scale * 100}%`,
+        height: `${scale * 100}%`,
+        transform: `scale(${1 / scale})`,
+        transformOrigin: 'top left',
+      });
     } catch (e) {
       this.setIframeZoom(scale);
     }

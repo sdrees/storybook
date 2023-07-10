@@ -1,114 +1,159 @@
+/* eslint-disable no-nested-ternary */
 import type { FC } from 'react';
-import React from 'react';
-import semver from 'semver';
+import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
 import type { State } from '@storybook/manager-api';
 
-import { StorybookIcon, SyntaxHighlighter, DocumentWrapper } from '@storybook/components';
-
-import SettingsFooter from './SettingsFooter';
+import { Button as BaseButton, Icons, Link, StorybookIcon } from '@storybook/components';
 
 const Header = styled.header(({ theme }) => ({
-  marginBottom: 20,
-  fontSize: theme.typography.size.m3,
+  marginBottom: 32,
+  fontSize: theme.typography.size.l2,
   color: theme.base === 'light' ? theme.color.darkest : theme.color.lightest,
   fontWeight: theme.typography.weight.bold,
   alignItems: 'center',
   display: 'flex',
 
   '> svg': {
-    height: 32,
+    height: 48,
     width: 'auto',
     marginRight: 8,
   },
 }));
 
-const UpdateMessage = styled.div<{ status: 'positive' | 'negative' | string }>(
-  ({ status, theme }) => {
-    if (status === 'positive') {
-      return { background: theme.background.positive, color: theme.color.positiveText };
-    }
-    if (status === 'negative') {
-      return { background: theme.background.negative, color: theme.color.negativeText };
-    }
-    return {
-      background: theme.base === 'light' ? '#EAF3FC' : theme.color.darkest,
-      color: theme.base === 'light' ? theme.color.darkest : theme.defaultText,
-    };
-  },
-
-  ({ theme }) => ({
-    fontWeight: theme.typography.weight.bold,
-    fontSize: theme.typography.size.s2,
-    padding: '10px 20px',
-    marginBottom: 24,
-    borderRadius: theme.appBorderRadius,
-    border: `1px solid ${theme.appBorderColor}`,
-    textAlign: 'center',
-  })
-);
-
-const Upgrade = styled.div(({ theme }) => ({
-  marginTop: 20,
-  borderTop: `1px solid ${theme.appBorderColor}`,
-}));
-
 const Container = styled.div({
-  padding: `3rem 20px`,
-  maxWidth: 600,
-  margin: '0 auto',
+  display: `flex`,
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 'calc(100% - 40px)',
+  flexDirection: 'column',
 });
 
+const UpgradeBlock = styled.div(({ theme }) => {
+  return {
+    border: '1px solid',
+    borderRadius: 5,
+    padding: 20,
+    margin: 20,
+    maxWidth: 400,
+    borderColor: theme.appBorderColor,
+    fontSize: theme.typography.size.s2,
+  };
+});
+
+const Code = styled.pre(({ theme }) => ({
+  background: theme.base === 'light' ? 'rgba(0, 0, 0, 0.05)' : theme.appBorderColor,
+  fontSize: theme.typography.size.s2 - 1,
+  margin: '4px 0 16px',
+}));
+
+const Footer = styled.div(({ theme }) => ({
+  marginBottom: 24,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  color: theme.base === 'light' ? theme.color.dark : theme.color.lightest,
+  fontWeight: theme.typography.weight.regular,
+  fontSize: theme.typography.size.s2,
+}));
+
+const SquareButton = styled(BaseButton)(({ theme }) => ({
+  '&&': {
+    borderRadius: 4,
+    fontSize: '13px',
+    lineHeight: '14px',
+    color: theme.base === 'light' ? theme.color.darker : theme.color.lightest,
+    padding: '9px 12px',
+    svg: {
+      marginRight: 6,
+    },
+  },
+}));
+
+const TabButton = styled(BaseButton)<{ active: boolean }>(({ theme, active }) => ({
+  '&&': {
+    padding: 2,
+    paddingRight: 8,
+    margin: 0,
+    color: active
+      ? theme.color.secondary
+      : theme.base === 'light'
+      ? theme.color.dark
+      : theme.color.lightest,
+  },
+}));
+
+const StyledLink = styled(Link as any)(({ theme }) => ({
+  '&&': {
+    fontWeight: theme.typography.weight.bold,
+    color: theme.base === 'light' ? theme.color.dark : theme.color.light,
+  },
+  '&:hover': {
+    color: theme.base === 'light' ? theme.color.darkest : theme.color.lightest,
+  },
+}));
+
 const AboutScreen: FC<{
-  latest: State['versions']['latest'];
   current: State['versions']['current'];
-}> = ({ latest = null, current }) => {
-  const canUpdate = latest && semver.gt(latest.version, current.version);
-
-  let updateMessage;
-  if (latest) {
-    if (canUpdate) {
-      updateMessage = (
-        <UpdateMessage status="positive">
-          Storybook {latest.version} is available. Upgrade from {current.version} now.
-        </UpdateMessage>
-      );
-    } else {
-      updateMessage = (
-        <UpdateMessage status="neutral">Looking good! You're up to date.</UpdateMessage>
-      );
-    }
-  } else {
-    updateMessage = (
-      <UpdateMessage status="negative">
-        Oops! The latest version of Storybook couldn't be fetched.
-      </UpdateMessage>
-    );
-  }
-
+  onNavigateToWhatsNew?: () => void;
+}> = ({ current, onNavigateToWhatsNew }) => {
+  const [activeTab, setActiveTab] = useState<'npm' | 'pnpm'>('npm');
   return (
     <Container>
+      <div style={{ flex: '1' }} />
       <Header>
-        <StorybookIcon />
-        Storybook {current.version}
+        <StorybookIcon /> Storybook
       </Header>
+      <UpgradeBlock>
+        <strong>You are on Storybook {current.version}</strong>
+        <p>Run the following script to check for updates and upgrade to the latest version.</p>
+        <div>
+          <TabButton active={activeTab === 'npm'} onClick={() => setActiveTab('npm')}>
+            npm
+          </TabButton>
+          <TabButton active={activeTab === 'pnpm'} onClick={() => setActiveTab('pnpm')}>
+            pnpm
+          </TabButton>
+        </div>
 
-      {updateMessage}
+        <Code>
+          {activeTab === 'npm'
+            ? 'npx storybook@latest upgrade'
+            : 'pnpm dlx storybook@latest upgrade'}
+        </Code>
+        {onNavigateToWhatsNew && (
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+          <Link onClick={onNavigateToWhatsNew}>See what's new in Storybook</Link>
+        )}
+      </UpgradeBlock>
 
-      {canUpdate && (
-        <Upgrade>
-          <DocumentWrapper>
-            <p>
-              <b>Upgrade all Storybook packages to latest:</b>
-            </p>
-            <SyntaxHighlighter language="bash" copyable padded bordered>
-              npx storybook@latest upgrade
-            </SyntaxHighlighter>
-          </DocumentWrapper>
-        </Upgrade>
-      )}
+      <div style={{ flex: '1.2' }} />
+      <Footer>
+        <div style={{ marginBottom: 12 }}>
+          <SquareButton
+            isLink
+            outline
+            small
+            href="https://github.com/storybookjs/storybook"
+            style={{ marginRight: 12 }}
+          >
+            <Icons icon="github" style={{ display: 'inline', marginRight: 5 }} />
+            GitHub
+          </SquareButton>
 
-      <SettingsFooter />
+          <SquareButton isLink outline small href="https://storybook.js.org/docs">
+            <Icons icon="document" style={{ display: 'inline', marginRight: 5 }} />
+            Documentation
+          </SquareButton>
+        </div>
+        <div>
+          Open source software maintained by{' '}
+          <StyledLink href="https://www.chromatic.com/">Chromatic</StyledLink> and the{' '}
+          <StyledLink href="https://github.com/storybookjs/storybook/graphs/contributors">
+            Storybook Community
+          </StyledLink>
+        </div>
+      </Footer>
     </Container>
   );
 };

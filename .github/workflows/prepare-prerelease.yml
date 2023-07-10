@@ -121,8 +121,8 @@ jobs:
       - name: 'Commit changes to branch: version-prerelease-from-${{ steps.bump-version.outputs.current-version }}'
         working-directory: .
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'storybook-bot'
+          git config --global user.email '32066757+storybook-bot@users.noreply.github.com'
           git checkout -b version-prerelease-from-${{ steps.bump-version.outputs.current-version }}
           git add .
           git commit -m "Bump version from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" || true

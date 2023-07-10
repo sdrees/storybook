@@ -54,6 +54,7 @@ export default {
     'Bar',
     'Blockquote',
     'Button',
+    'ClipboardCode',
     'Code',
     'DL',
     'Div',

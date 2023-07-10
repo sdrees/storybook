@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import React, { Component } from 'react';
+import React, { Component, useCallback } from 'react';
 
-import { type API, useStorybookApi } from '@storybook/manager-api';
+import { type API, useStorybookApi, useStorybookState } from '@storybook/manager-api';
 
 import { AboutScreen } from './about';
 
@@ -20,10 +20,19 @@ class NotificationClearer extends Component<{ api: API; notificationId: string }
 
 const AboutPage: FC = () => {
   const api = useStorybookApi();
+  const state = useStorybookState();
 
+  const onNavigateToWhatsNew = useCallback(() => {
+    api.changeSettingsTab('whats-new');
+  }, [api]);
   return (
     <NotificationClearer api={api} notificationId="update">
-      <AboutScreen current={api.getCurrentVersion()} latest={api.getLatestVersion()} />
+      <AboutScreen
+        current={api.getCurrentVersion()}
+        onNavigateToWhatsNew={
+          state.whatsNewData?.status === 'SUCCESS' ? onNavigateToWhatsNew : undefined
+        }
+      />
     </NotificationClearer>
   );
 };

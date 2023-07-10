@@ -7,7 +7,12 @@ const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 test.describe('preview-web', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
+
     await new SbPage(page).waitUntilLoaded();
+  });
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => window.localStorage.clear());
+    await page.evaluate(() => window.sessionStorage.clear());
   });
 
   test('should pass over shortcuts, but not from play functions, story', async ({ page }) => {
@@ -18,6 +23,10 @@ test.describe('preview-web', () => {
 
     await sbPage.previewRoot().locator('button').press('s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
+
+    // restore the sidebar back to visible, because it is persisted in localStorage
+    await page.locator('html').press('s');
+    await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
   });
 
   test('should pass over shortcuts, but not from play functions, docs', async ({ page }) => {
@@ -28,5 +37,9 @@ test.describe('preview-web', () => {
 
     await sbPage.previewRoot().getByRole('button').getByText('Submit').first().press('s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
+
+    // restore the sidebar back to visible, because it is persisted in localStorage
+    await page.locator('html').press('s');
+    await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
   });
 });

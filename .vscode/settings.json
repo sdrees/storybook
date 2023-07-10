@@ -51,5 +51,6 @@
     "*.js": "javascriptreact"
   },
   "prettier.ignorePath": "./code/.prettierignore",
-  "typescript.tsdk": "./code/node_modules/typescript/lib"
+  "typescript.tsdk": "./code/node_modules/typescript/lib",
+  "storyExplorer.storybookConfigDir": "./code/ui/.storybook"
 }

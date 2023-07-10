@@ -112,8 +112,8 @@ jobs:
 
       - name: Merge ${{ github.ref_name }} into ${{ steps.target.outputs.target }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "storybook-bot"
+          git config --global user.email "32066757+storybook-bot@users.noreply.github.com"
           git fetch origin ${{ steps.target.outputs.target }}
           git checkout ${{ steps.target.outputs.target }}
           git merge ${{ github.ref_name }}

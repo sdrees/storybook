@@ -1,3 +1,8 @@
+## 7.1.0-beta.2
+
+- Next.js: Fix for @nx/react/plugin/storybook with stories containing SVGs - [#23210](https://github.com/storybookjs/storybook/pull/23210), thanks [@daves28](https://github.com/daves28)!
+- Yarn: Downgrade yarnpkg packages and support virtual files properly - [#23354](https://github.com/storybookjs/storybook/pull/23354), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 7.1.0-beta.1
 
 - Addon-docs: Add opt-in table of contents - [#23142](https://github.com/storybookjs/storybook/pull/23142), thanks [@shilman](https://github.com/shilman)!

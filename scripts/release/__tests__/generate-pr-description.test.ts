@@ -24,7 +24,7 @@ describe('Generate PR Description', () => {
     {
       // this Bump version commit should be ignored
       id: null,
-      user: 'github-actions[bot]',
+      user: 'storybook-bot',
       pull: null,
       commit: '012b58140c3606efeacbe99c0c410624b0a1ed1f',
       title: 'Bump version on `next`: preminor (alpha) from 7.2.0 to 7.3.0-alpha.0',
@@ -33,7 +33,7 @@ describe('Generate PR Description', () => {
         commit:
           '[`012b58140c3606efeacbe99c0c410624b0a1ed1f`](https://github.com/storybookjs/storybook/commit/012b58140c3606efeacbe99c0c410624b0a1ed1f)',
         pull: null,
-        user: '[@github-actions[bot]](https://github.com/github-actions%5Bbot%5D)',
+        user: '[@storybook-bot](https://github.com/storybook-bot)',
       },
     },
     {

@@ -9,6 +9,10 @@ test.describe('addon-viewport', () => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => window.localStorage.clear());
+    await page.evaluate(() => window.sessionStorage.clear());
+  });
 
   test('should have viewport button in the toolbar', async ({ page }) => {
     const sbPage = new SbPage(page);

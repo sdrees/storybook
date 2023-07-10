@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.1.0-beta.1",
+  "version": "7.1.0-beta.2",
   "description": "",
   "keywords": [
     "storybook"
@@ -55,10 +55,10 @@
     "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
-    "@storybook/channels": "7.1.0-beta.1",
-    "@storybook/client-logger": "7.1.0-beta.1",
-    "@storybook/core-events": "7.1.0-beta.1",
-    "@storybook/preview-api": "7.1.0-beta.1",
+    "@storybook/channels": "7.1.0-beta.2",
+    "@storybook/client-logger": "7.1.0-beta.2",
+    "@storybook/core-events": "7.1.0-beta.2",
+    "@storybook/preview-api": "7.1.0-beta.2",
     "typescript": "~4.9.3"
   },
   "publishConfig": {

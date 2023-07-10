@@ -2,23 +2,13 @@ import type { ReactElement } from 'react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import useResizeObserver from 'use-resize-observer';
 import { styled } from '@storybook/theming';
-import { browserSupportsCssZoom } from './browserSupportsCssZoom';
-
-const hasBrowserSupportForCssZoom = browserSupportsCssZoom();
 
 const ZoomElementWrapper = styled.div<{ scale: number; elementHeight: number }>(
-  ({ scale = 1, elementHeight }) =>
-    hasBrowserSupportForCssZoom
-      ? {
-          '> *': {
-            zoom: 1 / scale,
-          },
-        }
-      : {
-          height: elementHeight || 'auto',
-          transformOrigin: 'top left',
-          transform: `scale(${1 / scale})`,
-        }
+  ({ scale = 1, elementHeight }) => ({
+    height: elementHeight || 'auto',
+    transformOrigin: 'top left',
+    transform: `scale(${1 / scale})`,
+  })
 );
 
 type ZoomProps = {
@@ -52,10 +42,7 @@ export function ZoomElement({ scale, children }: ZoomProps) {
 
   return (
     <ZoomElementWrapper scale={scale} elementHeight={elementHeight}>
-      <div
-        ref={hasBrowserSupportForCssZoom ? null : componentWrapperRef}
-        className="innerZoomElementWrapper"
-      >
+      <div ref={componentWrapperRef} className="innerZoomElementWrapper">
         {children}
       </div>
     </ZoomElementWrapper>

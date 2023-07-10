@@ -14,6 +14,10 @@ test.describe('addon-docs', () => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => window.localStorage.clear());
+    await page.evaluate(() => window.sessionStorage.clear());
+  });
 
   test('should show descriptions for stories', async ({ page }) => {
     const skipped = [

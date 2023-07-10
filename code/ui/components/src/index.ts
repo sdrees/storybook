@@ -26,7 +26,6 @@ export { Span } from './typography/elements/Span';
 export { Table } from './typography/elements/Table';
 export { TT } from './typography/elements/TT';
 export { UL } from './typography/elements/UL';
-
 export { Badge } from './Badge/Badge';
 
 // Typography
@@ -84,6 +83,8 @@ export * from './typography/DocumentFormatting';
 export * from './typography/ResetWrapper';
 
 export { withReset, codeCommon } from './typography/lib/common';
+
+export { ClipboardCode } from './clipboard/ClipboardCode';
 
 // eslint-disable-next-line prefer-destructuring
 export const components = typography.components;
