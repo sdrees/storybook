@@ -5,7 +5,6 @@ import { Badge, Icons } from '@storybook/components';
 import type { API, State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import { styled, useTheme } from '@storybook/theming';
-import { global } from '@storybook/global';
 
 const focusableUIElements = {
   storySearchField: 'storybook-explorer-searchfield',
@@ -69,7 +68,8 @@ export const useMenu = (
     [api]
   );
 
-  const whatsNewNotificationsEnabled = global.FEATURES.whatsNewNotifications;
+  const whatsNewNotificationsEnabled =
+    state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
   const isWhatsNewUnread = api.isWhatsNewUnread();
   const whatsNew = useMemo(
     () => ({

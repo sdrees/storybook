@@ -24,12 +24,12 @@ import type { ReactRenderer } from './types';
  *```jsx
  * // setup.js (for jest)
  * import { setProjectAnnotations } from '@storybook/react';
- * import * as projectAnnotations from './.storybook/preview';
+ * import projectAnnotations from './.storybook/preview';
  *
  * setProjectAnnotations(projectAnnotations);
  *```
  *
- * @param projectAnnotations - e.g. (import * as projectAnnotations from '../.storybook/preview')
+ * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
   projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]

@@ -15,7 +15,7 @@ program
     '-F, --from <version>',
     'Which version/tag/commit to go back and check changes from. Defaults to latest release tag'
   )
-  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch" label')
+  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch:yes" label')
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const optionsSchema = z.object({

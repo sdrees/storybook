@@ -83,7 +83,7 @@ const getRendererInfo = (packageJson: PackageJson) => {
 
 const validConfigExtensions = ['ts', 'js', 'tsx', 'jsx', 'mjs', 'cjs'];
 
-const findConfigFile = (prefix: string, configDir: string) => {
+export const findConfigFile = (prefix: string, configDir: string) => {
   const filePrefix = path.join(configDir, prefix);
   const extension = validConfigExtensions.find((ext: string) =>
     fse.existsSync(`${filePrefix}.${ext}`)

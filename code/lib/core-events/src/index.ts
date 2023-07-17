@@ -68,6 +68,7 @@ enum events {
   REQUEST_WHATS_NEW_DATA = 'requestWhatsNewData',
   RESULT_WHATS_NEW_DATA = 'resultWhatsNewData',
   SET_WHATS_NEW_CACHE = 'setWhatsNewCache',
+  TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
 }
 
 // Enables: `import Events from ...`
@@ -118,6 +119,7 @@ export const {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
+  TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } = events;
 
 // Used to break out of the current render without showing a redbox
@@ -133,10 +135,12 @@ export type WhatsNewData =
       status: 'SUCCESS';
       title: string;
       url: string;
+      blogUrl?: string;
       publishedAt: string;
       excerpt: string;
       postIsRead: boolean;
       showNotification: boolean;
+      disableWhatsNewNotifications: boolean;
     }
   | {
       status: 'ERROR';

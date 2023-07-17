@@ -57,7 +57,7 @@ const pullInfoMock = {
   pull: 55,
   commit: '930b47f011f750c44a1782267d698ccdd3c04da3',
   title: 'Legal: Fix license',
-  labels: ['documentation', 'patch', 'picked'],
+  labels: ['documentation', 'patch:yes', 'patch:done'],
   links: {
     commit:
       '[`930b47f011f750c44a1782267d698ccdd3c04da3`](https://github.com/storybookjs/storybook/commit/930b47f011f750c44a1782267d698ccdd3c04da3)',
@@ -73,7 +73,7 @@ beforeEach(() => {
   gitClient.git.log.mockResolvedValue(gitLogMock);
   gitClient.git.getRemotes.mockResolvedValue(remoteMock);
   githubInfo.getPullInfoFromCommit.mockResolvedValue(pullInfoMock);
-  github.getLabelIds.mockResolvedValue({ picked: 'pick-id' });
+  github.getLabelIds.mockResolvedValue({ 'patch:done': 'pick-id' });
 });
 
 test('it should fail early when no GH_TOKEN is set', async () => {
@@ -130,8 +130,8 @@ test('it should label the PR associated with cheery picks in the current branch'
       "Found latest tag: v7.2.1",
       "Looking at cherry pick commits since v7.2.1",
       "Found the following picks : Commit: 930b47f011f750c44a1782267d698ccdd3c04da3 PR: [#55](https://github.com/storybookjs/storybook/pull/55)",
-      "Labeling the PRs with the picked label...",
-      "Successfully labeled all PRs with the picked label.",
+      "Labeling the PRs with the patch:done label...",
+      "Successfully labeled all PRs with the patch:done label.",
     ]
   `);
 });

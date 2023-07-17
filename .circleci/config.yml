@@ -4,8 +4,8 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ['ci', 'pr', 'merged', 'daily']
-    default: 'ci'
+    enum: ['normal', 'merged', 'daily', 'skipped']
+    default: 'skipped'
 
 executors:
   sb_node_16_classic:
@@ -43,7 +43,7 @@ executors:
         default: 'small'
     working_directory: /tmp/storybook
     docker:
-      - image: mcr.microsoft.com/playwright:v1.35.0-focal
+      - image: mcr.microsoft.com/playwright:v1.36.0-focal
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -257,7 +257,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
@@ -282,7 +281,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
@@ -303,7 +301,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: large
       name: sb_node_16_browsers
@@ -338,7 +335,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: medium
       name: sb_playwright
@@ -359,7 +355,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: large
       name: sb_playwright
@@ -380,7 +375,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
@@ -400,7 +394,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: medium
       name: sb_playwright
@@ -424,7 +417,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: medium
       name: sb_playwright
@@ -448,7 +440,6 @@ jobs:
     parameters:
       parallelism:
         type: integer
-        default: 2
     executor:
       class: medium
       name: sb_playwright
@@ -468,54 +459,9 @@ jobs:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
 
 workflows:
-  ci:
+  normal:
     when:
-      and:
-        - equal: [api, << pipeline.trigger_source >>]
-        - equal: [ci, << pipeline.parameters.workflow >>]
-    jobs:
-      - pretty-docs
-      - build
-      - lint:
-          requires:
-            - build
-      - check:
-          requires:
-            - build
-      - unit-tests:
-          requires:
-            - build
-      - script-unit-tests:
-          requires:
-            - build
-      - chromatic-internal-storybooks:
-          requires:
-            - build
-      - create-sandboxes:
-          requires:
-            - build
-      - build-sandboxes:
-          requires:
-            - create-sandboxes
-      - chromatic-sandboxes:
-          requires:
-            - build-sandboxes
-      - e2e-production:
-          requires:
-            - build-sandboxes
-      - e2e-dev:
-          requires:
-            - create-sandboxes
-      - test-runner-production:
-          requires:
-            - build-sandboxes
-      # TODO: reenable once we find out the source of flakyness
-      # - test-runner-dev:
-      #     requires:
-      #       - create-sandboxes
-  pr:
-    when:
-      equal: [pr, << pipeline.parameters.workflow >>]
+      equal: [normal, << pipeline.parameters.workflow >>]
     jobs:
       - pretty-docs
       - build
@@ -554,6 +500,7 @@ workflows:
           requires:
             - build-sandboxes
       - e2e-dev:
+          parallelism: 2
           requires:
             - create-sandboxes
       - test-runner-production:
@@ -593,19 +540,19 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 19
+          parallelism: 20
           requires:
             - build
       - build-sandboxes:
-          parallelism: 19
+          parallelism: 20
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -613,7 +560,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
       - bench:
@@ -647,22 +594,22 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 33
+          parallelism: 34
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 33
+          parallelism: 34
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 31
+          parallelism: 32
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 31
+          parallelism: 32
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -670,7 +617,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 31
+          parallelism: 32
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness

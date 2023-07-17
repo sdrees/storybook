@@ -90,7 +90,7 @@ export const mapToChangelist = ({
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
       return `- [ ] **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}${
-        !unpickedPatches && change.labels.includes('patch') ? ' (will also be patched)' : ''
+        !unpickedPatches && change.labels.includes('patch:yes') ? ' (will also be patched)' : ''
       }`;
     })
     .join('\n');
@@ -123,7 +123,7 @@ export const mapCherryPicksToTodo = ({
   return dedent`## 🍒 Manual cherry picking needed!
 
   The following pull requests could not be cherry-picked automatically because it resulted in merge conflicts.
-  For each pull request below, you need to either manually cherry pick it, or discard it by removing the "patch" label from the PR and re-generate this PR.
+  For each pull request below, you need to either manually cherry pick it, or discard it by replacing the "patch:yes" label with "patch:no" on the PR and re-generate this PR.
   
   ${list}`;
 };

@@ -132,6 +132,77 @@ describe('Version', () => {
     `);
   });
 
+  it('should throw when apply is combined with releaseType', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ apply: true, releaseType: 'prerelease' })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
+          "path": []
+        }
+      ]"
+    `);
+  });
+
+  it('should throw when apply is combined with exact', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ apply: true, exact: '1.0.0' })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
+          "path": []
+        }
+      ]"
+    `);
+  });
+
+  it('should throw when apply is combined with deferred', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ apply: true, deferred: true })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "--deferred cannot be combined with --apply",
+          "path": []
+        }
+      ]"
+    `);
+  });
+
+  it('should throw when applying without a "deferredNextVersion" set', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+    });
+
+    await expect(version({ apply: true })).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"The 'deferredNextVersion' property in code/package.json is unset. This is necessary to apply a deferred version bump"`
+    );
+
+    expect(fsExtra.writeJson).not.toHaveBeenCalled();
+    expect(fsExtra.writeFile).not.toHaveBeenCalled();
+    expect(execaCommand).not.toHaveBeenCalled();
+  });
+
   it.each([
     // prettier-ignore
     { releaseType: 'major', currentVersion: '1.1.1', expectedVersion: '2.0.0' },
@@ -159,11 +230,21 @@ describe('Version', () => {
     { releaseType: 'patch', currentVersion: '1.1.1-rc.10', expectedVersion: '1.1.1' },
     // prettier-ignore
     { exact: '4.2.0-canary.69', currentVersion: '1.1.1-rc.10', expectedVersion: '4.2.0-canary.69' },
+    // prettier-ignore
+    { apply: true, currentVersion: '1.0.0', deferredNextVersion: '1.2.0', expectedVersion: '1.2.0' },
   ])(
-    'bump with type: "$releaseType", pre id "$preId" or exact "$exact", from: $currentVersion, to: $expectedVersion',
-    async ({ releaseType, preId, exact, currentVersion, expectedVersion }) => {
+    'bump with type: "$releaseType", pre id "$preId" or exact "$exact" or apply $apply, from: $currentVersion, to: $expectedVersion',
+    async ({
+      releaseType,
+      preId,
+      exact,
+      apply,
+      currentVersion,
+      expectedVersion,
+      deferredNextVersion,
+    }) => {
       fsExtra.__setMockFiles({
-        [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: currentVersion }),
+        [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: currentVersion, deferredNextVersion }),
         [MANAGER_API_VERSION_PATH]: `export const version = "${currentVersion}";`,
         [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "${currentVersion}" };`,
         [A11Y_PACKAGE_JSON_PATH]: JSON.stringify({
@@ -185,7 +266,17 @@ describe('Version', () => {
         [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "${currentVersion}" };`,
       });
 
-      await version({ releaseType, preId, exact });
+      await version({ releaseType, preId, exact, apply });
+      expect(fsExtra.writeJson).toHaveBeenCalledTimes(apply ? 3 : 2);
+      if (apply) {
+        // eslint-disable-next-line jest/no-conditional-expect -- guarded against problems with the assertion above
+        expect(fsExtra.writeJson).toHaveBeenCalledWith(
+          CODE_PACKAGE_JSON_PATH,
+          // this call is the write that removes the "deferredNextVersion" property
+          { version: currentVersion },
+          { spaces: 2 }
+        );
+      }
 
       expect(fsExtra.writeJson).toHaveBeenCalledWith(
         CODE_PACKAGE_JSON_PATH,
@@ -231,4 +322,21 @@ describe('Version', () => {
       });
     }
   );
+
+  it('should only set version in "deferredNextVersion" when using --deferred', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+    });
+
+    await version({ releaseType: 'premajor', preId: 'beta', deferred: true });
+
+    expect(fsExtra.writeJson).toHaveBeenCalledTimes(1);
+    expect(fsExtra.writeJson).toHaveBeenCalledWith(
+      CODE_PACKAGE_JSON_PATH,
+      { version: '1.0.0', deferredNextVersion: '2.0.0-beta.0' },
+      { spaces: 2 }
+    );
+    expect(fsExtra.writeFile).not.toHaveBeenCalled();
+    expect(execaCommand).not.toHaveBeenCalled();
+  });
 });

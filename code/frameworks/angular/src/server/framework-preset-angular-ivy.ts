@@ -1,6 +1,7 @@
 import { Configuration } from 'webpack';
 import * as path from 'path';
 import { Preset } from '@storybook/types';
+import fs from 'fs';
 
 import { PresetOptions } from './preset-options';
 import { AngularOptions } from '../types';
@@ -49,10 +50,13 @@ export const runNgcc = async () => {
 };
 
 export const webpack = async (webpackConfig: Configuration, options: PresetOptions) => {
-  const { VERSION } = await loadEsmModule<typeof import('@angular/core')>('@angular/core');
+  const packageJsonPath = require.resolve('@angular/core/package.json');
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  const VERSION = packageJson.version;
   const framework = await options.presets.apply<Preset>('framework');
   const angularOptions = (typeof framework === 'object' ? framework.options : {}) as AngularOptions;
-  const isAngular16OrNewer = parseInt(VERSION.major, 10) >= 16;
+  const angularMajorVersion = VERSION.split('.')[0];
+  const isAngular16OrNewer = parseInt(angularMajorVersion, 10) >= 16;
 
   // Default to true, if undefined
   if (angularOptions.enableIvy === false) {

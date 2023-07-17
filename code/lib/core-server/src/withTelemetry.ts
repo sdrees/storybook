@@ -9,6 +9,7 @@ type TelemetryOptions = {
   cliOptions: CLIOptions;
   presetOptions?: Parameters<typeof loadAllPresets>[0];
   printError?: (err: any) => void;
+  skipPrompt?: boolean;
 };
 
 const promptCrashReports = async () => {
@@ -30,7 +31,11 @@ const promptCrashReports = async () => {
 
 type ErrorLevel = 'none' | 'error' | 'full';
 
-async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): Promise<ErrorLevel> {
+async function getErrorLevel({
+  cliOptions,
+  presetOptions,
+  skipPrompt,
+}: TelemetryOptions): Promise<ErrorLevel> {
   if (cliOptions.disableTelemetry) return 'none';
 
   // If we are running init or similar, we just have to go with true here
@@ -53,6 +58,10 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
   const valueFromCache =
     (await cache.get('enableCrashReports')) ?? (await cache.get('enableCrashreports'));
   if (valueFromCache !== undefined) return valueFromCache ? 'full' : 'error';
+
+  if (skipPrompt) {
+    return 'error';
+  }
 
   const valueFromPrompt = await promptCrashReports();
   if (valueFromPrompt !== undefined) return valueFromPrompt ? 'full' : 'error';

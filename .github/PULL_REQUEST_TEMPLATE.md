@@ -27,11 +27,10 @@ Closes #
 
 #### Maintainers
 
-- [ ] If this PR should be tested against many or all sandboxes,
-      make sure to add the `ci:merged` or `ci:daily` GH label to it.
+- [ ] When this PR is ready for testing, make sure to add `ci:normal`, `ci:merged` or `ci:daily` GH label to it to run a specific set of sandboxes. The particular set of sandboxes can be found in `code/lib/cli/src/sandbox-templates.ts`
 - [ ] Make sure this PR contains **one** of the labels below.
 
-`["cleanup", "BREAKING CHANGE", "feature request", "bug", "documentation", "maintenance", "dependencies", "other"]`
+`["cleanup", "BREAKING CHANGE", "feature request", "bug", "build", "documentation", "maintenance", "dependencies", "other"]`
 
 <!--
 

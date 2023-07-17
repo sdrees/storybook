@@ -10,10 +10,18 @@ export const addons: PresetProperty<'addons', StorybookConfig> = [
   require.resolve('./server/framework-preset-angular-docs'),
 ];
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entries = []) => [
-  ...entries,
-  require.resolve('./client/config'),
-];
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (
+  entries = [],
+  options
+) => {
+  const annotations = [...entries, require.resolve('./client/config')];
+
+  if (options.configType === 'PRODUCTION') {
+    annotations.unshift(require.resolve('./client/preview-prod'));
+  }
+
+  return annotations;
+};
 
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
   const framework = await options.presets.apply<StorybookConfig['framework']>('framework');

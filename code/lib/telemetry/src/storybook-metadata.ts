@@ -7,6 +7,7 @@ import {
   getProjectRoot,
 } from '@storybook/core-common';
 import type { StorybookConfig, PackageJson } from '@storybook/types';
+import { readConfig } from '@storybook/csf-tools';
 
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-json';
@@ -160,6 +161,16 @@ export const computeStorybookMetadata = async ({
   const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
 
   const storybookInfo = getStorybookInfo(packageJson);
+
+  const { previewConfig } = storybookInfo;
+  if (previewConfig) {
+    const config = await readConfig(previewConfig);
+    const usesGlobals = !!(
+      config.getFieldNode(['globals']) || config.getFieldNode(['globalTypes'])
+    );
+    metadata.preview = { ...metadata.preview, usesGlobals };
+  }
+
   const storybookVersion = storybookPackages[storybookInfo.frameworkPackage]?.version;
 
   return {

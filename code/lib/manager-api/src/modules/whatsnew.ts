@@ -4,6 +4,7 @@ import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
+  TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
 import type { ModuleFn } from '../index';
 
@@ -14,6 +15,7 @@ export type SubState = {
 export type SubAPI = {
   isWhatsNewUnread(): boolean;
   whatsNewHasBeenRead(): void;
+  toggleWhatsNewNotifications(): void;
 };
 
 const WHATS_NEW_NOTIFICATION_ID = 'whats-new';
@@ -39,6 +41,17 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
         fullAPI.clearNotification(WHATS_NEW_NOTIFICATION_ID);
       }
     },
+    toggleWhatsNewNotifications() {
+      if (state.whatsNewData?.status === 'SUCCESS') {
+        setWhatsNewState({
+          ...state.whatsNewData,
+          disableWhatsNewNotifications: !state.whatsNewData.disableWhatsNewNotifications,
+        });
+        fullAPI.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS, {
+          disableWhatsNewNotifications: state.whatsNewData.disableWhatsNewNotifications,
+        });
+      }
+    },
   };
 
   function getLatestWhatsNewPost(): Promise<WhatsNewData> {
@@ -60,12 +73,14 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
     const whatsNewData = await getLatestWhatsNewPost();
     setWhatsNewState(whatsNewData);
 
-    const isNewStoryBookUser = fullAPI.getUrlState().path.includes('onboarding');
+    const urlState = fullAPI.getUrlState();
+    const isOnboardingView =
+      urlState?.path === '/onboarding' || urlState.queryParams?.onboarding === 'true';
 
     if (
-      global.FEATURES.whatsNewNotifications &&
-      !isNewStoryBookUser &&
+      !isOnboardingView &&
       whatsNewData.status === 'SUCCESS' &&
+      !whatsNewData.disableWhatsNewNotifications &&
       whatsNewData.showNotification
     ) {
       fullAPI.addNotification({

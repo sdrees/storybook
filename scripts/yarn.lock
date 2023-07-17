@@ -3002,8 +3002,8 @@ __metadata:
     ora: ^5.4.1
     p-limit: ^3.1.0
     p-retry: ^5.1.2
-    playwright: ^1.35.0
-    playwright-core: ^1.35.0
+    playwright: 1.36.0
+    playwright-core: 1.36.0
     prettier: ^2.8.0
     pretty-bytes: ^6.1.0
     pretty-hrtime: ^1.0.0
@@ -12971,23 +12971,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.35.1, playwright-core@npm:^1.35.0":
-  version: 1.35.1
-  resolution: "playwright-core@npm:1.35.1"
+"playwright-core@npm:1.36.0":
+  version: 1.36.0
+  resolution: "playwright-core@npm:1.36.0"
   bin:
     playwright-core: cli.js
-  checksum: 378caaf452546554b01993006abf556fb2f35369355ff6cf462148ed154a177ff1cdcf7f90035c3e7cef3522435602fd4517f2f1a0a75eef92c4db4efdc24b02
+  checksum: 5b5d32495e222ddd4351d1d8b116a25a7d93ea5f3439dceaceeb916d0abdce6d5b0b84f80df0b239168d55a100e7aecc9db4774ff20ba0210d8de027f258b544
   languageName: node
   linkType: hard
 
-"playwright@npm:^1.35.0":
-  version: 1.35.1
-  resolution: "playwright@npm:1.35.1"
+"playwright@npm:1.36.0":
+  version: 1.36.0
+  resolution: "playwright@npm:1.36.0"
   dependencies:
-    playwright-core: 1.35.1
+    playwright-core: 1.36.0
   bin:
     playwright: cli.js
-  checksum: db479aab7da6506ccab572d5cf3ffa7ba0ffcb874fc5eda27bc9231fef0db17cd150b412bb7f831004c3ff9e1a3743c83b02652964c84d809a5d22b9a40ba50a
+  checksum: dc39eb6271b22901cb6219a8ecdd44736169edd789d2a8be5885ded5414ee2a9e2c73a19e24d55336ddbae6f9d69522b46f1fe92998740745f1cb78d58b6cb6e
   languageName: node
   linkType: hard
 

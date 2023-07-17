@@ -29,8 +29,8 @@ interface PR {
 }
 
 const LABEL = {
-  PATCH: 'patch',
-  PICKED: 'picked',
+  PATCH: 'patch:yes',
+  PICKED: 'patch:done',
   DOCUMENTATION: 'documentation',
 } as const;
 

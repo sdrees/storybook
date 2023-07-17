@@ -1,8 +1,9 @@
-import type { FC, ComponentProps } from 'react';
-import React, { useEffect, useState, Fragment } from 'react';
-import { styled } from '@storybook/theming';
-import { Icons, Loader } from '@storybook/components';
-import { useStorybookApi } from '@storybook/manager-api';
+import type { ComponentProps, FC } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { styled, useTheme } from '@storybook/theming';
+import { Button, IconButton, Icons, Loader } from '@storybook/components';
+import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
+import { global } from '@storybook/global';
 
 const Centered = styled.div({
   top: '50%',
@@ -26,6 +27,79 @@ const Message = styled.div(({ theme }) => ({
   lineHeight: `16px`,
 }));
 
+const Container = styled.div(({ theme }) => ({
+  position: 'absolute',
+  width: '100%',
+  bottom: '40px',
+  background: theme.background.bar,
+  fontSize: `13px`,
+  borderTop: '1px solid',
+  borderColor: theme.appBorderColor,
+  padding: '8px 12px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}));
+
+const ToggleNotificationButton = styled(IconButton)(({ theme }) => ({
+  fontWeight: theme.typography.weight.regular,
+  color: theme.color.mediumdark,
+  margin: 0,
+}));
+
+const CopyButton = styled(Button)(({ theme }) => ({
+  '&&': {
+    fontSize: `13px`,
+    color: theme.color.defaultText,
+    margin: 0,
+    padding: 0,
+    borderRadius: 0,
+  },
+}));
+
+export const WhatsNewFooter = ({
+  isNotificationsEnabled,
+  onToggleNotifications,
+  onCopyLink,
+}: {
+  isNotificationsEnabled: boolean;
+  onToggleNotifications?: () => void;
+  onCopyLink?: () => void;
+}) => {
+  const theme = useTheme();
+  const [copyText, setCopyText] = useState('Copy Link');
+  const copyLink = () => {
+    onCopyLink();
+    setCopyText('Copied!');
+    setTimeout(() => setCopyText('Copy Link'), 4000);
+  };
+
+  return (
+    <Container>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <Icons icon="heart" color={theme.color.mediumdark} />
+        <div>Share this with your team.</div>
+        <CopyButton onClick={copyLink} small>
+          {copyText}
+        </CopyButton>
+      </div>
+      <ToggleNotificationButton onClick={onToggleNotifications}>
+        {isNotificationsEnabled ? (
+          <>
+            <Icons icon="eyeclose" />
+            &nbsp;Hide notifications
+          </>
+        ) : (
+          <>
+            <Icons icon="eye" />
+            &nbsp;Show notifications
+          </>
+        )}
+      </ToggleNotificationButton>
+    </Container>
+  );
+};
+
 const Iframe = styled.iframe<{ isLoaded: boolean }>(
   {
     position: 'absolute',
@@ -37,7 +111,8 @@ const Iframe = styled.iframe<{ isLoaded: boolean }>(
     margin: 0,
     padding: 0,
     width: '100%',
-    height: 'calc(100% - 40px)',
+    height: 'calc(100% - 80px)',
+    background: 'white',
   },
   ({ isLoaded }) => ({ visibility: isLoaded ? 'visible' : 'hidden' })
 );
@@ -72,25 +147,43 @@ export interface WhatsNewProps {
   isLoaded: boolean;
   onLoad: () => void;
   url?: string;
+  isNotificationsEnabled: boolean;
+  onCopyLink?: () => void;
+  onToggleNotifications?: () => void;
 }
 
-const PureWhatsNewScreen: FC<WhatsNewProps> = ({ didHitMaxWaitTime, isLoaded, onLoad, url }) => (
+const PureWhatsNewScreen: FC<WhatsNewProps> = ({
+  didHitMaxWaitTime,
+  isLoaded,
+  onLoad,
+  url,
+  onCopyLink,
+  onToggleNotifications,
+  isNotificationsEnabled,
+}) => (
   <Fragment>
     {!isLoaded && !didHitMaxWaitTime && <WhatsNewLoader />}
     {didHitMaxWaitTime ? (
       <MaxWaitTimeMessaging />
     ) : (
-      <Iframe isLoaded={isLoaded} onLoad={onLoad} src={url} title={`What's new?`} />
+      <>
+        <Iframe isLoaded={isLoaded} onLoad={onLoad} src={url} title={`What's new?`} />
+        <WhatsNewFooter
+          isNotificationsEnabled={isNotificationsEnabled}
+          onToggleNotifications={onToggleNotifications}
+          onCopyLink={onCopyLink}
+        />
+      </>
     )}
   </Fragment>
 );
 
 const MAX_WAIT_TIME = 10000; // 10 seconds
 
-const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxWaitTime'>> = ({
-  url,
-}) => {
+const WhatsNewScreen: FC = () => {
   const api = useStorybookApi();
+  const state = useStorybookState();
+  const { whatsNewData } = state;
   const [isLoaded, setLoaded] = useState(false);
   const [didHitMaxWaitTime, setDidHitMaxWaitTime] = useState(false);
 
@@ -98,6 +191,10 @@ const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxW
     const timer = setTimeout(() => !isLoaded && setDidHitMaxWaitTime(true), MAX_WAIT_TIME);
     return () => clearTimeout(timer);
   }, [isLoaded]);
+
+  if (whatsNewData?.status !== 'SUCCESS') return null;
+
+  const isNotificationsEnabled = !whatsNewData.disableWhatsNewNotifications;
 
   return (
     <PureWhatsNewScreen
@@ -107,7 +204,20 @@ const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxW
         api.whatsNewHasBeenRead();
         setLoaded(true);
       }}
-      url={url}
+      url={whatsNewData.url}
+      isNotificationsEnabled={isNotificationsEnabled}
+      onCopyLink={() => {
+        navigator.clipboard?.writeText(whatsNewData.blogUrl ?? whatsNewData.url);
+      }}
+      onToggleNotifications={() => {
+        if (isNotificationsEnabled) {
+          if (global.confirm('All update notifications will no longer be shown. Are you sure?')) {
+            api.toggleWhatsNewNotifications();
+          }
+        } else {
+          api.toggleWhatsNewNotifications();
+        }
+      }}
     />
   );
 };

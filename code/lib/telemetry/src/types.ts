@@ -12,7 +12,8 @@ export type EventType =
   | 'canceled'
   | 'error'
   | 'error-metadata'
-  | 'version-update';
+  | 'version-update'
+  | 'core-config';
 
 export interface Dependency {
   version: string | undefined;
@@ -53,6 +54,9 @@ export type StorybookMetadata = {
   hasCustomBabel?: boolean;
   features?: StorybookConfig['features'];
   refCount?: number;
+  preview?: {
+    usesGlobals?: boolean;
+  };
 };
 
 export interface Payload {

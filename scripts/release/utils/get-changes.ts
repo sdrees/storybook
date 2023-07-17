@@ -176,7 +176,7 @@ export const mapToChanges = ({
       return;
     }
     // filter out any entries that are not patches if unpickedPatches is set. this will also filter out direct commits
-    if (unpickedPatches && !entry.labels?.includes('patch')) {
+    if (unpickedPatches && !entry.labels?.includes('patch:yes')) {
       return;
     }
     changes.push(entry);

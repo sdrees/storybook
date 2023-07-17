@@ -14,6 +14,7 @@ Type:
   disableProjectJson?: boolean;
   disableTelemetry?: boolean;
   disableWebpackDefaults?: boolean;
+  disableWhatsNewNotifications?: boolean;
   enableCrashReports?: boolean;
   renderer?: RendererName;
 }
@@ -160,6 +161,23 @@ Disables Storybook's default Webpack configuration.
   paths={[
     'common/main-config-core-disable-webpack-defaults.js.mdx',
     'common/main-config-core-disable-webpack-defaults.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+## `disableWhatsNewNotifications`
+
+Type: `boolean`
+
+Disables the "What's New" notifications in the UI for new Storybook versions and ecosystem updates (e.g., [addons](https://storybook.js.org/integrations/), [content](https://storybook.js.org/blog/), etc.).
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-core-disable-update-notifications.js.mdx',
+    'common/main-config-core-disable-update-notifications.ts.mdx',
   ]}
 />
 

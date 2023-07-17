@@ -4,7 +4,7 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readFile, writeFile, writeJSON } from 'fs-extra';
+import { readFile, writeFile, writeJson } from 'fs-extra';
 import { getChanges } from './utils/get-changes';
 
 program
@@ -13,7 +13,7 @@ program
     'write changelog based on merged PRs and commits. the <version> argument describes the changelog entry heading, but NOT which commits/PRs to include, must be a semver string'
   )
   .arguments('<version>')
-  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch" label')
+  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch:yes" label')
   .option(
     '-F, --from <tag>',
     'Which tag or commit to generate changelog from, eg. "7.0.7". Leave unspecified to select latest released tag in git history'
@@ -103,7 +103,7 @@ const writeToDocsVersionFile = async ({
     },
   };
 
-  await writeJSON(filepath, content);
+  await writeJson(filepath, content);
 };
 
 export const run = async (args: unknown[], options: unknown) => {

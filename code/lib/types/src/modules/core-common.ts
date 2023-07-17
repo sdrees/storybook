@@ -38,6 +38,11 @@ export interface CoreConfig {
    * @see https://storybook.js.org/telemetry
    */
   disableTelemetry?: boolean;
+
+  /**
+   * Disables notifications for Storybook updates.
+   */
+  disableWhatsNewNotifications?: boolean;
   /**
    * Enable crash reports to be sent to Storybook telemetry
    * @see https://storybook.js.org/telemetry
@@ -305,11 +310,6 @@ export interface StorybookConfig {
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
-
-    /**
-     * Show a notification anytime a What's new? post is published in the Storybook blog.
-     */
-    whatsNewNotifications?: boolean;
   };
 
   /**

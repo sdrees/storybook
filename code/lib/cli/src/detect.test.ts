@@ -236,17 +236,28 @@ describe('Detect', () => {
   it(`should return type HTML if html option is passed`, async () => {
     const packageManager = {
       retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+      getAllDependencies: () => Promise.resolve({}),
       getPackageVersion: () => Promise.resolve(null),
-    } as any as JsPackageManager;
+    } as Partial<JsPackageManager>;
 
-    await expect(detect(packageManager, { html: true })).resolves.toBe(ProjectType.HTML);
+    await expect(detect(packageManager as any, { html: true })).resolves.toBe(ProjectType.HTML);
   });
 
   it(`should return language javascript if the TS dependency is present but less than minimum supported`, async () => {
     (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
 
     const packageManager = {
-      retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+      retrievePackageJson: () =>
+        Promise.resolve({
+          dependencies: {},
+          devDependencies: {
+            typescript: '1.0.0',
+          },
+        }),
+      getAllDependencies: () =>
+        Promise.resolve({
+          typescript: '1.0.0',
+        }),
       getPackageVersion: (packageName) => {
         switch (packageName) {
           case 'typescript':
@@ -266,7 +277,17 @@ describe('Detect', () => {
   it(`should return language typescript-3-8 if the TS dependency is >=3.8 and <4.9`, async () => {
     await expect(
       detectLanguage({
-        retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '3.8.0',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '3.8.0',
+          }),
         getPackageVersion: (packageName: string) => {
           switch (packageName) {
             case 'typescript':
@@ -280,7 +301,17 @@ describe('Detect', () => {
 
     await expect(
       detectLanguage({
-        retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '4.8.0',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '4.8.0',
+          }),
         getPackageVersion: (packageName: string) => {
           switch (packageName) {
             case 'typescript':
@@ -296,7 +327,17 @@ describe('Detect', () => {
   it(`should return language typescript-4-9 if the dependency is >TS4.9`, async () => {
     await expect(
       detectLanguage({
-        retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '4.9.1',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '4.9.1',
+          }),
         getPackageVersion: (packageName: string) => {
           switch (packageName) {
             case 'typescript':
@@ -312,7 +353,17 @@ describe('Detect', () => {
   it(`should return language typescript if the dependency is =TS4.9`, async () => {
     await expect(
       detectLanguage({
-        retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '4.9.0',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '4.9.0',
+          }),
         getPackageVersion: (packageName: string) => {
           switch (packageName) {
             case 'typescript':
@@ -328,7 +379,17 @@ describe('Detect', () => {
   it(`should return language typescript if the dependency is =TS4.9beta`, async () => {
     await expect(
       detectLanguage({
-        retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '4.9.0-beta',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '4.9.0-beta',
+          }),
         getPackageVersion: (packageName: string) => {
           switch (packageName) {
             case 'typescript':
@@ -345,8 +406,26 @@ describe('Detect', () => {
     await expect(
       detectLanguage({
         retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        getAllDependencies: () => Promise.resolve({}),
         getPackageVersion: () => {
           return Promise.resolve(null);
+        },
+      } as Partial<JsPackageManager> as JsPackageManager)
+    ).resolves.toBe(SupportedLanguage.JAVASCRIPT);
+  });
+
+  it(`should return language Javascript even when Typescript is detected in the node_modules but not listed as a direct dependency`, async () => {
+    await expect(
+      detectLanguage({
+        retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        getAllDependencies: () => Promise.resolve({}),
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case 'typescript':
+              return Promise.resolve('4.9.0');
+            default:
+              return Promise.resolve(null);
+          }
         },
       } as Partial<JsPackageManager> as JsPackageManager)
     ).resolves.toBe(SupportedLanguage.JAVASCRIPT);

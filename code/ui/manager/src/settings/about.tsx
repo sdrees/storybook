@@ -35,6 +35,7 @@ const UpgradeBlock = styled.div(({ theme }) => {
     borderRadius: 5,
     padding: 20,
     margin: 20,
+    marginTop: 0,
     maxWidth: 400,
     borderColor: theme.appBorderColor,
     fontSize: theme.typography.size.s2,

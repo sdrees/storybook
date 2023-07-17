@@ -3,7 +3,6 @@ import React from 'react';
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
-import { global } from '@storybook/global';
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
 import { useMenu } from './menu';
 
@@ -33,6 +32,9 @@ const Sidebar = React.memo(function Sideber() {
       enableShortcuts
     );
 
+    const whatsNewNotificationsEnabled =
+      state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
+
     return {
       title: name,
       url,
@@ -44,7 +46,7 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       viewMode,
       menu,
-      menuHighlighted: global.FEATURES.whatsNewNotifications && api.isWhatsNewUnread(),
+      menuHighlighted: whatsNewNotificationsEnabled && api.isWhatsNewUnread(),
       enableShortcuts,
     };
   };
