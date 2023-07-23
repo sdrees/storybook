@@ -699,8 +699,14 @@ describe('stories API', () => {
           return false;
         },
       });
-      const store = createMockStore({});
-      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      const store = createMockStore({ viewMode: 'story' });
+      const { init, api } = initStoriesAndSetState({
+        store,
+        navigate,
+        provider,
+        fullAPI,
+        viewMode: 'story',
+      } as any);
 
       Object.assign(fullAPI, api);
       init();
@@ -717,7 +723,16 @@ describe('stories API', () => {
         },
       });
       const store = createMockStore({ viewMode: 'story', storyId: 'a--1' });
-      initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({
+        store,
+        navigate,
+        provider,
+        fullAPI,
+        viewMode: 'story',
+        storyId: 'a--1',
+      } as any);
+      Object.assign(fullAPI, api);
+      init();
 
       fullAPI.emit(STORY_SPECIFIED, { storyId: 'a--1', viewMode: 'story' });
 
@@ -732,7 +747,40 @@ describe('stories API', () => {
         },
       });
       const store = createMockStore({ viewMode: 'settings', storyId: 'about' });
-      initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({
+        store,
+        navigate,
+        provider,
+        fullAPI,
+        viewMode: 'settings',
+        storyId: 'about',
+      } as any);
+      Object.assign(fullAPI, api);
+      init();
+
+      fullAPI.emit(STORY_SPECIFIED, { storyId: 'a--1', viewMode: 'story' });
+
+      expect(navigate).not.toHaveBeenCalled();
+    });
+
+    it('DOES not navigate if a custom page was selected', async () => {
+      const navigate = jest.fn();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        isSettingsScreenActive() {
+          return true;
+        },
+      });
+      const store = createMockStore({ viewMode: 'custom', storyId: undefined });
+      const { api, init } = initStoriesAndSetState({
+        store,
+        navigate,
+        provider,
+        fullAPI,
+        viewMode: 'custom',
+        storyId: undefined,
+      } as any);
+      Object.assign(fullAPI, api);
+      init();
 
       fullAPI.emit(STORY_SPECIFIED, { storyId: 'a--1', viewMode: 'story' });
 

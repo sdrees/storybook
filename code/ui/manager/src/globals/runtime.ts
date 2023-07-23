@@ -2,6 +2,7 @@ import * as REACT from 'react';
 import * as REACTDOM from 'react-dom';
 
 import * as STORYBOOKCOMPONENTS from '@storybook/components';
+import * as STORYBOOKCOMPONENTSEXPERIMENTAL from '@storybook/components/experimental';
 import * as STORYBOOKCHANNELS from '@storybook/channels';
 import * as STORYBOOKEVENTS from '@storybook/core-events';
 import * as STORYBOOKROUTER from '@storybook/router';
@@ -16,6 +17,7 @@ export const values: Required<Record<keyof typeof Keys, any>> = {
   react: REACT as any,
   'react-dom': REACTDOM,
   '@storybook/components': STORYBOOKCOMPONENTS,
+  '@storybook/components/experimental': STORYBOOKCOMPONENTSEXPERIMENTAL,
   '@storybook/channels': STORYBOOKCHANNELS,
   '@storybook/core-events': STORYBOOKEVENTS,
   '@storybook/router': STORYBOOKROUTER,

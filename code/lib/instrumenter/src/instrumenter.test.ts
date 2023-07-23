@@ -37,7 +37,9 @@ global.location = { reload: jest.fn() };
 global.HTMLElement = HTMLElement;
 
 const storyId = 'kind--story';
-global.window.__STORYBOOK_PREVIEW__ = { selectionStore: { selection: { storyId } } };
+global.window.__STORYBOOK_PREVIEW__ = {
+  selectionStore: { selection: { storyId, viewMode: 'story' } },
+} as any;
 
 const setRenderPhase = (newPhase: string) =>
   addons.getChannel().emit(STORY_RENDER_PHASE_CHANGED, { newPhase, storyId });

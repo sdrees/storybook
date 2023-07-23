@@ -11,7 +11,7 @@ const StyledIframe = styled.iframe({
   height: '100%',
   width: '100%',
   border: '0 none',
-  transition: 'all .3s, background-position 0s, visibility 0s',
+  transition: 'background-position 0s, visibility 0s',
   backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
 });
 

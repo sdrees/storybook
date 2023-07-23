@@ -5,7 +5,7 @@ import useResizeObserver from 'use-resize-observer';
 import { TabButton } from '../bar/button';
 import { TooltipLinkList } from '../tooltip/TooltipLinkList';
 import { WithTooltip } from '../tooltip/WithTooltip';
-import type { ChildrenList } from './tabs.helpers';
+import type { ChildrenListComplete } from './tabs.helpers';
 import type { Link } from '../tooltip/TooltipLinkList';
 
 const CollapseIcon = styled.span<{ isActive: boolean }>(({ theme, isActive }) => ({
@@ -32,7 +32,7 @@ const AddonButton = styled(TabButton)<{ preActive: boolean }>(({ active, theme, 
   `;
 });
 
-export function useList(list: ChildrenList) {
+export function useList(list: ChildrenListComplete) {
   const tabBarRef = useRef<HTMLDivElement>();
   const addonsRef = useRef<HTMLButtonElement>();
   const tabRefs = useRef(new Map<string, HTMLButtonElement>());
@@ -41,8 +41,8 @@ export function useList(list: ChildrenList) {
   });
 
   const [visibleList, setVisibleList] = useState(list);
-  const [invisibleList, setInvisibleList] = useState<ChildrenList>([]);
-  const previousList = useRef<ChildrenList>(list);
+  const [invisibleList, setInvisibleList] = useState<ChildrenListComplete>([]);
+  const previousList = useRef<ChildrenListComplete>(list);
 
   const AddonTab = useCallback(
     ({
@@ -134,7 +134,7 @@ export function useList(list: ChildrenList) {
     const { width: widthAddonsTab } = addonsRef.current.getBoundingClientRect();
     const rightBorder = invisibleList.length ? x + width - widthAddonsTab : x + width;
 
-    const newVisibleList: ChildrenList = [];
+    const newVisibleList: ChildrenListComplete = [];
 
     let widthSum = 0;
 

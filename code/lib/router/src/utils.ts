@@ -158,8 +158,11 @@ export const stringifyQuery = (query: Query) =>
 type Match = { path: string };
 
 export const getMatch = memoize(1000)(
-  (current: string, target: string, startsWith = true): Match | null => {
+  (current: string, target: string | RegExp, startsWith = true): Match | null => {
     if (startsWith) {
+      if (typeof target !== 'string') {
+        throw new Error('startsWith only works with string targets');
+      }
       const startsWithTarget = current && current.startsWith(target);
       if (startsWithTarget) {
         return { path: current };

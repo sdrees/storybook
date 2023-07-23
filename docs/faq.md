@@ -10,7 +10,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
 - [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
 - [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
-- [How do I fix module resolution while using pnpm Plug-n-Play?](#how-do-i-fix-module-resolution-while-using-pnpm-plug-n-play)
+- [How do I fix module resolution in special environments?](#how-do-i-fix-module-resolution-in-special-environments)
 - [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
 - [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
 - [Why is there no addons channel?](#why-is-there-no-addons-channel)
@@ -117,9 +117,9 @@ export default {
 };
 ```
 
-## How do I fix module resolution while using pnpm Plug-n-Play?
+## How do I fix module resolution in special environments?
 
-In case you are using [pnpm](https://pnpm.io/), you might run into issues with module resolution similar to this when running Storybook:
+In case you are using [yarn Plug-n-Play](https://yarnpkg.com/features/pnp) or your project is set up within a mono repository environment, you might run into issues with module resolution similar to this when running Storybook:
 
 ```shell
 WARN   Failed to load preset: "@storybook/react-webpack5/preset"`

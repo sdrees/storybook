@@ -1,6 +1,6 @@
 {
   "name": "@storybook/telemetry",
-  "version": "7.1.0-rc.2",
+  "version": "7.2.0-alpha.0",
   "description": "Telemetry logging for crash reports and usage statistics",
   "keywords": [
     "storybook"
@@ -39,13 +39,13 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-rc.2",
-    "@storybook/core-common": "7.1.0-rc.2",
-    "@storybook/csf-tools": "7.1.0-rc.2",
+    "@storybook/client-logger": "7.2.0-alpha.0",
+    "@storybook/core-common": "7.2.0-alpha.0",
+    "@storybook/csf-tools": "7.2.0-alpha.0",
     "chalk": "^4.1.0",
     "detect-package-manager": "^2.0.1",
     "fetch-retry": "^5.0.2",

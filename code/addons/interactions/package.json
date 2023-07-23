@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.1.0-rc.2",
+  "version": "7.2.0-alpha.0",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -68,20 +68,20 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-rc.2",
-    "@storybook/components": "7.1.0-rc.2",
-    "@storybook/core-common": "7.1.0-rc.2",
-    "@storybook/core-events": "7.1.0-rc.2",
+    "@storybook/client-logger": "7.2.0-alpha.0",
+    "@storybook/components": "7.2.0-alpha.0",
+    "@storybook/core-common": "7.2.0-alpha.0",
+    "@storybook/core-events": "7.2.0-alpha.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/instrumenter": "7.1.0-rc.2",
-    "@storybook/manager-api": "7.1.0-rc.2",
-    "@storybook/preview-api": "7.1.0-rc.2",
-    "@storybook/theming": "7.1.0-rc.2",
-    "@storybook/types": "7.1.0-rc.2",
+    "@storybook/instrumenter": "7.2.0-alpha.0",
+    "@storybook/manager-api": "7.2.0-alpha.0",
+    "@storybook/preview-api": "7.2.0-alpha.0",
+    "@storybook/theming": "7.2.0-alpha.0",
+    "@storybook/types": "7.2.0-alpha.0",
     "jest-mock": "^29.5.0",
     "polished": "^4.2.2",
     "ts-dedent": "^2.2.0"

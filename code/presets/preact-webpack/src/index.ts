@@ -3,7 +3,8 @@ import type { StorybookConfig } from './types';
 
 export * from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
 
 export const babel: StorybookConfig['babelDefault'] = (config) => {
   return {
@@ -38,10 +39,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = (config) => {
       ...config.resolve,
       alias: {
         ...(config.resolve?.alias || {}),
-        react: wrapForPnP('preact/compat'),
-        'react-dom/test-utils': wrapForPnP('preact/test-utils'),
-        'react-dom': wrapForPnP('preact/compat'),
-        'react/jsx-runtime': wrapForPnP('preact/jsx-runtime'),
+        react: getAbsolutePath('preact/compat'),
+        'react-dom/test-utils': getAbsolutePath('preact/test-utils'),
+        'react-dom': getAbsolutePath('preact/compat'),
+        'react/jsx-runtime': getAbsolutePath('preact/jsx-runtime'),
       },
     },
   };

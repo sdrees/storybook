@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AddonPanel, Link, Placeholder } from '@storybook/components';
+import { Link, Placeholder } from '@storybook/components';
 import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -18,7 +18,6 @@ export interface Controls {
 }
 
 interface InteractionsPanelProps {
-  active: boolean;
   controls: Controls;
   controlStates: ControlStates;
   interactions: (Call & {
@@ -36,8 +35,6 @@ interface InteractionsPanelProps {
   calls: Map<string, any>;
   endRef?: React.Ref<HTMLDivElement>;
   onScrollToEnd?: () => void;
-  isRerunAnimating: boolean;
-  setIsRerunAnimating: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Container = styled.div<{ withException: boolean }>(({ theme, withException }) => ({
@@ -91,72 +88,65 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
     pausedAt,
     onScrollToEnd,
     endRef,
-    isRerunAnimating,
-    setIsRerunAnimating,
-    ...panelProps
   }) {
     return (
-      <AddonPanel {...panelProps}>
-        <Container withException={!!caughtException}>
-          {(interactions.length > 0 || hasException || isRerunAnimating) && (
-            <Subnav
+      <Container withException={!!caughtException}>
+        {(interactions.length > 0 || hasException) && (
+          <Subnav
+            controls={controls}
+            controlStates={controlStates}
+            status={
+              // eslint-disable-next-line no-nested-ternary
+              isPlaying ? CallStates.ACTIVE : hasException ? CallStates.ERROR : CallStates.DONE
+            }
+            storyFileName={fileName}
+            onScrollToEnd={onScrollToEnd}
+          />
+        )}
+        <div aria-label="Interactions list">
+          {interactions.map((call) => (
+            <Interaction
+              key={call.id}
+              call={call}
+              callsById={calls}
               controls={controls}
               controlStates={controlStates}
-              status={
-                // eslint-disable-next-line no-nested-ternary
-                isPlaying ? CallStates.ACTIVE : hasException ? CallStates.ERROR : CallStates.DONE
-              }
-              storyFileName={fileName}
-              onScrollToEnd={onScrollToEnd}
-              isRerunAnimating={isRerunAnimating}
-              setIsRerunAnimating={setIsRerunAnimating}
+              childCallIds={call.childCallIds}
+              isHidden={call.isHidden}
+              isCollapsed={call.isCollapsed}
+              toggleCollapsed={call.toggleCollapsed}
+              pausedAt={pausedAt}
             />
-          )}
-          <div aria-label="Interactions list">
-            {interactions.map((call) => (
-              <Interaction
-                key={call.id}
-                call={call}
-                callsById={calls}
-                controls={controls}
-                controlStates={controlStates}
-                childCallIds={call.childCallIds}
-                isHidden={call.isHidden}
-                isCollapsed={call.isCollapsed}
-                toggleCollapsed={call.toggleCollapsed}
-                pausedAt={pausedAt}
-              />
-            ))}
-          </div>
-          {caughtException && !caughtException.message?.startsWith('ignoredException') && (
-            <CaughtException>
-              <CaughtExceptionTitle>
-                Caught exception in <CaughtExceptionCode>play</CaughtExceptionCode> function
-              </CaughtExceptionTitle>
-              <CaughtExceptionDescription>
-                This story threw an error after it finished rendering which means your interactions
-                couldn&apos; t be run.Go to this story&apos; s play function in {fileName} to fix.
-              </CaughtExceptionDescription>
-              <CaughtExceptionStack data-chromatic="ignore">
-                {caughtException.stack || `${caughtException.name}: ${caughtException.message}`}
-              </CaughtExceptionStack>
-            </CaughtException>
-          )}
-          <div ref={endRef} />
-          {!isPlaying && !caughtException && interactions.length === 0 && (
-            <Placeholder>
-              No interactions found
-              <Link
-                href="https://storybook.js.org/docs/react/writing-stories/play-function"
-                target="_blank"
-                withArrow
-              >
-                Learn how to add interactions to your story
-              </Link>
-            </Placeholder>
-          )}
-        </Container>
-      </AddonPanel>
+          ))}
+        </div>
+        {caughtException && !caughtException.message?.startsWith('ignoredException') && (
+          <CaughtException>
+            <CaughtExceptionTitle>
+              Caught exception in <CaughtExceptionCode>play</CaughtExceptionCode> function
+            </CaughtExceptionTitle>
+            <CaughtExceptionDescription>
+              This story threw an error after it finished rendering which means your interactions
+              couldn&apos; t be run.Go to this story&apos; s play function in {fileName} to fix.
+            </CaughtExceptionDescription>
+            <CaughtExceptionStack data-chromatic="ignore">
+              {caughtException.stack || `${caughtException.name}: ${caughtException.message}`}
+            </CaughtExceptionStack>
+          </CaughtException>
+        )}
+        <div ref={endRef} />
+        {!isPlaying && !caughtException && interactions.length === 0 && (
+          <Placeholder>
+            No interactions found
+            <Link
+              href="https://storybook.js.org/docs/react/writing-stories/play-function"
+              target="_blank"
+              withArrow
+            >
+              Learn how to add interactions to your story
+            </Link>
+          </Placeholder>
+        )}
+      </Container>
     );
   }
 );

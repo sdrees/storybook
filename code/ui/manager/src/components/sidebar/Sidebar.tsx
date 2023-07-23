@@ -59,7 +59,10 @@ const Swap = React.memo(function Swap({
   );
 });
 
-const useCombination = (defaultRefData: API_LoadedRefData, refs: Refs): CombinedDataset => {
+const useCombination = (
+  defaultRefData: API_LoadedRefData & { status: State['status'] },
+  refs: Refs
+): CombinedDataset => {
   const hash = useMemo(
     () => ({
       [DEFAULT_REF_ID]: {
@@ -77,6 +80,7 @@ const useCombination = (defaultRefData: API_LoadedRefData, refs: Refs): Combined
 
 export interface SidebarProps extends API_LoadedRefData {
   refs: State['refs'];
+  status: State['status'];
   menu: any[];
   storyId?: string;
   refId?: string;
@@ -89,6 +93,7 @@ export const Sidebar = React.memo(function Sidebar({
   refId = DEFAULT_REF_ID,
   index,
   indexError,
+  status,
   previewInitialized,
   menu,
   menuHighlighted = false,
@@ -96,8 +101,7 @@ export const Sidebar = React.memo(function Sidebar({
   refs = {},
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
-
-  const dataset = useCombination({ index, indexError, previewInitialized }, refs);
+  const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
 

@@ -105,7 +105,10 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
-  const { stdout } = await command('yarn workspaces list --json', { cwd: workspaceDir });
+  const { stdout } = await command('yarn workspaces list --json', {
+    cwd: workspaceDir,
+    cleanup: true,
+  });
 
   const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`);
 

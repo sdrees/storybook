@@ -66,6 +66,11 @@
       "description": "Suppress verbose build output.",
       "default": false
     },
+    "enableProdMode": {
+      "type": "boolean",
+      "description": "Disable Angular's development mode, which turns off assertions and other checks within the framework.",
+      "default": false
+    },
     "docs": {
       "type": "boolean",
       "description": "Starts Storybook in documentation mode. Learn more about it : https://storybook.js.org/docs/react/writing-docs/build-documentation#preview-storybooks-documentation.",

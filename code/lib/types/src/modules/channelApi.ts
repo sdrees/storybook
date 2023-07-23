@@ -1,3 +1,4 @@
+import type { API_ViewMode } from './api';
 import type {
   Args,
   ArgTypes,
@@ -5,7 +6,6 @@ import type {
   Parameters,
   StoryId,
   StoryKind,
-  ViewMode,
   Globals,
   GlobalTypes,
 } from './csf';
@@ -23,7 +23,7 @@ export interface SetStoriesStory {
       [optionName: string]: any;
     };
     docsOnly?: boolean;
-    viewMode?: ViewMode;
+    viewMode?: API_ViewMode;
     [parameterName: string]: any;
   };
   argTypes?: ArgTypes;

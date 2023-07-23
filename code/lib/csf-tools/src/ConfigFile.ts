@@ -514,6 +514,97 @@ export class ConfigFile {
     }
     this.setFieldNode(path, valueNode);
   }
+
+  getBodyDeclarations() {
+    return this._ast.program.body;
+  }
+
+  setBodyDeclaration(declaration: t.Declaration) {
+    this._ast.program.body.push(declaration);
+  }
+
+  /**
+   * Set import specifiers for a given import statement.
+   * @description Does not support setting type imports (yet)
+   * @param importSpecifiers - The import specifiers to set. If a string is passed in, a default import will be set. Otherwise, an array of named imports will be set
+   * @param fromImport - The module to import from
+   * @example
+   * // import { foo } from 'bar';
+   * setImport(['foo'], 'bar');
+   *
+   * // import foo from 'bar';
+   * setImport('foo', 'bar');
+   *
+   */
+  setImport(importSpecifier: string[] | string, fromImport: string) {
+    const getNewImportSpecifier = (specifier: string) =>
+      t.importSpecifier(t.identifier(specifier), t.identifier(specifier));
+
+    /**
+     * Returns true, when the given import declaration has the given import specifier
+     * @example
+     * // import { foo } from 'bar';
+     * hasImportSpecifier(declaration, 'foo');
+     */
+    const hasImportSpecifier = (declaration: t.ImportDeclaration, name: string) =>
+      declaration.specifiers.find(
+        (specifier) =>
+          t.isImportSpecifier(specifier) &&
+          t.isIdentifier(specifier.imported) &&
+          specifier.imported.name === name
+      );
+
+    /**
+     * Returns true, when the given import declaration has the given default import specifier
+     * @example
+     * // import foo from 'bar';
+     * hasImportSpecifier(declaration, 'foo');
+     */
+    const hasDefaultImportSpecifier = (declaration: t.ImportDeclaration, name: string) =>
+      declaration.specifiers.find((specifier) => t.isImportDefaultSpecifier(specifier));
+
+    const importDeclaration = this._ast.program.body.find(
+      (node) => t.isImportDeclaration(node) && node.source.value === fromImport
+    ) as t.ImportDeclaration | undefined;
+
+    // if the import specifier is a string, we're dealing with default imports
+    if (typeof importSpecifier === 'string') {
+      // If the import declaration with the given source exists
+      if (importDeclaration) {
+        if (!hasDefaultImportSpecifier(importDeclaration, importSpecifier)) {
+          // If the import declaration hasn't a default specifier, we add it
+          importDeclaration.specifiers.push(
+            t.importDefaultSpecifier(t.identifier(importSpecifier))
+          );
+        }
+        // If the import declaration with the given source doesn't exist
+      } else {
+        // Add the import declaration to the top of the file
+        this._ast.program.body.unshift(
+          t.importDeclaration(
+            [t.importDefaultSpecifier(t.identifier(importSpecifier))],
+            t.stringLiteral(fromImport)
+          )
+        );
+      }
+      // if the import specifier is an array, we're dealing with named imports
+    } else if (importDeclaration) {
+      importSpecifier.forEach((specifier) => {
+        if (!hasImportSpecifier(importDeclaration, specifier)) {
+          importDeclaration.specifiers.push(getNewImportSpecifier(specifier));
+        }
+      });
+    } else {
+      this._ast.program.body.unshift(
+        t.importDeclaration(
+          importSpecifier.map((specifier) =>
+            t.importSpecifier(t.identifier(specifier), t.identifier(specifier))
+          ),
+          t.stringLiteral(fromImport)
+        )
+      );
+    }
+  }
 }
 
 export const loadConfig = (code: string, fileName?: string) => {

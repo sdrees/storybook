@@ -8,7 +8,11 @@ import type {
   Addon_Elements,
   Addon_Loaders,
   Addon_Type,
+  Addon_BaseType,
+  Addon_PageType,
   Addon_Types,
+  Addon_TypesMapping,
+  Addon_WrapperType,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -19,6 +23,13 @@ export { Addon_Type as Addon, Addon_TypesEnum as types };
 
 export function isSupportedType(type: Addon_Types): boolean {
   return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
+}
+
+interface DeprecatedAddonWithId {
+  /**
+   * @deprecated will be removed in 8.0, when registering addons, please use the addon id as the first argument
+   */
+  id?: string;
 }
 
 export class AddonStore {
@@ -86,25 +97,57 @@ export class AddonStore {
     this.serverChannel = channel;
   };
 
-  getElements = (type: Addon_Types): Addon_Collection => {
+  getElements<T extends Addon_Types | Addon_TypesEnum.experimental_PAGE>(
+    type: T
+  ): Addon_Collection<Addon_TypesMapping[T]> {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
+    // @ts-expect-error (Kaspar told me to do this)
     return this.elements[type];
-  };
+  }
 
-  addPanel = (name: string, options: Addon_Type): void => {
-    this.add(name, {
+  /**
+   * Adds a panel to the addon store.
+   * @param {string} id - The id of the panel.
+   * @param {Addon_Type} options - The options for the panel.
+   * @returns {void}
+   *
+   * @deprecated Use the 'add' method instead.
+   * @example
+   * addons.add('My Panel', {
+   *   title: 'My Title',
+   *   type: types.PANEL,
+   *   render: () => <div>My Content</div>,
+   * });
+   */
+  addPanel = (
+    id: string,
+    options: Omit<Addon_BaseType, 'type' | 'id'> & DeprecatedAddonWithId
+  ): void => {
+    this.add(id, {
       type: Addon_TypesEnum.PANEL,
       ...options,
     });
   };
 
-  add = (name: string, addon: Addon_Type) => {
+  /**
+   * Adds an addon to the addon store.
+   * @param {string} id - The id of the addon.
+   * @param {Addon_Type} addon - The addon to add.
+   * @returns {void}
+   */
+  add(
+    id: string,
+    addon:
+      | Addon_BaseType
+      | (Omit<Addon_PageType, 'id'> & DeprecatedAddonWithId)
+      | (Omit<Addon_WrapperType, 'id'> & DeprecatedAddonWithId)
+  ): void {
     const { type } = addon;
     const collection = this.getElements(type);
-    collection[name] = { id: name, ...addon };
-  };
+    collection[id] = { id, ...addon };
+  }
 
   setConfig = (value: Addon_Config) => {
     Object.assign(this.config, value);
@@ -119,11 +162,18 @@ export class AddonStore {
 
   getConfig = () => this.config;
 
-  register = (name: string, registerCallback: (api: API) => void): void => {
-    if (this.loaders[name]) {
-      logger.warn(`${name} was loaded twice, this could have bad side-effects`);
+  /**
+   * Registers an addon loader function.
+   *
+   * @param {string} id - The id of the addon loader.
+   * @param {(api: API) => void} callback - The function that will be called to register the addon.
+   * @returns {void}
+   */
+  register = (id: string, callback: (api: API) => void): void => {
+    if (this.loaders[id]) {
+      logger.warn(`${id} was loaded twice, this could have bad side-effects`);
     }
-    this.loaders[name] = registerCallback;
+    this.loaders[id] = callback;
   };
 
   loadAddons = (api: any) => {

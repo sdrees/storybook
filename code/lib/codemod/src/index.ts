@@ -25,13 +25,13 @@ export function listCodemods() {
 
 const renameAsync = promisify(fs.rename);
 
-async function renameFile(file, from, to, { logger }) {
+async function renameFile(file: any, from: any, to: any, { logger }: any) {
   const newFile = file.replace(from, to);
   logger.log(`Rename: ${file} ${newFile}`);
   return renameAsync(file, newFile);
 }
 
-export async function runCodemod(codemod, { glob, logger, dryRun, rename, parser }) {
+export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, parser }: any) {
   const codemods = listCodemods();
   if (!codemods.includes(codemod)) {
     throw new Error(`Unknown codemod ${codemod}. Run --list for options.`);

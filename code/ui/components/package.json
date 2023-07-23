@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.1.0-rc.2",
+  "version": "7.2.0-alpha.0",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -27,6 +27,12 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./experimental": {
+      "types": "./dist/experimantal.d.ts",
+      "node": "./dist/experimantal.js",
+      "require": "./dist/experimantal.js",
+      "import": "./dist/experimantal.mjs"
+    },
     "./html": {
       "types": "./dist/html.d.ts",
       "require": "./dist/html.js",
@@ -37,6 +43,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "html": [
+        "dist/html.d.ts"
+      ],
+      "experimental": [
+        "dist/experimantal.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -44,15 +63,16 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-rc.2",
+    "@radix-ui/react-select": "^1.2.2",
+    "@storybook/client-logger": "7.2.0-alpha.0",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/theming": "7.1.0-rc.2",
-    "@storybook/types": "7.1.0-rc.2",
+    "@storybook/theming": "7.2.0-alpha.0",
+    "@storybook/types": "7.2.0-alpha.0",
     "memoizerific": "^1.11.3",
     "use-resize-observer": "^9.1.0",
     "util-deprecate": "^1.0.2"
@@ -81,7 +101,8 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/experimantal.ts"
     ],
     "platform": "neutral"
   },

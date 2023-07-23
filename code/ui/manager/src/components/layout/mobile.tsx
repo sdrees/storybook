@@ -1,9 +1,11 @@
 import type { ComponentType, FC, ReactNode } from 'react';
-import React, { Component, Children } from 'react';
-import { type State, ActiveTabs } from '@storybook/manager-api';
+import React, { Fragment, Children, useCallback, useState } from 'react';
+import { type State, ActiveTabs, useStorybookApi } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 
 import { TabButton } from '@storybook/components';
+import { Location } from '@storybook/router';
+import type { Addon_PageType } from '@storybook/types';
 import { Root } from './Root';
 
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
@@ -127,12 +129,6 @@ const Bar = styled.nav(
   })
 );
 
-export interface Page {
-  key: string;
-  route: FC;
-  render: FC;
-}
-
 export interface MobileProps {
   options: Pick<State['layout'], 'isFullscreen' | 'showPanel' | 'initialActive' | 'showToolbar'>;
   Sidebar: ComponentType<any>;
@@ -140,79 +136,107 @@ export interface MobileProps {
   Panel: ComponentType<any>;
   Notifications: ComponentType<any>;
   viewMode: State['viewMode'];
-  pages: Page[];
+  pages: Addon_PageType[];
 }
 
 export interface MobileState {
   active: ActiveTabsType;
 }
 
-class Mobile extends Component<MobileProps, MobileState> {
-  constructor(props: MobileProps) {
-    super(props);
+export const Mobile = ({
+  Sidebar,
+  Preview,
+  Panel,
+  Notifications,
+  pages,
+  viewMode,
+  options,
+}: MobileProps) => {
+  const [{ active }, setState] = useState({
+    active: options.isFullscreen ? CANVAS : options.initialActive || SIDEBAR,
+  });
+  const api = useStorybookApi();
+  const handleCanvasClick = useCallback(() => {
+    setState({ active: CANVAS });
+    const id = api.retrieveSelection();
+    if (id) {
+      api.selectStory(id);
+    } else {
+      api.selectFirstStory();
+    }
+  }, []);
 
-    const { options } = props;
-    this.state = {
-      active: options.isFullscreen ? CANVAS : options.initialActive || SIDEBAR,
-    };
-  }
+  const handleSideBarClick = useCallback(() => {
+    setState({ active: SIDEBAR });
+    const id = api.retrieveSelection();
+    if (id) {
+      api.selectStory(id);
+    } else {
+      api.selectFirstStory();
+    }
+  }, []);
 
-  render() {
-    const { Sidebar, Preview, Panel, Notifications, pages, viewMode, options } = this.props;
+  return (
+    <Root>
+      <Notifications
+        placement={{
+          position: 'fixed',
+          bottom: 60,
+          left: 20,
+          right: 20,
+        }}
+      />
 
-    const { active } = this.state;
-    return (
-      <Root>
-        <Notifications
-          placement={{
-            position: 'fixed',
-            bottom: 60,
-            left: 20,
-            right: 20,
-          }}
-        />
-
-        <Panels active={active} isFullscreen={options.isFullscreen}>
-          <Sidebar />
-          <div>
-            <div hidden={!viewMode}>
-              <Preview showToolbar={options.showToolbar} id="main" viewMode={viewMode} />
-            </div>
-            {pages.map(({ key, route: Route, render: Content }) => (
-              <Route key={key}>
-                <Content />
-              </Route>
-            ))}
+      <Panels active={active} isFullscreen={options.isFullscreen}>
+        <Sidebar />
+        <div>
+          <div hidden={viewMode !== 'docs' && viewMode !== 'story'}>
+            <Preview showToolbar={options.showToolbar} id="main" viewMode={viewMode} />
           </div>
-          <Panel hidden={!viewMode} />
-        </Panels>
-        {!options.isFullscreen && (
-          <Bar>
-            <TabButton
-              onClick={() => this.setState({ active: SIDEBAR })}
-              active={active === SIDEBAR}
-            >
-              Sidebar
+          {pages.map(({ id, render: Content }) => (
+            <Fragment key={id}>
+              <Content />
+            </Fragment>
+          ))}
+        </div>
+        <Panel hidden={viewMode !== 'story'} />
+      </Panels>
+      {!options.isFullscreen && (
+        <Bar>
+          <TabButton onClick={handleSideBarClick} active={active === SIDEBAR}>
+            Sidebar
+          </TabButton>
+          <TabButton
+            onClick={handleCanvasClick}
+            active={active === CANVAS && (viewMode === 'docs' || viewMode === 'story')}
+          >
+            Canvas
+          </TabButton>
+          <Location>
+            {({ path }) => (
+              <>
+                {pages.map(({ id, title, url }) => (
+                  <TabButton
+                    key={id}
+                    onClick={() => {
+                      setState({ active: CANVAS });
+                      api.navigateUrl(url, { plain: false });
+                    }}
+                    active={active === CANVAS && path.startsWith(url)}
+                  >
+                    {title}
+                  </TabButton>
+                ))}
+              </>
+            )}
+          </Location>
+          {viewMode === 'story' && options.showPanel ? (
+            <TabButton onClick={() => setState({ active: ADDONS })} active={active === ADDONS}>
+              Addons
             </TabButton>
-            <TabButton onClick={() => this.setState({ active: CANVAS })} active={active === CANVAS}>
-              {viewMode ? 'Canvas' : null}
-              {pages.map(({ key, route: Route }) => (
-                <Route key={key}>{key}</Route>
-              ))}
-            </TabButton>
-            {viewMode && options.showPanel ? (
-              <TabButton
-                onClick={() => this.setState({ active: ADDONS })}
-                active={active === ADDONS}
-              >
-                Addons
-              </TabButton>
-            ) : null}
-          </Bar>
-        )}
-      </Root>
-    );
-  }
-}
-
-export { Mobile };
+          ) : null}
+        </Bar>
+      )}
+    </Root>
+  );
+};

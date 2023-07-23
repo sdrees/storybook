@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.1.0-rc.2",
+  "version": "7.2.0-alpha.0",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -91,11 +91,11 @@
     "type-fest": "^3.11.0"
   },
   "dependencies": {
-    "@babel/core": "^7.22.0",
-    "@babel/preset-env": "^7.22.0",
-    "@babel/preset-react": "^7.22.0",
-    "@babel/preset-typescript": "^7.21.0",
-    "@babel/runtime": "^7.20.1",
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
+    "@babel/runtime": "^7.22.6",
     "@emotion/jest": "^11.10.0",
     "@jest/globals": "^29.3.1",
     "@nx/workspace": "16.2.1",

@@ -1,20 +1,17 @@
-import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
 import { type State } from '@storybook/manager-api';
 import { Symbols } from '@storybook/components';
-import { Route } from '@storybook/router';
 import { Global, createGlobal, styled } from '@storybook/theming';
 
+import type { Addon_PageType } from '@storybook/types';
 import { Mobile } from './components/layout/mobile';
 import { Desktop } from './components/layout/desktop';
 import Sidebar from './containers/sidebar';
 import Preview from './containers/preview';
 import Panel from './containers/panel';
 import Notifications from './containers/notifications';
-
-import SettingsPages from './settings';
 
 const View = styled.div({
   position: 'fixed',
@@ -27,9 +24,10 @@ export interface AppProps {
   viewMode: State['viewMode'];
   layout: State['layout'];
   panelCount: number;
+  pages: Addon_PageType[];
 }
 
-const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
+const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages }) => {
   const { width, height, ref } = useResizeDetector();
   let content;
 
@@ -39,17 +37,6 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
       Preview,
       Panel,
       Notifications,
-      pages: [
-        {
-          key: 'settings',
-          render: () => <SettingsPages />,
-          route: (({ children }) => (
-            <Route path="/settings/" startsWith>
-              {children}
-            </Route>
-          )) as FC,
-        },
-      ],
     }),
     []
   );
@@ -57,7 +44,7 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
   if (!width || !height) {
     content = <div />;
   } else if (width < 600) {
-    content = <Mobile {...props} viewMode={viewMode} options={layout} />;
+    content = <Mobile {...props} viewMode={viewMode} options={layout} pages={pages} />;
   } else {
     content = (
       <Desktop
@@ -67,6 +54,7 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
         width={width}
         height={height}
         panelCount={panelCount}
+        pages={pages}
       />
     );
   }

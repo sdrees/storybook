@@ -109,15 +109,20 @@ export async function withTelemetry<T>(
   options: TelemetryOptions,
   run: () => Promise<T>
 ): Promise<T> {
+  let canceled = false;
+
+  async function cancelTelemetry() {
+    canceled = true;
+    if (!options.cliOptions.disableTelemetry) {
+      await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
+    }
+
+    process.exit(0);
+  }
+
   if (eventType === 'init') {
     // We catch Ctrl+C user interactions to be able to detect a cancel event
-    process.on('SIGINT', async () => {
-      if (!options.cliOptions.disableTelemetry) {
-        await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
-      }
-
-      process.exit(0);
-    });
+    process.on('SIGINT', cancelTelemetry);
   }
 
   if (!options.cliOptions.disableTelemetry)
@@ -126,7 +131,7 @@ export async function withTelemetry<T>(
   try {
     return await run();
   } catch (error) {
-    if (error?.message === 'Canceled by the user') {
+    if (canceled) {
       return undefined;
     }
 
@@ -135,5 +140,7 @@ export async function withTelemetry<T>(
     await sendTelemetryError(error, eventType, options);
 
     throw error;
+  } finally {
+    process.off('SIGINIT', cancelTelemetry);
   }
 }

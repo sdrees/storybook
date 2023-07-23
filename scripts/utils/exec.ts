@@ -26,7 +26,10 @@ export const execaCommand = async (
   const execa = await getExeca();
   // We await here because execaCommand returns a promise, but that's not what the user expects
   // eslint-disable-next-line @typescript-eslint/return-await
-  return await execa.execaCommand(command, options);
+  return await execa.execaCommand(command, {
+    cleanup: true,
+    ...options,
+  });
 };
 
 export const exec = async (

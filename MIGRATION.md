@@ -1,5 +1,7 @@
 <h1>Migration</h1>
 
+- [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
+    - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
@@ -299,6 +301,31 @@
   - [Webpack upgrade](#webpack-upgrade)
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
+
+## From version 7.0.0 to 7.2.0
+
+#### Addon API is more type-strict
+
+When registering an addon using `@storybook/manager-api`, the addon API is now more type-strict. This means if you use TypeScript to compile your addon before publishing, it might start giving you errors.
+
+The `type` property is now a required field, and the `id` property should not be set anymore.
+
+Here's a correct example:
+```tsx
+import { addons, types } from '@storybook/manager-api';
+
+addons.register('my-addon', () => {
+  addons.add('my-addon/panel', {
+    type: types.PANEL,
+    title: 'My Addon',
+    render: ({ active }) => active ? <div>Hello World</div> : null,
+  });
+});
+```
+
+The API: `addons.addPanel()` is now deprecated, and will be removed in 8.0.0. Please use `addons.add()` instead.
+
+The `render` method can now be a `React.FunctionComponent` (without the `children` prop). Storybook will now render it, rather than calling it as a function.
 
 ## From version 6.5.x to 7.0.0
 

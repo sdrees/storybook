@@ -8,8 +8,7 @@ addons.register(ADDON_ID, (api) => {
   addons.add(PANEL_ID, {
     title: 'Tests',
     type: types.PANEL,
-    id: 'tests',
-    render: ({ active, key }) => <Panel key={key} api={api} active={active} />,
+    render: ({ active }) => <Panel api={api} active={active} />,
     paramKey: PARAM_KEY,
   });
 });

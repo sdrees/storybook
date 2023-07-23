@@ -4,10 +4,11 @@ import { dirname, join } from 'path';
 import type { PresetProperty, Options } from '@storybook/types';
 import type { FrameworkOptions, StorybookConfig } from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
-  wrapForPnP('@storybook/preset-react-webpack'),
+  getAbsolutePath('@storybook/preset-react-webpack'),
 ];
 
 const defaultFrameworkOptions: FrameworkOptions = {
@@ -28,7 +29,7 @@ export const frameworkOptions = async (
   }
   if (typeof config === 'undefined') {
     return {
-      name: wrapForPnP('@storybook/react-webpack5') as '@storybook/react-webpack5',
+      name: getAbsolutePath('@storybook/react-webpack5'),
       options: defaultFrameworkOptions,
     };
   }
@@ -48,10 +49,10 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   return {
     ...config,
     builder: {
-      name: wrapForPnP('@storybook/builder-webpack5') as '@storybook/builder-webpack5',
+      name: getAbsolutePath('@storybook/builder-webpack5'),
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
-    renderer: wrapForPnP('@storybook/react'),
+    renderer: getAbsolutePath('@storybook/react'),
   };
 };
 
@@ -60,7 +61,7 @@ export const webpack: StorybookConfig['webpack'] = async (config) => {
 
   config.resolve.alias = {
     ...config.resolve?.alias,
-    '@storybook/react': wrapForPnP('@storybook/react'),
+    '@storybook/react': getAbsolutePath('@storybook/react'),
   };
   return config;
 };

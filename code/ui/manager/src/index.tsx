@@ -1,18 +1,20 @@
 import { global } from '@storybook/global';
 import type { FC } from 'react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider } from '@storybook/manager-api';
+import { Provider as ManagerProvider, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 
 import { HelmetProvider } from 'react-helmet-async';
 
+import type { Addon_PageType } from '@storybook/types';
 import App from './app';
 
 import Provider from './provider';
+import { settingsPageAddon } from './settings';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -45,19 +47,30 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           docsOptions={global?.DOCS_OPTIONS || {}}
         >
           {({ state, api }: Combo) => {
-            const panelCount = Object.keys(api.getPanels()).length;
+            const panelCount = Object.keys(api.getElements(types.PANEL)).length;
+            const pages: Addon_PageType[] = useMemo(
+              () => [settingsPageAddon, ...Object.values(api.getElements(types.experimental_PAGE))],
+              [Object.keys(api.getElements(types.experimental_PAGE)).join()]
+            );
+
             const story = api.getData(state.storyId, state.refId);
             const isLoading = story
               ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
               : !state.previewInitialized;
+
+            const layout = useMemo(
+              () => (isLoading ? { ...state.layout, showPanel: false } : state.layout),
+              [isLoading, state.layout]
+            );
 
             return (
               <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
                 <App
                   key="app"
                   viewMode={state.viewMode}
-                  layout={isLoading ? { ...state.layout, showPanel: false } : state.layout}
+                  layout={layout}
                   panelCount={panelCount}
+                  pages={pages}
                 />
               </ThemeProvider>
             );

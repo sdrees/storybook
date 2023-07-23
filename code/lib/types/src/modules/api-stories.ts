@@ -172,3 +172,15 @@ export interface API_Versions {
   next?: API_Version;
   current?: API_Version;
 }
+
+export type API_StatusValue = 'pending' | 'success' | 'error' | 'warn' | 'unknown';
+
+export interface API_StatusObject {
+  status: API_StatusValue;
+  title: string;
+  description: string;
+  data?: any;
+}
+
+export type API_StatusState = Record<StoryId, Record<string, API_StatusObject>>;
+export type API_StatusUpdate = Record<StoryId, API_StatusObject>;

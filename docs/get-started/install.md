@@ -46,7 +46,21 @@ The command above will make the following changes to your local environment:
 - 📝 Add some boilerplate stories to get you started.
 - 📡 Set up telemetry to help us improve Storybook. Read more about it [here](../configure/telemetry.md).
 
-Depending on your framework, first, build your app and then check that everything worked by running:
+<IfRenderer renderer='react'>
+
+## Run the Setup Wizard
+
+If all goes well, you should see a setup wizard that will help you get started with Storybook introducing you to the main concepts and features, including how the UI is organized, how to write your first story, and how to test your components' response to various inputs utilizing [controls](../essentials/controls).
+
+![Storybook onboarding](./example-onboarding-wizard.png)
+
+If you skipped the wizard, you can always run it again by adding the `?path=/onboarding` query parameter to the URL of your Storybook instance, provided that the example stories are still available.
+
+</IfRenderer>
+
+## Start Storybook
+
+Storybook comes with a built-in development server featuring everything you need for project development. Depending on your system configuration, running the `storybook` command will start the local development server, output the address for you, and automatically open the address in a new browser tab where a welcome screen greets you.
 
 <!-- prettier-ignore-start -->
 
@@ -60,8 +74,6 @@ Depending on your framework, first, build your app and then check that everythin
 />
 
 <!-- prettier-ignore-end -->
-
-It will start Storybook locally and output the address. Depending on your system configuration, it will automatically open the address in a new browser tab, and you'll be greeted by a welcome screen.
 
 ![Storybook welcome screen](./example-welcome.png)
 
@@ -105,4 +117,14 @@ If all else fails, try asking for [help](https://storybook.js.org/community#supp
 
 </details>
 
+<IfRenderer renderer='react'>
+
+Now that you have successfully installed Storybook and understood how it works, let's continue where you left off in the [setup wizard](#run-the-setup-wizard) and delve deeper into writing stories.
+
+</IfRenderer>
+
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik','solid' ]}>
+
 Now that you installed Storybook successfully, let’s take a look at a story that was written for us.
+
+</IfRenderer>

@@ -37,9 +37,17 @@ In addition to running the command, we also recommend checking the [MIGRATION.md
 
 Storybook upgrades are not the only thing to consider: changes in the ecosystem also present challenges. For example, lots of frameworks ([Angular 12](https://angular.io/guide/updating-to-version-12#breaking-changes-in-angular-version-12), [Create React App v5](https://github.com/facebook/create-react-app/pull/11201), [NextJS](https://nextjs.org/docs/upgrading#webpack-5)) have recently migrated from [Webpack 4 to Webpack 5](https://webpack.js.org/migrate/5/), so even if you don't upgrade your Storybook version, you might need to update your configuration accordingly. That's what Automigrate is for:
 
-```
-npx storybook@latest automigrate
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-automigrate.npm.js.mdx',
+    'common/storybook-automigrate.pnpm.js.mdx',
+    'common/storybook-automigrate.yarn.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 It runs a set of standard configuration checks, explains what is potentially out-of-date, and offers to fix it for you automatically. It also points to the relevant documentation so you can learn more. It runs automatically as part of [`storybook upgrade`](#upgrade-script) command, but it's also available on its own if you don't want to upgrade Storybook.
 
@@ -55,6 +63,7 @@ To upgrade to the latest pre-release:
   paths={[
     'common/storybook-upgrade-prerelease.npm.js.mdx',
     'common/storybook-upgrade-prerelease.pnpm.js.mdx',
+    'common/storybook-upgrade-prerelease.yarn.js.mdx',
   ]}
 />
 

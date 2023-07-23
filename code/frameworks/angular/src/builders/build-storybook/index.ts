@@ -35,6 +35,7 @@ export type StorybookBuilderOptions = JsonObject & {
   docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
+  enableProdMode?: boolean;
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
@@ -78,6 +79,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         loglevel,
         outputDir,
         quiet,
+        enableProdMode = true,
         webpackStatsJson,
         disableTelemetry,
         assets,
@@ -90,6 +92,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         loglevel,
         outputDir,
         quiet,
+        enableProdMode,
         disableTelemetry,
         angularBrowserTarget: browserTarget,
         angularBuilderContext: context,

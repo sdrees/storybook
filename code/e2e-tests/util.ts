@@ -31,7 +31,7 @@ export class SbPage {
     const storyId = toId(name);
     const storyLinkId = `#${titleId}--${storyId}`;
     await this.page.waitForSelector(storyLinkId);
-    const storyLink = this.page.locator(storyLinkId);
+    const storyLink = this.page.locator('*', { has: this.page.locator(`> ${storyLinkId}`) });
     await storyLink.click({ force: true });
 
     // assert url changes

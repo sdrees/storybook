@@ -114,6 +114,7 @@ export default {
     'resetComponents',
     'withReset',
   ],
+  '@storybook/components/experimental': ['Button'],
   '@storybook/channels': [
     'Channel',
     'PostMessageTransport',

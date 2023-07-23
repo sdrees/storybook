@@ -1,7 +1,7 @@
-import type { WebpackPluginInstance } from 'webpack';
+import type { Configuration } from 'webpack';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
-export const mergePlugins = (...args: WebpackPluginInstance[]): WebpackPluginInstance[] =>
+export const mergePlugins = (...args: Configuration['plugins']): Configuration['plugins'] =>
   args.reduce((plugins, plugin) => {
     if (
       plugins.some(
@@ -23,4 +23,4 @@ export const mergePlugins = (...args: WebpackPluginInstance[]): WebpackPluginIns
       });
     }
     return [...plugins, updatedPlugin];
-  }, [] as WebpackPluginInstance[]);
+  }, [] as Configuration['plugins']);

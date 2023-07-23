@@ -3,14 +3,13 @@ import { useStorybookApi } from '@storybook/manager-api';
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import { global } from '@storybook/global';
 import throttle from 'lodash/throttle.js';
-import type { Dispatch, MutableRefObject } from 'react';
-import type React from 'react';
+import type { Dispatch, MutableRefObject, Reducer } from 'react';
 import { useCallback, useEffect, useReducer } from 'react';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import type { Highlight } from './types';
 
 // eslint-disable-next-line import/no-cycle
-import { isAncestor, getAncestorIds, getDescendantIds, scrollIntoView } from './utils';
+import { isAncestor, getAncestorIds, getDescendantIds, scrollIntoView } from '../../utils/tree';
 
 const { document } = global;
 
@@ -76,7 +75,7 @@ export const useExpanded = ({
   // Track the set of currently expanded nodes within this tree.
   // Root nodes are expanded by default.
   const [expanded, setExpanded] = useReducer<
-    React.Reducer<ExpandedState, ExpandAction>,
+    Reducer<ExpandedState, ExpandAction>,
     {
       refId: string;
       data: StoriesHash;

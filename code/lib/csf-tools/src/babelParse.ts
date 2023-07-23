@@ -36,6 +36,16 @@ export const babelParse = (code: string) => {
   });
 };
 
+export const babelPrint = (ast: recast.types.ASTNode) => {
+  return recast.print(ast, {
+    quote: 'single',
+    trailingComma: true,
+    tabWidth: 2,
+    wrapColumn: 80,
+    arrowParensAlways: true,
+  }).code;
+};
+
 export const babelParseExpression = (code: string) => {
   return babelParser.parseExpression(code, parserOptions);
 };

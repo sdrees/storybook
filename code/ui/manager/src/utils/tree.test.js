@@ -1,6 +1,6 @@
-import { mockDataset, mockExpanded, mockSelected } from './mockdata';
+import { mockDataset, mockExpanded, mockSelected } from '../components/sidebar/mockdata';
 
-import * as utils from './utils';
+import * as utils from './tree';
 
 const noRoot = {
   dataset: mockDataset.noRoot,

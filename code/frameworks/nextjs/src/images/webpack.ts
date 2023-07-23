@@ -44,7 +44,8 @@ const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextC
   const rules = baseConfig.module?.rules;
 
   const assetRule = rules?.find(
-    (rule) => typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.jpg')
+    (rule) =>
+      rule && typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.jpg')
   ) as RuleSetRule;
 
   if (!assetRule) {

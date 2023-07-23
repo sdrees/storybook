@@ -6,13 +6,28 @@ import { IFrame } from './iframe';
 export default {
   component: IFrame,
   title: 'Iframe',
+  parameters: {
+    layout: 'fullscreen',
+    viewport: {
+      defaultViewport: 'sized',
+      viewports: {
+        sized: {
+          name: 'Sized',
+          styles: {
+            width: '700px',
+            height: '700px',
+          },
+        },
+      },
+    },
+    theme: 'light',
+    chromatic: { viewports: [700] },
+  },
 };
 
 const style: CSSProperties = {
   maxWidth: '700px',
-  height: '500px',
-  border: '2px solid hotpink',
-  position: 'relative',
+  height: '700px',
 };
 
 export const WorkingStory = () => (
@@ -20,7 +35,7 @@ export const WorkingStory = () => (
     active
     id="iframe"
     title="Missing"
-    src="/iframe.html?id=ui-panel--default"
+    src="/iframe.html?id=storybook-components-loader--infinite-state"
     allowFullScreen
     style={style}
     scale={1.0}

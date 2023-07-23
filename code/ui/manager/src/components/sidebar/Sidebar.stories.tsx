@@ -1,26 +1,33 @@
 import React from 'react';
 
-import type { IndexHash } from 'lib/manager-api/src';
+import type { IndexHash, State } from 'lib/manager-api/src';
+import type { StoryObj, Meta } from '@storybook/react';
+import { within, userEvent } from '@storybook/testing-library';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
 
-export default {
+const wait = (ms: number) =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
+const meta = {
   component: Sidebar,
   title: 'Sidebar/Sidebar',
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen', withSymbols: true },
-  decorators: [
-    ExplorerStories.default.decorators[0],
-    (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,
-  ],
-};
+  decorators: [ExplorerStories.default.decorators[0]],
+} as Meta<typeof Sidebar>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 const { menu } = standardHeaderData;
 const index = mockDataset.withRoot as IndexHash;
-const refId = DEFAULT_REF_ID;
 const storyId = 'root-1-child-a2--grandchild-a1-1';
 
 export const simpleData = { menu, index, storyId };
@@ -47,57 +54,171 @@ const refsError = {
   },
 };
 
-export const Simple = () => (
-  <Sidebar
-    previewInitialized
-    menu={menu}
-    index={index as any}
-    storyId={storyId}
-    refId={refId}
-    refs={{}}
-  />
-);
+export const Simple: Story = {
+  args: { previewInitialized: true },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      index={index as any}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={{}}
+      status={{}}
+    />
+  ),
+};
 
-export const Loading = () => (
-  <Sidebar previewInitialized={false} menu={menu} storyId={storyId} refId={refId} refs={{}} />
-);
+export const Loading: Story = {
+  args: { previewInitialized: false },
+  render: (args) => (
+    <Sidebar {...args} menu={menu} storyId={storyId} refId={DEFAULT_REF_ID} refs={{}} status={{}} />
+  ),
+};
 
-export const Empty = () => (
-  <Sidebar previewInitialized menu={menu} index={{}} storyId={storyId} refId={refId} refs={{}} />
-);
+export const Empty: Story = {
+  args: {
+    previewInitialized: true,
+  },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      index={{}}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={{}}
+      status={{}}
+    />
+  ),
+};
 
-export const IndexError = () => (
-  <Sidebar
-    previewInitialized
-    indexError={indexError}
-    menu={menu}
-    storyId={storyId}
-    refId={refId}
-    refs={{}}
-  />
-);
+export const IndexError: Story = {
+  args: {
+    previewInitialized: true,
+  },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      indexError={indexError}
+      menu={menu}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={{}}
+      status={{}}
+    />
+  ),
+};
 
-export const WithRefs = () => (
-  <Sidebar
-    previewInitialized
-    menu={menu}
-    index={index as any}
-    storyId={storyId}
-    refId={refId}
-    refs={refs}
-  />
-);
+export const WithRefs: Story = {
+  args: {
+    previewInitialized: true,
+  },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      index={index as any}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={refs}
+      status={{}}
+    />
+  ),
+};
 
-export const LoadingWithRefs = () => (
-  <Sidebar previewInitialized={false} menu={menu} storyId={storyId} refId={refId} refs={refs} />
-);
+export const LoadingWithRefs: Story = {
+  args: {
+    previewInitialized: false,
+  },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={refs}
+      status={{}}
+    />
+  ),
+};
 
-export const LoadingWithRefError = () => (
-  <Sidebar
-    previewInitialized={false}
-    menu={menu}
-    storyId={storyId}
-    refId={refId}
-    refs={refsError}
-  />
-);
+export const LoadingWithRefError: Story = {
+  args: {
+    previewInitialized: false,
+  },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={refsError}
+      status={{}}
+    />
+  ),
+};
+
+export const StatusesCollapsed: Story = {
+  args: {
+    previewInitialized: true,
+    status: Object.entries(index).reduce<State['status']>((acc, [id, item]) => {
+      if (item.type !== 'story') {
+        return acc;
+      }
+
+      if (item.name.includes('B')) {
+        return {
+          ...acc,
+          [id]: {
+            addonA: { status: 'warn', title: 'Addon A', description: 'We just wanted you to know' },
+            addonB: { status: 'error', title: 'Addon B', description: 'This is a big deal!' },
+          },
+        };
+      }
+      return acc;
+    }, {}),
+  },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      index={index as any}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={{}}
+    />
+  ),
+};
+
+export const StatusesOpen: Story = {
+  ...StatusesCollapsed,
+  args: {
+    ...StatusesCollapsed.args,
+    status: Object.entries(index).reduce<State['status']>((acc, [id, item]) => {
+      if (item.type !== 'story') {
+        return acc;
+      }
+
+      return {
+        ...acc,
+        [id]: {
+          addonA: { status: 'warn', title: 'Addon A', description: 'We just wanted you to know' },
+          addonB: { status: 'error', title: 'Addon B', description: 'This is a big deal!' },
+        },
+      };
+    }, {}),
+  },
+};
+
+export const Searching: Story = {
+  ...StatusesOpen,
+  parameters: { theme: 'light', chromatic: { delay: 2200 } },
+  play: async ({ canvasElement, step }) => {
+    await step('wait 2000ms', () => wait(2000));
+    const canvas = await within(canvasElement);
+    const search = await canvas.findByPlaceholderText('Find components');
+    userEvent.clear(search);
+    userEvent.type(search, 'B2');
+  },
+};

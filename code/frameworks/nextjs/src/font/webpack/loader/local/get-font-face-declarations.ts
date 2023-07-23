@@ -29,7 +29,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
 
       return `@font-face {
           font-family: ${id};
-          src: url(${localFontPath});
+          src: url(.${localFontPath});
       }`;
     }
     return localFontSrc
@@ -38,7 +38,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
 
         return `@font-face {
           font-family: ${id};
-          src: url(${localFontPath});
+          src: url(.${localFontPath});
           ${font.weight ? `font-weight: ${font.weight};` : ''}
           ${font.style ? `font-style: ${font.style};` : ''}
         }`;

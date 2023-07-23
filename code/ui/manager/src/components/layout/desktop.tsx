@@ -1,7 +1,9 @@
-import type { ComponentType, FC } from 'react';
+import type { ComponentType } from 'react';
 import React, { Fragment } from 'react';
 
 import type { State } from '@storybook/manager-api';
+import { Route } from '@storybook/router';
+import type { Addon_PageType } from '@storybook/types';
 import * as S from './container';
 
 export interface DesktopProps {
@@ -12,11 +14,7 @@ export interface DesktopProps {
   Preview: ComponentType<any>;
   Panel: ComponentType<any>;
   Notifications: ComponentType<any>;
-  pages: {
-    key: string;
-    route: FC;
-    render: ComponentType;
-  }[];
+  pages: Addon_PageType[];
   options: State['layout'];
   viewMode: string;
 }
@@ -56,18 +54,22 @@ const Desktop = Object.assign(
                   <Sidebar />
                 </S.Sidebar>
                 <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
-                  <S.Preview {...previewProps} hidden={viewMode === 'settings'}>
-                    <Preview id="main" />
-                  </S.Preview>
+                  <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
+                    <S.Preview {...previewProps} hidden={false}>
+                      <Preview id="main" />
+                    </S.Preview>
 
-                  <S.Panel {...panelProps} hidden={viewMode !== 'story'}>
-                    <Panel />
-                  </S.Panel>
-
-                  {pages.map(({ key, route: Route, render: Content }) => (
-                    <Route key={key}>
-                      <Content />
+                    <Route path="/story/" startsWith hideOnly>
+                      <S.Panel {...panelProps} hidden={false}>
+                        <Panel />
+                      </S.Panel>
                     </Route>
+                  </Route>
+
+                  {pages.map(({ id, render: Content }) => (
+                    <Fragment key={id}>
+                      <Content />
+                    </Fragment>
                   ))}
                 </S.Main>
               </Fragment>

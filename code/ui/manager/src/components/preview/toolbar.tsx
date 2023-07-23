@@ -13,11 +13,11 @@ import {
   merge,
   type LeafEntry,
   addons,
-  type Addon,
   types,
 } from '@storybook/manager-api';
 
 import { Location, type RenderData } from '@storybook/router';
+import type { Addon_BaseType } from '@storybook/types';
 import { zoomTool } from './tools/zoom';
 
 import * as S from './utils/components';
@@ -29,10 +29,8 @@ import { menuTool } from './tools/menu';
 import { addonsTool } from './tools/addons';
 import { remountTool } from './tools/remount';
 
-export const getTools = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.TOOL));
-
-export const getToolsExtra = (getFn: API['getElements']) =>
-  Object.values(getFn<Addon>(types.TOOLEXTRA));
+export const getTools = (getFn: API['getElements']) => Object.values(getFn(types.TOOL));
+export const getToolsExtra = (getFn: API['getElements']) => Object.values(getFn(types.TOOLEXTRA));
 
 const Bar: FunctionComponent<{ shown: boolean } & Record<string, any>> = ({ shown, ...props }) => (
   <FlexBar {...props} />
@@ -59,9 +57,10 @@ const fullScreenMapper = ({ api, state }: Combo) => ({
   singleStory: state.singleStory,
 });
 
-export const fullScreenTool: Addon = {
+export const fullScreenTool: Addon_BaseType = {
   title: 'fullscreen',
   id: 'fullscreen',
+  type: types.TOOL,
   match: (p) => ['story', 'docs'].includes(p.viewMode),
   render: () => (
     <Consumer filter={fullScreenMapper}>
@@ -88,9 +87,10 @@ const tabsMapper = ({ state }: Combo) => ({
   refId: state.refId,
 });
 
-export const createTabsTool = (tabs: Addon[]): Addon => ({
+export const createTabsTool = (tabs: Addon_BaseType[]): Addon_BaseType => ({
   title: 'title',
   id: 'title',
+  type: types.TOOL,
   render: () => (
     <Consumer filter={tabsMapper}>
       {(rp) => (
@@ -117,12 +117,17 @@ export const createTabsTool = (tabs: Addon[]): Addon => ({
   ),
 });
 
-export const defaultTools: Addon[] = [remountTool, zoomTool];
-export const defaultToolsExtra: Addon[] = [addonsTool, fullScreenTool, ejectTool, copyTool];
+export const defaultTools: Addon_BaseType[] = [remountTool, zoomTool];
+export const defaultToolsExtra: Addon_BaseType[] = [
+  addonsTool,
+  fullScreenTool,
+  ejectTool,
+  copyTool,
+];
 
 const useTools = (
   getElements: API['getElements'],
-  tabs: Addon[],
+  tabs: Addon_BaseType[],
   viewMode: PreviewProps['viewMode'],
   entry: PreviewProps['entry'],
   location: PreviewProps['location'],
@@ -154,7 +159,7 @@ const useTools = (
 
 export interface ToolData {
   isShown: boolean;
-  tabs: Addon[];
+  tabs: Addon_BaseType[];
   api: API;
   entry: LeafEntry;
 }
@@ -180,7 +185,7 @@ export const ToolbarComp = React.memo<ToolData>(function ToolbarComp(props) {
   );
 });
 
-export const Tools = React.memo<{ list: Addon[] }>(function Tools({ list }) {
+export const Tools = React.memo<{ list: Addon_BaseType[] }>(function Tools({ list }) {
   return (
     <>
       {list.filter(Boolean).map(({ render: Render, id, ...t }, index) => (
@@ -191,7 +196,7 @@ export const Tools = React.memo<{ list: Addon[] }>(function Tools({ list }) {
   );
 });
 
-function toolbarItemHasBeenExcluded(item: Partial<Addon>, entry: LeafEntry) {
+function toolbarItemHasBeenExcluded(item: Partial<Addon_BaseType>, entry: LeafEntry) {
   const parameters = entry.type === 'story' && entry.prepared ? entry.parameters : {};
   const toolbarItemsFromStoryParameters = 'toolbar' in parameters ? parameters.toolbar : undefined;
   const { toolbar: toolbarItemsFromAddonsConfig } = addons.getConfig();
@@ -202,9 +207,9 @@ function toolbarItemHasBeenExcluded(item: Partial<Addon>, entry: LeafEntry) {
 }
 
 export function filterTools(
-  tools: Addon[],
-  toolsExtra: Addon[],
-  tabs: Addon[],
+  tools: Addon_BaseType[],
+  toolsExtra: Addon_BaseType[],
+  tabs: Addon_BaseType[],
   {
     viewMode,
     entry,
@@ -224,7 +229,7 @@ export function filterTools(
   ];
   const toolsRight = [...toolsExtra];
 
-  const filter = (item: Partial<Addon>) =>
+  const filter = (item: Partial<Addon_BaseType>) =>
     item &&
     (!item.match ||
       item.match({

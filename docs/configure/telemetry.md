@@ -32,13 +32,13 @@ Specifically, we track the following information in our telemetry events:
 - Storybook metadata:
   - Language (e.g., TypeScript, JavaScript).
   - Supported view layers (e.g., React, Vue, Angular, Svelte).
-  - Builder (e.g., Webpack4, Webpack5, Vite).
+  - Builder (e.g., Webpack5, Vite).
   - Meta framework (e.g., [Next](https://nextjs.org/), [Gatsby](https://www.gatsbyjs.com/), [CRA](https://create-react-app.dev/)).
-  - [Addons](https://storybook.js.org/addons/) (e.g., [Essentials](../essentials/introduction.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
+  - [Addons](https://storybook.js.org/integrations) (e.g., [Essentials](../essentials/introduction.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
   - [Feature flags](./overview.md#feature-flags) (e.g., `buildStoriesJson`).
 - Package manager information (e.g., `npm`, `yarn`).
 - Monorepo information (e.g., [NX](https://nx.dev/), [Turborepo](https://turborepo.org/)).
-- Whether the command was invoked on CI or not.
+- In-app events (e.g., [Storybook guided tour](https://github.com/storybookjs/addon-onboarding)).
 
 Access to the raw data is highly controlled, limited to select members of Storybook's core team who maintain the telemetry. We cannot identify individual users from the dataset: it is anonymized and untraceable back to the user.
 
@@ -62,67 +62,94 @@ Will generate the following output:
 ```json
 {
   "anonymousId": "8bcfdfd5f9616a1923dd92adf89714331b2d18693c722e05152a47f8093392bb",
-  "eventType": "start",
+  "eventType": "dev",
   "payload": {
+    "versionStatus": "cached",
     "storyIndex": {
-      "storyCount": 4,
-      "version": 3
+      "storyCount": 0,
+      "componentCount": 0,
+      "pageStoryCount": 0,
+      "playStoryCount": 0,
+      "autodocsCount": 0,
+      "storiesMdxCount": 0,
+      "mdxCount": 0,
+      "exampleStoryCount": 8,
+      "exampleDocsCount": 3,
+      "onboardingStoryCount": 0,
+      "onboardingDocsCount": 0,
+      "version": 4
     }
   },
-  "inCI": false,
   "metadata": {
-    "generatedAt": 1648233198722,
-    "builder": {
-      "name": "webpack5"
-    },
+    "generatedAt": 1689007841223,
     "hasCustomBabel": false,
-    "hasCustomWebpack": true,
-    "hasStaticDirs": true,
+    "hasCustomWebpack": false,
+    "hasStaticDirs": false,
     "hasStorybookEslint": false,
     "refCount": 0,
-    "metaFramework": {
-      "name": "CRA",
-      "packageName": "react-scripts",
-      "version": "4.0.3"
-    },
     "packageManager": {
-      "name": "yarn",
+      "type": "yarn",
       "version": "3.1.1"
     },
     "monorepo": "Nx",
     "features": {
       "buildStoriesJson": true
     },
-    "storybookVersion": "6.5.0",
+    "framework": {
+      "name": "@storybook/react-vite",
+      "options": {}
+    },
+    "builder": "@storybook/builder-vite",
+    "renderer": "@storybook/react",
+    "storybookVersion": "7.1.0",
+    "storybookVersionSpecifier": "^7.1.0",
     "language": "typescript",
     "storybookPackages": {
-      "@storybook/addons": {
-        "version": "6.5.0"
-      },
-      "@storybook/builder-webpack5": {
-        "version": "6.5.0"
+      "@storybook/blocks": {
+        "version": "7.1.0"
       },
       "@storybook/react": {
-        "version": "6.5.0"
+        "version": "7.1.0"
+      },
+      "@storybook/react-vite": {
+        "version": "7.1.0"
+      },
+      "@storybook/testing-library": {
+        "version": "0.2.0"
+      },
+      "storybook": {
+        "version": "7.1.0"
       }
-    },
-    "framework": {
-      "name": "react"
     },
     "addons": {
-      "@storybook/preset-create-react-app": {
-        "version": "3.2.0"
-      },
-      "@storybook/addon-ie11": {
-        "version": "0.0.7--canary.5e87b64.0"
+      "@storybook/addon-links": {
+        "version": "7.1.0"
       },
       "@storybook/addon-essentials": {
-        "options": {
-          "viewport": false
-        },
-        "version": "6.5.0"
+        "version": "7.1.0"
+      },
+      "@storybook/addon-onboarding": {
+        "version": "1.0.6"
+      },
+      "@storybook/addon-interactions": {
+        "version": "7.1.0"
       }
     }
+  }
+}
+```
+
+Additionally, if Storybook's guided tour is enabled, it will generate the following output:
+
+```json
+{
+  "eventType": "addon-onboarding",
+  "payload": {
+    "step": "1:Welcome",
+    "addonVersion": "1.0.6"
+  },
+  "metadata": {
+    // See above for metadata that's collected.
   }
 }
 ```
@@ -152,7 +179,9 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
 <!-- prettier-ignore-end -->
 
 <div class="aside">
-  💡 There is a <code>boot</code> event that contains no metadata at all (simply used to ensure the telemetry is working). It is sent prior to evaluating your <code>main.js</code>, so it is unaffected by the <code>disableTelemetry</code> option. If you want to ensure that event is not sent, be sure to use the <code>STORYBOOK_DISABLE_TELEMETRY</code> environment variable.
+
+💡 There is a `boot` event containing no metadata (used to ensure the telemetry is working). It is sent prior to evaluating your [Storybook configuration file](../api/main-config.md) (i.e., `main.js|ts`), so it is unaffected by the `disableTelemetry` option. If you want to ensure that the event is not sent, use the `STORYBOOK_DISABLE_TELEMETRY` environment variable.
+
 </div>
 
 ## Crash reports (disabled by default)

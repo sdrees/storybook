@@ -4,11 +4,12 @@ import { hasVitePlugins } from '@storybook/builder-vite';
 import { dirname, join } from 'path';
 import type { StorybookConfig } from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
 
 export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
-  renderer: wrapForPnP('@storybook/react'),
+  builder: getAbsolutePath('@storybook/builder-vite'),
+  renderer: getAbsolutePath('@storybook/react'),
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {

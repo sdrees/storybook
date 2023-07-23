@@ -6,7 +6,7 @@ import path from 'path';
 import fs from 'fs';
 
 import dedent from 'ts-dedent';
-import { readFile, writeFile } from 'fs-extra';
+import { readFile, readFileSync, writeFile } from 'fs-extra';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
@@ -74,6 +74,51 @@ export abstract class JsPackageManager {
 
   constructor(options?: JsPackageManagerOptions) {
     this.cwd = options?.cwd || process.cwd();
+  }
+
+  /** Detect whether Storybook gets initialized in a monorepository/workspace environment
+   * The cwd doesn't have to be the root of the monorepo, it can be a subdirectory
+   * @returns true, if Storybook is initialized inside a monorepository/workspace
+   */
+  public isStorybookInMonorepo() {
+    let cwd = process.cwd();
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      try {
+        const turboJsonPath = `${cwd}/turbo.json`;
+        const rushJsonPath = `${cwd}/rush.json`;
+
+        if (fs.existsSync(turboJsonPath) || fs.existsSync(rushJsonPath)) {
+          return true;
+        }
+
+        const packageJsonPath = require.resolve(`${cwd}/package.json`);
+
+        // read packagejson with readFileSync
+        const packageJsonFile = readFileSync(packageJsonPath, 'utf8');
+        const packageJson = JSON.parse(packageJsonFile) as PackageJsonWithDepsAndDevDeps;
+
+        if (packageJson.workspaces) {
+          return true;
+        }
+      } catch (err) {
+        // Package.json not found or invalid in current directory
+      }
+
+      // Move up to the parent directory
+      const parentDir = path.dirname(cwd);
+
+      // Check if we have reached the root of the filesystem
+      if (parentDir === cwd) {
+        break;
+      }
+
+      // Update cwd to the parent directory
+      cwd = parentDir;
+    }
+
+    return false;
   }
 
   /**
@@ -451,6 +496,7 @@ export abstract class JsPackageManager {
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
+        cleanup: true,
         env,
         ...execaOptions,
       });
@@ -484,6 +530,7 @@ export abstract class JsPackageManager {
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
+        cleanup: true,
         env,
         ...execaOptions,
       });

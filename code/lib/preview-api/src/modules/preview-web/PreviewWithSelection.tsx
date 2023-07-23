@@ -130,6 +130,13 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     if (!this.storyStore.storyIndex)
       throw new Error(`Cannot call selectSpecifiedStory before initialization`);
 
+    // If the story has been selected during initialization - if `SET_CURRENT_STORY` is
+    // emitted while we are loading the preview, we don't need to do any selection now.
+    if (this.selectionStore.selection) {
+      await this.renderSelection();
+      return;
+    }
+
     if (!this.selectionStore.selectionSpecifier) {
       this.renderMissingStory();
       return;
@@ -165,8 +172,8 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
 
     const { id: storyId, type: viewMode } = entry;
     this.selectionStore.setSelection({ storyId, viewMode });
-    this.channel.emit(STORY_SPECIFIED, this.selectionStore.selection);
 
+    this.channel.emit(STORY_SPECIFIED, this.selectionStore.selection);
     this.channel.emit(CURRENT_STORY_WAS_SET, this.selectionStore.selection);
 
     await this.renderSelection({ persistedArgs: args });
@@ -220,9 +227,14 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }
 
   async onSetCurrentStory(selection: { storyId: StoryId; viewMode?: ViewMode }) {
+    /**
+     * At the end of the initialization promise we will read the current story from the selection store,
+     * so make sure we've updated it with the new selection or we'll lose track of it at the end of init.
+     */
+    this.selectionStore.setSelection({ viewMode: 'story', ...selection });
+
     await this.storyStore.initializationPromise;
 
-    this.selectionStore.setSelection({ viewMode: 'story', ...selection });
     this.channel.emit(CURRENT_STORY_WAS_SET, this.selectionStore.selection);
     this.renderSelection();
   }

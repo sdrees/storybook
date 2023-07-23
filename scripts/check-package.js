@@ -103,6 +103,7 @@ async function run() {
       cwd,
       buffer: false,
       shell: true,
+      cleanup: true,
       env: {
         NODE_ENV: 'production',
       },

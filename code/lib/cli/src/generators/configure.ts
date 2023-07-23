@@ -9,6 +9,7 @@ interface ConfigureMainOptions {
   staticDirs?: string[];
   storybookConfigFolder: string;
   language: SupportedLanguage;
+  prefixes: string[];
   /**
    * Extra values for main.js
    *
@@ -54,6 +55,7 @@ export async function configureMain({
   extensions = ['js', 'jsx', 'mjs', 'ts', 'tsx'],
   storybookConfigFolder,
   language,
+  prefixes = [],
   ...custom
 }: ConfigureMainOptions) {
   const srcPath = path.resolve(storybookConfigFolder, '../src');
@@ -67,7 +69,7 @@ export async function configureMain({
   const isTypescript =
     language === SupportedLanguage.TYPESCRIPT_4_9 || language === SupportedLanguage.TYPESCRIPT_3_8;
 
-  let mainConfigTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
+  let mainConfigTemplate = dedent`<<import>><<prefix>>const config<<type>> = <<mainContents>>;
     export default config;`;
 
   const frameworkPackage = sanitizeFramework(custom.framework?.name);
@@ -82,6 +84,7 @@ export async function configureMain({
     .replace(/%%['"]/g, '');
 
   const imports = [];
+  const finalPrefixes = [...prefixes];
 
   if (custom.framework?.name.includes('path.dirname(')) {
     imports.push(`import path from 'path';`);
@@ -90,11 +93,12 @@ export async function configureMain({
   if (isTypescript) {
     imports.push(`import type { StorybookConfig } from '${frameworkPackage}';`);
   } else {
-    imports.push(`/** @type { import('${frameworkPackage}').StorybookConfig } */`);
+    finalPrefixes.push(`/** @type { import('${frameworkPackage}').StorybookConfig } */`);
   }
 
   const mainJsContents = mainConfigTemplate
-    .replace('<<import>>', `${imports.join('\n\n')}\n`)
+    .replace('<<import>>', `${imports.join('\n\n')}\n\n`)
+    .replace('<<prefix>>', finalPrefixes.length > 0 ? `${finalPrefixes.join('\n\n')}\n` : '')
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', mainContents);
 

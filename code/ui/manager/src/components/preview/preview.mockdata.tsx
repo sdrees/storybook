@@ -1,28 +1,29 @@
 import { types } from '@storybook/manager-api';
-import type { API, State, Addon } from '@storybook/manager-api';
+import type { API, State } from '@storybook/manager-api';
+import type { Addon_BaseType, Addon_Collection } from '@storybook/types';
 import type { PreviewProps } from './utils/types';
+
+const addonNotes: Addon_BaseType = {
+  id: 'notes',
+  type: types.TAB,
+  title: 'Notes',
+  route: ({ storyId }) => `/info/${storyId}`,
+  match: ({ viewMode }) => viewMode === 'info',
+  render: () => null,
+};
+
+const mockAPI: Partial<API> = {
+  on: (a, b) => () => {},
+  emit: () => {},
+  off: () => {},
+  getElements: (type) =>
+    type === types.TAB ? ({ notes: addonNotes } as Addon_Collection<any>) : {},
+};
 
 export const previewProps: PreviewProps = {
   id: 'string',
   storyId: 'story--id',
-  api: {
-    on: () => {},
-    emit: () => {},
-    off: () => {},
-    getElements: ((type) =>
-      type === types.TAB
-        ? [
-            {
-              id: 'notes',
-              type: types.TAB,
-              title: 'Notes',
-              route: ({ storyId }) => `/info/${storyId}`,
-              match: ({ viewMode }) => viewMode === 'info',
-              render: () => null,
-            } as Addon,
-          ]
-        : []) as API['getElements'],
-  } as any as API,
+  api: mockAPI as API,
   entry: {
     tags: [],
     type: 'story',

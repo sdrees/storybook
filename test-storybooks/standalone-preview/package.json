@@ -1,6 +1,6 @@
 {
   "name": "standalone-preview",
-  "version": "7.1.0-alpha.25",
+  "version": "7.1.0",
   "private": true,
   "scripts": {
     "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" storybook dev -p 9011 -c ../official-storybook --preview-url=http://localhost:1337/external-iframe.html",
@@ -26,13 +26,10 @@
     "@storybook/addon-viewport": "portal:../../code/addons/viewport",
     "@storybook/addons": "portal:../../code/deprecated/addons",
     "@storybook/angular": "portal:../../code/frameworks/angular",
-    "@storybook/api": "portal:../../code/lib/api",
     "@storybook/blocks": "portal:../../code/lib/blocks",
     "@storybook/builder-manager": "portal:../../code/builders/builder-manager",
     "@storybook/builder-vite": "portal:../../code/builders/builder-vite",
     "@storybook/builder-webpack5": "portal:../../code/builders/builder-webpack5",
-    "@storybook/channel-postmessage": "portal:../../code/lib/channel-postmessage",
-    "@storybook/channel-websocket": "portal:../../code/lib/channel-websocket",
     "@storybook/channels": "portal:../../code/lib/channels",
     "@storybook/cli": "portal:../../code/lib/cli",
     "@storybook/client-api": "portal:../../code/deprecated/client-api",
@@ -91,14 +88,14 @@
     "storybook": "portal:../../code/lib/cli-storybook"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "7.1.0-alpha.25",
-    "@storybook/cli": "7.1.0-alpha.25",
-    "@storybook/react": "7.1.0-alpha.25",
-    "@storybook/react-webpack5": "7.1.0-alpha.25",
+    "@storybook/addon-docs": "7.1.0",
+    "@storybook/cli": "7.1.0",
+    "@storybook/react": "7.1.0",
+    "@storybook/react-webpack5": "7.1.0",
     "cross-env": "^7.0.3",
     "parcel": "2.0.1",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "storybook": "7.1.0-alpha.25"
+    "storybook": "7.1.0"
   }
 }

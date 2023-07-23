@@ -2,6 +2,7 @@
 
 import { dedent } from 'ts-dedent';
 import { formatConfig, loadConfig } from './ConfigFile';
+import { babelPrint } from './babelParse';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -1047,6 +1048,87 @@ describe('ConfigFile', () => {
       `;
       const config = loadConfig(source).parse();
       expect(config.getNamesFromPath(['addons'])).toBeUndefined();
+    });
+  });
+
+  describe('setImport', () => {
+    it(`supports setting a default import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import path from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a default import for a field that does exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import path from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport(['dirname'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import { dirname } from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field where the source already exists`, () => {
+      const source = dedent`
+        import { dirname } from 'path';
+
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport(['dirname'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import { dirname } from 'path';
+
+        const config: StorybookConfig = { };
+        export default config;
+      `);
     });
   });
 });

@@ -1,7 +1,9 @@
-import type { API_Settings } from '@storybook/types';
+import type { API_Settings, StoryId } from '@storybook/types';
 import type { ModuleFn } from '../index';
 
 export interface SubAPI {
+  storeSelection: () => void;
+  retrieveSelection: () => StoryId;
   /**
    * Changes the active settings tab.
    * @param path - The path of the settings page to navigate to. The path NOT should include the `/settings` prefix.
@@ -61,6 +63,18 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) =
       }
 
       navigate(path);
+    },
+    retrieveSelection() {
+      const { settings } = store.getState();
+
+      return settings.lastTrackedStoryId;
+    },
+    storeSelection: async () => {
+      const { storyId, settings } = store.getState();
+
+      await store.setState({
+        settings: { ...settings, lastTrackedStoryId: storyId },
+      });
     },
   };
 

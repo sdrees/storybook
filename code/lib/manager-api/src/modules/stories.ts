@@ -18,6 +18,9 @@ import type {
   StoryPreparedPayload,
   DocsPreparedPayload,
   API_DocsEntry,
+  API_ViewMode,
+  API_StatusState,
+  API_StatusUpdate,
 } from '@storybook/types';
 import {
   PRELOAD_ENTRIES,
@@ -35,6 +38,7 @@ import {
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
   DOCS_PREPARED,
+  SET_CURRENT_STORY,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
@@ -50,7 +54,6 @@ import {
 } from '../lib/stories';
 
 import type { ComposedRef, ModuleFn } from '../index';
-import { merge } from '../index';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
@@ -58,26 +61,16 @@ const STORY_INDEX_PATH = './index.json';
 type Direction = -1 | 1;
 type ParameterName = string;
 
-type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
 type StoryUpdate = Partial<
   Pick<API_StoryEntry, 'prepared' | 'parameters' | 'initialArgs' | 'argTypes' | 'args'>
 >;
-interface StatusObject {
-  status: 'pending' | 'success' | 'error' | 'warn' | 'unknown';
-  title: string;
-  description: string;
-  data?: any;
-}
-
-type StatusState = Record<StoryId, Record<string, StatusObject>>;
-type StatusUpdate = Record<StoryId, StatusObject>;
 
 type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
-  viewMode: ViewMode;
-  status: StatusState;
+  viewMode: API_ViewMode;
+  status: API_StatusState;
 }
 
 export interface SubAPI {
@@ -109,13 +102,13 @@ export interface SubAPI {
    * @param {StoryId} [story] - The ID of the story to select.
    * @param {Object} [obj] - An optional object containing additional options.
    * @param {string} [obj.ref] - The ref ID of the story to select.
-   * @param {ViewMode} [obj.viewMode] - The view mode to display the story in.
+   * @param {API_ViewMode} [obj.viewMode] - The view mode to display the story in.
    * @returns {void}
    */
   selectStory: (
     kindOrId?: string,
     story?: StoryId,
-    obj?: { ref?: string; viewMode?: ViewMode }
+    obj?: { ref?: string; viewMode?: API_ViewMode }
   ) => void;
   /**
    * Returns the current story's data, including its ID, kind, name, and parameters.
@@ -265,7 +258,7 @@ export interface SubAPI {
    * @param {StatusUpdate} update - An object containing the updated status information.
    * @returns {Promise<void>} A promise that resolves when the status has been updated.
    */
-  experimental_updateStatus: (addonId: string, update: StatusUpdate) => Promise<void>;
+  experimental_updateStatus: (addonId: string, update: API_StatusUpdate) => Promise<void>;
 }
 
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
@@ -574,13 +567,14 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     /* EXPERIMENTAL APIs */
     experimental_updateStatus: async (id, update) => {
       const { status } = store.getState();
-      const addition = Object.entries(update).reduce<StatusState>((acc, [storyId, value]) => {
-        acc[storyId] = acc[storyId] || {};
-        acc[storyId][id] = value;
+      const newStatus = { ...status };
 
-        return acc;
-      }, {});
-      await store.setState({ status: merge(status, addition) }, { persistence: 'session' });
+      Object.entries(update).forEach(([storyId, value]) => {
+        newStatus[storyId] = { ...(newStatus[storyId] || {}) };
+        newStatus[storyId][id] = value;
+      });
+
+      await store.setState({ status: newStatus }, { persistence: 'session' });
     },
   };
 
@@ -594,19 +588,32 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         viewMode,
       }: {
         storyId: string;
-        viewMode: ViewMode;
+        viewMode: API_ViewMode;
         [k: string]: any;
       }) {
         const { sourceType } = getEventMetadata(this, fullAPI);
 
         if (sourceType === 'local') {
-          if (fullAPI.isSettingsScreenActive()) return;
-
-          // Special case -- if we are already at the story being specified (i.e. the user started at a given story),
-          // we don't need to change URL. See https://github.com/storybookjs/storybook/issues/11677
           const state = store.getState();
-          if (state.storyId !== storyId || state.viewMode !== viewMode) {
-            navigate(`/${viewMode}/${storyId}`);
+          const isCanvasRoute =
+            state.path === '/' || state.viewMode === 'story' || state.viewMode === 'docs';
+          const stateHasSelection = state.viewMode && state.storyId;
+          const stateSelectionDifferent = state.viewMode !== viewMode || state.storyId !== storyId;
+          /**
+           * When storybook starts, we want to navigate to the first story.
+           * But there are a few exceptions:
+           * - If the current storyId and viewMode are already set/correct.
+           * - If the user has navigated away already.
+           * - If the user started storybook with a specific page-URL like "/settings/about"
+           */
+          if (isCanvasRoute) {
+            if (stateHasSelection && stateSelectionDifferent) {
+              // The manager state is correct, the preview state is lagging behind
+              fullAPI.emit(SET_CURRENT_STORY, { storyId: state.storyId, viewMode: state.viewMode });
+            } else if (stateSelectionDifferent) {
+              // The preview state is correct, the manager state is lagging behind
+              navigate(`/${viewMode}/${storyId}`);
+            }
           }
         }
       }
@@ -707,7 +714,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         story?: StoryName;
         name?: StoryName;
         storyId: string;
-        viewMode: ViewMode;
+        viewMode: API_ViewMode;
       }) {
         const { ref } = getEventMetadata(this, fullAPI);
 

@@ -17,7 +17,6 @@ import {
   extractEslintInfo,
   suggestESLintPlugin,
 } from '../automigrate/helpers/eslintPlugin';
-import { HandledError } from '../HandledError';
 
 const logger = console;
 
@@ -99,14 +98,15 @@ const getRendererPackage = (framework: string, renderer: string) => {
   return `@storybook/${renderer}`;
 };
 
-const wrapForPnp = (packageName: string) =>
-  `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
+const applyRequireWrapper = (packageName: string) => `%%getAbsolutePath('${packageName}')%%`;
 
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
   pnp: boolean,
-  framework?: SupportedFrameworks
+  language: SupportedLanguage,
+  framework?: SupportedFrameworks,
+  shouldApplyRequireWrapperOnPackageNames?: boolean
 ): {
   type: 'framework' | 'renderer';
   packages: string[];
@@ -117,13 +117,19 @@ const getFrameworkDetails = (
 } => {
   const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
 
-  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
+  const frameworkPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(frameworkPackage)
+    : frameworkPackage;
 
   const rendererPackage = getRendererPackage(framework, renderer);
-  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
+  const rendererPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(rendererPackage)
+    : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
+  const builderPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(builderPackage)
+    : builderPackage;
 
   const isExternalFramework = !!getExternalFramework(frameworkPackage);
   const isKnownFramework =
@@ -178,30 +184,8 @@ export async function baseGenerator(
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
 ) {
-  // This is added so that we can handle the scenario where the user presses Ctrl+C and report a canceled event.
-  // Given that there are subprocesses running as part of this function, we need to handle the signal ourselves otherwise it might run into race conditions.
-  // TODO: This should be revisited once we have a better way to handle this.
-  let isNodeProcessExiting = false;
-  const setNodeProcessExiting = () => {
-    isNodeProcessExiting = true;
-  };
-  process.on('SIGINT', setNodeProcessExiting);
-
-  const stopIfExiting = async <T>(callback: () => Promise<T>) => {
-    if (isNodeProcessExiting) {
-      throw new HandledError('Canceled by the user');
-    }
-
-    try {
-      return await callback();
-    } catch (error) {
-      if (isNodeProcessExiting) {
-        throw new HandledError('Canceled by the user');
-      }
-
-      throw error;
-    }
-  };
+  const isStorybookInMonorepository = packageManager.isStorybookInMonorepo();
+  const shouldApplyRequireWrapperOnPackageNames = isStorybookInMonorepository || pnp;
 
   const {
     extraAddons: extraAddonPackages,
@@ -226,7 +210,14 @@ export async function baseGenerator(
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp, framework);
+  } = getFrameworkDetails(
+    renderer,
+    builder,
+    pnp,
+    language,
+    framework,
+    shouldApplyRequireWrapperOnPackageNames
+  );
 
   // added to main.js
   const addons = [
@@ -291,9 +282,7 @@ export async function baseGenerator(
     indent: 2,
     text: `Getting the correct version of ${packages.length} packages`,
   }).start();
-  const versionedPackages = await stopIfExiting(async () =>
-    packageManager.getVersionedPackages(packages)
-  );
+  const versionedPackages = await packageManager.getVersionedPackages(packages);
   versionedPackagesSpinner.succeed();
 
   const depsToInstall = [...versionedPackages];
@@ -352,20 +341,42 @@ export async function baseGenerator(
       indent: 2,
       text: 'Installing Storybook dependencies',
     }).start();
-    await stopIfExiting(async () =>
-      packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall)
-    );
+    await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
     addDependenciesSpinner.succeed();
   }
 
   await fse.ensureDir(`./${storybookConfigFolder}`);
 
   if (addMainFile) {
+    const prefixes = shouldApplyRequireWrapperOnPackageNames
+      ? [
+          'import { join, dirname } from "path"',
+          language === SupportedLanguage.JAVASCRIPT
+            ? dedent`/**
+            * This function is used to resolve the absolute path of a package.
+            * It is needed in projects that use Yarn PnP or are set up within a monorepo.
+            */ 
+            function getAbsolutePath(value) {
+              return dirname(require.resolve(join(value, 'package.json')))
+            }`
+            : dedent`/**
+          * This function is used to resolve the absolute path of a package.
+          * It is needed in projects that use Yarn PnP or are set up within a monorepo.
+          */ 
+          function getAbsolutePath(value: string): any {
+            return dirname(require.resolve(join(value, 'package.json')))
+          }`,
+        ]
+      : [];
+
     await configureMain({
       framework: { name: frameworkInclude, options: options.framework || {} },
+      prefixes,
       storybookConfigFolder,
       docs: { autodocs: 'tag' },
-      addons: pnp ? addons.map(wrapForPnp) : addons,
+      addons: shouldApplyRequireWrapperOnPackageNames
+        ? addons.map((addon) => applyRequireWrapper(addon))
+        : addons,
       extensions,
       language,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
@@ -380,27 +391,26 @@ export async function baseGenerator(
     });
   }
 
-  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
+  await configurePreview({
+    frameworkPreviewParts,
+    storybookConfigFolder,
+    language,
+    rendererId,
+  });
 
   if (addScripts) {
-    await stopIfExiting(async () =>
-      packageManager.addStorybookCommandInScripts({
-        port: 6006,
-      })
-    );
+    await packageManager.addStorybookCommandInScripts({
+      port: 6006,
+    });
   }
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
-    await stopIfExiting(async () =>
-      copyTemplateFiles({
-        renderer: templateLocation,
-        packageManager,
-        language,
-        destination: componentsDestinationPath,
-      })
-    );
+    await copyTemplateFiles({
+      renderer: templateLocation,
+      packageManager,
+      language,
+      destination: componentsDestinationPath,
+    });
   }
-
-  process.off('SIGINT', setNodeProcessExiting);
 }

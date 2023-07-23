@@ -133,7 +133,7 @@ export type GetStorybookData = typeof getStorybookData;
  */
 export const updateMainConfig = async (
   { mainConfigPath, dryRun }: { mainConfigPath: string; dryRun: boolean },
-  callback: (main: ConfigFile) => Promise<void>
+  callback: (main: ConfigFile) => Promise<void> | void
 ) => {
   try {
     const main = await readConfig(mainConfigPath);

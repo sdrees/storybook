@@ -8,8 +8,7 @@ addons.register(ADDON_ID, (api) => {
   addons.add(PANEL_ID, {
     type: types.PANEL,
     title: 'Code',
-    id: 'code',
-    render: ({ active, key }) => (active ? <StoryPanel key={key} api={api} /> : null),
+    render: ({ active }) => (active ? <StoryPanel api={api} /> : null),
     paramKey: 'storysource',
   });
 });

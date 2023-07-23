@@ -40,8 +40,6 @@ export interface SubnavProps {
   status: Call['status'];
   storyFileName?: string;
   onScrollToEnd?: () => void;
-  isRerunAnimating: boolean;
-  setIsRerunAnimating: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -114,8 +112,6 @@ export const Subnav: React.FC<SubnavProps> = ({
   status,
   storyFileName,
   onScrollToEnd,
-  isRerunAnimating,
-  setIsRerunAnimating,
 }) => {
   const buttonText = status === CallStates.ERROR ? 'Scroll to error' : 'Scroll to end';
 
@@ -177,14 +173,7 @@ export const Subnav: React.FC<SubnavProps> = ({
             </WithTooltip>
 
             <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Rerun" />}>
-              <RerunButton
-                aria-label="Rerun"
-                containsIcon
-                onClick={controls.rerun}
-                onAnimationEnd={() => setIsRerunAnimating(false)}
-                animating={isRerunAnimating}
-                disabled={isRerunAnimating}
-              >
+              <RerunButton aria-label="Rerun" containsIcon onClick={controls.rerun}>
                 <Icons icon="sync" />
               </RerunButton>
             </WithTooltip>

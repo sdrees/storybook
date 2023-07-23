@@ -1,4 +1,4 @@
-import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
+import { useStorybookApi, useStorybookState, types } from '@storybook/manager-api';
 import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
@@ -6,6 +6,7 @@ import { global } from '@storybook/global';
 import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
 
+import type { Addon_PageType } from '@storybook/types';
 import { AboutPage } from './about_page';
 import { WhatsNewPage } from './whats_new_page';
 import { ShortcutsPage } from './shortcuts_page';
@@ -126,4 +127,14 @@ const SettingsPages: FC = () => {
   );
 };
 
-export { SettingsPages as default };
+export const settingsPageAddon: Addon_PageType = {
+  id: 'settings',
+  url: '/settings/',
+  title: 'Settings',
+  type: types.experimental_PAGE,
+  render: () => (
+    <Route path="/settings/" startsWith>
+      <SettingsPages />
+    </Route>
+  ),
+};

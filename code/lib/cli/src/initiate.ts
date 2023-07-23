@@ -239,7 +239,18 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+async function doInitiate(
+  options: CommandOptions,
+  pkg: PackageJson
+): Promise<
+  | {
+      shouldRunDev: true;
+      projectType: ProjectType;
+      packageManager: JsPackageManager;
+      storybookCommand: string;
+    }
+  | { shouldRunDev: false }
+> {
   let { packageManager: pkgMgr } = options;
   if (options.useNpm) {
     useNpmWarning();
@@ -317,7 +328,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   }
 
   if (!options.disableTelemetry) {
-    telemetry('init', { projectType });
+    await telemetry('init', { projectType });
   }
 
   if (projectType === ProjectType.REACT_NATIVE) {
@@ -330,14 +341,17 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     logger.log('\n For more in information, see the github readme:\n');
     logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
     logger.log();
-  } else {
-    const storybookCommand =
-      projectType === ProjectType.ANGULAR
-        ? `ng run ${installResult.projectName}:storybook`
-        : packageManager.getRunStorybookCommand();
-    logger.log(
-      boxen(
-        dedent`
+
+    return { shouldRunDev: false };
+  }
+
+  const storybookCommand =
+    projectType === ProjectType.ANGULAR
+      ? `ng run ${installResult.projectName}:storybook`
+      : packageManager.getRunStorybookCommand();
+  logger.log(
+    boxen(
+      dedent`
           Storybook was successfully installed in your project! 🎉
           To run Storybook manually, run ${chalk.yellow(
             chalk.bold(storybookCommand)
@@ -346,60 +360,20 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
           Wanna know more about Storybook? Check out ${chalk.cyan('https://storybook.js.org/')}
           Having trouble or want to chat? Join us at ${chalk.cyan('https://discord.gg/storybook/')}
         `,
-        { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }
-      )
-    );
+      { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }
+    )
+  );
 
-    const shouldRunDev = process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true';
-    if (shouldRunDev) {
-      logger.log('\nRunning Storybook');
-
-      try {
-        const isReactWebProject =
-          projectType === ProjectType.REACT_SCRIPTS ||
-          projectType === ProjectType.REACT ||
-          projectType === ProjectType.WEBPACK_REACT ||
-          projectType === ProjectType.REACT_PROJECT ||
-          projectType === ProjectType.NEXTJS;
-
-        const flags = [];
-
-        // npm needs extra -- to pass flags to the command
-        if (packageManager.type === 'npm') {
-          flags.push('--');
-        }
-
-        if (isReactWebProject) {
-          flags.push('--initial-path=/onboarding');
-        }
-
-        flags.push('--quiet');
-
-        // instead of calling 'dev' automatically, we spawn a subprocess so that it gets
-        // executed directly in the user's project directory. This avoid potential issues
-        // with packages running in npxs' node_modules
-        packageManager.runPackageCommandSync(
-          storybookCommand.replace(/^yarn /, ''),
-          flags,
-          undefined,
-          'inherit'
-        );
-      } catch (e) {
-        const isCtrlC =
-          e.message.includes('Command failed with exit code 129') &&
-          e.message.includes('CTRL+C') &&
-          e.message.includes('SIGINT');
-        if (!isCtrlC) {
-          // only throw if it's not ctrl + c
-          throw e;
-        }
-      }
-    }
-  }
+  return {
+    shouldRunDev: process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true',
+    projectType,
+    packageManager,
+    storybookCommand,
+  };
 }
 
 export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
-  await withTelemetry(
+  const initiateResult = await withTelemetry(
     'init',
     {
       cliOptions: options,
@@ -407,4 +381,43 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
     },
     () => doInitiate(options, pkg)
   );
+
+  if (initiateResult.shouldRunDev) {
+    const { projectType, packageManager, storybookCommand } = initiateResult;
+    logger.log('\nRunning Storybook');
+
+    try {
+      const isReactWebProject =
+        projectType === ProjectType.REACT_SCRIPTS ||
+        projectType === ProjectType.REACT ||
+        projectType === ProjectType.WEBPACK_REACT ||
+        projectType === ProjectType.REACT_PROJECT ||
+        projectType === ProjectType.NEXTJS;
+
+      const flags = [];
+
+      // npm needs extra -- to pass flags to the command
+      if (packageManager.type === 'npm') {
+        flags.push('--');
+      }
+
+      if (isReactWebProject) {
+        flags.push('--initial-path=/onboarding');
+      }
+
+      flags.push('--quiet');
+
+      // instead of calling 'dev' automatically, we spawn a subprocess so that it gets
+      // executed directly in the user's project directory. This avoid potential issues
+      // with packages running in npxs' node_modules
+      packageManager.runPackageCommandSync(
+        storybookCommand.replace(/^yarn /, ''),
+        flags,
+        undefined,
+        'inherit'
+      );
+    } catch (e) {
+      // Do nothing here, as the command above will spawn a `storybook dev` process which does the error handling already. Else, the error will get bubbled up and sent to crash reports twice
+    }
+  }
 }

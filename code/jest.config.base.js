@@ -87,6 +87,8 @@ module.exports = {
     '/prebuilt/',
     '/generators/',
     '/template/',
+    // The export format used in the following file is not supported by jest.
+    '/code/frameworks/nextjs/src/next-image-loader-stub.ts',
     '/__mocks__ /',
     '/__mockdata__/',
     '/__mocks-ng-workspace__/',

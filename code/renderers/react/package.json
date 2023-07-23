@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.1.0-rc.2",
+  "version": "7.2.0-alpha.0",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -48,17 +48,17 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-rc.2",
-    "@storybook/core-client": "7.1.0-rc.2",
-    "@storybook/docs-tools": "7.1.0-rc.2",
+    "@storybook/client-logger": "7.2.0-alpha.0",
+    "@storybook/core-client": "7.2.0-alpha.0",
+    "@storybook/docs-tools": "7.2.0-alpha.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-rc.2",
-    "@storybook/react-dom-shim": "7.1.0-rc.2",
-    "@storybook/types": "7.1.0-rc.2",
+    "@storybook/preview-api": "7.2.0-alpha.0",
+    "@storybook/react-dom-shim": "7.2.0-alpha.0",
+    "@storybook/types": "7.2.0-alpha.0",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
@@ -75,7 +75,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.0",
+    "@babel/core": "^7.22.9",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.15.0",
     "jest-specific-snapshot": "^8.0.0",

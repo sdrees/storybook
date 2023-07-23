@@ -61,6 +61,10 @@ export const Lazy = {
     width: 50,
     height: 50,
   },
+  parameters: {
+    // ignoring in Chromatic to avoid inconsistent snapshots since the image is sometimes not loaded in time
+    chromatic: { disableSnapshot: true },
+  },
   decorators: [
     (Story) => (
       <>
@@ -69,30 +73,13 @@ export const Lazy = {
       </>
     ),
   ],
-  loaders: [
-    async () => {
-      // make sure we start at the top to test the scrolling into view functionality every time the story renders
-      // eslint-disable-next-line no-undef
-      window.scrollTo({ top: 0 });
-      await new Promise((res) => {
-        setTimeout(res, 16);
-      });
-      return {};
-    },
-  ],
-  play: async ({ canvasElement, step }) => {
-    await step('scroll image into view', () => {
-      canvasElement.scrollIntoView(false);
-    });
-    await step('wait for images to load', async () => {
-      await waitFor(waitForImagesToLoad);
-    });
-  },
 };
 
 export const Eager = {
   ...Lazy,
   parameters: {
+    // ignoring in Chromatic to avoid inconsistent snapshots since the image is sometimes not loaded in time
+    chromatic: { disableSnapshot: true },
     nextjs: {
       image: {
         loading: 'eager',
@@ -100,19 +87,3 @@ export const Eager = {
     },
   },
 };
-
-async function waitForImagesToLoad() {
-  // eslint-disable-next-line no-undef
-  const images = Array.from(document.getElementsByTagName('img'));
-
-  await Promise.all(
-    images.map((image) => {
-      if (image.complete) {
-        return Promise.resolve();
-      }
-      return new Promise((resolve) => {
-        image.addEventListener('load', resolve);
-      });
-    })
-  );
-}

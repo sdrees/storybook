@@ -5,6 +5,7 @@ export enum Keys {
   'react' = '__REACT__',
   'react-dom' = '__REACTDOM__',
   '@storybook/components' = '__STORYBOOKCOMPONENTS__',
+  '@storybook/components/experimental' = '__STORYBOOKCOMPONENTSEXPERIMENTAL__',
   '@storybook/channels' = '__STORYBOOKCHANNELS__',
   '@storybook/core-events' = '__STORYBOOKCOREEVENTS__',
   '@storybook/router' = '__STORYBOOKROUTER__',

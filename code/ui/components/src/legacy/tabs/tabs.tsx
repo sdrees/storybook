@@ -1,12 +1,12 @@
-import type { FC, MouseEvent, ReactNode } from 'react';
+import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
 
+import type { Addon_RenderOptions } from '@storybook/types';
 import { Placeholder } from '../placeholder/placeholder';
 import { TabButton } from '../bar/button';
 import { FlexBar } from '../bar/bar';
-import type { ChildrenList } from './tabs.helpers';
 import { childrenToList, VisuallyHidden } from './tabs.helpers';
 import { useList } from './tabs.hooks';
 
@@ -113,7 +113,10 @@ export const TabWrapper: FC<TabWrapperProps> = ({ active, render, children }) =>
 export const panelProps = {};
 
 export interface TabsProps {
-  children?: FuncChildren[] | ReactNode;
+  children?: ReactElement<{
+    children: FC<Addon_RenderOptions>;
+    title: ReactNode | FC;
+  }>[];
   id?: string;
   tools?: ReactNode;
   selected?: string;
@@ -138,9 +141,14 @@ export const Tabs: FC<TabsProps> = memo(
     id: htmlId,
     menuName,
   }) => {
-    const list = useMemo<ChildrenList>(
-      () => childrenToList(children, selected),
-      [children, selected]
+    const idList = childrenToList(children).map((i) => i.id);
+    const list = useMemo(
+      () =>
+        childrenToList(children).map((i, index) => ({
+          ...i,
+          active: selected ? i.id === selected : index === 0,
+        })),
+      [selected, ...idList]
     );
 
     const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);
@@ -169,7 +177,7 @@ export const Tabs: FC<TabsProps> = memo(
                   }}
                   role="tab"
                 >
-                  {title}
+                  {typeof title === 'function' ? <title /> : title}
                 </TabButton>
               );
             })}
@@ -178,7 +186,9 @@ export const Tabs: FC<TabsProps> = memo(
           {tools}
         </FlexBar>
         <Content id="panel-tab-content" bordered={bordered} absolute={absolute}>
-          {list.map(({ id, active, render }) => render({ key: id, active }))}
+          {list.map(({ id, active, render }) => {
+            return React.createElement(render, { key: id, active }, null);
+          })}
         </Content>
       </Wrapper>
     ) : (
@@ -199,10 +209,8 @@ Tabs.defaultProps = {
   menuName: 'Tabs',
 };
 
-type FuncChildren = ({ active }: { active: boolean }) => JSX.Element;
-
 export interface TabsStateProps {
-  children: FuncChildren[] | ReactNode;
+  children: TabsProps['children'];
   initial: string;
   absolute: boolean;
   bordered: boolean;

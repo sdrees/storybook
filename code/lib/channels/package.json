@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channels",
-  "version": "7.1.0-rc.2",
+  "version": "7.2.0-alpha.0",
   "description": "",
   "keywords": [
     "storybook"
@@ -64,13 +64,13 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.1.0-rc.2",
-    "@storybook/client-logger": "7.1.0-rc.2",
-    "@storybook/core-events": "7.1.0-rc.2",
+    "@storybook/channels": "7.2.0-alpha.0",
+    "@storybook/client-logger": "7.2.0-alpha.0",
+    "@storybook/core-events": "7.2.0-alpha.0",
     "@storybook/global": "^5.0.0",
     "qs": "^6.10.0",
     "telejson": "^7.0.3",

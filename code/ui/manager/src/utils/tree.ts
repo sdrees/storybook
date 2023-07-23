@@ -4,8 +4,8 @@ import type { SyntheticEvent } from 'react';
 import type { HashEntry, IndexHash } from '@storybook/manager-api';
 
 // eslint-disable-next-line import/no-cycle
-import { DEFAULT_REF_ID } from './Sidebar';
-import type { Item, RefType, Dataset, SearchItem } from './types';
+import { DEFAULT_REF_ID } from '../components/sidebar/Sidebar';
+import type { Item, RefType, Dataset, SearchItem } from '../components/sidebar/types';
 
 const { document, window: globalWindow } = global;
 

@@ -32,6 +32,12 @@ const styles = ({ theme }: { theme: Theme }): CSSObject => ({
   fontSize: theme.typography.size.s2 - 1,
   lineHeight: '20px',
   padding: '6px 10px', // 32
+  boxSizing: 'border-box',
+  height: 32,
+
+  '&[type="file"]': {
+    height: 'auto',
+  },
 
   '&:focus': {
     boxShadow: `${theme.color.secondary} 0 0 0 1px inset`,

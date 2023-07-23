@@ -60,13 +60,19 @@ export type {
   Tag,
 } from '@storybook/csf';
 
-export type ViewMode = ViewModeBase | 'story' | 'info' | 'settings' | string | undefined;
+type OrString<T extends string> = T | (string & {});
+
+export type ViewMode = OrString<ViewModeBase | 'settings'> | undefined;
 
 type Layout = 'centered' | 'fullscreen' | 'padded' | 'none';
 
 export interface StorybookParameters {
   options?: Addon_OptionsParameter;
-  /** The layout property defines basic styles added to the preview body where the story is rendered. If you pass 'none', no styles are applied. */
+  /**
+   * The layout property defines basic styles added to the preview body where the story is rendered.
+   *
+   * If you pass `none`, no styles are applied.
+   */
   layout?: Layout;
 }
 

@@ -1,6 +1,6 @@
-import type { StoriesHash } from '@storybook/manager-api';
+import type { API_HashEntry } from '@storybook/types';
 
-export type MockDataSet = Record<string, Record<string, Partial<StoriesHash[0]>>>;
+export type MockDataSet = Record<string, Record<string, Partial<API_HashEntry>>>;
 
 export const mockDataset: MockDataSet = {
   withRoot: {

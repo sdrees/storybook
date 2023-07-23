@@ -18,6 +18,7 @@ import { missingBabelRc } from './missing-babelrc';
 import { angularBuilders } from './angular-builders';
 import { incompatibleAddons } from './incompatible-addons';
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
+import { wrapRequire } from './wrap-require';
 
 export * from '../types';
 
@@ -40,6 +41,7 @@ export const allFixes: Fix[] = [
   missingBabelRc,
   angularBuildersMultiproject,
   angularBuilders,
+  wrapRequire,
 ];
 
 export const initFixes: Fix[] = [missingBabelRc, eslintPlugin];

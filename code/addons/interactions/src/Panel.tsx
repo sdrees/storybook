@@ -1,6 +1,7 @@
 import { global } from '@storybook/global';
-import * as React from 'react';
-import { useChannel, useParameter } from '@storybook/manager-api';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { Fragment, memo, useEffect, useMemo, useRef, useState } from 'react';
+import { useAddonState, useChannel, useParameter } from '@storybook/manager-api';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -8,17 +9,10 @@ import {
   STORY_THREW_EXCEPTION,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import {
-  EVENTS,
-  type Call,
-  CallStates,
-  type ControlStates,
-  type LogItem,
-} from '@storybook/instrumenter';
+import { EVENTS, type Call, CallStates, type LogItem } from '@storybook/instrumenter';
 
-import type { StoryId } from '@storybook/types';
 import { InteractionsPanel } from './components/InteractionsPanel';
-import { TabIcon, TabStatus } from './components/TabStatus';
+import { ADDON_ID } from './constants';
 
 interface Interaction extends Call {
   status: Call['status'];
@@ -45,15 +39,18 @@ export const getInteractions = ({
   log: LogItem[];
   calls: Map<Call['id'], Call>;
   collapsed: Set<Call['id']>;
-  setCollapsed: React.Dispatch<React.SetStateAction<Set<string>>>;
+  setCollapsed: Dispatch<SetStateAction<Set<string>>>;
 }) => {
   const callsById = new Map<Call['id'], Call>();
   const childCallMap = new Map<Call['id'], Call['id'][]>();
+
   return log
     .map<Call & { isHidden: boolean }>(({ callId, ancestors, status }) => {
       let isHidden = false;
       ancestors.forEach((ancestor) => {
-        if (collapsed.has(ancestor)) isHidden = true;
+        if (collapsed.has(ancestor)) {
+          isHidden = true;
+        }
         childCallMap.set(ancestor, (childCallMap.get(ancestor) || []).concat(callId));
       });
       return { ...calls.get(callId), status, isHidden };
@@ -72,34 +69,50 @@ export const getInteractions = ({
         isCollapsed: collapsed.has(call.id),
         toggleCollapsed: () =>
           setCollapsed((ids) => {
-            if (ids.has(call.id)) ids.delete(call.id);
-            else ids.add(call.id);
+            if (ids.has(call.id)) {
+              ids.delete(call.id);
+            } else {
+              ids.add(call.id);
+            }
             return new Set(ids);
           }),
       };
     });
 };
 
-export const Panel: React.FC<{ active: boolean }> = (props) => {
-  const [storyId, setStoryId] = React.useState<StoryId>();
-  const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
-  const [pausedAt, setPausedAt] = React.useState<Call['id']>();
-  const [isErrored, setErrored] = React.useState(false);
-  const [isPlaying, setPlaying] = React.useState(false);
-  const [isRerunAnimating, setIsRerunAnimating] = React.useState(false);
-  const [scrollTarget, setScrollTarget] = React.useState<HTMLElement>();
-  const [collapsed, setCollapsed] = React.useState<Set<Call['id']>>(new Set());
-  const [caughtException, setCaughtException] = React.useState<Error>();
-  const [interactions, setInteractions] = React.useState<Interaction[]>([]);
-  const [interactionsCount, setInteractionsCount] = React.useState<number>();
+export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId }) {
+  // shared state
+  const [addonState, set] = useAddonState(ADDON_ID, {
+    controlStates: INITIAL_CONTROL_STATES,
+    isErrored: false,
+    pausedAt: undefined,
+    interactions: [],
+    isPlaying: false,
+    hasException: false,
+    caughtException: undefined,
+    interactionsCount: 0,
+  });
+
+  // local state
+  const [scrollTarget, setScrollTarget] = useState<HTMLElement | undefined>(undefined);
+  const [collapsed, setCollapsed] = useState<Set<Call['id']>>(new Set());
+
+  const {
+    controlStates = INITIAL_CONTROL_STATES,
+    isErrored = false,
+    pausedAt = undefined,
+    interactions = [],
+    isPlaying = false,
+    caughtException = undefined,
+  } = addonState;
 
   // Log and calls are tracked in a ref so we don't needlessly rerender.
-  const log = React.useRef<LogItem[]>([]);
-  const calls = React.useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
+  const log = useRef<LogItem[]>([]);
+  const calls = useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
   const setCall = ({ status, ...call }: Call) => calls.current.set(call.id, call);
 
-  const endRef = React.useRef();
-  React.useEffect(() => {
+  const endRef = useRef();
+  useEffect(() => {
     let observer: IntersectionObserver;
     if (global.IntersectionObserver) {
       observer = new global.IntersectionObserver(
@@ -115,45 +128,84 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
     {
       [EVENTS.CALL]: setCall,
       [EVENTS.SYNC]: (payload) => {
-        setControlStates(payload.controlStates);
-        setPausedAt(payload.pausedAt);
-        setInteractions(
-          getInteractions({ log: payload.logItems, calls: calls.current, collapsed, setCollapsed })
-        );
+        set((s) => {
+          const list = getInteractions({
+            log: payload.logItems,
+            calls: calls.current,
+            collapsed,
+            setCollapsed,
+          });
+          return {
+            ...s,
+            controlStates: payload.controlStates,
+            pausedAt: payload.pausedAt,
+            interactions: list,
+            interactionsCount: list.filter(({ method }) => method !== 'step').length,
+          };
+        });
+
         log.current = payload.logItems;
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
-        setStoryId(event.storyId);
-        setPlaying(event.newPhase === 'playing');
-        setPausedAt(undefined);
-        if (event.newPhase === 'rendering') {
-          setErrored(false);
-          setCaughtException(undefined);
+        if (event.newPhase === 'preparing') {
+          set((s) => ({
+            controlStates: INITIAL_CONTROL_STATES,
+            isErrored: false,
+            pausedAt: undefined,
+            interactions: [],
+            isPlaying: false,
+            isRerunAnimating: false,
+            scrollTarget,
+            collapsed: new Set() as Set<Call['id']>,
+            hasException: false,
+            caughtException: undefined,
+            interactionsCount: 0,
+          }));
+          return;
         }
+        set((s) => ({
+          ...s,
+          isPlaying: event.newPhase === 'playing',
+          pausedAt: undefined,
+          ...(event.newPhase === 'rendering'
+            ? {
+                isErrored: false,
+                caughtException: undefined,
+              }
+            : {}),
+        }));
       },
       [STORY_THREW_EXCEPTION]: () => {
-        setErrored(true);
+        set((s) => ({ ...s, isErrored: true }));
       },
       [PLAY_FUNCTION_THREW_EXCEPTION]: (e) => {
-        if (e?.message !== IGNORED_EXCEPTION.message) setCaughtException(e);
-        else setCaughtException(undefined);
+        if (e?.message !== IGNORED_EXCEPTION.message) {
+          set((s) => ({ ...s, caughtException: e }));
+        } else {
+          set((s) => ({ ...s, caughtException: undefined }));
+        }
       },
     },
     [collapsed]
   );
 
-  React.useEffect(() => {
-    setInteractions(
-      getInteractions({ log: log.current, calls: calls.current, collapsed, setCollapsed })
-    );
+  useEffect(() => {
+    set((s) => {
+      const list = getInteractions({
+        log: log.current,
+        calls: calls.current,
+        collapsed,
+        setCollapsed,
+      });
+      return {
+        ...s,
+        interactions: list,
+        interactionsCount: list.filter(({ method }) => method !== 'step').length,
+      };
+    });
   }, [collapsed]);
 
-  React.useEffect(() => {
-    if (isPlaying || isRerunAnimating) return;
-    setInteractionsCount(interactions.filter(({ method }) => method !== 'step').length);
-  }, [interactions, isPlaying, isRerunAnimating]);
-
-  const controls = React.useMemo(
+  const controls = useMemo(
     () => ({
       start: () => emit(EVENTS.START, { storyId }),
       back: () => emit(EVENTS.BACK, { storyId }),
@@ -161,7 +213,6 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
       next: () => emit(EVENTS.NEXT, { storyId }),
       end: () => emit(EVENTS.END, { storyId }),
       rerun: () => {
-        setIsRerunAnimating(true);
         emit(FORCE_REMOUNT, { storyId });
       },
     }),
@@ -172,19 +223,14 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const [fileName] = storyFilePath.toString().split('/').slice(-1);
   const scrollToTarget = () => scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 
-  const showStatus = interactionsCount > 0 || !!caughtException || isRerunAnimating;
   const hasException = !!caughtException || interactions.some((v) => v.status === CallStates.ERROR);
 
   if (isErrored) {
-    return <React.Fragment key="interactions" />;
+    return <Fragment key="interactions" />;
   }
 
   return (
-    <React.Fragment key="interactions">
-      <TabStatus>
-        {showStatus &&
-          (hasException ? <TabIcon status={CallStates.ERROR} /> : ` (${interactionsCount})`)}
-      </TabStatus>
+    <Fragment key="interactions">
       <InteractionsPanel
         calls={calls.current}
         controls={controls}
@@ -197,10 +243,7 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
         pausedAt={pausedAt}
         endRef={endRef}
         onScrollToEnd={scrollTarget && scrollToTarget}
-        isRerunAnimating={isRerunAnimating}
-        setIsRerunAnimating={setIsRerunAnimating}
-        {...props}
       />
-    </React.Fragment>
+    </Fragment>
   );
-};
+});

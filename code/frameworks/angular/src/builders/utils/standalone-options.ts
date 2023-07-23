@@ -10,6 +10,7 @@ export type StandaloneOptions = CLIOptions &
   LoadOptions &
   BuilderOptions & {
     mode?: 'static' | 'dev';
+    enableProdMode: boolean;
     angularBrowserTarget?: string | null;
     angularBuilderOptions?: Record<string, any> & {
       styles?: StyleElement[];

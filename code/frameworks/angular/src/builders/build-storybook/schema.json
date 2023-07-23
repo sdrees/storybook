@@ -29,6 +29,11 @@
       "description": "Controls level of logging during build. Can be one of: [silly, verbose, info (default), warn, error, silent].",
       "pattern": "(silly|verbose|info|warn|silent)"
     },
+    "enableProdMode": {
+      "type": "boolean",
+      "description": "Disable Angular's development mode, which turns off assertions and other checks within the framework.",
+      "default": true
+    },
     "quiet": {
       "type": "boolean",
       "description": "Suppress verbose build output.",

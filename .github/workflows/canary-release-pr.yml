@@ -1,0 +1,33 @@
+name: Publish canary release of PR
+run-name: 'Canary release: PR #${{ inputs.pr }}, triggered by ${{ github.triggering_actor }}'
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: 'Which pull request number to create a canary release for'
+        required: true
+        type: number
+
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.pr }}
+  cancel-in-progress: true
+
+permissions:
+  pull-requests: write
+
+jobs:
+  release-canary:
+    name: Release canary version
+    runs-on: ubuntu-latest
+    environment: release
+    defaults:
+      run:
+        working-directory: scripts
+    steps:
+      - name: Do nothing
+        run: echo "I'm not doing anything"

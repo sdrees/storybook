@@ -1601,17 +1601,19 @@ describe('PreviewWeb', () => {
     });
 
     describe('if called before the preview is initialized', () => {
-      it('still renders the selected story, once ready', async () => {
+      it('works when there was no selection specifier', async () => {
         document.location.search = '';
         // We intentionally are *not* awaiting here
         new PreviewWeb().initialize({ importFn, getProjectAnnotations });
 
-        emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--b',
-          viewMode: 'story',
-        });
+        emitter.emit(SET_CURRENT_STORY, { storyId: 'component-one--b', viewMode: 'story' });
 
         await waitForEvents([STORY_RENDERED]);
+
+        // Check we don't render the default "story missing" UI / emit the default message
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_MISSING);
+
+        // We of course should emit for the selected story
         expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
           storyId: 'component-one--b',
           viewMode: 'story',
@@ -1621,7 +1623,40 @@ describe('PreviewWeb', () => {
           '',
           'pathname?id=component-one--b&viewMode=story'
         );
-        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_MISSING, 'component-one--b');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--b');
+      });
+
+      it('works when there was a selection specifier', async () => {
+        document.location.search = '?id=component-one--a';
+
+        const initialized = new PreviewWeb().initialize({
+          importFn,
+          getProjectAnnotations,
+        });
+
+        emitter.emit(SET_CURRENT_STORY, { storyId: 'component-one--b', viewMode: 'story' });
+
+        await initialized;
+        await waitForEvents([STORY_RENDERED]);
+
+        // If we emitted CURRENT_STORY_WAS_SET for the original selection, the manager might
+        // get confused, so check that we don't
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
+          storyId: 'component-one--a',
+          viewMode: 'story',
+        });
+        // Double check this doesn't happen either
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_MISSING);
+
+        expect(history.replaceState).toHaveBeenCalledWith(
+          {},
+          '',
+          'pathname?id=component-one--b&viewMode=story'
+        );
+        expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
+          storyId: 'component-one--b',
+          viewMode: 'story',
+        });
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--b');
       });
     });

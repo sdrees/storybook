@@ -4,7 +4,7 @@ import type { StoriesHash } from '@storybook/manager-api';
 import { mockDataset } from './mockdata';
 import { SearchResults } from './SearchResults';
 import type { CombinedDataset, Refs, SearchItem } from './types';
-import { searchItem } from './utils';
+import { searchItem } from '../../utils/tree';
 
 export default {
   component: SearchResults,

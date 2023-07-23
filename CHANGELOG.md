@@ -1,3 +1,28 @@
+## 7.1.0 (July 18, 2023)
+
+Storybook 7.1 is here! 🎉
+
+- 🏄‍♀️ [**In-app onboarding**](https://storybook.js.org/blog/in-app-tour-for-new-users/) to help you set up new projects
+- 💅 [**Zero-config styling support**](https://storybook.js.org/blog/zero-config-support-for-tailwind-mui-styled-components-and-emotion/) for major libraries
+- 🗃️ [**API reference documentation**](https://storybook.js.org/blog/docs-updates/) and TypeScript-first snippets
+- 📇 [**Table of Contents for docs**](https://storybook.js.org/docs/7.1/react/writing-docs/autodocs#generate-a-table-of-contents)
+- 🎨 [**Figma** **Design addon**](https://github.com/storybookjs/addon-designs) official support
+- 📗 **Vue3 source snippets** and reactivity improvements
+- 💯 **Hundreds more** fixes and improvements
+
+7.1 contains hundreds more fixes, features, and tweaks. Browse the changelogs matching `7.1.0-alpha.*`, `7.1.0-beta.*`, and `7.1.0-rc.*` for the full list of changes.
+
+For a better upgrade experience, please use one of the following commands:
+
+npm or yarn 1:
+`npx storybook@latest upgrade`
+
+pnpm:
+`pnpm dlx storybook@latest upgrade`
+
+yarn berry:
+`yarn dlx storybook@latest upgrade`
+
 ## 7.0.27
 
 - Angular: Enable prod mode when Storybook is built - [#23404](https://github.com/storybookjs/storybook/pull/23404), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

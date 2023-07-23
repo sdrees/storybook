@@ -16,8 +16,8 @@ import type { globals } from './types';
 
 // Here we map the name of a module to their VALUE in the global scope.
 export const values: Required<Record<keyof typeof globals, any>> = {
-  '@storybook/channel-postmessage': CHANNEL_POSTMESSAGE,
-  '@storybook/channel-websocket': CHANNEL_WEBSOCKET,
+  '@storybook/channel-postmessage': CHANNEL_POSTMESSAGE, // @deprecated: remove in 8.0
+  '@storybook/channel-websocket': CHANNEL_WEBSOCKET, // @deprecated: remove in 8.0
   '@storybook/channels': CHANNELS,
   '@storybook/client-logger': CLIENT_LOGGER,
   '@storybook/core-events': CORE_EVENTS,
