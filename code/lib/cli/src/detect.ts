@@ -212,7 +212,7 @@ export async function detect(
     return ProjectType.UNDETECTED;
   }
 
-  if (await isNxProject(packageManager)) {
+  if (await isNxProject()) {
     return ProjectType.NX;
   }
 

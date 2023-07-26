@@ -94,10 +94,10 @@ export class StoryIndexGenerator {
   // Cache the last value of `getStoryIndex`. We invalidate (by unsetting) when:
   //  - any file changes, including deletions
   //  - the preview changes [not yet implemented]
-  private lastIndex?: StoryIndex;
+  private lastIndex?: StoryIndex | null;
 
   // Same as the above but for the error case
-  private lastError?: Error;
+  private lastError?: Error | null;
 
   constructor(
     public readonly specifiers: NormalizedStoriesSpecifier[],
@@ -171,6 +171,10 @@ export class StoryIndexGenerator {
     await Promise.all(
       this.specifiers.map(async (specifier) => {
         const entry = this.specifierToCache.get(specifier);
+        if (!entry)
+          throw new Error(
+            `specifier ${specifier} does not have a matching cache entry in specifierToCache`
+          );
         return Promise.all(
           Object.keys(entry).map(async (absolutePath) => {
             if (entry[absolutePath] && !overwrite) return;
@@ -185,7 +189,11 @@ export class StoryIndexGenerator {
 
               entry[absolutePath] = {
                 type: 'error',
-                err: new IndexingError(err.message, [relativePath], err.stack),
+                err: new IndexingError(
+                  err instanceof Error ? err.message : String(err),
+                  [relativePath],
+                  err instanceof Error ? err.stack : undefined
+                ),
               };
             }
           })
@@ -213,6 +221,10 @@ export class StoryIndexGenerator {
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
+      if (!cache)
+        throw new Error(
+          `specifier ${specifier} does not have a matching cache entry in specifierToCache`
+        );
       return Object.values(cache).flatMap((entry): (IndexEntry | ErrorEntry)[] => {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
@@ -245,7 +257,12 @@ export class StoryIndexGenerator {
     const entries = [] as IndexEntry[];
     const importPath = slash(normalizeStoryPath(relativePath));
     const makeTitle = (userTitle?: string) => {
-      return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
+      const title = userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
+      if (!title)
+        throw new Error(
+          "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
+        );
+      return title;
     };
 
     const storyIndexer = this.options.storyIndexers.find((indexer) =>
@@ -255,11 +272,11 @@ export class StoryIndexGenerator {
       throw new Error(`No matching story indexer found for ${absolutePath}`);
     }
     const csf = await storyIndexer.indexer(absolutePath, { makeTitle });
-
     const componentTags = csf.meta.tags || [];
     csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {
       if (!parameters?.docsOnly) {
         const tags = [...(storyTags || componentTags), 'story'];
+        invariant(csf.meta.title);
         entries.push({ id, title: csf.meta.title, name, importPath, tags, type: 'story' });
       }
     });
@@ -273,6 +290,8 @@ export class StoryIndexGenerator {
       //  b) we have docs page enabled for this file
       if (componentTags.includes(STORIES_MDX_TAG) || autodocsOptedIn) {
         const name = this.options.docs.defaultName;
+        if (!name) throw new Error('expected a defaultName property in options.docs');
+        invariant(csf.meta.title);
         const id = toId(csf.meta.title, name);
         entries.unshift({
           id,
@@ -332,7 +351,7 @@ export class StoryIndexGenerator {
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
-      let csfEntry: StoryIndexEntry;
+      let csfEntry: StoryIndexEntry | undefined;
       if (result.of) {
         const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
         dependencies.forEach((dep) => {
@@ -369,7 +388,13 @@ export class StoryIndexGenerator {
 
       const title =
         csfEntry?.title || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
+      if (!title)
+        throw new Error(
+          "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
+        );
       const { defaultName } = this.options.docs;
+      if (!defaultName) throw new Error('expected a defaultName property in options.docs');
+
       const name =
         result.name ||
         (csfEntry ? autoName(importPath, csfEntry.importPath, defaultName) : defaultName);
@@ -386,7 +411,7 @@ export class StoryIndexGenerator {
       };
       return docsEntry;
     } catch (err) {
-      if (err.source?.match(/mdast-util-mdx-jsx/g)) {
+      if (err && (err as { source: any }).source?.match(/mdast-util-mdx-jsx/g)) {
         logger.warn(
           `💡 This seems to be an MDX2 syntax error. Please refer to the MDX section in the following resource for assistance on how to fix this: ${chalk.yellow(
             'https://storybook.js.org/migration-guides/7.0'
@@ -512,7 +537,7 @@ export class StoryIndexGenerator {
             indexEntries[entry.id] = entry;
           }
         } catch (err) {
-          duplicateErrors.push(err);
+          if (err instanceof IndexingError) duplicateErrors.push(err);
         }
       });
       if (duplicateErrors.length) throw new MultipleIndexingError(duplicateErrors);
@@ -552,9 +577,9 @@ export class StoryIndexGenerator {
 
       return this.lastIndex;
     } catch (err) {
-      this.lastError = err;
-      logger.warn(`🚨 ${this.lastError.toString()}`);
+      this.lastError = err == null || err instanceof Error ? err : undefined;
       invariant(this.lastError);
+      logger.warn(`🚨 ${this.lastError.toString()}`);
       throw this.lastError;
     }
   }
@@ -562,7 +587,7 @@ export class StoryIndexGenerator {
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
-
+    if (!cache) throw new Error(`no `);
     const cacheEntry = cache[absolutePath];
     if (cacheEntry && cacheEntry.type === 'stories') {
       const { dependents } = cacheEntry;

@@ -1,5 +1,6 @@
 import express from 'express';
 import compression from 'compression';
+import invariant from 'tiny-invariant';
 
 import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
 
@@ -34,16 +35,13 @@ export async function storybookDevServer(options: Options) {
     getServerChannel(server)
   );
 
-  let indexError: Error;
+  let indexError: Error | undefined;
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
-  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = getStoryIndexGenerator(
-    features,
-    options,
-    serverChannel
-  ).catch((err) => {
-    indexError = err;
-    return undefined;
-  });
+  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
+    getStoryIndexGenerator(features ?? {}, options, serverChannel).catch((err) => {
+      indexError = err;
+      return undefined;
+    });
 
   app.use(compression({ level: 1 }));
 
@@ -51,7 +49,7 @@ export async function storybookDevServer(options: Options) {
     options.extendServer(server);
   }
 
-  app.use(getAccessControlMiddleware(core?.crossOriginIsolated));
+  app.use(getAccessControlMiddleware(core?.crossOriginIsolated ?? false));
   app.use(getCachingMiddleware());
 
   getMiddleware(options.configDir)(router);
@@ -59,6 +57,7 @@ export async function storybookDevServer(options: Options) {
   app.use(router);
 
   const { port, host, initialPath } = options;
+  invariant(port, 'expected options to have a port');
   const proto = options.https ? 'https' : 'http';
   const { address, networkAddress } = getServerAddresses(port, host, proto, initialPath);
 
@@ -67,6 +66,7 @@ export async function storybookDevServer(options: Options) {
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
+  invariant(core?.builder, 'no builder configured!');
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 
   const [previewBuilder, managerBuilder] = await Promise.all([

@@ -52,7 +52,7 @@ export const createStorybookWrapperComponent = ({
   styles: string[];
   moduleMetadata: NgModuleMetadata;
   initialProps?: ICollection;
-  analyzedMetadata?: PropertyExtractor;
+  analyzedMetadata: PropertyExtractor;
 }): Type<any> => {
   // In ivy, a '' selector is not allowed, therefore we need to just set it to anything if
   // storyComponent was not provided.

@@ -19,7 +19,7 @@ export const angularBuildersMultiproject: Fix<AngularBuildersMultiprojectRunOpti
     const frameworkPackageName = getFrameworkPackageName(mainConfig);
 
     if (
-      (await isNxProject(packageManager)) ||
+      (await isNxProject()) ||
       frameworkPackageName !== '@storybook/angular' ||
       !angularVersion ||
       semver.lt(angularVersion, '14.0.0')

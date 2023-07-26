@@ -235,7 +235,7 @@ export type Entry = string;
 
 type CoreCommon_StorybookRefs = Record<
   string,
-  { title: string; url: string } | { disable: boolean }
+  { title: string; url: string } | { disable: boolean; expanded?: boolean }
 >;
 
 export type DocsOptions = {

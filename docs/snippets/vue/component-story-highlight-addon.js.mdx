@@ -3,15 +3,15 @@
 
 import { useChannel } from '@storybook/preview-api';
 import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
-import { Card } form './Card.vue';
+import { Card } from './Card.vue';
 
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'Card',
-  component: Card
+  component: Card,
 };
 
 export const Default: Story = (args) => ({

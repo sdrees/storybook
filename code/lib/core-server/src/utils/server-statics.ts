@@ -26,7 +26,7 @@ export async function useStatics(router: any, options: Options) {
   }
 
   const statics = [
-    ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
+    ...(staticDirs ?? []).map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
     ...(options.staticDir || []),
   ];
 
@@ -52,7 +52,7 @@ export async function useStatics(router: any, options: Options) {
 
           router.use(targetEndpoint, express.static(staticPath, { index: false }));
         } catch (e) {
-          logger.warn(e.message);
+          if (e instanceof Error) logger.warn(e.message);
         }
       })
     );

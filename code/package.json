@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.2.0-alpha.0",
+  "version": "7.2.0-rc.0",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -88,7 +88,7 @@
     "playwright": "1.36.0",
     "playwright-core": "1.36.0",
     "serialize-javascript": "^3.1.0",
-    "type-fest": "^3.11.0"
+    "type-fest": "~2.19"
   },
   "dependencies": {
     "@babel/core": "^7.22.9",

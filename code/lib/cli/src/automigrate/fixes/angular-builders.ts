@@ -25,7 +25,7 @@ export const angularBuilders: Fix<AngularBuildersRunOptions> = {
     // Skip in case of NX
     if (
       !angularVersion ||
-      (await isNxProject(packageManager)) ||
+      (await isNxProject()) ||
       framewworkPackageName !== '@storybook/angular'
     ) {
       return null;

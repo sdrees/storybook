@@ -9,7 +9,8 @@ export default {
 
 export const ExampleStory = {
   args: {
-    propertyA: process.env.STORYBOOK_DATA_KEY,
+    propertyA: import.meta.env.STORYBOOK_DATA_KEY,
+    propertyB: import.meta.env.VITE_CUSTOM_VAR,
   },
 };
 ```

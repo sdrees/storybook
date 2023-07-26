@@ -74,6 +74,22 @@ beforeEach(() => {
   gitClient.git.getRemotes.mockResolvedValue(remoteMock);
   githubInfo.getPullInfoFromCommit.mockResolvedValue(pullInfoMock);
   github.getLabelIds.mockResolvedValue({ 'patch:done': 'pick-id' });
+  github.getUnpickedPRs.mockResolvedValue([
+    {
+      number: 42,
+      id: 'some-id',
+      branch: 'some-patching-branch',
+      title: 'Fix: Patch this PR',
+      mergeCommit: 'abcd1234',
+    },
+    {
+      number: 44,
+      id: 'other-id',
+      branch: 'other-patching-branch',
+      title: 'Fix: Also patch this PR',
+      mergeCommit: 'abcd1234',
+    },
+  ]);
 });
 
 test('it should fail early when no GH_TOKEN is set', async () => {
@@ -130,8 +146,83 @@ test('it should label the PR associated with cheery picks in the current branch'
       "Found latest tag: v7.2.1",
       "Looking at cherry pick commits since v7.2.1",
       "Found the following picks : Commit: 930b47f011f750c44a1782267d698ccdd3c04da3 PR: [#55](https://github.com/storybookjs/storybook/pull/55)",
-      "Labeling the PRs with the patch:done label...",
+      "Labeling 1 PRs with the patch:done label...",
       "Successfully labeled all PRs with the patch:done label.",
     ]
   `);
+});
+
+test('it should label all PRs when the --all flag is passed', async () => {
+  process.env.GH_TOKEN = 'MY_SECRET';
+
+  // clear the git log, it shouldn't depend on it in --all mode
+  gitClient.git.log.mockResolvedValue({
+    all: [],
+    latest: null!,
+    total: 0,
+  });
+
+  const writeStderr = jest.spyOn(process.stderr, 'write').mockImplementation();
+
+  await run({ all: true });
+  expect(github.githubGraphQlClient.mock.calls).toMatchInlineSnapshot(`
+    [
+      [
+        "
+          mutation ($input: AddLabelsToLabelableInput!) {
+            addLabelsToLabelable(input: $input) {
+              clientMutationId
+            }
+          }
+        ",
+        {
+          "input": {
+            "clientMutationId": "39cffd21-7933-56e4-9d9c-1afeda9d5906",
+            "labelIds": [
+              "pick-id",
+            ],
+            "labelableId": "some-id",
+          },
+        },
+      ],
+      [
+        "
+          mutation ($input: AddLabelsToLabelableInput!) {
+            addLabelsToLabelable(input: $input) {
+              clientMutationId
+            }
+          }
+        ",
+        {
+          "input": {
+            "clientMutationId": "cc31033b-5da7-5c9e-adf2-80a2963e19a8",
+            "labelIds": [
+              "pick-id",
+            ],
+            "labelableId": "other-id",
+          },
+        },
+      ],
+    ]
+  `);
+
+  const stderrCalls = writeStderr.mock.calls
+    .map(([text]) =>
+      typeof text === 'string'
+        ? text
+            .replace(ansiRegex(), '')
+            .replace(/[^\x20-\x7E]/g, '')
+            .replaceAll('-', '')
+            .trim()
+        : text
+    )
+    .filter((it) => it !== '');
+
+  expect(stderrCalls).toMatchInlineSnapshot(`
+    [
+      "Labeling 2 PRs with the patch:done label...",
+      "Successfully labeled all PRs with the patch:done label.",
+    ]
+  `);
+  expect(github.getUnpickedPRs).toHaveBeenCalledTimes(1);
 });

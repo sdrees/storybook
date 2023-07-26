@@ -51,7 +51,7 @@
     "esbuild": "^0.18.0",
     "eslint": "^8.28.0",
     "serialize-javascript": "^3.1.0",
-    "type-fest": "^3.11.0"
+    "type-fest": "~2.19"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
@@ -179,7 +179,7 @@
     "ts-dedent": "^2.0.0",
     "ts-node": "^10.9.1",
     "tsup": "^6.7.0",
-    "type-fest": "^3.11.0",
+    "type-fest": "~2.19",
     "typescript": "5.0.4",
     "util": "^0.12.4",
     "uuid": "^9.0.0",

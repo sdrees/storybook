@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.2.0-alpha.0",
+  "version": "7.2.0-rc.0",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -43,8 +43,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/node-logger": "7.2.0-alpha.0",
-    "@storybook/types": "7.2.0-alpha.0",
+    "@storybook/node-logger": "7.2.0-rc.0",
+    "@storybook/types": "7.2.0-rc.0",
     "@types/find-cache-dir": "^3.2.1",
     "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.6.4",
@@ -71,7 +71,7 @@
     "@types/picomatch": "^2.3.0",
     "mock-fs": "^5.2.0",
     "slash": "^5.0.0",
-    "type-fest": "^3.11.0",
+    "type-fest": "~2.19",
     "typescript": "~4.9.3"
   },
   "publishConfig": {

@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import program from 'commander';
-import { simpleGit } from 'simple-git';
 import { setOutput } from '@actions/core';
 import path from 'path';
 import { readJson } from 'fs-extra';
 import { getPullInfoFromCommit } from './utils/get-github-info';
+import { git } from './utils/git-client';
 
 program
   .name('is-pr-frozen')
@@ -14,8 +14,6 @@ program
   )
   .option('-P, --patch', 'Look for patch PR instead of prerelease PR', false)
   .option('-V, --verbose', 'Enable verbose logging', false);
-
-const git = simpleGit();
 
 const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
 const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');

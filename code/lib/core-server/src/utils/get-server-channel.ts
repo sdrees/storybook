@@ -3,7 +3,7 @@ import { isJSON, parse, stringify } from 'telejson';
 import type { ChannelHandler } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
 
-type Server = ConstructorParameters<typeof WebSocketServer>[0]['server'];
+type Server = NonNullable<NonNullable<ConstructorParameters<typeof WebSocketServer>[0]>['server']>;
 
 /**
  * This class represents a channel transport that allows for a one-to-many relationship between the server and clients.
@@ -28,7 +28,7 @@ export class ServerChannelTransport {
       wss.on('message', (raw) => {
         const data = raw.toString();
         const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
-        this.handler(event);
+        this.handler?.(event);
       });
     });
   }

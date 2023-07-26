@@ -300,7 +300,6 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
   return allDeps[storybookPackage];
 }
 
-export async function isNxProject(packageManager: JsPackageManager) {
-  const nxVersion = await packageManager.getPackageVersion('nx');
-  return !!nxVersion ?? findUp.sync('nx.json');
+export async function isNxProject() {
+  return findUp.sync('nx.json');
 }

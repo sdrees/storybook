@@ -1,7 +1,8 @@
 ```tsx
-// MyComponent.stories.ts| tsx
+// MyComponent.stories.ts|tsx
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+// Replace your-framework with the name of your framework
+import type { Meta, StoryObj } from '@storybook/your-framework';
 
 import { MyComponent } from './MyComponent';
 
@@ -14,7 +15,8 @@ type Story = StoryObj<typeof meta>;
 
 export const ExampleStory: Story = {
   args: {
-    propertyA: process.env.STORYBOOK_DATA_KEY,
+    propertyA: import.meta.env.STORYBOOK_DATA_KEY,
+    propertyB: import.meta.env.VITE_CUSTOM_VAR,
   },
 };
 ```

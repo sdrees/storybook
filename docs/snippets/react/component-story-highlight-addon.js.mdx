@@ -4,15 +4,15 @@
 import React, { useEffect } from 'react';
 import { useChannel } from '@storybook/preview-api';
 import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
-import { Card } form './Card';
+import { Card } from './Card';
 
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'Card',
-  component: Card
+  component: Card,
 };
 
 export const Default = () => <Card />;

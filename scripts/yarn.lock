@@ -3038,7 +3038,7 @@ __metadata:
     ts-loader: ^9.4.2
     ts-node: ^10.9.1
     tsup: ^6.7.0
-    type-fest: ^3.11.0
+    type-fest: ~2.19
     typescript: 5.0.4
     util: ^0.12.4
     uuid: ^9.0.0
@@ -15996,10 +15996,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^3.11.0":
-  version: 3.13.1
-  resolution: "type-fest@npm:3.13.1"
-  checksum: 547d22186f73a8c04590b70dcf63baff390078c75ea8acd366bbd510fd0646e348bd1970e47ecf795b7cff0b41d26e9c475c1fedd6ef5c45c82075fbf916b629
+"type-fest@npm:~2.19":
+  version: 2.19.0
+  resolution: "type-fest@npm:2.19.0"
+  checksum: a5a7ecf2e654251613218c215c7493574594951c08e52ab9881c9df6a6da0aeca7528c213c622bc374b4e0cb5c443aa3ab758da4e3c959783ce884c3194e12cb
   languageName: node
   linkType: hard
 

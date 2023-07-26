@@ -9,7 +9,7 @@ describe('normalizeInputType', () => {
         {
           name: 'name',
           type: { name: 'string' },
-          control: { type: 'string' },
+          control: { type: 'text' },
           description: 'description',
           defaultValue: 'defaultValue',
         },
@@ -18,7 +18,7 @@ describe('normalizeInputType', () => {
     ).toEqual({
       name: 'name',
       type: { name: 'string' },
-      control: { type: 'string' },
+      control: { type: 'text' },
       description: 'description',
       defaultValue: 'defaultValue',
     });
@@ -29,7 +29,7 @@ describe('normalizeInputType', () => {
       normalizeInputType(
         {
           type: 'string',
-          control: 'string',
+          control: 'text',
           description: 'description',
           defaultValue: 'defaultValue',
         },
@@ -38,7 +38,7 @@ describe('normalizeInputType', () => {
     ).toEqual({
       name: 'arg',
       type: { name: 'string' },
-      control: { type: 'string' },
+      control: { type: 'text' },
       description: 'description',
       defaultValue: 'defaultValue',
     });

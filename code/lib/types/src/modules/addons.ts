@@ -184,7 +184,7 @@ export interface Addon_BaseAnnotations<
 
   /**
    * ArgTypes encode basic metadata for args, such as `name`, `description`, `defaultValue` for an arg. These get automatically filled in by Storybook Docs.
-   * @see [Control annotations](https://github.com/storybookjs/storybook/blob/91e9dee33faa8eff0b342a366845de7100415367/addons/controls/README.md#control-annotations)
+   * @see [Arg types](https://storybook.js.org/docs/react/api/arg-types)
    */
   argTypes?: Addons_ArgTypes<TArgs>;
 

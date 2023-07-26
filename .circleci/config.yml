@@ -459,6 +459,11 @@ jobs:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
 
 workflows:
+  docs:
+    when:
+      equal: [docs, << pipeline.parameters.workflow >>]
+    jobs:
+      - pretty-docs
   normal:
     when:
       equal: [normal, << pipeline.parameters.workflow >>]

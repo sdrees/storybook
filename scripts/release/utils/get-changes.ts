@@ -3,8 +3,8 @@ import chalk from 'chalk';
 import semver from 'semver';
 import type { PullRequestInfo } from './get-github-info';
 import { getPullInfoFromCommit } from './get-github-info';
-import { getUnpickedPRs } from './get-unpicked-prs';
-import { git } from './git-client';
+import { getLatestTag, git } from './git-client';
+import { getUnpickedPRs } from './github-client';
 
 export const RELEASED_LABELS = {
   'BREAKING CHANGE': '❗ Breaking Change',
@@ -42,8 +42,7 @@ export const getFromCommit = async (from?: string | undefined, verbose?: boolean
   let actualFrom = from;
   if (!from) {
     console.log(`🔍 No 'from' specified, finding latest version tag, fetching all of them...`);
-    // await git.fetch('origin', ['--all', '--tags']);
-    const { latest } = await git.tags(['v*', '--sort=-v:refname', '--merged']);
+    const latest = await getLatestTag();
     if (!latest) {
       throw new Error(
         'Could not automatically detect which commit to generate from, because no version tag was found in the history. Have you fetch tags?'

@@ -12,7 +12,7 @@ export const getApplication = ({
   storyFnAngular: StoryFnAngularReturnType;
   component?: any;
   targetSelector: string;
-  analyzedMetadata?: PropertyExtractor;
+  analyzedMetadata: PropertyExtractor;
 }) => {
   const { props, styles, moduleMetadata = {} } = storyFnAngular;
   let { template } = storyFnAngular;

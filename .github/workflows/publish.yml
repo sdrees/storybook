@@ -121,11 +121,13 @@ jobs:
         if: github.ref_name == 'latest-release'
         run: git fetch --tags origin
 
+      # when this is a patch release from main, label any patch PRs included in the release
+      # when this is a stable release from next, label ALL patch PRs found, as they will per definition be "patched" now
       - name: Label patch PRs as picked
-        if: github.ref_name == 'latest-release'
+        if: github.ref_name == 'latest-release' || (steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release:label-patches
+        run: yarn release:label-patches ${{ steps.target.outputs.target == 'next' && '--all' || '' }}
 
       - name: Create GitHub Release
         if: steps.publish-needed.outputs.published == 'false'
@@ -161,25 +163,43 @@ jobs:
           git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }} [skip ci]"
           git push origin next
 
-      - name: Sync versions/next.json from `next` to `main`
+      - name: Sync version JSONs from `next-release` to `main`
         if: github.ref_name == 'next-release'
         working-directory: .
         run: |
+          VERSION_FILE="./docs/versions/${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next' || 'latest' }}.json"
           git fetch origin main
           git checkout main
           git pull
-          git checkout origin/next ./docs/versions/next.json
-          git add ./docs/versions/next.json
-          git commit -m "Update versions/next.json for v${{ steps.version.outputs.current-version }}"
+          git checkout origin/next-release $VERSION_FILE
+          git add $VERSION_FILE
+          git commit -m "Update $VERSION_FILE for v${{ steps.version.outputs.current-version }}"
           git push origin main
 
-      # Force push from next to main if it is not a prerelease, and this release is from next-release
+      # TODO: this is currently disabled, because we may have a better strategy that we want to try out manually first before comitting to it:
+      #     - create a branch "release-<VERSION>" from HEAD of main
+      #     - git push --force origin ${{ steps.target.outputs.target }}:main
+      #     - ... this will keep the "main" history in the new release branch, and then overwrite main's history with next's
+
+      # Sync next-release to main if it is not a prerelease, and this release is from next-release
       # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
-      # This will keep release-next, next and main all tracking v7.1.0
-      # - name: Force push ${{ steps.target.outputs.target }} to main
+      # This will keep next-release, next and main all tracking v7.1.0
+      # See "Alternative merge strategies" in https://stackoverflow.com/a/36321787
+      # - name: Sync next-release to main
       #   if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease
+      #   working-directory: .
       #   run: |
-      #     git push --force origin ${{ steps.target.outputs.target }}:main
+      #     git fetch origin next-release
+      #     git checkout next-release
+      #     git pull
+      #     git fetch origin main
+      #     git checkout main
+      #     git pull
+      #     git merge --no-commit -s ours next-release
+      #     git rm -rf .
+      #     git checkout next-release -- .
+      #     git commit -m "Sync next-release to main"
+      #     git push origin main
 
       - name: Report job failure to Discord
         if: failure()

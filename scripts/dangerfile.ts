@@ -17,7 +17,7 @@ const Versions = {
   MAJOR: 'MAJOR',
 };
 
-const ciLabels = ['ci:normal', 'ci:merged', 'ci:daily'];
+const ciLabels = ['ci:normal', 'ci:merged', 'ci:daily', 'ci:docs'];
 
 const branchVersion = Versions.MINOR;
 

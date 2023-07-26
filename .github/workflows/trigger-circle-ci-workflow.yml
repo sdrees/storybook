@@ -55,6 +55,25 @@ jobs:
         env:
           CIRCLE_CI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}
           BRANCH: ${{ needs.get-branch.outputs.branch }}
+  trigger-docs-tests:
+    runs-on: ubuntu-latest
+    needs: get-branch
+    if: github.event_name == 'pull_request_target' && contains(github.event.pull_request.labels.*.name, 'ci:docs')
+    steps:
+      - name: Trigger docs tests
+        run: >
+          curl -X POST --location "https://circleci.com/api/v2/project/gh/storybookjs/storybook/pipeline" \
+            -H "Content-Type: application/json" \
+            -H "Circle-Token: $CIRCLE_CI_TOKEN" \
+            -d '{
+                  "branch": "'"$BRANCH"'",
+                  "parameters": {
+                    "workflow": "docs"
+                  }
+                }'
+        env:
+          CIRCLE_CI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}
+          BRANCH: ${{ needs.get-branch.outputs.branch }}
   trigger-merged-tests:
     runs-on: ubuntu-latest
     needs: get-branch

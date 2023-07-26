@@ -6,7 +6,7 @@ export const webpack: StorybookConfig['webpack'] = (config) => {
   return {
     ...config,
     plugins: [
-      ...config.plugins,
+      ...(config.plugins ?? []),
       new VueLoaderPlugin(),
       new DefinePlugin({
         __VUE_OPTIONS_API__: JSON.stringify(true),
@@ -16,7 +16,7 @@ export const webpack: StorybookConfig['webpack'] = (config) => {
     module: {
       ...config.module,
       rules: [
-        ...config.module.rules,
+        ...(config.module?.rules ?? []),
         {
           test: /\.vue$/,
           loader: require.resolve('vue-loader'),
@@ -51,9 +51,9 @@ export const webpack: StorybookConfig['webpack'] = (config) => {
     },
     resolve: {
       ...config.resolve,
-      extensions: [...config.resolve.extensions, '.vue'],
+      extensions: [...(config.resolve?.extensions ?? []), '.vue'],
       alias: {
-        ...config.resolve.alias,
+        ...config.resolve?.alias,
         vue$: require.resolve('vue/dist/vue.esm-bundler.js'),
       },
     },
