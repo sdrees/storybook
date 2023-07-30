@@ -31,12 +31,12 @@
     "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.2.0-rc.0",
-    "@storybook/core-common": "7.2.0-rc.0",
-    "@storybook/docs-tools": "7.2.0-rc.0",
+    "@storybook/builder-webpack5": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.2.0-rc.0",
-    "@storybook/types": "7.2.0-rc.0",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

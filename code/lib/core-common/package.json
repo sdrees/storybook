@@ -43,8 +43,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/node-logger": "7.2.0-rc.0",
-    "@storybook/types": "7.2.0-rc.0",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/find-cache-dir": "^3.2.1",
     "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.6.4",

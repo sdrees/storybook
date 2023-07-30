@@ -68,11 +68,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.2.0-rc.0",
-    "@storybook/components": "7.2.0-rc.0",
-    "@storybook/manager-api": "7.2.0-rc.0",
-    "@storybook/preview-api": "7.2.0-rc.0",
-    "@storybook/theming": "7.2.0-rc.0"
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/theming": "workspace:*"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

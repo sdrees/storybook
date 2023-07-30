@@ -391,7 +391,7 @@ export class JsonArray extends Component<JsonArrayProps, JsonArrayState> {
           {data.map((item, index) => (
             <JsonNode
               key={index}
-              name={`${index}`}
+              name={index.toString()}
               data={item}
               keyPath={keyPath}
               deep={nextDeep}

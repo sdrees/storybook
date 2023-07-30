@@ -43,17 +43,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.2.0-rc.0",
-    "@storybook/client-logger": "7.2.0-rc.0",
-    "@storybook/components": "7.2.0-rc.0",
-    "@storybook/core-events": "7.2.0-rc.0",
+    "@storybook/channels": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/csf": "^0.1.0",
-    "@storybook/docs-tools": "7.2.0-rc.0",
+    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.2.0-rc.0",
-    "@storybook/preview-api": "7.2.0-rc.0",
-    "@storybook/theming": "7.2.0-rc.0",
-    "@storybook/types": "7.2.0-rc.0",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/lodash": "^4.14.167",
     "color-convert": "^2.0.1",
     "dequal": "^2.0.2",
@@ -68,7 +68,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "7.2.0-rc.0",
+    "@storybook/addon-actions": "workspace:*",
     "@types/color-convert": "^2.0.0"
   },
   "peerDependencies": {

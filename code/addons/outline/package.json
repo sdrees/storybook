@@ -78,13 +78,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.2.0-rc.0",
-    "@storybook/components": "7.2.0-rc.0",
-    "@storybook/core-events": "7.2.0-rc.0",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.2.0-rc.0",
-    "@storybook/preview-api": "7.2.0-rc.0",
-    "@storybook/types": "7.2.0-rc.0",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

@@ -52,13 +52,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.2.0-rc.0",
-    "@storybook/core-client": "7.2.0-rc.0",
-    "@storybook/core-events": "7.2.0-rc.0",
-    "@storybook/docs-tools": "7.2.0-rc.0",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-client": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.2.0-rc.0",
-    "@storybook/types": "7.2.0-rc.0",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*",
     "sveltedoc-parser": "^4.2.1",
     "type-fest": "~2.19"
   },

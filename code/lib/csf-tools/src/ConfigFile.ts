@@ -6,6 +6,10 @@ import * as t from '@babel/types';
 import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
+import * as recast from 'recast';
+import prettier from 'prettier';
+
+import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -524,6 +528,107 @@ export class ConfigFile {
   }
 
   /**
+   * Import specifiers for a specific require import
+   * @param importSpecifiers - The import specifiers to set. If a string is passed in, a default import will be set. Otherwise, an array of named imports will be set
+   * @param fromImport - The module to import from
+   * @example
+   * // const { foo } = require('bar');
+   * setRequireImport(['foo'], 'bar');
+   *
+   * // const foo = require('bar');
+   * setRequireImport('foo', 'bar');
+   *
+   */
+  setRequireImport(importSpecifier: string[] | string, fromImport: string) {
+    const requireDeclaration = this._ast.program.body.find(
+      (node) =>
+        t.isVariableDeclaration(node) &&
+        node.declarations.length === 1 &&
+        t.isVariableDeclarator(node.declarations[0]) &&
+        t.isCallExpression(node.declarations[0].init) &&
+        t.isIdentifier(node.declarations[0].init.callee) &&
+        node.declarations[0].init.callee.name === 'require' &&
+        t.isStringLiteral(node.declarations[0].init.arguments[0]) &&
+        node.declarations[0].init.arguments[0].value === fromImport
+    ) as t.VariableDeclaration | undefined;
+
+    /**
+     * Returns true, when the given import declaration has the given import specifier
+     * @example
+     * // const { foo } = require('bar');
+     * hasImportSpecifier(declaration, 'foo');
+     */
+    const hasRequireSpecifier = (name: string) =>
+      t.isObjectPattern(requireDeclaration?.declarations[0].id) &&
+      requireDeclaration?.declarations[0].id.properties.find(
+        (specifier) =>
+          t.isObjectProperty(specifier) &&
+          t.isIdentifier(specifier.key) &&
+          specifier.key.name === name
+      );
+
+    /**
+     * Returns true, when the given import declaration has the given default import specifier
+     * @example
+     * // import foo from 'bar';
+     * hasImportSpecifier(declaration, 'foo');
+     */
+    const hasDefaultRequireSpecifier = (declaration: t.VariableDeclaration, name: string) =>
+      declaration.declarations.length === 1 &&
+      t.isVariableDeclarator(declaration.declarations[0]) &&
+      t.isIdentifier(declaration.declarations[0].id) &&
+      declaration.declarations[0].id.name === name;
+
+    // if the import specifier is a string, we're dealing with default imports
+    if (typeof importSpecifier === 'string') {
+      // If the import declaration with the given source exists
+      const addDefaultRequireSpecifier = () => {
+        this._ast.program.body.unshift(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(
+              t.identifier(importSpecifier),
+              t.callExpression(t.identifier('require'), [t.stringLiteral(fromImport)])
+            ),
+          ])
+        );
+      };
+
+      if (requireDeclaration) {
+        if (!hasDefaultRequireSpecifier(requireDeclaration, importSpecifier)) {
+          // If the import declaration hasn't the specified default identifier, we add a new variable declaration
+          addDefaultRequireSpecifier();
+        }
+        // If the import declaration with the given source doesn't exist
+      } else {
+        // Add the import declaration to the top of the file
+        addDefaultRequireSpecifier();
+      }
+      // if the import specifier is an array, we're dealing with named imports
+    } else if (requireDeclaration) {
+      importSpecifier.forEach((specifier) => {
+        if (!hasRequireSpecifier(specifier)) {
+          (requireDeclaration.declarations[0].id as t.ObjectPattern).properties.push(
+            t.objectProperty(t.identifier(specifier), t.identifier(specifier), undefined, true)
+          );
+        }
+      });
+    } else {
+      this._ast.program.body.unshift(
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.objectPattern(
+              importSpecifier.map((specifier) =>
+                t.objectProperty(t.identifier(specifier), t.identifier(specifier), undefined, true)
+              )
+            ),
+            t.callExpression(t.identifier('require'), [t.stringLiteral(fromImport)])
+          ),
+        ])
+      );
+    }
+  }
+
+  /**
    * Set import specifiers for a given import statement.
    * @description Does not support setting type imports (yet)
    * @param importSpecifiers - The import specifiers to set. If a string is passed in, a default import will be set. Otherwise, an array of named imports will be set
@@ -617,6 +722,25 @@ export const formatConfig = (config: ConfigFile) => {
   return code;
 };
 
+export const printConfig = (config: ConfigFile, options: Options = {}) => {
+  const result = recast.print(config._ast, options);
+  const prettierConfig = prettier.resolveConfig.sync('.');
+
+  if (prettierConfig) {
+    let pretty: string;
+    try {
+      pretty = prettier.format(result.code, {
+        ...prettierConfig,
+        filepath: config.fileName ?? 'main.ts',
+      });
+    } catch (_) {
+      pretty = result.code;
+    }
+    return { ...result, code: pretty };
+  }
+  return result;
+};
+
 export const readConfig = async (fileName: string) => {
   const code = (await fs.readFile(fileName, 'utf-8')).toString();
   return loadConfig(code, fileName).parse();
@@ -625,5 +749,5 @@ export const readConfig = async (fileName: string) => {
 export const writeConfig = async (config: ConfigFile, fileName?: string) => {
   const fname = fileName || config.fileName;
   if (!fname) throw new Error('Please specify a fileName for writeConfig');
-  await fs.writeFile(fname, await formatConfig(config));
+  await fs.writeFile(fname, formatConfig(config));
 };

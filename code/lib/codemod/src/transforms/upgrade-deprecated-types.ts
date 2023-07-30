@@ -3,8 +3,7 @@ import prettier from 'prettier';
 import type { API, FileInfo } from 'jscodeshift';
 import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
-import { loadCsf } from '@storybook/csf-tools';
-import * as recast from 'recast';
+import { loadCsf, printCsf } from '@storybook/csf-tools';
 import * as t from '@babel/types';
 
 const logger = console;
@@ -24,7 +23,8 @@ function migrateType(oldType: string) {
 
 export default function transform(info: FileInfo, api: API, options: { parser?: string }) {
   // TODO what do I need to with the title?
-  const fileNode = loadCsf(info.source, { makeTitle: (title) => title })._ast;
+  const csf = loadCsf(info.source, { makeTitle: (title) => title });
+  const fileNode = csf._ast;
   // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
   const file: BabelFile = new babel.File(
     { filename: info.path },
@@ -33,7 +33,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
 
   upgradeDeprecatedTypes(file);
 
-  let output = recast.print(file.path.node).code;
+  let output = printCsf(csf).code;
 
   try {
     const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {

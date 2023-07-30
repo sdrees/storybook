@@ -58,8 +58,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-webpack": "7.2.0-rc.0",
-    "@storybook/docs-tools": "7.2.0-rc.0",
+    "@storybook/core-webpack": "workspace:*",
+    "@storybook/docs-tools": "workspace:*",
     "@types/node": "^16.0.0",
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.44.23",

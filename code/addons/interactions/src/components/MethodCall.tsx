@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { ObjectInspector } from '@devtools-ds/object-inspector';
 import type { Call, CallRef, ElementRef } from '@storybook/instrumenter';
 import { useTheme } from '@storybook/theming';

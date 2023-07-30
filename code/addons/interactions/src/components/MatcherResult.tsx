@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { styled, typography } from '@storybook/theming';
 import { Node } from './MethodCall';

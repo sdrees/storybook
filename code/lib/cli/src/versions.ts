@@ -13,6 +13,7 @@ export default {
   '@storybook/addon-mdx-gfm': '7.2.0-rc.0',
   '@storybook/addon-measure': '7.2.0-rc.0',
   '@storybook/addon-outline': '7.2.0-rc.0',
+  '@storybook/addon-themes': '7.2.0-rc.0',
   '@storybook/addon-storyshots': '7.2.0-rc.0',
   '@storybook/addon-storyshots-puppeteer': '7.2.0-rc.0',
   '@storybook/addon-storysource': '7.2.0-rc.0',

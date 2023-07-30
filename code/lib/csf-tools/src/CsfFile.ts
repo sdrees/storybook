@@ -5,10 +5,12 @@ import { dedent } from 'ts-dedent';
 import * as t from '@babel/types';
 
 import * as generate from '@babel/generator';
+import * as recast from 'recast';
 
 import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
+import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 
@@ -192,7 +194,7 @@ export class CsfFile {
         } else if (['includeStories', 'excludeStories'].includes(p.key.name)) {
           (meta as any)[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
-          const { code } = generate.default(p.value, {});
+          const { code } = recast.print(p.value, {});
           meta.component = code;
         } else if (p.key.name === 'tags') {
           let node = p.value;
@@ -315,12 +317,21 @@ export class CsfFile {
                 } else {
                   self._storyAnnotations[exportName] = {};
                 }
+                let storyNode;
+                if (t.isVariableDeclarator(decl)) {
+                  storyNode =
+                    t.isTSAsExpression(decl.init) || t.isTSSatisfiesExpression(decl.init)
+                      ? decl.init.expression
+                      : decl.init;
+                } else {
+                  storyNode = decl;
+                }
                 let parameters;
-                if (t.isVariableDeclarator(decl) && t.isObjectExpression(decl.init)) {
+                if (t.isObjectExpression(storyNode)) {
                   // eslint-disable-next-line @typescript-eslint/naming-convention
                   let __isArgsStory = true; // assume default render is an args story
                   // CSF3 object export
-                  (decl.init.properties as t.ObjectProperty[]).forEach((p) => {
+                  (storyNode.properties as t.ObjectProperty[]).forEach((p) => {
                     if (t.isIdentifier(p.key)) {
                       if (p.key.name === 'render') {
                         __isArgsStory = isArgsStory(p.value as t.Expression, parent, self);
@@ -336,11 +347,10 @@ export class CsfFile {
                   });
                   parameters = { __isArgsStory };
                 } else {
-                  const fn = t.isVariableDeclarator(decl) ? decl.init : decl;
                   parameters = {
                     // __id: toId(self._meta.title, name),
                     // FIXME: Template.bind({});
-                    __isArgsStory: isArgsStory(fn as t.Node, parent, self),
+                    __isArgsStory: isArgsStory(storyNode as t.Node, parent, self),
                   };
                 }
                 self._stories[exportName] = {
@@ -533,7 +543,9 @@ export const loadCsf = (code: string, options: CsfOptions) => {
 
 interface FormatOptions {
   sourceMaps?: boolean;
+  preserveStyle?: boolean;
 }
+
 export const formatCsf = (csf: CsfFile, options: FormatOptions = { sourceMaps: false }) => {
   const result = generate.default(csf._ast, options);
   if (options.sourceMaps) {
@@ -541,6 +553,13 @@ export const formatCsf = (csf: CsfFile, options: FormatOptions = { sourceMaps: f
   }
   const { code } = result;
   return code;
+};
+
+/**
+ * Use this function, if you want to preserve styles. Uses recast under the hood.
+ */
+export const printCsf = (csf: CsfFile, options: Options = {}) => {
+  return recast.print(csf._ast, options);
 };
 
 export const readCsf = async (fileName: string, options: CsfOptions) => {
@@ -551,5 +570,5 @@ export const readCsf = async (fileName: string, options: CsfOptions) => {
 export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
-  await fs.writeFile(fileName as string, (await formatCsf(csf)) as string);
+  await fs.writeFile(fileName as string, printCsf(csf).code);
 };

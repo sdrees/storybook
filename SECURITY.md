@@ -2,9 +2,9 @@
 
 ## Supported Versions
 
-| Version       | Supported          |
-| ------------- | ------------------ |
-| 6.3, 6.4, 6.5 | :white_check_mark: |
+We release patches for fixing security vulnerabilities, primarily focusing on the latest release only. 
+
+In the event of a high-risk vulnerability, we may backport the security fixes to the minor versions of the software, starting from the latest minor version up to the latest major release. The decision to backport security fixes to older versions will be made based on a risk assessment and the feasibility of implementing the patch in those versions.
 
 ## Reporting a Vulnerability
 

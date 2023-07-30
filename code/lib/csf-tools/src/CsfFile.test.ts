@@ -228,21 +228,57 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import type { Meta, StoryFn } from '@storybook/react';
+          import type { Meta, StoryFn, StoryObj } from '@storybook/react';
           type PropTypes = {};
-          export default { title: 'foo/bar/baz' } as Meta<PropTypes>;
-          export const A: StoryFn<PropTypes> = () => <>A</>;
-          export const B: StoryFn<PropTypes> = () => <>B</>;
-        `
+          export default { title: 'foo/bar' } satisfies Meta<PropTypes>;
+          export const A = { name: 'AA' } satisfies StoryObj<PropTypes>;
+          export const B = ((args) => {}) satisfies StoryFn<PropTypes>;
+        `,
+          true
         )
       ).toMatchInlineSnapshot(`
         meta:
-          title: foo/bar/baz
+          title: foo/bar
         stories:
-          - id: foo-bar-baz--a
-            name: A
-          - id: foo-bar-baz--b
+          - id: foo-bar--a
+            name: AA
+            parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+          - id: foo-bar--b
             name: B
+            parameters:
+              __isArgsStory: true
+              __id: foo-bar--b
+      `);
+    });
+
+    it('typescript as', () => {
+      expect(
+        parse(
+          dedent`
+          import type { Meta, StoryFn, StoryObj } from '@storybook/react';
+          type PropTypes = {};
+          export default { title: 'foo/bar' } as Meta<PropTypes>;
+          export const A = { name: 'AA' } as StoryObj<PropTypes>;
+          export const B = ((args) => {}) as StoryFn<PropTypes>;
+        `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: AA
+            parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+          - id: foo-bar--b
+            name: B
+            parameters:
+              __isArgsStory: true
+              __id: foo-bar--b
       `);
     });
 

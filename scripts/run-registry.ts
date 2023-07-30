@@ -70,7 +70,7 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
                 '.'
               )})`
             );
-            const command = `cd ${location} && npm publish --registry ${url} --force --access restricted --ignore-scripts`;
+            const command = `cd ${location} && yarn pack && npm publish ./package.tgz --registry ${url} --force --access restricted --ignore-scripts && rm ./package.tgz`;
             exec(command, (e) => {
               if (e) {
                 rej(e);

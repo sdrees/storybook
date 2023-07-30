@@ -47,10 +47,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.2.0-rc.0",
-    "@storybook/core-common": "7.2.0-rc.0",
-    "@storybook/preset-svelte-webpack": "7.2.0-rc.0",
-    "@storybook/svelte": "7.2.0-rc.0"
+    "@storybook/builder-webpack5": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/preset-svelte-webpack": "workspace:*",
+    "@storybook/svelte": "workspace:*"
   },
   "devDependencies": {
     "svelte": "^4.0.0",

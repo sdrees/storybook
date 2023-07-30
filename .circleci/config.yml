@@ -4,7 +4,7 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ['normal', 'merged', 'daily', 'skipped']
+    enum: ['normal', 'merged', 'daily', 'skipped', 'docs']
     default: 'skipped'
 
 executors:

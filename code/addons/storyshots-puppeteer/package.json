@@ -37,8 +37,8 @@
   "dependencies": {
     "@axe-core/puppeteer": "^4.2.0",
     "@storybook/csf": "^0.1.0",
-    "@storybook/node-logger": "7.2.0-rc.0",
-    "@storybook/types": "7.2.0-rc.0",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/jest-image-snapshot": "^6.0.0",
     "jest-image-snapshot": "^6.0.0"
   },
@@ -49,7 +49,7 @@
     "puppeteer": "^2.0.0 || ^3.0.0"
   },
   "peerDependencies": {
-    "@storybook/addon-storyshots": "7.2.0-rc.0",
+    "@storybook/addon-storyshots": "workspace:*",
     "puppeteer": ">=2.0.0"
   },
   "peerDependenciesMeta": {

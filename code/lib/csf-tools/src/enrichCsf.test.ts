@@ -2,9 +2,9 @@
 /* eslint-disable no-underscore-dangle */
 
 import { dedent } from 'ts-dedent';
-import { loadCsf, formatCsf } from './CsfFile';
-import { enrichCsf, extractSource } from './enrichCsf';
+import { formatCsf, loadCsf } from './CsfFile';
 import type { EnrichCsfOptions } from './enrichCsf';
+import { enrichCsf, extractSource } from './enrichCsf';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,

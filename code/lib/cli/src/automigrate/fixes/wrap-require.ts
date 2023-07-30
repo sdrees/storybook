@@ -61,7 +61,16 @@ export const wrapRequire: Fix<WrapRequireRunOptions> = {
           });
 
           if (getRequireWrapperName(mainConfig) === null) {
-            mainConfig.setImport(['dirname', 'join'], 'path');
+            if (
+              mainConfig.fileName.endsWith('.cjs') ||
+              mainConfig.fileName.endsWith('.cts') ||
+              mainConfig.fileName.endsWith('.cjsx') ||
+              mainConfig.fileName.endsWith('.ctsx')
+            ) {
+              mainConfig.setRequireImport(['dirname', 'join'], 'path');
+            } else {
+              mainConfig.setImport(['dirname', 'join'], 'path');
+            }
             mainConfig.setBodyDeclaration(
               getRequireWrapperAsCallExpression(result.isConfigTypescript)
             );

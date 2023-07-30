@@ -27,7 +27,10 @@ export class ServerChannelTransport {
     this.socket.on('connection', (wss) => {
       wss.on('message', (raw) => {
         const data = raw.toString();
-        const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
+        const event =
+          typeof data === 'string' && isJSON(data)
+            ? parse(data, { allowFunction: false, allowClass: false })
+            : data;
         this.handler?.(event);
       });
     });
@@ -38,7 +41,7 @@ export class ServerChannelTransport {
   }
 
   send(event: any) {
-    const data = stringify(event, { maxDepth: 15, allowFunction: true });
+    const data = stringify(event, { maxDepth: 15, allowFunction: false, allowClass: false });
 
     Array.from(this.socket.clients)
       .filter((c) => c.readyState === WebSocket.OPEN)

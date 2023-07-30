@@ -43,11 +43,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.2.0-rc.0",
-    "@storybook/client-logger": "7.2.0-rc.0",
-    "@storybook/core-events": "7.2.0-rc.0",
+    "@storybook/channels": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.2.0-rc.0"
+    "@storybook/preview-api": "workspace:*"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

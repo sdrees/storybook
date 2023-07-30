@@ -48,11 +48,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "7.2.0-rc.0",
-    "@storybook/docs-tools": "7.2.0-rc.0",
+    "@storybook/core-client": "workspace:*",
+    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.2.0-rc.0",
-    "@storybook/types": "7.2.0-rc.0",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

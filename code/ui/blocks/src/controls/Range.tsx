@@ -220,7 +220,7 @@ export const RangeControl: FC<RangeProps> = ({
         {...{ name, value, min, max, step, onFocus, onBlur }}
       />
       <RangeCurrentAndMaxLabel numberOFDecimalsPlaces={numberOFDecimalsPlaces} max={max}>
-        {`${hasValue ? value.toFixed(numberOFDecimalsPlaces) : '--'}`} / {max}
+        {hasValue ? value.toFixed(numberOFDecimalsPlaces) : '--'} / {max}
       </RangeCurrentAndMaxLabel>
     </RangeWrapper>
   );

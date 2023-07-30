@@ -58,6 +58,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@babel/core": "^7.22.9",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@babel/plugin-proposal-numeric-separator": "^7.18.6",
@@ -70,13 +71,13 @@
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@babel/runtime": "^7.22.6",
-    "@storybook/addon-actions": "7.2.0-rc.0",
-    "@storybook/builder-webpack5": "7.2.0-rc.0",
-    "@storybook/core-common": "7.2.0-rc.0",
-    "@storybook/node-logger": "7.2.0-rc.0",
-    "@storybook/preset-react-webpack": "7.2.0-rc.0",
-    "@storybook/preview-api": "7.2.0-rc.0",
-    "@storybook/react": "7.2.0-rc.0",
+    "@storybook/addon-actions": "workspace:*",
+    "@storybook/builder-webpack5": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/preset-react-webpack": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/react": "workspace:*",
     "@types/node": "^16.0.0",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
@@ -97,7 +98,6 @@
     "tsconfig-paths-webpack-plugin": "^4.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
     "@babel/types": "^7.22.5",
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
@@ -107,7 +107,6 @@
     "webpack": "^5.65.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.22.0",
     "@next/font": "^13.0.0",
     "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -115,9 +114,6 @@
     "webpack": "^5.0.0"
   },
   "peerDependenciesMeta": {
-    "@babel/core": {
-      "optional": true
-    },
     "@next/font": {
       "optional": true
     },
