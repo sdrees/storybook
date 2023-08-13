@@ -26,7 +26,7 @@ import type {
   StoryKind,
   StoryName,
 } from './csf';
-import type { IndexEntry } from './storyIndex';
+import type { IndexEntry } from './indexer';
 
 export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
 
@@ -307,7 +307,11 @@ export type BaseStory<TArgs, StoryFnReturnType> =
 
 export interface Addon_RenderOptions {
   active: boolean;
-  key: string;
+  /**
+   * @deprecated You should not use key anymore as of Storybook 7.2 this render method is invoked as a React component.
+   * This property will be removed in 8.0.
+   * */
+  key?: unknown;
 }
 
 /**

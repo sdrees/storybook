@@ -2,6 +2,8 @@
 title: 'Canvas'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Canvas Doc Block" params='start=148' />
+
 The `Canvas` block is a wrapper around a [`Story`](./doc-block-story.md), featuring a toolbar that allows you to interact with its content while automatically providing the required [`Source`](./doc-block-source.md) snippets.
 
 ![Screenshot of Canvas block](./doc-block-canvas.png)

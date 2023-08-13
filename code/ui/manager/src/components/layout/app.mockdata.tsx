@@ -42,22 +42,12 @@ export const panels: Addon_Collection<Addon_BaseType> = {
   test1: {
     title: 'Test 1',
     type: Addon_TypesEnum.PANEL,
-    render: ({ active, key }) =>
-      active ? (
-        <div id="test1" key={key}>
-          TEST 1
-        </div>
-      ) : null,
+    render: ({ active }) => (active ? <div id="test1">TEST 1</div> : null),
   },
   test2: {
     title: 'Test 2',
     type: Addon_TypesEnum.PANEL,
-    render: ({ active, key }) =>
-      active ? (
-        <div id="test2" key={key}>
-          TEST 2
-        </div>
-      ) : null,
+    render: ({ active }) => (active ? <div id="test2">TEST 2</div> : null),
   },
 };
 

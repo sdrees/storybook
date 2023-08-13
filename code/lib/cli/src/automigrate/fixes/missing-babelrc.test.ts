@@ -14,9 +14,7 @@ const babelContent = JSON.stringify({
     [
       '@babel/preset-env',
       {
-        targets: {
-          chrome: 100,
-        },
+        targets: { chrome: 100, safari: 15, firefox: 91 },
       },
     ],
     '@babel/preset-typescript',

@@ -7,7 +7,7 @@ import type { DocsOptions } from './core-common';
 import type { API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
 import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
-import type { StoryIndex } from './storyIndex';
+import type { StoryIndex } from './indexer';
 
 type OrString<T extends string> = T | (string & {});
 

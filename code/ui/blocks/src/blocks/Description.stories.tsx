@@ -12,7 +12,6 @@ const meta: Meta<typeof Description> = {
   parameters: {
     controls: {
       include: [],
-      hideNoControlsWarning: true,
     },
     // workaround for https://github.com/storybookjs/storybook/issues/20505
     docs: { source: { type: 'code' } },

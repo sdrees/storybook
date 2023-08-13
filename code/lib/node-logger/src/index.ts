@@ -25,7 +25,8 @@ export const logger = {
   plain: (message: string): void => console.log(message),
   line: (count = 1): void => console.log(`${Array(count - 1).fill('\n')}`),
   warn: (message: string): void => npmLog.warn('', message),
-  error: (message: string): void => npmLog.error('', message),
+  // npmLog supports anything we log, it will just stringify it
+  error: (message: unknown): void => npmLog.error('', message as string),
   trace: ({ message, time }: { message: string; time: [number, number] }): void =>
     npmLog.info('', `${message} (${colors.purple(prettyTime(time))})`),
   setLevel: (level = 'info'): void => {

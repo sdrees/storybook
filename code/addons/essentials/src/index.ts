@@ -50,7 +50,6 @@ export function addons(options: PresetOptions) {
     'measure',
     'outline',
     'highlight',
-    'themes',
   ]
     .filter((key) => (options as any)[key] !== false)
     .filter((addon) => !checkInstalled(addon, main))

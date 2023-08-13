@@ -16,6 +16,7 @@ export const bench: Task = {
   async run(details, options) {
     const controllers: AbortController[] = [];
     try {
+      const { disableDocs } = options;
       const { browse } = await import('../bench/browse');
       const { saveBench, loadBench } = await import('../bench/utils');
       const { default: prettyBytes } = await dynamicImport('pretty-bytes');
@@ -26,7 +27,7 @@ export const bench: Task = {
         throw new Error('dev: controller is null');
       }
       controllers.push(devController);
-      const devBrowseResult = await browse(`http://localhost:${devPort}`);
+      const devBrowseResult = await browse(`http://localhost:${devPort}`, { disableDocs });
       devController.abort();
 
       const serveController = await serve.run(details, { ...options, debug: false });
@@ -34,7 +35,7 @@ export const bench: Task = {
         throw new Error('serve: controller is null');
       }
       controllers.push(serveController);
-      const buildBrowseResult = await browse(`http://localhost:${servePort}`);
+      const buildBrowseResult = await browse(`http://localhost:${servePort}`, { disableDocs });
       serveController.abort();
 
       await saveBench(

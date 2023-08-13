@@ -10,10 +10,6 @@ test.describe('manager', () => {
 
     await new SbPage(page).waitUntilLoaded();
   });
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
-  });
 
   test('shortcuts sidebar', async ({ page }) => {
     const sbPage = new SbPage(page);

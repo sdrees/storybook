@@ -157,4 +157,5 @@ As the [coverage addon](https://storybook.js.org/addons/@storybook/addon-coverag
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - Coverage tests for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [Import stories in other tests](./importing-stories-in-tests.md) for other tools
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

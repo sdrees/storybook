@@ -1,11 +1,10 @@
 ```js
-// setupFile.js
-
-import { setGlobalConfig } from '@storybook/testing-react';
+// setupFile.js|ts
 
 // Storybook's preview file location
 import * as globalStorybookConfig from './.storybook/preview';
 
-// Replace with setProjectAnnotations if you are using the new pre-release version the addon
-setGlobalConfig(globalStorybookConfig);
+import { setProjectAnnotations } from '@storybook/react';
+
+setProjectAnnotations(globalStorybookConfig);
 ```

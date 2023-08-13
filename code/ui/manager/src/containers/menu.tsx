@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
-import { Badge, Icons } from '@storybook/components';
+import { Badge } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 import type { API, State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import { styled, useTheme } from '@storybook/theming';
@@ -103,7 +104,7 @@ export const useMenu = (
       onClick: () => api.toggleNav(),
       active: showNav,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.toggleNav} /> : null,
-      left: showNav ? <Icons icon="check" /> : null,
+      left: showNav ? <Icon.Check /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, showNav]
   );
@@ -115,7 +116,7 @@ export const useMenu = (
       onClick: () => api.toggleToolbar(),
       active: showToolbar,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.toolbar} /> : null,
-      left: showToolbar ? <Icons icon="check" /> : null,
+      left: showToolbar ? <Icon.Check /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, showToolbar]
   );
@@ -127,7 +128,7 @@ export const useMenu = (
       onClick: () => api.togglePanel(),
       active: showPanel,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.togglePanel} /> : null,
-      left: showPanel ? <Icons icon="check" /> : null,
+      left: showPanel ? <Icon.Check /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, showPanel]
   );
@@ -149,7 +150,7 @@ export const useMenu = (
       onClick: () => api.toggleFullscreen(),
       active: isFullscreen,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.fullScreen} /> : null,
-      left: isFullscreen ? <Icons icon="check" /> : null,
+      left: isFullscreen ? <Icon.Check /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, isFullscreen]
   );

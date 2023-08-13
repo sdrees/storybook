@@ -14,10 +14,6 @@ test.describe('addon-docs', () => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
-  });
 
   test('should show descriptions for stories', async ({ page }) => {
     const skipped = [
@@ -87,7 +83,7 @@ test.describe('addon-docs', () => {
   });
 
   test('should provide source snippet', async ({ page }) => {
-    // templateName is e.g. 'Vue-CLI (Default JS)'
+    // templateName is e.g. 'vue-cli/default-js'
     test.skip(
       /^(vue3|vue-cli|preact)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`

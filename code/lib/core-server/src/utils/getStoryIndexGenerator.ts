@@ -14,38 +14,40 @@ export async function getStoryIndexGenerator(
   },
   options: Options,
   serverChannel: ServerChannel
-) {
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
-    const workingDir = process.cwd();
-    const directories = {
-      configDir: options.configDir,
-      workingDir,
-    };
-    const stories = options.presets.apply('stories');
-    const storyIndexers = options.presets.apply('storyIndexers', []);
-    const docsOptions = options.presets.apply<DocsOptions>('docs', {});
-    const normalizedStories = normalizeStories(await stories, directories);
-
-    const generator = new StoryIndexGenerator(normalizedStories, {
-      ...directories,
-      storyIndexers: await storyIndexers,
-      docs: await docsOptions,
-      workingDir,
-      storiesV2Compatibility: !features?.storyStoreV7,
-      storyStoreV7: features.storyStoreV7 ?? false,
-    });
-
-    const initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-
-    useStoriesJson({
-      router,
-      initializedStoryIndexGenerator,
-      normalizedStories,
-      serverChannel,
-      workingDir,
-    });
-
-    return initializedStoryIndexGenerator;
+): Promise<StoryIndexGenerator | undefined> {
+  if (!features?.buildStoriesJson && !features?.storyStoreV7) {
+    return undefined;
   }
-  return Promise.resolve(undefined);
+  const workingDir = process.cwd();
+  const directories = {
+    configDir: options.configDir,
+    workingDir,
+  };
+  const stories = options.presets.apply('stories');
+  const deprecatedStoryIndexers = options.presets.apply('storyIndexers', []);
+  const indexers = options.presets.apply('experimental_indexers', []);
+  const docsOptions = options.presets.apply<DocsOptions>('docs', {});
+  const normalizedStories = normalizeStories(await stories, directories);
+
+  const generator = new StoryIndexGenerator(normalizedStories, {
+    ...directories,
+    storyIndexers: await deprecatedStoryIndexers,
+    indexers: await indexers,
+    docs: await docsOptions,
+    workingDir,
+    storiesV2Compatibility: !features?.storyStoreV7,
+    storyStoreV7: features.storyStoreV7 ?? false,
+  });
+
+  const initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+
+  useStoriesJson({
+    router,
+    initializedStoryIndexGenerator,
+    normalizedStories,
+    serverChannel,
+    workingDir,
+  });
+
+  return initializedStoryIndexGenerator;
 }

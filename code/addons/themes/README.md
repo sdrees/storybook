@@ -6,7 +6,7 @@ Storybook Addon Themes can be used which between multiple themes for components 
 
 ## Usage
 
-Requires Storybook 7.0 or later. Themes is part of [essentials](https://storybook.js.org/docs/react/essentials/introduction) and so is installed in all new Storybooks by default. If you need to add it to your Storybook, you can run:
+Requires Storybook 7.0 or later. If you need to add it to your Storybook, you can run:
 
 ```sh
 npm i -D @storybook/addon-themes

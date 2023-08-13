@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, css } from '@storybook/theming';
 import { Source, ArgsTable } from '.';
@@ -43,7 +42,6 @@ export const Loading = () => (
     </Subtitle>
     <MarkdownComponent {...markdown.Text.args} />
     <Preview.Loading />
-    <ArgsTable {...(argsTable.Loading.args as ComponentProps<typeof ArgsTable>)} />
     <Source {...source.Loading.args} />
   </DocsPageWrapper>
 );

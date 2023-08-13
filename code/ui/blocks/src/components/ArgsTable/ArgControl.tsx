@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
 
+import { Link } from '@storybook/components/experimental';
 import {
   BooleanControl,
   ColorControl,
@@ -18,6 +19,7 @@ export interface ArgControlProps {
   row: ArgType;
   arg: any;
   updateArgs: (args: Args) => void;
+  isHovered: boolean;
 }
 
 const Controls: Record<string, FC> = {
@@ -40,7 +42,7 @@ const Controls: Record<string, FC> = {
 
 const NoControl = () => <>-</>;
 
-export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
+export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs, isHovered }) => {
   const { key, control } = row;
 
   const [isFocused, setFocused] = useState(false);
@@ -63,7 +65,18 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   const onBlur = useCallback(() => setFocused(false), []);
   const onFocus = useCallback(() => setFocused(true), []);
 
-  if (!control || control.disable) return <NoControl />;
+  if (!control || control.disable)
+    return isHovered ? (
+      <Link
+        href="https://storybook.js.org/docs/react/essentials/controls"
+        target="_blank"
+        withArrow
+      >
+        Setup controls
+      </Link>
+    ) : (
+      <NoControl />
+    );
 
   // row.name is a display name and not a suitable DOM input id or name - i might contain whitespace etc.
   // row.key is a hash key and therefore a much safer choice

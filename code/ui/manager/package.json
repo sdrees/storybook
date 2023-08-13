@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.2.0-rc.0",
+  "version": "7.3.0-alpha.0",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addon-designs": "^7.0.0",
+    "@storybook/addon-designs": "^7.0.4",
     "@storybook/addons": "workspace:*",
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",

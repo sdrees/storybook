@@ -1,96 +1,10 @@
 ---
-title: 'Import stories in tests'
+title: 'End-to-end testing'
 ---
 
-Teams test a variety of UI characteristics using different tools. Each tool requires you to replicate the same component state over and over. That’s a maintenance headache. Ideally, you’d set up your tests in the same way and reuse that across tools.
+Storybook seamlessly integrates with additional testing frameworks like [Cypress](https://www.cypress.io/) and [Playwright](https://playwright.dev/) to provide a comprehensive testing solution. By leveraging the Component Story Format (CSF), developers can write test cases that simulate user interactions and verify the behavior of individual components within the Storybook environment. This approach enables developers to thoroughly test their components' functionality, responsiveness, and visual appearance across different scenarios, resulting in more robust and reliable applications.
 
-Storybook enables you to isolate a component and capture all of its use cases in a `*.stories.js` file. Stories are standard JavaScript modules so they’re cross compatible with the whole JavaScript ecosystem. No API lock-in.
-
-Stories are a practical starting point for UI testing. Import stories into tools like [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/), [Puppeteer](https://pptr.dev/), [Cypress](https://www.cypress.io/), and [Playwright](https://playwright.dev/) to save time and maintenance work.
-
-## Setup the testing addon for your framework
-
-Storybook has test addons for core frameworks React, Vue (2,3), and Angular. This allows you to reuse stories along with all of their mocks, dependencies, and context.
-
-- [@storybook/testing-react](https://storybook.js.org/addons/@storybook/testing-react)
-- [@storybook/testing-vue](https://storybook.js.org/addons/@storybook/testing-vue)
-- [@storybook/testing-vue3](https://storybook.js.org/addons/@storybook/testing-vue3)
-- [@storybook/testing-angular](https://storybook.js.org/addons/@storybook/testing-angular)
-
-### Install the addon
-
-Run the following command to add Storybook's testing addon into your environment:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-testing-addon-install.yarn.js.mdx',
-    'common/storybook-testing-addon-install.npm.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-### Optional configuration
-
-If you've set up global decorators or parameters and you need to use them in your tests, add the following to your test configuration file:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/storybook-testing-addon-optional-config.js.mdx',
-    'vue/storybook-testing-addon-optional-config.2.js.mdx',
-    'vue/storybook-testing-addon-optional-config.3.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Update your test script to include the configuration file:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/storybook-testing-addon-optional-config-scripts.json.mdx',
-    'vue/storybook-testing-addon-optional-config-scripts.json.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-## Example with Testing Library
-
-[Testing Library](https://testing-library.com/) is a suite of helper libraries for browser-based interaction tests. With [Component Story Format](../api/csf.md), your stories are reusable with Testing Library. Each named export (story) is renderable within your testing setup.
-
-<div class="aside">
-
-💡 You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
-
-</div>
-
-For example, if you were working on a login component and wanted to test the invalid credentials scenario, here's how you could write your test:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/component-test-with-testing-library.js.mdx',
-    'react/component-test-with-testing-library.ts.mdx',
-    'vue/component-test-with-testing-library.js.mdx',
-    'angular/component-test-with-testing-library.ts.mdx',
-    'svelte/component-test-with-testing-library.js.mdx',
-    'preact/component-test-with-testing-library.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Once the test runs, it loads the story and renders it. [Testing Library](https://testing-library.com/) then emulates the user's behavior and checks if the component state has updated.
-
-## Example with Cypress
+### With Cypress
 
 [Cypress](https://www.cypress.io/) is an end-to-end testing framework. It enables you to test a complete instance of your application by simulating user behavior. With Component Story Format, your stories are reusable with Cypress. Each named export (in other words, a story) is renderable within your testing setup.
 
@@ -136,7 +50,7 @@ When Cypress runs your test, it loads Storybook's isolated iframe and checks if 
 
 ![Cypress running successfully](./cypress-success-run-tests-optimized.png)
 
-## Example with Playwright
+### With Playwright
 
 [Playwright](https://playwright.dev/) is a browser automation tool and end-to-end testing framework from Microsoft. It offers cross-browser automation, mobile testing with device emulation, and headless testing. With Component Story Format, your stories are reusable with Playwright. Each named export (in other words, a story) is renderable within your testing setup.
 
@@ -179,8 +93,6 @@ With Playwright, you can write a test to check if the inputs are filled and matc
 
 Once you execute Playwright, it opens a new browser window, loads Storybook's isolated iframe, asserts if the inputs contain the specified values, and displays the test results in the terminal.
 
----
-
 #### Learn about other UI tests
 
 - [Test runner](./test-runner.md) to automate test execution
@@ -189,4 +101,5 @@ Once you execute Playwright, it opens a new browser window, loads Storybook's is
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- Import stories in other tests for other tools
+- End-to-end tests for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

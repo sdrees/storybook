@@ -235,9 +235,8 @@ describe('ConfigFile', () => {
           export const addons = [];
 
           export const core = {
-            builder: 'webpack5',
+            builder: "webpack5"
           };
-
         `);
       });
       it('missing field', () => {
@@ -252,9 +251,8 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           export const core = {
             foo: 'bar',
-            builder: 'webpack5',
+            builder: 'webpack5'
           };
-
         `);
       });
       it('found scalar', () => {
@@ -266,10 +264,7 @@ describe('ConfigFile', () => {
               export const core = { builder: 'webpack4' };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = { builder: 'webpack5' };
-
-        `);
+        ).toMatchInlineSnapshot(`export const core = { builder: 'webpack5' };`);
       });
       it('found top-level scalar', () => {
         expect(
@@ -280,10 +275,7 @@ describe('ConfigFile', () => {
               export const foo = 'bar';
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const foo = 'baz';
-
-        `);
+        ).toMatchInlineSnapshot(`export const foo = 'baz';`);
       });
       it('found object', () => {
         expect(
@@ -295,12 +287,9 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export const core = {
-            builder: {
-              name: 'webpack5',
-            },
-          };
-
+          export const core = { builder: {
+            name: 'webpack5'
+          } };
         `);
       });
       it('variable export', () => {
@@ -316,7 +305,6 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           const coreVar = { builder: 'webpack5' };
           export const core = coreVar;
-
         `);
       });
     });
@@ -336,10 +324,9 @@ describe('ConfigFile', () => {
             addons: [],
 
             core: {
-              builder: 'webpack5',
-            },
+              builder: "webpack5"
+            }
           };
-
         `);
       });
       it('missing field', () => {
@@ -352,13 +339,10 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {
-              foo: 'bar',
-              builder: 'webpack5',
-            },
-          };
-
+          module.exports = { core: {
+            foo: 'bar',
+            builder: 'webpack5'
+          }};
         `);
       });
       it('found scalar', () => {
@@ -370,10 +354,7 @@ describe('ConfigFile', () => {
               module.exports = { core: { builder: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = { core: { builder: 'webpack5' } };
-
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { core: { builder: 'webpack5' } };`);
       });
     });
 
@@ -392,10 +373,9 @@ describe('ConfigFile', () => {
             addons: [],
 
             core: {
-              builder: 'webpack5',
-            },
+              builder: "webpack5"
+            }
           };
-
         `);
       });
       it('missing field', () => {
@@ -408,13 +388,10 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export default {
-            core: {
-              foo: 'bar',
-              builder: 'webpack5',
-            },
-          };
-
+          export default { core: {
+            foo: 'bar',
+            builder: 'webpack5'
+          }};
         `);
       });
       it('found scalar', () => {
@@ -426,10 +403,7 @@ describe('ConfigFile', () => {
               export default { core: { builder: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default { core: { builder: 'webpack5' } };
-
-        `);
+        ).toMatchInlineSnapshot(`export default { core: { builder: 'webpack5' } };`);
       });
     });
 
@@ -437,31 +411,28 @@ describe('ConfigFile', () => {
       it('no quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', '')).toMatchInlineSnapshot(`
           export const foo = {
-            bar: 'baz',
+            bar: "baz"
           };
-
         `);
       });
       it('more single quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', 'b', 'c'];
+          export const stories = ['a', 'b', "c"]
 
           export const foo = {
-            bar: 'baz',
+            bar: 'baz'
           };
-
         `);
       });
       it('more double quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', 'b', 'c'];
+          export const stories = ['a', "b", "c"]
 
           export const foo = {
-            bar: 'baz',
+            bar: "baz"
           };
-
         `);
       });
     });
@@ -480,9 +451,8 @@ describe('ConfigFile', () => {
       ).toMatchInlineSnapshot(`
         export default {
           core: { builder: 'webpack5' },
-          addons: ['docs'],
+          addons: ['docs']
         };
-
       `);
     });
     it('found scalar', () => {
@@ -505,10 +475,7 @@ describe('ConfigFile', () => {
               export default { addons: ['a11y', 'viewport'] };
             `
         )
-      ).toMatchInlineSnapshot(`
-        export default { addons: ['a11y', 'viewport', 'docs'] };
-
-      `);
+      ).toMatchInlineSnapshot(`export default { addons: ['a11y', 'viewport', 'docs'] };`);
     });
 
     it('array of complex values', () => {
@@ -520,10 +487,9 @@ describe('ConfigFile', () => {
               export default { addons: [require.resolve('a11y'), someVariable] };
             `
         )
-      ).toMatchInlineSnapshot(`
-        export default { addons: [require.resolve('a11y'), someVariable, 'docs'] };
-
-      `);
+      ).toMatchInlineSnapshot(
+        `export default { addons: [require.resolve('a11y'), someVariable, 'docs'] };`
+      );
     });
   });
 
@@ -537,10 +503,7 @@ describe('ConfigFile', () => {
               export const addons = [];
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const addons = [];
-
-        `);
+        ).toMatchInlineSnapshot(`export const addons = [];`);
       });
       it('missing field', () => {
         expect(
@@ -550,10 +513,7 @@ describe('ConfigFile', () => {
               export const core = { foo: 'bar' };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = { foo: 'bar' };
-
-        `);
+        ).toMatchInlineSnapshot(`export const core = { foo: 'bar' };`);
       });
       it('found scalar', () => {
         expect(
@@ -563,10 +523,7 @@ describe('ConfigFile', () => {
               export const core = { builder: 'webpack4' };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = {};
-
-        `);
+        ).toMatchInlineSnapshot(`export const core = {};`);
       });
       it('found object', () => {
         expect(
@@ -576,10 +533,7 @@ describe('ConfigFile', () => {
               export const core = { builder: { name: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = {};
-
-        `);
+        ).toMatchInlineSnapshot(`export const core = {};`);
       });
       it('nested object', () => {
         expect(
@@ -589,10 +543,7 @@ describe('ConfigFile', () => {
               export const core = { builder: { name: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = { builder: {} };
-
-        `);
+        ).toMatchInlineSnapshot(`export const core = { builder: {} };`);
       });
       it('string literal key', () => {
         expect(
@@ -602,10 +553,7 @@ describe('ConfigFile', () => {
               export const core = { 'builder': 'webpack4' };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = {};
-
-        `);
+        ).toMatchInlineSnapshot(`export const core = {};`);
       });
       it('variable export', () => {
         expect(
@@ -619,7 +567,6 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           const coreVar = {};
           export const core = coreVar;
-
         `);
       });
       it('root export variable', () => {
@@ -632,10 +579,7 @@ describe('ConfigFile', () => {
               export const addons = [];
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const addons = [];
-
-        `);
+        ).toMatchInlineSnapshot(`export const addons = [];`);
       });
     });
 
@@ -648,10 +592,7 @@ describe('ConfigFile', () => {
               module.exports = { addons: [] };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = { addons: [] };
-
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { addons: [] };`);
       });
       it('missing field', () => {
         expect(
@@ -661,10 +602,7 @@ describe('ConfigFile', () => {
               module.exports = { core: { foo: 'bar' }};
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = { core: { foo: 'bar' } };
-
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { core: { foo: 'bar' }};`);
       });
       it('found scalar', () => {
         expect(
@@ -674,10 +612,7 @@ describe('ConfigFile', () => {
               module.exports = { core: { builder: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = { core: {} };
-
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { core: {} };`);
       });
       it('nested scalar', () => {
         expect(
@@ -687,10 +622,7 @@ describe('ConfigFile', () => {
               module.exports = { core: { builder: { name: 'webpack4' } } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = { core: { builder: {} } };
-
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { core: { builder: {} } };`);
       });
       it('string literal key', () => {
         expect(
@@ -700,10 +632,7 @@ describe('ConfigFile', () => {
               module.exports = { 'core': { 'builder': 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = { core: {} };
-
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { 'core': {} };`);
       });
       it('root property', () => {
         expect(
@@ -715,9 +644,8 @@ describe('ConfigFile', () => {
           )
         ).toMatchInlineSnapshot(`
           module.exports = {
-            addons: [],
+            addons: []
           };
-
         `);
       });
     });
@@ -731,10 +659,7 @@ describe('ConfigFile', () => {
               export default { addons: [] };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default { addons: [] };
-
-        `);
+        ).toMatchInlineSnapshot(`export default { addons: [] };`);
       });
       it('missing field', () => {
         expect(
@@ -744,10 +669,7 @@ describe('ConfigFile', () => {
               export default { core: { foo: 'bar' }};
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default { core: { foo: 'bar' } };
-
-        `);
+        ).toMatchInlineSnapshot(`export default { core: { foo: 'bar' }};`);
       });
       it('found scalar', () => {
         expect(
@@ -757,10 +679,7 @@ describe('ConfigFile', () => {
               export default { core: { builder: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default { core: {} };
-
-        `);
+        ).toMatchInlineSnapshot(`export default { core: {} };`);
       });
       it('nested scalar', () => {
         expect(
@@ -770,10 +689,7 @@ describe('ConfigFile', () => {
               export default { core: { builder: { name: 'webpack4' } } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default { core: { builder: {} } };
-
-        `);
+        ).toMatchInlineSnapshot(`export default { core: { builder: {} } };`);
       });
       it('string literal key', () => {
         expect(
@@ -783,10 +699,7 @@ describe('ConfigFile', () => {
               export default { 'core': { 'builder': 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default { core: {} };
-
-        `);
+        ).toMatchInlineSnapshot(`export default { 'core': {} };`);
       });
       it('root property', () => {
         expect(
@@ -798,9 +711,8 @@ describe('ConfigFile', () => {
           )
         ).toMatchInlineSnapshot(`
           export default {
-            addons: [],
+            addons: []
           };
-
         `);
       });
     });
@@ -809,31 +721,28 @@ describe('ConfigFile', () => {
       it('no quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', '')).toMatchInlineSnapshot(`
           export const foo = {
-            bar: 'baz',
+            bar: "baz"
           };
-
         `);
       });
       it('more single quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', 'b', 'c'];
+          export const stories = ['a', 'b', "c"]
 
           export const foo = {
-            bar: 'baz',
+            bar: 'baz'
           };
-
         `);
       });
       it('more double quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', 'b', 'c'];
+          export const stories = ['a', "b", "c"]
 
           export const foo = {
-            bar: 'baz',
+            bar: "baz"
           };
-
         `);
       });
     });

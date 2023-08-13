@@ -2,7 +2,6 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { styled } from '@storybook/theming';
 import { ArgsTable, ArgsTableError } from './ArgsTable';
-import { NoControlsWarning } from './NoControlsWarning';
 import * as ArgRow from './ArgRow.stories';
 
 export default {
@@ -58,15 +57,14 @@ export const InAddonPanel = {
   decorators: [(storyFn: any) => <AddonPanelLayout>{storyFn()}</AddonPanelLayout>],
 };
 
-export const InAddonPanelWithWarning = {
-  render: (args: any) => (
-    <>
-      <NoControlsWarning />
-      <ArgsTable {...args} />
-    </>
-  ),
-  // @ts-expect-error (not strict)
-  args: { ...InAddonPanel.args, updateArgs: null },
+export const InAddonPanelNoControls = {
+  render: (args: any) => <ArgsTable {...args} />,
+  args: {
+    rows: {
+      stringType: { ...stringType, control: false },
+      numberType: { ...numberType, control: false },
+    },
+  },
   decorators: InAddonPanel.decorators,
 };
 
@@ -141,8 +139,9 @@ export const Error = {
 };
 
 export const Empty = {
-  args: {
-    rows: {},
+  args: {},
+  parameters: {
+    layout: 'centered',
   },
 };
 

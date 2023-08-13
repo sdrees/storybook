@@ -2,6 +2,8 @@
 title: 'Controls'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Controls Doc Block" params='start=240' />
+
 The `Controls` block can be used to show a dynamic table of args for a given story, as a way to document its interface, and to allow you to change the args for a (separately) rendered story (via the [`Story`](./doc-block-story.md) or [`Canvas`](./doc-block-canvas.md) blocks).
 
 <div class="aside">

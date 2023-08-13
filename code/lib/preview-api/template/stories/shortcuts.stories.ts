@@ -18,6 +18,6 @@ export const KeydownDuringPlay = {
     const button = await within(canvasElement).findByText('Submit');
     await userEvent.type(button, 's');
 
-    expect(previewKeydown).not.toBeCalled();
+    await expect(previewKeydown).not.toBeCalled();
   },
 };

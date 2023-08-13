@@ -9,7 +9,8 @@ import { addons } from '@storybook/preview-api';
 
 import { useGlobals } from '@storybook/manager-api';
 
-import { IconButton, Icons } from '@storybook/components';
+import { IconButton } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 
 const ExampleToolbar = () => {
   const [globals, updateGlobals] = useGlobals();
@@ -34,7 +35,7 @@ const ExampleToolbar = () => {
       title="Show the toolbar addon"
       onClick={toggleToolbarAddon}
     >
-      <Icons icon="outline" />
+      <Icon.Outline />
     </IconButton>
   );
 };

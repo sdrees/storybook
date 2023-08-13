@@ -2,9 +2,6 @@ import { DocInjectableService } from './doc-injectable.service';
 
 export default {
   component: DocInjectableService,
-  parameters: {
-    controls: { hideNoControlsWarning: true },
-  },
 };
 
 const modules = {

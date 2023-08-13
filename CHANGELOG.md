@@ -1,3 +1,52 @@
+## 7.2.3
+
+- Build: Support Chrome 100, Safari 15 and Firefox 91 - [#23800](https://github.com/storybookjs/storybook/pull/23800), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
+## 7.2.2
+
+- CSF-Tools: Remove prettier from printConfig - [#23766](https://github.com/storybookjs/storybook/pull/23766), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
+## 7.2.1
+
+- Addon docs: Add safe check in Webpack preset - [#23687](https://github.com/storybookjs/storybook/pull/23687), thanks [@yannbf](https://github.com/yannbf)!
+- Autodocs: Fix docs pages ignoring `meta.id` when calculating their ID - [#23520](https://github.com/storybookjs/storybook/pull/23520), thanks [@sookmax](https://github.com/sookmax)!
+- CLI: Fix error logging being swallowed from dev/build failures - [#23689](https://github.com/storybookjs/storybook/pull/23689), thanks [@yannbf](https://github.com/yannbf)!
+- Channels: Remove self-referencing in `package.json` - [#23681](https://github.com/storybookjs/storybook/pull/23681), thanks [@stof](https://github.com/stof)!
+- UI: Fix ArgsTable empty state on docs - [#23688](https://github.com/storybookjs/storybook/pull/23688), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Improve controls addon - [#23635](https://github.com/storybookjs/storybook/pull/23635), thanks [@cdedreuille](https://github.com/cdedreuille)!
+
+## 7.2.0
+
+This month, we're going to experiment with our launch cycle by making smaller but more frequent releases. Our goal is to bring you new features more quickly, while also smoothing the upgrade process.
+
+Storybook 7.2 is the first of these new, faster releases:
+
+- Automigration: Fix wrap-require automigration for common js main.js files - [#23644](https://github.com/storybookjs/storybook/pull/23644), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CSF Tools: Use recast for printing in csf-tools - [#23427](https://github.com/storybookjs/storybook/pull/23427), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- CSF-tools: Parse stories using typescript keywords 'satisfies' and 'as' - [#23638](https://github.com/storybookjs/storybook/pull/23638), thanks [@joaonunomota](https://github.com/joaonunomota)!
+- Core: Fix channelOptions for serverChannel - [#23615](https://github.com/storybookjs/storybook/pull/23615), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Add `@babel/core` as a dependency - [#22450](https://github.com/storybookjs/storybook/pull/22450), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Vite: Fix config loading - project directory - [#22240](https://github.com/storybookjs/storybook/pull/22240), thanks [@nVitius](https://github.com/nVitius)!
+- Angular: Fix initialization of Storybook in Angular 16.1 - [#23598](https://github.com/storybookjs/storybook/pull/23598), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Dependencies: Downgrade `jest-mock` - [#23597](https://github.com/storybookjs/storybook/pull/23597), thanks [@ndelangen](https://github.com/ndelangen)!
+- Dependencies: Upgrade simple-update-notifier - [#23396](https://github.com/storybookjs/storybook/pull/23396), thanks [@dartess](https://github.com/dartess)!
+- Storyshots: fix broken storyshots with angular - [#23555](https://github.com/storybookjs/storybook/pull/23555), thanks [@mattlewis92](https://github.com/mattlewis92)!
+- TypeScript: Added `expanded` to `CoreCommon_StorybookRefs` to fix typescript errors - [#23488](https://github.com/storybookjs/storybook/pull/23488), thanks [@DotwoodMedia](https://github.com/DotwoodMedia)!
+- TypeScript: Downgrade to the last version of type-fest that doesn't need typescript 5.0 - [#23574](https://github.com/storybookjs/storybook/pull/23574), thanks [@ndelangen](https://github.com/ndelangen)!
+- Vue2: Source Decorator reactivity - [#23149](https://github.com/storybookjs/storybook/pull/23149), thanks [@chakAs3](https://github.com/chakAs3)!
+- Router: Support RegExp in Route component - [#23292](https://github.com/storybookjs/storybook/pull/23292), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Improve tabs component, more type correct, allow for FC as title - [#23288](https://github.com/storybookjs/storybook/pull/23288), thanks [@ndelangen](https://github.com/ndelangen)!
+- Addons: Improve code quality by using title as FC & sharing state via useAddonState - [#23298](https://github.com/storybookjs/storybook/pull/23298), thanks [@ndelangen](https://github.com/ndelangen)!
+- InteractionsAddon: Improve code quality by using title as FC & sharing state via useAddonState - [#23291](https://github.com/storybookjs/storybook/pull/23291), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Add storyStatus to sidebar UI - [#23342](https://github.com/storybookjs/storybook/pull/23342), thanks [@ndelangen](https://github.com/ndelangen)!
+- Addon API: Add experimental page addon type - [#23307](https://github.com/storybookjs/storybook/pull/23307), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: refactor Canvas component so we can improve types for PREVIEW addons and TAB addons - [#23311](https://github.com/storybookjs/storybook/pull/23311), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Improve Button layout and props - [#23356](https://github.com/storybookjs/storybook/pull/23356), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- Dependencies: Remove references to api and the 2 deprecated channel packages - [#23384](https://github.com/storybookjs/storybook/pull/23384), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Show the story status in the search results - [#23441](https://github.com/storybookjs/storybook/pull/23441), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Create new form elements in the new Core UI (Input, TextArea, Select) - [#23469](https://github.com/storybookjs/storybook/pull/23469), thanks [@cdedreuille](https://github.com/cdedreuille)!
+
+
 ## 7.1.1
 
 - Angular: Make enableProdMode optional - [#23489](https://github.com/storybookjs/storybook/pull/23489), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

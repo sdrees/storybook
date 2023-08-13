@@ -25,6 +25,7 @@ export const testRunnerBuild: Task & { port: number } = {
         ...execOptions,
         env: {
           JEST_JUNIT_OUTPUT_FILE: junitFilename,
+          TEST_ROOT: sandboxDir,
         },
       },
       { dryRun, debug }

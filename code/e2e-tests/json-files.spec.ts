@@ -3,15 +3,11 @@ import { test, expect } from '@playwright/test';
 import process from 'process';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
-const templateName = process.env.STORYBOOK_TEMPLATE_NAME;
+const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 
 test.describe('JSON files', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
-  });
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
   });
 
   test('should have index.json', async ({ page }) => {

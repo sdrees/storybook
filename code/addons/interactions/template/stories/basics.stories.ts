@@ -15,10 +15,21 @@ export default {
   },
 };
 
+export const Validation = {
+  play: async (context) => {
+    const { args, canvasElement, step } = context;
+    const canvas = within(canvasElement);
+
+    await step('Submit', async () => fireEvent.click(canvas.getByRole('button')));
+
+    await expect(args.onSuccess).not.toHaveBeenCalled();
+  },
+};
+
 export const Type = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.type(canvas.getByTestId('value'), 'test');
+    await userEvent.type(canvas.getByTestId('value'), 'foobar');
   },
 };
 
@@ -82,17 +93,6 @@ export const WithLoaders = {
   loaders: [async () => new Promise((resolve) => setTimeout(resolve, 2000))],
   play: async ({ step }) => {
     await step('Submit form', Callback.play);
-  },
-};
-
-export const Validation = {
-  play: async (context) => {
-    const { args, canvasElement, step } = context;
-    const canvas = within(canvasElement);
-
-    await step('Submit', async () => fireEvent.click(canvas.getByRole('button')));
-
-    await expect(args.onSuccess).not.toHaveBeenCalled();
   },
 };
 

@@ -4,7 +4,8 @@ import React, { useMemo, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
-import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
+import { WithTooltip, TooltipLinkList, IconButton, Icons } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
@@ -16,7 +17,7 @@ const sharedStyles = {
   display: 'block',
 };
 
-const Icon = styled(Icons)(sharedStyles, ({ theme }) => ({
+const StyledIcon = styled(Icons)(sharedStyles, ({ theme }) => ({
   color: theme.color.secondary,
 }));
 
@@ -77,7 +78,7 @@ export interface ListItemIconProps {
  */
 export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   if (icon) {
-    return <Icon icon={icon} />;
+    return <StyledIcon icon={icon} />;
   }
   if (imgSrc) {
     return <Img src={imgSrc} alt="image" />;
@@ -123,7 +124,7 @@ export const SidebarMenu: FC<{
         highlighted={isHighlighted}
         active={isTooltipVisible}
       >
-        <Icons icon="cog" />
+        <Icon.Cog />
       </SidebarIconButton>
     </WithTooltip>
   );
@@ -147,7 +148,7 @@ export const ToolbarMenu: FC<{
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
       <IconButton title="Shortcuts" aria-label="Shortcuts">
-        <Icons icon="menu" />
+        <Icon.Menu />
       </IconButton>
     </WithTooltip>
   );

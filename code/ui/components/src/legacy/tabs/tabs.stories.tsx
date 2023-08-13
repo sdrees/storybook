@@ -47,18 +47,12 @@ type Panels = Record<string, Omit<ChildrenList[0], 'id'>>;
 const panels: Panels = {
   test1: {
     title: 'Tab title #1',
-    render: ({ active, key }) =>
-      active ? (
-        <div id="test1" key={key}>
-          CONTENT 1
-        </div>
-      ) : null,
+    render: ({ active }) => (active ? <div id="test1">CONTENT 1</div> : null),
   },
   test2: {
     title: 'Tab title #2',
-    render: ({ active, key }) => (
+    render: ({ active }) => (
       <div
-        key={key}
         id="test2"
         style={{
           background: 'hotpink',
@@ -72,9 +66,9 @@ const panels: Panels = {
   },
   test3: {
     title: 'Tab title #3',
-    render: ({ active, key }) =>
+    render: ({ active }) =>
       active ? (
-        <div id="test3" key={key}>
+        <div id="test3">
           {colours.map((colour, i) => (
             <div
               key={colour}
@@ -89,27 +83,15 @@ const panels: Panels = {
   },
   test4: {
     title: 'Tab title #4',
-    render: ({ active, key }) =>
-      active ? (
-        <div key={key} id="test4">
-          CONTENT 4
-        </div>
-      ) : null,
+    render: ({ active }) => (active ? <div id="test4">CONTENT 4</div> : null),
   },
   test5: {
     title: 'Tab title #5',
-    render: ({ active, key }) =>
-      active ? (
-        <div key={key} id="test5">
-          CONTENT 5
-        </div>
-      ) : null,
+    render: ({ active }) => (active ? <div id="test5">CONTENT 5</div> : null),
   },
   test6: {
     title: 'Tab title #6',
-    render: ({ active, key }) => (
-      <TabWrapper key={key} active={active} render={() => <div>CONTENT 6</div>} />
-    ),
+    render: ({ active }) => <TabWrapper active={active} render={() => <div>CONTENT 6</div>} />,
   },
 };
 

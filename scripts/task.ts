@@ -176,6 +176,11 @@ export const options = createOptions({
     description: 'Do not include template stories and their addons',
     promptType: false,
   },
+  disableDocs: {
+    type: 'boolean',
+    description: 'Disable addon-docs from essentials',
+    promptType: false,
+  },
 });
 
 type PassedOptionValues = Omit<OptionValues<typeof options>, 'task' | 'startFrom' | 'junit'>;
@@ -304,7 +309,10 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   try {
     let updatedOptions = optionValues;
     if (details.template?.modifications?.skipTemplateStories) {
-      updatedOptions = { ...optionValues, skipTemplateStories: true };
+      updatedOptions = { ...updatedOptions, skipTemplateStories: true };
+    }
+    if (details.template?.modifications?.disableDocs) {
+      updatedOptions = { ...updatedOptions, disableDocs: true };
     }
     const controller = await task.run(details, updatedOptions);
 

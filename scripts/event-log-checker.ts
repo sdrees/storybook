@@ -70,10 +70,11 @@ async function run() {
             8,
             `Expected 8 stories but received ${exampleStoryCount} instead.`
           );
+          const expectedDocsCount = template.modifications?.disableDocs ? 0 : 3;
           assert.equal(
             exampleDocsCount,
-            3,
-            `Expected 3 docs entries but received ${exampleDocsCount} instead.`
+            expectedDocsCount,
+            `Expected ${expectedDocsCount} docs entries but received ${exampleDocsCount} instead.`
           );
         });
       }

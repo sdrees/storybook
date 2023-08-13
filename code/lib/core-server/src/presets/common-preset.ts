@@ -11,13 +11,12 @@ import {
 import type {
   CLIOptions,
   CoreConfig,
-  IndexerOptions,
+  Indexer,
   Options,
   PresetPropertyFn,
   StorybookConfig,
-  StoryIndexer,
 } from '@storybook/types';
-import { loadCsf, printConfig, readConfig } from '@storybook/csf-tools';
+import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
@@ -195,19 +194,14 @@ export const features = async (
   legacyDecoratorFileOrder: false,
 });
 
-export const storyIndexers = async (indexers?: StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
-    const code = (await readFile(fileName, 'utf-8')).toString();
-    return loadCsf(code, { ...opts, fileName }).parse();
-  };
-  return [
-    {
-      test: /(stories|story)\.(m?js|ts)x?$/,
-      indexer: csfIndexer,
-    },
-    ...(indexers || []),
-  ];
+export const csfIndexer: Indexer = {
+  test: /\.stories\.(m?js|ts)x?$/,
+  index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_indexers: StorybookConfig['experimental_indexers'] = (existingIndexers) =>
+  [csfIndexer].concat(existingIndexers || []);
 
 export const frameworkOptions = async (
   _: never,

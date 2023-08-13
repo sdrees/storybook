@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.2.0-rc.0",
+  "version": "7.3.0-alpha.0",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -98,6 +98,7 @@
     "ws": "^8.2.3"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "workspace:*",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/node-fetch": "^2.5.7",

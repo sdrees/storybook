@@ -2,9 +2,6 @@ import { DocPipe } from './doc-pipe.pipe';
 
 export default {
   component: DocPipe,
-  parameters: {
-    controls: { hideNoControlsWarning: true },
-  },
 };
 
 const modules = {

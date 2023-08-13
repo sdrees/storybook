@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.2.0-rc.0",
+  "version": "7.3.0-alpha.0",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -72,6 +72,7 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/core-common": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preview-api": "workspace:*",

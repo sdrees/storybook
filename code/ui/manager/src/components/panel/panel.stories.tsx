@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Badge, Icons, Spaced } from '@storybook/components';
+import { Badge, Spaced } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 import { Addon_TypesEnum } from '@storybook/types';
 import Panel from './panel';
 import { panels, shortcuts } from '../layout/app.mockdata';
@@ -36,12 +37,7 @@ export const JSXTitles = () => {
         'function-string': {
           type: Addon_TypesEnum.PANEL,
           title: () => 'Test 1',
-          render: ({ active, key }) =>
-            active ? (
-              <div id="test1" key={key}>
-                TEST as string
-              </div>
-            ) : null,
+          render: ({ active }) => (active ? <div id="test1">TEST as string</div> : null),
         },
         'function-jsx': {
           type: Addon_TypesEnum.PANEL,
@@ -53,12 +49,7 @@ export const JSXTitles = () => {
               </Spaced>
             </div>
           ),
-          render: ({ active, key }) =>
-            active ? (
-              <div id="test1" key={key}>
-                TEST with label
-              </div>
-            ) : null,
+          render: ({ active }) => (active ? <div id="test1">TEST with label</div> : null),
         },
         'function-jsx-icon': {
           type: Addon_TypesEnum.PANEL,
@@ -66,16 +57,11 @@ export const JSXTitles = () => {
             <div>
               <Spaced col={1}>
                 <div style={{ display: 'inline-block', verticalAlign: 'middle' }}>Alert!</div>
-                <Icons icon="bell" />
+                <Icon.Bell />
               </Spaced>
             </div>
           ),
-          render: ({ active, key }) =>
-            active ? (
-              <div id="test1" key={key}>
-                TEST with label
-              </div>
-            ) : null,
+          render: ({ active }) => (active ? <div id="test1">TEST with label</div> : null),
         },
         'function-jsx-state': {
           type: Addon_TypesEnum.PANEL,
@@ -124,12 +110,8 @@ export const JSXTitles = () => {
               </div>
             );
           },
-          render: ({ active, key }) => {
-            return active ? (
-              <div id="test1" key={key}>
-                TEST with timer
-              </div>
-            ) : null;
+          render: ({ active }) => {
+            return active ? <div id="test1">TEST with timer</div> : null;
           },
         },
       }}

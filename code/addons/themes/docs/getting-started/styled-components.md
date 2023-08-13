@@ -2,7 +2,7 @@
 
 ## 📦 Install addon
 
-**NOTE:** As of Storybook 7.2, `@storybook/addon-themes` ships in `@storybook/addon-essentials`. If you're using Storybook >= 7.2, skip to ["Provide your themes"](#🎨-provide-your-themes).
+<!-- **NOTE:** As of Storybook 7.2, `@storybook/addon-themes` ships in `@storybook/addon-essentials`. If you're using Storybook >= 7.2, skip to ["Provide your themes"](#🎨-provide-your-themes). -->
 
 To get started, **install the package** as a dev dependency
 

@@ -4,6 +4,7 @@ import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
 import { logger } from '@storybook/node-logger';
+import invariant from 'tiny-invariant';
 
 type TelemetryOptions = {
   cliOptions: CLIOptions;
@@ -66,7 +67,7 @@ async function getErrorLevel({
 }
 
 export async function sendTelemetryError(
-  error: Error,
+  error: unknown,
   eventType: EventType,
   options: TelemetryOptions
 ) {
@@ -80,13 +81,17 @@ export async function sendTelemetryError(
     if (errorLevel !== 'none') {
       const precedingUpgrade = await getPrecedingUpgrade();
 
+      invariant(
+        error instanceof Error,
+        'The error passed to sendTelemetryError was not an Error, please only send Errors'
+      );
       await telemetry(
         'error',
         {
           eventType,
           precedingUpgrade,
           error: errorLevel === 'full' ? error : undefined,
-          errorHash: oneWayHash(error.message || ''),
+          errorHash: oneWayHash(error.message),
         },
         {
           immediate: true,
@@ -132,8 +137,8 @@ export async function withTelemetry<T>(
     }
 
     const { printError = logger.error } = options;
-    printError(error instanceof Error ? error.message : String(error));
-    if (error instanceof Error) await sendTelemetryError(error, eventType, options);
+    printError(error);
+    await sendTelemetryError(error, eventType, options);
 
     throw error;
   } finally {

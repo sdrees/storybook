@@ -2,6 +2,8 @@
 title: 'ArgTypes'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's ArgTypes Doc Block" params='start=232' />
+
 The `ArgTypes` block can be used to show a static table of [arg types](./argtypes.md) for a given component, as a way to document its interface.
 
 <div class="aside">

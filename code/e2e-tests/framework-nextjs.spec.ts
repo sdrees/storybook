@@ -20,10 +20,6 @@ test.describe('Next.js', () => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
-  });
 
   test.describe('next/image', () => {
     let sbPage: SbPage;

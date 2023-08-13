@@ -12,5 +12,9 @@
     "test": "cd code; yarn test",
     "upload-bench": "cd scripts; yarn upload-bench"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@3.5.1",
+  "volta": {
+    "node": "16.20.1",
+    "yarn": "3.5.1"
+  }
 }

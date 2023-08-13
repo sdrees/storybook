@@ -3,8 +3,7 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
-import { Icons } from '@storybook/components';
-
+import { Icon } from '@storybook/components/experimental';
 import type { ControlProps, OptionsSelection, NormalizedOptionsConfig } from '../types';
 
 import { selectedKey, selectedKeys, selectedValues } from './helpers';
@@ -73,21 +72,17 @@ const SelectWrapper = styled.span(({ theme }) => ({
   position: 'relative',
   verticalAlign: 'top',
   width: '100%',
+}));
 
-  svg: {
-    position: 'absolute',
-    zIndex: 1,
-    pointerEvents: 'none',
-    height: '12px',
-    marginTop: '-6px',
-    right: '12px',
-    top: '50%',
-    fill: theme.textMutedColor,
-
-    path: {
-      fill: theme.textMutedColor,
-    },
-  },
+const SelectChevronDown = styled.div(({ theme }) => ({
+  position: 'absolute',
+  zIndex: 1,
+  pointerEvents: 'none',
+  height: '12px',
+  marginTop: '-6px',
+  right: '12px',
+  top: '50%',
+  color: theme.textMutedColor,
 }));
 
 type SelectConfig = NormalizedOptionsConfig & { isMulti: boolean };
@@ -104,7 +99,9 @@ const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
 
   return (
     <SelectWrapper>
-      <Icons icon="arrowdown" />
+      <SelectChevronDown>
+        <Icon.ChevronDown />
+      </SelectChevronDown>
       <OptionsSelect id={controlId} value={selection} onChange={handleChange}>
         <option key="no-selection" disabled>
           {NO_SELECTION}

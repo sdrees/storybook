@@ -1,18 +1,20 @@
 /// <reference types="@types/jest" />;
 
-import fs from 'fs-extra';
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
+// @ts-expect-error -- cannot find declaration file
+import { createStoriesMdxIndexer } from '@storybook/addon-docs/preset';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { StoryIndex, StoryIndexer } from '@storybook/types';
-import { loadCsf } from '@storybook/csf-tools';
+import type { StoryIndex } from '@storybook/types';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import type { ServerChannel } from './get-server-channel';
+import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
+import { csfIndexer } from '../presets/common-preset';
 
 jest.mock('watchpack');
 jest.mock('lodash/debounce');
@@ -38,34 +40,21 @@ const normalizedStories = [
   ),
 ];
 
-const csfIndexer = async (fileName: string, opts: any) => {
-  const code = (await fs.readFile(fileName, 'utf-8')).toString();
-  return loadCsf(code, { ...opts, fileName }).parse();
-};
-
-const storiesMdxIndexer = async (fileName: string, opts: any) => {
-  let code = (await fs.readFile(fileName, 'utf-8')).toString();
-  const { compile } = await import('@storybook/mdx2-csf');
-  code = await compile(code, {});
-  return loadCsf(code, { ...opts, fileName }).parse();
-};
-
 const getInitializedStoryIndexGenerator = async (
   overrides: any = {},
   inputNormalizedStories = normalizedStories
 ) => {
-  const generator = new StoryIndexGenerator(inputNormalizedStories, {
-    storyIndexers: [
-      { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
-      { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
-    ] as StoryIndexer[],
+  const options: StoryIndexGeneratorOptions = {
+    storyIndexers: [],
+    indexers: [csfIndexer, createStoriesMdxIndexer(false)],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: false,
     storyStoreV7: true,
     docs: { defaultName: 'docs', autodocs: false },
     ...overrides,
-  });
+  };
+  const generator = new StoryIndexGenerator(inputNormalizedStories, options);
   await generator.initialize();
   return generator;
 };
@@ -151,6 +140,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/A.stories.js",
               "name": "Story One",
               "tags": Array [
+                "component-tag",
                 "story-tag",
                 "story",
               ],
@@ -357,6 +347,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "component-tag",
                 "story-tag",
                 "story",
               ],
@@ -590,6 +581,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "component-tag",
                 "story-tag",
                 "story",
               ],
@@ -738,12 +730,12 @@ describe('useStoriesJson', () => {
       expect(send).toHaveBeenCalledTimes(1);
       expect(send.mock.calls[0][0]).toMatchInlineSnapshot(`
         "Unable to index files:
-        - ./src/docs2/ComponentReference.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/MetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/NoTitle.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/SecondMetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/Template.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/Title.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`."
+        - ./src/docs2/ComponentReference.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/MetaOf.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/NoTitle.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/SecondMetaOf.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/Template.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/Title.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`."
       `);
     });
 
@@ -781,6 +773,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "component-tag",
                 "story-tag",
                 "story",
               ],

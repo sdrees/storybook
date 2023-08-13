@@ -5,177 +5,165 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
-import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
+import { IconButton, ResetWrapper } from '@storybook/components';
+import { Icon, Link } from '@storybook/components/experimental';
 
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
 import type { ArgType, ArgTypes, Args, Globals } from './types';
 // eslint-disable-next-line import/no-cycle
 import { EmptyBlock } from '..';
+import { Skeleton } from './Skeleton';
+import { Empty } from './Empty';
 
 export const TableWrapper = styled.table<{
   compact?: boolean;
   inAddonPanel?: boolean;
   isLoading?: boolean;
-}>(
-  ({ theme, compact, inAddonPanel }) => ({
-    '&&': {
-      // Resets for cascading/system styles
-      borderSpacing: 0,
-      color: theme.color.defaultText,
+}>(({ theme, compact, inAddonPanel }) => ({
+  '&&': {
+    // Resets for cascading/system styles
+    borderSpacing: 0,
+    color: theme.color.defaultText,
 
-      'td, th': {
-        padding: 0,
-        border: 'none',
-        verticalAlign: 'top',
-        textOverflow: 'ellipsis',
-      },
-      // End Resets
+    'td, th': {
+      padding: 0,
+      border: 'none',
+      verticalAlign: 'top',
+      textOverflow: 'ellipsis',
+    },
+    // End Resets
 
-      fontSize: theme.typography.size.s2 - 1,
-      lineHeight: '20px',
-      textAlign: 'left',
-      width: '100%',
+    fontSize: theme.typography.size.s2 - 1,
+    lineHeight: '20px',
+    textAlign: 'left',
+    width: '100%',
 
-      // Margin collapse
-      marginTop: inAddonPanel ? 0 : 25,
-      marginBottom: inAddonPanel ? 0 : 40,
+    // Margin collapse
+    marginTop: inAddonPanel ? 0 : 25,
+    marginBottom: inAddonPanel ? 0 : 40,
 
-      'thead th:first-of-type, td:first-of-type': {
-        // intentionally specify thead here
-        width: '25%',
-      },
+    'thead th:first-of-type, td:first-of-type': {
+      // intentionally specify thead here
+      width: '25%',
+    },
 
-      'th:first-of-type, td:first-of-type': {
-        paddingLeft: 20,
-      },
+    'th:first-of-type, td:first-of-type': {
+      paddingLeft: 20,
+    },
 
-      'th:nth-of-type(2), td:nth-of-type(2)': {
-        ...(compact
-          ? null
-          : {
-              // Description column
-              width: '35%',
-            }),
-      },
+    'th:nth-of-type(2), td:nth-of-type(2)': {
+      ...(compact
+        ? null
+        : {
+            // Description column
+            width: '35%',
+          }),
+    },
 
-      'td:nth-of-type(3)': {
-        ...(compact
-          ? null
-          : {
-              // Defaults column
-              width: '15%',
-            }),
-      },
+    'td:nth-of-type(3)': {
+      ...(compact
+        ? null
+        : {
+            // Defaults column
+            width: '15%',
+          }),
+    },
 
-      'th:last-of-type, td:last-of-type': {
-        paddingRight: 20,
-        ...(compact
-          ? null
-          : {
-              // Controls column
-              width: '25%',
-            }),
-      },
+    'th:last-of-type, td:last-of-type': {
+      paddingRight: 20,
+      ...(compact
+        ? null
+        : {
+            // Controls column
+            width: '25%',
+          }),
+    },
 
-      th: {
-        color:
-          theme.base === 'light'
-            ? transparentize(0.25, theme.color.defaultText)
-            : transparentize(0.45, theme.color.defaultText),
-        paddingTop: 10,
-        paddingBottom: 10,
+    th: {
+      color:
+        theme.base === 'light'
+          ? transparentize(0.25, theme.color.defaultText)
+          : transparentize(0.45, theme.color.defaultText),
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 15,
+      paddingRight: 15,
+    },
+
+    td: {
+      paddingTop: '10px',
+      paddingBottom: '10px',
+
+      '&:not(:first-of-type)': {
         paddingLeft: 15,
         paddingRight: 15,
       },
 
-      td: {
-        paddingTop: '10px',
-        paddingBottom: '10px',
-
-        '&:not(:first-of-type)': {
-          paddingLeft: 15,
-          paddingRight: 15,
-        },
-
-        '&:last-of-type': {
-          paddingRight: 20,
-        },
+      '&:last-of-type': {
+        paddingRight: 20,
       },
-
-      // Makes border alignment consistent w/other DocBlocks
-      marginLeft: inAddonPanel ? 0 : 1,
-      marginRight: inAddonPanel ? 0 : 1,
-
-      tbody: {
-        // Safari doesn't love shadows on tbody so we need to use a shadow filter. In order to do this,
-        // the table cells all need to be solid so they have a background color applied.
-        // I wasn't sure what kinds of content go in these tables so I was extra specific with selectors
-        // to avoid unexpected surprises.
-        ...(inAddonPanel
-          ? null
-          : {
-              filter:
-                theme.base === 'light'
-                  ? `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.10))`
-                  : `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.20))`,
-            }),
-
-        '> tr > *': {
-          // For filter to work properly, the table cells all need to be opaque.
-          background: theme.background.content,
-          borderTop: `1px solid ${theme.appBorderColor}`,
-        },
-
-        ...(inAddonPanel
-          ? null
-          : {
-              // This works and I don't know why. :)
-              '> tr:first-of-type > *': {
-                borderBlockStart: `1px solid ${theme.appBorderColor}`,
-              },
-              '> tr:last-of-type > *': {
-                borderBlockEnd: `1px solid ${theme.appBorderColor}`,
-              },
-              '> tr > *:first-of-type': {
-                borderInlineStart: `1px solid ${theme.appBorderColor}`,
-              },
-              '> tr > *:last-of-type': {
-                borderInlineEnd: `1px solid ${theme.appBorderColor}`,
-              },
-
-              // Thank you, Safari, for making me write code like this.
-              '> tr:first-of-type > td:first-of-type': {
-                borderTopLeftRadius: theme.appBorderRadius,
-              },
-              '> tr:first-of-type > td:last-of-type': {
-                borderTopRightRadius: theme.appBorderRadius,
-              },
-              '> tr:last-of-type > td:first-of-type': {
-                borderBottomLeftRadius: theme.appBorderRadius,
-              },
-              '> tr:last-of-type > td:last-of-type': {
-                borderBottomRightRadius: theme.appBorderRadius,
-              },
-            }),
-      },
-      // End awesome table styling
     },
-  }),
-  ({ isLoading, theme }) =>
-    isLoading
-      ? {
-          'th span, td span, td button': {
-            display: 'inline',
-            backgroundColor: theme.appBorderColor,
-            animation: `${theme.animation.glow} 1.5s ease-in-out infinite`,
-            color: 'transparent',
-            boxShadow: 'none',
-            borderRadius: 0,
-          },
-        }
-      : {}
-);
+
+    // Makes border alignment consistent w/other DocBlocks
+    marginLeft: inAddonPanel ? 0 : 1,
+    marginRight: inAddonPanel ? 0 : 1,
+
+    tbody: {
+      // Safari doesn't love shadows on tbody so we need to use a shadow filter. In order to do this,
+      // the table cells all need to be solid so they have a background color applied.
+      // I wasn't sure what kinds of content go in these tables so I was extra specific with selectors
+      // to avoid unexpected surprises.
+      ...(inAddonPanel
+        ? null
+        : {
+            filter:
+              theme.base === 'light'
+                ? `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.10))`
+                : `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.20))`,
+          }),
+
+      '> tr > *': {
+        // For filter to work properly, the table cells all need to be opaque.
+        background: theme.background.content,
+        borderTop: `1px solid ${theme.appBorderColor}`,
+      },
+
+      ...(inAddonPanel
+        ? null
+        : {
+            // This works and I don't know why. :)
+            '> tr:first-of-type > *': {
+              borderBlockStart: `1px solid ${theme.appBorderColor}`,
+            },
+            '> tr:last-of-type > *': {
+              borderBlockEnd: `1px solid ${theme.appBorderColor}`,
+            },
+            '> tr > *:first-of-type': {
+              borderInlineStart: `1px solid ${theme.appBorderColor}`,
+            },
+            '> tr > *:last-of-type': {
+              borderInlineEnd: `1px solid ${theme.appBorderColor}`,
+            },
+
+            // Thank you, Safari, for making me write code like this.
+            '> tr:first-of-type > td:first-of-type': {
+              borderTopLeftRadius: theme.appBorderRadius,
+            },
+            '> tr:first-of-type > td:last-of-type': {
+              borderTopRightRadius: theme.appBorderRadius,
+            },
+            '> tr:last-of-type > td:first-of-type': {
+              borderBottomLeftRadius: theme.appBorderRadius,
+            },
+            '> tr:last-of-type > td:last-of-type': {
+              borderBottomRightRadius: theme.appBorderRadius,
+            },
+          }),
+    },
+    // End awesome table styling
+  },
+}));
 
 const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
   color: theme.barTextColor,
@@ -212,37 +200,19 @@ export interface ArgsTableOptionProps {
   isLoading?: boolean;
   sort?: SortType;
 }
-export interface ArgsTableDataProps {
+interface ArgsTableDataProps {
   rows: ArgTypes;
   args?: Args;
   globals?: Globals;
 }
 
-export interface ArgsTableErrorProps {
+interface ArgsTableErrorProps {
   error: ArgsTableError;
 }
+
 export interface ArgsTableLoadingProps {
   isLoading: true;
 }
-
-const rowLoadingData = (key: string) => ({
-  key,
-  name: 'propertyName',
-  description: 'This is a short description',
-  control: { type: 'text' },
-  table: {
-    type: { summary: 'summary' },
-    defaultValue: { summary: 'defaultValue' },
-  },
-});
-
-export const argsTableLoadingData: ArgsTableDataProps = {
-  rows: {
-    row1: rowLoadingData('row1'),
-    row2: rowLoadingData('row2'),
-    row3: rowLoadingData('row3'),
-  },
-};
 
 export type ArgsTableProps = ArgsTableOptionProps &
   (ArgsTableDataProps | ArgsTableErrorProps | ArgsTableLoadingProps);
@@ -337,17 +307,6 @@ const safeIncludeConditionalArg = (row: ArgType, args: Args, globals: Globals) =
  * ArgDefs, usually derived from docgen info for the component.
  */
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
-  if ('error' in props) {
-    return (
-      <EmptyBlock>
-        {props.error}&nbsp;
-        <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
-          Read the docs
-        </Link>
-      </EmptyBlock>
-    );
-  }
-
   const {
     updateArgs,
     resetArgs,
@@ -355,10 +314,26 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     inAddonPanel,
     initialExpandedArgs,
     sort = 'none',
+    isLoading,
   } = props;
-  const isLoading = 'isLoading' in props;
-  const { rows, args, globals } = 'rows' in props ? props : argsTableLoadingData;
 
+  if ('error' in props) {
+    const { error } = props;
+    return (
+      <EmptyBlock>
+        {error}&nbsp;
+        <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
+          Read the docs
+        </Link>
+      </EmptyBlock>
+    );
+  }
+
+  // If the story is loading, show a skeleton
+  // This happen when you load the manager and the story is not yet loaded
+  if (isLoading) return <Skeleton />;
+
+  const { rows, args, globals } = 'rows' in props && props;
   const groups = groupRows(
     pickBy(
       rows,
@@ -367,20 +342,12 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     sort
   );
 
-  if (
-    groups.ungrouped.length === 0 &&
-    Object.entries(groups.sections).length === 0 &&
-    Object.entries(groups.ungroupedSubsections).length === 0
-  ) {
-    return (
-      <EmptyBlock>
-        No inputs found for this component.&nbsp;
-        <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
-          Read the docs
-        </Link>
-      </EmptyBlock>
-    );
-  }
+  // If there are no controls, show the empty state
+  const hasNoUngrouped = groups.ungrouped.length === 0;
+  const hasNoSections = Object.entries(groups.sections).length === 0;
+  const hasNoUngroupedSubsections = Object.entries(groups.ungroupedSubsections).length === 0;
+  if (hasNoUngrouped && hasNoSections && hasNoUngroupedSubsections)
+    return <Empty inAddonPanel={inAddonPanel} />;
 
   let colSpan = 1;
   if (updateArgs) colSpan += 1;
@@ -391,11 +358,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 
   return (
     <ResetWrapper>
-      <TableWrapper
-        aria-hidden={isLoading}
-        {...{ compact, inAddonPanel, isLoading }}
-        className="docblock-argstable sb-unstyled"
-      >
+      <TableWrapper {...{ compact, inAddonPanel }} className="docblock-argstable sb-unstyled">
         <thead className="docblock-argstable-head">
           <tr>
             <th>
@@ -417,7 +380,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
                   Control{' '}
                   {!isLoading && resetArgs && (
                     <StyledIconButton onClick={() => resetArgs()} title="Reset controls">
-                      <Icons icon="undo" aria-hidden />
+                      <Icon.Undo aria-hidden />
                     </StyledIconButton>
                   )}
                 </ControlHeadingWrapper>

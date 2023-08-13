@@ -22,6 +22,7 @@ export const Inheritance = {
 };
 
 export const Events = {
+  parameters: { chromatic: { disableSnapshot: true } },
   // Just pass the "foo" global to the pre
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>

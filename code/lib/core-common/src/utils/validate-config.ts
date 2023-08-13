@@ -6,7 +6,9 @@ const renderers = ['html', 'preact', 'react', 'server', 'svelte', 'vue', 'vue3',
 
 const rendererNames = [...renderers, ...renderers.map((renderer) => `@storybook/${renderer}`)];
 
-export function validateFrameworkName(frameworkName: string | undefined) {
+export function validateFrameworkName(
+  frameworkName: string | undefined
+): asserts frameworkName is string {
   const automigrateMessage = `Please run 'npx storybook@next automigrate' to automatically fix your config.
 
   See the migration guide for more information: 

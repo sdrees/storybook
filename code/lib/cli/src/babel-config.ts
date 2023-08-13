@@ -34,7 +34,9 @@ export const writeBabelConfigFile = async ({
 }) => {
   const fileLocation = location || path.join(process.cwd(), '.babelrc.json');
 
-  const presets: (string | [string, any])[] = [['@babel/preset-env', { targets: { chrome: 100 } }]];
+  const presets: (string | [string, any])[] = [
+    ['@babel/preset-env', { targets: { chrome: 100, safari: 15, firefox: 91 } }],
+  ];
 
   if (typescript) {
     presets.push('@babel/preset-typescript');

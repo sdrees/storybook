@@ -2,6 +2,8 @@
 title: 'Embed stories'
 ---
 
+<YouTubeCallout id="2tqRpBcV8ug" title="Your Storybook EVERYWHERE | Embeds with Chromatic" />
+
 Embed stories to showcase your work to teammates and the developer community at large. In order to use embeds, your Storybook must be published and publicly accessible.
 
 Storybook supports `<iframe>` embeds out of the box. If you use Chromatic to [publish Storybook](./publish-storybook.md#publish-storybook-with-chromatic), you can also embed stories in Notion, Medium, and countless other platforms that support the oEmbed standard.

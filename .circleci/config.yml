@@ -489,11 +489,11 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 11
+          parallelism: 12
           requires:
             - build
       - build-sandboxes:
-          parallelism: 11
+          parallelism: 12
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
@@ -513,7 +513,7 @@ workflows:
           requires:
             - build-sandboxes
       - bench:
-          parallelism: 2
+          parallelism: 3
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -545,11 +545,11 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 20
+          parallelism: 21
           requires:
             - build
       - build-sandboxes:
-          parallelism: 20
+          parallelism: 21
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
@@ -569,7 +569,7 @@ workflows:
           requires:
             - build-sandboxes
       - bench:
-          parallelism: 2
+          parallelism: 3
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness

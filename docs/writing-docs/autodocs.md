@@ -53,7 +53,9 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 ### Write a custom template
 
-To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
+<YouTubeCallout id="q8SY4yyNE6Q" title="Custom Autodocs with Storybook 7 Docs Page | Quick Tips" />
+
+To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js|ts`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
 
 <!-- prettier-ignore-start -->
 

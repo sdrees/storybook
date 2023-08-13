@@ -2,6 +2,8 @@
 title: 'Stories'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Stories Doc Block" params='start=185' />
+
 The `Stories` block renders the full collection of stories in a stories file.
 
 ![Screenshot of Stories block](./doc-block-stories.png)

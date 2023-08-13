@@ -2,6 +2,8 @@
 title: 'Source'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Source Doc Block" params='start=136' />
+
 The `Source` block is used to render a snippet of source code directly.
 
 ![Screenshot of Source block](./doc-block-source.png)
@@ -141,7 +143,7 @@ Default: `parameters.docs.source.type` or `'auto'`
 
 Specifies how the source code is rendered.
 
-- **auto**: Same as **dynamic**, if supported by the framework in use; otherwise same as **code**
+- **auto**: Same as **dynamic**, if the story's `render` function accepts args inputs and **dynamic** is supported by the framework in use; otherwise same as **code**
 - **code**: Renders the value of [`code` prop](#code), otherwise renders static story source
 - **dynamic**: Renders the story source with dynamically updated arg values
 

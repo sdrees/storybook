@@ -1,17 +1,12 @@
 import * as RadixSelect from '@radix-ui/react-select';
 import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
+import { Icon } from '@storybook/components/experimental';
 
 interface SelectItemProps {
   children: React.ReactNode;
   value: string;
 }
-
-const FakeIcon = styled.div(({ theme }) => ({
-  width: 12,
-  height: 12,
-  backgroundColor: theme.color.mediumdark,
-}));
 
 export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
   ({ children, ...props }, forwardedRef) => {
@@ -19,7 +14,7 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
       <StyledItem {...props} ref={forwardedRef}>
         <RadixSelect.ItemText>{children}</RadixSelect.ItemText>
         <StyledItemIndicator className="SelectItemIndicator">
-          <FakeIcon />
+          <Icon.FaceHappy />
         </StyledItemIndicator>
       </StyledItem>
     );

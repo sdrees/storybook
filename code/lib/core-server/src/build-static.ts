@@ -107,14 +107,16 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     ...options,
   });
 
-  const [features, core, staticDirs, storyIndexers, stories, docsOptions] = await Promise.all([
-    presets.apply<StorybookConfig['features']>('features'),
-    presets.apply<CoreConfig>('core'),
-    presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
-    presets.apply('storyIndexers', []),
-    presets.apply('stories'),
-    presets.apply<DocsOptions>('docs', {}),
-  ]);
+  const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
+    await Promise.all([
+      presets.apply<StorybookConfig['features']>('features'),
+      presets.apply<CoreConfig>('core'),
+      presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
+      presets.apply('experimental_indexers', []),
+      presets.apply('storyIndexers', []),
+      presets.apply('stories'),
+      presets.apply<DocsOptions>('docs', {}),
+    ]);
 
   const fullOptions: Options = {
     ...options,
@@ -164,27 +166,27 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     const normalizedStories = normalizeStories(stories, directories);
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      storyIndexers,
+      storyIndexers: deprecatedStoryIndexers,
+      indexers,
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
     });
 
-    const initializedStoryIndexGeneratorPromise = generator.initialize().then(() => generator);
+    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGeneratorPromise,
+        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>,
         convertToIndexV3
       )
     );
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'index.json'),
-        initializedStoryIndexGeneratorPromise
+        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>
       )
     );
-    initializedStoryIndexGenerator = initializedStoryIndexGeneratorPromise;
   }
 
   if (!core?.disableProjectJson) {

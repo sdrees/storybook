@@ -12,7 +12,8 @@ import { dedent } from 'ts-dedent';
 import { defaultStaticDirs } from './constants';
 
 export async function useStatics(router: any, options: Options) {
-  const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const staticDirs =
+    (await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
@@ -26,7 +27,7 @@ export async function useStatics(router: any, options: Options) {
   }
 
   const statics = [
-    ...(staticDirs ?? []).map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
+    ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
     ...(options.staticDir || []),
   ];
 

@@ -2,7 +2,8 @@ import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React, { useState, useCallback, Fragment } from 'react';
 
-import { Icons, WithTooltip, Spaced, Button, Link, ErrorFormatter } from '@storybook/components';
+import { WithTooltip, Spaced, Button, Link, ErrorFormatter } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 
@@ -78,7 +79,7 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
             </Text>
             <div>
               <Button small gray onClick={refresh}>
-                <Icons icon="sync" />
+                <Icon.Sync />
                 Refresh now
               </Button>
             </div>
@@ -88,7 +89,7 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
             <Text>Sign in to browse this Storybook.</Text>
             <div>
               <Button small gray onClick={open}>
-                <Icons icon="lock" />
+                <Icon.Lock />
                 Sign in
               </Button>
             </div>
@@ -114,7 +115,7 @@ export const ErrorBlock: FC<{ error: Error }> = ({ error }) => (
         >
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <Link isButton>
-            View error <Icons icon="arrowdown" />
+            View error <Icon.ChevronDown />
           </Link>
         </WithTooltip>{' '}
         <Link withArrow href="https://storybook.js.org/docs" cancel={false} target="_blank">

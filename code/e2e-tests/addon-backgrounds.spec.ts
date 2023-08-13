@@ -3,14 +3,9 @@ import process from 'process';
 import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
-const templateName = process.env.STORYBOOK_TEMPLATE_NAME;
+const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 
 test.describe('addon-backgrounds', () => {
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
-  });
-
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();

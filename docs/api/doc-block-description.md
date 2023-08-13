@@ -2,6 +2,8 @@
 title: 'Description'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Description Doc Block" params='start=84' />
+
 The `Description` block displays the description for a component, story, or meta, obtained from their respective JSDoc comments.
 
 ![Screenshot of Description block](./doc-block-title-subtitle-description.png)
