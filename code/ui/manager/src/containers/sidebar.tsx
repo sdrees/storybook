@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/manager-api';
-import { Consumer } from '@storybook/manager-api';
+import { types, Consumer } from '@storybook/manager-api';
 
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
 import { useMenu } from './menu';
@@ -36,6 +36,10 @@ const Sidebar = React.memo(function Sideber() {
     const whatsNewNotificationsEnabled =
       state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
 
+    const items = api.getElements(types.experimental_SIDEBAR_BOTTOM);
+    const bottom = useMemo(() => Object.values(items), [items]);
+    const top = useMemo(() => Object.values(api.getElements(types.experimental_SIDEBAR_TOP)), []);
+
     return {
       title: name,
       url,
@@ -50,6 +54,8 @@ const Sidebar = React.memo(function Sideber() {
       menu,
       menuHighlighted: whatsNewNotificationsEnabled && api.isWhatsNewUnread(),
       enableShortcuts,
+      bottom,
+      extra: top,
     };
   };
   return (

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ember",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "Storybook for Ember: Develop Ember Component in isolation with Hot Reloading.",
   "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/ember",
   "bugs": {
@@ -21,10 +21,11 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
+    "template/cli/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

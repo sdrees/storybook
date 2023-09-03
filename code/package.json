@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -225,6 +225,7 @@
     "eslint": "^8.28.0",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-local-rules": "portal:../scripts/eslint-plugin-local-rules",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-storybook": "^0.6.6",
     "fs-extra": "^11.1.0",

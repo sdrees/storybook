@@ -57,6 +57,7 @@ const realSidebarProps: SidebarProps = {
   refs: {},
   status: {},
   previewInitialized: true,
+  extra: [],
 };
 
 const PlaceholderBlock = styled.div(({ color }) => ({

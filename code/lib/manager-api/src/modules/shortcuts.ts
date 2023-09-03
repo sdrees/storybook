@@ -2,7 +2,7 @@
 import { global } from '@storybook/global';
 import { FORCE_REMOUNT, PREVIEW_KEYDOWN } from '@storybook/core-events';
 
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 import type { KeyboardEventLike } from '../lib/shortcut';
 import { shortcutMatchesShortcut, eventToShortcut } from '../lib/shortcut';
@@ -82,8 +82,9 @@ export interface SubAPI {
   /**
    * Handles a shortcut feature.
    * @param feature The feature to handle.
+   * @param event The event to handle.
    */
-  handleShortcutFeature(feature: API_Action): void;
+  handleShortcutFeature(feature: API_Action, event: KeyboardEventLike): void;
 }
 
 export type API_KeyCollection = string[];
@@ -152,7 +153,7 @@ function focusInInput(event: KeyboardEvent) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-export const init: ModuleFn = ({ store, fullAPI }) => {
+export const init: ModuleFn = ({ store, fullAPI, provider }) => {
   const api: SubAPI = {
     // Getting and setting shortcuts
     getShortcutKeys(): API_Shortcuts {
@@ -218,14 +219,12 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
         shortcutMatchesShortcut(shortcut, shortcuts[feature])
       );
       if (matchedFeature) {
-        // Event.prototype.preventDefault is missing when received from the MessageChannel.
-        if (event?.preventDefault) event.preventDefault();
-        api.handleShortcutFeature(matchedFeature);
+        api.handleShortcutFeature(matchedFeature, event);
       }
     },
 
     // warning: event might not have a full prototype chain because it may originate from the channel
-    handleShortcutFeature(feature) {
+    handleShortcutFeature(feature, event) {
       const {
         layout: { isFullscreen, showNav, showPanel },
         ui: { enableShortcuts },
@@ -234,6 +233,8 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
       if (!enableShortcuts) {
         return;
       }
+      // Event.prototype.preventDefault is missing when received from the MessageChannel.
+      if (event?.preventDefault) event.preventDefault();
       switch (feature) {
         case 'escape': {
           if (isFullscreen) {
@@ -397,13 +398,13 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
     // Listen for keydown events in the manager
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       if (!focusInInput(event)) {
-        fullAPI.handleKeydownEvent(event);
+        api.handleKeydownEvent(event);
       }
     });
 
     // Also listen to keydown events sent over the channel
-    fullAPI.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
-      fullAPI.handleKeydownEvent(data.event);
+    provider.channel.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
+      api.handleKeydownEvent(data.event);
     });
   };
 

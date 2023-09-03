@@ -7,6 +7,7 @@ import * as recast from 'recast';
 import type Babel from '@babel/core';
 import type { File } from '@babel/types';
 import * as t from '@babel/types';
+import invariant from 'tiny-invariant';
 
 const files = glob.sync('**/*.ts.mdx', {
   absolute: true,
@@ -74,6 +75,7 @@ for (const [, file] of files.entries()) {
       console.log('changed', file);
     }
   } catch (e) {
+    invariant(e instanceof Error);
     console.error(e.message);
   }
 }

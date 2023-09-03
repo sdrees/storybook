@@ -2,6 +2,8 @@
 title: 'Typeset'
 ---
 
+<YouTubeCallout id="tyNIspWhFyU" title="Storybook for Design Systems - Typeset Doc Block" params='start=73' />
+
 The `Typeset` block helps document the fonts used throughout your project.
 
 ![Screenshot of Typeset block](./doc-block-typeset.png)

@@ -1,5 +1,5 @@
 import type { API_Settings, StoryId } from '@storybook/types';
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 export interface SubAPI {
   storeSelection: () => void;
@@ -78,5 +78,8 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) =
     },
   };
 
-  return { state: { settings: { lastTrackedStoryId: null } }, api };
+  return {
+    state: { settings: { lastTrackedStoryId: null } },
+    api,
+  };
 };

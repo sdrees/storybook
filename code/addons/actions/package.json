@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -73,7 +73,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -93,7 +94,7 @@
     "polished": "^4.2.2",
     "prop-types": "^15.7.2",
     "react-inspector": "^6.0.0",
-    "telejson": "^7.0.3",
+    "telejson": "^7.2.0",
     "ts-dedent": "^2.0.0",
     "uuid": "^9.0.0"
   },

@@ -33,20 +33,17 @@ export async function getTemplatesData(branch: string) {
     >
   >;
 
-  const templatesData = Object.keys(sandboxTemplates).reduce<TemplatesData>(
-    (acc, curr: keyof typeof sandboxTemplates) => {
-      const [dirName, templateName] = curr.split('/');
-      const groupName =
-        dirName === 'cra' ? 'CRA' : dirName.slice(0, 1).toUpperCase() + dirName.slice(1);
-      const generatorData = sandboxTemplates[curr];
-      acc[groupName] = acc[groupName] || {};
-      acc[groupName][templateName] = {
-        ...generatorData,
-        stackblitzUrl: getStackblitzUrl(curr, branch),
-      };
-      return acc;
-    },
-    {}
-  );
+  const templatesData = Object.keys(sandboxTemplates).reduce<TemplatesData>((acc, curr) => {
+    const [dirName, templateName] = curr.split('/');
+    const groupName =
+      dirName === 'cra' ? 'CRA' : dirName.slice(0, 1).toUpperCase() + dirName.slice(1);
+    const generatorData = sandboxTemplates[curr as keyof typeof sandboxTemplates];
+    acc[groupName] = acc[groupName] || {};
+    acc[groupName][templateName] = {
+      ...generatorData,
+      stackblitzUrl: getStackblitzUrl(curr, branch),
+    };
+    return acc;
+  }, {});
   return templatesData;
 }

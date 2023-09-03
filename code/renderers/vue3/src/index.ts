@@ -6,4 +6,10 @@ export * from './public-api';
 export * from './public-types';
 
 // optimization: stop HMR propagation in webpack
-if (typeof module !== 'undefined') module?.hot?.decline();
+try {
+  if (module?.hot?.decline) {
+    module.hot.decline();
+  }
+} catch (e) {
+  /* do nothing */
+}

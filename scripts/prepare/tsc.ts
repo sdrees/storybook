@@ -41,6 +41,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       outDir: join(process.cwd(), 'dist'),
       target: ts.ScriptTarget.ES2020,
       declaration: true,
+      sourceMap: false,
     }
   );
 

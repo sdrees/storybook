@@ -1,5 +1,5 @@
-import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
-import type { ConcreteComponent } from 'vue';
+import { type StoryContext as StoryContextBase, type WebRenderer } from '@storybook/types';
+import type { App, ConcreteComponent } from 'vue';
 
 export type { RenderContext } from '@storybook/types';
 
@@ -13,6 +13,8 @@ export interface ShowErrorArgs {
 export type StoryFnVueReturnType = ConcreteComponent<any>;
 
 export type StoryContext = StoryContextBase<VueRenderer>;
+
+export type StorybookVueApp = { vueApp: App<any>; storyContext: StoryContext };
 
 /**
  * @deprecated Use `VueRenderer` instead.

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-server-webpack",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -46,7 +46,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

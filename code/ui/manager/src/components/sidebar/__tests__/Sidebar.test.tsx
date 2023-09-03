@@ -16,7 +16,15 @@ const factory = (props: Partial<SidebarProps>): RenderResult => {
 
   return render(
     <ThemeProvider theme={theme}>
-      <Sidebar menu={[]} index={{}} previewInitialized refs={{}} status={{}} {...props} />
+      <Sidebar
+        menu={[]}
+        index={{}}
+        previewInitialized
+        refs={{}}
+        status={{}}
+        extra={[]}
+        {...props}
+      />
     </ThemeProvider>
   );
 };

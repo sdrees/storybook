@@ -1,3 +1,5 @@
+/* eslint-disable local-rules/no-uncategorized-errors */
+
 import { global } from '@storybook/global';
 
 import type { Channel } from '@storybook/channels';
@@ -5,7 +7,8 @@ import type { AddonStore } from '@storybook/manager-api';
 import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import { createBrowserChannel } from '@storybook/channels';
-import { CHANNEL_CREATED } from '@storybook/core-events';
+import { CHANNEL_CREATED, TELEMETRY_ERROR } from '@storybook/core-events';
+import { UncaughtManagerError } from '@storybook/core-events/manager-errors';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
@@ -35,6 +38,7 @@ class ReactProvider extends Provider {
 
     this.addons = addons;
     this.channel = channel;
+    global.__STORYBOOK_ADDONS_CHANNEL__ = channel;
 
     if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
       this.serverChannel = this.channel;
@@ -55,12 +59,51 @@ class ReactProvider extends Provider {
   }
 }
 
-const { document } = global;
-
-const rootEl = document.getElementById('root');
-renderStorybookUI(rootEl, new ReactProvider());
-
 // Apply all the globals
 Object.keys(Keys).forEach((key: keyof typeof Keys) => {
   global[Keys[key]] = values[key];
 });
+
+function preprocessError(
+  originalError: Error & {
+    fromStorybook?: boolean;
+    category?: string;
+    target?: any;
+    currentTarget?: any;
+    srcElement?: any;
+  }
+) {
+  let error = originalError;
+
+  if (!originalError.fromStorybook) {
+    error = new UncaughtManagerError(originalError);
+  }
+
+  // DOM manipulation errors and other similar errors are not serializable as they contain
+  // circular references to the window object. If that's the case, we make a simplified copy
+  if (error.target === window || error.currentTarget === window || error.srcElement === window) {
+    error = new Error(originalError.message);
+    error.name = originalError.name || error.name;
+    error.category = originalError.category;
+  }
+
+  return error;
+}
+
+global.sendTelemetryError = (error) => {
+  const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
+  channel.emit(TELEMETRY_ERROR, preprocessError(error));
+};
+
+// handle all uncaught errors at the root of the application and log to telemetry
+global.addEventListener('error', (args) => {
+  const error = args.error || args;
+  global.sendTelemetryError(error);
+});
+global.addEventListener('unhandledrejection', ({ reason }) => {
+  global.sendTelemetryError(reason);
+});
+
+const { document } = global;
+const rootEl = document.getElementById('root');
+renderStorybookUI(rootEl, new ReactProvider());

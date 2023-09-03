@@ -1,9 +1,10 @@
 import { EventEmitter } from 'events';
 import { SET_STORIES, SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 
-import type { ModuleArgs, API } from '../index';
+import type { API } from '../index';
 import type { SubAPI } from '../modules/globals';
 import { init as initModule } from '../modules/globals';
+import type { ModuleArgs } from '../lib/types';
 
 const { logger } = require('@storybook/client-logger');
 const { getEventMetadata } = require('../lib/events');
@@ -27,7 +28,8 @@ function createMockStore() {
 describe('globals API', () => {
   it('sets a sensible initialState', () => {
     const store = createMockStore();
-    const { state } = initModule({ store } as unknown as ModuleArgs);
+    const channel = new EventEmitter();
+    const { state } = initModule({ store, provider: { channel } } as unknown as ModuleArgs);
 
     expect(state).toEqual({
       globals: {},
@@ -36,13 +38,15 @@ describe('globals API', () => {
   });
 
   it('set global args on SET_GLOBALS', () => {
-    const api = Object.assign(new EventEmitter(), { findRef: jest.fn() });
+    const channel = new EventEmitter();
     const store = createMockStore();
-    const { state, init } = initModule({ store, fullAPI: api } as unknown as ModuleArgs);
+    const { state } = initModule({
+      store,
+      provider: { channel },
+    } as unknown as ModuleArgs);
     store.setState(state);
-    init();
 
-    api.emit(SET_GLOBALS, {
+    channel.emit(SET_GLOBALS, {
       globals: { a: 'b' },
       globalTypes: { a: { type: { name: 'string' } } },
     });
@@ -53,26 +57,34 @@ describe('globals API', () => {
   });
 
   it('ignores SET_STORIES from other refs', () => {
-    const api = Object.assign(new EventEmitter(), { findRef: jest.fn() });
+    const channel = new EventEmitter();
+    const api = { findRef: jest.fn() };
     const store = createMockStore();
-    const { state, init } = initModule({ store, fullAPI: api } as unknown as ModuleArgs);
+    const { state } = initModule({
+      store,
+      fullAPI: api,
+      provider: { channel },
+    } as unknown as ModuleArgs);
     store.setState(state);
-    init();
 
     getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } });
-    api.emit(SET_STORIES, { globals: { a: 'b' } });
+    channel.emit(SET_STORIES, { globals: { a: 'b' } });
     expect(store.getState()).toEqual({ globals: {}, globalTypes: {} });
   });
 
   it('ignores SET_GLOBALS from other refs', () => {
-    const api = Object.assign(new EventEmitter(), { findRef: jest.fn() });
+    const api = { findRef: jest.fn() };
+    const channel = new EventEmitter();
     const store = createMockStore();
-    const { state, init } = initModule({ store, fullAPI: api } as unknown as ModuleArgs);
+    const { state } = initModule({
+      store,
+      fullAPI: api,
+      provider: { channel },
+    } as unknown as ModuleArgs);
     store.setState(state);
-    init();
 
     getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } });
-    api.emit(SET_GLOBALS, {
+    channel.emit(SET_GLOBALS, {
       globals: { a: 'b' },
       globalTypes: { a: { type: { name: 'string' } } },
     });
@@ -80,48 +92,56 @@ describe('globals API', () => {
   });
 
   it('updates the state when the preview emits GLOBALS_UPDATED', () => {
-    const api = Object.assign(new EventEmitter(), { findRef: jest.fn() });
+    const channel = new EventEmitter();
+    const api = { findRef: jest.fn() };
     const store = createMockStore();
-    const { state, init } = initModule({ store, fullAPI: api } as unknown as ModuleArgs);
+    const { state } = initModule({
+      store,
+      fullAPI: api,
+      provider: { channel },
+    } as unknown as ModuleArgs);
     store.setState(state);
 
-    init();
-
-    api.emit(GLOBALS_UPDATED, { globals: { a: 'b' } });
+    channel.emit(GLOBALS_UPDATED, { globals: { a: 'b' } });
     expect(store.getState()).toEqual({ globals: { a: 'b' }, globalTypes: {} });
 
-    api.emit(GLOBALS_UPDATED, { globals: { a: 'c' } });
+    channel.emit(GLOBALS_UPDATED, { globals: { a: 'c' } });
     expect(store.getState()).toEqual({ globals: { a: 'c' }, globalTypes: {} });
 
     // SHOULD NOT merge global args
-    api.emit(GLOBALS_UPDATED, { globals: { d: 'e' } });
+    channel.emit(GLOBALS_UPDATED, { globals: { d: 'e' } });
     expect(store.getState()).toEqual({ globals: { d: 'e' }, globalTypes: {} });
   });
 
   it('ignores GLOBALS_UPDATED from other refs', () => {
-    const api = Object.assign(new EventEmitter(), { findRef: jest.fn() });
+    const channel = new EventEmitter();
+    const api = { findRef: jest.fn() };
     const store = createMockStore();
-    const { state, init } = initModule({ store, fullAPI: api } as unknown as ModuleArgs);
+    const { state } = initModule({
+      store,
+      fullAPI: api,
+      provider: { channel },
+    } as unknown as ModuleArgs);
     store.setState(state);
-
-    init();
 
     getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } });
     logger.warn.mockClear();
-    api.emit(GLOBALS_UPDATED, { globals: { a: 'b' } });
+    channel.emit(GLOBALS_UPDATED, { globals: { a: 'b' } });
     expect(store.getState()).toEqual({ globals: {}, globalTypes: {} });
     expect(logger.warn).toHaveBeenCalled();
   });
 
   it('emits UPDATE_GLOBALS when updateGlobals is called', () => {
-    const fullAPI = { emit: jest.fn(), on: jest.fn() } as unknown as API;
+    const channel = new EventEmitter();
+    const fullAPI = {} as unknown as API;
     const store = createMockStore();
-    const { init, api } = initModule({ store, fullAPI } as unknown as ModuleArgs);
+    const listener = jest.fn();
+    channel.on(UPDATE_GLOBALS, listener);
 
-    init();
-
+    const { api } = initModule({ store, fullAPI, provider: { channel } } as unknown as ModuleArgs);
     (api as SubAPI).updateGlobals({ a: 'b' });
-    expect(fullAPI.emit).toHaveBeenCalledWith(UPDATE_GLOBALS, {
+
+    expect(listener).toHaveBeenCalledWith({
       globals: { a: 'b' },
       options: { target: 'storybook-preview-iframe' },
     });

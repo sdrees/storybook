@@ -7,7 +7,8 @@ import type { ThemeVars } from '@storybook/theming';
 
 import type { API_Layout, API_PanelPositions, API_UI } from '@storybook/types';
 import merge from '../lib/merge';
-import type { State, ModuleFn } from '../index';
+import type { State } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 const { document } = global;
 
@@ -284,7 +285,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     state: merge(api.getInitialOptions(), persisted),
     init: () => {
       api.setOptions(merge(api.getInitialOptions(), persisted));
-      fullAPI.on(SET_CONFIG, () => {
+      provider.channel.on(SET_CONFIG, () => {
         api.setOptions(merge(api.getInitialOptions(), persisted));
       });
     },

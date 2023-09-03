@@ -8,8 +8,8 @@ import type {
   ComponentAnnotations,
   Parameters,
   StoryAnnotations,
+  StoryAnnotationsOrFn,
   StoryContext,
-  StoryFn,
 } from './csf';
 
 import type { ProjectAnnotations } from './story';
@@ -22,6 +22,15 @@ export type Store_CSFExports<TRenderer extends Renderer = Renderer, TArgs extend
   __namedExportsOrder?: string[];
 };
 
+/**
+ * Type for the play function returned by a composed story, which will contain everything needed in the context,
+ * except the canvasElement, which should be passed by the user.
+ * It's useful for scenarios where the user wants to execute the play function in test environments, e.g.
+ *
+ * const { PrimaryButton } = composeStories(stories)
+ * const { container } = render(<PrimaryButton />) // or PrimaryButton()
+ * PrimaryButton.play({ canvasElement: container })
+ */
 export type ComposedStoryPlayContext<TRenderer extends Renderer = Renderer, TArgs = Args> = Partial<
   StoryContext<TRenderer, TArgs> & Pick<StoryContext<TRenderer, TArgs>, 'canvasElement'>
 >;
@@ -30,40 +39,52 @@ export type ComposedStoryPlayFn<TRenderer extends Renderer = Renderer, TArgs = A
   context: ComposedStoryPlayContext<TRenderer, TArgs>
 ) => Promise<void> | void;
 
-export type PreparedStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = AnnotatedStoryFn<
-  TRenderer,
-  TArgs
-> & { play: ComposedStoryPlayFn<TRenderer, TArgs>; args: TArgs; id: StoryId };
-
-export type ComposedStory<TRenderer extends Renderer = Renderer, TArgs = Args> =
-  | StoryFn<TRenderer, TArgs>
-  | StoryAnnotations<TRenderer, TArgs>;
+/**
+ * A story function with partial args, used internally by composeStory
+ */
+export type PartialArgsStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = (
+  args?: TArgs
+) => (TRenderer & {
+  T: TArgs;
+})['storyResult'];
 
 /**
- * T represents the whole ES module of a stories file. K of T means named exports (basically the Story type)
- * 1. pick the keys K of T that have properties that are Story<AnyProps>
- * 2. infer the actual prop type for each Story
- * 3. reconstruct Story with Partial. Story<Props> -> Story<Partial<Props>>
+ * A story that got recomposed for portable stories, containing all the necessary data to be rendered in external environments
+ */
+export type ComposedStoryFn<
+  TRenderer extends Renderer = Renderer,
+  TArgs = Args
+> = PartialArgsStoryFn<TRenderer, TArgs> & {
+  play: ComposedStoryPlayFn<TRenderer, TArgs>;
+  args: TArgs;
+  id: StoryId;
+  storyName: string;
+  parameters: Parameters;
+};
+/**
+ * Based on a module of stories, it returns all stories within it, filtering non-stories
+ * Each story will have partial props, as their props should be handled when composing stories
  */
 export type StoriesWithPartialProps<TRenderer extends Renderer, TModule> = {
-  // @TODO once we can use Typescript 4.0 do this to exclude nonStory exports:
-  // replace [K in keyof TModule] with [K in keyof TModule as TModule[K] extends ComposedStory<any> ? K : never]
-  [K in keyof TModule]: TModule[K] extends ComposedStory<infer _, infer TProps>
-    ? PreparedStoryFn<TRenderer, Partial<TProps>>
+  // T represents the whole ES module of a stories file. K of T means named exports (basically the Story type)
+  // 1. pick the keys K of T that have properties that are Story<AnyProps>
+  // 2. infer the actual prop type for each Story
+  // 3. reconstruct Story with Partial. Story<Props> -> Story<Partial<Props>>
+  [K in keyof TModule as TModule[K] extends StoryAnnotationsOrFn<infer _, infer _TProps>
+    ? K
+    : never]: TModule[K] extends StoryAnnotationsOrFn<infer _, infer TProps>
+    ? ComposedStoryFn<TRenderer, Partial<TProps>>
     : unknown;
 };
 
+/**
+ * Type used for integrators of portable stories, as reference when creating their own composeStory function
+ */
 export interface ComposeStoryFn<TRenderer extends Renderer = Renderer, TArgs extends Args = Args> {
   (
     storyAnnotations: AnnotatedStoryFn<TRenderer, TArgs> | StoryAnnotations<TRenderer, TArgs>,
     componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
     projectAnnotations: ProjectAnnotations<TRenderer>,
     exportsName?: string
-  ): {
-    (extraArgs: Partial<TArgs>): TRenderer['storyResult'];
-    storyName: string;
-    args: Args;
-    play: ComposedStoryPlayFn<TRenderer, TArgs>;
-    parameters: Parameters;
-  };
+  ): ComposedStoryFn;
 }

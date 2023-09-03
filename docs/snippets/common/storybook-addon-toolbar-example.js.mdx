@@ -5,8 +5,7 @@ import React from 'react';
 
 import { addons, types } from '@storybook/manager-api';
 
-import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Icons, IconButton } from '@storybook/components';
 
 addons.register('my/toolbar', () => {
   addons.add('my-toolbar-addon/toolbar', {
@@ -17,7 +16,7 @@ addons.register('my/toolbar', () => {
     match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
     render: ({ active }) => (
       <IconButton active={active} title="Show a Storybook toolbar">
-        <Icon.Outline />
+        <Icons icon="outline" />
       </IconButton>
     ),
   });

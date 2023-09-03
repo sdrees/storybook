@@ -6,8 +6,7 @@ import React, { useCallback } from 'react';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
 import { useGlobals } from '@storybook/manager-api';
 
-import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { IconButton, Icons } from '@storybook/components';
 
 import { addons } from '@storybook/preview-api';
 
@@ -35,7 +34,7 @@ const ExampleToolbar = () => {
       title="Show a Storybook toolbar"
       onClick={toggleOutline}
     >
-      <Icon.Outline />
+      <Icons icon="outline" />
     </IconButton>
   );
 };

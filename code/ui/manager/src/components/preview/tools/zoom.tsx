@@ -1,8 +1,7 @@
 import type { SyntheticEvent, MouseEventHandler } from 'react';
 import React, { Component, useCallback } from 'react';
 
-import { IconButton, Separator } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Icons, IconButton, Separator } from '@storybook/components';
 import type { Addon_BaseType } from '@storybook/types';
 import { types } from '@storybook/manager-api';
 
@@ -39,13 +38,13 @@ const Zoom = React.memo<{
   return (
     <>
       <IconButton key="zoomin" onClick={zoomIn} title="Zoom in">
-        <Icon.Zoom />
+        <Icons icon="zoom" />
       </IconButton>
       <IconButton key="zoomout" onClick={zoomOut} title="Zoom out">
-        <Icon.ZoomOut />
+        <Icons icon="zoomout" />
       </IconButton>
       <IconButton key="zoomreset" onClick={reset} title="Reset zoom">
-        <Icon.ZoomReset />
+        <Icons icon="zoomreset" />
       </IconButton>
     </>
   );

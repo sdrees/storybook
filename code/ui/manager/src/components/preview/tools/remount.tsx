@@ -1,7 +1,6 @@
 import type { ComponentProps } from 'react';
 import React, { useState } from 'react';
-import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { IconButton, Icons } from '@storybook/components';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
@@ -57,7 +56,7 @@ export const remountTool: Addon_BaseType = {
             animating={isAnimating}
             disabled={!storyId}
           >
-            <Icon.Sync />
+            <Icons icon="sync" />
           </StyledAnimatedIconButton>
         );
       }}

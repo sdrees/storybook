@@ -2,8 +2,14 @@
 /// <reference path="../../test-typings.d.ts" />
 
 import { dedent } from 'ts-dedent';
+import { sep } from 'path';
 
-import { normalizeStoriesEntry } from '../normalize-stories';
+import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
+import {
+  getDirectoryFromWorkingDir,
+  normalizeStories,
+  normalizeStoriesEntry,
+} from '../normalize-stories';
 
 expect.addSnapshotSerializer({
   print: (val: any) => JSON.stringify(val, null, 2),
@@ -47,12 +53,12 @@ jest.mock('fs', () => {
   };
 });
 
-describe('normalizeStoriesEntry', () => {
-  const options = {
-    configDir: '/path/to/project/.storybook',
-    workingDir: '/path/to/project',
-  };
+const options = {
+  configDir: '/path/to/project/.storybook',
+  workingDir: '/path/to/project',
+};
 
+describe('normalizeStoriesEntry', () => {
   it('direct file path', () => {
     const specifier = normalizeStoriesEntry('../path/to/file.stories.mdx', options);
     expect(specifier).toMatchInlineSnapshot(`
@@ -308,5 +314,22 @@ describe('normalizeStoriesEntry', () => {
       './file.stories.mdx',
       '../file.stories.mdx',
     ]);
+  });
+});
+
+describe('getDirectoryFromWorkingDir', () => {
+  it('should return normalized story path', () => {
+    const normalizedPath = getDirectoryFromWorkingDir({
+      configDir: '/path/to/project/.storybook',
+      workingDir: '/path/to/project',
+      directory: '/path/to/project/src',
+    });
+    expect(normalizedPath).toBe(`.${sep}src`);
+  });
+});
+
+describe('normalizeStories', () => {
+  it('should throw InvalidStoriesEntryError for empty entries', () => {
+    expect(() => normalizeStories([], options)).toThrow(InvalidStoriesEntryError);
   });
 });

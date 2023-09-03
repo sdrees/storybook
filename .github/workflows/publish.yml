@@ -176,30 +176,9 @@ jobs:
           git commit -m "Update $VERSION_FILE for v${{ steps.version.outputs.current-version }}"
           git push origin main
 
-      # TODO: this is currently disabled, because we may have a better strategy that we want to try out manually first before comitting to it:
-      #     - create a branch "release-<VERSION>" from HEAD of main
-      #     - git push --force origin ${{ steps.target.outputs.target }}:main
-      #     - ... this will keep the "main" history in the new release branch, and then overwrite main's history with next's
-
-      # Sync next-release to main if it is not a prerelease, and this release is from next-release
-      # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
-      # This will keep next-release, next and main all tracking v7.1.0
-      # See "Alternative merge strategies" in https://stackoverflow.com/a/36321787
-      # - name: Sync next-release to main
-      #   if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease
-      #   working-directory: .
-      #   run: |
-      #     git fetch origin next-release
-      #     git checkout next-release
-      #     git pull
-      #     git fetch origin main
-      #     git checkout main
-      #     git pull
-      #     git merge --no-commit -s ours next-release
-      #     git rm -rf .
-      #     git checkout next-release -- .
-      #     git commit -m "Sync next-release to main"
-      #     git push origin main
+      - name: Overwrite main with next
+        if: steps.target.outputs.target == 'next' && steps.is-prerelease.outputs.prerelease == 'false'
+        run: git push --force origin next:main
 
       - name: Report job failure to Discord
         if: failure()

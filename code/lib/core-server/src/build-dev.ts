@@ -80,7 +80,9 @@ export async function buildDevStandalone(
   // We hope to remove this in SB8
   let presets = await loadAllPresets({
     corePresets,
-    overridePresets: [],
+    overridePresets: [
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 
@@ -112,7 +114,10 @@ export async function buildDevStandalone(
       ...corePresets,
       require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets ?? [],
+    overridePresets: [
+      ...(previewBuilder.overridePresets || []),
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 

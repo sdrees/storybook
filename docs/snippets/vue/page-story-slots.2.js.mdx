@@ -5,14 +5,6 @@ import Page from './Page.vue';
 
 export default {
   component: Page,
-};
-
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/vue/api/csf
- * to learn how to use render functions.
- */
-export const CustomFooter = {
   render: (args, { argTypes }) => ({
     components: { Page },
     props: Object.keys(argTypes),
@@ -24,8 +16,11 @@ export const CustomFooter = {
       </page>
     `,
   }),
+};
+
+export const CustomFooter = {
   args: {
-    footer: '<a href="https://storybook.js.org/">Built with Storybook</a>',
+    footer: 'Built with Storybook',
   },
 };
 ```

@@ -3,7 +3,8 @@ import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events
 import type { Listener } from '@storybook/channels';
 
 import type { API_Provider } from '@storybook/types';
-import type { API, ModuleFn } from '../index';
+import type { API } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 export interface SubAPI {
   /**

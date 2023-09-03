@@ -6,7 +6,7 @@ import {
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 export type SubState = {
   whatsNewData?: WhatsNewData;
@@ -20,7 +20,7 @@ export type SubAPI = {
 
 const WHATS_NEW_NOTIFICATION_ID = 'whats-new';
 
-export const init: ModuleFn = ({ fullAPI, store }) => {
+export const init: ModuleFn = ({ fullAPI, store, provider }) => {
   const state: SubState = {
     whatsNewData: undefined,
   };
@@ -47,7 +47,7 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
           ...state.whatsNewData,
           disableWhatsNewNotifications: !state.whatsNewData.disableWhatsNewNotifications,
         });
-        fullAPI.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS, {
+        provider.channel.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS, {
           disableWhatsNewNotifications: state.whatsNewData.disableWhatsNewNotifications,
         });
       }
@@ -55,20 +55,24 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
   };
 
   function getLatestWhatsNewPost(): Promise<WhatsNewData> {
-    fullAPI.emit(REQUEST_WHATS_NEW_DATA);
+    provider.channel.emit(REQUEST_WHATS_NEW_DATA);
 
     return new Promise((resolve) =>
-      fullAPI.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) => resolve(data))
+      provider.channel.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) =>
+        resolve(data)
+      )
     );
   }
 
   function setWhatsNewCache(cache: WhatsNewCache): void {
-    fullAPI.emit(SET_WHATS_NEW_CACHE, cache);
+    provider.channel.emit(SET_WHATS_NEW_CACHE, cache);
   }
 
   const initModule = async () => {
     // The server channel doesn't exist in production, and we don't want to show what's new in production storybooks.
-    if (global.CONFIG_TYPE !== 'DEVELOPMENT') return;
+    if (global.CONFIG_TYPE !== 'DEVELOPMENT') {
+      return;
+    }
 
     const whatsNewData = await getLatestWhatsNewPost();
     setWhatsNewState(whatsNewData);
@@ -92,7 +96,9 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
         },
         icon: { name: 'hearthollow' },
         onClear({ dismissed }) {
-          if (dismissed) setWhatsNewCache({ lastDismissedPost: whatsNewData.url });
+          if (dismissed) {
+            setWhatsNewCache({ lastDismissedPost: whatsNewData.url });
+          }
         },
       });
     }

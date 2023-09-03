@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Tabs, IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Tabs, Icons, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
@@ -67,14 +66,14 @@ const AddonPanel = React.memo<{
                   shortcuts.panelPosition
                 )}]`}
               >
-                {panelPosition === 'bottom' ? <Icon.SidebarAlt /> : <Icon.BottomBar />}
+                <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
               </IconButton>
               <IconButton
                 key="visibility"
                 onClick={actions.toggleVisibility}
                 title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
               >
-                <Icon.Close />
+                <Icons icon="close" />
               </IconButton>
             </Fragment>
           ) : undefined

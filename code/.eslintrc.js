@@ -9,6 +9,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
+  plugins: ['local-rules'],
   rules: {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
@@ -164,6 +165,19 @@ module.exports = {
       files: ['**/template/cli/**/*'],
       rules: {
         'import/no-unresolved': 'off',
+      },
+    },
+    {
+      files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
+      rules: {
+        'local-rules/no-uncategorized-errors': 'warn',
+      },
+    },
+    {
+      files: ['**/core-events/src/**/*'],
+      excludedFiles: ['**/*.test.*'],
+      rules: {
+        'local-rules/no-duplicated-error-codes': 'error',
       },
     },
   ],

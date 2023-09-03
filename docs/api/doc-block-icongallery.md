@@ -2,6 +2,8 @@
 title: 'IconGallery'
 ---
 
+<YouTubeCallout id="tyNIspWhFyU" title="Storybook for Design Systems - IconGallery Doc Block" params='start=131' />
+
 The `IconGallery` block enables you to easily document React icon components associated with your project, displayed in a neat grid.
 
 ![Screenshot of IconGallery and IconItem blocks](./doc-block-icongallery.png)

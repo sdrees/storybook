@@ -9,7 +9,6 @@ import type {
 } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Button, Icons, TooltipLinkList, WithTooltip } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
@@ -302,7 +301,7 @@ const Node = React.memo<NodeProps>(function Node({
               setFullyExpanded();
             }}
           >
-            {isFullyExpanded ? <Icon.Collapse /> : <Icon.ExpandAlt />}
+            <Icons icon={isFullyExpanded ? 'collapse' : 'expandalt'} />
           </Action>
         )}
       </RootNode>

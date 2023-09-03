@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import { dirname, join } from 'path';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
@@ -50,7 +51,10 @@ async function webpack(
     skipCsf: true,
     ...mdxPluginOptions,
     mdxCompileOptions: {
-      providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+      providerImportSource: join(
+        dirname(require.resolve('@storybook/addon-docs/package.json')),
+        '/dist/shims/mdx-react-shim'
+      ),
       ...mdxPluginOptions.mdxCompileOptions,
       remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
         mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []

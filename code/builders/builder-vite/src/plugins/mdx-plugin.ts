@@ -3,6 +3,7 @@ import type { Plugin } from 'vite';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { createFilter } from 'vite';
+import { dirname, join } from 'path';
 
 const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith('story.mdx');
 
@@ -33,7 +34,10 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
       const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
         ...mdxPluginOptions,
         mdxCompileOptions: {
-          providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+          providerImportSource: join(
+            dirname(require.resolve('@storybook/addon-docs/package.json')),
+            '/dist/shims/mdx-react-shim'
+          ),
           ...mdxPluginOptions?.mdxCompileOptions,
           remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
             mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []

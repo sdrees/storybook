@@ -10,7 +10,7 @@ import type {
   Store_CSFExports,
   StoryContext,
   Parameters,
-  PreparedStoryFn,
+  ComposedStoryFn,
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
@@ -36,7 +36,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   projectAnnotations: ProjectAnnotations<TRenderer> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS as ProjectAnnotations<TRenderer>,
   defaultConfig: ProjectAnnotations<TRenderer> = {},
   exportsName?: string
-): PreparedStoryFn<TRenderer, Partial<TArgs>> {
+): ComposedStoryFn<TRenderer, Partial<TArgs>> {
   if (storyAnnotations === undefined) {
     throw new Error('Expected a story but received undefined.');
   }
@@ -73,22 +73,25 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   const defaultGlobals = getValuesFromArgTypes(projectAnnotations.globalTypes);
 
-  const composedStory = (extraArgs: Partial<TArgs>) => {
-    const context: Partial<StoryContext> = {
-      ...story,
-      hooks: new HooksContext(),
-      globals: defaultGlobals,
-      args: { ...story.initialArgs, ...extraArgs },
-    };
+  const composedStory: ComposedStoryFn<TRenderer, Partial<TArgs>> = Object.assign(
+    (extraArgs?: Partial<TArgs>) => {
+      const context: Partial<StoryContext> = {
+        ...story,
+        hooks: new HooksContext(),
+        globals: defaultGlobals,
+        args: { ...story.initialArgs, ...extraArgs },
+      };
 
-    return story.unboundStoryFn(prepareContext(context as StoryContext));
-  };
-
-  composedStory.storyName = storyName;
-  composedStory.args = story.initialArgs as Partial<TArgs>;
-  composedStory.play = story.playFunction as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>;
-  composedStory.parameters = story.parameters as Parameters;
-  composedStory.id = story.id;
+      return story.unboundStoryFn(prepareContext(context as StoryContext));
+    },
+    {
+      storyName,
+      args: story.initialArgs as Partial<TArgs>,
+      play: story.playFunction as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>,
+      parameters: story.parameters as Parameters,
+      id: story.id,
+    }
+  );
 
   return composedStory;
 }

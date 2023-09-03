@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -27,12 +27,6 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./experimental": {
-      "types": "./dist/experimental.d.ts",
-      "node": "./dist/experimental.js",
-      "require": "./dist/experimental.js",
-      "import": "./dist/experimental.mjs"
-    },
     "./html": {
       "types": "./dist/html.d.ts",
       "require": "./dist/html.js",
@@ -50,9 +44,6 @@
       ],
       "html": [
         "dist/html.d.ts"
-      ],
-      "experimental": [
-        "dist/experimental.d.ts"
       ]
     }
   },
@@ -60,7 +51,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -72,7 +64,6 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.1.6",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "memoizerific": "^1.11.3",
@@ -81,6 +72,7 @@
   },
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
+    "@storybook/icons": "^1.1.6",
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
@@ -103,8 +95,7 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/experimental.ts"
+      "./src/index.ts"
     ],
     "platform": "neutral"
   },

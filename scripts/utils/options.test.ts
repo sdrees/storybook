@@ -1,7 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { createCommand } from 'commander';
 
-import type { MaybeOptionValues, OptionValues } from './options';
 import { areOptionsSatisfied, createOptions, getCommand, getOptions } from './options';
 
 const allOptions = createOptions({
@@ -35,17 +34,6 @@ const allOptions = createOptions({
   },
 });
 
-// TS "tests"
-// deepscan-disable-next-line
-function test(mv: MaybeOptionValues<typeof allOptions>, v: OptionValues<typeof allOptions>) {
-  console.log(mv.first, mv.second, mv.third, mv.fourth, mv.fifth, mv.sixth);
-  // @ts-expect-error as it's not allowed
-  console.log(mv.seventh);
-  console.log(v.first, v.second, v.third, v.fourth, v.fifth, v.sixth);
-  // @ts-expect-error as it's not allowed
-  console.log(v.seventh);
-}
-
 describe('getOptions', () => {
   it('deals with boolean options', () => {
     expect(getOptions(createCommand(), allOptions, ['command', 'name', '--first'])).toMatchObject({
@@ -71,7 +59,6 @@ describe('getOptions', () => {
   });
 
   it('deals with string options', () => {
-    const r = getOptions(createCommand(), allOptions, ['command', 'name', '--third', 'one']);
     expect(
       getOptions(createCommand(), allOptions, ['command', 'name', '--third', 'one'])
     ).toMatchObject({

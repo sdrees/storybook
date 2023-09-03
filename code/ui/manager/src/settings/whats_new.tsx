@@ -1,8 +1,7 @@
 import type { ComponentProps, FC } from 'react';
 import React, { Fragment, useEffect, useState } from 'react';
 import { styled, useTheme } from '@storybook/theming';
-import { Button, IconButton, Loader, Icons } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Button, IconButton, Icons, Loader } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { global } from '@storybook/global';
 
@@ -78,7 +77,7 @@ export const WhatsNewFooter = ({
   return (
     <Container>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <Icon.Heart color={theme.color.mediumdark} />
+        <Icons icon="heart" color={theme.color.mediumdark} />
         <div>Share this with your team.</div>
         <CopyButton onClick={copyLink} small>
           {copyText}
@@ -87,12 +86,12 @@ export const WhatsNewFooter = ({
       <ToggleNotificationButton onClick={onToggleNotifications}>
         {isNotificationsEnabled ? (
           <>
-            <Icon.EyeClose />
+            <Icons icon="eyeclose" />
             &nbsp;Hide notifications
           </>
         ) : (
           <>
-            <Icon.Eye />
+            <Icons icon="eye" />
             &nbsp;Show notifications
           </>
         )}

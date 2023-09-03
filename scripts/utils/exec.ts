@@ -67,7 +67,7 @@ export const exec = async (
       }
     }
   } catch (err) {
-    if (!err.killed) {
+    if (!(typeof err === 'object' && 'killed' in err && err.killed)) {
       logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
       logger.log(`${errorMessage}\n`);
     }

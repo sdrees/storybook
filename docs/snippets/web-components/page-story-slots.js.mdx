@@ -6,19 +6,14 @@ import { html } from 'lit';
 export default {
   title: 'Page',
   component: 'demo-page',
-};
-
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/web-components/api/csf
- * to learn how to use render functions.
- */
-export const CustomFooter = {
-  render: (args) => html`
+  render: ({ footer }) => html`
     <demo-page>
-      <footer>${args.footer}</footer>
+      <footer>${footer}</footer>
     </demo-page>
   `,
+};
+
+export const CustomFooter = {
   args: {
     footer: 'Built with Storybook',
   },

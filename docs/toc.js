@@ -94,6 +94,11 @@ module.exports = {
           title: 'Stories for multiple components',
           type: 'link',
         },
+        {
+          pathSegment: 'typescript',
+          title: 'Writing stories in TypeScript',
+          type: 'link',
+        },
       ],
     },
     {

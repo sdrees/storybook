@@ -154,7 +154,7 @@ describe('StoryIndexStore', () => {
         const store = new StoryIndexStore(storyIndex);
 
         expect(() => store.storyIdToEntry('random')).toThrow(
-          /Couldn't find story matching 'random'/
+          /Couldn't find story matching id 'random'/
         );
       });
     });

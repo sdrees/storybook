@@ -130,7 +130,7 @@ export interface API_IndexHash {
 }
 // We used to received a bit more data over the channel on the SET_STORIES event, including
 // the full parameters for each story.
-type API_PreparedIndexEntry = IndexEntry & {
+export type API_PreparedIndexEntry = IndexEntry & {
   parameters?: Parameters;
   argTypes?: ArgTypes;
   args?: Args;
@@ -184,3 +184,7 @@ export interface API_StatusObject {
 
 export type API_StatusState = Record<StoryId, Record<string, API_StatusObject>>;
 export type API_StatusUpdate = Record<StoryId, API_StatusObject>;
+
+export type API_FilterFunction = (
+  item: API_PreparedIndexEntry & { status: Record<string, API_StatusObject | null> }
+) => boolean;

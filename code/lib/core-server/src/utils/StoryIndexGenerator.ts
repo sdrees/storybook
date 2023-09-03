@@ -338,8 +338,7 @@ export class StoryIndexGenerator {
       autodocs === true || (autodocs === 'tag' && hasAutodocsTag) || isStoriesMdx;
 
     if (createDocEntry) {
-      const name = this.options.docs.defaultName;
-      invariant(name, 'expected a defaultName property in options.docs');
+      const name = this.options.docs.defaultName ?? 'Docs';
       const { metaId } = indexInputs[0];
       const { title } = entries[0];
       const tags = indexInputs[0].tags || [];
@@ -407,8 +406,7 @@ export class StoryIndexGenerator {
       //  a) it is a stories.mdx transpiled to CSF, OR
       //  b) we have docs page enabled for this file
       if (componentTags.includes(STORIES_MDX_TAG) || autodocsOptedIn) {
-        const name = this.options.docs.defaultName;
-        invariant(name, 'expected a defaultName property in options.docs');
+        const name = this.options.docs.defaultName ?? 'Docs';
         invariant(csf.meta.title, 'expected a title property in csf.meta');
         const id = toId(csf.meta.id || csf.meta.title, name);
         entries.unshift({
@@ -511,8 +509,7 @@ export class StoryIndexGenerator {
         title,
         "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
       );
-      const { defaultName } = this.options.docs;
-      invariant(defaultName, 'expected a defaultName property in options.docs');
+      const defaultName = this.options.docs.defaultName ?? 'Docs';
 
       const name =
         result.name ||

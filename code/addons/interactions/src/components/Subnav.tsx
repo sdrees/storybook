@@ -3,13 +3,13 @@ import React from 'react';
 import {
   Button,
   IconButton,
+  Icons,
   Separator,
   P,
   TooltipNote,
   WithTooltip,
   Bar,
 } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
 import type { Call, ControlStates } from '@storybook/instrumenter';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
@@ -135,7 +135,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.start}
                 disabled={!controlStates.start}
               >
-                <Icon.Rewind />
+                <Icons icon="rewind" />
               </RewindButton>
             </WithTooltip>
 
@@ -146,7 +146,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.back}
                 disabled={!controlStates.back}
               >
-                <Icon.PlayBack />
+                <Icons icon="playback" />
               </StyledIconButton>
             </WithTooltip>
 
@@ -157,7 +157,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.next}
                 disabled={!controlStates.next}
               >
-                <Icon.PlayNext />
+                <Icons icon="playnext" />
               </StyledIconButton>
             </WithTooltip>
 
@@ -168,13 +168,13 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.end}
                 disabled={!controlStates.end}
               >
-                <Icon.FastForward />
+                <Icons icon="fastforward" />
               </StyledIconButton>
             </WithTooltip>
 
             <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Rerun" />}>
               <RerunButton aria-label="Rerun" containsIcon onClick={controls.rerun}>
-                <Icon.Sync />
+                <Icons icon="sync" />
               </RerunButton>
             </WithTooltip>
           </Group>

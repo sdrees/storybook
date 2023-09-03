@@ -94,7 +94,7 @@ const writeToDocsVersionFile = async ({
     console.log(`📝 Writing changelog to ${chalk.blue(path)}`);
   }
 
-  const textWithoutHeading = changelogText.split('\n').slice(2).join('\n');
+  const textWithoutHeading = changelogText.split('\n').slice(2).join('\n').replaceAll('"', '\\"');
 
   const content = {
     version,

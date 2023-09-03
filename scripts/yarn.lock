@@ -3033,6 +3033,7 @@ __metadata:
     slash: ^3.0.0
     sort-package-json: ^2.0.0
     tempy: ^1.0.0
+    tiny-invariant: ^1.3.1
     trash: ^7.0.0
     ts-dedent: ^2.0.0
     ts-loader: ^9.4.2
@@ -3046,6 +3047,7 @@ __metadata:
     verdaccio-auth-memory: ^10.2.0
     wait-on: ^7.0.1
     window-size: ^1.1.1
+    yaml: ^2.3.1
     zod: ^3.21.4
   dependenciesMeta:
     "@verdaccio/types":
@@ -15617,6 +15619,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tiny-invariant@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "tiny-invariant@npm:1.3.1"
+  checksum: 5b87c1d52847d9452b60d0dcb77011b459044e0361ca8253bfe7b43d6288106e12af926adb709a6fc28900e3864349b91dad9a4ac93c39aa15f360b26c2ff4db
+  languageName: node
+  linkType: hard
+
 "tmp@npm:~0.2.1":
   version: 0.2.1
   resolution: "tmp@npm:0.2.1"
@@ -17359,7 +17368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.0.0":
+"yaml@npm:^2.0.0, yaml@npm:^2.3.1":
   version: 2.3.1
   resolution: "yaml@npm:2.3.1"
   checksum: ed4c21a907fb1cd60a25177612fa46d95064a144623d269199817908475fe85bef20fb17406e3bdc175351b6488056a6f84beb7836e8c262646546a0220188e3

@@ -1,3 +1,4 @@
+/* eslint-disable local-rules/no-uncategorized-errors */
 /* eslint-disable no-param-reassign */
 import type { App } from 'vue';
 import { createApp, h, reactive, isVNode, isReactive } from 'vue';
@@ -16,18 +17,17 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   return () => h(Component, props, getSlots(props, context));
 };
 
-// set of setup functions that will be called when story is created
-const setupFunctions = new Set<(app: App, storyContext?: StoryContext<VueRenderer>) => void>();
-/** add a setup function to set that will be call when story is created a d
- *
- * @param fn
- */
-export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => void) => {
-  setupFunctions.add(fn);
+export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => unknown) => {
+  globalThis.PLUGINS_SETUP_FUNCTIONS ??= new Set();
+  globalThis.PLUGINS_SETUP_FUNCTIONS.add(fn);
 };
 
-const runSetupFunctions = (app: App, storyContext: StoryContext<VueRenderer>) => {
-  setupFunctions.forEach((fn) => fn(app, storyContext));
+const runSetupFunctions = async (
+  app: App,
+  storyContext: StoryContext<VueRenderer>
+): Promise<void> => {
+  if (globalThis && globalThis.PLUGINS_SETUP_FUNCTIONS)
+    await Promise.all([...globalThis.PLUGINS_SETUP_FUNCTIONS].map((fn) => fn(app, storyContext)));
 };
 
 const map = new Map<
@@ -38,7 +38,7 @@ const map = new Map<
   }
 >();
 
-export function renderToCanvas(
+export async function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
@@ -80,7 +80,7 @@ export function renderToCanvas(
   });
 
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  runSetupFunctions(vueApp, storyContext);
+  await runSetupFunctions(vueApp, storyContext);
   vueApp.mount(canvasElement);
 
   showMain();

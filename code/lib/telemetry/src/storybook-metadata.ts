@@ -114,7 +114,9 @@ export const computeStorybookMetadata = async ({
       if (typeof addon === 'string') {
         addonName = sanitizeAddonName(addon);
       } else {
-        options = addon.options;
+        if (addon.name.includes('addon-essentials')) {
+          options = addon.options;
+        }
         addonName = sanitizeAddonName(addon.name);
       }
 

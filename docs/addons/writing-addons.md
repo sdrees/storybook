@@ -109,8 +109,7 @@ Going through the code blocks in sequence:
 ```ts
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 
-import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Icons, IconButton } from '@storybook/components';
 ```
 
 The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `Icons` and `IconButtons` components from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package render the icons and buttons in the toolbar.
@@ -145,7 +144,7 @@ export const Tool = memo(function MyAddonSelector() {
       title="Apply outlines to the preview"
       onClick={toggleMyTool}
     >
-      <Icon.Lightning />
+      <Icons icon="lightning" />
     </IconButton>
   );
 });

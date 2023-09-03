@@ -15,6 +15,7 @@ import {
 } from './project_types';
 import { commandLog, isNxProject } from './helpers';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
+import { HandledError } from './HandledError';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 const webpackConfigFiles = ['webpack.config.js'];
@@ -135,16 +136,23 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
       return CoreBuilder.Webpack5;
     default:
       // eslint-disable-next-line no-case-declarations
-      const { builder } = await prompts({
-        type: 'select',
-        name: 'builder',
-        message:
-          'We were not able to detect the right builder for your project. Please select one:',
-        choices: [
-          { title: 'Vite', value: CoreBuilder.Vite },
-          { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
-        ],
-      });
+      const { builder } = await prompts(
+        {
+          type: 'select',
+          name: 'builder',
+          message:
+            '\nWe were not able to detect the right builder for your project. Please select one:',
+          choices: [
+            { title: 'Vite', value: CoreBuilder.Vite },
+            { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
+          ],
+        },
+        {
+          onCancel: () => {
+            throw new HandledError('Canceled by the user');
+          },
+        }
+      );
 
       return builder;
   }

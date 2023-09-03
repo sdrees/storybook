@@ -3,8 +3,7 @@ import React, { Fragment, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 
-import { FlexBar, IconButton, Separator, TabButton, TabBar } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
 import {
   shortcutToHumanString,
   Consumer,
@@ -72,7 +71,7 @@ export const fullScreenTool: Addon_BaseType = {
             onClick={toggle as any}
             title={`${value ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
           >
-            {value ? <Icon.Close /> : <Icon.Expand />}
+            <Icons icon={value ? 'close' : 'expand'} />
           </IconButton>
         )
       }

@@ -149,7 +149,7 @@ When Storybook generates the titles for all matching stories, they'll retain the
 
 ### Story Indexers
 
-Story Indexers are a set of heuristics used by Storybook to crawl your filesystem based on a given glob pattern searching for matching stories, which is then used to generate an index.json (formerly stories.json) file responsible for populating the sidebar with the necessary information. By default, this heuristic will look for files that contain the following scheme \*.stories.@(js|jsx|mjs|ts|tsx). However, if you need, you can create your custom story indexer that you can use to include stories that have a different naming convention. For example:
+Story Indexers are a set of heuristics used by Storybook to crawl your filesystem based on a given glob pattern searching for matching stories, which is then used to generate an `index.json` (formerly `stories.json`) file responsible for populating the sidebar with the necessary information. By default, this heuristic will look for files that contain the following scheme \*.stories.@(js|jsx|mjs|ts|tsx). However, if you need, you can create your custom story indexer that you can use to include stories that have a different naming convention. For example:
 
 <!-- prettier-ignore-start -->
 

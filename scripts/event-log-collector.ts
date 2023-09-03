@@ -12,7 +12,7 @@ server.post('/event-log', (req, res) => {
   res.end('OK');
 });
 
-server.get('/event-log', (req, res) => {
+server.get('/event-log', (_req, res) => {
   console.log(`Sending ${events.length} events`);
   res.json(events);
 });

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -63,7 +63,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

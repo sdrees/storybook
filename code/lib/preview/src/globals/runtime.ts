@@ -4,6 +4,7 @@ import * as CHANNELS from '@storybook/channels';
 import * as CLIENT_LOGGER from '@storybook/client-logger';
 import * as CORE_EVENTS from '@storybook/core-events';
 import * as PREVIEW_API from '@storybook/preview-api';
+import * as GLOBAL from '@storybook/global';
 
 // DEPRECATED, remove in 8.0
 import * as ADDONS from '@storybook/preview-api/dist/addons';
@@ -22,6 +23,7 @@ export const values: Required<Record<keyof typeof globals, any>> = {
   '@storybook/client-logger': CLIENT_LOGGER,
   '@storybook/core-events': CORE_EVENTS,
   '@storybook/preview-api': PREVIEW_API,
+  '@storybook/global': GLOBAL,
 
   // DEPRECATED, remove in 8.0
   '@storybook/addons': ADDONS,

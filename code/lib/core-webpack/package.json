@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-webpack",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -36,7 +36,8 @@
     "templates/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

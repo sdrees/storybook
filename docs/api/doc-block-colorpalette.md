@@ -2,6 +2,8 @@
 title: 'ColorPalette'
 ---
 
+<YouTubeCallout id="tyNIspWhFyU" title="Storybook for Design Systems - ColorPalette Doc Block" params='start=20' />
+
 The `ColorPalette` block allows you to document all color-related items (e.g., swatches) used throughout your project.
 
 ![Screenshot of ColorPalette and ColorItem blocks](./doc-block-colorpalette.png)

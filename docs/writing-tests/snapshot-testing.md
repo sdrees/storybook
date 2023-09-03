@@ -8,9 +8,54 @@ Storybook is a helpful tool for snapshot testing because every story is essentia
 
 ![Example Snapshot test](./snapshot-test.png)
 
-## Setup Storyshots
+## Set up test runner
 
-[Storyshots](https://storybook.js.org/addons/@storybook/addon-storyshots/) is the official Storybook addon that enables snapshot testing, powered by [Jest](https://jestjs.io/docs/getting-started).
+Storybook test runner turns all of your stories into executable tests. It is powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/).
+
+Follow the [setup instructions](./test-runner#setup) to install and run the test runner.
+
+Then, you can use the [test hook API](./test-runner#test-hook-api-experimental) to snapshot the HTML of each story:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/test-runner-snapshot.js.mdx',
+    'common/test-runner-snapshot.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+When running in [index.json mode](./test-runner#indexjson-mode), tests are generated in a temporary folder and snapshots get stored alongside them. You will need to [`--eject`](./test-runner#configure) and configure a custom [`snapshotResolver`](https://jestjs.io/docs/configuration#snapshotresolver-string) to store them elsewhere, e.g. in your working directory:
+
+```js
+// ./test-runner-jest.config.js
+
+const path = require('path');
+
+module.exports = {
+  resolveSnapshotPath: (testPath, snapshotExtension) =>
+    path.join(process.cwd(), '__snapshots__', path.basename(testPath) + snapshotExtension),
+  resolveTestPath: (snapshotFilePath, snapshotExtension) =>
+    path.join(process.env.TEST_ROOT, path.basename(snapshotFilePath, snapshotExtension)),
+  testPathForConsistencyCheck: path.join(process.env.TEST_ROOT, 'example.test.js'),
+};
+```
+
+Finally, you can [set up test runner to run your tests in CI](./test-runner.md#set-up-ci-to-run-tests).
+
+There are many other configuration options available, such as watch mode and coverage. Please reference the [test runner documentation](./test-runner) for more information.
+
+## Set up Storyshots
+
+<div class="aside">
+
+⛔️ Storyshots has been deprecated in favor of [test runner](./test-runner.md), which you can use for both snapshot and [visual testing](./visual-testing.md).
+
+</div>
+
+[Storyshots](https://storybook.js.org/addons/@storybook/addon-storyshots/) is a Storybook addon that enables snapshot testing, powered by [Jest](https://jestjs.io/docs/getting-started).
 
 Run the following command to install Storyshots:
 

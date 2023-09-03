@@ -1,32 +1,26 @@
 ```js
-// Card.stories.js
+// MyComponent.stories.js
 
 import { useChannel } from '@storybook/preview-api';
-import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
-import { Card } from './Card.vue';
+import { HIGHLIGHT } from '@storybook/addon-highlight';
+
+import MyComponent from './MyComponent.vue';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Card',
-  component: Card,
+  component: MyComponent,
 };
 
-export const Default: Story = (args) => ({
-  template: '<Card />',
-});
-Default.decorators = [
-  (story) => {
-    const emit = useChannel({});
-    emit(HIGHLIGHT, {
-      elements: ['.title', '.subtitle'],
-    });
-    return {
-      components: { story },
-      template: '<story />',
-    };
-  },
-];
+export const Highlighted = {
+  decorators: [
+    () => {
+      const emit = useChannel({});
+      emit(HIGHLIGHT, {
+        elements: ['h2', 'a', '.storybook-button'],
+      });
+      return {
+        template: '<story />',
+      };
+    },
+  ],
+};
 ```

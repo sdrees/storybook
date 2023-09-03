@@ -1,17 +1,22 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { styled } from '@storybook/theming';
+import type { Meta, StoryObj } from '@storybook/react';
 import { ArgsTable, ArgsTableError } from './ArgsTable';
 import * as ArgRow from './ArgRow.stories';
 
-export default {
+const meta = {
   component: ArgsTable,
   title: 'Components/ArgsTable/ArgsTable',
   args: {
     updateArgs: action('updateArgs'),
     resetArgs: action('resetArgs'),
   },
-};
+} satisfies Meta<typeof ArgsTable>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
 const propsSection = {
   category: 'props ',
 };
@@ -140,6 +145,16 @@ export const Error = {
 
 export const Empty = {
   args: {},
+  parameters: {
+    layout: 'centered',
+  },
+};
+
+export const EmptyInsideAddonPanel: Story = {
+  args: {
+    isLoading: false,
+    inAddonPanel: true,
+  },
   parameters: {
     layout: 'centered',
   },

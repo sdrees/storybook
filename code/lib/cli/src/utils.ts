@@ -97,3 +97,34 @@ export const createLogStream = async (
     logStream.once('error', reject);
   });
 };
+
+const PACKAGES_EXCLUDED_FROM_CORE = [
+  '@storybook/addon-bench',
+  '@storybook/addon-console',
+  '@storybook/addon-postcss',
+  '@storybook/addon-styling',
+  '@storybook/addon-styling-webpack',
+  '@storybook/babel-plugin-require-context-hook',
+  '@storybook/bench',
+  '@storybook/builder-vite',
+  '@storybook/csf',
+  '@storybook/design-system',
+  '@storybook/ember-cli-storybook',
+  '@storybook/eslint-config-storybook',
+  '@storybook/expect',
+  '@storybook/jest',
+  '@storybook/linter-config',
+  '@storybook/mdx1-csf',
+  '@storybook/mdx2-csf',
+  '@storybook/react-docgen-typescript-plugin',
+  '@storybook/storybook-deployer',
+  '@storybook/test-runner',
+  '@storybook/testing-library',
+  '@storybook/testing-react',
+  '@nrwl/storybook',
+  '@nx/storybook',
+];
+export const isCorePackage = (pkg: string) =>
+  pkg.startsWith('@storybook/') &&
+  !pkg.startsWith('@storybook/preset-') &&
+  !PACKAGES_EXCLUDED_FROM_CORE.includes(pkg);

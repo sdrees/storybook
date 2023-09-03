@@ -141,12 +141,10 @@ const bumpVersionSources = async (currentVersion: string, nextVersion: string) =
 
 const bumpAllPackageJsons = async ({
   packages,
-  currentVersion,
   nextVersion,
   verbose,
 }: {
   packages: Workspace[];
-  currentVersion: string;
   nextVersion: string;
   verbose?: boolean;
 }) => {
@@ -279,7 +277,7 @@ export const run = async (options: unknown) => {
 
     await bumpCodeVersion(nextVersion);
     await bumpVersionSources(currentVersion, nextVersion);
-    await bumpAllPackageJsons({ packages, currentVersion, nextVersion, verbose });
+    await bumpAllPackageJsons({ packages, nextVersion, verbose });
 
     console.log(`⬆️ Updating lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
     await execaCommand(`yarn install --mode=update-lockfile`, {

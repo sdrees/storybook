@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channels",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "",
   "keywords": [
     "storybook"
@@ -61,7 +61,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -72,7 +73,7 @@
     "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
     "qs": "^6.10.0",
-    "telejson": "^7.0.3",
+    "telejson": "^7.2.0",
     "tiny-invariant": "^1.3.1"
   },
   "devDependencies": {

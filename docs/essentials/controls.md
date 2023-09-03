@@ -123,26 +123,26 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 
 ## Fully custom args
 
-Until now, we only used auto-generated controls based on the component we're writing stories for. If we are writing [complex stories](../writing-stories/stories-for-multiple-components.md), we may want to add controls for args that aren’t part of the component.
+Until now, we only used auto-generated controls based on the component we're writing stories for. If we are writing [complex stories](../writing-stories/stories-for-multiple-components.md), we may want to add controls for args that aren’t part of the component. For example, here's how you could use a `footer` arg to populate a child component:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'react/table-story-fully-customize-controls.js.mdx',
-    'react/table-story-fully-customize-controls.ts.mdx',
-    'vue/table-story-fully-customize-controls.2.js.mdx',
-    'vue/table-story-fully-customize-controls.2.ts.mdx',
-    'vue/table-story-fully-customize-controls.3.js.mdx',
-    'vue/table-story-fully-customize-controls.3.ts.mdx',
-    'angular/table-story-fully-customize-controls.ts.mdx',
-    'web-components/table-story-fully-customize-controls.js.mdx',
-    'web-components/table-story-fully-customize-controls.ts.mdx',
-    'solid/table-story-fully-customize-controls.js.mdx',
-    'solid/table-story-fully-customize-controls.ts.mdx',
+    'react/page-story-slots.js.mdx',
+    'react/page-story-slots.ts.mdx',
+    'vue/page-story-slots.2.js.mdx',
+    'vue/page-story-slots.2.ts.mdx',
+    'vue/page-story-slots.3.js.mdx',
+    'vue/page-story-slots.3.ts.mdx',
+    'angular/page-story-slots.ts.mdx',
+    'web-components/page-story-slots.js.mdx',
+    'web-components/page-story-slots.ts.mdx',
+    'solid/page-story-slots.js.mdx',
+    'solid/page-story-slots.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="essentials/controls#snippet-table-story-fully-customize-controls"
+  csf2Path="writing-stories/args#snippet-page-story-slots"
 />
 
 <!-- prettier-ignore-end -->

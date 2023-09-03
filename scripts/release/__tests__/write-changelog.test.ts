@@ -82,6 +82,45 @@ describe('Write changelog', () => {
     `);
   });
 
+  it('should escape double quotes for json files', async () => {
+    getChangesMock.mockResolvedValue({
+      changes: [],
+      changelogText: `## 7.0.1
+
+- React: Make it reactive
+- Revert "CLI: Not UI"
+- CLI: Not UI`,
+    });
+
+    await writeChangelog(['7.0.1'], {});
+
+    expect(fsExtra.writeFile).toHaveBeenCalledTimes(1);
+    expect(fsExtra.writeFile.mock.calls[0][0]).toBe(STABLE_CHANGELOG_PATH);
+    expect(fsExtra.writeFile.mock.calls[0][1]).toMatchInlineSnapshot(`
+      "## 7.0.1
+
+      - React: Make it reactive
+      - Revert "CLI: Not UI"
+      - CLI: Not UI
+
+      ## 7.0.0
+
+      - Core: Some change"
+    `);
+    expect(fsExtra.writeJson).toBeCalledTimes(1);
+    expect(fsExtra.writeJson.mock.calls[0][0]).toBe(LATEST_VERSION_PATH);
+    expect(fsExtra.writeJson.mock.calls[0][1]).toMatchInlineSnapshot(`
+      {
+        "info": {
+          "plain": "- React: Make it reactive
+      - Revert \\"CLI: Not UI\\"
+      - CLI: Not UI",
+        },
+        "version": "7.0.1",
+      }
+    `);
+  });
+
   it('should write to prerelase changelogs and version files in docs', async () => {
     getChangesMock.mockResolvedValue({
       changes: [],

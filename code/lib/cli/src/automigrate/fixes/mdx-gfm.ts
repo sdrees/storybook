@@ -31,10 +31,15 @@ export const mdxgfm: Fix<Options> = {
         return true;
       }
 
-      const pattern =
-        typeof item === 'string'
-          ? slash(join(configDir, item))
-          : slash(join(configDir, item.directory, item.files));
+      let pattern;
+
+      if (typeof item === 'string') {
+        pattern = slash(join(configDir, item));
+      } else if (typeof item === 'object') {
+        const directory = item.directory || '..';
+        const files = item.files || '**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))';
+        pattern = slash(join(configDir, directory, files));
+      }
 
       const files = await glob(pattern, commonGlobOptions(pattern));
 

@@ -275,7 +275,11 @@ export const unsupportedTemplate: TemplateConfiguration = {
   },
 };
 
-const notInstallableProjectTypes: ProjectType[] = [ProjectType.UNDETECTED, ProjectType.UNSUPPORTED];
+const notInstallableProjectTypes: ProjectType[] = [
+  ProjectType.UNDETECTED,
+  ProjectType.UNSUPPORTED,
+  ProjectType.NX,
+];
 
 export const installableProjectTypes = Object.values(ProjectType)
   .filter((type) => !notInstallableProjectTypes.includes(type))

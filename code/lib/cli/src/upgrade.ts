@@ -8,6 +8,7 @@ import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-
 import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
+import { isCorePackage } from './utils';
 
 type Package = {
   package: string;
@@ -24,35 +25,6 @@ export const getStorybookVersion = (line: string) => {
     version: match[2],
   };
 };
-
-const excludeList = [
-  '@storybook/addon-bench',
-  '@storybook/addon-console',
-  '@storybook/addon-postcss',
-  '@storybook/babel-plugin-require-context-hook',
-  '@storybook/bench',
-  '@storybook/builder-vite',
-  '@storybook/csf',
-  '@storybook/design-system',
-  '@storybook/ember-cli-storybook',
-  '@storybook/eslint-config-storybook',
-  '@storybook/expect',
-  '@storybook/jest',
-  '@storybook/linter-config',
-  '@storybook/mdx1-csf',
-  '@storybook/mdx2-csf',
-  '@storybook/react-docgen-typescript-plugin',
-  '@storybook/storybook-deployer',
-  '@storybook/test-runner',
-  '@storybook/testing-library',
-  '@storybook/testing-react',
-  '@nrwl/storybook',
-  '@nx/storybook',
-];
-export const isCorePackage = (pkg: string) =>
-  pkg.startsWith('@storybook/') &&
-  !pkg.startsWith('@storybook/preset-') &&
-  !excludeList.includes(pkg);
 
 const deprecatedPackages = [
   {
@@ -218,14 +190,16 @@ export const doUpgrade = async ({
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
     shell: true,
-  }).output.toString();
-  logger.info(check);
+  });
+  logger.info(check.stdout.toString());
+  logger.info(check.stderr.toString());
 
   const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
     stdio: 'pipe',
     shell: true,
-  }).output.toString();
-  logger.info(checkSb);
+  });
+  logger.info(checkSb.stdout.toString());
+  logger.info(checkSb.stderr.toString());
 
   if (!dryRun) {
     commandLog(`Installing upgrades`);

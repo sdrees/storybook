@@ -4,8 +4,8 @@ import memoize from 'memoizerific';
 
 import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 
-import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+
 import { useStorybookApi, useParameter, useAddonState } from '@storybook/manager-api';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY, ADDON_ID } from './constants';
@@ -188,7 +188,7 @@ export const ViewportTool: FC = memo(
               setState({ ...state, selected: responsiveViewport.id });
             }}
           >
-            <Icon.Grow />
+            <Icons icon="grow" />
             {styles ? (
               <IconButtonLabel>
                 {isRotated ? `${item.title} (L)` : `${item.title} (P)`}
@@ -234,7 +234,7 @@ export const ViewportTool: FC = memo(
                 setState({ ...state, isRotated: !isRotated });
               }}
             >
-              <Icon.Transfer />
+              <Icons icon="transfer" />
             </IconButton>
             <ActiveViewportLabel title="Viewport height">
               {styles.height.replace('px', '')}

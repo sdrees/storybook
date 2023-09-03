@@ -1,8 +1,10 @@
 import React from 'react';
 
-import type { IndexHash, State } from 'lib/manager-api/src';
+import type { IndexHash, State } from '@storybook/manager-api';
+import { types } from '@storybook/manager-api';
 import type { StoryObj, Meta } from '@storybook/react';
 import { within, userEvent } from '@storybook/testing-library';
+import { Button, IconButton, Icons } from '@storybook/components';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
@@ -60,6 +62,7 @@ export const Simple: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={index as any}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -72,7 +75,15 @@ export const Simple: Story = {
 export const Loading: Story = {
   args: { previewInitialized: false },
   render: (args) => (
-    <Sidebar {...args} menu={menu} storyId={storyId} refId={DEFAULT_REF_ID} refs={{}} status={{}} />
+    <Sidebar
+      {...args}
+      menu={menu}
+      extra={[]}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={{}}
+      status={{}}
+    />
   ),
 };
 
@@ -84,6 +95,7 @@ export const Empty: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={{}}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -101,6 +113,7 @@ export const IndexError: Story = {
     <Sidebar
       {...args}
       indexError={indexError}
+      extra={[]}
       menu={menu}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -118,6 +131,7 @@ export const WithRefs: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={index as any}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -135,6 +149,7 @@ export const LoadingWithRefs: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
       refs={refs}
@@ -151,6 +166,7 @@ export const LoadingWithRefError: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
       refs={refsError}
@@ -183,6 +199,7 @@ export const StatusesCollapsed: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={index as any}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -221,4 +238,56 @@ export const Searching: Story = {
     userEvent.clear(search);
     userEvent.type(search, 'B2');
   },
+};
+
+export const Bottom: Story = {
+  args: {
+    previewInitialized: true,
+  },
+  parameters: { theme: 'light' },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      extra={[]}
+      index={index as any}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={{}}
+      status={{}}
+      bottom={[
+        {
+          id: '1',
+          type: types.experimental_SIDEBAR_BOTTOM,
+          render: () => (
+            <Button>
+              <Icons icon="facehappy" />
+              Custom addon A
+            </Button>
+          ),
+        },
+        {
+          id: '2',
+          type: types.experimental_SIDEBAR_BOTTOM,
+          render: () => (
+            <Button>
+              {' '}
+              <Icons icon="facehappy" />
+              Custom addon B
+            </Button>
+          ),
+        },
+        {
+          id: '3',
+          type: types.experimental_SIDEBAR_BOTTOM,
+          render: () => (
+            <IconButton>
+              {' '}
+              <Icons icon="facehappy" />
+            </IconButton>
+          ),
+        },
+      ]}
+    />
+  ),
 };

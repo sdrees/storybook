@@ -8,14 +8,17 @@ export type GeneratorOptions = {
   builder: Builder;
   linkable: boolean;
   pnp: boolean;
+  projectType: ProjectType;
   frameworkPreviewParts?: FrameworkPreviewParts;
   // skip prompting the user
   yes: boolean;
 };
 
 export interface FrameworkOptions {
-  extraPackages?: string[];
-  extraAddons?: string[];
+  extraPackages?:
+    | string[]
+    | ((details: { framework: string; builder: string }) => Promise<string[]>);
+  extraAddons?: string[] | ((details: { framework: string; builder: string }) => Promise<string[]>);
   staticDir?: string;
   addScripts?: boolean;
   addMainFile?: boolean;

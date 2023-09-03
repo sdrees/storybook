@@ -4,7 +4,11 @@ import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 
-import type { API_LoadedRefData } from 'lib/types/src';
+import type {
+  Addon_SidebarBottomType,
+  Addon_SidebarTopType,
+  API_LoadedRefData,
+} from '@storybook/types';
 import { Heading } from './Heading';
 
 // eslint-disable-next-line import/no-cycle
@@ -27,11 +31,27 @@ const Container = styled.nav({
   right: 0,
   width: '100%',
   height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
 });
 
-const StyledSpaced = styled(Spaced)({
-  paddingBottom: '2.5rem',
+const Top = styled(Spaced)({
+  padding: 20,
+  flex: 1,
 });
+
+const Bottom = styled.div(({ theme }) => ({
+  borderTop: `1px solid ${theme.appBorderColor}`,
+  padding: theme.layoutMargin / 2,
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: theme.layoutMargin / 2,
+  backgroundColor: theme.barBg,
+
+  '&:empty': {
+    display: 'none',
+  },
+}));
 
 const CustomScrollArea = styled(ScrollArea)({
   '&&&&& .os-scrollbar-handle:before': {
@@ -40,7 +60,6 @@ const CustomScrollArea = styled(ScrollArea)({
   '&&&&& .os-scrollbar-vertical': {
     right: 5,
   },
-  padding: 20,
 });
 
 const Swap = React.memo(function Swap({
@@ -82,6 +101,8 @@ export interface SidebarProps extends API_LoadedRefData {
   refs: State['refs'];
   status: State['status'];
   menu: any[];
+  extra: Addon_SidebarTopType[];
+  bottom?: Addon_SidebarBottomType[];
   storyId?: string;
   refId?: string;
   menuHighlighted?: boolean;
@@ -96,6 +117,8 @@ export const Sidebar = React.memo(function Sidebar({
   status,
   previewInitialized,
   menu,
+  extra,
+  bottom = [],
   menuHighlighted = false,
   enableShortcuts = true,
   refs = {},
@@ -108,12 +131,14 @@ export const Sidebar = React.memo(function Sidebar({
   return (
     <Container className="container sidebar-container">
       <CustomScrollArea vertical>
-        <StyledSpaced row={1.6}>
+        <Top row={1.6}>
           <Heading
             className="sidebar-header"
             menuHighlighted={menuHighlighted}
             menu={menu}
+            extra={extra}
             skipLinkHref="#storybook-preview-wrapper"
+            isLoading={isLoading}
           />
 
           <Search
@@ -151,8 +176,15 @@ export const Sidebar = React.memo(function Sidebar({
               </Swap>
             )}
           </Search>
-        </StyledSpaced>
+        </Top>
       </CustomScrollArea>
+      {isLoading ? null : (
+        <Bottom>
+          {bottom.map(({ id, render: Render }) => (
+            <Render key={id} />
+          ))}
+        </Bottom>
+      )}
     </Container>
   );
 });

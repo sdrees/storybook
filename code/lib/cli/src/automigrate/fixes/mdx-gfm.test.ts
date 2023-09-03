@@ -128,4 +128,26 @@ describe('continue', () => {
       })
     ).resolves.toBeTruthy();
   });
+  test('stories object with directory + files', async () => {
+    await expect(
+      check({
+        packageManager: {},
+        main: {
+          stories: [{ directory: 'src', titlePrefix: 'src', files: '' }],
+          addons: ['@storybook/addon-essentials'],
+        },
+      })
+    ).resolves.toBeTruthy();
+  });
+  test('stories object with directory and no files', async () => {
+    await expect(
+      check({
+        packageManager: {},
+        main: {
+          stories: [{ directory: 'src', titlePrefix: 'src' }],
+          addons: ['@storybook/addon-essentials'],
+        },
+      })
+    ).resolves.toBeTruthy();
+  });
 });

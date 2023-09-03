@@ -3,6 +3,7 @@
   "version": "7.0.0-alpha.16",
   "private": true,
   "scripts": {
+    "check": "./prepare/check-scripts.ts",
     "docs:prettier:check": "cd ../docs && prettier --check ./snippets",
     "docs:prettier:write": "cd ../docs && prettier --write ./snippets",
     "get-report-message": "ts-node --swc ./get-report-message.ts",
@@ -175,6 +176,7 @@
     "slash": "^3.0.0",
     "sort-package-json": "^2.0.0",
     "tempy": "^1.0.0",
+    "tiny-invariant": "^1.3.1",
     "trash": "^7.0.0",
     "ts-dedent": "^2.0.0",
     "ts-node": "^10.9.1",
@@ -185,6 +187,7 @@
     "uuid": "^9.0.0",
     "wait-on": "^7.0.1",
     "window-size": "^1.1.1",
+    "yaml": "^2.3.1",
     "zod": "^3.21.4"
   },
   "optionalDependencies": {

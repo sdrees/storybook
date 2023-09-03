@@ -5,7 +5,7 @@ import type { BaseAnnotations, ModuleExports } from '@storybook/types';
 import { Anchor } from './Anchor';
 import { DocsContext } from './DocsContext';
 
-type MetaProps = BaseAnnotations & { of?: ModuleExports };
+type MetaProps = BaseAnnotations & { of?: ModuleExports; title?: string };
 
 /**
  * This component is used to declare component metadata in docs

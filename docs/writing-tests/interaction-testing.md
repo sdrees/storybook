@@ -160,9 +160,9 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-execute.yarn.js.mdx',
-    'common/storybook-test-runner-execute.npm.js.mdx',
-    'common/storybook-test-runner-execute.pnpm.js.mdx',
+    'common/test-runner-execute.yarn.js.mdx',
+    'common/test-runner-execute.npm.js.mdx',
+    'common/test-runner-execute.pnpm.js.mdx',
   ]}
 />
 

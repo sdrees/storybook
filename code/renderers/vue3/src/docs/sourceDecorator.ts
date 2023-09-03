@@ -106,16 +106,16 @@ function mapSlots(
       ?.bindings?.map((b) => b.name)
       .join(',');
 
-    if (typeof slot === 'function') {
+    if (typeof slot === 'string') {
+      slotContent = slot;
+    } else if (typeof slot === 'function') {
       slotContent = generateExpression(slot);
-    }
-    if (isVNode(slot)) {
+    } else if (isVNode(slot)) {
       slotContent = generateComponentSource(slot);
-    }
-
-    if (typeof slot === 'object' && !isVNode(slot)) {
+    } else if (typeof slot === 'object' && !isVNode(slot)) {
       slotContent = JSON.stringify(slot);
     }
+
     const bindingsString = scropedArgs ? `="{${scropedArgs}}"` : '';
     slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
 

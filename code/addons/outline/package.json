@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-outline",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "Outline all elements with CSS to help with layout placement and alignment",
   "keywords": [
     "storybook-addons",
@@ -71,7 +71,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

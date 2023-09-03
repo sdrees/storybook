@@ -1,19 +1,16 @@
+/* eslint-disable no-param-reassign */
 import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
+import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
+import { readdirSync } from 'fs-extra';
 import { installableProjectTypes, ProjectType } from './project_types';
-import {
-  detect,
-  isStorybookInstantiated,
-  detectLanguage,
-  detectBuilder,
-  detectPnp,
-} from './detect';
+import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import emberGenerator from './generators/EMBER';
@@ -33,10 +30,10 @@ import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
-import type { JsPackageManager } from './js-package-manager';
+import type { JsPackageManager, PackageManagerName } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
-import type { CommandOptions } from './generators/types';
+import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
 
 const logger = console;
@@ -54,12 +51,13 @@ const installStorybook = async <Project extends ProjectType>(
   const language = await detectLanguage(packageManager);
   const pnp = await detectPnp();
 
-  const generatorOptions = {
+  const generatorOptions: GeneratorOptions = {
     language,
-    builder: options.builder || (await detectBuilder(packageManager, projectType)),
+    builder: options.builder,
     linkable: !!options.linkable,
     pnp: pnp || options.usePnp,
     yes: options.yes,
+    projectType: options.type,
   };
 
   const runGenerator: () => Promise<any> = async () => {
@@ -156,11 +154,7 @@ const installStorybook = async <Project extends ProjectType>(
         );
 
       case ProjectType.NX:
-        throw new Error(dedent`
-          We have detected Nx in your project. Please use "nx g @nrwl/storybook:configuration" to add Storybook to your project.
-          
-          For more information, please see https://nx.dev/packages/storybook
-        `);
+        throw new NxProjectDetectedError();
 
       case ProjectType.SOLID:
         return solidGenerator(packageManager, npmOptions, generatorOptions).then(
@@ -239,6 +233,45 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
+const getEmptyDirMessage = (packageManagerType: PackageManagerName) => {
+  const generatorCommandsMap = {
+    vite: {
+      npm: 'npm create vite@latest',
+      yarn1: 'yarn create vite',
+      yarn2: 'yarn create vite',
+      pnpm: 'pnpm create vite',
+    },
+    angular: {
+      npm: 'npx -p @angular/cli ng new my-project --package-manager=npm',
+      yarn1: 'npx -p @angular/cli ng new my-project --package-manager=yarn',
+      yarn2: 'npx -p @angular/cli ng new my-project --package-manager=yarn',
+      pnpm: 'npx -p @angular/cli ng new my-project --package-manager=pnpm',
+    },
+  };
+
+  return dedent`
+      Storybook cannot be installed into an empty project. We recommend creating a new project with the following:
+
+      📦 Vite CLI for React/Vue/Web Components => ${chalk.green(
+        generatorCommandsMap.vite[packageManagerType]
+      )}
+      See ${chalk.yellowBright('https://vitejs.dev/guide/#scaffolding-your-first-vite-project')}
+
+      📦 Angular CLI => ${chalk.green(generatorCommandsMap.angular[packageManagerType])}
+      See ${chalk.yellowBright('https://angular.io/cli/new')}
+
+      📦 Any other tooling of your choice
+
+      Once you've created a project, please re-run ${chalk.green(
+        'npx storybook@latest init'
+      )} inside the project root. For more information, see ${chalk.yellowBright(
+    'https://storybook.js.org/docs'
+  )}
+
+      Good luck! 🚀
+    `;
+};
+
 async function doInitiate(
   options: CommandOptions,
   pkg: PackageJson
@@ -257,6 +290,11 @@ async function doInitiate(
 
     pkgMgr = 'npm';
   }
+
+  const cwdFolderEntries = readdirSync(process.cwd());
+  const isEmptyDir =
+    cwdFolderEntries.length === 0 || cwdFolderEntries.every((entry) => entry.startsWith('.'));
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
@@ -267,6 +305,17 @@ async function doInitiate(
     pkg: pkg as any,
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   });
+
+  if (options.force !== true && isEmptyDir) {
+    logger.log(
+      boxen(getEmptyDirMessage(packageManager.type), {
+        borderStyle: 'round',
+        padding: 1,
+        borderColor: '#F1618C',
+      })
+    );
+    throw new HandledError('Project was initialized in an empty directory.');
+  }
 
   let projectType: ProjectType;
   const projectTypeProvided = options.type;
@@ -310,7 +359,6 @@ async function doInitiate(
     logger.log();
 
     if (force) {
-      // eslint-disable-next-line no-param-reassign
       options.force = true;
     } else {
       process.exit(0);

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -42,10 +42,11 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
+    "template/cli/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -65,7 +66,7 @@
     "acorn": "^7.4.1",
     "acorn-jsx": "^5.3.1",
     "acorn-walk": "^7.2.0",
-    "escodegen": "^2.0.0",
+    "escodegen": "^2.1.0",
     "html-tags": "^3.1.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",

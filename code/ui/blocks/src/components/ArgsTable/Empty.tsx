@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
-import { Link } from '@storybook/components/experimental';
+import { Icons, Link } from '@storybook/components';
 
 interface EmptyProps {
   inAddonPanel?: boolean;
@@ -42,10 +42,11 @@ const Description = styled.div(({ theme }) => ({
   color: theme.textMutedColor,
 }));
 
-const Links = styled.div({
+const Links = styled.div(({ theme }) => ({
   display: 'flex',
+  fontSize: theme.typography.size.s2 - 1,
   gap: 25,
-});
+}));
 
 const Divider = styled.div(({ theme }) => ({
   width: 1,
@@ -85,8 +86,8 @@ export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
       <Links>
         {inAddonPanel && (
           <>
-            <Link href="https://youtu.be/0gOfS6K0x0E" target="_blank" icon="Video" withArrow>
-              Watch 5m video
+            <Link href="https://youtu.be/0gOfS6K0x0E" target="_blank" withArrow>
+              <Icons icon="video" /> Watch 5m video
             </Link>
             <Divider />
             <Link

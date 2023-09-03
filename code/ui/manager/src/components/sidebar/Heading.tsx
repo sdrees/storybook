@@ -3,6 +3,7 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { Button } from '@storybook/components';
 
+import type { Addon_SidebarTopType } from '@storybook/types';
 import { Brand } from './Brand';
 import type { MenuList } from './Menu';
 import { SidebarMenu } from './Menu';
@@ -10,7 +11,9 @@ import { SidebarMenu } from './Menu';
 export interface HeadingProps {
   menuHighlighted?: boolean;
   menu: MenuList;
+  extra: Addon_SidebarTopType[];
   skipLinkHref?: string;
+  isLoading: boolean;
 }
 
 const BrandArea = styled.div(({ theme }) => ({
@@ -23,6 +26,9 @@ const BrandArea = styled.div(({ theme }) => ({
   alignItems: 'center',
   minHeight: 22,
 
+  '& > * > *': {
+    maxWidth: '100%',
+  },
   '& > *': {
     maxWidth: '100%',
     height: 'auto',
@@ -73,6 +79,8 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
   menuHighlighted = false,
   menu,
   skipLinkHref,
+  extra,
+  isLoading,
   ...props
 }) => {
   return (
@@ -87,6 +95,7 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
         <Brand />
       </BrandArea>
 
+      {isLoading ? null : extra.map(({ id, render: Render }) => <Render key={id} />)}
       <SidebarMenu menu={menu} isHighlighted={menuHighlighted} />
     </HeadingWrapper>
   );

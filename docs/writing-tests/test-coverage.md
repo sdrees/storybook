@@ -70,9 +70,9 @@ Finally, open a new terminal window and run the test-runner with:
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-coverage.yarn.js.mdx',
-    'common/storybook-test-runner-coverage.npm.js.mdx',
-    'common/storybook-test-runner-coverage.pnpm.js.mdx',
+    'common/test-runner-coverage.yarn.js.mdx',
+    'common/test-runner-coverage.npm.js.mdx',
+    'common/test-runner-coverage.pnpm.js.mdx',
   ]}
 />
 

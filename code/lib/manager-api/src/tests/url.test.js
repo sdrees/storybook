@@ -2,6 +2,7 @@ import qs from 'qs';
 
 import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storybook/core-events';
 
+import EventEmitter from 'events';
 import { init as initURL } from '../modules/url';
 
 jest.mock('@storybook/client-logger');
@@ -17,7 +18,7 @@ describe('initial state', () => {
 
       const {
         state: { layout },
-      } = initURL({ navigate, state: { location } });
+      } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
       expect(layout).toEqual({ isFullscreen: true });
     });
@@ -28,7 +29,7 @@ describe('initial state', () => {
 
       const {
         state: { layout },
-      } = initURL({ navigate, state: { location } });
+      } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
       expect(layout).toEqual({ showNav: false });
     });
@@ -39,7 +40,7 @@ describe('initial state', () => {
 
       const {
         state: { ui },
-      } = initURL({ navigate, state: { location } });
+      } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
       expect(ui).toEqual({ enableShortcuts: false });
     });
@@ -50,7 +51,7 @@ describe('initial state', () => {
 
       const {
         state: { layout },
-      } = initURL({ navigate, state: { location } });
+      } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
       expect(layout).toEqual({ panelPosition: 'bottom' });
     });
@@ -61,7 +62,7 @@ describe('initial state', () => {
 
       const {
         state: { layout },
-      } = initURL({ navigate, state: { location } });
+      } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
       expect(layout).toEqual({ panelPosition: 'right' });
     });
@@ -72,7 +73,7 @@ describe('initial state', () => {
 
       const {
         state: { layout },
-      } = initURL({ navigate, state: { location } });
+      } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
       expect(layout).toEqual({ showPanel: false });
     });
@@ -88,18 +89,23 @@ describe('queryParams', () => {
       },
       getState: () => state,
     };
-    const fullAPI = { emit: jest.fn() };
+    const channel = new EventEmitter();
     const { api } = initURL({
       state: { location: { search: '' } },
       navigate: jest.fn(),
       store,
-      fullAPI,
+      provider: { channel },
     });
+
+    const listener = jest.fn();
+
+    channel.on(UPDATE_QUERY_PARAMS, listener);
 
     api.setQueryParams({ foo: 'bar' });
 
     expect(api.getQueryParam('foo')).toEqual('bar');
-    expect(fullAPI.emit).toHaveBeenCalledWith(UPDATE_QUERY_PARAMS, { foo: 'bar' });
+
+    expect(listener).toHaveBeenCalledWith({ foo: 'bar' });
   });
 });
 
@@ -120,14 +126,6 @@ describe('initModule', () => {
   });
 
   const fullAPI = {
-    callbacks: {},
-    on(event, fn) {
-      this.callbacks[event] = this.callbacks[event] || [];
-      this.callbacks[event].push(fn);
-    },
-    emit(event, ...args) {
-      this.callbacks[event]?.forEach((cb) => cb(...args));
-    },
     showReleaseNotesOnLaunch: jest.fn(),
   };
 
@@ -140,19 +138,22 @@ describe('initModule', () => {
     store.setState(storyState('test--story'));
 
     const navigate = jest.fn();
-
-    const { api, init } = initURL({ store, state: { location: {} }, navigate, fullAPI });
-    Object.assign(fullAPI, api, {
-      getCurrentStoryData: () => ({
-        type: 'story',
-        args: { a: 1, b: 2 },
-        initialArgs: { a: 1, b: 1 },
-        isLeaf: true,
+    const channel = new EventEmitter();
+    initURL({
+      store,
+      provider: { channel },
+      state: { location: {} },
+      navigate,
+      fullAPI: Object.assign(fullAPI, {
+        getCurrentStoryData: () => ({
+          type: 'story',
+          args: { a: 1, b: 2 },
+          initialArgs: { a: 1, b: 1 },
+          isLeaf: true,
+        }),
       }),
     });
-    init();
-
-    fullAPI.emit(SET_CURRENT_STORY);
+    channel.emit(SET_CURRENT_STORY);
     expect(navigate).toHaveBeenCalledWith(
       '/story/test--story&args=b:2',
       expect.objectContaining({ replace: true })
@@ -164,12 +165,10 @@ describe('initModule', () => {
     store.setState(storyState('test--story'));
 
     const navigate = jest.fn();
+    const channel = new EventEmitter();
+    initURL({ store, provider: { channel }, state: { location: {} }, navigate, fullAPI });
 
-    const { api, init } = initURL({ store, state: { location: {} }, navigate, fullAPI });
-    Object.assign(fullAPI, api);
-    init();
-
-    fullAPI.emit(GLOBALS_UPDATED, { globals: { a: 2 }, initialGlobals: { a: 1, b: 1 } });
+    channel.emit(GLOBALS_UPDATED, { globals: { a: 2 }, initialGlobals: { a: 1, b: 1 } });
     expect(navigate).toHaveBeenCalledWith(
       '/story/test--story&globals=a:2;b:!undefined',
       expect.objectContaining({ replace: true })
@@ -180,20 +179,24 @@ describe('initModule', () => {
   it('adds url params alphabetically', async () => {
     store.setState({ ...storyState('test--story'), customQueryParams: { full: 1 } });
     const navigate = jest.fn();
-
-    const { api, init } = initURL({ store, state: { location: {} }, navigate, fullAPI });
-    Object.assign(fullAPI, api, {
-      getCurrentStoryData: () => ({ type: 'story', args: { a: 1 }, isLeaf: true }),
+    const channel = new EventEmitter();
+    const { api } = initURL({
+      store,
+      provider: { channel },
+      state: { location: {} },
+      navigate,
+      fullAPI: Object.assign(fullAPI, {
+        getCurrentStoryData: () => ({ type: 'story', args: { a: 1 }, isLeaf: true }),
+      }),
     });
-    init();
 
-    fullAPI.emit(GLOBALS_UPDATED, { globals: { g: 2 } });
+    channel.emit(GLOBALS_UPDATED, { globals: { g: 2 } });
     expect(navigate).toHaveBeenCalledWith(
       '/story/test--story&full=1&globals=g:2',
       expect.objectContaining({ replace: true })
     );
 
-    fullAPI.emit(SET_CURRENT_STORY);
+    channel.emit(SET_CURRENT_STORY);
     expect(navigate).toHaveBeenCalledWith(
       '/story/test--story&args=a:1&full=1&globals=g:2',
       expect.objectContaining({ replace: true })

@@ -23,7 +23,7 @@ import type {
   StoryIndexV2,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
-import { type API, combineParameters } from '../index';
+import { type API, combineParameters, type State } from '../index';
 import merge from './merge';
 
 const TITLE_PATH_SEPARATOR = /\s*\/\s*/;
@@ -45,12 +45,9 @@ export const denormalizeStoryParameters = ({
 
 export const transformSetStoriesStoryDataToStoriesHash = (
   data: SetStoriesStoryData,
-  { provider, docsOptions }: { provider: API_Provider<API>; docsOptions: DocsOptions }
+  options: ToStoriesHashOptions
 ) =>
-  transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
-    provider,
-    docsOptions,
-  });
+  transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), options);
 
 const transformSetStoriesStoryDataToPreparedStoryIndex = (
   stories: SetStoriesStoryData
@@ -136,15 +133,16 @@ export const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStor
   };
 };
 
+type ToStoriesHashOptions = {
+  provider: API_Provider<API>;
+  docsOptions: DocsOptions;
+  filters: State['filters'];
+  status: State['status'];
+};
+
 export const transformStoryIndexToStoriesHash = (
   input: API_PreparedStoryIndex | StoryIndexV2 | StoryIndexV3,
-  {
-    provider,
-    docsOptions,
-  }: {
-    provider: API_Provider<API>;
-    docsOptions: DocsOptions;
-  }
+  { provider, docsOptions, filters, status }: ToStoriesHashOptions
 ): API_IndexHash => {
   if (!input.v) {
     throw new Error('Composition: Missing stories.json version');
@@ -155,13 +153,25 @@ export const transformStoryIndexToStoriesHash = (
   index = index.v === 3 ? transformStoryIndexV3toV4(index as any) : index;
   index = index as API_PreparedStoryIndex;
 
-  const entryValues = Object.values(index.entries);
+  const entryValues = Object.values(index.entries).filter((entry) => {
+    let result = true;
+
+    Object.values(filters).forEach((filter) => {
+      if (result === false) {
+        return;
+      }
+      result = filter({ ...entry, status: status[entry.id] });
+    });
+
+    return result;
+  });
+
   const { sidebar = {} } = provider.getConfig();
   const { showRoots, collapsedRoots = [], renderLabel } = sidebar;
 
   const setShowRoots = typeof showRoots !== 'undefined';
 
-  const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
+  const storiesHashOutOfOrder = entryValues.reduce((acc, item) => {
     if (docsOptions.docsMode && item.type !== 'docs') {
       return acc;
     }

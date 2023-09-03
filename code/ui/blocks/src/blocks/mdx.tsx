@@ -1,8 +1,7 @@
 import type { FC, MouseEvent, PropsWithChildren, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
-import { Code, components, nameSpaceClassNames } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Code, components, Icons, nameSpaceClassNames } from '@storybook/components';
 import { global } from '@storybook/global';
 import { styled } from '@storybook/theming';
 import { Source } from '../components';
@@ -191,7 +190,7 @@ const HeaderWithOcticonAnchor: FC<PropsWithChildren<HeaderWithOcticonAnchorProps
           }
         }}
       >
-        <Icon.Link />
+        <Icons icon="link" />
       </OcticonAnchor>
       {children}
     </OcticonHeader>

@@ -1,7 +1,6 @@
 import { global } from '@storybook/global';
 import React from 'react';
-import { getStoryHref, IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { getStoryHref, IconButton, Icons } from '@storybook/components';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
@@ -35,7 +34,7 @@ export const ejectTool: Addon_BaseType = {
             target="_blank"
             title="Open canvas in new tab"
           >
-            <Icon.ShareAlt />
+            <Icons icon="sharealt" />
           </IconButton>
         ) : null
       }

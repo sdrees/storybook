@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.3.0-alpha.0",
+  "version": "7.5.0-alpha.0",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -25,11 +25,12 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
+    "template/cli/**/*",
     "README.md",
     "*.js",
     "*.mjs",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc",
@@ -58,7 +59,7 @@
     "find-up": "^5.0.0",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
-    "telejson": "^7.0.3",
+    "telejson": "^7.2.0",
     "ts-dedent": "^2.0.0",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "util-deprecate": "^1.0.2",

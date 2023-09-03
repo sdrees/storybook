@@ -30,7 +30,7 @@ body:
     attributes:
       label: System
       description: Please paste the results of `npx storybook@latest info` here.
-      render: shell
+      render: bash
   - type: textarea
     id: context
     attributes:

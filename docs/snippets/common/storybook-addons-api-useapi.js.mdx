@@ -3,9 +3,7 @@
 
 import React, { useEffect, useCallback } from 'react';
 
-import { IconButton } from '@storybook/components';
-
-import { Icon } from '@storybook/components/experimental';
+import { Icons, IconButton } from '@storybook/components';
 
 import { useStorybookApi } from '@storybook/manager-api';
 
@@ -28,7 +26,7 @@ export const Panel = () => {
 
   return (
     <IconButton key="custom-toolbar" active="true" title="Show a toolbar addon">
-      <Icon.ChevronDown />
+      <Icons icon="arrowdown" />
     </IconButton>
   );
 };

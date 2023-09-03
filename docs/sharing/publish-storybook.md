@@ -151,7 +151,7 @@ Storybook can communicate with services that host built Storybooks online. This 
 This level of service serves published Storybooks and makes the following available:
 
 - Versioned endpoints, URLs that resolve to different published Storybooks depending on a `version=x.y.z` query parameter (where `x.y.z` is the released version of the package).
-- Support for `/stories.json`
+- Support for `/index.json` (formerly `/stories.json`) endpoint, which returns a list of stories and their metadata.
 - Support for `/metadata.json` and the `releases` field.
 
 Example: [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)

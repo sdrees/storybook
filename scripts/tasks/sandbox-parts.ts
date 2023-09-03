@@ -390,8 +390,7 @@ export const addStories: Task['run'] = async (
   // Ensure that we match the right stories in the stories directory
   updateStoriesField(
     mainConfig,
-    (await detectLanguage(packageManager)) === SupportedLanguage.JAVASCRIPT,
-    disableDocs
+    (await detectLanguage(packageManager)) === SupportedLanguage.JAVASCRIPT
   );
 
   const isCoreRenderer =

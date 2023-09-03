@@ -9,6 +9,7 @@ export type EventType =
   | 'build'
   | 'upgrade'
   | 'init'
+  | 'browser'
   | 'canceled'
   | 'error'
   | 'error-metadata'

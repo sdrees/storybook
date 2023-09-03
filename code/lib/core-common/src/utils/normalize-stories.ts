@@ -4,6 +4,7 @@ import * as pico from 'picomatch';
 import slash from 'slash';
 
 import type { StoriesEntry, NormalizedStoriesSpecifier } from '@storybook/types';
+import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 
@@ -100,5 +101,10 @@ interface NormalizeOptions {
   workingDir: string;
 }
 
-export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) =>
-  entries.map((entry) => normalizeStoriesEntry(entry, options));
+export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) => {
+  if (!entries || (Array.isArray(entries) && entries.length === 0)) {
+    throw new InvalidStoriesEntryError();
+  }
+
+  return entries.map((entry) => normalizeStoriesEntry(entry, options));
+};

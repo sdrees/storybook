@@ -5,26 +5,23 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Page } from './Page';
 
+type PagePropsAndCustomArgs = React.ComponentProps<typeof Page> & { footer?: string };
+
 const meta = {
   component: Page,
-} satisfies Meta<typeof Page>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/react/api/csf
- * to learn how to use render functions.
- */
-export const CustomFooter: Story = {
-  render: (args) => (
+  render: ({ footer, ...args }) => (
     <Page {...args}>
-      <footer>{args.footer}</footer>
+      <footer>{footer}</footer>
     </Page>
   ),
+} satisfies Meta<PagePropsAndCustomArgs>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const CustomFooter = {
   args: {
     footer: 'Built with Storybook',
   },
-};
+} satisfies Story;
 ```

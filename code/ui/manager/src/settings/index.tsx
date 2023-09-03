@@ -1,6 +1,5 @@
 import { useStorybookApi, useStorybookState, types } from '@storybook/manager-api';
-import { IconButton, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
@@ -95,7 +94,7 @@ const Pages: FC<{
           }}
           title="Close settings page"
         >
-          <Icon.Close />
+          <Icons icon="close" />
         </IconButton>
       </FlexBar>
       <Content vertical horizontal={false}>

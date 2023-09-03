@@ -72,7 +72,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     platform: 'browser',
     bundle: true,
     minify: true,
-    sourcemap: true,
+    sourcemap: false,
     conditions: ['browser', 'module', 'default'],
 
     jsxFactory: 'React.createElement',

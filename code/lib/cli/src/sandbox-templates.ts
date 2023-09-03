@@ -18,6 +18,11 @@ export type Cadence = keyof typeof templatesByCadence;
 export type Template = {
   /**
    * Readable name for the template, which will be used for feedback and the status page
+   * Follows the naming scheme when it makes sense:
+   * <framework> <"v"version|"Latest"|"Prerelease"> (<"Webpack"|"Vite"> | <"JavaScript"|"TypeScript">)
+   * React Latest - Webpack (TS)
+   * Next.js v12 (JS)
+   * Angular CLI Prerelease
    */
   name: string;
   /**
@@ -71,9 +76,15 @@ export type Template = {
   isInternal?: boolean;
 };
 
+type BaseTemplates = Template & {
+  name: `${string} ${`v${number}` | 'Latest' | 'Prerelease'} (${'Webpack' | 'Vite'} | ${
+    | 'JavaScript'
+    | 'TypeScript'})`;
+};
+
 const baseTemplates = {
   'cra/default-js': {
-    name: 'Create React App (Javascript)',
+    name: 'Create React App Latest (Webpack | JavaScript)',
     script: 'npx create-react-app {{beforeDir}}',
     expected: {
       // TODO: change this to @storybook/cra once that package is created
@@ -84,7 +95,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'cra/default-ts': {
-    name: 'Create React App (Typescript)',
+    name: 'Create React App Latest (Webpack | TypeScript)',
     script: 'npx create-react-app {{beforeDir}} --template typescript',
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'bench'],
@@ -96,7 +107,7 @@ const baseTemplates = {
     },
   },
   'nextjs/12-js': {
-    name: 'Next.js v12 (JavaScript)',
+    name: 'Next.js v12 (Webpack | JavaScript)',
     script:
       'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-12-3-2/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
     expected: {
@@ -107,7 +118,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'nextjs/default-js': {
-    name: 'Next.js (JavaScript)',
+    name: 'Next.js Latest (Webpack | JavaScript)',
     script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
     expected: {
       framework: '@storybook/nextjs',
@@ -117,7 +128,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'nextjs/default-ts': {
-    name: 'Next.js (TypeScript)',
+    name: 'Next.js Latest (Webpack | TypeScript)',
     script: 'yarn create next-app {{beforeDir}} --typescript --eslint',
     expected: {
       framework: '@storybook/nextjs',
@@ -127,7 +138,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'react-vite/default-js': {
-    name: 'React Vite (JS)',
+    name: 'React Latest (Vite | JavaScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template react',
     expected: {
       framework: '@storybook/react-vite',
@@ -137,7 +148,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'react-vite/default-ts': {
-    name: 'React Vite (TS)',
+    name: 'React Latest (Vite | TypeScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template react-ts',
     expected: {
       framework: '@storybook/react-vite',
@@ -147,7 +158,7 @@ const baseTemplates = {
     skipTasks: ['bench'],
   },
   'react-webpack/18-ts': {
-    name: 'React 18 Webpack5 (TS)',
+    name: 'React Latest (Webpack | TypeScript)',
     script: 'yarn create webpack5-react {{beforeDir}}',
     expected: {
       framework: '@storybook/react-webpack5',
@@ -157,7 +168,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'react-webpack/17-ts': {
-    name: 'React 17 Webpack5 (TS)',
+    name: 'React v17 (Webpack | TypeScript)',
     script:
       'yarn create webpack5-react {{beforeDir}} --version-react="17" --version-react-dom="17"',
     expected: {
@@ -168,7 +179,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'solid-vite/default-js': {
-    name: 'SolidJS Vite (JS)',
+    name: 'SolidJS Latest (Vite | JavaScript)',
     script: 'npx degit solidjs/templates/js {{beforeDir}}',
     expected: {
       framework: 'storybook-solidjs-vite',
@@ -180,7 +191,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'solid-vite/default-ts': {
-    name: 'SolidJS Vite (TS)',
+    name: 'SolidJS Latest (Vite | TypeScript)',
     script: 'npx degit solidjs/templates/ts {{beforeDir}}',
     expected: {
       framework: 'storybook-solidjs-vite',
@@ -192,7 +203,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'vue3-vite/default-js': {
-    name: 'Vue3 Vite (JS)',
+    name: 'Vue v3 (Vite | JavaScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template vue',
     expected: {
       framework: '@storybook/vue3-vite',
@@ -202,7 +213,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'vue3-vite/default-ts': {
-    name: 'Vue3 Vite (TS)',
+    name: 'Vue v3 (Vite | TypeScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template vue-ts',
     expected: {
       framework: '@storybook/vue3-vite',
@@ -212,7 +223,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'vue2-vite/2.7-js': {
-    name: 'Vue2 Vite (vue 2.7 JS)',
+    name: 'Vue v2 (Vite | JavaScript)',
     script: 'npx create-vue@2 {{beforeDir}} --default',
     expected: {
       framework: '@storybook/vue-vite',
@@ -223,7 +234,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'html-webpack/default': {
-    name: 'HTML Webpack5',
+    name: 'HTML Latest (Webpack | JavaScript)',
     script: 'yarn create webpack5-html {{beforeDir}}',
     expected: {
       framework: '@storybook/html-webpack5',
@@ -233,7 +244,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'html-vite/default-js': {
-    name: 'HTML Vite JS',
+    name: 'HTML Latest (Vite | JavaScript)',
     script:
       'npm create vite@latest --yes {{beforeDir}} -- --template vanilla && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
@@ -244,7 +255,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'html-vite/default-ts': {
-    name: 'HTML Vite TS',
+    name: 'HTML Latest (Vite | TypeScript)',
     script:
       'npm create vite@latest --yes {{beforeDir}} -- --template vanilla-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
@@ -255,7 +266,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'svelte-vite/default-js': {
-    name: 'Svelte Vite (JS)',
+    name: 'Svelte Latest (Vite | JavaScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template svelte',
     expected: {
       framework: '@storybook/svelte-vite',
@@ -265,7 +276,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'svelte-vite/default-ts': {
-    name: 'Svelte Vite (TS)',
+    name: 'Svelte Latest (Vite | TypeScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template svelte-ts',
     expected: {
       framework: '@storybook/svelte-vite',
@@ -276,7 +287,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'angular-cli/prerelease': {
-    name: 'Angular CLI (Prerelease)',
+    name: 'Angular CLI Prerelease (Webpack | TypeScript)',
     script:
       'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
@@ -287,7 +298,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'angular-cli/default-ts': {
-    name: 'Angular CLI (latest)',
+    name: 'Angular CLI Latest (Webpack | TypeScript)',
     script:
       'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
@@ -298,7 +309,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'angular-cli/15-ts': {
-    name: 'Angular CLI (Version 15)',
+    name: 'Angular CLI v15 (Webpack | TypeScript)',
     script:
       'npx -p @angular/cli@15 ng new angular-v15 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
@@ -309,7 +320,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'svelte-kit/skeleton-js': {
-    name: 'Svelte Kit (JS)',
+    name: 'SvelteKit Latest (Vite | JavaScript)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
@@ -320,7 +331,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'svelte-kit/skeleton-ts': {
-    name: 'Svelte Kit (TS)',
+    name: 'SvelteKit Latest (Vite | TypeScript)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
@@ -331,7 +342,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'lit-vite/default-js': {
-    name: 'Lit Vite (JS)',
+    name: 'Lit Latest (Vite | JavaScript)',
     script:
       'npm create vite@latest --yes {{beforeDir}} -- --template lit && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
@@ -343,7 +354,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'lit-vite/default-ts': {
-    name: 'Lit Vite (TS)',
+    name: 'Lit Latest (Vite | TypeScript)',
     script:
       'npm create vite@latest --yes {{beforeDir}} -- --template lit-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
@@ -355,7 +366,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'vue-cli/default-js': {
-    name: 'Vue-CLI (Default JS)',
+    name: 'Vue CLI v3 (Webpack | JavaScript)',
     script:
       'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
@@ -367,7 +378,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'vue-cli/vue2-default-js': {
-    name: 'Vue-CLI (Vue2 JS)',
+    name: 'Vue CLI v2 (Webpack | JavaScript)',
     script:
       'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
@@ -379,7 +390,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'preact-webpack5/default-js': {
-    name: 'Preact CLI (Default JS)',
+    name: 'Preact CLI Latest (Webpack | JavaScript)',
     script:
       'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
@@ -390,7 +401,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-webpack5/default-ts': {
-    name: 'Preact CLI (Default TS)',
+    name: 'Preact CLI Latest (Webpack | TypeScript)',
     script:
       'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
@@ -401,7 +412,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-vite/default-js': {
-    name: 'Preact Vite (JS)',
+    name: 'Preact Latest (Vite | JavaScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template preact',
     expected: {
       framework: '@storybook/preact-vite',
@@ -411,7 +422,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-vite/default-ts': {
-    name: 'Preact Vite (TS)',
+    name: 'Preact Latest (Vite | TypeScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template preact-ts',
     expected: {
       framework: '@storybook/preact-vite',
@@ -421,8 +432,8 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'qwik-vite/default-ts': {
-    name: 'Qwik CLI (Default TS)',
-    script: 'yarn create qwik basic {{beforeDir}} --no-install',
+    name: 'Qwik CLI Latest (Vite | TypeScript)',
+    script: 'yarn create qwik basic {{beforeDir}}',
     // TODO: The community template does not provide standard stories, which is required for e2e tests. Reenable once it does.
     inDevelopment: true,
     expected: {
@@ -433,7 +444,7 @@ const baseTemplates = {
     // TODO: The community template does not provide standard stories, which is required for e2e tests.
     skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],
   },
-} satisfies Record<string, Template>;
+} satisfies Record<string, BaseTemplates>;
 
 /**
  * Internal templates reuse config from other templates and add extra config on top.

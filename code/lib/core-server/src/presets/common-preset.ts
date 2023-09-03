@@ -25,6 +25,7 @@ import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
+  TELEMETRY_ERROR,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
@@ -195,7 +196,7 @@ export const features = async (
 });
 
 export const csfIndexer: Indexer = {
-  test: /\.stories\.(m?js|ts)x?$/,
+  test: /(stories|story)\.(m?js|ts)x?$/,
   index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
 
@@ -328,6 +329,18 @@ export const experimental_serverChannel = async (
       }
     }
   );
+
+  channel.on(TELEMETRY_ERROR, async (error) => {
+    const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
+
+    if (isTelemetryEnabled) {
+      await sendTelemetryError(error, 'browser', {
+        cliOptions: options,
+        presetOptions: { ...options, corePresets: [], overridePresets: [] },
+        skipPrompt: true,
+      });
+    }
+  });
 
   return channel;
 };

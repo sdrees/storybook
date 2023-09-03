@@ -349,6 +349,33 @@ describe('storybook-metadata', () => {
       expect(res.refCount).toEqual(2);
     });
 
+    test('only reports addon options for addon-essentials', async () => {
+      const res = await computeStorybookMetadata({
+        packageJson: packageJsonMock,
+        mainConfig: {
+          ...mainJsMock,
+          addons: [
+            { name: '@storybook/addon-essentials', options: { controls: false } },
+            { name: 'addon-foo', options: { foo: 'bar' } },
+          ],
+        },
+      });
+      expect(res.addons).toMatchInlineSnapshot(`
+        Object {
+          "@storybook/addon-essentials": Object {
+            "options": Object {
+              "controls": false,
+            },
+            "version": "x.x.x",
+          },
+          "addon-foo": Object {
+            "options": undefined,
+            "version": "x.x.x",
+          },
+        }
+      `);
+    });
+
     test.each(Object.entries(metaFrameworks))(
       'should detect the supported metaframework: %s',
       async (metaFramework, name) => {

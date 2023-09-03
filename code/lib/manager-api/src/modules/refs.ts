@@ -15,7 +15,7 @@ import {
   transformStoryIndexToStoriesHash,
 } from '../lib/stories';
 
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 const { location, fetch } = global;
 
@@ -154,7 +154,7 @@ const map = (
   return input;
 };
 
-export const init: ModuleFn<SubAPI, SubState, void> = (
+export const init: ModuleFn<SubAPI, SubState> = (
   { store, provider, singleStory, docsOptions = {} },
   { runCheck = true } = {}
 ) => {
@@ -283,10 +283,15 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       if (setStoriesData) {
         index = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),
-          { provider, docsOptions }
+          { provider, docsOptions, filters: {}, status: {} }
         );
       } else if (storyIndex) {
-        index = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
+        index = transformStoryIndexToStoriesHash(storyIndex, {
+          provider,
+          docsOptions,
+          filters: {},
+          status: {},
+        });
       }
       if (index) index = addRefIds(index, ref);
 

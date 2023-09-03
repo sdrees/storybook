@@ -27,7 +27,9 @@ const menuItems = [
   { title: 'Menu Item 3', onClick: action('onActivateMenuItem'), id: '3' },
 ];
 
-export const MenuHighlighted: Story = () => <Heading menuHighlighted menu={menuItems} />;
+export const MenuHighlighted: Story = () => (
+  <Heading menuHighlighted menu={menuItems} isLoading={false} extra={[]} />
+);
 
 export const standardData = { menu: menuItems };
 
@@ -45,7 +47,7 @@ export const Standard: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -64,7 +66,7 @@ export const StandardNoLink: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -83,7 +85,7 @@ export const LinkAndText: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -102,7 +104,7 @@ export const OnlyText: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -121,7 +123,7 @@ export const LongText: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -140,7 +142,7 @@ export const CustomTitle: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -159,7 +161,7 @@ export const CustomBrandImage: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -178,7 +180,7 @@ export const CustomBrandImageTall: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -197,7 +199,7 @@ export const CustomBrandImageUnsizedSVG: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
@@ -216,13 +218,18 @@ export const NoBrand: Story = () => {
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} isLoading={false} extra={[]} />
     </ThemeProvider>
   );
 };
 
 export const SkipToCanvasLinkFocused: ComponentStoryObj<typeof Heading> = {
-  args: { menu: menuItems, skipLinkHref: '#storybook-preview-wrapper' },
+  args: {
+    menu: menuItems,
+    skipLinkHref: '#storybook-preview-wrapper',
+    extra: [],
+    isLoading: false,
+  },
   parameters: { layout: 'padded', chromatic: { delay: 300 } },
   play: () => {
     // focus each instance for chromatic/storybook's stacked theme
