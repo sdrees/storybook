@@ -316,6 +316,7 @@ describe('PNPM Proxy', () => {
 
       expect(installations).toMatchInlineSnapshot(`
         Object {
+          "dedupeCommand": "pnpm dedupe",
           "dependencies": Object {
             "@storybook/addon-interactions": Array [
               Object {

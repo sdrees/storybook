@@ -58,8 +58,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
-
+          node-version-file: '.nvmrc'
       - name: Cache dependencies
         uses: actions/cache@v3
         with:

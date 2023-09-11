@@ -1,10 +1,10 @@
 import webpack from 'webpack';
 import { logger } from '@storybook/node-logger';
+import { AngularLegacyBuildOptionsError } from '@storybook/core-events/server-errors';
 import { BuilderContext, targetFromTargetString } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';
-import { dedent } from 'ts-dedent';
-
 import { JsonObject, logging } from '@angular-devkit/core';
+
 import { getWebpackConfig as getCustomWebpackConfig } from './angular-cli-webpack';
 import { moduleIsAvailable } from './utils/module-is-available';
 import { PresetOptions } from './preset-options';
@@ -85,13 +85,6 @@ async function getBuilderOptions(
   return builderOptions;
 }
 
-export const migrationToBuilderReferrenceMessage = dedent`Your Storybook startup uses a solution that is not supported.
-    You must use angular builder to have an explicit configuration on the project used in angular.json
-    Read more at:
-    - https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sb-angular-builder)
-    - https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#angular13)
-  `;
-
 /**
  * Checks if using legacy configuration that doesn't use builder and logs message referring to migration docs.
  */
@@ -101,7 +94,5 @@ function checkForLegacyBuildOptions(options: PresetOptions) {
     return;
   }
 
-  logger.error(migrationToBuilderReferrenceMessage);
-
-  throw Error('angularBrowserTarget is undefined.');
+  throw new AngularLegacyBuildOptionsError();
 }

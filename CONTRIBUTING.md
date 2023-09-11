@@ -1,13 +1,24 @@
 # Getting started
 
-Storybook is developed against a specific node version. We recommend using [Volta](https://volta.sh/) as it will automatically install the correct node and yarn version when you first use the repo. If you chose not to use Volta please ensure you you have node version 16 installed (suggestion: v16.5)
+Storybook is developed against a specific node version which is defined in an `.nvmrc` file. You can use any Node version manager that uses the `.nvmrc` configuration file (we recommend [fnm](https://fnm.vercel.app/)).
+
+## Using fnm as a Node version manager
+
+- Install fnm [as per instructions](https://github.com/Schniz/fnm/tree/master#installation)
+- In your shell setup include the `use-on-cd`, `corepack-enabled` and `version-file-strategy recursive` parameters in the `fnm env` command, e.g.
+
+  ```sh
+  eval "$(fnm env --use-on-cd --corepack-enabled --version-file-strategy recursive)"
+  ```
+
+## Running the local development environment
 
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
 - Run `yarn start` in the root directory to run a basic test Storybook "sandbox".
 
 The `yarn start` script will generate a React Vite TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc). There is no need to run `yarn` or `yarn install` as `yarn start` will do this for you.
 
-## Issues
+### Issues
 
 If you run `yarn start` and encounter the following error, try rerunning `yarn start` a second time:
 

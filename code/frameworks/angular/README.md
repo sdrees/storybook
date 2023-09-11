@@ -10,7 +10,7 @@
   - [moduleMetadata decorator](#modulemetadata-decorator)
   - [applicationConfig decorator](#applicationconfig-decorator)
   - [FAQ](#faq)
-    - [How do I migrate to a Angular Storybook builder?](#how-do-i-migrate-to-a-angular-storybook-builder)
+    - [How do I migrate to an Angular Storybook builder?](#how-do-i-migrate-to-an-angular-storybook-builder)
       - [Do you have only one Angular project in your workspace?](#do-you-have-only-one-angular-project-in-your-workspace)
         - [Adjust your `package.json`](#adjust-your-packagejson)
       - [I have multiple projects in my Angular workspace](#i-have-multiple-projects-in-my-angular-workspace)
@@ -252,9 +252,11 @@ export const WithCustomApplicationProvider: Story = {
 
 ## FAQ
 
-### How do I migrate to a Angular Storybook builder?
+### How do I migrate to an Angular Storybook builder?
 
 The Storybook [Angular builder](https://angular.io/guide/glossary#builder) is a new way to run Storybook in an Angular workspace. It is a drop-in replacement for running `storybook dev` and `storybook build` directly.
+
+You can run `npx storybook@next automigrate` to try let Storybook detect and automatically fix your configuration. Otherwise, you can follow the next steps to manually adjust your configuration.
 
 #### Do you have only one Angular project in your workspace?
 

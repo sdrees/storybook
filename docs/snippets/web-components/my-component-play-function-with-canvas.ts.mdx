@@ -1,15 +1,14 @@
 ```ts
 // MyComponent.stories.ts
 
-import { userEvent, within } from '@storybook/testing-library';
-
 import type { Meta, StoryObj } from '@storybook/web-components';
+import { userEvent, within } from '@storybook/testing-library';
 
 const meta: Meta = {
   component: 'demo-my-component',
 };
-export default meta;
 
+export default meta;
 type Story = StoryObj;
 
 export const ExampleStory: Story = {

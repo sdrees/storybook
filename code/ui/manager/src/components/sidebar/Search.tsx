@@ -348,8 +348,9 @@ export const Search = React.memo<{
           }
         }
 
+        const inputId = 'storybook-explorer-searchfield';
         const inputProps = getInputProps({
-          id: 'storybook-explorer-searchfield',
+          id: inputId,
           ref: inputRef,
           required: true,
           type: 'search',
@@ -361,9 +362,13 @@ export const Search = React.memo<{
           onBlur: () => setPlaceholder('Find components'),
         });
 
+        const labelProps = getLabelProps({
+          htmlFor: inputId,
+        });
+
         return (
           <>
-            <ScreenReaderLabel {...getLabelProps()}>Search for components</ScreenReaderLabel>
+            <ScreenReaderLabel {...labelProps}>Search for components</ScreenReaderLabel>
             <SearchField
               {...getRootProps({ refKey: '' }, { suppressRefError: true })}
               className="search-field"

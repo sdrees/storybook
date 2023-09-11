@@ -379,6 +379,7 @@ describe('NPM Proxy', () => {
 
       expect(installations).toMatchInlineSnapshot(`
         Object {
+          "dedupeCommand": "npm dedupe",
           "dependencies": Object {
             "@storybook/addon-interactions": Array [
               Object {

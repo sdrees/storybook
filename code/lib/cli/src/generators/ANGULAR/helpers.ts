@@ -1,6 +1,8 @@
 import fs from 'fs';
+import { join } from 'path';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
+import { MissingAngularJsonError } from '@storybook/core-events/server-errors';
 
 export const ANGULAR_JSON_PATH = 'angular.json';
 
@@ -27,9 +29,7 @@ export class AngularJSON {
 
   constructor() {
     if (!fs.existsSync(ANGULAR_JSON_PATH)) {
-      throw new Error(
-        'An angular.json file was not found in the current working directory. Storybook needs it to work properly, so please rerun the command at the root of your project, where the angular.json file is located. More info: https://storybook.js.org/docs/angular/faq#error-no-angularjson-file-found'
-      );
+      throw new MissingAngularJsonError({ path: join(process.cwd(), ANGULAR_JSON_PATH) });
     }
 
     const jsonContent = fs.readFileSync(ANGULAR_JSON_PATH, 'utf8');

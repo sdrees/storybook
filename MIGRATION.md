@@ -1044,7 +1044,11 @@ Starting in 7.0, we drop support for Angular < 14
 
 #### Angular: Drop support for calling Storybook directly
 
-In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+_Has automigration_
+
+In Storybook 6.4 we deprecated calling Storybook directly (e.g. `npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead, you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. 
+
+You can run `npx storybook@next automigrate` to automatically fix your configuration, or visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular/README.md#how-do-i-migrate-to-an-angular-storybook-builder for instructions on how to set up Storybook for Angular manually.
 
 #### Angular: Application providers and ModuleWithProviders
 

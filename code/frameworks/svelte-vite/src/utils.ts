@@ -23,7 +23,7 @@ export async function handleSvelteKit(plugins: PluginOption[], options: Options)
     'vite-plugin-sveltekit-compile',
   ]);
 
-  if (hasSvelteKitPlugins && framework !== '@storybook/sveltekit') {
+  if (hasSvelteKitPlugins && !framework.includes('@storybook/sveltekit')) {
     throw new Error(dedent`
       We've detected a SvelteKit project using the @storybook/svelte-vite framework, which is not supported in Storybook 7.0
       Please use the @storybook/sveltekit framework instead.

@@ -91,6 +91,6 @@ export async function add(
   await writeConfig(main);
 
   if (!options.skipPostinstall && isStorybookAddon) {
-    await postinstallAddon(addonName, { packageManager: pkgMgr });
+    await postinstallAddon(addonName, { packageManager: packageManager.type });
   }
 }

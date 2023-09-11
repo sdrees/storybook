@@ -3,4 +3,5 @@ export type InstallationMetadata = {
   dependencies: Record<string, PackageMetadata[]>;
   duplicatedDependencies: Record<string, string[]>;
   infoCommand: string;
+  dedupeCommand: string;
 };

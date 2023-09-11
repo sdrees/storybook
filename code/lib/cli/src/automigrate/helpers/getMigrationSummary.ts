@@ -184,6 +184,11 @@ function getWarnings(installationMetadata: InstallationMetadata) {
       `${installationMetadata.infoCommand} <package-name>`
     )}`
   );
+  messages.push(
+    `Please try de-duplicating these dependencies by running ${chalk.cyan(
+      `${installationMetadata.dedupeCommand}`
+    )}`
+  );
 
   return messages;
 }

@@ -12,6 +12,11 @@ function regexpEscape(str: string): string {
   return str.replace(/[-[/{}()*+?.\\^$|]/g, `\\$&`);
 }
 
+export function removeAnsiEscapeCodes(input = ''): string {
+  // eslint-disable-next-line no-control-regex
+  return input.replace(/\u001B\[[0-9;]*m/g, '');
+}
+
 export function cleanPaths(str: string, separator: string = sep): string {
   if (!str) return str;
 
@@ -19,11 +24,11 @@ export function cleanPaths(str: string, separator: string = sep): string {
 
   while (stack.length > 1) {
     const currentPath = stack.join(separator);
-    const currentRegex = new RegExp(regexpEscape(currentPath), `g`);
+    const currentRegex = new RegExp(regexpEscape(currentPath), `gi`);
     str = str.replace(currentRegex, `$SNIP`);
 
     const currentPath2 = stack.join(separator + separator);
-    const currentRegex2 = new RegExp(regexpEscape(currentPath2), `g`);
+    const currentRegex2 = new RegExp(regexpEscape(currentPath2), `gi`);
     str = str.replace(currentRegex2, `$SNIP`);
 
     stack.pop();
@@ -34,8 +39,13 @@ export function cleanPaths(str: string, separator: string = sep): string {
 // Takes an Error and returns a sanitized JSON String
 export function sanitizeError(error: Error, pathSeparator: string = sep) {
   try {
-    // Hack because Node
-    error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+    error = {
+      ...JSON.parse(JSON.stringify(error)),
+      message: removeAnsiEscapeCodes(error.message),
+      stack: removeAnsiEscapeCodes(error.stack),
+      cause: error.cause,
+      name: error.name,
+    };
 
     // Removes all user paths
     const errorString = cleanPaths(JSON.stringify(error), pathSeparator);

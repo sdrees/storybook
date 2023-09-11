@@ -1,5 +1,6 @@
 /// <reference types="node" />
 
+import * as os from 'os';
 import originalFetch from 'node-fetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
@@ -18,12 +19,33 @@ export const addToGlobalContext = (key: string, value: any) => {
   globalContext[key] = value;
 };
 
+const getOperatingSystem = (): 'Windows' | 'macOS' | 'Linux' | `Other: ${string}` | 'Unknown' => {
+  try {
+    const platform = os.platform();
+
+    if (platform === 'win32') {
+      return 'Windows';
+    }
+    if (platform === 'darwin') {
+      return 'macOS';
+    }
+    if (platform === 'linux') {
+      return 'Linux';
+    }
+
+    return `Other: ${platform}`;
+  } catch (_err) {
+    return 'Unknown';
+  }
+};
+
 // context info sent with all events, provided
 // by the app. currently:
 // - cliVersion
 const globalContext = {
   inCI: Boolean(process.env.CI),
   isTTY: process.stdout.isTTY,
+  platform: getOperatingSystem(),
 } as Record<string, any>;
 
 const prepareRequest = async (data: TelemetryData, context: Record<string, any>, options: any) => {

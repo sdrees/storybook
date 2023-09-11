@@ -101,6 +101,9 @@ export class PNPMProxy extends JsPackageManager {
     const commandResult = await this.executeCommand({
       command: 'pnpm',
       args: ['list', pattern.map((p) => `"${p}"`).join(' '), '--json', '--depth=99'],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -287,6 +290,7 @@ export class PNPMProxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'pnpm list --depth=1',
+      dedupeCommand: 'pnpm dedupe',
     };
   }
 

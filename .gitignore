@@ -37,7 +37,6 @@ coverage/
 /**/LICENSE
 code/docs/public
 package-lock.json
-.nvmrc
 storybook-static
 .jest-test-results.json
 *.jar

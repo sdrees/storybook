@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.5.0-alpha.0",
+  "version": "7.5.0-alpha.1",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -44,6 +44,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/core-events": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/find-cache-dir": "^3.2.1",

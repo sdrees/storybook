@@ -2,6 +2,8 @@
 title: 'Actions'
 ---
 
+<YouTubeCallout id="BTIuTuoHsQc" title="STOP logging with Storybook Actions" />
+
 The actions addon is used to display data received by event handler (callback) arguments in your stories.
 
 <video autoPlay muted playsInline loop>

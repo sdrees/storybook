@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.5.0-alpha.0",
+  "version": "7.5.0-alpha.1",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -27,6 +27,16 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./image-context": {
+      "types": "./dist/image-context.d.ts",
+      "require": "./dist/image-context.js",
+      "import": "./dist/image-context.mjs"
+    },
+    "./dist/image-context": {
+      "types": "./dist/image-context.d.ts",
+      "require": "./dist/image-context.js",
+      "import": "./dist/image-context.mjs"
+    },
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
@@ -46,6 +56,16 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "dist/image-context": [
+        "dist/image-context.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "template/cli/**/*",
@@ -136,11 +156,12 @@
   },
   "bundler": {
     "entries": [
+      "./src/image-context.ts",
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
       "./src/next-image-loader-stub.ts",
-      "./src/images/context.ts",
+      "./src/images/decorator.tsx",
       "./src/images/next-future-image.tsx",
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",

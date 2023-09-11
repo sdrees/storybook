@@ -296,6 +296,8 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
+    // TODO: Can be enabled once we re-revert this PR: https://github.com/storybookjs/storybook/pull/24033
+    inDevelopment: true,
   },
   'angular-cli/default-ts': {
     name: 'Angular CLI Latest (Webpack | TypeScript)',

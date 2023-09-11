@@ -5,9 +5,12 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import { useChannel } from '@storybook/preview-api';
 import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
 
-export default {
+const meta: Meta = {
   component: 'my-component',
 };
+
+export default meta;
+type Story = StoryObj;
 
 export const ResetHighlight: Story = {
   decorators: [

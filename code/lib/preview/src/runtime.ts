@@ -3,6 +3,7 @@ import { global } from '@storybook/global';
 
 import { values } from './globals/runtime';
 import { globals } from './globals/types';
+import { prepareForTelemetry } from './utils';
 
 const getKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>;
 
@@ -13,7 +14,7 @@ getKeys(globals).forEach((key) => {
 
 global.sendTelemetryError = (error: any) => {
   const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
-  channel.emit(TELEMETRY_ERROR, error);
+  channel.emit(TELEMETRY_ERROR, prepareForTelemetry(error));
 };
 
 // handle all uncaught StorybookError at the root of the application and log to telemetry if applicable

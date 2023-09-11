@@ -114,6 +114,9 @@ export class Yarn2Proxy extends JsPackageManager {
         pattern.map((p) => `"${p}"`).join(' '),
         `"${pattern}"`,
       ],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -286,6 +289,7 @@ export class Yarn2Proxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'yarn why',
+      dedupeCommand: 'yarn dedupe',
     };
   }
 

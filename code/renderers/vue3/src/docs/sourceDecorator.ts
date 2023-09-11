@@ -247,7 +247,6 @@ export function generateTemplateSource(
               .map((child) => child.content)
               .join('')
         : '';
-      console.log(' vnode ', vnode, ' childSources ', childSources, ' attributes ', attributes);
       const name =
         typeof type === 'string'
           ? type

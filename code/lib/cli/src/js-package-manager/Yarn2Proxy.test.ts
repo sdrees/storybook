@@ -219,6 +219,7 @@ describe('Yarn 2 Proxy', () => {
 
       expect(installations).toMatchInlineSnapshot(`
         Object {
+          "dedupeCommand": "yarn dedupe",
           "dependencies": Object {
             "@storybook/global": Array [
               Object {

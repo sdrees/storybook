@@ -347,7 +347,7 @@ The previous example also removed the prop documentation from the table. In some
 
 ### Conditional controls
 
-In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `if`, which can takes a simple query object to determine whether to include the control.
+In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `if`, which can take a simple query object to determine whether to include the control.
 
 Consider a collection of "advanced" settings that are only visible when the user toggles an "advanced" toggle.
 

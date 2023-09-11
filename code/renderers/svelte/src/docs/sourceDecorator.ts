@@ -38,8 +38,15 @@ function toSvelteProperty(key: string, value: any, argTypes: ArgTypes): string |
     return null;
   }
 
+  const argType = argTypes[key];
+
   // default value ?
-  if (argTypes[key] && argTypes[key].defaultValue === value) {
+  if (argType && argType.defaultValue === value) {
+    return null;
+  }
+
+  // event should be skipped
+  if (argType && argType.action) {
     return null;
   }
 
@@ -49,6 +56,11 @@ function toSvelteProperty(key: string, value: any, argTypes: ArgTypes): string |
 
   if (typeof value === 'string') {
     return `${key}=${JSON.stringify(value)}`;
+  }
+
+  // handle function
+  if (typeof value === 'function') {
+    return `${key}={<handler>}`;
   }
 
   return `${key}={${JSON.stringify(value)}}`;
@@ -98,19 +110,21 @@ export function generateSvelteSource(
     return null;
   }
 
-  const props = Object.entries(args)
+  const propsArray = Object.entries(args)
     .filter(([k]) => k !== slotProperty)
     .map(([k, v]) => toSvelteProperty(k, v, argTypes))
-    .filter((p) => p)
-    .join(' ');
+    .filter((p) => p);
 
+  const props = propsArray.join(' ');
+
+  const multiline = props.length > 50;
   const slotValue = slotProperty ? args[slotProperty] : null;
 
+  const srcStart = multiline ? `<${name}\n  ${propsArray.join('\n  ')}` : `<${name} ${props}`;
   if (slotValue) {
-    return `<${name} ${props}>\n    ${slotValue}\n</${name}>`;
+    return `${srcStart}>\n    ${slotValue}\n</${name}>`;
   }
-
-  return `<${name} ${props}/>`;
+  return `${srcStart}/>`;
 }
 
 /**

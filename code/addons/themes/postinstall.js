@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 
 const PACKAGE_MANAGER_TO_COMMAND = {
   npm: 'npx',
-  yarn1: 'yarn dlx',
+  yarn1: 'npx',
   yarn2: 'yarn dlx',
   pnpm: 'pnpm dlx',
 };

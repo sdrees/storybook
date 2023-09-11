@@ -295,7 +295,7 @@ export const Example = {
   parameters: {
     nextjs: {
       router: {
-        path: '/profile/[id]',
+        pathname: '/profile/[id]',
         asPath: '/profile/1',
         query: {
           id: '1',
@@ -316,7 +316,7 @@ Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/c
 export const parameters = {
   nextjs: {
     router: {
-      path: '/some-default-path',
+      pathname: '/some-default-path',
       asPath: '/some-default-path',
       query: {},
     },

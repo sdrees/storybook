@@ -35,9 +35,13 @@ export class UncaughtManagerError extends StorybookError {
 
   readonly code = 1;
 
-  constructor(public error: Error) {
-    super(error.message);
-    this.stack = error.stack;
+  constructor(
+    public data: {
+      error: Error;
+    }
+  ) {
+    super(data.error.message);
+    this.stack = data.error.stack;
   }
 
   template() {

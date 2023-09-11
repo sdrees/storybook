@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.5.0-alpha.0",
+  "version": "7.5.0-alpha.1",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -61,6 +61,7 @@
     "@ndelangen/get-tarball": "^3.0.7",
     "@storybook/codemod": "workspace:*",
     "@storybook/core-common": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/core-server": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/node-logger": "workspace:*",

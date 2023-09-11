@@ -9,6 +9,11 @@ import { dirname, join, parse } from 'path';
 import express from 'express';
 import fs from 'fs-extra';
 import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
+import {
+  WebpackCompilationError,
+  WebpackInvocationError,
+  WebpackMissingStatsError,
+} from '@storybook/core-events/server-errors';
 
 import prettyTime from 'pretty-hrtime';
 
@@ -117,21 +122,19 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   yield;
 
   const config = await getConfig(options);
+
+  if (config.stats === 'none' || config.stats === 'summary') {
+    throw new WebpackMissingStatsError();
+  }
   yield;
+
   const compiler = webpackInstance(config);
 
   if (!compiler) {
-    const err = `${config.name}: missing webpack compiler at runtime!`;
-    logger.error(err);
-    return {
-      bail,
-      totalTime: process.hrtime(startTime),
-      stats: {
-        hasErrors: () => true,
-        hasWarnings: () => false,
-        toJson: () => ({ warnings: [] as any[], errors: [err] }),
-      } as any as Stats,
-    };
+    throw new WebpackInvocationError({
+      // eslint-disable-next-line local-rules/no-uncategorized-errors
+      error: new Error(`Missing Webpack compiler at runtime!`),
+    });
   }
 
   yield;
@@ -172,6 +175,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
     publicPath: config.output?.publicPath as string,
     writeToDisk: true,
+    stats: 'errors-only',
   };
 
   compilation = webpackDevMiddleware(compiler, middlewareOptions);
@@ -184,19 +188,24 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(compilation);
   router.use(webpackHotMiddleware(compiler, { log: false }));
 
-  const stats = await new Promise<Stats>((ready, stop) => {
-    compilation?.waitUntilValid(ready as any);
-    reject = stop;
+  const stats = await new Promise<Stats>((res, rej) => {
+    compilation?.waitUntilValid(res as any);
+    reject = rej;
   });
   yield;
 
   if (!stats) {
-    throw new Error('no stats after building preview');
+    throw new WebpackMissingStatsError();
   }
 
-  if (stats.hasErrors()) {
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw stats;
+  const { warnings, errors } = getWebpackStats({ config, stats });
+
+  if (warnings.length > 0) {
+    warnings?.forEach((e) => logger.error(e.message));
+  }
+
+  if (errors.length > 0) {
+    throw new WebpackCompilationError({ errors });
   }
 
   return {
@@ -205,6 +214,22 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     totalTime: process.hrtime(startTime),
   };
 };
+
+function getWebpackStats({ config, stats }: { config: Configuration; stats: Stats }) {
+  const statsOptions =
+    typeof config.stats === 'string'
+      ? config.stats
+      : {
+          ...(config.stats as StatsOptions),
+          warnings: true,
+          errors: true,
+        };
+  const { warnings = [], errors = [] } = stats?.toJson(statsOptions) || {};
+  return {
+    warnings,
+    errors,
+  };
+}
 
 /**
  * This function is a generator so that we can abort it mid process
@@ -215,73 +240,47 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 const builder: BuilderFunction = async function* builderGeneratorFn({ startTime, options }) {
   const webpackInstance = await executor.get(options);
   yield;
-  logger.info('=> Compiling preview..');
   const config = await getConfig(options);
+
+  if (config.stats === 'none' || config.stats === 'summary') {
+    throw new WebpackMissingStatsError();
+  }
   yield;
 
   const compiler = webpackInstance(config);
 
   if (!compiler) {
-    const err = `${config.name}: missing webpack compiler at runtime!`;
-    logger.error(err);
-    return {
-      hasErrors: () => true,
-      hasWarnings: () => false,
-      toJson: () => ({ warnings: [] as any[], errors: [err] }),
-    } as any as Stats;
+    throw new WebpackInvocationError({
+      // eslint-disable-next-line local-rules/no-uncategorized-errors
+      error: new Error(`Missing Webpack compiler at runtime!`),
+    });
   }
 
   const webpackCompilation = new Promise<Stats>((succeed, fail) => {
     compiler.run((error, stats) => {
-      if (error || !stats || stats.hasErrors()) {
-        logger.error('=> Failed to build the preview');
-        process.exitCode = 1;
-
-        if (error) {
-          logger.error(error.message);
-
-          compiler.close(() => fail(error));
-
-          return;
-        }
-
-        if (stats && (stats.hasErrors() || stats.hasWarnings())) {
-          const { warnings = [], errors = [] } = stats.toJson(
-            typeof config.stats === 'string'
-              ? config.stats
-              : {
-                  warnings: true,
-                  errors: true,
-                  ...(config.stats as StatsOptions),
-                }
-          );
-
-          errors.forEach((e) => logger.error(e.message));
-          warnings.forEach((e) => logger.error(e.message));
-
-          compiler.close(() =>
-            options.debugWebpack
-              ? fail(stats)
-              : fail(new Error('=> Webpack failed, learn more with --debug-webpack'))
-          );
-
-          return;
-        }
+      if (error) {
+        compiler.close(() => fail(new WebpackInvocationError({ error })));
+        return;
       }
 
-      logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
-      if (stats && stats.hasWarnings()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it has warnings because of hasWarnings()
-        stats
-          .toJson({ warnings: true } as StatsOptions)
-          .warnings!.forEach((e) => logger.warn(e.message));
+      if (!stats) {
+        throw new WebpackMissingStatsError();
       }
 
-      // https://webpack.js.org/api/node/#run
-      // #15227
+      const { warnings, errors } = getWebpackStats({ config, stats });
+
+      if (warnings.length > 0) {
+        warnings?.forEach((e) => logger.error(e.message));
+      }
+
+      if (errors.length > 0) {
+        compiler.close(() => fail(new WebpackCompilationError({ errors })));
+        return;
+      }
+
       compiler.close((closeErr) => {
         if (closeErr) {
-          return fail(closeErr);
+          return fail(new WebpackInvocationError({ error: closeErr }));
         }
 
         return succeed(stats as Stats);

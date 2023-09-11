@@ -239,7 +239,7 @@ export function popParametersObjectFromDefaultExport(source, ast) {
         (targetNode.properties || []).length
       ) {
         const parametersProperty = targetNode.properties.find(
-          (p) => p.key.name === 'parameters' && p.value.type === 'ObjectExpression'
+          (p) => p.key && p.key.name === 'parameters' && p.value.type === 'ObjectExpression'
         );
 
         foundParametersProperty = !!parametersProperty;

@@ -241,6 +241,7 @@ describe('Yarn 1 Proxy', () => {
 
       expect(installations).toMatchInlineSnapshot(`
         Object {
+          "dedupeCommand": "yarn dedupe",
           "dependencies": Object {
             "@storybook/addon-interactions": Array [
               Object {

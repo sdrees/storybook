@@ -91,6 +91,9 @@ export class Yarn1Proxy extends JsPackageManager {
     const commandResult = await this.executeCommand({
       command: 'yarn',
       args: ['list', '--pattern', pattern.map((p) => `"${p}"`).join(' '), '--recursive', '--json'],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -215,6 +218,7 @@ export class Yarn1Proxy extends JsPackageManager {
         dependencies: acc,
         duplicatedDependencies,
         infoCommand: 'yarn why',
+        dedupeCommand: 'yarn dedupe',
       };
     }
 

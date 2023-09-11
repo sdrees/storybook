@@ -142,6 +142,9 @@ export class NPMProxy extends JsPackageManager {
       args: ['ls', '--json', '--depth=99', pipeToNull],
       // ignore errors, because npm ls will exit with code 1 if there are e.g. unmet peer dependencies
       ignoreError: true,
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -272,6 +275,7 @@ export class NPMProxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'npm ls --depth=1',
+      dedupeCommand: 'npm dedupe',
     };
   }
 

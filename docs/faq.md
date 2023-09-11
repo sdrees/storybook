@@ -373,7 +373,7 @@ Yes, with the release of version 6.2, Storybook now includes support for Vue 3. 
 
 ## Why aren't my code blocks highlighted with Storybook MDX
 
-Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) you can use with your code blocks. Currently, there's a know limitation when you try and register a custom language to get syntax highlighting. We're working on a fix for this And will update this section once it's available.
+Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) you can use with your code blocks. Currently, there's a known limitation when you try and register a custom language to get syntax highlighting. We're working on a fix for this And will update this section once it's available.
 
 ## Why aren't my MDX 2 stories working in Storybook?
 
