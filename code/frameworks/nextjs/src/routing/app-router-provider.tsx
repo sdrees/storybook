@@ -74,6 +74,7 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
               apply: false,
               hashFragment: null,
               segmentPaths: [tree],
+              onlyHashChange: false,
             },
             nextUrl: pathname,
           }}

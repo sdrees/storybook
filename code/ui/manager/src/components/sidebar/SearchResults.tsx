@@ -172,14 +172,12 @@ const Result: FC<
     node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
   }
 
-  const [i, iconColor] = item.status ? statusMapping[item.status] : [];
+  const [i] = item.status ? statusMapping[item.status] : [];
 
   return (
     <ResultRow {...props}>
       {node}
-      {item.status ? (
-        <Icons width="8px" height="8px" icon={i} style={{ color: iconColor }} />
-      ) : null}
+      {item.status ? i : null}
     </ResultRow>
   );
 });

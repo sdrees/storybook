@@ -14,7 +14,7 @@ export const experimental_indexers: StorybookConfig['experimental_indexers'] = (
 ) => [
   {
     test: /(stories|story)\.(json|ya?ml)$/,
-    index: async (fileName) => {
+    createIndex: async (fileName) => {
       const content: FileContent = fileName.endsWith('.json')
         ? await fs.readJson(fileName, 'utf-8')
         : yaml.parse((await fs.readFile(fileName, 'utf-8')).toString());

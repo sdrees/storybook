@@ -1,3 +1,19 @@
+## 7.5.0-alpha.2
+
+- Angular: Categorize legacy build options error - [#24014](https://github.com/storybookjs/storybook/pull/24014), thanks [@yannbf](https://github.com/yannbf)!
+- Builder-Webpack5: Categorize builder error - [#24031](https://github.com/storybookjs/storybook/pull/24031), thanks [@yannbf](https://github.com/yannbf)!
+- CI: Inform the user how to dedupe and strip color from info command - [#24087](https://github.com/storybookjs/storybook/pull/24087), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- CLI: Fix packageManager handling in `sb add` - [#24079](https://github.com/storybookjs/storybook/pull/24079), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- CLI: Improve sanitization logic in crash reports - [#24028](https://github.com/storybookjs/storybook/pull/24028), thanks [@yannbf](https://github.com/yannbf)!
+- Maintenance: Add more context to explanation in core-events errors - [#24063](https://github.com/storybookjs/storybook/pull/24063), thanks [@yannbf](https://github.com/yannbf)!
+- Monorepo: Fix `svelte-vite` detection - [#24085](https://github.com/storybookjs/storybook/pull/24085), thanks [@legnaleurc](https://github.com/legnaleurc)!
+- NextJS: Fix Image Context reuse (ensure singleton by externalizing it) - [#23881](https://github.com/storybookjs/storybook/pull/23881), thanks [@martinnabhan](https://github.com/martinnabhan)!
+- Source-loader: Fix property key validation - [#24068](https://github.com/storybookjs/storybook/pull/24068), thanks [@MrZillaGold](https://github.com/MrZillaGold)!
+- Svelte: Fix generated properties on Svelte event handler - [#24020](https://github.com/storybookjs/storybook/pull/24020), thanks [@j3rem1e](https://github.com/j3rem1e)!
+- Telemetry: Add platform info to telemetry event - [#24081](https://github.com/storybookjs/storybook/pull/24081), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Fix target id in searchfield label - [#23464](https://github.com/storybookjs/storybook/pull/23464), thanks [@plumpNation](https://github.com/plumpNation)!
+- Vue3: Remove console.log in sourceDecorator - [#24062](https://github.com/storybookjs/storybook/pull/24062), thanks [@oruman](https://github.com/oruman)!
+
 ## 7.5.0-alpha.1
 
 - Core: Add CJS entrypoints to errors in core events - [#24038](https://github.com/storybookjs/storybook/pull/24038), thanks [@yannbf](https://github.com/yannbf)!

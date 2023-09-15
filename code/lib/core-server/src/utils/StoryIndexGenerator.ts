@@ -306,7 +306,7 @@ export class StoryIndexGenerator {
       });
     }
 
-    const indexInputs = await indexer.index(absolutePath, { makeTitle: defaultMakeTitle });
+    const indexInputs = await indexer.createIndex(absolutePath, { makeTitle: defaultMakeTitle });
 
     const entries: ((StoryIndexEntryWithMetaId | DocsCacheEntry) & { tags: Tag[] })[] =
       indexInputs.map((input) => {

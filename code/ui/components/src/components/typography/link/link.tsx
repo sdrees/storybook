@@ -73,13 +73,13 @@ const A = styled.a<LinkStylesProps>(
     '&:hover, &:focus': {
       cursor: 'pointer',
       color: darken(0.07, theme.color.secondary),
-      'svg path': {
+      'svg path:not([fill])': {
         fill: darken(0.07, theme.color.secondary),
       },
     },
     '&:active': {
       color: darken(0.1, theme.color.secondary),
-      'svg path': {
+      'svg path:not([fill])': {
         fill: darken(0.1, theme.color.secondary),
       },
     },
@@ -110,20 +110,20 @@ const A = styled.a<LinkStylesProps>(
     return colors
       ? {
           color: colors[0],
-          'svg path': {
+          'svg path:not([fill])': {
             fill: colors[0],
           },
 
           '&:hover': {
             color: colors[1],
-            'svg path': {
+            'svg path:not([fill])': {
               fill: colors[1],
             },
           },
 
           '&:active': {
             color: colors[2],
-            'svg path': {
+            'svg path:not([fill])': {
               fill: colors[2],
             },
           },
@@ -145,20 +145,20 @@ const A = styled.a<LinkStylesProps>(
     inverse
       ? {
           color: theme.color.lightest,
-          'svg path': {
+          ':not([fill])': {
             fill: theme.color.lightest,
           },
 
           '&:hover': {
             color: theme.color.lighter,
-            'svg path': {
+            'svg path:not([fill])': {
               fill: theme.color.lighter,
             },
           },
 
           '&:active': {
             color: theme.color.light,
-            'svg path': {
+            'svg path:not([fill])': {
               fill: theme.color.light,
             },
           },

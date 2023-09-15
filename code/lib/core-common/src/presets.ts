@@ -11,6 +11,7 @@ import type {
   Presets,
 } from '@storybook/types';
 import { join, parse } from 'path';
+import { CriticalPresetLoadError } from '@storybook/core-events/server-errors';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
@@ -218,9 +219,10 @@ export async function loadPreset(
   level: number,
   storybookOptions: InterPresetOptions
 ): Promise<LoadedPreset[]> {
+  // @ts-expect-error (Converted from ts-ignore)
+  const presetName: string = input.name ? input.name : input;
+
   try {
-    // @ts-expect-error (Converted from ts-ignore)
-    const name: string = input.name ? input.name : input;
     // @ts-expect-error (Converted from ts-ignore)
     const presetOptions = input.options ? input.options : {};
 
@@ -250,7 +252,7 @@ export async function loadPreset(
           storybookOptions
         )),
         {
-          name,
+          name: presetName,
           preset: rest,
           options: presetOptions,
         },
@@ -260,14 +262,21 @@ export async function loadPreset(
     throw new Error(dedent`
       ${input} is not a valid preset
     `);
-  } catch (e: any) {
+  } catch (error: any) {
+    if (storybookOptions?.isCritical) {
+      throw new CriticalPresetLoadError({
+        error,
+        presetName,
+      });
+    }
+
     const warning =
       level > 0
         ? `  Failed to load preset: ${JSON.stringify(input)} on level ${level}`
         : `  Failed to load preset: ${JSON.stringify(input)}`;
 
     logger.warn(warning);
-    logger.error(e);
+    logger.error(error);
     return [];
   }
 }
@@ -345,7 +354,10 @@ function applyPresets(
   }, presetResult);
 }
 
-type InterPresetOptions = Omit<CLIOptions & LoadOptions & BuilderOptions, 'frameworkPresets'>;
+type InterPresetOptions = Omit<
+  CLIOptions & LoadOptions & BuilderOptions & { isCritical?: boolean },
+  'frameworkPresets'
+>;
 
 export async function getPresets(
   presets: PresetConfig[],
@@ -365,6 +377,8 @@ export async function loadAllPresets(
     BuilderOptions & {
       corePresets: PresetConfig[];
       overridePresets: PresetConfig[];
+      /** Whether preset failures should be critical or not */
+      isCritical?: boolean;
     }
 ) {
   const { corePresets = [], overridePresets = [], ...restOptions } = options;

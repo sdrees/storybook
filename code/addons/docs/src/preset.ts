@@ -135,7 +135,7 @@ async function webpack(
 
 export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
   test: /(stories|story)\.mdx$/,
-  index: async (fileName, opts) => {
+  createIndex: async (fileName, opts) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = legacyMdx1
       ? await import('@storybook/mdx1-csf')

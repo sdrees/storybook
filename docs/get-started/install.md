@@ -2,6 +2,8 @@
 title: 'Install Storybook'
 ---
 
+<YouTubeCallout id="CtfU1UnizHU" title="New Storybook" />
+
 Use the Storybook CLI to install it in a single command. Run this inside your _existing project’s_ root directory:
 
 <!-- prettier-ignore-start -->

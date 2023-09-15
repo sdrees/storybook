@@ -167,7 +167,7 @@ const ButtonWrapper = styled.button<{
           boxShadow: `${color} 0 0 0 1px inset`,
           color,
 
-          'svg path': {
+          'svg path:not([fill])': {
             fill: color,
           },
 
@@ -205,7 +205,7 @@ const ButtonWrapper = styled.button<{
           boxShadow: `${color} 0 0 0 1px inset`,
           color,
 
-          'svg path': {
+          'svg path:not([fill])': {
             fill: color,
           },
 

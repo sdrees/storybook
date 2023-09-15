@@ -37,44 +37,47 @@ import {
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
 
-export const Action = styled.button(({ theme }) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: 20,
-  height: 20,
-  margin: 0,
-  marginLeft: 'auto',
-  padding: 0,
-  outline: 0,
-  lineHeight: 'normal',
-  background: 'none',
-  border: `1px solid transparent`,
-  borderRadius: '100%',
-  cursor: 'pointer',
-  transition: 'all 150ms ease-out',
-  color:
-    theme.base === 'light'
-      ? transparentize(0.3, theme.color.defaultText)
-      : transparentize(0.6, theme.color.defaultText),
+export const Action = styled.button<{ height?: number; width?: number }>(
+  ({ theme, height, width }) => ({
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width || 20,
+    height: height || 20,
+    boxSizing: 'border-box',
+    margin: 0,
+    marginLeft: 'auto',
+    padding: 0,
+    outline: 0,
+    lineHeight: 'normal',
+    background: 'none',
+    border: `1px solid transparent`,
+    borderRadius: '100%',
+    cursor: 'pointer',
+    transition: 'all 150ms ease-out',
+    color:
+      theme.base === 'light'
+        ? transparentize(0.3, theme.color.defaultText)
+        : transparentize(0.6, theme.color.defaultText),
 
-  '&:hover': {
-    color: theme.color.secondary,
-  },
-  '&:focus': {
-    color: theme.color.secondary,
-    borderColor: theme.color.secondary,
-
-    '&:not(:focus-visible)': {
-      borderColor: 'transparent',
+    '&:hover': {
+      color: theme.color.secondary,
     },
-  },
+    '&:focus': {
+      color: theme.color.secondary,
+      borderColor: theme.color.secondary,
 
-  svg: {
-    width: 10,
-    height: 10,
-  },
-}));
+      '&:not(:focus-visible)': {
+        borderColor: 'transparent',
+      },
+    },
+
+    svg: {
+      width: 10,
+      height: 10,
+    },
+  })
+);
 
 const CollapseButton = styled.button(({ theme }) => ({
   // Reset button
@@ -207,7 +210,7 @@ const Node = React.memo<NodeProps>(function Node({
     const LeafNode = item.type === 'docs' ? DocumentNode : StoryNode;
 
     const statusValue = getHighestStatus(Object.values(status || {}).map((s) => s.status));
-    const [icon, iconColor, textColor] = statusMapping[statusValue];
+    const [icon, textColor] = statusMapping[statusValue];
 
     return (
       <LeafNodeStyleWrapper
@@ -241,25 +244,21 @@ const Node = React.memo<NodeProps>(function Node({
         {icon ? (
           <WithTooltip
             placement="top"
+            style={{ display: 'flex' }}
             tooltip={() => (
               <TooltipLinkList
                 links={Object.entries(status || {}).map(([k, v]) => ({
                   id: k,
                   title: v.title,
                   description: v.description,
-                  right: (
-                    <Icons
-                      icon={statusMapping[v.status][0]}
-                      style={{ color: statusMapping[v.status][1] }}
-                    />
-                  ),
+                  right: statusMapping[v.status][0],
                 }))}
               />
             )}
             closeOnOutsideClick
           >
-            <Action type="button">
-              <Icons icon={icon} style={{ color: isSelected ? 'white' : iconColor }} />
+            <Action type="button" height={22}>
+              {icon}
             </Action>
           </WithTooltip>
         ) : null}
@@ -530,7 +529,7 @@ export const Tree = React.memo<{
         }
 
         const isDisplayed = !item.parent || ancestry[itemId].every((a: string) => expanded[a]);
-        const color = groupStatus[itemId] ? statusMapping[groupStatus[itemId]][2] : null;
+        const color = groupStatus[itemId] ? statusMapping[groupStatus[itemId]][1] : null;
 
         return (
           <Node

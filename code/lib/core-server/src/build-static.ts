@@ -87,6 +87,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     overridePresets: [
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
+    isCritical: true,
     ...options,
   });
 

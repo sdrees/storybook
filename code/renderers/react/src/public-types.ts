@@ -25,7 +25,7 @@ type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
+export type Meta<TCmpOrArgs = Args> = [TCmpOrArgs] extends [ComponentType<any>]
   ? ComponentAnnotations<ReactRenderer, ComponentProps<TCmpOrArgs>>
   : ComponentAnnotations<ReactRenderer, TCmpOrArgs>;
 
@@ -34,7 +34,7 @@ export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
+export type StoryFn<TCmpOrArgs = Args> = [TCmpOrArgs] extends [ComponentType<any>]
   ? AnnotatedStoryFn<ReactRenderer, ComponentProps<TCmpOrArgs>>
   : AnnotatedStoryFn<ReactRenderer, TCmpOrArgs>;
 
@@ -43,11 +43,13 @@ export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
-  render?: ArgsStoryFn<ReactRenderer, any>;
-  component?: infer Component;
-  args?: infer DefaultArgs;
-}
+export type StoryObj<TMetaOrCmpOrArgs = Args> = [TMetaOrCmpOrArgs] extends [
+  {
+    render?: ArgsStoryFn<ReactRenderer, any>;
+    component?: infer Component;
+    args?: infer DefaultArgs;
+  }
+]
   ? Simplify<
       (Component extends ComponentType<any> ? ComponentProps<Component> : unknown) &
         ArgsFromMeta<ReactRenderer, TMetaOrCmpOrArgs>

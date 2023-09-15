@@ -274,3 +274,29 @@ test('Components without Props can be used, issue #21768', () => {
   type Expected = ReactStory<{}, {}>;
   expectTypeOf(Basic).toEqualTypeOf<Expected>();
 });
+
+test('Meta is broken when using discriminating types, issue #23629', () => {
+  type TestButtonProps = {
+    text: string;
+  } & (
+    | {
+        id?: string;
+        onClick?: (e: unknown, id: string | undefined) => void;
+      }
+    | {
+        id: string;
+        onClick: (e: unknown, id: string) => void;
+      }
+  );
+  const TestButton: React.FC<TestButtonProps> = ({ text }) => {
+    return <p>{text}</p>;
+  };
+
+  expectTypeOf({
+    title: 'Components/Button',
+    component: TestButton,
+    args: {
+      text: 'Button',
+    },
+  }).toMatchTypeOf<Meta<TestButtonProps>>();
+});

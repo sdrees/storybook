@@ -102,6 +102,12 @@ describe('presets', () => {
     await expect(testPresets()).resolves.toBeUndefined();
   });
 
+  it('throws when preset can not be loaded and is critical', async () => {
+    const { getPresets } = jest.requireActual('./presets');
+
+    await expect(getPresets(['preset-foo'], { isCritical: true })).rejects.toThrow();
+  });
+
   it('loads and applies presets when they are combined in another preset', async () => {
     mockPreset('preset-foo', {
       foo: (exec: string[]) => exec.concat('foo'),

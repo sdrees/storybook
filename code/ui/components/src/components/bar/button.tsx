@@ -116,7 +116,7 @@ export const IconButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid 
     active
       ? {
           backgroundColor: theme.background.hoverable,
-          color: theme.color.secondary,
+          color: theme.barSelectedColor,
         }
       : {},
   ({ disabled, theme }) =>
@@ -128,7 +128,7 @@ export const IconButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid 
       : {
           '&:hover, &:focus-visible': {
             background: transparentize(0.88, theme.color.secondary),
-            color: theme.color.secondary,
+            color: theme.barHoverColor,
           },
           '&:focus-visible': {
             outline: auto, // Ensures links have the same focus style

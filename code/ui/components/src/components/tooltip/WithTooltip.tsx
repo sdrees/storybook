@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { ComponentProps, FC, ReactNode } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { styled } from '@storybook/theming';
@@ -28,6 +28,7 @@ interface WithHideFn {
 
 export interface WithTooltipPureProps
   extends Omit<ReactPopperTooltipConfig, 'closeOnOutsideClick'>,
+    Omit<ComponentProps<typeof TargetContainer>, 'trigger'>,
     PopperOptions {
   svg?: boolean;
   withArrows?: boolean;
@@ -129,7 +130,7 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
 
   return (
     <>
-      <Container trigger={trigger} ref={setTriggerRef as any} {...props}>
+      <Container trigger={trigger} ref={setTriggerRef as any} {...(props as any)}>
         {children}
       </Container>
       {isVisible && ReactDOM.createPortal(tooltipComponent, document.body)}

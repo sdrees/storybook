@@ -34,7 +34,7 @@ describe('story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             // properties identical to the auto-generated ones, eg. 'StoryOne' -> 'Story One'
             {
               type: 'story',
@@ -107,7 +107,7 @@ describe('story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
               importPath: fileName,
@@ -150,7 +150,7 @@ describe('story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
               __id: 'a--story-one',
@@ -198,7 +198,7 @@ describe('story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
               __id: 'a--story-one',
@@ -246,7 +246,7 @@ describe('story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             // exportName + title -> id
             {
               exportName: 'StoryOne',
@@ -336,7 +336,7 @@ describe('story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
               tags: ['story-tag-from-indexer'],
@@ -383,7 +383,7 @@ describe('docs entries from story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
               __id: 'a--story-one',
@@ -444,7 +444,7 @@ describe('docs entries from story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
               __id: 'a--story-one',
@@ -506,7 +506,7 @@ describe('docs entries from story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
               __id: 'a--story-one',
@@ -555,7 +555,7 @@ describe('docs entries from story extraction', () => {
       indexers: [
         {
           test: /\.stories\.(m?js|ts)x?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
               __id: 'a--story-one',
@@ -617,7 +617,7 @@ describe('docs entries from story extraction', () => {
       indexers: [
         {
           test: /\.stories\.mdx?$/,
-          index: async (fileName) => [
+          createIndex: async (fileName) => [
             {
               exportName: '__page',
               __id: 'page--page',

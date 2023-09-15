@@ -68,7 +68,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   };
 };
 
-export const config: StorybookConfig['previewAnnotations'] = (entry = []) => [
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => [
   ...entry,
   require.resolve('@storybook/nextjs/preview.js'),
 ];

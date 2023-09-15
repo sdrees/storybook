@@ -197,7 +197,7 @@ export const features = async (
 
 export const csfIndexer: Indexer = {
   test: /(stories|story)\.(m?js|ts)x?$/,
-  index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
+  createIndex: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

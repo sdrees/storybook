@@ -88,6 +88,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     textColor,
     textInverseColor,
     barTextColor,
+    barHoverColor,
     barSelectedColor,
     barBg,
     buttonBg,
@@ -157,6 +158,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
 
     // Toolbar default/active colors
     barTextColor,
+    barHoverColor: barHoverColor || colorSecondary,
     barSelectedColor: barSelectedColor || colorSecondary,
     barBg,
 

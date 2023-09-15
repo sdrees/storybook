@@ -196,7 +196,7 @@ export interface Addon_BaseAnnotations<
 
   /**
    * Custom metadata for a story.
-   * @see [Parameters](https://storybook.js.org/docs/basics/writing-stories/#parameters)
+   * @see [Parameters](https://storybook.js.org/docs/react/writing-stories/parameters)
    */
   parameters?: Parameters;
 

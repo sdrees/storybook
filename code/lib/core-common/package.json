@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.5.0-alpha.1",
+  "version": "7.5.0-alpha.2",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -53,7 +53,7 @@
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
     "esbuild": "^0.18.0",
-    "esbuild-register": "^3.4.0",
+    "esbuild-register": "^3.5.0",
     "file-system-cache": "2.3.0",
     "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",

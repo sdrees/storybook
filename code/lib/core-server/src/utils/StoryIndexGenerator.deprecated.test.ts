@@ -1166,7 +1166,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           indexers: [
             {
               test: /\.stories\.(m?js|ts)x?$/,
-              index: async (fileName, options) => {
+              createIndex: async (fileName, options) => {
                 const code = (await fs.readFile(fileName, 'utf-8')).toString();
                 const csf = loadCsf(code, { ...options, fileName }).parse();
 

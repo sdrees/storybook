@@ -1,19 +1,33 @@
-import type { Icons } from '@storybook/components';
-import type { ComponentProps } from 'react';
+import React from 'react';
+import { Icons } from '@storybook/components';
+import type { ReactElement } from 'react';
 import type { API_HashEntry, API_StatusState, API_StatusValue } from '@storybook/types';
+
+import { styled } from '@storybook/theming';
 // eslint-disable-next-line import/no-cycle
 import { getDescendantIds } from './tree';
 
+const SmallIcons = styled(Icons)({
+  // specificity hack
+  '&&&': {
+    width: 6,
+    height: 6,
+  },
+});
+
+const LoadingIcons = styled(SmallIcons)(({ theme: { animation, color, base } }) => ({
+  // specificity hack
+  animation: `${animation.glow} 1.5s ease-in-out infinite`,
+  color: base === 'light' ? color.mediumdark : color.darker,
+}));
+
 export const statusPriority: API_StatusValue[] = ['unknown', 'pending', 'success', 'warn', 'error'];
-export const statusMapping: Record<
-  API_StatusValue,
-  [ComponentProps<typeof Icons>['icon'] | null, string | null, string | null]
-> = {
-  unknown: [null, null, null],
-  pending: ['watch', 'currentColor', 'currentColor'],
-  success: ['circle', 'green', 'currentColor'],
-  warn: ['circle', 'orange', '#A15C20'],
-  error: ['circle', 'red', 'brown'],
+export const statusMapping: Record<API_StatusValue, [ReactElement | null, string | null]> = {
+  unknown: [null, null],
+  pending: [<LoadingIcons key="icon" icon="circle" />, 'currentColor'],
+  success: [<SmallIcons key="icon" icon="circle" style={{ color: 'green' }} />, 'currentColor'],
+  warn: [<SmallIcons key="icon" icon="circle" style={{ color: 'orange' }} />, '#A15C20'],
+  error: [<SmallIcons key="icon" icon="circle" style={{ color: 'red' }} />, 'brown'],
 };
 
 export const getHighestStatus = (statuses: API_StatusValue[]): API_StatusValue => {
