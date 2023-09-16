@@ -17,6 +17,7 @@ To opt into a builder, the user must add it as a dependency and then edit their 
 <CodeSnippets
   paths={[
     'common/storybook-vite-builder-install.yarn.js.mdx',
+    'common/storybook-vite-builder-install.pnpm.js.mdx',
     'common/storybook-vite-builder-install.npm.js.mdx',
   ]}
 />
