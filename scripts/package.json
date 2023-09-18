@@ -46,13 +46,13 @@
     ]
   },
   "resolutions": {
+    "@testing-library/jest-dom": "^5.11.9",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/experimental-utils": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "esbuild": "^0.18.0",
     "eslint": "^8.28.0",
     "serialize-javascript": "^3.1.0",
-    "@testing-library/jest-dom": "^5.11.9",
     "type-fest": "~2.19"
   },
   "dependencies": {

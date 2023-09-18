@@ -328,3 +328,43 @@ export class MissingBuilderError extends StorybookError {
     `;
   }
 }
+
+export class GoogleFontsDownloadError extends StorybookError {
+  readonly category = Category.FRAMEWORK_NEXTJS;
+
+  readonly code = 1;
+
+  public readonly documentation =
+    'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md#nextjs-font-optimization';
+
+  constructor(public data: { fontFamily: string; url: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      Failed to fetch \`${this.data.fontFamily}\` from Google Fonts with URL: \`${this.data.url}\`
+    `;
+  }
+}
+
+export class GoogleFontsLoadingError extends StorybookError {
+  readonly category = Category.FRAMEWORK_NEXTJS;
+
+  readonly code = 2;
+
+  public readonly documentation =
+    'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md#nextjs-font-optimization';
+
+  constructor(public data: { error: unknown | Error; url: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      An error occurred when trying to load Google Fonts with URL \`${this.data.url}\`.
+      
+      ${this.data.error instanceof Error ? this.data.error.message : ''}
+    `;
+  }
+}

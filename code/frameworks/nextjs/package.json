@@ -95,6 +95,7 @@
     "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",

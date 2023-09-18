@@ -1,6 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import loaderUtils from 'next/dist/compiled/loader-utils3';
+import {
+  GoogleFontsDownloadError,
+  GoogleFontsLoadingError,
+} from '@storybook/core-events/server-errors';
 import type { LoaderOptions } from '../types';
 
 const cssCache = new Map<string, Promise<string>>();
@@ -33,7 +37,10 @@ export async function getFontFaceDeclarations(options: LoaderOptions) {
       cssCache.delete(url);
     }
     if (fontFaceCSS === null) {
-      throw Error(`Failed to fetch \`${fontFamily}\` from Google Fonts.`);
+      throw new GoogleFontsDownloadError({
+        fontFamily,
+        url,
+      });
     }
 
     return {
@@ -45,6 +52,6 @@ export async function getFontFaceDeclarations(options: LoaderOptions) {
       variable,
     };
   } catch (error) {
-    throw new Error("Google Fonts couldn't be loaded.");
+    throw new GoogleFontsLoadingError({ error, url });
   }
 }
