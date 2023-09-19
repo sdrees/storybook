@@ -15,7 +15,7 @@ export const isReduceMotionEnabled = () => {
 export const getBackgroundColorByName = (
   currentSelectedValue: string,
   backgrounds: Background[] = [],
-  defaultName: string
+  defaultName: string | null | undefined
 ): string => {
   if (currentSelectedValue === 'transparent') {
     return 'transparent';
@@ -52,7 +52,7 @@ export const clearStyles = (selector: string | string[]) => {
 const clearStyle = (selector: string) => {
   const element = document.getElementById(selector) as HTMLElement;
   if (element) {
-    element.parentElement.removeChild(element);
+    element.parentElement?.removeChild(element);
   }
 };
 
@@ -70,7 +70,7 @@ export const addGridStyle = (selector: string, css: string) => {
   }
 };
 
-export const addBackgroundStyle = (selector: string, css: string, storyId: string) => {
+export const addBackgroundStyle = (selector: string, css: string, storyId: string | null) => {
   const existingStyle = document.getElementById(selector) as HTMLElement;
   if (existingStyle) {
     if (existingStyle.innerHTML !== css) {
@@ -85,7 +85,7 @@ export const addBackgroundStyle = (selector: string, css: string, storyId: strin
     // If grids already exist, we want to add the style tag BEFORE it so the background doesn't override grid
     const existingGridStyle = document.getElementById(gridStyleSelector) as HTMLElement;
     if (existingGridStyle) {
-      existingGridStyle.parentElement.insertBefore(style, existingGridStyle);
+      existingGridStyle.parentElement?.insertBefore(style, existingGridStyle);
     } else {
       document.head.appendChild(style);
     }

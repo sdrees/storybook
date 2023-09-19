@@ -152,7 +152,7 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
         controls: {
           matchers: {
            color: /(background|color)$/i,
-           date: /Date$/,
+           date: /Date$/i,
           },
         },
       },

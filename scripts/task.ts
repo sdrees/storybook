@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
+import invariant from 'tiny-invariant';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -35,7 +36,6 @@ import {
 } from '../code/lib/cli/src/sandbox-templates';
 
 import { version } from '../code/package.json';
-import invariant from 'tiny-invariant';
 
 const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 

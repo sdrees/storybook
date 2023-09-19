@@ -14,6 +14,19 @@ function getBrowserInfo() {
   return browserInfo;
 }
 
+// If you're adding errors to filter, please explain why they should be filtered.
+const errorMessages = [
+  // It's a harmless issue with react-resize-detector that supposedly will be gone when we move to React 18.
+  // https://github.com/maslianok/react-resize-detector/issues/45#issuecomment-1500958024
+  'ResizeObserver loop completed with undelivered notifications.',
+  'ResizeObserver loop limit exceeded',
+  // Safari does not seem to provide any helpful info on window.onerror
+  // https://bugs.webkit.org/show_bug.cgi?id=132945
+  'Script error.',
+];
+
+export const shouldSkipError = (error: Error) => errorMessages.includes(error?.message);
+
 export function prepareForTelemetry(
   originalError: Error & {
     fromStorybook?: boolean;

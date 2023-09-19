@@ -1,5 +1,5 @@
 import type { FC, MutableRefObject } from 'react';
-import React, { useMemo, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import type { State } from '@storybook/manager-api';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
@@ -130,6 +130,12 @@ export const Ref: FC<RefType & RefProps & { status?: State['status'] }> = React.
 
   const state = getStateType(isLoading, isAuthRequired, isError, isEmpty);
   const [isExpanded, setExpanded] = useState<boolean>(expanded);
+
+  useEffect(() => {
+    if (index && selectedStoryId && index[selectedStoryId]) {
+      setExpanded(true);
+    }
+  }, [setExpanded, index, selectedStoryId]);
 
   const handleClick = useCallback(() => setExpanded((value) => !value), [setExpanded]);
 

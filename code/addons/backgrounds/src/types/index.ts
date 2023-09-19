@@ -20,7 +20,7 @@ export interface Background {
 }
 
 export interface BackgroundsParameter {
-  default?: string;
+  default?: string | null;
   disable?: boolean;
   values: Background[];
 }

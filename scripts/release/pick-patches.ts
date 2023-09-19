@@ -4,9 +4,9 @@ import program from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
 import { setOutput } from '@actions/core';
+import invariant from 'tiny-invariant';
 import { git } from './utils/git-client';
 import { getUnpickedPRs } from './utils/github-client';
-import invariant from 'tiny-invariant';
 
 program.name('pick-patches').description('Cherry pick patch PRs back to main');
 

@@ -72,7 +72,7 @@ const BranchNode = styled.button<{
   fontSize: `${theme.typography.size.s2 - 1}px`,
   background: 'transparent',
   '&:hover, &:focus': {
-    background: theme.background.hoverable,
+    background: transparentize(0.93, theme.color.secondary),
     outline: 'none',
   },
 }));

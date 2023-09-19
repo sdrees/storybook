@@ -132,7 +132,7 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   background: 'transparent',
   '&:hover, &:focus': {
     outline: 'none',
-    background: theme.background.hoverable,
+    background: transparentize(0.93, theme.color.secondary),
   },
   '&[data-selected="true"]': {
     color: theme.color.lightest,

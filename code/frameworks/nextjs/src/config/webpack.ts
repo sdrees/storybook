@@ -17,6 +17,8 @@ export const configureConfig = async ({
   const nextConfig = await resolveNextConfig({ baseConfig, nextConfigPath, configDir });
 
   addScopedAlias(baseConfig, 'next/config');
+  addScopedAlias(baseConfig, 'react', 'next/dist/compiled/react');
+  addScopedAlias(baseConfig, 'react-dom', 'next/dist/compiled/react-dom');
   setupRuntimeConfig(baseConfig, nextConfig);
 
   return nextConfig;

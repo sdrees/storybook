@@ -9,7 +9,7 @@ import pLimit from 'p-limit';
 import type { Server } from 'http';
 import { mkdir } from 'fs/promises';
 import { PACKS_DIRECTORY } from './utils/constants';
-// @ts-expect-error (Converted from ts-ignore)
+
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages } from './utils/list-packages';
 

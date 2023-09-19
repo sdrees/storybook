@@ -54,7 +54,7 @@
     "chalk": "^4.1.0",
     "esbuild": "^0.18.0",
     "esbuild-register": "^3.5.0",
-    "file-system-cache": "2.3.0",
+    "file-system-cache": "^2.4.4",
     "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
@@ -69,6 +69,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
     "@types/mock-fs": "^4.13.1",
     "@types/picomatch": "^2.3.0",
     "mock-fs": "^5.2.0",
