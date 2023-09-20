@@ -386,30 +386,34 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
 }
 
 // cache for taking care of HMR
-const addonStateCache: {
-  [key: string]: any;
-} = {};
+globalThis.STORYBOOK_ADDON_STATE = {};
+const { STORYBOOK_ADDON_STATE } = globalThis;
 
 // shared state
 export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
-  const existingState = api.getAddonState<S>(stateId) || addonStateCache[stateId];
+  const existingState = api.getAddonState<S>(stateId) || STORYBOOK_ADDON_STATE[stateId];
   const state = orDefault<S>(
     existingState,
-    addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
+    STORYBOOK_ADDON_STATE[stateId] ? STORYBOOK_ADDON_STATE[stateId] : defaultState
   );
 
+  let quicksync = false;
+
+  if (state === defaultState && defaultState !== undefined) {
+    STORYBOOK_ADDON_STATE[stateId] = defaultState;
+    quicksync = true;
+  }
+
   useEffect(() => {
-    if (api.getAddonState(stateId) === undefined && api.getAddonState(stateId) !== state) {
-      api.setAddonState<S>(stateId, state).then((s) => {
-        addonStateCache[stateId] = s;
-      });
+    if (quicksync) {
+      api.setAddonState<S>(stateId, defaultState);
     }
-  }, [api]);
+  });
 
   const setState = (s: S | API_StateMerger<S>, options?: Options) => {
     const result = api.setAddonState<S>(stateId, s, options);
-    addonStateCache[stateId] = result;
+    STORYBOOK_ADDON_STATE[stateId] = result;
     return result;
   };
   const allListeners = useMemo(() => {
@@ -421,17 +425,17 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
       [SET_STORIES]: async () => {
         const currentState = api.getAddonState(stateId);
         if (currentState) {
-          addonStateCache[stateId] = currentState;
+          STORYBOOK_ADDON_STATE[stateId] = currentState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, currentState);
-        } else if (addonStateCache[stateId]) {
+        } else if (STORYBOOK_ADDON_STATE[stateId]) {
           // this happens when HMR
-          await setState(addonStateCache[stateId]);
-          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, addonStateCache[stateId]);
+          await setState(STORYBOOK_ADDON_STATE[stateId]);
+          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, STORYBOOK_ADDON_STATE[stateId]);
         } else if (defaultState !== undefined) {
           // if not HMR, yet the defaults are from the manager
           await setState(defaultState);
-          // initialize addonStateCache after first load, so its available for subsequent HMR
-          addonStateCache[stateId] = defaultState;
+          // initialize STORYBOOK_ADDON_STATE after first load, so its available for subsequent HMR
+          STORYBOOK_ADDON_STATE[stateId] = defaultState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, defaultState);
         }
       },

@@ -3503,6 +3503,19 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
 
       preview.onKeydown({
+        composedPath: jest
+          .fn()
+          .mockReturnValue([{ tagName: 'div', getAttribute: jest.fn().mockReturnValue(null) }]),
+      } as any);
+
+      expect(mockChannel.emit).toHaveBeenCalledWith(PREVIEW_KEYDOWN, expect.objectContaining({}));
+    });
+
+    it('emits PREVIEW_KEYDOWN for regular elements, fallback to event.target', async () => {
+      document.location.search = '?id=component-one--docs&viewMode=docs';
+      const preview = await createAndRenderPreview();
+
+      preview.onKeydown({
         target: { tagName: 'div', getAttribute: jest.fn().mockReturnValue(null) },
       } as any);
 
@@ -3514,7 +3527,9 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
 
       preview.onKeydown({
-        target: { tagName: 'input', getAttribute: jest.fn().mockReturnValue(null) },
+        composedPath: jest
+          .fn()
+          .mockReturnValue([{ tagName: 'input', getAttribute: jest.fn().mockReturnValue(null) }]),
       } as any);
 
       expect(mockChannel.emit).not.toHaveBeenCalledWith(

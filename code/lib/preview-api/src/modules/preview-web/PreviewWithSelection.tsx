@@ -45,7 +45,7 @@ import type { StorySpecifier } from '../store/StoryIndexStore';
 const globalWindow = globalThis;
 
 function focusInInput(event: Event) {
-  const target = event.target as Element;
+  const target = ((event.composedPath && event.composedPath()[0]) || event.target) as Element;
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 

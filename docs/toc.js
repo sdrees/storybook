@@ -528,6 +528,11 @@ module.exports = {
               type: 'link',
             },
             {
+              title: 'indexers',
+              pathSegment: 'main-config-indexers',
+              type: 'link',
+            },
+            {
               title: 'logLevel',
               pathSegment: 'main-config-log-level',
               type: 'link',

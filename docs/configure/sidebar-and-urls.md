@@ -94,6 +94,19 @@ Storybook 6.4 introduced [CSF 3.0](https://storybook.js.org/blog/component-story
 
 When Storybook loads, the story can show up in the sidebar as `components/My Component`.
 
+Auto-titles work with explicit titling options like the component's `title` and the story's `name`:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/csf-3-example-title.ts.mdx',
+    'common/csf-3-example-title.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ### Auto-title filename case
 
 Starting with Storybook 6.5, story titles generated automatically no longer rely on Lodash's [startCase](https://lodash.com/docs/#startCase).
@@ -149,55 +162,6 @@ When Storybook generates the titles for all matching stories, they'll retain the
 
 ### Story Indexers
 
-Story Indexers are a set of heuristics used by Storybook to crawl your filesystem based on a given glob pattern searching for matching stories, which is then used to generate an `index.json` (formerly `stories.json`) file responsible for populating the sidebar with the necessary information. By default, this heuristic will look for files that contain the following scheme \*.stories.@(js|jsx|mjs|ts|tsx). However, if you need, you can create your custom story indexer that you can use to include stories that have a different naming convention. For example:
+[Story Indexers](./main-config-indexers.md) are a set of heuristics used by Storybook to crawl your filesystem based on a given glob pattern searching for matching stories, which is then used to generate an `index.json` (formerly `stories.json`) file responsible for populating the sidebar with the necessary information. By default, this heuristic will look for files that contain the following scheme `*.stories.@(js|jsx|mjs|ts|tsx)`.
 
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-main-csf-indexer.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-### Processing custom titles
-
-Out of the box, Storybook automatically infers the story's title based on a set of patterns, including, for example, the file's physical location. If you're working on creating a custom story indexer and you want to handle the titles based on your set of rules, you can adjust it and provide a `makeTitle` function inside the `loadCsf` function. Below is a condensed table and examples of how these patterns work and how they relate to stories.
-
-| Pattern        | Description                                                                                                                                    |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `titlePrefix`  | Prefixes the indexed story title based on the [configuration](./overview.md#with-a-configuration-object).                                      |
-| `title`        | Requires CSF and MDX.<br/>Infers the story title based on the information defined in the metadata.                                             |
-| `name`         | Requires CSF and MDX.<br/> Overrides the story title based on the provided [name](../writing-stories/introduction.md#rename-stories) property. |
-| `component`    | Requires CSF.<br/> Generates the title based on the component property defined in the metadata.                                                |
-| `of`           | Requires MDX.<br/> Retrieves the title based on the referenced story file.                                                                     |
-| `story export` | Requires CSF. <br/> Defines the title based on the [named story export](../api/csf.md#named-story-exports).                                    |
-| `filename`     | Enabled with custom indexers.<br/> Defines the story title based on the filename parsed with the indexer.                                      |
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/csf-3-example-title.ts.mdx',
-    'common/csf-3-example-title.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-main-story-indexer-main.ts.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<div class="aside">
-
-💡 Story indexers are a great way to get non-developers playing with your components and stories. They can do much more than documented here; we encourage you to check out the [`@storybook-extras/markdown` ](https://storybook.js.org/addons/@storybook-extras/markdown/) to learn more about these techniques.
-
-</div>
+You can provide your own indexer to include stories with a different naming convention, adjust the automatic title generation beyond a prefix, and many other use cases. For more information, see the [Story Indexers API reference](./main-config-indexers.md).

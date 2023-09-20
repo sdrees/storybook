@@ -6,3 +6,4 @@ declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
 declare var REFS: any;
 declare var VERSIONCHECK: any;
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;
+declare var STORYBOOK_ADDON_STATE: Record<string, any>;

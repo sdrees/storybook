@@ -146,7 +146,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
         .then(() => api.getAddonState(addonId));
     },
     getAddonState: (addonId) => {
-      return store.getState().addons[addonId];
+      return store.getState().addons[addonId] || globalThis?.STORYBOOK_ADDON_STATE[addonId];
     },
   };
 

@@ -1,6 +1,8 @@
-import { getStorybookInfo } from '@storybook/core-common';
+import { getStorybookInfo, serverRequire } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
+import { isAbsolute, join } from 'path';
 import SemVer from 'semver';
+import dedent from 'ts-dedent';
 
 import {
   JsPackageManagerFactory,
@@ -38,6 +40,21 @@ const getVersionSpecifier = (addon: string) => {
   return groups ? [groups[1], groups[2]] : [addon, undefined];
 };
 
+const requireMain = (configDir: string) => {
+  const absoluteConfigDir = isAbsolute(configDir) ? configDir : join(process.cwd(), configDir);
+  const mainFile = join(absoluteConfigDir, 'main');
+
+  return serverRequire(mainFile) ?? {};
+};
+
+const checkInstalled = (addonName: string, main: any) => {
+  const existingAddon = main.addons?.find((entry: string | { name: string }) => {
+    const name = typeof entry === 'string' ? entry : entry.name;
+    return name?.endsWith(addonName);
+  });
+  return !!existingAddon;
+};
+
 /**
  * Install the given addon package and add it to main.js
  *
@@ -60,9 +77,16 @@ export async function add(
   }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const packageJson = await packageManager.retrievePackageJson();
+  const { mainConfig, configDir } = getStorybookInfo(packageJson);
+
+  if (checkInstalled(addon, requireMain(configDir))) {
+    throw new Error(dedent`
+      Addon ${addon} is already installed; we skipped adding it to your ${mainConfig}.
+    `);
+  }
+
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 
-  const { mainConfig } = getStorybookInfo(packageJson);
   if (!mainConfig) {
     logger.error('Unable to find storybook main.js config');
     return;

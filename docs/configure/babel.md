@@ -133,7 +133,9 @@ When the command finishes running, it will display the available Babel configura
 
 For more info, please refer to the [Babel documentation](https://babeljs.io/docs/en/configuration#print-effective-configs).
 
-### SWC alternative (experimental)
+### SWC alternative
+
+(⚠️ **Experimental**)
 
 If you're working with a Webpack-based project, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler, which can be faster for some projects. To do so, update your [Storybook configuration file](../api/main-config.md) (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
 

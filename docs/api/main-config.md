@@ -34,6 +34,7 @@ An object to configure Storybook containing the following properties:
 - [`docs`](./main-config-docs.md)
 - [`env`](./main-config-env.md)
 - [`features`](./main-config-features.md)
+- [`indexers`](./main-config-indexers.md) (⚠️ Experimental)
 - [`logLevel`](./main-config-log-level.md)
 - [`managerHead`](./main-config-manager-head.md)
 - [`previewAnnotations`](./main-config-preview-annotations.md)

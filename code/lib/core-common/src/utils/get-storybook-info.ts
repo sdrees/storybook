@@ -100,7 +100,7 @@ const getConfigInfo = (packageJson: PackageJson, configDir?: string) => {
   }
 
   return {
-    configDir,
+    configDir: storybookConfigDir,
     mainConfig: findConfigFile('main', storybookConfigDir),
     previewConfig: findConfigFile('preview', storybookConfigDir),
     managerConfig: findConfigFile('manager', storybookConfigDir),
