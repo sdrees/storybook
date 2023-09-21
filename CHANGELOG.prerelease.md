@@ -1,3 +1,31 @@
+## 7.5.0-alpha.3
+
+- Build: Filter some manager errors - [#24217](https://github.com/storybookjs/storybook/pull/24217), thanks [@yannbf](https://github.com/yannbf)!
+- Build: Migrate @storybook/addon-backgrounds to strict-ts - [#22178](https://github.com/storybookjs/storybook/pull/22178), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Build: Upgrade chromatic bin package - [#24133](https://github.com/storybookjs/storybook/pull/24133), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Change `/Date$/` to `/Dates$/i` - [#24195](https://github.com/storybookjs/storybook/pull/24195), thanks [@arup1221](https://github.com/arup1221)!
+- CLI: Fix `sb add` adding duplicative entries - [#24229](https://github.com/storybookjs/storybook/pull/24229), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Throw an error when critical presets fail to load - [#24176](https://github.com/storybookjs/storybook/pull/24176), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Unify error when builder is missing - [#24177](https://github.com/storybookjs/storybook/pull/24177), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Upgrade `esbuild-register` to `3.5.0` - [#24175](https://github.com/storybookjs/storybook/pull/24175), thanks [@anneau](https://github.com/anneau)!
+- Dependencies: Upgrade `file-system-cache` - [#24232](https://github.com/storybookjs/storybook/pull/24232), thanks [@seriouz](https://github.com/seriouz)!
+- Indexer: Rename `index` to `createIndex` - [#24075](https://github.com/storybookjs/storybook/pull/24075), thanks [@JReinhold](https://github.com/JReinhold)!
+- Maintenance: Regen lockfiles - [#24152](https://github.com/storybookjs/storybook/pull/24152), thanks [@ndelangen](https://github.com/ndelangen)!
+- Manager: Fix useAddonState when using a setter function - [#24237](https://github.com/storybookjs/storybook/pull/24237), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Add compatibility with nextjs `13.5` - [#24239](https://github.com/storybookjs/storybook/pull/24239), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Aliases `react` and `react-dom` like `next.js` does - [#23671](https://github.com/storybookjs/storybook/pull/23671), thanks [@sookmax](https://github.com/sookmax)!
+- Nextjs: Improve Google Fonts failure error messages and documentation - [#23891](https://github.com/storybookjs/storybook/pull/23891), thanks [@nsheaps](https://github.com/nsheaps)!
+- Nextjs: Migrate from config to previewAnnotations - [#24178](https://github.com/storybookjs/storybook/pull/24178), thanks [@yannbf](https://github.com/yannbf)!
+- Theming: Add `barHoverColor` - [#20169](https://github.com/storybookjs/storybook/pull/20169), thanks [@julien-deramond](https://github.com/julien-deramond)!
+- Types: Allow `null` in value of `experimental_updateStatus` to clear status - [#24206](https://github.com/storybookjs/storybook/pull/24206), thanks [@ndelangen](https://github.com/ndelangen)!
+- Types: Don't distribute generic type of Meta and Story - [#24110](https://github.com/storybookjs/storybook/pull/24110), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- UI: Expand sidebar for selected story when using composition - [#23781](https://github.com/storybookjs/storybook/pull/23781), thanks [@joaonunomota](https://github.com/joaonunomota)!
+- UI: Fix SVG override fill when path has a fill attribute - [#24156](https://github.com/storybookjs/storybook/pull/24156), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Fix TreeNode alignment when using a different font - [#22221](https://github.com/storybookjs/storybook/pull/22221), thanks [@bdriguesdev](https://github.com/bdriguesdev)!
+- UI: Fix custom theme hover-color inconsistency - [#22262](https://github.com/storybookjs/storybook/pull/22262), thanks [@yoshi2no](https://github.com/yoshi2no)!
+- UI: Fix keydown shortcut within shadow tree - [#24179](https://github.com/storybookjs/storybook/pull/24179), thanks [@stropitek](https://github.com/stropitek)!
+- UI: Improve look and feel of status UI in sidebar - [#24099](https://github.com/storybookjs/storybook/pull/24099), thanks [@ndelangen](https://github.com/ndelangen)!
+
 ## 7.5.0-alpha.2
 
 - Angular: Categorize legacy build options error - [#24014](https://github.com/storybookjs/storybook/pull/24014), thanks [@yannbf](https://github.com/yannbf)!
