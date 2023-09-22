@@ -88,6 +88,15 @@ jobs:
           git config --global user.email '32066757+storybook-bot@users.noreply.github.com'
           yarn release:pick-patches
 
+      - name: Cancel when 0 picked
+        if: steps.pick-patches.outputs.pr-count == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # From https://stackoverflow.com/a/75809743
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+
       - name: Bump version deferred
         id: bump-version
         if: steps.unreleased-changes.outputs.has-changes-to-release == 'true'

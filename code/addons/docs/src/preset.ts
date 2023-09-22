@@ -175,6 +175,15 @@ export const addons: StorybookConfig['addons'] = [
   require.resolve('@storybook/react-dom-shim/dist/preset'),
 ];
 
+export const viteFinal = async (config: any, options: Options) => {
+  const { plugins = [] } = config;
+  const { mdxPlugin } = await import('./plugins/mdx-plugin');
+
+  plugins.push(mdxPlugin(options));
+
+  return config;
+};
+
 /*
  * This is a workaround for https://github.com/Swatinem/rollup-plugin-dts/issues/162
  * something down the dependency chain is using typescript namespaces, which are not supported by rollup-plugin-dts

@@ -47,7 +47,6 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/csf-plugin": "workspace:*",
-    "@storybook/mdx2-csf": "^1.0.0",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preview": "workspace:*",
     "@storybook/preview-api": "workspace:*",
@@ -59,8 +58,6 @@
     "find-cache-dir": "^3.0.0",
     "fs-extra": "^11.1.0",
     "magic-string": "^0.30.0",
-    "remark-external-links": "^8.0.0",
-    "remark-slug": "^6.0.0",
     "rollup": "^2.25.0 || ^3.3.0"
   },
   "devDependencies": {
@@ -95,9 +92,6 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
-    ],
-    "externals": [
-      "@storybook/mdx1-csf"
     ],
     "platform": "node"
   },

@@ -48,6 +48,10 @@ export const run = async (_: unknown) => {
     spinner.warn('No PRs found.');
   }
 
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    setOutput('pr-count', JSON.stringify(patchPRs.length));
+  }
+
   const failedCherryPicks: string[] = [];
 
   // eslint-disable-next-line no-restricted-syntax

@@ -1,3 +1,8 @@
+## 7.4.4
+
+- Core: Fix Promise cycle bug in useSharedState - [#24268](https://github.com/storybookjs/storybook/pull/24268), thanks [@ndelangen](https://github.com/ndelangen)!
+- Manager: Fix useAddonState when using a setter function - [#24237](https://github.com/storybookjs/storybook/pull/24237), thanks [@ndelangen](https://github.com/ndelangen)!
+
 ## 7.4.3
 
 - CLI: Fix `sb add` adding duplicative entries - [#24229](https://github.com/storybookjs/storybook/pull/24229), thanks [@ndelangen](https://github.com/ndelangen)!

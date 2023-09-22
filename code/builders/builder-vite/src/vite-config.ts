@@ -15,7 +15,6 @@ import {
   codeGeneratorPlugin,
   csfPlugin,
   injectExportOrderPlugin,
-  mdxPlugin,
   stripStoryHMRBoundary,
   externalGlobalsPlugin,
 } from './plugins';
@@ -81,7 +80,6 @@ export async function pluginConfig(options: Options) {
   const plugins = [
     codeGeneratorPlugin(options),
     await csfPlugin(options),
-    await mdxPlugin(options),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
     {

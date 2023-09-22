@@ -2,7 +2,7 @@ import type { Options } from '@storybook/types';
 import type { Plugin } from 'vite';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
-import { createFilter } from 'vite';
+import { createFilter } from '@rollup/pluginutils';
 import { dirname, join } from 'path';
 
 const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith('story.mdx');
