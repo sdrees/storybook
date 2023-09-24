@@ -397,7 +397,6 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
     existingState,
     STORYBOOK_ADDON_STATE[stateId] ? STORYBOOK_ADDON_STATE[stateId] : defaultState
   );
-
   let quicksync = false;
 
   if (state === defaultState && defaultState !== undefined) {
@@ -409,7 +408,7 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
     if (quicksync) {
       api.setAddonState<S>(stateId, defaultState);
     }
-  });
+  }, [quicksync]);
 
   const setState = async (s: S | API_StateMerger<S>, options?: Options) => {
     const result = await api.setAddonState<S>(stateId, s, options);
