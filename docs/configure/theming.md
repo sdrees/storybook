@@ -2,6 +2,8 @@
 title: 'Theming'
 ---
 
+<YouTubeCallout id="x2nGXHAKOrE" title="Storybook Theming" />
+
 Storybook is theme-able using a lightweight theming API.
 
 ## Global theming
