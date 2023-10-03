@@ -68,7 +68,7 @@ export type Indexer = BaseIndexer & {
    */
   createIndex: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
   /**
-   * @soonDeprecated Use {@link index} instead
+   * @deprecated Use {@link index} instead
    */
   indexer?: never;
 };
@@ -79,7 +79,7 @@ export type DeprecatedIndexer = BaseIndexer & {
 };
 
 /**
- * @soonDeprecated Use {@link Indexer} instead
+ * @deprecated Use {@link Indexer} instead
  */
 export type StoryIndexer = Indexer | DeprecatedIndexer;
 

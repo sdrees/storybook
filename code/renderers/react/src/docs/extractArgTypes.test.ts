@@ -37,7 +37,7 @@ const transformToModule = (inputCode: string) => {
 const annotateWithDocgen = (inputPath: string) => {
   const options = {
     presets: ['@babel/typescript', '@babel/react'],
-    plugins: ['babel-plugin-react-docgen', '@babel/plugin-proposal-class-properties'],
+    plugins: ['babel-plugin-react-docgen', '@babel/plugin-transform-class-properties'],
     babelrc: false,
   };
   const { code } = transformFileSync(inputPath, options) || {};

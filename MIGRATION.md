@@ -1,7 +1,10 @@
 <h1>Migration</h1>
 
+- [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
+  - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
+  - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
-    - [Addon API is more type-strict](#addon-api-is-more-type-strict)
+  - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
@@ -27,7 +30,7 @@
     - [Deploying build artifacts](#deploying-build-artifacts)
       - [Dropped support for file URLs](#dropped-support-for-file-urls)
       - [Serving with nginx](#serving-with-nginx)
-      - [Ignore story files from node\_modules](#ignore-story-files-from-node_modules)
+      - [Ignore story files from node_modules](#ignore-story-files-from-node_modules)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -39,7 +42,7 @@
     - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -89,7 +92,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -302,6 +305,72 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+## From version 7.4.0 to 7.5.0
+
+#### `storyStoreV6` and `storiesOf` is deprecated
+
+`storyStoreV6` and `storiesOf` is deprecated and will be completely removed in Storybook 8.0.0.
+
+If you're using `storiesOf` we recommend you migrate your stories to CSF3 for a better story writing experience.
+In many cases you can get started with the migration by using two migration scripts:
+
+```bash
+
+# 1. convert storiesOf to CSF
+npx storybook@latest migrate storiesof-to-csf --glob="**/*.stories.tsx" --parser=tsx
+
+# 2. Convert CSF 2 to CSF 3
+npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
+```
+
+They won't do a perfect migration so we recommend that you manually go through each file afterwards.
+
+Alternatively you can build your own `storiesOf` implementation by leveraging the new (experimental) indexer API ([documentation](https://storybook.js.org/docs/react/api/main-config-indexers), [migration](#storyindexers-is-replaced-with-experimental_indexers)). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's `README.md` for a deeper explanation of the implementation.
+
+#### `storyIndexers` is replaced with `experimental_indexers`
+
+Defining custom indexers for stories has become a more official - yet still experimental - API which is now configured at `experimental_indexers` instead of `storyIndexers` in `main.ts`. `storyIndexers` has been deprecated and will be fully removed in version 8.0.0.
+
+The new experimental indexers are documented [here](https://storybook.js.org/docs/react/api/main-config-indexers). The most notable change from `storyIndexers` is that the indexer must now return a list of [`IndexInput`](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/indexer.ts#L104-L148) instead of `CsfFile`. It's possible to construct an `IndexInput` from a `CsfFile` using the `CsfFile.indexInputs` getter.
+
+That means you can convert an existing story indexer like this:
+
+```diff
+// .storybook/main.ts
+
+import { readFileSync } from 'fs';
+import { loadCsf } from '@storybook/csf-tools';
+
+export default {
+-  storyIndexers = (indexers) => {
+-    const indexer = async (fileName, opts) => {
++  experimental_indexers = (indexers) => {
++    const createIndex = async (fileName, opts) => {
+      const code = readFileSync(fileName, { encoding: 'utf-8' });
+      const makeTitle = (userTitle) => {
+        // Do something with the auto title retrieved by Storybook
+        return userTitle;
+      };
+
+      // Parse the CSF file with makeTitle as a custom context
+-      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse();
++      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse().indexInputs;
+    };
+
+    return [
+      {
+        test: /(stories|story)\.[tj]sx?$/,
+-        indexer,
++        createIndex,
+      },
+      ...(indexers || []),
+    ];
+  },
+};
+```
+
+As an addon author you can support previous versions of Storybook by setting both `storyIndexers` and `indexers_experimental`, without triggering the deprecation warning.
+
 ## From version 7.0.0 to 7.2.0
 
 #### Addon API is more type-strict
@@ -311,6 +380,7 @@ When registering an addon using `@storybook/manager-api`, the addon API is now m
 The `type` property is now a required field, and the `id` property should not be set anymore.
 
 Here's a correct example:
+
 ```tsx
 import { addons, types } from '@storybook/manager-api';
 
@@ -318,7 +388,7 @@ addons.register('my-addon', () => {
   addons.add('my-addon/panel', {
     type: types.PANEL,
     title: 'My Addon',
-    render: ({ active }) => active ? <div>Hello World</div> : null,
+    render: ({ active }) => (active ? <div>Hello World</div> : null),
   });
 });
 ```
@@ -869,16 +939,16 @@ Given the following `main.js`:
 
 ```js
 export default {
-  stories: ['../**/*.stories.*']
-}
+  stories: ['../**/*.stories.*'],
+};
 ```
 
 If you want to restore the previous behavior to include `node_modules`, you can update it to:
 
 ```js
 export default {
-  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*']
-}
+  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*'],
+};
 ```
 
 The first glob would have node_modules automatically excluded by Storybook, and the second glob would include all stories that are under a nested `node_modules` directory.
@@ -1046,7 +1116,7 @@ Starting in 7.0, we drop support for Angular < 14
 
 _Has automigration_
 
-In Storybook 6.4 we deprecated calling Storybook directly (e.g. `npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead, you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. 
+In Storybook 6.4 we deprecated calling Storybook directly (e.g. `npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead, you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook.
 
 You can run `npx storybook@next automigrate` to automatically fix your configuration, or visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular/README.md#how-do-i-migrate-to-an-angular-storybook-builder for instructions on how to set up Storybook for Angular manually.
 

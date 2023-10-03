@@ -125,6 +125,10 @@ const runGenerators = async (
   localRegistry = true,
   debug = false
 ) => {
+  if (debug) {
+    console.log('Debug mode enabled. Verbose logs will be printed to the console.');
+  }
+
   console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);

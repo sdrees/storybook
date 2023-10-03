@@ -131,7 +131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-create-class-features-plugin@npm:^7.18.6, @babel/helper-create-class-features-plugin@npm:^7.22.11, @babel/helper-create-class-features-plugin@npm:^7.22.15, @babel/helper-create-class-features-plugin@npm:^7.22.5":
+"@babel/helper-create-class-features-plugin@npm:^7.22.11, @babel/helper-create-class-features-plugin@npm:^7.22.15, @babel/helper-create-class-features-plugin@npm:^7.22.5":
   version: 7.22.15
   resolution: "@babel/helper-create-class-features-plugin@npm:7.22.15"
   dependencies:
@@ -390,18 +390,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.13.0
   checksum: 46fb46af40446918d64530f544ea0104e274ccd8a16b8a8f6fa2e51a198af6ac2b620aaf8875f3427671f09717949a584c79fe20f521245214f50b8de56cd116
-  languageName: node
-  linkType: hard
-
-"@babel/plugin-proposal-class-properties@npm:^7.18.6":
-  version: 7.18.6
-  resolution: "@babel/plugin-proposal-class-properties@npm:7.18.6"
-  dependencies:
-    "@babel/helper-create-class-features-plugin": ^7.18.6
-    "@babel/helper-plugin-utils": ^7.18.6
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: d5172ac6c9948cdfc387e94f3493ad86cb04035cf7433f86b5d358270b1b9752dc25e176db0c5d65892a246aca7bdb4636672e15626d7a7de4bc0bd0040168d9
   languageName: node
   linkType: hard
 
@@ -2891,12 +2879,12 @@ __metadata:
   dependencies:
     "@actions/core": ^1.10.0
     "@babel/core": ^7.22.0
-    "@babel/plugin-proposal-class-properties": ^7.18.6
     "@babel/plugin-proposal-decorators": ^7.22.0
     "@babel/plugin-syntax-class-properties": ^7.12.13
     "@babel/plugin-syntax-decorators": ^7.22.0
     "@babel/plugin-syntax-jsx": ^7.21.0
     "@babel/plugin-syntax-typescript": ^7.21.0
+    "@babel/plugin-transform-class-properties": ^7.22.5
     "@babel/preset-env": ^7.22.0
     "@babel/preset-react": ^7.22.0
     "@babel/preset-typescript": ^7.21.0

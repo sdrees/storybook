@@ -35,6 +35,8 @@ CSS-in-JS libraries are designed to use basic JavaScript, and they often work in
 
 If you need webfonts to be available, you may need to add some code to the [`.storybook/preview-head.html`](./story-rendering.md#adding-to-head) file. We recommend including any assets with your Storybook if possible, in which case you likely want to configure the [static file location](./images-and-assets.md#serving-static-files-via-storybook-configuration).
 
+<IfRenderer renderer='angular'>
+
 ## Troubleshooting
 
 ### Styles aren't being applied with Angular
@@ -56,7 +58,7 @@ The latest Angular releases introduced significant changes in configuring and st
 }
 ```
 
-Additionally, if you need Storybook-specific styles that are separate from your application, you can configure the styles with [Storybook's custom builder](../get-started/install.md), which will override the application's styles:
+Additionally, if you need Storybook-specific styles that are separate from your application, you can configure the styles with [Storybook's custom builder](../get-started/install.md#troubleshooting), which will override the application's styles:
 
 ```json
 {
@@ -121,3 +123,5 @@ Starting with version `14.1.8`, Nx uses the Storybook builder directly, which me
 ```
 
 When Nx runs, it will load Storybook's configuration and styling based on [`storybook`'s `browserTarget`](https://nx.dev/storybook/extra-topics-for-angular-projects#setting-up-browsertarget).
+
+</IfRenderer>

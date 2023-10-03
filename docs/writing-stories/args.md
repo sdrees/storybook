@@ -213,6 +213,25 @@ Similarly, special formats are available for dates and colors. Date objects will
 
 Args specified through the URL will extend and override any default values of args set on the story.
 
+<IfRenderer renderer='react'>
+
+## Setting args from within a story
+
+Interactive components often need to be controlled by their containing component or page to respond to events, modify their state and reflect those changes in the UI. For example, when a user toggles a switch component, the switch should be checked, and the arg shown in Storybook should reflect the change. To enable this, you can use the `useArgs` API exported by `@storybook/preview-api`:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[    
+    'react/page-story-args-within-story.js.mdx',
+    'react/page-story-args-within-story.ts.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
+
 ## Mapping to complex arg values
 
 Complex values such as JSX elements cannot be serialized to the manager (e.g., the Controls addon) or synced with the URL. Arg values can be "mapped" from a simple string to a complex type using the `mapping` property in `argTypes` to work around this limitation. It works in any arg but makes the most sense when used with the `select` control type.

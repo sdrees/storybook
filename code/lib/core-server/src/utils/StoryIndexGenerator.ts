@@ -25,7 +25,7 @@ import type {
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
-import { logger, once } from '@storybook/node-logger';
+import { deprecate, logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
@@ -119,12 +119,6 @@ export class StoryIndexGenerator {
     public readonly options: StoryIndexGeneratorOptions
   ) {
     this.specifierToCache = new Map();
-    if (options.storyIndexers.length > 1) {
-      // TODO: write migration notes before enabling this warning
-      // deprecate(
-      //   "'storyIndexers' is deprecated, please use 'indexers' instead. See migration notes at XXX"
-      // );
-    }
   }
 
   async initialize() {
@@ -298,6 +292,10 @@ export class StoryIndexGenerator {
     invariant(indexer, `No matching indexer found for ${absolutePath}`);
 
     if (indexer.indexer) {
+      deprecate(
+        dedent`'storyIndexers' is deprecated, please use 'experimental_indexers' instead. Found a deprecated indexer with matcher: ${indexer.test}
+          - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storyindexers-is-replaced-with-experimental_indexers`
+      );
       return this.extractStoriesFromDeprecatedIndexer({
         indexer: indexer.indexer,
         indexerOptions: { makeTitle: defaultMakeTitle },

@@ -369,7 +369,7 @@ export interface StorybookConfig {
 
   /**
    * Process CSF files for the story index.
-   * @soonDeprecated use {@link experimental_indexers} instead
+   * @deprecated use {@link experimental_indexers} instead
    */
   storyIndexers?: PresetValue<StoryIndexer[]>;
 
