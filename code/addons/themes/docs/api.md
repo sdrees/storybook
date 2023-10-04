@@ -7,7 +7,7 @@
 Takes your provider component, global styles, and theme(s)to wrap your stories in.
 
 ```js
-import { withThemeFromJSXProvider } from '@storybook/addon-styling';
+import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 
 export const decorators = [
   withThemeFromJSXProvider({
@@ -36,7 +36,7 @@ Available options:
 Takes your theme class names to apply your parent element to enable your theme(s).
 
 ```js
-import { withThemeByClassName } from '@storybook/addon-styling';
+import { withThemeByClassName } from '@storybook/addon-themes';
 
 export const decorators = [
   withThemeByClassName({
@@ -62,7 +62,7 @@ Available options:
 Takes your theme names and data attribute to apply your parent element to enable your theme(s).
 
 ```js
-import { withThemeByDataAttribute } from '@storybook/addon-styling';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 export const decorators = [
   withThemeByDataAttribute({
@@ -94,7 +94,7 @@ If none of these decorators work for your library there is still hope. We've pro
 Pulls the selected theme from storybook's global state.
 
 ```js
-import { DecoratorHelpers } from '@storybook/addon-styling';
+import { DecoratorHelpers } from '@storybook/addon-themes';
 const { pluckThemeFromContext } = DecoratorHelpers;
 
 export const myCustomDecorator =
@@ -111,7 +111,7 @@ export const myCustomDecorator =
 Returns the theme parameters for this addon.
 
 ```js
-import { DecoratorHelpers } from '@storybook/addon-styling';
+import { DecoratorHelpers } from '@storybook/addon-themes';
 const { useThemeParameters } = DecoratorHelpers;
 
 export const myCustomDecorator =
@@ -128,7 +128,7 @@ export const myCustomDecorator =
 Used to register the themes and defaultTheme with the addon state.
 
 ```js
-import { DecoratorHelpers } from '@storybook/addon-styling';
+import { DecoratorHelpers } from '@storybook/addon-themes';
 const { initializeThemeState } = DecoratorHelpers;
 
 export const myCustomDecorator = ({ themes, defaultState, ...rest }) => {
@@ -147,7 +147,7 @@ Let's use Vuetify as an example. Vuetify uses it's own global state to know whic
 ```js
 // .storybook/withVeutifyTheme.decorator.js
 
-import { DecoratorHelpers } from '@storybook/addon-styling';
+import { DecoratorHelpers } from '@storybook/addon-themes';
 import { useTheme } from 'vuetify';
 
 const { initializeThemeState, pluckThemeFromContext, useThemeParameters } = DecoratorHelpers;

@@ -13,7 +13,7 @@ Object {
       "jsDocTags": undefined,
       "type": Object {
         "detail": undefined,
-        "summary": "Array",
+        "summary": "string[]",
       },
     },
     "type": Object {

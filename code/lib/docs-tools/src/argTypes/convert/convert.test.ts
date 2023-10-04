@@ -180,30 +180,18 @@ describe('storybook type system', () => {
         {
           "kind": {
             "raw": "'default' | 'action'",
-            "name": "union",
+            "name": "enum",
             "value": [
-              {
-                "name": "other",
-                "value": "literal"
-              },
-              {
-                "name": "other",
-                "value": "literal"
-              }
+              "default",
+              "action"
             ]
           },
           "inlinedNumericLiteralUnion": {
             "raw": "0 | 1",
-            "name": "union",
+            "name": "enum",
             "value": [
-              {
-                "name": "other",
-                "value": "literal"
-              },
-              {
-                "name": "other",
-                "value": "literal"
-              }
+              0,
+              1
             ]
           },
           "enumUnion": {

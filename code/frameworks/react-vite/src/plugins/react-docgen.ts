@@ -1,22 +1,23 @@
 import path from 'path';
 import { createFilter } from '@rollup/pluginutils';
+import type { Documentation } from 'react-docgen';
 import {
+  ERROR_CODES,
   parse,
-  handlers as docgenHandlers,
-  resolver as docgenResolver,
-  importers as docgenImporters,
+  builtinHandlers as docgenHandlers,
+  builtinResolvers as docgenResolver,
+  builtinImporters as docgenImporters,
 } from 'react-docgen';
-import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import MagicString from 'magic-string';
 import type { PluginOption } from 'vite';
 import actualNameHandler from './docgen-handlers/actualNameHandler';
 
-type DocObj = DocumentationObject & { actualName: string };
+type DocObj = Documentation & { actualName: string };
 
 // TODO: None of these are able to be overridden, so `default` is aspirational here.
 const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
-const defaultResolver = docgenResolver.findAllExportedComponentDefinitions;
-const defaultImporter = docgenImporters.makeFsImporter();
+const defaultResolver = new docgenResolver.FindExportedDefinitionsResolver();
+const defaultImporter = docgenImporters.fsImporter;
 const handlers = [...defaultHandlers, actualNameHandler];
 
 type Options = {
@@ -39,8 +40,9 @@ export function reactDocgen({
       if (!filter(relPath)) return;
 
       try {
-        // Since we're using `findAllExportedComponentDefinitions`, this will always be an array.
-        const docgenResults = parse(src, defaultResolver, handlers, {
+        const docgenResults = parse(src, {
+          resolver: defaultResolver,
+          handlers,
           importer: defaultImporter,
           filename: id,
         }) as DocObj[];
@@ -59,10 +61,12 @@ export function reactDocgen({
           code: s.toString(),
           map: s.generateMap(),
         };
-      } catch (e) {
-        // Usually this is just an error from react-docgen that it couldn't find a component
-        // Only uncomment for troubleshooting
-        // console.error(e);
+      } catch (e: any) {
+        // Ignore the error when react-docgen cannot find a react component
+        if (e.code === ERROR_CODES.MISSING_DEFINITION) {
+          return;
+        }
+        throw e;
       }
     },
   };

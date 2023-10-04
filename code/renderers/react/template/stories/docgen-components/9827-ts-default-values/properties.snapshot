@@ -48,7 +48,7 @@ Object {
       },
       "type": Object {
         "detail": undefined,
-        "summary": "Array",
+        "summary": "string[]",
       },
     },
   ],

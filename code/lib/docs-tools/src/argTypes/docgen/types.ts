@@ -26,8 +26,9 @@ export interface DocgenFlowType extends DocgenType {
   elements?: any[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface DocgenTypeScriptType extends DocgenType {}
+export interface DocgenTypeScriptType extends DocgenType {
+  raw?: string;
+}
 
 // export type DocgenType = DocgenPropType | DocgenFlowType | DocgenTypeScriptType;
 

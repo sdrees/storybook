@@ -9,9 +9,12 @@ export function createType({ tsType, required }: DocgenInfo): PropType {
     return null;
   }
 
+  let typeName = tsType.name;
   if (!required) {
-    return createSummaryValue(tsType.name.replace(' | undefined', ''));
+    typeName = typeName.replace(' | undefined', '');
   }
 
-  return createSummaryValue(tsType.name);
+  return createSummaryValue(
+    ['Array', 'Record', 'signature'].includes(tsType.name) ? tsType.raw : typeName
+  );
 }

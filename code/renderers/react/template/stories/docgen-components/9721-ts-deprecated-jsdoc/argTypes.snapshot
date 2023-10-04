@@ -13,7 +13,7 @@ Object {
       "jsDocTags": undefined,
       "type": Object {
         "detail": undefined,
-        "summary": "signature",
+        "summary": "{ width: number; height: number }",
       },
     },
     "type": Object {

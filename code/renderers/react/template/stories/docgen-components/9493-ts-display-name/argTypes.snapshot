@@ -23,10 +23,15 @@ Object {
   },
   "title": Object {
     "control": Object {
-      "type": "object",
+      "type": "radio",
     },
     "description": "A title that brings attention to the alert.",
     "name": "title",
+    "options": Array [
+      "Code Red",
+      "Code Yellow",
+      "Code Green",
+    ],
     "table": Object {
       "defaultValue": Object {
         "detail": undefined,
@@ -39,22 +44,13 @@ Object {
       },
     },
     "type": Object {
-      "name": "union",
+      "name": "enum",
       "raw": "'Code Red' | 'Code Yellow' | 'Code Green'",
       "required": false,
       "value": Array [
-        Object {
-          "name": "other",
-          "value": "literal",
-        },
-        Object {
-          "name": "other",
-          "value": "literal",
-        },
-        Object {
-          "name": "other",
-          "value": "literal",
-        },
+        "Code Red",
+        "Code Yellow",
+        "Code Green",
       ],
     },
   },

@@ -12,21 +12,12 @@ Object {
       "name": "title",
       "required": false,
       "sbType": Object {
-        "name": "union",
+        "name": "enum",
         "raw": "'Code Red' | 'Code Yellow' | 'Code Green'",
         "value": Array [
-          Object {
-            "name": "other",
-            "value": "literal",
-          },
-          Object {
-            "name": "other",
-            "value": "literal",
-          },
-          Object {
-            "name": "other",
-            "value": "literal",
-          },
+          "Code Red",
+          "Code Yellow",
+          "Code Green",
         ],
       },
       "type": Object {

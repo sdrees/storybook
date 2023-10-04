@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import type { SBType } from '@storybook/types';
 import type { TSType, TSSigType } from './types';
+import { parseLiteral } from '../utils';
 
 const convertSig = (type: TSSigType) => {
   switch (type.type) {
@@ -37,6 +38,18 @@ export const convert = (type: TSType): SBType | void => {
     case 'signature':
       return { ...base, ...convertSig(type) };
     case 'union':
+      let result;
+      if (type.elements.every((element) => element.name === 'literal')) {
+        result = {
+          ...base,
+          name: 'enum',
+          // @ts-expect-error fix types
+          value: type.elements.map((v) => parseLiteral(v.value)),
+        };
+      } else {
+        result = { ...base, name, value: type.elements.map(convert) };
+      }
+      return result;
     case 'intersection':
       return { ...base, name, value: type.elements.map(convert) };
     default:

@@ -22,7 +22,7 @@ Object {
       },
       "type": Object {
         "detail": undefined,
-        "summary": "signature",
+        "summary": "{ width: number; height: number }",
       },
     },
   ],

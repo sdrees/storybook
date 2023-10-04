@@ -9,40 +9,46 @@
  * directly from displayNameHandler, using the same approach as babel-plugin-react-docgen.
  */
 
-import { namedTypes as t } from 'ast-types';
-import type { NodePath } from 'ast-types/lib/node-path';
-import { getNameOrValue, isReactForwardRefCall } from 'react-docgen/dist/utils';
-import type { Importer } from 'react-docgen/dist/parse';
-import type Documentation from 'react-docgen/dist/Documentation';
+import type { Handler, NodePath, babelTypes as t } from 'react-docgen';
+import { utils } from 'react-docgen';
 
-export default function actualNameHandler(
-  documentation: Documentation,
-  path: NodePath,
-  importer: Importer
-): void {
-  if (t.ClassDeclaration.check(path.node) || t.FunctionDeclaration.check(path.node)) {
-    documentation.set('actualName', getNameOrValue(path.get('id')));
-  } else if (
-    t.ArrowFunctionExpression.check(path.node) ||
-    t.FunctionExpression.check(path.node) ||
-    isReactForwardRefCall(path, importer)
+const { getNameOrValue, isReactForwardRefCall } = utils;
+
+const actualNameHandler: Handler = function actualNameHandler(documentation, componentDefinition) {
+  if (
+    (componentDefinition.isClassDeclaration() || componentDefinition.isFunctionDeclaration()) &&
+    componentDefinition.has('id')
   ) {
-    let currentPath = path;
-    while (currentPath.parent) {
-      if (t.VariableDeclarator.check(currentPath.parent.node)) {
-        documentation.set('actualName', getNameOrValue(currentPath.parent.get('id')));
+    documentation.set(
+      'actualName',
+      getNameOrValue(componentDefinition.get('id') as NodePath<t.Identifier>)
+    );
+  } else if (
+    componentDefinition.isArrowFunctionExpression() ||
+    componentDefinition.isFunctionExpression() ||
+    isReactForwardRefCall(componentDefinition)
+  ) {
+    let currentPath: NodePath = componentDefinition;
+
+    while (currentPath.parentPath) {
+      if (currentPath.parentPath.isVariableDeclarator()) {
+        documentation.set('actualName', getNameOrValue(currentPath.parentPath.get('id')));
         return;
       }
-      if (t.AssignmentExpression.check(currentPath.parent.node)) {
-        const leftPath = currentPath.parent.get('left');
-        if (t.Identifier.check(leftPath.node) || t.Literal.check(leftPath.node)) {
+      if (currentPath.parentPath.isAssignmentExpression()) {
+        const leftPath = currentPath.parentPath.get('left');
+
+        if (leftPath.isIdentifier() || leftPath.isLiteral()) {
           documentation.set('actualName', getNameOrValue(leftPath));
           return;
         }
       }
-      currentPath = currentPath.parent;
+
+      currentPath = currentPath.parentPath;
     }
     // Could not find an actual name
     documentation.set('actualName', '');
   }
-}
+};
+
+export default actualNameHandler;

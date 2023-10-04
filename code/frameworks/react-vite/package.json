@@ -52,9 +52,8 @@
     "@storybook/builder-vite": "workspace:*",
     "@storybook/react": "workspace:*",
     "@vitejs/plugin-react": "^3.0.1",
-    "ast-types": "^0.14.2",
     "magic-string": "^0.30.0",
-    "react-docgen": "6.0.0-alpha.3"
+    "react-docgen": "^6.0.2"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
