@@ -1,5 +1,5 @@
 import type { RefObject, ReactElement } from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 export type IZoomIFrameProps = {
   scale: number;
@@ -57,6 +57,6 @@ export class ZoomIFrame extends Component<IZoomIFrameProps> {
 
   render() {
     const { children } = this.props;
-    return children;
+    return <>{children}</>;
   }
 }

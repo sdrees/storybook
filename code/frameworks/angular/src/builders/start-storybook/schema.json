@@ -10,6 +10,11 @@
       "pattern": "^[^:\\s]+:[^:\\s]+(:[^\\s]+)?$",
       "default": null
     },
+    "debugWebpack": {
+      "type": "boolean",
+      "description": "Debug the Webpack configuration",
+      "default": false
+    },
     "tsConfig": {
       "type": "string",
       "description": "The full path for the TypeScript configuration file, relative to the current workspace."

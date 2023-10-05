@@ -33,12 +33,18 @@ export abstract class StorybookError extends Error {
    */
   readonly fromStorybook: true = true as const;
 
+  get fullErrorCode() {
+    const paddedCode = String(this.code).padStart(4, '0');
+    return `SB_${this.category}_${paddedCode}` as `SB_${this['category']}_${string}`;
+  }
+
   /**
    * Overrides the default `Error.name` property in the format: SB_<CATEGORY>_<CODE>.
    */
   get name() {
-    const paddedCode = String(this.code).padStart(4, '0');
-    return `SB_${this.category}_${paddedCode}` as `SB_${this['category']}_${string}`;
+    const errorName = this.constructor.name;
+
+    return `${this.fullErrorCode} (${errorName})`;
   }
 
   /**
@@ -48,13 +54,13 @@ export abstract class StorybookError extends Error {
     let page: string | undefined;
 
     if (this.documentation === true) {
-      page = `https://storybook.js.org/error/${this.name}`;
+      page = `https://storybook.js.org/error/${this.fullErrorCode}`;
     } else if (typeof this.documentation === 'string') {
       page = this.documentation;
     } else if (Array.isArray(this.documentation)) {
       page = `\n${this.documentation.map((doc) => `\t- ${doc}`).join('\n')}`;
     }
 
-    return this.template() + (page != null ? `\n\nMore info: ${page}\n` : '');
+    return `${this.template()}${page != null ? `\n\nMore info: ${page}\n` : ''}`;
   }
 }

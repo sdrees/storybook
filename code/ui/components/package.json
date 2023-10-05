@@ -77,7 +77,7 @@
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
-    "overlayscrollbars": "^2.2.0",
+    "overlayscrollbars": "2.2.1",
     "overlayscrollbars-react": "^0.5.0",
     "polished": "^4.2.2",
     "prettier": "^2.8.0",

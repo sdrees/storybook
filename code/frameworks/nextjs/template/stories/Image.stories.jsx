@@ -61,10 +61,6 @@ export const Lazy = {
     width: 50,
     height: 50,
   },
-  parameters: {
-    // ignoring in Chromatic to avoid inconsistent snapshots since the image is sometimes not loaded in time
-    chromatic: { disableSnapshot: true },
-  },
   decorators: [
     (Story) => (
       <>
@@ -78,8 +74,6 @@ export const Lazy = {
 export const Eager = {
   ...Lazy,
   parameters: {
-    // ignoring in Chromatic to avoid inconsistent snapshots since the image is sometimes not loaded in time
-    chromatic: { disableSnapshot: true },
     nextjs: {
       image: {
         loading: 'eager',

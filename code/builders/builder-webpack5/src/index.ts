@@ -274,6 +274,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
       }
 
       if (errors.length > 0) {
+        errors.forEach((e) => logger.error(e.message));
         compiler.close(() => fail(new WebpackCompilationError({ errors })));
         return;
       }

@@ -27,14 +27,9 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./image-context": {
-      "types": "./dist/image-context.d.ts",
-      "require": "./dist/image-context.js",
-      "import": "./dist/image-context.mjs"
-    },
     "./dist/image-context": {
       "types": "./dist/image-context.d.ts",
-      "require": "./dist/image-context.js",
+      "require": "./dist/image-context.mjs",
       "import": "./dist/image-context.mjs"
     },
     "./preset": {
@@ -124,7 +119,7 @@
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
-    "next": "^13.4.8",
+    "next": "13.4.19",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },
