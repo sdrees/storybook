@@ -54,6 +54,9 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'open'
     | 'docs'
     | 'debugWebpack'
+    | 'webpackStatsJson'
+    | 'loglevel'
+    | 'previewUrl'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
@@ -105,6 +108,9 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         initialPath,
         open,
         debugWebpack,
+        loglevel,
+        webpackStatsJson,
+        previewUrl,
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
@@ -133,6 +139,9 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         initialPath,
         open,
         debugWebpack,
+        loglevel,
+        webpackStatsJson,
+        previewUrl,
       };
 
       return standaloneOptions;

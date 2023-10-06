@@ -128,6 +128,20 @@
     "initialPath": {
       "type": "string",
       "description": "URL path to be appended when visiting Storybook for the first time"
+    },
+    "webpackStatsJson": {
+      "type": "string",
+      "description": "Write Webpack Stats JSON to disk",
+      "default": false
+    },
+    "previewUrl": {
+      "type": "string",
+      "description": "Disables the default storybook preview and lets you use your own"
+    },
+    "loglevel": {
+      "type": "string",
+      "description": "Controls level of logging during build. Can be one of: [silly, verbose, info (default), warn, error, silent].",
+      "pattern": "(silly|verbose|info|warn|silent)"
     }
   },
   "additionalProperties": false,
