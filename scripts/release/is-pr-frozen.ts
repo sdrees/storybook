@@ -12,7 +12,7 @@ program
   .description(
     'returns true if the versioning pull request associated with the current branch has the "freeze" label'
   )
-  .option('-P, --patch', 'Look for patch PR instead of prerelease PR', false)
+  .option('-H, --patch', 'Look for patch PR instead of next PR', false)
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
@@ -46,7 +46,7 @@ export const run = async (options: unknown) => {
   const { verbose, patch } = options as { verbose?: boolean; patch?: boolean };
 
   const version = await getCurrentVersion();
-  const branch = `version-${patch ? 'patch' : 'prerelease'}-from-${version}`;
+  const branch = `version-${patch ? 'patch' : 'non-patch'}-from-${version}`;
 
   console.log(`💬 Determining if pull request from branch '${chalk.blue(branch)}' is frozen`);
 
@@ -77,6 +77,14 @@ export const run = async (options: unknown) => {
   });
   console.log(`🔍 Found pull request:
   ${JSON.stringify(pullRequest, null, 2)}`);
+
+  if (pullRequest.state !== 'OPEN') {
+    console.log('❌ The pull request is already closed, ignoring it');
+    if (process.env.GITHUB_ACTIONS === 'true') {
+      setOutput('frozen', false);
+    }
+    return false;
+  }
 
   const isFrozen = pullRequest.labels?.includes('freeze');
   if (process.env.GITHUB_ACTIONS === 'true') {

@@ -80,6 +80,7 @@ export const run = async (_: unknown) => {
   }
 
   if (process.env.GITHUB_ACTIONS === 'true') {
+    setOutput('pr-count', JSON.stringify(patchPRs.length));
     setOutput('failed-cherry-picks', JSON.stringify(failedCherryPicks));
   }
 };

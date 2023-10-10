@@ -58,6 +58,7 @@ const pullInfoMock = {
   commit: '930b47f011f750c44a1782267d698ccdd3c04da3',
   title: 'Legal: Fix license',
   labels: ['documentation', 'patch:yes', 'patch:done'],
+  state: 'MERGED',
   links: {
     commit:
       '[`930b47f011f750c44a1782267d698ccdd3c04da3`](https://github.com/storybookjs/storybook/commit/930b47f011f750c44a1782267d698ccdd3c04da3)',

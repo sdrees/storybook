@@ -85,6 +85,8 @@ const Input = styled.input(({ theme }) => ({
   fontFamily: 'inherit',
   transition: 'all 150ms',
   color: theme.color.defaultText,
+  width: '100%',
+
   '&:focus, &:active': {
     outline: 0,
     borderColor: theme.color.secondary,

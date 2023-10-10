@@ -53,7 +53,7 @@ export const getFromCommit = async (from?: string | undefined, verbose?: boolean
       console.log(`🔍 No 'from' specified, found latest tag: ${chalk.blue(latest)}`);
     }
   }
-  const commit = await getCommitAt(actualFrom, verbose);
+  const commit = await getCommitAt(actualFrom!, verbose);
   if (verbose) {
     console.log(`🔍 Found 'from' commit: ${chalk.blue(commit)}`);
   }

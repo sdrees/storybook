@@ -84,3 +84,29 @@ export const WithOuterBorder = () => (
     />
   </ScrollArea>
 );
+
+export const CustomOffset = () => (
+  <ScrollArea horizontal vertical offset={20}>
+    {list((i) => (
+      <Fragment key={i}>
+        {list((ii) => (
+          <Block key={ii}>{ii * i}</Block>
+        ))}
+        <br />
+      </Fragment>
+    ))}
+  </ScrollArea>
+);
+
+export const CustomSize = () => (
+  <ScrollArea horizontal vertical scrollbarSize={20}>
+    {list((i) => (
+      <Fragment key={i}>
+        {list((ii) => (
+          <Block key={ii}>{ii * i}</Block>
+        ))}
+        <br />
+      </Fragment>
+    ))}
+  </ScrollArea>
+);

@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import type { GraphQlQueryResponseData } from '@octokit/graphql';
 import { graphql } from '@octokit/graphql';
+import { request } from '@octokit/request';
+import fetch from 'node-fetch';
 
 export interface PullRequest {
   number: number;
@@ -12,6 +14,13 @@ export interface PullRequest {
 
 export const githubGraphQlClient = graphql.defaults({
   headers: { authorization: `token ${process.env.GH_TOKEN}` },
+});
+
+export const githubRestClient = request.defaults({
+  request: {
+    fetch,
+  },
+  headers: { authorization: `token ${process.env.GH_TOKEN}`, 'X-GitHub-Api-Version': '2022-11-28' },
 });
 
 export async function getUnpickedPRs(

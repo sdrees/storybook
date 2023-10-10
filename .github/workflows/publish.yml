@@ -62,8 +62,12 @@ jobs:
         run: |
           yarn install
 
+      - name: Cancel all release preparation runs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn release:cancel-preparation-runs
+
       - name: Apply deferred version bump and commit
-        id: version-bump
         working-directory: .
         run: |
           CURRENT_VERSION=$(cat ./code/package.json | jq '.version')
@@ -122,12 +126,11 @@ jobs:
         run: git fetch --tags origin
 
       # when this is a patch release from main, label any patch PRs included in the release
-      # when this is a stable release from next, label ALL patch PRs found, as they will per definition be "patched" now
       - name: Label patch PRs as picked
-        if: github.ref_name == 'latest-release' || (steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease)
+        if: github.ref_name == 'latest-release'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release:label-patches ${{ steps.target.outputs.target == 'next' && '--all' || '' }}
+        run: yarn release:label-patches
 
       - name: Create GitHub Release
         if: steps.publish-needed.outputs.published == 'false'
@@ -151,8 +154,20 @@ jobs:
           git merge ${{ github.ref_name }}
           git push origin ${{ steps.target.outputs.target }}
 
+      - name: Ensure `next` is a minor version ahead of `main`
+        if: steps.target.outputs.target == 'main'
+        run: |
+          git checkout next
+          git pull
+
+          yarn release:ensure-next-ahead --main-version "${{ steps.version.outputs.current-version }}"
+
+          git add ..
+          git commit -m "Bump next to be one minor ahead of main [skip ci]"
+          git push origin next
+
       - name: Sync CHANGELOG.md from `main` to `next`
-        if: github.ref_name == 'latest-release'
+        if: steps.target.outputs.target == 'main'
         working-directory: .
         run: |
           git fetch origin next
@@ -160,7 +175,7 @@ jobs:
           git pull
           git checkout origin/main ./CHANGELOG.md
           git add ./CHANGELOG.md
-          git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }} [skip ci]"
+          git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }} [skip ci]" || true
           git push origin next
 
       - name: Sync version JSONs from `next-release` to `main`
@@ -175,10 +190,6 @@ jobs:
           git add $VERSION_FILE
           git commit -m "Update $VERSION_FILE for v${{ steps.version.outputs.current-version }}"
           git push origin main
-
-      - name: Overwrite main with next
-        if: steps.target.outputs.target == 'next' && steps.is-prerelease.outputs.prerelease == 'false'
-        run: git push --force origin next:main
 
       - name: Report job failure to Discord
         if: failure()

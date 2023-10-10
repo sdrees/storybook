@@ -88,6 +88,15 @@ jobs:
           git config --global user.email '32066757+storybook-bot@users.noreply.github.com'
           yarn release:pick-patches
 
+      - name: Cancel when no patches to pick
+        if: steps.pick-patches.outputs.pr-count == '0' && steps.pick-patches.outputs.pr-count != null
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # From https://stackoverflow.com/a/75809743
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+
       - name: Bump version deferred
         id: bump-version
         if: steps.unreleased-changes.outputs.has-changes-to-release == 'true'
@@ -121,7 +130,7 @@ jobs:
           git config --global user.email '32066757+storybook-bot@users.noreply.github.com'
           git checkout -b version-patch-from-${{ steps.versions.outputs.current }}
           git add .
-          git commit -m "Write changelog for ${{ steps.versions.outputs.next }}" || true
+          git commit -m "Write changelog for ${{ steps.versions.outputs.next }} [skip ci]" || true
           git push --force origin version-patch-from-${{ steps.versions.outputs.current }}
 
       - name: Generate PR description

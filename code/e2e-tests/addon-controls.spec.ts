@@ -70,4 +70,31 @@ test.describe('addon-controls', () => {
     const label = await sbPage.panelContent().locator('textarea[name=label]').inputValue();
     await expect(label).toEqual('Hello world');
   });
+
+  test('should set select option when value contains double spaces', async ({ page }) => {
+    await page.goto(`${storybookUrl}?path=/story/addons-controls-basics--undefined`);
+
+    const sbPage = new SbPage(page);
+    await sbPage.waitUntilLoaded();
+    await sbPage.viewAddonPanel('Controls');
+    await sbPage.panelContent().locator('#control-select').selectOption('double  space');
+
+    await expect(sbPage.panelContent().locator('#control-select')).toHaveValue('double  space');
+    await expect(page).toHaveURL(/.*select:double\+\+space.*/);
+  });
+
+  test('should set multiselect option when value contains double spaces', async ({ page }) => {
+    await page.goto(`${storybookUrl}?path=/story/addons-controls-basics--undefined`);
+
+    const sbPage = new SbPage(page);
+    await sbPage.waitUntilLoaded();
+    await sbPage.viewAddonPanel('Controls');
+    await sbPage.panelContent().locator('#control-multiSelect').selectOption('double  space');
+
+    await expect(sbPage.panelContent().locator('#control-multiSelect')).toHaveValue(
+      'double  space'
+    );
+
+    await expect(page).toHaveURL(/.*multiSelect\[0]:double\+\+space.*/);
+  });
 });

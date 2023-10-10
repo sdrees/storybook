@@ -19,7 +19,7 @@ When running Puppeteer tests for your stories, you have two options:
 - Have a storybook running (ie. accessible via http(s), for instance using `npm run storybook`)
 - Have a static build of the storybook (for instance, using `npm run build-storybook`)
 
-Then you will need to reference the storybook URL (`file://...` if local, `http(s)://...` if served)
+Then you will need to reference the storybook URL (`http(s)://...`)
 
 ## _puppeteerTest_
 
@@ -71,21 +71,6 @@ initStoryshots({
 ```
 
 The above config will use _<https://my-specific-domain.com:9010>_ for tests. You can also use query parameters in your URL (e.g. for setting a different background for your storyshots, if you use `@storybook/addon-backgrounds`).
-
-You may also use a local static build of storybook if you do not want to run the webpack dev-server:
-
-```js
-import initStoryshots from '@storybook/addon-storyshots';
-import { puppeteerTest } from '@storybook/addon-storyshots-puppeteer';
-
-initStoryshots({
-  suite: 'Puppeteer storyshots',
-  test: puppeteerTest({
-    storybookUrl: 'file:///path/to/my/storybook-static',
-    // storybookUrl: 'file://${path.resolve(__dirname, '../storybook-static')}'
-  }),
-});
-```
 
 ### Specifying options to _goto()_ (Puppeteer API)
 

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/store",
-  "version": "7.5.0-alpha.4",
+  "version": "7.5.0-alpha.5",
   "description": "",
   "keywords": [
     "storybook"
@@ -55,6 +55,5 @@
     ],
     "platform": "node",
     "shim": "@storybook/preview-api/dist/store"
-  },
-  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
+  }
 }

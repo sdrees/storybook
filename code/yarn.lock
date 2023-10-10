@@ -5234,6 +5234,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-presence@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@radix-ui/react-presence@npm:1.0.1"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/react-compose-refs": 1.0.1
+    "@radix-ui/react-use-layout-effect": 1.0.1
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 90780618b265fe794a8f1ddaa5bfd3c71a1127fa79330a14d32722e6265b44452a9dd36efe4e769129d33e57f979f6b8713e2cbf2e2755326aa3b0f337185b6e
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-primitive@npm:1.0.3":
   version: 1.0.3
   resolution: "@radix-ui/react-primitive@npm:1.0.3"
@@ -5279,6 +5300,34 @@ __metadata:
     "@types/react-dom":
       optional: true
   checksum: 61e3ddfd1647e64fba855434ff41e8e7ba707244fe8841f78c450fbdce525383b64259279475615d030dbf1625cbffd8eeebee72d91bf6978794f5dbcf887fc0
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-scroll-area@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@radix-ui/react-scroll-area@npm:1.0.5"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/number": 1.0.1
+    "@radix-ui/primitive": 1.0.1
+    "@radix-ui/react-compose-refs": 1.0.1
+    "@radix-ui/react-context": 1.0.1
+    "@radix-ui/react-direction": 1.0.1
+    "@radix-ui/react-presence": 1.0.1
+    "@radix-ui/react-primitive": 1.0.3
+    "@radix-ui/react-use-callback-ref": 1.0.1
+    "@radix-ui/react-use-layout-effect": 1.0.1
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: a08818aeeb15920a02e708699a8bdc85c26eab0579ab741129b464a799b5d9a04f81810a2d200f1cf4aef03452067770e87b0f81593a689350fcd7e51819e4cb
   languageName: node
   linkType: hard
 
@@ -6744,6 +6793,7 @@ __metadata:
   dependencies:
     "@chromaui/addon-visual-tests": ^0.0.77
     "@popperjs/core": ^2.6.0
+    "@radix-ui/react-scroll-area": ^1.0.5
     "@radix-ui/react-select": ^1.2.2
     "@radix-ui/react-toolbar": ^1.0.4
     "@storybook/client-logger": "workspace:*"
@@ -6756,8 +6806,6 @@ __metadata:
     "@types/util-deprecate": ^1.0.0
     css: ^3.0.0
     memoizerific: ^1.11.3
-    overlayscrollbars: 2.2.1
-    overlayscrollbars-react: ^0.5.0
     polished: ^4.2.2
     prettier: ^2.8.0
     react-popper-tooltip: ^4.4.2
@@ -24973,23 +25021,6 @@ __metadata:
   version: 1.0.2
   resolution: "os-tmpdir@npm:1.0.2"
   checksum: f438450224f8e2687605a8dd318f0db694b6293c5d835ae509a69e97c8de38b6994645337e5577f5001115470414638978cc49da1cdcc25106dad8738dc69990
-  languageName: node
-  linkType: hard
-
-"overlayscrollbars-react@npm:^0.5.0":
-  version: 0.5.2
-  resolution: "overlayscrollbars-react@npm:0.5.2"
-  peerDependencies:
-    overlayscrollbars: ^2.0.0
-    react: ">=16.8.0"
-  checksum: 56e8df609f589cd38c97408d743ebd9112047c60da340c8f121b10418beabd1b5411396f4c1fd27b46dd0e663e7675ae72df1c531feb1e3f6bf1342dbafa21ef
-  languageName: node
-  linkType: hard
-
-"overlayscrollbars@npm:2.2.1":
-  version: 2.2.1
-  resolution: "overlayscrollbars@npm:2.2.1"
-  checksum: 718dd563ee17a8c92a54f0b67989806edadd5b999e36d2ab322e7813b369d1cf0198d7267ca42ca9e879023f0658825e2b050d2845e751d876285d1d3549cb5e
   languageName: node
   linkType: hard
 
