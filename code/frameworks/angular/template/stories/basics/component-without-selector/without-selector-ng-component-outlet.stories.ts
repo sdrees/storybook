@@ -1,8 +1,8 @@
 import { OnInit, Type, Component, Injector, Input } from '@angular/core';
-import { StoryFn, Meta, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { Meta, componentWrapperDecorator, moduleMetadata, StoryObj } from '@storybook/angular';
 import { WithoutSelectorComponent, WITHOUT_SELECTOR_DATA } from './without-selector.component';
 
-export default {
+const meta: Meta<WithoutSelectorComponent> = {
   // title: 'Basics / Component / without selector / Custom wrapper *NgComponentOutlet',
   component: WithoutSelectorComponent,
   decorators: [
@@ -11,6 +11,10 @@ export default {
     }),
   ],
 } as Meta;
+
+export default meta;
+
+type Story = StoryObj<WithoutSelectorComponent>;
 
 // Advanced example with custom *ngComponentOutlet
 
@@ -51,23 +55,22 @@ class NgComponentOutletWrapperComponent implements OnInit {
 
 // Live changing of args by controls does not work at the moment. When changing args storybook does not fully
 // reload and therefore does not take into account the change of provider.
-export const WithCustomNgComponentOutletWrapper: StoryFn = (args) => ({
-  props: args,
-});
-WithCustomNgComponentOutletWrapper.storyName = 'Custom wrapper *NgComponentOutlet';
-WithCustomNgComponentOutletWrapper.argTypes = {
-  name: { control: 'text' },
-  color: { control: 'color' },
-};
-WithCustomNgComponentOutletWrapper.args = { name: 'Color', color: 'green' };
-WithCustomNgComponentOutletWrapper.decorators = [
-  moduleMetadata({
-    declarations: [NgComponentOutletWrapperComponent],
-  }),
-  componentWrapperDecorator(NgComponentOutletWrapperComponent, (args) => ({
-    name: args.name,
+export const WithCustomNgComponentOutletWrapper: Story = {
+  name: 'Custom wrapper *NgComponentOutlet',
+  argTypes: {
+    name: { control: 'text' },
+    color: { control: 'color' },
+  },
+  args: { name: 'Color', color: 'green' },
+  decorators: [
+    moduleMetadata({
+      declarations: [NgComponentOutletWrapperComponent],
+    }),
+    componentWrapperDecorator(NgComponentOutletWrapperComponent, (args) => ({
+      name: args.name,
 
-    color: args['color'],
-    componentOutlet: WithoutSelectorComponent,
-  })),
-];
+      color: args['color'],
+      componentOutlet: WithoutSelectorComponent,
+    })),
+  ],
+};

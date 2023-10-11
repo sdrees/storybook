@@ -27,7 +27,7 @@ class OnDestroyComponent implements OnInit, OnDestroy {
   }
 }
 
-export default {
+const meta: Meta<OnDestroyComponent> = {
   // title: 'Basics / Component / with ngOnDestroy',
   component: OnDestroyComponent,
   parameters: {
@@ -37,4 +37,8 @@ export default {
   },
 } as Meta;
 
-export const SimpleComponent: StoryObj = {};
+export default meta;
+
+type Story = StoryObj<OnDestroyComponent>;
+
+export const SimpleComponent: Story = {};

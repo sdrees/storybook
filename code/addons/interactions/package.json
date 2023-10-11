@@ -91,7 +91,7 @@
     "@devtools-ds/object-inspector": "^1.1.2",
     "@storybook/jest": "next",
     "@storybook/testing-library": "next",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "formik": "^2.2.9",
     "typescript": "~4.9.3"
   },

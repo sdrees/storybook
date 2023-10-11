@@ -1,14 +1,19 @@
+import { Meta, StoryObj } from '@storybook/angular';
 import { DocInjectableService } from './doc-injectable.service';
 
-export default {
+const meta: Meta<DocInjectableService> = {
   component: DocInjectableService,
 };
 
-const modules = {
-  provider: [DocInjectableService],
-};
+export default meta;
 
-export const Basic = () => ({
-  moduleMetadata: modules,
-  template: '<div><h1>DocInjectable</h1></div>',
-});
+type Story = StoryObj<DocInjectableService>;
+
+export const Basic: Story = {
+  render: () => ({
+    moduleMetadata: {
+      providers: [DocInjectableService],
+    },
+    template: '<div><h1>DocInjectable</h1></div>',
+  }),
+};

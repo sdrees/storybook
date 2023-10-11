@@ -52,7 +52,7 @@
     "@babel/plugin-transform-react-jsx": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@storybook/core-webpack": "workspace:*",
-    "@types/node": "^16.0.0"
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
     "preact": "^10.5.13",

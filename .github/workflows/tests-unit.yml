@@ -9,19 +9,18 @@ on:
 
 jobs:
   build:
-    name: Core Unit Tests node-${{ matrix.node_version }}, ${{ matrix.os }}
+    name: Core Unit Tests, ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [windows-latest]
-        node_version: [16]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - name: Set node version to ${{ matrix.node_version }}
+      - name: Set node version
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node_version }}
+          node-version-file: '.nvmrc'
       - name: install and compile
         run: yarn task --task compile --start-from=auto --no-link
       - name: test

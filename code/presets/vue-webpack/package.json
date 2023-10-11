@@ -61,7 +61,7 @@
   "dependencies": {
     "@storybook/core-webpack": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.44.23",
     "vue-docgen-loader": "^1.5.1",

@@ -38,6 +38,11 @@ describe('nodejs-requirement fix', () => {
     await expect(check({})).resolves.toBeNull();
   });
 
+  it('skips when node >= 18.0.0', async () => {
+    mockNodeVersion('18.0.0');
+    await expect(check({})).resolves.toBeNull();
+  });
+
   it('prompts when node <= 16.0.0', async () => {
     mockNodeVersion('14.0.0');
     await expect(check({})).resolves.toEqual({ nodeVersion: '14.0.0' });

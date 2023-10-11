@@ -1,9 +1,9 @@
-import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
+import { StoryFn, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { ChipsModule } from './angular-src/chips.module';
 import { ChipsGroupComponent } from './angular-src/chips-group.component';
 import { CHIP_COLOR } from './angular-src/chip-color.token';
 
-export default {
+const meta: Meta<ChipsGroupComponent> = {
   // title: 'Basics / NgModule / forRoot() pattern',
   component: ChipsGroupComponent,
   decorators: [
@@ -27,24 +27,26 @@ export default {
     removeChipClick: { action: 'Remove chip' },
     removeAllChipsClick: { action: 'Remove all chips clicked' },
   },
-} as Meta;
+};
 
-const Template = (): StoryFn => (args) => ({
-  props: args,
-});
+export default meta;
 
-export const Base = Template();
-Base.storyName = 'Chips group';
+type Story = StoryObj<ChipsGroupComponent>;
 
-export const WithCustomProvider = Template();
-WithCustomProvider.decorators = [
-  moduleMetadata({
-    providers: [
-      {
-        provide: CHIP_COLOR,
-        useValue: 'yellow',
-      },
-    ],
-  }),
-];
-WithCustomProvider.storyName = 'Chips group with overridden provider';
+export const Base: Story = {
+  name: 'Chips group',
+};
+
+export const WithCustomProvider: Story = {
+  decorators: [
+    moduleMetadata({
+      providers: [
+        {
+          provide: CHIP_COLOR,
+          useValue: 'yellow',
+        },
+      ],
+    }),
+  ],
+  name: 'Chips group with overridden provider',
+};

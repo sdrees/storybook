@@ -48,7 +48,7 @@
     "@storybook/node-logger": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/find-cache-dir": "^3.2.1",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/node-fetch": "^2.6.4",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",

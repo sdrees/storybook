@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Meta, StoryFn } from '@storybook/angular/';
+import { Meta, StoryObj } from '@storybook/angular';
 
 @Component({
   selector: 'storybook-with-ng-content',
@@ -9,21 +9,29 @@ import { Meta, StoryFn } from '@storybook/angular/';
 })
 class WithNgContentComponent {}
 
-export default {
+const meta: Meta<WithNgContentComponent> = {
   // title: 'Basics / Component / With ng-content / Simple',
   component: WithNgContentComponent,
 } as Meta;
 
-export const OnlyComponent: StoryFn = () => ({});
+export default meta;
 
-export const Default: StoryFn = () => ({
-  template: `<storybook-with-ng-content><h1>This is rendered in ng-content</h1></storybook-with-ng-content>`,
-});
+type Story = StoryObj<WithNgContentComponent & { content: string }>;
 
-export const WithDynamicContentAndArgs: StoryFn = (args) => ({
-  template: `<storybook-with-ng-content><h1>${args['content']}</h1></storybook-with-ng-content>`,
-});
-WithDynamicContentAndArgs.argTypes = {
-  content: { control: 'text' },
+export const OnlyComponent: Story = {};
+
+export const Default: Story = {
+  render: () => ({
+    template: `<storybook-with-ng-content><h1>This is rendered in ng-content</h1></storybook-with-ng-content>`,
+  }),
 };
-WithDynamicContentAndArgs.args = { content: 'Default content' };
+
+export const WithDynamicContentAndArgs: Story = {
+  render: (args) => ({
+    template: `<storybook-with-ng-content><h1>${args['content']}</h1></storybook-with-ng-content>`,
+  }),
+  args: { content: 'Default content' },
+  argTypes: {
+    content: { control: 'text' },
+  },
+};

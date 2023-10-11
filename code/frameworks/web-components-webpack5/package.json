@@ -55,14 +55,14 @@
     "@storybook/core-common": "workspace:*",
     "@storybook/preset-web-components-webpack": "workspace:*",
     "@storybook/web-components": "workspace:*",
-    "@types/node": "^16.0.0"
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
     "lit": "2.3.1",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "lit": "^2.0.0",
+    "lit": "^2.0.0 || ^3.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },

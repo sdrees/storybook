@@ -50,7 +50,7 @@
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/react": "workspace:*",
-    "@types/node": "^16.0.0"
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
     "jest-specific-snapshot": "^8.0.0"

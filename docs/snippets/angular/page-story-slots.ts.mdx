@@ -2,6 +2,7 @@
 // Page.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/angular';
+import { argsToTemplate } from '@storybook/angular';
 
 import { Page } from './page.component';
 
@@ -12,7 +13,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   render: ({ footer, ...args }) => ({
     props: args,
     template: `
-      <storybook-page>
+      <storybook-page ${argsToTemplate(args)}>
         <ng-container footer>${footer}</ng-container>
       </storybook-page>`,
   }),

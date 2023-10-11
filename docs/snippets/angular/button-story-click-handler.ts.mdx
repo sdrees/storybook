@@ -20,6 +20,7 @@ export const Text: Story = {
       label: 'Button',
       onClick: action('clicked'),
     },
+    template: `<storybook-button [label]="label" (onClick)="onClick($event)"></storybook-button>`,
   }),
 };
 ```

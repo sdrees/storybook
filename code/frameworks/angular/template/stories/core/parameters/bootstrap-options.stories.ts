@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular';
 import { Component } from '@angular/core';
 
 @Component({
@@ -10,9 +10,13 @@ import { Component } from '@angular/core';
 })
 class ComponentWithWhitespace {}
 
-export default {
+const meta: Meta<ComponentWithWhitespace> = {
   // title: 'Core / Parameters / With Bootstrap Options',
   component: ComponentWithWhitespace,
-} as Meta;
+};
 
-export const WithPreserveWhitespaces: StoryFn = (_args) => ({});
+export default meta;
+
+type Story = StoryObj<ComponentWithWhitespace>;
+
+export const WithPreserveWhitespaces: Story = {};

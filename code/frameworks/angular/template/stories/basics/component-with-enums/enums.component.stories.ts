@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular';
 import {
   EnumsComponent,
   EnumNumeric,
@@ -6,19 +6,22 @@ import {
   EnumStringValues,
 } from './enums.component';
 
-export default {
+const meta: Meta<EnumsComponent> = {
   // title: 'Basics / Component / With Enum Types',
   component: EnumsComponent,
-} as Meta;
+};
 
-export const Basic: StoryFn = (args) => ({
-  props: args,
-});
-Basic.args = {
-  unionType: 'union a',
-  aliasedUnionType: 'Type Alias 1',
-  enumNumeric: EnumNumeric.FIRST,
-  enumNumericInitial: EnumNumericInitial.UNO,
-  enumStrings: EnumStringValues.PRIMARY,
-  enumAlias: EnumNumeric.FIRST,
+export default meta;
+
+type Story = StoryObj<EnumsComponent>;
+
+export const Basic: Story = {
+  args: {
+    unionType: 'Union A',
+    aliasedUnionType: 'Type Alias 1',
+    enumNumeric: EnumNumeric.FIRST,
+    enumNumericInitial: EnumNumericInitial.UNO,
+    enumStrings: EnumStringValues.PRIMARY,
+    enumAlias: EnumNumeric.FIRST,
+  },
 };

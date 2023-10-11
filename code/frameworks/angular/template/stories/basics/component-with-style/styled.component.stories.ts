@@ -1,10 +1,15 @@
+import { Meta, StoryObj } from '@storybook/angular';
 import { StyledComponent } from './styled.component';
 
-export default {
+const meta: Meta = {
   // title: 'Basics / Component / With StyleUrls',
   component: StyledComponent,
 };
 
-export const ComponentWithStyles = () => ({});
+export default meta;
 
-ComponentWithStyles.storyName = 'Component with styles';
+type Story = StoryObj<StyledComponent>;
+
+export const ComponentWithStyles: Story = {
+  name: 'Component with styles',
+};

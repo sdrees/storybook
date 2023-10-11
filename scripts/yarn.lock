@@ -2970,7 +2970,7 @@ __metadata:
     "@types/fs-extra": ^11.0.1
     "@types/http-server": ^0.12.1
     "@types/lodash": ^4
-    "@types/node": ^16.0.0
+    "@types/node": ^18.0.0
     "@types/node-fetch": ^2.5.7
     "@types/prettier": ^2
     "@types/pretty-hrtime": ^1.0.0
@@ -3711,7 +3711,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^16.0.0":
+"@types/node@npm:*, @types/node@npm:>= 8":
   version: 16.18.50
   resolution: "@types/node@npm:16.18.50"
   checksum: 4fc76918cc4e09d6cf087b385a1e2283580b1a88518f309764365cbdbdc28cdf48a77a5615ac4ce28dccee078b3da79442a032cc8aa312406943754144938cdb

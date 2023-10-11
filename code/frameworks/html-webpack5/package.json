@@ -52,7 +52,7 @@
     "@storybook/global": "^5.0.0",
     "@storybook/html": "workspace:*",
     "@storybook/preset-html-webpack": "workspace:*",
-    "@types/node": "^16.0.0"
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

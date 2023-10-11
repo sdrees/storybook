@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/angular';
 
-import { moduleMetadata } from '@storybook/angular';
+import { moduleMetadata, argsToTemplate } from '@storybook/angular';
 
 import { CommonModule } from '@angular/common';
 
@@ -26,14 +26,15 @@ type Story = StoryObj<MyComponent>;
 
 // This story uses a render function to fully control how the component renders.
 export const Example: Story = {
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
       <app-layout>
         <header>
           <h1>Example</h1>
         </header>
         <article>
-          <app-my-component></app-my-component>
+          <app-my-component ${argsToTemplate(args)}></app-my-component>
         </article>
       </app-layout>
     `,
