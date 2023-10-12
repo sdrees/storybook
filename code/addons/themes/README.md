@@ -2,7 +2,7 @@
 
 Storybook Addon Themes can be used which between multiple themes for components inside the preview in [Storybook](https://storybook.js.org).
 
-![React Storybook Screenshot](https://user-images.githubusercontent.com/42671/98158421-dada2300-1ea8-11eb-8619-af1e7018e1ec.png)
+![React Storybook Screenshot](https://user-images.githubusercontent.com/18172605/274302488-77a39112-cdbe-4d16-9966-0d8e9e7e3399.gif)
 
 ## Usage
 

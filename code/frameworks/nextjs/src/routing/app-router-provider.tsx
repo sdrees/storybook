@@ -3,11 +3,11 @@ import type {
   LayoutRouterContext as TLayoutRouterContext,
   AppRouterContext as TAppRouterContext,
   GlobalLayoutRouterContext as TGlobalLayoutRouterContext,
-} from 'next/dist/shared/lib/app-router-context';
+} from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import type {
   PathnameContext as TPathnameContext,
   SearchParamsContext as TSearchParamsContext,
-} from 'next/dist/shared/lib/hooks-client-context';
+} from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
 import type { FlightRouterState } from 'next/dist/server/app-render/types';
 import type { RouteParams } from './types';
 
@@ -25,12 +25,16 @@ let SearchParamsContext: typeof TSearchParamsContext;
 let GlobalLayoutRouterContext: typeof TGlobalLayoutRouterContext;
 
 try {
-  AppRouterContext = require('next/dist/shared/lib/app-router-context').AppRouterContext;
-  LayoutRouterContext = require('next/dist/shared/lib/app-router-context').LayoutRouterContext;
-  PathnameContext = require('next/dist/shared/lib/hooks-client-context').PathnameContext;
-  SearchParamsContext = require('next/dist/shared/lib/hooks-client-context').SearchParamsContext;
+  AppRouterContext =
+    require('next/dist/shared/lib/app-router-context.shared-runtime').AppRouterContext;
+  LayoutRouterContext =
+    require('next/dist/shared/lib/app-router-context.shared-runtime').LayoutRouterContext;
+  PathnameContext =
+    require('next/dist/shared/lib/hooks-client-context.shared-runtime').PathnameContext;
+  SearchParamsContext =
+    require('next/dist/shared/lib/hooks-client-context.shared-runtime').SearchParamsContext;
   GlobalLayoutRouterContext =
-    require('next/dist/shared/lib/app-router-context').GlobalLayoutRouterContext;
+    require('next/dist/shared/lib/app-router-context.shared-runtime').GlobalLayoutRouterContext;
 } catch {
   AppRouterContext = React.Fragment as any;
   LayoutRouterContext = React.Fragment as any;

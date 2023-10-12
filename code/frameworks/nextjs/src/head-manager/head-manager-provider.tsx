@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { HeadManagerContext } from 'next/dist/shared/lib/head-manager-context';
+import { HeadManagerContext } from 'next/dist/shared/lib/head-manager-context.shared-runtime';
 import initHeadManager from 'next/dist/client/head-manager';
 
 type HeadManagerValue = {

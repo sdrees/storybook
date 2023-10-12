@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-themes",
-  "version": "7.5.0-alpha.5",
+  "version": "7.5.0-alpha.6",
   "description": "Switch between multiple themes for you components in Storybook",
   "keywords": [
     "css",
@@ -114,6 +114,6 @@
     "unsupportedFrameworks": [
       "react-native"
     ],
-    "icon": ""
+    "icon": "https://user-images.githubusercontent.com/18172605/264114587-e4b32190-a9b7-4afa-b739-c873fc0498a6.png"
   }
 }

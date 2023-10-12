@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.5.0-alpha.5",
+  "version": "7.5.0-alpha.6",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -119,7 +119,7 @@
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
-    "next": "13.4.19",
+    "next": "13.5.4",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },

@@ -48,7 +48,7 @@ const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): 
     }),
   };
 
-  const newNextLinkBehavior = nextConfig.experimental?.newNextLinkBehavior;
+  const newNextLinkBehavior = (nextConfig.experimental as any)?.newNextLinkBehavior;
 
   /**
    * In Next 13.0.0 - 13.0.5, the `newNextLinkBehavior` option now defaults to truthy (still

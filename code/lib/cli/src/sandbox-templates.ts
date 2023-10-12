@@ -137,6 +137,17 @@ const baseTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
+  'nextjs/prerelease': {
+    name: 'Next.js Prerelease (Webpack | TypeScript)',
+    script:
+      'npx create-next-app@canary {{beforeDir}} --typescript --eslint --tailwind --app --import-alias="@/*" --src-dir',
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
   'react-vite/default-js': {
     name: 'React Latest (Vite | JavaScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template react',
@@ -296,8 +307,6 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
-    // TODO: Should be removed after we merge this PR: https://github.com/storybookjs/storybook/pull/24188
-    inDevelopment: true,
   },
   'angular-cli/default-ts': {
     name: 'Angular CLI Latest (Webpack | TypeScript)',
@@ -586,8 +595,7 @@ export const merged: TemplateKey[] = [
 ];
 export const daily: TemplateKey[] = [
   ...merged,
-  // TODO: Should be re-added after we merge this PR: https://github.com/storybookjs/storybook/pull/24188
-  // 'angular-cli/prerelease',
+  'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',
@@ -598,6 +606,7 @@ export const daily: TemplateKey[] = [
   'svelte-vite/default-js',
   'nextjs/12-js',
   'nextjs/default-js',
+  'nextjs/prerelease',
   'qwik-vite/default-ts',
   'preact-webpack5/default-js',
   'preact-vite/default-js',

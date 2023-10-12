@@ -19,12 +19,12 @@ jobs:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
       CLEANUP_SANDBOX_NODE_MODULES: true
     steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
       - uses: actions/checkout@v3
         with:
           ref: next
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
       - name: Setup git user
         run: |
           git config --global user.name "Storybook Bot"
@@ -43,7 +43,7 @@ jobs:
         run: yarn wait-on http://localhost:6001
         working-directory: ./code
       - name: Generate
-        run: yarn generate-sandboxes --local-registry --exclude=angular-cli/prerelease --debug
+        run: yarn generate-sandboxes --local-registry --debug
         working-directory: ./code
       - name: Publish
         run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=next
