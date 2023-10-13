@@ -173,7 +173,7 @@ export class PropertyExtractor implements NgModuleMetadata {
     const isPipe = decorators.some((d) => this.isDecoratorInstanceOf(d, 'Pipe'));
 
     const isDeclarable = isComponent || isDirective || isPipe;
-    const isStandalone = isComponent && decorators.some((d) => d.standalone);
+    const isStandalone = (isComponent || isDirective) && decorators.some((d) => d.standalone);
 
     return { isDeclarable, isStandalone };
   };

@@ -7,7 +7,7 @@ import {
   STORY_RENDERED,
 } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import ButtonView from './views/ButtonView.svelte';
+import ButtonView from './views/ButtonJavaScript.svelte';
 
 export default {
   component: ButtonView,

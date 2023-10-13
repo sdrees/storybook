@@ -1,15 +1,19 @@
 import { loadPreviewOrConfigFile } from '@storybook/core-common';
 import type { Options } from '@storybook/types';
 import slash from 'slash';
-import { normalizePath } from 'vite';
 import { listStories } from './list-stories';
 
-const absoluteFilesToImport = (files: string[], name: string) =>
+const absoluteFilesToImport = async (
+  files: string[],
+  name: string,
+  normalizePath: (id: string) => string
+) =>
   files
     .map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'/@fs/${normalizePath(el)}'`)
     .join('\n');
 
 export async function generateVirtualStoryEntryCode(options: Options) {
+  const { normalizePath } = await import('vite');
   const storyEntries = await listStories(options);
   const resolveMap = storyEntries.reduce<Record<string, string>>(
     (prev, entry) => ({ ...prev, [entry]: entry.replace(slash(process.cwd()), '.') }),
@@ -18,7 +22,7 @@ export async function generateVirtualStoryEntryCode(options: Options) {
   const modules = storyEntries.map((entry, i) => `${JSON.stringify(entry)}: story_${i}`).join(',');
 
   return `
-    ${absoluteFilesToImport(storyEntries, 'story')}
+    ${await absoluteFilesToImport(storyEntries, 'story', normalizePath)}
 
     function loadable(key) {
       return {${modules}}[key];

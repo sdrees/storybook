@@ -1,5 +1,4 @@
 import * as path from 'path';
-import { loadConfigFromFile, mergeConfig } from 'vite';
 import findCacheDirectory from 'find-cache-dir';
 import type {
   ConfigEnv,
@@ -41,6 +40,8 @@ export async function commonConfig(
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
+  const { loadConfigFromFile, mergeConfig } = await import('vite');
+
   const { viteConfigPath } = await getBuilderOptions<BuilderOptions>(options);
 
   const projectRoot = path.resolve(options.configDir, '..');
@@ -80,8 +81,8 @@ export async function pluginConfig(options: Options) {
   const plugins = [
     codeGeneratorPlugin(options),
     await csfPlugin(options),
-    injectExportOrderPlugin,
-    stripStoryHMRBoundary(),
+    await injectExportOrderPlugin(),
+    await stripStoryHMRBoundary(),
     {
       name: 'storybook:allow-storybook-dir',
       enforce: 'post',

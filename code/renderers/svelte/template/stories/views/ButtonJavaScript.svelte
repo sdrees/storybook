@@ -4,7 +4,8 @@
    * @wrapper
    */
   import { global as globalThis } from '@storybook/global';
-  const Button = globalThis.Components.Button;
+  // @ts-ignore
+  const Button = globalThis.Components?.Button;
 
   /**
    * Rounds the button

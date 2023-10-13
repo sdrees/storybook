@@ -3,7 +3,6 @@ import findCacheDirectory from 'find-cache-dir';
 import { init, parse } from 'es-module-lexer';
 import MagicString from 'magic-string';
 import { ensureFile, writeFile } from 'fs-extra';
-import { mergeAlias } from 'vite';
 import type { Alias, Plugin } from 'vite';
 
 const escapeKeys = (key: string) => key.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -38,6 +37,8 @@ const replacementMap = new Map([
  */
 export async function externalGlobalsPlugin(externals: Record<string, string>) {
   await init;
+  const { mergeAlias } = await import('vite');
+
   return {
     name: 'storybook:external-globals-plugin',
     enforce: 'post',

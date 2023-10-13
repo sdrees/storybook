@@ -1,10 +1,10 @@
-import { build as viteBuild, mergeConfig } from 'vite';
 import type { Options } from '@storybook/types';
 import { commonConfig } from './vite-config';
 
 import { sanitizeEnvVars } from './envs';
 
 export async function build(options: Options) {
+  const { build: viteBuild, mergeConfig } = await import('vite');
   const { presets } = options;
 
   const config = await commonConfig(options, 'build');
@@ -21,6 +21,5 @@ export async function build(options: Options) {
   }).build;
 
   const finalConfig = await presets.apply('viteFinal', config, options);
-
   await viteBuild(await sanitizeEnvVars(options, finalConfig));
 }

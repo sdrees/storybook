@@ -7,6 +7,23 @@ import type { SvelteParserOptions } from 'sveltedoc-parser';
 import { logger } from '@storybook/node-logger';
 import { preprocess } from 'svelte/compiler';
 import { createFilter } from 'vite';
+import { replace, typescript } from 'svelte-preprocess';
+
+/*
+ * Patch sveltedoc-parser internal options.
+ * Waiting for a fix for https://github.com/alexprey/sveltedoc-parser/issues/87
+ */
+const svelteDocParserOptions = require('sveltedoc-parser/lib/options.js');
+
+svelteDocParserOptions.getAstDefaultOptions = () => ({
+  range: true,
+  loc: true,
+  comment: true,
+  tokens: true,
+  ecmaVersion: 12,
+  sourceType: 'module',
+  ecmaFeatures: {},
+});
 
 // Most of the code here should probably be exported by @storybook/svelte and reused here.
 // See: https://github.com/storybookjs/storybook/blob/next/app/svelte/src/server/svelte-docgen-loader.ts
@@ -48,19 +65,43 @@ export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOpt
   const include = /\.(svelte)$/;
   const filter = createFilter(include);
 
+  let docPreprocessOptions: Parameters<typeof preprocess>[1] | undefined;
+
   return {
     name: 'storybook:svelte-docgen-plugin',
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;
 
+      if (preprocessOptions && !docPreprocessOptions) {
+        /*
+         * We can't use vitePreprocess() for the documentation
+         * because it uses esbuild which removes jsdoc.
+         *
+         * By default, only typescript is transpiled, and style tags are removed.
+         *
+         * Note: these preprocessors are only used to make the component
+         * compatible to sveltedoc-parser (no ts), not to compile
+         * the component.
+         */
+        docPreprocessOptions = [replace([[/<style.+<\/style>/gims, '']])];
+
+        try {
+          const ts = require.resolve('typescript');
+          if (ts) {
+            docPreprocessOptions.unshift(typescript());
+          }
+        } catch {
+          // this will error in JavaScript-only projects, this is okay
+        }
+      }
+
       const resource = path.relative(cwd, id);
 
       let docOptions;
-      if (preprocessOptions) {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const src = fs.readFileSync(resource).toString();
+      if (docPreprocessOptions) {
+        const rawSource = fs.readFileSync(resource).toString();
 
-        const { code: fileContent } = await preprocess(src, preprocessOptions, {
+        const { code: fileContent } = await preprocess(rawSource, docPreprocessOptions, {
           filename: resource,
         });
 
@@ -79,20 +120,23 @@ export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOpt
 
       const s = new MagicString(src);
 
+      let componentDoc: any;
       try {
-        const componentDoc = await svelteDoc.parse(options);
-        // get filename for source content
-        const file = path.basename(resource);
-
-        componentDoc.name = path.basename(file);
-
-        const componentName = getNameFromFilename(resource);
-        s.append(`;${componentName}.__docgen = ${JSON.stringify(componentDoc)}`);
+        componentDoc = await svelteDoc.parse(options);
       } catch (error: any) {
+        componentDoc = { keywords: [], data: [] };
         if (logDocgen) {
           logger.error(error);
         }
       }
+
+      // get filename for source content
+      const file = path.basename(resource);
+
+      componentDoc.name = path.basename(file);
+
+      const componentName = getNameFromFilename(resource);
+      s.append(`;${componentName}.__docgen = ${JSON.stringify(componentDoc)}`);
 
       return {
         code: s.toString(),

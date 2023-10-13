@@ -1,4 +1,4 @@
-import ButtonView from './views/ButtonView.svelte';
+import ButtonView from './views/ButtonJavaScript.svelte';
 import BorderDecoratorRed from './views/BorderDecoratorRed.svelte';
 import BorderDecoratorBlue from './views/BorderDecoratorBlue.svelte';
 import BorderDecoratorProps from './views/BorderDecoratorProps.svelte';

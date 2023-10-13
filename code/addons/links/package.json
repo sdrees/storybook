@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-links",
-  "version": "7.5.0-alpha.6",
+  "version": "7.5.0-alpha.7",
   "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",

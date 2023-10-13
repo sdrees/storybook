@@ -4,9 +4,10 @@ import { glob } from 'glob';
 import { normalizeStories, commonGlobOptions } from '@storybook/core-common';
 
 import type { Options } from '@storybook/types';
-import { normalizePath } from 'vite';
 
 export async function listStories(options: Options) {
+  const { normalizePath } = await import('vite');
+
   return (
     await Promise.all(
       normalizeStories(await options.presets.apply('stories', [], options), {
