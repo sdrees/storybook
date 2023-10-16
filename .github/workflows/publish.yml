@@ -98,7 +98,7 @@ jobs:
       - name: Check release vs prerelease
         if: steps.publish-needed.outputs.published == 'false'
         id: is-prerelease
-        run: yarn release:is-prerelease
+        run: yarn release:is-prerelease ${{ steps.version.outputs.current-version }} --verbose
 
       - name: Install code dependencies
         if: steps.publish-needed.outputs.published == 'false'

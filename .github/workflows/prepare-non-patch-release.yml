@@ -93,13 +93,14 @@ jobs:
         run: git fetch --tags origin
 
       - name: Check for unreleased changes
+        if: github.event_name != 'workflow_dispatch'
         id: unreleased-changes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn release:unreleased-changes-exists
 
       - name: Cancel when no release necessary
-        if: steps.unreleased-changes.outputs.has-changes-to-release == 'false'
+        if: steps.unreleased-changes.outputs.has-changes-to-release == 'false' && github.event_name != 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # From https://stackoverflow.com/a/75809743
@@ -114,7 +115,7 @@ jobs:
 
       - name: Check release vs prerelease
         id: is-prerelease
-        run: yarn release:is-prerelease
+        run: yarn release:is-prerelease ${{ steps.bump-version.outputs.next-version }} --verbose
 
       - name: Write changelog
         env:
