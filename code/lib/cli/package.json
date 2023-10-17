@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.5.0-alpha.7",
+  "version": "7.6.0-alpha.0",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",

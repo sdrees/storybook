@@ -84,8 +84,9 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   vertical = false,
   offset = 2,
   scrollbarSize = 6,
+  className,
 }) => (
-  <ScrollAreaRoot scrollbarsize={scrollbarSize} offset={offset}>
+  <ScrollAreaRoot scrollbarsize={scrollbarSize} offset={offset} className={className}>
     <ScrollAreaViewport>{children}</ScrollAreaViewport>
     {horizontal && (
       <ScrollAreaScrollbar
