@@ -150,7 +150,7 @@ const baseTemplates = {
   },
   'react-vite/default-js': {
     name: 'React Latest (Vite | JavaScript)',
-    script: 'npm create vite@beta --yes {{beforeDir}} -- --template react',
+    script: 'npm create vite --yes {{beforeDir}} -- --template react',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -160,7 +160,7 @@ const baseTemplates = {
   },
   'react-vite/default-ts': {
     name: 'React Latest (Vite | TypeScript)',
-    script: 'npm create vite@beta --yes {{beforeDir}} -- --template react-ts',
+    script: 'npm create vite --yes {{beforeDir}} -- --template react-ts',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -215,7 +215,7 @@ const baseTemplates = {
   },
   'vue3-vite/default-js': {
     name: 'Vue v3 (Vite | JavaScript)',
-    script: 'npm create vite@beta --yes {{beforeDir}} -- --template vue',
+    script: 'npm create vite --yes {{beforeDir}} -- --template vue',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -225,7 +225,7 @@ const baseTemplates = {
   },
   'vue3-vite/default-ts': {
     name: 'Vue v3 (Vite | TypeScript)',
-    script: 'npm create vite@beta --yes {{beforeDir}} -- --template vue-ts',
+    script: 'npm create vite --yes {{beforeDir}} -- --template vue-ts',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -257,7 +257,7 @@ const baseTemplates = {
   'html-vite/default-js': {
     name: 'HTML Latest (Vite | JavaScript)',
     script:
-      'npm create vite@beta --yes {{beforeDir}} -- --template vanilla && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
+      'npm create vite --yes {{beforeDir}} -- --template vanilla && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -268,7 +268,7 @@ const baseTemplates = {
   'html-vite/default-ts': {
     name: 'HTML Latest (Vite | TypeScript)',
     script:
-      'npm create vite@beta --yes {{beforeDir}} -- --template vanilla-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
+      'npm create vite --yes {{beforeDir}} -- --template vanilla-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -278,7 +278,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-js': {
     name: 'Svelte Latest (Vite | JavaScript)',
-    script: 'npm create vite@beta --yes {{beforeDir}} -- --template svelte',
+    script: 'npm create vite --yes {{beforeDir}} -- --template svelte',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -288,7 +288,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-ts': {
     name: 'Svelte Latest (Vite | TypeScript)',
-    script: 'npm create vite@beta --yes {{beforeDir}} -- --template svelte-ts',
+    script: 'npm create vite --yes {{beforeDir}} -- --template svelte-ts',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -355,7 +355,7 @@ const baseTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Latest (Vite | JavaScript)',
     script:
-      'npm create vite@beta --yes {{beforeDir}} -- --template lit && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
+      'npm create vite --yes {{beforeDir}} -- --template lit && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -367,7 +367,7 @@ const baseTemplates = {
   'lit-vite/default-ts': {
     name: 'Lit Latest (Vite | TypeScript)',
     script:
-      'npm create vite@beta --yes {{beforeDir}} -- --template lit-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
+      'npm create vite --yes {{beforeDir}} -- --template lit-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -424,7 +424,7 @@ const baseTemplates = {
   },
   'preact-vite/default-js': {
     name: 'Preact Latest (Vite | JavaScript)',
-    script: 'npm create vite@beta --yes {{beforeDir}} -- --template preact',
+    script: 'npm create vite --yes {{beforeDir}} -- --template preact',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
@@ -434,7 +434,7 @@ const baseTemplates = {
   },
   'preact-vite/default-ts': {
     name: 'Preact Latest (Vite | TypeScript)',
-    script: 'npm create vite@beta --yes {{beforeDir}} -- --template preact-ts',
+    script: 'npm create vite --yes {{beforeDir}} -- --template preact-ts',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',

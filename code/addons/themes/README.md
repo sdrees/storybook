@@ -1,4 +1,4 @@
-# `@storybook/addon-themes
+# @storybook/addon-themes
 
 Storybook Addon Themes can be used which between multiple themes for components inside the preview in [Storybook](https://storybook.js.org).
 

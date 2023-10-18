@@ -13,6 +13,10 @@ test.describe('navigating', () => {
 
     await sbPage.waitUntilLoaded();
 
+    await page.waitForFunction(() =>
+      window.document.location.href.match('/docs/example-button--docs')
+    );
+
     await expect(sbPage.page.url()).toContain('/docs/example-button--docs');
   });
 });
