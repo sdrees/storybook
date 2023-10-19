@@ -1,5 +1,7 @@
 <h1>Migration</h1>
 
+- [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
+  - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
   - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
   - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
@@ -304,6 +306,12 @@
   - [Webpack upgrade](#webpack-upgrade)
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
+
+## From version 7.5.0 to 7.6.0
+
+##### Primary doc block accepts of prop
+
+The `Primary` doc block now also accepts an `of` prop as described in the [Doc Blocks](#doc-blocks) section. It still accepts being passed `name` or no props at all.
 
 ## From version 7.4.0 to 7.5.0
 

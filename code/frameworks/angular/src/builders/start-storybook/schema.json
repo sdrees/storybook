@@ -130,7 +130,7 @@
       "description": "URL path to be appended when visiting Storybook for the first time"
     },
     "webpackStatsJson": {
-      "type": "string",
+      "type": ["boolean", "string"],
       "description": "Write Webpack Stats JSON to disk",
       "default": false
     },
@@ -142,6 +142,11 @@
       "type": "string",
       "description": "Controls level of logging during build. Can be one of: [silly, verbose, info (default), warn, error, silent].",
       "pattern": "(silly|verbose|info|warn|silent)"
+    },
+    "sourceMap": {
+      "type": ["boolean", "object"],
+      "description": "Configure sourcemaps. See: https://angular.io/guide/workspace-config#source-map-configuration",
+      "default": false
     }
   },
   "additionalProperties": false,

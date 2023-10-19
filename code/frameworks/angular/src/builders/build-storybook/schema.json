@@ -101,6 +101,11 @@
       "items": {
         "$ref": "#/definitions/assetPattern"
       }
+    },
+    "sourceMap": {
+      "type": ["boolean", "object"],
+      "description": "Configure sourcemaps. See: https://angular.io/guide/workspace-config#source-map-configuration",
+      "default": false
     }
   },
   "additionalProperties": false,

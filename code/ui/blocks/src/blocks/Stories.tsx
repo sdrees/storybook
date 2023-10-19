@@ -26,7 +26,7 @@ const StyledHeading: typeof Heading = styled(Heading)(({ theme }) => ({
   },
 }));
 
-export const Stories: FC<StoriesProps> = ({ title, includePrimary = true }) => {
+export const Stories: FC<StoriesProps> = ({ title = 'Stories', includePrimary = true }) => {
   const { componentStories } = useContext(DocsContext);
 
   let stories = componentStories().filter((story) => !story.parameters?.docs?.disable);
@@ -45,8 +45,4 @@ export const Stories: FC<StoriesProps> = ({ title, includePrimary = true }) => {
       )}
     </>
   );
-};
-
-Stories.defaultProps = {
-  title: 'Stories',
 };

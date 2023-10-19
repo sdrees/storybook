@@ -144,6 +144,7 @@ jobs:
           git checkout --ours .
           git add .
           git commit --no-verify -m "Merge latest-release into version-non-patch-from-${{ steps.bump-version.outputs.current-version }} with conflicts resolved to ours [skip ci]"
+          git push origin version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
 
       - name: Generate PR description
         id: description

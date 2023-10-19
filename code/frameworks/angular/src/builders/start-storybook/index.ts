@@ -19,6 +19,7 @@ import { addToGlobalContext } from '@storybook/telemetry';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import {
   AssetPattern,
+  SourceMapUnion,
   StyleElement,
 } from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
@@ -36,6 +37,7 @@ export type StorybookBuilderOptions = JsonObject & {
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
+  sourceMap?: SourceMapUnion;
 } & Pick<
     // makes sure the option exists
     CLIOptions,
@@ -111,6 +113,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         loglevel,
         webpackStatsJson,
         previewUrl,
+        sourceMap = false,
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
@@ -134,6 +137,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
           ...(stylePreprocessorOptions ? { stylePreprocessorOptions } : {}),
           ...(styles ? { styles } : {}),
           ...(assets ? { assets } : {}),
+          sourceMap,
         },
         tsConfig,
         initialPath,
