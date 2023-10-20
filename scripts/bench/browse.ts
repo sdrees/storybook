@@ -1,5 +1,5 @@
 import { chromium } from 'playwright';
-import { now } from './utils';
+import { now, getPreviewPage } from './utils';
 
 interface Result {
   managerHeaderVisible?: number;
@@ -44,7 +44,7 @@ async function benchAutodocs(url: string) {
 
   const tasks = [
     async () => {
-      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      const previewPage = await getPreviewPage(page);
       await previewPage.setDefaultTimeout(40000);
 
       await previewPage.waitForLoadState('load');
@@ -71,7 +71,7 @@ async function benchMDX(url: string) {
 
   const tasks = [
     async () => {
-      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      const previewPage = await getPreviewPage(page);
       await previewPage.setDefaultTimeout(40000);
 
       await previewPage.waitForLoadState('load');
@@ -89,7 +89,8 @@ async function benchMDX(url: string) {
 
 async function benchStory(url: string) {
   const result: Result = {};
-  const browser = await chromium.launch(/* { headless: false } */);
+  // change this to true, to see the browser in action
+  const browser = await chromium.launch({ headless: true });
   await browser.newContext();
   const page = await browser.newPage();
 
@@ -97,7 +98,6 @@ async function benchStory(url: string) {
   await page.goto(`${url}?path=/story/example-button--primary`);
 
   const tasks = [
-    //
     async () => {
       await page.waitForSelector('.sidebar-header', { state: 'attached' });
       result.managerHeaderVisible = now() - start;
@@ -107,7 +107,7 @@ async function benchStory(url: string) {
       result.managerIndexVisible = now() - start;
     },
     async () => {
-      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      const previewPage = await getPreviewPage(page);
       await previewPage.setDefaultTimeout(40000);
 
       await previewPage.waitForLoadState('load');

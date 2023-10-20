@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { ensureDir, writeJSON, readJSON, readdir } from 'fs-extra';
+import type { Page } from 'playwright-core';
 import type { BenchResults } from './types';
 
 export const now = () => new Date().getTime();
@@ -30,3 +31,11 @@ export const loadBench = async (options: SaveBenchOptions): Promise<Partial<Benc
   }, Promise.resolve({}));
   // return readJSON(join(dirname, `bench.json`));
 };
+
+export async function getPreviewPage(page: Page) {
+  await page.waitForFunction(() => {
+    return document.querySelector('iframe')?.contentDocument.readyState === 'complete';
+  });
+  const previewPage = await page.frame({ url: /iframe.html/ }).page();
+  return previewPage;
+}
