@@ -1,3 +1,10 @@
+## 7.6.0-alpha.2
+
+- Actions: Fix missing crypto module crashing React Native - [#24546](https://github.com/storybookjs/storybook/pull/24546), thanks [@dannyhw](https://github.com/dannyhw)!
+- Core: Fix post message channel location.search access for React Native - [#24545](https://github.com/storybookjs/storybook/pull/24545), thanks [@dannyhw](https://github.com/dannyhw)!
+- ManagerBuilder: Fix `"type": "commonjs"` compatibility - [#24534](https://github.com/storybookjs/storybook/pull/24534), thanks [@ndelangen](https://github.com/ndelangen)!
+- React: Upgrade `react-docgen` to v7 - [#24530](https://github.com/storybookjs/storybook/pull/24530), thanks [@shilman](https://github.com/shilman)!
+
 ## 7.6.0-alpha.1
 
 - Angular: Add source-map option to builder - [#24466](https://github.com/storybookjs/storybook/pull/24466), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

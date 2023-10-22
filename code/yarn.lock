@@ -7707,7 +7707,7 @@ __metadata:
     "@types/node": ^18.0.0
     "@vitejs/plugin-react": ^3.0.1
     magic-string: ^0.30.0
-    react-docgen: ^6.0.2
+    react-docgen: ^7.0.0
     typescript: ~4.9.3
     vite: ^4.0.0
   peerDependencies:
@@ -9062,10 +9062,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/doctrine@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@types/doctrine@npm:0.0.6"
-  checksum: eae59a178be3b7989f3dd269cbe30fee9041a95ccb7ac963bbff3fcc82e7985c5002228afe23b7fad985f3eedf5257d36c7011bd8caafb087fcdcc6df1e52cb3
+"@types/doctrine@npm:^0.0.8":
+  version: 0.0.8
+  resolution: "@types/doctrine@npm:0.0.8"
+  checksum: ca4cab4a94526ec3579c3f10a027298028d34b4c092e4b6791afb37a5f6899208ee1e91bc9542541f31d6d3ba3d1a70408deaa1f105c22c86d23e3a87c59a43c
   languageName: node
   linkType: hard
 
@@ -26939,21 +26939,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen@npm:^6.0.2":
-  version: 6.0.4
-  resolution: "react-docgen@npm:6.0.4"
+"react-docgen@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "react-docgen@npm:7.0.0"
   dependencies:
     "@babel/core": ^7.18.9
     "@babel/traverse": ^7.18.9
     "@babel/types": ^7.18.9
     "@types/babel__core": ^7.18.0
     "@types/babel__traverse": ^7.18.0
-    "@types/doctrine": ^0.0.6
+    "@types/doctrine": ^0.0.8
     "@types/resolve": ^1.20.2
     doctrine: ^3.0.0
     resolve: ^1.22.1
     strip-indent: ^4.0.0
-  checksum: 6e372de705b0ce576c8a46c8aedaea3f584441b18d68c02128f14e20657597fe088c80bb67374d5057001f71505924e07d6e366ec8d768e2456d47395bd32066
+  checksum: 79678d01644e6519450f847c77fa554a7a80ae3a5ff81b1482d1458caa064cf3be88597051375ba7a90921980feb8586378e1560146d64c41d0e569465315575
   languageName: node
   linkType: hard
 

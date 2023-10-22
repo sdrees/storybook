@@ -39,6 +39,14 @@ const serializeArg = <T>(a: T) => {
   return a;
 };
 
+// TODO react native doesn't have the crypto module, we should figure out a better way to generate these ids.
+const generateId = () => {
+  return typeof crypto === 'object' && typeof crypto.getRandomValues === 'function'
+    ? uuidv4()
+    : // pseudo random id, example response lo1e7zm4832bkr7yfl7
+      Date.now().toString(36) + Math.random().toString(36).substring(2);
+};
+
 export function action(name: string, options: ActionOptions = {}): HandlerFunction {
   const actionOptions = {
     ...config,
@@ -47,7 +55,8 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
 
   const handler = function actionHandler(...args: any[]) {
     const channel = addons.getChannel();
-    const id = uuidv4();
+    // this makes sure that in js enviroments like react native you can still get an id
+    const id = generateId();
     const minDepth = 5; // anything less is really just storybook internals
     const serializedArgs = args.map(serializeArg);
     const normalizedArgs = args.length > 1 ? serializedArgs : serializedArgs[0];

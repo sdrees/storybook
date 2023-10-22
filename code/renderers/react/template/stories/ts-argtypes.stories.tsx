@@ -25,6 +25,7 @@ import { component as TsComponentPropsComponent } from './docgen-components/9922
 import { component as TsJsdocComponent } from './docgen-components/ts-jsdoc/input';
 import { component as TsTypesComponent } from './docgen-components/ts-types/input';
 import { component as TsHtmlComponent } from './docgen-components/ts-html/input';
+import { component as TsFCComponent } from './docgen-components/ts-react-fc/input';
 
 export default {
   component: {},
@@ -77,6 +78,8 @@ export const TsExtendProps = { parameters: { component: TsExtendPropsComponent }
 export const TsComponentProps = { parameters: { component: TsComponentPropsComponent } };
 
 export const TsJsdoc = { parameters: { component: TsJsdocComponent } };
+
+export const TsFC = { parameters: { component: TsFCComponent } };
 
 const addChromaticIgnore = async (element: HTMLElement) => {
   const row = element.parentElement?.parentElement;
