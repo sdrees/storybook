@@ -86,8 +86,8 @@ export const link = async ({ target, local, start }: LinkOptions) => {
     shell: true,
   }).stdout.toString();
 
-  if (!/^[23]\./.test(version)) {
-    logger.warn(`🚨 Expected yarn 2 or 3 in ${reproDir}!`);
+  if (!/^[2-4]\./.test(version)) {
+    logger.warn(`🚨 Expected yarn 2 or higher in ${reproDir}!`);
     logger.warn('');
     logger.warn('Please set it up with `yarn set version berry`,');
     logger.warn(`then link '${reproDir}' with the '--local' flag.`);
