@@ -26,7 +26,7 @@ Make sure you have installed [`@storybook/manager-api`](https://www.npmjs.com/pa
 
 <!-- prettier-ignore-end -->
 
-As an example, you can tell Storybook to use the "dark" theme by modifying [`.storybook/manager.js`](./overview.md#configure-story-rendering):
+As an example, you can tell Storybook to use the "dark" theme by modifying [`.storybook/manager.js`](./features-and-behavior.md):
 
 <!-- prettier-ignore-start -->
 
@@ -44,7 +44,7 @@ When setting a theme, set a complete theme object. The theme is replaced, not co
 
 [Storybook Docs](../writing-docs/introduction.md) uses the same theme system as Storybook’s UI but is themed independently from the main UI.
 
-Supposing you have a Storybook theme defined for the main UI in [`.storybook/manager.js`](./overview.md#configure-story-rendering):
+Supposing you have a Storybook theme defined for the main UI in [`.storybook/manager.js`](./features-and-behavior.md):
 
 <!-- prettier-ignore-start -->
 

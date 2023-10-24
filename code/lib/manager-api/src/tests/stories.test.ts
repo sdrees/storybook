@@ -899,6 +899,16 @@ describe('stories API', () => {
       api.selectStory('intro');
       expect(navigate).toHaveBeenCalledWith('/docs/intro--docs');
     });
+    it('updates lastTrackedStoryId', () => {
+      const initialState = { path: '/story/a--1', storyId: 'a--1', viewMode: 'story' };
+      const moduleArgs = createMockModuleArgs({ initialState });
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      api.setIndex({ v: 4, entries: navigationEntries });
+      api.selectStory('a--1');
+      expect(store.getState().settings.lastTrackedStoryId).toBe('a--1');
+    });
     describe('deprecated api', () => {
       it('allows navigating to a combination of title + name', () => {
         const initialState = { path: '/story/a--1', storyId: 'a--1', viewMode: 'story' };

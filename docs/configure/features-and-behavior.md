@@ -2,7 +2,7 @@
 title: 'Features and behavior'
 ---
 
-To control the layout of Storybook’s UI you can use `addons.setConfig` in your [`.storybook/manager.js`](./overview.md#configure-story-rendering):
+To control the layout of Storybook’s UI you can use `addons.setConfig` in your `.storybook/manager.js`:
 
 <!-- prettier-ignore-start -->
 
@@ -56,4 +56,4 @@ You can use URL parameters to configure some of the available features:
 | **showPanel**       |   `panel`    | `false`, `right`, `bottom` |
 | **selectedPanel**   | `addonPanel` |        Any panel ID        |
 | **showTabs**        |    `tabs`    |           `true`           |
-|       ---           | `instrument` |      `false`, `true`       |
+| ---                 | `instrument` |      `false`, `true`       |

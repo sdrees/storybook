@@ -412,6 +412,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
         if (!entry) throw new Error(`Unknown id or title: '${titleOrId}'`);
 
+        store.setState({
+          settings: { ...store.getState().settings, lastTrackedStoryId: entry.id },
+        });
+
         // We want to navigate to the first ancestor entry that is a leaf
         const leafEntry = api.findLeafEntry(hash, entry.id);
         const fullId = leafEntry.refId ? `${leafEntry.refId}_${leafEntry.id}` : leafEntry.id;

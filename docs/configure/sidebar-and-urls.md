@@ -16,7 +16,7 @@ By default, Storybook will treat your top-level nodes as “roots”. Roots are 
 
 ![Storybook sidebar story roots](./sidebar-roots.png)
 
-If you’d prefer to show top-level nodes as folders rather than roots, you can set the `sidebar.showRoots` option to `false` in [`./storybook/manager.js`](./overview.md#configure-story-rendering):
+If you’d prefer to show top-level nodes as folders rather than roots, you can set the `sidebar.showRoots` option to `false` in [`./storybook/manager.js`](./features-and-behavior.md):
 
 <!-- prettier-ignore-start -->
 
