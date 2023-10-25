@@ -38,6 +38,24 @@ export interface BenchResults {
   buildPrebuildSize: number;
   /** Total size of everything else (user's stories & components & CSS & assets etc.) */
   buildPreviewSize: number;
+  /** Full `sb build` time */
+  testBuildTime: number;
+  /** Size of the storybook-static directory in total */
+  testBuildSize: number;
+  /** Size of the storybook-static/sb-addons in total */
+  testBuildSbAddonsSize: number;
+  /** Size of the storybook-static/sb-common-assets */
+  testBuildSbCommonSize: number;
+  /** Size of the storybook-static/sb-manager */
+  testBuildSbManagerSize: number;
+  /** Size of storybook-static/sb-preview */
+  testBuildSbPreviewSize: number;
+  /** Size of the `static` directory if it exists */
+  testBuildStaticSize: number;
+  /** Total size of `sb-x` above */
+  testBuildPrebuildSize: number;
+  /** Total size of everything else (user's stories & components & CSS & assets etc.) */
+  testBuildPreviewSize: number;
   /** Time to wait-on iframe.html */
   devPreviewResponsive: number;
   /** Time to wait-on index.html */

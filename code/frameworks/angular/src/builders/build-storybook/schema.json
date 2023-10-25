@@ -49,6 +49,11 @@
       "description": "Starts Storybook in documentation mode. Learn more about it : https://storybook.js.org/docs/react/writing-docs/build-documentation#preview-storybooks-documentation.",
       "default": false
     },
+    "test": {
+      "type": "boolean",
+      "description": "Build the static version of the sandbox optimized for testing purposes",
+      "default": false
+    },
     "compodoc": {
       "type": "boolean",
       "description": "Execute compodoc before.",
