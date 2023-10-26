@@ -36,7 +36,7 @@ To opt into a builder, the user must add it as a dependency and then edit their 
 
 ## Builder API
 
-In Storybook, every builder must implement the following [API](https://github.com/storybookjs/storybook/blob/next/code/lib/core-common/src/types.ts#L170-L189), exposing the following configuration options and entry points:
+In Storybook, every builder must implement the following [API](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/core-common.ts#L183-L203), exposing the following configuration options and entry points:
 
 <!-- prettier-ignore-start -->
 

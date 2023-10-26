@@ -19,7 +19,6 @@ const fn = JestMock.fn.bind(JestMock);
 // Aliasing `fn` to `action` here, so we get a more descriptive label in the UI.
 const { action } = instrument({ action: fn }, { retain: true });
 const channel = addons.getChannel();
-const seen = new Set<any>();
 const spies: any[] = [];
 
 channel.on(FORCE_REMOUNT, () => spies.forEach((mock) => mock?.mockClear?.()));
@@ -28,8 +27,6 @@ channel.on(STORY_RENDER_PHASE_CHANGED, ({ newPhase }) => {
 });
 
 const addSpies = (id: string, val: any, key?: string): any => {
-  if (seen.has(val)) return val;
-  seen.add(val);
   try {
     if (Object.prototype.toString.call(val) === '[object Object]') {
       // We have to mutate the original object for this to survive HMR.
@@ -40,7 +37,8 @@ const addSpies = (id: string, val: any, key?: string): any => {
     if (Array.isArray(val)) {
       return val.map((item, index) => addSpies(id, item, `${key}[${index}]`));
     }
-    if (typeof val === 'function' && val.isAction) {
+    // eslint-disable-next-line no-underscore-dangle
+    if (typeof val === 'function' && val.isAction && !val._isMockFunction) {
       Object.defineProperty(val, 'name', { value: key, writable: false });
       Object.defineProperty(val, '__storyId__', { value: id, writable: false });
       const spy = action(val);

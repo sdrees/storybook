@@ -17,7 +17,7 @@ import type {
   StorybookConfig,
 } from '@storybook/types';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
-import { join } from 'path';
+import { join, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
@@ -61,15 +61,16 @@ export const favicon = async (
     const lists = await Promise.all(
       statics.map(async (dir) => {
         const results = [];
-        const relativeDir = staticDirsValue
-          ? getDirectoryFromWorkingDir({
-              configDir: options.configDir,
-              workingDir: process.cwd(),
-              directory: dir,
-            })
-          : dir;
+        const normalizedDir =
+          staticDirsValue && !isAbsolute(dir)
+            ? getDirectoryFromWorkingDir({
+                configDir: options.configDir,
+                workingDir: process.cwd(),
+                directory: dir,
+              })
+            : dir;
 
-        const { staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+        const { staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
         if (targetEndpoint === '/') {
           const url = 'favicon.svg';

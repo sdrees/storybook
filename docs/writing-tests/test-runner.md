@@ -199,7 +199,7 @@ Listed below are the available hooks and an overview of how to use them.
 
 | Hook         | Description                                                                                        |
 | ------------ | -------------------------------------------------------------------------------------------------- |
-| `prepare`    | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }() {}` |
+| `prepare`    | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`  |
 | `setup`      | Executes once before all the tests run<br/>`setup() {}`                                            |
 | `preRender`  | Executes before a story is rendered<br/>`async preRender(page, context) {}`                        |
 | `postRender` | Executes after the story is rendered<br/>`async postRender(page, context) {}`                      |

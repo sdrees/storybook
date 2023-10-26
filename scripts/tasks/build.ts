@@ -12,10 +12,14 @@ export const build: Task = {
   async ready({ builtSandboxDir }) {
     return pathExists(builtSandboxDir);
   },
-  async run({ sandboxDir }, { dryRun, debug }) {
+  async run({ sandboxDir, template }, { dryRun, debug }) {
     const start = now();
 
-    await exec(`yarn build-storybook --quiet`, { cwd: sandboxDir }, { dryRun, debug });
+    await exec(
+      `yarn build-storybook --quiet ${template.modifications?.testBuild ? '--test' : ''}`,
+      { cwd: sandboxDir },
+      { dryRun, debug }
+    );
 
     const buildTime = now() - start;
     const dir = join(sandboxDir, 'storybook-static');
@@ -43,52 +47,6 @@ export const build: Task = {
         buildStaticSize,
         buildPrebuildSize,
         buildPreviewSize,
-      },
-      { rootDir: sandboxDir }
-    );
-  },
-};
-
-export const testBuild: Task = {
-  description: 'Build the static version of the sandbox optimized for testing purposes',
-  dependsOn: ['sandbox'],
-  async ready({ builtSandboxDir }) {
-    return pathExists(builtSandboxDir);
-  },
-  async run({ sandboxDir }, { dryRun, debug }) {
-    const start = now();
-
-    await exec(`yarn build-storybook --test --quiet`, { cwd: sandboxDir }, { dryRun, debug });
-
-    const testBuildTime = now() - start;
-    const dir = join(sandboxDir, 'storybook-static');
-    const getSize = promisify(dirSize);
-    const testBuildSize = await getSize(dir);
-    const testBuildSbAddonsSize = await getSize(join(dir, 'sb-addons'));
-    const testBuildSbCommonSize = await getSize(join(dir, 'sb-common-assets'));
-    const testBuildSbManagerSize = await getSize(join(dir, 'sb-manager'));
-    const testBuildSbPreviewSize = await getSize(join(dir, 'sb-preview'));
-    const testBuildPrebuildSize =
-      testBuildSbAddonsSize +
-      testBuildSbCommonSize +
-      testBuildSbManagerSize +
-      testBuildSbPreviewSize;
-
-    const testBuildStaticSize = await getSize(join(dir, 'static')).catch(() => 0);
-    const testBuildPreviewSize = testBuildSize - testBuildPrebuildSize - testBuildStaticSize;
-
-    await saveBench(
-      'test-build',
-      {
-        testBuildTime,
-        testBuildSize,
-        testBuildSbAddonsSize,
-        testBuildSbCommonSize,
-        testBuildSbManagerSize,
-        testBuildSbPreviewSize,
-        testBuildStaticSize,
-        testBuildPrebuildSize,
-        testBuildPreviewSize,
       },
       { rootDir: sandboxDir }
     );

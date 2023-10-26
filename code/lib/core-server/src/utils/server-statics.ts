@@ -6,7 +6,7 @@ import chalk from 'chalk';
 import type { Router } from 'express';
 import express from 'express';
 import { pathExists } from 'fs-extra';
-import path, { basename } from 'path';
+import path, { basename, isAbsolute } from 'path';
 import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
@@ -30,14 +30,15 @@ export async function useStatics(router: Router, options: Options) {
     await Promise.all(
       statics.map(async (dir) => {
         try {
-          const relativeDir = staticDirs
-            ? getDirectoryFromWorkingDir({
-                configDir: options.configDir,
-                workingDir: process.cwd(),
-                directory: dir,
-              })
-            : dir;
-          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+          const normalizedDir =
+            staticDirs && !isAbsolute(dir)
+              ? getDirectoryFromWorkingDir({
+                  configDir: options.configDir,
+                  workingDir: process.cwd(),
+                  directory: dir,
+                })
+              : dir;
+          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
           // Don't log for the internal static dir
           if (!targetEndpoint.startsWith('/sb-')) {

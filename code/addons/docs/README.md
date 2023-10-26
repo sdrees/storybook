@@ -146,7 +146,6 @@ export default {
         jsxOptions: {},
         csfPluginOptions: null,
         mdxPluginOptions: {},
-        transcludeMarkdown: true,
       },
     },
   ],
@@ -157,16 +156,9 @@ export default {
 
 `csfPluginOptions` is an object for configuring `@storybook/csf-plugin`. When set to `null` it tells docs not to run the `csf-plugin` at all, which can be used as an optimization, or if you're already using `csf-plugin` in your `main.js`.
 
-The `transcludeMarkdown` option enables mdx files to import `.md` files and render them as a component.
 
-```mdx
-import { Meta } from '@storybook/addon-docs';
-import Changelog from '../CHANGELOG.md';
+> With the release of version 7.0, it is no longer possible to import `.md` files directly into Storybook using the `transcludeMarkdown` [option](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#importing-plain-markdown-files-with-transcludemarkdown-has-changed). Instead, we recommend using the [`Markdown`](https://storybook.js.org/docs/react/api/doc-block-markdown) Doc Block for importing Markdown files into your Storybook documentation.
 
-<Meta title="Changelog" />
-
-<Changelog />
-```
 
 ## TypeScript configuration
 

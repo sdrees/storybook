@@ -161,7 +161,7 @@ While MDX2 supports a variety of runtimes ([React](https://mdxjs.com/packages/re
 
 ## Breaking changes
 
-There are many breaking changes if you move from MDX 1 to version 2. As far as we know, all of these are due to changes in the MDX library itself rather than changes to Storybook’s usage. Nevertheless, as an MDX user, you will probably need to update your MDX files as part of the upgrade. MDX has published their own [Migration guide](https://mdxjs.com/migrating/v2/#update-mdx-files). Here we try to summarize some of the fundamental changes for Storybook users.
+There are many breaking changes if you move from MDX 1 to version 2. As far as we know, all of these are due to changes in the MDX library itself rather than changes to Storybook’s usage. Nevertheless, as an MDX user, you will probably need to update your MDX files as part of the upgrade. MDX has published its own [Migration guide](https://mdxjs.com/migrating/v2/#update-mdx-files). Here, we try to summarize some of the fundamental changes for Storybook users.
 
 ### Custom components apply differently
 
@@ -284,6 +284,24 @@ However, providing the `Meta` Doc Block may not be required for certain use case
 
 Once the custom MDX documentation is loaded, Storybook will infer the title and location using the same heuristic rules to generate [auto-title stories](../configure/sidebar-and-urls.md#csf-30-auto-titles) and render it in the sidebar as a `Docs` entry.
 
+#### Working with standalone documentation pages
+
+Writing standalone documentation pages is a common use case that applies not only on a per-component but also on a per-project basis. For example, you might want to document your project's onboarding process with instructions on using it. To do so, you can create a new MDX file containing your documentation using a similar structure and content:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-auto-docs-standalone-page.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+![MDX guidelines page](./mdx-standalone-page.png)
+
+When Storybook loads the documentation, it will infer the placement of the page in the sidebar navigation menu using the file's physical location and render it as a `Docs` entry.
+
 ### Fully control custom documentation
 
 Documentation can be expensive to maintain and keep up to date when applied to every project component. To help simplify this process, Storybook provides a set of useful UI components (i.e., Doc Blocks) to help cover more advanced cases. If you need additional content, use them to help create your custom documentation.
@@ -311,6 +329,28 @@ If you need to document multiple components in a single documentation page, you 
 />
 
 <!-- prettier-ignore-end -->
+
+### Generate documentation from Markdown
+
+If you need to extend your documentation with additional content written in Markdown, you can use the `Markdown` Doc Block to import the available content, and Storybook will render it alongside your existing documentation. For example, if you have a `CHANGELOG.md` file, you can import it and render it in your documentation page as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-custom-docs-markdown.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<div class="aside">
+
+ℹ️ The `Markdown` Doc Block provides additional configuration options to customize the rendering of your documentation. For more information, refer to the [API documentation](../api/doc-block-markdown.md).
+
+</div>
+
+![Changelog markdown in an MDX story](./mdx-markdown-docs-import.png)
 
 ### Linking to other stories and pages
 
@@ -340,42 +380,6 @@ However, cross-linking documentation isn't restricted to documentation pages. Yo
 💡 By applying this pattern with the Controls addon, all anchors will be ignored in Canvas based on how Storybook handles URLs to track the args values.
 </div>
 
-<!--
-TODO: Uncomment once support for `transcludeMarkdown` is confirmed
-
-### Creating a Changelog story
-
-One common use case for documentation-only MDX is importing a project's `CHANGELOG.md`, so that users can easily refer to the CHANGELOG via a documentation node in Storybook.
-
-First, ensure that `transcludeMarkdown` is set to `true` in `main.js`:
-
-<!-- prettier-ignore-start - ->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-main-enable-transcludemarkdown.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end - ->
-
-Then, import the markdown and treat the imported file as a component in the MDX file:
-
-```mdx
-import { Meta } from '@storybook/blocks';
-
-import Changelog from '../CHANGELOG.md';
-
-<Meta title="Changelog" />
-
-<Changelog />
-```
-
-
-![Changelog markdown in an MDX story](./changelog-mdx-md-transcludemarkdown-optimized.png)
-
--->
-
 ## Troubleshooting
 
 ### The MDX documentation doesn't render in my environment
@@ -384,7 +388,7 @@ As Storybook relies on MDX 2 to render documentation, some technical limitations
 
 #### Storybook doesn't create documentation for my component stories
 
-If you run into a situation where Storybook is not able to able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
+If you run into a situation where Storybook is not able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
 
 #### The documentation doesn't render using `stories.mdx`
 

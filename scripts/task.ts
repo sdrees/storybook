@@ -20,7 +20,7 @@ import { sandbox } from './tasks/sandbox';
 import { syncDocs } from './tasks/sync-docs';
 import { dev } from './tasks/dev';
 import { smokeTest } from './tasks/smoke-test';
-import { build, testBuild } from './tasks/build';
+import { build } from './tasks/build';
 import { serve } from './tasks/serve';
 import { testRunnerBuild } from './tasks/test-runner-build';
 import { testRunnerDev } from './tasks/test-runner-dev';
@@ -103,7 +103,6 @@ export const tasks = {
   dev,
   'smoke-test': smokeTest,
   build,
-  'test-build': testBuild,
   serve,
   'test-runner': testRunnerBuild,
   'test-runner-dev': testRunnerDev,
