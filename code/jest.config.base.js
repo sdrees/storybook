@@ -23,6 +23,7 @@ const modulesToTransform = [
   '@angular',
   '@lit',
   '@mdx-js',
+  '@vitest',
   'ccount',
   'character-entities',
   'decode-named-character-reference',
@@ -60,6 +61,8 @@ module.exports = {
       path.resolve('./__mocks__/fileMock.js'),
     '\\.(css|scss|stylesheet)$': path.resolve('./__mocks__/styleMock.js'),
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
+    '@vitest/utils/(.*)': '@vitest/utils/dist/$1.js',
+    '@vitest/utils': '@vitest/utils/dist/index.js',
   },
   transform: {
     '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],

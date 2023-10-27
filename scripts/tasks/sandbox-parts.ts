@@ -354,7 +354,7 @@ async function linkPackageStories(
   );
 }
 
-async function addExtraDependencies({
+export async function addExtraDependencies({
   cwd,
   dryRun,
   debug,
@@ -378,7 +378,7 @@ async function addExtraDependencies({
 
 export const addStories: Task['run'] = async (
   { sandboxDir, template, key },
-  { addon: extraAddons, dryRun, debug, disableDocs }
+  { addon: extraAddons, disableDocs }
 ) => {
   logger.log('💃 adding stories');
   const cwd = sandboxDir;
@@ -515,9 +515,6 @@ export const addStories: Task['run'] = async (
       addEsbuildLoaderToStories(mainConfig);
     }
   }
-
-  // Some addon stories require extra dependencies
-  await addExtraDependencies({ cwd, dryRun, debug });
 
   await writeConfig(mainConfig);
 };

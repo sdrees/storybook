@@ -18,7 +18,7 @@ export const DelayedStory = {
 
     const exampleElement = canvas.getByLabelText('example-element');
 
-    // The delay option set the ammount of milliseconds between characters being typed
+    // The delay option sets the amount of milliseconds between characters being typed
     await userEvent.type(exampleElement, 'random string', {
       delay: 100,
     });

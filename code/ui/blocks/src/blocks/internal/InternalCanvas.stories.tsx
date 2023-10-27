@@ -1,5 +1,4 @@
 /// <reference types="@types/jest" />;
-/// <reference types="@testing-library/jest-dom" />;
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';

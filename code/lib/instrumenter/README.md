@@ -1,6 +1,6 @@
 # Storybook Instrumenter
 
-The Storybook Instrumenter is used to patch a (3rd party) module to track and intercept function invocations for step-through debugging using the Interactions addon. In essense, the Instrumenter traverses a given object, recursively monkey-patching any functions to make them "tracked".
+The Storybook Instrumenter is used to patch a (3rd party) module to track and intercept function invocations for step-through debugging using the Interactions addon. In essence, the Instrumenter traverses a given object, recursively monkey-patching any functions to make them "tracked".
 
 During normal operation, tracked functions simply call through to their original function, forwarding the return value. As a side-effect, they also emit a `call` event whenever they are invoked.
 

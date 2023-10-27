@@ -112,6 +112,44 @@ describe('Instrumenter', () => {
     expect(result.fn1.fn2.__originalFn__).toBe(fn1.fn2);
   });
 
+  it('patches functions correctly that reference this', () => {
+    const object = {
+      name: 'name',
+      method() {
+        return this.name;
+      },
+    };
+
+    const instrumented = instrument(object);
+    expect(object.method()).toEqual(instrumented.method());
+
+    expect(instrumented.method).toEqual(expect.any(Function));
+    expect(instrumented.method.__originalFn__).toBe(object.method);
+  });
+
+  it('patches functions correctly that use proxies', () => {
+    const object = new Proxy(
+      {
+        name: 'name',
+        method() {
+          return this.name;
+        },
+      },
+      {
+        get(target, prop, receiver) {
+          if (prop === 'name') return `${target[prop]}!`;
+          return Reflect.get(target, prop, receiver);
+        },
+      }
+    );
+
+    const instrumented = instrument(object);
+    expect(object.method()).toEqual(instrumented.method());
+
+    expect(instrumented.method).toEqual(expect.any(Function));
+    expect(instrumented.method.__originalFn__).toBe(object.method);
+  });
+
   it('patched functions call the original function when invoked', () => {
     const { fn } = instrument({ fn: jest.fn() });
     const obj = {};
@@ -510,12 +548,12 @@ describe('Instrumenter', () => {
       expect(callSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'kind--story [0] fn',
-          exception: {
+          exception: expect.objectContaining({
             name: 'Error',
             message: 'Boom!',
             stack: expect.stringContaining('Error: Boom!'),
             callId: 'kind--story [0] fn',
-          },
+          }),
         })
       );
     });

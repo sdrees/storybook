@@ -1,4 +1,4 @@
-# Storybook Postinstall Utilties
+# Storybook Postinstall Utilities
 
 A minimal utility library for addons to update project configurations after the addon is installed via the [Storybook CLI](https://github.com/storybookjs/storybook/tree/main/lib/cli), e.g. `sb add docs`.
 

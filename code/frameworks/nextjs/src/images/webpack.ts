@@ -20,7 +20,7 @@ const configureImageDefaults = (baseConfig: WebpackConfig): void => {
     'next/image': path.resolve(__dirname, './images/next-image'),
   };
 
-  if (semver.satisfies(version, '^13.0.0')) {
+  if (semver.satisfies(version, '>=13.0.0')) {
     resolve.alias = {
       ...resolve.alias,
       'sb-original/next/legacy/image': require.resolve('next/legacy/image'),

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle,no-param-reassign */
 import type { Args, Renderer, ArgsEnhancer } from '@storybook/types';
 import { action } from './runtime/action';
 
@@ -31,7 +32,7 @@ export const inferActionsFromArgTypesRegex: ArgsEnhancer<Renderer> = (context) =
 
   return argTypesMatchingRegex.reduce((acc, [name, argType]) => {
     if (isInInitialArgs(name, initialArgs)) {
-      acc[name] = action(name);
+      acc[name] = action(name, { implicit: true });
     }
     return acc;
   }, {} as Args);
@@ -58,6 +59,36 @@ export const addActionsFromArgTypes: ArgsEnhancer<Renderer> = (context) => {
     if (isInInitialArgs(name, initialArgs)) {
       acc[name] = action(typeof argType['action'] === 'string' ? argType['action'] : name);
     }
+    return acc;
+  }, {} as Args);
+};
+
+export const attachActionsToFunctionMocks: ArgsEnhancer<Renderer> = (context) => {
+  const {
+    initialArgs,
+    argTypes,
+    parameters: { actions },
+  } = context;
+  if (actions?.disable || !argTypes) {
+    return {};
+  }
+
+  const argTypesWithAction = Object.entries(initialArgs).filter(
+    ([, value]) =>
+      typeof value === 'function' &&
+      '_isMockFunction' in value &&
+      value._isMockFunction &&
+      !value._actionAttached
+  );
+
+  return argTypesWithAction.reduce((acc, [key, value]) => {
+    const previous = value.getMockImplementation();
+    value.mockImplementation((...args: unknown[]) => {
+      action(key)(...args);
+      return previous?.(...args);
+    });
+    // this enhancer is being called multiple times
+    value._actionAttached = true;
     return acc;
   }, {} as Args);
 };

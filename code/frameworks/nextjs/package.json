@@ -119,13 +119,13 @@
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
-    "next": "13.5.4",
+    "next": "^14.0.0",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },
   "peerDependencies": {
-    "@next/font": "^13.0.0",
-    "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
+    "@next/font": "^13.0.0|| ^14.0.0",
+    "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "webpack": "^5.0.0"

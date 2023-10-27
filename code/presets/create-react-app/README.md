@@ -87,7 +87,7 @@ module.exports = {
 
 ### Custom `react-scripts` packages
 
-In most cases, this preset will find your `react-scripts` package, even if it's a fork of the offical `react-scripts`.
+In most cases, this preset will find your `react-scripts` package, even if it's a fork of the official `react-scripts`.
 
 In the event that it doesn't, you can set the package's name with `scriptsPackageName`.
 

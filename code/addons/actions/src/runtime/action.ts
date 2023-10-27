@@ -54,6 +54,23 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
   };
 
   const handler = function actionHandler(...args: any[]) {
+    // TODO: Enable once codemods are finished
+    // if (options.implicit) {
+    //   const preview =
+    //     '__STORYBOOK_PREVIEW__' in global
+    //       ? (global.__STORYBOOK_PREVIEW__ as PreviewWeb<Renderer>)
+    //       : undefined;
+    //   if (
+    //     preview?.storyRenders.some(
+    //       (render) => render.phase === 'playing' || render.phase === 'rendering'
+    //     )
+    //   ) {
+    //     console.warn(
+    //       'Can not use implicit actions during rendering or playing of a story.'
+    //     );
+    //   }
+    // }
+
     const channel = addons.getChannel();
     // this makes sure that in js enviroments like react native you can still get an id
     const id = generateId();

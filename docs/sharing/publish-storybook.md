@@ -166,7 +166,7 @@ Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3
 
 ## Search engine optimization (SEO)
 
-If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
+If your Storybook is publicly viewable, you may wish to configure how it is represented in search engine result pages.
 
 ### Description
 

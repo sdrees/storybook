@@ -6,7 +6,7 @@ Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(config: Vite.InlineConfig, options: Options) => Vite.InlineConfig | Promise<Vite.InlineConfig>`
 
-Customize Storybook's Vite setup when using the [vite builder](../builders/vite.md).
+Customize Storybook's Vite setup when using the [Vite builder](../builders/vite.md).
 
 <!-- prettier-ignore-start -->
 

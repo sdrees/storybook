@@ -16,6 +16,7 @@ type Formats = 'esm' | 'cjs';
 type BundlerConfig = {
   entries: string[];
   externals: string[];
+  noExternal: string[];
   platform: Options['platform'];
   pre: string;
   post: string;
@@ -36,6 +37,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     bundler: {
       entries = [],
       externals: extraExternals = [],
+      noExternal: extraNoExternal = [],
       platform,
       pre,
       post,
@@ -79,9 +81,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
    */
   const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
 
+  const noExternal = [/^@vitest\/.+$/, ...extraNoExternal];
+
   if (formats.includes('esm')) {
     tasks.push(
       build({
+        noExternal,
         silent: true,
         treeshake: true,
         entry: nonPresetEntries,
@@ -116,6 +121,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (formats.includes('cjs')) {
     tasks.push(
       build({
+        noExternal,
         silent: true,
         entry: allEntries,
         watch,

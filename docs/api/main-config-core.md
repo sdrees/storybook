@@ -204,4 +204,4 @@ Enable crash reports to be sent to Storybook [telemetry](../configure/telemetry.
 
 Type: `RendererName`
 
-<!-- TOOD: Is this used? Should it be documented? -->
+<!-- TODO: Is this used? Should it be documented? -->

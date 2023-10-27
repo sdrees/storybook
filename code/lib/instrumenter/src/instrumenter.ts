@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,no-param-reassign */
 import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/preview-api';
 import type { StoryId } from '@storybook/types';
@@ -10,6 +10,7 @@ import {
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
 import { global } from '@storybook/global';
+import { processError } from '@vitest/utils/error';
 
 import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
 import { CallStates } from './types';
@@ -24,8 +25,8 @@ export const EVENTS = {
   END: 'storybook/instrumenter/end',
 };
 
-type PatchedObj<TObj> = {
-  [Property in keyof TObj]: TObj[Property] & { __originalFn__: PatchedObj<TObj> };
+type PatchedObj<TObj extends Record<string, unknown>> = {
+  [Property in keyof TObj]: TObj[Property] & { __originalFn__: TObj[Property] };
 };
 
 const controlsDisabled: ControlStates = {
@@ -49,7 +50,6 @@ const isInstrumentable = (o: unknown) => {
   if (o.constructor === undefined) return true;
   const proto = o.constructor.prototype;
   if (!isObject(proto)) return false;
-  if (Object.prototype.hasOwnProperty.call(proto, 'isPrototypeOf') === false) return false;
   return true;
 };
 
@@ -290,28 +290,46 @@ export class Instrumenter {
   // Traverses the object structure to recursively patch all function properties.
   // Returns the original object, or a new object with the same constructor,
   // depending on whether it should mutate.
-  instrument<TObj extends { [x: string]: any }>(obj: TObj, options: Options): PatchedObj<TObj> {
-    if (!isInstrumentable(obj)) return obj;
+  instrument<TObj extends Record<string, unknown>>(
+    obj: TObj,
+    options: Options,
+    depth = 0
+  ): PatchedObj<TObj> {
+    if (!isInstrumentable(obj)) return obj as PatchedObj<TObj>;
 
     const { mutate = false, path = [] } = options;
-    return Object.keys(obj).reduce(
+
+    const keys = options.getKeys ? options.getKeys(obj, depth) : Object.keys(obj);
+    depth += 1;
+    return keys.reduce(
       (acc, key) => {
+        const descriptor = getPropertyDescriptor(obj, key);
+        if (typeof descriptor?.get === 'function') {
+          const getter = () => descriptor?.get?.bind(obj)?.();
+          Object.defineProperty(acc, key, {
+            get: () => {
+              return this.instrument(getter(), { ...options, path: path.concat(key) }, depth);
+            },
+          });
+          return acc;
+        }
+
         const value = (obj as Record<string, any>)[key];
 
         // Nothing to patch, but might be instrumentable, so we recurse
         if (typeof value !== 'function') {
-          acc[key] = this.instrument(value, { ...options, path: path.concat(key) });
+          acc[key] = this.instrument(value, { ...options, path: path.concat(key) }, depth);
           return acc;
         }
 
         // Already patched, so we pass through unchanged
-        if (typeof value.__originalFn__ === 'function') {
+        if ('__originalFn__' in value && typeof value.__originalFn__ === 'function') {
           acc[key] = value;
           return acc;
         }
 
         // Patch the function and mark it "patched" by adding a reference to the original function
-        acc[key] = (...args: any[]) => this.track(key, value, args, options);
+        acc[key] = (...args: any[]) => this.track(key, value, obj, args, options);
         acc[key].__originalFn__ = value;
 
         // Reuse the original name as the patched function's name
@@ -321,7 +339,7 @@ export class Instrumenter {
         if (Object.keys(value).length > 0) {
           Object.assign(
             acc[key],
-            this.instrument({ ...value }, { ...options, path: path.concat(key) })
+            this.instrument({ ...value }, { ...options, path: path.concat(key) }, depth)
           );
         }
 
@@ -334,7 +352,13 @@ export class Instrumenter {
   // Monkey patch an object method to record calls.
   // Returns a function that invokes the original function, records the invocation ("call") and
   // returns the original result.
-  track(method: string, fn: Function, args: any[], options: Options) {
+  track(
+    method: string,
+    fn: Function,
+    object: Record<string, unknown>,
+    args: any[],
+    options: Options
+  ) {
     const storyId: StoryId =
       args?.[0]?.__storyId__ || global.__STORYBOOK_PREVIEW__?.selectionStore?.selection?.storyId;
     const { cursor, ancestors } = this.getState(storyId);
@@ -344,11 +368,11 @@ export class Instrumenter {
     const interceptable = typeof intercept === 'function' ? intercept(method, path) : intercept;
     const call = { id, cursor, storyId, ancestors, path, method, args, interceptable, retain };
     const interceptOrInvoke = interceptable && !ancestors.length ? this.intercept : this.invoke;
-    const result = interceptOrInvoke.call(this, fn, call, options);
+    const result = interceptOrInvoke.call(this, fn, object, call, options);
     return this.instrument(result, { ...options, mutate: true, path: [{ __callId__: call.id }] });
   }
 
-  intercept(fn: Function, call: Call, options: Options) {
+  intercept(fn: Function, object: Record<string, unknown>, call: Call, options: Options) {
     const { chainedCallIds, isDebugging, playUntil } = this.getState(call.storyId);
 
     // For a "jump to step" action, continue playing until we hit a call by that ID.
@@ -358,7 +382,7 @@ export class Instrumenter {
       if (playUntil === call.id) {
         this.setState(call.storyId, { playUntil: undefined });
       }
-      return this.invoke(fn, call, options);
+      return this.invoke(fn, object, call, options);
     }
 
     // Instead of invoking the function, defer the function call until we continue playing.
@@ -373,11 +397,11 @@ export class Instrumenter {
         const { [call.id]: _, ...resolvers } = state.resolvers;
         return { isLocked: true, resolvers };
       });
-      return this.invoke(fn, call, options);
+      return this.invoke(fn, object, call, options);
     });
   }
 
-  invoke(fn: Function, call: Call, options: Options) {
+  invoke(fn: Function, object: Record<string, unknown>, call: Call, options: Options) {
     // TODO this doesnt work because the abortSignal we have here is the newly created one
     // const { abortSignal } = global.window.__STORYBOOK_PREVIEW__ || {};
     // if (abortSignal && abortSignal.aborted) throw IGNORED_EXCEPTION;
@@ -443,7 +467,16 @@ export class Instrumenter {
     const handleException = (e: any) => {
       if (e instanceof Error) {
         const { name, message, stack, callId = call.id } = e as Error & { callId: Call['id'] };
-        const exception = { name, message, stack, callId };
+
+        // This will calculate the diff for chai errors
+        const {
+          showDiff = undefined,
+          diff = undefined,
+          actual = undefined,
+          expected = undefined,
+        } = processError(e);
+
+        const exception = { name, message, stack, callId, showDiff, diff, actual, expected };
         this.update({ ...info, status: CallStates.ERROR, exception });
 
         // Always track errors to their originating call.
@@ -510,7 +543,7 @@ export class Instrumenter {
         };
       });
 
-      const result = fn(...finalArgs);
+      const result = fn.apply(object, finalArgs);
 
       // Track the result so we can trace later uses of it back to the originating call.
       // Primitive results (undefined, null, boolean, string, number, BigInt) are ignored.
@@ -636,4 +669,16 @@ export function instrument<TObj extends Record<string, any>>(
     once.warn(e);
     return obj;
   }
+}
+
+function getPropertyDescriptor<T>(obj: T, propName: keyof T) {
+  let target = obj;
+  while (target != null) {
+    const descriptor = Object.getOwnPropertyDescriptor(target, propName);
+    if (descriptor) {
+      return descriptor;
+    }
+    target = Object.getPrototypeOf(target);
+  }
+  return undefined;
 }

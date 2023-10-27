@@ -55,7 +55,9 @@ export const sandbox: Task = {
       await remove(details.sandboxDir);
     }
 
-    const { create, install, addStories, extendMain, init } = await import('./sandbox-parts');
+    const { create, install, addStories, extendMain, init, addExtraDependencies } = await import(
+      './sandbox-parts'
+    );
 
     let startTime = now();
     await create(details, options);
@@ -89,6 +91,12 @@ export const sandbox: Task = {
     if (!options.skipTemplateStories) {
       await addStories(details, options);
     }
+
+    await addExtraDependencies({
+      cwd: details.sandboxDir,
+      debug: options.debug,
+      dryRun: options.dryRun,
+    });
 
     await extendMain(details, options);
 

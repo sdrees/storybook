@@ -56,13 +56,23 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = [TMetaOrCmpOrArgs] extends [
     > extends infer TArgs
     ? StoryAnnotations<
         ReactRenderer,
-        TArgs,
+        AddMocks<TArgs, DefaultArgs>,
         SetOptional<TArgs, keyof TArgs & keyof (DefaultArgs & ActionArgs<TArgs>)>
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
   ? StoryAnnotations<ReactRenderer, ComponentProps<TMetaOrCmpOrArgs>>
   : StoryAnnotations<ReactRenderer, TMetaOrCmpOrArgs>;
+
+// This performs a downcast to function types that are mocks, when a mock fn is given to meta args.
+type AddMocks<TArgs, DefaultArgs> = Simplify<{
+  [T in keyof TArgs]: T extends keyof DefaultArgs
+    ? // eslint-disable-next-line @typescript-eslint/ban-types
+      DefaultArgs[T] extends (...args: any) => any & { mock: {} } // allow any function with a mock object
+      ? DefaultArgs[T]
+      : TArgs[T]
+    : TArgs[T];
+}>;
 
 type ActionArgs<TArgs> = {
   // This can be read as: filter TArgs on functions where we can assign a void function to that function.

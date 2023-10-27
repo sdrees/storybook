@@ -21,6 +21,7 @@ test-results
 !/**/.yarn/plugins
 !/**/.yarn/sdks
 !/**/.yarn/versions
+!/**/.yarn/patches
 /**/.pnp.*
 !/node_modules
 

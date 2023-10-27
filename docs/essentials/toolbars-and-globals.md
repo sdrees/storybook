@@ -16,7 +16,7 @@ When the globals change, the story re-renders, and the decorators rerun with the
 
 ## Global types and the toolbar annotation
 
-Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
+Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
 
 <!-- prettier-ignore-start -->
 
@@ -31,7 +31,7 @@ Storybook has a simple, declarative syntax for configuring toolbar menus. In you
 
 <div class="aside">
 
-💡 As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering).
+💡 As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering).
 
 </div>
 
@@ -41,7 +41,59 @@ When you start your Storybook, you should see a new dropdown with the `light` an
 
 We have a `global` implemented. Let's wire it up! We can consume our new `theme` global in a decorator using the `context.globals.theme` value.
 
-For example, suppose you are using `styled-components`. You can add a theme provider decorator to your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) config:
+<IfRenderer renderer='react'>
+
+For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/storybook-preview-use-global-type.js.mdx',
+    'react/storybook-preview-use-global-type.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
+
+<IfRenderer renderer='vue'>
+
+For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'vue/storybook-preview-use-global-type.3.js.mdx',
+    'vue/storybook-preview-use-global-type.3.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
+
+<IfRenderer renderer='angular'>
+
+For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'angular/storybook-preview-use-global-type.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
+
+<IfRenderer renderer={['ember', 'html', 'preact', 'qwik', 'svelte', 'solid', 'web-components' ]}>
+
+Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) and provide a decorator to load the theme. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -54,13 +106,15 @@ For example, suppose you are using `styled-components`. You can add a theme prov
 
 <!-- prettier-ignore-end -->
 
+</IfRenderer>
+
 ## Advanced usage
 
 So far, we've managed to create and consume a global inside Storybook.
 
 Now let's take a look at a more complex example. Let's suppose we wanted to implement a new global called **locale** for internationalization, which shows a flag on the right side of the toolbar.
 
-In your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering), add the following:
+In your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering), add the following:
 
 <!-- prettier-ignore-start -->
 
@@ -75,12 +129,15 @@ In your [`.storybook/preview.js`](../configure/overview.md#configure-story-rende
 
 <div class="aside">
 
-💡 The <code>icon</code> element used in the examples loads the icons from the <code>@storybook/components</code> package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
+💡 The `icon` element used in the examples loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
 
 </div>
 
 <div class="aside">
-💡The <code>@storybook/addon-toolbars</code> addon is required to use toolbars. The toolbars addon is included by default in <code>@storybook/addon-essentials</code>.
+
+💡 The `@storybook/addon-toolbars` addon is required to use toolbars. The toolbars addon is included by default in
+`@storybook/addon-essentials`.
+
 </div>
 
 By adding the configuration element `right`, the text will be displayed on the right side in the toolbar menu once you connect it to a decorator.

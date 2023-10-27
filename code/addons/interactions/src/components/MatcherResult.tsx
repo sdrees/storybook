@@ -45,7 +45,13 @@ export const Expected = ({ value, parsed }: { value: any; parsed?: boolean }) =>
   return <StyledExpected>{value}</StyledExpected>;
 };
 
-export const MatcherResult = ({ message }: { message: string }) => {
+export const MatcherResult = ({
+  message,
+  style = {},
+}: {
+  message: string;
+  style?: React.CSSProperties;
+}) => {
   const lines = message.split('\n');
   return (
     <pre
@@ -53,6 +59,7 @@ export const MatcherResult = ({ message }: { message: string }) => {
         margin: 0,
         padding: '8px 10px 8px 36px',
         fontSize: typography.size.s1,
+        ...style,
       }}
     >
       {lines.flatMap((line: string, index: number) => {

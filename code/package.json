@@ -80,10 +80,10 @@
   ],
   "resolutions": {
     "@playwright/test": "1.36.0",
-    "@testing-library/jest-dom": "^5.11.9",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/experimental-utils": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
+    "@vitest/expect@^0.34.2": "patch:@vitest/expect@npm%3A0.34.5#./.yarn/patches/@vitest-expect-npm-0.34.5-8031508efe.patch",
     "esbuild": "^0.18.0",
     "eslint": "^8.28.0",
     "playwright": "1.36.0",

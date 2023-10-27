@@ -476,7 +476,7 @@ No process is defined for this.
 
 ### Merges to `main` without versioning
 
-As described in more details in [the Patch Releases section](#patch-releases), there are scenarios where you want to patch [unreleasable](#which-changes-are-considered-releasable-and-what-does-it-mean) content back to `main` without bumping versions or publishing a new release. This happens automatically as long as all the unpicked patch pull requests have unreleasable labels. In that case the prepared patch pull request will change form slighty, to just cherry-picking the patches without bumping the versions.
+As described in more details in [the Patch Releases section](#patch-releases), there are scenarios where you want to patch [unreleasable](#which-changes-are-considered-releasable-and-what-does-it-mean) content back to `main` without bumping versions or publishing a new release. This happens automatically as long as all the unpicked patch pull requests have unreleasable labels. In that case the prepared patch pull request will change form slightly, to just cherry-picking the patches without bumping the versions.
 
 ## FAQ
 

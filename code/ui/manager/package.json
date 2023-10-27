@@ -61,6 +61,7 @@
     "@storybook/global": "^5.0.0",
     "@storybook/manager-api": "workspace:*",
     "@storybook/router": "workspace:*",
+    "@storybook/test": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "@testing-library/react": "^11.2.2",
