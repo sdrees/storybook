@@ -45,12 +45,18 @@ const run = async (storyId: string) => {
       }
 
       const result = await axe.run(htmlElement, options);
+
+      // Axe result contains class instances, which telejson deserializes in a
+      // way that violates:
+      //  Content Security Policy directive: "script-src 'self' 'unsafe-inline'".
+      const resultJson = JSON.parse(JSON.stringify(result));
+
       // It's possible that we requested a new run on a different story.
       // Unfortunately, axe doesn't support a cancel method to abort current run.
       // We check if the story we run against is still the current one,
       // if not, trigger a new run using the current story
       if (activeStoryId === storyId) {
-        channel.emit(EVENTS.RESULT, result);
+        channel.emit(EVENTS.RESULT, resultJson);
       } else {
         active = false;
         run(activeStoryId);

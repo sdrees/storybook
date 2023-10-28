@@ -172,19 +172,11 @@ If you intend to test multiple stories in a single test, use the `composeStories
 
 Storybook provides community-led addons for other frameworks like [Vue 2](https://storybook.js.org/addons/@storybook/testing-vue) and [Angular](https://storybook.js.org/addons/@storybook/testing-angular). However, these addons still lack support for the latest stable Storybook release. If you're interested in helping out, we recommend reaching out to the maintainers using the default communication channels (GitHub and [Discord server](https://discord.com/channels/486522875931656193/839297503446695956)).
 
-### The args are not being passed to the test
-
 <IfRenderer renderer='react'>
 
+### The args are not being passed to the test
+
 The components returned by `composeStories` or `composeStory` not only can be rendered as React components but also come with the combined properties from the story, meta, and global configuration. This means that if you want to access args or parameters, for instance, you can do so:
-
-</IfRenderer>
-
-<IfRenderer renderer='vue'>
-
-When using the `composeStories` or `composeStory` functions, the components being rendered will have a combination of properties from the story, meta, and global configuration. Therefore, if you need to access the args or parameters, you can do so as follows:
-
-</IfRenderer>
 
 <!-- prettier-ignore-start -->
 
@@ -192,12 +184,31 @@ When using the `composeStories` or `composeStory` functions, the components bein
   paths={[
     'react/reuse-args-test.js.mdx',
     'react/reuse-args-test.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
+
+<IfRenderer renderer='vue'>
+
+### The args are not being passed to the test
+
+When using the `composeStories` or `composeStory` functions, the components being rendered will have a combination of properties from the story, meta, and global configuration. Therefore, if you need to access the args or parameters, you can do so as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
     'vue/reuse-args-test.3.js.mdx',
     'vue/reuse-args-test.3.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+</IfRenderer>
 
 #### Learn about other UI tests
 

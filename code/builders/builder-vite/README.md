@@ -9,7 +9,6 @@ Build your stories with [vite](https://vitejs.dev/) for fast startup times and n
   - [Getting started with Vite and Storybook (on a new project)](#getting-started-with-vite-and-storybook-on-a-new-project)
   - [Migration from webpack / CRA](#migration-from-webpack--cra)
   - [Customize Vite config](#customize-vite-config)
-  - [Svelte Options](#svelte-options)
   - [TypeScript](#typescript)
   - [React Docgen](#react-docgen)
   - [Note about working directory](#note-about-working-directory)
@@ -112,10 +111,6 @@ You can tweak this as you want, for example to set up aliases, add new plugins e
 The `configType` variable will be either `"DEVELOPMENT"` or `"PRODUCTION"`.
 
 The function should return the updated Vite configuration.
-
-### Svelte Options
-
-When using this builder with Svelte, your `svelte.config.js` file will be used automatically.
 
 ### TypeScript
 
