@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.6.0-alpha.2",
+  "version": "7.6.0-alpha.3",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -55,9 +55,9 @@
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/preset-env": "^7.22.9",
-    "@babel/types": "^7.22.5",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/types": "^7.23.0",
     "@ndelangen/get-tarball": "^3.0.7",
     "@storybook/codemod": "workspace:*",
     "@storybook/core-common": "workspace:*",

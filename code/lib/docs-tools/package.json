@@ -1,6 +1,6 @@
 {
   "name": "@storybook/docs-tools",
-  "version": "7.6.0-alpha.2",
+  "version": "7.6.0-alpha.3",
   "description": "Shared utility functions for frameworks to implement docs",
   "keywords": [
     "storybook"
@@ -52,7 +52,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
+    "@babel/core": "^7.23.2",
     "jest-specific-snapshot": "^8.0.0",
     "require-from-string": "^2.0.2",
     "typescript": "~4.9.3"

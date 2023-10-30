@@ -1,3 +1,15 @@
+## 7.6.0-alpha.3
+
+- Action: Attach spies on actions across stories when defined in meta - [#24451](https://github.com/storybookjs/storybook/pull/24451), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Addon A11y: Avoid CSP issue - [#24477](https://github.com/storybookjs/storybook/pull/24477), thanks [@Marklb](https://github.com/Marklb)!
+- Addon-themes: Fix globals not being set when using absolute path - [#24596](https://github.com/storybookjs/storybook/pull/24596), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Allow Yarn v4 in `link` command - [#24551](https://github.com/storybookjs/storybook/pull/24551), thanks [@yannbf](https://github.com/yannbf)!
+- Core-Server: Ignore all node_module folders for watchpack - [#24553](https://github.com/storybookjs/storybook/pull/24553), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Core: Fix pnp support when cache dir is outside working dir - [#24572](https://github.com/storybookjs/storybook/pull/24572), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Manager: Update `store.settings.lastTrackedStoryId` - [#24115](https://github.com/storybookjs/storybook/pull/24115), thanks [@rashidshamloo](https://github.com/rashidshamloo)!
+- Next.js: Support v14.0.0 - [#24593](https://github.com/storybookjs/storybook/pull/24593), thanks [@nikospapcom](https://github.com/nikospapcom)!
+- Test: Create @storybook/test package based on vitest - [#24392](https://github.com/storybookjs/storybook/pull/24392), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
 ## 7.6.0-alpha.2
 
 - Actions: Fix missing crypto module crashing React Native - [#24546](https://github.com/storybookjs/storybook/pull/24546), thanks [@dannyhw](https://github.com/dannyhw)!

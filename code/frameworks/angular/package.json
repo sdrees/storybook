@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.6.0-alpha.2",
+  "version": "7.6.0-alpha.3",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -81,7 +81,7 @@
     "@types/cross-spawn": "^6.0.2",
     "@types/tmp": "^0.2.3",
     "cross-spawn": "^7.0.3",
-    "jest": "^29.3.1",
+    "jest": "^29.7.0",
     "jest-preset-angular": "^13.0.1",
     "jest-specific-snapshot": "^8.0.0",
     "tmp": "^0.2.1",
