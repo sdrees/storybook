@@ -3,8 +3,8 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { Zoom } from '@storybook/components';
 
-const StyledIframe = styled.iframe({
-  backgroundColor: 'white',
+const StyledIframe = styled.iframe(({ theme }) => ({
+  backgroundColor: theme.background.preview,
   position: 'absolute',
   display: 'block',
   boxSizing: 'content-box',
@@ -13,7 +13,7 @@ const StyledIframe = styled.iframe({
   border: '0 none',
   transition: 'background-position 0s, visibility 0s',
   backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
-});
+}));
 
 export interface IFrameProps {
   id: string;

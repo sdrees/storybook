@@ -141,6 +141,7 @@ If you're working with pure presentational screens, adding stories through [args
 <CodeSnippets
   paths={[
     'react/document-screen-fetch.js.mdx',
+    'react/document-screen-fetch.ts.mdx',
     'vue/document-screen-fetch.3.js.mdx',
     'vue/document-screen-fetch.3.ts.mdx',
     'angular/document-screen-fetch.ts.mdx',

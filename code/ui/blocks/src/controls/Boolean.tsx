@@ -112,16 +112,17 @@ export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur
   const parsedValue = typeof value === 'string' ? parse(value) : value;
 
   return (
-    <Label htmlFor={controlId} title={parsedValue ? 'Change to false' : 'Change to true'}>
+    <Label htmlFor={controlId} aria-label={name}>
       <input
         id={controlId}
         type="checkbox"
         onChange={(e) => onChange(e.target.checked)}
         checked={parsedValue}
+        role="switch"
         {...{ name, onBlur, onFocus }}
       />
-      <span>False</span>
-      <span>True</span>
+      <span aria-hidden="true">False</span>
+      <span aria-hidden="true">True</span>
     </Label>
   );
 };

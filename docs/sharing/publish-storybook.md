@@ -89,7 +89,7 @@ View it online at https://www.chromatic.com/build?appId=...&number=1.
 
 ### Setup CI to publish automatically
 
-Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
+Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
 
 In your project's root directory, add a new file called `chromatic.yml` inside the `.github/workflows` directory:
 

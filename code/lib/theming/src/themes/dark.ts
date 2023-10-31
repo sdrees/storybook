@@ -11,6 +11,7 @@ const theme: ThemeVars = {
   // UI
   appBg: '#222425',
   appContentBg: '#1B1C1D',
+  appPreviewBg: color.lightest,
   appBorderColor: 'rgba(255,255,255,.1)',
   appBorderRadius: 4,
 

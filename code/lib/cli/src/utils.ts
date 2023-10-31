@@ -101,6 +101,7 @@ export const createLogStream = async (
 const PACKAGES_EXCLUDED_FROM_CORE = [
   '@storybook/addon-bench',
   '@storybook/addon-console',
+  '@storybook/addon-onboarding',
   '@storybook/addon-postcss',
   '@storybook/addon-designs',
   '@storybook/addon-styling',
