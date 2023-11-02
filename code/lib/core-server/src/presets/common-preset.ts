@@ -225,10 +225,13 @@ export const frameworkOptions = async (
 export const docs = (
   docsOptions: StorybookConfig['docs'],
   { docs: docsMode }: CLIOptions
-): StorybookConfig['docs'] => ({
-  ...docsOptions,
-  docsMode,
-});
+): StorybookConfig['docs'] =>
+  docsOptions && docsMode !== undefined
+    ? {
+        ...docsOptions,
+        docsMode,
+      }
+    : docsOptions;
 
 export const managerHead = async (_: any, options: Options) => {
   const location = join(options.configDir, 'manager-head.html');

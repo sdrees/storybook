@@ -162,6 +162,6 @@ When Storybook generates the titles for all matching stories, they'll retain the
 
 ### Story Indexers
 
-[Story Indexers](./main-config-indexers.md) are a set of heuristics used by Storybook to crawl your filesystem based on a given glob pattern searching for matching stories, which is then used to generate an `index.json` (formerly `stories.json`) file responsible for populating the sidebar with the necessary information. By default, this heuristic will look for files that contain the following scheme `*.stories.@(js|jsx|mjs|ts|tsx)`.
+[Story Indexers](../api/main-config-indexers.md) are a set of heuristics used by Storybook to crawl your filesystem based on a given glob pattern searching for matching stories, which is then used to generate an `index.json` (formerly `stories.json`) file responsible for populating the sidebar with the necessary information. By default, this heuristic will look for files that contain the following scheme `*.stories.@(js|jsx|mjs|ts|tsx)`.
 
-You can provide your own indexer to include stories with a different naming convention, adjust the automatic title generation beyond a prefix, and many other use cases. For more information, see the [Story Indexers API reference](./main-config-indexers.md).
+You can provide your own indexer to include stories with a different naming convention, adjust the automatic title generation beyond a prefix, and many other use cases. For more information, see the [Story Indexers API reference](../api/main-config-indexers.md).

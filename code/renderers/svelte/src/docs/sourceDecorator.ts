@@ -1,16 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, useEffect } from '@storybook/preview-api';
 import { deprecate } from '@storybook/client-logger';
-import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
+import type { ArgTypes, Args, StoryContext } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import type { SvelteRenderer } from '../types';
 
 /**
- * Check if the sourcecode should be generated.
+ * Check if the source-code should be generated.
  *
  * @param context StoryContext
  */
-const skipSourceRender = (context: StoryContext<Renderer>) => {
+const skipSourceRender = (context: StoryContext<SvelteRenderer>) => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
 
@@ -162,7 +163,7 @@ function getWrapperProperties(component: any) {
  * @param storyFn Fn
  * @param context  StoryContext
  */
-export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) => {
+export const sourceDecorator = (storyFn: any, context: StoryContext<SvelteRenderer>) => {
   const channel = addons.getChannel();
   const skip = skipSourceRender(context);
   const story = storyFn();

@@ -2,13 +2,13 @@
 
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { addons, useEffect } from '@storybook/preview-api';
-import type { PartialStoryFn } from '@storybook/types';
+import type { DecoratorFunction } from '@storybook/types';
 
-import type { HtmlRenderer, StoryContext } from '../types';
+import type { HtmlRenderer } from '../types';
 
 import type { StoryFn } from '../public-types';
 
-function skipSourceRender(context: StoryContext) {
+function skipSourceRender(context: Parameters<DecoratorFunction<HtmlRenderer>>[1]) {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
 
@@ -22,7 +22,7 @@ function skipSourceRender(context: StoryContext) {
   return !isArgsStory || sourceParams?.code || sourceParams?.type === SourceType.CODE;
 }
 
-export function sourceDecorator(storyFn: PartialStoryFn<HtmlRenderer>, context: StoryContext) {
+export const sourceDecorator: DecoratorFunction<HtmlRenderer> = (storyFn, context) => {
   const story = storyFn();
   const renderedForSource = context?.parameters.docs?.source?.excludeDecorators
     ? (context.originalStoryFn as StoryFn)(context.args, context)
@@ -42,4 +42,4 @@ export function sourceDecorator(storyFn: PartialStoryFn<HtmlRenderer>, context: 
   });
 
   return story;
-}
+};

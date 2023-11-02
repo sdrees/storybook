@@ -1,7 +1,7 @@
 /* eslint-disable no-eval */
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/preview-api';
-import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
+import type { ArgTypes, Args, StoryContext } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
@@ -25,13 +25,14 @@ import {
   replaceValueWithRef,
   generateExpression,
 } from './utils';
+import type { VueRenderer } from '../types';
 
 /**
  * Check if the sourcecode should be generated.
  *
  * @param context StoryContext
  */
-const skipSourceRender = (context: StoryContext<Renderer>) => {
+const skipSourceRender = (context: StoryContext<VueRenderer>) => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
   const isDocsViewMode = context?.viewMode === 'docs';
@@ -153,7 +154,7 @@ function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]):
  */
 function getTemplateComponents(
   renderFn: any,
-  context?: StoryContext<Renderer>
+  context?: StoryContext<VueRenderer>
 ): (TemplateChildNode | VNode)[] {
   try {
     const originalStoryFn = renderFn;
@@ -274,7 +275,7 @@ export function generateTemplateSource(
  * @param storyFn Fn
  * @param context  StoryContext
  */
-export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) => {
+export const sourceDecorator = (storyFn: any, context: StoryContext<VueRenderer>) => {
   const skip = skipSourceRender(context);
   const story = storyFn();
 
@@ -290,7 +291,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   return story;
 };
 
-export function generateSource(context: StoryContext<Renderer>) {
+export function generateSource(context: StoryContext<VueRenderer>) {
   const channel = addons.getChannel();
   const { args = {}, argTypes = {}, id } = context || {};
   const storyComponents = getTemplateComponents(context?.originalStoryFn, context);

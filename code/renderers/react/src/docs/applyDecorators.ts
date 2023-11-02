@@ -1,8 +1,8 @@
 import { defaultDecorateStory } from '@storybook/preview-api';
 import type { LegacyStoryFn, DecoratorFunction } from '@storybook/types';
 
-import type { ReactRenderer } from './types';
-import { jsxDecorator } from './docs/jsxDecorator';
+import type { ReactRenderer } from '../types';
+import { jsxDecorator } from './jsxDecorator';
 
 export const applyDecorators = (
   storyFn: LegacyStoryFn<ReactRenderer>,

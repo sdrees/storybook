@@ -13,10 +13,21 @@ import { defaultLoader } from './next-image-default-loader';
 
 const ImageContext = ImageContextValue as typeof ImageContextType;
 
-const MockedNextImage = ({ loader, ...props }: _NextImage.ImageProps) => {
-  const imageParameters = React.useContext(ImageContext);
+const MockedNextImage = React.forwardRef<HTMLImageElement, _NextImage.ImageProps>(
+  ({ loader, ...props }, ref) => {
+    const imageParameters = React.useContext(ImageContext);
 
-  return <OriginalNextImage {...imageParameters} {...props} loader={loader ?? defaultLoader} />;
-};
+    return (
+      <OriginalNextImage
+        ref={ref}
+        {...imageParameters}
+        {...props}
+        loader={loader ?? defaultLoader}
+      />
+    );
+  }
+);
+
+MockedNextImage.displayName = 'NextImage';
 
 export default MockedNextImage;

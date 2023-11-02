@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { waitFor } from '@storybook/testing-library';
 
 import Accessibility from '../../assets/accessibility.svg';
+import AvifImage from '../../assets/avif-test-image.avif';
 
 export default {
   component: Image,
@@ -13,6 +14,13 @@ export default {
 };
 
 export const Default = {};
+
+export const Avif = {
+  args: {
+    src: AvifImage,
+    alt: 'Avif Test Image',
+  },
+};
 
 export const BlurredPlaceholder = {
   args: {
@@ -79,5 +87,18 @@ export const Eager = {
         loading: 'eager',
       },
     },
+  },
+};
+
+export const WithRef = {
+  render() {
+    const [ref, setRef] = useState(null);
+
+    return (
+      <div>
+        <Image src={Accessibility} alt="Accessibility" ref={setRef} />
+        <p>Alt attribute of image: {ref?.alt}</p>
+      </div>
+    );
   },
 };

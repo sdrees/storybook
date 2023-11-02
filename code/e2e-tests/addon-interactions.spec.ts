@@ -29,7 +29,7 @@ test.describe('addon-interactions', () => {
     await expect(welcome).toContainText('Welcome, Jane Doe!');
 
     const interactionsTab = await page.locator('#tabbutton-storybook-interactions-panel');
-    await expect(interactionsTab).toContainText(/(1)/);
+    await expect(interactionsTab).toContainText(/(\d)/);
     await expect(interactionsTab).toBeVisible();
 
     const panel = sbPage.panelContent();
@@ -37,7 +37,7 @@ test.describe('addon-interactions', () => {
     await expect(panel).toContainText(/userEvent.click/);
     await expect(panel).toBeVisible();
 
-    const done = await panel.locator('[data-testid=icon-done]');
+    const done = await panel.locator('[data-testid=icon-done]').nth(0);
     await expect(done).toBeVisible();
   });
 
