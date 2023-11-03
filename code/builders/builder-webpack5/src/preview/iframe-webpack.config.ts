@@ -90,6 +90,7 @@ export default async (
     entries,
     nonNormalizedStories,
     modulesCount = 1000,
+    build,
   ] = await Promise.all([
     presets.apply<CoreConfig>('core'),
     presets.apply('frameworkOptions'),
@@ -102,6 +103,7 @@ export default async (
     presets.apply<string[]>('entries', []),
     presets.apply('stories', []),
     options.cache?.get('modulesCount').catch(() => {}),
+    options.presets.apply('build'),
   ]);
 
   const stories = normalizeStories(nonNormalizedStories, {
@@ -217,6 +219,10 @@ export default async (
     `);
   }
 
+  if (build?.test?.emptyBlocks) {
+    globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+  }
+
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
@@ -269,6 +275,7 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
+            ...(build?.test?.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
           },
           headHtmlSnippet,
           bodyHtmlSnippet,

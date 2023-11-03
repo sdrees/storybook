@@ -76,6 +76,7 @@ export interface Presets {
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
+  apply(extension: 'build', config?: {}, args?: any): Promise<StorybookConfig['build']>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -156,6 +157,7 @@ export interface CLIOptions {
   quiet?: boolean;
   versionUpdates?: boolean;
   docs?: boolean;
+  test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -310,6 +312,15 @@ export interface StorybookConfig {
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
+  };
+
+  build?: {
+    test?: {
+      /**
+       * Globalize @storybook/blocks
+       */
+      emptyBlocks?: boolean;
+    };
   };
 
   /**

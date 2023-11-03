@@ -16,7 +16,7 @@ Type:
 
 Configures Storybook's [auto-generated documentation](../writing-docs/autodocs.md).
 
-## `autoDocs`
+## `autodocs`
 
 Type: `boolean | 'tag'`
 
