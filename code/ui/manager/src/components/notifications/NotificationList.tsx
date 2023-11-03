@@ -7,7 +7,7 @@ import NotificationItem from './NotificationItem';
 
 const List = styled.div<{ placement?: CSSObject }>(
   {
-    zIndex: 10,
+    zIndex: 11,
 
     '> * + *': {
       marginTop: 10,

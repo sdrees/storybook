@@ -25,7 +25,7 @@ export function openInBrowser(address: string) {
       ) {
         // We use betterOpn for Chrome because it is better at handling which chrome tab
         // or window the preview loads in.
-        betterOpn(address);
+        await betterOpn(address);
       } else {
         await open(address, openOptions);
       }

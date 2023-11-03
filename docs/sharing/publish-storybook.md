@@ -131,14 +131,29 @@ When you publish Storybook, you also get component history and versioning down t
 
 ## Publish Storybook to other services
 
-Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md),
-[embedding stories](./embed.md), history, and versioning require tighter integration with Storybook APIs and secure authentication. Your hosting provider may not be capable of supporting these features. Learn about the Component Publishing Protocol (CPP) to see what.
+Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md), [embedding stories](./embed.md), history, versioning, and assets may require tighter integration with Storybook APIs and secure authentication. If you want to know more about headers, you can refer to the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts). Additionally, if you want to learn about the Component Publishing Protocol (CPP), you can find more information below.
+
+### GitHub Pages
+
+To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook to GitHub Pages](https://github.com/bitovi/github-actions-storybook-to-github-pages) Action. To enable it, create a new workflow file inside your `.github/workflows` directory with the following content:
+
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/ghp-github-action.yml.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 <div class="aside">
 
-ℹ️ Additional header configuration may be required to serve Storybook's static files correctly on your host. For more information on the required headers, see the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts).
+ℹ️ The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
 
 </div>
+
 
 <details>
 

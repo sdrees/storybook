@@ -1,6 +1,5 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "storybook",
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
@@ -14,13 +13,9 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": ["prep"],
-        "accessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
         "canTrackAnalytics": false,
-        "showUsageWarnings": true,
-        "parallel": 1
+        "showUsageWarnings": true
       }
     }
   },
@@ -52,7 +47,10 @@
           "dependencies": true
         }
       ],
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": ["{projectRoot}/dist"],
+      "cache": true
     }
-  }
+  },
+  "nxCloudAccessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
+  "parallel": 1
 }
