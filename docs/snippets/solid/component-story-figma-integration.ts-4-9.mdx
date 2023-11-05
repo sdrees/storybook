@@ -3,13 +3,10 @@
 
 import type { Meta, StoryObj } from 'storybook-solidjs';
 
-import { withDesign } from 'storybook-addon-designs';
-
 import { MyComponent } from './MyComponent';
 
 const meta = {
   component: MyComponent,
-  decorators: [withDesign],
 } satisfies Meta<typeof MyComponent>;
 
 export default meta;
