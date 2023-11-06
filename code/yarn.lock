@@ -6492,17 +6492,17 @@ __metadata:
     webpack: "npm:5"
     zone.js: "npm:^0.13.0"
   peerDependencies:
-    "@angular-devkit/architect": ">=0.1400.0 < 0.1700.0"
-    "@angular-devkit/build-angular": ">=14.1.0 < 17.0.0"
-    "@angular-devkit/core": ">=14.1.0 < 17.0.0"
-    "@angular/cli": ">=14.1.0 < 17.0.0"
-    "@angular/common": ">=14.1.0 < 17.0.0"
-    "@angular/compiler": ">=14.1.0 < 17.0.0"
-    "@angular/compiler-cli": ">=14.1.0 < 17.0.0"
-    "@angular/core": ">=14.1.0 < 17.0.0"
-    "@angular/forms": ">=14.1.0 < 17.0.0"
-    "@angular/platform-browser": ">=14.1.0 < 17.0.0"
-    "@angular/platform-browser-dynamic": ">=14.1.0 < 17.0.0"
+    "@angular-devkit/architect": ">=0.1400.0 < 0.1800.0"
+    "@angular-devkit/build-angular": ">=14.1.0 < 18.0.0"
+    "@angular-devkit/core": ">=14.1.0 < 18.0.0"
+    "@angular/cli": ">=14.1.0 < 18.0.0"
+    "@angular/common": ">=14.1.0 < 18.0.0"
+    "@angular/compiler": ">=14.1.0 < 18.0.0"
+    "@angular/compiler-cli": ">=14.1.0 < 18.0.0"
+    "@angular/core": ">=14.1.0 < 18.0.0"
+    "@angular/forms": ">=14.1.0 < 18.0.0"
+    "@angular/platform-browser": ">=14.1.0 < 18.0.0"
+    "@angular/platform-browser-dynamic": ">=14.1.0 < 18.0.0"
     "@babel/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7126,6 +7126,7 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/doctrine": "npm:^0.0.3"
+    assert: "npm:^2.1.0"
     doctrine: "npm:^3.0.0"
     jest-specific-snapshot: "npm:^8.0.0"
     lodash: "npm:^4.17.21"
@@ -11715,7 +11716,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"assert@npm:^2.0.0":
+"assert@npm:^2.0.0, assert@npm:^2.1.0":
   version: 2.1.0
   resolution: "assert@npm:2.1.0"
   dependencies:
