@@ -48,7 +48,7 @@ This document outlines some of the processes that the maintainers should adhere 
 | maintenance                    | Issue, or pull request related to Storybook's internal maintenance                                                                                   |
 | mdx                            | Issue, bug, or pull request related to MDX and Storybook                                                                                             |
 | medium                         | Issue or pull request that involves a significant amount of work within Storybook                                                                    |
-| monorepos                      | Issue, bug, or pull request related to Storybook and monorepos (e.g., [lerna](https://lerna.js.org/) )                                               |
+| monorepos                      | Issue, bug, or pull request related to Storybook and monorepos                                                                                       |
 | mui                            | Issue, bug, or pull request that affects Storybook and [Material-UI](https://material-ui.com/)                                                       |
 | multiframework                 | Issue, bug, or pull request that affects multiple supported frameworks (e.g., React, Vue)                                                            |
 | needs more info                | Issue, or bug that requires additional context from the author                                                                                       |

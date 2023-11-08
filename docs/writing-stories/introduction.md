@@ -47,11 +47,11 @@ The _default_ export metadata controls how Storybook lists your stories and prov
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 Starting with Storybook version 7.0, story titles are analyzed statically as part of the build process. The _default_ export must contain a `title` property that can be read statically or a `component` property from which an automatic title can be computed. Using the `id` property to customize your story URL must also be statically readable.
 
-</div>
+</Callout>
 
 ### Defining stories
 
@@ -99,9 +99,11 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 The recommendation mentioned above also applies to other frameworks, not only React.
-</div>
+<Callout variant="info" icon="💡">
+
+The recommendation mentioned above also applies to other frameworks, not only React.
+
+</Callout>
 
 </IfRenderer>
 
@@ -124,9 +126,11 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 The recommendation mentioned above also applies to other frameworks, not only Solid.
-</div>
+<Callout variant="info" icon="💡">
+
+The recommendation mentioned above also applies to other frameworks, not only Solid.
+
+</Callout>
 
 </IfRenderer>
 
@@ -426,8 +430,8 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Note that there are disadvantages in writing stories like this as you cannot take full advantage of the args mechanism and composing args as you build even more complex composite components. For more discussion, see the [multi component stories](../writing-stories/stories-for-multiple-components.md) workflow documentation.
+Note that there are disadvantages in writing stories like this as you cannot take full advantage of the args mechanism and composing args as you build even more complex composite components. For more discussion, see the [multi component stories](../writing-stories/stories-for-multiple-components.md) workflow documentation.
 
-</div>
+</Callout>

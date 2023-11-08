@@ -203,11 +203,11 @@ Add a new [configuration file](./test-runner.md#test-hook-api-experimental) insi
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 `preRender` and `postRender` are convenient hooks that allow you to extend the test runner's default configuration. They are **experimental** and subject to changes. Read more about them [here](./test-runner.md#test-hook-api-experimental).
+`preRender` and `postRender` are convenient hooks that allow you to extend the test runner's default configuration. They are **experimental** and subject to changes. Read more about them [here](./test-runner.md#test-hook-api-experimental).
 
-</div>
+</Callout>
 
 When you execute the test runner (for example, with `yarn test-storybook`), it will run the accessibility audit and any [interaction tests](./interaction-testing.md) you might have configured for each component story.
 

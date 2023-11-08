@@ -8,11 +8,11 @@ Stories (component tests) are Storybook's fundamental building blocks.
 
 In Storybook Docs, you can render any of your stories from your CSF files in the context of an MDX file with all annotations (parameters, args, loaders, decorators, play function) applied using the `Story` block.
 
-<div class="aside">
+<Callout variant="info">
 
 Typically you want to use the [`Canvas` block](./doc-block-canvas.md) to render a story with a surrounding border and the source block, but you can use the `Story` block to render just the story.
 
-</div>
+</Callout>
 
 ![Screenshot of Story block](./doc-block-story.png)
 

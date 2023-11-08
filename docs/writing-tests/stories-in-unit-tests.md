@@ -28,11 +28,11 @@ Run the following command to install the addon.
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ If you're using Storybook 7 or higher, the `@storybook/testing-vue3` addon is the only one we support. For Vue 2 users, refer to the [troubleshooting section](#troubleshooting) for additional guidance.
+If you're using Storybook 7 or higher, the `@storybook/testing-vue3` addon is the only one we support. For Vue 2 users, refer to the [troubleshooting section](#troubleshooting) for additional guidance.
 
-</div>
+</Callout>
 
 </IfRenderer>
 
@@ -53,11 +53,11 @@ Run the following command to install the addon.
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
+You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
 
-</div>
+</Callout>
 
 Once the test runs, it loads the story and renders it. [Testing Library](https://testing-library.com/) then emulates the user's behavior and checks if the component state has been updated.
 

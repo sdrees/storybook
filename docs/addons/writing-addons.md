@@ -63,11 +63,11 @@ Clone the repository you just created and install its dependencies. When the ins
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The Addon Kit uses [Typescript](https://www.typescriptlang.org/) by default. If you want to use JavaScript instead, you can run the `eject-ts` command to convert the project to JavaScript.
+The Addon Kit uses [Typescript](https://www.typescriptlang.org/) by default. If you want to use JavaScript instead, you can run the `eject-ts` command to convert the project to JavaScript.
 
-</div>
+</Callout>
 
 ### Understanding the build system
 
@@ -283,11 +283,11 @@ The second metadata category is related to the [integration catalog](https://sto
 }
 ```
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The `storybook` configuration element includes additional properties that help customize the addon's searchability and indexing. For more information, see the [Integration catalog documentation](./integration-catalog.md).
+The `storybook` configuration element includes additional properties that help customize the addon's searchability and indexing. For more information, see the [Integration catalog documentation](./integration-catalog.md).
 
-</div>
+</Callout>
 
 One essential item to note is the `keywords` property as it maps to the catalog's tag system. Adding the `storybook-addons` ensures that the addon is discoverable in the catalog when searching for addons. The remaining keywords help with the searchability and categorization of the addon.
 

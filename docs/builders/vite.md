@@ -83,11 +83,11 @@ By default, the Vite builder in Storybook searches for the Vite configuration fi
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you do not want Storybook to load the Vite configuration file automatically, you can use the `viteConfigPath` option to point to a non-existent file.
+If you do not want Storybook to load the Vite configuration file automatically, you can use the `viteConfigPath` option to point to a non-existent file.
 
-</div>
+</Callout>
 
 ### TypeScript
 

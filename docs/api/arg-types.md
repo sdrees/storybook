@@ -166,11 +166,11 @@ Specifies the type of control used to change the arg value with the [controls ad
 |                | `'date'`         | Provides a datepicker to choose a date.<br /> `{ control: 'date' }`                                                                                                                    |
 |                | `'text'`         | Provides a freeform text input.<br/> `{ control: 'text' }`                                                                                                                             |
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
+The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
 
-</div>
+</Callout>
 
 #### `control.accept`
 
@@ -304,13 +304,13 @@ The `argTypes` object uses the name of the arg as the key. By default, that key 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="warning">
 
-💡 Be careful renaming args in this way. Users of the component you're documenting will not be able to use the documented name as a property of your component and the actual name will not displayed.
+Be careful renaming args in this way. Users of the component you're documenting will not be able to use the documented name as a property of your component and the actual name will not displayed.
 
 For this reason, the `name` property is best used when defining an `argType` that is only used for documentation purposes and not an actual property of the component. For example, when [providing argTypes for each property of an object](https://stackblitz.com/edit/github-uplqzp?file=src/stories/Button.stories.tsx).
 
-</div>
+</Callout>
 
 ### `options`
 

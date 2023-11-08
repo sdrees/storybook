@@ -68,11 +68,11 @@ To replace the default documentation template used by Storybook, you can extend 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks [API reference](./doc-blocks.md#available-blocks) to learn more about how Doc Blocks work.
+Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks [API reference](./doc-blocks.md#available-blocks) to learn more about how Doc Blocks work.
 
-</div>
+</Callout>
 
 Going over the code snippet in more detail. When Storybook starts up, it will override the default template with the custom one composed of the following:
 
@@ -107,11 +107,11 @@ Then you can use it in your `.storybook/preview.js` or an individual story file 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you only need to override the documentation page for a single component, we recommend creating an MDX file and referencing it directly via the `<Meta of={} />` Doc Block.
+If you only need to override the documentation page for a single component, we recommend creating an MDX file and referencing it directly via the `<Meta of={} />` Doc Block.
 
-</div>
+</Callout>
 
 ### Generate a table of contents
 
@@ -141,11 +141,11 @@ By default, the table of contents on the documentation page will only show the `
 | `title`               | Defines a title caption for the table of contents. <br/>Accepts one of: `string`, `null`, React element <br/> `toc: { title: 'Table of Contents' }`  |
 | `unsafeTocbotOptions` | Provides additional [`TocBot`](https://tscanlin.github.io/tocbot/) configuration options <br/> `toc: { unsafeTocbotOptions: { orderedList: true } }` |
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The `contentsSelector`, `headingSelector`, and `ignoreSelector` properties allow additional customization. For more information on using them, see the [`Tocbot` documentation](https://tscanlin.github.io/tocbot/).
+The `contentsSelector`, `headingSelector`, and `ignoreSelector` properties allow additional customization. For more information on using them, see the [`Tocbot` documentation](https://tscanlin.github.io/tocbot/).
 
-</div>
+</Callout>
 
 <!-- prettier-ignore-start -->
 
@@ -227,11 +227,11 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 This is not a Storybook issue but a breaking change introduced with MDX 2. For more information on this and other breaking changes, see our [MDX documentation](./mdx.md#breaking-changes).
+This is not a Storybook issue but a breaking change introduced with MDX 2. For more information on this and other breaking changes, see our [MDX documentation](./mdx.md#breaking-changes).
 
-</div>
+</Callout>
 
 ## Troubleshooting
 

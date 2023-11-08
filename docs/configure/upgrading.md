@@ -27,11 +27,11 @@ After running the command the script will:
 - Upgrade all Storybook packages in your project to the latest stable version
 - Run the relevant [automigrations](../migration-guide.md#automatic-upgrade) factoring in the [breaking changes](../migration-guide.md#major-breaking-changes) between your current version and the latest stable version
 
-<div class="aside">
+<Callout variant="info">
 
 In addition to running the command, we also recommend checking the [MIGRATION.md file](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md), for the detailed log of relevant changes and deprecations that might affect your upgrade.
 
-</div>
+</Callout>
 
 ## Automigrate script
 
@@ -71,8 +71,8 @@ To upgrade to the latest pre-release:
 
 If you'd like to downgrade to a stable version, manually edit the package version numbers in your `package.json` and re-install.
 
-<div class="aside">
+<Callout variant="info">
 
 Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
 
-</div>
+</Callout>

@@ -8,11 +8,11 @@ Type: `string[] | ((config: string[], options: Options) => string[] | Promise<st
 
 Add additional scripts to run in the story preview.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Mostly used by [frameworks](../contribute/framework.md#previewjs-example). Storybook users and [addon authors](../addons/writing-presets.md) should add scripts to [`preview.js`](../configure/overview.md#configure-story-rendering) instead.
+Mostly used by [frameworks](../contribute/framework.md#previewjs-example). Storybook users and [addon authors](../addons/writing-presets.md) should add scripts to [`preview.js`](../configure/overview.md#configure-story-rendering) instead.
 
-</div>
+</Callout>
 
 ```ts
 // @storybook/nextjs framework's src/preset.ts

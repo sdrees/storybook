@@ -6,11 +6,11 @@ title: 'ArgTypes'
 
 The `ArgTypes` block can be used to show a static table of [arg types](./argtypes.md) for a given component, as a way to document its interface.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you’re looking for a dynamic table that shows a story’s current arg values for a story and supports users changing them, see the [`Controls`](./doc-block-controls.md) block instead.
+If you’re looking for a dynamic table that shows a story’s current arg values for a story and supports users changing them, see the [`Controls`](./doc-block-controls.md) block instead.
 
-</div>
+</Callout>
 
 ![Screenshot of ArgTypes block](./doc-block-argtypes.png)
 

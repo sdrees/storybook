@@ -23,11 +23,11 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 In previous versions of Storybook it was possible to pass in arbitrary components as children to `Canvas`. That is deprecated and the `Canvas` block now only supports a single story.
+In previous versions of Storybook it was possible to pass in arbitrary components as children to `Canvas`. That is deprecated and the `Canvas` block now only supports a single story.
 
-</div>
+</Callout>
 
 ## Canvas
 
@@ -172,11 +172,11 @@ Type: `SourceProps['code'] | SourceProps['format'] | SourceProps['language'] | S
 
 Specifies props passed to the inner `Source` block. See [SourceProps](./doc-block-source.md#sourceprops).
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The dark prop is ignored, as the `Source` block is always rendered in dark mode when shown as part of a `Canvas` block.
+The dark prop is ignored, as the `Source` block is always rendered in dark mode when shown as part of a `Canvas` block.
 
-</div>
+</Callout>
 
 ### `sourceState`
 

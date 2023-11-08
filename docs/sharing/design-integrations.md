@@ -43,9 +43,11 @@ In Figma, select the component, open the plugin, and paste the URL.
 
 Chromatic will automatically update your linked stories to reflect the most recent Storybook published on the branch you linked. That means the link persists even as you push new code.
 
-<div class="aside">
-💡 The plugin does not support linking stories to Figma layers.
-</div>
+<Callout variant="info" icon="💡">
+
+The plugin does not support linking stories to Figma layers.
+
+</Callout>
 
 #### View stories in Figma
 

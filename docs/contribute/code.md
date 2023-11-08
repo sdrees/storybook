@@ -50,11 +50,11 @@ yarn task
 
 When prompted, answer the questions as accurately as possible to allow Storybook to determine your goals. After answering these questions, you should see the entire command with the options you've selected should you require to re-run it.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The `yarn task` command takes a few development shortcuts that can catch you off guard when switching branches and may require you to re-run both the `install` and `compile` tasks. You can speed up the process by running the command with the `start-from=install` flag.
+The `yarn task` command takes a few development shortcuts that can catch you off guard when switching branches and may require you to re-run both the `install` and `compile` tasks. You can speed up the process by running the command with the `start-from=install` flag.
 
-</div>
+</Callout>
 
 ## Running tests
 
@@ -84,11 +84,11 @@ yarn build
 
 When prompted to start the build process in `watch` mode, answer **yes** to develop in interactive mode. Afterward, choose which packages you want to build. For example, if you're going to work on a feature for `@storybook/addon-docs`, you might want to select both `@storybook/addon-docs` and `@storybook/components`.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Build's `watch` mode is great for interactive development. However, for performance reasons, it only transpiles your code and doesn't execute the TypeScript compiler. If something isn't working as expected, try running the `build` command <b>WITHOUT</b> enabling watch mode: it will re-generate TypeScript types and perform automatic type checking for you.
+Build's `watch` mode is great for interactive development. However, for performance reasons, it only transpiles your code and doesn't execute the TypeScript compiler. If something isn't working as expected, try running the `build` command **WITHOUT** enabling watch mode: it will re-generate TypeScript types and perform automatic type checking for you.
 
-</div>
+</Callout>
 
 ![Storybook package selector](./storybook-build-packages-selection-optimized.png)
 
@@ -144,11 +144,11 @@ Before submitting your contribution, run the test suite one last time with the f
 yarn test
 ```
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Storybook relies on [Jest](https://jestjs.io/) as part of it's testing suite. During the test run, if you spot that snapshot tests are failing, re-run the command with the `-u` flag to update them.
+Storybook relies on [Jest](https://jestjs.io/) as part of it's testing suite. During the test run, if you spot that snapshot tests are failing, re-run the command with the `-u` flag to update them.
 
-</div>
+</Callout>
 
 Doing this prevents last-minute bugs and is a great way to merge your contribution faster once you submit your pull request. Failing to do so will lead to one of the maintainers mark the pull request with the **Work in Progress** label until all tests pass.
 
@@ -173,13 +173,13 @@ yarn task --task e2e-tests --template=react-vite/default-ts --start-from=install
 
 Typically it is a good idea to start from the `install` task to ensure your local code is completely up to date. If you reproduce the failure, you can try and make fixes, [compile them](#start-developing) with `build`, then rerun the task with `--start-from=auto`.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The default instructions run the code in "linked" mode, meaning built changes to Storybook library code will be reflected in the sandbox immediately (the next time you run the task). However, CI runs in "unlinked" mode, which in rare cases, will behave differently.<br />
+The default instructions run the code in "linked" mode, meaning built changes to Storybook library code will be reflected in the sandbox immediately (the next time you run the task). However, CI runs in "unlinked" mode, which in rare cases, will behave differently.
 
 If you are having trouble reproducing, try rerunning the command with the `--no-link` flag. If you need to do that, you'll need to run it with `--start-from=compile` after each code change.
 
-</div>
+</Callout>
 
 ## How to work with reproductions
 
@@ -199,11 +199,11 @@ If you already have a reproduction on your local machine, you can similarly link
 npx storybook@next link --local /path/to/local-repro-directory
 ```
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The `storybook link` command relies on [Yarn 2 linking](https://yarnpkg.com/cli/link/) under the hood. It requires your local reproduction to be using [Yarn 2](https://yarnpkg.com/) as well, which is the case if you're already enabled it with the [`storybook sandbox`](./how-to-reproduce.md) command per our contribution guidelines. The process will fail if you're trying to link a non-Yarn 2 project.
+The `storybook link` command relies on [Yarn 2 linking](https://yarnpkg.com/cli/link/) under the hood. It requires your local reproduction to be using [Yarn 2](https://yarnpkg.com/) as well, which is the case if you're already enabled it with the [`storybook sandbox`](./how-to-reproduce.md) command per our contribution guidelines. The process will fail if you're trying to link a non-Yarn 2 project.
 
-</div>
+</Callout>
 
 ## Developing a template
 

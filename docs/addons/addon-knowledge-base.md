@@ -78,9 +78,11 @@ Complementing the components, also included is a set of UI primitives. Use the c
 | Icon                           | [See implementation](https://github.com/storybookjs/storybook/blob/main/code/ui/components/src/icon/icons.tsx) | [See story](https://main--5a375b97f4b14f0020b0cda3.chromatic.com/?path=/story/basics-icon--labels)       |
 | Typography                     | [See implementation](https://github.com/storybookjs/storybook/tree/master/code/ui/components/src/typography)   | [See story](https://main--5a375b97f4b14f0020b0cda3.chromatic.com/?path=/story/basics-typography--all)    |
 
-<div class="aside">
-The color palette implemented by <code>@storybook/components</code> is a high-level abstraction of the <a href="https://github.com/storybookjs/storybook/tree/next/code/lib/theming/src"><code>@storybook/theming</code></a> package.
-</div>
+<Callout variant="info">
+
+The color palette implemented by `@storybook/components` is a high-level abstraction of the [`@storybook/theming`](https://github.com/storybookjs/storybook/tree/next/code/lib/theming/src) package.
+
+</Callout>
 
 ### Build system
 
@@ -94,9 +96,11 @@ When you're developing your addon as a package, you can’t use `npm link` to ad
 }
 ```
 
-<div class="aside">
-Run either <code>yarn</code> or <code>npm install</code> to install the addon.
-</div>
+<Callout variant="info">
+
+Run either `yarn` or `npm install` to install the addon.
+
+</Callout>
 
 ### Hot module replacement
 

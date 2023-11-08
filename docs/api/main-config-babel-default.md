@@ -8,11 +8,11 @@ Type: `(config: Babel.Config, options: Options) => Babel.Config | Promise<Babel.
 
 `babelDefault` allows customization of Storybook's [Babel](https://babeljs.io/) setup. It is applied to the preview config before any user presets have been applied, which makes it useful and recommended for [addon authors](../addons/writing-presets.md#babel) so that the end user's [`babel`](./main-config-babel.md) setup can override it.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 To adjust your Storybook's Babel setup directly—not via an addon—use [`babel`](./main-config-babel.md) instead.
+To adjust your Storybook's Babel setup directly—not via an addon—use [`babel`](./main-config-babel.md) instead.
 
-</div>
+</Callout>
 
 <!-- prettier-ignore-start -->
 

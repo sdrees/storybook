@@ -6,11 +6,11 @@ title: 'Component Story Format (CSF)'
 
 Component Story Format (CSF) is the recommended way to [write stories](../writing-stories/introduction.md). It's an [open standard](https://github.com/ComponentDriven/csf) based on ES6 modules that is portable beyond Storybook.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you are writing stories in the older `storiesOf()` syntax, you can find documentation in an [advanced README](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md).
+If you are writing stories in the older `storiesOf()` syntax, you can find documentation in an [advanced README](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md).
 
-</div>
+</Callout>
 
 In CSF, stories and component metadata are defined as ES Modules. Every component story file consists of a required [default export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#Using_the_default_export) and one or more [named exports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export).
 

@@ -52,7 +52,6 @@ const ChildrenContainer = styled.div<PreviewProps & { layout: Layout }>(
     layout === 'centered' || layout === 'padded'
       ? {
           padding: '30px 20px',
-          margin: -10,
           '& .innerZoomElementWrapper > *': {
             width: 'auto',
             border: '10px solid transparent!important',

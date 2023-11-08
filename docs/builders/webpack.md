@@ -74,10 +74,11 @@ If you already have an existing Webpack configuration file that you need to reus
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Projects scaffolded based on generators may require that you import their specific Webpack configuration files. We suggest reading your generator's documentation for more information.
+<Callout variant="info" icon="💡">
 
-</div>
+Projects scaffolded based on generators may require that you import their specific Webpack configuration files. We suggest reading your generator's documentation for more information.
+
+</Callout>
 
 ### Debug Webpack configuration
 

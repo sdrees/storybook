@@ -18,11 +18,11 @@ Use the Storybook CLI to install it in a single command. Run this inside your _e
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" title="Running into issues?">
 
-If you run into issues with the installation, check the [Troubleshooting section](#troubleshooting) below for guidance on how to solve it.
+Check the [Troubleshooting section](#troubleshooting) below for guidance on how to solve it.
 
-</div>
+</Callout>
 
 <details>
 
@@ -110,11 +110,11 @@ Below are some of the most common installation issues and instructions on how to
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
 
-</div>
+</Callout>
 
 If all else fails, try asking for [help](https://storybook.js.org/community#support)
 

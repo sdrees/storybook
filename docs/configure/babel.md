@@ -4,11 +4,11 @@ title: 'Babel'
 
 As of version 7.0, Storybook now re-uses your project’s Babel configuration to apply the same Babel plugins and presets in your Storybook stories as you do in your app. This makes it simpler, less buggy, easier to troubleshoot, and more consistent with other tools in the JS ecosystem.
 
-<div class="aside">
+<Callout variant="info">
 
 If you're not using Storybook 7, please reference the [previous documentation](../../../release-6-5/docs/configure/babel.md) for guidance on configuring your Babel setup.
 
-</div>
+</Callout>
 
 ## CRA (Create React App)
 
@@ -125,11 +125,11 @@ BABEL_SHOW_CONFIG_FOR=.storybook/preview.js yarn storybook
 
 When the command finishes running, it will display the available Babel configuration for the `.storybook/preview.js` file. You can use this information to debug issues with transpilation.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Due to what appears to be a Babel bug, setting this flag causes Babel transpilation to fail on the file provided. Thus you cannot actually **run** Storybook using this command. However, it will print out the configuration information as advertised, and therefore you can use this to debug your Storybook. You'll need to remove the flag to actually run your Storybook.
+Due to what appears to be a Babel bug, setting this flag causes Babel transpilation to fail on the file provided. Thus you cannot actually **run** Storybook using this command. However, it will print out the configuration information as advertised, and therefore you can use this to debug your Storybook. You'll need to remove the flag to actually run your Storybook.
 
-</div>
+</Callout>
 
 For more info, please refer to the [Babel documentation](https://babeljs.io/docs/en/configuration#print-effective-configs).
 

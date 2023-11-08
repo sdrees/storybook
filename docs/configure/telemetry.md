@@ -178,11 +178,11 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 There is a `boot` event containing no metadata (used to ensure the telemetry is working). It is sent prior to evaluating your [Storybook configuration file](../api/main-config.md) (i.e., `main.js|ts`), so it is unaffected by the `disableTelemetry` option. If you want to ensure that the event is not sent, use the `STORYBOOK_DISABLE_TELEMETRY` environment variable.
+There is a `boot` event containing no metadata (used to ensure the telemetry is working). It is sent prior to evaluating your [Storybook configuration file](../api/main-config.md) (i.e., `main.js|ts`), so it is unaffected by the `disableTelemetry` option. If you want to ensure that the event is not sent, use the `STORYBOOK_DISABLE_TELEMETRY` environment variable.
 
-</div>
+</Callout>
 
 ## Crash reports (disabled by default)
 

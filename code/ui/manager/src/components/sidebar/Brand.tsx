@@ -11,10 +11,9 @@ export const StorybookLogoStyled = styled(StorybookLogo)(({ theme }) => ({
 }));
 
 export const Img = styled.img({
-  width: 'auto',
-  height: 'auto',
   display: 'block',
-  maxWidth: '100%',
+  maxWidth: '150px',
+  maxHeight: '100px',
 });
 
 export const LogoLink = styled.a(({ theme }) => ({

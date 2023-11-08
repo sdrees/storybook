@@ -8,11 +8,11 @@ Type: `(head: string) => string`
 
 Programmatically adjust the [preview `<head>`](../configure/story-rendering.md#adding-to-head) of your Storybook. Most often used by [addon authors](../addons/writing-presets.md#ui-configuration).
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you don't need to programmatically adjust the preview head, you can add scripts and styles to [`preview-head.html`](../configure/story-rendering.md#adding-to-head) instead.
+If you don't need to programmatically adjust the preview head, you can add scripts and styles to [`preview-head.html`](../configure/story-rendering.md#adding-to-head) instead.
 
-</div>
+</Callout>
 
 For example, you can conditionally add scripts or styles, depending on the environment:
 

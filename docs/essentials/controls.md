@@ -21,11 +21,11 @@ Controls do not require any modification to your components. Stories for control
 
 To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/argtypes.md), see below.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you have stories in the older pre-Storybook 6 style, check the <a href="https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5">args & controls migration guide</a> to learn how to convert your existing stories for args.
+If you have stories in the older pre-Storybook 6 style, check the [args & controls migration guide](https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5) to learn how to convert your existing stories for args.
 
-</div>
+</Callout>
 
 ## Choosing the control type
 
@@ -89,11 +89,11 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
+ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
 
-</div>
+</Callout>
 
 This replaces the input with a radio group for a more intuitive experience.
 
@@ -229,9 +229,11 @@ As shown above, you can configure individual controls with the “control" annot
 |             | `color`        | Provides a color picker component to handle color values.<br/> Can be additionally configured to include a set of color presets.<br/> `argTypes: { color: { control: { type: 'color', presetColors: ['red', 'green']} }}` |
 |             | `date`         | Provides a datepicker component to handle date selection. `argTypes: { startDate: { control: 'date' }}`                                                                                                                   |
 
-<div class="aside">
-💡 The <code>date</code> control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
-</div>
+<Callout variant="info" icon="💡">
+
+The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
+
+</Callout>
 
 <!-- prettier-ignore-start -->
 
@@ -248,9 +250,11 @@ As shown above, you can configure individual controls with the “control" annot
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Numeric data types will default to a <code>number</code> control unless additional configuration is provided.
-</div>
+<Callout variant="info" icon="💡">
+
+Numeric data types will default to a `number` control unless additional configuration is provided.
+
+</Callout>
 
 ### Parameters
 
@@ -339,11 +343,11 @@ The previous example also removed the prop documentation from the table. In some
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
 💡 As with other Storybook properties, such as [decorators](../writing-stories/decorators.md), you can apply the same pattern at a story level for more granular cases.
 
-</div>
+</Callout>
 
 ### Conditional controls
 

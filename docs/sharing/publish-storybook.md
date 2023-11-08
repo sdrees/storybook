@@ -31,11 +31,11 @@ First, we'll need to build Storybook as a static web application. The functional
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 You can provide additional flags to customize the command. Read more about the flag options [here](../api/cli-options.md).
+You can provide additional flags to customize the command. Read more about the flag options [here](../api/cli-options.md).
 
-</div>
+</Callout>
 
 Storybook will create a static web application capable of being served by any web server. Preview it locally by running the following command:
 
@@ -103,11 +103,11 @@ In your project's root directory, add a new file called `chromatic.yml` inside t
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Secrets are secure environment variables provided by GitHub so that you don't need to hard code your `project-token`. Read the [official documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn how to configure them.
+Secrets are secure environment variables provided by GitHub so that you don't need to hard code your `project-token`. Read the [official documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn how to configure them.
 
-</div>
+</Callout>
 
 Commit and push the file. Congratulations, you've successfully automated publishing your Storybook. Now whenever you open a PR you’ll get a handy link to your published Storybook in your PR checks.
 
@@ -148,11 +148,11 @@ To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook t
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
+The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
 
-</div>
+</Callout>
 
 
 <details>

@@ -127,11 +127,11 @@ Out of the box, Storybook sorts stories based on the order in which they are imp
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ Asides from the unique story identifier, you can also use the `title`, `name`, and import path to sort your stories using the `storySort` function.
+Asides from the unique story identifier, you can also use the `title`, `name`, and import path to sort your stories using the `storySort` function.
 
-</div>
+</Callout>
 
 The `storySort` can also accept a configuration object.
 

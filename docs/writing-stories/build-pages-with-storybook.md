@@ -101,11 +101,11 @@ Run the following commands to install MSW, the addon, and generate a mock servic
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you're working with Angular, you'll need to adjust the command to save the mock service worker file in a different directory (e.g., `src`).
+If you're working with Angular, you'll need to adjust the command to save the mock service worker file in a different directory (e.g., `src`).
 
-</div>
+</Callout>
 
 Update your `.storybook/preview.js` file and enable the addon via a [global decorator](./decorators.md#global-decorators).
 
@@ -171,9 +171,11 @@ To test your screen with the mocked data, you could write a similar set of stori
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 This example details how you can mock the REST request with fetch. Similar HTTP clients such as <a href="https://axios-http.com/">axios</a> can be used as well.
-</div>
+<Callout variant="info" icon="💡">
+
+This example details how you can mock the REST request with fetch. Similar HTTP clients such as [`axios`](https://axios-http.com/) can be used as well.
+
+</Callout>
 
 The mocked data (i.e., `TestData`) will be injected via [parameters](./parameters.md), enabling you to configure it per-story basis.
 
@@ -239,7 +241,7 @@ Inside a directory called `__mocks__`, create a new file called
 
 The code above creates a decorator which reads story-specific data off the story's [parameters](./parameters.md), enabling you to configure the mock on a per-story basis.
 
-To use the mock in place of the real import, we use [webpack aliasing](https://webpack.js.org/configuration/resolve/#resolvealias):
+To use the mock in place of the real import, we use [Webpack aliasing](https://webpack.js.org/configuration/resolve/#resolvealias):
 
 <!-- prettier-ignore-start -->
 
@@ -251,7 +253,7 @@ To use the mock in place of the real import, we use [webpack aliasing](https://w
 
 <!-- prettier-ignore-end -->
 
-Add the decorator you've just implemented to your [storybook/preview.js](../configure/overview.md#configure-story-rendering):
+Add the decorator you've just implemented to your [`storybook/preview.js`](../configure/overview.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -307,11 +309,11 @@ ProfilePageContainer.js
 ProfilePageContext.js
 ```
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
 It’s also often helpful to set up a “global” container context (perhaps named `GlobalContainerContext`) for container components that may be rendered on every page of your app and add them to the top level of your application. While it’s possible to place every container within this global context, it should only provide globally required containers.
 
-</div>
+</Callout>
 
 Let’s look at an example implementation of this approach.
 
@@ -358,11 +360,11 @@ In the context of Storybook, instead of providing container components through c
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 If the same context applies to all `ProfilePage` stories, we can use a [decorator](./decorators.md).
 
-</div>
+</Callout>
 
 #### Providing containers to your application
 

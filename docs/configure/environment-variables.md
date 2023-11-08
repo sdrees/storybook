@@ -9,11 +9,11 @@ If you supply an environment variable prefixed with `STORYBOOK_`, it will be ava
 STORYBOOK_THEME=red STORYBOOK_DATA_KEY=12345 npm run storybook
 ```
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Do not store any secrets (e.g., private API keys) or other types of sensitive information in your Storybook. Environment variables are embedded into the build, meaning anyone can view them by inspecting your files.
+Do not store any secrets (e.g., private API keys) or other types of sensitive information in your Storybook. Environment variables are embedded into the build, meaning anyone can view them by inspecting your files.
 
-</div>
+</Callout>
 
 Then we can access these environment variables anywhere inside our preview JavaScript code like below:
 
@@ -48,11 +48,11 @@ Then we can access these environment variables anywhere inside our preview JavaS
 
 You can also access these variables in your custom `<head>`/`<body>` using the substitution `%STORYBOOK_X%`, for example: `%STORYBOOK_THEME%` will become `red`.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If using the environment variables as attributes or values in JavaScript, you may need to add quotes, as the value will be inserted directly. e.g. `<link rel="stylesheet" href="%STORYBOOK_STYLE_URL%" />`
+If using the environment variables as attributes or values in JavaScript, you may need to add quotes, as the value will be inserted directly, for example: `<link rel="stylesheet" href="%STORYBOOK_STYLE_URL%" />`.
 
-</div>
+</Callout>
 
 ### Using .env files
 
@@ -99,11 +99,11 @@ Out of the box, Storybook provides a [Vite builder](../builders/vite.md), which 
 
 </IfRenderer>
 
-<div class="aside">
+<Callout variant="info">
 
 You can also use specific files for specific modes. Add a `.env.development` or `.env.production` to apply different values to your environment variables.
 
-</div>
+</Callout>
 
 You can also pass these environment variables when you are [building your Storybook](../sharing/publish-storybook.md) with `build-storybook`.
 
@@ -154,9 +154,11 @@ The table below lists the available options:
 | Firefox  | `BROWSER="firefox"`  |
 | Chromium | `BROWSER="chromium"` |
 
-<div class="aside">
-💡 By default, Storybook will open a new Chrome window as part of its startup process. If you don't have Chrome installed, make sure to include one of the following options, or set your default browser accordingly.
-</div>
+<Callout variant="info" icon="💡">
+
+By default, Storybook will open a new Chrome window as part of its startup process. If you don't have Chrome installed, make sure to include one of the following options, or set your default browser accordingly.
+
+</Callout>
 
 ## Troubleshooting
 

@@ -8,11 +8,11 @@ Type: `(head: string) => string`
 
 Programmatically adjust the manager's `<head>` of your Storybook. For example, load a custom font or add a script. Most often used by [addon authors](../addons/writing-presets.md#ui-configuration).
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you don't need to programmatically adjust the manager head, you can add scripts and styles to `manager-head.html` instead.
+If you don't need to programmatically adjust the manager head, you can add scripts and styles to `manager-head.html` instead.
 
-</div>
+</Callout>
 
 For example, you can conditionally add scripts or styles, depending on the environment:
 

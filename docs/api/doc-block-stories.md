@@ -37,11 +37,11 @@ Default: `true`
 
 Determines if the collection of stories includes the primary (first) story.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If a stories file contains only one story and `includePrimary={true}`, the `Stories` block will render nothing to avoid a potentially confusing situation.
+If a stories file contains only one story and `includePrimary={true}`, the `Stories` block will render nothing to avoid a potentially confusing situation.
 
-</div>
+</Callout>
 
 ### `title`
 

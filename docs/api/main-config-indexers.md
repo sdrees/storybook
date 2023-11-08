@@ -4,11 +4,11 @@ title: 'indexers'
 
 (⚠️ **Experimental**)
 
-<div class="aside">
+<Callout variant="warning" icon="🧪">
 
-🧪 While this feature is experimental, it must be specified by the `experimental_indexers` property of [`StorybookConfig`](./main-config.md).
+While this feature is experimental, it must be specified by the `experimental_indexers` property of [`StorybookConfig`](./main-config.md).
 
-</div>
+</Callout>
 
 Parent: [main.js|ts configuration](./main-config.md)
 

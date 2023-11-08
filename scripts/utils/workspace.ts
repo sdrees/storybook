@@ -4,11 +4,14 @@ import { execaCommand } from './exec';
 
 export type Workspace = { name: string; location: string };
 
-export async function getWorkspaces() {
-  const { stdout } = await execaCommand('yarn workspaces list --json', {
-    cwd: CODE_DIRECTORY,
-    shell: true,
-  });
+export async function getWorkspaces(includePrivate = true) {
+  const { stdout } = await execaCommand(
+    `yarn workspaces list --json ${includePrivate ? '' : '--no-private'}`,
+    {
+      cwd: CODE_DIRECTORY,
+      shell: true,
+    }
+  );
   return JSON.parse(`[${stdout.split('\n').join(',')}]`) as Workspace[];
 }
 

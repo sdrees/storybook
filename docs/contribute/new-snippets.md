@@ -85,9 +85,11 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
 <!-- prettier-ignore-end -->
 ```
 
-<div class="aside">
-💡 Code snippets are divided into various file extensions, if you're contributing a TypeScript file use <code>.ts.mdx</code>, or if you're adding JavaScript files use <code>.js.mdx</code> .
-</div>
+<Callout variant="info" icon="💡">
+
+Code snippets are divided into various file extensions, if you're contributing a TypeScript file use `.ts.mdx`, or if you're adding JavaScript files use `.js.mdx`.
+
+</Callout>
 
 Go through the rest of the documentation and repeat the process.
 
@@ -113,9 +115,11 @@ Next, make sure that you have running the `Synchronize documentation (sync-docs)
 yarn start:docs-only
 ```
 
-<div class="aside">
-💡 During the start process if there's an issue with the documentation, the process will stop and you'll get a notification.
-</div>
+<Callout variant="info" icon="💡">
+
+During the start process if there's an issue with the documentation, the process will stop and you'll get a notification.
+
+</Callout>
 
 Open a browser window to `http://localhost:8000`, click the Docs link, and select your framework from the dropdown.
 

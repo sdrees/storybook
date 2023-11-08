@@ -6,11 +6,11 @@ Storybook is widely used by component libraries and design systems. Design syste
 
 For example, if you use a design system package, its stories can appear alongside your own. That makes it convenient to cross reference usage documentation without leaving Storybook.
 
-<div class="aside">
+<Callout variant="info">
 
 Composition via a package requires a secure integration between the service where you publish Storybook and Storybook’s own APIs. We recommend [publishing Storybook to Chromatic](./publish-storybook.md#publish-storybook-with-chromatic) for full support of these features.
 
-</div>
+</Callout>
 
 ## For consumers
 

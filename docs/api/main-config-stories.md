@@ -33,13 +33,13 @@ Configures Storybook to load stories from the specified locations. The intention
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you want to use a different naming convention, you can alter the glob using the syntax supported by [picomatch](https://github.com/micromatch/picomatch#globbing-features).
+If you want to use a different naming convention, you can alter the glob using the syntax supported by [picomatch](https://github.com/micromatch/picomatch#globbing-features).
 
 Keep in mind that some addons may assume Storybook's default naming convention.
 
-</div>
+</Callout>
 
 ## With an array of globs
 
@@ -115,11 +115,11 @@ When [auto-titling](../configure/sidebar-and-urls.md#csf-30-auto-titles), prefix
 
 ## With a custom implementation
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 With [`storyStoreV7`](./main-config-features.md#storystorev7) (the default in Storybook 7), Storybook now statically analyzes the configuration file to improve performance. Loading stories with a custom implementation may de-optimize or break this ability.
+With [`storyStoreV7`](./main-config-features.md#storystorev7) (the default in Storybook 7), Storybook now statically analyzes the configuration file to improve performance. Loading stories with a custom implementation may de-optimize or break this ability.
 
-</div>
+</Callout>
 
 You can also adjust your Storybook configuration and implement custom logic to load your stories. For example, suppose you were working on a project that includes a particular pattern that the conventional ways of loading stories could not solve. In that case, you could adjust your configuration as follows:
 

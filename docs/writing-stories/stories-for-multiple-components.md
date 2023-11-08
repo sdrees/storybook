@@ -62,11 +62,11 @@ The `children` `args` as any other arg needs to be JSON serializable. It means t
 
 As they could lead into errors with your Storybook.
 
-<div class="aside">
+<Callout variant="info">
 
 We're currently working on improving the overall experience for the children arg and allow you to edit children arg in a control and allow you to use other types of components in the near future. But for now you need to factor in this caveat when you're implementing your stories.
 
-</div>
+</Callout>
 
 ## Creating a Template Component
 

@@ -32,15 +32,15 @@ Yields:
 
 ![Screenshot of Unstyled Doc Block](./doc-block-unstyled.png)
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The other blocks like [`Story`](./doc-block-story.md) and [`Canvas`](./doc-block-canvas.md) are already unstyled, so there’s no need to wrap those in the `Unstyled` block to ensure that Storybook’s styles don’t bleed into the stories. However, if you import your components directly in the MDX, you most likely want to wrap them in the Unstyled block.
+The other blocks like [`Story`](./doc-block-story.md) and [`Canvas`](./doc-block-canvas.md) are already unstyled, so there’s no need to wrap those in the `Unstyled` block to ensure that Storybook’s styles don’t bleed into the stories. However, if you import your components directly in the MDX, you most likely want to wrap them in the Unstyled block.
 
-</div>
+</Callout>
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Due to how CSS inheritance works it’s best to always add the Unstyled block to the root of your MDX, and not nested into other elements. The following example will cause some Storybook styles like `color` to be inherited into `CustomComponent` because they are applied to the root `div`:
+Due to how CSS inheritance works it’s best to always add the Unstyled block to the root of your MDX, and not nested into other elements. The following example will cause some Storybook styles like `color` to be inherited into `CustomComponent` because they are applied to the root `div`:
 
 <!-- prettier-ignore-start -->
 ```md
@@ -52,7 +52,7 @@ Yields:
 ```
 <!-- prettier-ignore-end -->
 
-</div>
+</Callout>
 
 ## Unstyled
 

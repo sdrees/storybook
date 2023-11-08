@@ -77,9 +77,11 @@ The second argument to a decorator function is the **story context** which in pa
 - `parameters`- the story's static metadata, most commonly used to control Storybook's behavior of features and addons.
 - `viewMode`- Storybook's current active window (e.g., canvas, docs).
 
-<div class="aside">
-💡 This pattern can also be applied to your own stories. Some of Storybook's supported frameworks already use it (e.g., vue 2).
-</div>
+<Callout variant="info" icon="💡">
+
+This pattern can also be applied to your own stories. Some of Storybook's supported frameworks already use it (e.g., vue 2).
+
+</Callout>
 
 ### Using decorators to provide data
 

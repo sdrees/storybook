@@ -10,11 +10,11 @@ In addition, you can write pure documentation pages in MDX and add them to Story
 
 ![MDX simple example result](./mdx-hero.png)
 
-<div class="aside">
+<Callout variant="info">
 
 Writing stories directly in MDX was deprecated in Storybook 7. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature.
 
-</div>
+</Callout>
 
 ## Basic example
 
@@ -63,11 +63,11 @@ The first thing you'll notice is that the component documentation is divided int
 - **CSF** is great for succinctly defining stories (component examples). If you use TypeScript, it also provides type safety and auto-completion.
 - **MDX** is great for writing structured documentation and composing it with interactive JSX elements.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you’re coming from a previous version of Storybook, you might be accustomed to using MDX both for **documentation** and for defining **stories** in the same `.stories.mdx` file. We’ve deprecated this functionality and plan to remove it in a future version of Storybook. We provide [migration](#automigration) scripts to help you onto the new format.
+If you’re coming from a previous version of Storybook, you might be accustomed to using MDX both for **documentation** and for defining **stories** in the same `.stories.mdx` file. We’ve deprecated this functionality and plan to remove it in a future version of Storybook. We provide [migration](#automigration) scripts to help you onto the new format.
 
-</div>
+</Callout>
 
 ### Anatomy of MDX
 
@@ -109,11 +109,11 @@ Imports the components and stories that will be used in the JSX throughout the r
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ When providing the `of` prop to the `Meta` block, make sure that you're referencing the [**default export**](../api/csf.md#default-export) of the story file and not the component itself to prevent render issues with the generated documentation.
+When providing the `of` prop to the `Meta` block, make sure that you're referencing the [**default export**](../api/csf.md#default-export) of the story file and not the component itself to prevent render issues with the generated documentation.
 
-</div>
+</Callout>
 
 The `Meta` block defines where the document will be placed in the sidebar. In this case, it is adjacent to the Checkbox’s stories. By default, the docs sidebar node is titled `"Docs"`, but this can be customized by passing a `name` prop (e.g., `<Meta of={CheckboxStories} name="Info" />`). If you want to place a docs node at an arbitrary point in the navigation hierarchy, you can use the `title` prop (e.g., `<Meta title="path/to/node" />`).
 
@@ -200,11 +200,11 @@ paths={[
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provided by default during migration. We recommend installing it as a development dependency if you use its features.
+The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provided by default during migration. We recommend installing it as a development dependency if you use its features.
 
-</div>
+</Callout>
 
 ### Automigration
 
@@ -276,11 +276,11 @@ However, providing the `Meta` Doc Block may not be required for certain use case
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you're overriding an existing auto-generated documentation page enabled via [`tags`](./autodocs.md#setup-automated-docs) configuration property, we recommend removing it to avoid errors.
+If you're overriding an existing auto-generated documentation page enabled via [`tags`](./autodocs.md#setup-automated-docs) configuration property, we recommend removing it to avoid errors.
 
-</div>
+</Callout>
 
 Once the custom MDX documentation is loaded, Storybook will infer the title and location using the same heuristic rules to generate [auto-title stories](../configure/sidebar-and-urls.md#csf-30-auto-titles) and render it in the sidebar as a `Docs` entry.
 
@@ -344,11 +344,11 @@ If you need to extend your documentation with additional content written in Mark
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The `Markdown` Doc Block provides additional configuration options to customize the rendering of your documentation. For more information, refer to the [API documentation](../api/doc-block-markdown.md).
+The `Markdown` Doc Block provides additional configuration options to customize the rendering of your documentation. For more information, refer to the [API documentation](../api/doc-block-markdown.md).
 
-</div>
+</Callout>
 
 ![Changelog markdown in an MDX story](./mdx-markdown-docs-import.png)
 
@@ -376,9 +376,11 @@ However, cross-linking documentation isn't restricted to documentation pages. Yo
 
 <!--You can also use anchors to target a specific section of a page: -->
 
-<div class="aside">
-💡 By applying this pattern with the Controls addon, all anchors will be ignored in Canvas based on how Storybook handles URLs to track the args values.
-</div>
+<Callout variant="info" icon="💡">
+
+By applying this pattern with the Controls addon, all anchors will be ignored in Canvas based on how Storybook handles URLs to track the args values.
+
+</Callout>
 
 ## Troubleshooting
 
@@ -435,9 +437,11 @@ Start by running the following command inside your project directory:
 npx @hipster/mdx2-issue-checker
 ```
 
-<div class="aside">
-💡 Depending on the volume, you may be required to run the command multiple times to fix all the issues.
-</div>
+<Callout variant="info" icon="💡">
+
+Depending on the volume, you may be required to run the command multiple times to fix all the issues.
+
+</Callout>
 
 When it finishes, it will output the list of files causing issues. You can then use this information to fix the problems manually.
 

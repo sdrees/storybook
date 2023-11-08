@@ -15,11 +15,11 @@ Add your addon to the catalog by publishing a npm package that follows these req
 - `/dist` directory containing transpiled ES5 code
 - `preset.js` file written as an ES5 module at the root level
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
 Get a refresher on how to [write a Storybook addon](./writing-addons.md).
 
-</div>
+</Callout>
 
 ### Addon metadata
 
@@ -54,9 +54,11 @@ Use the list below as a reference when filling in the values for both the `suppo
 - preact
 - react-native
 
-<div class="aside">
-💡 Make sure to copy each item <strong>exactly</strong> as listed so that we can properly index your addon in our catalog.
-</div>
+<Callout variant="info" icon="💡">
+
+Make sure to copy each item **exactly** as listed so that we can properly index your addon in our catalog.
+
+</Callout>
 
 ```json
 {

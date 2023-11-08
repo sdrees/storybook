@@ -87,9 +87,11 @@ Inside your `.storybook` directory, create a new file called `YourTheme.js` and 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 If you're using <code>brandImage</code> to add your custom logo, you can use any of the most common image formats.
-</div>
+<Callout variant="info" icon="💡">
+
+If you're using `brandImage` to add your custom logo, you can use any of the most common image formats.
+
+</Callout>
 
 Above, we're creating a new theme that will:
 
@@ -135,9 +137,11 @@ With the new changes introduced, the custom theme should yield a similar result.
 
 ![Storybook custom theme loaded](./storybook-custom-theme.png)
 
-<div class="aside">
-💡 Many theme variables are optional, the <code>base</code> property is <strong>NOT</strong>.
-</div>
+<Callout variant="info" icon="💡">
+
+Many theme variables are optional, the <code>base</code> property is **NOT**.
+
+</Callout>
 
 The `@storybook/theming` package is built using TypeScript, which should help create a valid theme for TypeScript users. The types are part of the package itself.
 
@@ -150,11 +154,11 @@ To style these elements, insert style tags into:
 - For Storybook’s UI, use `.storybook/manager-head.html`
 - For Storybook Docs, use `.storybook/preview-head.html`
 
-<div class="aside">
+<Callout variant="warning" title="Caution">
 
-💡 <strong>Caution:</strong> The same way as you can adjust your [preview’s head tag](../configure/story-rendering.md#adding-to-head), Storybook allows you to modify the code on the manager's side, through <code>.storybook/manager-head.html</code>. It can be helpful when adding theme styles that target Storybook's HTML, but it comes with a cost as Storybook's inner HTML can change at any time through the release cycle.
+The same way as you can adjust your [preview’s head tag](../configure/story-rendering.md#adding-to-head), Storybook allows you to modify the code on the manager's side, through `.storybook/manager-head.html`. It can be helpful when adding theme styles that target Storybook's HTML, but it comes with a cost as Storybook's inner HTML can change at any time through the release cycle.
 
-</div>
+</Callout>
 
 ## MDX component overrides
 

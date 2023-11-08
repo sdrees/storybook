@@ -20,11 +20,11 @@ Storybook's configuration file (i.e., `main.ts`) is defined as an ESM module wri
 
 See the [main configuration API reference](../api/main-config) for more details and additional properties.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 See the Vite builder [TypeScript documentation](https://github.com/storybookjs/builder-vite#typescript) if using `@storybook/builder-vite`.
+See the Vite builder [TypeScript documentation](https://github.com/storybookjs/builder-vite#typescript) if using `@storybook/builder-vite`.
 
-</div>
+</Callout>
 
 ### Extending the default configuration
 

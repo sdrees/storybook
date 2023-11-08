@@ -18,11 +18,11 @@ If you need to add extra elements to the `head` of the preview iframe, for insta
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 Storybook will inject these tags into the _preview iframe_ where your components render, not the Storybook application UI.
 
-</div>
+</Callout>
 
 However, it's also possible to modify the preview head HTML programmatically using a preset defined in the `main.js` file. Read the [presets documentation](../addons/writing-presets.md#ui-configuration) for more information.
 
@@ -54,10 +54,10 @@ If using relative sizing in your project (like `rem` or `em`), you may update th
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 Storybook will inject these tags into the _preview iframe_ where your components render, not the Storybook application UI.
 
-</div>
+</Callout>
 
 Just like how you have the ability to customize the preview `head` HTML tag, you can also follow the same steps to customize the preview `body` with a preset. To obtain more information on how to do this, refer to the [presets documentation](../addons/writing-presets.md#ui-configuration).

@@ -29,11 +29,11 @@ Storybook has a simple, declarative syntax for configuring toolbar menus. In you
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering).
+As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering).
 
-</div>
+</Callout>
 
 When you start your Storybook, you should see a new dropdown with the `light` and `dark` options in your toolbar.
 
@@ -127,18 +127,18 @@ In your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-re
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡" style={{ marginBottom: '10px' }}>
 
-💡 The `icon` element used in the examples loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
+The `icon` element used in the examples loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
 
-</div>
+</Callout>
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The `@storybook/addon-toolbars` addon is required to use toolbars. The toolbars addon is included by default in
+The `@storybook/addon-toolbars` addon is required to use toolbars. The toolbars addon is included by default in
 `@storybook/addon-essentials`.
 
-</div>
+</Callout>
 
 By adding the configuration element `right`, the text will be displayed on the right side in the toolbar menu once you connect it to a decorator.
 
@@ -181,9 +181,9 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 In Storybook 6.0, if you set the global option `passArgsFirst: false` for backward compatibility, the story context is passed as the first argument:
+In Storybook 6.0, if you set the global option `passArgsFirst: false` for backward compatibility, the story context is passed as the first argument:
 
 <!-- prettier-ignore-start -->
 
@@ -201,7 +201,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 
 <!-- prettier-ignore-end -->
 
-</div>
+</Callout>
 
 ## Consuming globals from within an addon
 

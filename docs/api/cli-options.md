@@ -4,11 +4,11 @@ title: 'CLI options'
 
 The Storybook command line interface (CLI) is the main tool you use to build and develop Storybook.
 
-<div class="aside">
+<Callout variant="info">
 
 Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
 
-</div>
+</Callout>
 
 ## API commands
 
@@ -45,11 +45,11 @@ Options include:
 | `--docs`                        | Starts Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#preview-storybooks-documentation)<br/>`storybook dev --docs` |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md)<br/>`storybook dev --disable-telemetry`                                             |
 
-<div class="aside" id="static-dir-deprecation">
+<Callout variant="warning" id="static-dir-deprecation">
 
-💡 Starting in 6.4 the `-s` flag is deprecated. Instead, use a configuration object in your `.storybook/main.js` file. See the [images and assets documentation](../configure/images-and-assets.md#serving-static-files-via-storybook) for more information.
+Starting in 6.4 the `-s` flag is deprecated. Instead, use a configuration object in your `.storybook/main.js` file. See the [images and assets documentation](../configure/images-and-assets.md#serving-static-files-via-storybook) for more information.
 
-</div>
+</Callout>
 
 ### `build`
 
@@ -75,6 +75,8 @@ Options include:
 | `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`storybook build --docs` |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md).<br/>`storybook build --disable-telemetry`                                            |
 
-<div class="aside">
-💡  If you're using npm instead of yarn to publish Storybook, the commands work slightly different. For example, <code>npm run storybook build -- -o ./path/to/build</code>.
-</div>
+<Callout variant="info" icon="💡">
+
+If you're using npm instead of yarn to publish Storybook, the commands work slightly different. For example, `npm run storybook build -- -o ./path/to/build`.
+
+</Callout>

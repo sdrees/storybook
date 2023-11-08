@@ -34,9 +34,9 @@ The example above passes a component type. See [**Typing custom args**](#typing-
 
 <IfRenderer renderer={['angular', 'web-components']}>
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ We are not yet able to provide additional type safety using the `satisfies` operator with Angular and Web components.
+We are not yet able to provide additional type safety using the `satisfies` operator with Angular and Web components.
 
 <details>
 <summary>More info</summary>
@@ -49,7 +49,7 @@ For more information, please refer to [this discussion](https://github.com/story
 
 </details>
 
-</div>
+</Callout>
 
 </IfRenderer>
 

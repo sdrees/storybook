@@ -52,9 +52,11 @@ Start your Storybook with:
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Storybook's test runner requires either a locally running Storybook instance or a published Storybook to run all the existing tests.
-</div>
+<Callout variant="info" icon="💡">
+
+Storybook's test runner requires either a locally running Storybook instance or a published Storybook to run all the existing tests.
+
+</Callout>
 
 Finally, open a new terminal window and run the test-runner with:
 
@@ -151,11 +153,11 @@ If you're publishing your Storybook with services such as [Vercel](https://verce
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The published Storybook must be publicly available for this example to work. We recommend running the test server using the recipe [below](#run-against-non-deployed-storybooks) if it requires authentication.
+The published Storybook must be publicly available for this example to work. We recommend running the test server using the recipe [below](#run-against-non-deployed-storybooks) if it requires authentication.
 
-</div>
+</Callout>
 
 ### Run against non-deployed Storybooks
 
@@ -171,11 +173,11 @@ You can use your CI provider (for example, [GitHub Actions](https://github.com/f
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 By default Storybook outputs the [build](../sharing/publish-storybook.md#build-storybook-as-a-static-web-application) to the `storybook-static` directory. If you're using a different build directory, you'll need to adjust the recipe accordingly.
+By default Storybook outputs the [build](../sharing/publish-storybook.md#build-storybook-as-a-static-web-application) to the `storybook-static` directory. If you're using a different build directory, you'll need to adjust the recipe accordingly.
 
-</div>
+</Callout>
 
 ### What's the difference between Chromatic and Test runner?
 
@@ -204,11 +206,11 @@ Listed below are the available hooks and an overview of how to use them.
 | `preRender`  | Executes before a story is rendered<br/>`async preRender(page, context) {}`                        |
 | `postRender` | Executes after the story is rendered<br/>`async postRender(page, context) {}`                      |
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 These test hooks are experimental and may be subject to breaking changes. We encourage you to test as much as possible within the story's [play function](../writing-stories/play-function.md).
+These test hooks are experimental and may be subject to breaking changes. We encourage you to test as much as possible within the story's [play function](../writing-stories/play-function.md).
 
-</div>
+</Callout>
 
 To enable the hooks API, you'll need to add a new configuration file inside your Storybook directory and set them up as follows:
 
@@ -223,11 +225,11 @@ To enable the hooks API, you'll need to add a new configuration file inside your
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Except for the `setup` function, all other functions run asynchronously. Both `preRender` and `postRender` functions include two additional arguments, a [Playwright page](https://playwright.dev/docs/pages) and a context object which contains the `id`, `title`, and the `name` of the story.
+Except for the `setup` function, all other functions run asynchronously. Both `preRender` and `postRender` functions include two additional arguments, a [Playwright page](https://playwright.dev/docs/pages) and a context object which contains the `id`, `title`, and the `name` of the story.
 
-</div>
+</Callout>
 
 When the test-runner executes, your existing tests will go through the following lifecycle:
 
@@ -273,11 +275,11 @@ Suppose you run into a situation where the local and remote Storybooks appear ou
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The `index.json` mode is not compatible with watch mode.
+The `index.json` mode is not compatible with watch mode.
 
-</div>
+</Callout>
 
 If you need to disable it, use the `--no-index-json` flag:
 

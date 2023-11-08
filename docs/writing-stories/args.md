@@ -104,11 +104,11 @@ You can also define args at the global level; they will apply to every component
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 For most uses of global args, [globals](../essentials/toolbars-and-globals.md) are a better tool for defining globally-applied settings, such as a theme. Using globals enables users to change the value with the toolbar menu.
+For most uses of global args, [globals](../essentials/toolbars-and-globals.md) are a better tool for defining globally-applied settings, such as a theme. Using globals enables users to change the value with the toolbar menu.
 
-</div>
+</Callout>
 
 ## Args composition
 
@@ -130,11 +130,11 @@ You can separate the arguments to a story to compose in other stories. Here's ho
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you find yourself re-using the same args for most of a component's stories, you should consider using [component-level args](#component-args).
+If you find yourself re-using the same args for most of a component's stories, you should consider using [component-level args](#component-args).
 
-</div>
+</Callout>
 
 Args are useful when writing stories for composite components that are assembled from other components. Composite components often pass their arguments unchanged to their child components, and similarly, their stories can be compositions of their child components stories. With args, you can directly compose the arguments:
 
@@ -287,7 +287,9 @@ In Storybook 5 and before we passed the context as the first argument. If you’
 
 <!-- prettier-ignore-end -->
 
-  <div class="aside">
-  💡 Note that `args` is still available as a key in the context.
-  </div>
+<Callout variant="info" icon="💡">
+
+Note that `args` is still available as a key in the context.
+
+</Callout>
 </details>

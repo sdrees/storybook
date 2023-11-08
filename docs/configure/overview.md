@@ -4,11 +4,11 @@ title: 'Configure Storybook'
 
 Storybook is configured via a folder called `.storybook`, which contains various configuration files.
 
-<div class="aside">
+<Callout variant="info">
 
 Note that you can change the folder that Storybook uses by setting the `-c` flag to your `storybook dev` and `storybook build` [CLI commands](../api/cli-options.md).
 
-</div>
+</Callout>
 
 ## Configure your Storybook project
 
@@ -25,11 +25,11 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ This configuration file is a [preset](../addons/addon-types.md) and, as such, has a powerful interface, which can be further customized. Read our documentation on writing [presets](../addons/writing-presets.md) to learn more.
+This configuration file is a [preset](../addons/addon-types.md) and, as such, has a powerful interface, which can be further customized. Read our documentation on writing [presets](../addons/writing-presets.md) to learn more.
 
-</div>
+</Callout>
 
 | Configuration element | Description                                                                                                                                                                                              |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

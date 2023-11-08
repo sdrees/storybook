@@ -39,9 +39,11 @@ The `add` method allows you to register the type of UI component associated with
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-ℹ️  The render function is called with `active` and `key`. The `active` value will be true when the panel is focused on the UI.
-</div>
+<Callout variant="info">
+
+The render function is called with `active` and `key`. The `active` value will be true when the panel is focused on the UI.
+
+</Callout>
 
 ### addons.register()
 
@@ -89,11 +91,11 @@ Use the `makeDecorator` API to create decorators in the style of the official ad
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ If the story's parameters include `{ exampleParameter: { disable: true } }` (where `exampleParameter` is the `parameterName` of your addon), your decorator will not be called.
+ If the story's parameters include `{ exampleParameter: { disable: true } }` (where `exampleParameter` is the `parameterName` of your addon), your decorator will not be called.
 
-</div>
+</Callout>
 
 The `makeDecorator` API requires the following arguments:
 

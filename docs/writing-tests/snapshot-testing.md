@@ -49,11 +49,11 @@ There are many other configuration options available, such as watch mode and cov
 
 ## Set up Storyshots
 
-<div class="aside">
+<Callout variant="warning">
 
-⛔️ Storyshots has been deprecated in favor of [test runner](./test-runner.md), which you can use for both snapshot and [visual testing](./visual-testing.md).
+Storyshots has been deprecated in favor of [test runner](./test-runner.md), which you can use for both snapshot and [visual testing](./visual-testing.md).
 
-</div>
+</Callout>
 
 [Storyshots](https://storybook.js.org/addons/@storybook/addon-storyshots/) is a Storybook addon that enables snapshot testing, powered by [Jest](https://jestjs.io/docs/getting-started).
 
@@ -82,9 +82,11 @@ Add a test file to your environment with the following contents to configure Sto
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 You can name the test file differently to suit your needs. Bear in mind that it requires to be picked up by Jest.
-</div>
+<Callout variant="info" icon="💡">
+
+You can name the test file differently to suit your needs. Bear in mind that it requires to be picked up by Jest.
+
+</Callout>
 
 Run your first test. Storyshots will recognize your stories (based on [.storybook/main.js's setup](https://storybook.js.org/docs/react/configure/story-rendering)) and save them in the **snapshots** directory.
 
@@ -124,9 +126,11 @@ Next, update your test file (for example, `storybook.test.js`) to the following:
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Don't forget to replace your-custom-directory with your own.
-</div>
+<Callout variant="info" icon="💡">
+
+Don't forget to replace your-custom-directory with your own.
+
+</Callout>
 
 When you run your tests, the snapshots will be available in the directory you've specified.
 

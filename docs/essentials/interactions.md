@@ -45,11 +45,11 @@ Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
+Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
 
-</div>
+</Callout>
 
 Now when you run Storybook, the Interactions addon will be enabled.
 
@@ -83,8 +83,8 @@ While you can refer to the [Testing Library documentation](https://testing-libra
 
 Any `args` that have been marked as an Action, either using the [argTypes annotation](./actions.md#action-argtype-annotation) or the [argTypesRegex](./actions.md#automatically-matching-args), will be automatically converted to a [Jest mock function](https://jestjs.io/docs/mock-function-api) (spy). This allows you to make assertions about calls to these functions.
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ To mock functions in your Storybook stories for reliable and isolated component testing, use the `jest` import from `@storybook/jest`. This allows you to avoid configuring Jest globally in your project.
+To mock functions in your Storybook stories for reliable and isolated component testing, use the `jest` import from `@storybook/jest`. This allows you to avoid configuring Jest globally in your project.
 
-</div>
+</Callout>

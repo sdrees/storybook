@@ -18,11 +18,11 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The Meta block doesn’t render anything visible.
+The Meta block doesn’t render anything visible.
 
-</div>
+</Callout>
 
 ## Meta
 
@@ -78,11 +78,11 @@ Attaching an MDX file to a component’s stories with the `of` prop serves two p
 1. Ensures the MDX content appears in the sidebar inside the component’s story list. By default, it will be named whatever the `docs.defaultName` (which defaults to `"Docs"`) option is set to in `main.js`. But this can be overridden with the [`name` prop](#name).
 2. Attaches the component and its stories to the MDX file, allowing you to use other doc blocks in “attached” mode (for instance to use the `Stories` block).
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The `of` prop is optional. If you don’t want to attach a specific CSF file to this MDX file, you can either use the `title` prop to control the location, or emit `Meta` entirely, and let [autotitle](../configure/sidebar-and-urls.md#csf-30-auto-titles) decide where it goes.
+The `of` prop is optional. If you don’t want to attach a specific CSF file to this MDX file, you can either use the `title` prop to control the location, or emit `Meta` entirely, and let [autotitle](../configure/sidebar-and-urls.md#csf-30-auto-titles) decide where it goes.
 
-</div >
+</Callout>
 
 ### `title`
 
@@ -101,11 +101,11 @@ import { Meta } from '@storybook/blocks';
 ```
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you want to change the sorting of the docs entry with the component’s stories, use [Story Sorting](../writing-stories/naming-components-and-hierarchy.md#sorting-stories), or add specific MDX files to your `stories` field in `main.js` in order.
+If you want to change the sorting of the docs entry with the component’s stories, use [Story Sorting](../writing-stories/naming-components-and-hierarchy.md#sorting-stories), or add specific MDX files to your `stories` field in `main.js` in order.
 
-</div>
+</Callout>
 
 ## Attached vs. unattached
 

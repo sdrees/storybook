@@ -107,11 +107,11 @@ For example, you can filter out the `style` prop from all [`Controls`](../api/do
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ Parameters can also be defined at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or the [story](../writing-stories/parameters.md#story-parameters) level, allowing you to customize Doc Blocks exactly as you need, where you need.
+Parameters can also be defined at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or the [story](../writing-stories/parameters.md#story-parameters) level, allowing you to customize Doc Blocks exactly as you need, where you need.
 
-</div>
+</Callout>
 
 The blocks that accept customization via parameters are marked in the list of available blocks below.
 
@@ -129,11 +129,11 @@ Each block has a dedicated API reference page detailing usage, available options
 
 ### [ArgTypes](../api/doc-block-argtypes.md)
 
-<div class="aside">
+<Callout variant="info">
 
 Accepts parameters in the namespace `parameters.docs.argTypes`.
 
-</div>
+</Callout>
 
 The `ArgTypes` block can be used to show a static table of [arg types](../api/argtypes.md) for a given component as a way to document its interface.
 
@@ -141,11 +141,11 @@ The `ArgTypes` block can be used to show a static table of [arg types](../api/ar
 
 ### [Canvas](../api/doc-block-canvas.md)
 
-<div class="aside">
+<Callout variant="info">
 
 Accepts parameters in the namespace `parameters.docs.canvas`.
 
-</div>
+</Callout>
 
 The `Canvas` block is a wrapper around a [`Story`](../api/doc-block-story.md), featuring a toolbar that allows you to interact with its content while automatically providing the required [`Source`](../api/doc-block-source.md) snippets.
 
@@ -159,11 +159,11 @@ The `ColorPalette` block allows you to document all color-related items (e.g., s
 
 ### [Controls](../api/doc-block-controls.md)
 
-<div class="aside">
+<Callout variant="info">
 
 Accepts parameters in the namespace `parameters.docs.controls`.
 
-</div>
+</Callout>
 
 The `Controls` block can be used to show a dynamic table of args for a given story, as a way to document its interface, and to allow you to change the args for a (separately) rendered story (via the [`Story`](../api/doc-block-story.md) or [`Canvas`](../api/doc-block-canvas.md) blocks).
 
@@ -202,11 +202,11 @@ The `Primary` block displays the primary (first defined in the stories file) sto
 
 ### [Source](../api/doc-block-source.md)
 
-<div class="aside">
+<Callout variant="info">
 
 Accepts parameters in the namespace `parameters.docs.source`.
 
-</div>
+</Callout>
 
 The `Source` block is used to render a snippet of source code directly.
 
@@ -220,11 +220,11 @@ The `Stories` block renders the full collection of stories in a stories file.
 
 ### [Story](../api/doc-block-story.md)
 
-<div class="aside">
+<Callout variant="info">
 
 Accepts parameters in the namespace `parameters.docs.story`.
 
-</div>
+</Callout>
 
 Stories (component tests) are Storybook's fundamental building blocks.
 
