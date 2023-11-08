@@ -6165,15 +6165,16 @@ __metadata:
     "@types/webpack-hot-middleware": "npm:^2.25.6"
     "@types/webpack-virtual-modules": "npm:^0.1.1"
     babel-loader: "npm:^9.0.0"
-    babel-plugin-named-exports-order: "npm:^0.0.2"
     browser-assert: "npm:^1.2.1"
     case-sensitive-paths-webpack-plugin: "npm:^2.4.0"
     constants-browserify: "npm:^1.0.0"
     css-loader: "npm:^6.7.1"
+    es-module-lexer: "npm:^0.9.3"
     express: "npm:^4.17.3"
     fork-ts-checker-webpack-plugin: "npm:^8.0.0"
     fs-extra: "npm:^11.1.0"
     html-webpack-plugin: "npm:^5.5.0"
+    magic-string: "npm:^0.30.5"
     path-browserify: "npm:^1.0.1"
     pretty-hrtime: "npm:^1.0.3"
     process: "npm:^0.11.10"
@@ -11508,13 +11509,6 @@ __metadata:
     reselect: "npm:^3.0.1"
     resolve: "npm:^1.4.0"
   checksum: d0011e5aa28ed2d36d720e43d9704bcbf7faac143318c7556dea1bd31bf029c2620137aa8c643b4aab6a5d10fba59886d831d1451806e432fb0b3b63b71703dd
-  languageName: node
-  linkType: hard
-
-"babel-plugin-named-exports-order@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "babel-plugin-named-exports-order@npm:0.0.2"
-  checksum: e1d001722bddabc296b74f7cd020418a3cce9ca7052d5dd5dbd2870745d9566e286d14707c0bbfc9d4b4b643031052b358124ec735069f214d22b0b6768daf9d
   languageName: node
   linkType: hard
 
@@ -21278,6 +21272,15 @@ __metadata:
   dependencies:
     "@jridgewell/sourcemap-codec": "npm:^1.4.15"
   checksum: 076c0402334a8f7c69d83175b4ff10c83b50fd2c6d884a758a563ad9bea312db3b5c7b16cf717229c11505a1deb52d6225503b3b638e1879101d65d08f03c467
+  languageName: node
+  linkType: hard
+
+"magic-string@npm:^0.30.5":
+  version: 0.30.5
+  resolution: "magic-string@npm:0.30.5"
+  dependencies:
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+  checksum: 38ac220ca7539e96da7ea2f38d85796bdf5c69b6bcae728c4bc2565084e6dc326b9174ee9770bea345cf6c9b3a24041b767167874fab5beca874d2356a9d1520
   languageName: node
   linkType: hard
 

@@ -302,6 +302,14 @@ export default async (
     module: {
       rules: [
         {
+          test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,
+          use: [
+            {
+              loader: require.resolve('@storybook/builder-webpack5/loaders/export-order-loader'),
+            },
+          ],
+        },
+        {
           test: /\.m?js$/,
           type: 'javascript/auto',
         },
