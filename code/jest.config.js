@@ -5,6 +5,7 @@ module.exports = {
     '<rootDir>/lib/*',
     '<rootDir>/builders/*',
     '<rootDir>/renderers/*',
+    '<rootDir>/presets/*',
     '<rootDir>/ui/!(node_modules)*',
   ],
   collectCoverage: false,

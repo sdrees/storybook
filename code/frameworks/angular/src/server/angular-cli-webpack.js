@@ -66,6 +66,9 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
 
       // Options provided by user
       ...builderOptions,
+      styles: builderOptions.styles
+        ?.map((style) => (typeof style === 'string' ? style : style.input))
+        .filter((style) => typeof style === 'string' || style.inject !== false),
 
       // Fixed options
       optimization: false,

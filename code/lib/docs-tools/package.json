@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
+    "babel-plugin-react-docgen": "4.2.1",
     "jest-specific-snapshot": "^8.0.0",
     "require-from-string": "^2.0.2",
     "typescript": "~4.9.3"

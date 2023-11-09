@@ -300,6 +300,8 @@ export default async (
       shouldCheckTs ? new ForkTsCheckerWebpackPlugin(tsCheckOptions) : null,
     ].filter(Boolean),
     module: {
+      // Disable warning for dynamic requires
+      unknownContextCritical: false,
       rules: [
         {
           test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,

@@ -47,6 +47,11 @@
       "require": "./dist/framework-preset-react.js",
       "import": "./dist/framework-preset-react.mjs"
     },
+    "./dist/loaders/react-docgen-loader": {
+      "types": "./dist/loaders/react-docgen-loader.d.ts",
+      "require": "./dist/loaders/react-docgen-loader.js",
+      "import": "./dist/loaders/react-docgen-loader.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -75,8 +80,9 @@
     "@types/node": "^18.0.0",
     "@types/semver": "^7.3.4",
     "babel-plugin-add-react-displayname": "^0.0.5",
-    "babel-plugin-react-docgen": "^4.2.1",
     "fs-extra": "^11.1.0",
+    "magic-string": "^0.30.5",
+    "react-docgen": "^7.0.0",
     "react-refresh": "^0.11.0",
     "semver": "^7.3.7",
     "webpack": "5"
@@ -108,7 +114,8 @@
       "./src/index.ts",
       "./src/framework-preset-cra.ts",
       "./src/framework-preset-react-docs.ts",
-      "./src/framework-preset-react.ts"
+      "./src/framework-preset-react.ts",
+      "./src/loaders/react-docgen-loader.ts"
     ],
     "platform": "node"
   },
