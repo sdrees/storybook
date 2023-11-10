@@ -180,7 +180,10 @@ export interface StorybookConfigOptions {
   presetsList?: LoadedPreset[];
 }
 
-export type Options = LoadOptions & StorybookConfigOptions & CLIOptions & BuilderOptions;
+export type Options = LoadOptions &
+  StorybookConfigOptions &
+  CLIOptions &
+  BuilderOptions & { build?: TestBuildConfig };
 
 export interface Builder<Config, BuilderStats extends Stats = Stats> {
   getConfig: (options: Options) => Promise<Config>;
@@ -257,6 +260,33 @@ export type DocsOptions = {
   docsMode?: boolean;
 };
 
+export interface TestBuildFlags {
+  /**
+   * The package @storybook/blocks will be excluded from the bundle, even when imported in e.g. the preview.
+   */
+  emptyBlocks?: boolean;
+  /**
+   * Disable all addons
+   */
+  removeNonFastAddons?: boolean;
+  /**
+   * Filter out .mdx stories entries
+   */
+  removeMDXEntries?: boolean;
+  /**
+   * Override autodocs to be disabled
+   */
+  removeAutoDocs?: boolean;
+  /**
+   * Override docgen to be disabled.
+   */
+  disableDocgen?: boolean;
+}
+
+export interface TestBuildConfig {
+  test?: TestBuildFlags;
+}
+
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
@@ -314,14 +344,7 @@ export interface StorybookConfig {
     legacyDecoratorFileOrder?: boolean;
   };
 
-  build?: {
-    test?: {
-      /**
-       * Globalize @storybook/blocks
-       */
-      emptyBlocks?: boolean;
-    };
-  };
+  build?: TestBuildConfig;
 
   /**
    * Tells Storybook where to find stories.

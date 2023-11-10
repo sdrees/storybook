@@ -22,6 +22,7 @@ import type {
   Indexer,
   IndexerOptions,
   DeprecatedIndexer,
+  StorybookConfig,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
@@ -58,6 +59,7 @@ export type StoryIndexGeneratorOptions = {
   storyIndexers: StoryIndexer[];
   indexers: Indexer[];
   docs: DocsOptions;
+  build?: StorybookConfig['build'];
 };
 
 export const AUTODOCS_TAG = 'autodocs';
@@ -335,7 +337,7 @@ export class StoryIndexGenerator {
     const createDocEntry =
       autodocs === true || (autodocs === 'tag' && hasAutodocsTag) || isStoriesMdx;
 
-    if (createDocEntry) {
+    if (createDocEntry && this.options.build?.test?.removeAutoDocs !== true) {
       const name = this.options.docs.defaultName ?? 'Docs';
       const { metaId } = indexInputs[0];
       const { title } = entries[0];

@@ -330,7 +330,12 @@ jobs:
           command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
       - run:
           name: Verifying Telemetry
-          command: yarn ts-node ./event-log-checker build $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
+          command: |
+            TEMPLATE=$(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
+            if [[ $TEMPLATE != bench/* ]]
+            then
+              yarn ts-node ./event-log-checker build $TEMPLATE
+            fi
           working_directory: scripts
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)

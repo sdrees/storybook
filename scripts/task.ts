@@ -470,12 +470,7 @@ async function run() {
       } catch (err) {
         invariant(err instanceof Error);
         logger.error(`Error running task ${getTaskKey(task)}:`);
-        // If it is the last task, we don't need to log the full trace
-        if (task === finalTask) {
-          logger.error(err.message);
-        } else {
-          logger.error(err);
-        }
+        logger.error(JSON.stringify(err, null, 2));
 
         if (process.env.CI) {
           logger.error(

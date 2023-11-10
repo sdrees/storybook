@@ -120,11 +120,15 @@ export async function withTelemetry<T>(
   options: TelemetryOptions,
   run: () => Promise<T>
 ): Promise<T | undefined> {
+  const enableTelemetry = !(
+    options.cliOptions.disableTelemetry || options.cliOptions.test === true
+  );
+
   let canceled = false;
 
   async function cancelTelemetry() {
     canceled = true;
-    if (!options.cliOptions.disableTelemetry) {
+    if (enableTelemetry) {
       await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
     }
 
@@ -136,8 +140,7 @@ export async function withTelemetry<T>(
     process.on('SIGINT', cancelTelemetry);
   }
 
-  if (!options.cliOptions.disableTelemetry)
-    telemetry('boot', { eventType }, { stripMetadata: true });
+  if (enableTelemetry) telemetry('boot', { eventType }, { stripMetadata: true });
 
   try {
     return await run();
@@ -148,7 +151,8 @@ export async function withTelemetry<T>(
 
     const { printError = logger.error } = options;
     printError(error);
-    await sendTelemetryError(error, eventType, options);
+
+    if (enableTelemetry) await sendTelemetryError(error, eventType, options);
 
     throw error;
   } finally {

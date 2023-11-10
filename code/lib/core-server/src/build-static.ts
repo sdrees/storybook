@@ -77,7 +77,9 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
-  await warnOnIncompatibleAddons(config);
+  if (options.test) {
+    await warnOnIncompatibleAddons(config);
+  }
 
   logger.info('=> Loading presets');
   let presets = await loadAllPresets({
@@ -92,8 +94,10 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     ...options,
   });
 
-  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
   const { renderer } = await presets.apply<CoreConfig>('core', {});
+  const build = await presets.apply('build', {});
+  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets, build });
+
   const resolvedRenderer = renderer
     ? resolveAddonName(options.configDir, renderer, options)
     : undefined;
@@ -111,6 +115,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
     ...options,
+    build,
   });
 
   const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
@@ -135,6 +140,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     ...options,
     presets,
     features,
+    build,
   };
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
@@ -178,6 +184,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
+      build,
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
