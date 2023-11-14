@@ -1,6 +1,7 @@
 /* eslint-disable jest/no-disabled-tests */
 import { test, expect } from '@playwright/test';
 import process from 'process';
+import dedent from 'ts-dedent';
 import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:6006';
@@ -36,5 +37,17 @@ test.describe('Svelte', () => {
     const root = sbPage.previewRoot();
     const argsTable = root.locator('.docblock-argstable');
     await expect(argsTable).toContainText('Rounds the button');
+  });
+
+  test('Decorators are excluded from generated source code', async ({ page }) => {
+    const sbPage = new SbPage(page);
+
+    await sbPage.navigateToStory('stories/renderers/svelte/slot-decorators', 'docs');
+    const root = sbPage.previewRoot();
+    const showCodeButton = (await root.locator('button', { hasText: 'Show Code' }).all())[0];
+    await showCodeButton.click();
+    const sourceCode = root.locator('pre.prismjs');
+    const expectedSource = '<ButtonJavaScript primary/>';
+    await expect(sourceCode.textContent()).resolves.toContain(expectedSource);
   });
 });

@@ -9,6 +9,7 @@ export default {
   args: {
     primary: true,
   },
+  tags: ['autodocs'],
 };
 
 export const WithDefaultRedBorder = {};

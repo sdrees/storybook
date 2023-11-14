@@ -47,3 +47,25 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = (config) => {
     },
   };
 };
+
+export const swc: StorybookConfig['swc'] = (config) => {
+  const isDevelopment = process.env.NODE_ENV !== 'production';
+
+  return {
+    ...config,
+    jsc: {
+      ...(config?.jsc ?? {}),
+      transform: {
+        ...(config?.jsc?.transform ?? {}),
+        react: {
+          ...(config?.jsc?.transform?.react ?? {}),
+          runtime: 'automatic',
+          importSource: 'preact',
+          pragma: 'h',
+          pragmaFrag: 'Fragment',
+          development: isDevelopment,
+        },
+      },
+    },
+  };
+};

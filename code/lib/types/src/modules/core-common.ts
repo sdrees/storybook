@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
-
+import type { Options as SWCOptions } from '@swc/core';
 import type { Options as TelejsonOptions } from 'telejson';
-import type { TransformOptions } from '@babel/core';
+import type { TransformOptions as BabelOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
+
 import type { StoriesEntry, Indexer, StoryIndexer } from './indexer';
 
 /**
@@ -70,7 +71,8 @@ export interface Presets {
     args?: Options
   ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
-  apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<BabelOptions>;
+  apply(extension: 'swc', config?: {}, args?: any): Promise<SWCOptions>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
@@ -281,6 +283,18 @@ export interface TestBuildFlags {
    * Override docgen to be disabled.
    */
   disableDocgen?: boolean;
+  /**
+   * Override sourcemaps generation to be disabled.
+   */
+  disableSourcemaps?: boolean;
+  /**
+   * Override tree-shaking (dead code elimination) to be disabled.
+   */
+  disableTreeShaking?: boolean;
+  /**
+   * Compile/Optimize with SWC.
+   */
+  optimizeCompilation?: boolean;
 }
 
 export interface TestBuildConfig {
@@ -371,10 +385,12 @@ export interface StorybookConfig {
   /**
    * Modify or return babel config.
    */
-  babel?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
+  babel?: (config: BabelOptions, options: Options) => BabelOptions | Promise<BabelOptions>;
+
+  /**
+   * Modify or return swc config.
+   */
+  swc?: (config: SWCOptions, options: Options) => SWCOptions | Promise<SWCOptions>;
 
   /**
    * Modify or return env config.
@@ -384,10 +400,7 @@ export interface StorybookConfig {
   /**
    * Modify or return babel config.
    */
-  babelDefault?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
+  babelDefault?: (config: BabelOptions, options: Options) => BabelOptions | Promise<BabelOptions>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`

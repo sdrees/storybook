@@ -3,7 +3,7 @@ import MagicString from 'magic-string';
 import path from 'path';
 import fs from 'fs';
 import svelteDoc from 'sveltedoc-parser';
-import type { SvelteParserOptions } from 'sveltedoc-parser';
+import type { SvelteComponentDoc, SvelteParserOptions } from 'sveltedoc-parser';
 import { logger } from '@storybook/node-logger';
 import { preprocess } from 'svelte/compiler';
 import { createFilter } from 'vite';
@@ -120,7 +120,7 @@ export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOpt
 
       const s = new MagicString(src);
 
-      let componentDoc: any;
+      let componentDoc: SvelteComponentDoc & { keywords?: string[] };
       try {
         componentDoc = await svelteDoc.parse(options);
       } catch (error: any) {

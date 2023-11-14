@@ -8,7 +8,8 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import slash from 'slash';
-
+import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import { globals } from '@storybook/preview/globals';
 import {
@@ -227,7 +228,7 @@ export default async (
     name: 'preview',
     mode: isProd ? 'production' : 'development',
     bail: isProd,
-    devtool: options.test ? false : 'cheap-module-source-map',
+    devtool: options.build?.test?.disableSourcemaps ? false : 'cheap-module-source-map',
     entry: entries,
     output: {
       path: resolve(process.cwd(), outputDir),
@@ -305,6 +306,7 @@ export default async (
       rules: [
         {
           test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,
+          enforce: 'post',
           use: [
             {
               loader: require.resolve('@storybook/builder-webpack5/loaders/export-order-loader'),
@@ -321,8 +323,8 @@ export default async (
             fullySpecified: false,
           },
         },
-        builderOptions.useSWC
-          ? createSWCLoader(Object.keys(virtualModuleMapping))
+        builderOptions.useSWC || options.build?.test?.optimizeCompilation
+          ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
           : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
@@ -354,17 +356,29 @@ export default async (
       },
       runtimeChunk: true,
       sideEffects: true,
-      usedExports: isProd,
+      usedExports: options.build?.test?.disableTreeShaking ? false : isProd,
       moduleIds: 'named',
       ...(isProd
         ? {
             minimize: true,
-            minimizer: builderOptions.useSWC
+            // eslint-disable-next-line no-nested-ternary
+            minimizer: options.build?.test?.optimizeCompilation
               ? [
-                  new TerserWebpackPlugin({
+                  new TerserWebpackPlugin<EsbuildOptions>({
+                    parallel: true,
+                    minify: TerserWebpackPlugin.esbuildMinify,
+                    terserOptions: {
+                      sourcemap: !options.build?.test?.disableSourcemaps,
+                      treeShaking: !options.build?.test?.disableTreeShaking,
+                    },
+                  }),
+                ]
+              : builderOptions.useSWC
+              ? [
+                  new TerserWebpackPlugin<SwcOptions>({
                     minify: TerserWebpackPlugin.swcMinify,
                     terserOptions: {
-                      sourceMap: true,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_fnames: true,
                     },
@@ -374,7 +388,7 @@ export default async (
                   new TerserWebpackPlugin({
                     parallel: true,
                     terserOptions: {
-                      sourceMap: true,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_fnames: true,
                     },

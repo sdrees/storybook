@@ -192,6 +192,9 @@ const testBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
   removeMDXEntries: value,
   removeAutoDocs: value,
   disableDocgen: value,
+  disableSourcemaps: value,
+  disableTreeShaking: value,
+  optimizeCompilation: value,
 });
 
 export const features = async (

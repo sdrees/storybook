@@ -3,7 +3,7 @@ import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { global } from '@storybook/global';
 import { deprecate, logger } from '@storybook/node-logger';
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
 import type {
   BuilderOptions,
   CLIOptions,
@@ -30,12 +30,11 @@ import {
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
-import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
+import { convertToIndexV3, extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
 import { defaultStaticDirs } from './utils/constants';
-import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
 
 export type BuildStaticStandaloneOptions = CLIOptions &
   LoadOptions &
@@ -75,10 +74,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     corePresets.push(join(frameworkName, 'preset'));
   } else {
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
-  }
-
-  if (options.test) {
-    await warnOnIncompatibleAddons(config);
   }
 
   logger.info('=> Loading presets');

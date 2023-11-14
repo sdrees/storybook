@@ -12,11 +12,18 @@ export async function build(options: Options) {
     build: {
       outDir: options.outputDir,
       emptyOutDir: false, // do not clean before running Vite build - Storybook has already added assets in there!
-      sourcemap: !options.test,
       rollupOptions: {
         // Do not try to bundle the storybook runtime, it is copied into the output dir after the build.
         external: ['./sb-preview/runtime.js'],
       },
+      ...(options.test
+        ? {
+            reportCompressedSize: false,
+            sourcemap: !options.build?.test?.disableSourcemaps,
+            target: 'esnext',
+            treeshake: !options.build?.test?.disableTreeShaking,
+          }
+        : {}),
     },
   }).build;
 

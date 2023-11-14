@@ -1,7 +1,8 @@
 import { getProjectRoot } from '@storybook/core-common';
-import type { Options } from '@swc/core';
+import type { Options as SwcOptions } from '@swc/core';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
+import type { Options } from '@storybook/types';
 import type { TypescriptOptions } from '../types';
 
 export const createBabelLoader = (
@@ -22,14 +23,24 @@ export const createBabelLoader = (
   };
 };
 
-export const createSWCLoader = (excludes: string[] = []) => {
+export const createSWCLoader = async (excludes: string[] = [], options: Options) => {
   logger.warn(dedent`
     The SWC loader is an experimental feature and may change or even be removed at any time.
   `);
 
-  const config: Options = {
+  const swc = await options.presets.apply('swc', {}, options);
+  const typescriptOptions = await options.presets.apply<{ skipCompiler?: boolean }>(
+    'typescript',
+    {},
+    options
+  );
+
+  const config: SwcOptions = {
+    ...swc,
     jsc: {
+      ...(swc.jsc ?? {}),
       parser: {
+        ...(swc.jsc?.parser ?? {}),
         syntax: 'typescript',
         tsx: true,
         dynamicImport: true,
@@ -37,7 +48,7 @@ export const createSWCLoader = (excludes: string[] = []) => {
     },
   };
   return {
-    test: /\.(mjs|cjs|tsx?|jsx?)$/,
+    test: typescriptOptions.skipCompiler ? /\.(mjs|cjs|jsx?)$/ : /\.(mjs|cjs|tsx?|jsx?)$/,
     use: [
       {
         loader: require.resolve('swc-loader'),

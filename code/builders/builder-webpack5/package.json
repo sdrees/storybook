@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-webpack5",
-  "version": "7.6.0-alpha.4",
+  "version": "7.6.0-alpha.5",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -78,7 +78,7 @@
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "constants-browserify": "^1.0.0",
     "css-loader": "^6.7.1",
-    "es-module-lexer": "^0.9.3",
+    "es-module-lexer": "^1.4.1",
     "express": "^4.17.3",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
     "fs-extra": "^11.1.0",

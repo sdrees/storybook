@@ -83,3 +83,26 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
     ],
   };
 };
+
+export const swc: StorybookConfig['swc'] = async (config, options) => {
+  const isDevelopment = options.configType !== 'PRODUCTION';
+
+  if (!(await applyFastRefresh(options))) {
+    return config;
+  }
+
+  return {
+    ...config,
+    jsc: {
+      ...(config?.jsc ?? {}),
+      transform: {
+        ...(config?.jsc?.transform ?? {}),
+        react: {
+          ...(config?.jsc?.transform?.react ?? {}),
+          development: isDevelopment,
+          refresh: isDevelopment,
+        },
+      },
+    },
+  };
+};
