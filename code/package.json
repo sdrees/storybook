@@ -259,6 +259,9 @@
     "vite-plugin-turbosnap": "^1.0.1",
     "wait-on": "^7.0.1"
   },
+  "devDependencies": {
+    "@chromaui/addon-visual-tests": "^0.0.114"
+  },
   "dependenciesMeta": {
     "ejs": {
       "built": false

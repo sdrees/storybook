@@ -22,7 +22,7 @@ export async function transformIframeHtml(html: string, options: Options) {
   }));
 
   const otherGlobals = {
-    ...(build?.test?.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
+    ...(build?.test?.disableBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
   };
 
   return html

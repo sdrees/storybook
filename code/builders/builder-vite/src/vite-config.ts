@@ -79,7 +79,7 @@ export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
   const build = await options.presets.apply('build');
 
-  if (build?.test?.emptyBlocks) {
+  if (build?.test?.disableBlocks) {
     globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 

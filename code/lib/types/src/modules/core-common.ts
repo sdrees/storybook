@@ -266,19 +266,19 @@ export interface TestBuildFlags {
   /**
    * The package @storybook/blocks will be excluded from the bundle, even when imported in e.g. the preview.
    */
-  emptyBlocks?: boolean;
+  disableBlocks?: boolean;
   /**
-   * Disable all addons
+   * Disable specific addons
    */
-  removeNonFastAddons?: boolean;
+  disabledAddons?: string[];
   /**
    * Filter out .mdx stories entries
    */
-  removeMDXEntries?: boolean;
+  disableMDXEntries?: boolean;
   /**
    * Override autodocs to be disabled
    */
-  removeAutoDocs?: boolean;
+  disableAutoDocs?: boolean;
   /**
    * Override docgen to be disabled.
    */
@@ -292,9 +292,9 @@ export interface TestBuildFlags {
    */
   disableTreeShaking?: boolean;
   /**
-   * Compile/Optimize with SWC.
+   * Compile/Optimize with SWC/ESbuild.
    */
-  optimizeCompilation?: boolean;
+  fastCompilation?: boolean;
 }
 
 export interface TestBuildConfig {

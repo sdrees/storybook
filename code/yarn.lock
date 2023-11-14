@@ -2432,12 +2432,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chromaui/addon-visual-tests@npm:^0.0.77":
-  version: 0.0.77
-  resolution: "@chromaui/addon-visual-tests@npm:0.0.77"
+"@chromaui/addon-visual-tests@npm:^0.0.114":
+  version: 0.0.114
+  resolution: "@chromaui/addon-visual-tests@npm:0.0.114"
   dependencies:
     "@storybook/design-system": "npm:^7.15.15"
-    chromatic: "npm:7.2.0-next.1"
+    "@urql/exchange-auth": "npm:^2.1.6"
+    chromatic: "npm:^7.2.3"
     date-fns: "npm:^2.30.0"
     filesize: "npm:^10.0.12"
     jsonfile: "npm:^6.1.0"
@@ -2445,6 +2446,7 @@ __metadata:
     ts-dedent: "npm:^2.2.0"
     urql: "npm:^4.0.3"
     uuid: "npm:^9.0.0"
+    zod: "npm:^3.22.2"
   peerDependencies:
     "@storybook/blocks": ^7.2.0
     "@storybook/client-logger": ^7.2.0
@@ -2461,7 +2463,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: e1f51e73bb95a66f9753a3f9acdcdfad2975c450588f2403e20840a1b4e9ba7a71906db53adcb3d6baecce1f329166835f24cabe9ff40f51609848f9c1b67988
+  checksum: 786858de1712c2b807f2622da42176fe8f2ac9e05bd26afba662fabe179f78033d7dd9e23d71615554c92129b94314cf48fff977069008a15c033500261b7307
   languageName: node
   linkType: hard
 
@@ -6358,7 +6360,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/components@workspace:ui/components"
   dependencies:
-    "@chromaui/addon-visual-tests": "npm:^0.0.77"
     "@popperjs/core": "npm:^2.6.0"
     "@radix-ui/react-scroll-area": "npm:^1.0.5"
     "@radix-ui/react-select": "npm:^1.2.2"
@@ -7363,6 +7364,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.22.15"
     "@babel/preset-typescript": "npm:^7.23.2"
     "@babel/runtime": "npm:^7.23.2"
+    "@chromaui/addon-visual-tests": "npm:^0.0.114"
     "@emotion/jest": "npm:^11.10.0"
     "@jest/globals": "npm:^29.3.1"
     "@nx/workspace": "npm:17.0.2"
@@ -9764,6 +9766,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@urql/core@npm:>=4.1.0":
+  version: 4.1.4
+  resolution: "@urql/core@npm:4.1.4"
+  dependencies:
+    "@0no-co/graphql.web": "npm:^1.0.1"
+    wonka: "npm:^6.3.2"
+  checksum: 66540058380d61d9c59670d7a8b561889147a21c1d251db41fd302626ec4002d030fa292009b4ccc22f24f9efeed5f82e334782a2f57c28b8580b7274ee68813
+  languageName: node
+  linkType: hard
+
 "@urql/core@npm:^4.1.0":
   version: 4.1.3
   resolution: "@urql/core@npm:4.1.3"
@@ -9771,6 +9783,16 @@ __metadata:
     "@0no-co/graphql.web": "npm:^1.0.1"
     wonka: "npm:^6.3.2"
   checksum: 9aa5c8b9df04c79e71f4be6ce0d97cc2301d1ab7aea3ffafa9f53d89564f063dc77a011239c2a51581b50bbedc1e9dab0a3551acc7ee5dda9dd1bece2d5a1644
+  languageName: node
+  linkType: hard
+
+"@urql/exchange-auth@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "@urql/exchange-auth@npm:2.1.6"
+  dependencies:
+    "@urql/core": "npm:>=4.1.0"
+    wonka: "npm:^6.3.2"
+  checksum: d4140ad0fba0b1beacefcfb7a520662d97429f70888c61191c94e8811ac2b0678a01127e97fa473918dbe34a3e6cf6eece52bf44f6943057232594fa0949d58a
   languageName: node
   linkType: hard
 
@@ -12720,14 +12742,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:7.2.0-next.1":
-  version: 7.2.0-next.1
-  resolution: "chromatic@npm:7.2.0-next.1"
+"chromatic@npm:^7.2.3":
+  version: 7.6.0
+  resolution: "chromatic@npm:7.6.0"
   bin:
     chroma: dist/bin.js
     chromatic: dist/bin.js
     chromatic-cli: dist/bin.js
-  checksum: bae3db70834766b82488e2c419f9e4dc297f372ba6987b1abf7688f875b1405caa37375c43f0a02b391b6c23514f04e9a5ff759ef5c3c42d6a11aed22ff4b910
+  checksum: 5ed93689daea8ad22fe3a81e7238357933063905cf5f3acb5a2ec54dbcb5f9ae18c0c66b8bc2d7ed0c909144d9620864f97db70427d10f46de6c7960f6612b2b
   languageName: node
   linkType: hard
 
@@ -31583,6 +31605,13 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 856117aa15cf5103d2a2fb173f0ab4acb12b4b4d0ed3ab249fdbbf612e55d1cadfd27a6110940e24746fb0a78cf640b522cc8bca76f30a3b00b66e90cf82abe0
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.22.2":
+  version: 3.22.4
+  resolution: "zod@npm:3.22.4"
+  checksum: 7578ab283dac0eee66a0ad0fc4a7f28c43e6745aadb3a529f59a4b851aa10872b3890398b3160f257f4b6817b4ce643debdda4fb21a2c040adda7862cab0a587
   languageName: node
   linkType: hard
 

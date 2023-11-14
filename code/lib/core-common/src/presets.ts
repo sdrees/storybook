@@ -255,15 +255,13 @@ export async function loadPreset(
 
       if (
         storybookOptions.isCritical !== true &&
-        storybookOptions.build?.test?.removeNonFastAddons
+        (storybookOptions.build?.test?.disabledAddons?.length || 0) > 0
       ) {
         filter = (i: PresetConfig) => {
           // @ts-expect-error (Converted from ts-ignore)
           const name = i.name ? i.name : i;
 
-          return (
-            !name.includes('@storybook/addon-docs') && !name.includes('@storybook/addon-coverage')
-          );
+          return !!storybookOptions.build?.test?.disabledAddons?.find((n) => name.includes(n));
         };
       }
 

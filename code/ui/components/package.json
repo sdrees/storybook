@@ -71,7 +71,6 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@chromaui/addon-visual-tests": "^0.0.77",
     "@popperjs/core": "^2.6.0",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@storybook/icons": "^1.1.6",

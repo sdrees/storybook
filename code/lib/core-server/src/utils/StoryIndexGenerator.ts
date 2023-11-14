@@ -337,7 +337,7 @@ export class StoryIndexGenerator {
     const createDocEntry =
       autodocs === true || (autodocs === 'tag' && hasAutodocsTag) || isStoriesMdx;
 
-    if (createDocEntry && this.options.build?.test?.removeAutoDocs !== true) {
+    if (createDocEntry && this.options.build?.test?.disableAutoDocs !== true) {
       const name = this.options.docs.defaultName ?? 'Docs';
       const { metaId } = indexInputs[0];
       const { title } = entries[0];

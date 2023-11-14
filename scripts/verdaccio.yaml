@@ -51,6 +51,10 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
+  '@storybook/addon-coverage':
+    access: $all
+    publish: $all
+    proxy: npmjs
   '@storybook/addon-bench':
     access: $all
     publish: $all
