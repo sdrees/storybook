@@ -5347,7 +5347,6 @@ __metadata:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -5356,17 +5355,11 @@ __metadata:
     "@testing-library/react": "npm:^11.2.2"
     axe-core: "npm:^4.2.0"
     lodash: "npm:^4.17.21"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     react-resize-detector: "npm:^7.1.2"
     resize-observer-polyfill: "npm:^1.5.1"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5382,25 +5375,15 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
-    "@types/lodash": "npm:^4.14.167"
     "@types/uuid": "npm:^9.0.1"
     dequal: "npm:^2.0.2"
-    lodash: "npm:^4.17.21"
     polished: "npm:^4.2.2"
-    prop-types: "npm:^15.7.2"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     react-inspector: "npm:^6.0.0"
     telejson: "npm:^7.2.0"
-    ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
     uuid: "npm:^9.0.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5410,23 +5393,16 @@ __metadata:
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     memoizerific: "npm:^1.11.3"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5438,22 +5414,15 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core-common": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/manager-api": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     lodash: "npm:^4.17.21"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     ts-dedent: "npm:^2.0.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5573,16 +5542,10 @@ __metadata:
     formik: "npm:^2.2.9"
     jest-mock: "npm:^27.0.6"
     polished: "npm:^4.2.2"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     ts-dedent: "npm:^2.2.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5597,18 +5560,13 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     react-resize-detector: "npm:^7.1.2"
     tiny-invariant: "npm:^1.3.1"
+    ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
     upath: "npm:^2.0.1"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5625,16 +5583,12 @@ __metadata:
     "@storybook/router": "workspace:*"
     "@storybook/types": "workspace:*"
     fs-extra: "npm:^11.1.0"
-    prop-types: "npm:^15.7.2"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     react:
-      optional: true
-    react-dom:
       optional: true
   languageName: unknown
   linkType: soft
@@ -5661,16 +5615,10 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     tiny-invariant: "npm:^1.3.1"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5685,16 +5633,10 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5822,18 +5764,11 @@ __metadata:
     "@types/react": "npm:^16.14.34"
     "@types/react-syntax-highlighter": "npm:11.0.5"
     estraverse: "npm:^5.2.0"
-    prop-types: "npm:^15.7.2"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     react-syntax-highlighter: "npm:^15.5.0"
     tiny-invariant: "npm:^1.3.1"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5850,14 +5785,6 @@ __metadata:
     "@storybook/types": "workspace:*"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5870,15 +5797,9 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5894,16 +5815,9 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
     memoizerific: "npm:^1.11.3"
-    prop-types: "npm:^15.7.2"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5914,9 +5828,6 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -5945,7 +5856,6 @@ __metadata:
     "@storybook/core-webpack": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/manager-api": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/telemetry": "workspace:*"
@@ -5985,8 +5895,6 @@ __metadata:
     "@angular/platform-browser": ">=14.1.0 < 18.0.0"
     "@angular/platform-browser-dynamic": ">=14.1.0 < 18.0.0"
     "@babel/core": "*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     rxjs: ^6.0.0 || ^7.4.0
     typescript: ^4.0.0 || ^5.0.0
     zone.js: ">= 0.11.1 < 1.0.0"
@@ -6002,14 +5910,6 @@ __metadata:
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/manager-api": "workspace:*"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -6302,12 +6202,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-logger@npm:7.4.6":
-  version: 7.4.6
-  resolution: "@storybook/client-logger@npm:7.4.6"
+"@storybook/client-logger@npm:7.5.0":
+  version: 7.5.0
+  resolution: "@storybook/client-logger@npm:7.5.0"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
-  checksum: 170ad58c17e2608639533fe24aaa96ddd4d77d23b4b28f265b2cb67510fef966fc20b029e070fdc7216ba1cdb724d1210b2f8edc8aa538de32fd6e549f9010cf
+  checksum: 90326c49a224bf21680c04ffee94725bf75658086093ccb839a8aae39476929c4719eafb18e498a148cf0dd956d4e9a5d3b2a34d09ca4fd25e2af553458558ac
   languageName: node
   linkType: hard
 
@@ -6636,8 +6536,6 @@ __metadata:
     babel-plugin-ember-modules-api-polyfill: ^2.12.0
     babel-plugin-htmlbars-inline-precompile: 2 || 3
     ember-source: ~3.28.1
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -6696,8 +6594,6 @@ __metadata:
     typescript: "npm:~4.9.3"
   peerDependencies:
     "@babel/core": "*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -6801,14 +6697,13 @@ __metadata:
     lodash: "npm:^4.17.21"
     memoizerific: "npm:^1.11.3"
     qs: "npm:^6.10.0"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     semver: "npm:^7.3.7"
     store2: "npm:^2.14.2"
     telejson: "npm:^7.2.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -6922,8 +6817,6 @@ __metadata:
   peerDependenciesMeta:
     "@next/font":
       optional: true
-    "@storybook/addon-actions":
-      optional: true
     typescript:
       optional: true
     webpack:
@@ -6985,8 +6878,6 @@ __metadata:
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -7210,7 +7101,6 @@ __metadata:
     lodash: "npm:^4.17.21"
     memoizerific: "npm:^1.11.3"
     qs: "npm:^6.10.0"
-    react: "npm:^16.14.0"
     slash: "npm:^5.0.0"
     synchronous-promise: "npm:^2.0.15"
     ts-dedent: "npm:^2.0.0"
@@ -7237,6 +7127,8 @@ __metadata:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/preview-api": "workspace:*"
     browser-dtector: "npm:^3.4.0"
+    fs-extra: "npm:^11.1.0"
+    ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
   languageName: unknown
   linkType: soft
@@ -7556,12 +7448,11 @@ __metadata:
     lodash: "npm:^4.17.21"
     memoizerific: "npm:^1.11.3"
     qs: "npm:^6.10.0"
+    react: "npm:^16.8.0"
+    react-dom: "npm:^16.8.0"
     react-router-dom: "npm:6.0.2"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -7575,9 +7466,6 @@ __metadata:
     "@storybook/server": "workspace:*"
     "@types/node": "npm:^18.0.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -7610,9 +7498,6 @@ __metadata:
     lodash: "npm:^4.17.21"
     prettier: "npm:^2.8.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -7660,8 +7545,6 @@ __metadata:
     typescript: "npm:~4.9.3"
   peerDependencies:
     "@babel/core": "*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     svelte: ^3.48.0 || ^4.0.0
     svelte-loader: "*"
   languageName: unknown
@@ -7682,6 +7565,7 @@ __metadata:
     svelte: "npm:^4.0.0"
     svelte-check: "npm:3.4.6"
     sveltedoc-parser: "npm:^4.2.1"
+    ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
     typescript: "npm:^5.0.4"
   peerDependencies:
@@ -7757,17 +7641,17 @@ __metadata:
   linkType: hard
 
 "@storybook/theming@npm:^7.0.2":
-  version: 7.4.6
-  resolution: "@storybook/theming@npm:7.4.6"
+  version: 7.5.0
+  resolution: "@storybook/theming@npm:7.5.0"
   dependencies:
     "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.0"
-    "@storybook/client-logger": "npm:7.4.6"
+    "@storybook/client-logger": "npm:7.5.0"
     "@storybook/global": "npm:^5.0.0"
     memoizerific: "npm:^1.11.3"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 6250a413c346971792623bf5a907811fc009ff4a36b8f292d0f45c677269b2a50c29d84ab1e869ada7df3eb23d49614e1342bd2c88e71d4467702b92ebc42f2d
+  checksum: 57da8e27c748cbec4dc1661cdd2d449949d97476d8e97933696b31d07c7361cbbcca8d7225cc00ca078daa160023b8965ddec7c23519ce0a4ef2658246b062e7
   languageName: node
   linkType: hard
 
@@ -7825,8 +7709,6 @@ __metadata:
     vue: "npm:^2.7.10"
     vue-docgen-api: "npm:^4.40.0"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     vite: ^3.0.0 || ^4.0.0 || ^5.0.0
     vue: ^2.7.0
   languageName: unknown
@@ -7849,8 +7731,6 @@ __metadata:
     "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
     css-loader: "*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     vue: ^2.6.8
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.8
@@ -7871,8 +7751,6 @@ __metadata:
     vite: "npm:^4.0.0"
     vue-docgen-api: "npm:^4.40.0"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     vite: ^3.0.0 || ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -7893,8 +7771,6 @@ __metadata:
     "@babel/core": "*"
     "@vue/compiler-sfc": ^3.0.0
     babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     vue: ^3.0.0
   languageName: unknown
   linkType: soft
@@ -7963,9 +7839,6 @@ __metadata:
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
     typescript: "npm:~4.9.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -7983,8 +7856,6 @@ __metadata:
     typescript: "npm:~4.9.3"
   peerDependencies:
     lit: ^2.0.0 || ^3.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -25801,7 +25672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^16.14.0":
+"react@npm:^16.14.0, react@npm:^16.8.0":
   version: 16.14.0
   resolution: "react@npm:16.14.0"
   dependencies:

@@ -1,10 +1,10 @@
 import { join } from 'path';
 import { BigQuery } from '@google-cloud/bigquery';
 
+import { execaCommand } from 'execa';
 import type { BenchResults } from './bench/types';
 import { loadBench } from './bench/utils';
 import { SANDBOX_DIRECTORY } from './utils/constants';
-import { execaCommand } from './utils/exec';
 
 const templateKey = process.argv[2];
 
@@ -64,8 +64,11 @@ const uploadBench = async () => {
   const row = {
     ...defaults,
     branch:
-      process.env.CIRCLE_BRANCH || (await execaCommand('git rev-parse --abbrev-ref HEAD')).stdout,
-    commit: process.env.CIRCLE_SHA1 || (await execaCommand('git rev-parse HEAD')).stdout,
+      process.env.CIRCLE_BRANCH ||
+      (await execaCommand('git rev-parse --abbrev-ref HEAD', { cleanup: true })).stdout,
+    commit:
+      process.env.CIRCLE_SHA1 ||
+      (await execaCommand('git rev-parse HEAD', { cleanup: true })).stdout,
     timestamp: new Date().toISOString(),
     label: templateKey,
     ...results,

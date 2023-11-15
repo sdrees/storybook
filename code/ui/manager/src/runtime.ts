@@ -9,8 +9,8 @@ import { CHANNEL_CREATED, TELEMETRY_ERROR } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
-import { values } from './globals/runtime';
-import { Keys } from './globals/types';
+import { globalsNameValueMap } from './globals/runtime';
+import { globalPackages, globalsNameReferenceMap } from './globals/globals';
 import { prepareForTelemetry, shouldSkipError } from './utils/prepareForTelemetry';
 
 const { FEATURES, CONFIG_TYPE } = global;
@@ -58,8 +58,8 @@ class ReactProvider extends Provider {
 }
 
 // Apply all the globals
-Object.keys(Keys).forEach((key: keyof typeof Keys) => {
-  global[Keys[key]] = values[key];
+globalPackages.forEach((key) => {
+  global[globalsNameReferenceMap[key]] = globalsNameValueMap[key];
 });
 
 global.sendTelemetryError = (error) => {

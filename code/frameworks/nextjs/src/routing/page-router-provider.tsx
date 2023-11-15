@@ -9,7 +9,7 @@ type PageRouterProviderProps = {
   globals: Globals;
 };
 
-const PageRouterProvider: React.FC<PageRouterProviderProps> = ({
+export const PageRouterProvider: React.FC<PageRouterProviderProps> = ({
   children,
   action,
   routeParams,
@@ -66,5 +66,3 @@ const PageRouterProvider: React.FC<PageRouterProviderProps> = ({
     {children}
   </RouterContext.Provider>
 );
-
-export default PageRouterProvider;

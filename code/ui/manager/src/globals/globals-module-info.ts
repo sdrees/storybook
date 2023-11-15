@@ -1,7 +1,6 @@
 import type { ModuleInfo } from '@fal-works/esbuild-plugin-global-externals';
 import Exports from './exports';
-import { Keys } from './types';
-import type { Definitions } from './types';
+import { globalPackages, globalsNameReferenceMap } from './globals';
 
 /*
  * We create a map of a module's name to a ModuleInfo.
@@ -18,18 +17,16 @@ import type { Definitions } from './types';
  *
  * If you forget to do either, TypeScript will complain.
  *
- * This `definitions.ts` file is consumed by the `builder-manager` package,
+ * This `globals-module-info.ts` file is consumed by the `builder-manager` package,
  * The `runtime.ts` file is used inside the manager's browser code runtime.
  */
 
-const createModuleInfo = (m: keyof typeof Keys): Required<ModuleInfo> => ({
-  type: 'esm',
-  varName: Keys[m],
-  namedExports: Exports[m],
-  defaultExport: true,
-});
-
-export const definitions = Object.keys(Keys).reduce<Definitions>((acc, key) => {
-  acc[key as keyof typeof Keys] = createModuleInfo(key as keyof typeof Keys);
+export const globalsModuleInfoMap = globalPackages.reduce((acc, key) => {
+  acc[key] = {
+    type: 'esm',
+    varName: globalsNameReferenceMap[key],
+    namedExports: Exports[key],
+    defaultExport: true,
+  };
   return acc;
-}, {} as Definitions);
+}, {} as Required<Record<keyof typeof globalsNameReferenceMap, Required<ModuleInfo>>>);

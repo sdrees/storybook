@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.6.0-alpha.5",
+  "version": "7.6.0-alpha.6",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -33,8 +33,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc",
-    "prep": "../../../scripts/prepare/tsc.ts"
+    "check": "node ../../../scripts/node_modules/.bin/tsc",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@storybook/builder-webpack5": "workspace:*",
@@ -46,7 +46,6 @@
     "@storybook/core-webpack": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/telemetry": "workspace:*",
@@ -102,8 +101,6 @@
     "@angular/platform-browser": ">=14.1.0 < 18.0.0",
     "@angular/platform-browser-dynamic": ">=14.1.0 < 18.0.0",
     "@babel/core": "*",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "rxjs": "^6.0.0 || ^7.4.0",
     "typescript": "^4.0.0 || ^5.0.0",
     "zone.js": ">= 0.11.1 < 1.0.0"

@@ -7,13 +7,14 @@ export function ensureReactPeerDeps() {
     require.resolve('react-dom');
   } catch (e) {
     logger.error(dedent`
-      Starting in 7.0, react and react-dom are now required peer dependencies of Storybook.
+      Starting in 7.0, react and react-dom are now required peer dependencies of @storybook/addon-docs.
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#react-peer-dependencies-required
 
-      It seems that you haven't run Storybook's CLI to upgrade to the latest version.
-      The upgrade command will install the required peer dependencies for you and will take 
-      care of other important auto migrations as well.
+      You can continue to use Storybook without addon-docs, or you can install react and react-dom in your project:
 
+      You can use the upgrade command in Storybook's CLI to automatically install the required
+      peer dependencies for you.
+      
       If you want to upgrade to the latest prerelease version, please run:
 
       $ npx storybook@next upgrade --prerelease

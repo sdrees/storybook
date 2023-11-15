@@ -1,7 +1,5 @@
-#!/usr/bin/env ./node_modules/.bin/ts-node-script
-
 import { join } from 'path';
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 const run = async ({ cwd }: { cwd: string }) => {
   const { options, fileNames } = getTSFilesAndConfig('tsconfig.json');

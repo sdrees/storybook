@@ -322,7 +322,7 @@ jobs:
           at: .
       - run:
           name: Starting Event Collector
-          command: yarn ts-node ./event-log-collector.ts
+          command: node --loader esbuild-register/loader -r esbuild-register ./event-log-collector.ts
           working_directory: scripts
           background: true
       - run:
@@ -334,7 +334,7 @@ jobs:
             TEMPLATE=$(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
             if [[ $TEMPLATE != bench/* ]]
             then
-              yarn ts-node ./event-log-checker build $TEMPLATE
+              node --loader esbuild-register/loader -r esbuild-register ./event-log-checker build $TEMPLATE
             fi
           working_directory: scripts
       - report-workflow-on-failure:
@@ -645,4 +645,3 @@ workflows:
       #     parallelism: 4
       #     requires:
       #       - create-sandboxes
-

@@ -24,7 +24,8 @@ export function configureNextImport(baseConfig: WebpackConfig) {
     baseConfig.plugins.push(
       new IgnorePlugin({
         // ignore next/dist/shared/lib/hooks-client-context and next/legacy/image imports
-        resourceRegExp: /(next\/dist\/shared\/lib\/hooks-client-context|next\/legacy\/image)$/,
+        resourceRegExp:
+          /(next\/dist\/shared\/lib\/hooks-client-context|next\/dist\/shared\/lib\/hooks-client-context\.shared-runtime|next\/legacy\/image)$/,
       })
     );
   }

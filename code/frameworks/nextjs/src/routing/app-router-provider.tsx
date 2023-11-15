@@ -1,47 +1,15 @@
 import React from 'react';
-import type {
-  LayoutRouterContext as TLayoutRouterContext,
-  AppRouterContext as TAppRouterContext,
-  GlobalLayoutRouterContext as TGlobalLayoutRouterContext,
+import {
+  LayoutRouterContext,
+  AppRouterContext,
+  GlobalLayoutRouterContext,
 } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import type {
-  PathnameContext as TPathnameContext,
-  SearchParamsContext as TSearchParamsContext,
+import {
+  PathnameContext,
+  SearchParamsContext,
 } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
 import type { FlightRouterState } from 'next/dist/server/app-render/types';
 import type { RouteParams } from './types';
-
-/**
- * Normally dynamic imports are necessary because otherwise
- * older versions of Next.js will throw an error
- * because AppRouterProviders only exists in Next.js > v13
- * Using React.lazy though is currently not supported in SB decorators
- * therefore using the try/catch workaround
- */
-let AppRouterContext: typeof TAppRouterContext;
-let LayoutRouterContext: typeof TLayoutRouterContext;
-let PathnameContext: typeof TPathnameContext;
-let SearchParamsContext: typeof TSearchParamsContext;
-let GlobalLayoutRouterContext: typeof TGlobalLayoutRouterContext;
-
-try {
-  AppRouterContext =
-    require('next/dist/shared/lib/app-router-context.shared-runtime').AppRouterContext;
-  LayoutRouterContext =
-    require('next/dist/shared/lib/app-router-context.shared-runtime').LayoutRouterContext;
-  PathnameContext =
-    require('next/dist/shared/lib/hooks-client-context.shared-runtime').PathnameContext;
-  SearchParamsContext =
-    require('next/dist/shared/lib/hooks-client-context.shared-runtime').SearchParamsContext;
-  GlobalLayoutRouterContext =
-    require('next/dist/shared/lib/app-router-context.shared-runtime').GlobalLayoutRouterContext;
-} catch {
-  AppRouterContext = React.Fragment as any;
-  LayoutRouterContext = React.Fragment as any;
-  PathnameContext = React.Fragment as any;
-  SearchParamsContext = React.Fragment as any;
-  GlobalLayoutRouterContext = React.Fragment as any;
-}
 
 type AppRouterProviderProps = {
   action: (name: string) => (...args: any[]) => void;
@@ -58,7 +26,11 @@ const getParallelRoutes = (segmentsList: Array<string>): FlightRouterState => {
   return [] as any;
 };
 
-const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action, routeParams }) => {
+export const AppRouterProvider: React.FC<AppRouterProviderProps> = ({
+  children,
+  action,
+  routeParams,
+}) => {
   const { pathname, query, segments = [], ...restRouteParams } = routeParams;
 
   const tree: FlightRouterState = [pathname, { children: getParallelRoutes([...segments]) }];
@@ -121,5 +93,3 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
     </PathnameContext.Provider>
   );
 };
-
-export default AppRouterProvider;

@@ -5,6 +5,7 @@ import { z } from 'zod';
 import dedent from 'ts-dedent';
 import semver from 'semver';
 import { setOutput } from '@actions/core';
+import { esMain } from '../utils/esmain';
 import type { Change } from './utils/get-changes';
 import { getChanges, LABELS_BY_IMPORTANCE, RELEASED_LABELS } from './utils/get-changes';
 import { getCurrentVersion } from './get-current-version';
@@ -295,7 +296,7 @@ export const run = async (rawOptions: unknown) => {
   }
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-api",
-  "version": "7.6.0-alpha.5",
+  "version": "7.6.0-alpha.6",
   "description": "",
   "keywords": [
     "storybook"
@@ -64,8 +64,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/channels": "workspace:*",
@@ -87,7 +87,6 @@
     "@jest/globals": "^29.5.0",
     "@storybook/core-common": "workspace:*",
     "ansi-to-html": "^0.6.11",
-    "react": "^16.14.0",
     "slash": "^5.0.0"
   },
   "publishConfig": {

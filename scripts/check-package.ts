@@ -1,38 +1,39 @@
-#!/usr/bin/env node
-
-/* eslint-disable global-require */
-const { resolve } = require('path');
-const { readJSON } = require('fs-extra');
-
-const getStorybookPackages = async () => {
-  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'code', 'workspace.json'));
-  return Object.entries(workspaceJSON.projects).map(([k, v]) => ({
-    location: v.root,
-    name: k,
-  }));
-};
+import { resolve } from 'path';
+import { readJSON } from 'fs-extra';
+import prompts from 'prompts';
+import program from 'commander';
+import chalk from 'chalk';
+import windowSize from 'window-size';
+import { execaCommand } from 'execa';
+import { getWorkspaces } from './utils/workspace';
 
 async function run() {
-  const prompts = require('prompts');
-  const program = require('commander');
-  const chalk = require('chalk');
-
-  const packages = await getStorybookPackages();
+  const packages = await getWorkspaces();
   const packageTasks = packages
-    .map((package) => {
+    .map((pkg) => {
       return {
-        ...package,
-        suffix: package.name.replace('@storybook/', ''),
+        ...pkg,
+        suffix: pkg.name.replace('@storybook/', ''),
         defaultValue: false,
-        helpText: `check only the ${package.name} package`,
+        helpText: `check only the ${pkg.name} package`,
       };
     })
     .reduce((acc, next) => {
       acc[next.name] = next;
       return acc;
-    }, {});
+    }, {} as Record<string, { name: string; defaultValue: boolean; suffix: string; helpText: string }>);
 
-  const tasks = {
+  const tasks: Record<
+    string,
+    {
+      name: string;
+      defaultValue: boolean;
+      suffix: string;
+      helpText: string;
+      value?: any;
+      location?: string;
+    }
+  > = {
     watch: {
       name: `watch`,
       defaultValue: false,
@@ -76,14 +77,15 @@ async function run() {
         name: 'todo',
         min: 1,
         hint: 'You can also run directly with package name like `yarn check core`, or `yarn check --all` for all packages!',
-        optionsPerPage: require('window-size').height - 3, // 3 lines for extra info
+        // @ts-expect-error @types incomplete
+        optionsPerPage: windowSize.height - 3, // 3 lines for extra info
         choices: packages.map(({ name: key }) => ({
           value: key,
           title: tasks[key].name || key,
           selected: (tasks[key] && tasks[key].defaultValue) || false,
         })),
       },
-    ]).then(({ mode, todo }) => {
+    ]).then(({ mode, todo }: { mode: boolean; todo: Array<string> }) => {
       watchMode = mode;
       return todo?.map((key) => tasks[key]);
     });
@@ -96,9 +98,8 @@ async function run() {
   }
 
   selection?.filter(Boolean).forEach(async (v) => {
-    const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.check;
+    const commmand = (await readJSON(resolve('../code', v.location, 'package.json'))).scripts.check;
     const cwd = resolve(__dirname, '..', 'code', v.location);
-    const { execaCommand } = await import('execa');
     const sub = execaCommand(`${commmand}${watchMode ? ' --watch' : ''}`, {
       cwd,
       buffer: false,

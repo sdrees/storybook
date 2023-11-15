@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import program from 'commander';
 import { setOutput } from '@actions/core';
 import semver from 'semver';
+import { esMain } from '../utils/esmain';
 import { getCurrentVersion } from './get-current-version';
 
 program
@@ -38,7 +39,7 @@ export const isPrerelease = async (args: { version?: string; verbose?: boolean }
   return result;
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   isPrerelease({
     version: parsed.args[0],

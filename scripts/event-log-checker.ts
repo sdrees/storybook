@@ -2,6 +2,7 @@
 import chalk from 'chalk';
 import assert from 'assert';
 import fetch from 'node-fetch';
+import { esMain } from './utils/esmain';
 import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
 import versions from '../code/lib/cli/src/versions';
 import { oneWayHash } from '../code/lib/telemetry/src/one-way-hash';
@@ -115,7 +116,7 @@ async function run() {
 
 export {};
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   run()
     .then(() => process.exit(0))
     .catch((err) => {

@@ -9,8 +9,8 @@ import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
 import { stringifyProcessEnvs } from '@storybook/core-common';
+import { globalsModuleInfoMap } from '@storybook/manager/globals-module-info';
 import { getTemplatePath, renderHTML } from './utils/template';
-import { definitions } from './utils/globals';
 import { wrapManagerEntries } from './utils/managerEntries';
 import type {
   BuilderBuildResult,
@@ -89,7 +89,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
         util: require.resolve('util/util.js'),
         assert: require.resolve('browser-assert'),
       }),
-      globalExternals(definitions),
+      globalExternals(globalsModuleInfoMap),
       pnpPlugin(),
     ],
 

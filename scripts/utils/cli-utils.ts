@@ -1,14 +1,14 @@
-const { spawn } = require('child_process');
-const { join } = require('path');
-const { existsSync } = require('fs');
+import { spawn } from 'child_process';
+import { join } from 'path';
+import { existsSync } from 'fs';
 
 const logger = console;
 
-const checkDependencies = async () => {
+export const checkDependencies = async () => {
   const scriptsPath = join(__dirname, '..');
   const codePath = join(__dirname, '..', '..', 'code');
 
-  const tasks = [];
+  const tasks: Array<any> = [];
 
   if (!existsSync(join(scriptsPath, 'node_modules'))) {
     tasks.push(
@@ -35,8 +35,8 @@ const checkDependencies = async () => {
     await Promise.all(
       tasks.map(
         (t) =>
-          new Promise((res, rej) => {
-            t.on('exit', (code) => {
+          new Promise<void>((res, rej) => {
+            t.on('exit', (code: number) => {
               if (code !== 0) {
                 rej();
               } else {
@@ -51,12 +51,8 @@ const checkDependencies = async () => {
     });
 
     // give the filesystem some time
-    await new Promise((res, rej) => {
+    await new Promise((res) => {
       setTimeout(res, 1000);
     });
   }
-};
-
-module.exports = {
-  checkDependencies,
 };

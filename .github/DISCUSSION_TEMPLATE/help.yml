@@ -1,0 +1,25 @@
+---
+body:
+  - type: textarea
+    attributes:
+      label: Summary
+      description: How do you need help?
+      placeholder: I need help with...
+      validations:
+        required: true
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Share your Storybook configuration (`main.js or ts`), any error messages, or relevant dependencies
+      render: js
+      validations:
+        required: false
+  - type: input
+    attributes:
+      label: Share an example
+      description: Help us debug your issue by creating a minimal reproduction. You can do this with StackBlitz by heading to [https://storybook.new](https://storybook.new)!
+    validations:
+      required: false
+  - type: markdown
+    attributes: null
+    value: Before submitting, consider adding relevant labels to your thread (e.g. 'react', 'vue', 'vite'). That makes it easier for other users to spot your request. Thanks!

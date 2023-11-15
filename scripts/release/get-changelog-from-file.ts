@@ -6,6 +6,7 @@ import { readFile } from 'fs-extra';
 import path from 'path';
 import semver from 'semver';
 import dedent from 'ts-dedent';
+import { esMain } from '../utils/esmain';
 import { getCurrentVersion } from './get-current-version';
 
 program
@@ -54,7 +55,7 @@ export const getChangelogFromFile = async (args: {
   return result;
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   getChangelogFromFile({
     version: parsed.args[0],

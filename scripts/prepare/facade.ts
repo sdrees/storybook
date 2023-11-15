@@ -1,5 +1,3 @@
-#!/usr/bin/env ../../node_modules/.bin/ts-node
-
 import { join, parse } from 'path';
 import fs from 'fs-extra';
 import dedent from 'ts-dedent';
@@ -18,10 +16,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   } = await fs.readJson(join(cwd, 'package.json'));
 
   const optimized = hasFlag(flags, 'optimized');
-  const tsnodePath = join(__dirname, '..', 'node_modules', '.bin', 'ts-node');
 
   if (pre) {
-    await exec(`${tsnodePath} ${pre}`, { cwd });
+    await exec(`node --loader esbuild-register/loader -r esbuild-register ${pre}`, { cwd });
   }
 
   await Promise.all([
@@ -73,7 +70,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   ]);
 
   if (pre) {
-    await exec(`${tsnodePath} ${post}`, { cwd });
+    await exec(`node --loader esbuild-register/loader -r esbuild-register ${post}`, { cwd });
   }
 };
 

@@ -1,15 +1,13 @@
 import { TELEMETRY_ERROR } from '@storybook/core-events';
 import { global } from '@storybook/global';
+import { globalPackages, globalsNameReferenceMap } from './globals/globals';
+import { globalsNameValueMap } from './globals/runtime';
 
-import { values } from './globals/runtime';
-import { globals } from './globals/types';
 import { prepareForTelemetry } from './utils';
 
-const getKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>;
-
 // Apply all the globals
-getKeys(globals).forEach((key) => {
-  (global as any)[globals[key]] = values[key];
+globalPackages.forEach((key) => {
+  (global as any)[globalsNameReferenceMap[key]] = globalsNameValueMap[key];
 });
 
 global.sendTelemetryError = (error: any) => {

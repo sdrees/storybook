@@ -19,7 +19,7 @@ export const framework: PresetProperty<'framework', StorybookConfig> = async (co
 
 export const stories: PresetProperty<'stories', StorybookConfig> = async (entries, options) => {
   if (options?.build?.test?.disableMDXEntries) {
-    const out = (
+    return (
       await Promise.all(
         normalizeStories(entries, {
           configDir: options.configDir,
@@ -34,9 +34,15 @@ export const stories: PresetProperty<'stories', StorybookConfig> = async (entrie
           });
         })
       )
-    ).reduce((carry, s) => carry.concat(s), []);
-
-    return out.filter((s) => !s.endsWith('.mdx'));
+    ).flatMap((expanded, i) => {
+      const filteredEntries = expanded.filter((s) => !s.endsWith('.mdx'));
+      // only return the filtered entries when there is something to filter
+      // as webpack is faster with unexpanded globs
+      if (filteredEntries.length < expanded.length) {
+        return filteredEntries;
+      }
+      return entries[i];
+    });
   }
   return entries;
 };
@@ -63,7 +69,7 @@ const createTestBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
   disableDocgen: value,
   disableSourcemaps: value,
   disableTreeShaking: value,
-  fastCompilation: value,
+  esbuildMinify: value,
 });
 
 export const build = async (value: StorybookConfig['build'], options: Options) => {

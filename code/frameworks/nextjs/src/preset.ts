@@ -69,7 +69,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => [
   ...entry,
-  require.resolve('@storybook/nextjs/preview.js'),
+  join(dirname(require.resolve('@storybook/nextjs/package.json')), 'dist/preview.mjs'),
 ];
 
 // Not even sb init - automigrate - running dev

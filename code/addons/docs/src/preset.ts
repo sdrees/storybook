@@ -194,4 +194,12 @@ const docsX = docs as any;
 
 ensureReactPeerDeps();
 
-export { webpackX as webpack, indexersX as experimental_indexers, docsX as docs };
+const optimizeViteDeps = [
+  '@mdx-js/react',
+  '@storybook/addon-docs > acorn-jsx',
+  '@storybook/addon-docs',
+  '@storybook/addon-essentials/docs/mdx-react-shim',
+  'markdown-to-jsx',
+];
+
+export { webpackX as webpack, indexersX as experimental_indexers, docsX as docs, optimizeViteDeps };

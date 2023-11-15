@@ -30,7 +30,10 @@ jobs:
           git config --global user.name "Storybook Bot"
           git config --global user.email "bot@storybook.js.org"
       - name: Install dependencies
-        run: node ./scripts/check-dependencies.js
+        run: |
+          cd ./scripts
+          node --loader esbuild-register/loader -r esbuild-register ./check-dependencies.ts
+          cd ..
       - name: Compile Storybook libraries
         run: yarn task --task compile --start-from=auto --no-link
       - name: Publishing to local registry

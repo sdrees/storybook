@@ -278,4 +278,5 @@ export default {
   ],
   '@storybook/addons': ['addons', 'types', 'mockChannel'],
   '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
+  '@storybook/types': ['Addon_TypesEnum'],
 } as const;

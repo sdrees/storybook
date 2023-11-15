@@ -1,6 +1,7 @@
 import program from 'commander';
 import { v4 as uuidv4 } from 'uuid';
 import ora from 'ora';
+import { esMain } from '../utils/esmain';
 import { getLabelIds, githubGraphQlClient, getUnpickedPRs } from './utils/github-client';
 import { getPullInfoFromCommits, getRepo } from './utils/get-changes';
 import { getLatestTag, git } from './utils/git-client';
@@ -93,7 +94,7 @@ export const run = async (options: unknown) => {
   }
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const options = program.parse().opts();
   run(options).catch((err) => {
     console.error(err);

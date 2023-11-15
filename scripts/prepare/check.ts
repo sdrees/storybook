@@ -1,8 +1,6 @@
-#!/usr/bin/env ../../node_modules/.bin/ts-node-script
-
 import { join } from 'path';
 import fs from 'fs-extra';
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 const run = async ({ cwd }: { cwd: string }) => {
   const {

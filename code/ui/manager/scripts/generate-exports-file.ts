@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { dedent } from 'ts-dedent';
 import { ESLint } from '../../../../scripts/node_modules/eslint';
-import { values } from '../src/globals/runtime';
+import { globalsNameValueMap } from '../src/globals/runtime';
 
 const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');
 let attempts = 0;
@@ -29,10 +29,13 @@ async function generate(text: string) {
 }
 
 const run = async () => {
-  const data = Object.entries(values).reduce<Record<string, string[]>>((acc, [key, value]) => {
-    acc[key] = Object.keys(value).filter(removeDefault);
-    return acc;
-  }, {});
+  const data = Object.entries(globalsNameValueMap).reduce<Record<string, string[]>>(
+    (acc, [key, value]) => {
+      acc[key] = Object.keys(value).filter(removeDefault);
+      return acc;
+    },
+    {}
+  );
 
   console.log('Generating...');
 

@@ -7,7 +7,9 @@ import { z } from 'zod';
 import { readJson } from 'fs-extra';
 import fetch from 'node-fetch';
 import dedent from 'ts-dedent';
-import { execaCommand } from '../utils/exec';
+import pRetry from 'p-retry';
+import { execaCommand } from 'execa';
+import { esMain } from '../utils/esmain';
 
 program
   .name('publish')
@@ -109,6 +111,7 @@ const buildAllPackages = async () => {
   console.log(`🏗️ Building all packages...`);
   await execaCommand('yarn task --task=compile --start-from=compile --no-link', {
     stdio: 'inherit',
+    cleanup: true,
     cwd: CODE_DIR_PATH,
   });
   console.log(`🏗️ Packages successfully built`);
@@ -134,15 +137,6 @@ const publishAllPackages = async ({
     return;
   }
 
-  // Note this is to fool `ts-node` into not turning the `import()` into a `require()`.
-  // See: https://github.com/TypeStrong/ts-node/discussions/1290
-  // prettier-ignore
-  const pRetry = (
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-    (await new Function('specifier', 'return import(specifier)')(
-      'p-retry'
-      )) as typeof import('p-retry')
-      ).default;
   /**
    * 'yarn npm publish' will fail if just one package fails to publish.
    * But it will continue through with all the other packages, and --tolerate-republish makes it okay to publish the same version again.
@@ -153,6 +147,7 @@ const publishAllPackages = async ({
     () =>
       execaCommand(command, {
         stdio: 'inherit',
+        cleanup: true,
         cwd: CODE_DIR_PATH,
       }),
     {
@@ -197,7 +192,7 @@ export const run = async (options: unknown) => {
   );
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);

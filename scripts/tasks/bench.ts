@@ -1,10 +1,11 @@
+/* eslint-disable import/extensions */
+import prettyBytes from 'pretty-bytes';
+import prettyTime from 'pretty-ms';
+
 import type { Task } from '../task';
 
 import { PORT as devPort, dev } from './dev';
 import { PORT as servePort, serve } from './serve';
-
-// eslint-disable-next-line @typescript-eslint/no-implied-eval
-const dynamicImport = new Function('specifier', 'return import(specifier)');
 
 const logger = console;
 
@@ -19,10 +20,10 @@ export const bench: Task = {
     const controllers: AbortController[] = [];
     try {
       const { disableDocs } = options;
-      const { browse } = await import('../bench/browse');
-      const { saveBench, loadBench } = await import('../bench/utils');
-      const { default: prettyBytes } = await dynamicImport('pretty-bytes');
-      const { default: prettyTime } = await dynamicImport('pretty-ms');
+      // @ts-expect-error Default import required for dynamic import processed by esbuild
+      const { browse } = (await import('../bench/browse.ts')).default;
+      // @ts-expect-error Default import required for dynamic import processed by esbuild
+      const { saveBench, loadBench } = (await import('../bench/utils.ts')).default;
 
       const devController = await dev.run(details, { ...options, debug: false });
       if (!devController) {
@@ -30,6 +31,7 @@ export const bench: Task = {
       }
       controllers.push(devController);
       const devBrowseResult = await browse(`http://localhost:${devPort}`, { disableDocs });
+
       devController.abort();
 
       const serveController = await serve.run(details, { ...options, debug: false });
@@ -37,6 +39,7 @@ export const bench: Task = {
         throw new Error('serve: controller is null');
       }
       controllers.push(serveController);
+
       const buildBrowseResult = await browse(`http://localhost:${servePort}`, { disableDocs });
       serveController.abort();
 

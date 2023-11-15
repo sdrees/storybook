@@ -292,9 +292,9 @@ export interface TestBuildFlags {
    */
   disableTreeShaking?: boolean;
   /**
-   * Compile/Optimize with SWC/ESbuild.
+   * Minify with ESBuild when using webpack.
    */
-  fastCompilation?: boolean;
+  esbuildMinify?: boolean;
 }
 
 export interface TestBuildConfig {

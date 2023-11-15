@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.6.0-alpha.5",
+  "version": "7.6.0-alpha.6",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -24,12 +24,17 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./dist/runtime": {
+    "./runtime": {
       "types": "./dist/runtime.d.ts",
       "import": "./dist/runtime.js"
     },
-    "./dist/globals": {
+    "./globals-module-info": {
+      "types": "./dist/globals-module-info.d.ts",
+      "require": "./dist/globals-module-info.js"
+    },
+    "./globals": {
       "types": "./dist/globals.d.ts",
+      "import": "./dist/globals.js",
       "require": "./dist/globals.js"
     },
     "./paths": "./paths.js",
@@ -38,6 +43,22 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "runtime": [
+        "dist/runtime.d.ts"
+      ],
+      "globals": [
+        "dist/globals.d.ts"
+      ],
+      "globals-module-info": [
+        "dist/globals-module-info.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "static/**/*",
@@ -47,8 +68,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/esm-bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
@@ -97,7 +118,8 @@
       "./src/runtime.ts"
     ],
     "nodeEntries": [
-      "./src/globals.ts"
+      "./src/globals.ts",
+      "./src/globals-module-info.ts"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

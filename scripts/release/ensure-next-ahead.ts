@@ -14,6 +14,7 @@ import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
 import { readJson } from 'fs-extra';
+import { esMain } from '../utils/esmain';
 import { run as bumpVersion } from './version';
 import { git } from './utils/git-client';
 
@@ -92,7 +93,7 @@ export const run = async (options: unknown) => {
   );
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);

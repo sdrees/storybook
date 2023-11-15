@@ -1,4 +1,5 @@
 import detectFreePort from 'detect-port';
+import waitOn from 'wait-on';
 
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
@@ -18,7 +19,6 @@ export const dev: Task = {
   async run({ sandboxDir, selectedTask }, { dryRun, debug }) {
     const controller = new AbortController();
     const devCommand = `yarn storybook --port ${PORT}${selectedTask === 'dev' ? '' : ' --ci'}`;
-    const { default: waitOn } = await import('wait-on');
     const start = now();
 
     exec(

@@ -67,6 +67,8 @@ import * as whatsnew from './modules/whatsnew';
 import * as globals from './modules/globals';
 import type { ModuleFn } from './lib/types';
 
+import { types } from './lib/addons';
+
 export * from './lib/shortcut';
 
 const { ActiveTabs } = layout;
@@ -506,5 +508,14 @@ export function useArgTypes(): ArgTypes {
 
 export { addons } from './lib/addons';
 
+/**
+ * We need to rename this so it's not compiled to a straight re-export
+ * Our globalization plugin can't handle an import and export of the same name in different lines
+ * @deprecated
+ */
+const typesX = types;
+
+export { typesX as types };
+
 /* deprecated */
-export { mockChannel, types, type Addon, type AddonStore } from './lib/addons';
+export { mockChannel, type Addon, type AddonStore } from './lib/addons';

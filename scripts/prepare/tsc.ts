@@ -1,5 +1,3 @@
-#!/usr/bin/env ../../node_modules/.bin/ts-node
-
 import { join } from 'path';
 import fs, { move } from 'fs-extra';
 import * as ts from 'typescript';

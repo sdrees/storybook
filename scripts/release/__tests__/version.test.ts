@@ -11,8 +11,8 @@ jest.mock('../../../code/lib/cli/src/versions', () => ({
   '@storybook/addon-a11y': '7.1.0-alpha.29',
 }));
 
-jest.mock('../../utils/exec');
-const { execaCommand } = require('../../utils/exec');
+jest.mock('execa');
+const { execaCommand } = require('execa');
 
 jest.mock('../../utils/workspace', () => ({
   getWorkspaces: jest.fn().mockResolvedValue([
@@ -288,6 +288,7 @@ describe('Version', () => {
       );
       expect(execaCommand).toHaveBeenCalledWith('yarn install --mode=update-lockfile', {
         cwd: path.join(CODE_DIR_PATH),
+        cleanup: true,
         stdio: undefined,
       });
     }

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-links",
-  "version": "7.6.0-alpha.5",
+  "version": "7.6.0-alpha.6",
   "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",
@@ -28,26 +28,14 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./manager": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
-    },
     "./react": {
       "types": "./dist/react/index.d.ts",
       "require": "./dist/react/index.js",
       "import": "./dist/react/index.mjs"
     },
-    "./register": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
+    "./manager": "./dist/manager.js",
+    "./preview": "./dist/preview.js",
+    "./register": "./dist/manager.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -57,12 +45,6 @@
     "*": {
       "*": [
         "dist/index.d.ts"
-      ],
-      "manager": [
-        "dist/manager.d.ts"
-      ],
-      "preview": [
-        "dist/preview.d.ts"
       ],
       "react": [
         "dist/react/index.d.ts"
@@ -77,34 +59,29 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/addon-bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "workspace:*",
-    "@storybook/core-events": "workspace:*",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
+    "ts-dedent": "^2.0.0"
+  },
+  "devDependencies": {
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/router": "workspace:*",
     "@storybook/types": "workspace:*",
-    "prop-types": "^15.7.2",
-    "ts-dedent": "^2.0.0"
-  },
-  "devDependencies": {
     "fs-extra": "^11.1.0",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
-      "optional": true
-    },
-    "react-dom": {
       "optional": true
     }
   },
@@ -112,11 +89,15 @@
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/index.ts",
-      "./src/manager.ts",
-      "./src/preview.ts",
-      "./src/react/index.ts"
+    "exportEntries": [
+      "./src/react/index.ts",
+      "./src/index.ts"
+    ],
+    "managerEntries": [
+      "./src/manager.ts"
+    ],
+    "previewEntries": [
+      "./src/preview.ts"
     ],
     "post": "./scripts/fix-preview-api-reference.ts"
   },

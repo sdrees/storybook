@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.6.0-alpha.5",
+  "version": "7.6.0-alpha.6",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -36,11 +36,7 @@
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
     },
-    "./preview.js": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
-    },
+    "./dist/preview.mjs": "./dist/preview.mjs",
     "./next-image-loader-stub.js": {
       "types": "./dist/next-image-loader-stub.d.ts",
       "require": "./dist/next-image-loader-stub.js",
@@ -70,8 +66,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/core": "^7.23.2",
@@ -134,9 +130,6 @@
   },
   "peerDependenciesMeta": {
     "@next/font": {
-      "optional": true
-    },
-    "@storybook/addon-actions": {
       "optional": true
     },
     "typescript": {

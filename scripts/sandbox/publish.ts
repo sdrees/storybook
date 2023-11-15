@@ -3,7 +3,7 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 import * as tempy from 'tempy';
 import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
-import { execaCommand } from '../utils/exec';
+import { execaCommand } from 'execa';
 
 import { getTemplatesData, renderTemplate } from './utils/template';
 // eslint-disable-next-line import/no-cycle
@@ -26,8 +26,8 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   const templatesData = await getTemplatesData(branch === 'main' ? 'main' : 'next');
 
   logger.log(`👯‍♂️ Cloning the repository ${remote} in branch ${branch}`);
-  await execaCommand(`git clone ${remote} .`, { cwd: tmpFolder });
-  await execaCommand(`git checkout ${branch}`, { cwd: tmpFolder });
+  await execaCommand(`git clone ${remote} .`, { cwd: tmpFolder, cleanup: true });
+  await execaCommand(`git checkout ${branch}`, { cwd: tmpFolder, cleanup: true });
 
   // otherwise old files will stick around and result inconsistent states
   logger.log(`🗑 Delete existing template dirs from clone`);

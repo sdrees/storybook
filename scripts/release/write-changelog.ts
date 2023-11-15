@@ -5,6 +5,7 @@ import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
 import { readFile, writeFile, writeJson } from 'fs-extra';
+import { esMain } from '../utils/esmain';
 import { getChanges } from './utils/get-changes';
 
 program
@@ -132,7 +133,7 @@ export const run = async (args: unknown[], options: unknown) => {
   console.log(`✅ Wrote Changelog to file`);
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.args, parsed.opts()).catch((err) => {
     console.error(err);
