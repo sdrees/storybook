@@ -41,5 +41,6 @@ export const typescript: PresetProperty<'typescript', StorybookConfig> = async (
   return {
     ...config,
     skipBabel: true,
+    skipCompiler: true,
   };
 };

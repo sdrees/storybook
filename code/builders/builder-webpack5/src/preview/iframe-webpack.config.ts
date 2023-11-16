@@ -200,7 +200,8 @@ export default async (
     }
   }
 
-  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
+  const shouldCheckTs =
+    typescriptOptions.check && !typescriptOptions.skipBabel && !typescriptOptions.skipCompiler;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};

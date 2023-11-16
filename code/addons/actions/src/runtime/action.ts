@@ -1,5 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
+import type { PreviewWeb } from '@storybook/preview-api';
 import { addons } from '@storybook/preview-api';
+import type { Renderer } from '@storybook/types';
+import { global } from '@storybook/global';
+import { ImplicitActionsDuringRendering } from '@storybook/core-events/preview-errors';
 import { EVENT_ID } from '../constants';
 import type { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';
@@ -54,22 +58,31 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
   };
 
   const handler = function actionHandler(...args: any[]) {
-    // TODO: Enable once codemods are finished
-    // if (options.implicit) {
-    //   const preview =
-    //     '__STORYBOOK_PREVIEW__' in global
-    //       ? (global.__STORYBOOK_PREVIEW__ as PreviewWeb<Renderer>)
-    //       : undefined;
-    //   if (
-    //     preview?.storyRenders.some(
-    //       (render) => render.phase === 'playing' || render.phase === 'rendering'
-    //     )
-    //   ) {
-    //     console.warn(
-    //       'Can not use implicit actions during rendering or playing of a story.'
-    //     );
-    //   }
-    // }
+    if (options.implicit) {
+      const preview =
+        '__STORYBOOK_PREVIEW__' in global
+          ? // eslint-disable-next-line no-underscore-dangle
+            (global.__STORYBOOK_PREVIEW__ as PreviewWeb<Renderer>)
+          : undefined;
+      const storyRenderer = preview?.storyRenders.find(
+        (render) => render.phase === 'playing' || render.phase === 'rendering'
+      );
+
+      if (storyRenderer) {
+        const deprecated = !window?.FEATURES?.disallowImplicitActionsInRenderV8;
+        const error = new ImplicitActionsDuringRendering({
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          phase: storyRenderer.phase!,
+          name,
+          deprecated,
+        });
+        if (deprecated) {
+          console.warn(error);
+        } else {
+          throw error;
+        }
+      }
+    }
 
     const channel = addons.getChannel();
     // this makes sure that in js enviroments like react native you can still get an id

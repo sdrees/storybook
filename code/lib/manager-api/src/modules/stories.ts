@@ -612,7 +612,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       });
 
       await store.setState({ status: newStatus }, { persistence: 'session' });
-      await api.setIndex(index);
+      if (index) {
+        await api.setIndex(index);
+      }
     },
     experimental_setFilter: async (id, filterFunction) => {
       const { internal_index: index } = store.getState();

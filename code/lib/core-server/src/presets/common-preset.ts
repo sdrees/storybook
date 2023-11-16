@@ -194,6 +194,7 @@ export const features = async (
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
+  disallowImplicitActionsInRenderV8: false,
 });
 
 export const csfIndexer: Indexer = {

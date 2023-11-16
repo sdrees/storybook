@@ -223,8 +223,16 @@ export interface TypescriptOptions {
    * Disable parsing typescript files through babel.
    *
    * @default `false`
+   * @deprecated use `skipCompiler` instead
    */
   skipBabel: boolean;
+
+  /**
+   * Disable parsing typescript files through compiler.
+   *
+   * @default `false`
+   */
+  skipCompiler: boolean;
 }
 
 export type Preset =
@@ -356,6 +364,13 @@ export interface StorybookConfig {
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
+
+    /**
+     * Disallow implicit actions during rendering. This will be the default in Storybook 8.
+     *
+     * This will make sure that your story renders the same no matter if docgen is enabled or not.
+     */
+    disallowImplicitActionsInRenderV8?: boolean;
   };
 
   build?: TestBuildConfig;

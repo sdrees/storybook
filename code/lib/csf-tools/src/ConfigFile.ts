@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
+import dedent from 'ts-dedent';
 
 import * as t from '@babel/types';
 
@@ -11,6 +12,30 @@ import * as recast from 'recast';
 import { babelParse } from './babelParse';
 
 const logger = console;
+
+const getCsfParsingErrorMessage = ({
+  expectedType,
+  foundType,
+  node,
+}: {
+  expectedType: string;
+  foundType: string | undefined;
+  node: any | undefined;
+}) => {
+  let nodeInfo = '';
+  if (node) {
+    try {
+      nodeInfo = JSON.stringify(node);
+    } catch (e) {
+      //
+    }
+  }
+
+  return dedent`
+      CSF Parsing error: Expected '${expectedType}' but found '${foundType}' instead in '${node?.type}'.
+      ${nodeInfo}
+    `;
+};
 
 const propKey = (p: t.ObjectProperty) => {
   if (t.isIdentifier(p.key)) return p.key.name;
@@ -163,7 +188,13 @@ export class ConfigFile {
               }
             });
           } else {
-            logger.warn(`Unexpected ${JSON.stringify(node)}`);
+            logger.warn(
+              getCsfParsingErrorMessage({
+                expectedType: 'ObjectExpression',
+                foundType: decl?.type,
+                node: decl || node.declaration,
+              })
+            );
           }
         },
       },
@@ -183,7 +214,13 @@ export class ConfigFile {
               }
             });
           } else {
-            logger.warn(`Unexpected ${JSON.stringify(node)}`);
+            logger.warn(
+              getCsfParsingErrorMessage({
+                expectedType: 'VariableDeclaration',
+                foundType: node.declaration?.type,
+                node: node.declaration,
+              })
+            );
           }
         },
       },
@@ -223,7 +260,13 @@ export class ConfigFile {
                   }
                 });
               } else {
-                logger.warn(`Unexpected ${JSON.stringify(node)}`);
+                logger.warn(
+                  getCsfParsingErrorMessage({
+                    expectedType: 'ObjectExpression',
+                    foundType: exportObject?.type,
+                    node: exportObject,
+                  })
+                );
               }
             }
           }

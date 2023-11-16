@@ -1251,6 +1251,32 @@ describe('stories API', () => {
         }
       `);
     });
+    it('skips updating index, if index is unset', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      await expect(
+        api.experimental_updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+        })
+      ).resolves.not.toThrow();
+      expect(store.getState().status).toMatchInlineSnapshot(`
+        Object {
+          "a-story-id": Object {
+            "a-addon-id": Object {
+              "description": "an addon description",
+              "status": "pending",
+              "title": "an addon title",
+            },
+          },
+        }
+      `);
+    });
     it('updates multiple stories', async () => {
       const moduleArgs = createMockModuleArgs({});
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);

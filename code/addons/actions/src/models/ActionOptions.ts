@@ -5,6 +5,7 @@ interface Options {
   clearOnStoryChange: boolean;
   limit: number;
   implicit: boolean;
+  id: string;
 }
 
 export type ActionOptions = Partial<Options> & Partial<TelejsonOptions>;
