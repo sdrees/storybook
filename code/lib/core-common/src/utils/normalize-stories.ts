@@ -9,7 +9,7 @@ import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 
 const DEFAULT_TITLE_PREFIX = '';
-const DEFAULT_FILES = '**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))';
+const DEFAULT_FILES_PATTERN = '**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))';
 
 const isDirectory = (configDir: string, entry: string) => {
   try {
@@ -34,7 +34,7 @@ export const getDirectoryFromWorkingDir = ({
 
 export const normalizeStoriesEntry = (
   entry: StoriesEntry,
-  { configDir, workingDir }: NormalizeOptions
+  { configDir, workingDir, default_files_pattern = DEFAULT_FILES_PATTERN }: NormalizeOptions
 ): NormalizedStoriesSpecifier => {
   let specifierWithoutMatcher: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'>;
 
@@ -53,7 +53,7 @@ export const normalizeStoriesEntry = (
       specifierWithoutMatcher = {
         titlePrefix: DEFAULT_TITLE_PREFIX,
         directory: entry,
-        files: DEFAULT_FILES,
+        files: default_files_pattern,
       };
     } else {
       specifierWithoutMatcher = {
@@ -65,7 +65,7 @@ export const normalizeStoriesEntry = (
   } else {
     specifierWithoutMatcher = {
       titlePrefix: DEFAULT_TITLE_PREFIX,
-      files: DEFAULT_FILES,
+      files: default_files_pattern,
       ...entry,
     };
   }
@@ -99,6 +99,7 @@ export const normalizeStoriesEntry = (
 interface NormalizeOptions {
   configDir: string;
   workingDir: string;
+  default_files_pattern?: string;
 }
 
 export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) => {

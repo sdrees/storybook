@@ -29,7 +29,7 @@
     },
     "./dist/image-context": {
       "types": "./dist/image-context.d.ts",
-      "require": "./dist/image-context.mjs",
+      "require": "./dist/image-context.js",
       "import": "./dist/image-context.mjs"
     },
     "./preset": {

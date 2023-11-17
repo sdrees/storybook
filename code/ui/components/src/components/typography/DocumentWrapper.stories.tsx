@@ -1,18 +1,11 @@
 import React from 'react';
 
 import { DocumentWrapper } from './DocumentWrapper';
-import MarkdownSample from './DocumentFormattingSample.mdx';
 
 export default {
   component: DocumentWrapper,
   decorators: [(storyFn: any) => <div style={{ width: '600px' }}>{storyFn()}</div>],
 };
-
-export const WithMarkdown = () => (
-  <DocumentWrapper>
-    <MarkdownSample />
-  </DocumentWrapper>
-);
 
 export const WithDOM = () => (
   <DocumentWrapper>
