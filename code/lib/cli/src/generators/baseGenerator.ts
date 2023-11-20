@@ -29,6 +29,7 @@ const defaultOptions: FrameworkOptions = {
   addMainFile: true,
   addComponents: true,
   skipBabel: false,
+  useSWC: () => false,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
@@ -195,23 +196,6 @@ export async function baseGenerator(
   }
 
   const {
-    extraAddons: extraAddonPackages,
-    extraPackages,
-    staticDir,
-    addScripts,
-    addMainFile,
-    addComponents,
-    skipBabel,
-    extraMain,
-    extensions,
-    storybookConfigFolder,
-    componentsDestinationPath,
-  } = {
-    ...defaultOptions,
-    ...options,
-  };
-
-  const {
     packages: frameworkPackages,
     type,
     rendererId,
@@ -225,6 +209,34 @@ export async function baseGenerator(
     framework,
     shouldApplyRequireWrapperOnPackageNames
   );
+
+  const {
+    extraAddons: extraAddonPackages,
+    extraPackages,
+    staticDir,
+    addScripts,
+    addMainFile,
+    addComponents,
+    extraMain,
+    extensions,
+    storybookConfigFolder,
+    componentsDestinationPath,
+    useSWC,
+  } = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  let { skipBabel } = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  const swc = useSWC({ builder });
+
+  if (swc) {
+    skipBabel = true;
+  }
 
   const extraAddonsToInstall =
     typeof extraAddonPackages === 'function'
@@ -401,7 +413,18 @@ export async function baseGenerator(
       : [];
 
     await configureMain({
-      framework: { name: frameworkInclude, options: options.framework || {} },
+      framework: {
+        name: frameworkInclude,
+        options: swc
+          ? {
+              ...(options.framework ?? {}),
+              builder: {
+                ...(options.framework?.builder ?? {}),
+                useSWC: true,
+              },
+            }
+          : options.framework || {},
+      },
       prefixes,
       storybookConfigFolder,
       docs: { autodocs: 'tag' },

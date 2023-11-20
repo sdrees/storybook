@@ -30,6 +30,7 @@ An object to configure Storybook containing the following properties:
 - [`addons`](./main-config-addons.md)
 - [`babel`](./main-config-babel.md)
 - [`babelDefault`](./main-config-babel-default.md)
+- [`build`](./main-config-build.md)
 - [`core`](./main-config-core.md)
 - [`docs`](./main-config-docs.md)
 - [`env`](./main-config-env.md)

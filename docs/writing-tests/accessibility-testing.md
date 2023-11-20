@@ -89,7 +89,7 @@ Out of the box, Storybook's accessibility addon includes a set of accessibility 
 
 #### Global a11y configuration
 
-If you need to dismiss an accessibility rule or modify its settings across all stories, you can add the following to your [storybook/preview.js](../configure/overview.md#configure-story-rendering):
+If you need to dismiss an accessibility rule or modify its settings across all stories, you can add the following to your [`storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -170,7 +170,7 @@ Disable accessibility testing for stories or components by adding the following 
 
 The most accurate way to check accessibility is manually on real devices. However, you can use automated tools to catch common accessibility issues. For example, [Axe](https://www.deque.com/axe/), on average, catches upwards to [57% of WCAG issues](https://www.deque.com/blog/automated-testing-study-identifies-57-percent-of-digital-accessibility-issues/) automatically.
 
-These tools work by auditing the rendered DOM against heuristics based on [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) rules and other industry-accepted best practices. You can then integrate these tools into your test automation pipeline using the Storybook [test runner](./test-runner.md#test-hook-api-experimental) and [axe-playwright](https://github.com/abhinaba-ghosh/axe-playwright).
+These tools work by auditing the rendered DOM against heuristics based on [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) rules and other industry-accepted best practices. You can then integrate these tools into your test automation pipeline using the Storybook [test runner](./test-runner.md#test-hook-api) and [axe-playwright](https://github.com/abhinaba-ghosh/axe-playwright).
 
 ### Setup
 
@@ -190,7 +190,7 @@ Run the following command to install the required dependencies.
 
 <!-- prettier-ignore-end -->
 
-Add a new [configuration file](./test-runner.md#test-hook-api-experimental) inside your Storybook directory with the following inside:
+Add a new [configuration file](./test-runner.md#test-hook-api) inside your Storybook directory with the following inside:
 
 <!-- prettier-ignore-start -->
 
@@ -205,7 +205,7 @@ Add a new [configuration file](./test-runner.md#test-hook-api-experimental) insi
 
 <Callout variant="info" icon="💡">
 
-`preRender` and `postRender` are convenient hooks that allow you to extend the test runner's default configuration. They are **experimental** and subject to changes. Read more about them [here](./test-runner.md#test-hook-api-experimental).
+`preVisit` and `postVisit` are convenient hooks that allow you to extend the test runner's default configuration. Read more about them [here](./test-runner.md#test-hook-api).
 
 </Callout>
 

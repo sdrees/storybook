@@ -7,6 +7,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     extraPackages: async ({ builder }) => {
       return builder === CoreBuilder.Webpack5 ? ['vue-loader@^15.7.0'] : [];
     },
+    useSWC: ({ builder }) => builder === CoreBuilder.Webpack5,
   });
 };
 

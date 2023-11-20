@@ -1,21 +1,20 @@
 ```ts
 // .storybook/test-runner.ts
 
-import { injectAxe, checkA11y, configureAxe } from 'axe-playwright';
-
+import type { TestRunnerConfig } from '@storybook/test-runner';
 import { getStoryContext } from '@storybook/test-runner';
 
-import type { TestRunnerConfig } from '@storybook/test-runner';
+import { injectAxe, checkA11y, configureAxe } from 'axe-playwright';
 
 /*
- * See https://storybook.js.org/docs/react/writing-tests/test-runner#test-hook-api-experimental
+ * See https://storybook.js.org/docs/react/writing-tests/test-runner#test-hook-api
  * to learn more about the test-runner hooks API.
  */
-const a11yConfig: TestRunnerConfig = {
-  async preRender(page) {
+const config: TestRunnerConfig = {
+  async preVisit(page) {
     await injectAxe(page);
   },
-  async postRender(page, context) {
+  async postVisit(page, context) {
     // Get the entire context of a story, including parameters, args, argTypes, etc.
     const storyContext = await getStoryContext(page, context);
 
@@ -33,5 +32,5 @@ const a11yConfig: TestRunnerConfig = {
   },
 };
 
-module.exports = a11yConfig;
+export default config;
 ```

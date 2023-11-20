@@ -36,6 +36,11 @@
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
     },
+    "./font/webpack/loader/storybook-nextjs-font-loader": {
+      "types": "./dist/font/webpack/loader/storybook-nextjs-font-loader.d.ts",
+      "require": "./dist/font/webpack/loader/storybook-nextjs-font-loader.js",
+      "import": "./dist/font/webpack/loader/storybook-nextjs-font-loader.mjs"
+    },
     "./dist/preview.mjs": "./dist/preview.mjs",
     "./next-image-loader-stub.js": {
       "types": "./dist/next-image-loader-stub.d.ts",
@@ -83,10 +88,12 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.2",
     "@babel/runtime": "^7.23.2",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
+    "@storybook/core-webpack": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",
@@ -117,7 +124,7 @@
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
     "@types/loader-utils": "^2.0.5",
-    "next": "^14.0.0",
+    "next": "^14.0.2",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },
@@ -156,7 +163,8 @@
       "./src/images/next-future-image.tsx",
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",
-      "./src/font/webpack/loader/storybook-nextjs-font-loader.ts"
+      "./src/font/webpack/loader/storybook-nextjs-font-loader.ts",
+      "./src/swc/next-swc-loader-patch.ts"
     ],
     "externals": [
       "sb-original/next/image",

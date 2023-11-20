@@ -34,7 +34,7 @@ export const getDirectoryFromWorkingDir = ({
 
 export const normalizeStoriesEntry = (
   entry: StoriesEntry,
-  { configDir, workingDir, default_files_pattern = DEFAULT_FILES_PATTERN }: NormalizeOptions
+  { configDir, workingDir, defaultFilesPattern = DEFAULT_FILES_PATTERN }: NormalizeOptions
 ): NormalizedStoriesSpecifier => {
   let specifierWithoutMatcher: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'>;
 
@@ -53,7 +53,7 @@ export const normalizeStoriesEntry = (
       specifierWithoutMatcher = {
         titlePrefix: DEFAULT_TITLE_PREFIX,
         directory: entry,
-        files: default_files_pattern,
+        files: defaultFilesPattern,
       };
     } else {
       specifierWithoutMatcher = {
@@ -65,7 +65,7 @@ export const normalizeStoriesEntry = (
   } else {
     specifierWithoutMatcher = {
       titlePrefix: DEFAULT_TITLE_PREFIX,
-      files: default_files_pattern,
+      files: defaultFilesPattern,
       ...entry,
     };
   }
@@ -99,7 +99,7 @@ export const normalizeStoriesEntry = (
 interface NormalizeOptions {
   configDir: string;
   workingDir: string;
-  default_files_pattern?: string;
+  defaultFilesPattern?: string;
 }
 
 export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) => {

@@ -507,6 +507,11 @@ module.exports = {
               pathSegment: 'main-config-babel-default',
               type: 'link',
             },
+             {
+              title: 'build',
+              pathSegment: 'main-config-build',
+              type: 'link',
+            },
             {
               title: 'core',
               pathSegment: 'main-config-core',

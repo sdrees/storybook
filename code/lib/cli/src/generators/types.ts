@@ -24,6 +24,7 @@ export interface FrameworkOptions {
   addMainFile?: boolean;
   addComponents?: boolean;
   skipBabel?: boolean;
+  useSWC?: ({ builder }: { builder: Builder }) => boolean;
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;

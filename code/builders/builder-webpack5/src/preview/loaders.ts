@@ -10,6 +10,7 @@ export const createBabelLoader = (
   typescriptOptions: TypescriptOptions,
   excludes: string[] = []
 ) => {
+  logger.info(dedent`Using Babel compiler`);
   return {
     test: typescriptOptions.skipBabel ? /\.(mjs|jsx?)$/ : /\.(mjs|tsx?|jsx?)$/,
     use: [
@@ -24,9 +25,7 @@ export const createBabelLoader = (
 };
 
 export const createSWCLoader = async (excludes: string[] = [], options: Options) => {
-  logger.warn(dedent`
-    The SWC loader is an experimental feature and may change or even be removed at any time.
-  `);
+  logger.info(dedent`Using SWC compiler`);
 
   const swc = await options.presets.apply('swc', {}, options);
   const typescriptOptions = await options.presets.apply<{ skipCompiler?: boolean }>(
@@ -49,12 +48,8 @@ export const createSWCLoader = async (excludes: string[] = [], options: Options)
   };
   return {
     test: typescriptOptions.skipCompiler ? /\.(mjs|cjs|jsx?)$/ : /\.(mjs|cjs|tsx?|jsx?)$/,
-    use: [
-      {
-        loader: require.resolve('swc-loader'),
-        options: config,
-      },
-    ],
+    loader: require.resolve('swc-loader'),
+    options: config,
     include: [getProjectRoot()],
     exclude: [/node_modules/, ...excludes],
   };

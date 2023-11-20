@@ -31,18 +31,22 @@ test.describe('addon-controls', () => {
     );
     const toggle = sbPage.panelContent().locator('input[name=primary]');
     await toggle.click();
-    await expect(sbPage.previewRoot().locator('button')).toHaveCSS(
-      'background-color',
-      'rgba(0, 0, 0, 0)'
-    );
+    await expect(async () => {
+      await expect(sbPage.previewRoot().locator('button')).toHaveCSS(
+        'background-color',
+        'rgba(0, 0, 0, 0)'
+      );
+    }).toPass();
 
     // Color picker: Background color
     const color = sbPage.panelContent().locator('input[placeholder="Choose color..."]');
     await color.fill('red');
-    await expect(sbPage.previewRoot().locator('button')).toHaveCSS(
-      'background-color',
-      'rgb(255, 0, 0)'
-    );
+    await expect(async () => {
+      await expect(sbPage.previewRoot().locator('button')).toHaveCSS(
+        'background-color',
+        'rgb(255, 0, 0)'
+      );
+    }).toPass();
 
     // TODO: enable this once the controls for size are aligned in all CLI templates.
     // Radio buttons: Size

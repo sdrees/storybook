@@ -17,6 +17,7 @@ import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
 import { configureNodePolyfills } from './nodePolyfills/webpack';
 import { configureAliasing } from './dependency-map';
+import { configureSWCLoader } from './swc/loader';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -61,7 +62,9 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
       name: dirname(
         require.resolve(join('@storybook/builder-webpack5', 'package.json'))
       ) as '@storybook/builder-webpack5',
-      options: typeof framework === 'string' ? {} : framework.options.builder || {},
+      options: {
+        ...(typeof framework === 'string' ? {} : framework.options.builder || {}),
+      },
     },
     renderer: dirname(require.resolve(join('@storybook/react', 'package.json'))),
   };
@@ -135,7 +138,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   const frameworkOptions = await options.presets.apply<{ options: FrameworkOptions }>(
     'frameworkOptions'
   );
-  const { options: { nextConfigPath } = {} } = frameworkOptions;
+  const { options: { nextConfigPath, builder } = {} } = frameworkOptions;
   const nextConfig = await configureConfig({
     baseConfig,
     nextConfigPath,
@@ -143,7 +146,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   });
 
   configureAliasing(baseConfig);
-  configureNextFont(baseConfig);
+  configureNextFont(baseConfig, builder?.useSWC);
   configureNextImport(baseConfig);
   configureRuntimeNextjsVersionResolution(baseConfig);
   configureImports({ baseConfig, configDir: options.configDir });
@@ -151,6 +154,11 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
+
+  // TODO: In Storybook 8.0, we have to check whether the babel-compiler addon is used. Otherwise, swc should be used.
+  if (builder?.useSWC) {
+    await configureSWCLoader(baseConfig, options, nextConfig);
+  }
 
   return baseConfig;
 };

@@ -6,7 +6,7 @@ Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com
 
 ## Prerequisites
 
-- Ensure you have node version 16 installed (suggestion: v16.17.1).
+- Ensure you have Node version 18 installed (suggestion: v18.16.0).
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
 
 ## Initial setup
@@ -18,7 +18,7 @@ git clone https://github.com/your-username/storybook.git
 cd storybook
 ```
 
-Storybook uses the [yarn](https://v3.yarnpkg.com/) package manager. Use [Corepack](https://github.com/nodejs/corepack) to set up the correct version for use with Storybook.
+Storybook uses the [Yarn](https://yarnpkg.com/) package manager. Use [Corepack](https://github.com/nodejs/corepack) to set up the correct version for use with Storybook.
 
 ```shell
 corepack enable
@@ -201,7 +201,7 @@ npx storybook@next link --local /path/to/local-repro-directory
 
 <Callout variant="info" icon="💡">
 
-The `storybook link` command relies on [Yarn 2 linking](https://yarnpkg.com/cli/link/) under the hood. It requires your local reproduction to be using [Yarn 2](https://yarnpkg.com/) as well, which is the case if you're already enabled it with the [`storybook sandbox`](./how-to-reproduce.md) command per our contribution guidelines. The process will fail if you're trying to link a non-Yarn 2 project.
+The `storybook link` command relies on [Yarn linking](https://yarnpkg.com/cli/link/) under the hood. It requires your local reproduction to be using [Yarn 2 or higher](https://yarnpkg.com/) as well, which is the case if you've already enabled it with the [`storybook sandbox`](./how-to-reproduce.md) command per our contribution guidelines. The process will fail if you're trying to link a non-Yarn 2 project.
 
 </Callout>
 

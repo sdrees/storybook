@@ -1,5 +1,4 @@
 import { join } from 'path';
-import semver from 'semver';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
@@ -13,10 +12,6 @@ const generator: Generator<{ projectName: string }> = async (
   options,
   commandOptions
 ) => {
-  const angularVersion = await packageManager.getPackageVersion('@angular/core');
-  const isWebpack5 = angularVersion && semver.gte(angularVersion, '12.0.0');
-  const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
-
   const angularJSON = new AngularJSON();
 
   if (
@@ -62,7 +57,8 @@ const generator: Generator<{ projectName: string }> = async (
     packageManager,
     npmOptions,
     {
-      ...updatedOptions,
+      ...options,
+      builder: CoreBuilder.Webpack5,
       ...(useCompodoc && {
         frameworkPreviewParts: {
           prefix: compoDocPreviewPrefix,

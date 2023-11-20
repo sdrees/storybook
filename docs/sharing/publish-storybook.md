@@ -50,6 +50,22 @@ Storybook will create a static web application capable of being served by any we
 
 <!-- prettier-ignore-end -->
 
+### Customizing the build for performance
+
+By default, Storybook's production build will encapsulate all stories and documentation into the production bundle. This is ideal for small projects but can cause performance issues for larger projects or when decreased build times are a priority (e.g., testing, CI/CD). If you need, you can customize the production build with the [`test` option](../api/main-config-build.md#test) in your `main.js|ts` configuration file and adjust your build script to enable the optimizations with the `--test` [flag](../api/cli-options.md#build).
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-build-test-flag.yarn.js.mdx',
+    'common/storybook-build-test-flag.npm.js.mdx',
+    'common/storybook-build-test-flag.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ## Publish Storybook with Chromatic
 
 Once you've built your Storybook as a static web application, you can publish it to your web host. We recommend [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook), a free publishing service made for Storybook that documents, versions, and indexes your UI components securely in the cloud.
@@ -137,7 +153,6 @@ Since Storybook is built as a static web application, you can also publish it to
 
 To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook to GitHub Pages](https://github.com/bitovi/github-actions-storybook-to-github-pages) Action. To enable it, create a new workflow file inside your `.github/workflows` directory with the following content:
 
-
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
@@ -153,7 +168,6 @@ To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook t
 The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
 
 </Callout>
-
 
 <details>
 

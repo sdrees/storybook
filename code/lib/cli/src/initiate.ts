@@ -57,7 +57,7 @@ const installStorybook = async <Project extends ProjectType>(
     linkable: !!options.linkable,
     pnp: pnp || options.usePnp,
     yes: options.yes,
-    projectType: options.type,
+    projectType,
   };
 
   const runGenerator: () => Promise<any> = async () => {
