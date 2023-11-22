@@ -1,24 +1,25 @@
+/* eslint-disable no-restricted-syntax,no-await-in-loop,@typescript-eslint/no-loop-func,no-underscore-dangle */
 import { global } from '@storybook/global';
 
 import type {
-  Renderer,
   Args,
   ArgsStoryFn,
   LegacyStoryFn,
-  Parameters,
-  PlayFunction,
-  PlayFunctionContext,
-  StepLabel,
+  ModuleExport,
   NormalizedComponentAnnotations,
   NormalizedProjectAnnotations,
   NormalizedStoryAnnotations,
+  Parameters,
+  PlayFunction,
+  PlayFunctionContext,
+  PreparedMeta,
   PreparedStory,
+  Renderer,
+  StepLabel,
   StoryContext,
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StrictArgTypes,
-  PreparedMeta,
-  ModuleExport,
 } from '@storybook/types';
 import { includeConditionalArg } from '@storybook/csf';
 
@@ -26,6 +27,7 @@ import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, UNTARGETED } from '../args';
+import { normalizeArrays } from './normalizeArrays';
 
 // Combine all the metadata about a story (both direct and inherited from the component/global scope)
 // into a "renderable" story function, with all decorators applied, parameters passed as context etc
@@ -48,15 +50,23 @@ export function prepareStory<TRenderer extends Renderer>(
     projectAnnotations
   );
 
-  const loaders = [
-    ...(projectAnnotations.loaders || []),
-    ...(componentAnnotations.loaders || []),
-    ...(storyAnnotations?.loaders || []),
-  ];
-  const applyLoaders = async (context: StoryContextForLoaders<TRenderer>) => {
-    const loadResults = await Promise.all(loaders.map((loader) => loader(context)));
-    const loaded = Object.assign({}, ...loadResults);
-    return { ...context, loaded };
+  const applyLoaders = async (
+    context: StoryContextForLoaders<TRenderer>
+  ): Promise<StoryContextForLoaders<TRenderer> & { loaded: StoryContext<TRenderer>['loaded'] }> => {
+    let updatedContext = { ...context, loaded: {} };
+    for (const loaders of [
+      ...('__STORYBOOK_TEST_LOADERS__' in global && Array.isArray(global.__STORYBOOK_TEST_LOADERS__)
+        ? [global.__STORYBOOK_TEST_LOADERS__]
+        : []),
+      normalizeArrays(projectAnnotations.loaders),
+      normalizeArrays(componentAnnotations.loaders),
+      normalizeArrays(storyAnnotations.loaders),
+    ]) {
+      const loadResults = await Promise.all(loaders.map((loader) => loader(updatedContext)));
+      const loaded: Record<string, any> = Object.assign({}, ...loadResults);
+      updatedContext = { ...updatedContext, loaded: { ...updatedContext.loaded, ...loaded } };
+    }
+    return updatedContext;
   };
 
   const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
@@ -70,9 +80,9 @@ export function prepareStory<TRenderer extends Renderer>(
   const { applyDecorators = defaultDecorateStory, runStep } = projectAnnotations;
 
   const decorators = [
-    ...(storyAnnotations?.decorators || []),
-    ...(componentAnnotations.decorators || []),
-    ...(projectAnnotations.decorators || []),
+    ...normalizeArrays(storyAnnotations?.decorators),
+    ...normalizeArrays(componentAnnotations?.decorators),
+    ...normalizeArrays(projectAnnotations?.decorators),
   ];
 
   // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
@@ -115,7 +125,6 @@ export function prepareStory<TRenderer extends Renderer>(
     playFunction,
   };
 }
-
 export function prepareMeta<TRenderer extends Renderer>(
   componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
   projectAnnotations: NormalizedProjectAnnotations<TRenderer>,
@@ -164,7 +173,6 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
 
     const { passArgsFirst = true } = parameters;
 
-    // eslint-disable-next-line no-underscore-dangle
     parameters.__isArgsStory = passArgsFirst && render && render.length > 0;
   }
 

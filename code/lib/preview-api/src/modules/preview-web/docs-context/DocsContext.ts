@@ -34,7 +34,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   constructor(
     public channel: Channel,
     protected store: StoryStore<TRenderer>,
-    public renderStoryToElement: DocsContextProps['renderStoryToElement'],
+    public renderStoryToElement: DocsContextProps<TRenderer>['renderStoryToElement'],
     /** The CSF files known (via the index) to be refererenced by this docs file */
     csfFiles: CSFFile<TRenderer>[]
   ) {

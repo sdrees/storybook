@@ -210,7 +210,7 @@ export class Yarn2Proxy extends JsPackageManager {
       await this.executeCommand({
         command: 'yarn',
         args: ['add', ...this.getInstallArgs(), ...args],
-        stdio: ['ignore', logStream, logStream],
+        stdio: process.env.CI ? 'inherit' : ['ignore', logStream, logStream],
       });
     } catch (err) {
       const stdout = await readLogFile();

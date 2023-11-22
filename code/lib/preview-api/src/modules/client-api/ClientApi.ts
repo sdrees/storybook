@@ -168,9 +168,11 @@ export class ClientApi<TRenderer extends Renderer> {
     }
   };
 
-  addStepRunner = (stepRunner: StepRunner) => {
+  addStepRunner = (stepRunner: StepRunner<TRenderer>) => {
     this.facade.projectAnnotations.runStep = composeStepRunners(
-      [this.facade.projectAnnotations.runStep, stepRunner].filter(Boolean) as StepRunner[]
+      [this.facade.projectAnnotations.runStep, stepRunner].filter(
+        Boolean
+      ) as StepRunner<TRenderer>[]
     );
   };
 
@@ -297,7 +299,7 @@ export class ClientApi<TRenderer extends Renderer> {
     this._addedExports[fileName] = { default: meta };
 
     let counter = 0;
-    api.add = (storyName: string, storyFn: StoryFn<TRenderer>, parameters: Parameters = {}) => {
+    api.add = (storyName: string, storyFn: StoryFn, parameters: Parameters = {}) => {
       hasAdded = true;
 
       if (typeof storyName !== 'string') {

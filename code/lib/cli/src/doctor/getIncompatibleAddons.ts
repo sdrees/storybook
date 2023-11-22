@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import semver from 'semver';
-import { getAddonNames } from './mainConfigFile';
-import { JsPackageManagerFactory } from '../../js-package-manager';
+import { getAddonNames } from '../automigrate/helpers/mainConfigFile';
+import { JsPackageManagerFactory } from '../js-package-manager';
 
 export const getIncompatibleAddons = async (
   mainConfig: StorybookConfig,
@@ -38,12 +38,13 @@ export const getIncompatibleAddons = async (
 
   const addons = getAddonNames(mainConfig).filter((addon) => addon in incompatibleList);
 
-  if (addons.length === 0) {
-    return [];
-  }
+  const dependencies = await packageManager.getAllDependencies();
+  const storybookPackages = Object.keys(dependencies).filter((dep) => dep.includes('storybook'));
+
+  const packagesToCheck = [...new Set([...addons, ...storybookPackages])];
 
   const addonVersions = await Promise.all(
-    addons.map(
+    packagesToCheck.map(
       async (addon) =>
         ({
           name: addon,
@@ -51,6 +52,10 @@ export const getIncompatibleAddons = async (
         } as { name: keyof typeof incompatibleList; version: string })
     )
   );
+
+  if (addonVersions.length === 0) {
+    return [];
+  }
 
   const incompatibleAddons: { name: string; version: string }[] = [];
   addonVersions.forEach(({ name, version: installedVersion }) => {

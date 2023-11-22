@@ -655,4 +655,68 @@ describe('loadPreset', () => {
       ]
     `);
   });
+
+  it('should filter out disabledAddons', async () => {
+    const loaded = await loadPreset(
+      {
+        name: '',
+        type: 'virtual',
+        framework: '@storybook/react',
+        presets: ['@storybook/preset-typescript'],
+        addons: ['@storybook/addon-docs', 'addon-bar'],
+      },
+      0,
+      {
+        build: {
+          test: {
+            disabledAddons: ['@storybook/addon-docs'],
+          },
+        },
+      }
+    );
+
+    // addon-docs should not be at the top level, but addon-bar and others should be.
+    expect(loaded).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "name": "@storybook/preset-typescript",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": "@storybook/addon-interactions/preset",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": "@storybook/addon-cool",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": "addon-bar",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": Object {
+            "addons": Array [
+              "@storybook/addon-docs",
+              "addon-bar",
+            ],
+            "framework": "@storybook/react",
+            "name": "",
+            "presets": Array [
+              "@storybook/preset-typescript",
+            ],
+            "type": "virtual",
+          },
+          "options": Object {},
+          "preset": Object {
+            "framework": "@storybook/react",
+          },
+        },
+      ]
+    `);
+  });
 });

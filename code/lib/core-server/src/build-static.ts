@@ -35,6 +35,7 @@ import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
 import { defaultStaticDirs } from './utils/constants';
+import { buildOrThrow } from './utils/build-or-throw';
 
 export type BuildStaticStandaloneOptions = CLIOptions &
   LoadOptions &
@@ -146,7 +147,9 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   global.FEATURES = features;
 
-  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
+  await buildOrThrow(async () =>
+    managerBuilder.build({ startTime: process.hrtime(), options: fullOptions })
+  );
 
   if (staticDirs) {
     effects.push(

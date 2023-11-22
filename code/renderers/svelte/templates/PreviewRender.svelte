@@ -17,8 +17,25 @@
     on,
   } = storyFn();
 
+	let firstTime = true;
+
+	// the first time we don't want to call storyFn two times so we just return the values
+	// we already have from the previous call. If storyFn changes this function will run
+	// again but this time firstTime will be false
+	function getStoryFnValue(storyFn){
+		if(firstTime){
+			firstTime = false;
+			return {
+				Component,
+				props,
+				on,
+			}
+		}
+		return storyFn();
+	}
+
   // reactive, re-render on storyFn change
-  $: ({ Component, props = {}, on } = storyFn());
+  $: ({ Component, props = {}, on } = getStoryFnValue(storyFn));
 
   const eventsFromArgTypes = Object.fromEntries(
     Object.entries(storyContext.argTypes)

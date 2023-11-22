@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@storybook/core-client": "workspace:*",
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.2",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",

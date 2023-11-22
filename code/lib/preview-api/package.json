@@ -71,7 +71,7 @@
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.2",
     "@storybook/global": "^5.0.0",
     "@storybook/types": "workspace:*",
     "@types/qs": "^6.9.5",

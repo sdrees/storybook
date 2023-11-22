@@ -261,7 +261,7 @@ export async function loadPreset(
           // @ts-expect-error (Converted from ts-ignore)
           const name = i.name ? i.name : i;
 
-          return !!storybookOptions.build?.test?.disabledAddons?.find((n) => name.includes(n));
+          return !storybookOptions.build?.test?.disabledAddons?.find((n) => name.includes(n));
         };
       }
 

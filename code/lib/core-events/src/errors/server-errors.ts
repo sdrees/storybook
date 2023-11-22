@@ -385,3 +385,28 @@ export class NextjsSWCNotSupportedError extends StorybookError {
     `;
   }
 }
+
+export class NoMatchingExportError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 4;
+
+  constructor(public data: { error: unknown | Error }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      There was an exports mismatch error when trying to build Storybook.
+      Please check whether the versions of your Storybook packages match whenever possible, as this might be the cause.
+      
+      Problematic example:
+      { "@storybook/react": "7.5.3", "@storybook/react-vite": "7.4.5", "storybook": "7.3.0" }
+
+      Correct example:
+      { "@storybook/react": "7.5.3", "@storybook/react-vite": "7.5.3", "storybook": "7.5.3" }
+
+      Please run \`npx storybook@latest doctor\` for guidance on how to fix this issue.
+    `;
+  }
+}

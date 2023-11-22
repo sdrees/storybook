@@ -195,7 +195,7 @@ export class PNPMProxy extends JsPackageManager {
       await this.executeCommand({
         command: 'pnpm',
         args: ['add', ...args, ...this.getInstallArgs()],
-        stdio: ['ignore', logStream, logStream],
+        stdio: process.env.CI ? 'inherit' : ['ignore', logStream, logStream],
       });
     } catch (err) {
       const stdout = await readLogFile();

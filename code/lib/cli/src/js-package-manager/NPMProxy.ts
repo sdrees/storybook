@@ -184,7 +184,7 @@ export class NPMProxy extends JsPackageManager {
       await this.executeCommand({
         command: 'npm',
         args: ['install', ...args, ...this.getInstallArgs()],
-        stdio: ['ignore', logStream, logStream],
+        stdio: process.env.CI ? 'inherit' : ['ignore', logStream, logStream],
       });
     } catch (err) {
       const stdout = await readLogFile();

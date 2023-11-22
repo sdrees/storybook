@@ -1,18 +1,11 @@
 import { instrument } from '@storybook/instrumenter';
-import * as spy from '@vitest/spy';
+import { type LoaderFunction } from '@storybook/csf';
 import chai from 'chai';
-import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
-import { addons } from '@storybook/preview-api';
+import { global } from '@storybook/global';
 import { expect as rawExpect } from './expect';
+import { clearAllMocks, resetAllMocks, restoreAllMocks } from './spy';
 
-export * from '@vitest/spy';
-
-const channel = addons.getChannel();
-
-channel.on(FORCE_REMOUNT, () => spy.spies.forEach((mock) => mock.mockClear()));
-channel.on(STORY_RENDER_PHASE_CHANGED, ({ newPhase }) => {
-  if (newPhase === 'loading') spy.spies.forEach((mock) => mock.mockClear());
-});
+export * from './spy';
 
 export const { expect } = instrument(
   { expect: rawExpect },
@@ -32,3 +25,17 @@ export const { expect } = instrument(
 );
 
 export * from './testing-library';
+
+const resetAllMocksLoader: LoaderFunction = ({ parameters }) => {
+  if (parameters?.test?.mockReset === true) {
+    resetAllMocks();
+  } else if (parameters?.test?.clearMocks === true) {
+    clearAllMocks();
+  } else if (parameters?.test?.restoreMocks !== false) {
+    restoreAllMocks();
+  }
+};
+
+// @ts-expect-error We are using this as a default Storybook loader, when the test package is used. This avoids the need for optional peer dependency workarounds.
+// eslint-disable-next-line no-underscore-dangle
+global.__STORYBOOK_TEST_LOADERS__ = [resetAllMocksLoader];

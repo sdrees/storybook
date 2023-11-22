@@ -343,9 +343,9 @@ describe('prepareStory', () => {
       );
 
       const storyContext = { context: 'value' } as any;
-      const loadedContext = await applyLoaders(storyContext);
+      const loadedContext = await applyLoaders({ ...storyContext });
 
-      expect(loader).toHaveBeenCalledWith(storyContext);
+      expect(loader).toHaveBeenCalledWith({ ...storyContext, loaded: {} });
       expect(loadedContext).toEqual({
         context: 'value',
         loaded: { foo: 7 },

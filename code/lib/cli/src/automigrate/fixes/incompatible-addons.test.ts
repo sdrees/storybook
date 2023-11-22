@@ -24,7 +24,7 @@ const check = async ({
 describe('incompatible-addons fix', () => {
   afterEach(jest.restoreAllMocks);
 
-  it('should show incompatible addons', async () => {
+  it('should show incompatible addons registered in main.js', async () => {
     await expect(
       check({
         packageManager: {
@@ -38,8 +38,40 @@ describe('incompatible-addons fix', () => {
                 return Promise.resolve(null);
             }
           },
+          getAllDependencies: async () => ({}),
         },
         main: { addons: ['@storybook/essentials', '@storybook/addon-info'] },
+      })
+    ).resolves.toEqual({
+      incompatibleAddonList: [
+        {
+          name: '@storybook/addon-info',
+          version: '5.3.21',
+        },
+      ],
+    });
+  });
+
+  it('should show incompatible addons from package.json', async () => {
+    await expect(
+      check({
+        packageManager: {
+          getPackageVersion(packageName, basePath) {
+            switch (packageName) {
+              case '@storybook/addon-essentials':
+                return Promise.resolve('7.0.0');
+              case '@storybook/addon-info':
+                return Promise.resolve('5.3.21');
+              default:
+                return Promise.resolve(null);
+            }
+          },
+          getAllDependencies: async () => ({
+            '@storybook/addon-essentials': '7.0.0',
+            '@storybook/addon-info': '5.3.21',
+          }),
+        },
+        main: { addons: [] },
       })
     ).resolves.toEqual({
       incompatibleAddonList: [
@@ -63,6 +95,7 @@ describe('incompatible-addons fix', () => {
                 return Promise.resolve(null);
             }
           },
+          getAllDependencies: async () => ({}),
         },
         main: { addons: ['@storybook/essentials'] },
       })

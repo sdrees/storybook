@@ -6,7 +6,7 @@ This preset is designed to use alongside [`@storybook/react`](https://github.com
 
 ## Compatibility
 
-This version (4.x) of `@storybook/preset-create-react-app` is compatibly with Create React App version 5 and above. Earlier versions are compatible with earlier version of the preset.
+From version 4.0.0 onwards, the `@storybook/preset-create-react-app` is compatible with Create React App version 5 and later. If you're using an earlier version of Create React App, you can still utilize the preset's previous versions.
 
 ## Basic usage
 

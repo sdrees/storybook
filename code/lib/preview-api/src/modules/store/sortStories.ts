@@ -9,6 +9,7 @@ import type {
   Parameters,
   Path,
   PreparedStory,
+  Renderer,
 } from '@storybook/types';
 import { storySort } from './storySort';
 
@@ -58,8 +59,8 @@ const toIndexEntry = (story: any): StoryIndexEntry => {
   return { id, title, name, importPath: parameters.fileName, type };
 };
 
-export const sortStoriesV6 = (
-  stories: [string, PreparedStory, Parameters, Parameters][],
+export const sortStoriesV6 = <TRenderer extends Renderer>(
+  stories: [string, PreparedStory<TRenderer>, Parameters, Parameters][],
   storySortParameter: Addon_StorySortParameter,
   fileNameOrder: Path[]
 ) => {

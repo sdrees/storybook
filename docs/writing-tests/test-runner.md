@@ -144,7 +144,7 @@ You can also configure the test-runner to run tests on a CI environment. Documen
 
 ### Run against deployed Storybooks via Github Actions deployment
 
-If you're publishing your Storybook with services such as [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/), they emit a `deployment_status` event in GitHub Actions. You can use it and set the `deployment_status.target_url` as the `TARGET_URL` environment variable. Here's how:
+If you're publishing your Storybook with services such as [Vercel](https://vercel.com/) or [Netlify](https://docs.netlify.com/site-deploys/notifications/#github-commit-statuses), they emit a `deployment_status` event in GitHub Actions. You can use it and set the `deployment_status.target_url` as the `TARGET_URL` environment variable. Here's how:
 
 <!-- prettier-ignore-start -->
 

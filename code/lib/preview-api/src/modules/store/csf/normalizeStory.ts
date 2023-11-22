@@ -13,6 +13,7 @@ import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/client-logger';
 import deprecate from 'util-deprecate';
 import { normalizeInputTypes } from './normalizeInputTypes';
+import { normalizeArrays } from './normalizeArrays';
 
 const deprecatedStoryAnnotation = dedent`
 CSF .story annotations deprecated; annotate story functions directly:
@@ -44,11 +45,15 @@ export function normalizeStory<TRenderer extends Renderer>(
     storyObject.storyName ||
     story?.name ||
     exportName;
-  const decorators = [...(storyObject.decorators || []), ...(story?.decorators || [])];
+
+  const decorators = [
+    ...normalizeArrays(storyObject.decorators),
+    ...normalizeArrays(story?.decorators),
+  ];
   const parameters = { ...story?.parameters, ...storyObject.parameters };
   const args = { ...story?.args, ...storyObject.args };
   const argTypes = { ...(story?.argTypes as ArgTypes), ...(storyObject.argTypes as ArgTypes) };
-  const loaders = [...(storyObject.loaders || []), ...(story?.loaders || [])];
+  const loaders = [...normalizeArrays(storyObject.loaders), ...normalizeArrays(story?.loaders)];
   const { render, play, tags = [] } = storyObject;
 
   // eslint-disable-next-line no-underscore-dangle

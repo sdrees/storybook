@@ -1687,7 +1687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx-development@npm:^7.16.7, @babel/plugin-transform-react-jsx-development@npm:^7.18.6, @babel/plugin-transform-react-jsx-development@npm:^7.22.5":
+"@babel/plugin-transform-react-jsx-development@npm:^7.16.7, @babel/plugin-transform-react-jsx-development@npm:^7.22.5":
   version: 7.22.5
   resolution: "@babel/plugin-transform-react-jsx-development@npm:7.22.5"
   dependencies:
@@ -1720,7 +1720,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx@npm:^7.14.9, @babel/plugin-transform-react-jsx@npm:^7.19.0, @babel/plugin-transform-react-jsx@npm:^7.22.15, @babel/plugin-transform-react-jsx@npm:^7.22.5":
+"@babel/plugin-transform-react-jsx@npm:^7.14.9, @babel/plugin-transform-react-jsx@npm:^7.22.15, @babel/plugin-transform-react-jsx@npm:^7.22.5":
   version: 7.22.15
   resolution: "@babel/plugin-transform-react-jsx@npm:7.22.15"
   dependencies:
@@ -5655,7 +5655,7 @@ __metadata:
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -5724,7 +5724,7 @@ __metadata:
   resolution: "@storybook/addon-storyshots-puppeteer@workspace:addons/storyshots-puppeteer"
   dependencies:
     "@axe-core/puppeteer": "npm:^4.2.0"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/node-logger": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/jest-image-snapshot": "npm:^6.0.0"
@@ -6033,7 +6033,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager-api": "workspace:*"
@@ -6306,7 +6306,7 @@ __metadata:
     "@babel/core": "npm:^7.23.2"
     "@babel/preset-env": "npm:^7.23.2"
     "@babel/types": "npm:^7.23.0"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/types": "workspace:*"
@@ -6344,7 +6344,7 @@ __metadata:
     "@radix-ui/react-select": "npm:^1.2.2"
     "@radix-ui/react-toolbar": "npm:^1.0.4"
     "@storybook/client-logger": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.1.6"
     "@storybook/theming": "workspace:*"
@@ -6434,7 +6434,7 @@ __metadata:
     "@storybook/channels": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-mdx": "npm:^0.1.0"
     "@storybook/global": "npm:^5.0.0"
@@ -6515,7 +6515,7 @@ __metadata:
     "@babel/parser": "npm:^7.23.0"
     "@babel/traverse": "npm:^7.23.2"
     "@babel/types": "npm:^7.23.0"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/types": "workspace:*"
     "@types/fs-extra": "npm:^11.0.1"
     "@types/js-yaml": "npm:^4.0.5"
@@ -6536,12 +6536,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/csf@npm:^0.1.0":
-  version: 0.1.1
-  resolution: "@storybook/csf@npm:0.1.1"
+"@storybook/csf@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@storybook/csf@npm:0.1.2"
   dependencies:
     type-fest: "npm:^2.19.0"
-  checksum: 999bb87fbbe047a559bbaa5baf2ed84872fcd5cdcae3c1169f8e4c641eefe8759d09a09034a78ed114032c0e5cf6301b7fa89e5e3ce60d75cf0bd5e33ec0a6e7
+  checksum: b51a55292e5d2af8b1d135a28ecaa94f8860ddfedcb393adfa2cca1ee23853156066f737d8be1cb5412f572781aa525dc0b2f6e4a6f6ce805489f0149efe837c
   languageName: node
   linkType: hard
 
@@ -6765,7 +6765,7 @@ __metadata:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/router": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -7174,7 +7174,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/types": "workspace:*"
     "@types/qs": "npm:^6.9.5"
@@ -7383,7 +7383,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/csf-plugin": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -7455,7 +7455,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^5.45.0"
     "@typescript-eslint/experimental-utils": "npm:^5.45.0"
     "@typescript-eslint/parser": "npm:^5.45.0"
-    "@vitejs/plugin-react": "npm:^2.1.0"
+    "@vitejs/plugin-react": "npm:^3.0.1"
     babel-eslint: "npm:^10.1.0"
     babel-loader: "npm:^9.1.2"
     chromatic: "npm:7.1.0"
@@ -7556,7 +7556,7 @@ __metadata:
   resolution: "@storybook/server@workspace:renderers/server"
   dependencies:
     "@storybook/core-client": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/preview-api": "workspace:*"
@@ -7573,7 +7573,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/source-loader@workspace:lib/source-loader"
   dependencies:
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@storybook/types": "workspace:*"
     estraverse: "npm:^5.2.0"
     jest-specific-snapshot: "npm:^8.0.0"
@@ -7659,6 +7659,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/sveltekit@workspace:frameworks/sveltekit"
   dependencies:
+    "@storybook/addon-actions": "workspace:*"
     "@storybook/builder-vite": "workspace:*"
     "@storybook/svelte": "workspace:*"
     "@storybook/svelte-vite": "workspace:*"
@@ -7767,7 +7768,7 @@ __metadata:
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:
     "@storybook/channels": "workspace:*"
-    "@storybook/csf": "npm:^0.1.0"
+    "@storybook/csf": "npm:^0.1.2"
     "@types/babel__core": "npm:^7.0.0"
     "@types/express": "npm:^4.7.0"
     "@types/fs-extra": "npm:^11.0.1"
@@ -9755,23 +9756,6 @@ __metadata:
   peerDependencies:
     vite: ^3.0.0 || ^4.0.0
   checksum: d18d5454e7323826e6d33631ebceb2c1d331a1dd9d171e42096e38983f3489708b44c085c339a94c23af0b3976728eb78fe4aa5c1aa6cf905e83ac1800d9d10c
-  languageName: node
-  linkType: hard
-
-"@vitejs/plugin-react@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "@vitejs/plugin-react@npm:2.2.0"
-  dependencies:
-    "@babel/core": "npm:^7.19.6"
-    "@babel/plugin-transform-react-jsx": "npm:^7.19.0"
-    "@babel/plugin-transform-react-jsx-development": "npm:^7.18.6"
-    "@babel/plugin-transform-react-jsx-self": "npm:^7.18.6"
-    "@babel/plugin-transform-react-jsx-source": "npm:^7.19.6"
-    magic-string: "npm:^0.26.7"
-    react-refresh: "npm:^0.14.0"
-  peerDependencies:
-    vite: ^3.0.0
-  checksum: 85fe5c740fbe8aa5dd4c3516a02a937dff0e2b0858cfa7cf8a69b998b7d05e08c296a087fde66f9171367f5c9d10d6e4bc026df1fa1e2ec528f49e7eaabeeae1
   languageName: node
   linkType: hard
 
@@ -21223,15 +21207,6 @@ __metadata:
   dependencies:
     sourcemap-codec: "npm:^1.4.8"
   checksum: 37f5e01a7e8b19a072091f0b45ff127cda676232d373ce2c551a162dd4053c575ec048b9cbb4587a1f03adb6c5d0fd0dd49e8ab070cd2c83a4992b2182d9cb56
-  languageName: node
-  linkType: hard
-
-"magic-string@npm:^0.26.7":
-  version: 0.26.7
-  resolution: "magic-string@npm:0.26.7"
-  dependencies:
-    sourcemap-codec: "npm:^1.4.8"
-  checksum: 950035b344fe2a8163668980bc4a215a0b225086e6e22100fd947e7647053c6ba6b4f11a04de83a97a276526ccb602ef53b173725dbb1971fb146cff5a5e14f6
   languageName: node
   linkType: hard
 
