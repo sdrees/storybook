@@ -18,6 +18,7 @@ import {
 import prettyTime from 'pretty-hrtime';
 
 export * from './types';
+export * from './preview/virtual-module-mapping';
 
 export const printDuration = (startTime: [number, number]) =>
   prettyTime(process.hrtime(startTime))

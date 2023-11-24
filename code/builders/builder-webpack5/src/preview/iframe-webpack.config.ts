@@ -17,11 +17,11 @@ import {
   normalizeStories,
   isPreservingSymlinks,
 } from '@storybook/core-common';
-import type { BuilderOptions } from '@storybook/core-webpack';
-import { getVirtualModuleMapping } from '@storybook/core-webpack';
+import { type BuilderOptions } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { TypescriptOptions } from '../types';
 import { createBabelLoader, createSWCLoader } from './loaders';
+import { getVirtualModules } from './virtual-module-mapping';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
@@ -135,18 +135,16 @@ export default async (
     externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
-  const virtualModuleMapping = await getVirtualModuleMapping(options);
-
-  Object.keys(virtualModuleMapping).forEach((key) => {
-    entries.push(key);
-  });
+  const { virtualModules: virtualModuleMapping, entries: dynamicEntries } = await getVirtualModules(
+    options
+  );
 
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
     bail: isProd,
     devtool: options.build?.test?.disableSourcemaps ? false : 'cheap-module-source-map',
-    entry: entries,
+    entry: [...(entries ?? []), ...dynamicEntries],
     output: {
       path: resolve(process.cwd(), outputDir),
       filename: isProd ? '[name].[contenthash:8].iframe.bundle.js' : '[name].iframe.bundle.js',

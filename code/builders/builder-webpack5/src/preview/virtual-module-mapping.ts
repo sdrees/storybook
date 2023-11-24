@@ -1,5 +1,3 @@
-import type { Options, PreviewAnnotation } from '@storybook/types';
-import { isAbsolute, join, resolve } from 'path';
 import {
   getBuilderOptions,
   getRendererName,
@@ -9,17 +7,19 @@ import {
   normalizeStories,
   readTemplate,
 } from '@storybook/core-common';
+import type { Options, PreviewAnnotation } from '@storybook/types';
+import { isAbsolute, join, resolve } from 'path';
 import slash from 'slash';
-import type { BuilderOptions } from './types';
-import { toImportFn } from './to-importFn';
-import { toRequireContextString } from './to-require-context';
+import { toImportFn, toRequireContextString } from '@storybook/core-webpack';
+import type { BuilderOptions } from '../types';
 
-export const getVirtualModuleMapping = async (options: Options) => {
-  const virtualModuleMapping: Record<string, string> = {};
+export const getVirtualModules = async (options: Options) => {
+  const virtualModules: Record<string, string> = {};
   const builderOptions = await getBuilderOptions<BuilderOptions>(options);
   const workingDir = process.cwd();
   const isProd = options.configType === 'PRODUCTION';
   const nonNormalizedStories = await options.presets.apply('stories', []);
+  const entries = [];
 
   const stories = normalizeStories(nonNormalizedStories, {
     configDir: options.configDir,
@@ -53,9 +53,9 @@ export const getVirtualModuleMapping = async (options: Options) => {
     const storiesPath = resolve(join(workingDir, storiesFilename));
 
     const needPipelinedImport = !!builderOptions.lazyCompilation && !isProd;
-    virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
+    virtualModules[storiesPath] = toImportFn(stories, { needPipelinedImport });
     const configEntryPath = resolve(join(workingDir, 'storybook-config-entry.js'));
-    virtualModuleMapping[configEntryPath] = handlebars(
+    virtualModules[configEntryPath] = handlebars(
       await readTemplate(
         require.resolve(
           '@storybook/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars'
@@ -67,14 +67,16 @@ export const getVirtualModuleMapping = async (options: Options) => {
       }
       // We need to double escape `\` for webpack. We may have some in windows paths
     ).replace(/\\/g, '\\\\');
+    entries.push(configEntryPath);
   } else {
     const rendererName = await getRendererName(options);
 
     const rendererInitEntry = resolve(join(workingDir, 'storybook-init-renderer-entry.js'));
-    virtualModuleMapping[rendererInitEntry] = `import '${slash(rendererName)}';`;
+    virtualModules[rendererInitEntry] = `import '${slash(rendererName)}';`;
+    entries.push(rendererInitEntry);
 
     const entryTemplate = await readTemplate(
-      join(__dirname, '..', 'templates', 'virtualModuleEntry.template.js')
+      require.resolve('@storybook/builder-webpack5/templates/virtualModuleEntry.template.js')
     );
 
     previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
@@ -87,25 +89,30 @@ export const getVirtualModuleMapping = async (options: Options) => {
         : `${previewAnnotationFilename}-generated-config-entry.js`;
       // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
-      virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
+      virtualModules[entryFilename] = interpolate(entryTemplate, {
         previewAnnotationFilename,
       });
+      entries.push(entryFilename);
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        join(__dirname, '..', 'templates', 'virtualModuleStory.template.js')
+        require.resolve('@storybook/builder-webpack5/templates/virtualModuleStory.template.js')
       );
       // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
       // in the user's webpack mode, which may be strict about the use of require/import.
       // See https://github.com/storybookjs/storybook/issues/14877
       const storiesFilename = resolve(join(workingDir, `generated-stories-entry.cjs`));
-      virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
+      virtualModules[storiesFilename] = interpolate(storyTemplate, {
         rendererName,
       })
         // Make sure we also replace quotes for this one
         .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
+      entries.push(storiesFilename);
     }
   }
 
-  return virtualModuleMapping;
+  return {
+    virtualModules,
+    entries,
+  };
 };

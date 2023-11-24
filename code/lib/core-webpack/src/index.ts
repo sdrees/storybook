@@ -4,4 +4,3 @@ export * from './check-webpack-version';
 export * from './merge-webpack-config';
 export * from './to-importFn';
 export * from './to-require-context';
-export * from './virtual-module-mapping';

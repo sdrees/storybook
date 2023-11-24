@@ -63,9 +63,14 @@ export const decorators: Decorator[] = [
        * eg. storybook:goto, storybook:invalidateAll
        * @param baseModule the base module where the function lives (navigation|forms)
        * @param functions the list of functions in that module that emit events
+       * @param {boolean} [defaultToAction] the list of functions in that module that emit events
        * @returns a function to remove all the listener added
        */
-      function createListeners(baseModule: keyof SvelteKitParameters, functions: string[]) {
+      function createListeners(
+        baseModule: keyof SvelteKitParameters,
+        functions: string[],
+        defaultToAction?: boolean
+      ) {
         // the array of every added listener, we can use this in the return function
         // to clean them
         const toRemove: Array<{
@@ -75,10 +80,11 @@ export const decorators: Decorator[] = [
         functions.forEach((func) => {
           // we loop over every function and check if the user actually passed
           // a function in sveltekit_experimental[baseModule][func] eg. sveltekit_experimental.navigation.goto
-          if (
+          const hasFunction =
             (svelteKitParameters as any)[baseModule]?.[func] &&
-            (svelteKitParameters as any)[baseModule][func] instanceof Function
-          ) {
+            (svelteKitParameters as any)[baseModule][func] instanceof Function;
+          // if we default to an action we still add the listener (this will be the case for goto, invalidate, invalidateAll)
+          if (hasFunction || defaultToAction) {
             // we create the listener that will just get the detail array from the custom element
             // and call the user provided function spreading this args in...this will basically call
             // the function that the user provide with the same arguments the function is invoked to
@@ -87,7 +93,12 @@ export const decorators: Decorator[] = [
             // it provided to storybook will be called with "/my-route"
             const listener = ({ detail = [] as any[] }) => {
               const args = Array.isArray(detail) ? detail : [];
-              (svelteKitParameters as any)[baseModule][func](...args);
+              // if it has a function in the parameters we call that function
+              // otherwise we invoke the action
+              const fnToCall = hasFunction
+                ? (svelteKitParameters as any)[baseModule][func]
+                : action(func);
+              fnToCall(...args);
             };
             const eventType = `storybook:${func}`;
             toRemove.push({ eventType, listener });
@@ -104,11 +115,11 @@ export const decorators: Decorator[] = [
         };
       }
 
-      const removeNavigationListeners = createListeners('navigation', [
-        'goto',
-        'invalidate',
-        'invalidateAll',
-      ]);
+      const removeNavigationListeners = createListeners(
+        'navigation',
+        ['goto', 'invalidate', 'invalidateAll'],
+        true
+      );
       const removeFormsListeners = createListeners('forms', ['enhance']);
       window.addEventListener('click', globalClickListener);
 

@@ -16,7 +16,7 @@ const attachActionsToFunctionMocks: LoaderFunction = (context) => {
     )
     .forEach(([key, value]) => {
       const previous = value.getMockImplementation();
-      if (previous?._actionAttached !== true) {
+      if (previous?._actionAttached !== true && previous?.isAction !== true) {
         const implementation = (...params: unknown[]) => {
           action(key)(...params);
           return previous?.(...params);

@@ -1,5 +1,5 @@
 ---
-title: 'Snapshot tests'
+title: 'Snapshot testing with Storyshots'
 ---
 
 Snapshot tests compare the rendered markup of every story against known baselines. It’s a way to identify markup changes that trigger rendering errors and warnings.
@@ -8,50 +8,15 @@ Storybook is a helpful tool for snapshot testing because every story is essentia
 
 ![Example Snapshot test](./snapshot-test.png)
 
-## Set up test runner
+## Migrating Tests
 
-Storybook test runner turns all of your stories into executable tests. It is powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/).
-
-Follow the [setup instructions](./test-runner#setup) to install and run the test runner.
-
-Then, you can use the [test hook API](./test-runner#test-hook-api-experimental) to snapshot the HTML of each story:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/test-runner-snapshot.js.mdx',
-    'common/test-runner-snapshot.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-When running in [index.json mode](./test-runner#indexjson-mode), tests are generated in a temporary folder and snapshots get stored alongside them. You will need to [`--eject`](./test-runner#configure) and configure a custom [`snapshotResolver`](https://jestjs.io/docs/configuration#snapshotresolver-string) to store them elsewhere, e.g. in your working directory:
-
-```js
-// ./test-runner-jest.config.js
-
-const path = require('path');
-
-module.exports = {
-  resolveSnapshotPath: (testPath, snapshotExtension) =>
-    path.join(process.cwd(), '__snapshots__', path.basename(testPath) + snapshotExtension),
-  resolveTestPath: (snapshotFilePath, snapshotExtension) =>
-    path.join(process.env.TEST_ROOT, path.basename(snapshotFilePath, snapshotExtension)),
-  testPathForConsistencyCheck: path.join(process.env.TEST_ROOT, 'example.test.js'),
-};
-```
-
-Finally, you can [set up test runner to run your tests in CI](./test-runner.md#set-up-ci-to-run-tests).
-
-There are many other configuration options available, such as watch mode and coverage. Please reference the [test runner documentation](./test-runner) for more information.
+The Storyshots addon was the original testing solution for Storybook, offering a highly extensible API and a wide range of configuration options for testing. However, it was difficult to set up and maintain, and it needed to be compatible with the latest version of Storybook, which introduced some significant architectural changes, including a high-performance [on-demand story loading](../configure/overview.md#on-demand-story-loading) feature. As a result, Storyhots is now officially deprecated, is no longer being maintained, and will be removed in the next major release of Storybook. We recommend following the [migration guide](./storyshots-migration-guide.md) we've prepared to help you during this transition period.
 
 ## Set up Storyshots
 
 <Callout variant="warning">
 
-Storyshots has been deprecated in favor of [test runner](./test-runner.md), which you can use for both snapshot and [visual testing](./visual-testing.md).
+The Storyshots addon has been deprecated and will be removed in a future release of Storybook. See the [migration guide](./storyshots-migration-guide.md) for more information.
 
 </Callout>
 
@@ -132,11 +97,11 @@ Don't forget to replace your-custom-directory with your own.
 
 </Callout>
 
-When you run your tests, the snapshots will be available in the directory you've specified.
+When you run your tests, the snapshots will be available in your specified directory.
 
 ### Framework configuration
 
-By default, Storyshots detects your project's framework. If you run into a situation where this is not the case, you can adjust the configuration object and specify your framework. For example, if you wanted to configure the addon for a Vue 3 project:
+By default, Storyshots detects your project's framework. If you encounter a situation where this is not the case, you can adjust the configuration object and specify your framework. For example, if you wanted to configure the addon for a Vue 3 project:
 
 <!-- prettier-ignore-start -->
 

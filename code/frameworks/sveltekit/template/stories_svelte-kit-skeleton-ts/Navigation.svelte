@@ -8,13 +8,13 @@
 
 <button
 	on:click={() => {
-		goto('/storybook');
+		goto('/storybook-goto');
 	}}>goto</button
 >
 
 <button
 	on:click={() => {
-		invalidate('/storybook');
+		invalidate('/storybook-invalidate');
 	}}>invalidate</button
 >
 

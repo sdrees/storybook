@@ -1,5 +1,7 @@
 # StoryShots + [Puppeteer](https://github.com/GoogleChrome/puppeteer)
 
+> **Note** This addon is now deprecated, will not receive any further updates, and will be discontinued in a future release. If you're using this addon, we recommend migrating to one of the available options outlined in the [Storyshots migration guide](https://storybook.js.org/docs/react/writing-tests/storyshots-migration-guide).
+
 ## Getting Started
 
 Add the following modules into your app.
