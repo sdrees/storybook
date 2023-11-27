@@ -392,8 +392,8 @@ module.exports = {
               type: 'link',
             },
             {
-              pathSegment: 'babel',
-              title: 'Babel',
+              pathSegment: 'compilers',
+              title: 'Compilers',
               type: 'link',
             },
             {
@@ -582,6 +582,11 @@ module.exports = {
             {
               title: 'staticDirs',
               pathSegment: 'main-config-static-dirs',
+              type: 'link',
+            },
+             {
+              title: 'swc',
+              pathSegment: 'main-config-swc',
               type: 'link',
             },
             {

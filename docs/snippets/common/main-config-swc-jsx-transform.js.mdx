@@ -2,7 +2,7 @@
 // .storybook/main.js
 
 export default {
-  // Replace your-framework with the webpack-based framework you are using (e.g., react-webpack5)
+  // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
   framework: {
     name: '@storybook/your-framework',
     options: {
@@ -11,6 +11,14 @@ export default {
       },
     },
   },
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  swc: (config, options) => ({
+    jsc: {
+      transform: {
+        react: {
+          runtime: 'automatic',
+        },
+      },
+    },
+  }),
 };
 ```

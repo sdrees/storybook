@@ -37,7 +37,9 @@ export const docs: PresetProperty<'docs', StorybookConfig> = async (input, optio
 
 const createTestBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
   disableBlocks: value,
-  disabledAddons: value ? ['@storybook/addon-docs', '@storybook/addon-coverage'] : [],
+  disabledAddons: value
+    ? ['@storybook/addon-docs', '@storybook/addon-essentials/docs', '@storybook/addon-coverage']
+    : [],
   disableMDXEntries: value,
   disableAutoDocs: value,
   disableDocgen: value,

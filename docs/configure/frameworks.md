@@ -52,7 +52,7 @@ Every modern web application has unique requirements and relies on various tools
 
 ### NextJS 13 doesn't work with Storybook
 
-The latest release of [NextJS](https://nextjs.org/) introduced breaking changes (e.g., [TurboPack](https://turbo.build/pack), [Server Component](https://nextjs.org/docs/advanced-features/react-18/server-components), [SWC](https://nextjs.org/docs/advanced-features/compiler#why-swc)) that are not yet fully supported by Storybook. The Storybook team is working on adding support for these features. In the meantime, you can still use Storybook alongside your NextJS 13 project if you're not relying on them.
+With the release of Next.js [version 13](https://nextjs.org/blog/next-13), it introduced breaking changes (e.g., [TurboPack](https://turbo.build/pack), [Server Components](https://nextjs.org/docs/advanced-features/react-18/server-components)) that are not yet fully supported by Storybook. The Storybook team is working on adding support for these features. In the meantime, you can still use Storybook alongside your Next.js 13 project if you're not relying on them.
 
 ### My framework doesn't work with Storybook
 

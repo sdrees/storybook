@@ -67,7 +67,7 @@ Your project may have additional requirements before components can be rendered 
 If you see errors on the CLI when you run the `yarn storybook` command, you likely need to make changes to Storybook’s build configuration. Here are some things to try:
 
 - [Presets](../addons/addon-types.md) bundle common configurations for various technologies into Storybook. In particular, presets exist for Create React App and Ant Design.
-- Specify a custom [Babel configuration](../configure/babel.md#custom-babel-config) for Storybook. Storybook automatically tries to use your project’s config if it can.
+- Specify a custom [Babel configuration](../configure/compilers.md#babel) for Storybook. Storybook automatically tries to use your project’s config if it can.
 - Adjust the [Webpack configuration](../builders/webpack.md) that Storybook uses. Try patching in your own configuration if needed.
 
 </details>
