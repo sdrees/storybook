@@ -8,7 +8,7 @@ A story is a component with a set of arguments that define how the component sho
 
 When an arg’s value changes, the component re-renders, allowing you to interact with components in Storybook’s UI via addons that affect args.
 
-Learn how and why to write stories in [the introduction](./introduction.md#using-args). For details on how args work, read on.
+Learn how and why to write stories in [the introduction](./index.md#using-args). For details on how args work, read on.
 
 ## Args object
 
@@ -274,7 +274,7 @@ If you are [writing an addon](../addons/writing-addons.md) that wants to read or
 
 In Storybook 6+, we pass the args as the first argument to the story function. The second argument is the “context”, which includes story parameters, globals, argTypes, and other information.
 
-In Storybook 5 and before we passed the context as the first argument. If you’d like to revert to that functionality set the `parameters.passArgsFirst` parameter in [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+In Storybook 5 and before we passed the context as the first argument. If you’d like to revert to that functionality set the `parameters.passArgsFirst` parameter in [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

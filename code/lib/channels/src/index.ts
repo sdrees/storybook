@@ -23,7 +23,7 @@ type Options = Config & {
 /**
  * Creates a new browser channel instance.
  * @param {Options} options - The options object.
- * @param {Page} options.page - The puppeteer page instance.
+ * @param {Page} options.page - page identifier.
  * @param {ChannelTransport[]} [options.extraTransports=[]] - An optional array of extra channel transports.
  * @returns {Channel} - The new channel instance.
  */

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { describe, test } from '@jest/globals';
 
 import { satisfies } from '@storybook/core-common';
 import type { Args, StoryAnnotations, StrictArgs } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
-import type { KeyboardEventHandler, ReactNode } from 'react';
+import type { KeyboardEventHandler, ReactElement, ReactNode } from 'react';
 import React from 'react';
 
 import type { SetOptional } from 'type-fest';
@@ -16,7 +17,7 @@ import type { ReactRenderer } from './types';
 type ReactStory<TArgs, TRequiredArgs> = StoryAnnotations<ReactRenderer, TArgs, TRequiredArgs>;
 
 type ButtonProps = { label: string; disabled: boolean };
-const Button: (props: ButtonProps) => JSX.Element = () => <></>;
+const Button: (props: ButtonProps) => ReactElement = () => <></>;
 
 describe('Args can be provided in multiple ways', () => {
   test('✅ All required args may be provided in meta', () => {
@@ -92,11 +93,11 @@ test('✅ All void functions are optional', () => {
     disabled: boolean;
     onClick(): void;
     onKeyDown: KeyboardEventHandler;
-    onLoading: (s: string) => JSX.Element;
+    onLoading: (s: string) => ReactElement;
     submitAction(): void;
   }
 
-  const Cmp: (props: CmpProps) => JSX.Element = () => <></>;
+  const Cmp: (props: CmpProps) => ReactElement = () => <></>;
 
   const meta = satisfies<Meta<CmpProps>>()({
     component: Cmp,
@@ -115,7 +116,7 @@ test('✅ All void functions are optional', () => {
 });
 
 type ThemeData = 'light' | 'dark';
-declare const Theme: (props: { theme: ThemeData; children?: ReactNode }) => JSX.Element;
+declare const Theme: (props: { theme: ThemeData; children?: ReactNode }) => ReactElement;
 
 describe('Story args can be inferred', () => {
   test('Correct args are inferred when type is widened for render function', () => {
@@ -205,25 +206,19 @@ describe('Story args can be inferred', () => {
 
 test('StoryObj<typeof meta> is allowed when meta is upcasted to Meta<Props>', () => {
   expectTypeOf<StoryObj<Meta<ButtonProps>>>().toEqualTypeOf<
-    ReactStory<
-      ButtonProps & { children?: ReactNode },
-      Partial<ButtonProps & { children?: ReactNode }>
-    >
+    ReactStory<ButtonProps, Partial<ButtonProps>>
   >();
 });
 
 test('StoryObj<typeof meta> is allowed when meta is upcasted to Meta<typeof Cmp>', () => {
   expectTypeOf<StoryObj<Meta<typeof Button>>>().toEqualTypeOf<
-    ReactStory<
-      ButtonProps & { children?: ReactNode },
-      Partial<ButtonProps & { children?: ReactNode }>
-    >
+    ReactStory<ButtonProps, Partial<ButtonProps>>
   >();
 });
 
 test('StoryObj<typeof meta> is allowed when all arguments are optional', () => {
   expectTypeOf<StoryObj<Meta<{ label?: string }>>>().toEqualTypeOf<
-    ReactStory<{ label?: string; children?: ReactNode }, { label?: string; children?: ReactNode }>
+    ReactStory<{ label?: string }, { label?: string }>
   >();
 });
 

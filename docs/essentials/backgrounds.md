@@ -15,7 +15,7 @@ The backgrounds toolbar addon allows you to set the background color in which th
 
 By default, the backgrounds toolbar includes a light and dark background.
 
-But you're not restricted to these backgrounds, you can configure your own set of colors with the `parameters.backgrounds` [parameter](../writing-stories/parameters.md) in your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+But you're not restricted to these backgrounds, you can configure your own set of colors with the `parameters.backgrounds` [parameter](../writing-stories/parameters.md) in your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

@@ -55,4 +55,4 @@ yarn task --task dev --template <your template> --start-from=publish
 
 # Contributing to Storybook
 
-For further advice on how to contribute, please refer to our [NEW contributing guide on the Storybook website](https://storybook.js.org/docs/react/contribute/how-to-contribute).
+For further advice on how to contribute, please refer to our [NEW contributing guide on the Storybook website](https://storybook.js.org/docs/contribute).

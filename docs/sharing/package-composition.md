@@ -20,7 +20,7 @@ Composition happens automatically if the package [supports](#for-authors) it. Wh
 
 ### Set up
 
-If you want to configure how the composed Storybook behaves, you can disable the `ref` element in your [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)
+If you want to configure how the composed Storybook behaves, you can disable the `ref` element in your [`.storybook/main.js`](../configure/index.md#configure-story-rendering)
 
 <!-- prettier-ignore-start -->
 

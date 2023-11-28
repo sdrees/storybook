@@ -26,7 +26,7 @@ const getParallelRoutes = (segmentsList: Array<string>): FlightRouterState => {
   return [] as any;
 };
 
-export const AppRouterProvider: React.FC<AppRouterProviderProps> = ({
+export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProviderProps>> = ({
   children,
   action,
   routeParams,

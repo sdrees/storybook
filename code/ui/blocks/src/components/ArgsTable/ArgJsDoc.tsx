@@ -86,7 +86,7 @@ export const ArgJsDoc: FC<ArgJsDocArgs> = ({ tags }) => {
           {hasDisplayableDeprecated && (
             <tr key="deprecated">
               <td colSpan={2}>
-                <strong>Deprecated</strong>: {tags.deprecated}
+                <strong>Deprecated</strong>: {tags.deprecated.toString()}
               </td>
             </tr>
           )}

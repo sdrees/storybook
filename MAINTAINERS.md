@@ -25,7 +25,7 @@ This document outlines some of the processes that the maintainers should adhere 
 | compatibility with other tools | Issue, bug, or pull request between Storybook and other tools (e.g., [Nuxt](https://nuxtjs.org/))                                                    |
 | components                     | Issue, bug, or pull request related to Storybook's internal components                                                                               |
 | composition                    | Issue, bug, or pull request related to Storybook [Composition](/docs/sharing/storybook-composition.md)                                               |
-| configuration                  | Issue, bug, or pull request related to Storybook [configuration](/docs/configure/overview.md)                                                        |
+| configuration                  | Issue, bug, or pull request related to Storybook [configuration](/docs/configure/index.md)                                                           |
 | core                           | Issue, bug, or pull request related to Storybook's Core                                                                                              |
 | cra                            | Issue, bug, or pull request that affects Storybook's compatibility with Create React APP ([CRA](https://create-react-app.dev/docs/getting-started/)) |
 | CSF                            | Issue, bug, or pull request related to Storybook's [Component Story Format (CSF)](/docs/api/csf.md)                                                  |

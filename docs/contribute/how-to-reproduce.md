@@ -54,7 +54,7 @@ Install and configure any Storybook [addons](https://storybook.js.org/addons/) t
 
 ## Add stories
 
-Any Storybook reproduction wouldn't be complete without [stories](../writing-stories/introduction.md). To help fix your issue faster, we encourage you to include the minimum amount of stories that will replicate your issue.
+Any Storybook reproduction wouldn't be complete without [stories](../writing-stories/index.md). To help fix your issue faster, we encourage you to include the minimum amount of stories that will replicate your issue.
 
 ## Host
 

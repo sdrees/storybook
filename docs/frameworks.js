@@ -18,7 +18,7 @@ module.exports = {
         {
           name: 'Docs',
           unsupported: [],
-          path: 'writing-docs/introduction',
+          path: 'writing-docs',
         },
         {
           name: 'Viewport',
@@ -128,11 +128,6 @@ module.exports = {
         {
           name: 'queryparams',
           unsupported: [],
-        },
-        {
-          name: 'Storyshots',
-          unsupported: ['ember'],
-          path: 'writing-tests/snapshot-testing',
         },
         {
           name: 'storysource',

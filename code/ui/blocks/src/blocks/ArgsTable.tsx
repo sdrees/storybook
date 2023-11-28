@@ -64,7 +64,7 @@ const useArgs = (
     return () => context.channel.off(STORY_ARGS_UPDATED, cb);
   }, [storyId]);
   const updateArgs = useCallback(
-    (updatedArgs) => context.channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
+    (updatedArgs: any) => context.channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
     [storyId]
   );
   const resetArgs = useCallback(

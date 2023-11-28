@@ -87,8 +87,8 @@ const List = styled.div(({ theme }) => ({
 
 interface TabsProps {
   tabs: {
-    label: JSX.Element;
-    panel: JSX.Element;
+    label: React.ReactElement;
+    panel: React.ReactElement;
     items: Result[];
     type: RuleType;
   }[];

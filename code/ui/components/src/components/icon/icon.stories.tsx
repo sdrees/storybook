@@ -2,9 +2,8 @@ import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled, css } from '@storybook/theming';
 
-import { Icons } from './icon';
-import type { IconKey } from './icons';
-import { icons } from './icons';
+import type { IconType } from './icon';
+import { Icons, icons } from './icon';
 
 const Meta = styled.div`
   color: #666;
@@ -71,7 +70,7 @@ export const Labels = (args: ComponentProps<typeof Icons>) => (
     <List>
       {Object.keys(icons).map((key) => (
         <Item key={key}>
-          <Icons icon={key as IconKey} aria-hidden {...args} />
+          <Icons icon={key as IconType} aria-hidden {...args} />
           <Meta>{key}</Meta>
         </Item>
       ))}
@@ -85,7 +84,7 @@ export const NoLabels = (args: ComponentProps<typeof Icons>) => (
     <List>
       {Object.keys(icons).map((key) => (
         <Item minimal key={key}>
-          <Icons icon={key as IconKey} aria-label={key} {...args} />
+          <Icons icon={key as IconType} aria-label={key} {...args} />
         </Item>
       ))}
     </List>

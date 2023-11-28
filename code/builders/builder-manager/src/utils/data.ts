@@ -1,5 +1,5 @@
 import { basename } from 'path';
-import type { DocsOptions, Options } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { getRefs } from '@storybook/core-common';
 
 import { readTemplate } from './template';
@@ -13,7 +13,7 @@ export const getData = async (options: Options) => {
   const features = options.presets.apply<Record<string, string | boolean>>('features');
   const logLevel = options.presets.apply<string>('logLevel');
   const title = options.presets.apply<string>('title');
-  const docsOptions = options.presets.apply<DocsOptions>('docs', {});
+  const docsOptions = options.presets.apply('docs', {});
   const template = readTemplate('template.ejs');
   const customHead = options.presets.apply<string>('managerHead');
 

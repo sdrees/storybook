@@ -5,7 +5,7 @@ import { Button } from '@storybook/components';
 
 import type { Addon_SidebarTopType } from '@storybook/types';
 import { Brand } from './Brand';
-import type { MenuList } from './Menu';
+import type { MenuList, SidebarMenuProps } from './Menu';
 import { SidebarMenu } from './Menu';
 
 export interface HeadingProps {
@@ -14,6 +14,7 @@ export interface HeadingProps {
   extra: Addon_SidebarTopType[];
   skipLinkHref?: string;
   isLoading: boolean;
+  onMenuClick?: SidebarMenuProps['onClick'];
 }
 
 const BrandArea = styled.div(({ theme }) => ({
@@ -42,7 +43,8 @@ const HeadingWrapper = styled.div({
   alignItems: 'center',
   justifyContent: 'space-between',
   position: 'relative',
-  minHeight: 28,
+  minHeight: 42,
+  paddingLeft: 8,
 });
 
 const SkipToCanvasLink = styled(Button)(({ theme }) => ({
@@ -81,13 +83,16 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
   skipLinkHref,
   extra,
   isLoading,
+  onMenuClick,
   ...props
 }) => {
   return (
     <HeadingWrapper {...props}>
       {skipLinkHref && (
-        <SkipToCanvasLink secondary isLink tabIndex={0} href={skipLinkHref}>
-          Skip to canvas
+        <SkipToCanvasLink asChild>
+          <a href={skipLinkHref} tabIndex={0}>
+            Skip to canvas
+          </a>
         </SkipToCanvasLink>
       )}
 
@@ -96,7 +101,7 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
       </BrandArea>
 
       {isLoading ? null : extra.map(({ id, render: Render }) => <Render key={id} />)}
-      <SidebarMenu menu={menu} isHighlighted={menuHighlighted} />
+      <SidebarMenu menu={menu} isHighlighted={menuHighlighted} onClick={onMenuClick} />
     </HeadingWrapper>
   );
 };

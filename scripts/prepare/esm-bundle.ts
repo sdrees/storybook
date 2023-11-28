@@ -156,7 +156,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  console.log('done');
+  if (process.env.CI !== 'true') {
+    console.log('done');
+  }
 };
 
 /* UTILS */

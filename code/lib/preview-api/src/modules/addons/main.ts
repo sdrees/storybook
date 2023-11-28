@@ -75,9 +75,4 @@ function getAddonsStore(): AddonStore {
   return global[KEY];
 }
 
-// Exporting this twice in order to to be able to import it like { addons } instead of 'addons'
-// prefer import { addons } from '@storybook/addons' over import addons from '@storybook/addons'
-//
-// See public_api.ts
-
 export const addons = getAddonsStore();

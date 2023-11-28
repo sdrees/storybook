@@ -1,82 +1,185 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
 import React from 'react';
-import type { Args } from '@storybook/types';
-
+import { FaceHappyIcon } from '@storybook/icons';
 import { Button } from './Button';
-import { Icons } from '../icon/icon';
-import { Form } from '../form/index';
 
-export default {
+const meta = {
+  title: 'Button',
   component: Button,
+  args: { children: 'Button' },
+} satisfies Meta<typeof Button>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+const Stack = ({ children }: { children: ReactNode }) => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>{children}</div>
+);
+
+const Row = ({ children }: { children: ReactNode }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>{children}</div>
+);
+
+export const Base: Story = {};
+
+export const Variants: Story = {
+  render: (args) => (
+    <Stack>
+      <Row>
+        <Button variant="solid" {...args}>
+          Solid
+        </Button>
+        <Button variant="outline" {...args}>
+          Outline
+        </Button>
+        <Button variant="ghost" {...args}>
+          Ghost
+        </Button>
+      </Row>
+      <Row>
+        <Button variant="solid" {...args}>
+          <FaceHappyIcon /> Solid
+        </Button>
+        <Button variant="outline" {...args}>
+          <FaceHappyIcon /> Outline
+        </Button>
+        <Button variant="ghost" {...args}>
+          <FaceHappyIcon /> Ghost
+        </Button>
+      </Row>
+      <Row>
+        <Button variant="solid" padding="small" {...args}>
+          <FaceHappyIcon />
+        </Button>
+        <Button variant="outline" padding="small" {...args}>
+          <FaceHappyIcon />
+        </Button>
+        <Button variant="ghost" padding="small" {...args}>
+          <FaceHappyIcon />
+        </Button>
+      </Row>
+    </Stack>
+  ),
 };
 
-export const Default = { args: { children: 'Default' } };
-
-export const FormButton = {
-  render: (args: Args) => <Form.Button {...args} />,
-  args: { children: 'Form.Button' },
-};
-
-export const Primary = { args: { primary: true, children: 'Primary' } };
-export const Secondary = { args: { secondary: true, children: 'Secondary' } };
-export const Tertiary = { args: { tertiary: true, children: 'Tertiary' } };
-export const Gray = { args: { gray: true, children: 'Gray' } };
-
-export const Outline = { args: { outline: true, children: 'Outline' } };
-export const OutlinePrimary = {
-  args: { outline: true, primary: true, children: 'Outline Primary' },
-};
-export const OutlineSecondary = {
-  args: { outline: true, secondary: true, children: 'Outline Secondary' },
-};
-export const OutlineTertiary = {
-  args: { outline: true, tertiary: true, children: 'Outline Tertiary' },
-};
-
-export const Disabled = { args: { disabled: true, children: 'Disabled' } };
-export const DisabledPrimary = {
-  args: { disabled: true, primary: true, children: 'Disabled Priary' },
-};
-export const DisabledSecondary = {
-  args: { disabled: true, secondary: true, children: 'Disabled Secondary' },
-};
-export const DisabledTertiary = {
-  args: { disabled: true, tertiary: true, children: 'Disabled Tertiary' },
-};
-export const DisabledGray = {
-  args: { disabled: true, gray: true, children: 'Disabled Gray' },
-};
-
-export const Small = { args: { small: true, children: 'Small' } };
-export const SmallPrimary = {
-  args: { small: true, primary: true, children: 'Small Priary' },
-};
-export const SmallSecondary = {
-  args: { small: true, secondary: true, children: 'Small Secondary' },
-};
-export const SmallTertiary = {
-  args: { small: true, tertiary: true, children: 'Small Tertiary' },
-};
-export const SmallGray = {
-  args: { small: true, gray: true, children: 'Small Gray' },
-};
-
-export const IconPrimary = {
+export const Active: Story = {
   args: {
-    primary: true,
-    containsIcon: true,
-    title: 'link',
-    children: <Icons icon="link" />,
+    active: true,
+    children: (
+      <>
+        <FaceHappyIcon />
+        Button
+      </>
+    ),
+  },
+  render: (args) => (
+    <Row>
+      <Button variant="solid" {...args} />
+      <Button variant="outline" {...args} />
+      <Button variant="ghost" {...args} />
+    </Row>
+  ),
+};
+
+export const WithIcon: Story = {
+  args: {
+    children: (
+      <>
+        <FaceHappyIcon />
+        Button
+      </>
+    ),
+  },
+  render: (args) => (
+    <Row>
+      <Button variant="solid" {...args} />
+      <Button variant="outline" {...args} />
+      <Button variant="ghost" {...args} />
+    </Row>
+  ),
+};
+
+export const IconOnly: Story = {
+  args: {
+    children: <FaceHappyIcon />,
+    padding: 'small',
+  },
+  render: (args) => (
+    <Row>
+      <Button variant="solid" {...args} />
+      <Button variant="outline" {...args} />
+      <Button variant="ghost" {...args} />
+    </Row>
+  ),
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <Row>
+      <Button size="small">Small Button</Button>
+      <Button size="medium">Medium Button</Button>
+    </Row>
+  ),
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: 'Disabled Button',
   },
 };
-export const IconOutline = {
-  args: { outline: true, containsIcon: true, title: 'link', children: <Icons icon="link" /> },
+
+export const WithHref: Story = {
+  render: () => (
+    <Row>
+      <Button onClick={() => console.log('Hello')}>I am a button using onClick</Button>
+      <Button asChild>
+        <a href="https://storybook.js.org/">I am an anchor using Href</a>
+      </Button>
+    </Row>
+  ),
 };
-export const IconOutlineSmall = {
+
+export const Animated: Story = {
   args: {
-    outline: true,
-    containsIcon: true,
-    small: true,
-    title: 'link',
-    children: <Icons icon="link" />,
+    variant: 'outline',
   },
+  render: (args) => (
+    <Stack>
+      <Row>
+        <Button animation="glow" {...args}>
+          Button
+        </Button>
+        <Button animation="jiggle" {...args}>
+          Button
+        </Button>
+        <Button animation="rotate360" {...args}>
+          Button
+        </Button>
+      </Row>
+      <Row>
+        <Button animation="glow" {...args}>
+          <FaceHappyIcon /> Button
+        </Button>
+        <Button animation="jiggle" {...args}>
+          <FaceHappyIcon /> Button
+        </Button>
+        <Button animation="rotate360" {...args}>
+          <FaceHappyIcon /> Button
+        </Button>
+      </Row>
+      <Row>
+        <Button animation="glow" padding="small" {...args}>
+          <FaceHappyIcon />
+        </Button>
+        <Button animation="jiggle" padding="small" {...args}>
+          <FaceHappyIcon />
+        </Button>
+        <Button animation="rotate360" padding="small" {...args}>
+          <FaceHappyIcon />
+        </Button>
+      </Row>
+    </Stack>
+  ),
 };

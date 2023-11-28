@@ -1,5 +1,5 @@
 import { frameworkPackages } from '@storybook/core-common';
-import type { Preset, StorybookConfig } from '@storybook/types';
+import type { Preset, StorybookConfigRaw } from '@storybook/types';
 import findUp from 'find-up';
 import type { JsPackageManager } from '../../js-package-manager';
 import { getBuilderPackageName, getFrameworkPackageName } from './mainConfigFile';
@@ -66,7 +66,7 @@ export const detectBuilderInfo = async ({
   configDir,
   packageManager,
 }: {
-  mainConfig: StorybookConfig & { builder?: string | Preset };
+  mainConfig: StorybookConfigRaw & { builder?: string | Preset };
   configDir: string;
   packageManager: JsPackageManager;
 }): Promise<{ name: BuilderType; options: any }> => {

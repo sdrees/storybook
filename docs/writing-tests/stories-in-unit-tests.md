@@ -134,7 +134,7 @@ By default, the `setProjectAnnotations` function injects into your existing test
 
 ## Run tests on a single story
 
-You can use the `composeStory` function from the appropriate framework or supported addon to allow your tests to run on a single story. However, if you're relying on this method, we recommend that you supply the story metadata (i.e., the [default export](../writing-stories/introduction.md#default-export)) to the `composeStory` function. This ensures that your tests can accurately determine the correct information about the story. For example:
+You can use the `composeStory` function from the appropriate framework or supported addon to allow your tests to run on a single story. However, if you're relying on this method, we recommend that you supply the story metadata (i.e., the [default export](../writing-stories/index.md#default-export)) to the `composeStory` function. This ensures that your tests can accurately determine the correct information about the story. For example:
 
 <!-- prettier-ignore-start -->
 

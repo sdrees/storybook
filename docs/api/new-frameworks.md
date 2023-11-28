@@ -150,7 +150,7 @@ The framework's render function is the entity responsible for converting the ren
 
 ### Package structure
 
-On the client side, the key file is [`src/client/preview.js`](../configure/overview.md#configure-story-rendering):
+On the client side, the key file is [`src/client/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

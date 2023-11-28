@@ -615,14 +615,29 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       });
 
       await store.setState({ status: newStatus }, { persistence: 'session' });
+
       if (index) {
+        // We need to re-prepare the index
         await api.setIndex(index);
+
+        const refs = await fullAPI.getRefs();
+        Object.entries(refs).forEach(([refId, { internal_index, ...ref }]) => {
+          fullAPI.setRef(refId, { ...ref, storyIndex: internal_index }, true);
+        });
       }
     },
     experimental_setFilter: async (id, filterFunction) => {
       const { internal_index: index } = store.getState();
       await store.setState({ filters: { ...store.getState().filters, [id]: filterFunction } });
-      await api.setIndex(index);
+
+      if (index) {
+        await api.setIndex(index);
+
+        const refs = await fullAPI.getRefs();
+        Object.entries(refs).forEach(([refId, { internal_index, ...ref }]) => {
+          fullAPI.setRef(refId, { ...ref, storyIndex: internal_index }, true);
+        });
+      }
     },
   };
 

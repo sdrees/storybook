@@ -12,7 +12,7 @@ declare var __STORYBOOK_STORY_STORE__: any;
 declare var CHANNEL_OPTIONS: any;
 declare var DOCS_OPTIONS: any;
 
-declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
+declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];
 
 declare var IS_STORYBOOK: any;
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;

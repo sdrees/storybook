@@ -1,5 +1,6 @@
 import type { Globals } from '@storybook/csf';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import type { PropsWithChildren } from 'react';
 import React from 'react';
 import type { RouteParams } from './types';
 
@@ -9,7 +10,7 @@ type PageRouterProviderProps = {
   globals: Globals;
 };
 
-export const PageRouterProvider: React.FC<PageRouterProviderProps> = ({
+export const PageRouterProvider: React.FC<PropsWithChildren<PageRouterProviderProps>> = ({
   children,
   action,
   routeParams,

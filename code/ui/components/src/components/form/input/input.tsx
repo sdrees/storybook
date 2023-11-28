@@ -1,12 +1,10 @@
-import type { FC, HTMLProps, SelectHTMLAttributes } from 'react';
+import type { HTMLProps, SelectHTMLAttributes } from 'react';
 import React, { forwardRef } from 'react';
 import type { Theme, CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 
 import type { TextareaAutosizeProps } from 'react-textarea-autosize';
 import TextareaAutoResize from 'react-textarea-autosize';
-
-import { Button as StyledButton } from '../../Button/Button';
 
 const styleResets: CSSObject = {
   // resets
@@ -203,43 +201,5 @@ export const Textarea = Object.assign(
   })),
   {
     displayName: 'Textarea',
-  }
-);
-
-const ButtonStyled = styled(
-  forwardRef<
-    any,
-    {
-      size?: Sizes;
-      align?: Alignments;
-      valid?: ValidationStates;
-      height?: number;
-    }
-  >(function ButtonStyled({ size, valid, align, ...props }, ref) {
-    return <StyledButton {...props} ref={ref} />;
-  })
-)<{
-  size?: Sizes;
-  align?: Alignments;
-  valid?: ValidationStates;
-  height?: number;
-}>(sizes, validation, {
-  // Custom styling for color widget nested in buttons
-  userSelect: 'none',
-  overflow: 'visible',
-  zIndex: 2,
-
-  // overrides the default hover from Button
-  '&:hover': {
-    transform: 'none',
-  },
-});
-
-export const Button: FC<any> = Object.assign(
-  forwardRef<{}, {}>(function Button(props, ref) {
-    return <ButtonStyled {...props} {...{ tertiary: true, small: true, inForm: true }} ref={ref} />;
-  }),
-  {
-    displayName: 'Button',
   }
 );

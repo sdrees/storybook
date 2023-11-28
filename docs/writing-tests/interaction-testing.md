@@ -17,10 +17,10 @@ In Storybook, this familiar workflow happens in your browser. That makes it easi
 
 ## How does component testing in Storybook work?
 
-You start by writing a [**story**](../writing-stories/introduction.md) to set up the component's initial state. Then simulate user behavior using the **play** function. Finally, use the **test-runner** to confirm that the component renders correctly and that your interaction tests with the **play** function pass. Additionally, you can automate test execution via the [command line](./test-runner.md#cli-options) or in your [CI environment](./test-runner.md#set-up-ci-to-run-tests).
+You start by writing a [**story**](../writing-stories/index.md) to set up the component's initial state. Then simulate user behavior using the **play** function. Finally, use the **test-runner** to confirm that the component renders correctly and that your interaction tests with the **play** function pass. Additionally, you can automate test execution via the [command line](./test-runner.md#cli-options) or in your [CI environment](./test-runner.md#set-up-ci-to-run-tests).
 
 - The [`play`](../writing-stories/play-function.md) function is a small snippet of code that runs after a story finishes rendering. You can use this to test user workflows.
-- The test is written using Storybook-instrumented versions of [Jest](https://jestjs.io/) and [Testing Library](https://testing-library.com/).
+- The test is written using Storybook-instrumented versions of [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) coming from the [`@storybook/test`](https://npmjs.com/package/@storybook/test) package.
 - [`@storybook/addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions/) visualizes the test in Storybook and provides a playback interface for convenient browser-based debugging.
 - [`@storybook/test-runner`](https://github.com/storybookjs/test-runner) is a standalone utility—powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/)—that executes all of your interactions tests and catches broken stories.
 
@@ -91,7 +91,7 @@ Once the story loads in the UI, it simulates the user's behavior and verifies th
 
 ### API for user-events
 
-Under the hood, Storybook’s interaction addon mirrors Testing Library’s [`user-events`](https://testing-library.com/docs/user-event/intro/) API. If you’re familiar with [Testing Library](https://testing-library.com/), you should be at home in Storybook.
+Under the hood, Storybook’s `@storybook/test` package provides Testing Library’s [`user-events`](https://testing-library.com/docs/user-event/intro/) APIs. If you’re familiar with [Testing Library](https://testing-library.com/), you should be at home in Storybook.
 
 Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/user-event/utility/).
 
@@ -106,6 +106,26 @@ Below is an abridged API for user-event. For more, check out the [official user-
 | `selectOptions`   | Selects the specified option, or options of a select element <br/>`userEvent.selectOptions(await within(canvasElement).getByRole('listbox'),['1','2']);` |
 | `type`            | Writes text inside inputs, or textareas <br/>`userEvent.type(await within(canvasElement).getByRole('my-input'),'Some text');`                            |
 | `unhover`         | Unhovers out of element <br/>`userEvent.unhover(await within(canvasElement).getByLabelText(/Example/i));`                                                |
+
+### Assert tests with Vitest's APIs
+
+Storybook’s `@storybook/test` also provides APIs from [Vitest](https://vitest.dev/), such as [`expect`](https://vitest.dev/api/expect.html#expect) and [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn). These APIs improve your testing experience, helping you assert whether a function has been called, if an element exists in the DOM, and much more. If you are used to `expect` from testing packages such as [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/), you can write interaction tests in much the same way.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'angular/storybook-interactions-play-function.ts.mdx',
+    'web-components/storybook-interactions-play-function.js.mdx',
+    'web-components/storybook-interactions-play-function.ts.mdx',
+    'common/storybook-interactions-play-function.js.mdx',
+    'common/storybook-interactions-play-function.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
+/>
+
+<!-- prettier-ignore-end -->
 
 ### Group interactions with the `step` function
 

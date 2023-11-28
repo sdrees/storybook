@@ -1,4 +1,4 @@
-import type { Builder, CoreConfig, Options } from '@storybook/types';
+import type { Builder, Options } from '@storybook/types';
 import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { pathToFileURL } from 'node:url';
 
@@ -19,7 +19,7 @@ export async function getPreviewBuilder(
 }
 
 export async function getBuilders({ presets, configDir }: Options): Promise<Builder<unknown>[]> {
-  const { builder } = await presets.apply<CoreConfig>('core', {});
+  const { builder } = await presets.apply('core', {});
 
   if (!builder) {
     throw new MissingBuilderError();

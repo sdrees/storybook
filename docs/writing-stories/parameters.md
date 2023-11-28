@@ -53,7 +53,7 @@ We can set the parameters for all stories of a component using the `parameters` 
 
 ## Global parameters
 
-We can also set the parameters for **all stories** via the `parameters` export of your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file (this is the file where you configure all stories):
+We can also set the parameters for **all stories** via the `parameters` export of your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file (this is the file where you configure all stories):
 
 <!-- prettier-ignore-start -->
 
@@ -77,4 +77,4 @@ The way the global, component and story parameters are combined is:
 
 The merging of parameters is important. It means it is possible to override a single specific sub-parameter on a per-story basis but still retain the majority of the parameters defined globally.
 
-If you are defining an API that relies on parameters (e.g. an [**addon**](../addons/introduction.md)) it is a good idea to take this behavior into account.
+If you are defining an API that relies on parameters (e.g. an [**addon**](../addons/index.md)) it is a good idea to take this behavior into account.

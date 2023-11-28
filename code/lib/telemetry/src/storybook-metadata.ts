@@ -91,17 +91,17 @@ export const computeStorybookMetadata = async ({
   metadata.hasCustomWebpack = !!mainConfig.webpackFinal;
   metadata.hasStaticDirs = !!mainConfig.staticDirs;
 
-  if (mainConfig.typescript) {
+  if (typeof mainConfig.typescript === 'object') {
     metadata.typescriptOptions = mainConfig.typescript;
   }
 
   const frameworkInfo = await getFrameworkInfo(mainConfig);
 
-  if (mainConfig.refs) {
+  if (typeof mainConfig.refs === 'object') {
     metadata.refCount = Object.keys(mainConfig.refs).length;
   }
 
-  if (mainConfig.features) {
+  if (typeof mainConfig.features === 'object') {
     metadata.features = mainConfig.features;
   }
 

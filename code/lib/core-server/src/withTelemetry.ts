@@ -1,5 +1,5 @@
 import prompts from 'prompts';
-import type { CLIOptions, CoreConfig } from '@storybook/types';
+import type { CLIOptions } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
@@ -46,7 +46,7 @@ export async function getErrorLevel({
 
   // If the user has chosen to enable/disable crash reports in main.js
   // or disabled telemetry, we can return that
-  const core = await presets.apply<CoreConfig>('core');
+  const core = await presets.apply('core');
   if (core?.enableCrashReports !== undefined) return core.enableCrashReports ? 'full' : 'error';
   if (core?.disableTelemetry) return 'none';
 

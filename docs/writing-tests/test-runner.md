@@ -4,7 +4,7 @@ title: 'Test runner'
 
 Storybook test runner turns all of your stories into executable tests. It is powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/).
 
-- For those [without a play function](../writing-stories/introduction.md): it verifies whether the story renders without any errors.
+- For those [without a play function](../writing-stories/index.md): it verifies whether the story renders without any errors.
 - For those [with a play function](../writing-stories/play-function.md): it also checks for errors in the play function and that all assertions passed.
 
 These tests run in a live browser and can be executed via the [command line](#cli-options) or your [CI server](#set-up-ci-to-run-tests).
@@ -389,7 +389,7 @@ If you're running a specific set of tests (e.g., image snapshot testing), the te
 
 ### Index.json mode
 
-The test-runner transforms your story files into tests when testing a local Storybook. For a remote Storybook, it uses the Storybook's [index.json](../configure/overview.md#feature-flags) (formerly `stories.json`) file (a static index of all the stories) to run the tests.
+The test-runner transforms your story files into tests when testing a local Storybook. For a remote Storybook, it uses the Storybook's [index.json](../configure/index.md#feature-flags) (formerly `stories.json`) file (a static index of all the stories) to run the tests.
 
 #### Why?
 
@@ -429,7 +429,7 @@ If you need to disable it, use the `--no-index-json` flag:
 
 #### How do I check if my Storybook has a `index.json` file?
 
-Index.json mode requires a `index.json` file. Open a browser window and navigate to your deployed Storybook instance (for example, `https://your-storybook-url-here.com/index.json`). You should see a JSON file that starts with a `"v": 3` key, immediately followed by another key called "stories", which contains a map of story IDs to JSON objects. If that is the case, your Storybook supports [index.json mode](../configure/overview.md#feature-flags).
+Index.json mode requires a `index.json` file. Open a browser window and navigate to your deployed Storybook instance (for example, `https://your-storybook-url-here.com/index.json`). You should see a JSON file that starts with a `"v": 3` key, immediately followed by another key called "stories", which contains a map of story IDs to JSON objects. If that is the case, your Storybook supports [index.json mode](../configure/index.md#feature-flags).
 
 ---
 

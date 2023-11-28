@@ -1,6 +1,6 @@
 /// <reference types="@types/jest" />;
 
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
 import { ansiRegex } from '../helpers/cleanLog';
 import { makePackageManager } from '../helpers/testing-helpers';
@@ -13,11 +13,11 @@ const checkBareMdxStoriesGlob = async ({
   storybookVersion = '7.0.0',
 }: {
   packageJson: PackageJson;
-  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  main?: Partial<StorybookConfigRaw> & Record<string, unknown>;
   storybookVersion?: string;
 }) => {
   return bareMdxStoriesGlob.check({
-    mainConfig: mainConfig as StorybookConfig,
+    mainConfig: mainConfig as StorybookConfigRaw,
     packageManager: makePackageManager(packageJson),
     storybookVersion,
   });

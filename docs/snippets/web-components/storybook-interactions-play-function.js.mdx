@@ -1,19 +1,18 @@
 ```js
 // Form.stories.js
 
-import { userEvent, waitFor, within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/jest';
+import { userEvent, waitFor, within, expect, fn } from '@storybook/test';
 
 export default {
   component: 'my-form-element',
-  argTypes: {
-    onSubmit: { action: true },
+  args: {
+    // 👇 Use `fn` to spy on the onSubmit arg
+    onSubmit: fn(),
   },
 };
 
 /*
- * See https://storybook.js.org/docs/web-components/writing-stories/play-function#working-with-the-canvas
+ * See https://storybook.js.org/docs/writing-stories/play-function#working-with-the-canvas
  * to learn more about using the canvasElement to query the DOM
  */
 export const Submitted = {
@@ -29,6 +28,7 @@ export const Submitted = {
       await userEvent.click(canvas.getByRole('button'));
     });
 
+    // 👇 Now we can assert that the onSubmit arg was called
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },
 };

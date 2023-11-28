@@ -1,5 +1,3 @@
-/* eslint-disable global-require */
-/* eslint-disable no-underscore-dangle */
 import {
   PREPARE_NON_PATCH_WORKFLOW_PATH,
   PREPARE_PATCH_WORKFLOW_PATH,

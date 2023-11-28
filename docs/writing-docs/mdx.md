@@ -71,7 +71,7 @@ If you’re coming from a previous version of Storybook, you might be accustomed
 
 ### Anatomy of MDX
 
-Assuming you’re already familiar with writing stories with [CSF](../writing-stories/introduction.md), we can dissect the MDX side of things in greater detail.
+Assuming you’re already familiar with writing stories with [CSF](../writing-stories/index.md), we can dissect the MDX side of things in greater detail.
 
 The document consists of a number of blocks separated by blank lines. Since MDX mixes a few different languages together, it uses those blank lines to help distinguish where one starts, and the next begins. Failing to separate blocks by whitespace can cause (sometimes cryptic) parse errors.
 

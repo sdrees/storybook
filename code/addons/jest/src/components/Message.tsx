@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
 
@@ -12,7 +12,7 @@ const passStartToken = '[32m';
 const stackTraceStartToken = 'at';
 const titleEndToken = ':';
 
-type MsgElement = string | JSX.Element;
+type MsgElement = string | ReactElement;
 
 class TestDetail {
   description!: MsgElement[];

@@ -1,38 +1,73 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
-import React from 'react';
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  FC,
+  ForwardedRef,
+  ForwardRefExoticComponent,
+  ReactElement,
+  RefAttributes,
+} from 'react';
+import React, { forwardRef } from 'react';
 import { styled, isPropValid } from '@storybook/theming';
-import { transparentize } from 'polished';
-import { auto } from '@popperjs/core';
 
-interface BarButtonProps
+interface ButtonProps
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-  href?: void;
-  target?: void;
+  href?: never;
+  target?: never;
 }
-interface BarLinkProps
+interface LinkProps
   extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
   disabled?: void;
   href: string;
 }
 
-const ButtonOrLink = React.forwardRef<
-  HTMLAnchorElement | HTMLButtonElement,
-  BarLinkProps | BarButtonProps
->(({ children, ...restProps }, ref) => {
-  return restProps.href != null ? (
-    <a ref={ref as React.ForwardedRef<HTMLAnchorElement>} {...(restProps as BarLinkProps)}>
-      {children}
-    </a>
-  ) : (
-    <button
-      ref={ref as React.ForwardedRef<HTMLButtonElement>}
-      type="button"
-      {...(restProps as BarButtonProps)}
-    >
-      {children}
-    </button>
-  );
-});
+const isLink = (obj: {
+  props: ButtonProps | LinkProps;
+  ref: ForwardedRef<HTMLButtonElement> | ForwardedRef<HTMLAnchorElement>;
+}): obj is { props: LinkProps; ref: ForwardedRef<HTMLAnchorElement> } => {
+  return typeof obj.props.href === 'string';
+};
+
+const isButton = (obj: {
+  props: ButtonProps | LinkProps;
+  ref: ForwardedRef<HTMLButtonElement> | ForwardedRef<HTMLAnchorElement>;
+}): obj is { props: ButtonProps; ref: ForwardedRef<HTMLButtonElement> } => {
+  return typeof obj.props.href !== 'string';
+};
+
+function ForwardRefFunction(p: LinkProps, r: ForwardedRef<HTMLAnchorElement>): ReactElement;
+function ForwardRefFunction(p: ButtonProps, r: ForwardedRef<HTMLButtonElement>): ReactElement;
+function ForwardRefFunction(
+  { children, ...rest }: ButtonProps | LinkProps,
+  ref: ForwardedRef<HTMLButtonElement> | ForwardedRef<HTMLAnchorElement>
+) {
+  const o = { props: rest, ref };
+  if (isLink(o)) {
+    return (
+      <a ref={o.ref} {...o.props}>
+        {children}
+      </a>
+    );
+  }
+  if (isButton(o)) {
+    return (
+      <button ref={o.ref} type="button" {...o.props}>
+        {children}
+      </button>
+    );
+  }
+  throw new Error('invalid props');
+}
+type ButtonLike<P = {}> = ForwardRefExoticComponent<
+  Omit<ButtonProps, 'ref'> & RefAttributes<HTMLButtonElement> & P
+>;
+
+type LinkLike<P = {}> = ForwardRefExoticComponent<
+  Omit<LinkProps, 'ref'> & RefAttributes<HTMLAnchorElement> & P
+>;
+
+const ButtonOrLink: ButtonLike | LinkLike = forwardRef(ForwardRefFunction) as ButtonLike | LinkLike;
 
 ButtonOrLink.displayName = 'ButtonOrLink';
 
@@ -53,6 +88,9 @@ export const TabButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid }
     textDecoration: 'none',
 
     '&:empty': {
+      display: 'none',
+    },
+    '&[hidden]': {
       display: 'none',
     },
   },
@@ -92,54 +130,6 @@ export interface IconButtonProps {
   disabled?: boolean;
 }
 
-export const IconButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid })<IconButtonProps>(
-  () => ({
-    alignItems: 'center',
-    background: 'transparent',
-    border: 'none',
-    borderRadius: 4,
-    color: 'inherit',
-    cursor: 'pointer',
-    display: 'inline-flex',
-    fontSize: 13,
-    fontWeight: 'bold',
-    height: 28,
-    justifyContent: 'center',
-    marginTop: 6,
-    padding: '8px 7px',
-
-    '& > svg': {
-      width: 14,
-    },
-  }),
-  ({ active, theme }) =>
-    active
-      ? {
-          backgroundColor: theme.background.hoverable,
-          color: theme.barSelectedColor,
-        }
-      : {},
-  ({ disabled, theme }) =>
-    disabled
-      ? {
-          opacity: 0.5,
-          cursor: 'not-allowed',
-        }
-      : {
-          '&:hover, &:focus-visible': {
-            background: transparentize(0.88, theme.color.secondary),
-            color: theme.barHoverColor,
-          },
-          '&:focus-visible': {
-            outline: auto, // Ensures links have the same focus style
-          },
-          '&:focus:not(:focus-visible)': {
-            outline: 'none',
-          },
-        }
-);
-IconButton.displayName = 'IconButton';
-
 const IconPlaceholder = styled.div(({ theme }) => ({
   width: 14,
   height: 14,
@@ -153,7 +143,11 @@ const IconButtonSkeletonWrapper = styled.div(() => ({
   height: 28,
 }));
 
-export const IconButtonSkeleton = () => (
+/**
+ * @deprecated
+ * This component will be removed in Storybook 9.0
+ * */
+export const IconButtonSkeleton: FC = () => (
   <IconButtonSkeletonWrapper>
     <IconPlaceholder />
   </IconButtonSkeletonWrapper>

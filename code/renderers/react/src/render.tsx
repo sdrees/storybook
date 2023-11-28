@@ -23,6 +23,7 @@ export const render: ArgsStoryFn<ReactRenderer> = (args, context) => {
 class ErrorBoundary extends ReactComponent<{
   showException: (err: Error) => void;
   showMain: () => void;
+  children?: React.ReactNode;
 }> {
   state = { hasError: false };
 

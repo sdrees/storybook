@@ -12,7 +12,7 @@ The most concrete realization of argTypes is the [`ArgTypes` doc block](./doc-bl
 
 ## Automatic argType inference
 
-If you are using the Storybook [docs](../writing-docs/introduction.md) addon (installed by default as part of [essentials](../essentials/introduction.md)), then Storybook will infer a set of argTypes for each story based on the `component` specified in the [default export](../writing-stories/introduction#default-export) of the CSF file.
+If you are using the Storybook [docs](../writing-docs/index.md) addon (installed by default as part of [essentials](../essentials/index.md)), then Storybook will infer a set of argTypes for each story based on the `component` specified in the [default export](../writing-stories/index.md#default-export) of the CSF file.
 
 To do so, Storybook uses various static analysis tools depending on your framework.
 
@@ -30,7 +30,7 @@ The data structure of `argTypes` is designed to match the output of the these to
 
 For most Storybook projects, argTypes are [automatically inferred](#automatic-argtype-inference) from your components. Any argTypes specified manually will override the inferred values.
 
-ArgTypes are most often specified at the meta (component) level, in the [default export](../writing-stories/introduction#default-export) of the CSF file:
+ArgTypes are most often specified at the meta (component) level, in the [default export](../writing-stories/index.md#default-export) of the CSF file:
 
 <!-- prettier-ignore-start -->
 
@@ -59,7 +59,7 @@ They can apply to all stories when specified at the project (global) level, in t
 
 <!-- prettier-ignore-end -->
 
-Or they can apply only to a [specific story](../writing-stories/introduction#defining-stories):
+Or they can apply only to a [specific story](../writing-stories/index.md#defining-stories):
 
 <!-- prettier-ignore-start -->
 

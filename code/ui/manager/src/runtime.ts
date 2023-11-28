@@ -5,13 +5,9 @@ import type { AddonStore } from '@storybook/manager-api';
 import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import { createBrowserChannel } from '@storybook/channels';
-import { CHANNEL_CREATED, TELEMETRY_ERROR } from '@storybook/core-events';
+import { CHANNEL_CREATED } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
-
-import { globalsNameValueMap } from './globals/runtime';
-import { globalPackages, globalsNameReferenceMap } from './globals/globals';
-import { prepareForTelemetry, shouldSkipError } from './utils/prepareForTelemetry';
 
 const { FEATURES, CONFIG_TYPE } = global;
 
@@ -56,27 +52,6 @@ class ReactProvider extends Provider {
     this.addons.loadAddons(api);
   }
 }
-
-// Apply all the globals
-globalPackages.forEach((key) => {
-  global[globalsNameReferenceMap[key]] = globalsNameValueMap[key];
-});
-
-global.sendTelemetryError = (error) => {
-  if (!shouldSkipError(error)) {
-    const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
-    channel.emit(TELEMETRY_ERROR, prepareForTelemetry(error));
-  }
-};
-
-// handle all uncaught errors at the root of the application and log to telemetry
-global.addEventListener('error', (args) => {
-  const error = args.error || args;
-  global.sendTelemetryError(error);
-});
-global.addEventListener('unhandledrejection', ({ reason }) => {
-  global.sendTelemetryError(reason);
-});
 
 const { document } = global;
 const rootEl = document.getElementById('root');

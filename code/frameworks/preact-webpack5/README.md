@@ -24,6 +24,6 @@ You can also build a [static version](https://storybook.js.org/docs/preact/shari
 
 ## Docs
 
-- [Basics](https://storybook.js.org/docs/preact/get-started/introduction)
-- [Configurations](https://storybook.js.org/docs/preact/configure/overview)
+- [Basics](https://storybook.js.org/docs/preact/get-started)
+- [Configurations](https://storybook.js.org/docs/preact/configure)
 - [Addons](https://storybook.js.org/docs/preact/configure/storybook-addons)

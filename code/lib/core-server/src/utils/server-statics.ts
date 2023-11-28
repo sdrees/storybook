@@ -1,5 +1,5 @@
 import { logger } from '@storybook/node-logger';
-import type { Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 import chalk from 'chalk';
@@ -13,8 +13,7 @@ import { dedent } from 'ts-dedent';
 import { defaultStaticDirs } from './constants';
 
 export async function useStatics(router: Router, options: Options) {
-  const staticDirs =
-    (await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs')) ?? [];
+  const staticDirs = (await options.presets.apply('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {

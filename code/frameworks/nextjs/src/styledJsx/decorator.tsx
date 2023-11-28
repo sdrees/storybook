@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-let StyleRegistry: React.FC;
+let StyleRegistry: React.FC<React.PropsWithChildren>;
 
 try {
   // next >= v12

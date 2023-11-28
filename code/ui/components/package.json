@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.6.0-beta.2",
+  "version": "8.0.0-alpha.0",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -59,11 +59,11 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@radix-ui/react-select": "^1.2.2",
-    "@radix-ui/react-toolbar": "^1.0.4",
+    "@radix-ui/react-slot": "^1.0.2",
     "@storybook/client-logger": "workspace:*",
     "@storybook/csf": "^0.1.2",
     "@storybook/global": "^5.0.0",
+    "@storybook/icons": "^1.2.1",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "memoizerific": "^1.11.3",
@@ -73,7 +73,6 @@
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
     "@radix-ui/react-scroll-area": "^1.0.5",
-    "@storybook/icons": "^1.1.6",
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
@@ -83,7 +82,7 @@
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",
     "ts-dedent": "^2.0.0",
-    "typescript": "~4.9.3"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

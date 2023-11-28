@@ -16,7 +16,7 @@ addons.register('my/toolbar', () => {
     match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
     render: ({ active }) => (
       <IconButton active={active} title="Show a Storybook toolbar">
-        <Icons icon="outline" />
+        <OutlineIcon />
       </IconButton>
     ),
   });

@@ -1,7 +1,7 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
 import { dirname, join } from 'path';
-import type { Options, PresetProperty } from '@storybook/types';
-import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
+import type { PresetProperty } from '@storybook/types';
+import type { ConfigItem, PluginItem } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';
 import { configureConfig } from './config/webpack';
@@ -19,17 +19,14 @@ import { configureNodePolyfills } from './nodePolyfills/webpack';
 import { configureAliasing } from './dependency-map';
 import { configureSWCLoader } from './swc/loader';
 
-export const addons: PresetProperty<'addons', StorybookConfig> = [
+export const addons: PresetProperty<'addons'> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
 ];
 
 const defaultFrameworkOptions: FrameworkOptions = {};
 
-export const frameworkOptions = async (
-  _: never,
-  options: Options
-): Promise<StorybookConfig['framework']> => {
-  const config = await options.presets.apply<StorybookConfig['framework']>('framework');
+export const frameworkOptions: PresetProperty<'framework'> = async (_, options) => {
+  const config = await options.presets.apply('framework');
 
   if (typeof config === 'string') {
     return {
@@ -53,8 +50,8 @@ export const frameworkOptions = async (
   };
 };
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
-  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
+export const core: PresetProperty<'core'> = async (config, options) => {
+  const framework = await options.presets.apply('framework');
 
   return {
     ...config,
@@ -70,7 +67,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   };
 };
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => [
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entry = []) => [
   ...entry,
   join(dirname(require.resolve('@storybook/nextjs/package.json')), 'dist/preview.mjs'),
 ];
@@ -78,7 +75,7 @@ export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry 
 // Not even sb init - automigrate - running dev
 // You're using a version of Nextjs prior to v10, which is unsupported by this framework.
 
-export const babel = async (baseConfig: TransformOptions): Promise<TransformOptions> => {
+export const babel: PresetProperty<'babel'> = async (baseConfig) => {
   const configPartial = loadPartialConfig({
     ...baseConfig,
     filename: `${getProjectRoot()}/__fake__.js`,

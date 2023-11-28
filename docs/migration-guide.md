@@ -69,7 +69,7 @@ In addition to the automated upgrades above, there are manual migrations that mi
 
 ### Upgrade MDX1 to MDX2
 
-Storybook 7 uses MDX2 by default for rendering [docs](./writing-docs/introduction.md). The upgrade from MDX1 to MDX2 is not fully automated, due to the large number of changes between versions. Fortunately, we have some tips to help make it a lot easier.
+Storybook 7 uses MDX2 by default for rendering [docs](./writing-docs/index.md). The upgrade from MDX1 to MDX2 is not fully automated, due to the large number of changes between versions. Fortunately, we have some tips to help make it a lot easier.
 
 #### Automatically detect MDX2 errors with a CLI tool
 
@@ -183,7 +183,7 @@ npx storybook@latest migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
 
 ### .stories.mdx to MDX+CSF
 
-Storybook 7 provides a cleaner [docs](./writing-docs/introduction.md) that defines manual documentation in pure MDX and stories in CSF, rather than the previous `.stories.mdx` hybrid approach, which is now deprecated. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
+Storybook 7 provides a cleaner [docs](./writing-docs/index.md) that defines manual documentation in pure MDX and stories in CSF, rather than the previous `.stories.mdx` hybrid approach, which is now deprecated. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
 
 ```sh
 npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"

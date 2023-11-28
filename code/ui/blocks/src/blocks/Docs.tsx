@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ComponentType } from 'react';
+import type { ComponentType, PropsWithChildren } from 'react';
 import type { Renderer, Parameters } from '@storybook/types';
 import type { Theme } from '@storybook/theming';
 
@@ -16,8 +16,9 @@ export function Docs<TRenderer extends Renderer = Renderer>({
   context,
   docsParameter,
 }: DocsProps<TRenderer>) {
-  const Container: ComponentType<{ context: DocsContextProps<TRenderer>; theme: Theme }> =
-    docsParameter.container || DocsContainer;
+  const Container: ComponentType<
+    PropsWithChildren<{ context: DocsContextProps<TRenderer>; theme: Theme }>
+  > = docsParameter.container || DocsContainer;
 
   const Page = docsParameter.page || DocsPage;
 

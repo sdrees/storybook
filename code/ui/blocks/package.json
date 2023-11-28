@@ -1,6 +1,6 @@
 {
   "name": "@storybook/blocks",
-  "version": "7.6.0-beta.2",
+  "version": "8.0.0-alpha.0",
   "description": "Storybook Doc Blocks",
   "keywords": [
     "storybook"
@@ -51,6 +51,7 @@
     "@storybook/csf": "^0.1.2",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
+    "@storybook/icons": "^1.2.1",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",

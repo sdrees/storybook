@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
-import type { Configuration, RuleSetRule } from 'webpack';
+import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
@@ -10,7 +10,7 @@ import { getReactScriptsPath } from './helpers/getReactScriptsPath';
 import { processCraConfig } from './helpers/processCraConfig';
 import { checkPresets } from './helpers/checkPresets';
 import { getModulePath } from './helpers/getModulePath';
-import type { PluginOptions, CoreConfig } from './types';
+import type { PluginOptions } from './types';
 
 const CWD = process.cwd();
 
@@ -78,12 +78,13 @@ const webpack = async (
 
   // Remove existing rules related to JavaScript and TypeScript.
   logger.info(`=> Removing existing JavaScript and TypeScript rules.`);
-  const filteredRules =
-    webpackConfig.module &&
-    webpackConfig.module.rules.filter(
-      ({ test }: RuleSetRule) =>
-        !(test instanceof RegExp && ((test && test.test('.js')) || test.test('.ts')))
-    );
+  const filteredRules = (webpackConfig.module?.rules as RuleSetRule[])?.filter((rule) => {
+    if (typeof rule === 'string') {
+      return false;
+    }
+    const { test } = rule;
+    return !(test instanceof RegExp && (test?.test('.js') || test?.test('.ts')));
+  });
 
   // Require the CRA config and set the appropriate mode.
   const craWebpackConfigPath = join(scriptsPath, 'config', 'webpack.config');
@@ -92,7 +93,7 @@ const webpack = async (
 
   // Select the relevant CRA rules and add the Storybook config directory.
   logger.info(`=> Modifying Create React App rules.`);
-  const craRules = processCraConfig(craWebpackConfig, options);
+  const craRules = await processCraConfig(craWebpackConfig, options);
 
   // NOTE: These are set by default in Storybook 6.
   const isStorybook6 = semver.gte(options.packageJson.version || '', '6.0.0');
@@ -113,8 +114,9 @@ const webpack = async (
   // We need to figure out a better way to apply various layers of webpack config; perhaps
   // these options need to be in a separate preset.
   const isProd = webpackConfig.mode !== 'development';
-  const coreOptions = await options.presets.apply<CoreConfig>('core');
-  const builderOptions = coreOptions?.builder?.options;
+  const coreOptions = await options.presets.apply('core');
+  const builder = coreOptions?.builder;
+  const builderOptions = typeof builder === 'string' ? {} : builder?.options;
   const cacheConfig = builderOptions?.fsCache ? { cache: { type: 'filesystem' } } : {};
   const lazyCompilationConfig =
     builderOptions?.lazyCompilation && !isProd
@@ -133,8 +135,8 @@ const webpack = async (
     // NOTE: this prioritizes the storybook version of a plugin
     // when there are duplicates between SB and CRA
     plugins: mergePlugins(
-      ...(webpackConfig.plugins || []),
-      ...(craWebpackConfig.plugins ?? []),
+      ...((webpackConfig.plugins ?? []) as WebpackPluginInstance[]),
+      ...((craWebpackConfig.plugins ?? []) as WebpackPluginInstance[]),
       ...tsDocgenPlugin
     ),
     resolve: {

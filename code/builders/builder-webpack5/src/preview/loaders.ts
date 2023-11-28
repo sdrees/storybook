@@ -5,18 +5,19 @@ import { logger } from '@storybook/node-logger';
 import type { Options } from '@storybook/types';
 import type { TypescriptOptions } from '../types';
 
-export const createBabelLoader = (
-  options: any,
+export const createBabelLoader = async (
+  options: Options & { typescriptOptions: TypescriptOptions },
   typescriptOptions: TypescriptOptions,
   excludes: string[] = []
 ) => {
   logger.info(dedent`Using Babel compiler`);
+  const babelOptions = await options.presets.apply('babel', {}, options);
   return {
     test: typescriptOptions.skipBabel ? /\.(mjs|jsx?)$/ : /\.(mjs|tsx?|jsx?)$/,
     use: [
       {
         loader: require.resolve('babel-loader'),
-        options,
+        options: babelOptions,
       },
     ],
     include: [getProjectRoot()],

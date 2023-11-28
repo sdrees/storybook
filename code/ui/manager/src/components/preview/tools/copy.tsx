@@ -1,10 +1,11 @@
 import { global } from '@storybook/global';
 import React from 'react';
 import copy from 'copy-to-clipboard';
-import { getStoryHref, IconButton, Icons } from '@storybook/components';
+import { getStoryHref, IconButton } from '@storybook/components';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
+import { LinkIcon } from '@storybook/icons';
 
 const { PREVIEW_URL, document } = global;
 
@@ -37,7 +38,7 @@ export const copyTool: Addon_BaseType = {
             onClick={() => copy(getStoryHref(baseUrl, storyId, queryParams))}
             title="Copy canvas link"
           >
-            <Icons icon="link" />
+            <LinkIcon />
           </IconButton>
         ) : null
       }

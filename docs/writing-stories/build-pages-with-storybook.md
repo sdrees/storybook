@@ -120,7 +120,7 @@ Update your `.storybook/preview.js` file and enable the addon via a [global deco
 
 <!-- prettier-ignore-end -->
 
-Finally, update your [`.storybook/main.js|ts`](../configure/overview.md#using-storybook-api) to allow Storybook to load the generated mock service worker file as follows:
+Finally, update your [`.storybook/main.js|ts`](../configure/index.md#using-storybook-api) to allow Storybook to load the generated mock service worker file as follows:
 
 <!-- prettier-ignore-start -->
 
@@ -253,7 +253,7 @@ To use the mock in place of the real import, we use [Webpack aliasing](https://w
 
 <!-- prettier-ignore-end -->
 
-Add the decorator you've just implemented to your [`storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+Add the decorator you've just implemented to your [`storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

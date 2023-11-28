@@ -4,41 +4,46 @@ import type { State } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import NotificationItem from './NotificationItem';
+import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 
-const List = styled.div<{ placement?: CSSObject }>(
-  {
-    zIndex: 11,
-
-    '> * + *': {
-      marginTop: 10,
-    },
-    '&:empty': {
-      display: 'none',
-    },
-  },
-  ({ placement }) =>
-    placement || {
-      bottom: 0,
-      left: 0,
-      right: 0,
-      position: 'fixed',
-    }
-);
-
-const NotificationList: FC<{
-  placement: CSSObject;
+interface NotificationListProps {
   notifications: State['notifications'];
   clearNotification: (id: string) => void;
-}> = ({ notifications, clearNotification, placement = undefined }) => (
-  <List placement={placement}>
-    {notifications.map((notification) => (
-      <NotificationItem
-        key={notification.id}
-        onDismissNotification={(id: string) => clearNotification(id)}
-        notification={notification}
-      />
-    ))}
-  </List>
-);
+}
 
-export default NotificationList;
+export const NotificationList: FC<NotificationListProps> = ({
+  notifications,
+  clearNotification,
+}) => {
+  return (
+    <List>
+      {notifications &&
+        notifications.map((notification) => (
+          <NotificationItem
+            key={notification.id}
+            onDismissNotification={(id: string) => clearNotification(id)}
+            notification={notification}
+          />
+        ))}
+    </List>
+  );
+};
+
+const List = styled.div<{ placement?: CSSObject }>({
+  zIndex: 200,
+  position: 'fixed',
+  left: 20,
+  bottom: 60,
+
+  [MEDIA_DESKTOP_BREAKPOINT]: {
+    bottom: 20,
+  },
+
+  '> * + *': {
+    marginTop: 10,
+  },
+
+  '&:empty': {
+    display: 'none',
+  },
+});

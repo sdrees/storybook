@@ -4,7 +4,7 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type { DocsOptions, Indexer, Options, StorybookConfig } from '@storybook/types';
+import type { DocsOptions, Indexer, Options, PresetProperty } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
@@ -160,7 +160,7 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
   },
 });
 
-const indexers: StorybookConfig['experimental_indexers'] = (existingIndexers) =>
+const indexers: PresetProperty<'experimental_indexers'> = (existingIndexers) =>
   [createStoriesMdxIndexer(global.FEATURES?.legacyMdx1)].concat(existingIndexers || []);
 
 const docs = (docsOptions: DocsOptions) => {
@@ -171,7 +171,7 @@ const docs = (docsOptions: DocsOptions) => {
   };
 };
 
-export const addons: StorybookConfig['addons'] = [
+export const addons: PresetProperty<'addons'> = [
   require.resolve('@storybook/react-dom-shim/dist/preset'),
 ];
 

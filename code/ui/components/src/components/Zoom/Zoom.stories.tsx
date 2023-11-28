@@ -73,7 +73,7 @@ const TemplateIFrame = (args: any) => {
         id="iframe"
         title="UI Panel"
         onLoad={() => hasLoaded(true)}
-        src="/iframe.html?id=ui-panel--default&viewMode=story"
+        src="/iframe.html"
         style={style}
         ref={iFrameRef}
         allow="fullscreen"

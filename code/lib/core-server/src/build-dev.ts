@@ -1,11 +1,4 @@
-import type {
-  BuilderOptions,
-  CLIOptions,
-  CoreConfig,
-  LoadOptions,
-  Options,
-  StorybookConfig,
-} from '@storybook/types';
+import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
 import {
   loadAllPresets,
   loadMainConfig,
@@ -97,7 +90,7 @@ export async function buildDevStandalone(
     isCritical: true,
   });
 
-  const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
+  const { renderer, builder, disableTelemetry } = await presets.apply('core', {});
 
   if (!builder) {
     throw new MissingBuilderError();
@@ -152,7 +145,7 @@ export async function buildDevStandalone(
     ...options,
   });
 
-  const features = await presets.apply<StorybookConfig['features']>('features');
+  const features = await presets.apply('features');
   global.FEATURES = features;
 
   const fullOptions: Options = {

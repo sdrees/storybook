@@ -52,7 +52,7 @@ The `icon` element used in the example loads the icons from the `@storybook/comp
 
 ### Tabs
 
-Tab addons allow you to create your own custom tabs in Storybook. For example, the official [@storybook/addon-docs](../writing-docs/introduction.md) uses this pattern.
+Tab addons allow you to create your own custom tabs in Storybook. For example, the official [@storybook/addon-docs](../writing-docs/index.md) uses this pattern.
 
 ![Storybook tab addon](./storybook-tab.png)
 

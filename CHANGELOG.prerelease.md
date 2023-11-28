@@ -1,3 +1,33 @@
+## 8.0.0-alpha.0
+
+- Addon Viewport: Expose types for user parameter validation - [#24896](https://github.com/storybookjs/storybook/pull/24896), thanks [@piratetaco](https://github.com/piratetaco)!
+- Packages: Remove unused/deprecated packages - [#24528](https://github.com/storybookjs/storybook/pull/24528), thanks [@ndelangen](https://github.com/ndelangen)!
+- Vite: use user's `build.target` - [#23123](https://github.com/storybookjs/storybook/pull/23123), thanks [@Hoishin](https://github.com/Hoishin)!
+- CLI: Remove `sb extract` command - [#24653](https://github.com/storybookjs/storybook/pull/24653), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Improve project root detection logic - [#20791](https://github.com/storybookjs/storybook/pull/20791), thanks [@dobesv](https://github.com/dobesv)!
+- Core: Prebundling globalize the core-event sub paths - [#24976](https://github.com/storybookjs/storybook/pull/24976), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Remove `storiesOf`-API - [#24655](https://github.com/storybookjs/storybook/pull/24655), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: `StorybookConfig` `stories`-field support type async function - [#21555](https://github.com/storybookjs/storybook/pull/21555), thanks [@imccausl](https://github.com/imccausl)!
+- Dependencies: Update Typescript - [#24970](https://github.com/storybookjs/storybook/pull/24970), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Dependencies: Upgrade monorepo to TS5 - [#24440](https://github.com/storybookjs/storybook/pull/24440), thanks [@ndelangen](https://github.com/ndelangen)!
+- TypeScript: Migrate `@storybook/preset-create-react-app` to strict TS - [#22395](https://github.com/storybookjs/storybook/pull/22395), thanks [@kuriacka](https://github.com/kuriacka)!
+- Manager: Enable refs filtered via `experimental_setFilter` - [#24211](https://github.com/storybookjs/storybook/pull/24211), thanks [@ndelangen](https://github.com/ndelangen)!
+- MDX: Theme `fontCode` not applied consistently when writing MDX - [#23110](https://github.com/storybookjs/storybook/pull/23110), thanks [@gitstart-storybook](https://github.com/gitstart-storybook)!
+- UI: Bring back role main - [#24411](https://github.com/storybookjs/storybook/pull/24411), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Fix `IconButton` not being aligned correctly in blocks - [#24529](https://github.com/storybookjs/storybook/pull/24529), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Fix button size on controls - [#24737](https://github.com/storybookjs/storybook/pull/24737), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Fix layout height - [#24370](https://github.com/storybookjs/storybook/pull/24370), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Fix notifications not appearing in new layout - [#24281](https://github.com/storybookjs/storybook/pull/24281), thanks [@jreinhold](https://github.com/jreinhold)!
+- UI: Fix theming not updating - [#24399](https://github.com/storybookjs/storybook/pull/24399), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Improved `Button` and `IconButton` - [#24266](https://github.com/storybookjs/storybook/pull/24266), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Keep mobile drawer open on component selection - [#24258](https://github.com/storybookjs/storybook/pull/24258), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Mobile truncate story name - [#24372](https://github.com/storybookjs/storybook/pull/24372), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: New icon library - [#24433](https://github.com/storybookjs/storybook/pull/24433), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Replace `Form.Button` with the new `Button` component - [#24360](https://github.com/storybookjs/storybook/pull/24360), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Screen reader announcing changes for expand/collapse button - [#24984](https://github.com/storybookjs/storybook/pull/24984), thanks [@wjdtjdgns](https://github.com/wjdtjdgns)!
+- UI: Upgrade manager to React v18 - [#24514](https://github.com/storybookjs/storybook/pull/24514), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: sidebar UI updates - [#24707](https://github.com/storybookjs/storybook/pull/24707), thanks [@cdedreuille](https://github.com/cdedreuille)!
+
 ## 7.6.0-beta.2
 
 - Actions: Fix `@storybook/core-events/preview-errors` dependency missing for Yarn PnP - [#24973](https://github.com/storybookjs/storybook/pull/24973), thanks [@JReinhold](https://github.com/JReinhold)!

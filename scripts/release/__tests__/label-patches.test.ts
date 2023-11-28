@@ -10,7 +10,7 @@ jest.mock('../utils/get-github-info');
 jest.mock('../utils/github-client');
 jest.mock('../utils/git-client', () => jest.requireActual('jest-mock-extended').mockDeep());
 
-const gitClient = jest.mocked(gitClient_);
+const gitClient = jest.mocked(gitClient_, { shallow: false });
 const github = jest.mocked(github_);
 const githubInfo = jest.mocked(githubInfo_);
 

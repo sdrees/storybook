@@ -1,7 +1,7 @@
 import type { FC, ChangeEvent } from 'react';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { styled } from '@storybook/theming';
-import { Form } from '@storybook/components';
+import { Button, Form } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
 
 import type { ControlProps, NumberValue, NumberConfig } from './types';
@@ -68,9 +68,14 @@ export const NumberControl: FC<NumberProps> = ({
 
   if (!forceVisible && value === undefined) {
     return (
-      <Form.Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
+      <Button
+        variant="outline"
+        size="medium"
+        id={getControlSetterButtonId(name)}
+        onClick={onForceVisible}
+      >
         Set number
-      </Form.Button>
+      </Button>
     );
   }
 

@@ -39,7 +39,7 @@ Some components require a “harness” to render in a useful way. For instance,
 
 Framework-specific libraries (e.g., [Styled Components](https://styled-components.com/), [Fontawesome](https://github.com/FortAwesome/vue-fontawesome) for Vue, Angular's [localize](https://angular.io/api/localize)) may require additional configuration to render correctly in Storybook.
 
-For example, if you're working with React's Styled Components and your components use themes, add a single global decorator to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) to enable them. With Vue, extend Storybook's application and register your library. Or with Angular, add the package into your `polyfills.ts` and import it:
+For example, if you're working with React's Styled Components and your components use themes, add a single global decorator to [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) to enable them. With Vue, extend Storybook's application and register your library. Or with Angular, add the package into your `polyfills.ts` and import it:
 
 <!-- prettier-ignore-start -->
 
@@ -140,7 +140,7 @@ To define a decorator for all stories of a component, use the `decorators` key o
 
 ## Global decorators
 
-We can also set a decorator for **all stories** via the `decorators` export of your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file (this is the file where you configure all stories):
+We can also set a decorator for **all stories** via the `decorators` export of your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file (this is the file where you configure all stories):
 
 <!-- prettier-ignore-start -->
 

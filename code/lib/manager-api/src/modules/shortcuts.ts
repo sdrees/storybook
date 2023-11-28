@@ -226,7 +226,6 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
     // warning: event might not have a full prototype chain because it may originate from the channel
     handleShortcutFeature(feature, event) {
       const {
-        layout: { isFullscreen, showNav, showPanel },
         ui: { enableShortcuts },
         storyId,
       } = store.getState();
@@ -237,31 +236,31 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
       if (event?.preventDefault) event.preventDefault();
       switch (feature) {
         case 'escape': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
-          } else if (!showNav) {
-            fullAPI.toggleNav();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
+          } else if (fullAPI.getIsNavShown()) {
+            fullAPI.toggleNav(true);
           }
           break;
         }
 
         case 'focusNav': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
           }
-          if (!showNav) {
-            fullAPI.toggleNav();
+          if (!fullAPI.getIsNavShown()) {
+            fullAPI.toggleNav(true);
           }
           fullAPI.focusOnUIElement(focusableUIElements.storyListMenu);
           break;
         }
 
         case 'search': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
           }
-          if (!showNav) {
-            fullAPI.toggleNav();
+          if (!fullAPI.getIsNavShown()) {
+            fullAPI.toggleNav(true);
           }
 
           setTimeout(() => {
@@ -285,11 +284,11 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
         }
 
         case 'focusPanel': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
           }
-          if (!showPanel) {
-            fullAPI.togglePanel();
+          if (!fullAPI.getIsPanelShown()) {
+            fullAPI.togglePanel(true);
           }
           fullAPI.focusOnUIElement(focusableUIElements.storyPanelRoot);
           break;
@@ -321,21 +320,11 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
         }
 
         case 'togglePanel': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
-            fullAPI.resetLayout();
-          }
-
           fullAPI.togglePanel();
           break;
         }
 
         case 'toggleNav': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
-            fullAPI.resetLayout();
-          }
-
           fullAPI.toggleNav();
           break;
         }
@@ -346,11 +335,11 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
         }
 
         case 'panelPosition': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
           }
-          if (!showPanel) {
-            fullAPI.togglePanel();
+          if (!fullAPI.getIsPanelShown()) {
+            fullAPI.togglePanel(true);
           }
 
           fullAPI.togglePanelPosition();

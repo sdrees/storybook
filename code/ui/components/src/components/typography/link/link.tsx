@@ -2,8 +2,7 @@ import type { AnchorHTMLAttributes, FC, MouseEvent } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
-
-import { Icons } from '../../icon/icon';
+import { ChevronRightIcon } from '@storybook/icons';
 
 // Cmd/Ctrl/Shift/Alt + Click should trigger default browser behavior. Same applies to non-left clicks
 const LEFT_BUTTON = 0;
@@ -200,7 +199,7 @@ export const Link: FC<LinkProps & AProps> = ({
   >
     <LinkInner withArrow={withArrow} containsIcon={containsIcon}>
       {children}
-      {withArrow && <Icons icon="arrowright" />}
+      {withArrow && <ChevronRightIcon />}
     </LinkInner>
   </A>
 );

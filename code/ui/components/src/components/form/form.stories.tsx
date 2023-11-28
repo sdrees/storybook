@@ -84,15 +84,6 @@ export const Select = {
   },
 };
 
-export const Button = {
-  render: (args: any) => (
-    <Flexed>
-      <InputComponents.Button {...args}>Form Button</InputComponents.Button>
-    </Flexed>
-  ),
-  argTypes: sharedArgTypes,
-};
-
 export const Textarea = {
   render: (args: any) => (
     <Flexed>

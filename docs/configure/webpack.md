@@ -4,7 +4,7 @@ title: 'Webpack'
 
 Storybook displays your components in a custom web application built using [Webpack](https://webpack.js.org/). Webpack is a complex tool, but our default configuration is intended to cover most use cases. [Addons](https://storybook.js.org/addons/) are also available that extend the configuration for other everyday use cases.
 
-You can customize Storybook's webpack setup by providing a `webpackFinal` field in [`.storybook/main.js`](./overview.md#configure-your-storybook-project) file.
+You can customize Storybook's webpack setup by providing a `webpackFinal` field in [`.storybook/main.js`](./index.md#configure-your-storybook-project) file.
 
 The value should be an async function that receives a webpack config and eventually returns a webpack config.
 
@@ -65,7 +65,7 @@ Starting with Storybook 6.4, [bundle splitting](https://v4.webpack.js.org/guides
 
 <!-- prettier-ignore-end -->
 
-When you start your Storybook, you'll see an improvement in loading times. Read more about it in the [announcement post](https://storybook.js.org/blog/storybook-on-demand-architecture/) and the [configuration documentation](./overview.md#on-demand-story-loading).
+When you start your Storybook, you'll see an improvement in loading times. Read more about it in the [announcement post](https://storybook.js.org/blog/storybook-on-demand-architecture/) and the [configuration documentation](./index.md#on-demand-story-loading).
 
 ### Webpack 5
 
@@ -117,7 +117,7 @@ This feature will mean build output is cached between runs of Storybook, speedin
 
 ### Extending Storybook’s webpack config
 
-To extend the above configuration, use the `webpackFinal` field of [`.storybook/main.js`](./overview.md#configure-story-rendering).
+To extend the above configuration, use the `webpackFinal` field of [`.storybook/main.js`](./index.md#configure-story-rendering).
 
 The value should export a `function`, which will receive the default config as its first argument. The second argument is an options object from Storybook, and this will have information about where config came from, whether we're in production or development mode, etc.
 
@@ -159,7 +159,7 @@ If you're using a non-standard Storybook config directory, you should put `main.
 
 ### Using your existing config
 
-Suppose you have an existing webpack config for your project and want to reuse this app's configuration. In that case, you can import your main webpack config into Storybook's [`.storybook/main.js`](./overview.md#configure-story-rendering) and merge both:
+Suppose you have an existing webpack config for your project and want to reuse this app's configuration. In that case, you can import your main webpack config into Storybook's [`.storybook/main.js`](./index.md#configure-story-rendering) and merge both:
 
 The following code snippet shows how you can replace the loaders from Storybook with the ones from your app's `webpack.config.js`:
 

@@ -1,5 +1,5 @@
 import { styled } from '@storybook/theming';
-import type { FC, ReactChild, ReactElement, ReactNode } from 'react';
+import type { FC, PropsWithChildren, ReactChild, ReactElement, ReactNode } from 'react';
 import React, { Children } from 'react';
 import type { Addon_RenderOptions } from '@storybook/types';
 import type { TabsProps } from './tabs';
@@ -17,16 +17,18 @@ export const childrenToList = (children: TabsProps['children']) =>
     ({
       props: { title, id, color, children: childrenOfChild },
     }: ReactElement<{
-      children: FC<Addon_RenderOptions> | ReactChild | null;
+      children: FC<Addon_RenderOptions & PropsWithChildren> | ReactChild | null;
       title: ReactChild | null | FC;
       id: string;
       color?: string;
     }>) => {
-      const content: FC<Addon_RenderOptions> | ReactNode = Array.isArray(childrenOfChild)
+      const content: FC<Addon_RenderOptions & PropsWithChildren> | ReactNode = Array.isArray(
+        childrenOfChild
+      )
         ? childrenOfChild[0]
         : childrenOfChild;
 
-      const render: FC<Addon_RenderOptions> = (
+      const render: FC<Addon_RenderOptions & PropsWithChildren> = (
         typeof content === 'function'
           ? content
           : ({ active }) => (
@@ -34,7 +36,7 @@ export const childrenToList = (children: TabsProps['children']) =>
                 {content}
               </VisuallyHidden>
             )
-      ) as FC<Addon_RenderOptions>;
+      ) as FC<Addon_RenderOptions & PropsWithChildren>;
       return {
         title,
         id,

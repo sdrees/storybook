@@ -31,7 +31,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       addArgTypesEnhancer,
       addArgsEnhancer,
       setGlobalRender
-    } from '@storybook/client-api';
+    } from '@storybook/preview-api';
     import { logger } from '@storybook/client-logger';
     ${absoluteFilesToImport(configEntries, 'config')}
     import * as preview from '${virtualPreviewFile}';

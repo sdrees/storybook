@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -80,7 +80,7 @@ const BadgeWrapper = styled.div<BadgeProps>(
   }
 );
 
-export interface BadgeProps {
+export interface BadgeProps extends PropsWithChildren {
   status: 'positive' | 'negative' | 'neutral' | 'warning' | 'critical';
 }
 

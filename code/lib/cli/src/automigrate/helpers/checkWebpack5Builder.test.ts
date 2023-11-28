@@ -1,8 +1,8 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 import { checkWebpack5Builder } from './checkWebpack5Builder';
 import { getBuilderPackageName } from './mainConfigFile';
 
-const mockMainConfig: StorybookConfig = {
+const mockMainConfig: StorybookConfigRaw = {
   framework: 'react',
   addons: [],
   stories: [],

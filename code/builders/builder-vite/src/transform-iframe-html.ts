@@ -1,5 +1,5 @@
 import { normalizeStories } from '@storybook/core-common';
-import type { CoreConfig, DocsOptions, Options } from '@storybook/types';
+import type { DocsOptions, Options } from '@storybook/types';
 
 export type PreviewHtml = string | undefined;
 
@@ -12,7 +12,7 @@ export async function transformIframeHtml(html: string, options: Options) {
   const logLevel = await presets.apply('logLevel', undefined);
   const docsOptions = await presets.apply<DocsOptions>('docs');
 
-  const coreOptions = await presets.apply<CoreConfig>('core');
+  const coreOptions = await presets.apply('core');
   const stories = normalizeStories(await options.presets.apply('stories', [], options), {
     configDir: options.configDir,
     workingDir: process.cwd(),

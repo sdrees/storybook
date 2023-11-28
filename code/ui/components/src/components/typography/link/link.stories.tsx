@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import { DiscordIcon, SidebarIcon } from '@storybook/icons';
 import { Link } from './link';
-import { Icons } from '../../icon/icon';
 
 const onClick = action('onClick');
 
@@ -64,13 +64,13 @@ export const StyledLinks = {
       </Link>
       <br />
       <Link href="http://google.com" {...args}>
-        <Icons icon="discord" />
+        <DiscordIcon />
         With icon in front
       </Link>
       <br />
       <Link title="Toggle sidebar" containsIcon href="http://google.com" {...args}>
         {/* A linked icon by itself   */}
-        <Icons icon="sidebar" />
+        <SidebarIcon />
       </Link>
       <br />
       <Link containsIcon withArrow href="http://google.com" {...args}>

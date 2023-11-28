@@ -2,7 +2,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { styled } from '@storybook/theming';
 
-import { ActionBar, Icons, ScrollArea } from '@storybook/components';
+import { ActionBar, ScrollArea } from '@storybook/components';
+import { SyncIcon, CheckIcon } from '@storybook/icons';
 
 import type { AxeResults } from 'axe-core';
 import { useChannel, useParameter, useStorybookState } from '@storybook/manager-api';
@@ -21,9 +22,7 @@ export enum RuleType {
   INCOMPLETION,
 }
 
-const Icon = styled(Icons)({
-  height: 12,
-  width: 12,
+const Icon = styled(SyncIcon)({
   marginRight: 4,
 });
 
@@ -108,7 +107,7 @@ export const A11YPanel: React.FC = () => {
             'Rerun tests'
           ) : (
             <>
-              <Icon icon="check" /> Tests completed
+              <CheckIcon /> Tests completed
             </>
           ),
         onClick: handleManual,
@@ -164,7 +163,7 @@ export const A11YPanel: React.FC = () => {
       )}
       {status === 'running' && (
         <Centered>
-          <RotatingIcon icon="sync" /> Please wait while the accessibility scan is running ...
+          <RotatingIcon size={12} /> Please wait while the accessibility scan is running ...
         </Centered>
       )}
       {(status === 'ready' || status === 'ran') && (

@@ -6,31 +6,22 @@ import type { NormalizedStoriesSpecifier } from '@storybook/types';
 // FIXME: types duplicated type from `core-common', to be
 // removed when we remove v6 back-compat.
 
-const stripExtension = (path: string[]) => {
-  let parts = [...path];
-  const last = parts[parts.length - 1];
-  const dotIndex = last.indexOf('.');
-  const stripped = dotIndex > 0 ? last.substr(0, dotIndex) : last;
-  parts[parts.length - 1] = stripped;
-  const [first, ...rest] = parts;
-  if (first === '') {
-    parts = rest;
-  }
-  return parts;
-};
-
-const indexRe = /^index$/i;
-
 // deal with files like "atoms/button/{button,index}.stories.js"
-const removeRedundantFilename = (paths: string[]) => {
-  let prevVal: string;
-  return paths.filter((val, index) => {
-    if (index === paths.length - 1 && (val === prevVal || indexRe.test(val))) {
-      return false;
-    }
-    prevVal = val;
-    return true;
-  });
+const sanitize = (parts: string[]) => {
+  if (parts.length === 0) return parts;
+
+  const last = parts[parts.length - 1];
+  const lastStripped = last?.replace(/(?:[.](?:story|stories))?([.][^.]+)$/i, '');
+  if (parts.length === 1) return [lastStripped];
+
+  const nextToLast = parts[parts.length - 2];
+  return lastStripped &&
+    nextToLast &&
+    (lastStripped === nextToLast ||
+      /^(story|stories)([.][^.]+)$/i.test(last) ||
+      /^index$/i.test(lastStripped))
+    ? parts.slice(0, -1)
+    : [...parts.slice(0, -1), lastStripped];
 };
 
 /**
@@ -41,8 +32,10 @@ const removeRedundantFilename = (paths: string[]) => {
  * @returns joined path string, with single '/' between parts
  */
 function pathJoin(paths: string[]): string {
-  const slashes = new RegExp('/{1,}', 'g');
-  return paths.join('/').replace(slashes, '/');
+  return paths
+    .flatMap((p) => p.split('/'))
+    .filter(Boolean)
+    .join('/');
 }
 
 export const userOrAutoTitleFromSpecifier = (
@@ -67,18 +60,16 @@ export const userOrAutoTitleFromSpecifier = (
   if (importPathMatcher.exec(normalizedFileName)) {
     if (!userTitle) {
       const suffix = normalizedFileName.replace(directory, '');
-      const titleAndSuffix = slash(pathJoin([titlePrefix, suffix]));
-      let path = titleAndSuffix.split('/');
-      path = stripExtension(path);
-      path = removeRedundantFilename(path);
-      return path.join('/');
+      let parts = pathJoin([titlePrefix, suffix]).split('/');
+      parts = sanitize(parts);
+      return parts.join('/');
     }
 
     if (!titlePrefix) {
       return userTitle;
     }
 
-    return slash(pathJoin([titlePrefix, userTitle]));
+    return pathJoin([titlePrefix, userTitle]);
   }
 
   return undefined;

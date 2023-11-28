@@ -2,7 +2,7 @@ import express from 'express';
 import compression from 'compression';
 import invariant from 'tiny-invariant';
 
-import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 
 import { logConfig } from '@storybook/core-common';
 import { deprecate, logger } from '@storybook/node-logger';
@@ -29,8 +29,8 @@ export async function storybookDevServer(options: Options) {
 
   const [server, features, core] = await Promise.all([
     getServer(app, options),
-    options.presets.apply<StorybookConfig['features']>('features'),
-    options.presets.apply<CoreConfig>('core'),
+    options.presets.apply('features'),
+    options.presets.apply('core'),
   ]);
 
   const serverChannel = await options.presets.apply(

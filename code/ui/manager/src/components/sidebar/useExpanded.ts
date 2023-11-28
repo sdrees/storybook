@@ -104,7 +104,7 @@ export const useExpanded = ({
   );
 
   const updateExpanded = useCallback(
-    ({ ids, value }) => {
+    ({ ids, value }: ExpandAction) => {
       setExpanded({ ids, value });
       if (ids.length === 1) {
         const element = containerRef.current?.querySelector(

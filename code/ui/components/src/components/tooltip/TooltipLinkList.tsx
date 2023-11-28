@@ -55,16 +55,11 @@ const Item: FC<Link & { isIndented?: boolean }> = (props) => {
 };
 
 export const TooltipLinkList: FC<TooltipLinkListProps> = ({ links, LinkWrapper }) => {
-  const hasOneLeftElement = links.some((link) => link.left || link.icon);
+  const hasIcon = links.some((link) => link.icon);
   return (
     <List>
       {links.map(({ isGatsby, ...p }) => (
-        <Item
-          key={p.id}
-          LinkWrapper={isGatsby ? LinkWrapper : null}
-          isIndented={hasOneLeftElement}
-          {...p}
-        />
+        <Item key={p.id} LinkWrapper={isGatsby ? LinkWrapper : null} isIndented={hasIcon} {...p} />
       ))}
     </List>
   );

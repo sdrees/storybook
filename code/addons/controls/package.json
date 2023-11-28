@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.6.0-beta.2",
+  "version": "8.0.0-alpha.0",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -64,8 +64,8 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "publishConfig": {
     "access": "public"

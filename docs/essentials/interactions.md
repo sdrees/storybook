@@ -10,9 +10,9 @@ Stories isolate and capture component states in a structured manner. While devel
 
 For example, clicking a button to open/close a dialog box, dragging a list item to reorder it, or filling out a form to check for validation errors. To test those behaviors, you have to interact with the components as a user would. Interactive stories enable you to automate these interactions using a play function. They are small snippets of code that run once the story finishes rendering, emulating the exact steps a user would take to interact with the component.
 
-### Powered by Testing Library and Jest
+### Powered by Testing Library and Vitest
 
-The interactions are written using a Storybook-instrumented version of [Testing Library](https://testing-library.com/) and [Jest](https://jestjs.io/). That gives you a familiar developer-friendly syntax to interact with the DOM and make assertions, but with extra telemetry to help with debugging.
+The interactions are written using a package called `@storybook/test`. It provides Storybook-instrumented versions of [Testing Library](https://testing-library.com/) and [Vitest](https://vitest.dev). That gives you a familiar developer-friendly syntax to interact with the DOM and make assertions, but with extra telemetry to help with debugging.
 
 ## Set up the interactions addon
 
@@ -32,7 +32,7 @@ Run the following command to install the interactions addon and related dependen
 
 <!-- prettier-ignore-end -->
 
-Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
+Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
@@ -47,7 +47,7 @@ Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-
 
 <Callout variant="info" icon="💡">
 
-Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
+Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./index.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
 
 </Callout>
 
@@ -59,7 +59,7 @@ Now when you run Storybook, the Interactions addon will be enabled.
 
 Interactions run as part of the `play` function of your stories. We rely on Testing Library to do the heavy lifting.
 
-Make sure to import the Storybook wrappers for Jest and Testing Library rather than importing Jest and Testing Library directly.
+Make sure to import the Storybook wrappers for Vitest and Testing Library via `@storybook/test` rather than importing the original packages directly.
 
 <!-- prettier-ignore-start -->
 

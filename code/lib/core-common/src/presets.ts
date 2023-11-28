@@ -9,7 +9,7 @@ import type {
   LoadOptions,
   PresetConfig,
   Presets,
-  StorybookConfig,
+  StorybookConfigRaw,
 } from '@storybook/types';
 import { join, parse } from 'path';
 import { CriticalPresetLoadError } from '@storybook/core-events/server-errors';
@@ -21,7 +21,7 @@ import { stripAbsNodeModulesPath } from './utils/strip-abs-node-modules-path';
 type InterPresetOptions = Omit<
   CLIOptions &
     LoadOptions &
-    BuilderOptions & { isCritical?: boolean; build?: StorybookConfig['build'] },
+    BuilderOptions & { isCritical?: boolean; build?: StorybookConfigRaw['build'] },
   'frameworkPresets'
 >;
 
@@ -404,7 +404,7 @@ export async function loadAllPresets(
       overridePresets: PresetConfig[];
       /** Whether preset failures should be critical or not */
       isCritical?: boolean;
-      build?: StorybookConfig['build'];
+      build?: StorybookConfigRaw['build'];
     }
 ) {
   const { corePresets = [], overridePresets = [], ...restOptions } = options;

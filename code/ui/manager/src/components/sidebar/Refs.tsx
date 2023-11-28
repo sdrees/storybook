@@ -11,12 +11,12 @@ import { RefIndicator } from './RefIndicator';
 
 // eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
-import { CollapseIcon } from './TreeNode';
 
 import { DEFAULT_REF_ID } from './Sidebar';
 import type { Highlight, RefType } from './types';
 
 import { getStateType } from '../../utils/tree';
+import { CollapseIcon } from './components/CollapseIcon';
 
 export interface RefProps {
   isLoading: boolean;
@@ -28,14 +28,12 @@ export interface RefProps {
 
 const Wrapper = styled.div<{ isMain: boolean }>(({ isMain }) => ({
   position: 'relative',
-  marginLeft: -20,
-  marginRight: -20,
   marginTop: isMain ? undefined : 0,
 }));
 
 const RefHead = styled.div(({ theme }) => ({
   fontWeight: theme.typography.weight.bold,
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
 
   // Similar to ListItem.tsx
   textDecoration: 'none',
@@ -48,46 +46,28 @@ const RefHead = styled.div(({ theme }) => ({
   width: '100%',
   marginTop: 20,
   paddingTop: 16,
+  paddingBottom: 12,
   borderTop: `1px solid ${theme.appBorderColor}`,
 
   color:
     theme.base === 'light' ? theme.color.defaultText : transparentize(0.2, theme.color.defaultText),
 }));
 
-const RefTitle = styled.span(({ theme }) => ({
-  display: 'block',
+const RefTitle = styled.div({
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   flex: 1,
   overflow: 'hidden',
   marginLeft: 2,
-}));
+});
 
 const CollapseButton = styled.button(({ theme }) => ({
-  // Reset button
-  background: 'transparent',
-  border: '1px solid transparent',
-  borderRadius: 26,
-  outline: 'none',
-  boxSizing: 'content-box',
-  cursor: 'pointer',
-  position: 'relative',
-  textAlign: 'left',
-  lineHeight: 'normal',
-  font: 'inherit',
-  color: 'inherit',
-
+  all: 'unset',
   display: 'flex',
-  padding: 3,
-  paddingLeft: 1,
-  paddingRight: 12,
-  margin: 0,
-  marginLeft: -20,
-  overflow: 'hidden',
-
-  'span:first-of-type': {
-    marginTop: 5,
-  },
+  padding: '0px 8px',
+  gap: 6,
+  alignItems: 'center',
+  cursor: 'pointer',
 
   '&:focus': {
     borderColor: theme.color.secondary,

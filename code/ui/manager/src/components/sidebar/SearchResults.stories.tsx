@@ -5,14 +5,20 @@ import { mockDataset } from './mockdata';
 import { SearchResults } from './SearchResults';
 import type { CombinedDataset, Refs, SearchItem } from './types';
 import { searchItem } from '../../utils/tree';
+import { IconSymbols } from './IconSymbols';
 
 export default {
   component: SearchResults,
   title: 'Sidebar/SearchResults',
   includeStories: /^[A-Z]/,
-  parameters: { layout: 'fullscreen', withSymbols: true },
+  parameters: { layout: 'fullscreen' },
   decorators: [
-    (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,
+    (storyFn: any) => (
+      <div style={{ padding: '0 20px', maxWidth: '230px' }}>
+        <IconSymbols />
+        {storyFn()}
+      </div>
+    ),
   ],
 };
 

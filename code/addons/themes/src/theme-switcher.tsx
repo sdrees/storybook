@@ -1,8 +1,9 @@
 import React, { Fragment, useMemo } from 'react';
 import { useAddonState, useChannel, useGlobals, useParameter } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
+import { PaintBrushIcon } from '@storybook/icons';
 import type { ThemeAddonState, ThemeParameters } from './constants';
 import {
   PARAM_KEY,
@@ -74,7 +75,7 @@ export const ThemeSwitcher = () => {
         }}
       >
         <IconButton key={THEME_SWITCHER_ID} active={!themeOverride} title="Theme">
-          <Icons icon="paintbrush" />
+          <PaintBrushIcon />
           {label && <IconButtonLabel>{label}</IconButtonLabel>}
         </IconButton>
       </WithTooltip>

@@ -72,7 +72,7 @@ function createMockModuleArgs({
   const store = createMockStore({ filters: {}, status: {}, ...initialState });
   const provider = createMockProvider();
 
-  return { navigate, store, provider, fullAPI };
+  return { navigate, store, provider, fullAPI: { ...fullAPI, getRefs: () => ({}) } };
 }
 
 describe('stories API', () => {

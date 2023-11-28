@@ -4,7 +4,7 @@ title: 'Storybook Addons'
 
 A key strength of Storybook is its extensibility. Use addons to extend and customize Storybook to fit your team’s development workflow.
 
-Addons are integral to the way Storybook works. Many of Storybook's core features are implemented as addons! These addons are installed out of the box with [essentials](../essentials/introduction.md).
+Addons are integral to the way Storybook works. Many of Storybook's core features are implemented as addons! These addons are installed out of the box with [essentials](../essentials/index.md).
 
 ## Addon features
 

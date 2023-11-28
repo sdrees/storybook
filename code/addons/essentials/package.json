@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.6.0-beta.2",
+  "version": "8.0.0-alpha.0",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -77,7 +77,7 @@
   },
   "devDependencies": {
     "@storybook/vue": "workspace:*",
-    "typescript": "^4.9.3"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

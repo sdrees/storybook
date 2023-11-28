@@ -243,19 +243,19 @@ This method allows you to override the default Storybook UI configuration (e.g.,
 
 The following table details how to use the API values:
 
-| Name                |     Type      |                    Description                     |             Example Value             |
-| ------------------- | :-----------: | :------------------------------------------------: | :-----------------------------------: |
-| **isFullscreen**    |    Boolean    |        Show story component as full screen         |                `false`                |
-| **showNav**         |    Boolean    |     Display panel that shows a list of stories     |                `true`                 |
-| **showPanel**       |    Boolean    |   Display panel that shows addon configurations    |                `true`                 |
-| **panelPosition**   | String/Object |           Where to show the addon panel            |          `bottom` or `right`          |
-| **enableShortcuts** |    Boolean    |              Enable/disable shortcuts              |                `true`                 |
-| **showToolbar**     |    Boolean    |                 Show/hide toolbar                  |                `true`                 |
-| **theme**           |    Object     |         Storybook Theme, see next section          |              `undefined`              |
-| **selectedPanel**   |    String     |            Id to select an addon panel             |       `storybook/actions/panel`       |
-| **initialActive**   |    String     |      Select the default active tab on Mobile       |   `sidebar` or `canvas` or `addons`   |
-| **sidebar**         |    Object     |             Sidebar options, see below             |        `{ showRoots: false }`         |
-| **toolbar**         |    Object     | Modify the tools in the toolbar using the addon id | `{ fullscreen: { hidden: false } } }` |
+| Name                  |      Type       |                       Description                       |             Example Value             |
+| --------------------- | :-------------: | :-----------------------------------------------------: | :-----------------------------------: |
+| **navSize**           | Number (pixels) |  The size of the sidebar that shows a list of stories   |                 `300`                 |
+| **bottomPanelHeight** | Number (pixels) | The size of the addon panel when in the bottom position |                 `200`                 |
+| **rightPanelWidth**   | Number (pixels) | The size of the addon panel when in the right position  |                 `200`                 |
+| **panelPosition**     |     String      |              Where to show the addon panel              |        `'bottom'` or `'right'`        |
+| **enableShortcuts**   |     Boolean     |                Enable/disable shortcuts                 |                `true`                 |
+| **showToolbar**       |     Boolean     |                    Show/hide toolbar                    |                `true`                 |
+| **theme**             |     Object      |            Storybook Theme, see next section            |              `undefined`              |
+| **selectedPanel**     |     String      |               Id to select an addon panel               |       `storybook/actions/panel`       |
+| **initialActive**     |     String      |         Select the default active tab on Mobile         |   `sidebar` or `canvas` or `addons`   |
+| **sidebar**           |     Object      |               Sidebar options, see below                |        `{ showRoots: false }`         |
+| **toolbar**           |     Object      |   Modify the tools in the toolbar using the addon id    | `{ fullscreen: { hidden: false } } }` |
 
 The following options are configurable under the `sidebar` namespace:
 

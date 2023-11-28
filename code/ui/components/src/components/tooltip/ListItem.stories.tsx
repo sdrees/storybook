@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
+import { EyeIcon } from '@storybook/icons';
 import ListItem from './ListItem';
-import { Icons } from '../icon/icon';
 
 export default {
   component: ListItem,
@@ -11,17 +11,11 @@ export const All = {
     <div>
       <ListItem loading />
       <ListItem title="Default" />
-      <ListItem title="Default icon" right={<Icons icon="eye" />} />
-      <ListItem left="left" title="title" center="center" right="right" />
-      <ListItem active left="left" title="active" center="center" right="right" />
-      <ListItem
-        active
-        left="left"
-        title="active icon"
-        center="center"
-        right={<Icons icon="eye" />}
-      />
-      <ListItem disabled left="left" title="disabled" center="center" right="right" />
+      <ListItem title="Default icon" right={<EyeIcon />} />
+      <ListItem title="title" center="center" right="right" />
+      <ListItem active title="active" center="center" right="right" />
+      <ListItem active title="active icon" center="center" right={<EyeIcon />} />
+      <ListItem disabled title="disabled" center="center" right="right" />
     </div>
   ),
 };
@@ -41,28 +35,28 @@ export const Loading = {
 export const DefaultIcon = {
   args: {
     title: 'Default icon',
-    right: <Icons icon="eye" />,
+    right: <EyeIcon />,
   },
 };
 export const ActiveIcon = {
   args: {
     title: 'Active icon',
     active: true,
-    right: <Icons icon="eye" />,
+    right: <EyeIcon />,
   },
 };
 export const ActiveIconLeft = {
   args: {
     title: 'Active icon',
     active: true,
-    left: <Icons icon="eye" />,
+    icon: <EyeIcon />,
   },
 };
 export const ActiveIconLeftColored = {
   args: {
     title: 'Active icon',
     active: true,
-    left: (
+    icon: (
       <Fragment>
         <svg
           width="16"

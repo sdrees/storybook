@@ -33,11 +33,6 @@ interface CoreClient_RendererImplementation<TRenderer extends Renderer> {
 
 interface CoreClient_ClientAPIFacade {
   /**
-   * The old way of adding stories at runtime.
-   * @deprecated This method is deprecated and will be removed in a future version.
-   */
-  storiesOf: (...args: any[]) => never;
-  /**
    * The old way of retrieving the list of stories at runtime.
    * @deprecated This method is deprecated and will be removed in a future version.
    */
@@ -88,7 +83,6 @@ export function start<TRenderer extends Renderer>(
       forceReRender: removedApi('forceReRender'),
       configure: removedApi('configure'),
       clientApi: {
-        storiesOf: removedApi('clientApi.storiesOf'),
         raw: removedApi('raw'),
       },
     };

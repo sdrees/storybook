@@ -109,23 +109,23 @@ Most community members choose a [Component-Driven](https://www.componentdriven.o
 
 When you write stories for components, you get a bunch of additional benefits for free.
 
-#### 📝 Develop UIs that are more durable
+**📝 Develop UIs that are more durable**
 
-Isolate components and pages and track their use cases as [stories](../writing-stories/introduction.md). Verify hard-to-reach edge cases of UI. Use addons to mock everything a component needs—context, API requests, device features, etc.
+Isolate components and pages and track their use cases as [stories](../writing-stories/index.md). Verify hard-to-reach edge cases of UI. Use addons to mock everything a component needs—context, API requests, device features, etc.
 
-#### ✅ Test UIs with less effort and no flakes
+**✅ Test UIs with less effort and no flakes**
 
 Stories are a pragmatic, reproducible way of tracking UI states. Use them to spot-test the UI during development. Storybook offers built-in workflows for automated [Accessibility](../writing-tests/accessibility-testing.md), [Interaction](../writing-tests/interaction-testing.md), and [Visual](../writing-tests/visual-testing.md) testing. Or use stories as test cases by importing them into other JavaScript testing tools.
 
-#### 📚 Document UI for your team to reuse
+**📚 Document UI for your team to reuse**
 
-Storybook is the single source of truth for your UI. Stories index all your components and their various states, making it easy for your team to find and reuse existing UI patterns. Storybook also auto-generates [documentation](../writing-docs/introduction.md) from those stories.
+Storybook is the single source of truth for your UI. Stories index all your components and their various states, making it easy for your team to find and reuse existing UI patterns. Storybook also auto-generates [documentation](../writing-docs/index.md) from those stories.
 
-#### 📤 Share how the UI actually works
+**📤 Share how the UI actually works**
 
 Stories show how UIs actually work, not just a picture of how they're supposed to work. That keeps everyone aligned on what's currently in production. [Publish Storybook](../sharing/publish-storybook.md) to get sign-off from teammates. Or [embed](../sharing/embed.md) them in wikis, Markdown, and Figma to streamline collaboration.
 
-#### 🚦Automate UI workflows
+**🚦Automate UI workflows**
 
 Storybook is compatible with your continuous integration workflow. Add it as a CI step to automate user interface testing, review implementation with teammates, and get signoff from stakeholders.
 
@@ -133,7 +133,7 @@ Storybook is compatible with your continuous integration workflow. Add it as a C
 
 Storybook is powered by [Component Story Format](https://github.com/ComponentDriven/csf), an open standard based on JavaScript ES6 modules. This enables stories to interoperate between development, testing, and design tools. Each story is exported as a JavaScript function enabling you to reuse it with other tools. No vendor lock-in.
 
-Reuse stories with [Jest](https://jestjs.io/) and [Testing Library](https://testing-library.com/) to verify interactions. Put them in [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) for visual testing. Audit story accessibility with [Axe](https://github.com/dequelabs/axe-core). Or test user flows with [Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/). Reuse unlocks more workflows at no extra cost.
+Reuse stories with [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) to verify interactions. Put them in [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) for visual testing. Audit story accessibility with [Axe](https://github.com/dequelabs/axe-core). Or test user flows with [Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/). Reuse unlocks more workflows at no extra cost.
 
 ---
 

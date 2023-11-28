@@ -10,7 +10,7 @@ If you're using Vite to build your Storybook, you're covered! Storybook will use
 
 ## Importing CSS files
 
-Storybook is pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.js`](./overview.md#configure-story-rendering).
+Storybook is pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.js`](./index.md#configure-story-rendering).
 
 <!-- prettier-ignore-start -->
 

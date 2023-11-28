@@ -31,7 +31,7 @@ import * as ButtonStories from './Button.stories'
 
 <Callout variant="warning">
 
-The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.md) (included in [`@storybook/addon-essentials`](../essentials/introduction.md)).
+The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.md) (included in [`@storybook/addon-essentials`](../essentials/index.md)).
 
 </Callout>
 

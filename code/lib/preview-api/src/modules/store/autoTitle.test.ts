@@ -187,6 +187,39 @@ describe('userOrAutoTitleFromSpecifier', () => {
         ).toMatchInlineSnapshot(`to/button`);
       });
 
+      it('match with trailing stories', () => {
+        expect(
+          userOrAuto(
+            './path/to/button/stories.js',
+            normalizeStoriesEntry({ directory: './path', files: '**/?(*.)stories.*' }, options),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`to/button`);
+      });
+
+      it('match with trailing stories (windows path)', () => {
+        expect(
+          userOrAuto(
+            './path/to/button/stories.js',
+            normalizeStoriesEntry(
+              { directory: '.\\path\\', files: '**/?(*.)stories.*' },
+              winOptions
+            ),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`to/button`);
+      });
+
+      it('match with dotted component', () => {
+        expect(
+          userOrAuto(
+            './path/to/button/button.group.stories.js',
+            normalizeStoriesEntry({ directory: './path' }, options),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`to/button/button.group`);
+      });
+
       it('match with hyphen path', () => {
         expect(
           userOrAuto(
@@ -205,6 +238,18 @@ describe('userOrAutoTitleFromSpecifier', () => {
             undefined
           )
         ).toMatchInlineSnapshot(`to_my/file`);
+      });
+
+      it('match with short path', () => {
+        // Make sure "stories" isn't trimmed as redundant when there won't be
+        // anything left.
+        expect(
+          userOrAuto(
+            './path/stories.js',
+            normalizeStoriesEntry({ directory: './path', files: '**/?(*.)stories.*' }, options),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`stories`);
       });
 
       it('match with windows path', () => {
@@ -278,6 +323,22 @@ describe('userOrAutoTitleFromSpecifier', () => {
           )
         ).toMatchInlineSnapshot(`to_my/MyButton`);
       });
+    });
+
+    it('Story.stories.js', () => {
+      expect(
+        userOrAuto(
+          '../blocks/src/Story.stories.tsx',
+          normalizeStoriesEntry(
+            {
+              directory: '../blocks/src',
+              titlePrefix: '@blocks',
+            },
+            options
+          ),
+          undefined
+        )
+      ).toMatchInlineSnapshot(`@blocks/Story`);
     });
   });
 });

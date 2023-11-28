@@ -1,7 +1,7 @@
 import { global } from '@storybook/global';
-import type { FC } from 'react';
-import React, { useMemo } from 'react';
-import ReactDOM from 'react-dom';
+import type { ComponentProps, FC } from 'react';
+import { createRoot } from 'react-dom/client';
+import React, { useCallback, useMemo } from 'react';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
 import { Provider as ManagerProvider, types } from '@storybook/manager-api';
@@ -12,10 +12,12 @@ import { ProviderDoesNotExtendBaseProviderError } from '@storybook/core-events/m
 import { HelmetProvider } from 'react-helmet-async';
 
 import type { Addon_PageType } from '@storybook/types';
-import App from './app';
+import { App } from './App';
 
 import Provider from './provider';
-import { settingsPageAddon } from './settings';
+import { settingsPageAddon } from './settings/index';
+import { LayoutProvider } from './components/layout/LayoutProvider';
+import type { Layout } from './components/layout/Layout';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -37,6 +39,7 @@ export const Root: FC<RootProps> = ({ provider }) => (
 
 const Main: FC<{ provider: Provider }> = ({ provider }) => {
   const navigate = useNavigate();
+
   return (
     <Location key="location.consumer">
       {(locationData) => (
@@ -47,32 +50,32 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           navigate={navigate}
           docsOptions={global?.DOCS_OPTIONS || {}}
         >
-          {({ state, api }: Combo) => {
-            const panelCount = Object.keys(api.getElements(types.PANEL)).length;
+          {(combo: Combo) => {
+            const { state, api } = combo;
+            const setManagerLayoutState = useCallback<
+              ComponentProps<typeof Layout>['setManagerLayoutState']
+            >(
+              (sizes) => {
+                api.setSizes(sizes);
+              },
+              [api]
+            );
+
             const pages: Addon_PageType[] = useMemo(
               () => [settingsPageAddon, ...Object.values(api.getElements(types.experimental_PAGE))],
               [Object.keys(api.getElements(types.experimental_PAGE)).join()]
             );
 
-            const story = api.getData(state.storyId, state.refId);
-            const isLoading = story
-              ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
-              : !state.previewInitialized;
-
-            const layout = useMemo(
-              () => (isLoading ? { ...state.layout, showPanel: false } : state.layout),
-              [isLoading, state.layout]
-            );
-
             return (
               <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-                <App
-                  key="app"
-                  viewMode={state.viewMode}
-                  layout={layout}
-                  panelCount={panelCount}
-                  pages={pages}
-                />
+                <LayoutProvider>
+                  <App
+                    key="app"
+                    pages={pages}
+                    managerLayoutState={{ ...state.layout, viewMode: state.viewMode }}
+                    setManagerLayoutState={setManagerLayoutState}
+                  />
+                </LayoutProvider>
               </ThemeProvider>
             );
           }}
@@ -87,7 +90,8 @@ export function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
     throw new ProviderDoesNotExtendBaseProviderError();
   }
 
-  ReactDOM.render(<Root key="root" provider={provider} />, domNode);
+  const root = createRoot(domNode);
+  root.render(<Root key="root" provider={provider} />);
 }
 
 export { Provider };

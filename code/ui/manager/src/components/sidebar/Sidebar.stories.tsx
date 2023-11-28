@@ -4,12 +4,15 @@ import type { IndexHash, State } from '@storybook/manager-api';
 import { types } from '@storybook/manager-api';
 import type { StoryObj, Meta } from '@storybook/react';
 import { within, userEvent } from '@storybook/testing-library';
-import { Button, IconButton, Icons } from '@storybook/components';
+import { Button, IconButton } from '@storybook/components';
+import { FaceHappyIcon } from '@storybook/icons';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
+import { LayoutProvider } from '../layout/LayoutProvider';
+import { IconSymbols } from './IconSymbols';
 
 const wait = (ms: number) =>
   new Promise<void>((resolve) => {
@@ -20,8 +23,16 @@ const meta = {
   component: Sidebar,
   title: 'Sidebar/Sidebar',
   excludeStories: /.*Data$/,
-  parameters: { layout: 'fullscreen', withSymbols: true },
-  decorators: [ExplorerStories.default.decorators[0]],
+  parameters: { layout: 'fullscreen' },
+  decorators: [
+    ExplorerStories.default.decorators[0],
+    (storyFn) => (
+      <LayoutProvider>
+        <IconSymbols />
+        {storyFn()}
+      </LayoutProvider>
+    ),
+  ],
 } as Meta<typeof Sidebar>;
 
 export default meta;
@@ -53,6 +64,14 @@ const refsError = {
     ...refs.optimized,
     index: undefined as IndexHash,
     indexError,
+  },
+};
+
+const refsEmpty = {
+  optimized: {
+    ...refs.optimized,
+    // type: 'auto-inject',
+    index: {} as IndexHash,
   },
 };
 
@@ -175,6 +194,24 @@ export const LoadingWithRefError: Story = {
   ),
 };
 
+export const WithRefEmpty: Story = {
+  args: {
+    previewInitialized: true,
+  },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      extra={[]}
+      index={{}}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={refsEmpty}
+      status={{}}
+    />
+  ),
+};
+
 export const StatusesCollapsed: Story = {
   args: {
     previewInitialized: true,
@@ -261,7 +298,7 @@ export const Bottom: Story = {
           type: types.experimental_SIDEBAR_BOTTOM,
           render: () => (
             <Button>
-              <Icons icon="facehappy" />
+              <FaceHappyIcon />
               Custom addon A
             </Button>
           ),
@@ -272,7 +309,7 @@ export const Bottom: Story = {
           render: () => (
             <Button>
               {' '}
-              <Icons icon="facehappy" />
+              <FaceHappyIcon />
               Custom addon B
             </Button>
           ),
@@ -283,7 +320,7 @@ export const Bottom: Story = {
           render: () => (
             <IconButton>
               {' '}
-              <Icons icon="facehappy" />
+              <FaceHappyIcon />
             </IconButton>
           ),
         },

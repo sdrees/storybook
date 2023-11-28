@@ -283,5 +283,5 @@ export const svelteKit: Parameters = {
   name: 'svelteKit',
   version: 'latest',
   generator:
-    'yarn create svelte-with-args --name={{appName}} --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+    'yarn create svelte-with-args --name={{appName}} --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
 };

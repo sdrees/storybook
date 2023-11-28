@@ -1,49 +1,67 @@
 import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { Button, IconButton } from '@storybook/components';
 import { global } from '@storybook/global';
-import type { FC, MouseEventHandler, ReactNode } from 'react';
+import type { FC, MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';
 
 import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
-import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
+import { transparentize } from 'polished';
+import { TrashIcon } from '@storybook/icons';
+import { TypeIcon } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
-import { isCloseType, isClearType, isExpandType } from './types';
-// eslint-disable-next-line import/no-cycle
-import { getLink } from '../../utils/tree';
+import { isExpandType } from './types';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
+// eslint-disable-next-line import/no-cycle
 import { statusMapping } from '../../utils/status';
+import { UseSymbol } from './IconSymbols';
 
 const { document } = global;
 
 const ResultsList = styled.ol({
   listStyle: 'none',
   margin: 0,
-  marginLeft: -20,
-  marginRight: -20,
   padding: 0,
 });
 
 const ResultRow = styled.li<{ isHighlighted: boolean }>(({ theme, isHighlighted }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  margin: 0,
-  padding: 0,
-  paddingRight: 20,
-  background: isHighlighted ? theme.background.hoverable : 'transparent',
+  width: '100%',
+  border: 'none',
   cursor: 'pointer',
-  'a:hover, button:hover': {
-    background: 'transparent',
+  display: 'flex',
+  alignItems: 'start',
+  textAlign: 'left',
+  color: 'inherit',
+  fontSize: `${theme.typography.size.s2}px`,
+  background: isHighlighted ? theme.background.hoverable : 'transparent',
+  minHeight: 28,
+  borderRadius: 4,
+  gap: 6,
+  paddingTop: 7,
+  paddingBottom: 7,
+  paddingLeft: 8,
+  paddingRight: 8,
+
+  '&:hover, &:focus': {
+    background: transparentize(0.93, theme.color.secondary),
+    outline: 'none',
   },
-  gap: 10,
+}));
+
+const IconWrapper = styled.div({
+  marginTop: 2,
+});
+
+const ResultRowContent = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'column',
 }));
 
 const NoResults = styled.div(({ theme }) => ({
   marginTop: 20,
   textAlign: 'center',
-  fontSize: `${theme.typography.size.s2 - 1}px`,
+  fontSize: `${theme.typography.size.s2}px`,
   lineHeight: `18px`,
   color: theme.color.defaultText,
   small: {
@@ -57,61 +75,90 @@ const Mark = styled.mark(({ theme }) => ({
   color: theme.color.secondary,
 }));
 
-const ActionRow = styled(ResultRow)({
-  display: 'flex',
-  padding: '6px 19px',
-  alignItems: 'center',
-});
-
-const BackActionRow = styled(ActionRow)({
+const MoreWrapper = styled.div({
   marginTop: 8,
 });
 
-const ActionLabel = styled.span(({ theme }) => ({
-  flexGrow: 1,
+const RecentlyOpenedTitle = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  fontSize: `${theme.typography.size.s1 - 1}px`,
+  fontWeight: theme.typography.weight.bold,
+  minHeight: 28,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
   color: theme.textMutedColor,
-  fontSize: `${theme.typography.size.s1}px`,
+  marginTop: 16,
+  marginBottom: 4,
+  alignItems: 'center',
+
+  '.search-result-recentlyOpened-clear': {
+    visibility: 'hidden',
+  },
+
+  '&:hover': {
+    '.search-result-recentlyOpened-clear': {
+      visibility: 'visible',
+    },
+  },
 }));
 
-const ActionIcon = styled(Icons)(({ theme }) => ({
-  display: 'inline-block',
-  width: 10,
-  height: 10,
-  marginRight: 6,
-  color: theme.textMutedColor,
-}));
-
-const ActionKey = styled.code(({ theme }) => ({
-  minWidth: 16,
-  height: 16,
-  lineHeight: '16px',
-  textAlign: 'center',
-  fontSize: '11px',
-  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
-  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
-  borderRadius: 2,
-  userSelect: 'none',
-  pointerEvents: 'none',
-}));
-
-const Highlight: FC<{ match?: Match }> = React.memo(function Highlight({ children, match }) {
-  if (!match) return <>{children}</>;
+const Highlight: FC<PropsWithChildren<{ match?: Match }>> = React.memo(function Highlight({
+  children,
+  match,
+}) {
+  if (!match) return children;
   const { value, indices } = match;
   const { nodes: result } = indices.reduce<{ cursor: number; nodes: ReactNode[] }>(
     ({ cursor, nodes }, [start, end], index, { length }) => {
-      /* eslint-disable react/no-array-index-key */
-      nodes.push(<span key={`${index}-0`}>{value.slice(cursor, start)}</span>);
-      nodes.push(<Mark key={`${index}-1`}>{value.slice(start, end + 1)}</Mark>);
+      nodes.push(<span>{value.slice(cursor, start)}</span>);
+      nodes.push(<Mark>{value.slice(start, end + 1)}</Mark>);
       if (index === length - 1) {
-        nodes.push(<span key={`${index}-2`}>{value.slice(end + 1)}</span>);
+        nodes.push(<span>{value.slice(end + 1)}</span>);
       }
-      /* eslint-enable react/no-array-index-key */
       return { cursor: end + 1, nodes };
     },
     { cursor: 0, nodes: [] }
   );
-  return <>{result}</>;
+  return <span>{result}</span>;
 });
+
+const Title = styled.div(({ theme }) => ({
+  display: 'grid',
+  justifyContent: 'start',
+  gridAutoColumns: 'auto',
+  gridAutoFlow: 'column',
+  color: theme.textMutedColor,
+
+  '& > span': {
+    display: 'block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+}));
+
+const Path = styled.div(({ theme }) => ({
+  display: 'grid',
+  justifyContent: 'start',
+  gridAutoColumns: 'auto',
+  gridAutoFlow: 'column',
+  color: theme.textMutedColor,
+  fontSize: `${theme.typography.size.s1 - 1}px`,
+
+  '& > span': {
+    display: 'block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+
+  '& > span + span': {
+    '&:before': {
+      content: "' / '",
+    },
+  },
+}));
 
 const Result: FC<
   SearchResult & {
@@ -142,41 +189,43 @@ const Result: FC<
 
   const nameMatch = matches.find((match: Match) => match.key === 'name');
   const pathMatches = matches.filter((match: Match) => match.key === 'path');
-  const label = (
-    <div className="search-result-item--label">
-      <strong>
-        <Highlight match={nameMatch}>{item.name}</Highlight>
-      </strong>
-      <Path>
-        {item.path.map((group, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <span key={index}>
-            <Highlight match={pathMatches.find((match: Match) => match.arrayIndex === index)}>
-              {group}
-            </Highlight>
-          </span>
-        ))}
-      </Path>
-    </div>
-  );
-  const title = `${item.path.join(' / ')} / ${item.name}`;
-
-  const nodeProps = { depth: 0, onClick: click, title, children: label };
-  let node;
-  if (item.type === 'component') {
-    node = <ComponentNode isExpanded={false} {...nodeProps} />;
-  } else if (item.type === 'story') {
-    node = <StoryNode href={getLink(item, item.refId)} {...nodeProps} />;
-  } else {
-    // @ts-expect-error (TODO)
-    node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
-  }
 
   const [i] = item.status ? statusMapping[item.status] : [];
 
   return (
-    <ResultRow {...props}>
-      {node}
+    <ResultRow {...props} onClick={click}>
+      <IconWrapper>
+        {item.type === 'component' && (
+          <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="component">
+            <UseSymbol type="component" />
+          </TypeIcon>
+        )}
+        {item.type === 'story' && (
+          <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="story">
+            <UseSymbol type="story" />
+          </TypeIcon>
+        )}
+        {!(item.type === 'component' || item.type === 'story') && (
+          <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="document">
+            <UseSymbol type="document" />
+          </TypeIcon>
+        )}
+      </IconWrapper>
+      <ResultRowContent className="search-result-item--label">
+        <Title>
+          <Highlight match={nameMatch}>{item.name}</Highlight>
+        </Title>
+        <Path>
+          {item.path.map((group, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <span key={index}>
+              <Highlight match={pathMatches.find((match: Match) => match.arrayIndex === index)}>
+                {group}
+              </Highlight>
+            </span>
+          ))}
+        </Path>
+      </ResultRowContent>
       {item.status ? i : null}
     </ResultRow>
   );
@@ -191,6 +240,7 @@ export const SearchResults: FC<{
   highlightedIndex: number | null;
   isLoading?: boolean;
   enableShortcuts?: boolean;
+  clearLastViewed?: () => void;
 }> = React.memo(function SearchResults({
   query,
   results,
@@ -200,6 +250,7 @@ export const SearchResults: FC<{
   highlightedIndex,
   isLoading = false,
   enableShortcuts = true,
+  clearLastViewed,
 }) {
   const api = useStorybookApi();
   useEffect(() => {
@@ -235,12 +286,23 @@ export const SearchResults: FC<{
     }
   }, []);
 
+  const handleClearLastViewed = () => {
+    clearLastViewed();
+    closeMenu();
+  };
+
   return (
     <ResultsList {...getMenuProps()}>
       {results.length > 0 && !query && (
-        <li>
-          <RootNode className="search-result-recentlyOpened">Recently opened</RootNode>
-        </li>
+        <RecentlyOpenedTitle className="search-result-recentlyOpened">
+          Recently opened
+          <IconButton
+            className="search-result-recentlyOpened-clear"
+            onClick={handleClearLastViewed}
+          >
+            <TrashIcon />
+          </IconButton>
+        </RecentlyOpenedTitle>
       )}
       {results.length === 0 && query && (
         <li>
@@ -252,47 +314,17 @@ export const SearchResults: FC<{
         </li>
       )}
       {results.map((result: DownshiftItem, index) => {
-        if (isCloseType(result)) {
-          return (
-            <BackActionRow
-              key="search-result-back"
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-              className="search-result-back"
-            >
-              <ActionIcon icon="arrowleft" />
-              <ActionLabel>Back to components</ActionLabel>
-              <ActionKey>ESC</ActionKey>
-            </BackActionRow>
-          );
-        }
-        if (isClearType(result)) {
-          return (
-            <ActionRow
-              key="search-result-clearHistory"
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-              className="search-result-clearHistory"
-            >
-              <ActionIcon icon="trash" />
-              <ActionLabel>Clear history</ActionLabel>
-            </ActionRow>
-          );
-        }
         if (isExpandType(result)) {
           return (
-            <ActionRow
-              key="search-result-more"
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-              className="search-result-more"
-            >
-              <ActionIcon icon="plus" />
-              <ActionLabel>Show {result.moreCount} more results</ActionLabel>
-            </ActionRow>
+            <MoreWrapper key="search-result-expand">
+              <Button
+                {...result}
+                {...getItemProps({ key: index, index, item: result })}
+                size="small"
+              >
+                Show {result.moreCount} more results
+              </Button>
+            </MoreWrapper>
           );
         }
 

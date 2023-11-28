@@ -19,10 +19,10 @@ const testMatch = (rule: RuleSetRule, string: string): boolean => {
     : isRegExp(rule.test) && rule.test.test(string);
 };
 
-export const processCraConfig = (
+export const processCraConfig = async (
   craWebpackConfig: Configuration,
   options: PluginOptions
-): RuleSetRule[] => {
+): Promise<RuleSetRule[]> => {
   const configDir = resolve(options.configDir);
 
   /*
@@ -37,9 +37,11 @@ export const processCraConfig = (
    */
   const storybookVersion = semver.coerce(options.packageJson.version) || '';
   const isStorybook530 = semver.gte(storybookVersion, '5.3.0');
+  const babelOptions = await options.presets.apply('babel');
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return craWebpackConfig.module!.rules.reduce((rules, rule): RuleSetRule[] => {
+  if (!craWebpackConfig?.module?.rules) return [];
+
+  return craWebpackConfig.module.rules.reduce((rules, rule): RuleSetRule[] => {
     const { oneOf, include } = rule as RuleSetRule;
 
     // Add our `configDir` to support JSX and TypeScript in that folder.
@@ -61,6 +63,7 @@ export const processCraConfig = (
       return [
         ...rules,
         {
+          // @ts-expect-error (not type correct)
           oneOf: oneOf.map((oneOfRule: RuleSetRule): RuleSetRule => {
             if (oneOfRule.type === 'asset/resource') {
               if (isStorybook530) {
@@ -108,12 +111,7 @@ export const processCraConfig = (
                 overrides: TransformOptions[] | null;
               };
 
-              const {
-                extends: _extends,
-                plugins,
-                presets,
-                overrides,
-              } = (options as any).babelOptions;
+              const { extends: _extends, plugins, presets, overrides } = babelOptions;
 
               return {
                 ...oneOfRule,

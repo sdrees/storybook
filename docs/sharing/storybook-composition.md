@@ -17,7 +17,7 @@ You’ll see the composed Storybook’s stories in the sidebar alongside your ow
 
 ## Compose published Storybooks
 
-In your [`.storybook/main.js`](../configure/overview.md#configure-story-rendering) file add a `refs` field with information about the reference Storybook. Pass in a URL to a statically built Storybook.
+In your [`.storybook/main.js`](../configure/index.md#configure-story-rendering) file add a `refs` field with information about the reference Storybook. Pass in a URL to a statically built Storybook.
 
 <!-- prettier-ignore-start -->
 
@@ -95,7 +95,7 @@ If you're using Storybook 6.4, or higher, you can optimize your composition via 
 
 <Callout variant="info" icon="💡">
 
-If you already enabled automatic code splitting via the [`storyStoreV7`](https://storybook.js.org/docs/react/builders/webpack#code-splitting), you won't need this flag as it will automatically generate the `index.json` file.
+If you already enabled automatic code splitting via the [`storyStoreV7`](https://storybook.js.org/docs/builders/webpack#code-splitting), you won't need this flag as it will automatically generate the `index.json` file.
 
 </Callout>
 

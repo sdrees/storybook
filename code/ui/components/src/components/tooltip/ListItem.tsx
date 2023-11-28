@@ -1,10 +1,8 @@
-import type { FC, ReactNode, ComponentProps, ReactElement } from 'react';
+import type { FC, ReactNode, ComponentProps } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
 import { transparentize } from 'polished';
-import { Icons } from '../icon/icon';
-import { icons } from '../icon/icons';
 
 export interface TitleProps {
   children?: ReactNode;
@@ -104,12 +102,7 @@ const Left = styled.span<LeftProps>(
   ({ active, theme }) =>
     active
       ? {
-          '& svg': {
-            opacity: 1,
-          },
-          '& svg path:not([fill])': {
-            fill: theme.color.secondary,
-          },
+          color: theme.color.secondary,
         }
       : {},
   () => ({
@@ -181,15 +174,10 @@ export type LinkWrapperType = FC<any>;
 
 export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' | 'title'> {
   loading?: boolean;
-  /**
-   * @deprecated This property will be removed in SB 8.0
-   * Use `icon` property instead.
-   */
-  left?: ReactNode;
   title?: ReactNode;
   center?: ReactNode;
   right?: ReactNode;
-  icon?: keyof typeof icons | ReactElement;
+  icon?: ReactNode;
   active?: boolean;
   disabled?: boolean;
   href?: string;
@@ -199,7 +187,6 @@ export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' 
 
 const ListItem: FC<ListItemProps> = ({
   loading,
-  left,
   title,
   center,
   right,
@@ -215,17 +202,11 @@ const ListItem: FC<ListItemProps> = ({
   const itemProps = getItemProps(onClick, href, LinkWrapper);
   const commonProps = { active, disabled };
 
-  const isStorybookIcon = typeof icon === 'string' && icons[icon];
-
   return (
     <Item {...commonProps} {...rest} {...itemProps}>
-      {icon ? (
-        <Left {...commonProps}>{isStorybookIcon ? <Icons icon={icon} /> : icon}</Left>
-      ) : (
-        left && <Left {...commonProps}>{left}</Left>
-      )}
+      {icon && <Left {...commonProps}>{icon}</Left>}
       {title || center ? (
-        <Center isIndented={!left && !icon && isIndented}>
+        <Center isIndented={!icon && isIndented}>
           {title && (
             <Title {...commonProps} loading={loading}>
               {title}
@@ -241,7 +222,6 @@ const ListItem: FC<ListItemProps> = ({
 
 ListItem.defaultProps = {
   loading: false,
-  left: null,
   title: <span>Loading state</span>,
   center: null,
   right: null,

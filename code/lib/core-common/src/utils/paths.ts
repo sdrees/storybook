@@ -3,6 +3,11 @@ import findUp from 'find-up';
 
 export const getProjectRoot = () => {
   let result;
+  // Allow manual override in cases where auto-detect doesn't work
+  if (process.env.STORYBOOK_PROJECT_ROOT) {
+    return process.env.STORYBOOK_PROJECT_ROOT;
+  }
+
   try {
     const found = findUp.sync('.git', { type: 'directory' });
     if (found) {
@@ -13,6 +18,14 @@ export const getProjectRoot = () => {
   }
   try {
     const found = findUp.sync('.svn', { type: 'directory' });
+    if (found) {
+      result = result || path.join(found, '..');
+    }
+  } catch (e) {
+    //
+  }
+  try {
+    const found = findUp.sync('.hg', { type: 'directory' });
     if (found) {
       result = result || path.join(found, '..');
     }

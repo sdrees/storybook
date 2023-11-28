@@ -9,11 +9,10 @@ export interface PreviewProps {
   storyId: StoryId;
   entry: LeafEntry;
   options: {
-    isFullscreen: boolean;
     showTabs: boolean;
     showToolbar: boolean;
   };
-  id: string;
+  id?: string;
   path: string;
   location: State['location'];
   queryParams: State['customQueryParams'];

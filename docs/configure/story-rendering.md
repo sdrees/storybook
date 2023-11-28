@@ -6,7 +6,7 @@ In Storybook, your stories render in a particular “preview” iframe (Canvas t
 
 ## Adding to &#60;head&#62;
 
-If you need to add extra elements to the `head` of the preview iframe, for instance, to load static stylesheets, font files, or similar, you can create a file called [`.storybook/preview-head.html`](./overview.md#configure-story-rendering) and add tags like this:
+If you need to add extra elements to the `head` of the preview iframe, for instance, to load static stylesheets, font files, or similar, you can create a file called [`.storybook/preview-head.html`](./index.md#configure-story-rendering) and add tags like this:
 
 <!-- prettier-ignore-start -->
 

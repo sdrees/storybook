@@ -17,7 +17,7 @@ The Viewport toolbar item allows you to adjust the dimensions of the iframe your
 
 Out of the box, the Viewport addon offers you a standard set of viewports that you can use.
 
-If you want to change the default set of viewports, you can set the global `parameters.viewport` [parameter](../writing-stories/parameters.md) in your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+If you want to change the default set of viewports, you can set the global `parameters.viewport` [parameter](../writing-stories/parameters.md) in your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -32,12 +32,12 @@ If you want to change the default set of viewports, you can set the global `para
 
 The viewport global can take an object with the following keys:
 
-| Field                  |  Type   |                Description                                | Default Value  |
+| Field                  |  Type   |                        Description                        | Default Value  |
 | ---------------------- | :-----: | :-------------------------------------------------------: | :------------: |
-| **defaultViewport**    | String  | Sets the default viewport                                 | `'responsive'` |
-| **defaultOrientation** | String  | Sets the default orientation (e.g. portrait or landscape) | `'portrait'`   |
-| **disable**            | Boolean | Disables the viewport                                     |      N/A       |
-| **viewports**          | Object  | The configuration object for the viewport                 |      `{}`      |
+| **defaultViewport**    | String  |                 Sets the default viewport                 | `'responsive'` |
+| **defaultOrientation** | String  | Sets the default orientation (e.g. portrait or landscape) |  `'portrait'`  |
+| **disable**            | Boolean |                   Disables the viewport                   |      N/A       |
+| **viewports**          | Object  |         The configuration object for the viewport         |      `{}`      |
 
 The viewports object needs the following keys:
 
@@ -51,7 +51,7 @@ The viewports object needs the following keys:
 
 By default, Storybook uses a [minimal set of viewports](https://github.com/storybookjs/storybook/blob/next/code/addons/viewport/src/defaults.ts#L167) to get you started. But you're not restricted to these. The addon offers a more granular list of devices that you can use.
 
-Change your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) to the following:
+Change your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
@@ -70,7 +70,7 @@ See [here](https://github.com/storybookjs/storybook/blob/master/addons/viewport/
 
 ### Add new devices
 
-If you have either a specific viewport or a list of viewports that you need to use, you can modify your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file and include them:
+If you have either a specific viewport or a list of viewports that you need to use, you can modify your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file and include them:
 
 <!-- prettier-ignore-start -->
 

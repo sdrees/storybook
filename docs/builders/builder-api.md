@@ -55,7 +55,7 @@ In production, the `build` API call is responsible for generating a static Story
 
 ## Implementation
 
-Under the hood, a builder is responsible for serving/building the preview `iframe`, which has its own set of requirements. To fully support Storybook, including the [Essential addons](../writing-stories/introduction.md) that ship with Storybook, it must consider the following.
+Under the hood, a builder is responsible for serving/building the preview `iframe`, which has its own set of requirements. To fully support Storybook, including the [Essential addons](../writing-stories/index.md) that ship with Storybook, it must consider the following.
 
 ### Import stories
 
@@ -77,7 +77,7 @@ By default, Storybook's configuration is handled in a dedicated file (`storybook
 
 ### Handle preview.js exports
 
-The [`preview.js`](../configure/overview.md#configure-story-rendering) configuration file allows users to control how the story renders in the UI. This is provided via the [decorators](../writing-stories/decorators.md) named export. When Storybook starts, it converts these named exports into internal API calls via virtual module entry, for example, `addDecorator()`. The builder must also provide a similar implementation. For example:
+The [`preview.js`](../configure/index.md#configure-story-rendering) configuration file allows users to control how the story renders in the UI. This is provided via the [decorators](../writing-stories/decorators.md) named export. When Storybook starts, it converts these named exports into internal API calls via virtual module entry, for example, `addDecorator()`. The builder must also provide a similar implementation. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -91,7 +91,7 @@ The [`preview.js`](../configure/overview.md#configure-story-rendering) configura
 
 ### MDX support
 
-[Storybook's Docs](../writing-docs/introduction.md) includes the ability to author stories/documentation in MDX using a Webpack loader. The builder must also know how to interpret MDX and invoke Storybook's special extensions. For example:
+[Storybook's Docs](../writing-docs/index.md) includes the ability to author stories/documentation in MDX using a Webpack loader. The builder must also know how to interpret MDX and invoke Storybook's special extensions. For example:
 
 <!-- prettier-ignore-start -->
 

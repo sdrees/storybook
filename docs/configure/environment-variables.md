@@ -111,7 +111,7 @@ Then they'll be hardcoded to the static version of your Storybook.
 
 ### Using Storybook configuration
 
-Additionally, you can extend your Storybook configuration file (i.e., [`.storybook/main.js|.ts`](../configure/overview.md#configure-story-rendering)) and provide a configuration field that you can use to define specific variables (e.g., API URLs). For example:
+Additionally, you can extend your Storybook configuration file (i.e., [`.storybook/main.js|.ts`](../configure/index.md#configure-story-rendering)) and provide a configuration field that you can use to define specific variables (e.g., API URLs). For example:
 
 <!-- prettier-ignore-start -->
 

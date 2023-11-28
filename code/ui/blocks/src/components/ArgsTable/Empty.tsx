@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
-import { Icons, Link } from '@storybook/components';
+import { Link } from '@storybook/components';
+import { VideoIcon } from '@storybook/icons';
 
 interface EmptyProps {
   inAddonPanel?: boolean;
@@ -87,7 +88,7 @@ export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
         {inAddonPanel && (
           <>
             <Link href="https://youtu.be/0gOfS6K0x0E" target="_blank" withArrow>
-              <Icons icon="video" /> Watch 5m video
+              <VideoIcon /> Watch 5m video
             </Link>
             <Divider />
             <Link

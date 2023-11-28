@@ -27,7 +27,6 @@ const meta = {
   excludeStories: /.*Data$/,
   parameters: {
     layout: 'fullscreen',
-    withSymbols: true,
     theme: 'light',
     viewport: {
       defaultViewport: 'sized',

@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import semver from 'semver';
 import dedent from 'ts-dedent';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 import { getBuilderPackageName } from './mainConfigFile';
 
 const logger = console;
@@ -10,7 +10,7 @@ export const checkWebpack5Builder = async ({
   mainConfig,
   storybookVersion,
 }: {
-  mainConfig: StorybookConfig;
+  mainConfig: StorybookConfigRaw;
   storybookVersion: string;
 }) => {
   if (semver.lt(storybookVersion, '6.3.0')) {

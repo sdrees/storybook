@@ -1,7 +1,14 @@
 import type { ComponentProps, FunctionComponent } from 'react';
-import { ThemeProvider, convert, ignoreSsrWarning, styled, themes } from '@storybook/theming';
-
 import React from 'react';
+import {
+  styled,
+  ThemeProvider,
+  convert,
+  themes,
+  ignoreSsrWarning,
+  useTheme,
+} from '@storybook/theming';
+
 import { SyntaxHighlighter } from '@storybook/components';
 import type { SyntaxHighlighterProps } from '@storybook/components';
 import { EmptyBlock } from './EmptyBlock';
@@ -94,6 +101,7 @@ const Source: FunctionComponent<SourceProps> = ({
   format,
   ...rest
 }) => {
+  const { typography } = useTheme();
   if (isLoading) {
     return <SourceSkeleton />;
   }
@@ -117,7 +125,17 @@ const Source: FunctionComponent<SourceProps> = ({
     return syntaxHighlighter;
   }
   const overrideTheme = dark ? themes.dark : themes.light;
-  return <ThemeProvider theme={convert(overrideTheme)}>{syntaxHighlighter}</ThemeProvider>;
+  return (
+    <ThemeProvider
+      theme={convert({
+        ...overrideTheme,
+        fontCode: typography.fonts.mono,
+        fontBase: typography.fonts.base,
+      })}
+    >
+      {syntaxHighlighter}
+    </ThemeProvider>
+  );
 };
 
 Source.defaultProps = {

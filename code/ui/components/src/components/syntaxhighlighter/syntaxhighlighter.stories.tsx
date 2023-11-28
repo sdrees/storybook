@@ -179,36 +179,34 @@ export const UnsupportedDark = {
 export const Story = {
   args: {
     language: 'jsx',
-    children: `import React from 'react';
-    import { storiesOf } from '@storybook/react';
-    import { styled } from '@storybook/theming';
+    children: `import type { Meta, StoryObj } from '@storybook/react';
 
-    import Heading from './heading';
-
-    const Holder = styled.div({
-        margin: 10,
-      border: '1px dashed deepskyblue',
-      // overflow: 'hidden',
-    });
-
-    storiesOf('Basics|Heading', module).add('types', () => (
-        <div>
-        <Holder>
-          <Heading>DEFAULT WITH ALL CAPS</Heading>
-        </Holder>
-        <Holder>
-          <Heading sub="With a great sub">THIS LONG DEFAULT WITH ALL CAPS & SUB</Heading>
-        </Holder>
-        <Holder>
-          <Heading type="page">page type</Heading>
-        </Holder>
-        <Holder>
-          <Heading type="page" sub="With a sub">
-            page type
-          </Heading>
-        </Holder>
-      </div>
-    ));`,
+    import { Header } from './Header';
+    
+    const meta = {
+      title: 'Example/Header',
+      component: Header,
+      // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
+      tags: ['autodocs'],
+      parameters: {
+        // More on how to position stories at: https://storybook.js.org/docs/react/configure/story-layout
+        layout: 'fullscreen',
+      },
+    } satisfies Meta<typeof Header>;
+    
+    export default meta;
+    type Story = StoryObj<typeof meta>;
+    
+    export const LoggedIn: Story = {
+      args: {
+        user: {
+          name: 'Jane Doe',
+        },
+      },
+    };
+    
+    export const LoggedOut: Story = {};
+    `,
   },
 };
 

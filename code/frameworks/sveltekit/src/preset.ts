@@ -10,11 +10,11 @@ import { type StorybookConfig } from './types';
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const core: PresetProperty<'core', StorybookConfig> = {
+export const core: PresetProperty<'core'> = {
   builder: getAbsolutePath('@storybook/builder-vite'),
   renderer: getAbsolutePath('@storybook/svelte'),
 };
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => [
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entry = []) => [
   ...entry,
   join(dirname(require.resolve('@storybook/sveltekit/package.json')), 'dist/preview.mjs'),
 ];

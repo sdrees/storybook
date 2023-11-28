@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { join } from 'path';
 import { BigQuery } from '@google-cloud/bigquery';
 

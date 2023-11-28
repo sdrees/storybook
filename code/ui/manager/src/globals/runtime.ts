@@ -4,7 +4,9 @@ import * as REACT_DOM from 'react-dom';
 import * as COMPONENTS from '@storybook/components';
 import * as CHANNELS from '@storybook/channels';
 import * as EVENTS from '@storybook/core-events';
+import * as EVENTS_MANAGER_ERRORS from '@storybook/core-events/manager-errors';
 import * as ROUTER from '@storybook/router';
+import * as ICONS from '@storybook/icons';
 import * as THEMING from '@storybook/theming';
 import * as MANAGER_API from '@storybook/manager-api';
 import * as TYPES from '@storybook/types';
@@ -19,16 +21,11 @@ export const globalsNameValueMap: Required<Record<keyof typeof globalsNameRefere
   '@storybook/components': COMPONENTS,
   '@storybook/channels': CHANNELS,
   '@storybook/core-events': EVENTS,
+  '@storybook/core-events/manager-errors': EVENTS_MANAGER_ERRORS,
   '@storybook/router': ROUTER,
   '@storybook/theming': THEMING,
-  '@storybook/api': MANAGER_API, // deprecated, remove in 8.0
+  '@storybook/icons': ICONS,
   '@storybook/manager-api': MANAGER_API,
-  // backwards compatibility
-  '@storybook/addons': {
-    addons: MANAGER_API.addons,
-    types: MANAGER_API.types,
-    mockChannel: MANAGER_API.mockChannel,
-  },
   '@storybook/client-logger': CLIENT_LOGGER,
   '@storybook/types': TYPES,
 };

@@ -10,7 +10,7 @@ Preset addons allow developers to compose various configuration options and plug
 
 ### Local presets
 
-This type of preset allows you to encapsulate and organize configurations specific to the addon, including [builder](../builders/overview.md) support, [Babel](https://babeljs.io/), or third-party integrations. For example:
+This type of preset allows you to encapsulate and organize configurations specific to the addon, including [builder](../builders/index.md) support, [Babel](https://babeljs.io/), or third-party integrations. For example:
 
 <!-- prettier-ignore-start -->
 

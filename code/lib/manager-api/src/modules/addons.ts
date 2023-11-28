@@ -133,16 +133,14 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
       newStateOrMerger: S | API_StateMerger<S>,
       options?: Options
     ): Promise<S> {
-      let nextState;
-      const { addons: existing } = store.getState();
-      if (typeof newStateOrMerger === 'function') {
-        const merger = newStateOrMerger as API_StateMerger<S>;
-        nextState = merger(api.getAddonState<S>(addonId));
-      } else {
-        nextState = newStateOrMerger;
-      }
+      const merger = (
+        typeof newStateOrMerger === 'function' ? newStateOrMerger : () => newStateOrMerger
+      ) as API_StateMerger<S>;
       return store
-        .setState({ addons: { ...existing, [addonId]: nextState } }, options)
+        .setState(
+          (s) => ({ ...s, addons: { ...s.addons, [addonId]: merger(s.addons[addonId]) } }),
+          options
+        )
         .then(() => api.getAddonState(addonId));
     },
     getAddonState: (addonId) => {

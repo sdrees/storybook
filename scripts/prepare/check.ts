@@ -22,7 +22,9 @@ const run = async ({ cwd }: { cwd: string }) => {
   // - check for missing dependencies/peerDependencies
   // - check for unused exports
 
-  console.log('done');
+  if (process.env.CI !== 'true') {
+    console.log('done');
+  }
 };
 
 run({ cwd: process.cwd() }).catch((err: unknown) => {

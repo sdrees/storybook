@@ -24,8 +24,8 @@ You can also build a [static version](https://storybook.js.org/docs/ember/sharin
 
 ## Docs
 
-- [Basics](https://storybook.js.org/docs/ember/get-started/introduction)
-- [Configurations](https://storybook.js.org/docs/ember/configure/overview)
+- [Basics](https://storybook.js.org/docs/ember/get-started)
+- [Configurations](https://storybook.js.org/docs/ember/configure)
 - [Addons](https://storybook.js.org/docs/ember/configure/storybook-addons)
 
 ## Working with polyfills

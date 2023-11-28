@@ -4,7 +4,7 @@ import { VueLoaderPlugin } from 'vue-loader';
 import type { StorybookConfig } from '@storybook/core-webpack';
 
 export const webpack: StorybookConfig['webpack'] = async (config, { presets }) => {
-  const typescriptOptions = await presets.apply<StorybookConfig['typescript']>('typescript', {});
+  const typescriptOptions = await presets.apply('typescript', {});
 
   config.plugins?.push(new VueLoaderPlugin());
   config.module?.rules?.push({

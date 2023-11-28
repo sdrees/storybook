@@ -1,4 +1,4 @@
-import type { FC, MouseEvent } from 'react';
+import type { FC, MouseEvent, ReactElement } from 'react';
 import React from 'react';
 
 import { styled } from '@storybook/theming';
@@ -56,7 +56,7 @@ export const ActionButton = styled.button<{ disabled: boolean }>(
 ActionButton.displayName = 'ActionButton';
 
 export interface ActionItem {
-  title: string | JSX.Element;
+  title: string | ReactElement;
   className?: string;
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;

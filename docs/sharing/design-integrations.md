@@ -176,5 +176,5 @@ Integrate Adobe XD with Storybook using the [design addon](https://storybook.js.
 
 Extend and customize Storybook by building an integration. Integrate with lower-level Storybook APIs or bootstrap an addon to customize Storybook's UI and behavior.
 
-- [Addon documentation](../addons/introduction.md)
+- [Addon documentation](../addons/index.md)
 - [Create an addon tutorial](https://storybook.js.org/tutorials/create-an-addon/)

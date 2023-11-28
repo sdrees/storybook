@@ -145,7 +145,7 @@ If you need to preserve the naming scheme, you can add the `title` element to th
 
 ### Auto-title prefixes
 
-Additionally, if you customize your Storybook to load your stories based on a [configuration object](./overview.md#with-a-configuration-object), including a `titlePrefix`, Storybook automatically prefixes all titles to matching stories. For example, assuming you have the following configuration:
+Additionally, if you customize your Storybook to load your stories based on a [configuration object](./index.md#with-a-configuration-object), including a `titlePrefix`, Storybook automatically prefixes all titles to matching stories. For example, assuming you have the following configuration:
 
 <!-- prettier-ignore-start -->
 

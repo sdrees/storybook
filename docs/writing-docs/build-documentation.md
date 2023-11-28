@@ -2,7 +2,7 @@
 title: 'Preview and build docs'
 ---
 
-Storybook allows you to create rich and extensive [documentation](./introduction.md) that will help you and any other stakeholder involved in the development process. Out of the box you have the tooling required to not only write it but also to preview it and build it.
+Storybook allows you to create rich and extensive [documentation](./index.md) that will help you and any other stakeholder involved in the development process. Out of the box you have the tooling required to not only write it but also to preview it and build it.
 
 ## Preview Storybook's documentation
 
@@ -18,7 +18,7 @@ At any point during your development, you can preview the documentation you've w
 
 Depending on your configuration, when you execute the `storybook-docs` script. Storybook will be put into documentation mode and will generate a different build.
 
-It will look for any stories available either in [MDX](./mdx.md) or [CSF](../writing-stories/introduction.md#component-story-format) and based on the documentation you've added it will display it...
+It will look for any stories available either in [MDX](./mdx.md) or [CSF](../writing-stories/index.md#component-story-format) and based on the documentation you've added it will display it...
 
 ![Storybook in documentation mode](./storybook-docs-build.png)
 

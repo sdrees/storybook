@@ -58,6 +58,11 @@ const handlers = [...defaultHandlers, actualNameHandler];
 
 export default async function reactDocgenLoader(this: LoaderContext<any>, source: string) {
   const callback = this.async();
+  // get options
+  const options = this.getOptions() || {};
+  const { babelOptions = {} } = options;
+
+  const { plugins, presets } = babelOptions;
 
   try {
     const docgenResults = parse(source, {
@@ -65,6 +70,12 @@ export default async function reactDocgenLoader(this: LoaderContext<any>, source
       resolver: defaultResolver,
       handlers,
       importer: defaultImporter,
+      babelOptions: {
+        babelrc: false,
+        configFile: false,
+        plugins,
+        presets,
+      },
     }) as DocObj[];
 
     const magicString = new MagicString(source);

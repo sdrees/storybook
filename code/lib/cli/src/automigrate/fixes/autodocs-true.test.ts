@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager } from '../helpers/testing-helpers';
 import { autodocsTrue } from './autodocs-true';
@@ -8,11 +8,11 @@ const checkAutodocs = async ({
   main: mainConfig,
 }: {
   packageJson?: PackageJson;
-  main: Partial<StorybookConfig> & Record<string, unknown>;
+  main: Partial<StorybookConfigRaw> & Record<string, unknown>;
 }) => {
   return autodocsTrue.check({
     packageManager: makePackageManager(packageJson),
-    mainConfig: mainConfig as StorybookConfig,
+    mainConfig: mainConfig as StorybookConfigRaw,
     storybookVersion: '7.0.0',
   });
 };

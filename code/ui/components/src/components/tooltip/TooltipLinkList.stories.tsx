@@ -1,10 +1,10 @@
-import type { FunctionComponent, MouseEvent, ReactElement } from 'react';
+import type { FunctionComponent, MouseEvent, PropsWithChildren, ReactElement } from 'react';
 import React, { Children, cloneElement } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
+import { LinkIcon, LinuxIcon } from '@storybook/icons';
 import { WithTooltip } from './WithTooltip';
 import { TooltipLinkList } from './TooltipLinkList';
-import { Icons } from '../icon/icon';
 import ellipseUrl from './assets/ellipse.png';
 
 const onLinkClick = action('onLinkClick');
@@ -14,7 +14,7 @@ interface StoryLinkWrapperProps {
   passHref?: boolean;
 }
 
-const StoryLinkWrapper: FunctionComponent<StoryLinkWrapperProps> = ({
+const StoryLinkWrapper: FunctionComponent<PropsWithChildren<StoryLinkWrapperProps>> = ({
   href,
   passHref = false,
   children,
@@ -76,7 +76,7 @@ export const WithOneIcon = {
         id: '1',
         title: 'Link 1',
         center: 'This is an addition description',
-        icon: 'link',
+        icon: <LinkIcon />,
         href: 'http://google.com',
       },
       {
@@ -117,7 +117,7 @@ export const ActiveWithSeparateIcon = {
       {
         id: '1',
         title: 'Link 1',
-        icon: 'link',
+        icon: <LinkIcon />,
         center: 'This is an addition description',
         href: 'http://google.com',
       },
@@ -140,7 +140,7 @@ export const ActiveAndIcon = {
         id: '1',
         title: 'Link 1',
         active: true,
-        icon: 'link',
+        icon: <LinkIcon />,
         center: 'This is an addition description',
         href: 'http://google.com',
       },
@@ -162,7 +162,7 @@ export const WithIllustration = {
         id: '1',
         title: 'Link 1',
         active: true,
-        icon: 'link',
+        icon: <LinkIcon />,
         right: <img src={ellipseUrl} width="16" height="16" alt="ellipse" />,
         center: 'This is an addition description',
         href: 'http://google.com',
@@ -186,7 +186,7 @@ export const WithCustomIcon = {
         id: '1',
         title: 'Link 1',
         active: true,
-        icon: <Icons icon="linux" />,
+        icon: <LinuxIcon />,
         right: <img src={ellipseUrl} width="16" height="16" alt="ellipse" />,
         center: 'This is an addition description',
         href: 'http://google.com',

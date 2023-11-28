@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { IconButton, Icons, TooltipNote, WithTooltip } from '@storybook/components';
+import { IconButton, TooltipNote, WithTooltip } from '@storybook/components';
 import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
 
+import { ListUnorderedIcon } from '@storybook/icons';
 import { Expected, MatcherResult, Received } from './MatcherResult';
 import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
@@ -197,7 +198,7 @@ export const Interaction = ({
               tooltip={<Note note={`${isCollapsed ? 'Show' : 'Hide'} interactions`} />}
             >
               <StyledIconButton containsIcon onClick={toggleCollapsed}>
-                <Icons icon="listunordered" />
+                <ListUnorderedIcon />
               </StyledIconButton>
             </WithTooltip>
           )}

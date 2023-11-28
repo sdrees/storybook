@@ -1,7 +1,8 @@
 import type { FC, MouseEvent } from 'react';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
-import { FlexBar, Icons, IconButton, IconButtonSkeleton } from '@storybook/components';
+import { FlexBar, IconButton } from '@storybook/components';
+import { ZoomIcon, ZoomOutIcon, ZoomResetIcon } from '@storybook/icons';
 
 interface ZoomProps {
   zoom: (val: number) => void;
@@ -23,41 +24,6 @@ interface LoadingProps {
 
 export type ToolbarProps = BarProps & ZoomProps & EjectProps & LoadingProps;
 
-const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
-  <>
-    <IconButton
-      key="zoomin"
-      onClick={(e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        zoom(0.8);
-      }}
-      title="Zoom in"
-    >
-      <Icons icon="zoom" />
-    </IconButton>
-    <IconButton
-      key="zoomout"
-      onClick={(e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        zoom(1.25);
-      }}
-      title="Zoom out"
-    >
-      <Icons icon="zoomout" />
-    </IconButton>
-    <IconButton
-      key="zoomreset"
-      onClick={(e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        resetZoom();
-      }}
-      title="Reset zoom"
-    >
-      <Icons icon="zoomreset" />
-    </IconButton>
-  </>
-);
-
 const Bar = styled(FlexBar)({
   position: 'absolute',
   left: 0,
@@ -65,6 +31,21 @@ const Bar = styled(FlexBar)({
   top: 0,
   transition: 'transform .2s linear',
 });
+
+const Wrapper = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 4,
+});
+
+const IconPlaceholder = styled.div(({ theme }) => ({
+  width: 14,
+  height: 14,
+  borderRadius: 2,
+  margin: '0 7px',
+  backgroundColor: theme.appBorderColor,
+  animation: `${theme.animation.glow} 1.5s ease-in-out infinite`,
+}));
 
 export const Toolbar: FC<ToolbarProps> = ({
   isLoading,
@@ -75,12 +56,43 @@ export const Toolbar: FC<ToolbarProps> = ({
   ...rest
 }) => (
   <Bar {...rest}>
-    <Fragment key="left">
+    <Wrapper key="left">
       {isLoading ? (
-        [1, 2, 3].map((key) => <IconButtonSkeleton key={key} />)
+        [1, 2, 3].map((key) => <IconPlaceholder key={key} />)
       ) : (
-        <Zoom {...{ zoom, resetZoom }} />
+        <>
+          <IconButton
+            key="zoomin"
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              zoom(0.8);
+            }}
+            title="Zoom in"
+          >
+            <ZoomIcon />
+          </IconButton>
+          <IconButton
+            key="zoomout"
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              zoom(1.25);
+            }}
+            title="Zoom out"
+          >
+            <ZoomOutIcon />
+          </IconButton>
+          <IconButton
+            key="zoomreset"
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              resetZoom();
+            }}
+            title="Reset zoom"
+          >
+            <ZoomResetIcon />
+          </IconButton>
+        </>
       )}
-    </Fragment>
+    </Wrapper>
   </Bar>
 );

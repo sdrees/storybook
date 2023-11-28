@@ -1,14 +1,13 @@
 /* eslint-disable import/no-cycle */
 import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
 import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
-
+import { CloseIcon, SearchIcon } from '@storybook/icons';
 import { DEFAULT_REF_ID } from './Sidebar';
 import type {
   CombinedDataset,
@@ -18,7 +17,7 @@ import type {
   SearchChildrenFn,
   Selection,
 } from './types';
-import { isSearchResult, isExpandType, isClearType, isCloseType } from './types';
+import { isSearchResult, isExpandType } from './types';
 
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
@@ -53,34 +52,32 @@ const ScreenReaderLabel = styled.label({
   overflow: 'hidden',
 });
 
-const SearchIcon = styled(Icons)(({ theme }) => ({
-  width: 12,
-  height: 12,
+const SearchIconWrapper = styled.div(({ theme }) => ({
   position: 'absolute',
-  top: 10,
-  left: 12,
+  top: 0,
+  left: 8,
   zIndex: 1,
   pointerEvents: 'none',
   color: theme.textMutedColor,
+  display: 'flex',
+  alignItems: 'center',
+  height: '100%',
 }));
 
-const SearchField = styled.div(({ theme }) => ({
+const SearchField = styled.div({
   display: 'flex',
   flexDirection: 'column',
   position: 'relative',
-  '&:focus-within svg': {
-    color: theme.color.defaultText,
-  },
-}));
+});
 
 const Input = styled.input(({ theme }) => ({
   appearance: 'none',
   height: 32,
-  paddingLeft: 30,
-  paddingRight: 32,
+  paddingLeft: 28,
+  paddingRight: 28,
   border: `1px solid ${theme.appBorderColor}`,
   background: 'transparent',
-  borderRadius: 32,
+  borderRadius: 4,
   fontSize: `${theme.typography.size.s1 + 1}px`,
   fontFamily: 'inherit',
   transition: 'all 150ms',
@@ -117,32 +114,27 @@ const Input = styled.input(({ theme }) => ({
 const FocusKey = styled.code(({ theme }) => ({
   position: 'absolute',
   top: 8,
-  right: 16,
-  minWidth: 16,
+  right: 9,
   height: 16,
   zIndex: 1,
   lineHeight: '16px',
   textAlign: 'center',
   fontSize: '11px',
-  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
   color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
-  borderRadius: 3,
   userSelect: 'none',
   pointerEvents: 'none',
 }));
 
-const ClearIcon = styled(Icons)(({ theme }) => ({
-  width: 16,
-  height: 16,
-  padding: 4,
+const ClearIcon = styled.div(({ theme }) => ({
   position: 'absolute',
-  top: 8,
-  right: 16,
+  top: 0,
+  right: 8,
   zIndex: 1,
-  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)',
-  borderRadius: 16,
-  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
+  color: theme.textMutedColor,
   cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  height: '100%',
 }));
 
 const FocusContainer = styled.div({ outline: 0 });
@@ -150,18 +142,14 @@ const FocusContainer = styled.div({ outline: 0 });
 export const Search = React.memo<{
   children: SearchChildrenFn;
   dataset: CombinedDataset;
-  isLoading?: boolean;
   enableShortcuts?: boolean;
   getLastViewed: () => Selection[];
-  clearLastViewed: () => void;
   initialQuery?: string;
 }>(function Search({
   children,
   dataset,
-  isLoading = false,
   enableShortcuts = true,
   getLastViewed,
-  clearLastViewed,
   initialQuery = '',
 }) {
   const api = useStorybookApi();
@@ -279,17 +267,6 @@ export const Search = React.memo<{
             // Downshift should completely ignore this
             return {};
           }
-          if (isClearType(changes.selectedItem)) {
-            changes.selectedItem.clearLastViewed();
-            inputRef.current.blur();
-            // Nothing to see anymore, so return to the tree view
-            return { isOpen: false };
-          }
-          if (isCloseType(changes.selectedItem)) {
-            inputRef.current.blur();
-            // Return to the tree view
-            return { isOpen: false };
-          }
           return changes;
         }
 
@@ -344,10 +321,6 @@ export const Search = React.memo<{
             }
             return acc;
           }, []);
-          results.push({ closeMenu });
-          if (results.length > 0) {
-            results.push({ clearLastViewed });
-          }
         }
 
         const inputId = 'storybook-explorer-searchfield';
@@ -375,11 +348,17 @@ export const Search = React.memo<{
               {...getRootProps({ refKey: '' }, { suppressRefError: true })}
               className="search-field"
             >
-              <SearchIcon icon="search" />
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
               {/* @ts-expect-error (TODO) */}
               <Input {...inputProps} />
-              {enableShortcuts && <FocusKey>{searchShortcut}</FocusKey>}
-              <ClearIcon icon="cross" onClick={() => clearSelection()} />
+              {enableShortcuts && !isOpen && <FocusKey>{searchShortcut}</FocusKey>}
+              {isOpen && (
+                <ClearIcon onClick={() => clearSelection()}>
+                  <CloseIcon />
+                </ClearIcon>
+              )}
             </SearchField>
             <FocusContainer tabIndex={0} id="storybook-explorer-menu">
               {children({

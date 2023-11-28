@@ -8,20 +8,14 @@ import type {
   API,
 } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { Button, Icons, TooltipLinkList, WithTooltip } from '@storybook/components';
+import { Button, IconButton, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
-import {
-  ComponentNode,
-  DocumentNode,
-  GroupNode,
-  RootNode,
-  StoryNode,
-  CollapseIcon,
-} from './TreeNode';
+import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons';
+import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
 
 import type { ExpandAction, ExpandedState } from './useExpanded';
 // eslint-disable-next-line import/no-cycle
@@ -36,6 +30,14 @@ import {
   getLink,
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
+import { useLayout } from '../layout/LayoutProvider';
+import { IconSymbols } from './IconSymbols';
+import { CollapseIcon } from './components/CollapseIcon';
+
+const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
+  marginTop: props.hasOrphans ? 20 : 0,
+  marginBottom: 20,
+}));
 
 export const Action = styled.button<{ height?: number; width?: number }>(
   ({ theme, height, width }) => ({
@@ -63,6 +65,7 @@ export const Action = styled.button<{ height?: number; width?: number }>(
     '&:hover': {
       color: theme.color.secondary,
     },
+
     '&:focus': {
       color: theme.color.secondary,
       borderColor: theme.color.secondary,
@@ -80,44 +83,19 @@ export const Action = styled.button<{ height?: number; width?: number }>(
 );
 
 const CollapseButton = styled.button(({ theme }) => ({
-  // Reset button
-  background: 'transparent',
-  border: 'none',
-  outline: 'none',
-  boxSizing: 'content-box',
-  cursor: 'pointer',
-  position: 'relative',
-  textAlign: 'left',
-  lineHeight: 'normal',
-  font: 'inherit',
-  color: 'inherit',
-  letterSpacing: 'inherit',
-  textTransform: 'inherit',
-
+  all: 'unset',
   display: 'flex',
-  flex: '0 1 auto',
-  padding: '3px 10px 1px 1px',
-  margin: 0,
-  marginLeft: -19,
-  overflow: 'hidden',
-  borderRadius: 26,
+  padding: '0px 8px',
+  borderRadius: 4,
   transition: 'color 150ms, box-shadow 150ms',
+  gap: 6,
+  alignItems: 'center',
+  cursor: 'pointer',
+  height: 28,
 
-  'span:first-of-type': {
-    marginTop: 4,
-    marginRight: 7,
-  },
-
-  '&:focus': {
-    boxShadow: `0 0 0 1px ${theme.color.secondary}`,
-    color: theme.color.secondary,
-    'span:first-of-type': {
-      color: theme.color.secondary,
-    },
-
-    '&:not(:focus-visible)': {
-      boxShadow: 'none',
-    },
+  '&:hover, &:focus': {
+    outline: 'none',
+    background: transparentize(0.93, theme.color.secondary),
   },
 }));
 
@@ -127,22 +105,27 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   paddingRight: 20,
-
   color: theme.color.defaultText,
   background: 'transparent',
+  minHeight: 28,
+  borderRadius: 4,
+
   '&:hover, &:focus': {
     outline: 'none',
     background: transparentize(0.93, theme.color.secondary),
   },
+
   '&[data-selected="true"]': {
     color: theme.color.lightest,
     background: theme.color.secondary,
     fontWeight: theme.typography.weight.bold,
+
     '&:hover, &:focus': {
       background: theme.color.secondary,
     },
     svg: { color: theme.color.lightest },
   },
+
   a: { color: 'currentColor' },
 }));
 
@@ -201,6 +184,8 @@ const Node = React.memo<NodeProps>(function Node({
   onSelectStoryId,
   api,
 }) {
+  const { isDesktop, isMobile, setMobileMenuOpen } = useLayout();
+
   if (!isDisplayed) {
     return null;
   }
@@ -231,14 +216,15 @@ const Node = React.memo<NodeProps>(function Node({
           onClick={(event) => {
             event.preventDefault();
             onSelectStoryId(item.id);
+            if (isMobile) setMobileMenuOpen(false);
           }}
           {...(item.type === 'docs' && { docsMode })}
         >
           {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
         </LeafNode>
         {isSelected && (
-          <SkipToContentLink secondary outline isLink href="#storybook-preview-wrapper">
-            Skip to canvas
+          <SkipToContentLink asChild>
+            <a href="#storybook-preview-wrapper">Skip to canvas</a>
           </SkipToContentLink>
         )}
         {icon ? (
@@ -289,10 +275,9 @@ const Node = React.memo<NodeProps>(function Node({
           {item.renderLabel?.(item) || item.name}
         </CollapseButton>
         {isExpanded && (
-          <Action
-            type="button"
+          <IconButton
             className="sidebar-subheading-action"
-            aria-label="expand"
+            aria-label={isFullyExpanded ? 'Expand' : 'Collapse'}
             data-action="expand-all"
             data-expanded={isFullyExpanded}
             onClick={(event) => {
@@ -300,8 +285,8 @@ const Node = React.memo<NodeProps>(function Node({
               setFullyExpanded();
             }}
           >
-            <Icons icon={isFullyExpanded ? 'collapse' : 'expandalt'} />
-          </Action>
+            {isFullyExpanded ? <CollapseIconSvg /> : <ExpandAltIcon />}
+          </IconButton>
         )}
       </RootNode>
     );
@@ -329,7 +314,7 @@ const Node = React.memo<NodeProps>(function Node({
         onClick={(event) => {
           event.preventDefault();
           setExpanded({ ids: [item.id], value: !isExpanded });
-          if (item.type === 'component' && !isExpanded) onSelectStoryId(item.id);
+          if (item.type === 'component' && !isExpanded && isDesktop) onSelectStoryId(item.id);
         }}
         onMouseEnter={() => {
           if (item.isComponent) {
@@ -367,11 +352,6 @@ const Root = React.memo<NodeProps & { expandableDescendants: string[] }>(functio
     />
   );
 });
-
-const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
-  marginTop: props.hasOrphans ? 20 : 0,
-  marginBottom: 20,
-}));
 
 export const Tree = React.memo<{
   isBrowsing: boolean;
@@ -503,6 +483,7 @@ export const Tree = React.memo<{
 
   return (
     <Container ref={containerRef} hasOrphans={isMain && orphanIds.length > 0}>
+      <IconSymbols />
       {collapsedItems.map((itemId) => {
         const item = collapsedData[itemId];
         const id = createId(itemId, refId);

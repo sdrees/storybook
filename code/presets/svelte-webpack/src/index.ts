@@ -1,8 +1,8 @@
-import type { StorybookConfig } from './types';
+import type { PresetProperty } from '@storybook/types';
 
 export * from './types';
 
-export const addons: StorybookConfig['addons'] = [
+export const addons: PresetProperty<'addons'> = [
   require.resolve('@storybook/preset-svelte-webpack/dist/framework-preset-svelte'),
   require.resolve('@storybook/preset-svelte-webpack/dist/framework-preset-svelte-docs'),
 ];

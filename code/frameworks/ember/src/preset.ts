@@ -5,13 +5,13 @@ import type { StorybookConfig } from './types';
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const addons: PresetProperty<'addons', StorybookConfig> = [
+export const addons: PresetProperty<'addons'> = [
   require.resolve('./server/framework-preset-babel-ember'),
   require.resolve('./server/framework-preset-ember-docs'),
 ];
 
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
-  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
+  const framework = await options.presets.apply('framework');
 
   return {
     ...config,

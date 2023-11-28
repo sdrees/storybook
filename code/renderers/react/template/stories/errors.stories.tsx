@@ -6,7 +6,6 @@ const BadComponent = () => badOutput;
 export default {
   component: BadComponent,
   parameters: {
-    storyshots: { disable: true },
     chromatic: { disable: true },
   },
   decorators: [

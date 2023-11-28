@@ -5,15 +5,17 @@ import { Ref } from './Refs';
 import { standardData as standardHeaderData } from './Heading.stories';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
+import { IconSymbols } from './IconSymbols';
 
 export default {
   component: Ref,
   title: 'Sidebar/Refs',
   excludeStories: /.*Data$/,
-  parameters: { layout: 'fullscreen', withSymbols: true },
+  parameters: { layout: 'fullscreen' },
   decorators: [
     (storyFn: any) => (
       <ManagerContext.Provider value={{ state: { docsOptions: {} } } as any}>
+        <IconSymbols />
         {storyFn()}
       </ManagerContext.Provider>
     ),

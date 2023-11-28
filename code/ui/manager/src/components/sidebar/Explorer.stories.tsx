@@ -4,14 +4,20 @@ import { Explorer } from './Explorer';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
 import * as RefStories from './Refs.stories';
+import { IconSymbols } from './IconSymbols';
 
 export default {
   component: Explorer,
   title: 'Sidebar/Explorer',
-  parameters: { layout: 'fullscreen', withSymbols: true },
+  parameters: { layout: 'fullscreen', theme: 'side-by-side' },
   decorators: [
     RefStories.default.decorators[0],
-    (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,
+    (storyFn: any) => (
+      <div style={{ padding: '0 20px', maxWidth: '230px' }}>
+        <IconSymbols />
+        {storyFn()}
+      </div>
+    ),
   ],
 };
 

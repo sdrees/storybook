@@ -117,7 +117,7 @@ export class NoMetaError extends Error {
     super(dedent`
       CSF: ${message} ${formatLocation(ast, fileName)}
 
-      More info: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+      More info: https://storybook.js.org/docs/react/writing-stories#default-export
     `);
     this.name = this.constructor.name;
   }
@@ -481,7 +481,7 @@ export class CsfFile {
       throw new Error(dedent`
         CSF: missing title/component ${formatLocation(self._ast, self._fileName)}
 
-        More info: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+        More info: https://storybook.js.org/docs/react/writing-stories#default-export
       `);
     }
 

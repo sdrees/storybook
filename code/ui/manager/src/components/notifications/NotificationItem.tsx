@@ -5,6 +5,7 @@ import { Link } from '@storybook/router';
 import { styled, useTheme } from '@storybook/theming';
 import { Icons, IconButton, type IconsProps } from '@storybook/components';
 import { transparentize } from 'polished';
+import { CloseAltIcon } from '@storybook/icons';
 
 const Notification = styled.div(({ theme }) => ({
   position: 'relative',
@@ -115,7 +116,7 @@ const DismissNotificationItem: FC<{
       onDismiss();
     }}
   >
-    <Icons icon="closeAlt" height={12} width={12} />
+    <CloseAltIcon size={12} />
   </DismissButtonWrapper>
 );
 

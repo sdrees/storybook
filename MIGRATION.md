@@ -1,5 +1,14 @@
 <h1>Migration</h1>
 
+- [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
+  - [Core changes](#core-changes)
+    - [Autotitle breaking fixes](#autotitle-breaking-fixes)
+    - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
+    - [Storyshots has been removed](#storyshots-has-been-removed)
+    - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
+    - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
+    - [Icons is deprecated](#icons-is-deprecated)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -41,6 +50,7 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
+    - [Dark mode detection](#dark-mode-detection)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
@@ -310,6 +320,127 @@
   - [Webpack upgrade](#webpack-upgrade)
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
+
+## From version 7.x to 8.0.0
+
+### Implicit actions can not be used during rendering (for example in the play function)
+
+In Storybook 7, we inferred if the component accepts any action props,
+by checking if it starts with `onX` (for example `onClick`), or as configured by `actions.argTypesRegex`.
+If that was the case, we would fill in jest spies for those args automatically.
+
+```ts
+export default {
+  component: Button,
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    // args.onClick is a jest spy in 7.0
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+In Storybook 8 this feature is removed, and spies have to added explicitly:
+
+```ts
+import { fn } from '@storybook/test';
+
+export default {
+  component: Button,
+  args: {
+    onClick: fn(),
+  },
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+For more context, see this RFC:
+https://github.com/storybookjs/storybook/discussions/23649
+
+To summarize:
+
+- This makes CSF files less magical and more portable, so that CSF files will render the same in a test environment where docgen is not available.
+- This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
+- This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
+
+### Core changes
+
+#### Autotitle breaking fixes
+
+In Storybook 7, the file name `path/to/foo.bar.stories.js` would result in the [autotitle](https://storybook.js.org/docs/react/configure/overview#configure-story-loading) `path/to/foo`. In 8.0, this has been changed to generate `path/to/foo.bar`. We consider this a bugfix but it is also a breaking change if you depended on the old behavior. To get the old titles, you can manually specify the desired title in the default export of your story file. For example:
+
+```js
+export default {
+  title: 'path/to/foo',
+}
+```
+
+Alternatively, if you need to achieve a different behavior for a large number of files, you can provide a [custom indexer](https://storybook.js.org/docs/7.0/vue/configure/sidebar-and-urls#processing-custom-titles) to generate the titles dynamically.
+
+#### React v18 in the manager UI (including addons)
+
+Storybook 7 used React 16 in the manager. In Storybook 8 this is upgraded to react v18.
+Addons that inject UI into panels, tools, etc. are possibly affected by this.
+
+Addon authors are advised to upgrade to react v18.
+
+#### Storyshots has been removed
+
+Storyshots was an addon for storybook which allowed users to turn their stories into automated snapshot-tests.
+
+Every story would automatically be taken into account and created a snapshot-file for.
+
+Snapshot-testing has since fallen out of favor and is no longer recommended.
+
+In addition to it's limited use, and high chance of false-positives, storyshots ran code developed to run in the browser in NodeJS via JSDOM.
+JSDOM has limitations and is not a perfect emulation of the browser environment; therefore storyshots was always a pain to setup and maintain.
+
+The storybook team has build the test-runner as a direct replacement, which utilizes playwright to connect to an actual browser where storybook runs the code.
+
+In addition CSF has expanded to allow for play-function to be defined on stories, which allows for more complex testing scenarios, fully integrated within storybook itself (and supported by the test-runner, and not storyshots).
+
+Finally `storyStoreV7: true` (the default and only options in storybook 8), was not supported by storyshots.
+
+By removing storyshots, the storybook team was unblocked from moving (eventually) to an ESM-only storybook, which is a big step towards a more modern storybook.
+
+#### UI layout state has changed shape
+
+In Storybook 7 it was possible to use `addons.setConfig({...});` to configure Storybook UI features and behavior as documented [here (v7)](https://storybook.js.org/docs/7.3/react/configure/features-and-behavior), [(latest)](https://storybook.js.org/docs/react/configure/features-and-behavior). The state and API for the UI layout has changed:
+
+- `showNav: boolean` is now `navSize: number`, where the number represents the size of the sidebar in pixels.
+- `showPanel: boolean` is now split into `bottomPanelHeight: number` and `rightPanelWidth: number`, where the numbers represents the size of the panel in pixels.
+- `isFullscreen: boolean` is no longer supported, but can be achieved by setting a combination of the above.
+
+#### New UI and props for Button and IconButton components
+
+We used to have a lot of different buttons in `@storybook/components` that were not used anywhere. In Storybook 8.0 we are deprecating `Form.Button` and added a new `Button` component that can be used in all places. The `IconButton` component has also been updated to use the new `Button` component under the hood. Going forward addon creators and Storybook maintainers should use the new `Button` component instead of `Form.Button`.
+
+For the `Button` component, the following props are now deprecated:
+
+- `isLink` - Please use the `asChild` prop instead like this: `<Button asChild><a href="">Link</a></Button>`
+- `primary` - Please use the `variant` prop instead.
+- `secondary` - Please use the `variant` prop instead.
+- `tertiary` - Please use the `variant` prop instead.
+- `gray` - Please use the `variant` prop instead.
+- `inForm` - Please use the `variant` prop instead.
+- `small` - Please use the `size` prop instead.
+- `outline` - Please use the `variant` prop instead.
+- `containsIcon`. Please add your icon as a child directly. No need for this prop anymore.
+
+The `IconButton` doesn't have any deprecated props but it now uses the new `Button` component under the hood so all props for `IconButton` will be the same as `Button`.
+
+#### Icons is deprecated
+
+In Storybook 8.0 we are introducing a new icon library available with `@storybook/icons`. We are deprecating the `Icons` component in `@storybook/components` and recommend that addon creators and Storybook maintainers use the new `@storybook/icons` component instead.
 
 ## From version 7.5.0 to 7.6.0
 
@@ -988,7 +1119,7 @@ import ReadMe from './README.md?raw';
 #### Stories field in .storybook/main.js is mandatory
 
 In 6.x, the `stories` key field in `.storybook/main.js` was optional. In 7.0, it is mandatory.
-Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project) section to configure your Storybook project.
+Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/#configure-your-storybook-project) section to configure your Storybook project.
 
 #### Stricter global types
 
@@ -1088,6 +1219,14 @@ export default {
   },
 };
 ```
+
+#### Dark mode detection
+
+Storybook 7 uses `prefers-color-scheme` to detects your system's dark mode preference if a theme is not set.
+
+Earlier versions used the light theme by default, so if you don't set a theme and your system's settings are in dark mode, this could surprise you.
+
+To learn more about theming, read our [documentation](https://storybook.js.org/docs/react/configure/theming).
 
 ### 7.0 core addons changes
 

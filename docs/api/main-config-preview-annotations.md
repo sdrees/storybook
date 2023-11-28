@@ -10,7 +10,7 @@ Add additional scripts to run in the story preview.
 
 <Callout variant="info" icon="💡">
 
-Mostly used by [frameworks](../contribute/framework.md#previewjs-example). Storybook users and [addon authors](../addons/writing-presets.md) should add scripts to [`preview.js`](../configure/overview.md#configure-story-rendering) instead.
+Mostly used by [frameworks](../contribute/framework.md#previewjs-example). Storybook users and [addon authors](../addons/writing-presets.md) should add scripts to [`preview.js`](../configure/index.md#configure-story-rendering) instead.
 
 </Callout>
 

@@ -7,7 +7,6 @@ import './globals';
 const { window, EventSource } = global;
 
 export * from './public-types';
-export * from './public-api';
 export * from './framework-api';
 
 // TODO: disable HMR and do full page loads because of customElements.define

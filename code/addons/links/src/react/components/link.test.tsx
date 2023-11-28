@@ -61,11 +61,8 @@ describe('LinkTo', () => {
   });
 
   describe('events', () => {
-    it('should select the kind and story on click', () => {
-      const channel = {
-        emit: jest.fn(),
-        on: jest.fn(),
-      } as any;
+    it('should select the kind and story on click', async () => {
+      const channel = mockChannel() as any;
       mockAddons.getChannel.mockReturnValue(channel);
 
       render(
@@ -74,7 +71,15 @@ describe('LinkTo', () => {
           link
         </LinkTo>
       );
-      userEvent.click(screen.getByText('link'));
+
+      await waitFor(() => {
+        expect(screen.getByText('link')).toHaveAttribute(
+          'href',
+          'originpathname?path=/story/foo--bar'
+        );
+      });
+
+      await userEvent.click(screen.getByText('link'));
 
       expect(channel.emit).toHaveBeenLastCalledWith(
         SELECT_STORY,

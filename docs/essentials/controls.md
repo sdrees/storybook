@@ -264,7 +264,7 @@ Controls supports the following configuration [parameters](../writing-stories/pa
 
 Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [`Controls`](../api/doc-block-controls.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
 
-To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

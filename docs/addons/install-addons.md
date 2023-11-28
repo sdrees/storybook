@@ -22,7 +22,7 @@ For example, to include accessibility testing in Storybook, run the following co
 
 <!-- prettier-ignore-end -->
 
-Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
+Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
@@ -64,11 +64,11 @@ For example, to use SCSS styling, run the following command to install the addon
 
 <Callout variant="info" icon="💡" title="Tip:">
 
-Use the Webpack 5 snippet only if your framework already includes support for this version. Otherwise, use the Webpack 4 snippet. 
+Use the Webpack 5 snippet only if your framework already includes support for this version. Otherwise, use the Webpack 4 snippet.
 
 </Callout>
 
-Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
+Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 

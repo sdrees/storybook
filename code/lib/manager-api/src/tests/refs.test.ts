@@ -1,5 +1,9 @@
 import { global } from '@storybook/global';
+import type { StoryIndex } from 'lib/types/src';
+import type { State } from '..';
+import { transformStoryIndexToStoriesHash } from '../lib/stories';
 import { getSourceType, init as initRefs } from '../modules/refs';
+import type Store from '../store';
 
 const { fetch } = global;
 
@@ -40,6 +44,7 @@ const provider = {
 
 const store = {
   getState: jest.fn().mockReturnValue({
+    filters: {},
     refs: {
       fake: {
         id: 'fake',
@@ -50,6 +55,17 @@ const store = {
   }),
   setState: jest.fn((a: any) => {}),
 };
+
+function createMockStore(initialState: Partial<State> = {}) {
+  let state = initialState;
+  return {
+    getState: jest.fn(() => state),
+    setState: jest.fn((s: typeof state) => {
+      state = { ...state, ...s };
+      return Promise.resolve(state);
+    }),
+  } as any as Store;
+}
 
 interface ResponseResult {
   ok?: boolean;
@@ -279,6 +295,7 @@ describe('Refs API', () => {
 
         Please check your dev-tools network tab.",
               },
+              "internal_index": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -347,6 +364,7 @@ describe('Refs API', () => {
 
         Please check your dev-tools network tab.",
               },
+              "internal_index": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -479,6 +497,10 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "entries": Object {},
+                "v": 4,
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -493,6 +515,10 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "entries": Object {},
+                "v": 4,
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -568,6 +594,10 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "entries": Object {},
+                "v": 4,
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -645,6 +675,10 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "entries": Object {},
+                "v": 4,
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -722,6 +756,7 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": undefined,
+              "internal_index": undefined,
               "loginUrl": "https://example.com/login",
               "title": "Fake",
               "type": "auto-inject",
@@ -863,6 +898,7 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": undefined,
+              "internal_index": undefined,
               "loginUrl": "https://example.com/login",
               "title": "Fake",
               "type": "auto-inject",
@@ -944,6 +980,10 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "entries": Object {},
+                "v": 4,
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -1021,6 +1061,10 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "entries": Object {},
+                "v": 4,
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -1149,6 +1193,71 @@ describe('Refs API', () => {
         expect(Object.keys(hash)).toEqual(['component-a', 'component-a--docs']);
         expect(hash['component-a--docs'].type).toBe('docs');
       });
+    });
+  });
+
+  describe('setRef', () => {
+    it('can filter', async () => {
+      const index: StoryIndex = {
+        v: 4,
+        entries: {
+          'a--1': {
+            id: 'a--1',
+            title: 'A',
+            name: '1',
+            importPath: './path/to/a1.ts',
+            type: 'story',
+          },
+          'a--2': {
+            id: 'a--2',
+            title: 'A',
+            name: '2',
+            importPath: './path/to/a2.ts',
+            type: 'story',
+          },
+        },
+      };
+
+      const initialState: Partial<State> = {
+        refs: {
+          fake: {
+            id: 'fake',
+            url: 'https://example.com',
+            previewInitialized: true,
+            index: transformStoryIndexToStoriesHash(index, {
+              provider: provider as any,
+              docsOptions: {},
+              filters: {},
+              status: {},
+            }),
+            internal_index: index,
+          },
+        },
+      };
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const store = createMockStore(initialState);
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
+
+      await expect(api.getRefs().fake.index).toEqual(
+        expect.objectContaining({ 'a--2': expect.anything() })
+      );
+
+      const stateWithFilters: Partial<State> = {
+        filters: {
+          fake: (a) => a.name.includes('1'),
+        },
+      };
+
+      await store.setState(stateWithFilters);
+
+      await api.setRef('fake', { storyIndex: index });
+
+      await expect(api.getRefs().fake.index).toEqual(
+        expect.objectContaining({ 'a--1': expect.anything() })
+      );
+      await expect(api.getRefs().fake.index).not.toEqual(
+        expect.objectContaining({ 'a--2': expect.anything() })
+      );
     });
   });
 

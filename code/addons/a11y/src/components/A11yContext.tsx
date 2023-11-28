@@ -52,7 +52,10 @@ const defaultResult = {
   violations: [],
 };
 
-export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active, ...props }) => {
+export const A11yContextProvider: React.FC<React.PropsWithChildren<A11yContextProviderProps>> = ({
+  active,
+  ...props
+}) => {
   const [results, setResults] = useAddonState<Results>(ADDON_ID, defaultResult);
   const [tab, setTab] = React.useState(0);
   const [highlighted, setHighlighted] = React.useState<string[]>([]);

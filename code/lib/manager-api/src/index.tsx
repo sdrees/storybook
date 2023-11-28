@@ -135,7 +135,7 @@ export interface Combo {
 
 export type ManagerProviderProps = RouterData &
   API_ProviderData<API> & {
-    children: ReactNode | ((props: Combo) => ReactNode);
+    children: ReactNode | FC<Combo>;
   };
 
 // This is duplicated from @storybook/preview-api for the reasons mentioned in lib-addons/types.js
@@ -169,7 +169,11 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 
     const store = new Store({
       getState: () => this.state,
-      setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback),
+      setState: (stateChange: Partial<State>, callback) => {
+        this.setState(stateChange, () => callback(this.state));
+
+        return this.state;
+      },
     });
 
     const routeData = { location, path, viewMode, singleStory, storyId, refId };
@@ -290,7 +294,7 @@ function ManagerConsumer<P = Combo>({
   filter = defaultFilter,
   children,
 }: ManagerConsumerProps<P>): ReactElement {
-  const c = useContext(ManagerContext);
+  const managerContext = useContext(ManagerContext);
   const renderer = useRef(children);
   const filterer = useRef(filter);
 
@@ -298,17 +302,17 @@ function ManagerConsumer<P = Combo>({
     return <Fragment>{renderer.current}</Fragment>;
   }
 
-  const data = filterer.current(c);
+  const comboData = filterer.current(managerContext);
 
-  const l = useMemo(() => {
-    return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])];
-  }, [c.state]);
+  const comboDataArray = useMemo(() => {
+    return [...Object.entries(comboData).reduce((acc, keyval) => acc.concat(keyval), [])];
+  }, [managerContext.state]);
 
   return useMemo(() => {
     const Child = renderer.current as FC<P>;
 
-    return <Child {...data} />;
-  }, l);
+    return <Child {...comboData} />;
+  }, comboDataArray);
 }
 
 export function useStorybookState(): State {
@@ -413,7 +417,9 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   }, [quicksync]);
 
   const setState = async (s: S | API_StateMerger<S>, options?: Options) => {
-    const result = await api.setAddonState<S>(stateId, s, options);
+    await api.setAddonState<S>(stateId, s, options);
+    const result = api.getAddonState(stateId);
+
     STORYBOOK_ADDON_STATE[stateId] = result;
     return result;
   };
@@ -459,7 +465,8 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   return [
     state,
     async (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
-      const result = await setState(newStateOrMerger, options);
+      await setState(newStateOrMerger, options);
+      const result = api.getAddonState(stateId);
       emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, result);
     },
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];

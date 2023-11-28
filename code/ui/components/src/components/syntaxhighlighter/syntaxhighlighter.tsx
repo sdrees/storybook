@@ -100,10 +100,7 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({
-  children,
-  className,
-}): JSX.Element => (
+const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({ children, className }) => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>
@@ -135,6 +132,7 @@ const Code = styled.div(({ theme }) => ({
   paddingLeft: 2, // TODO: To match theming/global.ts for now
   paddingRight: theme.layoutMargin,
   opacity: 1,
+  fontFamily: theme.typography.fonts.mono,
 }));
 
 const processLineNumber = (row: any) => {

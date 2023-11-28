@@ -6,7 +6,7 @@ The `layout` [parameter](../writing-stories/parameters.md) allows you to configu
 
 ## Global layout
 
-You can add the parameter to your [`./storybook/preview.js`](./overview.md#configure-story-rendering), like so:
+You can add the parameter to your [`./storybook/preview.js`](./index.md#configure-story-rendering), like so:
 
 <!-- prettier-ignore-start -->
 

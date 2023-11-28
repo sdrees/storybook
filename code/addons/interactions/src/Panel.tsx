@@ -148,32 +148,33 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
         if (event.newPhase === 'preparing') {
-          set((s) => ({
+          set({
             controlStates: INITIAL_CONTROL_STATES,
             isErrored: false,
             pausedAt: undefined,
             interactions: [],
             isPlaying: false,
-            isRerunAnimating: false,
-            scrollTarget,
-            collapsed: new Set() as Set<Call['id']>,
             hasException: false,
             caughtException: undefined,
             interactionsCount: 0,
-          }));
+          });
           return;
         }
-        set((s) => ({
-          ...s,
-          isPlaying: event.newPhase === 'playing',
-          pausedAt: undefined,
-          ...(event.newPhase === 'rendering'
-            ? {
-                isErrored: false,
-                caughtException: undefined,
-              }
-            : {}),
-        }));
+        set((s) => {
+          const newState: typeof s = {
+            ...s,
+            isPlaying: event.newPhase === 'playing',
+            pausedAt: undefined,
+            ...(event.newPhase === 'rendering'
+              ? {
+                  isErrored: false,
+                  caughtException: undefined,
+                }
+              : {}),
+          };
+
+          return newState;
+        });
       },
       [STORY_THREW_EXCEPTION]: () => {
         set((s) => ({ ...s, isErrored: true }));

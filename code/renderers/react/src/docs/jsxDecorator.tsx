@@ -24,6 +24,7 @@ function simplifyNodeForStringify(node: ReactNode): ReactNode {
     return {
       ...node,
       props,
+      // @ts-expect-error (this is an internal or removed api)
       _owner: null,
     };
   }

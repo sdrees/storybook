@@ -1,4 +1,4 @@
-import type { Preset } from '@storybook/types';
+import type { Preset, PresetProperty } from '@storybook/types';
 import type { StorybookConfig, SvelteOptions } from './types';
 
 export const webpack: StorybookConfig['webpack'] = async (config, { presets }) => {
@@ -29,7 +29,7 @@ export const webpack: StorybookConfig['webpack'] = async (config, { presets }) =
   };
 };
 
-export const babelDefault: StorybookConfig['babelDefault'] = (config) => {
+export const babelDefault: PresetProperty<'babelDefault'> = (config) => {
   return {
     ...config,
     presets: [...(config?.presets || [])],

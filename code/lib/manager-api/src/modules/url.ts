@@ -12,6 +12,7 @@ import { global } from '@storybook/global';
 
 import type { API_Layout, API_UI } from '@storybook/types';
 import type { ModuleArgs, ModuleFn } from '../lib/types';
+import { defaultLayoutState } from './layout';
 
 const { window: globalWindow } = global;
 
@@ -50,10 +51,39 @@ const initialUrlSupport = ({
     ...otherParams // the rest gets passed to the iframe
   } = queryFromLocation(location);
 
+  let navSize;
+  let bottomPanelHeight;
+  let rightPanelWidth;
+
+  // set sizes based on fullscreen
+  if (parseBoolean(full) === true) {
+    navSize = 0;
+    bottomPanelHeight = 0;
+    rightPanelWidth = 0;
+  } else if (parseBoolean(full) === false) {
+    navSize = defaultLayoutState.layout.navSize;
+    bottomPanelHeight = defaultLayoutState.layout.bottomPanelHeight;
+    rightPanelWidth = defaultLayoutState.layout.rightPanelWidth;
+  }
+  // set sizes based on nav
+  if (!singleStory) {
+    if (parseBoolean(nav) === true) {
+      navSize = defaultLayoutState.layout.navSize;
+    }
+    if (parseBoolean(nav) === false) {
+      navSize = 0;
+    }
+  }
+  // set sizes based on panel
+  if (parseBoolean(panel) === false) {
+    bottomPanelHeight = 0;
+    rightPanelWidth = 0;
+  }
+
   const layout: Partial<API_Layout> = {
-    isFullscreen: parseBoolean(full),
-    showNav: !singleStory && parseBoolean(nav),
-    showPanel: parseBoolean(panel),
+    navSize,
+    bottomPanelHeight,
+    rightPanelWidth,
     panelPosition: ['right', 'bottom'].includes(panel) ? panel : undefined,
     showTabs: parseBoolean(tabs),
   };

@@ -20,7 +20,7 @@ Or if you're using yarn as a package manager:
 
 ## Configuration
 
-Register the addon in your [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project):
+Register the addon in your [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/#configure-your-storybook-project):
 
 ```js
 export default {
@@ -133,7 +133,7 @@ Default.parameters = {
 ### Global level
 
 To avoid importing the results of the tests in each story, you can update
-your [`.storybook/preview.js`](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and include a decorator allowing you to display the results only for the stories that have the `jest` parameter defined:
+your [`.storybook/preview.js`](https://storybook.js.org/docs/react/configure/#configure-story-rendering) and include a decorator allowing you to display the results only for the stories that have the `jest` parameter defined:
 
 ```js
 // .storybook/preview.js

@@ -9,7 +9,6 @@ export type ToolbarMenuListItemProps = {
 } & ToolbarItem;
 
 export const ToolbarMenuListItem = ({
-  left,
   right,
   title,
   value,
@@ -25,12 +24,12 @@ export const ToolbarMenuListItem = ({
     active: currentValue === value,
     right,
     title,
-    left,
+    icon,
     onClick,
   };
 
   if (icon && !hideIcon) {
-    Item.left = Icon;
+    Item.icon = Icon;
   }
 
   return Item;

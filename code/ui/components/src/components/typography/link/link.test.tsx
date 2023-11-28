@@ -6,10 +6,6 @@ import { ThemeProvider, themes, convert } from '@storybook/theming';
 import type { LinkProps } from './link';
 import { Link } from './link';
 
-const LEFT_BUTTON = 0;
-const MIDDLE_BUTTON = 1;
-const RIGHT_BUTTON = 2;
-
 function ThemedLink(props: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) {
   return (
     <ThemeProvider theme={convert(themes.light)}>
@@ -18,54 +14,67 @@ function ThemedLink(props: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) 
   );
 }
 
+async function click(target: Element, button: string, modifier?: string) {
+  const user = userEvent.setup();
+  if (modifier) {
+    // Trailing > means to leave it pressed
+    await user.keyboard(`{${modifier}>}`);
+  }
+  await user.pointer([{ target }, { keys: `[${button}]`, target }]);
+  if (modifier) {
+    // Leading / means to release it
+    await user.keyboard(`{/${modifier}}`);
+  }
+}
+
 describe('Link', () => {
   describe('events', () => {
-    it('should call onClick on a plain left click', () => {
+    it('should call onClick on a plain left click', async () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { button: LEFT_BUTTON });
+      await click(screen.getByText('Content'), 'MouseLeft');
       expect(handleClick).toHaveBeenCalled();
     });
 
-    it("shouldn't call onClick on a middle click", () => {
+    it("shouldn't call onClick on a middle click", async () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { button: MIDDLE_BUTTON });
+      await click(screen.getByText('Content'), 'MouseMiddle');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
-    it("shouldn't call onClick on a right click", () => {
+    it("shouldn't call onClick on a right click", async () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { button: RIGHT_BUTTON });
+      await click(screen.getByText('Content'), 'MouseRight');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
-    it("shouldn't call onClick on alt+click", () => {
+    it("shouldn't call onClick on alt+click", async () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { altKey: true });
+      await click(screen.getByText('Content'), 'MouseLeft', 'Alt');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
-    it("shouldn't call onClick on ctrl+click", () => {
+    it("shouldn't call onClick on ctrl+click", async () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { ctrlKey: true });
+      await click(screen.getByText('Content'), 'MouseLeft', 'Control');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
-    it("shouldn't call onClick on cmd+click / win+click", () => {
+    it("shouldn't call onClick on cmd+click / win+click", async () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { metaKey: true });
+      await click(screen.getByText('Content'), 'MouseLeft', 'Meta');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
-    it("shouldn't call onClick on shift+click", () => {
+    it("shouldn't call onClick on shift+click", async () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { shiftKey: true });
+      await click(screen.getByText('Content'), 'MouseLeft', 'Shift');
       expect(handleClick).not.toHaveBeenCalled();
     });
   });

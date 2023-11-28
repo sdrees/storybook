@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import yaml from 'yaml';
-import type { StorybookConfig, Tag, StoryName, ComponentTitle } from '@storybook/types';
+import type { Tag, StoryName, ComponentTitle, PresetProperty } from '@storybook/types';
 
 import { join } from 'path';
 
@@ -11,7 +11,7 @@ type FileContent = {
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_indexers: StorybookConfig['experimental_indexers'] = (
+export const experimental_indexers: PresetProperty<'experimental_indexers'> = (
   existingIndexers
 ) => [
   {
@@ -37,7 +37,10 @@ export const experimental_indexers: StorybookConfig['experimental_indexers'] = (
   ...(existingIndexers || []),
 ];
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = async (input, options) => {
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = async (
+  input = [],
+  options
+) => {
   const { presetsList } = options;
   if (!presetsList) {
     return input;

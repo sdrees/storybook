@@ -8,7 +8,7 @@ Storybook has built-in TypeScript support, so you can get started with zero conf
 
 ## Typing stories with `Meta` and `StoryObj`
 
-When writing stories, there are two aspects that are helpful to type. The first is the [component meta](./introduction.md#default-export), which describes and configures the component and its stories. In a [CSF file](../api/csf.md), this is the default export. The second is the [stories themselves](./introduction.md#defining-stories).
+When writing stories, there are two aspects that are helpful to type. The first is the [component meta](./index.md#default-export), which describes and configures the component and its stories. In a [CSF file](../api/csf.md), this is the default export. The second is the [stories themselves](./index.md#defining-stories).
 
 Storybook provides utility types for each of these, named `Meta` and `StoryObj`. Here's an example CSF file using those types:
 

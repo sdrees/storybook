@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
 import { ScrollArea } from './ScrollArea';
@@ -6,8 +7,6 @@ const Block = styled.span({
   display: 'inline-block',
   height: 40,
   width: 40,
-  marginTop: 5,
-  marginRight: 5,
   border: '1px solid silver',
   lineHeight: '40px',
   textAlign: 'center',
@@ -22,7 +21,7 @@ const Wrapper = styled.div({
   overflow: 'hidden',
 });
 
-const list = (filler: (data: number) => JSX.Element) => {
+const list = (filler: (data: number) => ReactElement) => {
   const data = [];
 
   // eslint-disable-next-line no-plusplus
@@ -61,6 +60,19 @@ export const Horizontal = () => (
 
 export const Both = () => (
   <ScrollArea horizontal vertical>
+    {list((i) => (
+      <Fragment key={i}>
+        {list((ii) => (
+          <Block key={ii}>{ii * i}</Block>
+        ))}
+        <br />
+      </Fragment>
+    ))}
+  </ScrollArea>
+);
+
+export const Neither = () => (
+  <ScrollArea>
     {list((i) => (
       <Fragment key={i}>
         {list((ii) => (

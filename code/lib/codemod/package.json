@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.6.0-beta.2",
+  "version": "8.0.0-alpha.0",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -77,7 +77,7 @@
     "remark": "^14.0.2",
     "remark-mdx": "^2.3.0",
     "ts-dedent": "^2.2.0",
-    "typescript": "~4.9.3",
+    "typescript": "^5.3.2",
     "unist-util-is": "^5.2.0",
     "unist-util-select": "^4.0.3",
     "unist-util-visit": "^4.1.2",

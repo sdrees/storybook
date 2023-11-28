@@ -8,7 +8,7 @@ Storybook's [Themes](https://github.com/storybookjs/storybook/tree/next/code/add
 
 ## Theme decorators
 
-To make your themes accessible to your stories, `@storybook/addon-themes` exposes three [decorators](https://storybook.js.org/docs/react/writing-stories/decorators) for different methods of theming.
+To make your themes accessible to your stories, `@storybook/addon-themes` exposes three [decorators](https://storybook.js.org/docs/writing-stories/decorators) for different methods of theming.
 
 ### JSX providers
 

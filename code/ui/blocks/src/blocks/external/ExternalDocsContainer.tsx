@@ -8,10 +8,9 @@ import { ExternalPreview } from './ExternalPreview';
 
 let preview: ExternalPreview<Renderer>;
 
-export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
-  projectAnnotations,
-  children,
-}) => {
+export const ExternalDocsContainer: React.FC<
+  React.PropsWithChildren<{ projectAnnotations: any }>
+> = ({ projectAnnotations, children }) => {
   if (!preview) preview = new ExternalPreview(projectAnnotations);
 
   return (

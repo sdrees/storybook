@@ -111,7 +111,7 @@ describe('renderJsx', () => {
   });
 
   it('forwardRef component', () => {
-    const MyExoticComponent = React.forwardRef<PropsWithChildren<{}>>(function MyExoticComponent(
+    const MyExoticComponent = React.forwardRef<FC, PropsWithChildren>(function MyExoticComponent(
       props,
       _ref
     ) {
@@ -127,7 +127,7 @@ describe('renderJsx', () => {
   });
 
   it('memo component', () => {
-    const MyMemoComponent: FC = React.memo(function MyMemoComponent(props) {
+    const MyMemoComponent: FC<PropsWithChildren> = React.memo(function MyMemoComponent(props) {
       return <div>{props.children}</div>;
     });
 

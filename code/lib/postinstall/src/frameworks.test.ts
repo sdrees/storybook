@@ -1,3 +1,4 @@
+import { it, describe, expect } from '@jest/globals';
 import { getFrameworks } from './frameworks';
 
 const REACT = {

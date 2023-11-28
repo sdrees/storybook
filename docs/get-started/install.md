@@ -2,8 +2,6 @@
 title: 'Install Storybook'
 ---
 
-<YouTubeCallout id="CtfU1UnizHU" title="New Storybook" />
-
 Use the Storybook CLI to install it in a single command. Run this inside your _existing project’s_ root directory:
 
 <!-- prettier-ignore-start -->
@@ -17,12 +15,6 @@ Use the Storybook CLI to install it in a single command. Run this inside your _e
 />
 
 <!-- prettier-ignore-end -->
-
-<Callout variant="info" title="Running into issues?">
-
-Check the [Troubleshooting section](#troubleshooting) below for guidance on how to solve it.
-
-</Callout>
 
 <details>
 
@@ -48,6 +40,8 @@ The command above will make the following changes to your local environment:
 - 🛠 Add the default Storybook configuration.
 - 📝 Add some boilerplate stories to get you started.
 - 📡 Set up telemetry to help us improve Storybook. Read more about it [here](../configure/telemetry.md).
+
+<YouTubeCallout id="CtfU1UnizHU" title="New Storybook" style={{ marginTop: '1em' }} />
 
 <IfRenderer renderer='react'>
 

@@ -6,7 +6,7 @@ import * as gitClient_ from '../utils/git-client';
 import * as bumpVersion_ from '../version';
 
 jest.mock('../utils/git-client', () => jest.requireActual('jest-mock-extended').mockDeep());
-const gitClient = jest.mocked(gitClient_);
+const gitClient = jest.mocked(gitClient_, { shallow: false });
 
 // eslint-disable-next-line jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));

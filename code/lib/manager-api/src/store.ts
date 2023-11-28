@@ -103,7 +103,9 @@ export default class Store {
     }
 
     const newState: State = await new Promise((resolve) => {
-      this.upstreamSetState(patch, resolve);
+      this.upstreamSetState(patch, () => {
+        resolve(this.getState());
+      });
     });
 
     if (persistence !== 'none') {
@@ -114,6 +116,7 @@ export default class Store {
     if (callback) {
       callback(newState);
     }
+
     return newState;
   }
 }

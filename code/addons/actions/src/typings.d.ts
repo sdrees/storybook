@@ -1,1 +1,1 @@
-declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
+declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];

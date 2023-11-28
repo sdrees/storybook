@@ -1,4 +1,4 @@
-import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
+import type { FC, PropsWithChildren, ReactElement, ReactNode, SyntheticEvent } from 'react';
 import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
@@ -102,7 +102,7 @@ const Content = styled.div<ContentProps>(
 
 export interface TabWrapperProps {
   active: boolean;
-  render?: () => JSX.Element;
+  render?: () => ReactElement;
   children?: ReactNode;
 }
 
@@ -114,8 +114,8 @@ export const panelProps = {};
 
 export interface TabsProps {
   children?: ReactElement<{
-    children: FC<Addon_RenderOptions>;
-    title: ReactNode | FC;
+    children: FC<Addon_RenderOptions & PropsWithChildren>;
+    title: ReactNode | FC<PropsWithChildren>;
   }>[];
   id?: string;
   tools?: ReactNode;
@@ -141,14 +141,18 @@ export const Tabs: FC<TabsProps> = memo(
     id: htmlId,
     menuName,
   }) => {
-    const idList = childrenToList(children).map((i) => i.id);
+    const idList = childrenToList(children)
+      .map((i) => i.id)
+      .join(',');
+
     const list = useMemo(
       () =>
         childrenToList(children).map((i, index) => ({
           ...i,
           active: selected ? i.id === selected : index === 0,
         })),
-      [selected, ...idList]
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- we're using idList as a replacement for children
+      [selected, idList]
     );
 
     const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);
@@ -171,7 +175,7 @@ export const Tabs: FC<TabsProps> = memo(
                   key={id}
                   active={active}
                   textColor={color}
-                  onClick={(e: MouseEvent) => {
+                  onClick={(e: SyntheticEvent) => {
                     e.preventDefault();
                     actions.onSelect(id);
                   }}

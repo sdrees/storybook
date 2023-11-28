@@ -89,7 +89,7 @@ Out of the box, Storybook's accessibility addon includes a set of accessibility 
 
 #### Global a11y configuration
 
-If you need to dismiss an accessibility rule or modify its settings across all stories, you can add the following to your [`storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering):
+If you need to dismiss an accessibility rule or modify its settings across all stories, you can add the following to your [`storybook/preview.js|ts`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

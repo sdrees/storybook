@@ -6,7 +6,7 @@ import { exec } from '../utils/exec';
 import type { Task } from '../task';
 
 const linkedContents = `export * from '../src/index';`;
-const linkCommand = `nx run-many --target="prep" --all --parallel --max-parallel=${maxConcurrentTasks} --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`;
+const linkCommand = `nx run-many --target="prep" --all --parallel --max-parallel=${maxConcurrentTasks} -- --reset`;
 const noLinkCommand = `nx run-many --target="prep" --all --parallel=8 ${
   process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
 } -- --reset --optimized`;

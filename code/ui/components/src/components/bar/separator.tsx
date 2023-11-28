@@ -6,8 +6,7 @@ export const Separator = styled.span<SeparatorProps>(
     width: 1,
     height: 20,
     background: theme.appBorderColor,
-    marginTop: 10,
-    marginLeft: 6,
+    marginLeft: 2,
     marginRight: 2,
   }),
   ({ force }) =>

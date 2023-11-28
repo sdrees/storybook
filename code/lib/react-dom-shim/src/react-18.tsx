@@ -1,9 +1,7 @@
 import type { FC, ReactElement } from 'react';
-// @ts-expect-error react-dom doesn't have this in v16, which confuses TS
 import type { Root as ReactRoot } from 'react-dom/client';
 import React, { useLayoutEffect, useRef } from 'react';
-// @ts-expect-error react-dom doesn't have this in v16, which confuses TS
-import ReactDOM from 'react-dom/client'; // eslint-disable-line import/no-unresolved
+import ReactDOM from 'react-dom/client';
 
 // A map of all rendered React 18 nodes
 const nodes = new Map<Element, ReactRoot>();
@@ -41,7 +39,7 @@ export const unmountElement = (el: Element, shouldUseNewRootApi?: boolean) => {
   }
 };
 
-const getReactRoot = async (el: Element): Promise<ReactRoot | null> => {
+const getReactRoot = async (el: Element): Promise<ReactRoot> => {
   let root = nodes.get(el);
 
   if (!root) {

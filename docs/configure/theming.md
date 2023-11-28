@@ -42,7 +42,7 @@ When setting a theme, set a complete theme object. The theme is replaced, not co
 
 ## Theming docs
 
-[Storybook Docs](../writing-docs/introduction.md) uses the same theme system as Storybook’s UI but is themed independently from the main UI.
+[Storybook Docs](../writing-docs/index.md) uses the same theme system as Storybook’s UI but is themed independently from the main UI.
 
 Supposing you have a Storybook theme defined for the main UI in [`.storybook/manager.js`](./features-and-behavior.md):
 
@@ -56,7 +56,7 @@ Supposing you have a Storybook theme defined for the main UI in [`.storybook/man
 
 <!-- prettier-ignore-end -->
 
-Here's how you'd specify the same theme for docs in [`.storybook/preview.js`](./overview.md#configure-story-rendering):
+Here's how you'd specify the same theme for docs in [`.storybook/preview.js`](./index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -164,7 +164,7 @@ The same way as you can adjust your [preview’s head tag](../configure/story-re
 
 If you're using MDX for docs, there's one more level of "themability". MDX allows you to completely override the rendered components from Markdown using a `components` parameter. It's an advanced usage that we don't officially support in Storybook, but it's a powerful construct if you need it.
 
-Here's how you might insert a custom code renderer for `code` blocks on the page, in [`.storybook/preview.js`](./overview.md#configure-story-rendering):
+Here's how you might insert a custom code renderer for `code` blocks on the page, in [`.storybook/preview.js`](./index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

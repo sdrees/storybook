@@ -5,7 +5,7 @@ import { Consumer } from '@storybook/manager-api';
 import { Button, getStoryHref } from '@storybook/components';
 import { Global, styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
-import { IFrame } from './iframe';
+import { IFrame } from './Iframe';
 import type { FramesRendererProps } from './utils/types';
 import { stringifyQueryParams } from './utils/stringifyQueryParams';
 
@@ -34,9 +34,9 @@ const SkipToSidebarLink = styled(Button)(({ theme }) => ({
   },
 }));
 
-const whenSidebarIsVisible = ({ state }: Combo) => ({
-  isFullscreen: state.layout.isFullscreen,
-  showNav: state.layout.showNav,
+const whenSidebarIsVisible = ({ api, state }: Combo) => ({
+  isFullscreen: api.getIsFullscreen(),
+  isNavShown: api.getIsNavShown(),
   selectedStoryId: state.storyId,
 });
 
@@ -91,15 +91,17 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
     <Fragment>
       <Global styles={styles} />
       <Consumer filter={whenSidebarIsVisible}>
-        {({ isFullscreen, showNav, selectedStoryId }) => {
-          if (!isFullscreen && !!showNav && selectedStoryId) {
-            return (
-              <SkipToSidebarLink secondary isLink tabIndex={0} href={`#${selectedStoryId}`}>
-                Skip to sidebar
-              </SkipToSidebarLink>
-            );
+        {({ isFullscreen, isNavShown, selectedStoryId }) => {
+          if (isFullscreen || !isNavShown || !selectedStoryId) {
+            return null;
           }
-          return null;
+          return (
+            <SkipToSidebarLink asChild>
+              <a href={`#${selectedStoryId}`} tabIndex={0} title="Skip to sidebar">
+                Skip to sidebar
+              </a>
+            </SkipToSidebarLink>
+          );
         }}
       </Consumer>
       {Object.entries(frames).map(([id, src]) => {

@@ -16,7 +16,7 @@ When the globals change, the story re-renders, and the decorators rerun with the
 
 ## Global types and the toolbar annotation
 
-Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
+Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
 
 <!-- prettier-ignore-start -->
 
@@ -31,7 +31,7 @@ Storybook has a simple, declarative syntax for configuring toolbar menus. In you
 
 <Callout variant="info" icon="💡">
 
-As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering).
+As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering).
 
 </Callout>
 
@@ -43,7 +43,7 @@ We have a `global` implemented. Let's wire it up! We can consume our new `theme`
 
 <IfRenderer renderer='react'>
 
-For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
 <!-- prettier-ignore-start -->
 
@@ -60,7 +60,7 @@ For example, suppose you are using [`styled-components`](https://styled-componen
 
 <IfRenderer renderer='vue'>
 
-For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
 <!-- prettier-ignore-start -->
 
@@ -77,7 +77,7 @@ For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You c
 
 <IfRenderer renderer='angular'>
 
-For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
 <!-- prettier-ignore-start -->
 
@@ -93,7 +93,7 @@ For example, suppose you are using [`Angular Material`](https://material.angular
 
 <IfRenderer renderer={['ember', 'html', 'preact', 'qwik', 'svelte', 'solid', 'web-components' ]}>
 
-Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) and provide a decorator to load the theme. For example:
+Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) and provide a decorator to load the theme. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -114,7 +114,7 @@ So far, we've managed to create and consume a global inside Storybook.
 
 Now let's take a look at a more complex example. Let's suppose we wanted to implement a new global called **locale** for internationalization, which shows a flag on the right side of the toolbar.
 
-In your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering), add the following:
+In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering), add the following:
 
 <!-- prettier-ignore-start -->
 

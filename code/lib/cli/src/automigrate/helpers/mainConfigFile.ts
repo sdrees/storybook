@@ -5,7 +5,7 @@ import {
   frameworkPackages,
   builderPackages,
 } from '@storybook/core-common';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw, StorybookConfig } from '@storybook/types';
 import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
 import chalk from 'chalk';
@@ -21,7 +21,7 @@ const logger = console;
  * @param mainConfig - The main Storybook configuration object to lookup.
  * @returns - The package name of the framework. If not found, returns null.
  */
-export const getFrameworkPackageName = (mainConfig?: StorybookConfig) => {
+export const getFrameworkPackageName = (mainConfig?: StorybookConfigRaw) => {
   const packageNameOrPath =
     typeof mainConfig?.framework === 'string' ? mainConfig.framework : mainConfig?.framework?.name;
 
@@ -41,7 +41,7 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfig) => {
  * @param mainConfig - The main Storybook configuration object to lookup.
  * @returns - The package name of the builder. If not found, returns null.
  */
-export const getBuilderPackageName = (mainConfig?: StorybookConfig) => {
+export const getBuilderPackageName = (mainConfig?: StorybookConfigRaw) => {
   const packageNameOrPath =
     typeof mainConfig?.core?.builder === 'string'
       ? mainConfig.core.builder
@@ -97,9 +97,9 @@ export const getStorybookData = async ({
 
   const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
 
-  let mainConfig: StorybookConfig;
+  let mainConfig: StorybookConfigRaw;
   try {
-    mainConfig = await loadMainConfig({ configDir, noCache: true });
+    mainConfig = (await loadMainConfig({ configDir, noCache: true })) as StorybookConfigRaw;
   } catch (err) {
     throw new Error(
       dedent`Unable to find or evaluate ${chalk.blue(mainConfigPath)}: ${err.message}`

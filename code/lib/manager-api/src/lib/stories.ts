@@ -49,7 +49,7 @@ export const transformSetStoriesStoryDataToStoriesHash = (
 ) =>
   transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), options);
 
-const transformSetStoriesStoryDataToPreparedStoryIndex = (
+export const transformSetStoriesStoryDataToPreparedStoryIndex = (
   stories: SetStoriesStoryData
 ): API_PreparedStoryIndex => {
   const entries: API_PreparedStoryIndex['entries'] = Object.entries(stories).reduce(

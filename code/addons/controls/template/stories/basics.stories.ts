@@ -78,6 +78,5 @@ export const Defined = {
 //   parameters: {
 //     docs: { disable: true },
 //     chromatic: { disable: true },
-//     storyshots: { disable: true },
 //   },
 // };

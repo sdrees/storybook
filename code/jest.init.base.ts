@@ -29,12 +29,9 @@ const ignoreList = [
   (error: any) => error.message.includes('":nth-child" is potentially unsafe'),
   (error: any) => error.message.includes('":first-child" is potentially unsafe'),
   (error: any) => error.message.match(/Browserslist: .* is outdated. Please run:/),
-  (error: any) => error.message.includes('Failed prop type') && error.stack.includes('storyshots'),
   (error: any) =>
     error.message.includes('react-async-component-lifecycle-hooks') &&
     error.stack.includes('addons/knobs/src/components/__tests__/Options.js'),
-  // Storyshots blows up if your project includes a (non stories.) mdx file.
-  (error: any) => error.message.match(/Unexpected error while loading .*(?<!stories)\.mdx/),
 ];
 
 const throwMessage = (type: any, message: any) => {
