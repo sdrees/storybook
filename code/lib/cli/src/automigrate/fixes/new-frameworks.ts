@@ -4,6 +4,7 @@ import semver from 'semver';
 import { frameworkPackages, rendererPackages } from '@storybook/core-common';
 
 import type { Preset } from '@storybook/types';
+import invariant from 'tiny-invariant';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 import {
@@ -26,13 +27,13 @@ interface NewFrameworkRunOptions {
   dependenciesToRemove: string[];
   hasFrameworkInMainConfig: boolean;
   frameworkPackage: string;
-  metaFramework: string;
+  metaFramework: string | undefined;
   renderer: string;
   addonsToRemove: string[];
   frameworkOptions: Record<string, any>;
   rendererOptions: Record<string, any>;
   addonOptions: Record<string, any>;
-  builderConfig: string | Record<string, any>;
+  builderConfig: string | Record<string, any> | undefined;
   builderInfo: {
     name: string;
     options: Record<string, any>;
@@ -69,13 +70,17 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
+    if (typeof configDir === 'undefined') {
+      return null;
+    }
+
     const packageJson = await packageManager.retrievePackageJson();
 
     const frameworkPackageName = getFrameworkPackageName(mainConfig);
 
     const rendererPackageName =
       rendererPackage ??
-      (await getRendererPackageNameFromFramework(frameworkPackageName)) ??
+      (await getRendererPackageNameFromFramework(frameworkPackageName as string)) ??
       (await detectRenderer(packageJson));
 
     let hasFrameworkInMainConfig = !!frameworkPackageName;
@@ -220,7 +225,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       `);
     }
 
-    return {
+    invariant(mainConfigPath, 'Missing main config path.');
+
+    const result: Awaited<ReturnType<Fix<NewFrameworkRunOptions>['check']>> = {
       mainConfigPath,
       dependenciesToAdd,
       dependenciesToRemove,
@@ -239,6 +246,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       builderConfig,
       metaFramework,
     };
+    return result;
   },
 
   prompt({
@@ -453,7 +461,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
-    await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+    await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
       logger.info(`✅ Updating main.js`);
 
       logger.info(`✅ Updating "framework" field`);

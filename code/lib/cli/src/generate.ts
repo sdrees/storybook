@@ -7,6 +7,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
 
+import invariant from 'tiny-invariant';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
@@ -25,7 +26,9 @@ import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-const pkg = readUpSync({ cwd: __dirname }).packageJson;
+const readUpResult = readUpSync({ cwd: __dirname });
+invariant(readUpResult, 'Failed to find the closest package.json file.');
+const pkg = readUpResult.packageJson;
 const consoleLogger = console;
 
 const command = (name: string) =>

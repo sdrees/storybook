@@ -6,6 +6,6 @@ export default {};
 export const Plaintext = () => 'Plain text';
 
 Plaintext.story = {
-  name: 'plaintext',
+  name: 'text',
 };"
 `;

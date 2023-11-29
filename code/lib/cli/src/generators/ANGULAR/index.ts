@@ -42,7 +42,7 @@ const generator: Generator<{ projectName: string }> = async (
 
   const { root, projectType } = angularProject;
   const { projects } = angularJSON;
-  const useCompodoc = commandOptions.yes ? true : await promptForCompoDocs();
+  const useCompodoc = commandOptions?.yes ? true : await promptForCompoDocs();
   const storybookFolder = root ? `${root}/.storybook` : '.storybook';
 
   angularJSON.addStorybookEntries({

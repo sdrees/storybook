@@ -133,6 +133,7 @@ describe('vue3 fix', () => {
     });
     describe('no vue dependency', () => {
       it('should no-op', async () => {
+        // @ts-expect-error (Type 'null' is not comparable)
         const packageManager = {
           getPackageVersion: (packageName) => {
             return null;

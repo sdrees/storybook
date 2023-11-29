@@ -1,4 +1,4 @@
-import type { PropDefaultValue } from './PropDef';
+import type { JsDocParam, PropDefaultValue } from './PropDef';
 import type { PropDef, DocgenInfo, DocgenType, DocgenPropDefaultValue } from './types';
 import { TypeSystem } from './types';
 import type { JsDocParsingResult } from '../jsdocParser';
@@ -51,7 +51,7 @@ function isStringValued(type?: DocgenType) {
 function createDefaultValue(
   defaultValue: DocgenPropDefaultValue,
   type: DocgenType
-): PropDefaultValue {
+): PropDefaultValue | null {
   if (defaultValue != null) {
     const { value } = defaultValue;
 
@@ -81,8 +81,8 @@ function createBasicPropDef(name: string, type: DocgenType, docgenInfo: DocgenIn
   };
 }
 
-function applyJsDocResult(propDef: PropDef, jsDocParsingResult: JsDocParsingResult): PropDef {
-  if (jsDocParsingResult.includesJsDoc) {
+function applyJsDocResult(propDef: PropDef, jsDocParsingResult?: JsDocParsingResult): PropDef {
+  if (jsDocParsingResult?.includesJsDoc) {
     const { description, extractedTags } = jsDocParsingResult;
 
     if (description != null) {
@@ -92,10 +92,12 @@ function applyJsDocResult(propDef: PropDef, jsDocParsingResult: JsDocParsingResu
 
     const value = {
       ...extractedTags,
-      params: extractedTags?.params?.map((x) => ({
-        name: x.getPrettyName(),
-        description: x.description,
-      })),
+      params: extractedTags?.params?.map(
+        (x): JsDocParam => ({
+          name: x.getPrettyName(),
+          description: x.description,
+        })
+      ),
     };
 
     if (Object.values(value).filter(Boolean).length > 0) {

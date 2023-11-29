@@ -78,7 +78,7 @@ function generateDefault({ name, raw }: DocgenFlowType): PropType {
   return createSummaryValue(name);
 }
 
-export function createType(type: DocgenFlowType): PropType {
+export function createType(type?: DocgenFlowType): PropType | null {
   // A type could be null if a defaultProp has been provided without a type definition.
   if (type == null) {
     return null;

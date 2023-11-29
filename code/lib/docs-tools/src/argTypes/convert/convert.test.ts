@@ -793,8 +793,8 @@ const transformToModule = (inputCode: string) => {
       ],
     ],
   };
-  const { code } = transformSync(inputCode, options);
-  return normalizeNewlines(code);
+  const codeTransform = transformSync(inputCode, options);
+  return codeTransform && normalizeNewlines(codeTransform.code ?? '');
 };
 
 const annotateWithDocgen = (inputCode: string, filename: string) => {
@@ -804,13 +804,13 @@ const annotateWithDocgen = (inputCode: string, filename: string) => {
     babelrc: false,
     filename,
   };
-  const { code } = transformSync(inputCode, options);
-  return normalizeNewlines(code);
+  const codeTransform = transformSync(inputCode, options);
+  return codeTransform && normalizeNewlines(codeTransform.code ?? '');
 };
 
 const convertCommon = (code: string, fileExt: string) => {
   const docgenPretty = annotateWithDocgen(code, `temp.${fileExt}`);
-  const { Component } = requireFromString(transformToModule(docgenPretty));
+  const { Component } = requireFromString(transformToModule(docgenPretty ?? ''));
   // eslint-disable-next-line no-underscore-dangle
   const { props = {} } = Component.__docgenInfo || {};
   const types = mapValues(props, (prop) => convert(prop));

@@ -7,6 +7,7 @@ import { loadCsf, printCsf } from '@storybook/csf-tools';
 import type { API, FileInfo } from 'jscodeshift';
 import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
+import invariant from 'tiny-invariant';
 import { upgradeDeprecatedTypes } from './upgrade-deprecated-types';
 
 const logger = console;
@@ -15,7 +16,7 @@ const renameAnnotation = (annotation: string) => {
   return annotation === 'storyName' ? 'name' : annotation;
 };
 
-const getTemplateBindVariable = (init: t.Expression) =>
+const getTemplateBindVariable = (init: t.Expression | undefined) =>
   t.isCallExpression(init) &&
   t.isMemberExpression(init.callee) &&
   t.isIdentifier(init.callee.object) &&
@@ -92,7 +93,7 @@ function removeUnusedTemplates(csf: CsfFile) {
     const references: NodePath[] = [];
     babel.traverse(csf._ast, {
       Identifier: (path) => {
-        if (path.node.name === template) references.push(path);
+        if (path.node.name === template) references.push(path as NodePath);
       },
     });
     // if there is only one reference and this reference is the variable declaration initializing the template
@@ -100,7 +101,7 @@ function removeUnusedTemplates(csf: CsfFile) {
     if (references.length === 1) {
       const reference = references[0];
       if (
-        reference.parentPath.isVariableDeclarator() &&
+        reference.parentPath?.isVariableDeclarator() &&
         reference.parentPath.node.init === templateExpression
       ) {
         reference.parentPath.remove();
@@ -124,6 +125,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
 
   // This allows for showing buildCodeFrameError messages
   // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
+
   const file: BabelFile = new babel.File(
     { filename: info.path },
     { code: info.source, ast: csf._ast }
@@ -137,8 +139,9 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
       return t.objectProperty(t.identifier(renameAnnotation(annotation)), val as t.Expression);
     });
 
-    if (t.isVariableDeclarator(decl)) {
-      const { init, id } = decl;
+    if (t.isVariableDeclarator(decl as t.Node)) {
+      const { init, id } = decl as any;
+      invariant(init, 'Inital value should be declared');
       // only replace arrow function expressions && template
       const template = getTemplateBindVariable(init);
       if (!t.isArrowFunctionExpression(init) && !template) return;
@@ -152,10 +155,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
         return;
       }
 
-      let storyFn: t.Expression = template && t.identifier(template);
-      if (!storyFn) {
-        storyFn = init;
-      }
+      const storyFn: t.Expression = template ? t.identifier(template) : init;
 
       // Remove the render function when we can hoist the template
       // const Template = (args) => <Cat {...args} />;
@@ -178,8 +178,8 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
     }
   });
 
-  csf._ast.program.body = csf._ast.program.body.reduce((acc, stmt) => {
-    const statement = stmt as t.Statement;
+  csf._ast.program.body = csf._ast.program.body.reduce((acc: t.Statement[], stmt: t.Statement) => {
+    const statement = stmt;
     // remove story annotations & template declarations
     if (isStoryAnnotation(statement, objectExports)) {
       return acc;
@@ -251,8 +251,23 @@ class StorybookImportHelper {
           }
           if (!specifier.isImportSpecifier()) return false;
           const imported = specifier.get('imported');
-          if (!imported.isIdentifier()) return false;
 
+          if (Array.isArray(imported)) {
+            return imported.some((importedSpecifier) => {
+              if (!importedSpecifier.isIdentifier()) return false;
+              return [
+                'Story',
+                'StoryFn',
+                'StoryObj',
+                'Meta',
+                'ComponentStory',
+                'ComponentStoryFn',
+                'ComponentStoryObj',
+                'ComponentMeta',
+              ].includes(importedSpecifier.node.name);
+            });
+          }
+          if (!imported.isIdentifier()) return false;
           return [
             'Story',
             'StoryFn',
@@ -321,7 +336,7 @@ class StorybookImportHelper {
           ...id,
           typeAnnotation: t.tsTypeAnnotation(
             t.tsTypeReference(
-              t.identifier(localTypeImport),
+              t.identifier(localTypeImport ?? ''),
               id.typeAnnotation.typeAnnotation.typeParameters
             )
           ),

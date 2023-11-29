@@ -44,7 +44,7 @@ const hasPeerDependency = (
   return !!version;
 };
 
-type SearchTuple = [string, (version: string) => boolean | undefined];
+type SearchTuple = [string, ((version: string) => boolean) | undefined];
 
 const getFrameworkPreset = (
   packageJson: PackageJsonWithMaybeDeps,

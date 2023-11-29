@@ -1,6 +1,7 @@
 import type { FC, MouseEvent, PropsWithChildren, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
+import type { SupportedLanguage } from '@storybook/components';
 import { Code, components, nameSpaceClassNames } from '@storybook/components';
 import { global } from '@storybook/global';
 import { styled } from '@storybook/theming';
@@ -48,7 +49,7 @@ export const CodeOrSourceMdx: FC<PropsWithChildren<CodeOrSourceMdxProps>> = ({
   const language = className && className.split('-');
   return (
     <Source
-      language={(language && language[1]) || 'plaintext'}
+      language={((language && language[1]) as SupportedLanguage) || 'text'}
       format={false}
       code={children as string}
       {...rest}

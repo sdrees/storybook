@@ -75,7 +75,7 @@ export const builderVite: Fix<BuilderViteOptions> = {
 
     logger.info(`✅ Updating main.js to use vite builder`);
     if (!dryRun) {
-      await updateMainConfig({ dryRun, mainConfigPath }, async (main) => {
+      await updateMainConfig({ dryRun: !!dryRun, mainConfigPath }, async (main) => {
         const updatedBuilder =
           typeof builder === 'string'
             ? '@storybook/builder-vite'

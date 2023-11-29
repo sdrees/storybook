@@ -65,7 +65,7 @@ export const doctor = async ({
     });
     storybookVersion = storybookData.storybookVersion;
     mainConfig = storybookData.mainConfig;
-  } catch (err) {
+  } catch (err: any) {
     if (err.message.includes('No configuration files have been found')) {
       logger.info(
         dedent`[Storybook doctor] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
@@ -85,6 +85,10 @@ export const doctor = async ({
     process.exit(1);
   }
 
+  if (!mainConfig) {
+    throw new Error('mainConfig is undefined');
+  }
+
   const incompatibleAddonList = await getIncompatibleAddons(mainConfig);
   if (incompatibleAddonList.length > 0) {
     diagnosticMessages.push(incompatibleAddons.prompt({ incompatibleAddonList }));
@@ -95,7 +99,7 @@ export const doctor = async ({
     'storybook',
   ]);
 
-  const allDependencies = await packageManager.getAllDependencies();
+  const allDependencies = (await packageManager.getAllDependencies()) as Record<string, string>;
   const mismatchingVersionMessage = getMismatchingVersionsWarnings(
     installationMetadata,
     allDependencies
@@ -103,7 +107,12 @@ export const doctor = async ({
   if (mismatchingVersionMessage) {
     diagnosticMessages.push(mismatchingVersionMessage);
   } else {
-    diagnosticMessages.push(getDuplicatedDepsWarnings(installationMetadata)?.join('\n'));
+    const list = installationMetadata
+      ? getDuplicatedDepsWarnings(installationMetadata)
+      : getDuplicatedDepsWarnings();
+    if (list) {
+      diagnosticMessages.push(list?.join('\n'));
+    }
   }
   logger.info();
 

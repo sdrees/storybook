@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/types';
+import type { SemVer } from 'semver';
 import semver from 'semver';
 import { getAddonNames } from '../automigrate/helpers/mainConfigFile';
 import { JsPackageManagerFactory } from '../js-package-manager';
@@ -36,7 +37,9 @@ export const getIncompatibleAddons = async (
     '@storybook/addon-queryparams': '6.2.9',
   };
 
-  const addons = getAddonNames(mainConfig).filter((addon) => addon in incompatibleList);
+  const addons = getAddonNames(mainConfig).filter(
+    (addon): addon is keyof typeof incompatibleList => addon in incompatibleList
+  );
 
   const dependencies = await packageManager.getAllDependencies();
   const storybookPackages = Object.keys(dependencies).filter((dep) => dep.includes('storybook'));
@@ -59,11 +62,15 @@ export const getIncompatibleAddons = async (
 
   const incompatibleAddons: { name: string; version: string }[] = [];
   addonVersions.forEach(({ name, version: installedVersion }) => {
-    if (installedVersion === null) return;
+    if (installedVersion === null) {
+      return;
+    }
 
     const addonVersion = incompatibleList[name];
     try {
-      if (semver.lte(semver.coerce(installedVersion), semver.coerce(addonVersion))) {
+      if (
+        semver.lte(semver.coerce(installedVersion) as SemVer, semver.coerce(addonVersion) as SemVer)
+      ) {
         incompatibleAddons.push({ name, version: installedVersion });
       }
     } catch (err) {

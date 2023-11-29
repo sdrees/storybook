@@ -1,9 +1,9 @@
 export class HandledError extends Error {
   public handled = true;
 
-  constructor(messageOrError: string | Error) {
-    super(typeof messageOrError === 'string' ? messageOrError : messageOrError.message);
+  constructor(error: unknown) {
+    super(String(error));
 
-    if (typeof messageOrError !== 'string') this.cause = messageOrError;
+    if (typeof error !== 'string') this.cause = error;
   }
 }

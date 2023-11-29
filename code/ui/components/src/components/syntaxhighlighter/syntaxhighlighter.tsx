@@ -33,17 +33,23 @@ import type {
 
 const { navigator, document, window: globalWindow } = global;
 
-ReactSyntaxHighlighter.registerLanguage('jsextra', jsExtras);
-ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
-ReactSyntaxHighlighter.registerLanguage('json', json);
-ReactSyntaxHighlighter.registerLanguage('yml', yml);
-ReactSyntaxHighlighter.registerLanguage('md', md);
-ReactSyntaxHighlighter.registerLanguage('bash', bash);
-ReactSyntaxHighlighter.registerLanguage('css', css);
-ReactSyntaxHighlighter.registerLanguage('html', html);
-ReactSyntaxHighlighter.registerLanguage('tsx', tsx);
-ReactSyntaxHighlighter.registerLanguage('typescript', typescript);
-ReactSyntaxHighlighter.registerLanguage('graphql', graphql);
+export const supportedLanguages = {
+  jsextra: jsExtras,
+  jsx,
+  json,
+  yml,
+  md,
+  bash,
+  css,
+  html,
+  tsx,
+  typescript,
+  graphql,
+};
+
+Object.entries(supportedLanguages).forEach(([key, val]) => {
+  ReactSyntaxHighlighter.registerLanguage(key, val);
+});
 
 const themedSyntax = memoize(2)((theme) =>
   Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`* .${key}`]: val }), {})

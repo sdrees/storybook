@@ -57,8 +57,8 @@ export function getMigrationSummary({
 }: {
   fixResults: Record<string, FixStatus>;
   fixSummary: FixSummary;
-  installationMetadata: InstallationMetadata;
-  logFile?: string;
+  installationMetadata?: InstallationMetadata | null;
+  logFile: string;
 }) {
   const messages = [];
   messages.push(getGlossaryMessages(fixSummary, fixResults, logFile).join(messageDivider));
@@ -75,7 +75,9 @@ export function getMigrationSummary({
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `);
 
-  const duplicatedDepsMessage = getDuplicatedDepsWarnings(installationMetadata);
+  const duplicatedDepsMessage = installationMetadata
+    ? getDuplicatedDepsWarnings(installationMetadata)
+    : getDuplicatedDepsWarnings();
 
   if (duplicatedDepsMessage) {
     messages.push(duplicatedDepsMessage.join(messageDivider));

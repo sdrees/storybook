@@ -8,7 +8,7 @@ function createDocgenInfo({ tsType, ...others }: Partial<DocgenInfo>): DocgenInf
     tsType,
     required: true,
     ...others,
-  };
+  } as DocgenInfo;
 }
 
 describe('type', () => {
@@ -20,7 +20,7 @@ describe('type', () => {
 
     const { type } = createTsPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('string');
-    expect(type.detail).toBeUndefined();
+    expect(type?.summary).toBe('string');
+    expect(type?.detail).toBeUndefined();
   });
 });

@@ -3,7 +3,7 @@ import type { DocgenInfo } from '../types';
 
 import { createSummaryValue } from '../../utils';
 
-export function createType({ tsType, required }: DocgenInfo): PropType {
+export function createType({ tsType, required }: DocgenInfo): PropType | null {
   // A type could be null if a defaultProp has been provided without a type definition.
   if (tsType == null) {
     return null;

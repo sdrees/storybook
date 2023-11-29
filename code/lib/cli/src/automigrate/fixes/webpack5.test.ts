@@ -132,6 +132,7 @@ describe('webpack5 fix', () => {
       });
     });
     describe('no webpack dependency', () => {
+      // @ts-expect-error (Type 'null' is not comparable)
       const packageManager = {
         getPackageVersion: () => {
           return null;

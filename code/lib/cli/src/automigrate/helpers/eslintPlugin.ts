@@ -47,7 +47,10 @@ export async function extractEslintInfo(packageManager: JsPackageManager): Promi
   return { hasEslint, isStorybookPluginInstalled, eslintConfigFile };
 }
 
-export async function configureEslintPlugin(eslintFile: string, packageManager: JsPackageManager) {
+export async function configureEslintPlugin(
+  eslintFile: string | undefined,
+  packageManager: JsPackageManager
+) {
   if (eslintFile) {
     paddedLog(`Configuring Storybook ESLint plugin at ${eslintFile}`);
     if (eslintFile.endsWith('json')) {
@@ -55,7 +58,10 @@ export async function configureEslintPlugin(eslintFile: string, packageManager: 
       const existingConfigValue = Array.isArray(eslintConfig.extends)
         ? eslintConfig.extends
         : [eslintConfig.extends].filter(Boolean);
-      eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
+      eslintConfig.extends = [
+        ...(existingConfigValue || []),
+        'plugin:storybook/recommended',
+      ] as string[];
 
       const eslintFileContents = await readFile(eslintFile, 'utf8');
       const spaces = detectIndent(eslintFileContents).amount || 2;

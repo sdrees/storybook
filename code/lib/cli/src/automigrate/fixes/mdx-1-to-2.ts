@@ -47,7 +47,7 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
 
   async check() {
     const storiesMdxFiles = await globby('./!(node_modules)**/*.(story|stories).mdx');
-    return storiesMdxFiles.length ? { storiesMdxFiles } : undefined;
+    return storiesMdxFiles.length ? { storiesMdxFiles } : null;
   },
 
   prompt({ storiesMdxFiles }) {

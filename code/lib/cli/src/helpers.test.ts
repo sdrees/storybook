@@ -168,4 +168,13 @@ describe('Helpers', () => {
       }).toThrowError("Couldn't find any official storybook packages in package.json");
     });
   });
+
+  describe('coerceSemver', () => {
+    it(`should throw if the version argument is invalid semver string`, () => {
+      const invalidSemverString = 'hello, world';
+      expect(() => {
+        helpers.coerceSemver(invalidSemverString);
+      }).toThrowError(`Could not coerce ${invalidSemverString} into a semver.`);
+    });
+  });
 });

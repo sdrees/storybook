@@ -34,12 +34,13 @@ const generator = async (
 
   const babelDependencies = await getBabelDependencies(packageManager, packageJson);
 
-  const packages = [
-    ...babelDependencies,
-    ...packagesWithFixedVersion,
-    ...resolvedPackages,
-    missingReactDom && reactVersion && `react-dom@${reactVersion}`,
-  ].filter(Boolean);
+  const packages: string[] = [];
+  packages.push(...babelDependencies);
+  packages.push(...packagesWithFixedVersion);
+  packages.push(...resolvedPackages);
+  if (missingReactDom && reactVersion) {
+    packages.push(`react-dom@${reactVersion}`);
+  }
 
   await packageManager.addDependencies({ ...npmOptions, packageJson }, packages);
   packageManager.addScripts({

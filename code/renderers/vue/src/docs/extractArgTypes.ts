@@ -1,6 +1,7 @@
 import type { StrictArgTypes } from '@storybook/types';
 import type { ArgTypesExtractor, DocgenInfo, PropDef } from '@storybook/docs-tools';
 import { hasDocgen, extractComponentProps, convert } from '@storybook/docs-tools';
+import invariant from 'tiny-invariant';
 
 const SECTIONS = ['props', 'events', 'slots', 'methods'];
 
@@ -16,6 +17,8 @@ function inferEnum(propDef: PropDef, docgenInfo: DocgenInfo): false | PropDef {
   if (!matched) {
     return false;
   }
+
+  invariant(propDef.type, 'PropDef should have a type defined');
 
   const enumString = values.join(', ');
   let { summary } = propDef.type;

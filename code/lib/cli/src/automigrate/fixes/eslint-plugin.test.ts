@@ -93,9 +93,9 @@ describe('eslint-plugin fix', () => {
           checkEslint({
             packageJson,
           })
-        ).resolves.toMatchObject({
-          unsupportedExtension: undefined,
-        });
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"warn: Unable to find .eslintrc config file, skipping"`
+        );
       });
 
       it('when .eslintrc is using unsupported extension', async () => {
@@ -104,7 +104,9 @@ describe('eslint-plugin fix', () => {
             packageJson,
             eslintExtension: 'yml',
           })
-        ).resolves.toMatchObject({ unsupportedExtension: 'yml' });
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"warn: Unable to find .eslintrc config file, skipping"`
+        );
       });
     });
   });

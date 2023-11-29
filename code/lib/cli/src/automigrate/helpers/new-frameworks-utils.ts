@@ -71,13 +71,13 @@ export const detectBuilderInfo = async ({
   packageManager: JsPackageManager;
 }): Promise<{ name: BuilderType; options: any }> => {
   let builderName: BuilderType;
-  let builderOrFrameworkName;
+  let builderOrFrameworkName: string | undefined;
 
   const { core = {}, framework } = mainConfig;
   const { builder } = core;
 
   const builderPackageName = getBuilderPackageName(mainConfig);
-  const frameworkPackageName = getFrameworkPackageName(mainConfig);
+  const frameworkPackageName = getFrameworkPackageName(mainConfig) as string;
 
   let builderOptions = typeof builder !== 'string' ? builder?.options ?? {} : {};
 
@@ -133,12 +133,12 @@ export const detectBuilderInfo = async ({
 
   if (
     builderOrFrameworkName?.includes('vite') ||
-    communityFrameworks.vite.includes(builderOrFrameworkName)
+    (builderOrFrameworkName && communityFrameworks.vite.includes(builderOrFrameworkName))
   ) {
     builderName = 'vite';
   } else if (
     builderOrFrameworkName?.includes('webpack') ||
-    communityFrameworks.webpack5.includes(builderOrFrameworkName)
+    (builderOrFrameworkName && communityFrameworks.webpack5.includes(builderOrFrameworkName))
   ) {
     builderName = 'webpack5';
   } else {
@@ -154,7 +154,7 @@ export const detectBuilderInfo = async ({
   };
 };
 
-export const getNextjsAddonOptions = (addons: Preset[]) => {
+export const getNextjsAddonOptions = (addons: Preset[] | undefined) => {
   const nextjsAddon = addons?.find((addon) =>
     typeof addon === 'string'
       ? addon === 'storybook-addon-next'

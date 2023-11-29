@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign,@typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/ban-ts-comment,no-param-reassign,@typescript-eslint/no-shadow */
 import type { FileInfo } from 'jscodeshift';
 import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
@@ -49,7 +49,7 @@ export default function jscodeshift(info: FileInfo) {
   return mdx;
 }
 
-export function transform(source: string, baseName: string): [mdx: string, csf: string] {
+export function transform(source: string, baseName: string): [string, string] {
   const root = mdxProcessor.parse(source);
   const storyNamespaceName = nameToValidExport(`${baseName}Stories`);
 
@@ -70,6 +70,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   >();
 
   // rewrite addon docs import
+  // @ts-ignore
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     node.value = node.value
       .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks')
@@ -78,6 +79,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
 
   const file = getEsmAst(root);
 
+  // @ts-ignore
   visit(
     root,
     ['mdxJsxFlowElement', 'mdxJsxTextElement'],
@@ -134,18 +136,18 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */`,
           };
           storiesMap.set(idAttribute.value as string, { type: 'id' });
-          parent.children.splice(index, 0, newNode);
+          parent?.children.splice(index as number, 0, newNode);
           // current index is the new comment, and index + 1 is current node
           // SKIP traversing current node, and continue with the node after that
-          return [SKIP, index + 2];
+          return [SKIP, (index as number) + 2];
         } else if (
           storyAttribute?.type === 'mdxJsxAttribute' &&
           typeof storyAttribute.value === 'object' &&
-          storyAttribute.value.type === 'mdxJsxAttributeValueExpression'
+          storyAttribute.value?.type === 'mdxJsxAttributeValueExpression'
         ) {
           // e.g. <Story story={Primary} />
 
-          const name = storyAttribute.value.value;
+          const name = storyAttribute.value?.value;
           node.attributes = [
             {
               type: 'mdxJsxAttribute',
@@ -158,9 +160,9 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
           ];
           node.children = [];
 
-          storiesMap.set(name, { type: 'reference' });
+          storiesMap.set(name ?? '', { type: 'reference' });
         } else {
-          parent.children.splice(index, 1);
+          parent?.children.splice(index as number, 1);
           // Do not traverse `node`, continue at the node *now* at `index`.
           return [SKIP, index];
         }
@@ -177,7 +179,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       return [
         t.objectProperty(
           t.identifier(attribute.name),
-          babelParseExpression(attribute.value.value) as any as t.Expression
+          babelParseExpression(attribute.value?.value ?? '') as any as t.Expression
         ),
       ];
     }
@@ -193,13 +195,14 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     },
     // remove exports from csf file
     ExportNamedDeclaration(path) {
+      // @ts-ignore
       path.replaceWith(path.node.declaration);
     },
   });
 
   if (storiesMap.size === 0 && metaAttributes.length === 0) {
     // A CSF file must have at least one story, so skip migrating if this is the case.
-    return [mdxProcessor.stringify(root), null];
+    return [mdxProcessor.stringify(root), ''];
   }
 
   addStoriesImport(root, baseName, storyNamespaceName);
@@ -260,9 +263,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       }
       const renderProperty = mapChildrenToRender(value.children);
       const newObject = t.objectExpression([
-        ...(renderProperty
-          ? [t.objectProperty(t.identifier('render'), mapChildrenToRender(value.children))]
-          : []),
+        ...(renderProperty ? [t.objectProperty(t.identifier('render'), renderProperty)] : []),
         ...value.attributes.flatMap((attribute) => {
           if (attribute.type === 'mdxJsxAttribute') {
             if (typeof attribute.value === 'string') {
@@ -273,7 +274,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             return [
               t.objectProperty(
                 t.identifier(attribute.name),
-                babelParseExpression(attribute.value.value) as any as t.Expression
+                babelParseExpression(attribute.value?.value ?? '') as any as t.Expression
               ),
             ];
           }
@@ -309,12 +310,13 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
 
 function getEsmAst(root: Root) {
   const esm: string[] = [];
+  // @ts-expect-error (not valid BuildVisitor)
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     esm.push(node.value);
   });
   const esmSource = `${esm.join('\n\n')}`;
 
-  // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
+  // @ts-expect-error (File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606)
   const file: BabelFile = new babel.File(
     { filename: 'info.path' },
     { code: esmSource, ast: babelParse(esmSource) }
@@ -324,7 +326,7 @@ function getEsmAst(root: Root) {
 
 function addStoriesImport(root: Root, baseName: string, storyNamespaceName: string): void {
   let found = false;
-
+  // @ts-expect-error (not valid BuildVisitor)
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     if (!found) {
       node.value += `\nimport * as ${storyNamespaceName} from './${baseName}.stories';`;

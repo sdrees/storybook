@@ -29,6 +29,7 @@ jest.mock('../../generators/ANGULAR/helpers', () => ({
 }));
 
 describe('is Nx project', () => {
+  // @ts-expect-error (Type 'null' is not comparable)
   const packageManager = {
     getPackageVersion: () => {
       return null;

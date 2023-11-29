@@ -3,10 +3,11 @@ import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';
 import path, { join } from 'path';
-import { satisfies } from 'semver';
+import { coerce, satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
 import findUp from 'find-up';
+import invariant from 'tiny-invariant';
 import { getCliDir, getRendererDir } from './dirs';
 import type {
   JsPackageManager,
@@ -163,8 +164,14 @@ export function addToDevDependenciesIfNotPresent(
   name: string,
   packageVersion: string
 ) {
-  if (!packageJson.dependencies[name] && !packageJson.devDependencies[name]) {
-    packageJson.devDependencies[name] = packageVersion;
+  if (!packageJson.dependencies?.[name] && !packageJson.devDependencies?.[name]) {
+    if (packageJson.devDependencies) {
+      packageJson.devDependencies[name] = packageVersion;
+    } else {
+      packageJson.devDependencies = {
+        [name]: packageVersion,
+      };
+    }
   }
 }
 
@@ -287,11 +294,9 @@ export async function adjustTemplate(templatePath: string, templateData: Record<
 // and if it exists, returns the version of that package from the specified package.json
 export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAndDevDeps) {
   const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
-  const storybookPackage = Object.keys(allDeps).find(
-    (name: keyof typeof storybookMonorepoPackages) => {
-      return storybookMonorepoPackages[name];
-    }
-  );
+  const storybookPackage = Object.keys(allDeps).find((name: string) => {
+    return storybookMonorepoPackages[name as keyof typeof storybookMonorepoPackages];
+  });
 
   if (!storybookPackage) {
     throw new Error(`Couldn't find any official storybook packages in package.json`);
@@ -302,4 +307,10 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
 
 export async function isNxProject() {
   return findUp.sync('nx.json');
+}
+
+export function coerceSemver(version: string) {
+  const coercedSemver = coerce(version);
+  invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
+  return coercedSemver;
 }

@@ -4,7 +4,7 @@ import type { DocgenInfo } from '../types';
 import { createSummaryValue } from '../../utils';
 import { isDefaultValueBlacklisted } from '../utils/defaultValue';
 
-export function createDefaultValue({ defaultValue }: DocgenInfo): PropDefaultValue {
+export function createDefaultValue({ defaultValue }: DocgenInfo): PropDefaultValue | null {
   if (defaultValue != null) {
     const { value } = defaultValue;
 

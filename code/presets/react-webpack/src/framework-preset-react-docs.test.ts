@@ -43,7 +43,7 @@ describe('framework-preset-react-docgen', () => {
         module: {
           rules: [
             {
-              exclude: /node_modules\/.*/,
+              exclude: /node_modules/,
               loader: '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader',
               options: { babelOptions: { plugins: [], presets: [] } },
               test: /\.(cjs|mjs|tsx?|jsx?)$/,
@@ -88,7 +88,7 @@ describe('framework-preset-react-docgen', () => {
         module: {
           rules: [
             {
-              exclude: /node_modules\/.*/,
+              exclude: /node_modules/,
               loader: '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader',
               options: { babelOptions: { plugins: [], presets: [] } },
               test: /\.(cjs|mjs|jsx?)$/,

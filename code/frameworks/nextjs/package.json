@@ -32,6 +32,16 @@
       "require": "./dist/image-context.js",
       "import": "./dist/image-context.mjs"
     },
+    "./dist/routing/app-router-provider": {
+      "types": "./dist/routing/app-router-provider.d.ts",
+      "require": "./dist/routing/app-router-provider.js",
+      "import": "./dist/routing/app-router-provider.mjs"
+    },
+    "./dist/routing/app-router-provider-mock": {
+      "types": "./dist/routing/app-router-provider-mock.d.ts",
+      "require": "./dist/routing/app-router-provider-mock.js",
+      "import": "./dist/routing/app-router-provider-mock.mjs"
+    },
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
@@ -161,6 +171,8 @@
       "./src/images/next-future-image.tsx",
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",
+      "./src/routing/app-router-provider.tsx",
+      "./src/routing/app-router-provider-mock.tsx",
       "./src/font/webpack/loader/storybook-nextjs-font-loader.ts",
       "./src/swc/next-swc-loader-patch.ts"
     ],

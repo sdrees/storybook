@@ -6,6 +6,7 @@ import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
 import { existsSync, readdir } from 'fs-extra';
+import invariant from 'tiny-invariant';
 import type { Template, TemplateKey } from './sandbox-templates';
 import { allTemplates as TEMPLATES } from './sandbox-templates';
 
@@ -105,7 +106,7 @@ export const sandbox = async ({
       return;
     }
 
-    selectedConfig = TEMPLATES[selectedTemplate];
+    selectedConfig = selectedTemplate ? TEMPLATES[selectedTemplate] : undefined;
 
     if (!selectedConfig) {
       throw new Error('🚨 Sandbox: please specify a valid template type');
@@ -124,7 +125,7 @@ export const sandbox = async ({
         type: 'text',
         message: 'Enter the output directory',
         name: 'directory',
-        initial: outputDirectoryName,
+        initial: outputDirectoryName ?? undefined,
         validate: async (directoryName) =>
           existsSync(directoryName)
             ? `${directoryName} already exists. Please choose another name.`
@@ -139,6 +140,7 @@ export const sandbox = async ({
     );
     selectedDirectory = directory;
   }
+  invariant(selectedDirectory);
 
   try {
     const templateDestination = path.isAbsolute(selectedDirectory)
@@ -166,7 +168,7 @@ export const sandbox = async ({
         );
       }
     } catch (err) {
-      logger.error(`🚨 Failed to download sandbox template: ${err.message}`);
+      logger.error(`🚨 Failed to download sandbox template: ${String(err)}`);
       throw err;
     }
 

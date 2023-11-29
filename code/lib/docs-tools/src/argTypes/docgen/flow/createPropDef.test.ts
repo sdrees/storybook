@@ -8,7 +8,7 @@ function createDocgenInfo({ flowType, ...others }: Partial<DocgenInfo>): DocgenI
     flowType,
     required: false,
     ...others,
-  };
+  } as DocgenInfo;
 }
 
 describe('type', () => {
@@ -21,8 +21,8 @@ describe('type', () => {
 
         const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-        expect(type.summary).toBe(x);
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe(x);
+        expect(type?.detail).toBeUndefined();
       });
     }
   );
@@ -35,8 +35,8 @@ describe('type', () => {
 
       const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-      expect(type.summary).toBe(x);
-      expect(type.detail).toBeUndefined();
+      expect(type?.summary).toBe(x);
+      expect(type?.detail).toBeUndefined();
     });
 
     it(`should support typed ${x}`, () => {
@@ -54,8 +54,8 @@ describe('type', () => {
 
       const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-      expect(type.summary).toBe(`${x}<any>`);
-      expect(type.detail).toBeUndefined();
+      expect(type?.summary).toBe(`${x}<any>`);
+      expect(type?.detail).toBeUndefined();
     });
   });
 
@@ -88,8 +88,8 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('{ foo: string, bar?: mixed }');
-    expect(type.detail).toBeUndefined();
+    expect(type?.summary).toBe('{ foo: string, bar?: mixed }');
+    expect(type?.detail).toBeUndefined();
   });
 
   it('should support long object signature', () => {
@@ -188,8 +188,8 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('object');
-    expect(type.detail).toBe(
+    expect(type?.summary).toBe('object');
+    expect(type?.detail).toBe(
       '{ (x: string): void, prop1: string, prop2: string, prop3: string, prop4: string, prop5: string, prop6: string, prop7: string, prop8: string }'
     );
   });
@@ -218,8 +218,8 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('(x: string) => void');
-    expect(type.detail).toBeUndefined();
+    expect(type?.summary).toBe('(x: string) => void');
+    expect(type?.detail).toBeUndefined();
   });
 
   it('should support tuple', () => {
@@ -244,7 +244,7 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('[foo, "value", number]');
+    expect(type?.summary).toBe('[foo, "value", number]');
   });
 
   it('should support union', () => {
@@ -265,7 +265,7 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('number | string');
+    expect(type?.summary).toBe('number | string');
   });
 
   it('should support nested union elements', () => {
@@ -300,7 +300,7 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('"minimum" | "maximum" | number | string');
+    expect(type?.summary).toBe('"minimum" | "maximum" | number | string');
   });
 
   it('uses raw union value if elements are missing', () => {
@@ -313,7 +313,7 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('"minimum" | "maximum" | UserSize');
+    expect(type?.summary).toBe('"minimum" | "maximum" | UserSize');
   });
 
   it('removes a leading | if raw union value is used', () => {
@@ -326,7 +326,7 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('"minimum" | "maximum" | UserSize');
+    expect(type?.summary).toBe('"minimum" | "maximum" | UserSize');
   });
 
   it('even removes extra spaces after a leading | if raw union value is used', () => {
@@ -339,7 +339,7 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('"minimum" | "maximum" | UserSize');
+    expect(type?.summary).toBe('"minimum" | "maximum" | UserSize');
   });
 
   it('should support intersection', () => {
@@ -360,6 +360,6 @@ describe('type', () => {
 
     const { type } = createFlowPropDef(PROP_NAME, docgenInfo);
 
-    expect(type.summary).toBe('number & string');
+    expect(type?.summary).toBe('number & string');
   });
 });

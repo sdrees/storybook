@@ -15,14 +15,14 @@ export interface RunOptions<ResultType> {
   packageManager: JsPackageManager;
   result: ResultType;
   dryRun?: boolean;
-  mainConfigPath?: string;
+  mainConfigPath: string;
   skipInstall?: boolean;
 }
 
 export interface Fix<ResultType = any> {
   id: string;
   promptOnly?: boolean;
-  check: (options: CheckOptions) => Promise<ResultType | void>;
+  check: (options: CheckOptions) => Promise<ResultType | null>;
   prompt: (result: ResultType) => string;
   run?: (options: RunOptions<ResultType>) => Promise<void>;
 }

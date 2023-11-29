@@ -45,7 +45,9 @@ export const exec = async (
         resolve(undefined);
       } else {
         logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
-        logger.info(errorMessage);
+        if (errorMessage) {
+          logger.info(errorMessage);
+        }
         reject(new Error(`command exited with code: ${code}: `));
       }
     });

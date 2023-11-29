@@ -6,7 +6,8 @@ import path from 'path';
 import fs from 'fs';
 
 import dedent from 'ts-dedent';
-import { readFile, readFileSync, writeFile } from 'fs-extra';
+import { readFile, writeFile, readFileSync } from 'fs-extra';
+import invariant from 'tiny-invariant';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
@@ -143,6 +144,9 @@ export abstract class JsPackageManager {
   }
 
   packageJsonPath(): string {
+    if (!this.cwd) {
+      throw new Error('Missing cwd');
+    }
     return path.resolve(this.cwd, 'package.json');
   }
 
@@ -191,15 +195,14 @@ export abstract class JsPackageManager {
     try {
       packageJson = await this.readPackageJson();
     } catch (err) {
-      if (err.message.includes('Could not read package.json')) {
+      const errMessage = String(err);
+      if (errMessage.includes('Could not read package.json')) {
         await this.initPackageJson();
         packageJson = await this.readPackageJson();
       } else {
         throw new Error(
           dedent`
-            There was an error while reading the package.json file at ${this.packageJsonPath()}: ${
-            err.message
-          }
+            There was an error while reading the package.json file at ${this.packageJsonPath()}: ${errMessage}
             Please fix the error and try again.
           `
         );
@@ -214,7 +217,7 @@ export abstract class JsPackageManager {
     };
   }
 
-  public async getAllDependencies(): Promise<Record<string, string>> {
+  public async getAllDependencies(): Promise<Partial<Record<string, string>>> {
     const { dependencies, devDependencies, peerDependencies } = await this.retrievePackageJson();
 
     return {
@@ -249,6 +252,7 @@ export abstract class JsPackageManager {
 
     if (skipInstall) {
       const { packageJson } = options;
+      invariant(packageJson, 'Missing packageJson.');
 
       const dependenciesMap = dependencies.reduce((acc, dep) => {
         const [packageName, packageVersion] = getPackageDetails(dep);
@@ -269,8 +273,8 @@ export abstract class JsPackageManager {
       await this.writePackageJson(packageJson);
     } else {
       try {
-        await this.runAddDeps(dependencies, options.installAsDevDependencies);
-      } catch (e) {
+        await this.runAddDeps(dependencies, Boolean(options.installAsDevDependencies));
+      } catch (e: any) {
         logger.error('\nAn error occurred while installing dependencies:');
         logger.log(e.message);
         throw new HandledError(e);
@@ -301,6 +305,7 @@ export abstract class JsPackageManager {
     if (skipInstall) {
       const { packageJson } = options;
 
+      invariant(packageJson, 'Missing packageJson.');
       dependencies.forEach((dep) => {
         if (packageJson.devDependencies) {
           delete packageJson.devDependencies[dep];
@@ -316,7 +321,7 @@ export abstract class JsPackageManager {
         await this.runRemoveDeps(dependencies);
       } catch (e) {
         logger.error('An error occurred while removing dependencies.');
-        logger.log(e.message);
+        logger.log(String(e));
         throw new HandledError(e);
       }
     }
@@ -360,7 +365,7 @@ export abstract class JsPackageManager {
    * @param constraint A valid semver constraint, example: '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
    */
   public async getVersion(packageName: string, constraint?: string): Promise<string> {
-    let current: string;
+    let current: string | undefined;
 
     if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
       // @ts-expect-error (Converted from ts-ignore)
@@ -372,11 +377,11 @@ export abstract class JsPackageManager {
       latest = await this.latestVersion(packageName, constraint);
     } catch (e) {
       if (current) {
-        logger.warn(`\n     ${chalk.yellow(e.message)}`);
+        logger.warn(`\n     ${chalk.yellow(String(e))}`);
         return current;
       }
 
-      logger.error(`\n     ${chalk.red(e.message)}`);
+      logger.error(`\n     ${chalk.red(String(e))}`);
       throw new HandledError(e);
     }
 
@@ -401,8 +406,14 @@ export abstract class JsPackageManager {
 
     const versions = await this.runGetVersions(packageName, true);
 
-    // Get the latest version satisfying the constraint
-    return versions.reverse().find((version) => satisfies(version, constraint));
+    const latestVersionSatisfyingTheConstraint = versions
+      .reverse()
+      .find((version) => satisfies(version, constraint));
+    invariant(
+      latestVersionSatisfyingTheConstraint != null,
+      'No version satisfying the constraint.'
+    );
+    return latestVersionSatisfyingTheConstraint;
   }
 
   public async addStorybookCommandInScripts(options?: { port: number; preCommand?: string }) {

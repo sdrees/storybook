@@ -6,7 +6,7 @@ import { withTelemetry } from '@storybook/core-server';
 
 import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
 import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
-import { commandLog } from './helpers';
+import { coerceSemver, commandLog } from './helpers';
 import { automigrate } from './automigrate';
 import { isCorePackage } from './utils';
 
@@ -51,7 +51,7 @@ export const checkVersionConsistency = () => {
     .split('\n');
   const storybookPackages = lines
     .map(getStorybookVersion)
-    .filter(Boolean)
+    .filter((item): item is NonNullable<typeof item> => !!item)
     .filter((pkg) => isCorePackage(pkg.package));
   if (!storybookPackages.length) {
     logger.warn('No storybook core packages found.');
@@ -97,9 +97,9 @@ export const addExtraFlags = (
     (acc, entry) => {
       const [pattern, extra] = entry;
       const [pkg, specifier] = getPackageDetails(pattern);
-      const pkgVersion = dependencies[pkg] || devDependencies[pkg];
+      const pkgVersion = dependencies?.[pkg] || devDependencies?.[pkg];
 
-      if (pkgVersion && semver.satisfies(semver.coerce(pkgVersion), specifier)) {
+      if (pkgVersion && specifier && semver.satisfies(coerceSemver(pkgVersion), specifier)) {
         return [...acc, ...extra];
       }
 

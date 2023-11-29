@@ -85,7 +85,7 @@ describe('enhanceTypeScriptProp', () => {
 
       const expectedSummary = "{ foo: 'foo', bar: 'bar' }";
 
-      expect(defaultValue?.summary.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
+      expect(defaultValue?.summary?.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
       expect(defaultValue?.detail).toBeUndefined();
     });
 

@@ -44,6 +44,7 @@ describe('checkWebpack5Builder', () => {
 
   it('should return null and log a warning if mainConfig is missing', async () => {
     const result = await checkWebpack5Builder({
+      // @ts-expect-error (Type 'undefined' is not assignable to type 'StorybookConfigRaw'.)
       mainConfig: undefined,
       storybookVersion: '6.3.0',
     });

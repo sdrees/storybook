@@ -26,6 +26,7 @@ const checkNewFrameworks = async ({
     storybookVersion,
     rendererPackage,
     configDir: '',
+    mainConfigPath: ' ',
   });
 };
 

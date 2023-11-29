@@ -9,6 +9,7 @@ import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
 import { readdirSync } from 'fs-extra';
+import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -53,10 +54,10 @@ const installStorybook = async <Project extends ProjectType>(
 
   const generatorOptions: GeneratorOptions = {
     language,
-    builder: options.builder,
+    builder: options.builder as Builder,
     linkable: !!options.linkable,
-    pnp: pnp || options.usePnp,
-    yes: options.yes,
+    pnp: pnp || (options.usePnp as boolean),
+    yes: options.yes as boolean,
     projectType,
   };
 
@@ -187,7 +188,7 @@ const installStorybook = async <Project extends ProjectType>(
 
   try {
     return await runGenerator();
-  } catch (err) {
+  } catch (err: any) {
     if (err?.message !== 'Canceled by the user' && err?.stack) {
       logger.error(`\n     ${chalk.red(err.stack)}`);
     }
@@ -336,9 +337,9 @@ async function doInitiate(
     }
   } else {
     try {
-      projectType = await detect(packageManager, options);
+      projectType = (await detect(packageManager, options)) as ProjectType;
     } catch (err) {
-      done(err.message);
+      done(String(err));
       throw new HandledError(err);
     }
   }
@@ -430,7 +431,7 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
     () => doInitiate(options, pkg)
   );
 
-  if (initiateResult.shouldRunDev) {
+  if (initiateResult?.shouldRunDev) {
     const { projectType, packageManager, storybookCommand } = initiateResult;
     logger.log('\nRunning Storybook');
 

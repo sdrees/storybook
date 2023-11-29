@@ -12,6 +12,6 @@ export const createFlowPropDef: PropDefFactory = (propName, docgenInfo) => {
     type: createType(flowType),
     required,
     description,
-    defaultValue: createDefaultValue(defaultValue, flowType),
+    defaultValue: createDefaultValue(defaultValue ?? null, flowType ?? null),
   };
 };

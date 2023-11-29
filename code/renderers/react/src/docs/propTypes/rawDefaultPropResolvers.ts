@@ -10,7 +10,7 @@ import type { InspectionFunction } from '../lib/inspection';
 import { inspectValue } from '../lib/inspection';
 
 const funcResolver: TypeResolver = (rawDefaultProp, { name, type }) => {
-  const isElement = type.summary === 'element' || type.summary === 'elementType';
+  const isElement = type?.summary === 'element' || type?.summary === 'elementType';
 
   const funcName = extractFunctionName(rawDefaultProp, name);
   if (funcName != null) {

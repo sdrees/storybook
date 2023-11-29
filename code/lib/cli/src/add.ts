@@ -37,7 +37,10 @@ const postinstallAddon = async (addonName: string, options: PostinstallOptions) 
 
 const getVersionSpecifier = (addon: string) => {
   const groups = /^(...*)@(.*)$/.exec(addon);
-  return groups ? [groups[1], groups[2]] : [addon, undefined];
+  if (groups) {
+    return [groups[0], groups[2]] as const;
+  }
+  return [addon, undefined] as const;
 };
 
 const requireMain = (configDir: string) => {
@@ -78,6 +81,12 @@ export async function add(
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const packageJson = await packageManager.retrievePackageJson();
   const { mainConfig, configDir } = getStorybookInfo(packageJson);
+
+  if (typeof configDir === 'undefined') {
+    throw new Error(dedent`
+      Unable to find storybook config directory
+    `);
+  }
 
   if (checkInstalled(addon, requireMain(configDir))) {
     throw new Error(dedent`

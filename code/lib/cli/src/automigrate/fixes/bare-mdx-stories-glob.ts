@@ -116,7 +116,7 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       ${JSON.stringify(nextStoriesEntries, null, 2)}`);
 
     if (!dryRun) {
-      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+      await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         main.setFieldValue(['stories'], nextStoriesEntries);
       });
     }

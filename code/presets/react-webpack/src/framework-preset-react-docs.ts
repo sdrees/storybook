@@ -35,7 +35,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
             options: {
               babelOptions,
             },
-            exclude: /node_modules\/.*/,
+            exclude: /node_modules/,
           },
         ],
       },
@@ -61,7 +61,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
           options: {
             babelOptions,
           },
-          exclude: /node_modules\/.*/,
+          exclude: /node_modules/,
         },
       ],
     },

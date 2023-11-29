@@ -4,6 +4,7 @@ import { logger, instance as npmLog } from '@storybook/node-logger';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
 import type { CLIOptions } from '@storybook/types';
+import invariant from 'tiny-invariant';
 
 function printError(error: any) {
   // this is a weird bugfix, somehow 'node-pre-gyp' is polluting the npmLog header
@@ -39,13 +40,15 @@ function printError(error: any) {
 export const dev = async (cliOptions: CLIOptions) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+  const readUpResult = readUpSync({ cwd: __dirname });
+  invariant(readUpResult, 'Failed to find the closest package.json file.');
   const options = {
     ...cliOptions,
     configDir: cliOptions.configDir || './.storybook',
     configType: 'DEVELOPMENT',
     ignorePreview: !!cliOptions.previewUrl && !cliOptions.forceBuildPreview,
     cache,
-    packageJson: readUpSync({ cwd: __dirname }).packageJson,
+    packageJson: readUpSync({ cwd: __dirname })?.packageJson,
   } as Parameters<typeof buildDevStandalone>[0];
 
   await withTelemetry(

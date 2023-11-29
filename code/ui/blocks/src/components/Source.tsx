@@ -9,8 +9,8 @@ import {
   useTheme,
 } from '@storybook/theming';
 
+import type { SupportedLanguage, SyntaxHighlighterProps } from '@storybook/components';
 import { SyntaxHighlighter } from '@storybook/components';
-import type { SyntaxHighlighterProps } from '@storybook/components';
 import { EmptyBlock } from './EmptyBlock';
 
 const StyledSyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> = styled(
@@ -38,7 +38,7 @@ export interface SourceCodeProps {
   /**
    * The language the syntax highlighter uses for your story’s code
    */
-  language?: string;
+  language?: SupportedLanguage;
   /**
    * Use this to override the content of the source block.
    */

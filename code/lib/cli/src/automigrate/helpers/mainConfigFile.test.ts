@@ -9,6 +9,7 @@ describe('getBuilderPackageName', () => {
     const packageName = getBuilderPackageName(undefined);
     expect(packageName).toBeNull();
 
+    // @ts-expect-error (Argument of type 'null' is not assignable)
     const packageName2 = getBuilderPackageName(null);
     expect(packageName2).toBeNull();
   });
@@ -76,6 +77,7 @@ describe('getFrameworkPackageName', () => {
     const packageName = getFrameworkPackageName(undefined);
     expect(packageName).toBeNull();
 
+    // @ts-expect-error (Argument of type 'null' is not assignable)
     const packageName2 = getFrameworkPackageName(null);
     expect(packageName2).toBeNull();
   });
@@ -132,6 +134,7 @@ describe('getFrameworkPackageName', () => {
 
 describe('getRendererPackageNameFromFramework', () => {
   it('should return null when given no package name', () => {
+    // @ts-expect-error (Argument of type 'undefined' is not assignable)
     const packageName = getRendererPackageNameFromFramework(undefined);
     expect(packageName).toBeNull();
   });

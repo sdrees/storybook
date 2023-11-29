@@ -109,6 +109,7 @@ describe('cra5 fix', () => {
       });
     });
     describe('no cra dependency', () => {
+      // @ts-expect-error (Type 'null' is not comparable)
       const packageManager = {
         getPackageVersion: () => {
           return null;

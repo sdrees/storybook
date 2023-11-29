@@ -4,6 +4,7 @@ import React, { Children } from 'react';
 import { SyntaxHighlighter } from '../../syntaxhighlighter/syntaxhighlighter';
 import { isReactChildString } from '../lib/isReactChildString';
 import { codeCommon } from '../lib/common';
+import type { SupportedLanguage } from '../../syntaxhighlighter/syntaxhighlighter-types';
 
 const isInlineCodeRegex = /[\n\r]/g;
 
@@ -60,7 +61,7 @@ export const Code = ({
     <StyledSyntaxHighlighter
       bordered
       copyable
-      language={language?.[1] ?? 'plaintext'}
+      language={(language?.[1] as SupportedLanguage) ?? 'text'}
       format={false}
       {...props}
     >

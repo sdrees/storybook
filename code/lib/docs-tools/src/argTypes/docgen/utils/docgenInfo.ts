@@ -16,5 +16,5 @@ export function getDocgenSection(component: Component, section: string): any {
 }
 
 export function getDocgenDescription(component: Component): string {
-  return hasDocgen(component) && str(component.__docgenInfo.description);
+  return hasDocgen(component) ? str(component.__docgenInfo.description) : '';
 }
