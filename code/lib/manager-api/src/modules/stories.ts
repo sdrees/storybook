@@ -93,7 +93,7 @@ export interface SubAPI {
    * @param {string} [refsId] - The ID of the refs to use for resolving the story.
    * @returns {API_HashEntry} - The hash entry corresponding to the given story ID.
    */
-  resolveStory: (storyId: StoryId, refsId?: string) => API_HashEntry;
+  resolveStory: (storyId: StoryId, refsId?: string) => API_HashEntry | undefined;
   /**
    * Selects the first story to display in the Storybook UI.
    *
@@ -281,7 +281,7 @@ const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
 
 function removeRemovedOptions<T extends Record<string, any> = Record<string, any>>(options?: T): T {
   if (!options || typeof options === 'string') {
-    return options;
+    return options!;
   }
   const result: T = { ...options } as T;
 
@@ -305,7 +305,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 }) => {
   const api: SubAPI = {
     storyId: toId,
-    getData: (storyId, refId) => {
+    getData: (storyId, refId): any => {
       const result = api.resolveStory(storyId, refId);
       if (result?.type === 'story' || result?.type === 'docs') {
         return result;
@@ -322,9 +322,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     resolveStory: (storyId, refId) => {
       const { refs, index } = store.getState();
       if (refId && !refs[refId]) {
-        return null;
+        return undefined;
       }
       if (refId) {
+        // @ts-expect-error (possibly undefined)
         return refs[refId].index ? refs[refId].index[storyId] : undefined;
       }
       return index ? index[storyId] : undefined;
@@ -353,7 +354,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     getCurrentParameter: (parameterName) => {
       const { storyId, refId } = store.getState();
-      const parameters = api.getParameters({ storyId, refId }, parameterName);
+      const parameters = api.getParameters({ storyId, refId: refId as string }, parameterName);
       // FIXME Returning falsey parameters breaks a bunch of toolbars code,
       // so this strange logic needs to be here until various client code is updated.
       return parameters || undefined;
@@ -368,6 +369,11 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       }
 
       const hash = refId ? refs[refId].index || {} : index;
+
+      if (!hash) {
+        return;
+      }
+
       const result = api.findSiblingStoryId(storyId, hash, direction, true);
 
       if (result) {
@@ -384,6 +390,11 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       }
 
       const hash = story.refId ? refs[story.refId].index : index;
+
+      if (!hash) {
+        return;
+      }
+
       const result = api.findSiblingStoryId(storyId, hash, direction, false);
 
       if (result) {
@@ -392,6 +403,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     selectFirstStory: () => {
       const { index } = store.getState();
+      if (!index) {
+        return;
+      }
       const firstStory = Object.keys(index).find((id) => index[id].type === 'story');
 
       if (firstStory) {
@@ -408,6 +422,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       const hash = ref ? refs[ref].index : index;
 
       const kindSlug = storyId?.split('--', 2)[0];
+
+      if (!hash) {
+        return;
+      }
 
       if (!name) {
         // Find the entry (group, component or story) that is referred to
@@ -436,7 +454,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
           // Support legacy API with component permalinks, where kind is `x/y` but permalink is 'z'
           const entry = hash[sanitize(titleOrId)];
           if (entry?.type === 'component') {
-            const foundId = entry.children.find((childId) => hash[childId].name === name);
+            const foundId = entry.children.find((childId: any) => hash[childId].name === name);
             if (foundId) {
               api.selectStory(foundId, undefined, options);
             }
@@ -456,7 +474,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     findLeafStoryId(index, storyId) {
       return api.findLeafEntry(index, storyId)?.id;
     },
-    findSiblingStoryId(storyId, index, direction, toSiblingGroup) {
+    findSiblingStoryId(storyId, index, direction, toSiblingGroup): any {
       if (toSiblingGroup) {
         const lookupList = getComponentLookupList(index);
         const position = lookupList.findIndex((i) => i.includes(storyId));
@@ -491,15 +509,15 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     updateStoryArgs: (story, updatedArgs) => {
       const { id: storyId, refId } = story;
-      provider.channel.emit(UPDATE_STORY_ARGS, {
+      provider.channel?.emit(UPDATE_STORY_ARGS, {
         storyId,
         updatedArgs,
         options: { target: refId },
       });
     },
-    resetStoryArgs: (story, argNames?: [string]) => {
+    resetStoryArgs: (story, argNames) => {
       const { id: storyId, refId } = story;
-      provider.channel.emit(RESET_STORY_ARGS, {
+      provider.channel?.emit(RESET_STORY_ARGS, {
         storyId,
         argNames,
         options: { target: refId },
@@ -519,7 +537,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         }
 
         await api.setIndex(storyIndex);
-      } catch (err) {
+      } catch (err: any) {
         await store.setState({ indexError: err });
       }
     },
@@ -547,13 +565,16 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     ): Promise<void> => {
       if (!ref) {
         const { index } = store.getState();
+        if (!index) {
+          return;
+        }
         index[storyId] = {
           ...index[storyId],
           ...update,
         } as API_StoryEntry;
         await store.setState({ index });
       } else {
-        const { id: refId, index } = ref;
+        const { id: refId, index }: any = ref;
         index[storyId] = {
           ...index[storyId],
           ...update,
@@ -568,13 +589,16 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     ): Promise<void> => {
       if (!ref) {
         const { index } = store.getState();
+        if (!index) {
+          return;
+        }
         index[docsId] = {
           ...index[docsId],
           ...update,
         } as API_DocsEntry;
         await store.setState({ index });
       } else {
-        const { id: refId, index } = ref;
+        const { id: refId, index }: any = ref;
         index[docsId] = {
           ...index[docsId],
           ...update,
@@ -643,17 +667,20 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
   // On initial load, the local iframe will select the first story (or other "selection specifier")
   // and emit STORY_SPECIFIED with the id. We need to ensure we respond to this change.
-  provider.channel.on(
+  provider.channel?.on(
     STORY_SPECIFIED,
-    function handler({
-      storyId,
-      viewMode,
-    }: {
-      storyId: string;
-      viewMode: API_ViewMode;
-      [k: string]: any;
-    }) {
-      const { sourceType } = getEventMetadata(this, fullAPI);
+    function handler(
+      this: any,
+      {
+        storyId,
+        viewMode,
+      }: {
+        storyId: string;
+        viewMode: API_ViewMode;
+        [k: string]: any;
+      }
+    ) {
+      const { sourceType } = getEventMetadata(this, fullAPI)!;
 
       if (sourceType === 'local') {
         const state = store.getState();
@@ -661,7 +688,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
           state.path === '/' || state.viewMode === 'story' || state.viewMode === 'docs';
         const stateHasSelection = state.viewMode && state.storyId;
         const stateSelectionDifferent = state.viewMode !== viewMode || state.storyId !== storyId;
-        const { type } = state.index[state.storyId] || {};
+        const { type } = state.index?.[state.storyId] || {};
         const isStory = !(type === 'root' || type === 'component' || type === 'group');
 
         /**
@@ -674,7 +701,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         if (isCanvasRoute) {
           if (stateHasSelection && stateSelectionDifferent && isStory) {
             // The manager state is correct, the preview state is lagging behind
-            provider.channel.emit(SET_CURRENT_STORY, {
+            provider.channel?.emit(SET_CURRENT_STORY, {
               storyId: state.storyId,
               viewMode: state.viewMode,
             });
@@ -691,13 +718,13 @@ export const init: ModuleFn<SubAPI, SubState> = ({
   // Until the ref has a selection, it will not render anything (e.g. while waiting for
   // the preview.js file or the index to load). Once it has a selection, it will render its own
   // preparing spinner.
-  provider.channel.on(CURRENT_STORY_WAS_SET, function handler() {
-    const { ref } = getEventMetadata(this, fullAPI);
+  provider.channel?.on(CURRENT_STORY_WAS_SET, function handler(this: any) {
+    const { ref } = getEventMetadata(this, fullAPI)!;
     api.setPreviewInitialized(ref);
   });
 
-  provider.channel.on(STORY_CHANGED, function handler() {
-    const { sourceType } = getEventMetadata(this, fullAPI);
+  provider.channel?.on(STORY_CHANGED, function handler(this: any) {
+    const { sourceType } = getEventMetadata(this, fullAPI)!;
 
     if (sourceType === 'local') {
       const options = api.getCurrentParameter('options');
@@ -708,56 +735,66 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     }
   });
 
-  provider.channel.on(STORY_PREPARED, function handler({ id, ...update }: StoryPreparedPayload) {
-    const { ref, sourceType } = getEventMetadata(this, fullAPI);
-    api.updateStory(id, { ...update, prepared: true }, ref);
+  provider.channel?.on(
+    STORY_PREPARED,
+    function handler(this: any, { id, ...update }: StoryPreparedPayload) {
+      const { ref, sourceType } = getEventMetadata(this, fullAPI)!;
+      api.updateStory(id, { ...update, prepared: true }, ref);
 
-    if (!ref) {
-      if (!store.getState().hasCalledSetOptions) {
-        const { options } = update.parameters;
-        fullAPI.setOptions(removeRemovedOptions(options));
-        store.setState({ hasCalledSetOptions: true });
+      if (!ref) {
+        if (!store.getState().hasCalledSetOptions) {
+          const { options } = update.parameters;
+          fullAPI.setOptions(removeRemovedOptions(options));
+          store.setState({ hasCalledSetOptions: true });
+        }
+      }
+
+      if (sourceType === 'local') {
+        const { storyId, index, refId } = store.getState();
+
+        if (!index) {
+          return;
+        }
+
+        // create a list of related stories to be preloaded
+        const toBePreloaded = Array.from(
+          new Set([
+            api.findSiblingStoryId(storyId, index, 1, true),
+            api.findSiblingStoryId(storyId, index, -1, true),
+          ])
+        ).filter(Boolean);
+
+        provider.channel?.emit(PRELOAD_ENTRIES, {
+          ids: toBePreloaded,
+          options: { target: refId },
+        });
       }
     }
+  );
 
-    if (sourceType === 'local') {
-      const { storyId, index, refId } = store.getState();
-
-      // create a list of related stories to be preloaded
-      const toBePreloaded = Array.from(
-        new Set([
-          api.findSiblingStoryId(storyId, index, 1, true),
-          api.findSiblingStoryId(storyId, index, -1, true),
-        ])
-      ).filter(Boolean);
-
-      provider.channel.emit(PRELOAD_ENTRIES, {
-        ids: toBePreloaded,
-        options: { target: refId },
-      });
+  provider.channel?.on(
+    DOCS_PREPARED,
+    function handler(this: any, { id, ...update }: DocsPreparedPayload) {
+      const { ref } = getEventMetadata(this, fullAPI)!;
+      api.updateStory(id, { ...update, prepared: true }, ref);
     }
-  });
+  );
 
-  provider.channel.on(DOCS_PREPARED, function handler({ id, ...update }: DocsPreparedPayload) {
-    const { ref } = getEventMetadata(this, fullAPI);
-    api.updateStory(id, { ...update, prepared: true }, ref);
-  });
-
-  provider.channel.on(SET_INDEX, function handler(index: API_PreparedStoryIndex) {
-    const { ref } = getEventMetadata(this, fullAPI);
+  provider.channel?.on(SET_INDEX, function handler(this: any, index: API_PreparedStoryIndex) {
+    const { ref } = getEventMetadata(this, fullAPI)!;
 
     if (!ref) {
       api.setIndex(index);
       const options = api.getCurrentParameter('options');
-      fullAPI.setOptions(removeRemovedOptions(options));
+      fullAPI.setOptions(removeRemovedOptions(options!));
     } else {
       fullAPI.setRef(ref.id, { ...ref, storyIndex: index }, true);
     }
   });
 
   // For composition back-compatibilty
-  provider.channel.on(SET_STORIES, function handler(data: SetStoriesPayload) {
-    const { ref } = getEventMetadata(this, fullAPI);
+  provider.channel?.on(SET_STORIES, function handler(this: any, data: SetStoriesPayload) {
+    const { ref } = getEventMetadata(this, fullAPI)!;
     const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
     if (!ref) {
@@ -767,24 +804,27 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     }
   });
 
-  provider.channel.on(
+  provider.channel?.on(
     SELECT_STORY,
-    function handler({
-      kind,
-      title = kind,
-      story,
-      name = story,
-      storyId,
-      ...rest
-    }: {
-      kind?: StoryKind;
-      title?: ComponentTitle;
-      story?: StoryName;
-      name?: StoryName;
-      storyId: string;
-      viewMode: API_ViewMode;
-    }) {
-      const { ref } = getEventMetadata(this, fullAPI);
+    function handler(
+      this: any,
+      {
+        kind,
+        title = kind,
+        story,
+        name = story,
+        storyId,
+        ...rest
+      }: {
+        kind?: StoryKind;
+        title?: ComponentTitle;
+        story?: StoryName;
+        name?: StoryName;
+        storyId: string;
+        viewMode: API_ViewMode;
+      }
+    ) {
+      const { ref } = getEventMetadata(this, fullAPI)!;
 
       if (!ref) {
         fullAPI.selectStory(storyId || title, name, rest);
@@ -794,26 +834,29 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     }
   );
 
-  provider.channel.on(
+  provider.channel?.on(
     STORY_ARGS_UPDATED,
-    function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: Args }) {
-      const { ref } = getEventMetadata(this, fullAPI);
+    function handleStoryArgsUpdated(
+      this: any,
+      { storyId, args }: { storyId: StoryId; args: Args }
+    ) {
+      const { ref } = getEventMetadata(this, fullAPI)!;
       api.updateStory(storyId, { args }, ref);
     }
   );
 
   // When there's a preview error, we don't show it in the manager, but simply
-  provider.channel.on(CONFIG_ERROR, function handleConfigError(err) {
-    const { ref } = getEventMetadata(this, fullAPI);
+  provider.channel?.on(CONFIG_ERROR, function handleConfigError(this: any, err: any) {
+    const { ref } = getEventMetadata(this, fullAPI)!;
     api.setPreviewInitialized(ref);
   });
 
-  provider.channel.on(STORY_MISSING, function handleConfigError(err) {
-    const { ref } = getEventMetadata(this, fullAPI);
+  provider.channel?.on(STORY_MISSING, function handleConfigError(this: any, err: any) {
+    const { ref } = getEventMetadata(this, fullAPI)!;
     api.setPreviewInitialized(ref);
   });
 
-  provider.channel.on(SET_CONFIG, () => {
+  provider.channel?.on(SET_CONFIG, () => {
     const config = provider.getConfig();
     if (config?.sidebar?.filters) {
       store.setState({
@@ -830,7 +873,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
   return {
     api,
     state: {
-      storyId: initialStoryId,
+      storyId: initialStoryId as string,
       viewMode: initialViewMode,
       hasCalledSetOptions: false,
       previewInitialized: false,
@@ -839,7 +882,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     init: async () => {
       if (FEATURES?.storyStoreV7) {
-        provider.channel.on(STORY_INDEX_INVALIDATED, () => api.fetchIndex());
+        provider.channel?.on(STORY_INDEX_INVALIDATED, () => api.fetchIndex());
         await api.fetchIndex();
       }
     },

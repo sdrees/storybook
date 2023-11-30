@@ -56,12 +56,12 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
   const api: SubAPI = {
     getChannel: () => provider.channel,
     on: (type, handler) => {
-      provider.channel.on(type, handler);
+      provider.channel?.on(type, handler);
 
-      return () => provider.channel.off(type, handler);
+      return () => provider.channel?.off(type, handler);
     },
-    off: (type, handler) => provider.channel.off(type, handler),
-    once: (type, handler) => provider.channel.once(type, handler),
+    off: (type, handler) => provider.channel?.off(type, handler),
+    once: (type, handler) => provider.channel?.once(type, handler),
     emit: (type, data, ...args) => {
       if (
         data?.options?.target &&
@@ -73,7 +73,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
             ? `storybook-ref-${data.options.target}`
             : 'storybook-preview-iframe';
       }
-      provider.channel.emit(type, data, ...args);
+      provider.channel?.emit(type, data, ...args);
     },
     collapseAll: () => {
       api.emit(STORIES_COLLAPSE_ALL, {});

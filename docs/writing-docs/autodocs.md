@@ -237,7 +237,7 @@ This is not a Storybook issue but a breaking change introduced with MDX 2. For m
 
 ### The table of contents doesn't render as expected
 
-When using Autodocs's table of contents, you may encounter situations where it appears differently than expected. To help you resolve these problems, we have compiled a list of possible scenarios that may cause issues. If you've run into any of the items listed below and you're interested in helping us improve the support for this feature, we encourage you to reach out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+When using Autodocs's table of contents, you may encounter situations where it appears differently than expected. To help you resolve these problems, we have compiled a list of possible scenarios that may cause issues.
 
 #### With simple documentation pages
 
@@ -283,7 +283,7 @@ Additionally, if you're developing using TypeScript, you may need to update Stor
 
 <!-- prettier-ignore-end -->
 
-If you're still encountering issues, we recommend reaching out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+If you're still encountering issues, we recommend reaching out to the community using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)).
 
 #### Learn more about Storybook documentation
 

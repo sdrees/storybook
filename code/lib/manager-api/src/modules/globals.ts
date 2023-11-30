@@ -35,14 +35,14 @@ export interface SubAPI {
 export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) => {
   const api: SubAPI = {
     getGlobals() {
-      return store.getState().globals;
+      return store.getState().globals as Globals;
     },
     getGlobalTypes() {
-      return store.getState().globalTypes;
+      return store.getState().globalTypes as GlobalTypes;
     },
     updateGlobals(newGlobals) {
       // Only emit the message to the local ref
-      provider.channel.emit(UPDATE_GLOBALS, {
+      provider.channel?.emit(UPDATE_GLOBALS, {
         globals: newGlobals,
         options: {
           target: 'storybook-preview-iframe',
@@ -62,10 +62,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) =
     }
   };
 
-  provider.channel.on(
+  provider.channel?.on(
     GLOBALS_UPDATED,
-    function handleGlobalsUpdated({ globals }: { globals: Globals }) {
-      const { ref } = getEventMetadata(this, fullAPI);
+    function handleGlobalsUpdated(this: any, { globals }: { globals: Globals }) {
+      const { ref } = getEventMetadata(this, fullAPI)!;
 
       if (!ref) {
         updateGlobals(globals);
@@ -78,10 +78,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) =
   );
 
   // Emitted by the preview on initialization
-  provider.channel.on(
+  provider.channel?.on(
     SET_GLOBALS,
-    function handleSetStories({ globals, globalTypes }: SetGlobalsPayload) {
-      const { ref } = getEventMetadata(this, fullAPI);
+    function handleSetStories(this: any, { globals, globalTypes }: SetGlobalsPayload) {
+      const { ref } = getEventMetadata(this, fullAPI)!;
       const currentGlobals = store.getState()?.globals;
 
       if (!ref) {

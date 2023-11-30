@@ -17,10 +17,10 @@ interface Meta {
 
 export const getEventMetadata = (context: Meta, fullAPI: API) => {
   const { source, refId, type } = context;
-  const [sourceType, sourceLocation] = getSourceType(source, refId);
+  const [sourceType, sourceLocation] = getSourceType(source!, refId);
 
   const ref =
-    refId && fullAPI.getRefs()[refId] ? fullAPI.getRefs()[refId] : fullAPI.findRef(sourceLocation);
+    refId && fullAPI.getRefs()[refId] ? fullAPI.getRefs()[refId] : fullAPI.findRef(sourceLocation!);
 
   const meta = {
     source,

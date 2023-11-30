@@ -92,7 +92,7 @@ export const eventMatchesShortcut = (
   e: KeyboardEventLike,
   shortcut: API_KeyCollection
 ): boolean => {
-  return shortcutMatchesShortcut(eventToShortcut(e), shortcut);
+  return shortcutMatchesShortcut(eventToShortcut(e)!, shortcut);
 };
 
 export const keyToSymbol = (key: string): string => {

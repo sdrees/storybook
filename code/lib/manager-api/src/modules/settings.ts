@@ -32,7 +32,7 @@ export interface SubState {
   settings: API_Settings;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }): any => {
   const isSettingsScreenActive = () => {
     const { path } = fullAPI.getUrlState();
     return !!(path || '').match(/^\/settings/);

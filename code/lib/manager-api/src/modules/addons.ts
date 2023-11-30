@@ -85,7 +85,7 @@ export interface SubAPI {
 export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
   const keys = Object.keys(panels);
 
-  if (keys.indexOf(selectedPanel) >= 0) {
+  if (keys.indexOf(selectedPanel!) >= 0) {
     return selectedPanel;
   }
 
@@ -95,7 +95,7 @@ export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentP
   return currentPanel;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }): any => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
     getPanels: () => api.getElements(Addon_TypesEnum.PANEL),
@@ -112,7 +112,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
 
       const filteredPanels: Addon_Collection<Addon_BaseType> = {};
       Object.entries(allPanels).forEach(([id, panel]) => {
-        const { paramKey } = panel;
+        const { paramKey }: any = panel;
         if (paramKey && parameters && parameters[paramKey] && parameters[paramKey].disable) {
           return;
         }
@@ -121,7 +121,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
 
       return filteredPanels;
     },
-    getSelectedPanel: () => {
+    getSelectedPanel: (): any => {
       const { selectedPanel } = store.getState();
       return ensurePanel(api.getElements(Addon_TypesEnum.PANEL), selectedPanel, selectedPanel);
     },

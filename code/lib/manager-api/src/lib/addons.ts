@@ -64,7 +64,7 @@ export class AddonStore {
       this.setChannel(mockChannel());
     }
 
-    return this.channel;
+    return this.channel!;
   };
 
   /**
@@ -105,11 +105,10 @@ export class AddonStore {
       | Addon_TypesEnum.experimental_PAGE
       | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
       | Addon_TypesEnum.experimental_SIDEBAR_TOP
-  >(type: T): Addon_Collection<Addon_TypesMapping[T]> {
+  >(type: T): Addon_Collection<Addon_TypesMapping[T]> | any {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
-    // @ts-expect-error (Kaspar told me to do this)
     return this.elements[type];
   }
 
@@ -185,7 +184,7 @@ export class AddonStore {
   };
 
   loadAddons = (api: any) => {
-    Object.values(this.loaders).forEach((value) => value(api));
+    Object.values(this.loaders).forEach((value: any) => value(api));
   };
 }
 

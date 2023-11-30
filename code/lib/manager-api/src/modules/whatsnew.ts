@@ -47,7 +47,7 @@ export const init: ModuleFn = ({ fullAPI, store, provider }) => {
           ...state.whatsNewData,
           disableWhatsNewNotifications: !state.whatsNewData.disableWhatsNewNotifications,
         });
-        provider.channel.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS, {
+        provider.channel?.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS, {
           disableWhatsNewNotifications: state.whatsNewData.disableWhatsNewNotifications,
         });
       }
@@ -55,17 +55,17 @@ export const init: ModuleFn = ({ fullAPI, store, provider }) => {
   };
 
   function getLatestWhatsNewPost(): Promise<WhatsNewData> {
-    provider.channel.emit(REQUEST_WHATS_NEW_DATA);
+    provider.channel?.emit(REQUEST_WHATS_NEW_DATA);
 
     return new Promise((resolve) =>
-      provider.channel.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) =>
+      provider.channel?.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) =>
         resolve(data)
       )
     );
   }
 
   function setWhatsNewCache(cache: WhatsNewCache): void {
-    provider.channel.emit(SET_WHATS_NEW_CACHE, cache);
+    provider.channel?.emit(SET_WHATS_NEW_CACHE, cache);
   }
 
   const initModule = async () => {
@@ -95,7 +95,7 @@ export const init: ModuleFn = ({ fullAPI, store, provider }) => {
           subHeadline: "Click to learn what's new in Storybook",
         },
         icon: { name: 'hearthollow' },
-        onClear({ dismissed }) {
+        onClear({ dismissed }: any) {
           if (dismissed) {
             setWhatsNewCache({ lastDismissedPost: whatsNewData.url });
           }

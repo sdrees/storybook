@@ -109,16 +109,16 @@ const setupResponses = ({
       throw new Error('Wrong request type');
     }
 
-    if (l.includes('index') && o.credentials === 'include' && indexPrivate) {
+    if (l.includes('index') && o?.credentials === 'include' && indexPrivate) {
       return respond(indexPrivate);
     }
-    if (l.includes('index') && o.credentials === 'omit' && indexPublic) {
+    if (l.includes('index') && o?.credentials === 'omit' && indexPublic) {
       return respond(indexPublic);
     }
-    if (l.includes('stories') && o.credentials === 'include' && storiesPrivate) {
+    if (l.includes('stories') && o?.credentials === 'include' && storiesPrivate) {
       return respond(storiesPrivate);
     }
-    if (l.includes('stories') && o.credentials === 'omit' && storiesPublic) {
+    if (l.includes('stories') && o?.credentials === 'omit' && storiesPublic) {
       return respond(storiesPublic);
     }
     if (l.includes('iframe') && iframe) {

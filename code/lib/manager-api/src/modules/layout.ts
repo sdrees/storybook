@@ -385,7 +385,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, provider, singleStory 
 
   const persisted = pick(store.getState(), 'layout', 'selectedPanel');
 
-  provider.channel.on(SET_CONFIG, () => {
+  provider.channel?.on(SET_CONFIG, () => {
     api.setOptions(merge(api.getInitialOptions(), persisted));
   });
 

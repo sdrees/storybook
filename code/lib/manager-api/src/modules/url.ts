@@ -10,7 +10,7 @@ import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { dequal as deepEqual } from 'dequal';
 import { global } from '@storybook/global';
 
-import type { API_Layout, API_UI } from '@storybook/types';
+import type { API_Layout, API_UI, Args } from '@storybook/types';
 import type { ModuleArgs, ModuleFn } from '../lib/types';
 import { defaultLayoutState } from './layout';
 
@@ -101,7 +101,7 @@ const initialUrlSupport = ({
 };
 
 export interface QueryParams {
-  [key: string]: string | null;
+  [key: string]: string | undefined;
 }
 
 /**
@@ -185,7 +185,7 @@ export const init: ModuleFn<SubAPI, SubState> = (moduleArgs) => {
       };
       if (!deepEqual(customQueryParams, update)) {
         store.setState({ customQueryParams: update });
-        provider.channel.emit(UPDATE_QUERY_PARAMS, update);
+        provider.channel?.emit(UPDATE_QUERY_PARAMS, update);
       }
     },
     navigateUrl(url, options) {
@@ -204,15 +204,15 @@ export const init: ModuleFn<SubAPI, SubState> = (moduleArgs) => {
     if (currentStory?.type !== 'story') return;
 
     const { args, initialArgs } = currentStory;
-    const argsString = buildArgsParam(initialArgs, args);
+    const argsString = buildArgsParam(initialArgs, args as Args);
     navigateTo(path, { ...queryParams, args: argsString }, { replace: true });
     api.setQueryParams({ args: argsString });
   };
 
-  provider.channel.on(SET_CURRENT_STORY, () => updateArgsParam());
+  provider.channel?.on(SET_CURRENT_STORY, () => updateArgsParam());
 
   let handleOrId: any;
-  provider.channel.on(STORY_ARGS_UPDATED, () => {
+  provider.channel?.on(STORY_ARGS_UPDATED, () => {
     if ('requestIdleCallback' in globalWindow) {
       if (handleOrId) globalWindow.cancelIdleCallback(handleOrId);
       handleOrId = globalWindow.requestIdleCallback(updateArgsParam, { timeout: 1000 });
@@ -222,14 +222,14 @@ export const init: ModuleFn<SubAPI, SubState> = (moduleArgs) => {
     }
   });
 
-  provider.channel.on(GLOBALS_UPDATED, ({ globals, initialGlobals }) => {
+  provider.channel?.on(GLOBALS_UPDATED, ({ globals, initialGlobals }: any) => {
     const { path, queryParams } = api.getUrlState();
     const globalsString = buildArgsParam(initialGlobals, globals);
     navigateTo(path, { ...queryParams, globals: globalsString }, { replace: true });
     api.setQueryParams({ globals: globalsString });
   });
 
-  provider.channel.on(NAVIGATE_URL, (url: string, options: NavigateOptions) => {
+  provider.channel?.on(NAVIGATE_URL, (url: string, options: NavigateOptions) => {
     api.navigateUrl(url, options);
   });
 
