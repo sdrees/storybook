@@ -57,10 +57,9 @@ Type: `'react-docgen' | 'react-docgen-typescript' | false`
 Default:
 
 - `false`: if `@storybook/react` is not installed
-- `'react-docgen-typescript'`: if `@storybook/react` and `typescript` are installed
 - `'react-docgen'`: if `@storybook/react` is installed
 
-Only available for React Storybook projects. Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components.
+Only available for React Storybook projects. Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components. `react-docgen-typescript` invokes the TypeScript compiler, which makes it slow but generally accurate. `react-docgen` performs its own analysis, which is much faster but incomplete.
 
 <!-- prettier-ignore-start -->
 

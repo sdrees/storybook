@@ -43,9 +43,9 @@ describe('framework-preset-react-docgen', () => {
         module: {
           rules: [
             {
-              exclude: /node_modules/,
+              exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
               loader: '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader',
-              options: { babelOptions: { plugins: [], presets: [] } },
+              options: { babelOptions: { plugins: [], presets: [] }, debug: false },
               test: /\.(cjs|mjs|tsx?|jsx?)$/,
             },
           ],
@@ -88,9 +88,9 @@ describe('framework-preset-react-docgen', () => {
         module: {
           rules: [
             {
-              exclude: /node_modules/,
+              exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
               loader: '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader',
-              options: { babelOptions: { plugins: [], presets: [] } },
+              options: { babelOptions: { plugins: [], presets: [] }, debug: false },
               test: /\.(cjs|mjs|jsx?)$/,
             },
           ],

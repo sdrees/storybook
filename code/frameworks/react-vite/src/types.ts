@@ -42,7 +42,7 @@ type TypescriptOptions = TypescriptOptionsBase & {
   /**
    * Sets the type of Docgen when working with React and TypeScript
    *
-   * @default `'react-docgen-typescript'`
+   * @default `'react-docgen'`
    */
   reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
   /**

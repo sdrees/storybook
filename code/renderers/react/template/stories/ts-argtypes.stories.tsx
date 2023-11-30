@@ -6,7 +6,6 @@ import type { Args, Parameters, StoryContext } from '@storybook/types';
 import { inferControls } from '@storybook/preview-api';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 
-import { within } from '@storybook/testing-library';
 import { component as TsFunctionComponentComponent } from './docgen-components/ts-function-component/input';
 import { component as TsFunctionComponentInlineDefaultsComponent } from './docgen-components/ts-function-component-inline-defaults/input';
 import { component as TsReactFcGenericsComponent } from './docgen-components/8143-ts-react-fc-generics/input';
@@ -81,27 +80,6 @@ export const TsJsdoc = { parameters: { component: TsJsdocComponent } };
 
 export const TsFC = { parameters: { component: TsFCComponent } };
 
-const addChromaticIgnore = async (element: HTMLElement) => {
-  const row = element.parentElement?.parentElement;
-  if (row?.nodeName === 'TR') {
-    row.setAttribute('data-chromatic', 'ignore');
-  } else {
-    throw new Error('the DOM structure changed, please update this test');
-  }
-};
-
-export const TsTypes: StoryObj = {
-  parameters: { component: TsTypesComponent },
-  play: async ({ canvasElement }) => {
-    // This play function's sole purpose is to add a "chromatic ignore" region to flaky rows.
-    const canvas = within(canvasElement);
-    const funcCell = await canvas.findByText('funcWithArgsAndReturns');
-    addChromaticIgnore(funcCell);
-    const namedNumericCell = await canvas.findByText('namedNumericLiteralUnion');
-    addChromaticIgnore(namedNumericCell);
-    const inlinedNumericCell = await canvas.findByText('inlinedNumericLiteralUnion');
-    addChromaticIgnore(inlinedNumericCell);
-  },
-};
+export const TsTypes: StoryObj = { parameters: { component: TsTypesComponent } };
 
 export const TsHtml = { parameters: { component: TsHtmlComponent } };
