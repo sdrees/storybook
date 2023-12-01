@@ -112,6 +112,12 @@ By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@s
 | `checkProd`            | Configures the plugin to skip instrumentation in production environments <br/>`options: { istanbul: { checkProd: true,}}`                              | Vite        |
 | `forceBuildInstrument` | Configures the plugin to add instrumentation in build mode <br/>`options: { istanbul: { forceBuildInstrument: true,}}`                                 | Vite        |
 
+<Callout variant="info">
+
+Including the `nycrcPath` option enables use of an existing `nyc` configuration file with additional options like [coverage thresholds](https://github.com/istanbuljs/nyc#coverage-thresholds). For more information, refer to the [`nyc` documentation](https://github.com/istanbuljs/nyc#common-configuration-options).
+
+</Callout>
+
 ## What about other coverage reporting tools?
 
 Out of the box, code coverage tests work seamlessly with Storybook's test-runner and the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@storybook/addon-coverage). However, that doesn't mean you can't use additional reporting tools (e.g., [Codecov](https://about.codecov.io/)). For instance, if you're working with [LCOV](https://wiki.documentfoundation.org/Development/Lcov), you can use the generated output (in `coverage/storybook/coverage-storybook.json`) and create your own report with:
