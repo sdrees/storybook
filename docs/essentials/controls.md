@@ -19,7 +19,7 @@ Controls do not require any modification to your components. Stories for control
 - Portable. Reuse your interactive stories in documentation, tests, and even in designs.
 - Rich. Customize the controls and interactive data to suit your exact needs.
 
-To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/argtypes.md), see below.
+To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/arg-types.md), see below.
 
 <Callout variant="info" icon="💡">
 
@@ -70,7 +70,7 @@ By default, Storybook will render a free text input for the `variant` arg:
 
 It works as long as you type a valid string into the auto-generated text control. Still, it's not the best UI for our scenario, given that the component only accepts `primary` or `secondary` as variants. Let’s replace it with Storybook’s radio component.
 
-We can specify which controls get used by declaring a custom [argType](../api/argtypes.md) for the `variant` property. ArgTypes encode basic metadata for args, such as name, description, defaultValue for an arg. These get automatically filled in by Storybook Docs.
+We can specify which controls get used by declaring a custom [argType](../api/arg-types.md) for the `variant` property. ArgTypes encode basic metadata for args, such as name, description, defaultValue for an arg. These get automatically filled in by Storybook Docs.
 
 `ArgTypes` can also contain arbitrary annotations, which the user can override. Since `variant` is a property of the component, let's put that annotation on the default export.
 
@@ -209,7 +209,7 @@ The Controls addon can be configured in two ways:
 
 ### Annotation
 
-As shown above, you can configure individual controls with the “control" annotation in the [argTypes](../api/argtypes.md) field of either a component or story. Below is a condensed example and table featuring all available controls.
+As shown above, you can configure individual controls with the “control" annotation in the [argTypes](../api/arg-types.md) field of either a component or story. Below is a condensed example and table featuring all available controls.
 
 | Data Type   | Control        | Description                                                                                                                                                                                                               |
 | ----------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

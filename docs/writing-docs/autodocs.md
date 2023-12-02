@@ -29,7 +29,7 @@ To enable auto-generated documentation for your stories, you'll need to add the 
 
 ![Storybook autodocs](./autodocs.png)
 
-Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/argtypes.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
+Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/arg-types.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
 
 ### Configure
 
@@ -78,7 +78,7 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 1. A header with the component's metadata retrieved by the `Title`, `Subtitle`, and `Description` Doc Blocks.
 2. The first story defined in the file via the `Primary` Doc Block with a handy set of UI controls to zoom in and out of the component.
-3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/argtypes.md) defined in the story via the `Controls` Doc Block.
+3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/arg-types.md) defined in the story via the `Controls` Doc Block.
 4. A overview of the remaining stories via the `Stories` Doc Block.
 
 #### With MDX

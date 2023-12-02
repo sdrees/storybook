@@ -71,7 +71,7 @@ In the example above, the values provided are hardcoded. Still, you may want to 
 The second argument to a decorator function is the **story context** which in particular contains the keys:
 
 - `args` - the story arguments. You can use some [`args`](./args.md) in your decorators and drop them in the story implementation itself.
-- `argTypes`- Storybook's [argTypes](../api/argtypes.md) allow you to customize and fine-tune your stories [`args`](./args.md).
+- `argTypes`- Storybook's [argTypes](../api/arg-types.md) allow you to customize and fine-tune your stories [`args`](./args.md).
 - `globals` - Storybook-wide [globals](../essentials/toolbars-and-globals.md#globals). In particular you can use the [toolbars feature](../essentials/toolbars-and-globals.md#global-types-toolbar-annotations) to allow you to change these values using Storybook’s UI.
 - `hooks` - Storybook's API hooks (e.g., useArgs).
 - `parameters`- the story's static metadata, most commonly used to control Storybook's behavior of features and addons.
