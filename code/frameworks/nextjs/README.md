@@ -268,7 +268,6 @@ The following features are not supported (yet). Support for these features might
 - [Support font loaders configuration in next.config.js](https://nextjs.org/docs/basic-features/font-optimization#specifying-a-subset)
 - [fallback](https://nextjs.org/docs/api-reference/next/font#fallback) option
 - [adjustFontFallback](https://nextjs.org/docs/api-reference/next/font#adjustfontfallback) option
-- [declarations](https://nextjs.org/docs/api-reference/next/font#declarations) option
 - [preload](https://nextjs.org/docs/api-reference/next/font#preload) option gets ignored. Storybook handles Font loading its own way.
 - [display](https://nextjs.org/docs/api-reference/next/font#display) option gets ignored. All fonts are loaded with display set to "block" to make Storybook load the font properly.
 

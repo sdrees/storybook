@@ -21,7 +21,7 @@ export async function getFontFaceDeclarations(
     : path.dirname(options.filename).replace(rootContext, '');
 
   const { validateData } = require('../utils/local-font-utils');
-  const { weight, style, variable } = validateData('', options.props);
+  const { weight, style, variable, declarations = [] } = validateData('', options.props);
 
   const id = `font-${loaderUtils.getHashDigest(
     Buffer.from(JSON.stringify(localFontSrc)),
@@ -29,6 +29,10 @@ export async function getFontFaceDeclarations(
     'hex',
     6
   )}`;
+
+  const fontDeclarations = declarations
+    .map(({ prop, value }: { prop: string; value: string }) => `${prop}: ${value};`)
+    .join('\n');
 
   const arePathsWin32Format = /^[a-z]:\\/iu.test(options.filename);
   const cleanWin32Path = (pathString: string): string =>
@@ -41,6 +45,7 @@ export async function getFontFaceDeclarations(
       return `@font-face {
           font-family: ${id};
           src: url(.${localFontPath});
+          ${fontDeclarations}
       }`;
     }
     return localFontSrc
@@ -52,6 +57,7 @@ export async function getFontFaceDeclarations(
           src: url(.${localFontPath});
           ${font.weight ? `font-weight: ${font.weight};` : ''}
           ${font.style ? `font-style: ${font.style};` : ''}
+          ${fontDeclarations}
         }`;
       })
       .join('');

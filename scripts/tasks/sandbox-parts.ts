@@ -8,10 +8,12 @@ import {
   ensureDir,
   existsSync,
   pathExists,
+  readFileSync,
   readJson,
   writeJson,
 } from 'fs-extra';
 import { join, resolve, sep } from 'path';
+import JSON5 from 'json5';
 import { createRequire } from 'module';
 import slash from 'slash';
 
@@ -168,7 +170,7 @@ export const init: Task['run'] = async (
 
   switch (template.expected.framework) {
     case '@storybook/angular':
-      await prepareAngularSandbox(cwd);
+      await prepareAngularSandbox(cwd, template.name);
       break;
     default:
   }
@@ -585,7 +587,7 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
  * In a second step a docs:json script is placed into the package.json to generate the
  * Compodoc documentation.json, which respects symlinks
  * */
-async function prepareAngularSandbox(cwd: string) {
+async function prepareAngularSandbox(cwd: string, templateName: string) {
   const angularJson = await readJson(join(cwd, 'angular.json'));
 
   Object.keys(angularJson.projects).forEach((projectName: string) => {
@@ -607,4 +609,24 @@ async function prepareAngularSandbox(cwd: string) {
   };
 
   await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+
+  // Set tsConfig compilerOptions
+
+  const tsConfigPath = join(cwd, 'tsconfig.json');
+  const tsConfigContent = readFileSync(tsConfigPath, { encoding: 'utf-8' });
+  // This does not preserve comments, but that shouldn't be an issue for sandboxes
+  const tsConfigJson = JSON5.parse(tsConfigContent);
+
+  tsConfigJson.compilerOptions.noImplicitOverride = false;
+  tsConfigJson.compilerOptions.noPropertyAccessFromIndexSignature = false;
+  tsConfigJson.compilerOptions.jsx = 'react';
+  tsConfigJson.compilerOptions.skipLibCheck = true;
+
+  if (templateName === 'Angular CLI (Version 15)') {
+    tsConfigJson.compilerOptions.paths = {
+      '@angular-devkit/*': ['node_modules/@angular-devkit/*'],
+    };
+  }
+
+  await writeJson(tsConfigPath, tsConfigJson, { spaces: 2 });
 }

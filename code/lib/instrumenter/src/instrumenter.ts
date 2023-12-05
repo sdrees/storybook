@@ -3,6 +3,7 @@ import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/preview-api';
 import type { StoryId } from '@storybook/types';
 import { once, logger } from '@storybook/client-logger';
+import './typings.d.ts';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
