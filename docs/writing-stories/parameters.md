@@ -44,6 +44,7 @@ We can set the parameters for all stories of a component using the `parameters` 
     'web-components/button-story-with-blue-args.js.mdx',
     'web-components/button-story-with-blue-args.ts.mdx',
     'svelte/button-story-with-blue-args.js.mdx',
+    'svelte/button-story-with-blue-args.ts.mdx',
     'solid/button-story-with-blue-args.js.mdx',
     'solid/button-story-with-blue-args.ts.mdx',
   ]}

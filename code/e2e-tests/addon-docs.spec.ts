@@ -122,9 +122,6 @@ test.describe('addon-docs', () => {
       //   - template: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/addons-docs-docspage-basic--docs
       //   - real: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/example-button--docs
       'lit-vite',
-      // Vue doesn't update when you change args, apparently fixed by this:
-      //   https://github.com/storybookjs/storybook/pull/20995
-      'vue2-vite',
     ];
     test.skip(
       new RegExp(`^${skipped.join('|')}`, 'i').test(`${templateName}`),

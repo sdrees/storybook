@@ -193,7 +193,10 @@ type CopyTemplateFilesOptions = {
   destination?: string;
 };
 
-const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, SupportedRenderers> = {
+const frameworkToRenderer: Record<
+  SupportedFrameworks | SupportedRenderers,
+  SupportedRenderers | 'vue'
+> = {
   angular: 'angular',
   ember: 'ember',
   html: 'html',
@@ -206,7 +209,6 @@ const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, Supp
   solid: 'solid',
   svelte: 'svelte',
   sveltekit: 'svelte',
-  vue: 'vue',
   vue3: 'vue',
   'web-components': 'web-components',
 };

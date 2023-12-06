@@ -19,8 +19,6 @@ import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
 import nextjsGenerator from './generators/NEXTJS';
-import sfcVueGenerator from './generators/SFC_VUE';
-import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
 import webpackReactGenerator from './generators/WEBPACK_REACT';
 import htmlGenerator from './generators/HTML';
@@ -98,16 +96,6 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.NEXTJS:
         return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Next" app')
-        );
-
-      case ProjectType.SFC_VUE:
-        return sfcVueGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Single File Components Vue" app')
-        );
-
-      case ProjectType.VUE:
-        return vueGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Vue" app')
         );
 
       case ProjectType.VUE3:

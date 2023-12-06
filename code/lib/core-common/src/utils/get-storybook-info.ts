@@ -5,7 +5,6 @@ import { getStorybookConfiguration } from './get-storybook-configuration';
 
 export const rendererPackages: Record<string, string> = {
   '@storybook/react': 'react',
-  '@storybook/vue': 'vue',
   '@storybook/vue3': 'vue3',
   '@storybook/angular': 'angular',
   '@storybook/html': 'html',
@@ -36,8 +35,6 @@ export const frameworkPackages: Record<string, string> = {
   '@storybook/sveltekit': 'sveltekit',
   '@storybook/vue3-vite': 'vue3-vite',
   '@storybook/vue3-webpack5': 'vue3-webpack5',
-  '@storybook/vue-vite': 'vue-vite',
-  '@storybook/vue-webpack5': 'vue-webpack5',
   '@storybook/web-components-vite': 'web-components-vite',
   '@storybook/web-components-webpack5': 'web-components-webpack5',
   // community (outside of monorepo)

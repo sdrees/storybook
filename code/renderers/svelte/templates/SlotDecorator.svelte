@@ -5,19 +5,19 @@
   export let Component;
   export let props = {};
   export let on = undefined;
-
+  
   let instance;
   let decoratorInstance;
-
-  function getInstance() {
-    // instance can be undefined if a decorator doesn't have <slot/>
-    return instance || decoratorInstance;
-  }
-
+  
   if (on) {
-    // Attach svelte event listeners.
-    Object.keys(on).forEach((eventName) => {
-      onMount(() => getInstance().$on(eventName, on[eventName]));
+    // Attach Svelte event listeners in Svelte v4
+    // In Svelte v5 this is not possible anymore as instances are no longer classes with $on() properties, so it will be a no-op
+    onMount(() => {
+      Object.entries(on).forEach(([eventName, eventCallback]) => {
+        // instance can be undefined if a decorator doesn't have <slot/>
+        const inst = instance ?? decoratorInstance;
+        inst?.$on?.(eventName, eventCallback)
+      });
     });
   }
 </script>

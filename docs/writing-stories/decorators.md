@@ -26,6 +26,9 @@ Some components require a “harness” to render in a useful way. For instance,
     'web-components/your-component-with-decorator.js.mdx',
     'web-components/your-component-with-decorator.ts.mdx',
     'svelte/your-component-with-decorator.js.mdx',
+    'svelte/your-component-with-decorator.ts.mdx',
+    'svelte/margindecorator.with-margin-component.js.mdx',
+    'svelte/margindecorator.with-margin-component.ts.mdx',
     'solid/your-component-with-decorator.js.mdx',
     'solid/your-component-with-decorator.ts.mdx'
   ]}
@@ -103,6 +106,9 @@ To define a decorator for a single story, use the `decorators` key on a named ex
     'web-components/button-story-decorator.js.mdx',
     'web-components/button-story-decorator.ts.mdx',
     'svelte/button-story-decorator.js.mdx',
+    'svelte/button-story-decorator.ts.mdx',
+    'svelte/margindecorator.with-margin-component.js.mdx',
+    'svelte/margindecorator.with-margin-component.ts.mdx',
     'solid/button-story-decorator.js.mdx',
     'solid/button-story-decorator.ts.mdx',
   ]}
@@ -131,6 +137,9 @@ To define a decorator for all stories of a component, use the `decorators` key o
     'web-components/button-story-component-decorator.js.mdx',
     'web-components/button-story-component-decorator.ts.mdx',
     'svelte/button-story-component-decorator.js.mdx',
+    'svelte/button-story-component-decorator.ts.mdx',
+    'svelte/margindecorator.with-margin-component.js.mdx',
+    'svelte/margindecorator.with-margin-component.ts.mdx',
     'solid/button-story-component-decorator.js.mdx',
     'solid/button-story-component-decorator.ts.mdx',
   ]}
@@ -153,6 +162,9 @@ We can also set a decorator for **all stories** via the `decorators` export of y
     'angular/storybook-preview-global-decorator.ts.mdx',
     'web-components/storybook-preview-global-decorator.js.mdx',
     'svelte/storybook-preview-global-decorator.js.mdx',
+    'svelte/storybook-preview-global-decorator.ts.mdx',
+    'svelte/margindecorator.with-margin-component.js.mdx',
+    'svelte/margindecorator.with-margin-component.ts.mdx',
     'solid/storybook-preview-global-decorator.js.mdx',
     'solid/storybook-preview-global-decorator.ts.mdx',
   ]}

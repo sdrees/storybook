@@ -121,6 +121,10 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 
 <!-- prettier-ignore-end -->
 
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+
+<!-- Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example -->
+
 ## Fully custom args
 
 Until now, we only used auto-generated controls based on the component we're writing stories for. If we are writing [complex stories](../writing-stories/stories-for-multiple-components.md), we may want to add controls for args that aren’t part of the component. For example, here's how you could use a `footer` arg to populate a child component:
@@ -155,6 +159,8 @@ By default, Storybook will add controls for all args that:
 
 Using `argTypes`, you can change the display and behavior of each control.
 
+</IfRenderer>
+
 ### Dealing with complex values
 
 When dealing with non-primitive values, you'll notice that you'll run into some limitations. The most obvious issue is that not every value can be represented as part of the `args` param in the URL, losing the ability to share and deeplink to such a state. Beyond that, complex values such as JSX cannot be synchronized between the manager (e.g., Controls addon) and the preview (your story).
@@ -171,6 +177,7 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
     'vue/component-story-custom-args-complex.ts.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
+    'svelte/component-story-custom-args-complex.ts.mdx',
     'web-components/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.ts.mdx',
     'solid/component-story-custom-args-complex.js.mdx',

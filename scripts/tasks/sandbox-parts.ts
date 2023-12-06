@@ -39,6 +39,7 @@ import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manag
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
+import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
 
 const logger = console;
 
@@ -75,7 +76,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
-export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
+export const install: Task['run'] = async ({ sandboxDir, key }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
   await installYarn2({ cwd, dryRun, debug });
 
@@ -93,24 +94,22 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
     // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
     // the top. In theory this could mask issues where different versions cause problems.
     await addPackageResolutions({ cwd, dryRun, debug });
-    await configureYarn2ForVerdaccio({ cwd, dryRun, debug });
+    await configureYarn2ForVerdaccio({ cwd, dryRun, debug, key });
 
     // Add vite plugin workarounds for frameworks that need it
     // (to support vite 5 without peer dep errors)
-    if (
-      [
-        'bench-react-vite-default-ts',
-        'bench-react-vite-default-ts-nodocs',
-        'bench-react-vite-default-ts-test-build',
-        'internal-ssv6-vite',
-        'react-vite-default-js',
-        'react-vite-default-ts',
-        'svelte-vite-default-js',
-        'svelte-vite-default-ts',
-        'vue3-vite-default-js',
-        'vue3-vite-default-ts',
-      ].includes(sandboxDir.split(sep).at(-1))
-    ) {
+    const sandboxesNeedingWorkarounds: TemplateKey[] = [
+      'bench/react-vite-default-ts',
+      'bench/react-vite-default-ts-nodocs',
+      'bench/react-vite-default-ts-test-build',
+      'react-vite/default-js',
+      'react-vite/default-ts',
+      'svelte-vite/default-js',
+      'svelte-vite/default-ts',
+      'vue3-vite/default-js',
+      'vue3-vite/default-ts',
+    ];
+    if (sandboxesNeedingWorkarounds.includes(key)) {
       await addWorkaroundResolutions({ cwd, dryRun, debug });
     }
 

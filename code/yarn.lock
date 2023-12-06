@@ -4857,7 +4857,6 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview-api": "workspace:*"
-    "@storybook/vue": "workspace:*"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
@@ -6201,7 +6200,7 @@ __metadata:
     typescript: "npm:^5.3.2"
   peerDependencies:
     "@babel/core": "*"
-    svelte: ^3.1.0 || ^4.0.0
+    svelte: ^4.0.0 || ^5.0.0-next.16
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -6515,8 +6514,6 @@ __metadata:
     "@storybook/testing-library": "npm:next"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
-    "@storybook/vue": "workspace:*"
-    "@storybook/vue-webpack5": "workspace:*"
     "@storybook/vue3": "workspace:*"
     "@storybook/vue3-vite": "workspace:*"
     "@storybook/vue3-webpack5": "workspace:*"
@@ -6679,14 +6676,14 @@ __metadata:
     "@sveltejs/vite-plugin-svelte": "npm:^2.4.2"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
-    svelte: "npm:^4.0.0"
-    svelte-preprocess: "npm:^5.0.4"
+    svelte: "npm:^5.0.0-next.16"
+    svelte-preprocess: "npm:^5.1.1"
     sveltedoc-parser: "npm:^4.2.1"
     ts-dedent: "npm:^2.2.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
-    svelte: ^3.0.0 || ^4.0.0
+    svelte: ^4.0.0 || ^5.0.0-next.16
     vite: ^3.0.0 || ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -6704,7 +6701,7 @@ __metadata:
     typescript: "npm:^5.3.2"
   peerDependencies:
     "@babel/core": "*"
-    svelte: ^3.48.0 || ^4.0.0
+    svelte: ^4.0.0 || ^5.0.0-next.16
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -6720,14 +6717,14 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
     expect-type: "npm:^0.15.0"
-    svelte: "npm:^4.0.0"
-    svelte-check: "npm:3.4.6"
+    svelte: "npm:^5.0.0-next.15"
+    svelte-check: "npm:^3.6.1"
     sveltedoc-parser: "npm:^4.2.1"
     ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
     typescript: "npm:^5.3.2"
   peerDependencies:
-    svelte: ^3.1.0 || ^4.0.0
+    svelte: ^4.0.0 || ^5.0.0-next.16
   languageName: unknown
   linkType: soft
 
@@ -6743,7 +6740,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
-    svelte: ^3.0.0 || ^4.0.0
+    svelte: ^4.0.0 || ^5.0.0-next.16
     vite: ^4.0.0
   languageName: unknown
   linkType: soft
@@ -6854,48 +6851,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue-vite@workspace:frameworks/vue-vite":
-  version: 0.0.0-use.local
-  resolution: "@storybook/vue-vite@workspace:frameworks/vue-vite"
-  dependencies:
-    "@storybook/builder-vite": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/core-server": "workspace:*"
-    "@storybook/vue": "workspace:*"
-    magic-string: "npm:^0.30.0"
-    typescript: "npm:^5.3.2"
-    vite: "npm:^4.0.0"
-    vue: "npm:^2.7.10"
-    vue-docgen-api: "npm:^4.40.0"
-  peerDependencies:
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
-    vue: ^2.7.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/vue-webpack5@workspace:*, @storybook/vue-webpack5@workspace:frameworks/vue-webpack5":
-  version: 0.0.0-use.local
-  resolution: "@storybook/vue-webpack5@workspace:frameworks/vue-webpack5"
-  dependencies:
-    "@storybook/builder-webpack5": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/preset-vue-webpack": "workspace:*"
-    "@storybook/vue": "workspace:*"
-    "@types/node": "npm:^18.0.0"
-    typescript: "npm:^5.3.2"
-    vue: "npm:^2.6.12"
-    vue-loader: "npm:^15.7.0"
-    vue-template-compiler: "npm:^2.6.14"
-  peerDependencies:
-    "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
-    css-loader: "*"
-    vue: ^2.6.8
-    vue-loader: ^15.7.0
-    vue-template-compiler: ^2.6.8
-  languageName: unknown
-  linkType: soft
-
 "@storybook/vue3-vite@workspace:*, @storybook/vue3-vite@workspace:frameworks/vue3-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-vite@workspace:frameworks/vue3-vite"
@@ -6957,32 +6912,6 @@ __metadata:
   peerDependencies:
     "@vue/compiler-core": ^3.0.0
     vue: ^3.0.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/vue@workspace:*, @storybook/vue@workspace:renderers/vue":
-  version: 0.0.0-use.local
-  resolution: "@storybook/vue@workspace:renderers/vue"
-  dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
-    "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
-    tiny-invariant: "npm:^1.3.1"
-    ts-dedent: "npm:^2.0.0"
-    type-fest: "npm:~2.19"
-    typescript: "npm:^5.3.2"
-    vue: "npm:2.6.14"
-    vue-tsc: "npm:latest"
-  peerDependencies:
-    "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
-    css-loader: "*"
-    vue: ^2.6.8
-  peerDependenciesMeta:
-    babel-loader:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -9482,6 +9411,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"acorn-typescript@npm:^1.4.11":
+  version: 1.4.12
+  resolution: "acorn-typescript@npm:1.4.12"
+  peerDependencies:
+    acorn: ">=8.9.0"
+  checksum: a3b33ed0dc321e3364da507a3decec96423736384068c88fea5ea57aeae864ea115a6c4a20b3ace71b75f4901b0657bec82d83aab30a8ad0dfc4bfc0d8337546
+  languageName: node
+  linkType: hard
+
 "acorn-walk@npm:^7.2.0":
   version: 7.2.0
   resolution: "acorn-walk@npm:7.2.0"
@@ -10253,6 +10191,15 @@ __metadata:
   dependencies:
     dequal: "npm:^2.0.3"
   checksum: f7debc2012e456139b57d888c223f6d3cb4b61eb104164a85e3d346273dd6ef0bc9a04b6660ca9407704a14a8e05fa6b6eb9d55f44f348c7210de7ffb350c3a7
+  languageName: node
+  linkType: hard
+
+"axobject-query@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "axobject-query@npm:4.0.0"
+  dependencies:
+    dequal: "npm:^2.0.3"
+  checksum: 4d756b5c2ff099f1c7f99e55a5de9b2066cb2a13a3170185ff34bfec2d7bcab81eb820a4e7340d35c251341b61ebee6e705b7ce64db78224df1df5a4d68448fe
   languageName: node
   linkType: hard
 
@@ -14802,6 +14749,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esm-env@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "esm-env@npm:1.0.0"
+  checksum: 6ea0001410224ebc18de4a83ce97dbdca6abc83ea4bbe91625aa3aead70793bb98dfa089f38e2cc5c13b7b025668d0649d5e25f2f9e8cca0f4aa3ad3406870d0
+  languageName: node
+  linkType: hard
+
 "espree@npm:9.2.0":
   version: 9.2.0
   resolution: "espree@npm:9.2.0"
@@ -14840,6 +14794,16 @@ __metadata:
   dependencies:
     estraverse: "npm:^5.1.0"
   checksum: a084bd049d954cc88ac69df30534043fb2aee5555b56246493f42f27d1e168f00d9e5d4192e46f10290d312dc30dc7d58994d61a609c579c1219d636996f9213
+  languageName: node
+  linkType: hard
+
+"esrap@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "esrap@npm:1.2.1"
+  dependencies:
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+    "@types/estree": "npm:^1.0.1"
+  checksum: 28d6e36adcf4342a844a938a736132269c33e9db6bbefc98c6af5ed06c14899afcc85391e7ce4824ce5066877fa10b0ed5c5007592cbc58012be95f13c66467f
   languageName: node
   linkType: hard
 
@@ -27215,9 +27179,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-check@npm:3.4.6":
-  version: 3.4.6
-  resolution: "svelte-check@npm:3.4.6"
+"svelte-check@npm:^3.6.1":
+  version: 3.6.2
+  resolution: "svelte-check@npm:3.6.2"
   dependencies:
     "@jridgewell/trace-mapping": "npm:^0.3.17"
     chokidar: "npm:^3.4.1"
@@ -27225,13 +27189,13 @@ __metadata:
     import-fresh: "npm:^3.2.1"
     picocolors: "npm:^1.0.0"
     sade: "npm:^1.7.4"
-    svelte-preprocess: "npm:^5.0.4"
+    svelte-preprocess: "npm:^5.1.0"
     typescript: "npm:^5.0.3"
   peerDependencies:
-    svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0
+    svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
   bin:
     svelte-check: bin/svelte-check
-  checksum: 7f537831af8f2c47859ca72f4a929d24c58f2946f949f7c9721351be97ff9d0674c57db003e3ad3883fdd85761b7950c5c11513c2a917c91091f155e2d026350
+  checksum: 3f389df29268d4df9b561d0b206566e827af84923c70150b2dadfd407bcbdaccbfd561bd8b93884597de62477d62826ff1a5108854641078b692130441a49a55
   languageName: node
   linkType: hard
 
@@ -27273,7 +27237,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-preprocess@npm:^5.0.4":
+"svelte-preprocess@npm:^5.1.0, svelte-preprocess@npm:^5.1.1":
   version: 5.1.1
   resolution: "svelte-preprocess@npm:5.1.1"
   dependencies:
@@ -27337,6 +27301,26 @@ __metadata:
     magic-string: "npm:^0.30.4"
     periscopic: "npm:^3.1.0"
   checksum: 13673a6211cc38224398f4bda8e0ba93edfb1338aa4f28f614a31ac31b152479038761cfc57f1668554f5ab70effcd8023dcf549d75e7b2a7ae703d213b7e9da
+  languageName: node
+  linkType: hard
+
+"svelte@npm:^5.0.0-next.15, svelte@npm:^5.0.0-next.16":
+  version: 5.0.0-next.19
+  resolution: "svelte@npm:5.0.0-next.19"
+  dependencies:
+    "@ampproject/remapping": "npm:^2.2.1"
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+    acorn: "npm:^8.10.0"
+    acorn-typescript: "npm:^1.4.11"
+    aria-query: "npm:^5.3.0"
+    axobject-query: "npm:^4.0.0"
+    esm-env: "npm:^1.0.0"
+    esrap: "npm:^1.2.1"
+    is-reference: "npm:^3.0.1"
+    locate-character: "npm:^3.0.0"
+    magic-string: "npm:^0.30.4"
+    zimmerframe: "npm:^1.1.0"
+  checksum: 2efc415d3a51cd9094349aa0295e728ea74e10bad17dedd167b1fae64de8ee5d46cbd27b5cfb152e4af641e1326e233dfeb918d8fa0541f65cf149b85d00419a
   languageName: node
   linkType: hard
 
@@ -29244,13 +29228,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:2.6.14":
-  version: 2.6.14
-  resolution: "vue@npm:2.6.14"
-  checksum: efbe26ccc7c1bd025b88e464ebc81217b92350a77b98049122a46ac2242e249719f930d3914e2efdeaaa521a51e6e6b1cb9ffbf95b4835ed94dc92efb481040f
-  languageName: node
-  linkType: hard
-
 "vue@npm:3.0.0":
   version: 3.0.0
   resolution: "vue@npm:3.0.0"
@@ -29262,7 +29239,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^2.6.12, vue@npm:^2.7.10":
+"vue@npm:^2.6.12":
   version: 2.7.15
   resolution: "vue@npm:2.7.15"
   dependencies:
@@ -30218,6 +30195,13 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 856117aa15cf5103d2a2fb173f0ab4acb12b4b4d0ed3ab249fdbbf612e55d1cadfd27a6110940e24746fb0a78cf640b522cc8bca76f30a3b00b66e90cf82abe0
+  languageName: node
+  linkType: hard
+
+"zimmerframe@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "zimmerframe@npm:1.1.0"
+  checksum: dffe3f555bb000176ed9c7577e0fb0c3eddeceb6df9bb3ff870995bac3a51b40fab5443bd3dc47ce91c1f8ecf07282742efb80771ae6a088edc0340bb217f93d
   languageName: node
   linkType: hard
 

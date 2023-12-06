@@ -496,7 +496,7 @@ async function run() {
           controller.abort();
         });
 
-        return 1;
+        throw err;
       }
       statuses.set(task, task.service ? 'serving' : 'complete');
 

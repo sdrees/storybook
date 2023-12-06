@@ -31,29 +31,6 @@ const MOCK_FRAMEWORK_FILES: {
   files: Record<'package.json', PackageJsonWithMaybeDeps> | Record<string, string>;
 }[] = [
   {
-    name: ProjectType.SFC_VUE,
-    files: {
-      'package.json': {
-        dependencies: {
-          vuetify: '1.0.0',
-        },
-        devDependencies: {
-          'vue-loader': '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.VUE,
-    files: {
-      'package.json': {
-        dependencies: {
-          vue: '1.0.0',
-        },
-      },
-    },
-  },
-  {
     name: ProjectType.VUE3,
     files: {
       'package.json': {

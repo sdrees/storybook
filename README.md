@@ -131,7 +131,6 @@ For additional help, share your issue in [the repo's GitHub Discussions](https:/
 | [measure](code/addons/measure/)                                           | Visually inspect the layout and box model within the Storybook UI          |
 | [outline](code/addons/outline/)                                           | Visually debug the CSS layout and alignment within the Storybook UI        |
 | [query params](https://github.com/storybookjs/addon-queryparams)          | Mock query params                                                          |
-| [storyshots](code/addons/storyshots-core/)                                | Snapshot testing for components in Storybook                               |
 | [storysource](code/addons/storysource/)                                   | View the code of your stories within the Storybook UI                      |
 | [viewport](code/addons/viewport/)                                         | Change display sizes and layouts for responsive components using Storybook |
 
@@ -139,13 +138,14 @@ See [Addon / Framework Support Table](https://storybook.js.org/docs/react/api/fr
 
 ### Deprecated Addons
 
-| Addons                                                                             |                                                            |
-| ---------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [contexts](https://storybook.js.org/addons/@storybook/addon-contexts/)             | Addon for driving your components under dynamic contexts   |
-| [info](https://github.com/storybookjs/deprecated-addons/tree/master/addons/info)   | Annotate stories with extra component usage information    |
-| [knobs](https://github.com/storybookjs/addon-knobs)                                | Interactively edit component prop data in the Storybook UI |
-| [notes](https://github.com/storybookjs/deprecated-addons/tree/master/addons/notes) | Annotate Storybook stories with notes                      |
-| [options](https://www.npmjs.com/package/@storybook/addon-options)                  | Customize the Storybook UI in code                         |
+| Addons                                                                                       |                                                            |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [contexts](https://storybook.js.org/addons/@storybook/addon-contexts/)                       | Addon for driving your components under dynamic contexts   |
+| [info](https://github.com/storybookjs/deprecated-addons/tree/master/addons/info)             | Annotate stories with extra component usage information    |
+| [knobs](https://github.com/storybookjs/addon-knobs)                                          | Interactively edit component prop data in the Storybook UI |
+| [notes](https://github.com/storybookjs/deprecated-addons/tree/master/addons/notes)           | Annotate Storybook stories with notes                      |
+| [options](https://www.npmjs.com/package/@storybook/addon-options)                            | Customize the Storybook UI in code                         |
+| [storyshots](https://github.com/storybookjs/storybook/tree/main/code/addons/storyshots-core) | Snapshot testing for components in Storybook               |
 
 To continue improving your experience, we have to eventually deprecate certain addons in favor of new and better tools.
 

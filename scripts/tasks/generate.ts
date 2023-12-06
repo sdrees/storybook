@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import { pathExists, remove } from 'fs-extra';
 import { join } from 'path';
 import { REPROS_DIRECTORY } from '../utils/constants';
@@ -27,7 +28,8 @@ export const generate: Task = {
     }
 
     // This uses an async import as it depends on `lib/cli` which requires `code` to be installed.
-    const { generate: generateRepro } = await import('../sandbox/generate');
+    // @ts-expect-error Default import required for dynamic import processed by esbuild
+    const { generate: generateRepro } = (await import('../sandbox/generate.ts')).default;
 
     await generateRepro({
       templates: [details.key],

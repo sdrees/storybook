@@ -76,7 +76,6 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/vue": "workspace:*",
     "typescript": "^5.3.2"
   },
   "peerDependencies": {

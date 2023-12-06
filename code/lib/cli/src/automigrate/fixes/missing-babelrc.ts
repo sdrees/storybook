@@ -14,7 +14,6 @@ const logger = console;
 
 const frameworksThatNeedBabelConfig = [
   '@storybook/react-webpack5',
-  '@storybook/vue-webpack5',
   '@storybook/vue3-webpack5',
   '@storybook/html-webpack5',
   '@storybook/web-components-webpack5',
