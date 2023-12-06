@@ -1,9 +1,8 @@
 import type { Configuration as WebpackConfig } from 'webpack';
-import semver from 'semver';
 
 import type { NextConfig } from 'next';
 import { DefinePlugin } from 'webpack';
-import { addScopedAlias, getNextjsVersion, resolveNextConfig } from '../utils';
+import { addScopedAlias, resolveNextConfig } from '../utils';
 
 const tryResolve = (path: string) => {
   try {
@@ -36,8 +35,6 @@ export const configureConfig = async ({
   return nextConfig;
 };
 
-const version = getNextjsVersion();
-
 const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
   const definePluginConfig: Record<string, any> = {
     // this mimics what nextjs does client side
@@ -50,21 +47,7 @@ const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): 
 
   const newNextLinkBehavior = (nextConfig.experimental as any)?.newNextLinkBehavior;
 
-  /**
-   * In Next 13.0.0 - 13.0.5, the `newNextLinkBehavior` option now defaults to truthy (still
-   * `undefined` in the config), and `next/link` was engineered to opt *out*
-   * of it
-   *
-   */
-  if (
-    semver.gte(version, '13.0.0') &&
-    semver.lt(version, '13.0.6') &&
-    newNextLinkBehavior !== false
-  ) {
-    definePluginConfig['process.env.__NEXT_NEW_LINK_BEHAVIOR'] = true;
-  } else {
-    definePluginConfig['process.env.__NEXT_NEW_LINK_BEHAVIOR'] = newNextLinkBehavior;
-  }
+  definePluginConfig['process.env.__NEXT_NEW_LINK_BEHAVIOR'] = newNextLinkBehavior;
 
   baseConfig.plugins?.push(new DefinePlugin(definePluginConfig));
 };

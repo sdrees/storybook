@@ -11,12 +11,10 @@ import { configureStyledJsx } from './styledJsx/webpack';
 import { configureImages } from './images/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
 import type { FrameworkOptions, StorybookConfig } from './types';
-import { configureNextImport } from './nextImport/webpack';
 import TransformFontImports from './font/babel';
 import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
 import { configureNodePolyfills } from './nodePolyfills/webpack';
-import { configureAliasing } from './dependency-map';
 import { configureSWCLoader } from './swc/loader';
 
 export const addons: PresetProperty<'addons'> = [
@@ -67,10 +65,17 @@ export const core: PresetProperty<'core'> = async (config, options) => {
   };
 };
 
-export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entry = []) => [
-  ...entry,
-  join(dirname(require.resolve('@storybook/nextjs/package.json')), 'dist/preview.mjs'),
-];
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = (
+  entry = [],
+  { features }
+) => {
+  const nextDir = dirname(require.resolve('@storybook/nextjs/package.json'));
+  const result = [...entry, join(nextDir, 'dist/preview.mjs')];
+  if (features?.experimentalNextRSC) {
+    result.unshift(join(nextDir, 'dist/previewRSC.mjs'));
+  }
+  return result;
+};
 
 // Not even sb init - automigrate - running dev
 // You're using a version of Nextjs prior to v10, which is unsupported by this framework.
@@ -142,9 +147,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
     configDir: options.configDir,
   });
 
-  configureAliasing(baseConfig);
   configureNextFont(baseConfig, builder?.useSWC);
-  configureNextImport(baseConfig);
   configureRuntimeNextjsVersionResolution(baseConfig);
   configureImports({ baseConfig, configDir: options.configDir });
   configureCss(baseConfig, nextConfig);

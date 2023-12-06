@@ -1,14 +1,5 @@
 import * as React from 'react';
-
-let StyleRegistry: React.FC<React.PropsWithChildren>;
-
-try {
-  // next >= v12
-  StyleRegistry = require('styled-jsx').StyleRegistry;
-} catch {
-  // next < v12
-  StyleRegistry = React.Fragment;
-}
+import { StyleRegistry } from 'styled-jsx';
 
 export const StyledJsxDecorator = (Story: React.FC): React.ReactNode => (
   <StyleRegistry>

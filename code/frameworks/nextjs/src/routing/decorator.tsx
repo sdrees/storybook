@@ -1,9 +1,7 @@
 import * as React from 'react';
 import type { Addon_StoryContext } from '@storybook/types';
 import { action } from '@storybook/addon-actions';
-// @ts-expect-error Using absolute path import to 1) avoid prebundling and 2) being able to substitute the module for Next.js < 13
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { AppRouterProvider } from '@storybook/nextjs/dist/routing/app-router-provider';
+import { AppRouterProvider } from './app-router-provider';
 import { PageRouterProvider } from './page-router-provider';
 import type { RouteParams, NextAppDirectory } from './types';
 

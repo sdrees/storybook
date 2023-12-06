@@ -12,6 +12,7 @@
     - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
   - [Framework-specific changes](#framework-specific-changes)
     - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
+    - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -467,6 +468,10 @@ For more information see: https://storybook.js.org/docs/react/api/main-config-ty
 #### Angular: Drop support for Angular \< 15
 
 Starting in 8.0, we drop support for Angular < 15
+
+#### Next.js: Drop support for version \< 13.5
+
+Starting in 8.0, we drop support for Next.js < 13.5.
 
 ## From version 7.5.0 to 7.6.0
 

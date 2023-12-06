@@ -27,14 +27,6 @@ const configureImageDefaults = (baseConfig: WebpackConfig): void => {
       'next/legacy/image': path.resolve(__dirname, './images/next-legacy-image'),
     };
   }
-
-  if (semver.satisfies(version, '^12.2.0')) {
-    resolve.alias = {
-      ...resolve.alias,
-      'sb-original/next/future/image': require.resolve('next/future/image'),
-      'next/future/image': path.resolve(__dirname, './images/next-future-image'),
-    };
-  }
 };
 
 const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {

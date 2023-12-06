@@ -107,16 +107,22 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  'nextjs/12-js': {
-    name: 'Next.js v12 (Webpack | JavaScript)',
+  'nextjs/13-ts': {
+    name: 'Next.js v13.5 (Webpack | TypeScript)',
     script:
-      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-12-3-2/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
+      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-13/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
+    inDevelopment: true,
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
@@ -126,6 +132,11 @@ const baseTemplates = {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
+    },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
@@ -138,6 +149,11 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'nextjs/prerelease': {
@@ -148,6 +164,11 @@ const baseTemplates = {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
+    },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
@@ -599,7 +620,7 @@ export const daily: TemplateKey[] = [
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
   'svelte-vite/default-js',
-  'nextjs/12-js',
+  'nextjs/13-ts',
   'nextjs/default-js',
   'nextjs/prerelease',
   'qwik-vite/default-ts',

@@ -32,16 +32,6 @@
       "require": "./dist/image-context.js",
       "import": "./dist/image-context.mjs"
     },
-    "./dist/routing/app-router-provider": {
-      "types": "./dist/routing/app-router-provider.d.ts",
-      "require": "./dist/routing/app-router-provider.js",
-      "import": "./dist/routing/app-router-provider.mjs"
-    },
-    "./dist/routing/app-router-provider-mock": {
-      "types": "./dist/routing/app-router-provider-mock.d.ts",
-      "require": "./dist/routing/app-router-provider-mock.js",
-      "import": "./dist/routing/app-router-provider-mock.mjs"
-    },
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
@@ -52,6 +42,7 @@
       "import": "./dist/font/webpack/loader/storybook-nextjs-font-loader.mjs"
     },
     "./dist/preview.mjs": "./dist/preview.mjs",
+    "./dist/previewRSC.mjs": "./dist/previewRSC.mjs",
     "./next-image-loader-stub.js": {
       "types": "./dist/next-image-loader-stub.d.ts",
       "require": "./dist/next-image-loader-stub.js",
@@ -137,16 +128,12 @@
     "webpack": "^5.65.0"
   },
   "peerDependencies": {
-    "@next/font": "^13.0.0|| ^14.0.0",
-    "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0",
+    "next": "^13.5.0 || ^14.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "webpack": "^5.0.0"
   },
   "peerDependenciesMeta": {
-    "@next/font": {
-      "optional": true
-    },
     "typescript": {
       "optional": true
     },
@@ -166,13 +153,11 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
+      "./src/previewRSC.tsx",
       "./src/next-image-loader-stub.ts",
       "./src/images/decorator.tsx",
-      "./src/images/next-future-image.tsx",
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",
-      "./src/routing/app-router-provider.tsx",
-      "./src/routing/app-router-provider-mock.tsx",
       "./src/font/webpack/loader/storybook-nextjs-font-loader.ts",
       "./src/swc/next-swc-loader-patch.ts"
     ],
