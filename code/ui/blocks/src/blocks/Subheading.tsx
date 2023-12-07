@@ -8,7 +8,7 @@ export const Subheading: FC<PropsWithChildren<HeadingProps>> = ({ children, disa
   if (disableAnchor || typeof children !== 'string') {
     return <H3>{children}</H3>;
   }
-  const tagID = children.toLowerCase().replace(/[^a-z0-9]/gi, '-');
+  const tagID = globalThis.encodeURIComponent(children.toLowerCase());
   return (
     <HeaderMdx as="h3" id={tagID}>
       {children}

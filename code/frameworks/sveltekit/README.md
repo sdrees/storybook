@@ -185,16 +185,6 @@ export const MyStory = {
 
 You'll get this error when manually upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.js`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
 
-### Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview
-
-> Some stories don't load, instead they show the following error in the preview:
->
-> ```
-> Cannot read properties of undefined (reading 'disable_scroll_handling')
-> ```
-
-You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
-
 ## Acknowledgements
 
 Integrating with SvelteKit would not have been possible if it weren't for the fantastic efforts by the Svelte core team - especially [Ben McCann](https://twitter.com/benjaminmccann) - to make integrations with the wider ecosystem possible.
