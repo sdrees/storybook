@@ -410,3 +410,25 @@ export class NoMatchingExportError extends StorybookError {
     `;
   }
 }
+
+export class GenerateNewProjectOnInitError extends StorybookError {
+  readonly category = Category.CLI_INIT;
+
+  readonly code = 3;
+
+  constructor(
+    public data: { error: unknown | Error; packageManager: string; projectType: string }
+  ) {
+    super();
+  }
+
+  template(): string {
+    return dedent`
+      There was an error while using ${this.data.packageManager} to create a new ${
+      this.data.projectType
+    } project.
+      
+      ${this.data.error instanceof Error ? this.data.error.message : ''}
+      `;
+  }
+}

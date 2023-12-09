@@ -1,11 +1,13 @@
 {
   "name": "@storybook/cli",
   "version": "8.0.0-alpha.1",
-  "description": "Storybook's CLI - easiest method of adding storybook to your projects",
+  "description": "Storybook's CLI - install, dev, build, upgrade, and more",
   "keywords": [
     "cli",
     "generator",
-    "storybook"
+    "dev",
+    "build",
+    "upgrade"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/cli",
   "bugs": {

@@ -28,10 +28,15 @@ import {
   LOCAL_REGISTRY_URL,
 } from '../utils/constants';
 
-const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
+const sbInit = async (
+  cwd: string,
+  envVars: Record<string, unknown> = {},
+  flags?: string[],
+  debug?: boolean
+) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
-  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
+  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true', ...envVars };
   const fullFlags = ['--yes', ...(flags || [])];
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env }, debug);
 };
@@ -61,11 +66,13 @@ const addStorybook = async ({
   localRegistry,
   flags,
   debug,
+  env = {},
 }: {
   baseDir: string;
   localRegistry: boolean;
   flags?: string[];
   debug?: boolean;
+  env?: Record<string, unknown>;
 }) => {
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
   const afterDir = join(baseDir, AFTER_DIR_NAME);
@@ -84,10 +91,10 @@ const addStorybook = async ({
           jackspeak: '2.1.1',
         });
 
-        await sbInit(tmpDir, flags, debug);
+        await sbInit(tmpDir, env, flags, debug);
       });
     } else {
-      await sbInit(tmpDir, flags, debug);
+      await sbInit(tmpDir, env, flags, debug);
     }
   } catch (e) {
     await remove(tmpDir);
@@ -142,7 +149,7 @@ const runGenerators = async (
   const limit = pLimit(1);
 
   await Promise.all(
-    generators.map(({ dirName, name, script, expected }) =>
+    generators.map(({ dirName, name, script, expected, env }) =>
       limit(async () => {
         let flags: string[] = [];
         if (expected.renderer === '@storybook/html') flags = ['--type html'];
@@ -189,7 +196,7 @@ const runGenerators = async (
         // Make sure there are no git projects in the folder
         await remove(join(beforeDir, '.git'));
 
-        await addStorybook({ baseDir, localRegistry, flags, debug });
+        await addStorybook({ baseDir, localRegistry, flags, debug, env });
 
         await addDocumentation(baseDir, { name, dirName });
 

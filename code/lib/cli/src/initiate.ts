@@ -8,7 +8,6 @@ import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import { readdirSync } from 'fs-extra';
 import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
@@ -29,11 +28,13 @@ import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
-import type { JsPackageManager, PackageManagerName } from './js-package-manager';
+import type { JsPackageManager } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
+import { currentDirectoryIsEmpty, scaffoldNewProject } from './scaffold-new-project';
+import versions from './versions';
 
 const logger = console;
 
@@ -222,45 +223,6 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-const getEmptyDirMessage = (packageManagerType: PackageManagerName) => {
-  const generatorCommandsMap = {
-    vite: {
-      npm: 'npm create vite@latest',
-      yarn1: 'yarn create vite',
-      yarn2: 'yarn create vite',
-      pnpm: 'pnpm create vite',
-    },
-    angular: {
-      npm: 'npx -p @angular/cli ng new my-project --package-manager=npm',
-      yarn1: 'npx -p @angular/cli ng new my-project --package-manager=yarn',
-      yarn2: 'npx -p @angular/cli ng new my-project --package-manager=yarn',
-      pnpm: 'npx -p @angular/cli ng new my-project --package-manager=pnpm',
-    },
-  };
-
-  return dedent`
-      Storybook cannot be installed into an empty project. We recommend creating a new project with the following:
-
-      📦 Vite CLI for React/Vue/Web Components => ${chalk.green(
-        generatorCommandsMap.vite[packageManagerType]
-      )}
-      See ${chalk.yellowBright('https://vitejs.dev/guide/#scaffolding-your-first-vite-project')}
-
-      📦 Angular CLI => ${chalk.green(generatorCommandsMap.angular[packageManagerType])}
-      See ${chalk.yellowBright('https://angular.io/cli/new')}
-
-      📦 Any other tooling of your choice
-
-      Once you've created a project, please re-run ${chalk.green(
-        'npx storybook@latest init'
-      )} inside the project root. For more information, see ${chalk.yellowBright(
-    'https://storybook.js.org/docs'
-  )}
-
-      Good luck! 🚀
-    `;
-};
-
 async function doInitiate(
   options: CommandOptions,
   pkg: PackageJson
@@ -280,11 +242,10 @@ async function doInitiate(
     pkgMgr = 'npm';
   }
 
-  const cwdFolderEntries = readdirSync(process.cwd());
-  const isEmptyDir =
-    cwdFolderEntries.length === 0 || cwdFolderEntries.every((entry) => entry.startsWith('.'));
+  const packageManager = JsPackageManagerFactory.getPackageManager({
+    force: pkgMgr,
+  });
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
@@ -295,15 +256,16 @@ async function doInitiate(
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   });
 
-  if (options.force !== true && isEmptyDir) {
-    logger.log(
-      boxen(getEmptyDirMessage(packageManager.type), {
-        borderStyle: 'round',
-        padding: 1,
-        borderColor: '#F1618C',
-      })
-    );
-    throw new HandledError('Project was initialized in an empty directory.');
+  // Check if the current directory is empty.
+  if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
+    // Prompt the user to create a new project from our list.
+    await scaffoldNewProject(packageManager.type, options);
+
+    if (process.env.IN_STORYBOOK_SANDBOX === 'true' || process.env.CI === 'true') {
+      packageManager.addPackageResolutions({
+        '@storybook/telemetry': versions['@storybook/telemetry'],
+      });
+    }
   }
 
   let projectType: ProjectType;
@@ -386,6 +348,7 @@ async function doInitiate(
     projectType === ProjectType.ANGULAR
       ? `ng run ${installResult.projectName}:storybook`
       : packageManager.getRunStorybookCommand();
+
   logger.log(
     boxen(
       dedent`
