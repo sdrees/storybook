@@ -5,7 +5,6 @@ export * from './presets';
 export * from './utils/cache';
 export * from './utils/check-addon-order';
 export * from './utils/envs';
-export * from './utils/findDistEsm';
 export * from './utils/common-glob-options';
 export * from './utils/get-builder-options';
 export * from './utils/get-framework-name';

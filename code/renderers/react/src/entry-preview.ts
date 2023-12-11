@@ -1,2 +1,3 @@
 export const parameters: {} = { renderer: 'react' };
-export { render, renderToCanvas } from './render';
+export { render } from './render';
+export { renderToCanvas } from './renderToCanvas';

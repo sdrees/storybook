@@ -85,5 +85,6 @@ export type { PropDescriptor } from './store';
  */
 export { ClientApi } from './client-api';
 export { StoryStore } from './store';
-export { Preview, PreviewWeb } from './preview-web';
+export { Preview, PreviewWeb, PreviewWithSelection, UrlStore, WebView } from './preview-web';
+export type { SelectionStore, View } from './preview-web';
 export { start } from './core-client';

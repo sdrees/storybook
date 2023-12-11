@@ -26,11 +26,22 @@ export function getServerAddresses(
   };
 }
 
-export const getServerPort = (port?: number) =>
-  detectFreePort(port).catch((error) => {
-    logger.error(error);
-    process.exit(-1);
-  });
+interface PortOptions {
+  exactPort?: boolean;
+}
+
+export const getServerPort = (port?: number, { exactPort }: PortOptions = {}) =>
+  detectFreePort(port)
+    .then((freePort) => {
+      if (freePort !== port && exactPort) {
+        process.exit(-1);
+      }
+      return freePort;
+    })
+    .catch((error) => {
+      logger.error(error);
+      process.exit(-1);
+    });
 
 export const getServerChannelUrl = (port: number, { https }: { https?: boolean }) => {
   return `${https ? 'wss' : 'ws'}://localhost:${port}/storybook-server-channel`;

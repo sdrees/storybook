@@ -1,6 +1,6 @@
 import { precompile } from 'ember-source/dist/ember-template-compiler';
-import { findDistEsm } from '@storybook/core-common';
 import type { PresetProperty } from '@storybook/types';
+import { findDistFile } from '../util';
 
 let emberOptions: any;
 
@@ -50,5 +50,5 @@ export const babel: PresetProperty<'babel'> = (config, options) => {
 };
 
 export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entry = []) => {
-  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+  return [...entry, findDistFile(__dirname, 'client/preview/config')];
 };

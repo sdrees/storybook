@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.3",
   "description": "Storybook web-components renderer",
   "keywords": [
     "lit",
@@ -71,7 +71,7 @@
     "lit": "^2.0.0 || ^3.0.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"

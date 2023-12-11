@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.3",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -149,7 +149,6 @@
     "@storybook/manager-api": "workspace:*",
     "@storybook/nextjs": "workspace:*",
     "@storybook/node-logger": "workspace:*",
-    "@storybook/postinstall": "workspace:*",
     "@storybook/preact": "workspace:*",
     "@storybook/preact-vite": "workspace:*",
     "@storybook/preact-webpack5": "workspace:*",

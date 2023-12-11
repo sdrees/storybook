@@ -36,7 +36,7 @@ export async function buildDevStandalone(
   );
   // updateInfo are cached, so this is typically pretty fast
   const [port, versionCheck] = await Promise.all([
-    getServerPort(options.port),
+    getServerPort(options.port, { exactPort: options.exactPort }),
     versionUpdates
       ? updateCheck(packageJson.version)
       : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),

@@ -34,7 +34,7 @@ export const renderHTML = async (
   refs: Promise<Record<string, Ref>>,
   logLevel: Promise<string>,
   docsOptions: Promise<DocsOptions>,
-  { versionCheck, previewUrl, configType }: Options
+  { versionCheck, previewUrl, configType, ignorePreview }: Options
 ) => {
   const titleRef = await title;
   const templateRef = await template;
@@ -54,5 +54,6 @@ export const renderHTML = async (
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
     },
     head: (await customHead) || '',
+    ignorePreview,
   });
 };

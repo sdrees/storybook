@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preact",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.3",
   "description": "Storybook Preact renderer",
   "keywords": [
     "storybook"
@@ -60,7 +60,7 @@
     "preact": "^8.0.0||^10.0.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"

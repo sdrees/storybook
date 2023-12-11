@@ -6,13 +6,13 @@ import { linkTo } from '@storybook/addon-links';
 export default {
   title: 'Example/Button',
   render: (args) => ({
-    template: hbs`<button {{action onClick}}>{{label}}</button>`,
+    template: hbs`<button {{on "click" this.onClick}}>{{this.label}}</button>`,
     context: args,
   }),
   argTypes: {
     label: { control: 'text' },
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/ember/writing-docs/autodocs
   tags: ['autodocs'],
 };
 
@@ -27,13 +27,14 @@ export const Text = {
 export const Emoji = {
   args: {
     label: '😀 😎 👍 💯',
+    onClick: action('onClick'),
   },
 };
 
 export const TextWithAction = {
   render: () => ({
     template: hbs`
-    <button {{action onClick}}>
+    <button {{on "click" this.onClick}}>
       Trigger Action
     </button>
   `,
@@ -50,12 +51,12 @@ export const TextWithAction = {
 export const ButtonWithLinkToAnotherStory = {
   render: () => ({
     template: hbs`
-    <button {{action onClick}}>
+    <button {{on "click" this.onClick}}>
       Go to Welcome Story
     </button>
   `,
     context: {
-      onClick: linkTo('example-introduction--page'),
+      onClick: linkTo('example-button--docs'),
     },
   }),
   name: 'button with link to another story',

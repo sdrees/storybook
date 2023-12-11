@@ -223,6 +223,7 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--exact-port', 'Exit early if the desired port is not available')
   .option(
     '--initial-path [path]',
     'URL path to be appended when visiting Storybook for the first time'

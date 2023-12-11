@@ -5,7 +5,7 @@ import remarkExternalLinks from 'remark-external-links';
 import { createFilter } from '@rollup/pluginutils';
 import { dirname, join } from 'path';
 
-const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith('story.mdx');
+const isStorybookMdx = (id: string) => id.endsWith('.stories.mdx') || id.endsWith('.story.mdx');
 
 /**
  * Storybook uses two different loaders when dealing with MDX:

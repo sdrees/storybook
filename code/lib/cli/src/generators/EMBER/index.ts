@@ -16,7 +16,8 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
         'babel-plugin-htmlbars-inline-precompile',
       ],
       staticDir: 'dist',
-    }
+    },
+    'ember'
   );
 };
 

@@ -1,3 +1,21 @@
+## 8.0.0-alpha.3
+
+- Addon-docs: Fix storybook MDX check - [#24696](https://github.com/storybookjs/storybook/pull/24696), thanks [@shilman](https://github.com/shilman)!
+- Addons: Remove unused postinstall package - [#25150](https://github.com/storybookjs/storybook/pull/25150), thanks [@shilman](https://github.com/shilman)!
+- Angular: Update Angular cli templates - [#25152](https://github.com/storybookjs/storybook/pull/25152), thanks [@Marklb](https://github.com/Marklb)!
+- Blocks: Fix Subtitle block for unattached docs pages - [#25157](https://github.com/storybookjs/storybook/pull/25157), thanks [@kripod](https://github.com/kripod)!
+- Ember: Fix @storybook/ember - [#23435](https://github.com/storybookjs/storybook/pull/23435), thanks [@francois2metz](https://github.com/francois2metz)!
+- Maintenance: Set engines field to Node.js >= 18 for packages - [#25105](https://github.com/storybookjs/storybook/pull/25105), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 8.0.0-alpha.2
+
+- Core: Maintenance changes for NextJS embedding - [#25086](https://github.com/storybookjs/storybook/pull/25086), thanks [@shilman](https://github.com/shilman)!
+- Addon-docs: Fix story anchors using encodeURIComponent - [#25062](https://github.com/storybookjs/storybook/pull/25062), thanks [@xyy94813](https://github.com/xyy94813)!
+- CLI: Generate a new project on init in empty directory - [#24997](https://github.com/storybookjs/storybook/pull/24997), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- Svelte: Support v5 prereleases - [#24889](https://github.com/storybookjs/storybook/pull/24889), thanks [@allozaur](https://github.com/allozaur)!
+- Vue: Remove deprecated vue packages from next - [#25108](https://github.com/storybookjs/storybook/pull/25108), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Vue: Remove unused preset-vue-webpack - [#25151](https://github.com/storybookjs/storybook/pull/25151), thanks [@shilman](https://github.com/shilman)!
+
 ## 8.0.0-alpha.1
 
 - Angular: Drop v14.x support - [#25101](https://github.com/storybookjs/storybook/pull/25101), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

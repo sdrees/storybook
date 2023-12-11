@@ -170,6 +170,7 @@ export interface CLIOptions {
   enableCrashReports?: boolean;
   host?: string;
   initialPath?: string;
+  exactPort?: boolean;
   /**
    * @deprecated Use 'staticDirs' Storybook Configuration option instead
    */

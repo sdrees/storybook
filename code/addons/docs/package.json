@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.3",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -83,7 +83,6 @@
     "ember/**/*",
     "html/**/*",
     "svelte/**/*",
-    "postinstall/**/*",
     "react/**/*",
     "vue/**/*",
     "web-components/**/*",
@@ -108,7 +107,6 @@
     "@storybook/global": "^5.0.0",
     "@storybook/mdx2-csf": "^1.0.0",
     "@storybook/node-logger": "workspace:*",
-    "@storybook/postinstall": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/react-dom-shim": "workspace:*",
     "@storybook/theming": "workspace:*",

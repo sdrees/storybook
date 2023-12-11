@@ -50,7 +50,6 @@
     "@storybook/manager-api": "portal:../../code/lib/manager-api",
     "@storybook/nextjs": "portal:../../code/frameworks/nextjs",
     "@storybook/node-logger": "portal:../../code/lib/node-logger",
-    "@storybook/postinstall": "portal:../../code/lib/postinstall",
     "@storybook/preact": "portal:../../code/renderers/preact",
     "@storybook/preact-webpack5": "portal:../../code/frameworks/preact-webpack5",
     "@storybook/preset-html-webpack": "portal:../../code/presets/html-webpack",
