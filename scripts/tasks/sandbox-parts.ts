@@ -611,7 +611,7 @@ async function prepareAngularSandbox(cwd: string, templateName: string) {
 
   // Set tsConfig compilerOptions
 
-  const tsConfigPath = join(cwd, 'tsconfig.json');
+  const tsConfigPath = join(cwd, '.storybook', 'tsconfig.json');
   const tsConfigContent = readFileSync(tsConfigPath, { encoding: 'utf-8' });
   // This does not preserve comments, but that shouldn't be an issue for sandboxes
   const tsConfigJson = JSON5.parse(tsConfigContent);
@@ -620,6 +620,14 @@ async function prepareAngularSandbox(cwd: string, templateName: string) {
   tsConfigJson.compilerOptions.noPropertyAccessFromIndexSignature = false;
   tsConfigJson.compilerOptions.jsx = 'react';
   tsConfigJson.compilerOptions.skipLibCheck = true;
+  tsConfigJson.compilerOptions.noImplicitAny = false;
+  tsConfigJson.compilerOptions.strict = false;
+  tsConfigJson.include = [
+    ...tsConfigJson.include,
+    '../template-stories/**/*.stories.ts',
+    // This is necessary since template stories depend on globalThis.components, which Typescript can't look up automatically
+    '../src/stories/**/*',
+  ];
 
   if (templateName === 'Angular CLI (Version 15)') {
     tsConfigJson.compilerOptions.paths = {

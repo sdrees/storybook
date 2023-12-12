@@ -6,7 +6,9 @@ import { expect } from '@storybook/jest';
 export default {
   component: globalThis.Components.Pre,
   play: async ({ canvasElement, name }: PlayFunctionContext) => {
-    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toEqual({
+    await expect(
+      JSON.parse(within(canvasElement as HTMLPreElement).getByTestId('pre').innerText)
+    ).toEqual({
       name,
     });
   },
