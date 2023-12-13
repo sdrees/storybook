@@ -416,28 +416,6 @@ const baseTemplates = {
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
-  'preact-webpack5/default-js': {
-    name: 'Preact CLI Latest (Webpack | JavaScript)',
-    script:
-      'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
-    expected: {
-      framework: '@storybook/preact-webpack5',
-      renderer: '@storybook/preact',
-      builder: '@storybook/builder-webpack5',
-    },
-    skipTasks: ['e2e-tests-dev', 'bench'],
-  },
-  'preact-webpack5/default-ts': {
-    name: 'Preact CLI Latest (Webpack | TypeScript)',
-    script:
-      'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
-    expected: {
-      framework: '@storybook/preact-webpack5',
-      renderer: '@storybook/preact',
-      builder: '@storybook/builder-webpack5',
-    },
-    skipTasks: ['e2e-tests-dev', 'bench'],
-  },
   'preact-vite/default-js': {
     name: 'Preact Latest (Vite | JavaScript)',
     script: 'npm create vite --yes {{beforeDir}} -- --template preact',
@@ -618,7 +596,6 @@ export const merged: TemplateKey[] = [
   'react-webpack/18-ts',
   'react-webpack/17-ts',
   'angular-cli/15-ts',
-  'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
   'html-vite/default-ts',
@@ -638,7 +615,6 @@ export const daily: TemplateKey[] = [
   'nextjs/default-js',
   'nextjs/prerelease',
   'qwik-vite/default-ts',
-  'preact-webpack5/default-js',
   'preact-vite/default-js',
   'html-vite/default-js',
 ];

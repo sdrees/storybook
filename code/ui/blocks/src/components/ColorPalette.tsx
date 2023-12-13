@@ -164,14 +164,21 @@ function renderSwatchSpecimen(colors: Colors) {
       </SwatchSpecimen>
     );
   }
+
+  const swatchElements = [];
+  const labelElements = [];
+
+  // eslint-disable-next-line no-restricted-syntax, guard-for-in
+  for (const colorKey in colors) {
+    const colorValue = colors[colorKey];
+    swatchElements.push(renderSwatch(colorValue, swatchElements.length));
+    labelElements.push(renderSwatchLabel(colorKey, labelElements.length, colorValue));
+  }
+
   return (
     <SwatchSpecimen>
-      <SwatchColors>
-        {Object.values(colors).map((color, index) => renderSwatch(color, index))}
-      </SwatchColors>
-      <SwatchLabels>
-        {Object.keys(colors).map((color, index) => renderSwatchLabel(color, index, colors[color]))}
-      </SwatchLabels>
+      <SwatchColors>{swatchElements}</SwatchColors>
+      <SwatchLabels>{labelElements}</SwatchLabels>
     </SwatchSpecimen>
   );
 }
