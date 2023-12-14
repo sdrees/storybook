@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 import type { FC, PropsWithChildren } from 'react';
-import React, { createElement, Profiler } from 'react';
+import React, { StrictMode, createElement, Profiler } from 'react';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -152,6 +152,40 @@ describe('renderJsx', () => {
         <ProfilerComponent>
           I am Profiler
         </ProfilerComponent>
+    `);
+  });
+
+  it('StrictMode', () => {
+    function StrictModeComponent(props: any) {
+      return (
+        <StrictMode>
+          <div>{props.children}</div>
+        </StrictMode>
+      );
+    }
+
+    expect(renderJsx(createElement(StrictModeComponent, {}, 'I am StrictMode'), {}))
+      .toMatchInlineSnapshot(`
+        <StrictModeComponent>
+          I am StrictMode
+        </StrictModeComponent>
+      `);
+  });
+
+  it('Suspense', () => {
+    function SuspenseComponent(props: any) {
+      return (
+        <React.Suspense fallback={null}>
+          <div>{props.children}</div>
+        </React.Suspense>
+      );
+    }
+
+    expect(renderJsx(createElement(SuspenseComponent, {}, 'I am Suspense'), {}))
+      .toMatchInlineSnapshot(`
+      <SuspenseComponent>
+        I am Suspense
+      </SuspenseComponent>
     `);
   });
 

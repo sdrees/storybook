@@ -11,8 +11,6 @@ import { logger } from '@storybook/client-logger';
 
 import type { ReactRenderer } from '../types';
 
-import { isMemo, isForwardRef } from './lib';
-
 // Recursively remove "_owner" property from elements to avoid crash on docs page when passing components as an array prop (#17482)
 // Note: It may be better to use this function only in development environment.
 function simplifyNodeForStringify(node: ReactNode): ReactNode {
@@ -56,7 +54,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   const Type = renderedJSX.type;
 
   // @ts-expect-error (Converted from ts-ignore)
-  for (let i = 0; i < options.skip; i += 1) {
+  for (let i = 0; i < options?.skip; i += 1) {
     if (typeof renderedJSX === 'undefined') {
       logger.warn('Cannot skip undefined element');
       return null;
@@ -80,21 +78,25 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
     }
   }
 
-  const displayNameDefaults =
-    typeof options.displayName === 'string'
-      ? { showFunctions: true, displayName: () => options.displayName }
-      : {
-          // To get exotic component names resolving properly
-          displayName: (el: any): string =>
-            el.type.displayName ||
-            (el.type === Symbol.for('react.profiler') ? 'Profiler' : null) ||
-            getDocgenSection(el.type, 'displayName') ||
-            (el.type.name !== '_default' ? el.type.name : null) ||
-            (typeof el.type === 'function' ? 'No Display Name' : null) ||
-            (isForwardRef(el.type) ? el.type.render.name : null) ||
-            (isMemo(el.type) ? el.type.type.name : null) ||
-            el.type,
-        };
+  let displayNameDefaults;
+
+  if (typeof options?.displayName === 'string') {
+    displayNameDefaults = { showFunctions: true, displayName: () => options.displayName };
+    /**
+     * add `renderedJSX?.type`to handle this case:
+     *
+     * https://github.com/zhyd1997/storybook/blob/20863a75ba4026d7eba6b288991a2cf091d4dfff/code/renderers/react/template/stories/errors.stories.tsx#L14
+     *
+     * or it show the error message when run `yarn build-storybook --quiet`:
+     *
+     * Cannot read properties of undefined (reading '__docgenInfo').
+     */
+  } else if (renderedJSX?.type && getDocgenSection(renderedJSX.type, 'displayName')) {
+    displayNameDefaults = {
+      // To get exotic component names resolving properly
+      displayName: (el: any): string => getDocgenSection(el.type, 'displayName'),
+    };
+  }
 
   const filterDefaults = {
     filterProps: (value: any, key: string): boolean => value !== undefined,

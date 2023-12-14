@@ -39,6 +39,7 @@ The _default_ export metadata controls how Storybook lists your stories and prov
     'svelte/button-story-default-export-with-component.js.mdx',
     'svelte/button-story-default-export-with-component.ts.mdx',
     'web-components/button-story-default-export-with-component.js.mdx',
+    'web-components/button-story-default-export-with-component.ts.mdx',
     'html/button-story-default-export.js.mdx',
     'html/button-story-default-export.ts.mdx',
     'solid/button-story-default-export-with-component.js.mdx',
