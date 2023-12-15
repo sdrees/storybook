@@ -1,10 +1,29 @@
-import type { HTMLProps, SelectHTMLAttributes } from 'react';
+import type { FC, HTMLProps, SelectHTMLAttributes } from 'react';
 import React, { forwardRef } from 'react';
 import type { Theme, CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 
-import type { TextareaAutosizeProps } from 'react-textarea-autosize';
 import TextareaAutoResize from 'react-textarea-autosize';
+
+/**
+ * these types are copied from `react-textarea-autosize`.
+ * I copied them because of https://github.com/storybookjs/storybook/issues/18734
+ * Maybe there's some bug in `tsup` or `react-textarea-autosize`?
+ */
+type TextareaPropsRaw = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+type Style = Omit<NonNullable<TextareaPropsRaw['style']>, 'maxHeight' | 'minHeight'> & {
+  height?: number;
+};
+type TextareaHeightChangeMeta = {
+  rowHeight: number;
+};
+export interface TextareaAutosizeProps extends Omit<TextareaPropsRaw, 'style'> {
+  maxRows?: number;
+  minRows?: number;
+  onHeightChange?: (height: number, meta: TextareaHeightChangeMeta) => void;
+  cacheMeasurements?: boolean;
+  style?: Style;
+}
 
 const styleResets: CSSObject = {
   // resets
@@ -189,8 +208,8 @@ type TextareaProps = Omit<
   align?: Alignments;
   valid?: ValidationStates;
   height?: number;
-};
-export const Textarea = Object.assign(
+} & React.RefAttributes<HTMLTextAreaElement>;
+export const Textarea: FC<TextareaProps> = Object.assign(
   styled(
     forwardRef<any, TextareaProps>(function Textarea({ size, valid, align, ...props }, ref) {
       return <TextareaAutoResize {...props} ref={ref} />;
