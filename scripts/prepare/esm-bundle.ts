@@ -120,7 +120,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         outExtension: () => ({
           js: '.js',
         }),
-        target: 'node16',
+        target: 'node18',
         clean: false,
         ...(dtsBuild ? dtsConfig : {}),
         platform: 'node',

@@ -61,6 +61,26 @@ export class SbPage {
     await this.previewRoot();
   }
 
+  async navigateToUnattachedDocs(title: string, name = 'docs') {
+    await this.openComponent(title);
+
+    const titleId = toId(title);
+    const storyId = toId(name);
+    const storyLinkId = `#${titleId}-${storyId}--docs`;
+    await this.page.waitForSelector(storyLinkId);
+    const storyLink = this.page.locator('*', { has: this.page.locator(`> ${storyLinkId}`) });
+    await storyLink.click({ force: true });
+
+    await this.page.waitForURL((url) =>
+      url.search.includes(`path=/docs/${titleId}-${storyId}--docs`)
+    );
+
+    const selected = await storyLink.getAttribute('data-selected');
+    await expect(selected).toBe('true');
+
+    await this.previewRoot();
+  }
+
   async waitUntilLoaded() {
     // make sure we start every test with clean state – to avoid possible flakyness
     await this.page.context().addInitScript(() => {

@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./typings.d.ts" />
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+
+import type { FunctionInterpolation, Interpolation } from '@emotion/react';
+import type { StorybookTheme } from './types';
+
 /// <reference path="./emotionAugmentation.d.ts" />
 
 export { default as styled } from '@emotion/styled';
@@ -19,6 +22,13 @@ export {
   withTheme,
 } from '@emotion/react';
 export type { CSSObject, Keyframes } from '@emotion/react';
+
+type FunctionInterpolationEnhanced<T = {}> = FunctionInterpolation<T & { theme: StorybookTheme }>;
+type InterpolationEnhanced<T = {}> = Interpolation<T & { theme: StorybookTheme }>;
+export type {
+  FunctionInterpolationEnhanced as FunctionInterpolation,
+  InterpolationEnhanced as Interpolation,
+};
 
 export * from './base';
 export * from './types';

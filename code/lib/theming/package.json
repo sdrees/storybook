@@ -49,16 +49,16 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
+    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.1",
     "@storybook/client-logger": "workspace:*",
     "@storybook/global": "^5.0.0",
     "memoizerific": "^1.11.3"
   },
   "devDependencies": {
-    "@emotion/cache": "^11.10.7",
-    "@emotion/is-prop-valid": "^1.2.0",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/is-prop-valid": "^1.2.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^18.0.0",
     "deep-object-diff": "^1.1.0",

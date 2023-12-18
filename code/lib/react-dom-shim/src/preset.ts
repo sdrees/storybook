@@ -1,14 +1,31 @@
 import type { Options } from '@storybook/types';
-// @ts-expect-error react-dom doesn't have this in export maps in v16, messing up TS
-import { version } from 'react-dom/package.json';
+import { join, dirname } from 'path';
+import { readFile } from 'fs/promises';
 
-export const webpackFinal = async (config: any, options: Options) => {
+/**
+ * Get react-dom version from the resolvedReact preset, which points to either
+ * a root react-dom dependency or the react-dom dependency shipped with addon-docs
+ */
+const getIsReactVersion18 = async (options: Options) => {
   const { legacyRootApi } =
     (await options.presets.apply<{ legacyRootApi?: boolean } | null>('frameworkOptions')) || {};
 
-  const isReact18 = version.startsWith('18') || version.startsWith('0.0.0');
-  const useReact17 = legacyRootApi ?? !isReact18;
-  if (!useReact17) return config;
+  if (legacyRootApi) {
+    return false;
+  }
+
+  const resolvedReact = await options.presets.apply<{ reactDom?: string }>('resolvedReact', {});
+  const reactDom = resolvedReact.reactDom || dirname(require.resolve('react-dom/package.json'));
+
+  const { version } = JSON.parse(await readFile(join(reactDom, 'package.json'), 'utf-8'));
+  return version.startsWith('18') || version.startsWith('0.0.0');
+};
+
+export const webpackFinal = async (config: any, options: Options) => {
+  const isReactVersion18 = await getIsReactVersion18(options);
+  if (isReactVersion18) {
+    return config;
+  }
 
   return {
     ...config,
@@ -23,12 +40,10 @@ export const webpackFinal = async (config: any, options: Options) => {
 };
 
 export const viteFinal = async (config: any, options: Options) => {
-  const { legacyRootApi } =
-    (await options.presets.apply<{ legacyRootApi?: boolean } | null>('frameworkOptions')) || {};
-
-  const isReact18 = version.startsWith('18') || version.startsWith('0.0.0');
-  const useReact17 = legacyRootApi || !isReact18;
-  if (!useReact17) return config;
+  const isReactVersion18 = await getIsReactVersion18(options);
+  if (isReactVersion18) {
+    return config;
+  }
 
   const alias = Array.isArray(config.resolve?.alias)
     ? config.resolve.alias.concat({

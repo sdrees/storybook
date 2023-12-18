@@ -116,7 +116,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...(optimized ? dtsConfig : {}),
         entry: exportEntries,
         format: ['cjs'],
-        target: 'node16',
+        target: 'node18',
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (options) => {
@@ -184,7 +184,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...commonOptions,
         entry: nodeEntries.map((e: string) => slash(join(cwd, e))),
         format: ['cjs'],
-        target: 'node16',
+        target: 'node18',
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (c) => {

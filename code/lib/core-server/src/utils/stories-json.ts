@@ -1,7 +1,7 @@
 import type { Router, Request, Response } from 'express';
 import { writeJSON } from 'fs-extra';
 
-import type { NormalizedStoriesSpecifier, StoryIndex, StoryIndexV3 } from '@storybook/types';
+import type { NormalizedStoriesSpecifier, StoryIndex } from '@storybook/types';
 import debounce from 'lodash/debounce.js';
 
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
@@ -54,38 +54,4 @@ export function useStoriesJson({
       res.send(err instanceof Error ? err.toString() : String(err));
     }
   });
-
-  router.use('/stories.json', async (req: Request, res: Response) => {
-    try {
-      const generator = await initializedStoryIndexGenerator;
-      const index = convertToIndexV3(await generator.getIndex());
-      res.header('Content-Type', 'application/json');
-      res.send(JSON.stringify(index));
-    } catch (err) {
-      res.status(500);
-      res.send(err instanceof Error ? err.toString() : String(err));
-    }
-  });
 }
-
-export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
-  const { entries } = index;
-  const stories = Object.entries(entries).reduce((acc, [id, entry]) => {
-    const { type, ...rest } = entry;
-    acc[id] = {
-      ...rest,
-      kind: rest.title,
-      story: rest.name,
-      parameters: {
-        __id: rest.id,
-        docsOnly: type === 'docs',
-        fileName: rest.importPath,
-      },
-    };
-    return acc;
-  }, {} as StoryIndexV3['stories']);
-  return {
-    v: 3,
-    stories,
-  };
-};

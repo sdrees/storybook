@@ -186,4 +186,31 @@ test.describe('addon-docs', () => {
     await expect(stories.nth(1)).toHaveText('Basic');
     await expect(stories.last()).toHaveText('Another');
   });
+
+  test('should resolve react to the correct version', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToUnattachedDocs('addons/docs/docs2', 'ResolvedReact');
+    const root = sbPage.previewRoot();
+
+    let expectedReactVersion = /^18/;
+    if (
+      templateName.includes('preact') ||
+      templateName.includes('react-webpack/17') ||
+      templateName.includes('react-vite/17')
+    ) {
+      expectedReactVersion = /^17/;
+    } else if (templateName.includes('react16')) {
+      expectedReactVersion = /^16/;
+    }
+
+    const mdxReactVersion = await root.getByTestId('mdx-react');
+    const mdxReactDomVersion = await root.getByTestId('mdx-react-dom');
+    const componentReactVersion = await root.getByTestId('component-react');
+    const componentReactDomVersion = await root.getByTestId('component-react-dom');
+
+    await expect(mdxReactVersion).toHaveText(expectedReactVersion);
+    await expect(mdxReactDomVersion).toHaveText(expectedReactVersion);
+    await expect(componentReactVersion).toHaveText(expectedReactVersion);
+    await expect(componentReactDomVersion).toHaveText(expectedReactVersion);
+  });
 });

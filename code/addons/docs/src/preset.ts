@@ -10,7 +10,26 @@ import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
 import { loadCsf } from '@storybook/csf-tools';
 import { logger } from '@storybook/node-logger';
-import { ensureReactPeerDeps } from './ensure-react-peer-deps';
+
+/**
+ * Get the resolvedReact preset, which points either to
+ * the user's react dependencies or the react dependencies shipped with addon-docs
+ * if the user has not installed react explicitly.
+ */
+const getResolvedReact = async (options: Options) => {
+  const resolvedReact = (await options.presets.apply('resolvedReact', {})) as any;
+  // resolvedReact should always be set by the time we get here, but just in case, we'll default to addon-docs's react dependencies
+  return {
+    react: resolvedReact.react ?? dirname(require.resolve('react/package.json')),
+    reactDom: resolvedReact.reactDom ?? dirname(require.resolve('react-dom/package.json')),
+    // In Webpack, symlinked MDX files will cause @mdx-js/react to not be resolvable if it is not hoisted
+    // This happens for the SB monorepo's template stories when a sandbox has a different react version than
+    // addon-docs, causing addon-docs's dependencies not to be hoisted.
+    // This might also affect regular users who have a similar setup.
+    // Explicitly alias @mdx-js/react to avoid this issue.
+    mdx: resolvedReact.mdx ?? dirname(require.resolve('@mdx-js/react/package.json')),
+  };
+};
 
 async function webpack(
   webpackConfig: any = {},
@@ -90,6 +109,35 @@ async function webpack(
     ? require.resolve('@storybook/mdx1-csf/loader')
     : require.resolve('@storybook/mdx2-csf/loader');
 
+  // Use the resolvedReact preset to alias react and react-dom to either the users version or the version shipped with addon-docs
+  const { react, reactDom, mdx } = await getResolvedReact(options);
+
+  let alias;
+  if (Array.isArray(webpackConfig.resolve?.alias)) {
+    alias = [...webpackConfig.resolve?.alias];
+    alias.push(
+      {
+        name: 'react',
+        alias: react,
+      },
+      {
+        name: 'react-dom',
+        alias: reactDom,
+      },
+      {
+        name: '@mdx-js/react',
+        alias: mdx,
+      }
+    );
+  } else {
+    alias = {
+      ...webpackConfig.resolve?.alias,
+      react,
+      'react-dom': reactDom,
+      '@mdx-js/react': mdx,
+    };
+  }
+
   const result = {
     ...webpackConfig,
     plugins: [
@@ -99,7 +147,10 @@ async function webpack(
         ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
         : []),
     ],
-
+    resolve: {
+      ...webpackConfig.resolve,
+      alias,
+    },
     module: {
       ...module,
       rules: [
@@ -179,6 +230,25 @@ export const viteFinal = async (config: any, options: Options) => {
   const { plugins = [] } = config;
   const { mdxPlugin } = await import('./plugins/mdx-plugin');
 
+  // Use the resolvedReact preset to alias react and react-dom to either the users version or the version shipped with addon-docs
+  const { react, reactDom } = await getResolvedReact(options);
+
+  const reactAliasPlugin = {
+    name: 'storybook:react-alias',
+    enforce: 'pre',
+    config: () => ({
+      resolve: {
+        alias: {
+          react,
+          'react-dom': reactDom,
+        },
+      },
+    }),
+  };
+
+  // add alias plugin early to ensure any other plugins that also add the aliases will override this
+  // eg. the preact vite plugin adds its own aliases
+  plugins.unshift(reactAliasPlugin);
   plugins.push(mdxPlugin(options));
 
   return config;
@@ -192,7 +262,18 @@ const webpackX = webpack as any;
 const indexersX = indexers as any;
 const docsX = docs as any;
 
-ensureReactPeerDeps();
+/**
+ * If the user has not installed react explicitly in their project,
+ * the resolvedReact preset will not be set.
+ * We then set it here in addon-docs to use addon-docs's react version that always exists.
+ * This is just a fallback that never overrides the existing preset,
+ * but ensures that there is always a resolved react.
+ */
+export const resolvedReact = async (existing: any) => ({
+  react: existing?.react ?? dirname(require.resolve('react/package.json')),
+  reactDom: existing?.reactDom ?? dirname(require.resolve('react-dom/package.json')),
+  mdx: existing?.mdx ?? dirname(require.resolve('@mdx-js/react/package.json')),
+});
 
 const optimizeViteDeps = [
   '@mdx-js/react',

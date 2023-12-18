@@ -12,7 +12,6 @@ import { newFrameworks } from './new-frameworks';
 import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { mdx1to2 } from './mdx-1-to-2';
 import { autodocsTrue } from './autodocs-true';
-import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
 import { missingBabelRc } from './missing-babelrc';
 import { angularBuilders } from './angular-builders';
@@ -38,7 +37,6 @@ export const allFixes: Fix[] = [
   mdx1to2,
   mdxgfm,
   autodocsTrue,
-  addReact,
   missingBabelRc,
   angularBuildersMultiproject,
   angularBuilders,

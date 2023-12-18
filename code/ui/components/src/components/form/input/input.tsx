@@ -1,6 +1,6 @@
 import type { FC, HTMLProps, SelectHTMLAttributes } from 'react';
 import React, { forwardRef } from 'react';
-import type { Theme, CSSObject } from '@storybook/theming';
+import type { CSSObject, FunctionInterpolation } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 
 import TextareaAutoResize from 'react-textarea-autosize';
@@ -38,8 +38,8 @@ const styleResets: CSSObject = {
   position: 'relative',
 };
 
-const styles = ({ theme }: { theme: Theme }): CSSObject => ({
-  ...styleResets,
+const styles: FunctionInterpolation = ({ theme }) => ({
+  ...(styleResets as any),
 
   transition: 'box-shadow 200ms ease-out, opacity 200ms ease-out',
   color: theme.input.color || 'inherit',
@@ -77,7 +77,7 @@ export type Sizes = '100%' | 'flex' | 'auto';
 export type Alignments = 'end' | 'center' | 'start';
 export type ValidationStates = 'valid' | 'error' | 'warn';
 
-const sizes = ({ size }: { size?: Sizes }): CSSObject => {
+const sizes: FunctionInterpolation<{ size?: Sizes }> = ({ size }) => {
   switch (size) {
     case '100%': {
       return { width: '100%' };
@@ -91,14 +91,12 @@ const sizes = ({ size }: { size?: Sizes }): CSSObject => {
     }
   }
 };
-const alignment = ({
-  align,
-}: {
+const alignment: FunctionInterpolation<{
   size?: Sizes;
   align?: Alignments;
   valid?: ValidationStates;
   height?: number;
-}): CSSObject => {
+}> = ({ align }) => {
   switch (align) {
     case 'end': {
       return { textAlign: 'right' };
@@ -112,7 +110,7 @@ const alignment = ({
     }
   }
 };
-const validation = ({ valid, theme }: { valid: ValidationStates; theme: Theme }): CSSObject => {
+const validation: FunctionInterpolation<{ valid: ValidationStates }> = ({ valid, theme }) => {
   switch (valid) {
     case 'valid': {
       return { boxShadow: `${theme.color.positive} 0 0 0 1px inset !important` };

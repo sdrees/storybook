@@ -35,7 +35,6 @@ export async function getStoryIndexGenerator(
     indexers: await indexers,
     docs: await docsOptions,
     workingDir,
-    storiesV2Compatibility: !features?.storyStoreV7,
     storyStoreV7: features.storyStoreV7 ?? false,
   });
 

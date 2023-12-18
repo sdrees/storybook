@@ -282,15 +282,6 @@ export async function baseGenerator(
     Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
   );
 
-  if (!installedDependencies.has('react')) {
-    // we add these here because they are required by addon-essentials > addon-docs
-    addonPackages.push('react');
-  }
-  if (!installedDependencies.has('react-dom')) {
-    // we add these here because they are required by addon-essentials > addon-docs
-    addonPackages.push('react-dom');
-  }
-
   // TODO: We need to start supporting this at some point
   if (type === 'renderer') {
     throw new Error(
