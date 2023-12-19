@@ -79,6 +79,7 @@ export const sandbox: Task = {
       cwd: details.sandboxDir,
       debug: options.debug,
       dryRun: options.dryRun,
+      extraDeps: details.template.modifications?.extraDependencies,
     });
 
     await extendMain(details, options);

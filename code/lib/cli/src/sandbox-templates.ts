@@ -73,6 +73,7 @@ export type Template = {
     mainConfig?: Partial<StorybookConfigRaw>;
     testBuild?: boolean;
     disableDocs?: boolean;
+    extraDependencies?: string[];
   };
   /**
    * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
@@ -124,6 +125,7 @@ const baseTemplates = {
       mainConfig: {
         features: { experimentalNextRSC: true },
       },
+      extraDependencies: ['server-only'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
     inDevelopment: true,
@@ -141,6 +143,7 @@ const baseTemplates = {
       mainConfig: {
         features: { experimentalNextRSC: true },
       },
+      extraDependencies: ['server-only'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
@@ -157,6 +160,7 @@ const baseTemplates = {
       mainConfig: {
         features: { experimentalNextRSC: true },
       },
+      extraDependencies: ['server-only'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
@@ -173,6 +177,7 @@ const baseTemplates = {
       mainConfig: {
         features: { experimentalNextRSC: true },
       },
+      extraDependencies: ['server-only'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },

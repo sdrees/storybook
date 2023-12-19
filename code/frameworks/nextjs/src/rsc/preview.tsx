@@ -1,5 +1,5 @@
 import type { Addon_DecoratorFunction } from '@storybook/types';
-import { ServerComponentDecorator } from './rsc/decorator';
+import { ServerComponentDecorator } from './decorator';
 
 export const decorators: Addon_DecoratorFunction<any>[] = [ServerComponentDecorator];
 

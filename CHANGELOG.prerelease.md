@@ -1,3 +1,18 @@
+## 8.0.0-alpha.4
+
+- API: Remove stories.json support - [#25236](https://github.com/storybookjs/storybook/pull/25236), thanks [@shilman](https://github.com/shilman)!
+- Addon Docs: Remove `react` peer dependency - [#24881](https://github.com/storybookjs/storybook/pull/24881), thanks [@JReinhold](https://github.com/JReinhold)!
+- Addon-docs: Support `<StrictMode />` and `<Suspense />` in source viewer - [#19785](https://github.com/storybookjs/storybook/pull/19785), thanks [@zhyd1997](https://github.com/zhyd1997)!
+- Angular: Add random attribute to bootstrapped selector - [#24972](https://github.com/storybookjs/storybook/pull/24972), thanks [@Marklb](https://github.com/Marklb)!
+- Angular: Reduce the warnings from `ts-loader` via stricter list of `includes` - [#24531](https://github.com/storybookjs/storybook/pull/24531), thanks [@ndelangen](https://github.com/ndelangen)!
+- Blocks: Render colors in the same order as provided - [#25001](https://github.com/storybookjs/storybook/pull/25001), thanks [@kaelig](https://github.com/kaelig)!
+- CLI: Add prompt-only automigrate asking for react-removal - [#25215](https://github.com/storybookjs/storybook/pull/25215), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: No longer add react in init - [#25196](https://github.com/storybookjs/storybook/pull/25196), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Set bundle target to `node18` - [#25239](https://github.com/storybookjs/storybook/pull/25239), thanks [@shilman](https://github.com/shilman)!
+- SvelteKit: Fix missing `$app` modules - [#25132](https://github.com/storybookjs/storybook/pull/25132), thanks [@paoloricciuti](https://github.com/paoloricciuti)!
+- SvelteKit: Support 2.0 modules with mocks - [#25244](https://github.com/storybookjs/storybook/pull/25244), thanks [@paoloricciuti](https://github.com/paoloricciuti)!
+- UI: Embed `react-textarea-autosize` types - [#25235](https://github.com/storybookjs/storybook/pull/25235), thanks [@ndelangen](https://github.com/ndelangen)!
+
 ## 8.0.0-alpha.3
 
 - Addon-docs: Fix storybook MDX check - [#24696](https://github.com/storybookjs/storybook/pull/24696), thanks [@shilman](https://github.com/shilman)!

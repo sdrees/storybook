@@ -9,6 +9,7 @@ import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
 import { configureStyledJsx } from './styledJsx/webpack';
 import { configureImages } from './images/webpack';
+import { configureRSC } from './rsc/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
 import type { FrameworkOptions, StorybookConfig } from './types';
 import TransformFontImports from './font/babel';
@@ -72,7 +73,7 @@ export const previewAnnotations: PresetProperty<'previewAnnotations'> = (
   const nextDir = dirname(require.resolve('@storybook/nextjs/package.json'));
   const result = [...entry, join(nextDir, 'dist/preview.mjs')];
   if (features?.experimentalNextRSC) {
-    result.unshift(join(nextDir, 'dist/previewRSC.mjs'));
+    result.unshift(join(nextDir, 'dist/rsc/preview.mjs'));
   }
   return result;
 };
@@ -154,6 +155,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
+
+  if (options.features?.experimentalNextRSC) {
+    configureRSC(baseConfig);
+  }
 
   // TODO: In Storybook 8.0, we have to check whether the babel-compiler addon is used. Otherwise, swc should be used.
   if (builder?.useSWC) {
