@@ -101,7 +101,7 @@ async function checkParallelism(cadence?: Cadence, scriptName?: TaskKey) {
   let isIncorrect = false;
 
   cadences.forEach((cad) => {
-    summary.push(`\n${cad}`);
+    summary.push(`\n${chalk.bold(cad)}`);
     const cadenceTemplates = Object.entries(allTemplates).filter(([key]) =>
       templatesByCadence[cad].includes(key as TemplateKey)
     );
@@ -110,6 +110,7 @@ async function checkParallelism(cadence?: Cadence, scriptName?: TaskKey) {
     scripts.forEach((script) => {
       const templateKeysPerScript = potentialTemplateKeys.filter((t) => {
         const currentTemplate = allTemplates[t] as Template;
+
         return (
           currentTemplate.inDevelopment !== true &&
           !currentTemplate.skipTasks?.includes(script as SkippableTask)
@@ -152,6 +153,18 @@ async function checkParallelism(cadence?: Cadence, scriptName?: TaskKey) {
   } else {
     summary.unshift('✅  The parallelism count is correct for all jobs in .circleci/config.yml:');
     console.log(summary.concat('\n').join('\n'));
+  }
+
+  const inDevelopmentTemplates = Object.entries(allTemplates)
+    .filter(([_, t]) => t.inDevelopment)
+    .map(([k]) => k);
+
+  if (inDevelopmentTemplates.length > 0) {
+    console.log(
+      `👇 Some templates were skipped as they are flagged to be in development. Please review if they should still contain this flag:\n${inDevelopmentTemplates
+        .map((k) => `- ${k}`)
+        .join('\n')}`
+    );
   }
 }
 

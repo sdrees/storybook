@@ -497,6 +497,18 @@ const internalTemplates = {
     },
     skipTasks: ['bench'],
   },
+  'internal/react16-webpack': {
+    name: 'React 16 (Webpack | TypeScript)',
+    script:
+      'yarn create webpack5-react {{beforeDir}} --version-react=16 --version-react-dom=16 --version-@types/react=16 --version-@types/react-dom=16',
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+    isInternal: true,
+  },
   'internal/server-webpack5': {
     name: 'Server Webpack5',
     script: 'yarn init -y && echo "module.exports = {}" > webpack.config.js',
@@ -617,6 +629,7 @@ export const daily: TemplateKey[] = [
   'qwik-vite/default-ts',
   'preact-vite/default-js',
   'html-vite/default-js',
+  'internal/react16-webpack',
 ];
 
 export const templatesByCadence = { normal, merged, daily };
