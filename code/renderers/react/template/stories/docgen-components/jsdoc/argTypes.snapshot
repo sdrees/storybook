@@ -1,819 +1,816 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`react component properties jsdoc 1`] = `
-Object {
-  "case1": Object {
-    "control": Object {
+{
+  "case1": {
+    "control": {
       "type": "text",
     },
     "description": "simple description.",
     "name": "case1",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "string",
       "required": false,
     },
   },
-  "case10": Object {
+  "case10": {
     "description": "param with name",
     "name": "case10",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case11": Object {
+  "case11": {
     "description": "param with name & type",
     "name": "case11",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event: SyntheticEvent)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case12": Object {
+  "case12": {
     "description": "param with name, type & description",
     "name": "case12",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": "React's original event",
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event: SyntheticEvent)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case13": Object {
+  "case13": {
     "description": "param with type",
     "name": "case13",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "SyntheticEvent",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(SyntheticEvent)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case14": Object {
+  "case14": {
     "description": "param with type & description",
     "name": "case14",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case15": Object {
+  "case15": {
     "description": "param with name & description",
     "name": "case15",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": "React's original event",
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case16": Object {
+  "case16": {
     "description": "autofix event-",
     "name": "case16",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": "React's original event",
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case17": Object {
+  "case17": {
     "description": "autofix event.",
     "name": "case17",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "string",
             "type": "NameExpression",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event) => string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case18": Object {
+  "case18": {
     "description": "with an empty param.",
     "name": "case18",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case19": Object {
+  "case19": {
     "description": "with multiple empty params.",
     "name": "case19",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case2": Object {
-    "control": Object {
+  "case2": {
+    "control": {
       "type": "text",
     },
     "description": "multi
 lines
 description",
     "name": "case2",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "string",
       "required": false,
     },
   },
-  "case20": Object {
+  "case20": {
     "description": "with arg alias.",
     "name": "case20",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case21": Object {
+  "case21": {
     "description": "with argument alias.",
     "name": "case21",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case22": Object {
+  "case22": {
     "description": "with multiple params.",
     "name": "case22",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
-          Object {
+          {
             "description": null,
             "name": "stringValue",
           },
-          Object {
+          {
             "description": null,
             "name": "numberValue",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event: SyntheticEvent, stringValue: string, numberValue: number)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case23": Object {
+  "case23": {
     "description": "with an empty returns",
     "name": "case23",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case24": Object {
+  "case24": {
     "description": "with a returns with a type",
     "name": "case24",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "SyntheticEvent",
             "type": "NameExpression",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => SyntheticEvent",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case25": Object {
+  "case25": {
     "description": "with a returns with a type & description",
     "name": "case25",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": "React's original event",
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "SyntheticEvent",
             "type": "NameExpression",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => SyntheticEvent",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case26": Object {
+  "case26": {
     "description": "single param and a returns",
     "name": "case26",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "stringValue",
           },
         ],
-        "returns": Object {
+        "returns": {
           "description": "React's original event",
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "SyntheticEvent",
             "type": "NameExpression",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(stringValue: string) => SyntheticEvent",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case27": Object {
+  "case27": {
     "description": "multiple params and a returns",
     "name": "case27",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "stringValue",
           },
-          Object {
+          {
             "description": null,
             "name": "numberValue",
           },
         ],
-        "returns": Object {
+        "returns": {
           "description": "React's original event",
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "SyntheticEvent",
             "type": "NameExpression",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(stringValue: string, numberValue: number) => SyntheticEvent",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case28": Object {
+  "case28": {
     "description": "multiple returns",
     "name": "case28",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": "Second returns",
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "string",
             "type": "NameExpression",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case29": Object {
+  "case29": {
     "description": "param with unsupported JSDoc tags",
     "name": "case29",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": "React's original event",
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event: SyntheticEvent)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case3": Object {
-    "control": Object {
+  "case3": {
+    "control": {
       "type": "text",
     },
-    "description": "*description* **with** \`formatting\`",
+    "description": "*description* **with** `formatting`",
     "name": "case3",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "string",
       "required": false,
     },
   },
-  "case30": Object {
+  "case30": {
     "description": "param record type",
     "name": "case30",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: ({a: number, b: string}))",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case31": Object {
+  "case31": {
     "description": "param array type",
     "name": "case31",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: string[])",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case32": Object {
+  "case32": {
     "description": "param union type",
     "name": "case32",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: (number|boolean))",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case33": Object {
+  "case33": {
     "description": "param any type",
     "name": "case33",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: any)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case34": Object {
+  "case34": {
     "description": "param repeatable type",
     "name": "case34",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case35": Object {
+  "case35": {
     "description": "optional param",
     "name": "case35",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: number)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case36": Object {
+  "case36": {
     "description": "optional param",
     "name": "case36",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: number)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case37": Object {
+  "case37": {
     "description": "dot in param name",
     "name": "case37",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "my.type",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(my.type: number)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case38": Object {
+  "case38": {
     "description": "returns record type",
     "name": "case38",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
-            "fields": Array [
-              Object {
+          "type": {
+            "fields": [
+              {
                 "key": "a",
                 "type": "FieldType",
-                "value": Object {
+                "value": {
                   "name": "number",
                   "type": "NameExpression",
                 },
               },
-              Object {
+              {
                 "key": "b",
                 "type": "FieldType",
-                "value": Object {
+                "value": {
                   "name": "string",
                   "type": "NameExpression",
                 },
@@ -823,36 +820,36 @@ description",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => ({a: number, b: string})",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case39": Object {
+  "case39": {
     "description": "returns array type",
     "name": "case39",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
-            "applications": Array [
-              Object {
+          "type": {
+            "applications": [
+              {
                 "name": "string",
                 "type": "NameExpression",
               },
             ],
-            "expression": Object {
+            "expression": {
               "name": "Array",
               "type": "NameExpression",
             },
@@ -860,64 +857,64 @@ description",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => string[]",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case4": Object {
-    "control": Object {
+  "case4": {
+    "control": {
       "type": "text",
     },
     "description": "simple description and dummy JSDoc tag.",
     "name": "case4",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "string",
       "required": false,
     },
   },
-  "case40": Object {
+  "case40": {
     "description": "returns union type",
     "name": "case40",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
-            "elements": Array [
-              Object {
+          "type": {
+            "elements": [
+              {
                 "name": "number",
                 "type": "NameExpression",
               },
-              Object {
+              {
                 "name": "boolean",
                 "type": "NameExpression",
               },
@@ -926,204 +923,203 @@ description",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => (number|boolean)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case41": Object {
+  "case41": {
     "description": "returns any type",
     "name": "case41",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "type": "AllLiteral",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => any",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case42": Object {
+  "case42": {
     "description": "returns primitive",
     "name": "case42",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "string",
             "type": "NameExpression",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case43": Object {
+  "case43": {
     "description": "returns void",
     "name": "case43",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "void",
             "type": "NameExpression",
           },
         },
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => void",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case5": Object {
-    "control": Object {
+  "case5": {
+    "control": {
       "type": "text",
     },
     "description": "",
     "name": "case5",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "string",
       "required": false,
     },
   },
-  "case6": Object {
-    "control": Object {
+  "case6": {
+    "control": {
       "type": "text",
     },
     "description": "simple description with a @.",
     "name": "case6",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "string",
       "required": false,
     },
   },
-  "case7": Object {
+  "case7": {
     "description": "",
     "name": "case7",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case8": Object {
+  "case8": {
     "description": "func with a simple description.",
     "name": "case8",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
-  "case9": Object {
+  "case9": {
     "description": "",
     "name": "case9",
-    "table": Object {
+    "table": {
       "defaultValue": null,
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
         "returns": null,
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    "type": Object {
+    "type": {
       "name": "function",
       "required": false,
     },
   },
 }
-`;

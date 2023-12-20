@@ -1,4 +1,4 @@
-/* eslint-disable local-rules/no-uncategorized-errors */
+import { describe, it, expect, vi } from 'vitest';
 import { sanitizeError, cleanPaths } from './sanitize';
 
 describe(`Errors Helpers`, () => {
@@ -64,7 +64,7 @@ describe(`Errors Helpers`, () => {
       expect(e.message).toEqual(errorMessage);
       expect(e.stack).toBeDefined();
 
-      const mockCwd = jest
+      const mockCwd = vi
         .spyOn(process, `cwd`)
         .mockImplementation(() => `/Users/username/Code/storybook-app`);
 
@@ -85,7 +85,7 @@ describe(`Errors Helpers`, () => {
       `should clean path on unix: %s`,
       (filePath) => {
         const cwdMockPath = `/Users/username/storybook-app`;
-        const mockCwd = jest.spyOn(process, `cwd`).mockImplementation(() => cwdMockPath);
+        const mockCwd = vi.spyOn(process, `cwd`).mockImplementation(() => cwdMockPath);
 
         const errorMessage = `Path 1 /Users/Username/storybook-app/${filePath} Path 2 /Users/username/storybook-app/${filePath}`;
 
@@ -101,7 +101,7 @@ describe(`Errors Helpers`, () => {
       (filePath) => {
         const cwdMockPath = `C:\\Users\\username\\storybook-app`;
 
-        const mockCwd = jest.spyOn(process, `cwd`).mockImplementationOnce(() => cwdMockPath);
+        const mockCwd = vi.spyOn(process, `cwd`).mockImplementationOnce(() => cwdMockPath);
 
         const errorMessage = `Path 1 C:\\Users\\username\\storybook-app\\${filePath} Path 2 c:\\Users\\username\\storybook-app\\${filePath}`;
         expect(cleanPaths(errorMessage, `\\`)).toBe(

@@ -1,29 +1,32 @@
 /* eslint-disable global-require */
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+import * as fsExtraOriginal from 'fs-extra';
 import { run as ensureNextAhead } from '../ensure-next-ahead';
 import * as gitClient_ from '../utils/git-client';
 import * as bumpVersion_ from '../version';
 
-jest.mock('../utils/git-client', () => jest.requireActual('jest-mock-extended').mockDeep());
-const gitClient = jest.mocked(gitClient_, { shallow: false });
+vi.mock('../utils/git-client');
+vi.mock('../version');
+vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
 
-// eslint-disable-next-line jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
-const fsExtra = require('fs-extra');
+const fsExtra = vi.mocked<typeof import('../../../code/__mocks__/fs-extra')>(
+  fsExtraOriginal as any
+);
 
-jest.mock('../version', () => jest.requireActual('jest-mock-extended').mockDeep());
-const bumpVersion = jest.mocked(bumpVersion_);
+const bumpVersion = vi.mocked(bumpVersion_, true);
+const gitClient = vi.mocked(gitClient_, true);
 
-jest.spyOn(console, 'log').mockImplementation(() => {});
-jest.spyOn(console, 'warn').mockImplementation(() => {});
-jest.spyOn(console, 'error').mockImplementation(() => {});
+vi.spyOn(console, 'log').mockImplementation(() => {});
+vi.spyOn(console, 'warn').mockImplementation(() => {});
+vi.spyOn(console, 'error').mockImplementation(() => {});
 
 const CODE_PACKAGE_JSON_PATH = path.join(__dirname, '..', '..', '..', 'code', 'package.json');
 
 describe('Ensure next ahead', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     gitClient.git.status.mockResolvedValue({ current: 'next' } as any);
     fsExtra.__setMockFiles({
       [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '2.0.0' }),
@@ -32,30 +35,30 @@ describe('Ensure next ahead', () => {
 
   it('should throw when main-version is missing', async () => {
     await expect(ensureNextAhead({})).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "invalid_type",
-          "expected": "string",
-          "received": "undefined",
-          "path": [
-            "mainVersion"
-          ],
-          "message": "Required"
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "mainVersion"
+    ],
+    "message": "Required"
+  }
+]]
     `);
   });
 
   it('should throw when main-version is not a semver string', async () => {
     await expect(ensureNextAhead({ mainVersion: '200' })).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "custom",
-          "message": "main-version must be a valid semver version string like '7.4.2'.",
-          "path": []
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "custom",
+    "message": "main-version must be a valid semver version string like '7.4.2'.",
+    "path": []
+  }
+]]
     `);
   });
 

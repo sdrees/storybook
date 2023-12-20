@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { config } from '../configureActions';
 import { configureActions } from '../..';
 

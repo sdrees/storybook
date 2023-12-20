@@ -1,12 +1,14 @@
+/// <reference types="@testing-library/jest-dom" />;
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
 import { addons } from '@storybook/preview-api';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, cleanup, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SELECT_STORY } from '@storybook/core-events';
 import LinkTo from './link';
 
-jest.mock('@storybook/preview-api');
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/preview-api');
+vi.mock('@storybook/global', () => ({
   global: {
     document: {
       location: {
@@ -17,22 +19,25 @@ jest.mock('@storybook/global', () => ({
     },
     window: global,
     __STORYBOOK_STORY_STORE__: {
-      fromId: jest.fn(() => ({})),
+      fromId: vi.fn(() => ({})),
     },
   },
 }));
 
 const mockChannel = () => {
   return {
-    emit: jest.fn(),
-    on: jest.fn(),
-    once: jest.fn(),
+    emit: vi.fn(),
+    on: vi.fn(),
+    once: vi.fn(),
   };
 };
-const mockAddons = addons as unknown as jest.Mocked<typeof addons>;
+const mockAddons = vi.mocked(addons);
 
 describe('LinkTo', () => {
   describe('render', () => {
+    afterEach(() => {
+      cleanup();
+    });
     it('should render a link', async () => {
       const channel = mockChannel() as any;
       mockAddons.getChannel.mockReturnValue(channel);
@@ -62,22 +67,25 @@ describe('LinkTo', () => {
 
   describe('events', () => {
     it('should select the kind and story on click', async () => {
-      const channel = mockChannel() as any;
+      const channel = {
+        emit: vi.fn(),
+        on: vi.fn(),
+      } as any;
       mockAddons.getChannel.mockReturnValue(channel);
 
-      render(
-        // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <LinkTo title="foo" name="bar">
-          link
-        </LinkTo>
-      );
-
-      await waitFor(() => {
-        expect(screen.getByText('link')).toHaveAttribute(
-          'href',
-          'originpathname?path=/story/foo--bar'
+      await act(async () => {
+        await render(
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+          <LinkTo title="foo" name="bar">
+            link
+          </LinkTo>
         );
       });
+
+      expect(screen.getByText('link')).toHaveAttribute(
+        'href',
+        'originpathname?path=/story/foo--bar'
+      );
 
       await userEvent.click(screen.getByText('link'));
 

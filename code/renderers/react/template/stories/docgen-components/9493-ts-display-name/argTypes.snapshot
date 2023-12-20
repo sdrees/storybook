@@ -1,53 +1,50 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`react component properties 9493-ts-display-name 1`] = `
-Object {
-  "message": Object {
-    "control": Object {
+{
+  "message": {
+    "control": {
       "type": "text",
     },
     "description": "A message alerting about Empire activities.",
     "name": "message",
-    "table": Object {
+    "table": {
       "defaultValue": null,
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    "type": Object {
+    "type": {
       "name": "string",
       "required": true,
     },
   },
-  "title": Object {
-    "control": Object {
+  "title": {
+    "control": {
       "type": "radio",
     },
     "description": "A title that brings attention to the alert.",
     "name": "title",
-    "options": Array [
+    "options": [
       "Code Red",
       "Code Yellow",
       "Code Green",
     ],
-    "table": Object {
-      "defaultValue": Object {
+    "table": {
+      "defaultValue": {
         "detail": undefined,
         "summary": "'Code Yellow'",
       },
       "jsDocTags": undefined,
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "union",
       },
     },
-    "type": Object {
+    "type": {
       "name": "enum",
       "raw": "'Code Red' | 'Code Yellow' | 'Code Green'",
       "required": false,
-      "value": Array [
+      "value": [
         "Code Red",
         "Code Yellow",
         "Code Green",
@@ -55,4 +52,3 @@ Object {
     },
   },
 }
-`;

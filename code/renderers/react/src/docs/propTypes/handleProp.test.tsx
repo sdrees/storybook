@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import { describe, it, expect } from 'vitest';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {

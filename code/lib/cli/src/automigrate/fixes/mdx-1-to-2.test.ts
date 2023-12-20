@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { it, expect } from 'vitest';
 
 import { dedent } from 'ts-dedent';
 import { fixMdxStyleTags, fixMdxComments } from './mdx-1-to-2';
@@ -34,17 +34,17 @@ it('fixMdxStyleTags fixes multiple style blocks', () => {
         \`}</style>
       `)
   ).toMatchInlineSnapshot(`
-      <style>
-        {\`
-        .foo {}
-        \`}
-      </style>
-      <style>
-        {\`
-        .bar {}
-        \`}
-      </style>
-    `);
+    "<style>
+      {\`
+      .foo {}
+      \`}
+    </style>
+    <style>
+      {\`
+      .bar {}
+      \`}
+    </style>"
+  `);
 });
 
 it('fixMdxComments fixes all comments', () => {

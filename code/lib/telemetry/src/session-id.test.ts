@@ -1,28 +1,27 @@
+import type { MockInstance } from 'vitest';
+import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { nanoid } from 'nanoid';
 import { cache } from '@storybook/core-common';
 import { resetSessionIdForTest, getSessionId, SESSION_TIMEOUT } from './session-id';
 
-jest.mock('@storybook/core-common', () => {
-  const actual = jest.requireActual('@storybook/core-common');
-  return {
-    ...actual,
-    cache: {
-      get: jest.fn(),
-      set: jest.fn(),
-    },
-  };
-});
-jest.mock('nanoid');
+vi.mock('@storybook/core-common', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@storybook/core-common')>()),
+  cache: {
+    get: vi.fn(),
+    set: vi.fn(),
+  },
+}));
+vi.mock('nanoid');
 
-const spy = (x: any) => x as jest.SpyInstance;
+const spy = (x: any) => x as MockInstance;
 
 describe('getSessionId', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     resetSessionIdForTest();
   });
 
-  test('returns existing sessionId when cached in memory and does not fetch from disk', async () => {
+  it('returns existing sessionId when cached in memory and does not fetch from disk', async () => {
     const existingSessionId = 'memory-session-id';
     resetSessionIdForTest(existingSessionId);
 
@@ -37,7 +36,7 @@ describe('getSessionId', () => {
     expect(sessionId).toBe(existingSessionId);
   });
 
-  test('returns existing sessionId when cached on disk and not expired', async () => {
+  it('returns existing sessionId when cached on disk and not expired', async () => {
     const existingSessionId = 'existing-session-id';
     const existingSession = {
       id: existingSessionId,
@@ -58,9 +57,9 @@ describe('getSessionId', () => {
     expect(sessionId).toBe(existingSessionId);
   });
 
-  test('generates new sessionId when none exists', async () => {
+  it('generates new sessionId when none exists', async () => {
     const newSessionId = 'new-session-id';
-    (nanoid as any as jest.SpyInstance).mockReturnValueOnce(newSessionId);
+    (nanoid as unknown as MockInstance).mockReturnValueOnce(newSessionId);
 
     spy(cache.get).mockResolvedValueOnce(undefined);
 
@@ -77,7 +76,7 @@ describe('getSessionId', () => {
     expect(sessionId).toBe(newSessionId);
   });
 
-  test('generates new sessionId when existing one is expired', async () => {
+  it('generates new sessionId when existing one is expired', async () => {
     const expiredSessionId = 'expired-session-id';
     const expiredSession = { id: expiredSessionId, lastUsed: Date.now() - SESSION_TIMEOUT - 1000 };
     const newSessionId = 'new-session-id';

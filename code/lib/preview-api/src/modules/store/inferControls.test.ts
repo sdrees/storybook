@@ -1,4 +1,5 @@
-import { expect } from '@jest/globals';
+import type { MockInstance } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { logger } from '@storybook/client-logger';
 import type { StoryContextForEnhancers } from '@storybook/types';
 
@@ -26,9 +27,9 @@ const getStoryContext = (overrides: any = {}): StoryContextForEnhancers => ({
 const [inferControls] = argTypesEnhancers;
 describe('inferControls', () => {
   describe('with custom matchers', () => {
-    let warnSpy: jest.SpyInstance;
+    let warnSpy: MockInstance;
     beforeEach(() => {
-      warnSpy = jest.spyOn(logger, 'warn');
+      warnSpy = vi.spyOn(logger, 'warn');
       warnSpy.mockImplementation(() => {});
     });
     afterEach(() => {

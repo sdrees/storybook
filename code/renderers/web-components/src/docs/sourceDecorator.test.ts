@@ -1,13 +1,15 @@
 import { html, render } from 'lit';
+import type { Mock } from 'vitest';
+import { describe, beforeEach, it, vi, expect } from 'vitest';
 import { styleMap } from 'lit/directives/style-map.js';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { StoryContext } from '../types';
 import { sourceDecorator } from './sourceDecorator';
 
-jest.mock('@storybook/preview-api');
-const mockedAddons = addons as jest.Mocked<typeof addons>;
-const mockedUseEffect = useEffect as jest.Mock;
+vi.mock('@storybook/preview-api');
+const mockedAddons = vi.mocked(addons);
+const mockedUseEffect = vi.mocked(useEffect);
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -30,12 +32,12 @@ const makeContext = (name: string, parameters: any, args: any, extra?: Partial<S
   } as StoryContext);
 
 describe('sourceDecorator', () => {
-  let mockChannel: { on: jest.Mock; emit?: jest.Mock };
+  let mockChannel: { on: Mock; emit?: Mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
     mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
-    mockChannel = { on: jest.fn(), emit: jest.fn() };
+    mockChannel = { on: vi.fn(), emit: vi.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
   });
 

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { hasVitePlugins } from './has-vite-plugins';
 
 describe('hasVitePlugins', () => {

@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { Channel } from '@storybook/channels';
 import type { Renderer, DocsIndexEntry, RenderContextCallbacks } from '@storybook/types';
 import type { StoryStore } from '../../store';
@@ -26,7 +27,7 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
 it('throws PREPARE_ABORTED if torndown during prepare', async () => {
   const [importGate, openImportGate] = createGate();
   const mockStore = {
-    loadEntry: jest.fn(async () => {
+    loadEntry: vi.fn(async () => {
       await importGate;
       return {};
     }),
@@ -69,7 +70,7 @@ describe('attaching', () => {
     );
     await render.prepare();
 
-    const context = render.docsContext(jest.fn());
+    const context = render.docsContext(vi.fn());
 
     expect(context.storyById).toThrow('No primary story defined');
   });
@@ -83,7 +84,7 @@ describe('attaching', () => {
     );
     await render.prepare();
 
-    const context = render.docsContext(jest.fn());
+    const context = render.docsContext(vi.fn());
     context.referenceMeta(moduleExports, true);
 
     expect(context.storyById()).toEqual(story);

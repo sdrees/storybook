@@ -1,4 +1,5 @@
-/// <reference types="@types/jest" />;
+import type { Mock, Mocked } from 'vitest';
+import { vi } from 'vitest';
 
 import { EventEmitter } from 'events';
 import {
@@ -20,35 +21,35 @@ export const componentOneExports = {
       foo: { type: { name: 'string' } },
       one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
     },
-    loaders: [jest.fn()],
+    loaders: [vi.fn()],
     parameters: {
-      docs: { page: jest.fn(), container: jest.fn() },
+      docs: { page: vi.fn(), container: vi.fn() },
     },
   },
-  a: { args: { foo: 'a', one: 1 }, play: jest.fn() },
-  b: { args: { foo: 'b', one: 1 }, play: jest.fn() },
+  a: { args: { foo: 'a', one: 1 }, play: vi.fn() },
+  b: { args: { foo: 'b', one: 1 }, play: vi.fn() },
 };
 export const componentTwoExports = {
   default: { title: 'Component Two' },
   c: { args: { foo: 'c' } },
 };
 export const attachedDocsExports = {
-  default: jest.fn(),
+  default: vi.fn(),
 };
 export const unattachedDocsExports = {
-  default: jest.fn(),
+  default: vi.fn(),
 };
 // If a second file defines stories for componentOne
 export const extraComponentOneExports = {
   default: {
     title: 'Component One',
     parameters: {
-      docs: { page: jest.fn() },
+      docs: { page: vi.fn() },
     },
   },
   e: {},
 };
-export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
+export const importFn: Mocked<ModuleImportFn> = vi.fn(
   async (path: string) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
@@ -60,19 +61,19 @@ export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
 );
 
 export const docsRenderer = {
-  render: jest.fn().mockImplementation((context, parameters, element) => Promise.resolve()),
-  unmount: jest.fn(),
+  render: vi.fn().mockImplementation((context, parameters, element) => Promise.resolve()),
+  unmount: vi.fn(),
 };
-export const teardownrenderToCanvas: jest.Mock<TeardownRenderToCanvas> = jest.fn();
+export const teardownrenderToCanvas: Mock<[TeardownRenderToCanvas]> = vi.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},
-  decorators: [jest.fn((s) => s())],
-  render: jest.fn(),
-  renderToCanvas: jest.fn().mockReturnValue(teardownrenderToCanvas),
+  decorators: [vi.fn((s) => s())],
+  render: vi.fn(),
+  renderToCanvas: vi.fn().mockReturnValue(teardownrenderToCanvas),
   parameters: { docs: { renderer: () => docsRenderer } },
 };
-export const getProjectAnnotations = jest.fn(() => projectAnnotations as any);
+export const getProjectAnnotations = vi.fn(() => projectAnnotations as any);
 
 export const storyIndex: StoryIndex = {
   v: 4,
@@ -150,7 +151,7 @@ export const mockChannel = {
   on: emitter.on.bind(emitter),
   off: emitter.off.bind(emitter),
   removeListener: emitter.off.bind(emitter),
-  emit: jest.fn(emitter.emit.bind(emitter)),
+  emit: vi.fn(emitter.emit.bind(emitter)),
   // emit: emitter.emit.bind(emitter),
 };
 
@@ -202,4 +203,4 @@ export const waitForRenderPhase = (phase: RenderPhase) => {
 
 // A little trick to ensure that we always call the real `setTimeout` even when timers are mocked
 const realSetTimeout = setTimeout;
-export const waitForQuiescence = async () => new Promise((r) => realSetTimeout(r, 100));
+export const waitForQuiescence = async () => new Promise((r) => realSetTimeout(r, 1_000));

@@ -1,3 +1,5 @@
+import type { MockInstance } from 'vitest';
+import { describe, beforeEach, afterEach, expect, vi, it } from 'vitest';
 import type { PackageJson, StorybookConfig } from '@storybook/types';
 
 import path from 'path';
@@ -12,19 +14,19 @@ const mainJsMock: StorybookConfig = {
   stories: [],
 };
 
-jest.mock('./package-json', () => {
-  const getActualPackageVersion = jest.fn((name) =>
+vi.mock('./package-json', () => {
+  const getActualPackageVersion = vi.fn((name) =>
     Promise.resolve({
       name,
       version: 'x.x.x',
     })
   );
 
-  const getActualPackageVersions = jest.fn((packages) =>
+  const getActualPackageVersions = vi.fn((packages) =>
     Promise.all(Object.keys(packages).map(getActualPackageVersion))
   );
 
-  const getActualPackageJson = jest.fn((name) => ({
+  const getActualPackageJson = vi.fn(() => ({
     dependencies: {
       '@storybook/react': 'x.x.x',
       '@storybook/builder-vite': 'x.x.x',
@@ -38,19 +40,26 @@ jest.mock('./package-json', () => {
   };
 });
 
-jest.mock('./get-monorepo-type', () => ({
+vi.mock('./get-monorepo-type', () => ({
   getMonorepoType: () => 'Nx',
 }));
 
-jest.mock('detect-package-manager', () => ({
+vi.mock('detect-package-manager', () => ({
   detect: () => 'Yarn',
   getNpmVersion: () => '3.1.1',
 }));
 
+vi.mock('@storybook/core-common', async (importOriginal) => {
+  return {
+    ...(await importOriginal<typeof import('@storybook/core-common')>()),
+    getProjectRoot: () => process.cwd(),
+  };
+});
+
 const originalSep = path.sep;
 
 describe('storybook-metadata', () => {
-  let cwdSpy: jest.SpyInstance;
+  let cwdSpy: MockInstance;
   beforeEach(() => {
     // @ts-expect-error the property is read only but we can change it for testing purposes
     path.sep = originalSep;
@@ -63,7 +72,7 @@ describe('storybook-metadata', () => {
   });
 
   describe('sanitizeAddonName', () => {
-    test('special addon names', () => {
+    it('special addon names', () => {
       const addonNames = [
         '@storybook/preset-create-react-app',
         'storybook-addon-deprecated/register',
@@ -87,22 +96,22 @@ describe('storybook-metadata', () => {
       ]);
     });
 
-    test('Windows paths', () => {
+    it('Windows paths', () => {
       // @ts-expect-error the property is read only but we can change it for testing purposes
       path.sep = '\\';
       const cwdMockPath = `C:\\Users\\username\\storybook-app`;
-      cwdSpy = jest.spyOn(process, `cwd`).mockReturnValueOnce(cwdMockPath);
+      cwdSpy = vi.spyOn(process, `cwd`).mockReturnValueOnce(cwdMockPath);
 
       expect(sanitizeAddonName(`${cwdMockPath}\\local-addon\\themes.js`)).toEqual(
         '$SNIP\\local-addon\\themes'
       );
     });
 
-    test('Linux paths', () => {
+    it('Linux paths', () => {
       // @ts-expect-error the property is read only but we can change it for testing purposes
       path.sep = '/';
       const cwdMockPath = `/Users/username/storybook-app`;
-      cwdSpy = jest.spyOn(process, `cwd`).mockReturnValue(cwdMockPath);
+      cwdSpy = vi.spyOn(process, `cwd`).mockReturnValue(cwdMockPath);
 
       expect(sanitizeAddonName(`${cwdMockPath}/local-addon/themes.js`)).toEqual(
         '$SNIP/local-addon/themes'
@@ -112,7 +121,7 @@ describe('storybook-metadata', () => {
 
   describe('computeStorybookMetadata', () => {
     describe('pnp paths', () => {
-      test('should parse pnp paths for known frameworks', async () => {
+      it('should parse pnp paths for known frameworks', async () => {
         const unixResult = await computeStorybookMetadata({
           packageJson: packageJsonMock,
           mainConfig: {
@@ -150,7 +159,7 @@ describe('storybook-metadata', () => {
         });
       });
 
-      test('should parse pnp paths for unknown frameworks', async () => {
+      it('should parse pnp paths for unknown frameworks', async () => {
         const unixResult = await computeStorybookMetadata({
           packageJson: packageJsonMock,
           mainConfig: {
@@ -180,10 +189,10 @@ describe('storybook-metadata', () => {
         });
       });
 
-      test('should sanitize pnp paths for local frameworks', async () => {
+      it('should sanitize pnp paths for local frameworks', async () => {
         // @ts-expect-error the property is read only but we can change it for testing purposes
         path.sep = '/';
-        cwdSpy = jest.spyOn(process, 'cwd').mockReturnValue('/Users/foo/my-projects');
+        cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue('/Users/foo/my-projects');
 
         const unixResult = await computeStorybookMetadata({
           packageJson: packageJsonMock,
@@ -201,7 +210,7 @@ describe('storybook-metadata', () => {
 
         // @ts-expect-error the property is read only but we can change it for testing purposes
         path.sep = '\\';
-        cwdSpy = jest.spyOn(process, 'cwd').mockReturnValue('C:\\Users\\foo\\my-project');
+        cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue('C:\\Users\\foo\\my-project');
         const windowsResult = await computeStorybookMetadata({
           packageJson: packageJsonMock,
           mainConfig: {
@@ -218,7 +227,7 @@ describe('storybook-metadata', () => {
       });
     });
 
-    test('should return frameworkOptions from mainjs', async () => {
+    it('should return frameworkOptions from mainjs', async () => {
       const reactResult = await computeStorybookMetadata({
         packageJson: packageJsonMock,
         mainConfig: {
@@ -257,7 +266,7 @@ describe('storybook-metadata', () => {
       });
     });
 
-    test('should separate storybook packages and addons', async () => {
+    it('should separate storybook packages and addons', async () => {
       const result = await computeStorybookMetadata({
         packageJson: {
           ...packageJsonMock,
@@ -279,31 +288,31 @@ describe('storybook-metadata', () => {
       });
 
       expect(result.addons).toMatchInlineSnapshot(`
-        Object {
-          "@storybook/addon-essentials": Object {
+        {
+          "@storybook/addon-essentials": {
             "options": undefined,
             "version": "x.x.x",
           },
-          "@storybook/addon-knobs": Object {
+          "@storybook/addon-knobs": {
             "options": undefined,
             "version": "x.x.x",
           },
-          "storybook-addon-deprecated": Object {
+          "storybook-addon-deprecated": {
             "options": undefined,
             "version": "x.x.x",
           },
         }
       `);
       expect(result.storybookPackages).toMatchInlineSnapshot(`
-        Object {
-          "@storybook/react": Object {
+        {
+          "@storybook/react": {
             "version": "x.x.x",
           },
         }
       `);
     });
 
-    test('should return user specified features', async () => {
+    it('should return user specified features', async () => {
       const features = {
         storyStoreV7: true,
       };
@@ -319,7 +328,7 @@ describe('storybook-metadata', () => {
       expect(result.features).toEqual(features);
     });
 
-    test('should infer builder and renderer from framework package.json', async () => {
+    it('should infer builder and renderer from framework package.json', async () => {
       expect(
         await computeStorybookMetadata({
           packageJson: packageJsonMock,
@@ -335,7 +344,7 @@ describe('storybook-metadata', () => {
       });
     });
 
-    test('should return the number of refs', async () => {
+    it('should return the number of refs', async () => {
       const res = await computeStorybookMetadata({
         packageJson: packageJsonMock,
         mainConfig: {
@@ -349,7 +358,7 @@ describe('storybook-metadata', () => {
       expect(res.refCount).toEqual(2);
     });
 
-    test('only reports addon options for addon-essentials', async () => {
+    it('only reports addon options for addon-essentials', async () => {
       const res = await computeStorybookMetadata({
         packageJson: packageJsonMock,
         mainConfig: {
@@ -361,14 +370,14 @@ describe('storybook-metadata', () => {
         },
       });
       expect(res.addons).toMatchInlineSnapshot(`
-        Object {
-          "@storybook/addon-essentials": Object {
-            "options": Object {
+        {
+          "@storybook/addon-essentials": {
+            "options": {
               "controls": false,
             },
             "version": "x.x.x",
           },
-          "addon-foo": Object {
+          "addon-foo": {
             "options": undefined,
             "version": "x.x.x",
           },
@@ -376,7 +385,7 @@ describe('storybook-metadata', () => {
       `);
     });
 
-    test.each(Object.entries(metaFrameworks))(
+    it.each(Object.entries(metaFrameworks))(
       'should detect the supported metaframework: %s',
       async (metaFramework, name) => {
         const res = await computeStorybookMetadata({

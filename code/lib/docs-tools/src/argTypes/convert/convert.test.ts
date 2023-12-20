@@ -1,4 +1,4 @@
-import 'jest-specific-snapshot';
+import { describe, it, expect } from 'vitest';
 import mapValues from 'lodash/mapValues.js';
 import { transformSync } from '@babel/core';
 import requireFromString from 'require-from-string';

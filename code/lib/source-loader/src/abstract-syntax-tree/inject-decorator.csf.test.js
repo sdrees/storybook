@@ -1,14 +1,12 @@
+import { describe, it, expect } from 'vitest';
 import { readFile } from 'fs/promises';
 import path from 'path';
-import 'jest-specific-snapshot';
 import injectDecorator from './inject-decorator';
 import getParser from './parsers';
 
 const regex = /\\r\\n|\r\n|\r|\n/g;
 
 describe('inject-decorator', () => {
-  const snapshotDir = path.join(__dirname, '__snapshots__');
-
   describe('positive - ts - csf', () => {
     it('includes storySource parameter in the default exported object', async () => {
       const mockFilePath = './__mocks__/inject-decorator.ts.csf.txt';

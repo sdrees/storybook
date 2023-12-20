@@ -1,7 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`react component properties 8140-js-prop-types-oneof 1`] = `
-"/* eslint-disable react/require-default-props */
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -25,73 +22,72 @@ Alert.propTypes = {
 };
 export const component = Alert;
 Alert.__docgenInfo = {
-  \\"description\\": \\"\\",
-  \\"methods\\": [],
-  \\"displayName\\": \\"Alert\\",
-  \\"props\\": {
-    \\"mode\\": {
-      \\"defaultValue\\": {
-        \\"value\\": \\"'static'\\",
-        \\"computed\\": false
+  "description": "",
+  "methods": [],
+  "displayName": "Alert",
+  "props": {
+    "mode": {
+      "defaultValue": {
+        "value": "'static'",
+        "computed": false
       },
-      \\"description\\": \\"\\",
-      \\"type\\": {
-        \\"name\\": \\"enum\\",
-        \\"value\\": [{
-          \\"value\\": \\"'static'\\",
-          \\"computed\\": false
+      "description": "",
+      "type": {
+        "name": "enum",
+        "value": [{
+          "value": "'static'",
+          "computed": false
         }, {
-          \\"value\\": \\"'timed'\\",
-          \\"computed\\": false
+          "value": "'timed'",
+          "computed": false
         }]
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"type\\": {
-      \\"defaultValue\\": {
-        \\"value\\": \\"'warning'\\",
-        \\"computed\\": false
+    "type": {
+      "defaultValue": {
+        "value": "'warning'",
+        "computed": false
       },
-      \\"description\\": \\"\\",
-      \\"type\\": {
-        \\"name\\": \\"enum\\",
-        \\"value\\": [{
-          \\"value\\": \\"'success'\\",
-          \\"computed\\": false
+      "description": "",
+      "type": {
+        "name": "enum",
+        "value": [{
+          "value": "'success'",
+          "computed": false
         }, {
-          \\"value\\": \\"'warning'\\",
-          \\"computed\\": false
+          "value": "'warning'",
+          "computed": false
         }, {
-          \\"value\\": \\"'error'\\",
-          \\"computed\\": false
+          "value": "'error'",
+          "computed": false
         }, {
-          \\"value\\": \\"'primary'\\",
-          \\"computed\\": false
+          "value": "'primary'",
+          "computed": false
         }]
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"message\\": {
-      \\"description\\": \\"\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+    "message": {
+      "description": "",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": true
+      "required": true
     },
-    \\"blank\\": {
-      \\"description\\": \\"No background or border if static alert\\",
-      \\"type\\": {
-        \\"name\\": \\"bool\\"
+    "blank": {
+      "description": "No background or border if static alert",
+      "type": {
+        "name": "bool"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"icon\\": {
-      \\"description\\": \\"Allows icon override, accepts material icon name\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+    "icon": {
+      "description": "Allows icon override, accepts material icon name",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": false
+      "required": false
     }
   }
-};"
-`;
+};

@@ -146,7 +146,7 @@ yarn test
 
 <Callout variant="info" icon="💡">
 
-Storybook relies on [Jest](https://jestjs.io/) as part of it's testing suite. During the test run, if you spot that snapshot tests are failing, re-run the command with the `-u` flag to update them.
+Storybook relies on [Vitest](https://vitest.dev/) as part of it's testing suite. During the test run, if you spot that snapshot tests are failing, re-run the command with the `-u` flag to update them.
 
 </Callout>
 

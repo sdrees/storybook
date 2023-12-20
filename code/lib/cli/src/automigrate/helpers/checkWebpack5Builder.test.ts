@@ -1,3 +1,5 @@
+import type { MockInstance } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfigRaw } from '@storybook/types';
 import { checkWebpack5Builder } from './checkWebpack5Builder';
 import { getBuilderPackageName } from './mainConfigFile';
@@ -8,15 +10,15 @@ const mockMainConfig: StorybookConfigRaw = {
   stories: [],
 };
 
-jest.mock('./mainConfigFile');
+vi.mock('./mainConfigFile');
 
 describe('checkWebpack5Builder', () => {
-  let loggerWarnSpy: jest.SpyInstance;
-  let loggerInfoSpy: jest.SpyInstance;
+  let loggerWarnSpy: MockInstance;
+  let loggerInfoSpy: MockInstance;
 
   beforeEach(() => {
-    loggerWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
-    loggerInfoSpy = jest.spyOn(console, 'info').mockImplementation();
+    loggerWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    loggerInfoSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -53,7 +55,7 @@ describe('checkWebpack5Builder', () => {
   });
 
   it('should return null and log an info message if builderPackageName is found but not "webpack4"', async () => {
-    jest.mocked(getBuilderPackageName).mockReturnValueOnce('webpack5');
+    vi.mocked(getBuilderPackageName).mockReturnValueOnce('webpack5');
 
     const result = await checkWebpack5Builder({
       mainConfig: mockMainConfig,
@@ -65,7 +67,7 @@ describe('checkWebpack5Builder', () => {
   });
 
   it('should return { storybookVersion } if all checks pass', async () => {
-    jest.mocked(getBuilderPackageName).mockReturnValueOnce('webpack4');
+    vi.mocked(getBuilderPackageName).mockReturnValueOnce('webpack4');
 
     const result = await checkWebpack5Builder({
       mainConfig: mockMainConfig,

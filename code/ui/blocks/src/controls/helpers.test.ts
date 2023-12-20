@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { getControlId, getControlSetterButtonId } from './helpers';
 
 describe('getControlId', () => {

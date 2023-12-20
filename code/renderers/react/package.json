@@ -73,7 +73,6 @@
     "@storybook/test": "workspace:*",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.15.0",
-    "jest-specific-snapshot": "^8.0.0",
     "require-from-string": "^2.0.2"
   },
   "peerDependencies": {

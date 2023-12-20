@@ -1,11 +1,12 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { Configuration } from 'webpack';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import type { Options } from '@storybook/core-webpack';
 import * as preset from './framework-preset-react';
 
-const mockApply = jest.fn();
-jest.mock('@pmmmwh/react-refresh-webpack-plugin', () => {
-  return jest.fn().mockImplementation(() => {
+const mockApply = vi.fn();
+vi.mock('@pmmmwh/react-refresh-webpack-plugin', () => {
+  return vi.fn().mockImplementation(() => {
     return { apply: mockApply };
   });
 });

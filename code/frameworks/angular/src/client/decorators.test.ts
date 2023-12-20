@@ -1,5 +1,6 @@
 import { Addon_StoryContext } from '@storybook/types';
 
+import { vi, expect, describe, it } from 'vitest';
 import { Component } from '@angular/core';
 import { moduleMetadata, applicationConfig } from './decorators';
 import { AngularRenderer } from './types';
@@ -19,7 +20,7 @@ const defaultContext: Addon_StoryContext<AngularRenderer> = {
   globals: {},
   hooks: {},
   loaded: {},
-  originalStoryFn: jest.fn(),
+  originalStoryFn: vi.fn(),
   viewMode: 'story',
   abortSignal: undefined,
   canvasElement: undefined,

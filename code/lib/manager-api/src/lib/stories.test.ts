@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import type { StoryIndexV2, StoryIndexV3 } from '@storybook/types';
 import { transformStoryIndexV2toV3, transformStoryIndexV3toV4 } from './stories';
 
@@ -39,23 +40,23 @@ describe('transformStoryIndexV2toV3', () => {
     };
 
     expect(transformStoryIndexV2toV3(indexV2)).toMatchInlineSnapshot(`
-      Object {
-        "stories": Object {
-          "1": Object {
+      {
+        "stories": {
+          "1": {
             "id": "1",
             "importPath": "",
             "kind": "story",
             "name": "Story 1",
-            "parameters": Object {},
+            "parameters": {},
             "story": "Story 1",
             "title": "story",
           },
-          "2": Object {
+          "2": {
             "id": "2",
             "importPath": "",
             "kind": "blog",
             "name": "Blog 1",
-            "parameters": Object {},
+            "parameters": {},
             "story": "Blog 1",
             "title": "blog",
           },
@@ -104,43 +105,43 @@ describe('transformStoryIndexV3toV4', () => {
     };
 
     expect(transformStoryIndexV3toV4(indexV3)).toMatchInlineSnapshot(`
-      Object {
-        "entries": Object {
-          "1": Object {
+      {
+        "entries": {
+          "1": {
             "id": "1",
             "importPath": "",
             "name": "",
-            "parameters": Object {
+            "parameters": {
               "docsOnly": true,
             },
-            "storiesImports": Array [],
-            "tags": Array [
+            "storiesImports": [],
+            "tags": [
               "stories-mdx",
             ],
             "title": "Story 1",
             "type": "docs",
           },
-          "2": Object {
+          "2": {
             "id": "2",
             "importPath": "",
             "name": "Page 1",
-            "parameters": Object {},
+            "parameters": {},
             "title": "Page 1",
             "type": "story",
           },
-          "3": Object {
+          "3": {
             "id": "3",
             "importPath": "",
             "name": "",
-            "parameters": Object {},
+            "parameters": {},
             "title": "Story 2",
             "type": "story",
           },
-          "4": Object {
+          "4": {
             "id": "4",
             "importPath": "",
             "name": "Page 2",
-            "parameters": Object {},
+            "parameters": {},
             "title": "Page 1",
             "type": "story",
           },

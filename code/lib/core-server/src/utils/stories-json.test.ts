@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
@@ -15,9 +15,9 @@ import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 import { csfIndexer } from '../presets/common-preset';
 
-jest.mock('watchpack');
-jest.mock('lodash/debounce');
-jest.mock('@storybook/node-logger');
+vi.mock('watchpack');
+vi.mock('lodash/debounce');
+vi.mock('@storybook/node-logger');
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
@@ -58,27 +58,27 @@ const getInitializedStoryIndexGenerator = async (
 };
 
 describe('useStoriesJson', () => {
-  const use = jest.fn();
+  const use = vi.fn();
   const router: Router = { use } as any;
-  const send = jest.fn();
-  const write = jest.fn();
+  const send = vi.fn();
+  const write = vi.fn();
   const response: Response = {
-    header: jest.fn(),
+    header: vi.fn(),
     send,
-    status: jest.fn(),
-    setHeader: jest.fn(),
-    flushHeaders: jest.fn(),
+    status: vi.fn(),
+    setHeader: vi.fn(),
+    flushHeaders: vi.fn(),
     write,
-    flush: jest.fn(),
-    end: jest.fn(),
-    on: jest.fn(),
+    flush: vi.fn(),
+    end: vi.fn(),
+    on: vi.fn(),
   } as any;
 
   beforeEach(async () => {
     use.mockClear();
     send.mockClear();
     write.mockClear();
-    (debounce as jest.Mock).mockImplementation((cb) => cb);
+    vi.mocked(debounce).mockImplementation((cb) => cb as any);
   });
 
   const request: Request = {
@@ -87,7 +87,8 @@ describe('useStoriesJson', () => {
 
   describe('JSON endpoint', () => {
     it('scans and extracts index', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
+      console.time('useStoriesJson');
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,
@@ -95,49 +96,52 @@ describe('useStoriesJson', () => {
         normalizedStories,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
       });
+      console.timeEnd('useStoriesJson');
 
       expect(use).toHaveBeenCalledTimes(1);
       const route = use.mock.calls[0][1];
 
+      console.time('route');
       await route(request, response);
+      console.timeEnd('route');
 
       expect(send).toHaveBeenCalledTimes(1);
       expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "a--metaof": Object {
+        {
+          "entries": {
+            "a--metaof": {
               "id": "a--metaof",
               "importPath": "./src/docs2/MetaOf.mdx",
               "name": "MetaOf",
-              "storiesImports": Array [
+              "storiesImports": [
                 "./src/A.stories.js",
               ],
-              "tags": Array [
+              "tags": [
                 "attached-mdx",
                 "docs",
               ],
               "title": "A",
               "type": "docs",
             },
-            "a--second-docs": Object {
+            "a--second-docs": {
               "id": "a--second-docs",
               "importPath": "./src/docs2/SecondMetaOf.mdx",
               "name": "Second Docs",
-              "storiesImports": Array [
+              "storiesImports": [
                 "./src/A.stories.js",
               ],
-              "tags": Array [
+              "tags": [
                 "attached-mdx",
                 "docs",
               ],
               "title": "A",
               "type": "docs",
             },
-            "a--story-one": Object {
+            "a--story-one": {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
               "name": "Story One",
-              "tags": Array [
+              "tags": [
                 "component-tag",
                 "story-tag",
                 "story",
@@ -145,124 +149,124 @@ describe('useStoriesJson', () => {
               "title": "A",
               "type": "story",
             },
-            "b--story-one": Object {
+            "b--story-one": {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
               "name": "Story One",
-              "tags": Array [
+              "tags": [
                 "autodocs",
                 "story",
               ],
               "title": "B",
               "type": "story",
             },
-            "d--story-one": Object {
+            "d--story-one": {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
               "name": "Story One",
-              "tags": Array [
+              "tags": [
                 "autodocs",
                 "story",
               ],
               "title": "D",
               "type": "story",
             },
-            "docs2-componentreference--docs": Object {
+            "docs2-componentreference--docs": {
               "id": "docs2-componentreference--docs",
               "importPath": "./src/docs2/ComponentReference.mdx",
               "name": "docs",
-              "storiesImports": Array [],
-              "tags": Array [
+              "storiesImports": [],
+              "tags": [
                 "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/ComponentReference",
               "type": "docs",
             },
-            "docs2-notitle--docs": Object {
+            "docs2-notitle--docs": {
               "id": "docs2-notitle--docs",
               "importPath": "./src/docs2/NoTitle.mdx",
               "name": "docs",
-              "storiesImports": Array [],
-              "tags": Array [
+              "storiesImports": [],
+              "tags": [
                 "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/NoTitle",
               "type": "docs",
             },
-            "docs2-yabbadabbadooo--docs": Object {
+            "docs2-yabbadabbadooo--docs": {
               "id": "docs2-yabbadabbadooo--docs",
               "importPath": "./src/docs2/Title.mdx",
               "name": "docs",
-              "storiesImports": Array [],
-              "tags": Array [
+              "storiesImports": [],
+              "tags": [
                 "unattached-mdx",
                 "docs",
               ],
               "title": "docs2/Yabbadabbadooo",
               "type": "docs",
             },
-            "first-nested-deeply-f--story-one": Object {
+            "first-nested-deeply-f--story-one": {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
               "name": "Story One",
-              "tags": Array [
+              "tags": [
                 "story",
               ],
               "title": "first-nested/deeply/F",
               "type": "story",
             },
-            "h--story-one": Object {
+            "h--story-one": {
               "id": "h--story-one",
               "importPath": "./src/H.stories.mjs",
               "name": "Story One",
-              "tags": Array [
+              "tags": [
                 "autodocs",
                 "story",
               ],
               "title": "H",
               "type": "story",
             },
-            "nested-button--story-one": Object {
+            "nested-button--story-one": {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
               "name": "Story One",
-              "tags": Array [
+              "tags": [
                 "component-tag",
                 "story",
               ],
               "title": "nested/Button",
               "type": "story",
             },
-            "nested-page--docs": Object {
+            "nested-page--docs": {
               "id": "nested-page--docs",
               "importPath": "./src/nested/Page.stories.mdx",
               "name": "docs",
-              "storiesImports": Array [],
-              "tags": Array [
+              "storiesImports": [],
+              "tags": [
                 "stories-mdx",
                 "docs",
               ],
               "title": "nested/Page",
               "type": "docs",
             },
-            "nested-page--story-one": Object {
+            "nested-page--story-one": {
               "id": "nested-page--story-one",
               "importPath": "./src/nested/Page.stories.mdx",
               "name": "StoryOne",
-              "tags": Array [
+              "tags": [
                 "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
               "type": "story",
             },
-            "second-nested-g--story-one": Object {
+            "second-nested-g--story-one": {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
               "name": "Story One",
-              "tags": Array [
+              "tags": [
                 "story",
               ],
               "title": "second-nested/G",
@@ -272,10 +276,10 @@ describe('useStoriesJson', () => {
           "v": 4,
         }
       `);
-    });
+    }, 20_000);
 
     it('disallows .mdx files without storyStoreV7', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
@@ -304,7 +308,7 @@ describe('useStoriesJson', () => {
     });
 
     it('can handle simultaneous access', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
 
       useStoriesJson({
         router,
@@ -318,7 +322,7 @@ describe('useStoriesJson', () => {
       const route = use.mock.calls[0][1];
 
       const firstPromise = route(request, response);
-      const secondResponse = { ...response, send: jest.fn(), status: jest.fn() };
+      const secondResponse = { ...response, send: vi.fn(), status: vi.fn() };
       const secondPromise = route(request, secondResponse);
 
       await Promise.all([firstPromise, secondPromise]);
@@ -337,7 +341,7 @@ describe('useStoriesJson', () => {
     });
 
     it('sends invalidate events', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,
@@ -366,7 +370,7 @@ describe('useStoriesJson', () => {
     });
 
     it('only sends one invalidation when multiple event listeners are listening', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,
@@ -381,7 +385,7 @@ describe('useStoriesJson', () => {
       // Don't wait for the first request here before starting the second
       await Promise.all([
         route(request, response),
-        route(request, { ...response, write: jest.fn() }),
+        route(request, { ...response, write: vi.fn() }),
       ]);
 
       expect(write).not.toHaveBeenCalled();
@@ -399,9 +403,12 @@ describe('useStoriesJson', () => {
     });
 
     it('debounces invalidation events', async () => {
-      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce.js') as any);
+      vi.mocked(debounce).mockImplementation(
+        // @ts-expect-error it doesn't think default exists
+        (await vi.importActual<typeof import('lodash/debounce.js')>('lodash/debounce.js')).default
+      );
 
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,

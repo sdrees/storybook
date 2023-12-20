@@ -1,7 +1,10 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import { validateFrameworkName } from './validate-config';
 
 describe('validateFrameworkName', () => {
-  afterEach(jest.resetAllMocks);
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
   it('should throw if name is undefined', () => {
     expect(() => validateFrameworkName(undefined)).toThrow();
   });
@@ -17,13 +20,13 @@ describe('validateFrameworkName', () => {
 
   it('should not throw if framework is unknown (community) but can be resolved', () => {
     // mock require.resolve to return a value
-    jest.spyOn(require, 'resolve').mockReturnValue('some-community-framework');
+    vi.spyOn(require, 'resolve').mockReturnValue('some-community-framework');
     expect(() => validateFrameworkName('some-community-framework')).toThrow();
   });
 
   it('should throw if framework is unknown and cannot be resolved', () => {
     // mock require.resolve to fail
-    jest.spyOn(require, 'resolve').mockImplementation(() => {
+    vi.spyOn(require, 'resolve').mockImplementation(() => {
       throw new Error('Cannot resolve');
     });
 

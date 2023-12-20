@@ -1,12 +1,13 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { Options, Presets } from '@storybook/types';
 import { loadConfigFromFile } from 'vite';
 import { commonConfig } from './vite-config';
 
-jest.mock('vite', () => ({
-  ...jest.requireActual('vite'),
-  loadConfigFromFile: jest.fn(async () => ({})),
+vi.mock('vite', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('vite')>()),
+  loadConfigFromFile: vi.fn(async () => ({})),
 }));
-const loadConfigFromFileMock = jest.mocked(loadConfigFromFile);
+const loadConfigFromFileMock = vi.mocked(loadConfigFromFile);
 
 const dummyOptions: Options = {
   configType: 'DEVELOPMENT',

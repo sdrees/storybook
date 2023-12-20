@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { convert } from '../convert';
 import { create } from '../create';
 import darkThemeVars from '../themes/dark';

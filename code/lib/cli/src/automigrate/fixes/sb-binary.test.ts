@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import type { JsPackageManager } from '../../js-package-manager';
 import { sbBinary } from './sb-binary';
 

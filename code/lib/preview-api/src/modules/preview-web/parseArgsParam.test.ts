@@ -1,7 +1,8 @@
+import { describe, it, expect, vi } from 'vitest';
 import { parseArgsParam } from './parseArgsParam';
 
-jest.mock('@storybook/client-logger', () => ({
-  once: { warn: jest.fn() },
+vi.mock('@storybook/client-logger', () => ({
+  once: { warn: vi.fn() },
 }));
 
 describe('parseArgsParam', () => {

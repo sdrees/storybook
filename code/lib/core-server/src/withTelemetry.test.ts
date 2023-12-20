@@ -1,21 +1,19 @@
-/* eslint-disable local-rules/no-uncategorized-errors */
-/// <reference types="@types/jest" />;
-
 import prompts from 'prompts';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, oneWayHash } from '@storybook/telemetry';
 
 import { getErrorLevel, sendTelemetryError, withTelemetry } from './withTelemetry';
 
-jest.mock('prompts');
-jest.mock('@storybook/core-common');
-jest.mock('@storybook/telemetry');
+vi.mock('prompts');
+vi.mock('@storybook/core-common');
+vi.mock('@storybook/telemetry');
 
 const cliOptions = {};
 
 describe('withTelemetry', () => {
   it('works in happy path', async () => {
-    const run = jest.fn();
+    const run = vi.fn();
 
     await withTelemetry('dev', { cliOptions }, run);
 
@@ -24,7 +22,7 @@ describe('withTelemetry', () => {
   });
 
   it('does not send boot when cli option is passed', async () => {
-    const run = jest.fn();
+    const run = vi.fn();
 
     await withTelemetry('dev', { cliOptions: { disableTelemetry: true } }, run);
 
@@ -33,13 +31,13 @@ describe('withTelemetry', () => {
 
   describe('when command fails', () => {
     const error = new Error('An Error!');
-    const run = jest.fn(async () => {
+    const run = vi.fn(async () => {
       throw error;
     });
 
     it('sends boot message', async () => {
       await expect(async () =>
-        withTelemetry('dev', { cliOptions, printError: jest.fn() }, run)
+        withTelemetry('dev', { cliOptions, printError: vi.fn() }, run)
       ).rejects.toThrow(error);
 
       expect(telemetry).toHaveBeenCalledWith('boot', { eventType: 'dev' }, { stripMetadata: true });
@@ -47,7 +45,7 @@ describe('withTelemetry', () => {
 
     it('does not send boot when cli option is passed', async () => {
       await expect(async () =>
-        withTelemetry('dev', { cliOptions: { disableTelemetry: true }, printError: jest.fn() }, run)
+        withTelemetry('dev', { cliOptions: { disableTelemetry: true }, printError: vi.fn() }, run)
       ).rejects.toThrow(error);
 
       expect(telemetry).toHaveBeenCalledTimes(0);
@@ -55,7 +53,7 @@ describe('withTelemetry', () => {
 
     it('sends error message when no options are passed', async () => {
       await expect(async () =>
-        withTelemetry('dev', { cliOptions, printError: jest.fn() }, run)
+        withTelemetry('dev', { cliOptions, printError: vi.fn() }, run)
       ).rejects.toThrow(error);
 
       expect(telemetry).toHaveBeenCalledTimes(2);
@@ -68,7 +66,7 @@ describe('withTelemetry', () => {
 
     it('does not send error message when cli opt out is passed', async () => {
       await expect(async () =>
-        withTelemetry('dev', { cliOptions: { disableTelemetry: true }, printError: jest.fn() }, run)
+        withTelemetry('dev', { cliOptions: { disableTelemetry: true }, printError: vi.fn() }, run)
       ).rejects.toThrow(error);
 
       expect(telemetry).toHaveBeenCalledTimes(0);
@@ -80,13 +78,13 @@ describe('withTelemetry', () => {
     });
 
     it('does not send full error message when crash reports are disabled', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({ enableCrashReports: false } as any),
       });
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -100,14 +98,14 @@ describe('withTelemetry', () => {
     });
 
     it('does send error message when crash reports are enabled', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({ enableCrashReports: true } as any),
       });
 
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -121,14 +119,14 @@ describe('withTelemetry', () => {
     });
 
     it('does not send any error message when telemetry is disabled', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({ disableTelemetry: true } as any),
       });
 
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -142,14 +140,14 @@ describe('withTelemetry', () => {
     });
 
     it('does send error messages when telemetry is disabled, but crash reports are enabled', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({ disableTelemetry: true, enableCrashReports: true } as any),
       });
 
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -163,15 +161,15 @@ describe('withTelemetry', () => {
     });
 
     it('does not send  full  error messages when disabled crash reports are cached', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({} as any),
       });
-      jest.mocked(cache.get).mockResolvedValueOnce(false);
+      vi.mocked(cache.get).mockResolvedValueOnce(false);
 
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -185,15 +183,15 @@ describe('withTelemetry', () => {
     });
 
     it('does send error messages when enabled crash reports are cached', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({} as any),
       });
-      jest.mocked(cache.get).mockResolvedValueOnce(true);
+      vi.mocked(cache.get).mockResolvedValueOnce(true);
 
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -207,16 +205,16 @@ describe('withTelemetry', () => {
     });
 
     it('does not send full error messages when disabled crash reports are prompted', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({} as any),
       });
-      jest.mocked(cache.get).mockResolvedValueOnce(undefined);
-      jest.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: false });
+      vi.mocked(cache.get).mockResolvedValueOnce(undefined);
+      vi.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: false });
 
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -230,16 +228,16 @@ describe('withTelemetry', () => {
     });
 
     it('does send error messages when enabled crash reports are prompted', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({} as any),
       });
-      jest.mocked(cache.get).mockResolvedValueOnce(undefined);
-      jest.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: true });
+      vi.mocked(cache.get).mockResolvedValueOnce(undefined);
+      vi.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: true });
 
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -255,12 +253,12 @@ describe('withTelemetry', () => {
     // if main.js has errors, we have no way to tell if they've disabled error reporting,
     // so we assume they have.
     it('does not send full error messages when presets fail to evaluate', async () => {
-      jest.mocked(loadAllPresets).mockRejectedValueOnce(error);
+      vi.mocked(loadAllPresets).mockRejectedValueOnce(error);
 
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -284,7 +282,7 @@ describe('sendTelemetryError', () => {
     const mockError = new Error('Test error');
     const eventType: any = 'testEventType';
 
-    jest.mocked(oneWayHash).mockReturnValueOnce('some-hash');
+    vi.mocked(oneWayHash).mockReturnValueOnce('some-hash');
 
     await sendTelemetryError(mockError, eventType, options);
 
@@ -347,7 +345,7 @@ describe('sendTelemetryError', () => {
 
 describe('getErrorLevel', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('returns "none" when cliOptions.disableTelemetry is true', async () => {
@@ -387,10 +385,10 @@ describe('getErrorLevel', () => {
       skipPrompt: false,
     };
 
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ enableCrashReports: true } as any),
     });
-    jest.mocked(cache.get).mockResolvedValueOnce(false);
+    vi.mocked(cache.get).mockResolvedValueOnce(false);
 
     const errorLevel = await getErrorLevel(options);
 
@@ -406,10 +404,10 @@ describe('getErrorLevel', () => {
       skipPrompt: false,
     };
 
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ enableCrashReports: false } as any),
     });
-    jest.mocked(cache.get).mockResolvedValueOnce(false);
+    vi.mocked(cache.get).mockResolvedValueOnce(false);
 
     const errorLevel = await getErrorLevel(options);
 
@@ -425,10 +423,10 @@ describe('getErrorLevel', () => {
       skipPrompt: false,
     };
 
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ disableTelemetry: true } as any),
     });
-    jest.mocked(cache.get).mockResolvedValueOnce(false);
+    vi.mocked(cache.get).mockResolvedValueOnce(false);
 
     const errorLevel = await getErrorLevel(options);
 
@@ -444,8 +442,8 @@ describe('getErrorLevel', () => {
       skipPrompt: false,
     };
 
-    jest.mocked(cache.get).mockResolvedValueOnce(true);
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(cache.get).mockResolvedValueOnce(true);
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
 
@@ -463,10 +461,10 @@ describe('getErrorLevel', () => {
       skipPrompt: true,
     };
 
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
-    jest.mocked(cache.get).mockResolvedValueOnce(undefined);
+    vi.mocked(cache.get).mockResolvedValueOnce(undefined);
 
     const errorLevel = await getErrorLevel(options);
 

@@ -1,16 +1,16 @@
-import { glob as globlOriginal } from 'glob';
+import { glob as globOriginal } from 'glob';
 import { type StoriesEntry } from '@storybook/types';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import { join } from 'path';
 import slash from 'slash';
+import { vi, it, describe } from 'vitest';
 import { removeMDXEntries } from '../remove-mdx-entries';
-
-const glob = globlOriginal as jest.MockedFunction<typeof globlOriginal>;
 
 const configDir = '/configDir/';
 const workingDir = '/';
 
-jest.mock('glob', () => ({ glob: jest.fn() }));
+vi.mock('glob', () => ({ glob: vi.fn() }));
+const glob = vi.mocked(globOriginal);
 
 const createList = (list: { entry: StoriesEntry; result: string[] }[]) => {
   return list.reduce<Record<string, { result: string[]; entry: StoriesEntry }>>(
@@ -39,210 +39,212 @@ const createGlobMock = (input: ReturnType<typeof createList>) => {
   };
 };
 
-test('empty', async () => {
-  const list = createList([]);
-  glob.mockImplementation(createGlobMock(list));
+describe('remove-mdx-stories', () => {
+  it('empty', async () => {
+    const list = createList([]);
+    glob.mockImplementation(createGlobMock(list));
 
-  await expect(() => removeMDXEntries(Object.keys(list), { configDir })).rejects
-    .toThrowErrorMatchingInlineSnapshot(`
-    "Storybook could not index your stories.
-    Your main configuration somehow does not contain a 'stories' field, or it resolved to an empty array.
+    await expect(() => removeMDXEntries(Object.keys(list), { configDir })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+    [SB_CORE-COMMON_0004 (InvalidStoriesEntryError): Storybook could not index your stories.
+Your main configuration somehow does not contain a 'stories' field, or it resolved to an empty array.
 
-    Please check your main configuration file and make sure it exports a 'stories' field that is not an empty array.
+Please check your main configuration file and make sure it exports a 'stories' field that is not an empty array.
 
-    More info: https://storybook.js.org/docs/react/faq#can-i-have-a-storybook-with-no-local-stories
-    "
-  `);
-});
+More info: https://storybook.js.org/docs/react/faq#can-i-have-a-storybook-with-no-local-stories
+]
+`);
+  });
 
-test('minimal', async () => {
-  const list = createList([{ entry: '*.js', result: [] }]);
-  glob.mockImplementation(createGlobMock(list));
+  it('minimal', async () => {
+    const list = createList([{ entry: '*.js', result: [] }]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    expect(result).toMatchInlineSnapshot(`
+    [
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
       },
     ]
   `);
-});
+  });
 
-test('multiple', async () => {
-  const list = createList([
-    { entry: '*.ts', result: [] },
-    { entry: '*.js', result: [] },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('multiple', async () => {
+    const list = createList([
+      { entry: '*.ts', result: [] },
+      { entry: '*.js', result: [] },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    expect(result).toMatchInlineSnapshot(`
+    [
+      {
         "directory": ".",
         "files": "*.ts",
         "titlePrefix": "",
       },
-      Object {
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
       },
     ]
   `);
-});
+  });
 
-test('mdx but not matching any files', async () => {
-  const list = createList([
-    { entry: '*.mdx', result: [] },
-    { entry: '*.js', result: [] },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('mdx but not matching any files', async () => {
+    const list = createList([
+      { entry: '*.mdx', result: [] },
+      { entry: '*.js', result: [] },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    expect(result).toMatchInlineSnapshot(`
+    [
+      {
         "directory": ".",
         "files": "*.mdx",
         "titlePrefix": "",
       },
-      Object {
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
       },
     ]
   `);
-});
+  });
 
-test('removes entries that only yield mdx files', async () => {
-  const list = createList([
-    { entry: '*.mdx', result: ['/configDir/my-file.mdx'] },
-    { entry: '*.js', result: [] },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('removes entries that only yield mdx files', async () => {
+    const list = createList([
+      { entry: '*.mdx', result: ['/configDir/my-file.mdx'] },
+      { entry: '*.js', result: [] },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    expect(result).toMatchInlineSnapshot(`
+    [
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
       },
     ]
   `);
-});
+  });
 
-test('expands entries that only yield mixed files', async () => {
-  const list = createList([
-    { entry: '*.@(mdx|ts)', result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'] },
-    { entry: '*.js', result: [] },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('expands entries that only yield mixed files', async () => {
+    const list = createList([
+      { entry: '*.@(mdx|ts)', result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'] },
+      { entry: '*.js', result: [] },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    expect(result).toMatchInlineSnapshot(`
+    [
+      {
         "directory": ".",
         "files": "**/my-file.ts",
         "titlePrefix": "",
       },
-      Object {
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
       },
     ]
   `);
-});
+  });
 
-test('passes titlePrefix', async () => {
-  const list = createList([
-    {
-      entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
-      result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'],
-    },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('passes titlePrefix', async () => {
+    const list = createList([
+      {
+        entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
+        result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'],
+      },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    expect(result).toMatchInlineSnapshot(`
+    [
+      {
         "directory": ".",
         "files": "**/my-file.ts",
         "titlePrefix": "foo",
       },
     ]
   `);
-});
+  });
 
-test('expands to multiple entries', async () => {
-  const list = createList([
-    {
-      entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
-      result: [
-        '/configDir/my-file.mdx',
-        '/configDir/my-file1.ts',
-        '/configDir/my-file2.ts',
-        '/configDir/my-file3.ts',
-      ],
-    },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('expands to multiple entries', async () => {
+    const list = createList([
+      {
+        entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
+        result: [
+          '/configDir/my-file.mdx',
+          '/configDir/my-file1.ts',
+          '/configDir/my-file2.ts',
+          '/configDir/my-file3.ts',
+        ],
+      },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    expect(result).toMatchInlineSnapshot(`
+    [
+      {
         "directory": ".",
         "files": "**/my-file1.ts",
         "titlePrefix": "foo",
       },
-      Object {
+      {
         "directory": ".",
         "files": "**/my-file2.ts",
         "titlePrefix": "foo",
       },
-      Object {
+      {
         "directory": ".",
         "files": "**/my-file3.ts",
         "titlePrefix": "foo",
       },
     ]
   `);
+  });
 });

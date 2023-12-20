@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,
@@ -26,8 +26,8 @@ import {
 
 import { defaultDecorateStory } from './decorators';
 
-jest.mock('@storybook/client-logger', () => ({
-  logger: { warn: jest.fn(), log: jest.fn() },
+vi.mock('@storybook/client-logger', () => ({
+  logger: { warn: vi.fn(), log: vi.fn() },
 }));
 
 const SOME_EVENT = 'someEvent';
@@ -36,10 +36,10 @@ let hooks: any;
 let onSomeEvent: any;
 let removeSomeEventListener: any;
 beforeEach(() => {
-  onSomeEvent = jest.fn();
-  removeSomeEventListener = jest.fn();
+  onSomeEvent = vi.fn();
+  removeSomeEventListener = vi.fn();
   mockChannel = {
-    emit: jest.fn(),
+    emit: vi.fn(),
     on(event: any, callback: any) {
       switch (event) {
         case STORY_RENDERED:
@@ -69,14 +69,14 @@ const run = (storyFn: any, decorators: DecoratorFunction[] = [], context = {}) =
 describe('Preview hooks', () => {
   describe('useEffect', () => {
     it('triggers the effect from story function', () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       run(() => {
         useEffect(effect);
       });
       expect(effect).toHaveBeenCalledTimes(1);
     });
     it('triggers the effect from decorator', () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       run(() => {}, [
         (storyFn) => {
           useEffect(effect);
@@ -86,7 +86,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(1);
     });
     it('triggers the effect from decorator if story call comes before useEffect', () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       run(() => {}, [
         (storyFn) => {
           const story = storyFn();
@@ -97,7 +97,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(1);
     });
     it('retriggers the effect if no deps array is provided', () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       const storyFn = () => {
         useEffect(effect);
       };
@@ -106,7 +106,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(2);
     });
     it("doesn't retrigger the effect if empty deps array is provided", () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       const storyFn = () => {
         useEffect(effect, []);
       };
@@ -115,7 +115,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(1);
     });
     it("doesn't retrigger the effect from decorator if story has changed", () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       const decorator = (storyFn: any) => {
         useEffect(effect, []);
         return storyFn();
@@ -125,7 +125,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(1);
     });
     it("doesn't retrigger the effect from decorator if story has changed and story call comes before useEffect", () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       const decorator = (storyFn: any) => {
         const story = storyFn();
         useEffect(effect, []);
@@ -136,7 +136,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(1);
     });
     it("doesn't retrigger the effect from if decorator calls story twice", () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       const story = () => {
         useEffect(effect, []);
       };
@@ -148,7 +148,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(1);
     });
     it('handles decorator conditionally rendering the story', () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       const story = () => {
         useEffect(effect, []);
       };
@@ -167,7 +167,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(2);
     });
     it('retriggers the effect if some of the deps are changed', () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       let counter = 0;
       const storyFn = () => {
         useEffect(effect, [counter]);
@@ -178,7 +178,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(2);
     });
     it("doesn't retrigger the effect if none of the deps are changed", () => {
-      const effect = jest.fn();
+      const effect = vi.fn();
       const storyFn = () => {
         useEffect(effect, [0]);
       };
@@ -187,7 +187,7 @@ describe('Preview hooks', () => {
       expect(effect).toHaveBeenCalledTimes(1);
     });
     it('performs cleanup when retriggering', () => {
-      const destroy = jest.fn();
+      const destroy = vi.fn();
       const storyFn = () => {
         useEffect(() => destroy);
       };
@@ -196,7 +196,7 @@ describe('Preview hooks', () => {
       expect(destroy).toHaveBeenCalledTimes(1);
     });
     it("doesn't perform cleanup when keeping the current effect", () => {
-      const destroy = jest.fn();
+      const destroy = vi.fn();
       const storyFn = () => {
         useEffect(() => destroy, []);
       };
@@ -205,7 +205,7 @@ describe('Preview hooks', () => {
       expect(destroy).not.toHaveBeenCalled();
     });
     it('performs cleanup when removing the decorator', () => {
-      const destroy = jest.fn();
+      const destroy = vi.fn();
       run(() => {}, [
         (storyFn) => {
           useEffect(() => destroy);
@@ -299,7 +299,7 @@ describe('Preview hooks', () => {
   describe('useMemo', () => {
     it('performs the calculation', () => {
       let result;
-      const nextCreate = jest.fn(() => 'foo');
+      const nextCreate = vi.fn(() => 'foo');
       const storyFn = () => {
         result = useMemo(nextCreate, []);
       };
@@ -309,7 +309,7 @@ describe('Preview hooks', () => {
     });
     it('performs the calculation once if deps are unchanged', () => {
       let result;
-      const nextCreate = jest.fn(() => 'foo');
+      const nextCreate = vi.fn(() => 'foo');
       const storyFn = () => {
         result = useMemo(nextCreate, []);
       };
@@ -321,7 +321,7 @@ describe('Preview hooks', () => {
     it('performs the calculation again if deps are changed', () => {
       let result;
       let counter = 0;
-      const nextCreate = jest.fn(() => counter);
+      const nextCreate = vi.fn(() => counter);
       const storyFn = () => {
         counter += 1;
         result = useMemo(nextCreate, [counter]);
@@ -412,7 +412,7 @@ describe('Preview hooks', () => {
     it('performs synchronous state updates', () => {
       let state;
       let setState;
-      const storyFn = jest.fn(() => {
+      const storyFn = vi.fn(() => {
         [state, setState] = useState('foo');
         if (state === 'foo') {
           setState('bar');
@@ -423,8 +423,8 @@ describe('Preview hooks', () => {
       expect(state).toBe('bar');
     });
     it('triggers only the last effect when updating state synchronously', () => {
-      const effects = [jest.fn(), jest.fn()];
-      const storyFn = jest.fn(() => {
+      const effects = [vi.fn(), vi.fn()];
+      const storyFn = vi.fn(() => {
         const [effectIndex, setEffectIndex] = useState(0);
         useEffect(effects[effectIndex], [effectIndex]);
         if (effectIndex === 0) {
@@ -438,7 +438,7 @@ describe('Preview hooks', () => {
     it('performs synchronous state updates with updater function', () => {
       let state;
       let setState;
-      const storyFn = jest.fn(() => {
+      const storyFn = vi.fn(() => {
         [state, setState] = useState(0);
         if (state < 3) {
           setState((prevState) => prevState + 1);
@@ -451,7 +451,7 @@ describe('Preview hooks', () => {
     it('performs asynchronous state updates', () => {
       let state;
       let setState: any;
-      const storyFn = jest.fn(() => {
+      const storyFn = vi.fn(() => {
         [state, setState] = useState('foo');
       });
       run(storyFn);
@@ -485,7 +485,7 @@ describe('Preview hooks', () => {
     it('performs synchronous state updates', () => {
       let state;
       let dispatch;
-      const storyFn = jest.fn(() => {
+      const storyFn = vi.fn(() => {
         [state, dispatch] = useReducer((prevState, action) => {
           switch (action) {
             case 'INCREMENT':
@@ -505,7 +505,7 @@ describe('Preview hooks', () => {
     it('performs asynchronous state updates', () => {
       let state: any;
       let dispatch: any;
-      const storyFn = jest.fn(() => {
+      const storyFn = vi.fn(() => {
         [state, dispatch] = useReducer((prevState, action) => {
           switch (action) {
             case 'INCREMENT':

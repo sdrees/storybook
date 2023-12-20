@@ -1,30 +1,31 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import * as fs from 'fs';
 import { logger } from '@storybook/node-logger';
 import { detect, detectFrameworkPreset, detectLanguage } from './detect';
 import { ProjectType, SupportedLanguage } from './project_types';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
 
-jest.mock('./helpers', () => ({
-  isNxProject: jest.fn(),
+vi.mock('./helpers', () => ({
+  isNxProject: vi.fn(),
 }));
 
-jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-  stat: jest.fn(),
-  lstat: jest.fn(),
-  access: jest.fn(),
+vi.mock('fs', () => ({
+  existsSync: vi.fn(),
+  stat: vi.fn(),
+  lstat: vi.fn(),
+  access: vi.fn(),
 }));
 
-jest.mock('fs-extra', () => ({
-  pathExistsSync: jest.fn(() => true),
+vi.mock('fs-extra', () => ({
+  pathExistsSync: vi.fn(() => true),
 }));
 
-jest.mock('path', () => ({
+vi.mock('path', () => ({
   // make it return just the second path, for easier testing
-  join: jest.fn((_, p) => p),
+  join: vi.fn((_, p) => p),
 }));
 
-jest.mock('@storybook/node-logger');
+vi.mock('@storybook/node-logger');
 
 const MOCK_FRAMEWORK_FILES: {
   name: string;
@@ -221,7 +222,7 @@ describe('Detect', () => {
   });
 
   it(`should return language javascript if the TS dependency is present but less than minimum supported`, async () => {
-    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
+    vi.mocked(logger.warn).mockClear();
 
     const packageManager = {
       retrievePackageJson: () =>
@@ -410,13 +411,13 @@ describe('Detect', () => {
 
   describe('detectFrameworkPreset should return', () => {
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     MOCK_FRAMEWORK_FILES.forEach((structure) => {
       it(`${structure.name}`, () => {
-        (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
-          return Object.keys(structure.files).includes(filePath);
+        vi.mocked(fs.existsSync).mockImplementation((filePath) => {
+          return typeof filePath === 'string' && Object.keys(structure.files).includes(filePath);
         });
 
         const result = detectFrameworkPreset(
@@ -448,8 +449,10 @@ describe('Detect', () => {
         '/node_modules/.bin/react-scripts': 'file content',
       };
 
-      (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
-        return Object.keys(forkedReactScriptsConfig).includes(filePath);
+      vi.mocked(fs.existsSync).mockImplementation((filePath) => {
+        return (
+          typeof filePath === 'string' && Object.keys(forkedReactScriptsConfig).includes(filePath)
+        );
       });
 
       const result = detectFrameworkPreset();

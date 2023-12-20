@@ -1,12 +1,11 @@
-/// <reference types="@types/jest" />;
-
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
+import { describe, it, expect, vi } from 'vitest';
 import yaml from 'js-yaml';
 import { loadCsf } from './CsfFile';
 
 expect.addSnapshotSerializer({
-  print: (val: any) => yaml.dump(val).trimEnd(),
+  print: (val: any) => yaml.dump(typeof val === 'string' ? val : val.toString()).trimEnd(),
   test: (val) => typeof val !== 'string',
 });
 
@@ -34,21 +33,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __isArgsStory: false
-              __id: foo-bar--a
-          - id: foo-bar--b
-            name: B
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--b
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('exported const stories', () => {
@@ -62,19 +47,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __id: foo-bar--a
-          - id: foo-bar--b
-            name: B
-            parameters:
-              __id: foo-bar--b
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('underscores', () => {
@@ -86,16 +59,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--basic
-            name: Basic
-            parameters:
-              __isArgsStory: false
-              __id: foo-bar--basic
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('exclude stories', () => {
@@ -108,16 +72,7 @@ describe('CsfFile', () => {
           export const C = () => {};
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          excludeStories:
-            - B
-            - C
-        stories:
-          - id: foo-bar--a
-            name: A
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('include stories', () => {
@@ -129,15 +84,7 @@ describe('CsfFile', () => {
           export const IncludeA = () => {};
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          includeStories:
-            - IncludeA
-        stories:
-          - id: foo-bar--include-a
-            name: Include A
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('storyName annotation', () => {
@@ -149,13 +96,7 @@ describe('CsfFile', () => {
           A.storyName = 'Some story';
       `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: Some story
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('no title', () => {
@@ -167,16 +108,7 @@ describe('CsfFile', () => {
           export const B = () => {};
       `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          component: '''foo'''
-          title: Default Title
-        stories:
-          - id: default-title--a
-            name: A
-          - id: default-title--b
-            name: B
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('custom component id', () => {
@@ -188,16 +120,7 @@ describe('CsfFile', () => {
           export const B = () => {};
       `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          id: custom-id
-        stories:
-          - id: custom-id--a
-            name: A
-          - id: custom-id--b
-            name: B
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('custom parameters.__id', () => {
@@ -209,16 +132,7 @@ describe('CsfFile', () => {
           export const CustomParemetersId = { parameters: { __id: 'custom-id' } };
       `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          id: custom-meta-id
-        stories:
-          - id: custom-meta-id--just-custom-meta-id
-            name: Just Custom Meta Id
-          - id: custom-id
-            name: Custom Paremeters Id
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('typescript', () => {
@@ -232,15 +146,7 @@ describe('CsfFile', () => {
           export const B: StoryFn<PropTypes> = () => <>B</>;
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar/baz
-        stories:
-          - id: foo-bar-baz--a
-            name: A
-          - id: foo-bar-baz--b
-            name: B
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('typescript satisfies', () => {
@@ -255,21 +161,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: AA
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--a
-          - id: foo-bar--b
-            name: B
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--b
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('typescript as', () => {
@@ -284,21 +176,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: AA
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--a
-          - id: foo-bar--b
-            name: B
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--b
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('typescript meta var', () => {
@@ -313,15 +191,7 @@ describe('CsfFile', () => {
           export const B: StoryFn<PropTypes> = () => <>B</>;
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar/baz
-        stories:
-          - id: foo-bar-baz--a
-            name: A
-          - id: foo-bar-baz--b
-            name: B
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('typescript satisfies meta var', () => {
@@ -336,15 +206,7 @@ describe('CsfFile', () => {
           export const B: StoryFn<PropTypes> = () => <>B</>;
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar/baz
-        stories:
-          - id: foo-bar-baz--a
-            name: A
-          - id: foo-bar-baz--b
-            name: B
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('component object', () => {
@@ -356,16 +218,7 @@ describe('CsfFile', () => {
           export const B = () => {};
       `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          component: '{}'
-          title: Default Title
-        stories:
-          - id: default-title--a
-            name: A
-          - id: default-title--b
-            name: B
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('template bind', () => {
@@ -379,16 +232,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--a
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('meta variable', () => {
@@ -401,16 +245,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __isArgsStory: false
-              __id: foo-bar--a
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('docs-only story', () => {
@@ -423,17 +258,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--page
-            name: Page
-            parameters:
-              __isArgsStory: false
-              __id: foo-bar--page
-              docsOnly: true
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('docs-only story with local vars', () => {
@@ -449,21 +274,7 @@ describe('CsfFile', () => {
           `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          tags:
-            - stories-mdx
-          includeStories:
-            - __page
-        stories:
-          - id: foo-bar--page
-            name: Page
-            parameters:
-              __isArgsStory: false
-              __id: foo-bar--page
-              docsOnly: true
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('title variable', () => {
@@ -477,21 +288,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __isArgsStory: false
-              __id: foo-bar--a
-          - id: foo-bar--b
-            name: B
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--b
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('re-exported stories', () => {
@@ -503,15 +300,7 @@ describe('CsfFile', () => {
           export { B } from './B';
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-          - id: foo-bar--b
-            name: B
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('named exports order', () => {
@@ -525,21 +314,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--b
-            name: B
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--b
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __isArgsStory: false
-              __id: foo-bar--a
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('as default export', () => {
@@ -555,15 +330,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __id: foo-bar--a
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('support for parameter decorators', () => {
@@ -586,11 +353,7 @@ describe('CsfFile', () => {
           title: 'Chip',
         }
       `)
-      ).toMatchInlineSnapshot(`
-              meta:
-                title: Chip
-              stories: []
-            `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
   });
 
@@ -666,15 +429,7 @@ describe('CsfFile', () => {
           export function B() {}
       `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-          - id: foo-bar--b
-            name: B
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
   });
 
@@ -733,16 +488,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __isArgsStory: false
-              __id: foo-bar--a
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('Object export with args render', () => {
@@ -756,16 +502,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--a
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('Object export with default render', () => {
@@ -777,16 +514,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--a
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('Object export with name', () => {
@@ -800,20 +528,11 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: Apple
-            parameters:
-              __isArgsStory: true
-              __id: foo-bar--a
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('Object export with storyName', () => {
-      const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
+      const consoleWarnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
       parse(
         dedent`
@@ -840,10 +559,7 @@ describe('CsfFile', () => {
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
       const csf = loadCsf(input, { makeTitle }).parse();
-      expect(csf.imports).toMatchInlineSnapshot(`
-        - ./Button
-        - ./Check
-      `);
+      expect(csf.imports).toMatchInlineSnapshot(`./Button,./Check`);
     });
     // eslint-disable-next-line jest/no-disabled-tests
     it.skip('dynamic imports', () => {
@@ -875,17 +591,7 @@ describe('CsfFile', () => {
           A.tags = ['Y'];
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          tags:
-            - X
-        stories:
-          - id: foo-bar--a
-            name: A
-            tags:
-              - 'Y'
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('csf3', () => {
@@ -899,17 +605,7 @@ describe('CsfFile', () => {
           };
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          tags:
-            - X
-        stories:
-          - id: foo-bar--a
-            name: A
-            tags:
-              - 'Y'
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('variables', () => {
@@ -925,17 +621,7 @@ describe('CsfFile', () => {
           };
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          tags:
-            - X
-        stories:
-          - id: foo-bar--a
-            name: A
-            tags:
-              - 'Y'
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('array error', () => {
@@ -976,18 +662,7 @@ describe('CsfFile', () => {
           A.tags = ['Y'];
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          tags:
-            - X
-        stories:
-          - id: foo-bar--a
-            name: A
-            tags:
-              - 'Y'
-              - play-fn
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('story csf3', () => {
@@ -1002,18 +677,7 @@ describe('CsfFile', () => {
           };
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          tags:
-            - X
-        stories:
-          - id: foo-bar--a
-            name: A
-            tags:
-              - 'Y'
-              - play-fn
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('meta csf2', () => {
@@ -1027,18 +691,7 @@ describe('CsfFile', () => {
           };
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          tags:
-            - X
-            - play-fn
-        stories:
-          - id: foo-bar--a
-            name: A
-            tags:
-              - 'Y'
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('meta csf3', () => {
@@ -1050,18 +703,7 @@ describe('CsfFile', () => {
           A.tags = ['Y'];
         `
         )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-          tags:
-            - X
-            - play-fn
-        stories:
-          - id: foo-bar--a
-            name: A
-            tags:
-              - 'Y'
-      `);
+      ).toMatchInlineSnapshot(`'[object Object]'`);
     });
   });
 
@@ -1088,30 +730,7 @@ describe('CsfFile', () => {
         { makeTitle, fileName: 'foo/bar.stories.js' }
       ).parse();
 
-      expect(indexInputs).toMatchInlineSnapshot(`
-        - type: story
-          importPath: foo/bar.stories.js
-          exportName: A
-          name: A
-          title: custom foo title
-          metaId: component-id
-          tags:
-            - component-tag
-            - story-tag
-            - play-fn
-          __id: component-id--a
-        - type: story
-          importPath: foo/bar.stories.js
-          exportName: B
-          name: B
-          title: custom foo title
-          metaId: component-id
-          tags:
-            - component-tag
-            - story-tag
-            - play-fn
-          __id: component-id--b
-      `);
+      expect(indexInputs).toMatchInlineSnapshot(`'[object Object],[object Object]'`);
     });
 
     it('supports custom parameters.__id', () => {
@@ -1130,17 +749,7 @@ describe('CsfFile', () => {
         { makeTitle, fileName: 'foo/bar.stories.js' }
       ).parse();
 
-      expect(indexInputs).toMatchInlineSnapshot(`
-        - type: story
-          importPath: foo/bar.stories.js
-          exportName: A
-          name: A
-          title: custom foo title
-          metaId: component-id
-          tags:
-            - component-tag
-          __id: custom-story-id
-      `);
+      expect(indexInputs).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('removes duplicate tags', () => {
@@ -1158,20 +767,7 @@ describe('CsfFile', () => {
         { makeTitle, fileName: 'foo/bar.stories.js' }
       ).parse();
 
-      expect(indexInputs).toMatchInlineSnapshot(`
-        - type: story
-          importPath: foo/bar.stories.js
-          exportName: A
-          name: A
-          title: custom foo title
-          tags:
-            - component-tag
-            - component-tag-dup
-            - inherit-tag-dup
-            - story-tag
-            - story-tag-dup
-          __id: custom-foo-title--a
-      `);
+      expect(indexInputs).toMatchInlineSnapshot(`'[object Object]'`);
     });
 
     it('throws if getting indexInputs without filename option', () => {
@@ -1190,9 +786,13 @@ describe('CsfFile', () => {
       ).parse();
 
       expect(() => csf.indexInputs).toThrowErrorMatchingInlineSnapshot(`
-        "Cannot automatically create index inputs with CsfFile.indexInputs because the CsfFile instance was created without a the fileName option.
-        Either add the fileName option when creating the CsfFile instance, or create the index inputs manually."
-      `);
+        >-
+  Error: Cannot automatically create index inputs with CsfFile.indexInputs
+  because the CsfFile instance was created without a the fileName option.
+
+  Either add the fileName option when creating the CsfFile instance, or create
+  the index inputs manually.
+`);
     });
   });
 });

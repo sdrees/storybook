@@ -1,4 +1,3 @@
-import 'jest-specific-snapshot';
 import path from 'path';
 import fs from 'fs';
 import tmp from 'tmp';
@@ -50,14 +49,14 @@ describe('angular component properties', () => {
         //   // snapshot the output of compodoc
         //   const compodocOutput = runCompodoc(inputPath);
         //   const compodocJson = JSON.parse(compodocOutput);
-        //   expect(compodocJson).toMatchSpecificSnapshot(
+        //   expect(compodocJson).toMatchFileSnapshot(
         //     path.join(testDir, `compodoc-${SNAPSHOT_OS}.snapshot`)
         //   );
 
         //   // snapshot the output of addon-docs angular-properties
         //   const componentData = findComponentByName('InputComponent', compodocJson);
         //   const argTypes = extractArgTypesFromData(componentData);
-        //   expect(argTypes).toMatchSpecificSnapshot(path.join(testDir, 'argtypes.snapshot'));
+        //   expect(argTypes).toMatchFileSnapshot(path.join(testDir, 'argtypes.snapshot'));
         // });
       }
     }

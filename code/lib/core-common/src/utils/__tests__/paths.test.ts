@@ -1,9 +1,10 @@
+import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 import findUp from 'find-up';
 import slash from 'slash';
 import { normalizeStoryPath, getProjectRoot } from '../paths';
 
-jest.mock('find-up');
+vi.mock('find-up');
 
 describe('paths - normalizeStoryPath()', () => {
   it('returns a path starting with "./" unchanged', () => {
@@ -43,10 +44,8 @@ describe('paths - normalizeStoryPath()', () => {
 });
 
 describe('getProjectRoot', () => {
-  const mockedFindUp = findUp as jest.Mocked<typeof findUp>;
-
   it('should return the root directory containing a .git directory', () => {
-    mockedFindUp.sync.mockImplementation((name) =>
+    vi.mocked(findUp.sync).mockImplementation((name) =>
       name === ('.git' as any) ? '/path/to/root' : undefined
     );
 
@@ -54,7 +53,7 @@ describe('getProjectRoot', () => {
   });
 
   it('should return the root directory containing a .svn directory if there is no .git directory', () => {
-    mockedFindUp.sync.mockImplementation((name) =>
+    vi.mocked(findUp.sync).mockImplementation((name) =>
       name === ('.svn' as any) ? '/path/to/root' : undefined
     );
 
@@ -62,7 +61,7 @@ describe('getProjectRoot', () => {
   });
 
   it('should return the root directory containing a .yarn directory if there is no .git or .svn directory', () => {
-    mockedFindUp.sync.mockImplementation((name) =>
+    vi.mocked(findUp.sync).mockImplementation((name) =>
       name === ('.yarn' as any) ? '/path/to/root' : undefined
     );
 

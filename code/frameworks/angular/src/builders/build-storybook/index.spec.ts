@@ -1,14 +1,16 @@
 /*
- * @jest-environment node
+ * @vitest-environment node
  */
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { vi, describe, beforeEach, expect } from 'vitest';
 import { Architect, createBuilder } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { schema } from '@angular-devkit/core';
 import * as path from 'path';
 
-const buildDevStandaloneMock = jest.fn();
-const buildStaticStandaloneMock = jest.fn();
+const buildDevStandaloneMock = vi.fn();
+const buildStaticStandaloneMock = vi.fn();
 
 const buildMock = {
   buildDevStandalone: buildDevStandaloneMock,
@@ -16,8 +18,8 @@ const buildMock = {
   withTelemetry: (name: string, options: any, fn: any) => fn(),
 };
 
-jest.doMock('@storybook/core-server', () => buildMock);
-jest.doMock('@storybook/cli', () => ({
+vi.doMock('@storybook/core-server', () => buildMock);
+vi.doMock('@storybook/cli', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({
       runPackageCommand: mockRunScript,
@@ -28,9 +30,9 @@ jest.doMock('@storybook/cli', () => ({
     storybook: 'x.x.x',
   },
 }));
-jest.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
+vi.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
-const mockRunScript = jest.fn();
+const mockRunScript = vi.fn();
 
 // Randomly fails on CI. TODO: investigate why
 // eslint-disable-next-line jest/no-disabled-tests
@@ -76,7 +78,7 @@ describe.skip('Build Storybook Builder', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should start storybook with angularBrowserTarget', async () => {

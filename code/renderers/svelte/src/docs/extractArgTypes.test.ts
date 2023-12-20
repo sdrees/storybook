@@ -1,4 +1,4 @@
-import { describe, expect } from '@jest/globals';
+import { describe, expect, it } from 'vitest';
 import svelteDoc from 'sveltedoc-parser';
 import * as fs from 'fs';
 import { createArgTypes } from './extractArgTypes';
@@ -7,7 +7,7 @@ const content = fs.readFileSync(`${__dirname}/sample/MockButton.svelte`, 'utf-8'
 describe('Extracting Arguments', () => {
   it('should be svelte', () => {
     expect(content).toMatchInlineSnapshot(`
-      <script>
+      "<script>
         import { createEventDispatcher, afterUpdate } from 'svelte';
         export let text = '';
         export let rounded = true;
@@ -30,6 +30,7 @@ describe('Extracting Arguments', () => {
           dispatch('afterUpdate');
         });
       </script>
+
       <style>
         .rounded {
           border-radius: 35px;
@@ -42,20 +43,16 @@ describe('Extracting Arguments', () => {
           outline: none;
         }
       </style>
-      <svelte:options accessors="{true}">
-      </svelte:options>
-      <button class="button"
-              class:rounded
-              on:click="{onClick}"
-      >
-        <strong>
-          {rounded ? 'Round' : 'Square'} corners
-        </strong>
-        <br>
+
+      <svelte:options accessors={true} />
+      <button class="button" class:rounded on:click={onClick}>
+        <strong>{rounded ? 'Round' : 'Square'} corners</strong>
+        <br />
         {text}
-        <slot {rounded}>
-        </slot>
+        <!-- Default Slot -->
+        <slot {rounded}/>
       </button>
+      "
     `);
   });
 
@@ -65,71 +62,71 @@ describe('Extracting Arguments', () => {
     const results = createArgTypes(doc);
 
     expect(results).toMatchInlineSnapshot(`
-      Object {
-        "event_afterUpdate": Object {
+      {
+        "event_afterUpdate": {
           "action": "afterUpdate",
           "control": false,
           "description": "After Update",
           "name": "afterUpdate",
-          "table": Object {
+          "table": {
             "category": "events",
           },
         },
-        "event_click": Object {
+        "event_click": {
           "action": "click",
           "control": false,
           "description": "Click Event",
           "name": "click",
-          "table": Object {
+          "table": {
             "category": "events",
           },
         },
-        "rounded": Object {
-          "control": Object {
+        "rounded": {
+          "control": {
             "type": "boolean",
           },
           "description": undefined,
           "name": "rounded",
-          "table": Object {
+          "table": {
             "category": "properties",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": true,
             },
-            "type": Object {
+            "type": {
               "summary": "boolean",
             },
           },
-          "type": Object {
+          "type": {
             "name": "boolean",
             "required": false,
           },
         },
-        "slot_default": Object {
+        "slot_default": {
           "control": false,
           "description": "Default Slot
 
       \`{rounded}\`",
           "name": "default",
-          "table": Object {
+          "table": {
             "category": "slots",
           },
         },
-        "text": Object {
-          "control": Object {
+        "text": {
+          "control": {
             "type": "text",
           },
           "description": undefined,
           "name": "text",
-          "table": Object {
+          "table": {
             "category": "properties",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": "",
             },
-            "type": Object {
+            "type": {
               "summary": "string",
             },
           },
-          "type": Object {
+          "type": {
             "name": "string",
             "required": false,
           },

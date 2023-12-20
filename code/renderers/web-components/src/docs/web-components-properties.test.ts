@@ -1,8 +1,9 @@
-import 'jest-specific-snapshot';
 import path from 'path';
+import { vi, describe, it, expect } from 'vitest';
 import fs from 'fs';
 import tmp from 'tmp';
 import { sync as spawnSync } from 'cross-spawn';
+import { extractArgTypesFromElements } from './custom-elements';
 
 // File hierarchy:
 // __testfixtures__ / some-test-case / input.*
@@ -32,10 +33,8 @@ describe('web-components component properties', () => {
   // we need to mock lit and dynamically require custom-elements
   // because lit is distributed as ESM not CJS
   // https://github.com/Polymer/lit-html/issues/516
-  jest.mock('lit', () => {});
-  jest.mock('lit/directive-helpers.js', () => {});
-  // eslint-disable-next-line global-require
-  const { extractArgTypesFromElements } = require('./custom-elements');
+  vi.mock('lit', () => ({ default: {} }));
+  vi.mock('lit/directive-helpers.js', () => ({ default: {} }));
 
   const fixturesDir = path.join(__dirname, '__testfixtures__');
   fs.readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
@@ -53,13 +52,13 @@ describe('web-components component properties', () => {
             // eslint-disable-next-line no-param-reassign
             tag.path = 'dummy-path-to-component';
           });
-          expect(customElements).toMatchSpecificSnapshot(
+          expect(customElements).toMatchFileSnapshot(
             path.join(testDir, 'custom-elements.snapshot')
           );
 
           // snapshot the properties
           const properties = extractArgTypesFromElements('input', customElements);
-          expect(properties).toMatchSpecificSnapshot(path.join(testDir, 'properties.snapshot'));
+          expect(properties).toMatchFileSnapshot(path.join(testDir, 'properties.snapshot'));
         });
       }
     }

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { getPrecedingUpgrade } from './event-cache';
 
 expect.addSnapshotSerializer({

@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { describe, it, expect } from 'vitest';
 import { combineParameters } from './parameters';
 
 describe('client-api.parameters', () => {

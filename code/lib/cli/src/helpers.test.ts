@@ -1,40 +1,68 @@
-import fs from 'fs';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import fse from 'fs-extra';
 
+import { sep } from 'path';
 import * as helpers from './helpers';
+import { IS_WINDOWS } from '../../../vitest.helpers';
 import type { JsPackageManager } from './js-package-manager';
 import type { SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
 
-jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-}));
-jest.mock('./dirs', () => ({
-  getRendererDir: (_: JsPackageManager, renderer: string) => `@storybook/${renderer}`,
-  getCliDir: () => '@storybook/cli',
+const normalizePath = (path: string) => (IS_WINDOWS ? path.replace(/\//g, sep) : path);
+
+const fsMocks = vi.hoisted(() => ({
+  existsSync: vi.fn(),
 }));
 
-jest.mock('fs-extra', () => ({
-  copySync: jest.fn(() => ({})),
-  copy: jest.fn(() => ({})),
-  ensureDir: jest.fn(() => {}),
-  existsSync: jest.fn(),
-  pathExists: jest.fn(),
-  readFile: jest.fn(() => ''),
-  writeFile: jest.fn(),
+const fseMocks = vi.hoisted(() => ({
+  copySync: vi.fn(() => ({})),
+  copy: vi.fn(() => ({})),
+  ensureDir: vi.fn(() => {}),
+  existsSync: vi.fn(),
+  pathExists: vi.fn(),
+  readFile: vi.fn(() => ''),
+  writeFile: vi.fn(),
 }));
 
-jest.mock('find-up', () => ({
-  sync: jest.fn(),
-}));
-
-jest.mock('path', () => {
-  const path = jest.requireActual('path');
+vi.mock('fs', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('fs')>();
   return {
+    ...actual,
+    ...fsMocks,
+    default: {
+      ...actual,
+      ...fsMocks,
+    },
+  };
+});
+vi.mock('./dirs', () => ({
+  getRendererDir: (_: JsPackageManager, renderer: string) =>
+    normalizePath(`@storybook/${renderer}`),
+  getCliDir: () => normalizePath('@storybook/cli'),
+}));
+
+vi.mock('fs-extra', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('fs-extra')>();
+  return {
+    ...actual,
+    ...fseMocks,
+    default: {
+      ...actual,
+      ...fseMocks,
+    },
+  };
+});
+
+vi.mock('find-up', () => ({
+  sync: vi.fn(),
+}));
+
+vi.mock('path', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('path')>();
+  return {
+    ...actual,
     // make it return just the second path, for easier testing
-    resolve: jest.fn((_, p) => p),
-    dirname: path.dirname,
-    join: path.join,
+    resolve: vi.fn((_, p) => p),
   };
 });
 
@@ -44,25 +72,25 @@ const packageManagerMock = {
 
 describe('Helpers', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('copyTemplate', () => {
     it(`should copy template files when directory is present`, () => {
-      const csfDirectory = `template-csf/`;
-      (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
-        return true;
-      });
+      const csfDirectory = /template-csf$/;
+      fsMocks.existsSync.mockReturnValue(true);
+
       helpers.copyTemplate('');
 
-      const copySyncSpy = jest.spyOn(fse, 'copySync');
-      expect(copySyncSpy).toHaveBeenCalledWith(csfDirectory, expect.anything(), expect.anything());
+      expect(fse.copySync).toHaveBeenCalledWith(
+        expect.stringMatching(csfDirectory),
+        expect.anything(),
+        expect.anything()
+      );
     });
 
     it(`should throw an error if template directory cannot be found`, () => {
-      (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
-        return false;
-      });
+      fsMocks.existsSync.mockReturnValue(false);
 
       expect(() => {
         helpers.copyTemplate('');
@@ -83,12 +111,13 @@ describe('Helpers', () => {
   `(
     `should copy $expected when folder $exists exists for language $language`,
     async ({ language, exists, expected }) => {
-      const componentsDirectory = exists.map(
-        (folder: string) => `@storybook/react/template/cli/${folder}`
+      const componentsDirectory = exists.map((folder: string) =>
+        normalizePath(`@storybook/react/template/cli/${folder}`)
       );
-      (fse.pathExists as jest.Mock).mockImplementation(
+      fseMocks.pathExists.mockImplementation(
         (filePath) =>
-          componentsDirectory.includes(filePath) || filePath === '@storybook/react/template/cli'
+          componentsDirectory.includes(filePath) ||
+          filePath === normalizePath('@storybook/react/template/cli')
       );
       await helpers.copyTemplateFiles({
         renderer: 'react',
@@ -96,22 +125,26 @@ describe('Helpers', () => {
         packageManager: packageManagerMock,
       });
 
-      const copySpy = jest.spyOn(fse, 'copy');
-      expect(copySpy).toHaveBeenNthCalledWith(
+      expect(fse.copy).toHaveBeenNthCalledWith(
         1,
-        '@storybook/cli/rendererAssets/common',
+        normalizePath('@storybook/cli/rendererAssets/common'),
         './stories',
         expect.anything()
       );
 
-      const expectedDirectory = `@storybook/react/template/cli${expected}`;
-      expect(copySpy).toHaveBeenNthCalledWith(2, expectedDirectory, './stories', expect.anything());
+      const expectedDirectory = normalizePath(`@storybook/react/template/cli${expected}`);
+      expect(fse.copy).toHaveBeenNthCalledWith(
+        2,
+        expectedDirectory,
+        './stories',
+        expect.anything()
+      );
     }
   );
 
   it(`should copy to src folder when exists`, async () => {
-    (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-      return filePath === '@storybook/react/template/cli' || filePath === './src';
+    vi.mocked(fse.pathExists).mockImplementation((filePath) => {
+      return filePath === normalizePath('@storybook/react/template/cli') || filePath === './src';
     });
     await helpers.copyTemplateFiles({
       renderer: 'react',
@@ -122,8 +155,8 @@ describe('Helpers', () => {
   });
 
   it(`should copy to root folder when src doesn't exist`, async () => {
-    (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-      return filePath === '@storybook/react/template/cli';
+    vi.mocked(fse.pathExists).mockImplementation((filePath) => {
+      return filePath === normalizePath('@storybook/react/template/cli');
     });
     await helpers.copyTemplateFiles({
       renderer: 'react',

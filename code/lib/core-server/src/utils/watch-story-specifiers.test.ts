@@ -1,10 +1,11 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import path from 'path';
 import Watchpack from 'watchpack';
 
 import { watchStorySpecifiers } from './watch-story-specifiers';
 
-jest.mock('watchpack');
+vi.mock('watchpack');
 
 describe('watchStorySpecifiers', () => {
   const workingDir = path.join(__dirname, '__mockdata__');
@@ -19,7 +20,7 @@ describe('watchStorySpecifiers', () => {
   it('watches basic globs', async () => {
     const specifier = normalizeStoriesEntry('../src/**/*.stories.@(ts|js)', options);
 
-    const onInvalidate = jest.fn();
+    const onInvalidate = vi.fn();
     close = watchStorySpecifiers([specifier], { workingDir }, onInvalidate);
 
     expect(Watchpack).toHaveBeenCalledTimes(1);
@@ -66,7 +67,7 @@ describe('watchStorySpecifiers', () => {
   it('scans directories when they are added', async () => {
     const specifier = normalizeStoriesEntry('../src/**/*.stories.@(ts|js)', options);
 
-    const onInvalidate = jest.fn();
+    const onInvalidate = vi.fn();
     close = watchStorySpecifiers([specifier], { workingDir }, onInvalidate);
 
     expect(Watchpack).toHaveBeenCalledTimes(1);
@@ -84,7 +85,7 @@ describe('watchStorySpecifiers', () => {
   it('watches single file globs', async () => {
     const specifier = normalizeStoriesEntry('../src/nested/Button.stories.mdx', options);
 
-    const onInvalidate = jest.fn();
+    const onInvalidate = vi.fn();
     close = watchStorySpecifiers([specifier], { workingDir }, onInvalidate);
 
     expect(Watchpack).toHaveBeenCalledTimes(1);
@@ -125,7 +126,7 @@ describe('watchStorySpecifiers', () => {
     const globSpecifier = normalizeStoriesEntry('../src/**/*.stories.@(ts|js)', options);
     const fileSpecifier = normalizeStoriesEntry('../src/nested/Button.stories.mdx', options);
 
-    const onInvalidate = jest.fn();
+    const onInvalidate = vi.fn();
     close = watchStorySpecifiers([globSpecifier, fileSpecifier], { workingDir }, onInvalidate);
 
     expect(Watchpack).toHaveBeenCalledTimes(1);

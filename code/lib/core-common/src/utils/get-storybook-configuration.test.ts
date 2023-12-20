@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 
 describe('getStorybookConfiguration', () => {

@@ -1,3 +1,4 @@
+import { it, expect } from 'vitest';
 import type { OutputFile } from 'esbuild';
 import { platform } from 'os';
 import { sanitizePath } from './files';
@@ -5,7 +6,7 @@ import { sanitizePath } from './files';
 const os = platform();
 const isWindows = os === 'win32';
 
-test('sanitizePath', () => {
+it('sanitizePath', () => {
   const addonsDir = isWindows
     ? 'C:\\Users\\username\\Projects\\projectname\\storybook'
     : '/Users/username/Projects/projectname/storybook';

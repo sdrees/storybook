@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { Addon_TypesEnum as types } from '@storybook/types';
 import { init as initAddons } from '../modules/addons';
 
@@ -29,7 +30,7 @@ const store = {
   getState: () => ({
     selectedPanel: '',
   }),
-  setState: jest.fn(),
+  setState: vi.fn(),
 };
 
 describe('Addons API', () => {
@@ -88,7 +89,7 @@ describe('Addons API', () => {
           storyId,
           storiesHash,
         }),
-        setState: jest.fn(),
+        setState: vi.fn(),
       };
 
       const { api } = initAddons({
@@ -115,7 +116,7 @@ describe('Addons API', () => {
         getState: () => ({
           selectedPanel: 'actions',
         }),
-        setState: jest.fn(),
+        setState: vi.fn(),
       };
       const { api } = initAddons({ provider, store: storeWithSelectedPanel });
 
@@ -132,7 +133,7 @@ describe('Addons API', () => {
         getState: () => ({
           selectedPanel: 'unknown',
         }),
-        setState: jest.fn(),
+        setState: vi.fn(),
       };
       const { api } = initAddons({ provider, store: storeWithSelectedPanel });
 
@@ -147,7 +148,7 @@ describe('Addons API', () => {
   describe('#setSelectedPanel', () => {
     it('should set value inn store', () => {
       // given
-      const setState = jest.fn();
+      const setState = vi.fn();
       const storeWithSelectedPanel = {
         getState: () => ({
           selectedPanel: 'actions',

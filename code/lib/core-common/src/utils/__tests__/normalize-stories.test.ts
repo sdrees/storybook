@@ -1,7 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../test-typings.d.ts" />
-
-import { dedent } from 'ts-dedent';
+/// <reference types="@testing-library/jest-dom" />;
+import { describe, it, expect, vi } from 'vitest';
 import { sep } from 'path';
 
 import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
@@ -16,23 +14,7 @@ expect.addSnapshotSerializer({
   test: (val) => typeof val !== 'string',
 });
 
-expect.extend({
-  toMatchPaths(regex: RegExp, paths: string[]) {
-    const matched = paths.map((p) => !!p.match(regex));
-
-    const pass = matched.every(Boolean);
-    const failures = paths.filter((_, i) => (pass ? matched[i] : !matched[i]));
-    const message = () => dedent`Expected ${regex} to ${pass ? 'not ' : ''}match all strings.
-    
-    Failures:${['', ...failures].join('\n - ')}`;
-    return {
-      pass,
-      message,
-    };
-  },
-});
-
-jest.mock('fs', () => {
+vi.mock('fs', () => {
   const mockStat = (
     path: string,
     options: Record<string, any>,

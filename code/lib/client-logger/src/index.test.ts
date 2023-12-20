@@ -1,16 +1,17 @@
+import { describe, beforeEach, afterAll, it, expect, vi } from 'vitest';
 import { logger } from '.';
 
-jest.mock('@storybook/global', () => ({ global: { ...global, LOGLEVEL: 'debug' } }));
+vi.mock('@storybook/global', () => ({ global: { ...global, LOGLEVEL: 'debug' } }));
 
 describe('client-logger default LOGLEVEL', () => {
   const initialConsole = { ...global.console };
   beforeEach(() => {
-    global.console.trace = jest.fn();
-    global.console.debug = jest.fn();
-    global.console.log = jest.fn();
-    global.console.info = jest.fn();
-    global.console.warn = jest.fn();
-    global.console.error = jest.fn();
+    global.console.trace = vi.fn();
+    global.console.debug = vi.fn();
+    global.console.log = vi.fn();
+    global.console.info = vi.fn();
+    global.console.warn = vi.fn();
+    global.console.error = vi.fn();
   });
   afterAll(() => {
     global.console = initialConsole;

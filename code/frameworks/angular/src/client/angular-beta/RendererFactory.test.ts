@@ -1,3 +1,4 @@
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { Component, ɵresetJitOptions } from '@angular/core';
 import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -6,7 +7,7 @@ import { CanvasRenderer } from './CanvasRenderer';
 import { RendererFactory } from './RendererFactory';
 import { DocsRenderer } from './DocsRenderer';
 
-jest.mock('@angular/platform-browser-dynamic');
+vi.mock('@angular/platform-browser-dynamic');
 
 declare const document: Document;
 describe('RendererFactory', () => {
@@ -23,11 +24,11 @@ describe('RendererFactory', () => {
     rootTargetDOMNode = global.document.getElementById('storybook-root');
     rootDocstargetDOMNode = global.document.getElementById('root-docs');
     (platformBrowserDynamic as any).mockImplementation(platformBrowserDynamicTesting);
-    jest.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     // Necessary to avoid this error "Provided value for `preserveWhitespaces` can not be changed once it has been set." :
     // Source: https://github.com/angular/angular/commit/e342ffd855ffeb8af7067b42307ffa320d82177e#diff-92b125e532cc22977b46a91f068d6d7ea81fd61b772842a4a0212f1cfd875be6R28

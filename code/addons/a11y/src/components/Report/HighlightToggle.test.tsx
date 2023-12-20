@@ -1,5 +1,6 @@
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import type { NodeResult } from 'axe-core';
 import HighlightToggle from './HighlightToggle';
 import { A11yContext } from '../A11yContext';
@@ -18,15 +19,19 @@ const defaultProviderValue = {
     incomplete: [],
     violations: [],
   },
-  setResults: jest.fn(),
+  setResults: vi.fn(),
   highlighted: [],
-  toggleHighlight: jest.fn(),
-  clearHighlights: jest.fn(),
+  toggleHighlight: vi.fn(),
+  clearHighlights: vi.fn(),
   tab: 0,
-  setTab: jest.fn(),
+  setTab: vi.fn(),
 };
 
 describe('<HighlightToggle />', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('should render', () => {
     const { container } = render(
       <HighlightToggle elementsToHighlight={[nodeResult('#storybook-root')]} />
@@ -67,6 +72,10 @@ describe('<HighlightToggle />', () => {
   });
 
   describe('toggleHighlight', () => {
+    afterEach(() => {
+      cleanup();
+    });
+
     it.each`
       highlighted            | elementsToHighlight                        | expected
       ${[]}                  | ${['#storybook-root']}                     | ${true}

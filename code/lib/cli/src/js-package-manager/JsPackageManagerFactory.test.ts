@@ -1,3 +1,4 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
 import path from 'path';
@@ -7,11 +8,11 @@ import { PNPMProxy } from './PNPMProxy';
 import { Yarn1Proxy } from './Yarn1Proxy';
 import { Yarn2Proxy } from './Yarn2Proxy';
 
-jest.mock('cross-spawn');
-const spawnSyncMock = spawnSync as jest.Mock;
+vi.mock('cross-spawn');
+const spawnSyncMock = vi.mocked(spawnSync);
 
-jest.mock('find-up');
-const findUpSyncMock = findUpSync as unknown as jest.Mock;
+vi.mock('find-up');
+const findUpSyncMock = vi.mocked(findUpSync);
 
 describe('CLASS: JsPackageManagerFactory', () => {
   beforeEach(() => {
@@ -58,7 +59,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         // There is only a package-lock.json
@@ -106,7 +107,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any as any;
         });
 
         // There is only a pnpm-lock.yaml
@@ -115,9 +116,11 @@ describe('CLASS: JsPackageManagerFactory', () => {
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(PNPMProxy);
       });
 
-      it('PNPM LOCK IF CLOSER: when a pnpm-lock.yaml file is closer than a yarn.lock', () => {
+      it('PNPM LOCK IF CLOSER: when a pnpm-lock.yaml file is closer than a yarn.lock', async () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
-        findUpSyncMock.mockImplementation(jest.requireActual('find-up').sync);
+        findUpSyncMock.mockImplementation(
+          (await vi.importActual<typeof import('find-up')>('find-up')).sync
+        );
 
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
@@ -144,7 +147,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
         const fixture = path.join(__dirname, 'fixtures', 'pnpm-workspace', 'package');
         expect(JsPackageManagerFactory.getPackageManager({}, fixture)).toBeInstanceOf(PNPMProxy);
@@ -187,7 +190,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         // there is no lockfile
@@ -222,7 +225,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         // There is a yarn.lock
@@ -231,9 +234,11 @@ describe('CLASS: JsPackageManagerFactory', () => {
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn1Proxy);
       });
 
-      it('when multiple lockfiles are in a project, prefers yarn', () => {
+      it('when multiple lockfiles are in a project, prefers yarn', async () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
-        findUpSyncMock.mockImplementation(jest.requireActual('find-up').sync);
+        findUpSyncMock.mockImplementation(
+          (await vi.importActual<typeof import('find-up')>('find-up')).sync
+        );
 
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
@@ -260,7 +265,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
         const fixture = path.join(__dirname, 'fixtures', 'multiple-lockfiles');
         expect(JsPackageManagerFactory.getPackageManager({}, fixture)).toBeInstanceOf(Yarn1Proxy);
@@ -303,7 +308,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn2Proxy);
@@ -335,7 +340,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         // There is a yarn.lock
@@ -346,7 +351,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
     });
 
     it('throws an error if Yarn, NPM, and PNPM are not found', () => {
-      spawnSyncMock.mockReturnValue({ status: 1 });
+      spawnSyncMock.mockReturnValue({ status: 1 } as any);
       expect(() => JsPackageManagerFactory.getPackageManager()).toThrow();
     });
   });

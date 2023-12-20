@@ -24,4 +24,4 @@ jobs:
       - name: install and compile
         run: yarn task --task compile --start-from=auto --no-link
       - name: test
-        run: yarn test --runInBand --ci
+        run: yarn test

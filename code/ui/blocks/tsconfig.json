@@ -4,7 +4,6 @@
     "module": "esnext",
     "skipLibCheck": true,
     "rootDir": "./src",
-    "types": ["jest"],
     "strict": false
   },
   "include": ["src/**/*"]

@@ -1,4 +1,4 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';

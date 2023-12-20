@@ -1,9 +1,10 @@
+import { describe, it, expect, vi } from 'vitest';
 import detectPort from 'detect-port';
 import { getServerAddresses, getServerPort, getServerChannelUrl } from './server-address';
 
-jest.mock('ip');
-jest.mock('detect-port');
-jest.mock('@storybook/node-logger');
+vi.mock('ip');
+vi.mock('detect-port');
+vi.mock('@storybook/node-logger');
 
 describe('getServerAddresses', () => {
   const port = 3000;
@@ -51,7 +52,7 @@ describe('getServerPort', () => {
   it('should resolve with a free port', async () => {
     const expectedFreePort = 4000;
 
-    (detectPort as jest.Mock).mockResolvedValue(expectedFreePort);
+    vi.mocked(detectPort).mockResolvedValue(expectedFreePort);
 
     const result = await getServerPort(port);
 

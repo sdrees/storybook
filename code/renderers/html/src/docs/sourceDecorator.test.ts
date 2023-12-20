@@ -1,11 +1,13 @@
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import { addons, useEffect } from '@storybook/preview-api';
+import type { Mock } from 'vitest';
+import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { sourceDecorator } from './sourceDecorator';
 import type { StoryContext } from '../types';
 
-jest.mock('@storybook/preview-api');
-const mockedAddons = addons as jest.Mocked<typeof addons>;
-const mockedUseEffect = useEffect as jest.Mocked<typeof useEffect>;
+vi.mock('@storybook/preview-api');
+const mockedAddons = vi.mocked(addons);
+const mockedUseEffect = vi.mocked(useEffect);
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -34,13 +36,12 @@ const makeContext = (name: string, parameters: any, args: any, extra?: object): 
   } as StoryContext);
 
 describe('sourceDecorator', () => {
-  let mockChannel: { on: jest.Mock; emit?: jest.Mock };
+  let mockChannel: { on: Mock; emit?: Mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
-    // @ts-expect-error (Converted from ts-ignore)
     mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
-    mockChannel = { on: jest.fn(), emit: jest.fn() };
+    mockChannel = { on: vi.fn(), emit: vi.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
   });
 

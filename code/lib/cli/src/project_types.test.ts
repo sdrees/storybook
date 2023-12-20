@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { installableProjectTypes, SUPPORTED_RENDERERS } from './project_types';
 
 describe('installableProjectTypes should have an entry for the supported framework', () => {

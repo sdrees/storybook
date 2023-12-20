@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import type { StoryContext } from '@storybook/types';
 import { inferActionsFromArgTypesRegex, addActionsFromArgTypes } from './addArgsHelpers';
 

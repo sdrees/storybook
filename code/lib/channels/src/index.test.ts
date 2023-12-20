@@ -1,14 +1,15 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import type { ChannelTransport, Listener } from '.';
 import { Channel } from '.';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 describe('Channel', () => {
   let transport: ChannelTransport;
   let channel: Channel;
 
   beforeEach(() => {
-    transport = { setHandler: jest.fn(), send: jest.fn() };
+    transport = { setHandler: vi.fn(), send: vi.fn() };
     channel = new Channel({ transport });
   });
 
@@ -43,7 +44,7 @@ describe('Channel', () => {
     it('should create one listener', () => {
       const eventName = 'event1';
 
-      channel.addListener(eventName, jest.fn());
+      channel.addListener(eventName, vi.fn());
       expect(channel.listeners(eventName)?.length).toBe(1);
     });
   });
@@ -52,7 +53,7 @@ describe('Channel', () => {
     it('should do the same as addListener', () => {
       const eventName = 'event1';
 
-      channel.on(eventName, jest.fn());
+      channel.on(eventName, vi.fn());
       expect(channel.listeners(eventName)?.length).toBe(1);
     });
   });
@@ -60,7 +61,7 @@ describe('Channel', () => {
   describe('method:off', () => {
     it('should remove listeners', () => {
       const eventName = 'event1';
-      const fn = jest.fn();
+      const fn = vi.fn();
 
       channel.on(eventName, fn);
       expect(channel.listeners(eventName)?.length).toBe(1);
@@ -103,7 +104,7 @@ describe('Channel', () => {
       channel.addListener(eventName, (...data) => {
         listenerOutputData = data;
       });
-      const sendSpy = jest.fn();
+      const sendSpy = vi.fn();
       // @ts-expect-error (access private property for testing purposes)
       channel.transports.forEach((t) => {
         // eslint-disable-next-line no-param-reassign
@@ -115,15 +116,22 @@ describe('Channel', () => {
     });
 
     it('should use setImmediate if async is true', () => {
+      // @ts-expect-error no idea what's going on here!
+      global.setImmediate = vi.fn(setImmediate);
+
       channel = new Channel({ async: true, transport });
-      channel.addListener('event1', jest.fn());
+      channel.addListener('event1', vi.fn());
+
+      channel.emit('event1', 'test-data');
+
+      expect(setImmediate).toHaveBeenCalled();
     });
   });
 
   describe('method:eventNames', () => {
     it('should return a list of all registered events', () => {
       const eventNames = ['event1', 'event2', 'event3'];
-      eventNames.forEach((eventName) => channel.addListener(eventName, jest.fn()));
+      eventNames.forEach((eventName) => channel.addListener(eventName, vi.fn()));
 
       expect(channel.eventNames()).toEqual(eventNames);
     });
@@ -132,8 +140,8 @@ describe('Channel', () => {
   describe('method:listenerCount', () => {
     it('should return a list of all registered events', () => {
       const events = [
-        { eventName: 'event1', listeners: [jest.fn(), jest.fn(), jest.fn()], listenerCount: 0 },
-        { eventName: 'event2', listeners: [jest.fn()], listenerCount: 0 },
+        { eventName: 'event1', listeners: [vi.fn(), vi.fn(), vi.fn()], listenerCount: 0 },
+        { eventName: 'event2', listeners: [vi.fn()], listenerCount: 0 },
       ];
       events.forEach((event) => {
         event.listeners.forEach((listener) => {
@@ -152,7 +160,7 @@ describe('Channel', () => {
   describe('method:once', () => {
     it('should execute a listener once and remove it afterwards', () => {
       const eventName = 'event1';
-      channel.once(eventName, jest.fn());
+      channel.once(eventName, vi.fn());
       channel.emit(eventName);
 
       expect(channel.listenerCount(eventName)).toBe(0);
@@ -174,7 +182,7 @@ describe('Channel', () => {
 
     it('should be removable', () => {
       const eventName = 'event1';
-      const listenerToBeRemoved = jest.fn();
+      const listenerToBeRemoved = vi.fn();
 
       channel.once(eventName, listenerToBeRemoved);
       channel.removeListener(eventName, listenerToBeRemoved);
@@ -185,8 +193,8 @@ describe('Channel', () => {
     it('should remove all listeners', () => {
       const eventName1 = 'event1';
       const eventName2 = 'event2';
-      const listeners1 = [jest.fn(), jest.fn(), jest.fn()];
-      const listeners2 = [jest.fn()];
+      const listeners1 = [vi.fn(), vi.fn(), vi.fn()];
+      const listeners2 = [vi.fn()];
 
       listeners1.forEach((fn) => channel.addListener(eventName1, fn));
       listeners2.forEach((fn) => channel.addListener(eventName2, fn));
@@ -198,7 +206,7 @@ describe('Channel', () => {
 
     it('should remove all listeners of a certain event', () => {
       const eventName = 'event1';
-      const listeners = [jest.fn(), jest.fn(), jest.fn()];
+      const listeners = [vi.fn(), vi.fn(), vi.fn()];
 
       listeners.forEach((fn) => channel.addListener(eventName, fn));
       expect(channel.listenerCount(eventName)).toBe(listeners.length);
@@ -211,8 +219,8 @@ describe('Channel', () => {
   describe('method:removeListener', () => {
     it('should remove one listener', () => {
       const eventName = 'event1';
-      const listenerToBeRemoved = jest.fn();
-      const listeners = [jest.fn(), jest.fn()];
+      const listenerToBeRemoved = vi.fn();
+      const listeners = [vi.fn(), vi.fn()];
       const findListener = (listener: Listener) =>
         channel.listeners(eventName)?.find((_listener) => _listener === listener);
 

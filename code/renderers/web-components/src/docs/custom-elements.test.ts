@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { global } from '@storybook/global';
 import { extractArgTypes } from './custom-elements';
 import customElementsManifest from './__testfixtures__/custom-elements.json';

@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["react-syntax-highlighter", "jest", "testing-library__jest-dom"],
+    "types": ["react-syntax-highlighter"],
     "skipLibCheck": true,
     "strict": false
   },

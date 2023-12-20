@@ -1,4 +1,4 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import path from 'path';
 import * as pico from 'picomatch';
 import slash from 'slash';

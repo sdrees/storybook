@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { init as initNotifications } from '../modules/notifications';
 
 describe('notifications API', () => {
@@ -6,7 +7,7 @@ describe('notifications API', () => {
       getState: () => ({
         notifications: [],
       }),
-      setState: jest.fn(),
+      setState: vi.fn(),
     };
 
     const { api } = initNotifications({ store });
@@ -22,7 +23,7 @@ describe('notifications API', () => {
       getState: () => ({
         notifications: [{ id: '1' }, { id: '2' }, { id: '3' }],
       }),
-      setState: jest.fn(),
+      setState: vi.fn(),
     };
 
     const { api } = initNotifications({ store });

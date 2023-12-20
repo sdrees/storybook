@@ -1,9 +1,10 @@
+import { vi, describe, it, expect } from 'vitest';
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
 import type { TypescriptOptions } from '@storybook/core-webpack';
 import type { Configuration } from 'webpack';
 import * as preset from './framework-preset-react-docs';
 
-jest.mock('./requirer', () => ({
+vi.mock('./requirer', () => ({
   requirer: (resolver: any, path: string) => path,
 }));
 

@@ -1,15 +1,15 @@
-/// <reference types="@types/jest" />;
-
 import fetch from 'node-fetch';
+
+import { beforeEach, it, expect, vi } from 'vitest';
 
 import { sendTelemetry } from './telemetry';
 
-jest.mock('node-fetch');
-jest.mock('./event-cache', () => {
-  return { set: jest.fn() };
+vi.mock('node-fetch');
+vi.mock('./event-cache', () => {
+  return { set: vi.fn() };
 });
 
-jest.mock('./session-id', () => {
+vi.mock('./session-id', () => {
   return {
     getSessionId: async () => {
       return 'session-id';
@@ -17,10 +17,10 @@ jest.mock('./session-id', () => {
   };
 });
 
-const fetchMock = fetch as jest.Mock;
+const fetchMock = vi.mocked(fetch);
 
 beforeEach(() => {
-  fetchMock.mockResolvedValue({ status: 200 });
+  fetchMock.mockResolvedValue({ status: 200 } as any);
 });
 
 it('makes a fetch request with name and data', async () => {
@@ -28,7 +28,7 @@ it('makes a fetch request with name and data', async () => {
   await sendTelemetry({ eventType: 'dev', payload: { foo: 'bar' } });
 
   expect(fetch).toHaveBeenCalledTimes(1);
-  const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+  const body = JSON.parse(fetchMock?.mock?.calls?.[0]?.[1]?.body as any);
   expect(body).toMatchObject({
     eventType: 'dev',
     payload: { foo: 'bar' },
@@ -36,7 +36,7 @@ it('makes a fetch request with name and data', async () => {
 });
 
 it('retries if fetch fails with a 503', async () => {
-  fetchMock.mockClear().mockResolvedValueOnce({ status: 503 });
+  fetchMock.mockClear().mockResolvedValueOnce({ status: 503 } as any);
   await sendTelemetry(
     {
       eventType: 'dev',
@@ -49,7 +49,7 @@ it('retries if fetch fails with a 503', async () => {
 });
 
 it('gives up if fetch repeatedly fails', async () => {
-  fetchMock.mockClear().mockResolvedValue({ status: 503 });
+  fetchMock.mockClear().mockResolvedValue({ status: 503 } as any);
   await sendTelemetry(
     {
       eventType: 'dev',
@@ -71,7 +71,7 @@ it('await all pending telemetry when passing in immediate = true', async () => {
       setTimeout(resolve, 10);
     });
     numberOfResolvedTasks += 1;
-    return { status: 200 };
+    return { status: 200 } as any;
   });
 
   // when we call sendTelemetry with immediate = true

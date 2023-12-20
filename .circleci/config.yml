@@ -204,7 +204,7 @@ jobs:
           name: Run tests
           command: |
             cd scripts
-            yarn test --coverage --ci
+            yarn test --coverage
       - store_test_results:
           path: scripts/junit.xml
       - report-workflow-on-failure
@@ -222,7 +222,7 @@ jobs:
           name: Test
           command: |
             cd code
-            yarn test --coverage --ci --maxWorkers=6
+            yarn test --coverage
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:

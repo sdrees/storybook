@@ -1,9 +1,9 @@
-import { expect } from '@jest/globals';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
 
 import { composeConfigs } from './composeConfigs';
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     FEATURES: {},
   },
@@ -257,7 +257,7 @@ describe('composeConfigs', () => {
   });
 
   it('composes step runners', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     const { runStep } = composeConfigs([
       // @ts-expect-error (not defined)

@@ -1,3 +1,4 @@
+import { it, expect } from 'vitest';
 import { sanitizeName } from './utils';
 
 it('should sanitize names', () => {

@@ -1,22 +1,23 @@
+import type { Mock } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
 
-jest.mock('@storybook/preview-api');
-const mockedAddons = addons as jest.Mocked<typeof addons>;
+vi.mock('@storybook/preview-api');
+const mockedAddons = vi.mocked(addons);
 
 describe('a11yRunner', () => {
-  let mockChannel: { on: jest.Mock; emit?: jest.Mock };
+  let mockChannel: { on: Mock; emit?: Mock };
 
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
 
-    mockChannel = { on: jest.fn(), emit: jest.fn() };
+    mockChannel = { on: vi.fn(), emit: vi.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
   });
 
-  it('should listen to events', () => {
-    // eslint-disable-next-line global-require
-    require('./a11yRunner');
+  it('should listen to events', async () => {
+    await import('./a11yRunner');
 
     expect(mockedAddons.getChannel).toHaveBeenCalled();
     expect(mockChannel.on).toHaveBeenCalledWith(EVENTS.REQUEST, expect.any(Function));

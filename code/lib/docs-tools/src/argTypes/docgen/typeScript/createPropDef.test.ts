@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { createTsPropDef } from './createPropDef';
 import type { DocgenInfo } from '../types';
 

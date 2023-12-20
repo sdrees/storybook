@@ -1,14 +1,15 @@
+import { describe, it, expect, vi } from 'vitest';
 import { getEventMetadata } from '../lib/events';
 import type { API } from '../index';
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     location: { origin: 'http://localhost:6006', pathname: '/' },
   },
 }));
 
 describe('getEventMetadata', () => {
-  const fullAPIMock = { findRef: jest.fn(), getRefs: jest.fn() };
+  const fullAPIMock = { findRef: vi.fn(), getRefs: vi.fn() };
   const fullAPI = fullAPIMock as unknown as API;
 
   it('returns local if the event source is the same current location', () => {

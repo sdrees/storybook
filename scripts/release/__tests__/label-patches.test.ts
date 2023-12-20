@@ -1,3 +1,4 @@
+import { beforeEach, expect, vi, it } from 'vitest';
 import type { LogResult } from 'simple-git';
 import ansiRegex from 'ansi-regex';
 import { run } from '../label-patches';
@@ -5,14 +6,14 @@ import * as gitClient_ from '../utils/git-client';
 import * as githubInfo_ from '../utils/get-github-info';
 import * as github_ from '../utils/github-client';
 
-jest.mock('uuid');
-jest.mock('../utils/get-github-info');
-jest.mock('../utils/github-client');
-jest.mock('../utils/git-client', () => jest.requireActual('jest-mock-extended').mockDeep());
+vi.mock('uuid');
+vi.mock('../utils/get-github-info');
+vi.mock('../utils/github-client');
+vi.mock('../utils/git-client');
 
-const gitClient = jest.mocked(gitClient_, { shallow: false });
-const github = jest.mocked(github_);
-const githubInfo = jest.mocked(githubInfo_);
+const gitClient = vi.mocked(gitClient_, true);
+const github = vi.mocked(github_, true);
+const githubInfo = vi.mocked(githubInfo_, true);
 
 const remoteMock = [
   {
@@ -68,8 +69,6 @@ const pullInfoMock = {
 };
 
 beforeEach(() => {
-  // mock IO
-  jest.clearAllMocks();
   gitClient.getLatestTag.mockResolvedValue('v7.2.1');
   gitClient.git.log.mockResolvedValue(gitLogMock);
   gitClient.git.getRemotes.mockResolvedValue(remoteMock);
@@ -93,17 +92,17 @@ beforeEach(() => {
   ]);
 });
 
-test('it should fail early when no GH_TOKEN is set', async () => {
+it('should fail early when no GH_TOKEN is set', async () => {
   delete process.env.GH_TOKEN;
   await expect(run({})).rejects.toThrowErrorMatchingInlineSnapshot(
-    `"GH_TOKEN environment variable must be set, exiting."`
+    `[Error: GH_TOKEN environment variable must be set, exiting.]`
   );
 });
 
-test('it should label the PR associated with cheery picks in the current branch', async () => {
+it('should label the PR associated with cherry picks in the current branch', async () => {
   process.env.GH_TOKEN = 'MY_SECRET';
 
-  const writeStderr = jest.spyOn(process.stderr, 'write').mockImplementation();
+  const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation((() => {}) as any);
 
   await run({});
   expect(github.githubGraphQlClient.mock.calls).toMatchInlineSnapshot(`
@@ -153,7 +152,7 @@ test('it should label the PR associated with cheery picks in the current branch'
   `);
 });
 
-test('it should label all PRs when the --all flag is passed', async () => {
+it('should label all PRs when the --all flag is passed', async () => {
   process.env.GH_TOKEN = 'MY_SECRET';
 
   // clear the git log, it shouldn't depend on it in --all mode
@@ -163,7 +162,7 @@ test('it should label all PRs when the --all flag is passed', async () => {
     total: 0,
   });
 
-  const writeStderr = jest.spyOn(process.stderr, 'write').mockImplementation();
+  const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation((() => {}) as any);
 
   await run({ all: true });
   expect(github.githubGraphQlClient.mock.calls).toMatchInlineSnapshot(`
@@ -217,7 +216,7 @@ test('it should label all PRs when the --all flag is passed', async () => {
             .trim()
         : text
     )
-    .filter((it) => it !== '');
+    .filter((t) => t !== '');
 
   expect(stderrCalls).toMatchInlineSnapshot(`
     [

@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { describe, it, expect } from 'vitest';
 
 import { normalizeInputType, normalizeInputTypes } from './normalizeInputTypes';
 

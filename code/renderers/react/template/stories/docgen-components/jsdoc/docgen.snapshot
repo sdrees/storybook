@@ -1,10 +1,7 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`react component properties jsdoc 1`] = `
-"/* eslint-disable react/require-default-props, react/no-unused-prop-types */
+/* eslint-disable react/require-default-props, react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-const JsDocProps = () => /*#__PURE__*/React.createElement(\\"div\\", null, \\"JSDoc with PropTypes!\\");
+const JsDocProps = () => /*#__PURE__*/React.createElement("div", null, "JSDoc with PropTypes!");
 JsDocProps.propTypes = {
   /**
    * should not be visible since it's ignored.
@@ -22,7 +19,7 @@ JsDocProps.propTypes = {
    */
   case2: PropTypes.string,
   /**
-   * *description* **with** \`formatting\`
+   * *description* **with** `formatting`
    */
   case3: PropTypes.string,
   /**
@@ -231,318 +228,317 @@ JsDocProps.propTypes = {
 };
 export const component = JsDocProps;
 JsDocProps.__docgenInfo = {
-  \\"description\\": \\"\\",
-  \\"methods\\": [],
-  \\"displayName\\": \\"JsDocProps\\",
-  \\"props\\": {
-    \\"case0\\": {
-      \\"description\\": \\"should not be visible since it's ignored.\\\\n@ignore\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+  "description": "",
+  "methods": [],
+  "displayName": "JsDocProps",
+  "props": {
+    "case0": {
+      "description": "should not be visible since it's ignored.\n@ignore",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case1\\": {
-      \\"description\\": \\"simple description.\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+    "case1": {
+      "description": "simple description.",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case2\\": {
-      \\"description\\": \\"multi\\\\nlines\\\\ndescription\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+    "case2": {
+      "description": "multi\nlines\ndescription",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case3\\": {
-      \\"description\\": \\"*description* **with** \`formatting\`\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+    "case3": {
+      "description": "*description* **with** `formatting`",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case4\\": {
-      \\"description\\": \\"simple description and dummy JSDoc tag.\\\\n@param event\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+    "case4": {
+      "description": "simple description and dummy JSDoc tag.\n@param event",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case5\\": {
-      \\"description\\": \\"@param event\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+    "case5": {
+      "description": "@param event",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case6\\": {
-      \\"description\\": \\"simple description with a @.\\",
-      \\"type\\": {
-        \\"name\\": \\"string\\"
+    "case6": {
+      "description": "simple description with a @.",
+      "type": {
+        "name": "string"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case7\\": {
-      \\"description\\": \\"\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case7": {
+      "description": "",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case8\\": {
-      \\"description\\": \\"func with a simple description.\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case8": {
+      "description": "func with a simple description.",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case9\\": {
-      \\"description\\": \\"@param event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case9": {
+      "description": "@param event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case10\\": {
-      \\"description\\": \\"param with name\\\\n@param event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case10": {
+      "description": "param with name\n@param event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case11\\": {
-      \\"description\\": \\"param with name & type\\\\n@param {SyntheticEvent} event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case11": {
+      "description": "param with name & type\n@param {SyntheticEvent} event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case12\\": {
-      \\"description\\": \\"param with name, type & description\\\\n@param {SyntheticEvent} event - React's original event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case12": {
+      "description": "param with name, type & description\n@param {SyntheticEvent} event - React's original event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case13\\": {
-      \\"description\\": \\"param with type\\\\n@param {SyntheticEvent}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case13": {
+      "description": "param with type\n@param {SyntheticEvent}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case14\\": {
-      \\"description\\": \\"param with type & description\\\\n@param {SyntheticEvent} - React's original event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case14": {
+      "description": "param with type & description\n@param {SyntheticEvent} - React's original event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case15\\": {
-      \\"description\\": \\"param with name & description\\\\n@param event - React's original event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case15": {
+      "description": "param with name & description\n@param event - React's original event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case16\\": {
-      \\"description\\": \\"autofix event-\\\\n@param event- React's original event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case16": {
+      "description": "autofix event-\n@param event- React's original event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case17\\": {
-      \\"description\\": \\"autofix event.\\\\n@param event.\\\\n@returns {string}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case17": {
+      "description": "autofix event.\n@param event.\n@returns {string}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case18\\": {
-      \\"description\\": \\"with an empty param.\\\\n@param\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case18": {
+      "description": "with an empty param.\n@param",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case19\\": {
-      \\"description\\": \\"with multiple empty params.\\\\n@param\\\\n@param\\\\n@param\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case19": {
+      "description": "with multiple empty params.\n@param\n@param\n@param",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case20\\": {
-      \\"description\\": \\"with arg alias.\\\\n@arg event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case20": {
+      "description": "with arg alias.\n@arg event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case21\\": {
-      \\"description\\": \\"with argument alias.\\\\n@argument event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case21": {
+      "description": "with argument alias.\n@argument event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case22\\": {
-      \\"description\\": \\"with multiple params.\\\\n@param {SyntheticEvent} event\\\\n@param {string} stringValue\\\\n@param {number} numberValue\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case22": {
+      "description": "with multiple params.\n@param {SyntheticEvent} event\n@param {string} stringValue\n@param {number} numberValue",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case23\\": {
-      \\"description\\": \\"with an empty returns\\\\n@returns\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case23": {
+      "description": "with an empty returns\n@returns",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case24\\": {
-      \\"description\\": \\"with a returns with a type\\\\n@returns {SyntheticEvent}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case24": {
+      "description": "with a returns with a type\n@returns {SyntheticEvent}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case25\\": {
-      \\"description\\": \\"with a returns with a type & description\\\\n@returns {SyntheticEvent} - React's original event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case25": {
+      "description": "with a returns with a type & description\n@returns {SyntheticEvent} - React's original event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case26\\": {
-      \\"description\\": \\"single param and a returns\\\\n@param {string} stringValue\\\\n@returns {SyntheticEvent} - React's original event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case26": {
+      "description": "single param and a returns\n@param {string} stringValue\n@returns {SyntheticEvent} - React's original event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case27\\": {
-      \\"description\\": \\"multiple params and a returns\\\\n@param {string} stringValue\\\\n@param {number} numberValue\\\\n@returns {SyntheticEvent} - React's original event\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case27": {
+      "description": "multiple params and a returns\n@param {string} stringValue\n@param {number} numberValue\n@returns {SyntheticEvent} - React's original event",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case28\\": {
-      \\"description\\": \\"multiple returns\\\\n@returns {SyntheticEvent} - React's original event\\\\n@returns {string} - Second returns\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case28": {
+      "description": "multiple returns\n@returns {SyntheticEvent} - React's original event\n@returns {string} - Second returns",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case29\\": {
-      \\"description\\": \\"param with unsupported JSDoc tags\\\\n@param {SyntheticEvent} event - React's original event\\\\n@type {number}\\\\n@version 2\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case29": {
+      "description": "param with unsupported JSDoc tags\n@param {SyntheticEvent} event - React's original event\n@type {number}\n@version 2",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case30\\": {
-      \\"description\\": \\"param record type\\\\n@param {{a: number, b: string}} myType\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case30": {
+      "description": "param record type\n@param {{a: number, b: string}} myType",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case31\\": {
-      \\"description\\": \\"param array type\\\\n@param {string[]} myType\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case31": {
+      "description": "param array type\n@param {string[]} myType",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case32\\": {
-      \\"description\\": \\"param union type\\\\n@param {(number|boolean)} myType\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case32": {
+      "description": "param union type\n@param {(number|boolean)} myType",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case33\\": {
-      \\"description\\": \\"param any type\\\\n@param {*} myType\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case33": {
+      "description": "param any type\n@param {*} myType",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case34\\": {
-      \\"description\\": \\"param repeatable type\\\\n@param {...number} myType\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case34": {
+      "description": "param repeatable type\n@param {...number} myType",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case35\\": {
-      \\"description\\": \\"optional param\\\\n@param {number} [myType]\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case35": {
+      "description": "optional param\n@param {number} [myType]",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case36\\": {
-      \\"description\\": \\"optional param\\\\n@param {number} [myType]\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case36": {
+      "description": "optional param\n@param {number} [myType]",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case37\\": {
-      \\"description\\": \\"dot in param name\\\\n@param {number} my.type\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case37": {
+      "description": "dot in param name\n@param {number} my.type",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case38\\": {
-      \\"description\\": \\"returns record type\\\\n@returns {{a: number, b: string}}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case38": {
+      "description": "returns record type\n@returns {{a: number, b: string}}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case39\\": {
-      \\"description\\": \\"returns array type\\\\n@returns {string[]}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case39": {
+      "description": "returns array type\n@returns {string[]}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case40\\": {
-      \\"description\\": \\"returns union type\\\\n@returns {(number|boolean)}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case40": {
+      "description": "returns union type\n@returns {(number|boolean)}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case41\\": {
-      \\"description\\": \\"returns any type\\\\n@returns {*}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case41": {
+      "description": "returns any type\n@returns {*}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case42\\": {
-      \\"description\\": \\"returns primitive\\\\n@returns {string}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case42": {
+      "description": "returns primitive\n@returns {string}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     },
-    \\"case43\\": {
-      \\"description\\": \\"returns void\\\\n@returns {void}\\",
-      \\"type\\": {
-        \\"name\\": \\"func\\"
+    "case43": {
+      "description": "returns void\n@returns {void}",
+      "type": {
+        "name": "func"
       },
-      \\"required\\": false
+      "required": false
     }
   }
-};"
-`;
+};

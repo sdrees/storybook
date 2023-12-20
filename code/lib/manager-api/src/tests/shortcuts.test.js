@@ -1,10 +1,11 @@
+import { describe, it, expect, vi } from 'vitest';
 import { init as initShortcuts } from '../modules/shortcuts';
 
 function createMockStore() {
   let state = {};
   return {
-    getState: jest.fn().mockImplementation(() => state),
-    setState: jest.fn().mockImplementation((s) => {
+    getState: vi.fn().mockImplementation(() => state),
+    setState: vi.fn().mockImplementation((s) => {
       state = { ...state, ...s };
     }),
   };

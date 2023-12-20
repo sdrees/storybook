@@ -1,3 +1,4 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfigRaw } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager } from '../helpers/testing-helpers';
@@ -18,7 +19,9 @@ const checkAutodocs = async ({
 };
 
 describe('autodocs-true fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('should skip when docs.autodocs is already defined', async () => {
     await expect(checkAutodocs({ main: { docs: { autodocs: 'tag' } } })).resolves.toBeFalsy();

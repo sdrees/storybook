@@ -1,3 +1,4 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfigRaw } from '@storybook/types';
 import { makePackageManager } from '../helpers/testing-helpers';
 import type { PackageJson } from '../../js-package-manager';
@@ -18,7 +19,9 @@ const checkBuilderVite = async ({
 };
 
 describe('builder-vite fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('storybook-builder-vite', () => {
     it('using storybook-builder-vite', async () => {

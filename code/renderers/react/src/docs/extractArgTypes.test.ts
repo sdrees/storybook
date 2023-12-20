@@ -1,4 +1,4 @@
-import 'jest-specific-snapshot';
+import { describe, it, expect } from 'vitest';
 import path from 'path';
 import fs from 'fs';
 // @ts-expect-error (seems broken/missing)
@@ -66,6 +66,7 @@ describe('react component properties', () => {
       const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         if (skippedTests.includes(testEntry.name)) {
+          // eslint-disable-next-line jest/no-disabled-tests
           it.skip(`${testEntry.name}`, () => {});
         } else {
           it(`${testEntry.name}`, () => {
@@ -73,7 +74,7 @@ describe('react component properties', () => {
 
             // snapshot the output of babel-plugin-react-docgen
             const docgenPretty = annotateWithDocgen(inputPath);
-            expect(docgenPretty).toMatchSpecificSnapshot(path.join(testDir, 'docgen.snapshot'));
+            expect(docgenPretty).toMatchFileSnapshot(path.join(testDir, 'docgen.snapshot'));
 
             // transform into an uglier format that's works with require-from-string
             const docgenModule = transformToModule(docgenPretty);
@@ -81,7 +82,7 @@ describe('react component properties', () => {
             // snapshot the output of component-properties/react
             const { component } = requireFromString(docgenModule, inputPath);
             const properties = extractProps(component);
-            expect(properties).toMatchSpecificSnapshot(path.join(testDir, 'properties.snapshot'));
+            expect(properties).toMatchFileSnapshot(path.join(testDir, 'properties.snapshot'));
 
             // snapshot the output of `extractArgTypes`
             const argTypes = extractArgTypes(component);
@@ -90,7 +91,7 @@ describe('react component properties', () => {
               argTypes,
               parameters,
             } as unknown as StoryContext<Renderer>);
-            expect(rows).toMatchSpecificSnapshot(path.join(testDir, 'argTypes.snapshot'));
+            expect(rows).toMatchFileSnapshot(path.join(testDir, 'argTypes.snapshot'));
           });
         }
       }

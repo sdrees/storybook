@@ -1,8 +1,8 @@
-import { expect } from '@jest/globals';
+import { describe, it, expect, vi } from 'vitest';
 
 import { ArgsStore } from './ArgsStore';
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 const stringType = { type: { name: 'string' } };
 const booleanType = { type: { name: 'boolean' } };

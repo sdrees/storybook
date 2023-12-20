@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { isPageStory, summarizeIndex } from './summarizeIndex';
 
 describe('isPageStory', () => {
@@ -133,7 +134,7 @@ describe('summarizeIndex', () => {
         },
       })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "autodocsCount": 0,
         "componentCount": 0,
         "exampleDocsCount": 3,
@@ -191,7 +192,7 @@ describe('summarizeIndex', () => {
         },
       })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "autodocsCount": 0,
         "componentCount": 0,
         "exampleDocsCount": 2,
@@ -247,7 +248,7 @@ describe('summarizeIndex', () => {
         },
       })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "autodocsCount": 0,
         "componentCount": 3,
         "exampleDocsCount": 0,
@@ -304,7 +305,7 @@ describe('summarizeIndex', () => {
         },
       })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "autodocsCount": 1,
         "componentCount": 1,
         "exampleDocsCount": 0,
@@ -361,7 +362,7 @@ describe('summarizeIndex', () => {
         },
       })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "autodocsCount": 0,
         "componentCount": 1,
         "exampleDocsCount": 0,
@@ -419,7 +420,7 @@ describe('summarizeIndex', () => {
         },
       })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "autodocsCount": 1,
         "componentCount": 0,
         "exampleDocsCount": 1,
@@ -470,7 +471,7 @@ describe('summarizeIndex', () => {
         },
       })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "autodocsCount": 0,
         "componentCount": 0,
         "exampleDocsCount": 1,

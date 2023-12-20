@@ -6,19 +6,13 @@ module.exports = {
     project: ['./tsconfig.json'],
   },
   rules: {
+    // remove as shared eslint has jest rules removed
+    'jest/no-standalone-expect': 'off',
+    'jest/no-done-callback': 'off',
+    'jest/no-deprecated-functions': 'off',
     '@typescript-eslint/ban-ts-comment': 'error',
     '@typescript-eslint/consistent-type-imports': ['error', { disallowTypeAnnotations: false }],
-    'jest/no-standalone-expect': [
-      'error',
-      { additionalTestBlockFunctions: ['it.skipWindows', 'it.onWindows'] },
-    ],
     'no-use-before-define': 'off',
-    'jest/expect-expect': [
-      'warn',
-      {
-        assertFunctionNames: ['expect', 'expectTypeOf'],
-      },
-    ],
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
   },
   overrides: [
@@ -29,13 +23,6 @@ module.exports = {
       },
     },
     {
-      files: ['*.stories.*'],
-      rules: {
-        // allow expect in stories
-        'jest/no-standalone-expect': ['off'],
-      },
-    },
-    {
       files: [
         '*.js',
         '*.jsx',
@@ -43,7 +30,6 @@ module.exports = {
         '*.html',
         '**/.storybook/*.ts',
         '**/.storybook/*.tsx',
-        'setup-jest.ts',
       ],
       parserOptions: {
         project: null,

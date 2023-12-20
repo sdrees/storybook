@@ -1,3 +1,4 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfigRaw } from '@storybook/types';
 import type { JsPackageManager } from '../../js-package-manager';
 import { cra5 } from './cra5';
@@ -19,12 +20,14 @@ const checkCra5 = async ({
 };
 
 describe('cra5 fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('sb < 6.3', () => {
     describe('cra5 dependency', () => {
       const packageManager = {
-        getPackageVersion: jest.fn().mockResolvedValue('5.0.0'),
+        getPackageVersion: vi.fn().mockResolvedValue('5.0.0'),
       } as Partial<JsPackageManager>;
 
       it('should fail', async () => {
@@ -38,7 +41,7 @@ describe('cra5 fix', () => {
     });
     describe('no cra5 dependency', () => {
       const packageManager = {
-        getPackageVersion: jest.fn().mockResolvedValue(null),
+        getPackageVersion: vi.fn().mockResolvedValue(null),
       } as Partial<JsPackageManager>;
 
       it('should no-op', async () => {

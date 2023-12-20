@@ -1,4 +1,4 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, it } from 'vitest';
 
 import {
   mapAttributesAndDirectives,
@@ -13,26 +13,26 @@ expect.addSnapshotSerializer({
 });
 
 describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
-  test('camelCase boolean Arg', () => {
+  it('camelCase boolean Arg', () => {
     expect(mapAttributesAndDirectives({ camelCaseBooleanArg: true })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: camel-case-boolean-arg,
-            loc: Object {
+            loc: {
               source: camel-case-boolean-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: true,
             },
           },
-          loc: Object {
+          loc: {
             source: :camel-case-boolean-arg="true",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -41,26 +41,26 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
       ]
     `);
   });
-  test('camelCase string Arg', () => {
+  it('camelCase string Arg', () => {
     expect(mapAttributesAndDirectives({ camelCaseStringArg: 'foo' })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: camel-case-string-arg,
-            loc: Object {
+            loc: {
               source: camel-case-string-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: foo,
             },
           },
-          loc: Object {
+          loc: {
             source: camel-case-string-arg="foo",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -69,26 +69,26 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
       ]
     `);
   });
-  test('boolean arg', () => {
+  it('boolean arg', () => {
     expect(mapAttributesAndDirectives({ booleanarg: true })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: booleanarg,
-            loc: Object {
+            loc: {
               source: booleanarg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: true,
             },
           },
-          loc: Object {
+          loc: {
             source: :booleanarg="true",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -97,26 +97,26 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
       ]
     `);
   });
-  test('string arg', () => {
+  it('string arg', () => {
     expect(mapAttributesAndDirectives({ stringarg: 'bar' })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: stringarg,
-            loc: Object {
+            loc: {
               source: stringarg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: bar,
             },
           },
-          loc: Object {
+          loc: {
             source: stringarg="bar",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -125,26 +125,26 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
       ]
     `);
   });
-  test('number arg', () => {
+  it('number arg', () => {
     expect(mapAttributesAndDirectives({ numberarg: 2023 })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: numberarg,
-            loc: Object {
+            loc: {
               source: numberarg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: 2023,
             },
           },
-          loc: Object {
+          loc: {
             source: :numberarg="2023",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -153,7 +153,7 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
       ]
     `);
   });
-  test('camelCase boolean, string, and number Args', () => {
+  it('camelCase boolean, string, and number Args', () => {
     expect(
       mapAttributesAndDirectives({
         camelCaseBooleanArg: true,
@@ -161,68 +161,68 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
         cameCaseNumberArg: 2023,
       })
     ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: camel-case-boolean-arg,
-            loc: Object {
+            loc: {
               source: camel-case-boolean-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: true,
             },
           },
-          loc: Object {
+          loc: {
             source: :camel-case-boolean-arg="true",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
           type: 6,
         },
-        Object {
-          arg: Object {
+        {
+          arg: {
             content: camel-case-string-arg,
-            loc: Object {
+            loc: {
               source: camel-case-string-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: foo,
             },
           },
-          loc: Object {
+          loc: {
             source: camel-case-string-arg="foo",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
           type: 6,
         },
-        Object {
-          arg: Object {
+        {
+          arg: {
             content: came-case-number-arg,
-            loc: Object {
+            loc: {
               source: came-case-number-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: 2023,
             },
           },
-          loc: Object {
+          loc: {
             source: :came-case-number-arg="2023",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -234,7 +234,7 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
 });
 
 describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
-  test('camelCase boolean Arg', () => {
+  it('camelCase boolean Arg', () => {
     expect(
       generateAttributesSource(
         mapAttributesAndDirectives({ camelCaseBooleanArg: true }),
@@ -243,7 +243,7 @@ describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
       )
     ).toMatchInlineSnapshot(`:camel-case-boolean-arg="true"`);
   });
-  test('camelCase string Arg', () => {
+  it('camelCase string Arg', () => {
     expect(
       generateAttributesSource(
         mapAttributesAndDirectives({ camelCaseStringArg: 'foo' }),
@@ -253,7 +253,7 @@ describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
     ).toMatchInlineSnapshot(`camel-case-string-arg="foo"`);
   });
 
-  test('camelCase boolean, string, and number Args', () => {
+  it('camelCase boolean, string, and number Args', () => {
     expect(
       generateAttributesSource(
         mapAttributesAndDirectives({
@@ -275,18 +275,18 @@ describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
 });
 
 describe('Vue3: sourceDecorator->attributeSoure()', () => {
-  test('camelCase boolean Arg', () => {
+  it('camelCase boolean Arg', () => {
     expect(attributeSource('stringArg', 'foo')).toMatchInlineSnapshot(`stringArg="foo"`);
   });
 
-  test('html event attribute should convert to vue event directive', () => {
+  it('html event attribute should convert to vue event directive', () => {
     expect(attributeSource('onClick', () => {})).toMatchInlineSnapshot(`v-on:click='()=>({})'`);
     expect(attributeSource('onclick', () => {})).toMatchInlineSnapshot(`v-on:click='()=>({})'`);
   });
-  test('normal html attribute should not convert to vue event directive', () => {
+  it('normal html attribute should not convert to vue event directive', () => {
     expect(attributeSource('on-click', () => {})).toMatchInlineSnapshot(`on-click='()=>({})'`);
   });
-  test('htmlEventAttributeToVueEventAttribute  onEv => v-on:', () => {
+  it('htmlEventAttributeToVueEventAttribute  onEv => v-on:', () => {
     const htmlEventAttributeToVueEventAttribute = (attribute: string) => {
       return htmlEventToVueEvent(attribute);
     };

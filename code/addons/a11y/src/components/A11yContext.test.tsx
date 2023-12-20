@@ -1,6 +1,7 @@
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import * as React from 'react';
 import type { AxeResults } from 'axe-core';
-import { render, act } from '@testing-library/react';
+import { render, act, cleanup } from '@testing-library/react';
 import * as api from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { HIGHLIGHT } from '@storybook/addon-highlight';
@@ -8,8 +9,8 @@ import { HIGHLIGHT } from '@storybook/addon-highlight';
 import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/manager-api');
-const mockedApi = api as jest.Mocked<typeof api>;
+vi.mock('@storybook/manager-api');
+const mockedApi = vi.mocked(api);
 
 const storyId = 'jest';
 const axeResult: Partial<AxeResults> = {
@@ -51,14 +52,18 @@ const axeResult: Partial<AxeResults> = {
 };
 
 describe('A11YPanel', () => {
-  const getCurrentStoryData = jest.fn();
+  afterEach(() => {
+    cleanup();
+  });
+
+  const getCurrentStoryData = vi.fn();
   beforeEach(() => {
     mockedApi.useChannel.mockReset();
     mockedApi.useStorybookApi.mockReset();
     mockedApi.useAddonState.mockReset();
 
     mockedApi.useAddonState.mockImplementation((_, defaultState) => React.useState(defaultState));
-    mockedApi.useChannel.mockReturnValue(jest.fn());
+    mockedApi.useChannel.mockReturnValue(vi.fn());
     getCurrentStoryData.mockReset().mockReturnValue({ id: storyId, type: 'story' });
     mockedApi.useStorybookApi.mockReturnValue({ getCurrentStoryData } as any);
   });
@@ -73,7 +78,7 @@ describe('A11YPanel', () => {
   });
 
   it('should not render when inactive', () => {
-    const emit = jest.fn();
+    const emit = vi.fn();
     mockedApi.useChannel.mockReturnValue(emit);
     const { queryByTestId } = render(
       <A11yContextProvider active={false}>
@@ -85,7 +90,7 @@ describe('A11YPanel', () => {
   });
 
   it('should emit request when moving from inactive to active', () => {
-    const emit = jest.fn();
+    const emit = vi.fn();
     mockedApi.useChannel.mockReturnValue(emit);
     const { rerender } = render(<A11yContextProvider active={false} />);
     rerender(<A11yContextProvider active />);
@@ -93,7 +98,7 @@ describe('A11YPanel', () => {
   });
 
   it('should emit highlight with no values when inactive', () => {
-    const emit = jest.fn();
+    const emit = vi.fn();
     mockedApi.useChannel.mockReturnValue(emit);
     const { rerender } = render(<A11yContextProvider active />);
     rerender(<A11yContextProvider active={false} />);

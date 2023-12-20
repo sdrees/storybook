@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import type { Configuration } from 'webpack';
 import { mergeConfigs } from './merge-webpack-config';
 

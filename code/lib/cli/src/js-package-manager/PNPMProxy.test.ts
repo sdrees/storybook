@@ -1,3 +1,4 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { PNPMProxy } from './PNPMProxy';
 
 describe('PNPM Proxy', () => {
@@ -13,7 +14,7 @@ describe('PNPM Proxy', () => {
 
   describe('initPackageJson', () => {
     it('should run `pnpm init`', async () => {
-      const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('');
 
       await pnpmProxy.initPackageJson();
 
@@ -25,7 +26,7 @@ describe('PNPM Proxy', () => {
 
   describe('setRegistryUrl', () => {
     it('should run `npm config set registry https://foo.bar`', async () => {
-      const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('');
 
       await pnpmProxy.setRegistryURL('https://foo.bar');
 
@@ -40,7 +41,7 @@ describe('PNPM Proxy', () => {
 
   describe('installDependencies', () => {
     it('should run `pnpm install`', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('7.1.0');
 
@@ -54,7 +55,7 @@ describe('PNPM Proxy', () => {
 
   describe('runScript', () => {
     it('should execute script `pnpm exec compodoc -- -e json -d .`', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('7.1.0');
 
@@ -71,7 +72,7 @@ describe('PNPM Proxy', () => {
 
   describe('addDependencies', () => {
     it('with devDep it should run `pnpm add -D @storybook/preview-api`', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('6.0.0');
 
@@ -87,7 +88,7 @@ describe('PNPM Proxy', () => {
 
   describe('removeDependencies', () => {
     it('with devDep it should run `npm uninstall @storybook/preview-api`', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('6.0.0');
 
@@ -100,12 +101,12 @@ describe('PNPM Proxy', () => {
 
     describe('skipInstall', () => {
       it('should only change package.json without running install', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(pnpmProxy, 'executeCommand')
           .mockResolvedValueOnce('7.0.0');
-        const writePackageSpy = jest
+        const writePackageSpy = vi
           .spyOn(pnpmProxy, 'writePackageJson')
-          .mockImplementation(jest.fn());
+          .mockImplementation(vi.fn<any>());
 
         await pnpmProxy.removeDependencies(
           {
@@ -132,7 +133,7 @@ describe('PNPM Proxy', () => {
 
   describe('latestVersion', () => {
     it('without constraint it returns the latest version', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('"5.3.19"');
 
@@ -148,7 +149,7 @@ describe('PNPM Proxy', () => {
     });
 
     it('with constraint it returns the latest version satisfying the constraint', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('["4.25.3","5.3.19","6.0.0-beta.23"]');
 
@@ -164,7 +165,7 @@ describe('PNPM Proxy', () => {
     });
 
     it('throws an error if command output is not a valid JSON', async () => {
-      jest.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
+      vi.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
 
       await expect(pnpmProxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
     });
@@ -172,9 +173,8 @@ describe('PNPM Proxy', () => {
 
   describe('getVersion', () => {
     it('with a Storybook package listed in versions.json it returns the version', async () => {
-      // eslint-disable-next-line global-require
-      const storybookAngularVersion = require('../versions').default['@storybook/angular'];
-      const executeCommandSpy = jest
+      const storybookAngularVersion = (await import('../versions')).default['@storybook/angular'];
+      const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('"5.3.19"');
 
@@ -191,7 +191,7 @@ describe('PNPM Proxy', () => {
 
     it('with a Storybook package not listed in versions.json it returns the latest version', async () => {
       const packageVersion = '5.3.19';
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce(`"${packageVersion}"`);
 
@@ -209,17 +209,17 @@ describe('PNPM Proxy', () => {
 
   describe('addPackageResolutions', () => {
     it('adds resolutions to package.json and account for existing resolutions', async () => {
-      const writePackageSpy = jest
+      const writePackageSpy = vi
         .spyOn(pnpmProxy, 'writePackageJson')
-        .mockImplementation(jest.fn());
+        .mockImplementation(vi.fn<any>());
 
       const basePackageAttributes = {
         dependencies: {},
         devDependencies: {},
       };
 
-      jest.spyOn(pnpmProxy, 'retrievePackageJson').mockImplementation(
-        jest.fn(async () => ({
+      vi.spyOn(pnpmProxy, 'retrievePackageJson').mockImplementation(
+        vi.fn(async () => ({
           ...basePackageAttributes,
           overrides: {
             bar: 'x.x.x',
@@ -245,7 +245,7 @@ describe('PNPM Proxy', () => {
   describe('mapDependencies', () => {
     it('should display duplicated dependencies based on pnpm output', async () => {
       // pnpm list "@storybook/*" "storybook" --depth 10 --json
-      jest.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce(`
+      vi.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce(`
         [
           {
             "peerDependencies": {
@@ -321,58 +321,58 @@ describe('PNPM Proxy', () => {
       const installations = await pnpmProxy.findInstallations(['@storybook/*']);
 
       expect(installations).toMatchInlineSnapshot(`
-        Object {
+        {
           "dedupeCommand": "pnpm dedupe",
-          "dependencies": Object {
-            "@storybook/addon-interactions": Array [
-              Object {
+          "dependencies": {
+            "@storybook/addon-interactions": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/addons": Array [
-              Object {
+            "@storybook/addons": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/builder-webpack5": Array [
-              Object {
+            "@storybook/builder-webpack5": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/instrumenter": Array [
-              Object {
+            "@storybook/instrumenter": [
+              {
                 "location": "",
                 "version": "7.0.0-rc.7",
               },
-              Object {
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/jest": Array [
-              Object {
+            "@storybook/jest": [
+              {
                 "location": "",
                 "version": "0.0.11-next.0",
               },
             ],
-            "@storybook/nextjs": Array [
-              Object {
+            "@storybook/nextjs": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/testing-library": Array [
-              Object {
+            "@storybook/testing-library": [
+              {
                 "location": "",
                 "version": "0.0.14-next.1",
               },
             ],
           },
-          "duplicatedDependencies": Object {
-            "@storybook/instrumenter": Array [
+          "duplicatedDependencies": {
+            "@storybook/instrumenter": [
               "7.0.0-rc.7",
               "7.0.0-beta.13",
             ],

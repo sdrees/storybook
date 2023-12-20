@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { Channel } from '@storybook/channels';
 import type { CSFFile, Renderer } from '@storybook/types';
 import type { StoryStore } from '../../store';
@@ -6,7 +7,7 @@ import { DocsContext } from './DocsContext';
 import { csfFileParts } from './test-utils';
 
 const channel = new Channel({});
-const renderStoryToElement = jest.fn();
+const renderStoryToElement = vi.fn();
 
 describe('referenceCSFFile', () => {
   it('deals with unattached "docsOnly" csf files', () => {
@@ -36,7 +37,7 @@ describe('resolveOf', () => {
   const { story, csfFile, storyExport, metaExport, moduleExports, component } = csfFileParts();
 
   describe('attached', () => {
-    const projectAnnotations = { render: jest.fn() };
+    const projectAnnotations = { render: vi.fn() };
     const store = {
       componentStoriesFromCSFFile: () => [story],
       preparedMetaFromCSFFile: () => ({ prepareMeta: 'preparedMeta' }),
@@ -177,7 +178,7 @@ describe('resolveOf', () => {
   });
 
   describe('unattached', () => {
-    const projectAnnotations = { render: jest.fn() };
+    const projectAnnotations = { render: vi.fn() };
     const store = {
       componentStoriesFromCSFFile: () => [story],
       preparedMetaFromCSFFile: () => ({ prepareMeta: 'preparedMeta' }),

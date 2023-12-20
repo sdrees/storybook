@@ -1,11 +1,12 @@
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect, vi } from 'vitest';
 import { dedent } from 'ts-dedent';
+import * as fsExtra from 'fs-extra';
 import type { PackageJson } from '../../js-package-manager';
 import { eslintPlugin } from './eslint-plugin';
 import { makePackageManager } from '../helpers/testing-helpers';
 
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
 
 const checkEslint = async ({
   packageJson,
@@ -16,8 +17,7 @@ const checkEslint = async ({
   hasEslint?: boolean;
   eslintExtension?: string;
 }) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
+  vi.mocked<typeof import('../../../../../__mocks__/fs-extra')>(fsExtra as any).__setMockFiles({
     [`.eslintrc.${eslintExtension}`]: !hasEslint
       ? null
       : dedent(`
@@ -75,7 +75,7 @@ describe('eslint-plugin fix', () => {
 
     describe('should no-op and warn when', () => {
       it('.eslintrc is not found', async () => {
-        const loggerSpy = jest.spyOn(console, 'warn').mockImplementationOnce(jest.fn);
+        const loggerSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
         const result = await checkEslint({
           packageJson,
           hasEslint: false,
@@ -84,6 +84,7 @@ describe('eslint-plugin fix', () => {
         expect(loggerSpy).toHaveBeenCalledWith('Unable to find .eslintrc config file, skipping');
 
         await expect(result).toBeFalsy();
+        loggerSpy.mockRestore();
       });
     });
 
@@ -94,7 +95,7 @@ describe('eslint-plugin fix', () => {
             packageJson,
           })
         ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"warn: Unable to find .eslintrc config file, skipping"`
+          `[Error: warn: Unable to find .eslintrc config file, skipping]`
         );
       });
 
@@ -105,7 +106,7 @@ describe('eslint-plugin fix', () => {
             eslintExtension: 'yml',
           })
         ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"warn: Unable to find .eslintrc config file, skipping"`
+          `[Error: warn: Unable to find .eslintrc config file, skipping]`
         );
       });
     });

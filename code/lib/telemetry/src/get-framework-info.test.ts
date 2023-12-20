@@ -1,10 +1,11 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import path from 'path';
 import { getFrameworkInfo } from './get-framework-info';
 import { getActualPackageJson } from './package-json';
 
-jest.mock('./package-json', () => ({
-  getActualPackageJson: jest.fn(),
+vi.mock('./package-json', () => ({
+  getActualPackageJson: vi.fn(),
 }));
 
 describe('getFrameworkInfo', () => {
@@ -36,7 +37,7 @@ describe('getFrameworkInfo', () => {
       },
     };
 
-    (getActualPackageJson as jest.Mock).mockResolvedValueOnce(frameworkPackageJson);
+    vi.mocked(getActualPackageJson).mockResolvedValueOnce(frameworkPackageJson);
 
     const result = await getFrameworkInfo({ framework } as StorybookConfig);
 

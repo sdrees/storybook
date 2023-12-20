@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect } from 'vitest';
 
 import type { Component } from '../types';
 import { extractComponentProps } from './extractDocgenProps';

@@ -1,57 +1,54 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`react component properties jsdoc 1`] = `
-Object {
-  "rows": Array [
-    Object {
+{
+  "rows": [
+    {
       "defaultValue": null,
       "description": "simple description.",
       "name": "case1",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "string",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "multi
 lines
 description",
       "name": "case2",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "string",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
-      "description": "*description* **with** \`formatting\`",
+      "description": "*description* **with** `formatting`",
       "name": "case3",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "string",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "simple description and dummy JSDoc tag.",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
@@ -60,22 +57,22 @@ description",
       },
       "name": "case4",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "string",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
@@ -84,61 +81,61 @@ description",
       },
       "name": "case5",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "string",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "simple description with a @.",
       "name": "case6",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "string",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "",
       "name": "case7",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "func with a simple description.",
       "name": "case8",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
@@ -147,22 +144,22 @@ description",
       },
       "name": "case9",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param with name",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
@@ -171,22 +168,22 @@ description",
       },
       "name": "case10",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param with name & type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
@@ -195,22 +192,22 @@ description",
       },
       "name": "case11",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event: SyntheticEvent)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param with name, type & description",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": "React's original event",
             "name": "event",
           },
@@ -219,22 +216,22 @@ description",
       },
       "name": "case12",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event: SyntheticEvent)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param with type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "SyntheticEvent",
           },
@@ -243,35 +240,35 @@ description",
       },
       "name": "case13",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(SyntheticEvent)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param with type & description",
       "name": "case14",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param with name & description",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": "React's original event",
             "name": "event",
           },
@@ -280,22 +277,22 @@ description",
       },
       "name": "case15",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "autofix event-",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": "React's original event",
             "name": "event",
           },
@@ -304,30 +301,30 @@ description",
       },
       "name": "case16",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "autofix event.",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
         ],
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "string",
             "type": "NameExpression",
           },
@@ -335,48 +332,48 @@ description",
       },
       "name": "case17",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event) => string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "with an empty param.",
       "name": "case18",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "with multiple empty params.",
       "name": "case19",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "with arg alias.",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
@@ -385,22 +382,22 @@ description",
       },
       "name": "case20",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "with argument alias.",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
@@ -409,30 +406,30 @@ description",
       },
       "name": "case21",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "with multiple params.",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "event",
           },
-          Object {
+          {
             "description": null,
             "name": "stringValue",
           },
-          Object {
+          {
             "description": null,
             "name": "numberValue",
           },
@@ -441,38 +438,38 @@ description",
       },
       "name": "case22",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event: SyntheticEvent, stringValue: string, numberValue: number)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "with an empty returns",
       "name": "case23",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "func",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "with a returns with a type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "SyntheticEvent",
             "type": "NameExpression",
           },
@@ -480,25 +477,25 @@ description",
       },
       "name": "case24",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => SyntheticEvent",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "with a returns with a type & description",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": "React's original event",
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "SyntheticEvent",
             "type": "NameExpression",
           },
@@ -506,30 +503,30 @@ description",
       },
       "name": "case25",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => SyntheticEvent",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "single param and a returns",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "stringValue",
           },
         ],
-        "returns": Object {
+        "returns": {
           "description": "React's original event",
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "SyntheticEvent",
             "type": "NameExpression",
           },
@@ -537,34 +534,34 @@ description",
       },
       "name": "case26",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(stringValue: string) => SyntheticEvent",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "multiple params and a returns",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "stringValue",
           },
-          Object {
+          {
             "description": null,
             "name": "numberValue",
           },
         ],
-        "returns": Object {
+        "returns": {
           "description": "React's original event",
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "SyntheticEvent",
             "type": "NameExpression",
           },
@@ -572,25 +569,25 @@ description",
       },
       "name": "case27",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(stringValue: string, numberValue: number) => SyntheticEvent",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "multiple returns",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": "Second returns",
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "string",
             "type": "NameExpression",
           },
@@ -598,22 +595,22 @@ description",
       },
       "name": "case28",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param with unsupported JSDoc tags",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": "React's original event",
             "name": "event",
           },
@@ -622,22 +619,22 @@ description",
       },
       "name": "case29",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(event: SyntheticEvent)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param record type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
@@ -646,22 +643,22 @@ description",
       },
       "name": "case30",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: ({a: number, b: string}))",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param array type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
@@ -670,22 +667,22 @@ description",
       },
       "name": "case31",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: string[])",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param union type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
@@ -694,22 +691,22 @@ description",
       },
       "name": "case32",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: (number|boolean))",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param any type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
@@ -718,22 +715,22 @@ description",
       },
       "name": "case33",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: any)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "param repeatable type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
@@ -742,22 +739,22 @@ description",
       },
       "name": "case34",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "optional param",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
@@ -766,22 +763,22 @@ description",
       },
       "name": "case35",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: number)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "optional param",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "myType",
           },
@@ -790,22 +787,22 @@ description",
       },
       "name": "case36",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(myType: number)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "dot in param name",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
-        "params": Array [
-          Object {
+        "params": [
+          {
             "description": null,
             "name": "my.type",
           },
@@ -814,38 +811,38 @@ description",
       },
       "name": "case37",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "(my.type: number)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "returns record type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
-            "fields": Array [
-              Object {
+          "type": {
+            "fields": [
+              {
                 "key": "a",
                 "type": "FieldType",
-                "value": Object {
+                "value": {
                   "name": "number",
                   "type": "NameExpression",
                 },
               },
-              Object {
+              {
                 "key": "b",
                 "type": "FieldType",
-                "value": Object {
+                "value": {
                   "name": "string",
                   "type": "NameExpression",
                 },
@@ -857,32 +854,32 @@ description",
       },
       "name": "case38",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => ({a: number, b: string})",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "returns array type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
-            "applications": Array [
-              Object {
+          "type": {
+            "applications": [
+              {
                 "name": "string",
                 "type": "NameExpression",
               },
             ],
-            "expression": Object {
+            "expression": {
               "name": "Array",
               "type": "NameExpression",
             },
@@ -892,31 +889,31 @@ description",
       },
       "name": "case39",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => string[]",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "returns union type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
-            "elements": Array [
-              Object {
+          "type": {
+            "elements": [
+              {
                 "name": "number",
                 "type": "NameExpression",
               },
-              Object {
+              {
                 "name": "boolean",
                 "type": "NameExpression",
               },
@@ -927,50 +924,50 @@ description",
       },
       "name": "case40",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => (number|boolean)",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "returns any type",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "type": "AllLiteral",
           },
         },
       },
       "name": "case41",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => any",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "returns primitive",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "string",
             "type": "NameExpression",
           },
@@ -978,25 +975,25 @@ description",
       },
       "name": "case42",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => string",
       },
     },
-    Object {
+    {
       "defaultValue": null,
       "description": "returns void",
-      "jsDocTags": Object {
+      "jsDocTags": {
         "deprecated": null,
         "ignore": false,
         "params": undefined,
-        "returns": Object {
+        "returns": {
           "description": null,
           "getTypeName": [Function],
-          "type": Object {
+          "type": {
             "name": "void",
             "type": "NameExpression",
           },
@@ -1004,14 +1001,13 @@ description",
       },
       "name": "case43",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "function",
       },
-      "type": Object {
+      "type": {
         "detail": undefined,
         "summary": "() => void",
       },
     },
   ],
 }
-`;

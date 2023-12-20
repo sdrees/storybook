@@ -1,3 +1,4 @@
+import { afterEach, it, expect, vi, describe } from 'vitest';
 import { logger } from '@storybook/node-logger';
 import type {
   CoreCommon_AddonEntry,
@@ -33,8 +34,10 @@ const fromName = (name: string): CoreCommon_AddonInfo => ({
 
 const str = (name: unknown) => JSON.stringify(name);
 
-const warn = jest.spyOn(logger, 'warn');
-afterEach(() => warn.mockReset());
+const warn = vi.spyOn(logger, 'warn');
+afterEach(() => {
+  warn.mockReset();
+});
 
 describe.each([
   ['docs', 'controls', ['docs', 'controls']],

@@ -1,9 +1,9 @@
-import { expect } from '@jest/globals';
+import { describe, it, expect, vi } from 'vitest';
 import { GlobalsStore } from './GlobalsStore';
 
-jest.mock('@storybook/client-logger', () => ({
+vi.mock('@storybook/client-logger', () => ({
   logger: {
-    warn: jest.fn(),
+    warn: vi.fn(),
   },
 }));
 

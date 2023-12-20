@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { addExtraFlags, addNxPackagesToReject, getStorybookVersion } from './upgrade';
 
 describe.each([

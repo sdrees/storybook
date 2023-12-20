@@ -1,21 +1,25 @@
 /* eslint-disable global-require */
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
+import * as fsExtraImp from 'fs-extra';
+import { execaCommand } from 'execa';
 import { run as version } from '../version';
 
 // eslint-disable-next-line jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
-const fsExtra = require('fs-extra');
+import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 
-jest.mock('../../../code/lib/cli/src/versions', () => ({
+vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
+const fsExtra = fsExtraImp as unknown as typeof MockedFSToExtra;
+
+vi.mock('../../../code/lib/cli/src/versions', () => ({
   '@storybook/addon-a11y': '7.1.0-alpha.29',
 }));
 
-jest.mock('execa');
-const { execaCommand } = require('execa');
+vi.mock('execa');
 
-jest.mock('../../utils/workspace', () => ({
-  getWorkspaces: jest.fn().mockResolvedValue([
+vi.mock('../../utils/workspace', () => ({
+  getWorkspaces: vi.fn().mockResolvedValue([
     {
       name: '@storybook/addon-a11y',
       location: 'addons/a11y',
@@ -23,13 +27,9 @@ jest.mock('../../utils/workspace', () => ({
   ]),
 }));
 
-jest.spyOn(console, 'log').mockImplementation(() => {});
-jest.spyOn(console, 'warn').mockImplementation(() => {});
-jest.spyOn(console, 'error').mockImplementation(() => {});
-
-beforeEach(() => {
-  jest.clearAllMocks();
-});
+vi.spyOn(console, 'log').mockImplementation(() => {});
+vi.spyOn(console, 'warn').mockImplementation(() => {});
+vi.spyOn(console, 'error').mockImplementation(() => {});
 
 describe('Version', () => {
   const CODE_DIR_PATH = path.join(__dirname, '..', '..', '..', 'code');
@@ -52,25 +52,25 @@ describe('Version', () => {
     });
 
     await expect(version({ releaseType: 'invalid' })).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "received": "invalid",
-          "code": "invalid_enum_value",
-          "options": [
-            "major",
-            "minor",
-            "patch",
-            "prerelease",
-            "premajor",
-            "preminor",
-            "prepatch"
-          ],
-          "path": [
-            "releaseType"
-          ],
-          "message": "Invalid enum value. Expected 'major' | 'minor' | 'patch' | 'prerelease' | 'premajor' | 'preminor' | 'prepatch', received 'invalid'"
-        }
-      ]"
+      [ZodError: [
+  {
+    "received": "invalid",
+    "code": "invalid_enum_value",
+    "options": [
+      "major",
+      "minor",
+      "patch",
+      "prerelease",
+      "premajor",
+      "preminor",
+      "prepatch"
+    ],
+    "path": [
+      "releaseType"
+    ],
+    "message": "Invalid enum value. Expected 'major' | 'minor' | 'patch' | 'prerelease' | 'premajor' | 'preminor' | 'prepatch', received 'invalid'"
+  }
+]]
     `);
   });
 
@@ -83,13 +83,13 @@ describe('Version', () => {
 
     await expect(version({ releaseType: 'major', preId: 'alpha' })).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "custom",
-          "message": "Using prerelease identifier requires one of release types: premajor, preminor, prepatch, prerelease",
-          "path": []
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "custom",
+    "message": "Using prerelease identifier requires one of release types: premajor, preminor, prepatch, prerelease",
+    "path": []
+  }
+]]
     `);
   });
 
@@ -102,13 +102,13 @@ describe('Version', () => {
 
     await expect(version({ releaseType: 'major', exact: '1.0.0' })).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "custom",
-          "message": "Combining --exact with --release-type is invalid, but having one of them is required",
-          "path": []
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "custom",
+    "message": "Combining --exact with --release-type is invalid, but having one of them is required",
+    "path": []
+  }
+]]
     `);
   });
 
@@ -120,15 +120,15 @@ describe('Version', () => {
     });
 
     await expect(version({ exact: 'not-semver' })).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "custom",
-          "message": "--exact version has to be a valid semver string",
-          "path": [
-            "exact"
-          ]
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "custom",
+    "message": "--exact version has to be a valid semver string",
+    "path": [
+      "exact"
+    ]
+  }
+]]
     `);
   });
 
@@ -141,13 +141,13 @@ describe('Version', () => {
 
     await expect(version({ apply: true, releaseType: 'prerelease' })).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "custom",
-          "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
-          "path": []
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "custom",
+    "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
+    "path": []
+  }
+]]
     `);
   });
 
@@ -160,13 +160,13 @@ describe('Version', () => {
 
     await expect(version({ apply: true, exact: '1.0.0' })).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "custom",
-          "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
-          "path": []
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "custom",
+    "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
+    "path": []
+  }
+]]
     `);
   });
 
@@ -179,13 +179,13 @@ describe('Version', () => {
 
     await expect(version({ apply: true, deferred: true })).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "custom",
-          "message": "--deferred cannot be combined with --apply",
-          "path": []
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "custom",
+    "message": "--deferred cannot be combined with --apply",
+    "path": []
+  }
+]]
     `);
   });
 
@@ -195,7 +195,7 @@ describe('Version', () => {
     });
 
     await expect(version({ apply: true })).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"The 'deferredNextVersion' property in code/package.json is unset. This is necessary to apply a deferred version bump"`
+      `[Error: The 'deferredNextVersion' property in code/package.json is unset. This is necessary to apply a deferred version bump]`
     );
 
     expect(fsExtra.writeJson).not.toHaveBeenCalled();

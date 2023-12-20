@@ -1,15 +1,17 @@
+import type { MockInstance } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { wrapRequire } from './wrap-require';
 import * as detect from '../../detect';
 
-jest.mock('../../detect', () => ({
-  ...jest.requireActual('../../detect'),
-  detectPnp: jest.fn(),
+vi.mock('../../detect', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../detect')>()),
+  detectPnp: vi.fn(),
 }));
 
 describe('wrapRequire', () => {
   describe('check', () => {
     it('should return null if not in a monorepo and pnp is not enabled', async () => {
-      (detect.detectPnp as any as jest.SpyInstance).mockResolvedValue(false);
+      (detect.detectPnp as any as MockInstance).mockResolvedValue(false);
 
       const check = wrapRequire.check({
         packageManager: {
@@ -23,7 +25,7 @@ describe('wrapRequire', () => {
     });
 
     it('should return the configuration object if in a pnp environment', async () => {
-      (detect.detectPnp as any as jest.SpyInstance).mockResolvedValue(true);
+      (detect.detectPnp as any as MockInstance).mockResolvedValue(true);
 
       const check = wrapRequire.check({
         packageManager: {
@@ -42,7 +44,7 @@ describe('wrapRequire', () => {
     });
 
     it('should return the configuration object if in a monorepo environment', async () => {
-      (detect.detectPnp as any as jest.SpyInstance).mockResolvedValue(false);
+      (detect.detectPnp as any as MockInstance).mockResolvedValue(false);
 
       const check = wrapRequire.check({
         packageManager: {
@@ -61,7 +63,7 @@ describe('wrapRequire', () => {
     });
 
     it('should return null, if all fields have the require wrapper', async () => {
-      (detect.detectPnp as any as jest.SpyInstance).mockResolvedValue(true);
+      (detect.detectPnp as any as MockInstance).mockResolvedValue(true);
 
       const check = wrapRequire.check({
         packageManager: {

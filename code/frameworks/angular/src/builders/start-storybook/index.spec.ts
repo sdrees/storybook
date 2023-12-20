@@ -1,25 +1,27 @@
 /*
- * @jest-environment node
+ * @vitest-environment node
  */
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { vi, describe, expect, it, beforeEach } from 'vitest';
 import { Architect, createBuilder } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { schema } from '@angular-devkit/core';
 import * as path from 'path';
 
-const buildDevStandaloneMock = jest.fn();
-const buildStaticStandaloneMock = jest.fn();
+const buildDevStandaloneMock = vi.fn();
+const buildStaticStandaloneMock = vi.fn();
 const buildMock = {
   buildDevStandalone: buildDevStandaloneMock,
   buildStaticStandalone: buildStaticStandaloneMock,
   withTelemetry: (_: string, __: any, fn: any) => fn(),
 };
-jest.doMock('@storybook/core-server', () => buildMock);
-jest.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
+vi.doMock('@storybook/core-server', () => buildMock);
+vi.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
-const mockRunScript = jest.fn();
+const mockRunScript = vi.fn();
 
-jest.mock('@storybook/cli', () => ({
+vi.mock('@storybook/cli', () => ({
   getEnvConfig: (options: any) => options,
   versions: {
     storybook: 'x.x.x',
@@ -74,7 +76,7 @@ describe.skip('Start Storybook Builder', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should start storybook with angularBrowserTarget', async () => {

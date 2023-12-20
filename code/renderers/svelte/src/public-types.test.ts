@@ -1,4 +1,6 @@
-import { describe, test } from '@jest/globals';
+// this file tests Typescript types that's why there are no assertions
+/* eslint-disable jest/expect-expect */
+import { describe, it } from 'vitest';
 import { satisfies } from '@storybook/core-common';
 import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
@@ -17,7 +19,7 @@ type SvelteStory<Component extends SvelteComponentTyped, Args, RequiredArgs> = S
 >;
 
 describe('Meta', () => {
-  test('Generic parameter of Meta can be a component', () => {
+  it('Generic parameter of Meta can be a component', () => {
     const meta: Meta<Button> = {
       component: Button,
       args: {
@@ -31,7 +33,7 @@ describe('Meta', () => {
     >();
   });
 
-  test('Generic parameter of Meta can be the props of the component', () => {
+  it('Generic parameter of Meta can be the props of the component', () => {
     const meta: Meta<{ disabled: boolean; label: string }> = {
       component: Button,
       args: { label: 'good', disabled: false },
@@ -42,7 +44,7 @@ describe('Meta', () => {
     >();
   });
 
-  test('Events are inferred from component', () => {
+  it('Events are inferred from component', () => {
     const meta: Meta<Button> = {
       component: Button,
       args: {
@@ -62,7 +64,7 @@ describe('Meta', () => {
     expectTypeOf(meta).toMatchTypeOf<Meta<Button>>();
   });
 
-  test('Events fallback to custom events when no component is specified', () => {
+  it('Events fallback to custom events when no component is specified', () => {
     const meta: Meta<{ disabled: boolean; label: string }> = {
       component: Button,
       args: { label: 'good', disabled: false },
@@ -81,7 +83,7 @@ describe('Meta', () => {
 });
 
 describe('StoryObj', () => {
-  test('✅ Required args may be provided partial in meta and the story', () => {
+  it('✅ Required args may be provided partial in meta and the story', () => {
     const meta = satisfies<Meta<Button>>()({
       component: Button,
       args: { label: 'good' },
@@ -96,7 +98,7 @@ describe('StoryObj', () => {
     expectTypeOf<Actual>().toEqualTypeOf<Expected>();
   });
 
-  test('❌ The combined shape of meta args and story args must match the required args.', () => {
+  it('❌ The combined shape of meta args and story args must match the required args.', () => {
     {
       const meta = satisfies<Meta<Button>>()({ component: Button });
 
@@ -138,7 +140,7 @@ describe('StoryObj', () => {
     }
   });
 
-  test('Component can be used as generic parameter for StoryObj', () => {
+  it('Component can be used as generic parameter for StoryObj', () => {
     expectTypeOf<StoryObj<Button>>().toEqualTypeOf<
       SvelteStory<
         Button,
@@ -152,7 +154,7 @@ describe('StoryObj', () => {
 type ThemeData = 'light' | 'dark';
 
 describe('Story args can be inferred', () => {
-  test('Correct args are inferred when type is widened for render function', () => {
+  it('Correct args are inferred when type is widened for render function', () => {
     const meta = satisfies<Meta<ComponentProps<Button> & { theme: ThemeData }>>()({
       component: Button,
       args: { disabled: false },
@@ -182,7 +184,7 @@ describe('Story args can be inferred', () => {
     props: { decoratorArg },
   });
 
-  test('Correct args are inferred when type is widened for decorators', () => {
+  it('Correct args are inferred when type is widened for decorators', () => {
     type Props = ComponentProps<Button> & { decoratorArg: string };
 
     const meta = satisfies<Meta<Props>>()({
@@ -201,7 +203,7 @@ describe('Story args can be inferred', () => {
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 
-  test('Correct args are inferred when type is widened for multiple decorators', () => {
+  it('Correct args are inferred when type is widened for multiple decorators', () => {
     type Props = ComponentProps<Button> & { decoratorArg: string; decoratorArg2: string };
 
     const secondDecorator: Decorator<{ decoratorArg2: string }> = (

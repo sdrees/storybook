@@ -1,7 +1,8 @@
+import { describe, it, expect, vi } from 'vitest';
 import { buildArgsParam, deepDiff, DEEPLY_EQUAL, getMatch, parsePath } from './utils';
 
-jest.mock('@storybook/client-logger', () => ({
-  once: { warn: jest.fn() },
+vi.mock('@storybook/client-logger', () => ({
+  once: { warn: vi.fn() },
 }));
 
 describe('getMatch', () => {

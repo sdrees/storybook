@@ -1,3 +1,4 @@
+import { describe, expect, vi, it } from 'vitest';
 import { composeStory, composeStories } from './index';
 
 // Most integration tests for this functionality are located under renderers/react
@@ -13,7 +14,7 @@ describe('composeStory', () => {
     },
   };
 
-  test('should return story with composed args and parameters', () => {
+  it('should return story with composed args and parameters', () => {
     const Story = () => {};
     Story.args = { primary: true };
     Story.parameters = {
@@ -29,7 +30,7 @@ describe('composeStory', () => {
     );
   });
 
-  test('should throw an error if Story is undefined', () => {
+  it('should throw an error if Story is undefined', () => {
     expect(() => {
       // @ts-expect-error (invalid input)
       composeStory(undefined, meta);
@@ -38,8 +39,8 @@ describe('composeStory', () => {
 });
 
 describe('composeStories', () => {
-  test('should call composeStoryFn with stories', () => {
-    const composeConfigFn = jest.fn((v) => v);
+  it('should call composeStoryFn with stories', () => {
+    const composeConfigFn = vi.fn((v) => v);
     const module = {
       default: {
         title: 'Button',
@@ -63,8 +64,8 @@ describe('composeStories', () => {
     );
   });
 
-  test('should not call composeStoryFn for non-story exports', () => {
-    const composeConfigFn = jest.fn((v) => v);
+  it('should not call composeStoryFn for non-story exports', () => {
+    const composeConfigFn = vi.fn((v) => v);
     const module = {
       default: {
         title: 'Button',

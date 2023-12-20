@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { sep } from 'path';
+import path from 'path';
 
 export interface IErrorWithStdErrAndStdOut {
   stderr?: Buffer | string;
@@ -17,7 +17,7 @@ export function removeAnsiEscapeCodes(input = ''): string {
   return input.replace(/\u001B\[[0-9;]*m/g, '');
 }
 
-export function cleanPaths(str: string, separator: string = sep): string {
+export function cleanPaths(str: string, separator: string = path.sep): string {
   if (!str) return str;
 
   const stack = process.cwd().split(separator);
@@ -37,7 +37,7 @@ export function cleanPaths(str: string, separator: string = sep): string {
 }
 
 // Takes an Error and returns a sanitized JSON String
-export function sanitizeError(error: Error, pathSeparator: string = sep) {
+export function sanitizeError(error: Error, pathSeparator: string = path.sep) {
   try {
     error = {
       ...JSON.parse(JSON.stringify(error)),

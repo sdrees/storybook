@@ -1,3 +1,6 @@
+import type { Mock } from 'vitest';
+import { expect, describe, beforeEach, it, vi } from 'vitest';
+
 import { themes } from '@storybook/theming';
 import type { API_Provider } from 'lib/types/src';
 import EventEmitter from 'events';
@@ -26,7 +29,7 @@ describe('layout API', () => {
     };
     store = {
       getState: () => currentState as unknown as State,
-      setState: jest.fn(async (patch) => {
+      setState: vi.fn(async (patch) => {
         currentState = {
           ...currentState,
           ...(typeof patch === 'function' ? patch(currentState as unknown as State) : patch),
@@ -35,7 +38,7 @@ describe('layout API', () => {
       }),
     } as unknown as Store;
     provider = {
-      getConfig: jest.fn(() => ({})),
+      getConfig: vi.fn(() => ({})),
       channel: new EventEmitter(),
     } as unknown as API_Provider<API>;
     layoutApi = initLayout({
@@ -434,7 +437,7 @@ describe('layout API', () => {
 
   describe('setOptions', () => {
     const getLastSetStateArgs = () => {
-      const { calls } = (store.setState as jest.Mock).mock;
+      const { calls } = (store.setState as Mock).mock;
       return calls[calls.length - 1];
     };
 

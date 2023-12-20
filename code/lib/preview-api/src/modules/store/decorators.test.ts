@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { describe, it, expect } from 'vitest';
 import type { Renderer, StoryContext } from '@storybook/types';
 
 import { defaultDecorateStory } from './decorators';

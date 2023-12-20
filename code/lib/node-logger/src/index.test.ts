@@ -1,24 +1,27 @@
-import { info, warn } from 'npmlog';
+import { describe, it, expect, vi } from 'vitest';
+import npmlog from 'npmlog';
 import { logger } from '.';
 
-globalThis.console = { log: jest.fn() } as any;
+globalThis.console = { log: vi.fn() } as any;
 
-jest.mock('npmlog', () => ({
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-  levels: {
-    silly: -Infinity,
-    verbose: 1000,
-    info: 2000,
-    timing: 2500,
-    http: 3000,
-    notice: 3500,
-    warn: 4000,
-    error: 5000,
-    silent: Infinity,
+vi.mock('npmlog', () => ({
+  default: {
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    levels: {
+      silly: -Infinity,
+      verbose: 1000,
+      info: 2000,
+      timing: 2500,
+      http: 3000,
+      notice: 3500,
+      warn: 4000,
+      error: 5000,
+      silent: Infinity,
+    },
+    level: 'info',
   },
-  level: 'info',
 }));
 
 //
@@ -27,12 +30,12 @@ describe('node-logger', () => {
   it('should have an info method', () => {
     const message = 'information';
     logger.info(message);
-    expect(info).toHaveBeenCalledWith('', message);
+    expect(npmlog.info).toHaveBeenCalledWith('', message);
   });
   it('should have a warn method', () => {
     const message = 'warning message';
     logger.warn(message);
-    expect(warn).toHaveBeenCalledWith('', message);
+    expect(npmlog.warn).toHaveBeenCalledWith('', message);
   });
   it('should have an error method', () => {
     const message = 'error message';

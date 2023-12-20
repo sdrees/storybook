@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { PlayFunctionContext, StepRunner } from '@storybook/types';
 import { composeStepRunners } from './stepRunners';
 
@@ -19,10 +20,10 @@ describe('stepRunners', () => {
 
     const composed = composeStepRunners([firstStepRunner, secondStepRunner]);
 
-    const playFnA = jest.fn();
+    const playFnA = vi.fn();
     const playContextA = {} as PlayFunctionContext;
     await composed('a', playFnA, playContextA);
-    const playFnB = jest.fn();
+    const playFnB = vi.fn();
     const playContextB = {} as PlayFunctionContext;
     await composed('b', playFnB, playContextB);
 
@@ -45,10 +46,10 @@ describe('stepRunners', () => {
   it('creates a sensible default if no step runner is provided', async () => {
     const composed = composeStepRunners([]);
 
-    const playFnA = jest.fn();
+    const playFnA = vi.fn();
     const playContextA = {} as PlayFunctionContext;
     await composed('a', playFnA, playContextA);
-    const playFnB = jest.fn();
+    const playFnB = vi.fn();
     const playContextB = {} as PlayFunctionContext;
     await composed('b', playFnB, playContextB);
 

@@ -1,3 +1,4 @@
+import { vi, describe, it, expect } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import { glob } from 'glob';
 import { removeReactDependency } from './prompt-remove-react';
@@ -27,10 +28,10 @@ const check = async ({
   });
 };
 
-jest.mock('glob', () => ({ glob: jest.fn(() => []) }));
+vi.mock('glob', () => ({ glob: vi.fn(() => []) }));
 
 describe('early exits', () => {
-  test('cancel if storybookVersion < 8', async () => {
+  it('cancel if storybookVersion < 8', async () => {
     await expect(
       check({
         packageManagerContent: {
@@ -45,7 +46,7 @@ describe('early exits', () => {
     ).resolves.toBeFalsy();
   });
 
-  test('cancel if no react deps', async () => {
+  it('cancel if no react deps', async () => {
     await expect(
       check({
         packageManagerContent: {},
@@ -57,7 +58,7 @@ describe('early exits', () => {
     ).resolves.toBeFalsy();
   });
 
-  test('cancel if react renderer', async () => {
+  it('cancel if react renderer', async () => {
     await expect(
       check({
         packageManagerContent: {
@@ -97,7 +98,7 @@ describe('early exits', () => {
 });
 
 describe('prompts', () => {
-  test('simple', async () => {
+  it('simple', async () => {
     await expect(
       check({
         packageManagerContent: {
@@ -111,7 +112,7 @@ describe('prompts', () => {
       })
     ).resolves.toEqual(true);
   });
-  test('detects addon docs', async () => {
+  it('detects addon docs', async () => {
     await expect(
       check({
         packageManagerContent: {
@@ -125,7 +126,7 @@ describe('prompts', () => {
       })
     ).resolves.toEqual(true);
   });
-  test('detects addon essentials', async () => {
+  it('detects addon essentials', async () => {
     await expect(
       check({
         packageManagerContent: {
@@ -139,7 +140,7 @@ describe('prompts', () => {
       })
     ).resolves.toEqual(true);
   });
-  test('detects MDX usage', async () => {
+  it('detects MDX usage', async () => {
     // @ts-expect-error (jest mocked)
     glob.mockImplementationOnce(() => ['*.stories.mdx']);
     await expect(
