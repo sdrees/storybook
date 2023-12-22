@@ -97,8 +97,8 @@ export const configureYarn2ForVerdaccio = async ({
     `yarn config set enableImmutableInstalls false`,
   ];
 
-  if (key === 'svelte-kit/prerelease-ts') {
-    // Don't error with INCOMPATIBLE_PEER_DEPENDENCY for SvelteKit prerelease, it is expected
+  if (key.includes('svelte-kit')) {
+    // Don't error with INCOMPATIBLE_PEER_DEPENDENCY for SvelteKit sandboxes, it is expected to happen with @sveltejs/vite-plugin-svelte
     command.push(
       `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`
     );

@@ -98,6 +98,7 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/react": "workspace:*",
     "@types/node": "^18.0.0",
+    "@types/semver": "^7.3.4",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",

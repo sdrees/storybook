@@ -157,6 +157,7 @@ export interface LoadOptions {
   packageJson: PackageJson;
   outputDir?: string;
   configDir?: string;
+  cacheKey?: string;
   ignorePreview?: boolean;
   extendServer?: (server: Server) => void;
 }

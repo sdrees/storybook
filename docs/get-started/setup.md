@@ -116,6 +116,4 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
 
 ## Load assets and resources
 
-If you want to [link to static files](../configure/images-and-assets.md) in your project or stories (e.g., `/fonts/XYZ.woff`), use the `-s path/to/folder` flag to specify a static folder to serve from when you start up Storybook. To do so, edit the `storybook` and `build-storybook` scripts in `package.json`.
-
-We recommend serving external resources and assets requested in your components statically with Storybook. It ensures that assets are always available to your stories.
+We recommend serving external resources and assets requested in your components statically with Storybook. It ensures that assets are always available to your stories. Read our [documentation](../configure/images-and-assets.md) to learn how to hosting static files with Storybook.

@@ -55,7 +55,7 @@ export const favicon = async (
 
   const statics = staticDirsValue
     ? staticDirsValue.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
-    : options.staticDir;
+    : [];
 
   if (statics && statics.length > 0) {
     const lists = await Promise.all(

@@ -30,7 +30,6 @@ Options include:
 | `-V`, `--version`               | Output the version number <br/>`storybook dev -V`                                                                                                                         |
 | `-p`, `--port [number]`         | Port to run Storybook <br/>`storybook dev -p 9009`                                                                                                                        |
 | `-h`, `--host [string]`         | Host to run Storybook <br/>`storybook dev -h my-host.com`                                                                                                                 |
-| `-s`, `--static-dir`            | **Deprecated** [see note](#static-dir-deprecation). Directory where to load static files from, comma-separated list<br/>`storybook dev -s public`                         |
 | `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from <br/>`storybook dev -c .storybook`                                                                                  |
 | `--https`                       | Serve Storybook over HTTPS. Note: You must provide your own certificate information<br/>`storybook dev --https`                                                           |
 | `--ssl-ca`                      | Provide an SSL certificate authority. (Optional with --https, required if using a self-signed certificate)<br/>`storybook dev --ssl-ca my-certificate`                    |
@@ -47,7 +46,7 @@ Options include:
 
 <Callout variant="warning" id="static-dir-deprecation">
 
-Starting in 6.4 the `-s` flag is deprecated. Instead, use a configuration object in your `.storybook/main.js` file. See the [images and assets documentation](../configure/images-and-assets.md#serving-static-files-via-storybook) for more information.
+With the release of Storybook 8, the `-s` CLI flag was removed. We recommend using the [static directory](../configure/images-and-assets.md#serving-static-files-via-storybook) instead if you need to serve static files.
 
 </Callout>
 
@@ -65,7 +64,6 @@ Options include:
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `-h`, `--help`                  | Output usage information<br/>`storybook build --help`                                                                                                                                                 |
 | `-V`, `--version`               | Output the version number<br/>`storybook build -V`                                                                                                                                                    |
-| `-s`, `--static-dir`            | **Deprecated** [see note](#static-dir-deprecation).<br/> Directory where to load static files from, comma-separated list<br/>`storybook build -s public`                                              |
 | `-o`, `--output-dir [dir-name]` | Directory where to store built files<br/>`storybook build -o /my-deployed-storybook`                                                                                                                  |
 | `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from<br/>`storybook build -c .storybook`                                                                                                             |
 | `--loglevel [level]`            | Controls level of logging during build.<br/> Available options: `silly`, `verbose`, `info` (default), `warn`, `error`, `silent`<br/>`storybook build --loglevel warn`                                 |

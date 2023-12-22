@@ -40,10 +40,8 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     ? [...addonsEntryPoints, customManagerEntryPoint]
     : addonsEntryPoints;
 
-  const realEntryPoints = await wrapManagerEntries(entryPoints);
-
   return {
-    entryPoints: realEntryPoints,
+    entryPoints: await wrapManagerEntries(entryPoints, options.cacheKey),
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'iife',
     write: false,

@@ -1,5 +1,5 @@
-import findCacheDirectory from 'find-cache-dir';
 import fs from 'fs-extra';
+import { resolvePathInStorybookCache } from '@storybook/core-common';
 import { join, parse, relative, sep } from 'node:path';
 import slash from 'slash';
 
@@ -34,11 +34,11 @@ const sanitizeFinal = (path: string) => {
  *
  * We need to wrap each managerEntry with a try-catch because if we do not, a failing managerEntry can stop execution of other managerEntries.
  */
-export async function wrapManagerEntries(entrypoints: string[]) {
+export async function wrapManagerEntries(entrypoints: string[], uniqueId?: string) {
   return Promise.all(
     entrypoints.map(async (entry, i) => {
       const { name, dir } = parse(entry);
-      const cacheLocation = findCacheDirectory({ name: 'sb-manager' });
+      const cacheLocation = resolvePathInStorybookCache('sb-manager', uniqueId);
 
       if (!cacheLocation) {
         throw new Error('Could not create/find cache directory');

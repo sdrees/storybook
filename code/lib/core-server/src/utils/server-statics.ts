@@ -1,28 +1,20 @@
 import { logger } from '@storybook/node-logger';
 import type { Options } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
-import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 import chalk from 'chalk';
 import type { Router } from 'express';
 import express from 'express';
 import { pathExists } from 'fs-extra';
 import path, { basename, isAbsolute } from 'path';
-import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
-import { defaultStaticDirs } from './constants';
 
 export async function useStatics(router: Router, options: Options) {
   const staticDirs = (await options.presets.apply('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
 
-  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
-    throw new ConflictingStaticDirConfigError();
-  }
-
   const statics = [
     ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
-    ...(options.staticDir || []),
   ];
 
   if (statics && statics.length > 0) {

@@ -1,5 +1,4 @@
 import * as path from 'path';
-import findCacheDirectory from 'find-cache-dir';
 import type {
   ConfigEnv,
   InlineConfig as ViteInlineConfig,
@@ -7,7 +6,12 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
+import {
+  isPreservingSymlinks,
+  getFrameworkName,
+  getBuilderOptions,
+  resolvePathInStorybookCache,
+} from '@storybook/core-common';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
@@ -54,7 +58,7 @@ export async function commonConfig(
 
   const sbConfig: InlineConfig = {
     configFile: false,
-    cacheDir: findCacheDirectory({ name: 'sb-vite' }),
+    cacheDir: resolvePathInStorybookCache('sb-vite', options.cacheKey),
     root: projectRoot,
     // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
     base: './',

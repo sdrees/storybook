@@ -101,7 +101,6 @@
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
-    "@types/semver": "^7.3.4",
     "@types/util-deprecate": "^1.0.0",
     "boxen": "^5.1.2",
     "slash": "^5.0.0",

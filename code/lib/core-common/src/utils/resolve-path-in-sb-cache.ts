@@ -9,9 +9,9 @@ import findCacheDirectory from 'find-cache-dir';
  * @param fileOrDirectoryName {string} Name of the file or directory
  * @return {string} Absolute path to the file or directory
  */
-export function resolvePathInStorybookCache(fileOrDirectoryName: string): string {
+export function resolvePathInStorybookCache(fileOrDirectoryName: string, sub = 'default'): string {
   let cacheDirectory = findCacheDirectory({ name: 'storybook' });
-  cacheDirectory ||= path.join(process.cwd(), '.cache/storybook');
+  cacheDirectory ||= path.join(process.cwd(), '.cache', 'storybook');
 
-  return path.join(cacheDirectory, fileOrDirectoryName);
+  return path.join(cacheDirectory, sub, fileOrDirectoryName);
 }

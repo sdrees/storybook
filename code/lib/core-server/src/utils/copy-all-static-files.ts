@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import fs from 'fs-extra';
-import path from 'path';
+import { join, relative } from 'path';
 import { logger } from '@storybook/node-logger';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import { parseStaticDir } from './server-statics';
@@ -11,11 +11,19 @@ export async function copyAllStaticFiles(staticDirs: any[] | undefined, outputDi
       staticDirs.map(async (dir) => {
         try {
           const { staticDir, staticPath, targetDir } = await parseStaticDir(dir);
-          const targetPath = path.join(outputDir, targetDir);
-          logger.info(chalk`=> Copying static files: {cyan ${staticDir}} => {cyan ${targetDir}}`);
+          const targetPath = join(outputDir, targetDir);
+
+          // we copy prebuild static files from node_modules/@storybook/manager & preview
+          if (!staticDir.includes('node_modules')) {
+            logger.info(
+              chalk`=> Copying static files: {cyan ${print(staticDir)}} => {cyan ${print(
+                targetDir
+              )}}`
+            );
+          }
 
           // Storybook's own files should not be overwritten, so we skip such files if we find them
-          const skipPaths = ['index.html', 'iframe.html'].map((f) => path.join(targetPath, f));
+          const skipPaths = ['index.html', 'iframe.html'].map((f) => join(targetPath, f));
           await fs.copy(staticPath, targetPath, {
             dereference: true,
             preserveTimestamps: true,
@@ -49,13 +57,20 @@ export async function copyAllStaticFilesRelativeToMain(
       })
     );
 
-    const targetPath = path.join(outputDir, to);
-    const skipPaths = ['index.html', 'iframe.html'].map((f) => path.join(targetPath, f));
-    logger.info(chalk`=> Copying static files: {cyan ${from}} at {cyan ${targetPath}}`);
+    const targetPath = join(outputDir, to);
+    const skipPaths = ['index.html', 'iframe.html'].map((f) => join(targetPath, f));
+    if (!from.includes('node_modules')) {
+      logger.info(
+        chalk`=> Copying static files: {cyan ${print(from)}} at {cyan ${print(targetPath)}}`
+      );
+    }
     await fs.copy(from, targetPath, {
       dereference: true,
       preserveTimestamps: true,
       filter: (_, dest) => !skipPaths.includes(dest),
     });
   }, Promise.resolve());
+}
+function print(p: string): string {
+  return relative(process.cwd(), p);
 }

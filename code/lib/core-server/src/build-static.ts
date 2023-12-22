@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
-import { dirname, isAbsolute, join, resolve } from 'path';
+import { dirname, join, relative, resolve } from 'path';
 import { global } from '@storybook/global';
 import { deprecate, logger } from '@storybook/node-logger';
 import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
@@ -12,21 +12,15 @@ import {
   normalizeStories,
   resolveAddonName,
 } from '@storybook/core-common';
-import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 
-import isEqual from 'lodash/isEqual.js';
 import dedent from 'ts-dedent';
 import { outputStats } from './utils/output-stats';
-import {
-  copyAllStaticFiles,
-  copyAllStaticFilesRelativeToMain,
-} from './utils/copy-all-static-files';
+import { copyAllStaticFilesRelativeToMain } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
 import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
-import { defaultStaticDirs } from './utils/constants';
 import { buildOrThrow } from './utils/build-or-throw';
 
 export type BuildStaticStandaloneOptions = CLIOptions &
@@ -41,17 +35,11 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     throw new Error("Won't remove current directory. Check your outputDir!");
   }
 
-  if (options.staticDir?.includes('/')) {
-    throw new Error("Won't copy root directory. Check your staticDirs!");
-  }
-
-  options.outputDir = isAbsolute(options.outputDir)
-    ? options.outputDir
-    : join(process.cwd(), options.outputDir);
+  options.outputDir = resolve(options.outputDir);
   options.configDir = resolve(options.configDir);
   /* eslint-enable no-param-reassign */
 
-  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir.replace(process.cwd(), '')}}`);
+  logger.info(chalk`=> Cleaning outputDir: {cyan ${relative(process.cwd(), options.outputDir)}}`);
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
@@ -65,7 +53,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
   if (frameworkName) {
     corePresets.push(join(frameworkName, 'preset'));
-  } else {
+  } else if (!options.ignorePreview) {
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
@@ -131,10 +119,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     build,
   };
 
-  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
-    throw new ConflictingStaticDirConfigError();
-  }
-
   const effects: Promise<void>[] = [];
 
   global.FEATURES = features;
@@ -147,9 +131,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     effects.push(
       copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir)
     );
-  }
-  if (options.staticDir) {
-    effects.push(copyAllStaticFiles(options.staticDir, options.outputDir));
   }
 
   const coreServerPublicDir = join(
