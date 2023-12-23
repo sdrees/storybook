@@ -549,7 +549,7 @@ To summarize:
 
 #### typescript.skipBabel deprecated
 
-We will remove the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescirpt.skipCompiler` instead.
+We will remove the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescript.skipCompiler` instead.
 
 #### Primary doc block accepts of prop
 

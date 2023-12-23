@@ -193,6 +193,10 @@ export const inaccessible = () => (
 );
 ```
 
+## Automate accessibility tests with test runner
+
+The test runner does not apply any rules that you have set on your stories by default. You can configure the runner to correctly apply the rules by [following the guide on the Storybook docs](https://storybook.js.org/docs/writing-tests/accessibility-testing#automate-accessibility-tests-with-test-runner).
+
 ## Roadmap
 
 - Make UI accessible
