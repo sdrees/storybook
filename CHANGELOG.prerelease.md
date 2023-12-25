@@ -1,3 +1,11 @@
+## 8.0.0-alpha.5
+
+- Core: Remove the `-s` flag from build & dev - [#25266](https://github.com/storybookjs/storybook/pull/25266), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Skip no-framework error when ignorePreview=true - [#25286](https://github.com/storybookjs/storybook/pull/25286), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Unique outputDir/cacheDir for each configDir - [#25264](https://github.com/storybookjs/storybook/pull/25264), thanks [@ndelangen](https://github.com/ndelangen)!
+- Dependencies: Semver dependency fixes - [#25283](https://github.com/storybookjs/storybook/pull/25283), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Mock out `server-only` package for RSC - [#25263](https://github.com/storybookjs/storybook/pull/25263), thanks [@shilman](https://github.com/shilman)!
+
 ## 8.0.0-alpha.4
 
 - API: Remove stories.json support - [#25236](https://github.com/storybookjs/storybook/pull/25236), thanks [@shilman](https://github.com/shilman)!
