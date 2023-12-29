@@ -51,6 +51,7 @@
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
     "@storybook/types": "workspace:*",
+    "@vue/compiler-core": "^3.0.0",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0",
     "type-fest": "~2.19",
@@ -60,13 +61,11 @@
     "@digitak/esrun": "^3.2.2",
     "@types/prettier": "2.7.2",
     "@vitejs/plugin-vue": "^4.4.0",
-    "@vue/compiler-core": "^3.3.4",
     "typescript": "^5.3.2",
     "vue": "^3.2.47",
     "vue-tsc": "latest"
   },
   "peerDependencies": {
-    "@vue/compiler-core": "^3.0.0",
     "vue": "^3.0.0"
   },
   "engines": {

@@ -6764,7 +6764,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@types/prettier": "npm:2.7.2"
     "@vitejs/plugin-vue": "npm:^4.4.0"
-    "@vue/compiler-core": "npm:^3.3.4"
+    "@vue/compiler-core": "npm:^3.0.0"
     lodash: "npm:^4.17.21"
     ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
@@ -6773,7 +6773,6 @@ __metadata:
     vue-component-type-helpers: "npm:latest"
     vue-tsc: "npm:latest"
   peerDependencies:
-    "@vue/compiler-core": ^3.0.0
     vue: ^3.0.0
   languageName: unknown
   linkType: soft
@@ -8712,7 +8711,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-core@npm:3.3.11, @vue/compiler-core@npm:^3.3.4":
+"@vue/compiler-core@npm:3.3.11":
   version: 3.3.11
   resolution: "@vue/compiler-core@npm:3.3.11"
   dependencies:
@@ -8721,6 +8720,18 @@ __metadata:
     estree-walker: "npm:^2.0.2"
     source-map-js: "npm:^1.0.2"
   checksum: 576aa8075bd9f4e91e54fdc9fe2d66941a3c81e12c59e1473c2596f57eb5b8fa7327e94d557d7d5da331a8577f9347990ebd807ebd3b28b2684451c23de7f15d
+  languageName: node
+  linkType: hard
+
+"@vue/compiler-core@npm:^3.0.0":
+  version: 3.3.13
+  resolution: "@vue/compiler-core@npm:3.3.13"
+  dependencies:
+    "@babel/parser": "npm:^7.23.5"
+    "@vue/shared": "npm:3.3.13"
+    estree-walker: "npm:^2.0.2"
+    source-map-js: "npm:^1.0.2"
+  checksum: d0544ef5c12adb1f25523349dfb5468ee59928892c8476c491b66806840ab7de7a2c15b943ae3805dc8adcfd1a88435db08b97a0d23977eafe7e448a2a001754
   languageName: node
   linkType: hard
 
@@ -8925,6 +8936,13 @@ __metadata:
   version: 3.3.11
   resolution: "@vue/shared@npm:3.3.11"
   checksum: 164b904ed6c5a6e9b0d4c6ac38a214770943d5b1196e8af7193f7f9f099706ffd7627e40c95a9b4de430ff7d3523a713c9236ef6e8ca48dd6865606efb7208f5
+  languageName: node
+  linkType: hard
+
+"@vue/shared@npm:3.3.13":
+  version: 3.3.13
+  resolution: "@vue/shared@npm:3.3.13"
+  checksum: 8f49e0ee51f7f1edce16aa7a97b5a7a36d8cf36dfd03c9dba194b6eb0e9685eb71335f0a2b17af17753b742fa2346f96ec371a3c0a56677a4e7eeb0f13426a56
   languageName: node
   linkType: hard
 
