@@ -1,3 +1,9 @@
+## 8.0.0-alpha.6
+
+- NextJS: Autoconfigure public directory for new projects - [#25279](https://github.com/storybookjs/storybook/pull/25279), thanks [@shilman](https://github.com/shilman)!
+- Vite: Fix pre-transform error in Vite 5 - [#25329](https://github.com/storybookjs/storybook/pull/25329), thanks [@yannbf](https://github.com/yannbf)!
+- Vue3: Fix pnp by making compiler-core a dependency - [#25311](https://github.com/storybookjs/storybook/pull/25311), thanks [@shilman](https://github.com/shilman)!
+
 ## 8.0.0-alpha.5
 
 - Core: Remove the `-s` flag from build & dev - [#25266](https://github.com/storybookjs/storybook/pull/25266), thanks [@ndelangen](https://github.com/ndelangen)!
