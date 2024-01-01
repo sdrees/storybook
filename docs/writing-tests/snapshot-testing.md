@@ -10,7 +10,7 @@ Storybook is a helpful tool for snapshot testing because every story is essentia
 
 ## Migrating Tests
 
-The Storyshots addon was the original testing solution for Storybook, offering a highly extensible API and a wide range of configuration options for testing. However, it was difficult to set up and maintain, and it needed to be compatible with the latest version of Storybook, which introduced some significant architectural changes, including a high-performance [on-demand story loading](../configure/index.md#on-demand-story-loading) feature. As a result, Storyhots is now officially deprecated, is no longer being maintained, and will be removed in the next major release of Storybook. We recommend following the [migration guide](./storyshots-migration-guide.md) we've prepared to help you during this transition period.
+The Storyshots addon was the original testing solution for Storybook, offering a highly extensible API and a wide range of configuration options for testing. However, it was difficult to set up and maintain, and it needed to be compatible with the latest version of Storybook, which introduced some significant architectural changes, including a high-performance [on-demand story loading](../configure/index.md#on-demand-story-loading) feature. As a result, Storyshots is now officially deprecated, is no longer being maintained, and will be removed in the next major release of Storybook. We recommend following the [migration guide](./storyshots-migration-guide.md) we've prepared to help you during this transition period.
 
 ## Set up Storyshots
 
