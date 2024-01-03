@@ -2,15 +2,19 @@ import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 
-import { Button as BaseButton, Link, StorybookIcon } from '@storybook/components';
+import { Button, Link, StorybookLogo } from '@storybook/components';
 import { DocumentIcon, GithubIcon } from '@storybook/icons';
 import { UpgradeBlock } from '../components/upgrade/UpgradeBlock';
 
-const Header = styled.header(({ theme }) => ({
+const Container = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+  marginTop: 40,
+});
+
+const Header = styled.header({
   marginBottom: 32,
-  fontSize: theme.typography.size.l2,
-  color: theme.base === 'light' ? theme.color.darkest : theme.color.lightest,
-  fontWeight: theme.typography.weight.bold,
   alignItems: 'center',
   display: 'flex',
 
@@ -19,14 +23,6 @@ const Header = styled.header(({ theme }) => ({
     width: 'auto',
     marginRight: 8,
   },
-}));
-
-const Container = styled.div({
-  display: `flex`,
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: 'calc(100% - 40px)',
-  flexDirection: 'column',
 });
 
 const Footer = styled.div(({ theme }) => ({
@@ -39,18 +35,14 @@ const Footer = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2,
 }));
 
-const SquareButton = styled(BaseButton)(({ theme }) => ({
-  '&&': {
-    borderRadius: 4,
-    fontSize: '13px',
-    lineHeight: '14px',
-    color: theme.base === 'light' ? theme.color.darker : theme.color.lightest,
-    padding: '9px 12px',
-    svg: {
-      marginRight: 6,
-    },
-  },
-}));
+const Actions = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 24,
+  marginTop: 24,
+  gap: 16,
+});
 
 const StyledLink = styled(Link as any)(({ theme }) => ({
   '&&': {
@@ -65,28 +57,25 @@ const StyledLink = styled(Link as any)(({ theme }) => ({
 const AboutScreen: FC<{ onNavigateToWhatsNew?: () => void }> = ({ onNavigateToWhatsNew }) => {
   return (
     <Container>
-      <div style={{ flex: '1' }} />
       <Header>
-        <StorybookIcon /> Storybook
+        <StorybookLogo alt="Storybook" />
       </Header>
       <UpgradeBlock onNavigateToWhatsNew={onNavigateToWhatsNew} />
-      <div style={{ flex: '1.2' }} />
       <Footer>
-        <div style={{ marginBottom: 12 }}>
-          <SquareButton asChild style={{ marginRight: 12 }}>
+        <Actions>
+          <Button asChild>
             <a href="https://github.com/storybookjs/storybook">
               <GithubIcon />
               GitHub
             </a>
-          </SquareButton>
-
-          <SquareButton asChild>
+          </Button>
+          <Button asChild>
             <a href="https://storybook.js.org/docs">
               <DocumentIcon style={{ display: 'inline', marginRight: 5 }} />
               Documentation
             </a>
-          </SquareButton>
-        </div>
+          </Button>
+        </Actions>
         <div>
           Open source software maintained by{' '}
           <StyledLink href="https://www.chromatic.com/">Chromatic</StyledLink> and the{' '}

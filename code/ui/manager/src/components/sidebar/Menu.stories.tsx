@@ -8,7 +8,7 @@ import { styled } from '@storybook/theming';
 import { screen, userEvent, within } from '@storybook/testing-library';
 import type { State } from '@storybook/manager-api';
 import { LinkIcon } from '@storybook/icons';
-import { SidebarMenu, ToolbarMenu } from './Menu';
+import { SidebarMenu } from './Menu';
 import { useMenu } from '../../container/Menu';
 import { LayoutProvider } from '../layout/LayoutProvider';
 
@@ -34,11 +34,10 @@ export const Items: Story = {
 };
 
 export const Real: Story = {
-  render: () => <SidebarMenu menu={fakemenu} isHighlighted />,
-};
-
-export const Toolbar = {
-  render: () => <ToolbarMenu menu={fakemenu} />,
+  args: {
+    isHighlighted: true,
+  },
+  render: (args) => <SidebarMenu menu={fakemenu} {...args} />,
 };
 
 const DoubleThemeRenderingHack = styled.div({

@@ -1,5 +1,5 @@
 import { useStorybookApi, useStorybookState, types } from '@storybook/manager-api';
-import { IconButton, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
+import { IconButton, TabBar, TabButton, ScrollArea } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
@@ -14,6 +14,16 @@ import { WhatsNewPage } from './whats_new_page';
 import { matchesModifiers, matchesKeyCode } from '../keybinding';
 
 const { document } = global;
+
+const Header = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  height: 40,
+  boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
+  background: theme.barBg,
+  paddingRight: 8,
+}));
 
 const TabBarButton = React.memo(function TabBarButton({
   changeTab,
@@ -70,7 +80,7 @@ const Pages: FC<{
 
   return (
     <Fragment>
-      <FlexBar border>
+      <Header>
         <TabBar role="tablist">
           <TabBarButton id="about" title="About" changeTab={changeTab} />
           {enableWhatsNew && (
@@ -87,7 +97,7 @@ const Pages: FC<{
         >
           <CloseIcon />
         </IconButton>
-      </FlexBar>
+      </Header>
       <Content vertical horizontal={false}>
         <Route path="about">
           <AboutPage key="about" />
