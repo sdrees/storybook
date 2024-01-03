@@ -140,11 +140,12 @@ export function getOptions<TOptions extends OptionSpecifier>(
 
       const checkStringValue = (raw: string) => {
         if (option.values && !option.values.includes(raw)) {
-          const possibleOptions = chalk.cyan(option.values.join(', '));
+          const possibleOptions = chalk.cyan(option.values.join('\n'));
           throw new Error(
             dedent`Unexpected value '${chalk.yellow(raw)}' for option '${chalk.magenta(key)}'.
             
-            These are the possible options: ${possibleOptions}\n\n`
+            These are the possible options:
+              ${possibleOptions}\n\n`
           );
         }
         return raw;

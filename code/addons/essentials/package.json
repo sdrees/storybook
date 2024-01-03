@@ -43,6 +43,7 @@
     "./outline/manager": "./dist/outline/manager.js",
     "./toolbars/manager": "./dist/toolbars/manager.js",
     "./viewport/manager": "./dist/viewport/manager.js",
+    "./viewport/preview": "./dist/viewport/preview.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -102,7 +103,8 @@
       "./src/docs/preview.ts",
       "./src/highlight/preview.ts",
       "./src/measure/preview.ts",
-      "./src/outline/preview.ts"
+      "./src/outline/preview.ts",
+      "./src/viewport/preview.ts"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

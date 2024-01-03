@@ -5,12 +5,11 @@ import remarkExternalLinks from 'remark-external-links';
 import { createFilter } from '@rollup/pluginutils';
 import { dirname, join } from 'path';
 
-const isStorybookMdx = (id: string) => id.endsWith('.stories.mdx') || id.endsWith('.story.mdx');
+import { compile } from '../compiler';
 
 /**
- * Storybook uses two different loaders when dealing with MDX:
+ * Storybook uses a single loader when dealing with MDX:
  *
- * - *stories.mdx and *story.mdx are compiled with the CSF compiler
  * - *.mdx are compiled with the MDX compiler directly
  *
  * @see https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx
@@ -18,18 +17,14 @@ const isStorybookMdx = (id: string) => id.endsWith('.stories.mdx') || id.endsWit
 export async function mdxPlugin(options: Options): Promise<Plugin> {
   const include = /\.mdx$/;
   const filter = createFilter(include);
-  const { features, presets } = options;
-  const { mdxPluginOptions, jsxOptions } = await presets.apply<Record<string, any>>('options', {});
+  const { presets } = options;
+  const { mdxPluginOptions } = await presets.apply<Record<string, any>>('options', {});
 
   return {
     name: 'storybook:mdx-plugin',
     enforce: 'pre',
     async transform(src, id) {
       if (!filter(id)) return undefined;
-
-      const { compile } = features?.legacyMdx1
-        ? await import('@storybook/mdx1-csf')
-        : await import('@storybook/mdx2-csf');
 
       const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
         ...mdxPluginOptions,
@@ -43,19 +38,18 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
             mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
           ),
         },
-        jsxOptions,
       });
 
       const code = String(
         await compile(src, {
-          skipCsf: !isStorybookMdx(id),
           ...mdxLoaderOptions,
         })
       );
 
       return {
         code,
-        map: null, // TODO: update mdx2-csf to return the map
+        // TODO: support source maps
+        map: null,
       };
     },
   };

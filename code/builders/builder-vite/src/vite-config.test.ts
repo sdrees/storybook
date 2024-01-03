@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { Options, Presets } from '@storybook/types';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { loadConfigFromFile } from 'vite';
 import { commonConfig } from './vite-config';
 

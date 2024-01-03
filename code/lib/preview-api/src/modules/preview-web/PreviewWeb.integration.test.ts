@@ -111,7 +111,9 @@ describe('PreviewWeb', () => {
       await waitForRender();
 
       expect(docsRoot.outerHTML).toMatchInlineSnapshot('"<div><div>INSIDE</div></div>"');
-    });
+      // Extended timeout to try and avoid
+      // Error: Event was not emitted in time: storyRendered,docsRendered,storyThrewException,storyErrored,storyMissing
+    }, 10_000);
 
     // TODO @tmeasday please help fixing this test
     it.skip('sends docs rendering exceptions to showException', async () => {

@@ -1,5 +1,6 @@
 import path from 'path';
 import pluginTurbosnap from 'vite-plugin-turbosnap';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { mergeConfig } from 'vite';
 import type { StorybookConfig } from '../../frameworks/react-vite';
 

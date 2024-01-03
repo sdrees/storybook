@@ -6,7 +6,6 @@ import svelteDoc from 'sveltedoc-parser';
 import type { SvelteComponentDoc, SvelteParserOptions } from 'sveltedoc-parser';
 import { logger } from '@storybook/node-logger';
 import { preprocess } from 'svelte/compiler';
-import { createFilter } from 'vite';
 import { replace, typescript } from 'svelte-preprocess';
 
 /*
@@ -59,10 +58,12 @@ function getNameFromFilename(filename: string) {
   return base[0].toUpperCase() + base.slice(1);
 }
 
-export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOption {
+export async function svelteDocgen(svelteOptions: Record<string, any> = {}): Promise<PluginOption> {
   const cwd = process.cwd();
   const { preprocess: preprocessOptions, logDocgen = false } = svelteOptions;
   const include = /\.(svelte)$/;
+  const { createFilter } = await import('vite');
+
   const filter = createFilter(include);
 
   let docPreprocessOptions: Parameters<typeof preprocess>[1] | undefined;

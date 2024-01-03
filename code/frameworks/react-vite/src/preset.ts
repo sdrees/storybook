@@ -1,6 +1,5 @@
 /* eslint-disable global-require */
 import type { PresetProperty } from '@storybook/types';
-import { hasVitePlugins } from '@storybook/builder-vite';
 import { dirname, join } from 'path';
 import type { StorybookConfig } from './types';
 
@@ -14,12 +13,6 @@ export const core: PresetProperty<'core', StorybookConfig> = {
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   const { plugins = [] } = config;
-
-  // Add react plugin if not present
-  if (!(await hasVitePlugins(plugins, ['vite:react-babel', 'vite:react-swc']))) {
-    const { default: react } = await import('@vitejs/plugin-react');
-    plugins.push(react());
-  }
 
   // Add docgen plugin
   const { reactDocgen: reactDocgenOption, reactDocgenTypescriptOptions } = await presets.apply<any>(

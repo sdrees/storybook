@@ -10,7 +10,6 @@ export async function getStoryIndexGenerator(
     buildStoriesJson?: boolean;
     storyStoreV7?: boolean;
     argTypeTargetsV7?: boolean;
-    warnOnLegacyHierarchySeparator?: boolean;
   },
   options: Options,
   serverChannel: ServerChannel

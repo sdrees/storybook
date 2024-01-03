@@ -29,7 +29,7 @@ import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
-import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
+import { JsPackageManagerFactory } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
@@ -235,12 +235,7 @@ async function doInitiate(
     }
   | { shouldRunDev: false }
 > {
-  let { packageManager: pkgMgr } = options;
-  if (options.useNpm) {
-    useNpmWarning();
-
-    pkgMgr = 'npm';
-  }
+  const { packageManager: pkgMgr } = options;
 
   const packageManager = JsPackageManagerFactory.getPackageManager({
     force: pkgMgr,

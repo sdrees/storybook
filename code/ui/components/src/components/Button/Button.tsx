@@ -15,23 +15,23 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
   animation?: 'none' | 'rotate360' | 'glow' | 'jiggle';
 
-  /** @deprecated Use {@link asChild} instead */
+  /** @deprecated Use {@link asChild} instead. This will be removed in Storybook 9.0 */
   isLink?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   primary?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   secondary?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   tertiary?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   gray?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   inForm?: boolean;
-  /** @deprecated Use {@link size} instead */
+  /** @deprecated Use {@link size} instead. This will be removed in Storybook 9.0 */
   small?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   outline?: boolean;
-  /** @deprecated Add your icon as a child directly */
+  /** @deprecated Add your icon as a child directly. This will be removed in Storybook 9.0 */
   containsIcon?: boolean;
 }
 

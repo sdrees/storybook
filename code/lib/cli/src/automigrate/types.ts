@@ -41,7 +41,6 @@ export interface FixOptions {
   fixes?: Fix[];
   yes?: boolean;
   dryRun?: boolean;
-  useNpm?: boolean;
   packageManager?: PackageManagerName;
   configDir?: string;
   renderer?: string;

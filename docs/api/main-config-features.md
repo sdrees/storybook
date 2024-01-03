@@ -54,23 +54,6 @@ Apply decorators from preview.js before decorators from addons or frameworks. [M
 
 <!-- prettier-ignore-end -->
 
-## `legacyMdx1`
-
-Type: `boolean`
-
-Enables support for MDX version 1 as a fallback. Requires [@storybook/mdx1-csf](https://github.com/storybookjs/mdx1-csf) to be installed.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-legacy-mdx-1.js.mdx',
-    'common/main-config-features-legacy-mdx-1.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 ## `storyStoreV7`
 
 Type: `boolean`

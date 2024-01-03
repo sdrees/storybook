@@ -1,7 +1,7 @@
 import { resolve } from 'node:path';
 import type { Plugin } from 'vite';
 
-export function mockSveltekitStores() {
+export async function mockSveltekitStores() {
   return {
     name: 'storybook:sveltekit-mock-stores',
     config: () => ({

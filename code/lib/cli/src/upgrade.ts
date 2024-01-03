@@ -5,7 +5,7 @@ import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 
 import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
-import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
+import { getPackageDetails, JsPackageManagerFactory } from './js-package-manager';
 import { coerceSemver, commandLog } from './helpers';
 import { automigrate } from './automigrate';
 import { isCorePackage } from './utils';
@@ -135,7 +135,6 @@ export interface UpgradeOptions {
   tag: string;
   prerelease: boolean;
   skipCheck: boolean;
-  useNpm: boolean;
   packageManager: PackageManagerName;
   dryRun: boolean;
   yes: boolean;
@@ -147,18 +146,12 @@ export const doUpgrade = async ({
   tag,
   prerelease,
   skipCheck,
-  useNpm,
   packageManager: pkgMgr,
   dryRun,
   configDir,
   yes,
   ...options
 }: UpgradeOptions) => {
-  if (useNpm) {
-    useNpmWarning();
-    // eslint-disable-next-line no-param-reassign
-    pkgMgr = 'npm';
-  }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   const beforeVersion = await getStorybookCoreVersion();

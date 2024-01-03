@@ -32,7 +32,7 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
     ])
   )
     .concat(configOverrides())
-    .concat(mockSveltekitStores());
+    .concat(await mockSveltekitStores());
 
   return { ...baseConfig, plugins };
 };

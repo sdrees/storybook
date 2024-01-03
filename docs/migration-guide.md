@@ -94,26 +94,6 @@ This shows the errors visually in your editor, which speeds things up a lot. Her
 
 ![MDX errors showing in VS Code](./assets/mdx-vs-code-extension-errors.gif)
 
-#### MDX1 as fallback
-
-If, for some reason, you are unable to get MDX2 working, we’ve implemented legacy MDX1 support as a last resort. MDX1 is deprecated and opt-in, and we recommend against it unless you really need it.
-
-To use MDX1:
-
-1. Install `@storybook/mdx1-csf` as a dev dependency
-2. Add the `legacyMdx1` feature flag to your `.storybook/main.js`:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-legacy-mdx-1.js.mdx',
-    'common/main-config-features-legacy-mdx-1.ts.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 ### storiesOf support discontinued by default
 
 If you use Storybook’s legacy `storiesOf` API, it is no longer supported by default in Storybook 7.

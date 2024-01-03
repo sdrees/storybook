@@ -187,7 +187,6 @@ export const previewAnnotations = async (base: any, options: Options) => {
 
 export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,
-  warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
   storyStoreV7: true,
   argTypeTargetsV7: true,

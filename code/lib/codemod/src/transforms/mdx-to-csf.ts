@@ -136,6 +136,7 @@ export function transform(source: string, baseName: string): [string, string] {
             value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */`,
           };
           storiesMap.set(idAttribute.value as string, { type: 'id' });
+          // @ts-expect-error issue with mdast types
           parent?.children.splice(index as number, 0, newNode);
           // current index is the new comment, and index + 1 is current node
           // SKIP traversing current node, and continue with the node after that

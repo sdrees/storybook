@@ -92,7 +92,6 @@ Below is an abridged configuration and table with all the available options for 
 | `@storybook/addon-actions`     | N/A                | N/A                                                                                                                                                      |
 | `@storybook/addon-viewport`    | N/A                | N/A                                                                                                                                                      |
 | `@storybook/addon-docs`        | `csfPluginOptions` | Provides additional configuration for Storybook's CSF plugin. Can be disabled with `null`.                                                               |
-|                                | `jsxOptions`       | Extends the default Babel configuration options for processing Markdown and MDX files.                                                                   |
 |                                | `mdxPluginOptions` | Provides additional configuration options and plugin configuration for [MDX documentation](../writing-docs/mdx.md#lack-of-github-flavored-markdown-gfm). |
 | `@storybook/addon-controls`    | N/A                | N/A                                                                                                                                                      |
 | `@storybook/addon-backgrounds` | N/A                | N/A                                                                                                                                                      |

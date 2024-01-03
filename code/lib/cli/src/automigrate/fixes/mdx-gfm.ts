@@ -82,7 +82,7 @@ export const mdxgfm: Fix<Options> = {
     return dedent`
       In MDX1 you had the option of using GitHub flavored markdown.
 
-      Storybook 7.0 uses MDX2 for compiling MDX, and thus no longer supports GFM out of the box.
+      Storybook 8.0 uses MDX3 for compiling MDX, and thus no longer supports GFM out of the box.
       Because of this you need to explicitly add the GFM plugin in the addon-docs options:
       https://storybook.js.org/docs/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm
 

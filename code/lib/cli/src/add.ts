@@ -4,11 +4,7 @@ import { isAbsolute, join } from 'path';
 import SemVer from 'semver';
 import dedent from 'ts-dedent';
 
-import {
-  JsPackageManagerFactory,
-  useNpmWarning,
-  type PackageManagerName,
-} from './js-package-manager';
+import { JsPackageManagerFactory, type PackageManagerName } from './js-package-manager';
 import { getStorybookVersion, isCorePackage } from './utils';
 
 const logger = console;
@@ -71,13 +67,10 @@ const checkInstalled = (addonName: string, main: any) => {
  */
 export async function add(
   addon: string,
-  options: { useNpm: boolean; packageManager: PackageManagerName; skipPostinstall: boolean }
+  options: { packageManager: PackageManagerName; skipPostinstall: boolean }
 ) {
-  let { packageManager: pkgMgr } = options;
-  if (options.useNpm) {
-    useNpmWarning();
-    pkgMgr = 'npm';
-  }
+  const { packageManager: pkgMgr } = options;
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const packageJson = await packageManager.retrievePackageJson();
   const { mainConfig, configDir } = getStorybookInfo(packageJson);

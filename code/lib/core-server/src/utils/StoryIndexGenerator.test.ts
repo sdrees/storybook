@@ -6,8 +6,6 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import path from 'path';
-// @ts-expect-error -- cannot find declaration file
-import { createStoriesMdxIndexer } from '@storybook/addon-docs/preset';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
 import { readCsf, getStorySortParameter } from '@storybook/csf-tools';
@@ -45,7 +43,7 @@ const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [],
-  indexers: [csfIndexer, createStoriesMdxIndexer(false)],
+  indexers: [csfIndexer],
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
 };
@@ -290,51 +288,6 @@ describe('StoryIndexGenerator', () => {
           }
         `);
       });
-    });
-
-    describe('mdx tagged components', () => {
-      it('adds docs entry with docs enabled', async () => {
-        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/nested/Page.stories.mdx',
-          options
-        );
-
-        const generator = new StoryIndexGenerator([specifier], {
-          ...options,
-        });
-        await generator.initialize();
-
-        expect(await generator.getIndex()).toMatchInlineSnapshot(`
-          {
-            "entries": {
-              "page--docs": {
-                "id": "page--docs",
-                "importPath": "./src/nested/Page.stories.mdx",
-                "name": "docs",
-                "storiesImports": [],
-                "tags": [
-                  "stories-mdx",
-                  "docs",
-                ],
-                "title": "Page",
-                "type": "docs",
-              },
-              "page--story-one": {
-                "id": "page--story-one",
-                "importPath": "./src/nested/Page.stories.mdx",
-                "name": "StoryOne",
-                "tags": [
-                  "stories-mdx",
-                  "story",
-                ],
-                "title": "Page",
-                "type": "story",
-              },
-            },
-            "v": 4,
-          }
-        `);
-      }, 20_000);
     });
 
     describe('autodocs', () => {

@@ -16,7 +16,7 @@ The Storyshots addon was the original testing solution for Storybook, offering a
 
 <Callout variant="warning">
 
-The Storyshots addon has been deprecated and will be removed in a future release of Storybook. See the [migration guide](./storyshots-migration-guide.md) for more information.
+The Storyshots addon was deprecated and has been removed in Storybook 8. See the [migration guide](./storyshots-migration-guide.md) for more information.
 
 </Callout>
 

@@ -88,35 +88,9 @@ type StoryParameters = {
 export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
-  const { id, of, meta, story } = props as StoryRefProps;
+  const { of, meta, story } = props as StoryRefProps;
   if ('of' in props && of === undefined) {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
-  }
-
-  if (id) {
-    deprecate(dedent`Referencing stories by \`id\` is deprecated, please use \`of\` instead. 
-    
-      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
-    return id;
-  }
-
-  const { name } = props as StoryDefProps;
-  if (name) {
-    deprecate(dedent`Referencing stories by \`name\` is deprecated, please use \`of\` instead. 
-    
-      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
-    return context.storyIdByName(name);
-  }
-
-  // The `story={moduleExports}` prop is a legacy prop for stories defined in CSF files, but
-  // "declared" in MDX files (the CSF file has no meta export or doesn't match the stories glob).
-  // In this case, the `.stories.mdx` file will have actually ended up declaring the story
-  // so we can reference the story just the same as an `of={moduleExports}` would have.
-  // See https://github.com/storybookjs/mdx2-csf/issues/3
-  if (story) {
-    deprecate(dedent`The \`story\` prop is deprecated, please export your stories from CSF files and reference them with \`of={}\`.
-
-      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
   }
 
   if (meta) context.referenceMeta(meta, false);

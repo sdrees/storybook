@@ -1,7 +1,12 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Framework specific vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)  
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
+  - [MDX related changes](#mdx-related-changes)
+    - [MDX is upgraded to v3](#mdx-is-upgraded-to-v3)
+    - [Dropping support for \*.stories.mdx (CSF in MDX) format and MDX1 support](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support)
+    - [Dropping support for id, name and story in Story block](#dropping-support-for-id-name-and-story-in-story-block)
   - [Core changes](#core-changes)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
@@ -10,12 +15,19 @@
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
-    - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
     - [Removed postinstall](#removed-postinstall)
     - [Removed stories.json](#removed-storiesjson)
   - [Framework-specific changes](#framework-specific-changes)
-    - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
-    - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
+    - [React](#react)
+      - [`react-docgen` component analysis by default](#react-docgen-component-analysis-by-default)
+    - [Next.js](#nextjs)
+      - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
+    - [Angular](#angular)
+      - [Require Angular 15 and up](#require-angular-15-and-up)
+    - [Svelte](#svelte)
+      - [Require Svelte 4 and up](#require-svelte-4-and-up)
+  - [Deprecations which are now removed](#deprecations-which-are-now-removed)
+    - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -331,6 +343,21 @@
 
 ## From version 7.x to 8.0.0
 
+### Framework-specific Vite plugins have to be explicitly added
+
+In Storybook 7, we would automatically add frameworks-specific Vite plugins, e.g. `@vitejs/plugin-react` if not installed.
+In Storybook 8 those plugins have to be added explicitly in the user's `vite.config.ts`:
+
+```ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+});
+```
+
 ### Implicit actions can not be used during rendering (for example in the play function)
 
 In Storybook 7, we inferred if the component accepts any action props,
@@ -380,6 +407,26 @@ To summarize:
 - This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
 - This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
 
+### MDX related changes
+
+#### MDX is upgraded to v3
+
+Storybook now uses MDX3 under the hood. This change contains many improvements and a few small breaking changes that probably won't affect you. However we recommend checking the [migration notes from MDX here](https://mdxjs.com/blog/v3/).
+
+#### Dropping support for *.stories.mdx (CSF in MDX) format and MDX1 support
+
+In Storybook 7, we deprecated the ability of using MDX both for documentation and for defining stories in the same .stories.mdx file. It is now removed, and Storybook won't support .stories.mdx files anymore. We provide migration scripts to help you onto the new format.
+
+If you were using the [legacy MDX1 format](#legacy-mdx1-support), you will have to remove the `legacyMdx1` main.js feature flag and the `@storybook/mdx1-csf` package.
+
+Alongside with this change, the `jsxOptions` configuration was removed as it is not used anymore.
+
+[More info here](https://storybook.js.org/docs/migration-guide#storiesmdx-to-mdxcsf).
+
+#### Dropping support for id, name and story in Story block
+
+Referencing stories by `id`, `name` or `story` in the Story block is not possible anymore. [More info here](#story-block).
+
 ### Core changes
 
 #### Dropping support for Node.js 16
@@ -407,22 +454,24 @@ Addon authors are advised to upgrade to react v18.
 
 #### Storyshots has been removed
 
-Storyshots was an addon for storybook which allowed users to turn their stories into automated snapshot-tests.
+Storyshots was an addon for Storybook which allowed users to turn their stories into automated snapshot tests.
 
-Every story would automatically be taken into account and created a snapshot-file for.
+Every story would automatically be taken into account and create a snapshot file.
 
-Snapshot-testing has since fallen out of favor and is no longer recommended.
+Snapshot testing has since fallen out of favor and is no longer recommended.
 
-In addition to it's limited use, and high chance of false-positives, storyshots ran code developed to run in the browser in NodeJS via JSDOM.
-JSDOM has limitations and is not a perfect emulation of the browser environment; therefore storyshots was always a pain to setup and maintain.
+In addition to its limited use, and high chance of false positives, Storyshots ran code developed to run in the browser in NodeJS via JSDOM.
+JSDOM has limitations and is not a perfect emulation of the browser environment; therefore, Storyshots was always a pain to set up and maintain.
 
-The storybook team has build the test-runner as a direct replacement, which utilizes playwright to connect to an actual browser where storybook runs the code.
+The Storybook team has built the test-runner as a direct replacement, which utilizes Playwright to connect to an actual browser where Storybook runs the code.
 
-In addition CSF has expanded to allow for play-function to be defined on stories, which allows for more complex testing scenarios, fully integrated within storybook itself (and supported by the test-runner, and not storyshots).
+In addition, CSF has expanded to allow for play functions to be defined on stories, which allows for more complex testing scenarios, fully integrated within Storybook itself (and supported by the test-runner, and not Storyshots).
 
-Finally `storyStoreV7: true` (the default and only options in storybook 8), was not supported by storyshots.
+Finally, storyStoreV7: true (the default and only option in Storybook 8), was not supported by Storyshots.
 
-By removing storyshots, the storybook team was unblocked from moving (eventually) to an ESM-only storybook, which is a big step towards a more modern storybook.
+By removing Storyshots, the Storybook team was unblocked from moving (eventually) to an ESM-only Storybook, which is a big step towards a more modern Storybook.
+
+Please check the [migration guide](https://storybook.js.org/docs/writing-tests/storyshots-migration-guide) that we prepared.
 
 #### UI layout state has changed shape
 
@@ -454,7 +503,21 @@ The `IconButton` doesn't have any deprecated props but it now uses the new `Butt
 
 In Storybook 8.0 we are introducing a new icon library available with `@storybook/icons`. We are deprecating the `Icons` component in `@storybook/components` and recommend that addon creators and Storybook maintainers use the new `@storybook/icons` component instead.
 
-#### React-docgen component analysis by default
+#### Removed postinstall
+
+We removed the `@storybook/postinstall` package, which provided some utilities for addons to programmatically modify user configuration files on install. This package was years out of date, so this should be a non-disruptive change. If your addon used the package, you can view the old source code [here](https://github.com/storybookjs/storybook/tree/release-7-5/code/lib/postinstall) and adapt it into your addon.
+
+#### Removed stories.json
+
+In addition to the built storybook, `storybook build` generates two files, `index.json` and `stories.json`, that list out the contents of the Storybook. `stories.json` is a legacy format and we included it for backwards compatibility. As of 8.0 we no longer build `stories.json` by default, and we will remove it completely in 9.0.
+
+In the meantime if you have code that relies on `stories.json`, you can find code that transforms the "v4" `index.json` to the "v3" `stories.json` format (and their respective TS types): https://github.com/storybookjs/storybook/blob/release-7-5/code/lib/core-server/src/utils/stories-json.ts#L71-L91
+
+### Framework-specific changes
+
+#### React
+
+##### `react-docgen` component analysis by default
 
 In Storybook 7, we used `react-docgen-typescript` to analyze React component props and auto-generate controls. In Storybook 8, we have moved to `react-docgen` as the new default. `react-docgen` is dramatically more efficient, shaving seconds off of dev startup times. However, it only analyzes basic TypeScript constructs.
 
@@ -470,25 +533,29 @@ export default {
 
 For more information see: https://storybook.js.org/docs/react/api/main-config-typescript#reactdocgen
 
-#### Removed postinstall
+#### Next.js
 
-We removed the `@storybook/postinstall` package, which provided some utilities for addons to programmatically modify user configuration files on install. This package was years out of date, so this should be a non-disruptive change. If your addon used the package, you can view the old source code [here](https://github.com/storybookjs/storybook/tree/release-7-5/code/lib/postinstall) and adapt it into your addon.
+##### Require Next.js 13.5 and up
 
-#### Removed stories.json
+Starting in 8.0, Storybook requires Next.js 13.5 and up.
 
-In addition to the built storybook, `storybook build` generates two files, `index.json` and `stories.json`, that list out the contents of the Storybook. `stories.json` is a legacy format and we included it for backwards compatibility. As of 8.0 we no longer build `stories.json` by default, and we will remove it completely in 9.0.
+#### Angular
 
-In the meantime if you have code that relies on `stories.json`, you can find code that transforms the "v4" `index.json` to the "v3" `stories.json` format (and their respective TS types): https://github.com/storybookjs/storybook/blob/release-7-5/code/lib/core-server/src/utils/stories-json.ts#L71-L91
+##### Require Angular 15 and up
 
-### Framework-specific changes
+Starting in 8.0, Storybook requires Angular 15 and up.
 
-#### Angular: Drop support for Angular \< 15
+#### Svelte
 
-Starting in 8.0, we drop support for Angular < 15
+##### Require Svelte 4 and up
 
-#### Next.js: Drop support for version \< 13.5
+Starting in 8.0, Storybook requires Svelte 4 and up.
 
-Starting in 8.0, we drop support for Next.js < 13.5.
+### Deprecations which are now removed
+
+#### --use-npm flag in storybook CLI
+
+The `--use-npm` is now removed. Use `--package-manager=npm` instead. [More info here](#cli-option---use-npm-deprecated).
 
 ## From version 7.5.0 to 7.6.0
 

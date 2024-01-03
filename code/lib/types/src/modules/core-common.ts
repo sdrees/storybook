@@ -376,12 +376,6 @@ export interface StorybookConfigRaw {
     argTypeTargetsV7?: boolean;
 
     /**
-     * Warn when there is a pre-6.0 hierarchy separator ('.' / '|') in the story title.
-     * Will be removed in 7.0.
-     */
-    warnOnLegacyHierarchySeparator?: boolean;
-
-    /**
      * Use legacy MDX1, to help smooth migration to 7.0
      */
     legacyMdx1?: boolean;

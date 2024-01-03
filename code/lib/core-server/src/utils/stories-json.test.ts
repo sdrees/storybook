@@ -4,8 +4,6 @@ import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
-// @ts-expect-error -- cannot find declaration file
-import { createStoriesMdxIndexer } from '@storybook/addon-docs/preset';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
@@ -45,7 +43,7 @@ const getInitializedStoryIndexGenerator = async (
 ) => {
   const options: StoryIndexGeneratorOptions = {
     storyIndexers: [],
-    indexers: [csfIndexer, createStoriesMdxIndexer(false)],
+    indexers: [csfIndexer],
     configDir: workingDir,
     workingDir,
     storyStoreV7: true,
@@ -237,29 +235,6 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "nested/Button",
-              "type": "story",
-            },
-            "nested-page--docs": {
-              "id": "nested-page--docs",
-              "importPath": "./src/nested/Page.stories.mdx",
-              "name": "docs",
-              "storiesImports": [],
-              "tags": [
-                "stories-mdx",
-                "docs",
-              ],
-              "title": "nested/Page",
-              "type": "docs",
-            },
-            "nested-page--story-one": {
-              "id": "nested-page--story-one",
-              "importPath": "./src/nested/Page.stories.mdx",
-              "name": "StoryOne",
-              "tags": [
-                "stories-mdx",
-                "story",
-              ],
-              "title": "nested/Page",
               "type": "story",
             },
             "second-nested-g--story-one": {
