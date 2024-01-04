@@ -6,7 +6,7 @@ export default mergeConfig(
   vitestCommonConfig,
   defineConfig({
     test: {
-      environment: 'node',
+      environment: 'jsdom',
       name: __dirname.split(sep).slice(-2).join(posix.sep),
     },
   })

@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, mockChannel } from '@storybook/preview-api';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
-import { logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
   SET_CURRENT_STORY,
@@ -418,23 +417,23 @@ describe('Instrumenter', () => {
     );
   });
 
-  it('catches thrown errors and throws an ignoredException instead', () => {
+  it('rethrows errors', () => {
     const { fn } = instrument({
       fn: () => {
         throw new Error('Boom!');
       },
     });
-    expect(fn).toThrow('ignoredException');
+    expect(fn).toThrow('Boom!');
   });
 
-  it('catches nested exceptions and throws an ignoredException instead', () => {
+  it('catches nested exceptions and rethrows', () => {
     const { fn1, fn2 } = instrument({
       fn1: (_: any) => {},
       fn2: () => {
         throw new Error('Boom!');
       },
     });
-    expect(() => fn1(fn2())).toThrow('ignoredException');
+    expect(() => fn1(fn2())).toThrow('Boom!');
   });
 
   it('bubbles child exceptions up to parent (in callback)', () => {
@@ -448,15 +447,19 @@ describe('Instrumenter', () => {
     vi.spyOn(instrumented, 'fn1');
 
     const { fn1, fn2 } = instrumented;
-    expect(() =>
+    let error;
+    try {
       fn1(() => {
         fn2();
-      })
-    ).toThrow('ignoredException');
+      });
+    } catch (e) {
+      error = e;
+    }
 
     expect(fn1).toHaveBeenCalled();
-    expect(logger.warn).toHaveBeenCalledWith(new Error('Boom!'));
-    expect((logger.warn as any).mock.calls[0][0].callId).toBe('kind--story [0] fn1 [0] fn2');
+    expect(error).toEqual(new Error('Boom!'));
+    // @ts-expect-error callId is what is tested
+    expect(error.callId).toBe('kind--story [0] fn1 [0] fn2');
   });
 
   it("re-throws anything that isn't an error", () => {

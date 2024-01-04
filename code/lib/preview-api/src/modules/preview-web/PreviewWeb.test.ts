@@ -12,7 +12,6 @@ import {
   FORCE_REMOUNT,
   FORCE_RE_RENDER,
   GLOBALS_UPDATED,
-  IGNORED_EXCEPTION,
   PREVIEW_KEYDOWN,
   RESET_STORY_ARGS,
   SET_CURRENT_STORY,
@@ -130,6 +129,9 @@ beforeEach(() => {
   projectAnnotations.decorators[0].mockClear();
   docsRenderer.render.mockClear();
   vi.mocked(logger.warn).mockClear();
+  // eslint-disable-next-line no-console
+  vi.mocked(console.error).mockReset();
+
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
@@ -628,24 +630,6 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
-      });
-
-      it('does not show error display if the render function throws IGNORED_EXCEPTION', async () => {
-        document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToCanvas.mockImplementation(() => {
-          throw IGNORED_EXCEPTION;
-        });
-
-        const preview = new PreviewWeb();
-        await preview.initialize({ importFn, getProjectAnnotations });
-
-        await waitForRender();
-
-        expect(mockChannel.emit).toHaveBeenCalledWith(
-          STORY_THREW_EXCEPTION,
-          serializeError(IGNORED_EXCEPTION)
-        );
-        expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
       });
     });
 

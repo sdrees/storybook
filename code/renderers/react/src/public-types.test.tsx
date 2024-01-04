@@ -88,7 +88,7 @@ describe('Args can be provided in multiple ways', () => {
   });
 });
 
-it('✅ All void functions are optional', () => {
+it('✅ Void functions are not changed', () => {
   interface CmpProps {
     label: string;
     disabled: boolean;
@@ -106,13 +106,16 @@ it('✅ All void functions are optional', () => {
   });
 
   const Basic: StoryObj<typeof meta> = {
-    args: { disabled: false, onLoading: () => <div>Loading...</div> },
+    args: {
+      disabled: false,
+      onLoading: () => <div>Loading...</div>,
+      onKeyDown: fn(),
+      onClick: fn(),
+      submitAction: fn(),
+    },
   };
 
-  type Expected = ReactStory<
-    CmpProps,
-    SetOptional<CmpProps, 'label' | 'onClick' | 'onKeyDown' | 'submitAction'>
-  >;
+  type Expected = ReactStory<CmpProps, SetOptional<CmpProps, 'label'>>;
   expectTypeOf(Basic).toEqualTypeOf<Expected>();
 });
 

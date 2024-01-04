@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import { styled } from '@storybook/theming';
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 import { Layout } from './Layout';
 import { LayoutProvider } from './LayoutProvider';
 import MobileNavigationStoriesMeta from '../mobile/navigation/MobileNavigation.stories';
@@ -58,6 +59,7 @@ const meta = {
     slotSidebar: <MockSidebar />,
     slotPanel: <MockPanel />,
     slotPages: <MockPage />,
+    setManagerLayoutState: fn(),
   },
   parameters: {
     theme: 'light',

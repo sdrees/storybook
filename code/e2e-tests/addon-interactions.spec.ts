@@ -1,4 +1,4 @@
-/* eslint-disable jest/no-disabled-tests */
+/* eslint-disable jest/no-disabled-tests,jest/valid-title */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
@@ -15,7 +15,6 @@ test.describe('addon-interactions', () => {
   test('should have interactions', async ({ page }) => {
     // templateName is e.g. 'vue-cli/default-js'
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );
@@ -44,7 +43,6 @@ test.describe('addon-interactions', () => {
   test('should step through interactions', async ({ page }) => {
     // templateName is e.g. 'vue-cli/default-js'
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );
@@ -115,5 +113,24 @@ test.describe('addon-interactions', () => {
     await expect(interactionsTab).toBeVisible();
     await expect(interactionsTab).toBeVisible();
     await expect(formInput).toHaveValue('final value');
+  });
+
+  test('should show unhandled errors', async ({ page }) => {
+    test.skip(
+      /^(lit)/i.test(`${templateName}`),
+      `Skipping ${templateName}, which does not support addon-interactions`
+    );
+    // We trigger the implicit action error here, but angular works a bit different with implicit actions.
+    test.skip(/^(angular)/i.test(`${templateName}`));
+
+    const sbPage = new SbPage(page);
+
+    await sbPage.deepLinkToStory(storybookUrl, 'addons/interactions/unhandled-errors', 'default');
+    await sbPage.viewAddonPanel('Interactions');
+
+    const panel = sbPage.panelContent();
+    await expect(panel).toContainText(/Fail/);
+    await expect(panel).toContainText(/Found 1 unhandled error/);
+    await expect(panel).toBeVisible();
   });
 });

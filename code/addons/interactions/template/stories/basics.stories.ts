@@ -1,17 +1,18 @@
 import { global as globalThis } from '@storybook/global';
 import {
-  within,
-  waitFor,
+  expect,
+  fn,
   fireEvent,
   userEvent,
+  waitFor,
   waitForElementToBeRemoved,
-} from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+  within,
+} from '@storybook/test';
 
 export default {
   component: globalThis.Components.Form,
-  argTypes: {
-    onSuccess: { type: 'function' },
+  args: {
+    onSuccess: fn(),
   },
 };
 
@@ -101,15 +102,14 @@ export const UserEventSetup = {
     const { args, canvasElement, step } = context;
     const user = userEvent.setup();
     const canvas = within(canvasElement);
-    await step('Select, type and paste on input using user-event v14 setup', async () => {
-      const input = await canvas.getByRole('textbox');
+    await step('Select and type on input using user-event v14 setup', async () => {
+      const input = canvas.getByRole('textbox');
       await user.click(input);
-      await user.type(input, 'Pasting: ');
-      await user.paste('foobar');
+      await user.type(input, 'Typing ...');
     });
     await step('Tab and press enter on submit button', async () => {
       await user.pointer([
-        { keys: '[TouchA>]', target: await canvas.getByRole('textbox') },
+        { keys: '[TouchA>]', target: canvas.getByRole('textbox') },
         { keys: '[/TouchA]' },
       ]);
       await user.tab();

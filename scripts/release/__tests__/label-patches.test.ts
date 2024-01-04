@@ -138,7 +138,7 @@ it('should label the PR associated with cherry picks in the current branch', asy
             .trim()
         : text
     )
-    .filter((it) => it !== '');
+    .filter((text) => text !== '');
 
   expect(stderrCalls).toMatchInlineSnapshot(`
     [

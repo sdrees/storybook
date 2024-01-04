@@ -10,6 +10,7 @@ import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
 
 import type { Controls } from './InteractionsPanel';
+import { isJestError } from '../utils';
 
 const MethodCallWrapper = styled.div(() => ({
   fontFamily: typography.fonts.mono,
@@ -112,8 +113,8 @@ const RowMessage = styled('div')(({ theme }) => ({
   },
 }));
 
-const Exception = ({ exception }: { exception: Call['exception'] }) => {
-  if (exception.message.startsWith('expect(')) {
+export const Exception = ({ exception }: { exception: Call['exception'] }) => {
+  if (isJestError(exception)) {
     return <MatcherResult {...exception} />;
   }
   const paragraphs = exception.message.split('\n\n');
@@ -121,7 +122,6 @@ const Exception = ({ exception }: { exception: Call['exception'] }) => {
   return (
     <RowMessage>
       <pre>{paragraphs[0]}</pre>
-
       {exception.showDiff && exception.diff ? (
         <>
           <br />

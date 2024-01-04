@@ -2,11 +2,10 @@
 import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/preview-api';
 import type { StoryId } from '@storybook/types';
-import { once, logger } from '@storybook/client-logger';
+import { once } from '@storybook/client-logger';
 import './typings.d.ts';
 import {
   FORCE_REMOUNT,
-  IGNORED_EXCEPTION,
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
@@ -403,10 +402,6 @@ export class Instrumenter {
   }
 
   invoke(fn: Function, object: Record<string, unknown>, call: Call, options: Options) {
-    // TODO this doesnt work because the abortSignal we have here is the newly created one
-    // const { abortSignal } = global.window.__STORYBOOK_PREVIEW__ || {};
-    // if (abortSignal && abortSignal.aborted) throw IGNORED_EXCEPTION;
-
     const { callRefsByResult, renderPhase } = this.getState(call.storyId);
 
     // Map complex values to a JSON-serializable representation.
@@ -475,7 +470,7 @@ export class Instrumenter {
           diff = undefined,
           actual = undefined,
           expected = undefined,
-        } = processError(e);
+        } = e.name === 'AssertionError' ? processError(e) : e;
 
         const exception = { name, message, stack, callId, showDiff, diff, actual, expected };
         this.update({ ...info, status: CallStates.ERROR, exception });
@@ -494,13 +489,6 @@ export class Instrumenter {
             Object.defineProperty(e, 'callId', { value: call.id });
           }
           throw e;
-        }
-
-        // We need to throw to break out of the play function, but we don't want to trigger a redbox
-        // so we throw an ignoredException, which is caught and silently ignored by Storybook.
-        if (e !== alreadyCompletedException) {
-          logger.warn(e);
-          throw IGNORED_EXCEPTION;
         }
       }
       throw e;

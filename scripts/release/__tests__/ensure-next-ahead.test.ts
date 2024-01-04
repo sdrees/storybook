@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
 import { vi, describe, it, expect, beforeEach } from 'vitest';

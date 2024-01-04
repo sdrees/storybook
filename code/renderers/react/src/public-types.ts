@@ -57,7 +57,7 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = [TMetaOrCmpOrArgs] extends [
     ? StoryAnnotations<
         ReactRenderer,
         AddMocks<TArgs, DefaultArgs>,
-        SetOptional<TArgs, keyof TArgs & keyof (DefaultArgs & ActionArgs<TArgs>)>
+        SetOptional<TArgs, keyof TArgs & keyof DefaultArgs>
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
@@ -73,17 +73,6 @@ type AddMocks<TArgs, DefaultArgs> = Simplify<{
       : TArgs[T]
     : TArgs[T];
 }>;
-
-type ActionArgs<TArgs> = {
-  // This can be read as: filter TArgs on functions where we can assign a void function to that function.
-  // The docs addon argsEnhancers can only safely provide a default value for void functions.
-  // Other kind of required functions should be provided by the user.
-  [P in keyof TArgs as TArgs[P] extends (...args: any[]) => any
-    ? ((...args: any[]) => void) extends TArgs[P]
-      ? P
-      : never
-    : never]: TArgs[P];
-};
 
 /**
  * @deprecated Use `Meta` instead, e.g. ComponentMeta<typeof Button> -> Meta<typeof Button>.

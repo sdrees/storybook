@@ -63,7 +63,7 @@ describe('addNxPackagesToReject', () => {
     const flags = ['--reject', '/preset-create-react-app/', '--some-flag', 'hello'];
     expect(addNxPackagesToReject(flags)).toMatchObject([
       '--reject',
-      '/(preset-create-react-app|@nrwl/storybook|@nx/storybook)/',
+      '"/(preset-create-react-app|@nrwl/storybook|@nx/storybook)/"',
       '--some-flag',
       'hello',
     ]);

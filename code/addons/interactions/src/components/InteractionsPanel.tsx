@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import * as React from 'react';
 import { Link, Placeholder } from '@storybook/components';
 import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
@@ -7,6 +8,7 @@ import { transparentize } from 'polished';
 import { Subnav } from './Subnav';
 
 import { Interaction } from './Interaction';
+import { isTestAssertionError } from '../utils';
 
 export interface Controls {
   start: (args: any) => void;
@@ -30,6 +32,7 @@ interface InteractionsPanelProps {
   fileName?: string;
   hasException?: boolean;
   caughtException?: Error;
+  unhandledErrors?: SerializedError[];
   isPlaying?: boolean;
   pausedAt?: Call['id'];
   calls: Map<string, any>;
@@ -37,16 +40,15 @@ interface InteractionsPanelProps {
   onScrollToEnd?: () => void;
 }
 
-const Container = styled.div<{ withException: boolean }>(({ theme, withException }) => ({
+const Container = styled.div(({ theme }) => ({
   minHeight: '100%',
   background: theme.background.content,
-  ...(withException && {
-    backgroundColor:
-      theme.base === 'dark' ? transparentize(0.93, theme.color.negative) : theme.background.warning,
-  }),
 }));
 
 const CaughtException = styled.div(({ theme }) => ({
+  borderBottom: `1px solid ${theme.appBorderColor}`,
+  backgroundColor:
+    theme.base === 'dark' ? transparentize(0.93, theme.color.negative) : theme.background.warning,
   padding: 15,
   fontSize: theme.typography.size.s2 - 1,
   lineHeight: '19px',
@@ -69,9 +71,13 @@ const CaughtExceptionDescription = styled.p({
   margin: 0,
   padding: '0 0 20px',
 });
+
 const CaughtExceptionStack = styled.pre(({ theme }) => ({
   margin: 0,
   padding: 0,
+  '&:not(:last-child)': {
+    paddingBottom: 16,
+  },
   fontSize: theme.typography.size.s1 - 1,
 }));
 
@@ -84,13 +90,14 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
     fileName,
     hasException,
     caughtException,
+    unhandledErrors,
     isPlaying,
     pausedAt,
     onScrollToEnd,
     endRef,
   }) {
     return (
-      <Container withException={!!caughtException}>
+      <Container>
         {(interactions.length > 0 || hasException) && (
           <Subnav
             controls={controls}
@@ -119,18 +126,32 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
             />
           ))}
         </div>
-        {caughtException && !caughtException.message?.startsWith('ignoredException') && (
+        {caughtException && !isTestAssertionError(caughtException) && (
           <CaughtException>
             <CaughtExceptionTitle>
               Caught exception in <CaughtExceptionCode>play</CaughtExceptionCode> function
             </CaughtExceptionTitle>
-            <CaughtExceptionDescription>
-              This story threw an error after it finished rendering which means your interactions
-              couldn&apos; t be run.Go to this story&apos; s play function in {fileName} to fix.
-            </CaughtExceptionDescription>
             <CaughtExceptionStack data-chromatic="ignore">
-              {caughtException.stack || `${caughtException.name}: ${caughtException.message}`}
+              {printSerializedError(caughtException)}
             </CaughtExceptionStack>
+          </CaughtException>
+        )}
+        {unhandledErrors && (
+          <CaughtException>
+            <CaughtExceptionTitle>Unhandled Errors</CaughtExceptionTitle>
+            <CaughtExceptionDescription>
+              Found {unhandledErrors.length} unhandled error{unhandledErrors.length > 1 ? 's' : ''}{' '}
+              while running the play function. This might cause false positive assertions. Resolve
+              unhandled errors or ignore unhandled errors with setting the
+              <CaughtExceptionCode>test.dangerouslyIgnoreUnhandledErrors</CaughtExceptionCode>{' '}
+              parameter to <CaughtExceptionCode>true</CaughtExceptionCode>.
+            </CaughtExceptionDescription>
+
+            {unhandledErrors.map((error, i) => (
+              <CaughtExceptionStack key={i} data-chromatic="ignore">
+                {printSerializedError(error)}
+              </CaughtExceptionStack>
+            ))}
           </CaughtException>
         )}
         <div ref={endRef} />
@@ -150,3 +171,13 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
     );
   }
 );
+
+interface SerializedError {
+  name: string;
+  stack?: string;
+  message: string;
+}
+
+function printSerializedError(error: SerializedError) {
+  return error.stack || `${error.name}: ${error.message}`;
+}

@@ -167,9 +167,7 @@ const getFrameworkDetails = (
 const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDetails(addon)[0]);
 
 const hasInteractiveStories = (rendererId: SupportedRenderers) =>
-  ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html', 'solid', 'qwik'].includes(
-    rendererId
-  );
+  ['react', 'angular', 'preact', 'svelte', 'vue3', 'html', 'solid', 'qwik'].includes(rendererId);
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
   framework ? ['angular', 'nextjs'].includes(framework) : false;
@@ -263,16 +261,16 @@ export async function baseGenerator(
     ...(extraAddonsToInstall || []),
   ].filter(Boolean);
 
+  // TODO: migrate template stories in solid and qwik to use @storybook/test
+  if (['solid', 'qwik'].includes(rendererId)) {
+    addonPackages.push('@storybook/testing-library');
+  } else {
+    addonPackages.push('@storybook/test');
+  }
+
   if (hasInteractiveStories(rendererId)) {
     addons.push('@storybook/addon-interactions');
     addonPackages.push('@storybook/addon-interactions');
-
-    // TODO: migrate template stories in solid and qwik to use @storybook/test
-    if (['solid', 'qwik'].includes(rendererId)) {
-      addonPackages.push('@storybook/testing-library');
-    } else {
-      addonPackages.push('@storybook/test');
-    }
   }
 
   const files = await fse.readdir(process.cwd());

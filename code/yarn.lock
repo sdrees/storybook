@@ -4708,6 +4708,7 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/react-dom-shim": "workspace:*"
+    "@storybook/test": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     fs-extra: "npm:^11.1.0"

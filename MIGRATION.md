@@ -1,7 +1,8 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
-  - [Framework specific vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)  
+  - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
+  - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [MDX related changes](#mdx-related-changes)
     - [MDX is upgraded to v3](#mdx-is-upgraded-to-v3)
@@ -342,6 +343,21 @@
 
 
 ## From version 7.x to 8.0.0
+
+### Removed deprecated shim packages
+
+In Storybook 7, these packages existed for backwards compatibility, but were marked as deprecated:
+
+- `@storybook/addons` - this package has been split into 2 packages: `@storybook/preview-api` and `@storybook/manager-api`, see more here: [New Addons API](#new-addons-api).
+- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channel`.
+- `@storybook/channel-websocket` - this package has been merged into `@storybook/channel`.
+- `@storybook/client-api` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/core-client` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/preview-web` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/store` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/api` - this package has been replaced with `@storybook/manager-api`.
+
+This section explains the rationale, and the required changed you might have to make: [New Addons API](#new-addons-api)
 
 ### Framework-specific Vite plugins have to be explicitly added
 

@@ -191,7 +191,7 @@ export const features: PresetProperty<'features'> = async (existing) => ({
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
-  disallowImplicitActionsInRenderV8: false,
+  disallowImplicitActionsInRenderV8: true,
 });
 
 export const csfIndexer: Indexer = {

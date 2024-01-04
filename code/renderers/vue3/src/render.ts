@@ -1,9 +1,10 @@
-/* eslint-disable local-rules/no-uncategorized-errors */
+/* eslint-disable local-rules/no-uncategorized-errors,no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 import type { App } from 'vue';
-import { createApp, h, reactive, isVNode, isReactive } from 'vue';
+import { createApp, h, isReactive, isVNode, reactive } from 'vue';
 import type { ArgsStoryFn, RenderContext } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
+import type { PreviewWeb } from '@storybook/preview-api';
 import type { StoryFnVueReturnType, StoryID, VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
@@ -79,7 +80,22 @@ export async function renderToCanvas(
     },
   });
 
-  vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
+  vueApp.config.errorHandler = (e: unknown, instance, info) => {
+    const preview = (window as Record<string, any>)
+      .__STORYBOOK_PREVIEW__ as PreviewWeb<VueRenderer>;
+    const isPlaying = preview?.storyRenders.some(
+      (renderer) => renderer.id === id && renderer.phase === 'playing'
+    );
+    // Errors thrown during playing need be shown in the interactions panel.
+    if (isPlaying) {
+      // Make sure that Vue won't swallow this error, by stacking it as a different event.
+      setTimeout(() => {
+        throw e;
+      }, 0);
+    } else {
+      showException(e as Error);
+    }
+  };
   await runSetupFunctions(vueApp, storyContext);
   vueApp.mount(canvasElement);
 

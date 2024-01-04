@@ -36,7 +36,7 @@ function teardown(canvasElement: SvelteRenderer['canvasElement']) {
 function createRoot(target: HTMLElement, props: any) {
   if ((svelte as any).createRoot) {
     // Svelte v5
-    return svelte.createRoot(PreviewRender, {
+    return (svelte as any).createRoot(PreviewRender, {
       target,
       props,
     });
