@@ -1,4 +1,4 @@
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react';
 import { expect } from '@storybook/jest';
 import { CallStates } from '@storybook/instrumenter';
 import { userEvent, within } from '@storybook/testing-library';
@@ -7,7 +7,7 @@ import { getCalls } from '../mocks';
 import { Interaction } from './Interaction';
 import SubnavStories from './Subnav.stories';
 
-type Story = ComponentStoryObj<typeof Interaction>;
+type Story = StoryObj<typeof Interaction>;
 
 export default {
   title: 'Addons/Interactions/Interaction',
@@ -17,7 +17,7 @@ export default {
     controls: SubnavStories.args.controls,
     controlStates: SubnavStories.args.controlStates,
   },
-} as ComponentMeta<typeof Interaction>;
+} as Meta<typeof Interaction>;
 
 export const Active: Story = {
   args: {

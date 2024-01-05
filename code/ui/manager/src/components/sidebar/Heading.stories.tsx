@@ -1,7 +1,7 @@
 /* eslint-disable storybook/use-storybook-testing-library */
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
-import type { ComponentMeta, ComponentStoryObj, ComponentStoryFn } from '@storybook/react';
+import type { Meta, StoryObj, StoryFn } from '@storybook/react';
 import { ThemeProvider, useTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 import { action } from '@storybook/addon-actions';
@@ -9,7 +9,7 @@ import { screen } from '@testing-library/dom';
 
 import { Heading } from './Heading';
 
-type Story = ComponentStoryFn<typeof Heading>;
+type Story = StoryFn<typeof Heading>;
 
 export default {
   component: Heading,
@@ -19,7 +19,7 @@ export default {
   decorators: [
     (storyFn) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,
   ],
-} as ComponentMeta<typeof Heading>;
+} as Meta<typeof Heading>;
 
 const menuItems = [
   { title: 'Menu Item 1', onClick: action('onActivateMenuItem'), id: '1' },
@@ -223,7 +223,7 @@ export const NoBrand: Story = () => {
   );
 };
 
-export const SkipToCanvasLinkFocused: ComponentStoryObj<typeof Heading> = {
+export const SkipToCanvasLinkFocused: StoryObj<typeof Heading> = {
   args: {
     menu: menuItems,
     skipLinkHref: '#storybook-preview-wrapper',

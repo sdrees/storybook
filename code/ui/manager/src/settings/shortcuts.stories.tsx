@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions as makeActions } from '@storybook/addon-actions';
 
-import type { DecoratorFn } from '@storybook/react';
+import type { Decorator } from '@storybook/react';
 import { ShortcutsScreen } from './shortcuts';
 import { defaultShortcuts } from './defaultShortcuts';
 
@@ -26,7 +26,7 @@ export default {
       >
         <StoryFn {...c} />
       </div>
-    )) as DecoratorFn,
+    )) as Decorator,
   ],
 };
 
