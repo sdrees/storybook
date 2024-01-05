@@ -12,7 +12,7 @@ export const SimpleSizeTest = () => {
         margin: '-4rem -20px',
       }}
     >
-      <p>
+      <p data-testid="sb-iframe-text">
         This story does nothing. Its only purpose is to show how its size renders in different
         conditions (inline/iframe/fixed height) when used in a <code>{'<Story />'}</code> block.
       </p>

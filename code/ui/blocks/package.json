@@ -71,6 +71,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "workspace:*",
+    "@storybook/test": "workspace:*",
     "@types/color-convert": "^2.0.0"
   },
   "peerDependencies": {

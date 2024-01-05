@@ -5,25 +5,16 @@ import type { RequestHandler } from 'express';
 import type { ViteDevServer } from 'vite';
 import express from 'express';
 import { dirname, join, parse } from 'path';
-import type { Options, StorybookConfig as StorybookBaseConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
-import type { ViteBuilder, StorybookConfigVite } from './types';
+import type { ViteBuilder } from './types';
 
 export { withoutVitePlugins } from './utils/without-vite-plugins';
 export { hasVitePlugins } from './utils/has-vite-plugins';
 
 export * from './types';
-
-/**
- * @deprecated
- *
- * Import `StorybookConfig` from your framework, such as:
- *
- * `import type { StorybookConfig } from '@storybook/react-vite';`
- */
-export type StorybookViteConfig = StorybookBaseConfig & StorybookConfigVite;
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;

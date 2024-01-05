@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, waitFor } from '@storybook/test';
 
 import { Story as StoryBlock } from './Story';
 import * as ButtonStories from '../examples/Button.stories';
@@ -85,6 +86,24 @@ export const IFrameProps: Story = {
   args: {
     of: StoryParametersStories.NoParameters,
     inline: false,
+  },
+  parameters: {
+    chromatic: {
+      delay: 3000,
+    },
+  },
+  play: async ({ canvasElement }) => {
+    // this is mostly to fix flakiness in chromatic, specifically on Safari
+    // where the scrollbar appears inconsistently and causes the snapshot to be different
+    await waitFor(
+      async () => {
+        const iframeEl = canvasElement.querySelector('iframe');
+        await expect(
+          iframeEl!.contentDocument!.querySelector('[data-testid="sb-iframe-text"]')
+        ).toBeVisible();
+      },
+      { timeout: 10000 }
+    );
   },
 };
 

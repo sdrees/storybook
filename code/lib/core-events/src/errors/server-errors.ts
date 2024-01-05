@@ -120,6 +120,8 @@ export class CouldNotEvaluateFrameworkError extends StorybookError {
   }
 }
 
+// this error is not used anymore, but we keep it to maintain unique its error code
+// which is used for telemetry
 export class ConflictingStaticDirConfigError extends StorybookError {
   readonly category = Category.CORE_SERVER;
 
@@ -138,7 +140,6 @@ export class ConflictingStaticDirConfigError extends StorybookError {
     `;
   }
 }
-
 export class InvalidStoriesEntryError extends StorybookError {
   readonly category = Category.CORE_COMMON;
 

@@ -172,10 +172,6 @@ export interface CLIOptions {
   host?: string;
   initialPath?: string;
   exactPort?: boolean;
-  /**
-   * @deprecated Use 'staticDirs' Storybook Configuration option instead
-   */
-  staticDir?: string[];
   configDir?: string;
   https?: boolean;
   sslCa?: string[];

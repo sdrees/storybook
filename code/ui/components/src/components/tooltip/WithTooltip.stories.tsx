@@ -1,6 +1,7 @@
 import type { FunctionComponent, ComponentProps } from 'react';
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
+import { expect, screen } from '@storybook/test';
 import { styled } from '@storybook/theming';
 import { TooltipMessage } from './TooltipMessage';
 import { WithToolTipState as WithTooltip } from './WithTooltip';
@@ -104,6 +105,9 @@ export const SimpleClickStartOpen: StoryObj<ComponentProps<typeof WithTooltip>> 
       <Trigger>Click me!</Trigger>
     </WithTooltip>
   ),
+  play: async () => {
+    await expect(await screen.findByText('Lorem ipsum dolor sit')).toBeInTheDocument();
+  },
 };
 
 export const SimpleClickCloseOnClick: StoryObj<ComponentProps<typeof WithTooltip>> = {

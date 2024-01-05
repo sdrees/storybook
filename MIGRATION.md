@@ -29,6 +29,10 @@
       - [Require Svelte 4 and up](#require-svelte-4-and-up)
   - [Deprecations which are now removed](#deprecations-which-are-now-removed)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
+    - [`setGlobalConfig` from `@storybook/react`](#setglobalconfig-from-storybookreact)
+    - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
+    - [props from WithTooltipComponent from @storybook/components](#props-from-withtooltipcomponent-from-storybookcomponents)
+    - [LinkTo direct import from addon-links](#linkto-direct-import-from-addon-links)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -572,6 +576,48 @@ Starting in 8.0, Storybook requires Svelte 4 and up.
 #### --use-npm flag in storybook CLI
 
 The `--use-npm` is now removed. Use `--package-manager=npm` instead. [More info here](#cli-option---use-npm-deprecated).
+
+#### `setGlobalConfig` from `@storybook/react`
+
+The `setGlobalConfig` (used for reusing stories in your tests) is now removed in favor of `setProjectAnnotations`.
+
+```ts
+import { setProjectAnnotations } from `@storybook/testing-react`.
+```
+
+#### StorybookViteConfig type from @storybook/builder-vite
+
+The `StorybookViteConfig` type is now removed in favor of `StorybookConfig`:
+
+```ts
+import type { StorybookConfig } from '@storybook/react-vite';
+```
+
+#### props from WithTooltipComponent from @storybook/components
+
+The deprecated properties `tooltipShown`, `closeOnClick`, and `onVisibilityChange` of `WithTooltipComponent` from `@storybook/components` are now removed. Please replace them:
+
+```tsx
+<WithTooltip
+  closeOnClick       // becomes closeOnOutsideClick
+  tooltipShown       // becomes defaultVisible
+  onVisibilityChange // becomes onVisibleChange
+>
+  ...
+</WithTooltip>
+```
+
+#### LinkTo direct import from addon-links
+
+The `LinkTo` (React component) direct import from `@storybook/addon-links` is now removed. You have to import it from `@storybook/addon-links/react` instead.
+
+```ts
+// before
+import LinkTo from '@storybook/addon-links';
+
+// after
+import LinkTo from '@storybook/addon-links/react';
+```
 
 ## From version 7.5.0 to 7.6.0
 

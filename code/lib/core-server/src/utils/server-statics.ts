@@ -69,7 +69,7 @@ export const parseStaticDir = async (arg: string) => {
     throw new Error(
       dedent(chalk`
         Failed to load static files, no such directory: {cyan ${staticPath}}
-        Make sure this directory exists, or omit the {bold -s (--static-dir)} option.
+        Make sure this directory exists.
       `)
     );
   }

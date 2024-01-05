@@ -72,6 +72,7 @@
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
     "@radix-ui/react-scroll-area": "^1.0.5",
+    "@storybook/test": "workspace:*",
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
