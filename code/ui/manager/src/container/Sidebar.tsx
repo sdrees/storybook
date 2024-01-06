@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/manager-api';
-import { types, Consumer } from '@storybook/manager-api';
+import { Consumer } from '@storybook/manager-api';
+import { Addon_TypesEnum } from '@storybook/types';
 
 import type { SidebarProps as SidebarComponentProps } from '../components/sidebar/Sidebar';
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
@@ -41,9 +42,12 @@ const Sidebar = React.memo(function Sideber({ onMenuClick }: SidebarProps) {
     const whatsNewNotificationsEnabled =
       state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
 
-    const items = api.getElements(types.experimental_SIDEBAR_BOTTOM);
-    const bottom = useMemo(() => Object.values(items), [items]);
-    const top = useMemo(() => Object.values(api.getElements(types.experimental_SIDEBAR_TOP)), []);
+    const bottomItems = api.getElements(Addon_TypesEnum.experimental_SIDEBAR_BOTTOM);
+    const topItems = api.getElements(Addon_TypesEnum.experimental_SIDEBAR_TOP);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const bottom = useMemo(() => Object.values(bottomItems), [...Object.values(bottomItems)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const top = useMemo(() => Object.values(topItems), [...Object.values(topItems)]);
 
     return {
       title: name,

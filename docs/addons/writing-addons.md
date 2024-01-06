@@ -94,6 +94,8 @@ By default, code for the UI-based addons is located in one of the following file
 Going through the code blocks in sequence:
 
 ```ts
+// src/Tool.tsx
+
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 
 import { Icons, IconButton } from '@storybook/components';
@@ -102,6 +104,8 @@ import { Icons, IconButton } from '@storybook/components';
 The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `Icons` and `IconButtons` components from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package render the icons and buttons in the toolbar.
 
 ```ts
+// src/Tool.tsx
+
 export const Tool = memo(function MyAddonSelector() {
   const [globals, updateGlobals] = useGlobals();
   const api = useStorybookApi();
@@ -201,55 +205,46 @@ Storybook addons, similar to most packages in the JavaScript ecosystem, are dist
 
 1. Have a `dist` folder with the transpiled code.
 2. A `package.json` file declaring:
-   - Peer dependencies
    - Module-related information
    - Integration catalog metadata
 
 ### Module Metadata
 
-The first category of metadata is related to the addon itself. This includes the entry for the module and which files to include when the addon is published. And all the peer-dependencies of the addon (e.g., `react`,`react-dom`, and Storybook's related APIs).
+The first category of metadata is related to the addon itself. This includes the entry for the module, which files to include when the addon is published. And the required configuration to integrate the addon with Storybook, allowing it to be used by its consumers.
 
 ```json
 {
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
-    "./manager": {
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
-    },
-    "./preview": {
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
-    },
+    "./manager": "./dist/manager.mjs",
+    "./preview": "./dist/preview.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": ["dist/**/*", "README.md", "*.js", "*.d.ts"],
-  "peerDependencies": {
+  "devDependencies": {
     "@storybook/blocks": "^7.0.0",
     "@storybook/components": "^7.0.0",
     "@storybook/core-events": "^7.0.0",
     "@storybook/manager-api": "^7.0.0",
     "@storybook/preview-api": "^7.0.0",
     "@storybook/theming": "^7.0.0",
-    "@storybook/types": "^7.0.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "@storybook/types": "^7.0.0"
+  },
+  "bundler": {
+    "exportEntries": ["src/index.ts"],
+    "managerEntries": ["src/manager.ts"],
+    "previewEntries": ["src/preview.ts"]
   }
 }
 ```
-
-#### Why peer-dependencies?
-
-A standard practice in the JavaScript ecosystem ensuring compatibility between modules or packages that are meant to work together, often in a plugin or extension scenario. Peer-dependencies are dependencies that are not bundled with the addon but are expected to be installed by the consumer of the addon. When a module relies on a specific version of another module, it might assume certain features, APIs, or behavior provided by that dependency. By specifying a peer dependency, the module can indicate its compatibility requirements and avoid potential conflicts or unexpected behavior due to incompatible versions.
 
 ### Integration Catalog Metadata
 
