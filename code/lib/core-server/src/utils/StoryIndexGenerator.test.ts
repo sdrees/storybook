@@ -42,7 +42,6 @@ const getStorySortParameterMock = vi.mocked(getStorySortParameter);
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
-  storyIndexers: [],
   indexers: [csfIndexer],
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },

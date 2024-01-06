@@ -50,56 +50,6 @@ export const Transform = {
   },
 };
 
-// deprecated
-export const SourceTransformSource = {
-  args: { something: 'else' },
-  parameters: {
-    docs: {
-      source: {
-        transformSource: (
-          src: string,
-          storyContext: StoryContext
-        ) => dedent`// this comment has been added via parameters.docs.source.transformSource!
-        // this is the story id: ${storyContext.id}
-        // these are the current args: ${JSON.stringify(storyContext.args)}
-        ${src}`,
-      },
-    },
-  },
-};
-
-// deprecated
-export const DocsTransformSource = {
-  args: { something: 'else' },
-  parameters: {
-    docs: {
-      transformSource: (
-        src: string,
-        storyContext: StoryContext
-      ) => dedent`// this comment has been added via parameters.docs.transformSource!
-      // this is the story id: ${storyContext.id}
-      // these are the current args: ${JSON.stringify(storyContext.args)}
-      ${src}`,
-    },
-  },
-};
-
-// deprecated
-export const JsxTransformSource = {
-  args: { something: 'else' },
-  parameters: {
-    jsx: {
-      transformSource: (
-        src: string,
-        storyContext: StoryContext
-      ) => dedent`// this comment has been added via parameters.jsx.transformSource!
-      // this is the story id: ${storyContext.id}
-      // these are the current args: ${JSON.stringify(storyContext.args)}
-      ${src}`,
-    },
-  },
-};
-
 export const Code = {
   parameters: { docs: { source: { code } } },
 };

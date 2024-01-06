@@ -37,30 +37,6 @@ Specifies where to pull the description from. It can either point to a story or 
 
 Descriptions are pulled from the JSDoc comments or parameters, and they are rendered as markdown. See [Writing descriptions](#writing-descriptions) for more details.
 
-### `children`
-
-(⛔️ **Deprecated**)
-
-Type: `string`
-
-See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo).
-
-### `markdown`
-
-(⛔️ **Deprecated**)
-
-Type: `string`
-
-See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo).
-
-### `type`
-
-(⛔️ **Deprecated**)
-
-Type: `'info' | 'notes' | 'docgen' | 'auto'`
-
-See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo).
-
 ## Writing descriptions
 
 There are multiple places to write the description of a component/story, depending on what you want to achieve. Descriptions can be written at the story level to describe each story of a component, or they can be written at the meta or component level to describe the component in general.

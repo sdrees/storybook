@@ -305,11 +305,6 @@ export type BaseStory<TArgs, StoryFnReturnType> =
 
 export interface Addon_RenderOptions {
   active: boolean;
-  /**
-   * @deprecated You should not use key anymore as of Storybook 7.2 this render method is invoked as a React component.
-   * This property will be removed in 8.0.
-   * */
-  key?: unknown;
 }
 
 export type Addon_Type =
@@ -533,9 +528,4 @@ export enum Addon_TypesEnum {
    * @unstable This will get replaced with a new API in 8.0, use at your own risk.
    */
   experimental_SIDEBAR_TOP = 'sidebar-top',
-
-  /**
-   * @deprecated This property does nothing, and will be removed in Storybook 8.0.
-   */
-  NOTES_ELEMENT = 'notes-element',
 }

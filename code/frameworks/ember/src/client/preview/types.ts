@@ -13,10 +13,6 @@ export interface OptionsArgs {
   element: any;
 }
 
-/**
- * @deprecated Use `EmberRenderer` instead.
- */
-export type EmberFramework = EmberRenderer;
 export interface EmberRenderer extends WebRenderer {
   component: any;
   storyResult: OptionsArgs;

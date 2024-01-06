@@ -10,10 +10,6 @@ export type StoryFnHtmlReturnType =
 
 export type StoryContext = StoryContextBase<WebComponentsRenderer>;
 
-/**
- * @deprecated Use `WebComponentsRenderer` instead.
- */
-export type WebComponentsFramework = WebComponentsRenderer;
 export interface WebComponentsRenderer extends WebRenderer {
   component: string;
   storyResult: StoryFnHtmlReturnType;

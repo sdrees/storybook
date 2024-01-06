@@ -5,10 +5,6 @@ export type { RenderContext } from '@storybook/types';
 export type StoryFnServerReturnType = any;
 export type StoryContext = StoryContextBase<ServerRenderer>;
 
-/**
- * @deprecated Use `ServerRenderer` instead.
- */
-export type ServerFramework = ServerRenderer;
 export interface ServerRenderer extends WebRenderer {
   component: string;
   storyResult: StoryFnServerReturnType;

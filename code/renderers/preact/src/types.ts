@@ -10,13 +10,6 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-/**
- * @dep
- */
-/**
- * @deprecated Use `PreactRenderer` instead.
- */
-export type PreactFramework = PreactRenderer;
 export interface PreactRenderer extends WebRenderer {
   component: AnyComponent<any, any>;
   storyResult: StoryFnPreactReturnType;

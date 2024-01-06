@@ -34,6 +34,12 @@
     - [props from WithTooltipComponent from @storybook/components](#props-from-withtooltipcomponent-from-storybookcomponents)
     - [LinkTo direct import from addon-links](#linkto-direct-import-from-addon-links)
     - [DecoratorFn, Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta TypeScript types](#decoratorfn-story-componentstory-componentstoryobj-componentstoryfn-and-componentmeta-typescript-types)
+    - ["Framework" TypeScript types](#framework-typescript-types)
+    - [`navigateToSettingsPage` method from Storybook's manager-api](#navigatetosettingspage-method-from-storybooks-manager-api)
+    - [storyIndexers](#storyindexers)
+    - [Deprecated docs parameters](#deprecated-docs-parameters)
+    - [Description Doc block properties](#description-doc-block-properties)
+    - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -627,6 +633,62 @@ The `Story` type is now removed in favor of `StoryFn` and `StoryObj`. More info 
 The `DecoratorFn` type is now removed in favor of `Decorator`. [More info](#renamed-decoratorfn-to-decorator).
 
 For React, the `ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are now removed in favor of `StoryFn`, `StoryObj` and `Meta`. [More info](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated).
+
+#### "Framework" TypeScript types
+
+The Framework types such as `ReactFramework` are now removed in favor of Renderer types such as `ReactRenderer`. This affects all frameworks. [More info](#renamed-xframework-to-xrenderer).
+
+#### `navigateToSettingsPage` method from Storybook's manager-api
+
+The `navigateToSettingsPage` method from manager-api is now removed in favor of `changeSettingsTab`.
+
+```ts
+export const Component = () => {
+  const api = useStorybookApi();
+
+  const someHandler = () => {
+    // Old method: api.navigateToSettingsPage('/settings/about');
+    api.changeSettingsTab('about'); // the /settings path is not necessary anymore
+  };
+
+  // ...
+}
+```
+
+#### storyIndexers
+
+The Storybook's main.js configuration property `storyIndexers` is now removed in favor of `experimental_indexers`. [More info](#storyindexers-is-replaced-with-experimental_indexers).
+
+#### Deprecated docs parameters
+
+The following story and meta parameters are now removed:
+
+```ts
+parameters.docs.iframeHeight           // becomes docs.story.iframeHeight
+parameters.docs.inlineStories          // becomes docs.story.inline
+parameters.jsx.transformSource         // becomes parameters.docs.source.transform
+parameters.docs.transformSource        // becomes parameters.docs.source.transform
+parameters.docs.source.transformSource // becomes parameters.docs.source.transform
+```
+
+More info [here](#autodocs-changes) and [here](#source-block).
+
+#### Description Doc block properties
+
+`children`, `markdown` and `type` are now removed in favor of the `of` property. [More info](#doc-blocks).
+
+#### Manager API expandAll and collapseAll methods
+
+The `collapseAll` and `expandAll` APIs (possibly used by addons) are now removed. Please emit events for these actions instead:
+
+```ts
+import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
+import { useStorybookApi } from '@storybook/manager-api';
+
+const api = useStorybookApi()
+api.collapseAll() // becomes api.emit(STORIES_COLLAPSE_ALL)
+api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
+```
 
 ## From version 7.5.0 to 7.6.0
 

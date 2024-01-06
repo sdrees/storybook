@@ -641,7 +641,7 @@ describe('enrichCsf', () => {
           title: 'Button',
           parameters: {
             foo: 'bar',
-            docs: { inlineStories: true }
+            docs: { story: { inline: true } }
           }
         }
         export const Basic = () => React.createElement(Button);
@@ -652,7 +652,7 @@ describe('enrichCsf', () => {
             title: 'Button',
             parameters: {
               foo: 'bar',
-              docs: { inlineStories: true }
+              docs: { story: { inline: true } }
             }
           }
           export const Basic = () => <Button />
@@ -665,7 +665,9 @@ describe('enrichCsf', () => {
           parameters: {
             foo: 'bar',
             docs: {
-              inlineStories: true,
+              story: {
+                inline: true
+              },
               description: {
                 component: "The most basic button"
               }

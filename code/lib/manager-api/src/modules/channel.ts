@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import type { Listener } from '@storybook/channels';
 
 import type { API_Provider } from '@storybook/types';
@@ -38,16 +37,6 @@ export interface SubAPI {
    * @param handler - The callback function to be called when the event is emitted.
    */
   once: (type: string, handler: Listener) => void;
-  /**
-   * Emits an event to collapse all stories in the UI.
-   * @deprecated Use `emit(STORIES_COLLAPSE_ALL)` instead. This API will be removed in Storybook 8.0.
-   */
-  collapseAll: () => void;
-  /**
-   * Emits an event to expand all stories in the UI.
-   * @deprecated Use `emit(STORIES_EXPAND_ALL)` instead. This API will be removed in Storybook 8.0.
-   */
-  expandAll: () => void;
 }
 
 export type SubState = Record<string, never>;
@@ -74,12 +63,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
             : 'storybook-preview-iframe';
       }
       provider.channel?.emit(type, data, ...args);
-    },
-    collapseAll: () => {
-      api.emit(STORIES_COLLAPSE_ALL, {});
-    },
-    expandAll: () => {
-      api.emit(STORIES_EXPAND_ALL);
     },
   };
   return { api, state: {} };

@@ -67,21 +67,7 @@ export type Indexer = BaseIndexer & {
    * @returns A promise that resolves to an array of {@link IndexInput} objects.
    */
   createIndex: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
-  /**
-   * @deprecated Use {@link index} instead
-   */
-  indexer?: never;
 };
-
-export type DeprecatedIndexer = BaseIndexer & {
-  indexer: (fileName: string, options: IndexerOptions) => Promise<IndexedCSFFile>;
-  createIndex?: never;
-};
-
-/**
- * @deprecated Use {@link Indexer} instead
- */
-export type StoryIndexer = Indexer | DeprecatedIndexer;
 
 export interface BaseIndexEntry {
   id: StoryId;

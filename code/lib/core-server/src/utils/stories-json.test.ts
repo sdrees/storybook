@@ -42,7 +42,6 @@ const getInitializedStoryIndexGenerator = async (
   inputNormalizedStories = normalizedStories
 ) => {
   const options: StoryIndexGeneratorOptions = {
-    storyIndexers: [],
     indexers: [csfIndexer],
     configDir: workingDir,
     workingDir,

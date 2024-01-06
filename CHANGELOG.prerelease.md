@@ -1,3 +1,20 @@
+## 8.0.0-alpha.8
+
+- Addon Links: Remove LinkTo from direct import - [#25418](https://github.com/storybookjs/storybook/pull/25418), thanks [@yannbf](https://github.com/yannbf)!
+- Addon docs: Remove deprecated parameters - [#25469](https://github.com/storybookjs/storybook/pull/25469), thanks [@yannbf](https://github.com/yannbf)!
+- Builder Vite: Remove StorybookViteConfig type in favor of StorybookConfig - [#25441](https://github.com/storybookjs/storybook/pull/25441), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Error on explicit actions while rendering or playing - [#25238](https://github.com/storybookjs/storybook/pull/25238), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Core: Remove collapseAll and expandAll methods - [#25486](https://github.com/storybookjs/storybook/pull/25486), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Remove storyIndexers in favor of experimental_indexers - [#25468](https://github.com/storybookjs/storybook/pull/25468), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Remove unused staticDir type - [#25415](https://github.com/storybookjs/storybook/pull/25415), thanks [@yannbf](https://github.com/yannbf)!
+- Doc blocks: Remove deprecated props from Description block - [#25457](https://github.com/storybookjs/storybook/pull/25457), thanks [@yannbf](https://github.com/yannbf)!
+- Manager API: Remove deprecated navigateToSettingsPage method - [#25467](https://github.com/storybookjs/storybook/pull/25467), thanks [@yannbf](https://github.com/yannbf)!
+- React: Remove deprecated setGlobalConfig portable stories api - [#25442](https://github.com/storybookjs/storybook/pull/25442), thanks [@yannbf](https://github.com/yannbf)!
+- TypeScript: Remove deprecated addons module types - [#25485](https://github.com/storybookjs/storybook/pull/25485), thanks [@yannbf](https://github.com/yannbf)!
+- Types: Remove DecoratorFn, Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta types - [#25477](https://github.com/storybookjs/storybook/pull/25477), thanks [@yannbf](https://github.com/yannbf)!
+- Types: Remove Framework in favor of Renderer types - [#25476](https://github.com/storybookjs/storybook/pull/25476), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Remove deprecated WithTooltip props - [#25440](https://github.com/storybookjs/storybook/pull/25440), thanks [@yannbf](https://github.com/yannbf)!
+
 ## 8.0.0-alpha.7
 
 - Addon-Docs: Upgrade to MDX3 - [#25303](https://github.com/storybookjs/storybook/pull/25303), thanks [@yannbf](https://github.com/yannbf)!

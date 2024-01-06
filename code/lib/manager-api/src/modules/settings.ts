@@ -19,13 +19,6 @@ export interface SubAPI {
    * @returns A boolean indicating whether the settings screen is active.
    */
   isSettingsScreenActive: () => boolean;
-  /**
-   * Navigates to the specified settings page.
-   * @param path - The path of the settings page to navigate to. The path should include the `/settings` prefix.
-   * @example  navigateToSettingsPage(`/settings/about`).
-   * @deprecated Use `changeSettingsTab` instead.
-   */
-  navigateToSettingsPage: (path: string) => Promise<void>;
 }
 
 export interface SubState {
@@ -53,17 +46,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }): 
       navigate(`/settings/${path}`);
     },
     isSettingsScreenActive,
-    navigateToSettingsPage: async (path) => {
-      if (!isSettingsScreenActive()) {
-        const { settings, storyId } = store.getState();
-
-        await store.setState({
-          settings: { ...settings, lastTrackedStoryId: storyId },
-        });
-      }
-
-      navigate(path);
-    },
     retrieveSelection() {
       const { settings } = store.getState();
 

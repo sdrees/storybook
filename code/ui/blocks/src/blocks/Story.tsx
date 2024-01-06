@@ -8,9 +8,7 @@ import type {
   StoryAnnotations,
   StoryId,
 } from '@storybook/types';
-import { deprecate } from '@storybook/client-logger';
 
-import dedent from 'ts-dedent';
 import { Story as PureStory, StorySkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
@@ -114,25 +112,7 @@ export const getStoryProps = <TFramework extends Renderer>(
   // prefer block props, then story parameters defined by the framework-specific settings
   // and optionally overridden by users
 
-  // Deprecated parameters
-  const { inlineStories, iframeHeight } = docs as {
-    inlineStories?: boolean;
-    iframeHeight?: string;
-    autoplay?: boolean;
-  };
-  if (typeof inlineStories !== 'undefined')
-    deprecate(dedent`The \`docs.inlineStories\` parameter is deprecated, use \`docs.story.inline\` instead. 
-    
-      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
-    `);
-  const inline = props.inline ?? storyParameters.inline ?? inlineStories ?? false;
-
-  if (typeof iframeHeight !== 'undefined') {
-    deprecate(dedent`The \`docs.iframeHeight\` parameter is deprecated, use \`docs.story.iframeHeight\` instead. 
-    
-      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
-    `);
-  }
+  const inline = props.inline ?? storyParameters.inline ?? false;
 
   if (inline) {
     const height = props.height ?? storyParameters.height;
@@ -150,12 +130,7 @@ export const getStoryProps = <TFramework extends Renderer>(
     };
   }
 
-  const height =
-    props.height ??
-    storyParameters.height ??
-    storyParameters.iframeHeight ??
-    iframeHeight ??
-    '100px';
+  const height = props.height ?? storyParameters.height ?? storyParameters.iframeHeight ?? '100px';
   return {
     story,
     inline: false,

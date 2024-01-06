@@ -37,10 +37,6 @@ export interface StoryFnAngularReturnType {
   userDefinedTemplate?: boolean;
 }
 
-/**
- * @deprecated Use `AngularRenderer` instead.
- */
-export type AngularFramework = AngularRenderer;
 export interface AngularRenderer extends WebRenderer {
   component: any;
   storyResult: StoryFnAngularReturnType;

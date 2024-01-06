@@ -33,12 +33,6 @@ type SourceParameters = SourceCodeProps & {
   type?: SourceType;
   /**
    * Transform the detected source for display
-   *
-   * @deprecated use `transform` prop instead
-   */
-  transformSource?: (code: string, storyContext: StoryContextForLoaders) => string;
-  /**
-   * Transform the detected source for display
    */
   transform?: (code: string, storyContext: StoryContextForLoaders) => string;
   /**
@@ -126,31 +120,7 @@ const getSnippet = ({
 
   const code = useSnippet ? snippet : sourceParameters.originalSource || '';
 
-  if (sourceParameters.transformSource) {
-    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.source.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
-  `);
-  }
-  if (storyContext.parameters.docs?.transformSource) {
-    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
-  `);
-  }
-  if (storyContext.parameters.jsx?.transformSource) {
-    deprecate(dedent`The \`transformSource\` parameter at \`parameters.jsx.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
-  `);
-  }
-
-  const transformer =
-    transformFromProps ??
-    sourceParameters.transform ??
-    sourceParameters.transformSource ?? // deprecated
-    storyContext.parameters.docs?.transformSource ?? // deprecated
-    storyContext.parameters.jsx?.transformSource; // deprecated - used to be implemented in the React renderer's jsxDecorator
+  const transformer = transformFromProps ?? sourceParameters.transform;
 
   return transformer?.(code, storyContext) || code;
 };

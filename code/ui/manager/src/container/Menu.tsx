@@ -64,7 +64,7 @@ export const useMenu = (
     () => ({
       id: 'about',
       title: 'About your Storybook',
-      onClick: () => api.navigateToSettingsPage('/settings/about'),
+      onClick: () => api.changeSettingsTab('about'),
     }),
     [api]
   );
@@ -76,7 +76,7 @@ export const useMenu = (
     () => ({
       id: 'whats-new',
       title: "What's new?",
-      onClick: () => api.navigateToSettingsPage('/settings/whats-new'),
+      onClick: () => api.changeSettingsTab('whats-new'),
       right: whatsNewNotificationsEnabled && isWhatsNewUnread && (
         <Badge status="positive">Check it out</Badge>
       ),
@@ -88,7 +88,7 @@ export const useMenu = (
     () => ({
       id: 'shortcuts',
       title: 'Keyboard shortcuts',
-      onClick: () => api.navigateToSettingsPage('/settings/shortcuts'),
+      onClick: () => api.changeSettingsTab('shortcuts'),
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.shortcutsPage} /> : null,
       style: {
         borderBottom: `4px solid ${theme.appBorderColor}`,

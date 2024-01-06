@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import * as ParametersStories from '../../examples/SourceParameters.stories';
 
 import { Source } from '../Source';
 
@@ -27,23 +26,5 @@ export const Ids: Story = {
       'storybook-blocks-examples-button--primary',
       'storybook-blocks-examples-button--secondary',
     ],
-  },
-};
-
-export const SourceTransformSourceParameter: Story = {
-  args: {
-    of: ParametersStories.SourceTransformSource,
-  },
-};
-
-export const DocsTransformSourceParameter: Story = {
-  args: {
-    of: ParametersStories.DocsTransformSource,
-  },
-};
-
-export const JsxTransformSourceParameter: Story = {
-  args: {
-    of: ParametersStories.JsxTransformSource,
   },
 };

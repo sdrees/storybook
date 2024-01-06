@@ -14,10 +14,6 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-/**
- * @deprecated Use `HtmlRenderer` instead.
- */
-export type HtmlFramework = HtmlRenderer;
 export interface HtmlRenderer extends WebRenderer {
   component: string | HTMLElement | ArgsStoryFn<HtmlRenderer>;
   storyResult: StoryFnHtmlReturnType;

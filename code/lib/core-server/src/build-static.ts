@@ -94,16 +94,14 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     build,
   });
 
-  const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
-    await Promise.all([
-      presets.apply('features'),
-      presets.apply('core'),
-      presets.apply('staticDirs'),
-      presets.apply('experimental_indexers', []),
-      presets.apply('storyIndexers', []),
-      presets.apply('stories'),
-      presets.apply('docs', {}),
-    ]);
+  const [features, core, staticDirs, indexers, stories, docsOptions] = await Promise.all([
+    presets.apply('features'),
+    presets.apply('core'),
+    presets.apply('staticDirs'),
+    presets.apply('experimental_indexers', []),
+    presets.apply('stories'),
+    presets.apply('docs', {}),
+  ]);
 
   if (features?.storyStoreV7 === false) {
     deprecate(
@@ -150,7 +148,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     const normalizedStories = normalizeStories(stories, directories);
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      storyIndexers: deprecatedStoryIndexers,
       indexers,
       docs: docsOptions,
       storyStoreV7: !!features?.storyStoreV7,
