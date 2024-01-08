@@ -9,6 +9,7 @@
     - [Dropping support for \*.stories.mdx (CSF in MDX) format and MDX1 support](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support)
     - [Dropping support for id, name and story in Story block](#dropping-support-for-id-name-and-story-in-story-block)
   - [Core changes](#core-changes)
+    - [Dropping support for Yarn 1](#dropping-support-for-yarn-1)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
     - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
@@ -455,6 +456,10 @@ Alongside with this change, the `jsxOptions` configuration was removed as it is 
 Referencing stories by `id`, `name` or `story` in the Story block is not possible anymore. [More info here](#story-block).
 
 ### Core changes
+
+#### Dropping support for Yarn 1
+
+Storybook will stop providing fixes aimed at Yarn 1 projects. This does not necessarily mean that Storybook will stop working for Yarn 1 projects, just that the team won't provide more fixes aimed at it. For context, it's been 6 years since the release of Yarn 1, and Yarn is currently in version 4, which was [released in October 2023](https://yarnpkg.com/blog/release/4.0).
 
 #### Dropping support for Node.js 16
 
