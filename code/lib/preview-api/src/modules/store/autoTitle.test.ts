@@ -177,6 +177,16 @@ describe('userOrAutoTitleFromSpecifier', () => {
         ).toMatchInlineSnapshot(`to/button`);
       });
 
+      it('match with case-insensitive trailing duplicate', () => {
+        expect(
+          userOrAuto(
+            './path/to/button/Button.stories.js',
+            normalizeStoriesEntry({ directory: './path' }, options),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`to/Button`);
+      });
+
       it('match with trailing index', () => {
         expect(
           userOrAuto(

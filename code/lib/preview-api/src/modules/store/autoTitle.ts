@@ -15,11 +15,12 @@ const sanitize = (parts: string[]) => {
   if (parts.length === 1) return [lastStripped];
 
   const nextToLast = parts[parts.length - 2];
+  if (lastStripped && nextToLast && lastStripped.toLowerCase() === nextToLast.toLowerCase()) {
+    return [...parts.slice(0, -2), lastStripped];
+  }
+
   return lastStripped &&
-    nextToLast &&
-    (lastStripped === nextToLast ||
-      /^(story|stories)([.][^.]+)$/i.test(last) ||
-      /^index$/i.test(lastStripped))
+    (/^(story|stories)([.][^.]+)$/i.test(last) || /^index$/i.test(lastStripped))
     ? parts.slice(0, -1)
     : [...parts.slice(0, -1), lastStripped];
 };

@@ -31,7 +31,7 @@ export type Meta<TArgs = Args> = ComponentAnnotations<AngularRenderer, Transform
 export type StoryFn<TArgs = Args> = AnnotatedStoryFn<AngularRenderer, TransformEventType<TArgs>>;
 
 /**
- * Story function that represents a CSFv3 component example.
+ * Story object that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */

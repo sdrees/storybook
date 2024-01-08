@@ -450,6 +450,31 @@ export default {
           ]
         `);
       });
+
+      it('storysort satisfies inline', () => {
+        expect(
+          getStorySortParameter(dedent`
+          enum ComponentGroups {
+            General = 'General'
+          }
+          export default {
+            parameters: {
+              options: {
+                storySort: {
+                  order: ['General'] satisfies ComponentGroups[]
+                }
+              }
+            }
+          };
+        `)
+        ).toMatchInlineSnapshot(`
+          {
+            "order": [
+              "General",
+            ],
+          }
+        `);
+      });
     });
     describe('unsupported', () => {
       it('bad default export', () => {

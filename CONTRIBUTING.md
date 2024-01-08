@@ -25,6 +25,7 @@ If you run `yarn start` and encounter the following error, try rerunning `yarn s
 ```sh
 >  NX   ENOENT: no such file or directory, open 'storybook/code/node_modules/nx/package.json'
 ```
+
 If you are a Storybook contributor and still experience issues, it is recommended that you verify your local Storybook instance for any unintentional local changes. To do this, you can use the following command:
 
 ```sh
@@ -37,11 +38,11 @@ By executing this command, you will be able to see which untracked or ignored fi
 
 If you have forked the repository, you should [disable Github Actions for your repo](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository) as many of them (e.g. pushing to sandbox) will fail without proper authorization. In your Github repo, go to Settings > Actions > General > set the Actions Permissions to **Disable actions**.
 
-# Running against different sandbox templates
+## Running against different sandbox templates
 
 You can also pick a specific template to use as your sandbox by running `yarn task`, which will prompt you to make further choices about which template you want and which task you want to run.
 
-# Making code changes
+## Making code changes
 
 If you want to make code changes to Storybook packages while running a sandbox, you'll need to do the following:
 
@@ -56,10 +57,10 @@ yarn build --watch react core-server api addon-docs
 
 3. If you are running the sandbox in "unlinked" mode you'll need to re-run the sandbox from the `publish` step to see the changes:
 
-```
+```sh
 yarn task --task dev --template <your template> --start-from=publish
 ```
 
-# Contributing to Storybook
+## Contributing to Storybook
 
 For further advice on how to contribute, please refer to our [NEW contributing guide on the Storybook website](https://storybook.js.org/docs/contribute).

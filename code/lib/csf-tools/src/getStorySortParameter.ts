@@ -19,7 +19,9 @@ const getValue = (obj: t.ObjectExpression, key: string) => {
   return value;
 };
 
-const parseValue = (expr: t.Expression): any => {
+const parseValue = (value: t.Expression): any => {
+  const expr = stripTSModifiers(value);
+
   if (t.isArrayExpression(expr)) {
     return (expr.elements as t.Expression[]).map((o) => {
       return parseValue(o);
