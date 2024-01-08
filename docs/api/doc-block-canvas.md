@@ -124,14 +124,14 @@ Provides HTML class(es) to the preview element, for custom styling.
 
 ### `layout`
 
-Type: `'padded' | 'centered' | 'fullscreen'`
+Type: `'centered' | 'fullscreen' | 'padded'`
 
 Default: `parameters.layout` or `parameters.docs.canvas.layout` or `'padded'`
 
 Specifies how the canvas should layout the story.
 
-- **padded**: Add padding to the story
 - **centered**: Center the story within the canvas
+- **padded**: (default) Add padding to the story
 - **fullscreen**: Show the story as-is, without padding
 
 In addition to the `parameters.docs.canvas.layout` property or the `layout` prop, the `Canvas` block will respect the `parameters.layout` value that defines [how a story is laid out](../configure/story-layout.md) in the regular story view.

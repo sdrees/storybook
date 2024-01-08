@@ -312,19 +312,11 @@ For instance, suppose you wanted to test your Button component against a differe
 
 <CodeSnippets
   paths={[
-    'react/button-story-with-blue-args.js.mdx',
-    'react/button-story-with-blue-args.ts.mdx',
-    'vue/button-story-with-blue-args.js.mdx',
-    'vue/button-story-with-blue-args.ts.mdx',
-    'angular/button-story-with-blue-args.ts.mdx',
-    'web-components/button-story-with-blue-args.js.mdx',
-    'web-components/button-story-with-blue-args.ts.mdx',
-    'svelte/button-story-with-blue-args.js.mdx',
-    'svelte/button-story-with-blue-args.ts.mdx',
-    'html/button-story-with-blue-args.js.mdx',
-    'html/button-story-with-blue-args.ts.mdx',
-    'solid/button-story-with-blue-args.js.mdx',
-    'solid/button-story-with-blue-args.ts.mdx',
+    'angular/parameters-in-meta.ts.mdx',
+    'web-components/parameters-in-meta.js.mdx',
+    'web-components/parameters-in-meta.ts.mdx',
+    'common/parameters-in-meta.js.mdx',
+    'common/parameters-in-meta.ts.mdx',
   ]}
 />
 

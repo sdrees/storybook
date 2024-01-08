@@ -1,14 +1,18 @@
 ```ts
 // Button.stories.ts
 
-// Replace vue3 with vue if you are using Storybook for Vue 2
-import type { Meta } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/angular';
 
-import Button from './Button.vue';
+import { Button } from './button.component';
 
-const meta: Meta<typeof Button> = {
+const meta: Meta<Button> = {
   component: Button,
-  //👇 Creates specific parameters for the story
+};
+
+export default meta;
+type Story = StoryObj<Button>;
+
+export const Primary: Story = {
   parameters: {
     backgrounds: {
       values: [
@@ -19,6 +23,4 @@ const meta: Meta<typeof Button> = {
     },
   },
 };
-
-export default meta;
 ```
