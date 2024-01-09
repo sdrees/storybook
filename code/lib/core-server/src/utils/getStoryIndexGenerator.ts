@@ -7,16 +7,11 @@ import { router } from './router';
 
 export async function getStoryIndexGenerator(
   features: {
-    buildStoriesJson?: boolean;
-    storyStoreV7?: boolean;
     argTypeTargetsV7?: boolean;
   },
   options: Options,
   serverChannel: ServerChannel
 ): Promise<StoryIndexGenerator | undefined> {
-  if (!features?.buildStoriesJson && !features?.storyStoreV7) {
-    return undefined;
-  }
   const workingDir = process.cwd();
   const directories = {
     configDir: options.configDir,
@@ -32,7 +27,6 @@ export async function getStoryIndexGenerator(
     indexers: await indexers,
     docs: await docsOptions,
     workingDir,
-    storyStoreV7: features.storyStoreV7 ?? false,
   });
 
   const initializedStoryIndexGenerator = generator.initialize().then(() => generator);

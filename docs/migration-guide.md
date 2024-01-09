@@ -94,27 +94,6 @@ This shows the errors visually in your editor, which speeds things up a lot. Her
 
 ![MDX errors showing in VS Code](./assets/mdx-vs-code-extension-errors.gif)
 
-### storiesOf support discontinued by default
-
-If you use Storybook’s legacy `storiesOf` API, it is no longer supported by default in Storybook 7.
-
-We recommend you upgrade your `storiesOf` stories to [Component Story Format (CSF)](https://storybook.js.org/blog/storybook-csf3-is-here/). To do so, please see our [optional migration instructions below](#storiesof-to-csf).
-
-If you can’t upgrade to CSF, or want to get your project working with Storybook 7 before putting in the time to upgrade, you can opt out of on-demand story loading. This legacy mode has a variety of performance implications, but is a convenient stop-gap solution.
-
-To opt out, add the `storyStoreV7` feature flag in `.storybook/main.js`:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-story-store-v7.js.mdx',
-    'common/main-config-features-story-store-v7.ts.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 For more information on this change, see the [migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev7-enabled-by-default).
 
 ## Troubleshooting

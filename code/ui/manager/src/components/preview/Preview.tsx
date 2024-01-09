@@ -18,8 +18,6 @@ import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';
 
-const { FEATURES } = global;
-
 const getWrappers = (getFn: API['getElements']) => Object.values(getFn(types.PREVIEW));
 const getTabs = (getFn: API['getElements']) => Object.values(getFn(types.TAB));
 
@@ -160,7 +158,7 @@ const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = (
 
         const [progress, setProgress] = useState(undefined);
         useEffect(() => {
-          if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
+          if (global.CONFIG_TYPE === 'DEVELOPMENT') {
             try {
               const channel = addons.getServerChannel();
 

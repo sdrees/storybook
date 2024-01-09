@@ -74,27 +74,6 @@ Similar to other fields available in Storybook’s configuration file, the `refs
 
 </Callout>
 
-## Improve your Storybook composition
-
-Out of the box, Storybook allows you to compose Storybooks both locally and remotely with a minor change to your configuration. However, as your Storybook grows, you might want to optimize the composition process to improve the overall performance and user experience of your Storybook by enabling the `buildStoriesJson` feature flag that will generate the `index.json` and `stories.json` files with the required information to populate the UI with your composed Storybook stories automatically. For example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-build-stories-json.js.mdx',
-    'common/main-config-features-build-stories-json.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<Callout variant="info">
-
-If you're working with a Storybook version 7.0 or higher, this flag is enabled by default. However, if you're working with an older version and you configured your Storybook to use the [`storyStoreV7`](../api/main-config-features.md#storystorev7) feature flag, you won't need this flag as it will automatically generate the required `index.json` file for you to use.
-
-</Callout>
-
 ## Troubleshooting
 
 ### Storybook composition is not working with my project

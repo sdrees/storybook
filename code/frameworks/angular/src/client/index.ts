@@ -2,9 +2,6 @@
 
 import './globals';
 
-// eslint-disable-next-line import/export
-export * from './public-api';
-// eslint-disable-next-line import/export
 export * from './public-types';
 
 export type { StoryFnAngularReturnType as IStory } from './types';

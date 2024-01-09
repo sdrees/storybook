@@ -45,7 +45,6 @@ const getInitializedStoryIndexGenerator = async (
     indexers: [csfIndexer],
     configDir: workingDir,
     workingDir,
-    storyStoreV7: true,
     docs: { defaultName: 'docs', autodocs: false },
     ...overrides,
   };
@@ -251,35 +250,6 @@ describe('useStoriesJson', () => {
         }
       `);
     }, 20_000);
-
-    it('disallows .mdx files without storyStoreV7', async () => {
-      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
-      useStoriesJson({
-        router,
-        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
-          storyStoreV7: false,
-        }),
-        workingDir,
-        serverChannel: mockServerChannel,
-        normalizedStories,
-      });
-
-      expect(use).toHaveBeenCalledTimes(1);
-      const route = use.mock.calls[0][1];
-
-      await route(request, response);
-
-      expect(send).toHaveBeenCalledTimes(1);
-      expect(send.mock.calls[0][0]).toMatchInlineSnapshot(`
-        "Unable to index files:
-        - ./src/docs2/ComponentReference.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/MetaOf.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/NoTitle.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/SecondMetaOf.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/Template.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - ./src/docs2/Title.mdx: Invariant failed: You cannot use \`.mdx\` files without using \`storyStoreV7\`."
-      `);
-    });
 
     it('can handle simultaneous access', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;

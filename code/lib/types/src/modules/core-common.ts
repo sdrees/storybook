@@ -351,22 +351,6 @@ export interface StorybookConfigRaw {
   logLevel?: string;
   features?: {
     /**
-     * Build stories.json automatically on start/build
-     */
-    buildStoriesJson?: boolean;
-
-    /**
-     * Activate on demand story store
-     */
-    storyStoreV7?: boolean;
-
-    /**
-     * Do not throw errors if using `.mdx` files in SSv7
-     * (for internal use in sandboxes)
-     */
-    storyStoreV7MdxErrors?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;

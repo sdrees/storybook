@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.2.1",
+    "@storybook/icons": "^1.2.3",
     "memoizerific": "^1.11.3",
     "ts-dedent": "^2.0.0"
   },

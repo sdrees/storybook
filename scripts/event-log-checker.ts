@@ -61,27 +61,6 @@ async function run() {
       assert.equal(bootEvent.payload?.eventType, eventType);
     });
 
-    // Test only StoryStoreV7 projects, as ssv6 does not support the storyIndex
-    if (template.modifications?.mainConfig?.features?.storyStoreV7 !== false) {
-      const { exampleStoryCount, exampleDocsCount } = mainEvent.payload?.storyIndex || {};
-      if (['build', 'dev'].includes(eventType)) {
-        test(`${eventType} event should contain 8 stories and 3 docs entries`, () => {
-          assert.equal(
-            exampleStoryCount,
-            8,
-            `Expected 8 stories but received ${exampleStoryCount} instead.`
-          );
-          const expectedDocsCount =
-            template.modifications?.disableDocs || template.modifications?.testBuild ? 0 : 3;
-          assert.equal(
-            exampleDocsCount,
-            expectedDocsCount,
-            `Expected ${expectedDocsCount} docs entries but received ${exampleDocsCount} instead.`
-          );
-        });
-      }
-    }
-
     test(`main event should be ${eventType} and contain correct id and session id`, () => {
       assert.equal(mainEvent.eventType, eventType);
       assert.notEqual(mainEvent.eventId, bootEvent.eventId);

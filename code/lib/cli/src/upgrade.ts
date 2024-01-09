@@ -190,7 +190,7 @@ export const doUpgrade = async ({
     shell: true,
   });
 
-  if (check.stderr && !check.stderr.toString().includes('npm notice')) {
+  if (check.stderr && check.stderr.toString().includes('npm ERR')) {
     throw new UpgradeStorybookPackagesError({
       command,
       args: checkArgs,
@@ -208,7 +208,7 @@ export const doUpgrade = async ({
   logger.info(checkSb.stdout.toString());
   logger.info(checkSb.stderr.toString());
 
-  if (checkSb.stderr && !checkSb.stderr.toString().includes('npm notice')) {
+  if (checkSb.stderr && checkSb.stderr.toString().includes('npm ERR')) {
     throw new UpgradeStorybookPackagesError({
       command,
       args: checkSbArgs,

@@ -9,7 +9,7 @@ import { CHANNEL_CREATED } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
-const { FEATURES, CONFIG_TYPE } = global;
+const { CONFIG_TYPE } = global;
 
 class ReactProvider extends Provider {
   private addons: AddonStore;
@@ -34,7 +34,7 @@ class ReactProvider extends Provider {
     this.channel = channel;
     global.__STORYBOOK_ADDONS_CHANNEL__ = channel;
 
-    if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
+    if (CONFIG_TYPE === 'DEVELOPMENT') {
       this.serverChannel = this.channel;
       addons.setServerChannel(this.serverChannel);
     }

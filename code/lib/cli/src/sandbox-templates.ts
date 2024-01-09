@@ -66,7 +66,7 @@ export type Template = {
   inDevelopment?: boolean;
   /**
    * Some sandboxes might need extra modifications in the initialized Storybook,
-   * such as extend main.js, for setting specific feature flags like storyStoreV7, etc.
+   * such as extend main.js, for setting specific feature flags.
    */
   modifications?: {
     skipTemplateStories?: boolean;

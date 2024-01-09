@@ -10,7 +10,6 @@ By default, Storybook provides zero-config support for Webpack and automatically
 
 | Option            | Description                                                                                                                                                                                       |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `storyStoreV7`    | Enabled by default.<br/> Configures Webpack's [code splitting](https://webpack.js.org/guides/code-splitting/) feature<br/> `features: { storyStoreV7: false }`                                    |
 | `lazyCompilation` | Enables Webpack's experimental [`lazy compilation`](https://webpack.js.org/configuration/experiments/#experimentslazycompilation)<br/>`core: { builder: { options: { lazyCompilation: true } } }` |
 | `fsCache`         | Configures Webpack's filesystem [caching](https://webpack.js.org/configuration/cache/#cachetype) feature<br/> `core: { builder: { options: { fsCache: true } } }`                                 |
 

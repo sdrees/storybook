@@ -117,7 +117,7 @@ When [auto-titling](../configure/sidebar-and-urls.md#csf-30-auto-titles), prefix
 
 <Callout variant="info" icon="💡">
 
-With [`storyStoreV7`](./main-config-features.md#storystorev7) (the default in Storybook 7), Storybook now statically analyzes the configuration file to improve performance. Loading stories with a custom implementation may de-optimize or break this ability.
+💡 Storybook now statically analyzes the configuration file to improve performance. Loading stories with a custom implementation may de-optimize or break this ability.
 
 </Callout>
 

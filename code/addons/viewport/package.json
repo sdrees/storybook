@@ -55,7 +55,7 @@
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.2.1",
+    "@storybook/icons": "^1.2.3",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",

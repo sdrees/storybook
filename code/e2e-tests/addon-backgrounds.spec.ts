@@ -48,17 +48,6 @@ test.describe('addon-backgrounds', () => {
     });
 
     test('button should appear for unattached .mdx files', async ({ page }) => {
-      // SSv6 does not support .mdx files. There is a unattached stories.mdx file
-      // at /docs/addons-docs-stories-mdx-unattached--docs, but these are functionally
-      // really attached
-
-      // eslint-disable-next-line jest/no-disabled-tests
-      test.skip(
-        // eslint-disable-next-line jest/valid-title
-        templateName.includes('ssv6'),
-        'Only run this test for Sandboxes with StoryStoreV7 enabled'
-      );
-
       const sbPage = new SbPage(page);
 
       // We start on the introduction page by default.

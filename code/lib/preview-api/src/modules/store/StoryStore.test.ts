@@ -86,7 +86,7 @@ describe('StoryStore', () => {
     it('normalizes on initialization', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       expect(store.projectAnnotations!.globalTypes).toEqual({
         a: { name: 'a', type: { name: 'string' } },
@@ -99,7 +99,7 @@ describe('StoryStore', () => {
     it('normalizes on updateGlobalAnnotations', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       store.setProjectAnnotations(projectAnnotations);
       expect(store.projectAnnotations!.globalTypes).toEqual({
@@ -115,7 +115,7 @@ describe('StoryStore', () => {
     it('pulls the story via the importFn', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       importFn.mockClear();
       expect(await store.loadStory({ storyId: 'component-one--a' })).toMatchObject({
@@ -130,7 +130,7 @@ describe('StoryStore', () => {
     it('uses a cache', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
       expect(processCSFFile).toHaveBeenCalledTimes(1);
@@ -158,7 +158,7 @@ describe('StoryStore', () => {
         const loadPromise = store.loadStory({ storyId: 'component-one--a' });
 
         store.setProjectAnnotations(projectAnnotations);
-        store.initialize({ storyIndex, importFn, cache: false });
+        store.initialize({ storyIndex, importFn });
 
         expect(await loadPromise).toMatchObject({
           id: 'component-one--a',
@@ -175,7 +175,7 @@ describe('StoryStore', () => {
     it('busts the loadStory cache', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
       expect(processCSFFile).toHaveBeenCalledTimes(1);
@@ -194,7 +194,7 @@ describe('StoryStore', () => {
     it('busts the loadStory cache if the importFn returns a new module', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
       expect(processCSFFile).toHaveBeenCalledTimes(1);
@@ -216,7 +216,7 @@ describe('StoryStore', () => {
     it('busts the loadStory cache if the csf file no longer appears in the index', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       await store.loadStory({ storyId: 'component-one--a' });
       expect(processCSFFile).toHaveBeenCalledTimes(1);
@@ -235,7 +235,7 @@ describe('StoryStore', () => {
     it('reuses the cache if a story importPath has not changed', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
       expect(processCSFFile).toHaveBeenCalledTimes(1);
@@ -267,7 +267,7 @@ describe('StoryStore', () => {
     it('imports with a new path for a story id if provided', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       await store.loadStory({ storyId: 'component-one--a' });
       expect(importFn).toHaveBeenCalledWith(storyIndex.entries['component-one--a'].importPath);
@@ -297,7 +297,7 @@ describe('StoryStore', () => {
     it('re-caches stories if the were cached already', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
       await store.cacheAllCSFFiles();
 
       await store.loadStory({ storyId: 'component-one--a' });
@@ -370,7 +370,7 @@ describe('StoryStore', () => {
     it('returns all the stories in the file', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const csfFile = await store.loadCSFFileByStoryId('component-one--a');
       const stories = store.componentStoriesFromCSFFile({ csfFile });
@@ -389,7 +389,7 @@ describe('StoryStore', () => {
           'component-one--a': storyIndex.entries['component-one--a'],
         },
       };
-      store.initialize({ storyIndex: reversedIndex, importFn, cache: false });
+      store.initialize({ storyIndex: reversedIndex, importFn });
 
       const csfFile = await store.loadCSFFileByStoryId('component-one--a');
       const stories = store.componentStoriesFromCSFFile({ csfFile });
@@ -403,7 +403,7 @@ describe('StoryStore', () => {
     it('returns the args and globals correctly', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
@@ -416,7 +416,7 @@ describe('StoryStore', () => {
     it('returns the args and globals correctly when they change', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
@@ -432,7 +432,7 @@ describe('StoryStore', () => {
     it('can force initial args', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
@@ -446,7 +446,7 @@ describe('StoryStore', () => {
     it('returns the same hooks each time', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
@@ -463,7 +463,7 @@ describe('StoryStore', () => {
     it('cleans the hooks from the context', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
@@ -478,7 +478,7 @@ describe('StoryStore', () => {
     it('imports *all* csf files', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       importFn.mockClear();
       const csfFiles = await store.loadAllCSFFiles();
@@ -498,7 +498,7 @@ describe('StoryStore', () => {
       });
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn: blockedImportFn, cache: false });
+      store.initialize({ storyIndex, importFn: blockedImportFn });
 
       const promise = store.loadAllCSFFiles({ batchSize: 1 });
       expect(blockedImportFn).toHaveBeenCalledTimes(1);
@@ -513,7 +513,7 @@ describe('StoryStore', () => {
     it('throws if you have not called cacheAllCSFFiles', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
 
       expect(() => store.extract()).toThrow(/Cannot call extract/);
     });
@@ -521,7 +521,7 @@ describe('StoryStore', () => {
     it('produces objects with functions and hooks stripped', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
       await store.cacheAllCSFFiles();
 
       expect(store.extract()).toMatchInlineSnapshot(`
@@ -658,7 +658,6 @@ describe('StoryStore', () => {
       store.initialize({
         storyIndex,
         importFn: docsOnlyImportFn,
-        cache: false,
       });
       await store.cacheAllCSFFiles();
 
@@ -691,7 +690,6 @@ describe('StoryStore', () => {
       store.initialize({
         storyIndex: unnattachedStoryIndex,
         importFn,
-        cache: false,
       });
       await store.cacheAllCSFFiles();
 
@@ -713,7 +711,7 @@ describe('StoryStore', () => {
     it('produces an array of stories', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
       await store.cacheAllCSFFiles();
 
       expect(store.raw()).toMatchInlineSnapshot(`
@@ -862,7 +860,7 @@ describe('StoryStore', () => {
     it('maps stories list to payload correctly', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
+      store.initialize({ storyIndex, importFn });
       await store.cacheAllCSFFiles();
 
       expect(store.getSetStoriesPayload()).toMatchInlineSnapshot(`
@@ -1002,7 +1000,7 @@ describe('StoryStore', () => {
       it('maps stories list to payload correctly', async () => {
         const store = new StoryStore();
         store.setProjectAnnotations(projectAnnotations);
-        store.initialize({ storyIndex, importFn, cache: false });
+        store.initialize({ storyIndex, importFn });
         await store.cacheAllCSFFiles();
 
         expect(store.getStoriesJsonData()).toMatchInlineSnapshot(`
@@ -1052,116 +1050,6 @@ describe('StoryStore', () => {
     });
   });
 
-  describe('getSetIndexPayload', () => {
-    it('add parameters/args to index correctly', async () => {
-      const store = new StoryStore();
-      store.setProjectAnnotations(projectAnnotations);
-      store.initialize({ storyIndex, importFn, cache: false });
-      await store.cacheAllCSFFiles();
-
-      expect(store.getSetIndexPayload()).toMatchInlineSnapshot(`
-        {
-          "entries": {
-            "component-one--a": {
-              "argTypes": {
-                "a": {
-                  "name": "a",
-                  "type": {
-                    "name": "string",
-                  },
-                },
-                "foo": {
-                  "name": "foo",
-                  "type": {
-                    "name": "string",
-                  },
-                },
-              },
-              "args": {
-                "foo": "a",
-              },
-              "id": "component-one--a",
-              "importPath": "./src/ComponentOne.stories.js",
-              "initialArgs": {
-                "foo": "a",
-              },
-              "name": "A",
-              "parameters": {
-                "__isArgsStory": false,
-                "fileName": "./src/ComponentOne.stories.js",
-              },
-              "title": "Component One",
-              "type": "story",
-            },
-            "component-one--b": {
-              "argTypes": {
-                "a": {
-                  "name": "a",
-                  "type": {
-                    "name": "string",
-                  },
-                },
-                "foo": {
-                  "name": "foo",
-                  "type": {
-                    "name": "string",
-                  },
-                },
-              },
-              "args": {
-                "foo": "b",
-              },
-              "id": "component-one--b",
-              "importPath": "./src/ComponentOne.stories.js",
-              "initialArgs": {
-                "foo": "b",
-              },
-              "name": "B",
-              "parameters": {
-                "__isArgsStory": false,
-                "fileName": "./src/ComponentOne.stories.js",
-              },
-              "title": "Component One",
-              "type": "story",
-            },
-            "component-two--c": {
-              "argTypes": {
-                "a": {
-                  "name": "a",
-                  "type": {
-                    "name": "string",
-                  },
-                },
-                "foo": {
-                  "name": "foo",
-                  "type": {
-                    "name": "string",
-                  },
-                },
-              },
-              "args": {
-                "foo": "c",
-              },
-              "id": "component-two--c",
-              "importPath": "./src/ComponentTwo.stories.js",
-              "initialArgs": {
-                "foo": "c",
-              },
-              "name": "C",
-              "parameters": {
-                "__isArgsStory": false,
-                "fileName": "./src/ComponentTwo.stories.js",
-              },
-              "title": "Component Two",
-              "type": "story",
-            },
-          },
-          "v": 4,
-        }
-      `);
-    });
-  });
-
   describe('cacheAllCsfFiles', () => {
     describe('if the store is not yet initialized', () => {
       it('waits for initialization', async () => {
@@ -1171,7 +1059,7 @@ describe('StoryStore', () => {
         const cachePromise = store.cacheAllCSFFiles();
 
         store.setProjectAnnotations(projectAnnotations);
-        store.initialize({ storyIndex, importFn, cache: false });
+        store.initialize({ storyIndex, importFn });
 
         await expect(cachePromise).resolves.toEqual(undefined);
       });

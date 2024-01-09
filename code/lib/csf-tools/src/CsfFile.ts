@@ -455,8 +455,7 @@ export class CsfFile {
             throw new Error(dedent`
               Unexpected \`storiesOf\` usage: ${formatLocation(node, self._fileName)}.
 
-              In SB7, we use the next-generation \`storyStoreV7\` by default, which does not support \`storiesOf\`. 
-              More info, with details about how to opt-out here: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev7-enabled-by-default
+              SB8 does not support \`storiesOf\`. 
             `);
           }
         },

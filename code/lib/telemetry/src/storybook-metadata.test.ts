@@ -313,9 +313,7 @@ describe('storybook-metadata', () => {
     });
 
     it('should return user specified features', async () => {
-      const features = {
-        storyStoreV7: true,
-      };
+      const features = {};
 
       const result = await computeStorybookMetadata({
         packageJson: packageJsonMock,

@@ -2,8 +2,8 @@
 
 import './globals';
 
-export * from './public-api';
 export * from './public-types';
+export { setup } from './render';
 
 // optimization: stop HMR propagation in webpack
 try {

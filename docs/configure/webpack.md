@@ -51,20 +51,6 @@ yarn storybook dev --debug-webpack
 yarn storybook build --debug-webpack
 ```
 
-### Bundle splitting
-
-Starting with Storybook 6.4, [bundle splitting](https://v4.webpack.js.org/guides/code-splitting/) is supported through a configuration flag. Update your Storybook configuration and add the `storyStoreV7` flag:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-story-store-v7.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 When you start your Storybook, you'll see an improvement in loading times. Read more about it in the [announcement post](https://storybook.js.org/blog/storybook-on-demand-architecture/) and the [configuration documentation](./index.md#on-demand-story-loading).
 
 ### Webpack 5

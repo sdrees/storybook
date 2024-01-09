@@ -107,7 +107,7 @@ Because a framework is a node package, it must contain a `package.json` file. He
     "<builder>": "^x.x.x"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"

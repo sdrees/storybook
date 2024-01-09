@@ -19,7 +19,6 @@ declare var IS_STORYBOOK: boolean;
 // relevant framework instantiates them via `start.js`. The good news is this happens right away.
 declare var __STORYBOOK_ADDONS_CHANNEL__: any;
 declare var __STORYBOOK_ADDONS_PREVIEW: any;
-declare var __STORYBOOK_CLIENT_API__: import('./modules/client-api/ClientApi').ClientApi<any>;
 declare var __STORYBOOK_PREVIEW__: import('./modules/preview-web/PreviewWeb').PreviewWeb<any>;
 declare var __STORYBOOK_STORY_STORE__: any;
 declare var STORYBOOK_HOOKS_CONTEXT: any;

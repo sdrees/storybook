@@ -29,9 +29,6 @@ const config: StorybookConfig = {
     disableTelemetry: true,
   },
   logLevel: 'debug',
-  features: {
-    storyStoreV7: false,
-  },
   framework: {
     name: '@storybook/react-webpack5',
     options: {

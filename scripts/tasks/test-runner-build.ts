@@ -10,7 +10,7 @@ export const testRunnerBuild: Task & { port: number } = {
   async ready() {
     return false;
   },
-  async run({ sandboxDir, junitFilename, template }, { dryRun, debug }) {
+  async run({ sandboxDir, junitFilename }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
     const flags = [
       `--url http://localhost:${this.port}`,
@@ -19,11 +19,6 @@ export const testRunnerBuild: Task & { port: number } = {
       '--failOnConsole',
       '--skipTags="test-skip"',
     ];
-
-    // index-json mode is only supported in ssv7
-    if (template.modifications?.mainConfig?.features?.storyStoreV7 !== false) {
-      flags.push('--index-json');
-    }
 
     await exec(
       `yarn test-storybook ${flags.join(' ')}`,

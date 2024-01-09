@@ -39,7 +39,6 @@ vi.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     fetch: vi.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
-    FEATURES: { storyStoreV7: true },
     CONFIG_TYPE: 'DEVELOPMENT',
   },
 }));

@@ -40,22 +40,13 @@ This configuration file is a [preset](../addons/addon-types.md) and, as such, ha
 | `framework`           | Configures Storybook based on a set of [framework-specific](./frameworks.md) settings <br/> `framework: { name: '@storybook/svelte-vite', options:{} }`                                                             |
 | `core`                | Configures Storybook's [internal features](../api/main-config-core.md) <br/> `core: { disableTelemetry: true, }`                                                                                                    |
 | `docs`                | Configures Storybook's [auto-generated documentation](../writing-docs/autodocs.md)<br/> `docs: { autodocs: 'tag' }`                                                                                                 |
-| `features`            | Enables Storybook's [additional features](../api/main-config-features.md)<br/> See table below for a list of available features `features: { storyStoreV7: true }`                                                  |
+| `features`            | Enables Storybook's [additional features](../api/main-config-features.md)<br/> See table below for a list of available features                                                                                     |
 | `refs`                | Configures [Storybook composition](../sharing/storybook-composition.md) <br/> `refs:{ example: { title: 'ExampleStorybook', url:'https://your-url.com' } }`                                                         |
 | `logLevel`            | Configures Storybook's logs in the browser terminal. Useful for debugging <br/> `logLevel: 'debug'`                                                                                                                 |
 | `webpackFinal`        | Customize Storybook's [Webpack](../builders/webpack.md) setup <br/> `webpackFinal: async (config:any) => { return config; }`                                                                                        |
 | `viteFinal`           | Customize Storybook's Vite setup when using the [vite builder](https://github.com/storybookjs/builder-vite) <br/> `viteFinal: async (config: Vite.InlineConfig, options: Options) => { return config; }`            |
 | `env`                 | Defines custom Storybook [environment variables](./environment-variables.md#using-storybook-configuration). <br/> `env: (config) => ({...config, EXAMPLE_VAR: 'Example var' }),`                                    |
 | `build`               | Optimizes Storybook's production [build](../api/main-config-build.md) for performance by excluding specific features from the bundle. Useful when decreased build times are a priority. <br/> `build: { test: {} }` |
-
-### Feature flags
-
-Additionally, you can also provide additional feature flags to your Storybook configuration. Below is an abridged list of available features that are currently available.
-
-| Configuration element | Description                                                                                                                                                                                   |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up (defaults to `true` as of `v7.0`) <br/> `features: { storyStoreV7: true }`             |
-| `buildStoriesJson`    | Generates `index.json` and `stories.json` files to help story loading with the on-demand mode (defaults to `true` when `storyStoreV7` is `true`) <br/> `features: { buildStoriesJson: true }` |
 
 ## Configure story loading
 
@@ -130,27 +121,12 @@ You can also adjust your Storybook configuration and implement custom logic to l
 
 <!-- prettier-ignore-end -->
 
-### On-demand story loading
-
-As your Storybook grows, it gets challenging to load all of your stories performantly, slowing down the loading times and yielding a large bundle. Out of the box, Storybook loads your stories on demand rather than during boot-up to improve the performance of your Storybook. If you need to load all of your stories during boot-up, you can disable this feature by setting the `storyStoreV7` feature flag to `false` in your configuration as follows:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-story-store-v7.js.mdx',
-    'common/main-config-features-story-store-v7.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 #### Known limitations
 
-Because of the way stories are currently indexed in Storybook, loading stories on demand with `storyStoreV7` has a couple of minor limitations at the moment:
+Because of the way stories are currently indexed in Storybook, loading stories on demand has a couple of minor limitations at the moment:
 
-- [CSF formats](../api/csf.md) from version 1 to version 3 are supported. The `storiesOf` construct is not.
-- Custom`storySort` functions are allowed based on a restricted API.
+- [CSF formats](../api/csf.md) from version 1 to version 3 are supported.
+- Custom `storySort` functions are allowed based on a restricted API.
 
 ## Configure story rendering
 

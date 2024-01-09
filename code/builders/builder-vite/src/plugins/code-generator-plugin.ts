@@ -4,10 +4,8 @@ import * as fs from 'fs';
 import type { Plugin } from 'vite';
 import type { Options } from '@storybook/types';
 import { transformIframeHtml } from '../transform-iframe-html';
-import { generateIframeScriptCode } from '../codegen-iframe-script';
 import { generateModernIframeScriptCode } from '../codegen-modern-iframe-script';
 import { generateImportFnScriptCode } from '../codegen-importfn-script';
-import { generateVirtualStoryEntryCode, generatePreviewEntryCode } from '../codegen-entries';
 import { generateAddonSetupCode } from '../codegen-set-addon-channel';
 
 import {
@@ -90,27 +88,16 @@ export function codeGeneratorPlugin(options: Options): Plugin {
       return undefined;
     },
     async load(id, config) {
-      const storyStoreV7 = options.features?.storyStoreV7;
       if (id === virtualStoriesFile) {
-        if (storyStoreV7) {
-          return generateImportFnScriptCode(options);
-        }
-        return generateVirtualStoryEntryCode(options);
+        return generateImportFnScriptCode(options);
       }
 
       if (id === virtualAddonSetupFile) {
         return generateAddonSetupCode();
       }
 
-      if (id === virtualPreviewFile && !storyStoreV7) {
-        return generatePreviewEntryCode(options);
-      }
-
       if (id === virtualFileId) {
-        if (storyStoreV7) {
-          return generateModernIframeScriptCode(options, projectRoot);
-        }
-        return generateIframeScriptCode(options, projectRoot);
+        return generateModernIframeScriptCode(options, projectRoot);
       }
 
       if (id === iframeId) {

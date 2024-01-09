@@ -17,6 +17,7 @@ const findUpSyncMock = vi.mocked(findUpSync);
 describe('CLASS: JsPackageManagerFactory', () => {
   beforeEach(() => {
     findUpSyncMock.mockReturnValue(undefined);
+    spawnSyncMock.mockReturnValue({ status: 1 } as any);
     delete process.env.npm_config_user_agent;
   });
 
