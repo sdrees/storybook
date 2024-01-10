@@ -129,7 +129,7 @@ describe('storybook-metadata', () => {
             framework: {
               name: '/Users/foo/storybook/.yarn/__virtual__/@storybook-react-vite-virtual-769c990b9/0/cache/@storybook-react-vite-npm-7.1.0-alpha.38-512b-a23.zip/node_modules/@storybook/react-vite',
               options: {
-                fastRefresh: false,
+                strictMode: false,
               },
             },
           },
@@ -137,7 +137,7 @@ describe('storybook-metadata', () => {
 
         expect(unixResult.framework).toEqual({
           name: '@storybook/react-vite',
-          options: { fastRefresh: false },
+          options: { strictMode: false },
         });
 
         const windowsResult = await computeStorybookMetadata({
@@ -147,7 +147,7 @@ describe('storybook-metadata', () => {
             framework: {
               name: 'C:\\Users\\foo\\storybook\\.yarn\\__virtual__\\@storybook-react-vite-virtual-769c990b9\\0\\cache\\@storybook-react-vite-npm-7.1.0-alpha.38-512b-a23.zip\\node_modules\\@storybook\\react-vite',
               options: {
-                fastRefresh: false,
+                strictMode: false,
               },
             },
           },
@@ -155,7 +155,7 @@ describe('storybook-metadata', () => {
 
         expect(windowsResult.framework).toEqual({
           name: '@storybook/react-vite',
-          options: { fastRefresh: false },
+          options: { strictMode: false },
         });
       });
 
@@ -235,7 +235,7 @@ describe('storybook-metadata', () => {
           framework: {
             name: '@storybook/react-vite',
             options: {
-              fastRefresh: false,
+              strictMode: false,
             },
           },
         },
@@ -243,7 +243,7 @@ describe('storybook-metadata', () => {
 
       expect(reactResult.framework).toEqual({
         name: '@storybook/react-vite',
-        options: { fastRefresh: false },
+        options: { strictMode: false },
       });
 
       const angularResult = await computeStorybookMetadata({

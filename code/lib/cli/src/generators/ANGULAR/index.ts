@@ -71,6 +71,7 @@ const generator: Generator<{ projectName: string }> = async (
       addScripts: false,
       componentsDestinationPath: root ? `${root}/src/stories` : undefined,
       storybookConfigFolder: storybookFolder,
+      webpackCompiler: () => undefined,
     },
     'angular'
   );

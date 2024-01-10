@@ -32,7 +32,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
-import { addons, mockChannel as createMockChannel } from '../addons';
+import { addons } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -131,7 +131,6 @@ beforeEach(() => {
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
-  addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
 
   vi.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);

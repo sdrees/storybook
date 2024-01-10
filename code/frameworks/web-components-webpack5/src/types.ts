@@ -1,7 +1,7 @@
 import type {
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsWebComponents,
-} from '@storybook/preset-web-components-webpack';
+} from '@storybook/types';
 import type {
   BuilderOptions,
   StorybookConfigWebpack,

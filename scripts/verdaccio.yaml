@@ -99,10 +99,6 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/babel-plugin-require-context-hook':
-    access: $all
-    publish: $all
-    proxy: npmjs
   '@storybook/semver':
     # TODO: remove this when new versions of all dependents have been published and updated. It is not used anymore but still referenced in the latest packages
     access: $all
@@ -113,6 +109,14 @@ packages:
     publish: $all
     proxy: npmjs
   '@storybook/ember-cli-storybook':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-webpack5-compiler-swc':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-webpack5-compiler-babel':
     access: $all
     publish: $all
     proxy: npmjs

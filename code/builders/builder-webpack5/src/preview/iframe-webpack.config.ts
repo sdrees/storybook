@@ -8,7 +8,6 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
-import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import type { Options } from '@storybook/types';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {
@@ -20,7 +19,6 @@ import {
 import { type BuilderOptions } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { TypescriptOptions } from '../types';
-import { createBabelLoader, createSWCLoader } from './loaders';
 import { getVirtualModules } from './virtual-module-mapping';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
@@ -106,8 +104,7 @@ export default async (
 
   const builderOptions = await getBuilderOptions<BuilderOptions>(options);
 
-  const shouldCheckTs =
-    typescriptOptions.check && !typescriptOptions.skipBabel && !typescriptOptions.skipCompiler;
+  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipCompiler;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};
@@ -235,9 +232,6 @@ export default async (
             fullySpecified: false,
           },
         },
-        builderOptions.useSWC
-          ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
-          : await createBabelLoader(options, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
           type: 'asset/source',
@@ -273,7 +267,6 @@ export default async (
       ...(isProd
         ? {
             minimize: true,
-            // eslint-disable-next-line no-nested-ternary
             minimizer: options.build?.test?.esbuildMinify
               ? [
                   new TerserWebpackPlugin<EsbuildOptions>({
@@ -282,17 +275,6 @@ export default async (
                     terserOptions: {
                       sourcemap: !options.build?.test?.disableSourcemaps,
                       treeShaking: !options.build?.test?.disableTreeShaking,
-                    },
-                  }),
-                ]
-              : builderOptions.useSWC
-              ? [
-                  new TerserWebpackPlugin<SwcOptions>({
-                    minify: TerserWebpackPlugin.swcMinify,
-                    terserOptions: {
-                      sourceMap: !options.build?.test?.disableSourcemaps,
-                      mangle: false,
-                      keep_fnames: true,
                     },
                   }),
                 ]

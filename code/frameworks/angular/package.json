@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "8.0.0-alpha.8",
+  "version": "8.0.0-alpha.9",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -99,7 +99,6 @@
     "@angular/forms": ">=15.0.0 < 18.0.0",
     "@angular/platform-browser": ">=15.0.0 < 18.0.0",
     "@angular/platform-browser-dynamic": ">=15.0.0 < 18.0.0",
-    "@babel/core": "*",
     "rxjs": "^6.0.0 || ^7.4.0",
     "typescript": "^4.0.0 || ^5.0.0",
     "zone.js": ">= 0.11.1 < 1.0.0"

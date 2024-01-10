@@ -1,3 +1,16 @@
+## 8.0.0-alpha.9
+
+- AutoTitle: Fix case-insensitive trailing duplicate - [#25452](https://github.com/storybookjs/storybook/pull/25452), thanks [@ksugawara61](https://github.com/ksugawara61)!
+- CLI: Fix using wrong package managers in existing projects - [#25474](https://github.com/storybookjs/storybook/pull/25474), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Never prompt for ESLint plugin - [#25289](https://github.com/storybookjs/storybook/pull/25289), thanks [@shilman](https://github.com/shilman)!
+- CSF-tools: Allow type checking in storySort - [#25265](https://github.com/storybookjs/storybook/pull/25265), thanks [@honzahruby](https://github.com/honzahruby)!
+- Core: Remove `storyStoreV7` feature flag - [#24658](https://github.com/storybookjs/storybook/pull/24658), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Remove deprecated createChannel APIs - [#25487](https://github.com/storybookjs/storybook/pull/25487), thanks [@yannbf](https://github.com/yannbf)!
+- Node.js: Update version requirement to >= 18.0.0 - [#25516](https://github.com/storybookjs/storybook/pull/25516), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Storysource: Fix import error - [#25391](https://github.com/storybookjs/storybook/pull/25391), thanks [@unional](https://github.com/unional)!
+- UI: Fix sidebar top and bottom addon slots - [#25426](https://github.com/storybookjs/storybook/pull/25426), thanks [@ndelangen](https://github.com/ndelangen)!
+- Webpack5: Remove babel and SWC compiler from builder - [#25379](https://github.com/storybookjs/storybook/pull/25379), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 8.0.0-alpha.8
 
 - Addon Links: Remove LinkTo from direct import - [#25418](https://github.com/storybookjs/storybook/pull/25418), thanks [@yannbf](https://github.com/yannbf)!

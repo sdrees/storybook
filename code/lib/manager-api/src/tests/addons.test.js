@@ -47,68 +47,6 @@ describe('Addons API', () => {
     });
   });
 
-  describe('#getPanels', () => {
-    it('should return provider panels', () => {
-      // given
-      const { api } = initAddons({ provider, store });
-
-      // when
-      const panels = api.getPanels();
-
-      // then
-      expect(panels).toBe(PANELS);
-    });
-  });
-
-  describe('#getStoryPanels', () => {
-    it('should return all panels by default', () => {
-      // given
-      const { api } = initAddons({ provider, store, fullAPI: { getData: () => undefined } });
-
-      // when
-      const filteredPanels = api.getStoryPanels();
-
-      // then
-      expect(filteredPanels).toBe(PANELS);
-    });
-
-    it('should filter disabled addons', () => {
-      // given
-      const storyId = 'story 1';
-      const storiesHash = {
-        [storyId]: {
-          type: 'story',
-          parameters: {
-            a11y: { disable: true },
-          },
-        },
-      };
-
-      const storeWithStory = {
-        getState: () => ({
-          storyId,
-          storiesHash,
-        }),
-        setState: vi.fn(),
-      };
-
-      const { api } = initAddons({
-        provider,
-        store: storeWithStory,
-        fullAPI: { getData: (id) => storiesHash[id] },
-      });
-
-      // when
-      const filteredPanels = api.getStoryPanels();
-
-      // then
-      expect(filteredPanels).toEqual({
-        actions: PANELS.actions,
-        knobs: PANELS.knobs,
-      });
-    });
-  });
-
   describe('#getSelectedPanel', () => {
     it('should return provider panels', () => {
       // given

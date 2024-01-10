@@ -3,7 +3,6 @@ import type {
   Addon_Collection,
   Addon_Types,
   Addon_TypesMapping,
-  API_Panels,
   API_StateMerger,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
@@ -21,7 +20,7 @@ export interface SubAPI {
    * @protected This is used internally in storybook's manager.
    * @template T - The type of the elements in the collection.
    * @param {Addon_Types | Addon_TypesEnum.experimental_PAGE} type - The type of the elements to retrieve.
-   * @returns {API_Collection<T>} - A collection of elements of the specified type.
+   * @returns {Addon_Collection<T>} - A collection of elements of the specified type.
    */
   getElements: <
     T extends
@@ -32,21 +31,6 @@ export interface SubAPI {
   >(
     type: T
   ) => Addon_Collection<Addon_TypesMapping[T]>;
-  /**
-   * Returns a collection of all panels.
-   * This is the same as calling getElements('panel')
-   * @protected This is used internally in storybook's manager.
-   * @deprecated please use getElements('panel') instead. This API will be removed in storybook 8.0.
-   * @returns {API_Panels} - A collection of all panels.
-   */
-  getPanels: () => API_Panels;
-  /**
-   * Returns a collection of panels currently enabled for the selected story.
-   * @protected This is used internally in storybook's manager.
-   * @deprecated please use getElements('panel') instead, and do the filtering manually. This API will be removed in storybook 8.0.
-   * @returns {API_Panels} - A collection of all panels.
-   */
-  getStoryPanels: () => API_Panels;
   /**
    * Returns the id of the currently selected panel.
    * @returns {string} - The ID of the currently selected panel.
@@ -82,7 +66,11 @@ export interface SubAPI {
   getAddonState<S>(addonId: string): S;
 }
 
-export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
+export function ensurePanel(
+  panels: Addon_Collection<Addon_BaseType>,
+  selectedPanel?: string,
+  currentPanel?: string
+) {
   const keys = Object.keys(panels);
 
   if (keys.indexOf(selectedPanel!) >= 0) {
@@ -98,29 +86,6 @@ export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentP
 export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }): any => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
-    getPanels: () => api.getElements(Addon_TypesEnum.PANEL),
-    getStoryPanels: () => {
-      const allPanels = api.getElements(Addon_TypesEnum.PANEL);
-      const { storyId } = store.getState();
-      const story = fullAPI.getData(storyId);
-
-      if (!allPanels || !story || story.type !== 'story') {
-        return allPanels;
-      }
-
-      const { parameters } = story;
-
-      const filteredPanels: Addon_Collection<Addon_BaseType> = {};
-      Object.entries(allPanels).forEach(([id, panel]) => {
-        const { paramKey }: any = panel;
-        if (paramKey && parameters && parameters[paramKey] && parameters[paramKey].disable) {
-          return;
-        }
-        filteredPanels[id] = panel;
-      });
-
-      return filteredPanels;
-    },
     getSelectedPanel: (): any => {
       const { selectedPanel } = store.getState();
       return ensurePanel(api.getElements(Addon_TypesEnum.PANEL), selectedPanel, selectedPanel);

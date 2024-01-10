@@ -38,20 +38,3 @@ While many options are specific to a framework, there are some options that are 
 Type: `Record<string, any>`
 
 Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../builders/webpack.md).
-
-#### `options.builder.useSWC`
-
-For frameworks made with [Webpack](../builders/webpack.md) builder, except Angular. Enabling this option allows you to use the [SWC](https://swc.rs/) compiler instead of [Babel](../configure/compilers.md#babel).
-
-When Storybook loads, it will update Webpack's configuration including the required loaders (e.g., [`TerserPlugin`](https://webpack.js.org/plugins/terser-webpack-plugin/), [`babel-loader`](https://webpack.js.org/loaders/babel-loader/)) with SWC equivalents (e.g., [`swc-loader`](https://swc.rs/docs/usage/swc-loader)) for bundling and minification.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-framework-options-builder-use-swc.js.mdx',
-    'common/main-config-framework-options-builder-use-swc.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->

@@ -8,7 +8,6 @@ import type { PluginOptions as ReactDocgenTypescriptOptions } from '@storybook/r
 export type { BuilderResult } from '@storybook/core-webpack';
 
 export interface ReactOptions {
-  fastRefresh?: boolean;
   strictMode?: boolean;
   /**
    * Use React's legacy root API to mount components

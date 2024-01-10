@@ -1139,4 +1139,74 @@ describe('ConfigFile', () => {
       `);
     });
   });
+
+  describe('removeEntryFromArray', () => {
+    it('removes a string literal entry', () => {
+      const source = dedent`
+        export default {
+          addons: ['a', 'b', 'c'],
+        }
+      `;
+      const config = loadConfig(source).parse();
+      config.removeEntryFromArray(['addons'], 'b');
+      expect(config.getFieldValue(['addons'])).toMatchInlineSnapshot(`a,c`);
+    });
+
+    it('removes a preset-style object entry', () => {
+      const source = dedent`
+        export default {
+          addons: ['a', { name: 'b', options: {} }, 'c'],
+        }
+      `;
+      const config = loadConfig(source).parse();
+      config.removeEntryFromArray(['addons'], 'b');
+      expect(config.getFieldValue(['addons'])).toMatchInlineSnapshot(`a,c`);
+    });
+
+    it('removes a pnp-wrapped string entry', () => {
+      const source = dedent`
+        export default {
+          addons: ['a', getAbsolutePath('b'), 'c'],
+        }
+      `;
+      const config = loadConfig(source).parse();
+      config.removeEntryFromArray(['addons'], 'b');
+      expect(config.getFieldValue(['addons'])).toMatchInlineSnapshot(`a,c`);
+    });
+
+    it('removes a pnp-wrapped object entry', () => {
+      const source = dedent`
+        export default {
+          addons: ['a',  { name: getAbsolutePath('b'), options: {} }, 'c'],
+        }
+      `;
+      const config = loadConfig(source).parse();
+      config.removeEntryFromArray(['addons'], 'b');
+      expect(config.getFieldValue(['addons'])).toMatchInlineSnapshot(`a,c`);
+    });
+
+    it('throws when entry is missing', () => {
+      const source = dedent`
+        export default {
+          addons: ['a', { name: 'b', options: {} }, 'c'],
+        }
+      `;
+      const config = loadConfig(source).parse();
+      expect(() => config.removeEntryFromArray(['addons'], 'x')).toThrowErrorMatchingInlineSnapshot(
+        `Error: Could not find 'x' in array at 'addons'`
+      );
+    });
+
+    it('throws when target array is not an arral', () => {
+      const source = dedent`
+        export default {
+          addons: {},
+        }
+      `;
+      const config = loadConfig(source).parse();
+      expect(() => config.removeEntryFromArray(['addons'], 'x')).toThrowErrorMatchingInlineSnapshot(
+        `Error: Expected array at 'addons', got 'ObjectExpression'`
+      );
+    });
+  });
 });

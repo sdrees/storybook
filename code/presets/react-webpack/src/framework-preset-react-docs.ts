@@ -20,7 +20,6 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
   }
 
   if (reactDocgen !== 'react-docgen-typescript') {
-    const babelOptions = await options.presets.apply('babel', {});
     return {
       ...config,
       module: {
@@ -29,12 +28,12 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
           ...(config.module?.rules ?? []),
           {
             test: /\.(cjs|mjs|tsx?|jsx?)$/,
+            enforce: 'pre',
             loader: requirer(
               require.resolve,
               '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader'
             ),
             options: {
-              babelOptions,
               debug,
             },
             exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
@@ -46,8 +45,6 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
 
   const { ReactDocgenTypeScriptPlugin } = await import('@storybook/react-docgen-typescript-plugin');
 
-  const babelOptions = await options.presets.apply('babel', {});
-
   return {
     ...config,
     module: {
@@ -56,12 +53,12 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
         ...(config.module?.rules ?? []),
         {
           test: /\.(cjs|mjs|jsx?)$/,
+          enforce: 'pre',
           loader: requirer(
             require.resolve,
             '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader'
           ),
           options: {
-            babelOptions,
             debug,
           },
           exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,

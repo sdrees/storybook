@@ -10,7 +10,6 @@ import MagicString from 'magic-string';
 import type { LoaderContext } from 'webpack';
 import type { Handler, NodePath, babelTypes as t, Documentation } from 'react-docgen';
 import { logger } from '@storybook/node-logger';
-import type { TransformOptions } from '@babel/core';
 
 const { getNameOrValue, isReactForwardRefCall } = utils;
 
@@ -59,15 +58,13 @@ const defaultImporter = docgenImporters.fsImporter;
 const handlers = [...defaultHandlers, actualNameHandler];
 
 export default async function reactDocgenLoader(
-  this: LoaderContext<{ babelOptions: TransformOptions; debug: boolean }>,
+  this: LoaderContext<{ debug: boolean }>,
   source: string
 ) {
   const callback = this.async();
   // get options
   const options = this.getOptions() || {};
-  const { babelOptions = {}, debug = false } = options;
-
-  const { plugins, presets } = babelOptions;
+  const { debug = false } = options;
 
   try {
     const docgenResults = parse(source, {
@@ -78,8 +75,6 @@ export default async function reactDocgenLoader(
       babelOptions: {
         babelrc: false,
         configFile: false,
-        plugins,
-        presets,
       },
     }) as DocObj[];
 

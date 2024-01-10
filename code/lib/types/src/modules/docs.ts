@@ -84,6 +84,11 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   componentStories: () => PreparedStory<TRenderer>[];
 
   /**
+   * Syncronously find all stories by CSF file.
+   */
+  componentStoriesFromCSFFile: (csfFile: CSFFile<TRenderer>) => PreparedStory<TRenderer>[];
+
+  /**
    * Get the story context of the referenced story.
    */
   getStoryContext: (story: PreparedStory<TRenderer>) => StoryContextForLoaders<TRenderer>;

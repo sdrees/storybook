@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "8.0.0-alpha.8",
+  "version": "8.0.0-alpha.9",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -69,16 +69,17 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
     "@storybook/test": "workspace:*",
+    "@types/babel-plugin-react-docgen": "^4",
     "@types/util-deprecate": "^1.0.0",
+    "babel-plugin-react-docgen": "^4.2.1",
     "expect-type": "^0.15.0",
     "require-from-string": "^2.0.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "typescript": "*"
+    "typescript": ">= 4.2.x"
   },
   "peerDependenciesMeta": {
     "typescript": {

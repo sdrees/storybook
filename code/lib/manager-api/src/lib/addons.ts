@@ -27,13 +27,6 @@ export function isSupportedType(type: Addon_Types): boolean {
   return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
 }
 
-interface DeprecatedAddonWithId {
-  /**
-   * @deprecated will be removed in 8.0, when registering addons, please use the addon id as the first argument
-   */
-  id?: string;
-}
-
 export class AddonStore {
   constructor() {
     this.promise = new Promise((res) => {
@@ -49,11 +42,6 @@ export class AddonStore {
 
   private channel: Channel | undefined;
 
-  /**
-   * @deprecated will be removed in 8.0
-   */
-  private serverChannel: Channel | undefined;
-
   private promise: any;
 
   private resolve: any;
@@ -67,36 +55,13 @@ export class AddonStore {
     return this.channel!;
   };
 
-  /**
-   * @deprecated will be removed in 8.0, use getChannel instead
-   */
-  getServerChannel = (): Channel => {
-    if (!this.serverChannel) {
-      throw new Error('Accessing non-existent serverChannel');
-    }
-
-    return this.serverChannel;
-  };
-
   ready = (): Promise<Channel> => this.promise;
 
   hasChannel = (): boolean => !!this.channel;
 
-  /**
-   * @deprecated will be removed in 8.0, please use the normal channel instead
-   */
-  hasServerChannel = (): boolean => !!this.serverChannel;
-
   setChannel = (channel: Channel): void => {
     this.channel = channel;
     this.resolve();
-  };
-
-  /**
-   * @deprecated will be removed in 8.0, please use the normal channel instead
-   */
-  setServerChannel = (channel: Channel): void => {
-    this.serverChannel = channel;
   };
 
   getElements<
@@ -113,30 +78,6 @@ export class AddonStore {
   }
 
   /**
-   * Adds a panel to the addon store.
-   * @param {string} id - The id of the panel.
-   * @param {Addon_Type} options - The options for the panel.
-   * @returns {void}
-   *
-   * @deprecated Use the 'add' method instead.
-   * @example
-   * addons.add('My Panel', {
-   *   title: 'My Title',
-   *   type: types.PANEL,
-   *   render: () => <div>My Content</div>,
-   * });
-   */
-  addPanel = (
-    id: string,
-    options: Omit<Addon_BaseType, 'type' | 'id'> & DeprecatedAddonWithId
-  ): void => {
-    this.add(id, {
-      type: Addon_TypesEnum.PANEL,
-      ...options,
-    });
-  };
-
-  /**
    * Adds an addon to the addon store.
    * @param {string} id - The id of the addon.
    * @param {Addon_Type} addon - The addon to add.
@@ -146,14 +87,14 @@ export class AddonStore {
     id: string,
     addon:
       | Addon_BaseType
-      | (Omit<Addon_SidebarTopType, 'id'> & DeprecatedAddonWithId)
-      | (Omit<Addon_SidebarBottomType, 'id'> & DeprecatedAddonWithId)
-      | (Omit<Addon_PageType, 'id'> & DeprecatedAddonWithId)
-      | (Omit<Addon_WrapperType, 'id'> & DeprecatedAddonWithId)
+      | Omit<Addon_SidebarTopType, 'id'>
+      | Omit<Addon_SidebarBottomType, 'id'>
+      | Omit<Addon_PageType, 'id'>
+      | Omit<Addon_WrapperType, 'id'>
   ): void {
     const { type } = addon;
     const collection = this.getElements(type);
-    collection[id] = { id, ...addon };
+    collection[id] = { ...addon, id };
   }
 
   setConfig = (value: Addon_Config) => {

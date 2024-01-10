@@ -23,8 +23,7 @@ export interface FrameworkOptions {
   addScripts?: boolean;
   addMainFile?: boolean;
   addComponents?: boolean;
-  skipBabel?: boolean;
-  useSWC?: ({ builder }: { builder: Builder }) => boolean;
+  webpackCompiler?: ({ builder }: { builder: Builder }) => 'babel' | 'swc' | undefined;
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;

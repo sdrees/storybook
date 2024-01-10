@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
-import type { Options as SWCOptions } from '@swc/core';
 import type { Options as TelejsonOptions } from 'telejson';
-import type { TransformOptions as BabelOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
@@ -71,8 +69,8 @@ export interface Presets {
     args?: Options
   ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
-  apply(extension: 'babel', config?: {}, args?: any): Promise<BabelOptions>;
-  apply(extension: 'swc', config?: {}, args?: any): Promise<SWCOptions>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<any>;
+  apply(extension: 'swc', config?: {}, args?: any): Promise<any>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
@@ -245,16 +243,9 @@ export interface TypescriptOptions {
    * @default `false`
    */
   check: boolean;
-  /**
-   * Disable parsing typescript files through babel.
-   *
-   * @default `false`
-   * @deprecated use `skipCompiler` instead
-   */
-  skipBabel: boolean;
 
   /**
-   * Disable parsing typescript files through compiler.
+   * Disable parsing TypeScript files through compiler.
    *
    * @default `false`
    */
@@ -388,13 +379,15 @@ export interface StorybookConfigRaw {
 
   refs?: CoreCommon_StorybookRefs;
 
-  babel?: BabelOptions;
+  // We cannot use a particular Babel type here because we need to support a variety of versions
+  babel?: any;
 
-  swc?: SWCOptions;
+  swc?: any;
 
   env?: Record<string, string>;
 
-  babelDefault?: BabelOptions;
+  // We cannot use a particular Babel type here because we need to support a variety of versions
+  babelDefault?: any;
 
   config?: Entry[];
 

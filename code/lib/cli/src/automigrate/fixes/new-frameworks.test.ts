@@ -138,9 +138,6 @@ describe('new-frameworks fix', () => {
                 },
               },
             },
-            reactOptions: {
-              fastRefresh: true,
-            },
           },
         })
       ).resolves.toEqual(
@@ -149,9 +146,6 @@ describe('new-frameworks fix', () => {
           frameworkPackage: '@storybook/react-webpack5',
           dependenciesToAdd: ['@storybook/react-webpack5'],
           dependenciesToRemove: ['@storybook/builder-webpack5', '@storybook/manager-webpack5'],
-          frameworkOptions: {
-            fastRefresh: true,
-          },
           builderConfig: {
             name: 'webpack5',
             options: {
@@ -517,7 +511,7 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageManager,
           main: {
-            framework: { name: '@storybook/react-webpack5', options: { fastRefresh: true } },
+            framework: { name: '@storybook/react-webpack5' },
             addons: [
               {
                 name: 'storybook-addon-next',
@@ -541,7 +535,6 @@ describe('new-frameworks fix', () => {
           dependenciesToRemove: ['@storybook/react-webpack5', 'storybook-addon-next'],
           addonsToRemove: ['storybook-addon-next'],
           frameworkOptions: {
-            fastRefresh: true,
             nextConfigPath: '../next.config.js',
           },
           builderInfo: {

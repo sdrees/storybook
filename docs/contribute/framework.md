@@ -100,7 +100,6 @@ Because a framework is a node package, it must contain a `package.json` file. He
     "<builder>": "^x.x.x"
   },
   "peerDependencies": {
-    "@babel/core": "^x.x.x",
     "@storybook/addon-actions": "^7.0.0",
     "<meta-framework>": "^x.x.x || ^x.x.x",
     "<renderer>": "^x.x.x || ^x.x.x",

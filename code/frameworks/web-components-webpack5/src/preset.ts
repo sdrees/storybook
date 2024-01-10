@@ -4,10 +4,6 @@ import type { PresetProperty } from '@storybook/types';
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const addons: PresetProperty<'addons'> = [
-  getAbsolutePath('@storybook/preset-web-components-webpack'),
-];
-
 export const core: PresetProperty<'core'> = async (config, options) => {
   const framework = await options.presets.apply('framework');
 

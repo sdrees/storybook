@@ -9,7 +9,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
         ? ['vue-loader@^17.0.0', '@vue/compiler-sfc@^3.2.0']
         : [];
     },
-    useSWC: ({ builder }) => builder === CoreBuilder.Webpack5,
+    webpackCompiler: ({ builder }) => (builder === CoreBuilder.Webpack5 ? 'swc' : undefined),
   });
 };
 

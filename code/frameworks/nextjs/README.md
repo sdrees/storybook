@@ -123,12 +123,6 @@ export default {
   framework: {
     // name: '@storybook/react-webpack5', // Remove this
     name: '@storybook/nextjs', // Add this
-    options: {
-      builder: {
-        // Set useSWC to true if you want to try out the experimental SWC compiler in Next.js >= 14.0.0
-        useSWC: true,
-      },
-    },
   },
 };
 ```

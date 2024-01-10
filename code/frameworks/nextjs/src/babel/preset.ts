@@ -120,6 +120,7 @@ export default (api: any, options: NextBabelPresetOptions = {}): BabelPreset => 
       ],
     ],
     plugins: [
+      isDevelopment && require.resolve('react-refresh/babel'),
       !useJsxRuntime && [
         require('./plugins/jsx-pragma'),
         {

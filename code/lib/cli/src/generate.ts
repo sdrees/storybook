@@ -11,12 +11,12 @@ import invariant from 'tiny-invariant';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
+import { remove } from './remove';
 import { migrate } from './migrate';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
 import { automigrate } from './automigrate';
-import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
@@ -67,9 +67,13 @@ command('add <addon>')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
 
-command('babelrc')
-  .description('generate the default storybook babel config into your current working directory')
-  .action(() => generateStorybookBabelConfigInCWD());
+command('remove <addon>')
+  .description('Remove an addon from your Storybook')
+  .option(
+    '--package-manager <npm|pnpm|yarn1|yarn2>',
+    'Force package manager for installing dependencies'
+  )
+  .action((addonName: string, options: any) => remove(addonName, options));
 
 command('upgrade')
   .description('Upgrade your Storybook packages to the latest')

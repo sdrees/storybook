@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "8.0.0-alpha.8",
+  "version": "8.0.0-alpha.9",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -25,11 +25,6 @@
       "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
-    },
-    "./dist/presets/babel-cache-preset": {
-      "types": "./dist/presets/babel-cache-preset.d.ts",
-      "node": "./dist/presets/babel-cache-preset.js",
-      "require": "./dist/presets/babel-cache-preset.js"
     },
     "./dist/presets/common-preset": {
       "types": "./dist/presets/common-preset.d.ts",
@@ -119,7 +114,6 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/presets/babel-cache-preset.ts",
       "./src/presets/common-preset.ts",
       "./src/presets/common-override-preset.ts"
     ],

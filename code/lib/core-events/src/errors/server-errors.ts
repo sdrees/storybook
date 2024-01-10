@@ -370,23 +370,6 @@ export class GoogleFontsLoadingError extends StorybookError {
   }
 }
 
-export class NextjsSWCNotSupportedError extends StorybookError {
-  readonly category = Category.FRAMEWORK_NEXTJS;
-
-  readonly code = 3;
-
-  public readonly documentation =
-    'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md#manual-migration';
-
-  template() {
-    return dedent`
-    You have activated the SWC mode for Next.js, but you are not using Next.js 14.0.0 or higher. 
-    SWC is only supported in Next.js 14.0.0 and higher. Please go to your .storybook/main.<js|ts> file
-    and remove the { framework: { options: { builder: { useSWC: true } } } } option or upgrade to Next.js v14 or later.
-    `;
-  }
-}
-
 export class NoMatchingExportError extends StorybookError {
   readonly category = Category.CORE_SERVER;
 

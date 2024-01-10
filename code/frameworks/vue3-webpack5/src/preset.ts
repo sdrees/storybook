@@ -24,6 +24,5 @@ export const core: PresetProperty<'core'> = async (config, options) => {
 
 export const typescript: PresetProperty<'typescript'> = async (config) => ({
   ...config,
-  skipBabel: true,
   skipCompiler: true,
 });

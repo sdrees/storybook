@@ -160,7 +160,7 @@ const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = (
         useEffect(() => {
           if (global.CONFIG_TYPE === 'DEVELOPMENT') {
             try {
-              const channel = addons.getServerChannel();
+              const channel = addons.getChannel();
 
               channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
                 setProgress(options);

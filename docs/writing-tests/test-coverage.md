@@ -82,7 +82,7 @@ Finally, open a new terminal window and run the test-runner with:
 
 ### Configure
 
-By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@storybook/addon-coverage) offers zero-config support for Storybook and instruments your code via [`babel-plugin-istanbul`](https://github.com/istanbuljs/babel-plugin-istanbul) for [Babel](https://babeljs.io/), or [`vite-plugin-istanbul`](https://github.com/iFaxity/vite-plugin-istanbul) for [Vite](https://vitejs.dev/). However, you can extend your Storybook configuration file (i.e., `.storybook/main.js|ts`) and provide additional options to the addon. Listed below are the available options and examples of how to use them.
+By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@storybook/addon-coverage) offers zero-config support for Storybook and instruments your code via [`istanbul-lib-instrument`](https://www.npmjs.com/package/istanbul-lib-instrument) for [Webpack](https://webpack.js.org/), or [`vite-plugin-istanbul`](https://github.com/iFaxity/vite-plugin-istanbul) for [Vite](https://vitejs.dev/). However, you can extend your Storybook configuration file (i.e., `.storybook/main.js|ts`) and provide additional options to the addon. Listed below are the available options and examples of how to use them.
 
 <!-- prettier-ignore-start -->
 
@@ -95,28 +95,51 @@ By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@s
 
 <!-- prettier-ignore-end -->
 
-| Option                 | Description                                                                                                                                            | Plugin      |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| `cwd`                  | Defines the current working directory <br/>`options: { istanbul: { cwd: process.cwd(),}}`                                                              | Babel, Vite |
-| `include`              | Select the files to collect coverage <br/>`options: { istanbul: { include: ['**/stories/**'],}}`                                                       | Babel, Vite |
-| `exclude`              | Select the files to exclude from coverage <br/>`options: { istanbul: { exclude: ['**/stories/**'],}}`                                                  | Babel, Vite |
-| `extension`            | Sets additional file extensions for coverage <br/>`options: { istanbul: { extension: ['.js', '.cjs', '.mjs'],}}`                                       | Babel, Vite |
-| `nycrcPath`            | Defines the relative path for the existing nyc configuration file <br/>`options: { istanbul: { nycrcPath: '../nyc.config.js',}}`                       | Babel, Vite |
-| `excludeNodeModules`   | Disables `node_modules` directory introspection <br/>`options: { istanbul: { excludeNodeModules:false,}}`                                              | Babel       |
-| `ignoreClassMethods`   | Configures a set of method names to ignore from being collected <br/>`options: { istanbul: { ignoreClassMethods: ['example', 'myMethod'],}}`           | Babel       |
-| `useInlineSourceMaps`  | Enables coverage collection on source maps <br/>`options: { istanbul: { useInlineSourceMaps: false,}}`                                                 | Babel       |
-| `inputSourceMap`       | Sets the value to store the source map.<br/> Useful for instrumenting code programmatically <br/>`options: { istanbul: { inputSourceMap: sourceMap,}}` | Babel       |
-| `onCover`              | Hook to monitor coverage collection for all tests <br/>`options: { istanbul: { onCover: (fileName, fileCoverage) => {},}}`                             | Babel       |
-| `requireEnv`           | Overrides the `VITE_COVERAGE` environment variable's value by granting access to the `env` variables <br/>`options: { istanbul: { requireEnv: true,}}` | Vite        |
-| `cypress`              | Replaces the `VITE_COVERAGE` environment variable with `CYPRESS_COVERAGE`. <br/>Requires Cypress <br/>`options: { istanbul: { cypress: true,}}`        | Vite        |
-| `checkProd`            | Configures the plugin to skip instrumentation in production environments <br/>`options: { istanbul: { checkProd: true,}}`                              | Vite        |
-| `forceBuildInstrument` | Configures the plugin to add instrumentation in build mode <br/>`options: { istanbul: { forceBuildInstrument: true,}}`                                 | Vite        |
+**The available options if your project uses Webpack5 are as follows:**
 
-<Callout variant="info">
+| Option name            | Description                                                                                                    | Type            | Default                                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------- |
+| `cwd`                  | Set the working directory                                                                                      | `String`        | `process.cwd()`                                                                              |
+| `nycrcPath`            | Path to specific nyc config to use instead of automatically searching for a nycconfig.                         | `string`        | -                                                                                            |
+| `include`              | Glob pattern to include files. It has precedence over the include definition from your nyc config              | `Array<String>` | -                                                                                            |
+| `exclude`              | Glob pattern to exclude files. It has precedence over the exclude definition from your nyc config              | `Array<String>` | `defaultExclude` in https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts |
+| `extension`            | List of supported extensions. It has precedence over the extension definition from your nyc config             | `Array<String>` | `['.js', '.cjs', '.mjs', '.ts', '.tsx', '.jsx', '.vue', '.svelte]`                           |
+| `coverageVariable`     | The global variable name that Istanbul will use to store coverage results.                                     | `string`        | -                                                                                            |
+| `preserveComments`     | Indicates whether comments in the code should be preserved during the instrumentation process.                 | `boolean`       | `true`                                                                                       |
+| `compact`              | Controls whether the output of instrumented code is compacted. Useful for debugging when set to `false`.       | `boolean`       | `false`                                                                                      |
+| `esModules`            | Determines whether the code to be instrumented uses ES Module syntax.                                          | `boolean`       | `true`                                                                                       |
+| `autoWrap`             | When set to `true`, wraps program code in a function to enable top-level return statements.                    | `boolean`       | `true`                                                                                       |
+| `produceSourceMap`     | If `true`, instructs Istanbul to produce a source map for the instrumented code.                               | `boolean`       | `true`                                                                                       |
+| `sourceMapUrlCallback` | A callback function that gets invoked with the filename and the source map URL when a source map is generated. | `function`      | -                                                                                            |
+| `debug`                | Enables the debug mode, providing additional logging information during the instrumentation process.           | `boolean`       | -                                                                                            |
 
-Including the `nycrcPath` option enables use of an existing `nyc` configuration file with additional options like [coverage thresholds](https://github.com/istanbuljs/nyc#coverage-thresholds). For more information, refer to the [`nyc` documentation](https://github.com/istanbuljs/nyc#common-configuration-options).
+> **Note:**
+> If you're using TypeScript, you can import the type for the options like so:
+>
+> ```ts
+> import type { AddonOptionsWebpack } from '@storybook/addon-coverage';
+> ```
 
-</Callout>
+**The available options if your project uses Vite are as follows:**
+
+| Option name             | Description                                                                                                                                                                                                                                                                                                 | Type                        | Default                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | -------------------------------------------------------------------------------- |
+| `cwd`                   | Set the working directory                                                                                                                                                                                                                                                                                   | `String`                    | `process.cwd()`                                                                  |
+| `include`               | See [here](https://github.com/istanbuljs/nyc#selecting-files-for-coverage) for more info                                                                                                                                                                                                                    | `Array<String>` or `string` | `['**']`                                                                         |
+| `exclude`               | See [here](https://github.com/istanbuljs/nyc#selecting-files-for-coverage) for more info                                                                                                                                                                                                                    | `Array<String>` or `string` | [list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) |
+| `extension`             | List of extensions that nyc should attempt to handle in addition to `.js`                                                                                                                                                                                                                                   | `Array<String>` or `string` | `['.js', '.cjs', '.mjs', '.ts', '.tsx', '.jsx', '.vue', '.svelte]`               |
+| `requireEnv `           | Optional boolean to require the environment variable (defaults to VITE_COVERAGE) to equal true in order to instrument the code. Otherwise it will instrument even if env variable is not set. However if requireEnv is not set the instrumentation will stop if the environment variable is equal to false. | `boolean`                   | `-`                                                                              |
+| `cypress `              | Optional boolean to change the environment variable to CYPRESS_COVERAGE instead of VITE_COVERAGE. For ease of use with `@cypress/code-coverage` coverage                                                                                                                                                    | `boolean`                   | `-`                                                                              |
+| `checkProd `            | Optional boolean to enforce the plugin to skip instrumentation for production environments. Looks at Vite's isProduction key from the ResolvedConfig.                                                                                                                                                       | `boolean`                   | `-`                                                                              |
+| `forceBuildInstrument ` | Optional boolean to enforce the plugin to add instrumentation in build mode.                                                                                                                                                                                                                                | `boolean`                   | `false`                                                                          |
+| `nycrcPath `            | Path to specific nyc config to use instead of automatically searching for a nycconfig. This parameter is just passed down to @istanbuljs/load-nyc-config.                                                                                                                                                   | `string`                    | `-`                                                                              |
+
+> **Note:**
+> If you're using TypeScript, you can import the type for the options like so:
+>
+> ```ts
+> import type { AddonOptionsVite } from '@storybook/addon-coverage';
+> ```
 
 ## What about other coverage reporting tools?
 
@@ -168,7 +191,7 @@ If you generated a production build optimized for performance with the [`--test`
 
 ### The coverage addon doesn't support instrumented code
 
-As the [coverage addon](https://storybook.js.org/addons/@storybook/addon-coverage) is based on Babel and Vite plugins for code instrumentation, frameworks that don't rely upon these libraries (e.g., Angular configured with Webpack), will require additional configuration to enable code instrumentation. In that case, you can refer to the following [repository](https://github.com/yannbf/storybook-coverage-recipes) for more information.
+As the [coverage addon](https://storybook.js.org/addons/@storybook/addon-coverage) is based on Webpack5 loaders and Vite plugins for code instrumentation, frameworks that don't rely upon these libraries (e.g., Angular configured with Webpack), will require additional configuration to enable code instrumentation. In that case, you can refer to the following [repository](https://github.com/yannbf/storybook-coverage-recipes) for more information.
 
 #### Learn about other UI tests
 

@@ -12,7 +12,6 @@ Type:
   checkOptions?: CheckOptions;
   reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
   reactDocgenTypescriptOptions?: ReactDocgenTypescriptOptions;
-  skipBabel?: boolean;
 }
 ```
 
@@ -82,24 +81,6 @@ Only available for React Storybook projects. Options to pass to react-docgen-typ
 <CodeSnippets
   paths={[
     'common/main-config-typescript-react-docgen-typescript-options.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-## `skipBabel`
-
-Deprecated: Will be removed in Storybook 8.0. Use `skipCompiler` instead.
-
-Type: `boolean`
-
-Disable parsing of TypeScript files through Babel.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-typescript-skip-babel.ts.mdx',
   ]}
 />
 

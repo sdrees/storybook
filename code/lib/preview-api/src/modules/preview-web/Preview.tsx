@@ -60,9 +60,6 @@ export class Preview<TRenderer extends Renderer> {
   previewEntryError?: Error;
 
   constructor(protected channel: Channel = addons.getChannel()) {
-    if (addons.hasServerChannel()) {
-      this.serverChannel = addons.getServerChannel();
-    }
     this.storyStore = new StoryStore();
   }
 

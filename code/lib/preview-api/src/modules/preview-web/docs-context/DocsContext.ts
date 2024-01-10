@@ -201,6 +201,10 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     return this.componentStoriesValue;
   };
 
+  componentStoriesFromCSFFile = (csfFile: CSFFile<TRenderer>) => {
+    return this.store.componentStoriesFromCSFFile({ csfFile });
+  };
+
   storyById = (storyId?: StoryId) => {
     if (!storyId) {
       if (!this.primaryStory)

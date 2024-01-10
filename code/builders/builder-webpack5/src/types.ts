@@ -37,7 +37,6 @@ export interface StorybookConfigWebpack extends Pick<StorybookConfig, 'webpack' 
 
 export type BuilderOptions = {
   fsCache?: boolean;
-  useSWC?: boolean;
   lazyCompilation?: boolean;
 };
 

@@ -17,7 +17,7 @@ import {
 } from '@storybook/manager-api';
 
 import { Location, type RenderData } from '@storybook/router';
-import type { Addon_BaseType } from '@storybook/types';
+import { Addon_TypesEnum, type Addon_BaseType } from '@storybook/types';
 import { CloseIcon, ExpandIcon } from '@storybook/icons';
 import { zoomTool } from './tools/zoom';
 
@@ -39,7 +39,7 @@ const fullScreenMapper = ({ api, state }: Combo) => {
     toggle: api.toggleFullscreen,
     isFullscreen: api.getIsFullscreen(),
     shortcut: shortcutToHumanString(api.getShortcutKeys().fullScreen),
-    hasPanel: Object.keys(api.getPanels()).length > 0,
+    hasPanel: Object.keys(api.getElements(Addon_TypesEnum.PANEL)).length > 0,
     singleStory: state.singleStory,
   };
 };

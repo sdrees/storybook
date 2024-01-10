@@ -106,7 +106,6 @@ const PACKAGES_EXCLUDED_FROM_CORE = [
   '@storybook/addon-designs',
   '@storybook/addon-styling',
   '@storybook/addon-styling-webpack',
-  '@storybook/babel-plugin-require-context-hook',
   '@storybook/bench',
   '@storybook/builder-vite',
   '@storybook/csf',

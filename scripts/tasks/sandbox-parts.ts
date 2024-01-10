@@ -521,6 +521,11 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
     features: {
       ...templateConfig.features,
     },
+    ...(template.modifications?.editAddons
+      ? {
+          addons: template.modifications?.editAddons(mainConfig.getFieldValue(['addons']) || []),
+        }
+      : {}),
     core: {
       ...templateConfig.core,
       // We don't want to show the "What's new" notifications in the sandbox as it can affect E2E tests

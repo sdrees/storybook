@@ -7,7 +7,7 @@ import type { ThemeVars } from '../../../theming/src/types';
 import type { DocsOptions } from './core-common';
 import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
+import type { Addon_RenderOptions } from './addons';
 import type { StoryIndex } from './indexer';
 
 type OrString<T extends string> = T | (string & {});
@@ -28,21 +28,6 @@ export interface API_MatchOptions {
   location: RenderData['location'];
   path: string;
 }
-
-/**
- * @deprecated this is synonymous with `Addon_Type`. This interface will be removed in 8.0
- */
-export type API_Addon = Addon_Type;
-
-/**
- * @deprecated this is synonymous with `Addon_Collection`. This interface will be removed in 8.0
- */
-export type API_Collection<T = Addon_Type> = Addon_Collection<T>;
-
-/**
- * @deprecated This interface will be removed in 8.0
- */
-export type API_Panels = Addon_Collection<Addon_BaseType>;
 
 export type API_StateMerger<S> = (input: S) => S;
 

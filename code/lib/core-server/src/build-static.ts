@@ -83,7 +83,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       ...(previewBuilder.corePresets || []),
       ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
-      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: [
       ...(previewBuilder.overridePresets || []),

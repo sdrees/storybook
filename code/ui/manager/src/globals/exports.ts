@@ -127,8 +127,6 @@ export default {
     'PostMessageTransport',
     'WebsocketTransport',
     'createBrowserChannel',
-    'createPostMessageChannel',
-    'createWebSocketChannel',
   ],
   '@storybook/core-events': [
     'CHANNEL_CREATED',

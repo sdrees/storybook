@@ -13,8 +13,8 @@ export * from './main';
 
 export default Channel;
 
-export { createChannel as createPostMessageChannel, PostMessageTransport } from './postmessage';
-export { createChannel as createWebSocketChannel, WebsocketTransport } from './websocket';
+export { PostMessageTransport } from './postmessage';
+export { WebsocketTransport } from './websocket';
 
 type Options = Config & {
   extraTransports?: ChannelTransport[];

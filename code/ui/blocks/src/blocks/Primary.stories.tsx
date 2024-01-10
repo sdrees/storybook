@@ -26,26 +26,6 @@ export const WithoutToolbar: Story = {
   },
 };
 
-export const DefaultWithName: Story = {
-  name: 'Name',
-  args: {
-    name: 'Primary',
-  },
-  parameters: {
-    relativeCsfPaths: ['../examples/Button.stories'],
-  },
-};
-
-export const WithoutToolbarWithName: Story = {
-  name: 'Name Without Toolbar',
-  args: {
-    name: 'Without Toolbar',
-  },
-  parameters: {
-    relativeCsfPaths: ['../examples/StoriesParameters.stories'],
-  },
-};
-
 export const DefaultWithOf: Story = {
   name: 'Of',
   args: {
