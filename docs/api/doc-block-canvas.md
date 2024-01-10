@@ -170,7 +170,7 @@ Specifies which story's source is displayed.
 
 Type: `SourceProps['code'] | SourceProps['format'] | SourceProps['language'] | SourceProps['type']`
 
-Specifies props passed to the inner `Source` block. See [SourceProps](./doc-block-source.md#sourceprops).
+Specifies the props passed to the inner `Source` block. For more information, see the `Source` Doc Block [documentation](./doc-block-source.md).
 
 <Callout variant="info" icon="💡">
 
@@ -194,7 +194,7 @@ Specifies the initial state of the source panel.
 
 Type: `StoryProps['inline'] | StoryProps['height'] | StoryProps['autoplay']`
 
-Specifies props passed to the inner `Story` block. See [StoryProps](./doc-block-story.md#storyprops).
+Specifies the props passed to the inner `Story` block. For more information, see the `Story` Doc Block [documentation](./doc-block-story.md).
 
 ### `withToolbar`
 
