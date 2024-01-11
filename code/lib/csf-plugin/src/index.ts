@@ -5,7 +5,8 @@ import type { EnrichCsfOptions } from '@storybook/csf-tools';
 
 export type CsfPluginOptions = EnrichCsfOptions;
 
-const STORIES_REGEX = /\.(story|stories)\.[tj]sx?$/;
+// Ignore node_modules
+const STORIES_REGEX = /(?<!node_modules.*)\.(story|stories)\.[tj]sx?$/;
 
 const logger = console;
 

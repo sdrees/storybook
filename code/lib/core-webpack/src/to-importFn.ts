@@ -4,6 +4,20 @@ import { globToRegexp } from '@storybook/core-common';
 
 import { importPipeline } from './importPipeline';
 
+function adjustRegexToExcludeNodeModules(originalRegex: RegExp) {
+  const originalRegexString = originalRegex.source;
+  const startsWithCaret = originalRegexString.startsWith('^');
+  const excludeNodeModulesPattern = startsWithCaret ? '(?!.*node_modules)' : '^(?!.*node_modules)';
+
+  // Combine the new exclusion pattern with the original regex
+  const adjustedRegexString = startsWithCaret
+    ? `^${excludeNodeModulesPattern}${originalRegexString.substring(1)}`
+    : excludeNodeModulesPattern + originalRegexString;
+
+  // Create and return the new regex
+  return new RegExp(adjustedRegexString);
+}
+
 export function webpackIncludeRegexp(specifier: NormalizedStoriesSpecifier) {
   const { directory, files } = specifier;
 
@@ -17,7 +31,9 @@ export function webpackIncludeRegexp(specifier: NormalizedStoriesSpecifier) {
   const webpackIncludeGlob = ['.', '..'].includes(directory)
     ? files
     : `${directoryWithoutLeadingDots}/${files}`;
-  const webpackIncludeRegexpWithCaret = globToRegexp(webpackIncludeGlob);
+  const webpackIncludeRegexpWithCaret = webpackIncludeGlob.includes('node_modules')
+    ? globToRegexp(webpackIncludeGlob)
+    : adjustRegexToExcludeNodeModules(globToRegexp(webpackIncludeGlob));
   // picomatch is creating an exact match, but we are only matching the end of the filename
   return new RegExp(webpackIncludeRegexpWithCaret.source.replace(/^\^/, ''));
 }

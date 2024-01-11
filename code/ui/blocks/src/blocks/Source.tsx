@@ -9,22 +9,12 @@ import type {
 } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
-import { deprecate } from '@storybook/client-logger';
-import dedent from 'ts-dedent';
 import type { SourceCodeProps } from '../components/Source';
 import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps, SourceItem } from './SourceContainer';
 import { UNKNOWN_ARGS_HASH, argsHash, SourceContext } from './SourceContainer';
-
-import { useStories } from './useStory';
-
-export enum SourceState {
-  OPEN = 'open',
-  CLOSED = 'closed',
-  NONE = 'none',
-}
 
 type SourceParameters = SourceCodeProps & {
   /**
@@ -54,23 +44,10 @@ export type SourceProps = SourceParameters & {
    */
   of?: ModuleExport;
 
-  /** @deprecated use of={storyExport} instead */
-  id?: string;
-
-  /** @deprecated use of={storyExport} instead */
-  ids?: string[];
-
   /**
    * Internal prop to control if a story re-renders on args updates
    */
   __forceInitialArgs?: boolean;
-};
-
-const getSourceState = (stories: PreparedStory[]) => {
-  const states = stories.map((story) => story.parameters.docs?.source?.state).filter(Boolean);
-  if (states.length === 0) return SourceState.CLOSED;
-  // FIXME: handling multiple stories is a pain
-  return states[0];
 };
 
 const getStorySource = (
@@ -126,19 +103,14 @@ const getSnippet = ({
 };
 
 // state is used by the Canvas block, which also calls useSourceProps
-type SourceStateProps = { state: SourceState };
 type PureSourceProps = ComponentProps<typeof PureSource>;
 
 export const useSourceProps = (
   props: SourceProps,
   docsContext: DocsContextProps<any>,
   sourceContext: SourceContextProps
-): PureSourceProps & SourceStateProps => {
-  const storyIds = props.ids || (props.id ? [props.id] : []);
-  const storiesFromIds = useStories(storyIds, docsContext);
-
-  // The check didn't actually change the type.
-  let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
+): PureSourceProps => {
+  let story: PreparedStory;
   const { of } = props;
   if ('of' in props && of === undefined) {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
@@ -146,65 +118,54 @@ export const useSourceProps = (
 
   if (of) {
     const resolved = docsContext.resolveOf(of, ['story']);
-    stories = [resolved.story];
-  } else if (stories.length === 0) {
+    story = resolved.story;
+  } else {
     try {
       // Always fall back to the primary story for source parameters, even if code is set.
-      stories = [docsContext.storyById()];
+      story = docsContext.storyById();
     } catch (err) {
       // You are allowed to use <Source code="..." /> and <Canvas /> unattached.
     }
   }
-  if (!storiesFromIds.every(Boolean)) {
-    return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
-  }
 
-  const sourceParameters = (stories[0]?.parameters?.docs?.source || {}) as SourceParameters;
-  let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
+  const sourceParameters = (story?.parameters?.docs?.source || {}) as SourceParameters;
+  const { code } = props; // We will fall back to `sourceParameters.code`, but per story below
   let format = props.format ?? sourceParameters.format;
   const language = props.language ?? sourceParameters.language ?? 'jsx';
   const dark = props.dark ?? sourceParameters.dark ?? false;
 
-  if (!code) {
-    code = stories
-      .map((story, index) => {
-        // In theory you can use a storyId from a different CSF file that hasn't loaded yet.
-        if (!story) return '';
-
-        const storyContext = docsContext.getStoryContext(story);
-
-        // eslint-disable-next-line no-underscore-dangle
-        const argsForSource = props.__forceInitialArgs
-          ? storyContext.initialArgs
-          : storyContext.unmappedArgs;
-
-        const source = getStorySource(story.id, argsForSource, sourceContext);
-        if (index === 0) {
-          // Take the format from the first story
-          format = source.format ?? story.parameters.docs?.source?.format ?? false;
-        }
-        return getSnippet({
-          snippet: source.code,
-          storyContext: { ...storyContext, args: argsForSource },
-          typeFromProps: props.type,
-          transformFromProps: props.transform,
-        });
-      })
-      .join('\n\n');
+  if (!code && !story) {
+    return { error: SourceError.SOURCE_UNAVAILABLE };
   }
+  if (code) {
+    return {
+      code,
+      format,
+      language,
+      dark,
+    };
+  }
+  const storyContext = docsContext.getStoryContext(story);
 
-  const state = getSourceState(stories as PreparedStory[]);
+  // eslint-disable-next-line no-underscore-dangle
+  const argsForSource = props.__forceInitialArgs
+    ? storyContext.initialArgs
+    : storyContext.unmappedArgs;
 
-  return code
-    ? {
-        code,
-        format,
-        language,
-        dark,
-        // state is used by the Canvas block when it calls this function
-        state,
-      }
-    : { error: SourceError.SOURCE_UNAVAILABLE, state };
+  const source = getStorySource(story.id, argsForSource, sourceContext);
+  format = source.format ?? story.parameters.docs?.source?.format ?? false;
+
+  return {
+    code: getSnippet({
+      snippet: source.code,
+      storyContext: { ...storyContext, args: argsForSource },
+      typeFromProps: props.type,
+      transformFromProps: props.transform,
+    }),
+    format,
+    language,
+    dark,
+  };
 };
 
 /**
@@ -213,20 +174,8 @@ export const useSourceProps = (
  * the source for the current story if nothing is provided.
  */
 export const Source: FC<SourceProps> = (props) => {
-  if (props.id) {
-    deprecate(dedent`The \`id\` prop on Source is deprecated, please use the \`of\` prop instead to reference a story. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
-  `);
-  }
-  if (props.ids) {
-    deprecate(dedent`The \`ids\` prop on Source is deprecated, please use the \`of\` prop instead to reference a story. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
-  `);
-  }
   const sourceContext = useContext(SourceContext);
   const docsContext = useContext(DocsContext);
-  const { state, ...sourceProps } = useSourceProps(props, docsContext, sourceContext);
+  const sourceProps = useSourceProps(props, docsContext, sourceContext);
   return <PureSource {...sourceProps} />;
 };

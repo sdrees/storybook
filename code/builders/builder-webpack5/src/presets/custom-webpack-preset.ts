@@ -2,14 +2,11 @@ import * as webpackReal from 'webpack';
 import { logger } from '@storybook/node-logger';
 import type { Options } from '@storybook/types';
 import type { Configuration } from 'webpack';
-import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
 import { loadCustomWebpackConfig } from '@storybook/core-webpack';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
 
 export async function webpack(config: Configuration, options: Options) {
-  // @ts-expect-error (Converted from ts-ignore)
-  const { configDir, configType, presets, webpackConfig } = options;
+  const { configDir, configType, presets } = options;
 
   const coreOptions = await presets.apply('core');
 
@@ -19,16 +16,6 @@ export async function webpack(config: Configuration, options: Options) {
   }
 
   const finalDefaultConfig = await presets.apply('webpackFinal', defaultConfig, options);
-
-  // through standalone webpackConfig option
-  if (webpackConfig) {
-    return deprecate(
-      webpackConfig,
-      dedent`
-      You've provided a webpack config directly in CallOptions, this is not recommended. Please use presets instead. This feature will be removed in 7.0
-      `
-    )(finalDefaultConfig);
-  }
 
   // Check whether user has a custom webpack config file and
   // return the (extended) base configuration if it's not available.

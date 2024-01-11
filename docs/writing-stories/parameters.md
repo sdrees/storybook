@@ -6,6 +6,12 @@ title: 'Parameters'
 
 Parameters are a set of static, named metadata about a story, typically used to control the behavior of Storybook features and addons.
 
+<Callout variant="info">
+
+Available parameters are listed in the [parameters API reference](../api/parameters.md#available-parameters).
+
+</Callout>
+
 For example, let’s customize the backgrounds addon via a parameter. We’ll use `parameters.backgrounds` to define which backgrounds appear in the backgrounds toolbar when a story is selected.
 
 ## Story parameters

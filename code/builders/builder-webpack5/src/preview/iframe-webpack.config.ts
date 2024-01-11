@@ -215,6 +215,7 @@ export default async (
       rules: [
         {
           test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,
+          exclude: /node_modules/,
           enforce: 'post',
           use: [
             {

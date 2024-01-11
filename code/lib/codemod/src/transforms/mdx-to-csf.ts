@@ -2,7 +2,6 @@
 import type { FileInfo } from 'jscodeshift';
 import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
-import type { Root } from 'remark-mdx';
 import remarkMdx from 'remark-mdx';
 import { SKIP, visit } from 'unist-util-visit';
 import { is } from 'unist-util-is';
@@ -79,11 +78,8 @@ export function transform(source: string, baseName: string): [string, string] {
 
   const file = getEsmAst(root);
 
-  // @ts-ignore
-  visit(
-    root,
-    ['mdxJsxFlowElement', 'mdxJsxTextElement'],
-    (node: MdxJsxFlowElement | MdxJsxTextElement, index, parent) => {
+  visit(root, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node, index, parent) => {
+    if (node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') {
       if (is(node, { name: 'Meta' })) {
         metaAttributes.push(...node.attributes);
         node.attributes = [
@@ -136,7 +132,6 @@ export function transform(source: string, baseName: string): [string, string] {
             value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */`,
           };
           storiesMap.set(idAttribute.value as string, { type: 'id' });
-          // @ts-expect-error issue with mdast types
           parent?.children.splice(index as number, 0, newNode);
           // current index is the new comment, and index + 1 is current node
           // SKIP traversing current node, and continue with the node after that
@@ -168,9 +163,9 @@ export function transform(source: string, baseName: string): [string, string] {
           return [SKIP, index];
         }
       }
-      return undefined;
     }
-  );
+    return undefined;
+  });
 
   const metaProperties = metaAttributes.flatMap((attribute) => {
     if (attribute.type === 'mdxJsxAttribute') {
@@ -309,10 +304,9 @@ export function transform(source: string, baseName: string): [string, string] {
   return [newMdx, output];
 }
 
-function getEsmAst(root: Root) {
+function getEsmAst(root: ReturnType<typeof mdxProcessor.parse>) {
   const esm: string[] = [];
-  // @ts-expect-error (not valid BuildVisitor)
-  visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
+  visit(root, 'mdxjsEsm', (node) => {
     esm.push(node.value);
   });
   const esmSource = `${esm.join('\n\n')}`;
@@ -325,10 +319,13 @@ function getEsmAst(root: Root) {
   return file;
 }
 
-function addStoriesImport(root: Root, baseName: string, storyNamespaceName: string): void {
+function addStoriesImport(
+  root: ReturnType<typeof mdxProcessor.parse>,
+  baseName: string,
+  storyNamespaceName: string
+): void {
   let found = false;
-  // @ts-expect-error (not valid BuildVisitor)
-  visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
+  visit(root, 'mdxjsEsm', (node) => {
     if (!found) {
       node.value += `\nimport * as ${storyNamespaceName} from './${baseName}.stories';`;
       found = true;

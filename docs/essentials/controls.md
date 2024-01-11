@@ -409,26 +409,6 @@ Consider the following snippet to force required args first:
 
 <!-- prettier-ignore-end -->
 
-#### Hide NoControls warning
-
-If you don't plan to handle the control args inside your story, you can remove the warning with:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-   'angular/button-story-hide-nocontrols-warning.ts.mdx',
-   'web-components/button-story-hide-nocontrols-warning.js.mdx',
-   'web-components/button-story-hide-nocontrols-warning.ts.mdx',
-   'common/button-story-hide-nocontrols-warning.js.mdx',
-   'common/button-story-hide-nocontrols-warning.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="essentials/controls#snippet-button-story-hide-nocontrols-warning"
-/>
-
-<!-- prettier-ignore-end -->
-
 ### Disable controls for specific properties
 
 Aside from the features already documented here, Controls can also be disabled for individual properties.

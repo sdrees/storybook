@@ -12,7 +12,6 @@ Storybook Docs automatically generates props tables for components in supported 
 - [Controls](#controls)
 - [Customization](#customization)
   - [Customizing ArgTypes](#customizing-argtypes)
-  - [Custom ArgTypes in MDX](#custom-argtypes-in-mdx)
 - [Reporting a bug](#reporting-a-bug)
 - [Known limitations](#known-limitations)
 - [More resources](#more-resources)
@@ -60,7 +59,7 @@ Starting in SB 6.0, the `ArgsTable` block has built-in `Controls` (formerly know
 
 <br/>
 
-These controls are implemented appear automatically in the props table when your story accepts [Storybook Args](https://storybook.js.org/docs/react/api/csf#args-story-inputs) as its input. This is done slightly differently depending on whether you're using `DocsPage` or `MDX`.
+These controls are implemented to appear automatically in the props table when your story accepts [Storybook Args](https://storybook.js.org/docs/react/api/csf#args-story-inputs) as its input. This is done slightly differently depending on whether you're using `DocsPage` or `MDX`.
 
 **DocsPage.** In [DocsPage](./docspage.md), simply write your story to consume args and the auto-generated props table will display controls in the right-most column:
 
@@ -201,32 +200,6 @@ Here are the possible customizations for the rest of the prop table:
 | `table.defaultValue.summary` | A short version of the default value                                                                 |
 | `table.defaultValue.detail`  | A longer version of the default value (if it's a complex value)                                      |
 | `control`                    | See [`addon-controls` README](https://storybook.js.org/docs/react/essentials/controls#configuration) |
-
-### Custom ArgTypes in MDX
-
-To do the equivalent of the above customization [in MDX](./mdx.md), use the following.
-
-Overriding at the component level:
-
-```jsx
-<Meta
-  title="MyComponent"
-  component={MyComponent}
-  argTypes={{
-    label: { name: 'label' /* ... */ },
-  }}
-/>
-```
-
-And at the story level:
-
-```jsx
-<Story name="some story" argTypes={{
-  label: { name: 'label', ... }
-}}>
-  {/* story contents */}
-</Story>
-```
 
 ## Reporting a bug
 

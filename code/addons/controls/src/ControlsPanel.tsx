@@ -16,9 +16,6 @@ interface ControlsParameters {
   sort?: SortType;
   expanded?: boolean;
   presetColors?: PresetColor[];
-
-  /** @deprecated No longer used, will be removed in Storybook 8.0 */
-  hideNoControlsWarning?: boolean;
 }
 
 export const ControlsPanel: FC = () => {

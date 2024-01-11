@@ -5,7 +5,6 @@ import type {
   ModuleExport,
   ModuleExports,
   PreparedStory,
-  StoryAnnotations,
   StoryId,
 } from '@storybook/types';
 
@@ -17,24 +16,9 @@ import { useStory } from './useStory';
 type PureStoryProps = ComponentProps<typeof PureStory>;
 
 /**
- * Props to define a story
- *
- * @deprecated Define stories in CSF files
- */
-type StoryDefProps = StoryAnnotations;
-
-/**
  * Props to reference another story
  */
 type StoryRefProps = {
-  /**
-   * @deprecated Use of={storyExport} instead
-   */
-  id?: string;
-  /**
-   * @deprecated Use of={storyExport} and define the story in the CSF file
-   */
-  story?: StoryAnnotations;
   /**
    * Pass the export defining a story to render that story
    *
@@ -83,16 +67,16 @@ type StoryParameters = {
   __primary?: boolean;
 };
 
-export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
+export type StoryProps = StoryRefProps & StoryParameters;
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
-  const { of, meta, story } = props as StoryRefProps;
+  const { of, meta } = props as StoryRefProps;
   if ('of' in props && of === undefined) {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
   }
 
   if (meta) context.referenceMeta(meta, false);
-  const resolved = context.resolveOf(of || story || 'story', ['story']);
+  const resolved = context.resolveOf(of || 'story', ['story']);
   return resolved.story.id;
 };
 

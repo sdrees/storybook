@@ -164,19 +164,3 @@ Specifies how the source code is rendered.
 Note that dynamic snippets will only work if the story uses [`args`](../writing-stories/args.md) and the [`Story` block](./doc-block-story.md) for that story is rendered along with the `Source` block.
 
 </Callout>
-
-### `id`
-
-(⛔️ **Deprecated**)
-
-Type: `string`
-
-Specifies the story id for which to render the source code. Referencing a story this way is no longer supported; use the [`of` prop](#of), instead.
-
-### `ids`
-
-(⛔️ **Deprecated**)
-
-Type: `string[]`
-
-Specifies the story ids for which to render source code. Multiple stories are no longer supported; to render a single story's source, use the [`of` prop](#of).

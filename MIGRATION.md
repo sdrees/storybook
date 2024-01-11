@@ -46,6 +46,7 @@
     - [Methods and properties from PreviewAPI](#methods-and-properties-from-previewapi)
     - [Removals in @storybook/types](#removals-in-storybooktypes)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
+    - [hideNoControlsWarning parameter from addon controls](#hidenocontrolswarning-parameter-from-addon-controls)
     - [`setGlobalConfig` from `@storybook/react`](#setglobalconfig-from-storybookreact)
     - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
     - [props from WithTooltipComponent from @storybook/components](#props-from-withtooltipcomponent-from-storybookcomponents)
@@ -56,7 +57,10 @@
     - [storyIndexers](#storyindexers)
     - [Deprecated docs parameters](#deprecated-docs-parameters)
     - [Description Doc block properties](#description-doc-block-properties)
+    - [Story Doc block properties](#story-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
+    - [Source Doc block properties](#source-doc-block-properties)
+    - [Canvas Doc block properties](#canvas-doc-block-properties)
     - [`Primary` Doc block properties](#primary-doc-block-properties)
     - [`createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and--storybookchannel-websocket)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
@@ -70,6 +74,7 @@
     - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
     - [Addon API is more type-strict](#addon-api-is-more-type-strict)
+    - [Addon-controls hideNoControlsWarning parameter is deprecated](#addon-controls-hidenocontrolswarning-parameter-is-deprecated)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
@@ -831,6 +836,10 @@ The following exports from `@storybook/types` are now removed:
 
 The `--use-npm` is now removed. Use `--package-manager=npm` instead. [More info here](#cli-option---use-npm-deprecated).
 
+#### hideNoControlsWarning parameter from addon controls
+
+The `hideNoControlsWarning` parameter is now removed. [More info here](#addon-controls-hidenocontrolswarning-parameter-is-deprecated).
+
 #### `setGlobalConfig` from `@storybook/react`
 
 The `setGlobalConfig` (used for reusing stories in your tests) is now removed in favor of `setProjectAnnotations`.
@@ -924,6 +933,12 @@ More info [here](#autodocs-changes) and [here](#source-block).
 
 `children`, `markdown` and `type` are now removed in favor of the `of` property. [More info](#doc-blocks).
 
+#### Story Doc block properties
+
+The `story` prop is now removed in favor of the `of` property. [More info](#doc-blocks).
+
+Additionally, given that CSF in MDX is not supported anymore, the following props are also removed: `args`, `argTypes`, `decorators`, `loaders`, `name`, `parameters`, `play`, `render`, and `storyName`. [More info](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support).
+
 #### Manager API expandAll and collapseAll methods
 
 The `collapseAll` and `expandAll` APIs (possibly used by addons) are now removed. Please emit events for these actions instead:
@@ -936,6 +951,22 @@ const api = useStorybookApi()
 api.collapseAll() // becomes api.emit(STORIES_COLLAPSE_ALL)
 api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
 ```
+
+#### Source Doc block properties
+
+`id` and `ids` are now removed in favor of the `of` property. [More info](#doc-blocks).
+
+#### Canvas Doc block properties
+
+The following properties were removed from the Canvas Doc block:
+
+- children
+- isColumn
+- columns
+- withSource
+- mdxSource
+
+[More info](#doc-blocks).
 
 #### `Primary` Doc block properties
 
@@ -1126,6 +1157,18 @@ addons.register('my-addon', () => {
 The API: `addons.addPanel()` is now deprecated, and will be removed in 8.0. Please use `addons.add()` instead.
 
 The `render` method can now be a `React.FunctionComponent` (without the `children` prop). Storybook will now render it, rather than calling it as a function.
+
+#### Addon-controls hideNoControlsWarning parameter is deprecated
+
+The `hideNoControlsWarning` parameter is now unused and deprecated, given that the UI of the Controls addon changed in a way that does not display that message anymore.
+
+```ts
+export const Primary = {
+  parameters: {
+    controls: { hideNoControlsWarning: true }, // this parameter is now unnecessary
+  },
+};
+```
 
 ## From version 6.5.x to 7.0.0
 
