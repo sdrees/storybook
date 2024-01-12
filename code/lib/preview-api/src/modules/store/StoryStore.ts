@@ -175,10 +175,13 @@ export class StoryStore<TRenderer extends Renderer> {
     };
 
     const list = await loadInBatches(importPaths);
-    return list.reduce((acc, { importPath, csfFile }) => {
-      acc[importPath] = csfFile;
-      return acc;
-    }, {} as Record<Path, CSFFile<TRenderer>>);
+    return list.reduce(
+      (acc, { importPath, csfFile }) => {
+        acc[importPath] = csfFile;
+        return acc;
+      },
+      {} as Record<Path, CSFFile<TRenderer>>
+    );
   }
 
   async cacheAllCSFFiles(): Promise<void> {

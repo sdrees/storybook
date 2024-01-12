@@ -77,94 +77,94 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-export const Ref: FC<RefType & RefProps & { status?: State['status'] }> = React.memo(function Ref(
-  props
-) {
-  const { docsOptions } = useStorybookState();
-  const api = useStorybookApi();
-  const {
-    index,
-    id: refId,
-    title = refId,
-    isLoading: isLoadingMain,
-    isBrowsing,
-    selectedStoryId,
-    highlightedRef,
-    setHighlighted,
-    loginUrl,
-    type,
-    expanded = true,
-    indexError,
-    previewInitialized,
-  } = props;
-  const length = useMemo(() => (index ? Object.keys(index).length : 0), [index]);
-  const indicatorRef = useRef<HTMLElement>(null);
+export const Ref: FC<RefType & RefProps & { status?: State['status'] }> = React.memo(
+  function Ref(props) {
+    const { docsOptions } = useStorybookState();
+    const api = useStorybookApi();
+    const {
+      index,
+      id: refId,
+      title = refId,
+      isLoading: isLoadingMain,
+      isBrowsing,
+      selectedStoryId,
+      highlightedRef,
+      setHighlighted,
+      loginUrl,
+      type,
+      expanded = true,
+      indexError,
+      previewInitialized,
+    } = props;
+    const length = useMemo(() => (index ? Object.keys(index).length : 0), [index]);
+    const indicatorRef = useRef<HTMLElement>(null);
 
-  const isMain = refId === DEFAULT_REF_ID;
-  const isLoadingInjected =
-    (type === 'auto-inject' && !previewInitialized) || type === 'server-checked';
-  const isLoading = isLoadingMain || isLoadingInjected || type === 'unknown';
-  const isError = !!indexError;
-  const isEmpty = !isLoading && length === 0;
-  const isAuthRequired = !!loginUrl && length === 0;
+    const isMain = refId === DEFAULT_REF_ID;
+    const isLoadingInjected =
+      (type === 'auto-inject' && !previewInitialized) || type === 'server-checked';
+    const isLoading = isLoadingMain || isLoadingInjected || type === 'unknown';
+    const isError = !!indexError;
+    const isEmpty = !isLoading && length === 0;
+    const isAuthRequired = !!loginUrl && length === 0;
 
-  const state = getStateType(isLoading, isAuthRequired, isError, isEmpty);
-  const [isExpanded, setExpanded] = useState<boolean>(expanded);
+    const state = getStateType(isLoading, isAuthRequired, isError, isEmpty);
+    const [isExpanded, setExpanded] = useState<boolean>(expanded);
 
-  useEffect(() => {
-    if (index && selectedStoryId && index[selectedStoryId]) {
-      setExpanded(true);
-    }
-  }, [setExpanded, index, selectedStoryId]);
+    useEffect(() => {
+      if (index && selectedStoryId && index[selectedStoryId]) {
+        setExpanded(true);
+      }
+    }, [setExpanded, index, selectedStoryId]);
 
-  const handleClick = useCallback(() => setExpanded((value) => !value), [setExpanded]);
+    const handleClick = useCallback(() => setExpanded((value) => !value), [setExpanded]);
 
-  const setHighlightedItemId = useCallback(
-    (itemId: string) => setHighlighted({ itemId, refId }),
-    [setHighlighted]
-  );
+    const setHighlightedItemId = useCallback(
+      (itemId: string) => setHighlighted({ itemId, refId }),
+      [setHighlighted]
+    );
 
-  const onSelectStoryId = useCallback(
-    (storyId: string) => api && api.selectStory(storyId, undefined, { ref: !isMain && refId }),
-    [api, isMain, refId]
-  );
+    const onSelectStoryId = useCallback(
+      (storyId: string) => api && api.selectStory(storyId, undefined, { ref: !isMain && refId }),
+      [api, isMain, refId]
+    );
 
-  return (
-    <>
-      {isMain || (
-        <RefHead
-          aria-label={`${isExpanded ? 'Hide' : 'Show'} ${title} stories`}
-          aria-expanded={isExpanded}
-        >
-          <CollapseButton data-action="collapse-ref" onClick={handleClick}>
-            <CollapseIcon isExpanded={isExpanded} />
-            <RefTitle title={title}>{title}</RefTitle>
-          </CollapseButton>
-          <RefIndicator {...props} state={state} ref={indicatorRef} />
-        </RefHead>
-      )}
-      {isExpanded && (
-        <Wrapper data-title={title} isMain={isMain}>
-          {state === 'auth' && <AuthBlock id={refId} loginUrl={loginUrl} />}
-          {state === 'error' && <ErrorBlock error={indexError} />}
-          {state === 'loading' && <LoaderBlock isMain={isMain} />}
-          {state === 'empty' && <EmptyBlock isMain={isMain} />}
-          {state === 'ready' && (
-            <Tree
-              status={props.status}
-              isBrowsing={isBrowsing}
-              isMain={isMain}
-              refId={refId}
-              data={index}
-              docsMode={docsOptions.docsMode}
-              selectedStoryId={selectedStoryId}
-              onSelectStoryId={onSelectStoryId}
-              highlightedRef={highlightedRef}
-              setHighlightedItemId={setHighlightedItemId}
-            />
-          )}
-        </Wrapper>
-      )}
-    </>
-  );
-});
+    return (
+      <>
+        {isMain || (
+          <RefHead
+            aria-label={`${isExpanded ? 'Hide' : 'Show'} ${title} stories`}
+            aria-expanded={isExpanded}
+          >
+            <CollapseButton data-action="collapse-ref" onClick={handleClick}>
+              <CollapseIcon isExpanded={isExpanded} />
+              <RefTitle title={title}>{title}</RefTitle>
+            </CollapseButton>
+            <RefIndicator {...props} state={state} ref={indicatorRef} />
+          </RefHead>
+        )}
+        {isExpanded && (
+          <Wrapper data-title={title} isMain={isMain}>
+            {state === 'auth' && <AuthBlock id={refId} loginUrl={loginUrl} />}
+            {state === 'error' && <ErrorBlock error={indexError} />}
+            {state === 'loading' && <LoaderBlock isMain={isMain} />}
+            {state === 'empty' && <EmptyBlock isMain={isMain} />}
+            {state === 'ready' && (
+              <Tree
+                status={props.status}
+                isBrowsing={isBrowsing}
+                isMain={isMain}
+                refId={refId}
+                data={index}
+                docsMode={docsOptions.docsMode}
+                selectedStoryId={selectedStoryId}
+                onSelectStoryId={onSelectStoryId}
+                highlightedRef={highlightedRef}
+                setHighlightedItemId={setHighlightedItemId}
+              />
+            )}
+          </Wrapper>
+        )}
+      </>
+    );
+  }
+);

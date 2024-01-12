@@ -114,7 +114,7 @@ describe('framework-preset-react-docgen', () => {
             ({
               check: false,
               reactDocgen: false,
-            } as Partial<TypescriptOptions>),
+            }) as Partial<TypescriptOptions>,
         },
         presetsList: presetsListWithDocs,
       });
@@ -136,7 +136,7 @@ describe('framework-preset-react-docgen', () => {
             ({
               check: false,
               reactDocgen: 'react-docgen-typescript',
-            } as Partial<TypescriptOptions>),
+            }) as Partial<TypescriptOptions>,
         },
         presetsList: [],
       });

@@ -79,7 +79,7 @@ describe('withTelemetry', () => {
 
     it('does not send full error message when crash reports are disabled', async () => {
       vi.mocked(loadAllPresets).mockResolvedValueOnce({
-        apply: async () => ({ enableCrashReports: false } as any),
+        apply: async () => ({ enableCrashReports: false }) as any,
       });
       await expect(async () =>
         withTelemetry(
@@ -99,7 +99,7 @@ describe('withTelemetry', () => {
 
     it('does send error message when crash reports are enabled', async () => {
       vi.mocked(loadAllPresets).mockResolvedValueOnce({
-        apply: async () => ({ enableCrashReports: true } as any),
+        apply: async () => ({ enableCrashReports: true }) as any,
       });
 
       await expect(async () =>
@@ -120,7 +120,7 @@ describe('withTelemetry', () => {
 
     it('does not send any error message when telemetry is disabled', async () => {
       vi.mocked(loadAllPresets).mockResolvedValueOnce({
-        apply: async () => ({ disableTelemetry: true } as any),
+        apply: async () => ({ disableTelemetry: true }) as any,
       });
 
       await expect(async () =>
@@ -141,7 +141,7 @@ describe('withTelemetry', () => {
 
     it('does send error messages when telemetry is disabled, but crash reports are enabled', async () => {
       vi.mocked(loadAllPresets).mockResolvedValueOnce({
-        apply: async () => ({ disableTelemetry: true, enableCrashReports: true } as any),
+        apply: async () => ({ disableTelemetry: true, enableCrashReports: true }) as any,
       });
 
       await expect(async () =>
@@ -162,7 +162,7 @@ describe('withTelemetry', () => {
 
     it('does not send  full  error messages when disabled crash reports are cached', async () => {
       vi.mocked(loadAllPresets).mockResolvedValueOnce({
-        apply: async () => ({} as any),
+        apply: async () => ({}) as any,
       });
       vi.mocked(cache.get).mockResolvedValueOnce(false);
 
@@ -184,7 +184,7 @@ describe('withTelemetry', () => {
 
     it('does send error messages when enabled crash reports are cached', async () => {
       vi.mocked(loadAllPresets).mockResolvedValueOnce({
-        apply: async () => ({} as any),
+        apply: async () => ({}) as any,
       });
       vi.mocked(cache.get).mockResolvedValueOnce(true);
 
@@ -206,7 +206,7 @@ describe('withTelemetry', () => {
 
     it('does not send full error messages when disabled crash reports are prompted', async () => {
       vi.mocked(loadAllPresets).mockResolvedValueOnce({
-        apply: async () => ({} as any),
+        apply: async () => ({}) as any,
       });
       vi.mocked(cache.get).mockResolvedValueOnce(undefined);
       vi.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: false });
@@ -229,7 +229,7 @@ describe('withTelemetry', () => {
 
     it('does send error messages when enabled crash reports are prompted', async () => {
       vi.mocked(loadAllPresets).mockResolvedValueOnce({
-        apply: async () => ({} as any),
+        apply: async () => ({}) as any,
       });
       vi.mocked(cache.get).mockResolvedValueOnce(undefined);
       vi.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: true });
@@ -386,7 +386,7 @@ describe('getErrorLevel', () => {
     };
 
     vi.mocked(loadAllPresets).mockResolvedValueOnce({
-      apply: async () => ({ enableCrashReports: true } as any),
+      apply: async () => ({ enableCrashReports: true }) as any,
     });
     vi.mocked(cache.get).mockResolvedValueOnce(false);
 
@@ -405,7 +405,7 @@ describe('getErrorLevel', () => {
     };
 
     vi.mocked(loadAllPresets).mockResolvedValueOnce({
-      apply: async () => ({ enableCrashReports: false } as any),
+      apply: async () => ({ enableCrashReports: false }) as any,
     });
     vi.mocked(cache.get).mockResolvedValueOnce(false);
 
@@ -424,7 +424,7 @@ describe('getErrorLevel', () => {
     };
 
     vi.mocked(loadAllPresets).mockResolvedValueOnce({
-      apply: async () => ({ disableTelemetry: true } as any),
+      apply: async () => ({ disableTelemetry: true }) as any,
     });
     vi.mocked(cache.get).mockResolvedValueOnce(false);
 
@@ -444,7 +444,7 @@ describe('getErrorLevel', () => {
 
     vi.mocked(cache.get).mockResolvedValueOnce(true);
     vi.mocked(loadAllPresets).mockResolvedValueOnce({
-      apply: async () => ({} as any),
+      apply: async () => ({}) as any,
     });
 
     const errorLevel = await getErrorLevel(options);
@@ -462,7 +462,7 @@ describe('getErrorLevel', () => {
     };
 
     vi.mocked(loadAllPresets).mockResolvedValueOnce({
-      apply: async () => ({} as any),
+      apply: async () => ({}) as any,
     });
     vi.mocked(cache.get).mockResolvedValueOnce(undefined);
 

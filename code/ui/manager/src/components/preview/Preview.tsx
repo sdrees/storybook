@@ -236,7 +236,7 @@ function filterTabs(panels: Addon_BaseType[], parameters: Record<string, any>) {
         const t = arrTabs.find((tab) => tab.id === panel.id);
         return t === undefined || t.id === 'canvas' || !t.hidden;
       })
-      .map((panel, index) => ({ ...panel, index } as Addon_BaseType))
+      .map((panel, index) => ({ ...panel, index }) as Addon_BaseType)
       .sort((p1, p2) => {
         /* eslint-disable @typescript-eslint/naming-convention */
         const tab_1 = arrTabs.find((tab) => tab.id === p1.id);

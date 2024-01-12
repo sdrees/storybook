@@ -52,7 +52,7 @@ export const getIncompatibleAddons = async (
         ({
           name: addon,
           version: await packageManager.getPackageVersion(addon),
-        } as { name: keyof typeof incompatibleList; version: string })
+        }) as { name: keyof typeof incompatibleList; version: string }
     )
   );
 

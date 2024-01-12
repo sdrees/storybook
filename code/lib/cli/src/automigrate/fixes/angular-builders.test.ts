@@ -107,7 +107,7 @@ describe('is not Nx project', () => {
             () =>
               ({
                 hasStorybookBuilder: true,
-              } as any)
+              }) as any
           );
         });
 
@@ -133,7 +133,7 @@ describe('is not Nx project', () => {
                   project2: { root: 'project2', architect: {} },
                 },
                 rootProject: null,
-              } as any)
+              }) as any
           );
         });
 
@@ -158,7 +158,7 @@ describe('is not Nx project', () => {
                   project1: { root: 'project1', architect: {} },
                 },
                 rootProject: 'project1',
-              } as any)
+              }) as any
           );
         });
 

@@ -38,7 +38,7 @@ const ansiConverter = new AnsiToHtml({
 });
 
 export class WebView implements View<HTMLElement> {
-  private currentLayoutClass?: typeof layoutClassMap[keyof typeof layoutClassMap] | null;
+  private currentLayoutClass?: (typeof layoutClassMap)[keyof typeof layoutClassMap] | null;
 
   private testing = false;
 

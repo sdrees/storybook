@@ -57,10 +57,11 @@ export const init: ModuleFn = ({ fullAPI, store, provider }) => {
   function getLatestWhatsNewPost(): Promise<WhatsNewData> {
     provider.channel?.emit(REQUEST_WHATS_NEW_DATA);
 
-    return new Promise((resolve) =>
-      provider.channel?.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) =>
-        resolve(data)
-      )
+    return new Promise(
+      (resolve) =>
+        provider.channel?.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) =>
+          resolve(data)
+        )
     );
   }
 

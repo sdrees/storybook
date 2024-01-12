@@ -25,7 +25,7 @@ const dummyOptions: Options = {
           builder: {},
         },
         options: {},
-      }[key]),
+      })[key],
   } as Presets,
   presetsList: [],
 };

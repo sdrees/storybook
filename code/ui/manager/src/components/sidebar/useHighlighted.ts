@@ -32,7 +32,7 @@ export const useHighlighted = ({
 }: HighlightedProps): [
   Highlight,
   Dispatch<SetStateAction<Highlight>>,
-  MutableRefObject<Highlight>
+  MutableRefObject<Highlight>,
 ] => {
   const initialHighlight = fromSelection(selected);
   const highlightedRef = useRef<Highlight>(initialHighlight);

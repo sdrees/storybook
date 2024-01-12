@@ -100,11 +100,14 @@ const parseExportsOrder = (init: t.Expression) => {
 };
 
 const sortExports = (exportByName: Record<string, any>, order: string[]) => {
-  return order.reduce((acc, name) => {
-    const namedExport = exportByName[name];
-    if (namedExport) acc[name] = namedExport;
-    return acc;
-  }, {} as Record<string, any>);
+  return order.reduce(
+    (acc, name) => {
+      const namedExport = exportByName[name];
+      if (namedExport) acc[name] = namedExport;
+      return acc;
+    },
+    {} as Record<string, any>
+  );
 };
 
 export interface CsfOptions {
@@ -490,35 +493,38 @@ export class CsfFile {
     if (self._metaAnnotations.play) {
       self._meta.tags = [...(self._meta.tags || []), 'play-fn'];
     }
-    self._stories = entries.reduce((acc, [key, story]) => {
-      if (!isExportStory(key, self._meta as StaticMeta)) {
-        return acc;
-      }
-      const id =
-        story.parameters?.__id ??
-        toId((self._meta?.id || self._meta?.title) as string, storyNameFromExport(key));
-      const parameters: Record<string, any> = { ...story.parameters, __id: id };
+    self._stories = entries.reduce(
+      (acc, [key, story]) => {
+        if (!isExportStory(key, self._meta as StaticMeta)) {
+          return acc;
+        }
+        const id =
+          story.parameters?.__id ??
+          toId((self._meta?.id || self._meta?.title) as string, storyNameFromExport(key));
+        const parameters: Record<string, any> = { ...story.parameters, __id: id };
 
-      const { includeStories } = self._meta || {};
-      if (
-        key === '__page' &&
-        (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
-      ) {
-        parameters.docsOnly = true;
-      }
-      acc[key] = { ...story, id, parameters };
-      const { tags, play } = self._storyAnnotations[key];
-      if (tags) {
-        const node = t.isIdentifier(tags)
-          ? findVarInitialization(tags.name, this._ast.program)
-          : tags;
-        acc[key].tags = parseTags(node);
-      }
-      if (play) {
-        acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
-      }
-      return acc;
-    }, {} as Record<string, StaticStory>);
+        const { includeStories } = self._meta || {};
+        if (
+          key === '__page' &&
+          (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
+        ) {
+          parameters.docsOnly = true;
+        }
+        acc[key] = { ...story, id, parameters };
+        const { tags, play } = self._storyAnnotations[key];
+        if (tags) {
+          const node = t.isIdentifier(tags)
+            ? findVarInitialization(tags.name, this._ast.program)
+            : tags;
+          acc[key].tags = parseTags(node);
+        }
+        if (play) {
+          acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
+        }
+        return acc;
+      },
+      {} as Record<string, StaticStory>
+    );
 
     Object.keys(self._storyExports).forEach((key) => {
       if (!isExportStory(key, self._meta as StaticMeta)) {

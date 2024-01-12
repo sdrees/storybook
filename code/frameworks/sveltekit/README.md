@@ -17,7 +17,6 @@ Check out our [Frameworks API](https://storybook.js.org/blog/framework-api/) ann
   - [Mocking links](#mocking-links)
 - [Troubleshooting](#troubleshooting)
   - [Error: `ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared` when starting Storybook](#error-err-syntaxerror-identifier-__esbuild_register_import_meta_url__-has-already-been-declared-when-starting-storybook)
-  - [Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview](#error-cannot-read-properties-of-undefined-reading-disable_scroll_handling-in-preview)
 - [Acknowledgements](#acknowledgements)
 
 ## Supported features
@@ -64,7 +63,7 @@ npx storybook@latest init
 This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
 
 ```bash
-npx storybook@latest upgrade --prerelease
+npx storybook@latest upgrade
 ```
 
 #### Automatic migration

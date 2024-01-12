@@ -228,7 +228,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
 // eg. reactive proxies set by frameworks like SolidJS or Vue
 export function prepareContext<
   TRenderer extends Renderer,
-  TContext extends Pick<StoryContextForLoaders<TRenderer>, 'args' | 'argTypes' | 'globals'>
+  TContext extends Pick<StoryContextForLoaders<TRenderer>, 'args' | 'argTypes' | 'globals'>,
 >(
   context: TContext
 ): TContext & Pick<StoryContextForLoaders<TRenderer>, 'allArgs' | 'argsByTarget' | 'unmappedArgs'> {

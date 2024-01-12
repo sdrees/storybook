@@ -41,7 +41,10 @@ export class PropertyExtractor implements NgModuleMetadata {
   applicationProviders?: Array<Provider | ReturnType<typeof importProvidersFrom>>;
   /* eslint-enable @typescript-eslint/lines-between-class-members */
 
-  constructor(private metadata: NgModuleMetadata, private component?: any) {
+  constructor(
+    private metadata: NgModuleMetadata,
+    private component?: any
+  ) {
     this.init();
   }
 

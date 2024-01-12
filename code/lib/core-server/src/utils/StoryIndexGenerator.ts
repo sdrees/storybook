@@ -528,10 +528,13 @@ export class StoryIndexGenerator {
     const fileNameOrder = this.storyFileNames();
     sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
 
-    return sortableStories.reduce((acc, item) => {
-      acc[item.id] = item;
-      return acc;
-    }, {} as StoryIndex['entries']);
+    return sortableStories.reduce(
+      (acc, item) => {
+        acc[item.id] = item;
+        return acc;
+      },
+      {} as StoryIndex['entries']
+    );
   }
 
   async getIndex() {

@@ -71,8 +71,8 @@ export type ComponentPropsAndSlots<C> = ComponentProps<C> & ExtractSlots<C>;
 type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends Constructor<any>
   ? ComponentPropsAndSlots<TCmpOrArgs>
   : TCmpOrArgs extends FunctionalComponent<any>
-  ? ComponentPropsAndSlots<TCmpOrArgs>
-  : TCmpOrArgs;
+    ? ComponentPropsAndSlots<TCmpOrArgs>
+    : TCmpOrArgs;
 
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<VueRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<VueRenderer, TArgs>;

@@ -92,8 +92,8 @@ export function getMigrationSummary({
   const title = hasNoFixes
     ? 'No migrations were applicable to your project'
     : hasFailures
-    ? 'Migration check ran with failures'
-    : 'Migration check ran successfully';
+      ? 'Migration check ran with failures'
+      : 'Migration check ran successfully';
 
   return boxen(messages.filter(Boolean).join(segmentDivider), {
     borderStyle: 'round',

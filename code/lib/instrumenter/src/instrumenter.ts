@@ -248,12 +248,15 @@ export class Instrumenter {
 
   cleanup() {
     // Reset stories with retained state to their initial state, and drop the rest.
-    this.state = Object.entries(this.state).reduce((acc, [storyId, state]) => {
-      const retainedState = getRetainedState(state);
-      if (!retainedState) return acc;
-      acc[storyId] = Object.assign(getInitialState(), retainedState);
-      return acc;
-    }, {} as Record<StoryId, State>);
+    this.state = Object.entries(this.state).reduce(
+      (acc, [storyId, state]) => {
+        const retainedState = getRetainedState(state);
+        if (!retainedState) return acc;
+        acc[storyId] = Object.assign(getInitialState(), retainedState);
+        return acc;
+      },
+      {} as Record<StoryId, State>
+    );
     const payload: SyncPayload = { controlStates: controlsDisabled, logItems: [] };
     this.channel.emit(EVENTS.SYNC, payload);
     // @ts-expect-error (TS doesn't know about this global variable)

@@ -185,9 +185,8 @@ export async function detectLanguage(packageManager: JsPackageManager) {
     '@typescript-eslint/parser'
   );
 
-  const eslintPluginStorybookVersion = await packageManager.getPackageVersion(
-    'eslint-plugin-storybook'
-  );
+  const eslintPluginStorybookVersion =
+    await packageManager.getPackageVersion('eslint-plugin-storybook');
 
   if (isTypescriptDirectDependency && typescriptVersion) {
     if (

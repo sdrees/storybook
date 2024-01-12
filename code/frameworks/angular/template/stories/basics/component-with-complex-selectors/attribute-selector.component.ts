@@ -11,7 +11,10 @@ export class AttributeSelectorComponent {
 
   selectors!: string;
 
-  constructor(public el: ElementRef, private resolver: ComponentFactoryResolver) {
+  constructor(
+    public el: ElementRef,
+    private resolver: ComponentFactoryResolver
+  ) {
     const factory = this.resolver.resolveComponentFactory(AttributeSelectorComponent);
     this.selectors = factory.selector;
     this.generatedTemplate = el.nativeElement.outerHTML;

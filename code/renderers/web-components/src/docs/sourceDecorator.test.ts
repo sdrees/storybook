@@ -29,7 +29,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: Partial<S
     argTypes: {},
     globals: {},
     ...extra,
-  } as StoryContext);
+  }) as StoryContext;
 
 describe('sourceDecorator', () => {
   let mockChannel: { on: Mock; emit?: Mock };

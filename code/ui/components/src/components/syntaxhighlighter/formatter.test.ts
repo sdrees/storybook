@@ -8,14 +8,14 @@ describe('dedent', () => {
     const input = '';
     const result = formatter(true, input);
 
-    expect(result).toBe(input);
+    expect(result).resolves.toBe(input);
   });
 
   it('handles single line', () => {
     const input = 'console.log("hello world")';
     const result = formatter(true, input);
 
-    expect(result).toBe(input);
+    expect(result).resolves.toBe(input);
   });
 
   it('does not transform correct code', () => {
@@ -25,7 +25,7 @@ describe('dedent', () => {
   `;
     const result = formatter(true, input);
 
-    expect(result).toBe(input);
+    expect(result).resolves.toBe(input);
   });
 
   it('does transform incorrect code', () => {
@@ -35,7 +35,7 @@ describe('dedent', () => {
   `;
     const result = formatter(true, input);
 
-    expect(result).toBe(`console.log("hello");
+    expect(result).resolves.toBe(`console.log("hello");
 console.log("world");`);
   });
 
@@ -50,7 +50,7 @@ console.log("world");`);
   `;
     const result = formatter(true, input);
 
-    expect(result).toBe(`it('handles empty string', () => {
+    expect(result).resolves.toBe(`it('handles empty string', () => {
   const input = '';
   const result = formatter(input);
 
@@ -69,7 +69,7 @@ console.log("world");`);
   `;
     const result = formatter(true, input);
 
-    expect(result).toBe(`// some comment
+    expect(result).resolves.toBe(`// some comment
 it('handles empty string', () => {
   const input = '';
   const result = formatter(input);
@@ -86,7 +86,7 @@ it('handles empty string', () => {
   `;
     const result = formatter(true, input);
 
-    expect(result).toBe(`console.log("hello");
+    expect(result).resolves.toBe(`console.log("hello");
 
 console.log("world");`);
   });
@@ -97,13 +97,13 @@ describe('prettier (babel)', () => {
     const input = '';
     const result = formatter('angular', input);
 
-    expect(result).toBe(input);
+    expect(result).resolves.toBe(input);
   });
 
   it('handles single line', () => {
     const input = 'console.log("hello world")';
     const result = formatter('angular', input);
 
-    expect(result).toBe(input);
+    expect(result).resolves.toBe(input);
   });
 });

@@ -129,9 +129,8 @@ export default async (
     externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
-  const { virtualModules: virtualModuleMapping, entries: dynamicEntries } = await getVirtualModules(
-    options
-  );
+  const { virtualModules: virtualModuleMapping, entries: dynamicEntries } =
+    await getVirtualModules(options);
 
   return {
     name: 'preview',

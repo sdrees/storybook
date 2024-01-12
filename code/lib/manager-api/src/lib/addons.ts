@@ -69,7 +69,7 @@ export class AddonStore {
       | Addon_Types
       | Addon_TypesEnum.experimental_PAGE
       | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
-      | Addon_TypesEnum.experimental_SIDEBAR_TOP
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP,
   >(type: T): Addon_Collection<Addon_TypesMapping[T]> | any {
     if (!this.elements[type]) {
       this.elements[type] = {};

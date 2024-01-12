@@ -172,7 +172,7 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
 export interface Addon_BaseAnnotations<
   TArgs,
   StoryFnReturnType,
-  TRenderer extends Renderer = Renderer
+  TRenderer extends Renderer = Renderer,
 > {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.

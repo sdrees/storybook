@@ -113,12 +113,11 @@ describe('renderJsx', () => {
   });
 
   it('forwardRef component', () => {
-    const MyExoticComponentRef = React.forwardRef<FC, PropsWithChildren>(function MyExoticComponent(
-      props,
-      _ref
-    ) {
-      return <div>{props.children}</div>;
-    });
+    const MyExoticComponentRef = React.forwardRef<FC, PropsWithChildren>(
+      function MyExoticComponent(props, _ref) {
+        return <div>{props.children}</div>;
+      }
+    );
 
     expect(renderJsx(createElement(MyExoticComponentRef, {}, 'I am forwardRef!'), {}))
       .toMatchInlineSnapshot(`

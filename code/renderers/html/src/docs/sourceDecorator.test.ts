@@ -33,7 +33,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: object): 
     initialArgs: {},
 
     ...extra,
-  } as StoryContext);
+  }) as StoryContext;
 
 describe('sourceDecorator', () => {
   let mockChannel: { on: Mock; emit?: Mock };

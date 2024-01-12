@@ -5,7 +5,7 @@ import { styled } from '@storybook/theming';
 import { deprecate, logger } from '@storybook/client-logger';
 
 export type IconType = keyof typeof icons;
-type NewIconTypes = typeof icons[IconType];
+type NewIconTypes = (typeof icons)[IconType];
 
 const Svg = styled.svg`
   display: inline-block;

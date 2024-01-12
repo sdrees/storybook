@@ -32,8 +32,8 @@ export const nodeJsRequirement: Fix<NodeJsRequirementOptions> = {
       We've detected that you're using Node ${chalk.bold(
         nodeVersion
       )} but Storybook 7 only supports Node ${chalk.bold(
-      'v16.0.0'
-    )} and higher. You will either need to upgrade your Node version or keep using an older version of Storybook.
+        'v16.0.0'
+      )} and higher. You will either need to upgrade your Node version or keep using an older version of Storybook.
 
       Please see the migration guide for more information:
       ${chalk.yellow(

@@ -57,7 +57,7 @@ export const importFn: Mocked<ModuleImportFn> = vi.fn(
       './src/ComponentTwo.stories.js': componentTwoExports,
       './src/Introduction.mdx': unattachedDocsExports,
       './src/ExtraComponentOne.stories.js': extraComponentOneExports,
-    }[path] || {})
+    })[path] || {}
 );
 
 export const docsRenderer = {

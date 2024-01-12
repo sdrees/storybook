@@ -37,40 +37,24 @@ const createBackgroundSelectorItem = memoize(1000)(
   })
 );
 
-const getDisplayedItems = memoize(10)(
-  (
-    backgrounds: Background[],
-    selectedBackgroundColor: string | null,
-    change: (arg: { selected: string; name: string }) => void
-  ) => {
-    const backgroundSelectorItems = backgrounds.map(({ name, value }) =>
-      createBackgroundSelectorItem(
-        null,
-        name,
-        value,
-        true,
-        change,
-        value === selectedBackgroundColor
-      )
-    );
+const getDisplayedItems = memoize(10)((
+  backgrounds: Background[],
+  selectedBackgroundColor: string | null,
+  change: (arg: { selected: string; name: string }) => void
+) => {
+  const backgroundSelectorItems = backgrounds.map(({ name, value }) =>
+    createBackgroundSelectorItem(null, name, value, true, change, value === selectedBackgroundColor)
+  );
 
-    if (selectedBackgroundColor !== 'transparent') {
-      return [
-        createBackgroundSelectorItem(
-          'reset',
-          'Clear background',
-          'transparent',
-          null,
-          change,
-          false
-        ),
-        ...backgroundSelectorItems,
-      ];
-    }
-
-    return backgroundSelectorItems;
+  if (selectedBackgroundColor !== 'transparent') {
+    return [
+      createBackgroundSelectorItem('reset', 'Clear background', 'transparent', null, change, false),
+      ...backgroundSelectorItems,
+    ];
   }
-);
+
+  return backgroundSelectorItems;
+});
 
 const DEFAULT_BACKGROUNDS_CONFIG: BackgroundsParameter = {
   default: null,

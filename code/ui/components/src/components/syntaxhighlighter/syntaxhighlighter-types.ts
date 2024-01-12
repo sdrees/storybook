@@ -16,7 +16,7 @@ export interface SyntaxHighlighterCustomProps {
   bordered?: boolean;
   padded?: boolean;
   format?: SyntaxHighlighterFormatTypes;
-  formatter?: (type: SyntaxHighlighterFormatTypes, source: string) => string;
+  formatter?: (type: SyntaxHighlighterFormatTypes, source: string) => Promise<string>;
   className?: string;
   renderer?: SyntaxHighlighterRenderer;
 }

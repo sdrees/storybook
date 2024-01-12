@@ -224,7 +224,7 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-async function doInitiate(
+export async function doInitiate(
   options: CommandOptions,
   pkg: PackageJson
 ): Promise<

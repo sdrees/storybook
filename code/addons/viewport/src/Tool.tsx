@@ -35,21 +35,24 @@ const responsiveViewport: ViewportItem = {
 
 const baseViewports: ViewportItem[] = [responsiveViewport];
 
-const toLinks = memoize(50)(
-  (list: ViewportItem[], active: LinkBase, updateGlobals, close): Link[] => {
-    return list
-      .filter((i) => i.id !== responsiveViewport.id || active.id !== i.id)
-      .map((i) => {
-        return {
-          ...i,
-          onClick: () => {
-            updateGlobals({ viewport: i.id });
-            close();
-          },
-        };
-      });
-  }
-);
+const toLinks = memoize(50)((
+  list: ViewportItem[],
+  active: LinkBase,
+  updateGlobals,
+  close
+): Link[] => {
+  return list
+    .filter((i) => i.id !== responsiveViewport.id || active.id !== i.id)
+    .map((i) => {
+      return {
+        ...i,
+        onClick: () => {
+          updateGlobals({ viewport: i.id });
+          close();
+        },
+      };
+    });
+});
 
 interface LinkBase {
   id: string;

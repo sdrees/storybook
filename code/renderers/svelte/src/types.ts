@@ -24,7 +24,7 @@ interface MountProps {
 
 type ComponentType<
   Props extends Record<string, any> = any,
-  Events extends Record<string, any> = any
+  Events extends Record<string, any> = any,
 > = new (options: ComponentConstructorOptions<Props>) => {
   [P in keyof SvelteComponentTyped<Props> as P extends `$$${string}`
     ? never
@@ -41,7 +41,7 @@ export interface SvelteRenderer<C extends SvelteComponentTyped = SvelteComponent
 
 export interface SvelteStoryResult<
   Props extends Record<string, any> = any,
-  Events extends Record<string, any> = any
+  Events extends Record<string, any> = any,
 > {
   Component?: ComponentType<Props>;
   on?: Record<string, any> extends Events

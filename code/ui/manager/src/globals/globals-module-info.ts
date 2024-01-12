@@ -21,12 +21,15 @@ import { globalPackages, globalsNameReferenceMap } from './globals';
  * The `runtime.ts` file is used inside the manager's browser code runtime.
  */
 
-export const globalsModuleInfoMap = globalPackages.reduce((acc, key) => {
-  acc[key] = {
-    type: 'esm',
-    varName: globalsNameReferenceMap[key],
-    namedExports: Exports[key],
-    defaultExport: true,
-  };
-  return acc;
-}, {} as Required<Record<keyof typeof globalsNameReferenceMap, Required<ModuleInfo>>>);
+export const globalsModuleInfoMap = globalPackages.reduce(
+  (acc, key) => {
+    acc[key] = {
+      type: 'esm',
+      varName: globalsNameReferenceMap[key],
+      namedExports: Exports[key],
+      defaultExport: true,
+    };
+    return acc;
+  },
+  {} as Required<Record<keyof typeof globalsNameReferenceMap, Required<ModuleInfo>>>
+);

@@ -11,7 +11,10 @@ export class ClassSelectorComponent {
 
   selectors!: string;
 
-  constructor(public el: ElementRef, private resolver: ComponentFactoryResolver) {
+  constructor(
+    public el: ElementRef,
+    private resolver: ComponentFactoryResolver
+  ) {
     const factory = this.resolver.resolveComponentFactory(ClassSelectorComponent);
     this.selectors = factory.selector;
     this.generatedTemplate = el.nativeElement.outerHTML;

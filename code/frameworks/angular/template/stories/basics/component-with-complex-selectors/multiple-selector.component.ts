@@ -11,7 +11,10 @@ export class MultipleSelectorComponent {
 
   selectors!: string;
 
-  constructor(public el: ElementRef, private resolver: ComponentFactoryResolver) {
+  constructor(
+    public el: ElementRef,
+    private resolver: ComponentFactoryResolver
+  ) {
     const factory = this.resolver.resolveComponentFactory(MultipleClassSelectorComponent);
     this.selectors = factory.selector;
     this.generatedTemplate = el.nativeElement.outerHTML;
@@ -29,7 +32,10 @@ export class MultipleClassSelectorComponent {
 
   selectors!: string;
 
-  constructor(public el: ElementRef, private resolver: ComponentFactoryResolver) {
+  constructor(
+    public el: ElementRef,
+    private resolver: ComponentFactoryResolver
+  ) {
     const factory = this.resolver.resolveComponentFactory(MultipleClassSelectorComponent);
     this.selectors = factory.selector;
     this.generatedTemplate = el.nativeElement.outerHTML;

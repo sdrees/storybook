@@ -86,7 +86,7 @@ function mapAttributesAndDirectives(props: Args) {
         loc: { source: attributeSource(tranformKey(key), props[key]) }, // attribute value or directive value
         exp: { isStatic: false, loc: { source: props[key] } }, // directive expression
         modifiers: [''],
-      } as unknown as AttributeNode)
+      }) as unknown as AttributeNode
   );
 }
 /**

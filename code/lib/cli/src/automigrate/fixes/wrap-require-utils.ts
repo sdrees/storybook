@@ -47,8 +47,8 @@ export function getRequireWrapperName(config: ConfigFile) {
     doesVariableOrFunctionDeclarationExist(node, 'wrapForPnp')
       ? ['wrapForPnp']
       : doesVariableOrFunctionDeclarationExist(node, defaultRequireWrapperName)
-      ? [defaultRequireWrapperName]
-      : []
+        ? [defaultRequireWrapperName]
+        : []
   );
 
   if (declarationName.length) {

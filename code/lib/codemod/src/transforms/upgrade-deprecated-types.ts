@@ -21,7 +21,7 @@ function migrateType(oldType: string) {
   return oldType.replace('Component', '');
 }
 
-export default function transform(info: FileInfo, api: API, options: { parser?: string }) {
+export default async function transform(info: FileInfo, api: API, options: { parser?: string }) {
   // TODO what do I need to with the title?
   const csf = loadCsf(info.source, { makeTitle: (title) => title });
   const fileNode = csf._ast;
@@ -36,7 +36,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
   let output = printCsf(csf).code;
 
   try {
-    const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
+    const prettierConfig = (await prettier.resolveConfig(info.path)) || {
       printWidth: 100,
       tabWidth: 2,
       bracketSpacing: true,
@@ -44,7 +44,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
       singleQuote: true,
     };
 
-    output = prettier.format(output, { ...prettierConfig, filepath: info.path });
+    output = await prettier.format(output, { ...prettierConfig, filepath: info.path });
   } catch (e) {
     logger.log(`Failed applying prettier to ${info.path}.`);
   }

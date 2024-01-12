@@ -192,7 +192,7 @@ export class Yarn1Proxy extends JsPackageManager {
       const existingVersions: Record<string, string[]> = {};
       const duplicatedDependencies: Record<string, string[]> = {};
 
-      const recurse = (tree: typeof trees[0]) => {
+      const recurse = (tree: (typeof trees)[0]) => {
         const { children } = tree;
         const { name, value } = parsePackageData(tree.name);
         if (!name || !name.includes('storybook')) return;

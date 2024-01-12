@@ -31,8 +31,8 @@ function areAllRequiredElementsHighlighted(
   return highlightedCount === 0
     ? CheckBoxStates.UNCHECKED
     : highlightedCount === elementsToHighlight.length
-    ? CheckBoxStates.CHECKED
-    : CheckBoxStates.INDETERMINATE;
+      ? CheckBoxStates.CHECKED
+      : CheckBoxStates.INDETERMINATE;
 }
 
 const HighlightToggle: React.FC<ToggleProps> = ({ toggleId, elementsToHighlight = [] }) => {

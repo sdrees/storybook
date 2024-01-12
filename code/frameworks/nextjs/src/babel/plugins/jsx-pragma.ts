@@ -78,9 +78,9 @@ export default function jsxPragma({ types: t }: { types: typeof BabelTypes }): P
                     ? // import { $import as _pragma } from '$module'
                       t.importSpecifier(importAs, t.identifier(state.opts.import))
                     : state.opts.importNamespace
-                    ? t.importNamespaceSpecifier(importAs)
-                    : // import _pragma from '$module'
-                      t.importDefaultSpecifier(importAs),
+                      ? t.importNamespaceSpecifier(importAs)
+                      : // import _pragma from '$module'
+                        t.importDefaultSpecifier(importAs),
                 ],
                 t.stringLiteral(state.opts.module || 'react')
               );

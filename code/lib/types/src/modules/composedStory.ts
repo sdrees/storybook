@@ -53,7 +53,7 @@ export type PartialArgsStoryFn<TRenderer extends Renderer = Renderer, TArgs = Ar
  */
 export type ComposedStoryFn<
   TRenderer extends Renderer = Renderer,
-  TArgs = Args
+  TArgs = Args,
 > = PartialArgsStoryFn<TRenderer, TArgs> & {
   play: ComposedStoryPlayFn<TRenderer, TArgs>;
   args: TArgs;

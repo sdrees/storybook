@@ -110,7 +110,7 @@ function removeUnusedTemplates(csf: CsfFile) {
   });
 }
 
-export default function transform(info: FileInfo, api: API, options: { parser?: string }) {
+export default async function transform(info: FileInfo, api: API, options: { parser?: string }) {
   const makeTitle = (userTitle?: string) => {
     return userTitle || 'FIXME';
   };
@@ -204,7 +204,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
   let output = printCsf(csf).code;
 
   try {
-    const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
+    const prettierConfig = (await prettier.resolveConfig(info.path)) ?? {
       printWidth: 100,
       tabWidth: 2,
       bracketSpacing: true,
@@ -212,9 +212,8 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
       singleQuote: true,
     };
 
-    output = prettier.format(output, {
+    output = await prettier.format(output, {
       ...prettierConfig,
-      // This will infer the parser from the filename.
       filepath: info.path,
     });
   } catch (e) {

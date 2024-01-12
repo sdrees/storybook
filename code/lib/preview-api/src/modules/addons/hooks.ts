@@ -221,14 +221,14 @@ const invalidHooksError = () =>
 
 function getHooksContextOrNull<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): HooksContext<TRenderer, TArgs> | null {
   return global.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
 function getHooksContextOrThrow<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): HooksContext<TRenderer, TArgs> {
   const hooks = getHooksContextOrNull<TRenderer, TArgs>();
   if (hooks == null) {
@@ -530,7 +530,7 @@ export function useChannel(eventMap: EventMap, deps: any[] = []) {
  */
 export function useStoryContext<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): StoryContext<TRenderer> {
   const { currentContext } = getHooksContextOrThrow<TRenderer, TArgs>();
   if (currentContext == null) {
@@ -576,7 +576,7 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
 export function useArgs<TArgs extends Args = Args>(): [
   TArgs,
   (newArgs: Partial<TArgs>) => void,
-  (argNames?: (keyof TArgs)[]) => void
+  (argNames?: (keyof TArgs)[]) => void,
 ] {
   const channel = addons.getChannel();
   const { id: storyId, args } = useStoryContext<Renderer, TArgs>();

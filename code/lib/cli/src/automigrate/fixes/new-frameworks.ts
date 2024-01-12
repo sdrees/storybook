@@ -218,10 +218,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
         ❌ Your project should be upgraded to use the framework package ${chalk.bold(
           newFrameworkPackage
         )}, but we detected that you are using Vite ${chalk.bold(
-        viteVersion
-      )}, which is unsupported in ${chalk.bold(
-        'Storybook 7.0'
-      )}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
+          viteVersion
+        )}, which is unsupported in ${chalk.bold(
+          'Storybook 7.0'
+        )}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
       `);
     }
 
@@ -351,8 +351,8 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           This migration is set to update your project to use the ${chalk.magenta(
             '@storybook/react-vite'
           )} framework, but Storybook provides a framework package specifically for Next.js projects: ${chalk.magenta(
-          '@storybook/nextjs'
-        )}.
+            '@storybook/nextjs'
+          )}.
   
           This package provides a better, out of the box experience for Next.js users, however it is only compatible with the Webpack 5 builder, so we can't automigrate for you, as you are using the Vite builder. If you switch this project to use Webpack 5 and rerun this migration, we can update your project.
           
@@ -379,8 +379,8 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           This migration is set to update your project to use the ${chalk.magenta(
             '@storybook/svelte-webpack5'
           )} framework, but Storybook provides a framework package specifically for SvelteKit projects: ${chalk.magenta(
-          '@storybook/sveltekit'
-        )}.
+            '@storybook/sveltekit'
+          )}.
   
           This package provides a better experience for SvelteKit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using the Webpack builder.
           

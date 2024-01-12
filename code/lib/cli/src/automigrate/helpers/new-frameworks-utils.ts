@@ -107,12 +107,10 @@ export const detectBuilderInfo = async ({
 
   // if builder is still not detected, rely on package dependencies
   if (!builderOrFrameworkName) {
-    const storybookBuilderViteVersion = await packageManager.getPackageVersion(
-      '@storybook/builder-vite'
-    );
-    const storybookBuilderVite2Version = await packageManager.getPackageVersion(
-      'storybook-builder-vite'
-    );
+    const storybookBuilderViteVersion =
+      await packageManager.getPackageVersion('@storybook/builder-vite');
+    const storybookBuilderVite2Version =
+      await packageManager.getPackageVersion('storybook-builder-vite');
     const storybookBuilderWebpack5Version = await packageManager.getPackageVersion(
       '@storybook/builder-webpack5'
     );

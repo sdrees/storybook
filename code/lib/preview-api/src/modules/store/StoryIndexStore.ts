@@ -12,10 +12,13 @@ import { MissingStoryAfterHmrError } from '@storybook/core-events/preview-errors
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
 
 const getImportPathMap = memoize(1)((entries: StoryIndex['entries']) =>
-  Object.values(entries).reduce((acc, entry) => {
-    acc[entry.importPath] = acc[entry.importPath] || entry;
-    return acc;
-  }, {} as Record<Path, IndexEntry>)
+  Object.values(entries).reduce(
+    (acc, entry) => {
+      acc[entry.importPath] = acc[entry.importPath] || entry;
+      return acc;
+    },
+    {} as Record<Path, IndexEntry>
+  )
 );
 
 export class StoryIndexStore {

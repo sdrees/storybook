@@ -2,7 +2,7 @@ import {
   spyOn,
   isMockFunction,
   fn,
-  spies as mocks,
+  mocks,
   type MaybeMocked,
   type MaybeMockedDeep,
   type MaybePartiallyMocked,

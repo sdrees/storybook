@@ -55,8 +55,8 @@ export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
       >
     : never
   : MetaOrCmpOrArgs extends SvelteComponentTyped
-  ? StoryAnnotations<SvelteRenderer<MetaOrCmpOrArgs>, ComponentProps<MetaOrCmpOrArgs>>
-  : StoryAnnotations<SvelteRenderer, MetaOrCmpOrArgs>;
+    ? StoryAnnotations<SvelteRenderer<MetaOrCmpOrArgs>, ComponentProps<MetaOrCmpOrArgs>>
+    : StoryAnnotations<SvelteRenderer, MetaOrCmpOrArgs>;
 
 export type { SvelteRenderer };
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<SvelteRenderer, TArgs>;

@@ -84,30 +84,28 @@ export const createReset = memoize(1)(
   })
 );
 
-export const createGlobal = memoize(1)(
-  ({
-    color,
-    background,
-    typography,
-  }: {
-    color: Color;
-    background: Background;
-    typography: Typography;
-  }): Return => {
-    const resetStyles = createReset({ typography });
-    return {
-      ...resetStyles,
-      body: {
-        ...resetStyles.body,
-        color: color.defaultText,
-        background: background.app,
-        overflow: 'hidden',
-      },
+export const createGlobal = memoize(1)(({
+  color,
+  background,
+  typography,
+}: {
+  color: Color;
+  background: Background;
+  typography: Typography;
+}): Return => {
+  const resetStyles = createReset({ typography });
+  return {
+    ...resetStyles,
+    body: {
+      ...resetStyles.body,
+      color: color.defaultText,
+      background: background.app,
+      overflow: 'hidden',
+    },
 
-      hr: {
-        ...resetStyles.hr,
-        borderTop: `1px solid ${color.border}`,
-      },
-    };
-  }
-);
+    hr: {
+      ...resetStyles.hr,
+      borderTop: `1px solid ${color.border}`,
+    },
+  };
+});

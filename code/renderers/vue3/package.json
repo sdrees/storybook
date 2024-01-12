@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
-    "@types/prettier": "2.7.2",
+    "@types/prettier": "^3.0.0",
     "@vitejs/plugin-vue": "^4.4.0",
     "typescript": "^5.3.2",
     "vue": "^3.2.47",

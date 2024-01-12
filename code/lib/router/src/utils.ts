@@ -14,27 +14,27 @@ export interface StoryData {
 
 const splitPathRegex = /\/([^/]+)\/(?:(.*)_)?([^/]+)?/;
 
-export const parsePath: (path: string | undefined) => StoryData = memoize(1000)(
-  (path: string | undefined | null) => {
-    const result: StoryData = {
-      viewMode: undefined,
-      storyId: undefined,
-      refId: undefined,
-    };
+export const parsePath: (path: string | undefined) => StoryData = memoize(1000)((
+  path: string | undefined | null
+) => {
+  const result: StoryData = {
+    viewMode: undefined,
+    storyId: undefined,
+    refId: undefined,
+  };
 
-    if (path) {
-      const [, viewMode, refId, storyId] = path.toLowerCase().match(splitPathRegex) || [];
-      if (viewMode) {
-        Object.assign(result, {
-          viewMode,
-          storyId,
-          refId,
-        });
-      }
+  if (path) {
+    const [, viewMode, refId, storyId] = path.toLowerCase().match(splitPathRegex) || [];
+    if (viewMode) {
+      Object.assign(result, {
+        viewMode,
+        storyId,
+        refId,
+      });
     }
-    return result;
   }
-);
+  return result;
+});
 
 interface Args {
   [key: string]: any;
@@ -157,27 +157,29 @@ export const stringifyQuery = (query: Query) =>
 
 type Match = { path: string };
 
-export const getMatch = memoize(1000)(
-  (current: string, target: string | RegExp, startsWith = true): Match | null => {
-    if (startsWith) {
-      if (typeof target !== 'string') {
-        throw new Error('startsWith only works with string targets');
-      }
-      const startsWithTarget = current && current.startsWith(target);
-      if (startsWithTarget) {
-        return { path: current };
-      }
-
-      return null;
+export const getMatch = memoize(1000)((
+  current: string,
+  target: string | RegExp,
+  startsWith = true
+): Match | null => {
+  if (startsWith) {
+    if (typeof target !== 'string') {
+      throw new Error('startsWith only works with string targets');
     }
-
-    const currentIsTarget = typeof target === 'string' && current === target;
-    const matchTarget = current && target && current.match(target);
-
-    if (currentIsTarget || matchTarget) {
+    const startsWithTarget = current && current.startsWith(target);
+    if (startsWithTarget) {
       return { path: current };
     }
 
     return null;
   }
-);
+
+  const currentIsTarget = typeof target === 'string' && current === target;
+  const matchTarget = current && target && current.match(target);
+
+  if (currentIsTarget || matchTarget) {
+    return { path: current };
+  }
+
+  return null;
+});

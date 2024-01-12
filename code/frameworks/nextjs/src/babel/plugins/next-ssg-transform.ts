@@ -198,10 +198,10 @@ export default function nextTransformSsg({
                       p.node.type === 'ObjectProperty'
                         ? 'value'
                         : p.node.type === 'RestElement'
-                        ? 'argument'
-                        : (function () {
-                            throw new Error('invariant');
-                          })()
+                          ? 'argument'
+                          : (function () {
+                              throw new Error('invariant');
+                            })()
                     ) as NodePath<BabelTypes.Identifier>;
                     if (isIdentifierReferenced(local)) {
                       variableState.refs.add(local);
@@ -360,10 +360,10 @@ export default function nextTransformSsg({
                       p.node.type === 'ObjectProperty'
                         ? 'value'
                         : p.node.type === 'RestElement'
-                        ? 'argument'
-                        : (function () {
-                            throw new Error('invariant');
-                          })()
+                          ? 'argument'
+                          : (function () {
+                              throw new Error('invariant');
+                            })()
                     ) as NodePath<BabelTypes.Identifier>;
 
                     if (refs.has(local) && !isIdentifierReferenced(local)) {
