@@ -11,6 +11,7 @@ declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];
 
 declare var STORIES: any;
 declare var DOCS_OPTIONS: any;
+declare var TAGS_OPTIONS: import('@storybook/types').StorybookConfigRaw['tags'];
 
 // To enable user code to detect if it is running in Storybook
 declare var IS_STORYBOOK: boolean;

@@ -27,9 +27,13 @@ const StyledHeading: typeof Heading = styled(Heading)(({ theme }) => ({
 }));
 
 export const Stories: FC<StoriesProps> = ({ title = 'Stories', includePrimary = true }) => {
-  const { componentStories } = useContext(DocsContext);
+  const { componentStories, projectAnnotations, getStoryContext } = useContext(DocsContext);
 
-  let stories = componentStories().filter((story) => !story.parameters?.docs?.disable);
+  let stories = componentStories();
+  const { stories: { filter } = { filter: undefined } } = projectAnnotations.parameters?.docs || {};
+  if (filter) {
+    stories = stories.filter((story) => filter(story, getStoryContext(story)));
+  }
 
   if (!includePrimary) stories = stories.slice(1);
 

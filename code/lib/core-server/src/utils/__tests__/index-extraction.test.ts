@@ -405,7 +405,6 @@ describe('docs entries from story extraction', () => {
             "name": "docs",
             "storiesImports": [],
             "tags": [
-              "story-tag-from-indexer",
               "docs",
               "autodocs",
             ],
@@ -466,8 +465,6 @@ describe('docs entries from story extraction', () => {
             "name": "docs",
             "storiesImports": [],
             "tags": [
-              "autodocs",
-              "story-tag-from-indexer",
               "docs",
             ],
             "title": "A",
@@ -577,8 +574,6 @@ describe('docs entries from story extraction', () => {
             "name": "docs",
             "storiesImports": [],
             "tags": [
-              "stories-mdx",
-              "story-tag-from-indexer",
               "docs",
             ],
             "title": "A",

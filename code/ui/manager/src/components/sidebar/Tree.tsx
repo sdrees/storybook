@@ -317,7 +317,7 @@ const Node = React.memo<NodeProps>(function Node({
           if (item.type === 'component' && !isExpanded && isDesktop) onSelectStoryId(item.id);
         }}
         onMouseEnter={() => {
-          if (item.isComponent) {
+          if (item.type === 'component') {
             api.emit(PRELOAD_ENTRIES, {
               ids: [item.children[0]],
               options: { target: refId },

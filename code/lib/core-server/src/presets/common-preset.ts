@@ -359,3 +359,19 @@ export const resolvedReact = async (existing: any) => {
     return existing;
   }
 };
+
+/**
+ * Set up `dev-only`, `docs-only`, `test-only` tags out of the box
+ */
+export const tags = async (existing: any) => {
+  return {
+    ...existing,
+    'dev-only': { excludeFromDocsStories: true },
+    'docs-only': { excludeFromSidebar: true },
+    'test-only': { excludeFromSidebar: true, excludeFromDocsStories: true },
+  };
+};
+
+export const managerEntries = async (existing: any, options: Options) => {
+  return [require.resolve('./common-manager'), ...(existing || [])];
+};

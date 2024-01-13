@@ -9,81 +9,42 @@ export interface API_BaseEntry {
   name: string;
   refId?: string;
   renderLabel?: (item: API_BaseEntry) => any;
-
-  /** @deprecated */
-  isRoot: boolean;
-  /** @deprecated */
-  isComponent: boolean;
-  /** @deprecated */
-  isLeaf: boolean;
 }
 
 export interface API_RootEntry extends API_BaseEntry {
   type: 'root';
   startCollapsed?: boolean;
   children: StoryId[];
-
-  /** @deprecated */
-  isRoot: true;
-  /** @deprecated */
-  isComponent: false;
-  /** @deprecated */
-  isLeaf: false;
 }
 
 export interface API_GroupEntry extends API_BaseEntry {
   type: 'group';
   parent?: StoryId;
   children: StoryId[];
-
-  /** @deprecated */
-  isRoot: false;
-  /** @deprecated */
-  isComponent: false;
-  /** @deprecated */
-  isLeaf: false;
 }
 
 export interface API_ComponentEntry extends API_BaseEntry {
   type: 'component';
   parent?: StoryId;
   children: StoryId[];
-
-  /** @deprecated */
-  isRoot: false;
-  /** @deprecated */
-  isComponent: true;
-  /** @deprecated */
-  isLeaf: false;
 }
 
 export interface API_DocsEntry extends API_BaseEntry {
   type: 'docs';
   parent: StoryId;
   title: ComponentTitle;
-  /** @deprecated */
-  kind: ComponentTitle;
   importPath: Path;
   tags: Tag[];
   prepared: boolean;
   parameters?: {
     [parameterName: string]: any;
   };
-
-  /** @deprecated */
-  isRoot: false;
-  /** @deprecated */
-  isComponent: false;
-  /** @deprecated */
-  isLeaf: true;
 }
 
 export interface API_StoryEntry extends API_BaseEntry {
   type: 'story';
   parent: StoryId;
   title: ComponentTitle;
-  /** @deprecated */
-  kind: ComponentTitle;
   importPath: Path;
   tags: Tag[];
   prepared: boolean;
@@ -93,13 +54,6 @@ export interface API_StoryEntry extends API_BaseEntry {
   args?: Args;
   argTypes?: ArgTypes;
   initialArgs?: Args;
-
-  /** @deprecated */
-  isRoot: false;
-  /** @deprecated */
-  isComponent: false;
-  /** @deprecated */
-  isLeaf: true;
 }
 
 export type API_LeafEntry = API_DocsEntry | API_StoryEntry;
@@ -109,15 +63,6 @@ export type API_HashEntry =
   | API_ComponentEntry
   | API_DocsEntry
   | API_StoryEntry;
-
-/** @deprecated */
-export type API_Root = API_RootEntry;
-
-/** @deprecated */
-export type API_Group = API_GroupEntry | API_ComponentEntry;
-
-/** @deprecated */
-export type API_Story = API_LeafEntry;
 
 /**
  * The `IndexHash` is our manager-side representation of the `StoryIndex`.

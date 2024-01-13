@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 
 import { render } from 'ejs';
 
-import type { DocsOptions, Options, Ref } from '@storybook/types';
+import type { DocsOptions, TagsOptions, Options, Ref } from '@storybook/types';
 
 export const getTemplatePath = async (template: string) => {
   return join(
@@ -34,6 +34,7 @@ export const renderHTML = async (
   refs: Promise<Record<string, Ref>>,
   logLevel: Promise<string>,
   docsOptions: Promise<DocsOptions>,
+  tagsOptions: Promise<TagsOptions>,
   { versionCheck, previewUrl, configType, ignorePreview }: Options
 ) => {
   const titleRef = await title;
@@ -52,6 +53,7 @@ export const renderHTML = async (
       // These two need to be double stringified because the UI expects a string
       VERSIONCHECK: JSON.stringify(JSON.stringify(versionCheck), null, 2),
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
+      TAGS_OPTIONS: JSON.stringify(await tagsOptions, null, 2),
     },
     head: (await customHead) || '',
     ignorePreview,

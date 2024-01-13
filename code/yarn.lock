@@ -5553,6 +5553,7 @@ __metadata:
     "@storybook/docs-mdx": "npm:3.0.0"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager": "workspace:*"
+    "@storybook/manager-api": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/telemetry": "workspace:*"

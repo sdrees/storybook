@@ -14,6 +14,7 @@ export const getData = async (options: Options) => {
   const logLevel = options.presets.apply<string>('logLevel');
   const title = options.presets.apply<string>('title');
   const docsOptions = options.presets.apply('docs', {});
+  const tagsOptions = options.presets.apply('tags', {});
   const template = readTemplate('template.ejs');
   const customHead = options.presets.apply<string>('managerHead');
 
@@ -35,5 +36,6 @@ export const getData = async (options: Options) => {
     config,
     logLevel,
     favicon,
+    tagsOptions,
   };
 };

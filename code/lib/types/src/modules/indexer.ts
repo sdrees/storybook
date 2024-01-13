@@ -107,6 +107,8 @@ export type BaseIndexInput = {
   metaId?: MetaId;
   /** Tags for filtering entries in Storybook and its tools. */
   tags?: Tag[];
+  /** Tags from the meta for filtering entries in Storybook and its tools. */
+  metaTags?: Tag[];
   /**
    * The id of the entry, auto-generated from {@link title}/{@link metaId} and {@link exportName} if unspecified.
    * If specified, the story in the CSF file _must_ have a matching id set at `parameters.__id`, to be correctly matched.

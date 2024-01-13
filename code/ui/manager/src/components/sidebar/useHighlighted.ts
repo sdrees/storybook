@@ -109,11 +109,10 @@ export const useHighlighted = ({
 
         if (highlightable[nextIndex].getAttribute('data-nodetype') === 'component') {
           const { itemId, refId } = highlightedRef.current;
-          const item = api.getData(itemId, refId === 'storybook_internal' ? undefined : refId);
-          if (item.isComponent) {
+          const item = api.resolveStory(itemId, refId === 'storybook_internal' ? undefined : refId);
+          if (item.type === 'component') {
             api.emit(PRELOAD_ENTRIES, {
-              // @ts-expect-error (TODO)
-              ids: [item.isLeaf ? item.id : item.children[0]],
+              ids: [item.children[0]],
               options: { target: refId },
             });
           }

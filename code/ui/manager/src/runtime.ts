@@ -43,4 +43,9 @@ class ReactProvider extends Provider {
 
 const { document } = global;
 const rootEl = document.getElementById('root');
-renderStorybookUI(rootEl, new ReactProvider());
+
+// We need to wait for the script tag containing the global objects
+// to be run by Webkit before rendering the UI. This is fine in most browsers.
+setTimeout(() => {
+  renderStorybookUI(rootEl, new ReactProvider());
+}, 0);

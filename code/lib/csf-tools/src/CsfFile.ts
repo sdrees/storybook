@@ -577,6 +577,7 @@ export class CsfFile {
         title: this.meta?.title,
         metaId: this.meta?.id,
         tags,
+        metaTags: this.meta?.tags,
         __id: story.id,
       };
     });

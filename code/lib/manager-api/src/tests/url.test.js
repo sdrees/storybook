@@ -157,7 +157,6 @@ describe('initModule', () => {
           type: 'story',
           args: { a: 1, b: 2 },
           initialArgs: { a: 1, b: 1 },
-          isLeaf: true,
         }),
       }),
     });
@@ -194,7 +193,7 @@ describe('initModule', () => {
       state: { location: {} },
       navigate,
       fullAPI: Object.assign(fullAPI, {
-        getCurrentStoryData: () => ({ type: 'story', args: { a: 1 }, isLeaf: true }),
+        getCurrentStoryData: () => ({ type: 'story', args: { a: 1 } }),
       }),
     });
 

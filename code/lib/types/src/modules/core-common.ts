@@ -326,6 +326,15 @@ export interface TestBuildConfig {
   test?: TestBuildFlags;
 }
 
+type Tag = string;
+
+export interface TagOptions {
+  excludeFromSidebar: boolean;
+  excludeFromDocsStories: boolean;
+}
+
+export type TagsOptions = Record<Tag, Partial<TagOptions>>;
+
 /**
  * The interface for Storybook configuration used internally in presets
  * The difference is that these values are the raw values, AKA, not wrapped with `PresetValue<>`
@@ -404,6 +413,8 @@ export interface StorybookConfigRaw {
   previewMainTemplate?: string;
 
   managerHead?: string;
+
+  tags?: TagsOptions;
 }
 
 /**
@@ -518,6 +529,11 @@ export interface StorybookConfig {
    * which is the existing head content, and return a modified string.
    */
   managerHead?: PresetValue<StorybookConfigRaw['managerHead']>;
+
+  /**
+   * Configure non-standard tag behaviors
+   */
+  tags?: PresetValue<StorybookConfigRaw['tags']>;
 }
 
 export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);
