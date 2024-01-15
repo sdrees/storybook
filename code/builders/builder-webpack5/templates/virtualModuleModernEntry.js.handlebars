@@ -15,13 +15,11 @@ if (global.CONFIG_TYPE === 'DEVELOPMENT'){
   window.__STORYBOOK_SERVER_CHANNEL__ = channel;
 }
 
-const preview = new PreviewWeb();
+const preview = new PreviewWeb(importFn, getProjectAnnotations);
 
 window.__STORYBOOK_PREVIEW__ = preview;
 window.__STORYBOOK_STORY_STORE__ = preview.storyStore;
 window.__STORYBOOK_ADDONS_CHANNEL__ = channel;
-
-preview.initialize({ importFn, getProjectAnnotations });
 
 if (import.meta.webpackHot) {
   import.meta.webpackHot.accept('./{{storiesFilename}}', () => {

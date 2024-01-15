@@ -11,10 +11,13 @@ vi.mock('@storybook/telemetry');
 vi.mock('./versions', async (importOriginal) => {
   const originalVersions = ((await importOriginal()) as { default: typeof versions }).default;
   return {
-    default: Object.keys(originalVersions).reduce((acc, key) => {
-      acc[key] = '8.0.0';
-      return acc;
-    }, {} as Record<string, string>),
+    default: Object.keys(originalVersions).reduce(
+      (acc, key) => {
+        acc[key] = '8.0.0';
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
   };
 });
 

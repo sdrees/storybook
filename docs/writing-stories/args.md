@@ -277,28 +277,3 @@ If you are [writing an addon](../addons/writing-addons.md) that wants to read or
 <!-- prettier-ignore-end -->
 
 </details>
-
-<details>
-<summary>parameters.passArgsFirst</summary>
-
-In Storybook 6+, we pass the args as the first argument to the story function. The second argument is the “context”, which includes story parameters, globals, argTypes, and other information.
-
-In Storybook 5 and before we passed the context as the first argument. If you’d like to revert to that functionality set the `parameters.passArgsFirst` parameter in [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-parameters-old-format.js.mdx',
-    'common/storybook-preview-parameters-old-format.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<Callout variant="info" icon="💡">
-
-Note that `args` is still available as a key in the context.
-
-</Callout>
-</details>

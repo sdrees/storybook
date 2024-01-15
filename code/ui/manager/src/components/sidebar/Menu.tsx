@@ -4,23 +4,11 @@ import React, { useMemo, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
-import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
+import { WithTooltip, TooltipLinkList, IconButton } from '@storybook/components';
 import { CloseIcon, CogIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
-
-const sharedStyles = {
-  height: 10,
-  width: 10,
-  marginLeft: -5,
-  marginRight: -5,
-  display: 'block',
-};
-
-const Icon = styled(Icons)(sharedStyles, ({ theme }) => ({
-  color: theme.color.secondary,
-}));
 
 export const SidebarIconButton: FC<ComponentProps<typeof Button> & { highlighted: boolean }> =
   styled(IconButton)<
@@ -64,28 +52,6 @@ const MenuButtonGroup = styled.div({
   gap: 4,
 });
 
-const Img = styled.img(sharedStyles);
-const Placeholder = styled.div(sharedStyles);
-
-export interface ListItemIconProps {
-  icon?: ComponentProps<typeof Icons>['icon'];
-  imgSrc?: string;
-}
-
-/**
- * @deprecated Please use `Icons` from `@storybook/components` instead
- * Component will be removed in SB 8.0
- */
-export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
-  if (icon) {
-    return <Icon icon={icon} />;
-  }
-  if (imgSrc) {
-    return <Img src={imgSrc} alt="image" />;
-  }
-  return <Placeholder />;
-};
-
 type ClickHandler = TooltipLinkListLink['onClick'];
 
 const SidebarMenuList: FC<{
@@ -102,7 +68,7 @@ const SidebarMenuList: FC<{
         onHide();
       }) as ClickHandler,
     }));
-  }, [menu]);
+  }, [menu, onHide]);
   return <TooltipLinkList links={links} />;
 };
 

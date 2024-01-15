@@ -3,7 +3,7 @@ import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
 import type { A11yParameters } from './params';
 
-const { document, window: globalWindow } = global;
+const { document } = global;
 
 const channel = addons.getChannel();
 // Holds axe core running state
@@ -11,22 +11,21 @@ let active = false;
 // Holds latest story we requested a run
 let activeStoryId: string | undefined;
 
+const defaultParameters = { config: {}, options: {} };
+
 /**
  * Handle A11yContext events.
  * Because the event are sent without manual check, we split calls
  */
-const handleRequest = async (storyId: string) => {
-  const { manual } = await getParams(storyId);
-  if (!manual) {
-    await run(storyId);
+const handleRequest = async (storyId: string, input: A11yParameters = defaultParameters) => {
+  if (!input?.manual) {
+    await run(storyId, input);
   }
 };
 
-const run = async (storyId: string) => {
+const run = async (storyId: string, input: A11yParameters = defaultParameters) => {
   activeStoryId = storyId;
   try {
-    const input = await getParams(storyId);
-
     if (!active) {
       active = true;
       channel.emit(EVENTS.RUNNING);
@@ -67,18 +66,6 @@ const run = async (storyId: string) => {
   } finally {
     active = false;
   }
-};
-
-/** Returns story parameters or default ones. */
-const getParams = async (storyId: string): Promise<A11yParameters> => {
-  const { parameters } =
-    (await globalWindow.__STORYBOOK_STORY_STORE__.loadStory({ storyId })) || {};
-  return (
-    parameters.a11y || {
-      config: {},
-      options: {},
-    }
-  );
 };
 
 channel.on(EVENTS.REQUEST, handleRequest);

@@ -60,7 +60,11 @@ export class WebsocketTransport implements ChannelTransport {
   }
 
   private sendNow(event: any) {
-    const data = stringify(event, { maxDepth: 15, allowFunction: true });
+    const data = stringify(event, {
+      maxDepth: 15,
+      allowFunction: false,
+      ...global.CHANNEL_OPTIONS,
+    });
     this.socket.send(data);
   }
 

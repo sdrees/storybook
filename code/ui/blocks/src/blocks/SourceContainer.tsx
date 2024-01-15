@@ -11,7 +11,7 @@ import { stringify } from 'telejson';
 
 type ArgsHash = string;
 export function argsHash(args: Args): ArgsHash {
-  return stringify(args);
+  return stringify(args, { allowFunction: false });
 }
 
 export interface SourceItem {

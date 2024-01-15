@@ -85,7 +85,7 @@ Any `args` that have been marked as an Action, either using the [argTypes annota
 
 <Callout variant="info">
 
-To mock functions in your Storybook stories for reliable and isolated component testing, use the `jest` import from `@storybook/jest`. This allows you to avoid configuring Jest globally in your project.
+To mock functions in your Storybook stories for reliable and isolated component testing, use the named `fn` import from `@storybook/test`.
 
 </Callout>
 

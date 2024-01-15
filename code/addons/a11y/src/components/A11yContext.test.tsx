@@ -57,6 +57,7 @@ describe('A11YPanel', () => {
   });
 
   const getCurrentStoryData = vi.fn();
+  const getParameters = vi.fn();
   beforeEach(() => {
     mockedApi.useChannel.mockReset();
     mockedApi.useStorybookApi.mockReset();
@@ -65,7 +66,8 @@ describe('A11YPanel', () => {
     mockedApi.useAddonState.mockImplementation((_, defaultState) => React.useState(defaultState));
     mockedApi.useChannel.mockReturnValue(vi.fn());
     getCurrentStoryData.mockReset().mockReturnValue({ id: storyId, type: 'story' });
-    mockedApi.useStorybookApi.mockReturnValue({ getCurrentStoryData } as any);
+    getParameters.mockReturnValue({});
+    mockedApi.useStorybookApi.mockReturnValue({ getCurrentStoryData, getParameters } as any);
   });
 
   it('should render children', () => {
@@ -94,7 +96,7 @@ describe('A11YPanel', () => {
     mockedApi.useChannel.mockReturnValue(emit);
     const { rerender } = render(<A11yContextProvider active={false} />);
     rerender(<A11yContextProvider active />);
-    expect(emit).toHaveBeenLastCalledWith(EVENTS.REQUEST, storyId);
+    expect(emit).toHaveBeenLastCalledWith(EVENTS.REQUEST, storyId, {});
   });
 
   it('should emit highlight with no values when inactive', () => {

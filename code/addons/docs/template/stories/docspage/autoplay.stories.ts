@@ -1,5 +1,5 @@
 import { global as globalThis } from '@storybook/global';
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import { within } from '@storybook/testing-library';
 
 export default {

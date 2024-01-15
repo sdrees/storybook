@@ -1,4 +1,4 @@
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
 import { within, fireEvent, waitFor } from '@storybook/testing-library';
 import { addons } from '@storybook/preview-api';

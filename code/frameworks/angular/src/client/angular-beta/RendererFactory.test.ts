@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { Component, ɵresetJitOptions } from '@angular/core';
 import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -14,7 +14,6 @@ describe('RendererFactory', () => {
   let rendererFactory: RendererFactory;
   let rootTargetDOMNode: HTMLElement;
   let rootDocstargetDOMNode: HTMLElement;
-  let storyInDocstargetDOMNode: HTMLElement;
 
   beforeEach(async () => {
     rendererFactory = new RendererFactory();

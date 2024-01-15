@@ -17,10 +17,6 @@ vi.mock('@storybook/global', () => ({
         search: 'search',
       },
     },
-    window: global,
-    __STORYBOOK_STORY_STORE__: {
-      fromId: vi.fn(() => ({})),
-    },
   },
 }));
 

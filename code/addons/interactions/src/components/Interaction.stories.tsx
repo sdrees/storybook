@@ -1,5 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react';
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import { CallStates } from '@storybook/instrumenter';
 import { userEvent, within } from '@storybook/testing-library';
 import { getCalls } from '../mocks';

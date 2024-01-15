@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "8.0.0-alpha.9",
+  "version": "8.0.0-alpha.10",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -134,7 +134,6 @@
     "@storybook/html-vite": "workspace:*",
     "@storybook/html-webpack5": "workspace:*",
     "@storybook/instrumenter": "workspace:*",
-    "@storybook/jest": "next",
     "@storybook/linter-config": "^3.1.2",
     "@storybook/manager": "workspace:*",
     "@storybook/manager-api": "workspace:*",
@@ -162,6 +161,7 @@
     "@storybook/svelte": "workspace:*",
     "@storybook/svelte-webpack5": "workspace:*",
     "@storybook/telemetry": "workspace:*",
+    "@storybook/test": "next",
     "@storybook/testing-library": "next",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",

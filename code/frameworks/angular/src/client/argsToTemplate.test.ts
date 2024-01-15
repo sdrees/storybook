@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { argsToTemplate, ArgsToTemplateOptions } from './argsToTemplate'; // adjust path
 
 describe('argsToTemplate', () => {

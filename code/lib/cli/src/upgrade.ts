@@ -110,13 +110,14 @@ export const doUpgrade = async ({
 }: UpgradeOptions) => {
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
-  const currentVersion = versions['@storybook/cli'];
   const beforeVersion = await getStorybookCoreVersion();
+  const currentVersion = versions['@storybook/cli'];
+  const isCanary = currentVersion.startsWith('0.0.0');
 
-  if (lt(currentVersion, beforeVersion)) {
+  if (!isCanary && lt(currentVersion, beforeVersion)) {
     throw new UpgradeStorybookToLowerVersionError({ beforeVersion, currentVersion });
   }
-  if (eq(currentVersion, beforeVersion)) {
+  if (!isCanary && eq(currentVersion, beforeVersion)) {
     throw new UpgradeStorybookToSameVersionError({ beforeVersion });
   }
 
@@ -166,12 +167,12 @@ export const doUpgrade = async ({
       // only upgrade packages that are in the monorepo
       return dependency in versions;
     }) as Array<keyof typeof versions>;
-    return monorepoDependencies.map(
-      (dependency) =>
-        // add ^ modifier to the version if this is the latest and stable version
-        // example output: @storybook/react@^8.0.0
-        `${dependency}@${!isOutdated || isPrerelease ? '^' : ''}${versions[dependency]}`
-    );
+    return monorepoDependencies.map((dependency) => {
+      /* add ^ modifier to the version if this is the latest stable or prerelease version
+         example outputs: @storybook/react@^8.0.0 */
+      const maybeCaret = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
+      return `${dependency}@${maybeCaret}${versions[dependency]}`;
+    });
   };
 
   const upgradedDependencies = toUpgradedDependencies(packageJson.dependencies);

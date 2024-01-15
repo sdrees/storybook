@@ -1,4 +1,4 @@
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import { global as globalThis } from '@storybook/global';
 import type { Channel } from '@storybook/channels';
 import { within } from '@storybook/testing-library';

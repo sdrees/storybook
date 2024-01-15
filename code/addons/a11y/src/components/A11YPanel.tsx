@@ -6,7 +6,12 @@ import { ActionBar, ScrollArea } from '@storybook/components';
 import { SyncIcon, CheckIcon } from '@storybook/icons';
 
 import type { AxeResults } from 'axe-core';
-import { useChannel, useParameter, useStorybookState } from '@storybook/manager-api';
+import {
+  useChannel,
+  useParameter,
+  useStorybookApi,
+  useStorybookState,
+} from '@storybook/manager-api';
 
 import { Report } from './Report';
 
@@ -59,6 +64,7 @@ export const A11YPanel: React.FC = () => {
   const [error, setError] = React.useState<unknown>(undefined);
   const { setResults, results } = useA11yContext();
   const { storyId } = useStorybookState();
+  const api = useStorybookApi();
 
   React.useEffect(() => {
     setStatus(manual ? 'manual' : 'initial');
@@ -92,7 +98,7 @@ export const A11YPanel: React.FC = () => {
 
   const handleManual = useCallback(() => {
     setStatus('running');
-    emit(EVENTS.MANUAL, storyId);
+    emit(EVENTS.MANUAL, storyId, api.getParameters(storyId, 'a11y'));
   }, [storyId]);
 
   const manualActionItems = useMemo(

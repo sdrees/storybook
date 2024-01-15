@@ -1,4 +1,4 @@
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import { within, userEvent, waitFor } from '@storybook/testing-library';
 import {
   UPDATE_STORY_ARGS,

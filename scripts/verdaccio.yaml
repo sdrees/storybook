@@ -91,10 +91,6 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/jest':
-    access: $all
-    publish: $all
-    proxy: npmjs
   '@storybook/docs-mdx':
     access: $all
     publish: $all

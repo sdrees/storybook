@@ -1,4 +1,4 @@
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import { global as globalThis } from '@storybook/global';
 import type { Meta, StoryObj, StoryFn } from '@storybook/vue3';
 import { within, userEvent } from '@storybook/testing-library';

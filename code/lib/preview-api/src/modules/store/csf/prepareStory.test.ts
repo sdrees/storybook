@@ -107,16 +107,6 @@ describe('prepareStory', () => {
       expect(parameters).toEqual({ __isArgsStory: true });
     });
 
-    it('does not set `__isArgsStory` if `passArgsFirst` is disabled', () => {
-      const { parameters } = prepareStory(
-        { id, name, parameters: { passArgsFirst: false }, moduleExport },
-        { id, title },
-        { render }
-      );
-
-      expect(parameters).toEqual({ passArgsFirst: false, __isArgsStory: false });
-    });
-
     it('does not set `__isArgsStory` if `render` does not take args', () => {
       const { parameters } = prepareStory(
         { id, name, moduleExport },
@@ -416,30 +406,6 @@ describe('prepareStory', () => {
         { one: 'mapped', two: 2, three: 3 },
         expect.objectContaining({ args: { one: 'mapped', two: 2, three: 3 } })
       );
-    });
-
-    it('passes args as the first argument to the story if `parameters.passArgsFirst` is true', () => {
-      const renderMock = vi.fn();
-      const firstStory = prepareStory(
-        { id, name, args: { a: 1 }, parameters: { passArgsFirst: true }, moduleExport },
-        { id, title },
-        { render: renderMock }
-      );
-
-      firstStory.undecoratedStoryFn({ args: firstStory.initialArgs, ...firstStory } as any);
-      expect(renderMock).toHaveBeenCalledWith(
-        { a: 1 },
-        expect.objectContaining({ args: { a: 1 } })
-      );
-
-      const secondStory = prepareStory(
-        { id, name, args: { a: 1 }, parameters: { passArgsFirst: false }, moduleExport },
-        { id, title },
-        { render: renderMock }
-      );
-
-      secondStory.undecoratedStoryFn({ args: secondStory.initialArgs, ...secondStory } as any);
-      expect(renderMock).toHaveBeenCalledWith(expect.objectContaining({ args: { a: 1 } }));
     });
   });
 

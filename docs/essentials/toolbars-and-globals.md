@@ -182,29 +182,6 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 
 <!-- prettier-ignore-end -->
 
-<Callout variant="info" icon="💡">
-
-In Storybook 6.0, if you set the global option `passArgsFirst: false` for backward compatibility, the story context is passed as the first argument:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'vue/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'angular/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'svelte/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'solid/my-component-story-use-globaltype-backwards-compat.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-</Callout>
-
 ## Consuming globals from within an addon
 
 If you're working on a Storybook addon and need to retrieve globals, you can do so. The `@storybook/manager-api` package provides a hook for this scenario. You can use the [`useGlobals()`](../addons/addons-api.md#useglobals) hook to retrieve any globals you want.

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "8.0.0-alpha.9",
+  "version": "8.0.0-alpha.10",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -62,7 +62,6 @@
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/instrumenter": "workspace:*",
-    "@storybook/jest": "next",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/testing-library": "next",

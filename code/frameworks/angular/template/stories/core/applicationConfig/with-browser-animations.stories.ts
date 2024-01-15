@@ -1,7 +1,7 @@
 import { Meta, StoryObj, applicationConfig } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { within, userEvent } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import { importProvidersFrom } from '@angular/core';
 import { OpenCloseComponent } from '../moduleMetadata/angular-src/open-close-component/open-close.component';
 

@@ -24,6 +24,11 @@ import type {
 import mapValues from 'lodash/mapValues.js';
 import pick from 'lodash/pick.js';
 
+import {
+  CalledExtractOnStoreError,
+  MissingStoryFromCsfFileError,
+} from '@storybook/core-events/preview-errors';
+import { deprecate } from '@storybook/client-logger';
 import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
@@ -41,13 +46,11 @@ const STORY_CACHE_SIZE = 10000;
 const EXTRACT_BATCH_SIZE = 20;
 
 export class StoryStore<TRenderer extends Renderer> {
-  storyIndex?: StoryIndexStore;
+  public storyIndex: StoryIndexStore;
 
-  importFn?: ModuleImportFn;
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>;
 
-  projectAnnotations?: NormalizedProjectAnnotations<TRenderer>;
-
-  globals?: GlobalsStore;
+  globals: GlobalsStore;
 
   args: ArgsStore;
 
@@ -61,13 +64,20 @@ export class StoryStore<TRenderer extends Renderer> {
 
   prepareStoryWithCache: typeof prepareStory;
 
-  initializationPromise: Promise<void>;
+  constructor(
+    storyIndex: StoryIndex,
 
-  // This *does* get set in the constructor but the semantics of `new Promise` trip up TS
-  resolveInitializationPromise!: () => void;
+    public importFn: ModuleImportFn,
 
-  constructor() {
+    projectAnnotations: ProjectAnnotations<TRenderer>
+  ) {
+    this.storyIndex = new StoryIndexStore(storyIndex);
+
+    this.projectAnnotations = normalizeProjectAnnotations(projectAnnotations);
+    const { globals, globalTypes } = projectAnnotations;
+
     this.args = new ArgsStore();
+    this.globals = new GlobalsStore({ globals, globalTypes });
     this.hooks = {};
 
     // We use a cache for these two functions for two reasons:
@@ -76,37 +86,13 @@ export class StoryStore<TRenderer extends Renderer> {
     this.processCSFFileWithCache = memoize(CSF_CACHE_SIZE)(processCSFFile) as typeof processCSFFile;
     this.prepareMetaWithCache = memoize(CSF_CACHE_SIZE)(prepareMeta) as typeof prepareMeta;
     this.prepareStoryWithCache = memoize(STORY_CACHE_SIZE)(prepareStory) as typeof prepareStory;
-
-    // We cannot call `loadStory()` until we've been initialized properly. But we can wait for it.
-    this.initializationPromise = new Promise((resolve) => {
-      this.resolveInitializationPromise = resolve;
-    });
   }
 
   setProjectAnnotations(projectAnnotations: ProjectAnnotations<TRenderer>) {
     // By changing `this.projectAnnotations, we implicitly invalidate the `prepareStoryWithCache`
     this.projectAnnotations = normalizeProjectAnnotations(projectAnnotations);
     const { globals, globalTypes } = projectAnnotations;
-
-    if (this.globals) {
-      this.globals.set({ globals, globalTypes });
-    } else {
-      this.globals = new GlobalsStore({ globals, globalTypes });
-    }
-  }
-
-  initialize({
-    storyIndex,
-    importFn,
-  }: {
-    storyIndex?: StoryIndex;
-    importFn: ModuleImportFn;
-  }): void {
-    this.storyIndex = new StoryIndexStore(storyIndex);
-    this.importFn = importFn;
-
-    // We don't need the cache to be loaded to call `loadStory`, we just need the index ready
-    this.resolveInitializationPromise();
+    this.globals.set({ globals, globalTypes });
   }
 
   // This means that one of the CSF files has changed.
@@ -120,26 +106,20 @@ export class StoryStore<TRenderer extends Renderer> {
     importFn?: ModuleImportFn;
     storyIndex?: StoryIndex;
   }) {
-    await this.initializationPromise;
-
     if (importFn) this.importFn = importFn;
     // The index will always be set before the initialization promise returns
-    if (storyIndex) this.storyIndex!.entries = storyIndex.entries;
+    if (storyIndex) this.storyIndex.entries = storyIndex.entries;
     if (this.cachedCSFFiles) await this.cacheAllCSFFiles();
   }
 
   // Get an entry from the index, waiting on initialization if necessary
   async storyIdToEntry(storyId: StoryId): Promise<IndexEntry> {
-    await this.initializationPromise;
     // The index will always be set before the initialization promise returns
-    return this.storyIndex!.storyIdToEntry(storyId);
+    return this.storyIndex.storyIdToEntry(storyId);
   }
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
   async loadCSFFileByStoryId(storyId: StoryId): Promise<CSFFile<TRenderer>> {
-    if (!this.storyIndex || !this.importFn)
-      throw new Error(`loadCSFFileByStoryId called before initialization`);
-
     const { importPath, title } = this.storyIndex.storyIdToEntry(storyId);
     const moduleExports = await this.importFn(importPath);
 
@@ -150,8 +130,6 @@ export class StoryStore<TRenderer extends Renderer> {
   async loadAllCSFFiles({ batchSize = EXTRACT_BATCH_SIZE } = {}): Promise<
     StoryStore<TRenderer>['cachedCSFFiles']
   > {
-    if (!this.storyIndex) throw new Error(`loadAllCSFFiles called before initialization`);
-
     const importPaths = Object.entries(this.storyIndex.entries).map(([storyId, { importPath }]) => [
       importPath,
       storyId,
@@ -185,13 +163,10 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   async cacheAllCSFFiles(): Promise<void> {
-    await this.initializationPromise;
     this.cachedCSFFiles = await this.loadAllCSFFiles();
   }
 
   preparedMetaFromCSFFile({ csfFile }: { csfFile: CSFFile<TRenderer> }): PreparedMeta<TRenderer> {
-    if (!this.projectAnnotations) throw new Error(`storyFromCSFFile called before initialization`);
-
     const componentAnnotations = csfFile.meta;
 
     return this.prepareMetaWithCache(
@@ -203,7 +178,6 @@ export class StoryStore<TRenderer extends Renderer> {
 
   // Load the CSF file for a story and prepare the story from it and the project annotations.
   async loadStory({ storyId }: { storyId: StoryId }): Promise<PreparedStory<TRenderer>> {
-    await this.initializationPromise;
     const csfFile = await this.loadCSFFileByStoryId(storyId);
     return this.storyFromCSFFile({ storyId, csfFile });
   }
@@ -217,12 +191,9 @@ export class StoryStore<TRenderer extends Renderer> {
     storyId: StoryId;
     csfFile: CSFFile<TRenderer>;
   }): PreparedStory<TRenderer> {
-    if (!this.projectAnnotations) throw new Error(`storyFromCSFFile called before initialization`);
-
     const storyAnnotations = csfFile.stories[storyId];
-    if (!storyAnnotations) {
-      throw new Error(`Didn't find '${storyId}' in CSF file, this is unexpected`);
-    }
+    if (!storyAnnotations) throw new MissingStoryFromCsfFileError({ storyId });
+
     const componentAnnotations = csfFile.meta;
 
     const story = this.prepareStoryWithCache(
@@ -241,9 +212,6 @@ export class StoryStore<TRenderer extends Renderer> {
   }: {
     csfFile: CSFFile<TRenderer>;
   }): PreparedStory<TRenderer>[] {
-    if (!this.storyIndex)
-      throw new Error(`componentStoriesFromCSFFile called before initialization`);
-
     return Object.keys(this.storyIndex.entries)
       .filter((storyId: StoryId) => !!csfFile.stories[storyId])
       .map((storyId: StoryId) => this.storyFromCSFFile({ storyId, csfFile }));
@@ -252,15 +220,12 @@ export class StoryStore<TRenderer extends Renderer> {
   async loadEntry(id: StoryId) {
     const entry = await this.storyIdToEntry(id);
 
-    const { importFn, storyIndex } = this;
-    if (!storyIndex || !importFn) throw new Error(`loadEntry called before initialization`);
-
     const storyImports = entry.type === 'docs' ? entry.storiesImports : [];
 
     const [entryExports, ...csfFiles] = (await Promise.all([
-      importFn(entry.importPath),
+      this.importFn(entry.importPath),
       ...storyImports.map((storyImportPath) => {
-        const firstStoryEntry = storyIndex.importPathToEntry(storyImportPath);
+        const firstStoryEntry = this.storyIndex.importPathToEntry(storyImportPath);
         return this.loadCSFFileByStoryId(firstStoryEntry.id);
       }),
     ])) as [ModuleExports, ...CSFFile<TRenderer>[]];
@@ -274,8 +239,6 @@ export class StoryStore<TRenderer extends Renderer> {
     story: PreparedStory<TRenderer>,
     { forceInitialArgs = false } = {}
   ): Omit<StoryContextForLoaders, 'viewMode'> {
-    if (!this.globals) throw new Error(`getStoryContext called before initialization`);
-
     return prepareContext({
       ...story,
       args: forceInitialArgs ? story.initialArgs : this.args.get(story.id),
@@ -291,11 +254,8 @@ export class StoryStore<TRenderer extends Renderer> {
   extract(
     options: { includeDocsOnly?: boolean } = { includeDocsOnly: false }
   ): Record<StoryId, StoryContextForEnhancers<TRenderer>> {
-    if (!this.storyIndex) throw new Error(`extract called before initialization`);
-
     const { cachedCSFFiles } = this;
-    if (!cachedCSFFiles)
-      throw new Error('Cannot call extract() unless you call cacheAllCSFFiles() first.');
+    if (!cachedCSFFiles) throw new CalledExtractOnStoreError();
 
     return Object.entries(this.storyIndex.entries).reduce(
       (acc, [storyId, { type, importPath }]) => {
@@ -328,8 +288,6 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   getSetStoriesPayload() {
-    if (!this.globals) throw new Error(`getSetStoriesPayload called before initialization`);
-
     const stories = this.extract({ includeDocsOnly: true });
 
     const kindParameters: Parameters = Object.values(stories).reduce(
@@ -353,14 +311,11 @@ export class StoryStore<TRenderer extends Renderer> {
   // It is used to allow v7 Storybooks to be composed in v6 Storybooks, which expect a
   // `stories.json` file with legacy fields (`kind` etc).
   getStoriesJsonData = (): StoryIndexV3 => {
-    const { storyIndex } = this;
-    if (!storyIndex) throw new Error(`getStoriesJsonData called before initialization`);
-
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
     const stories: Record<StoryId, V3CompatIndexEntry> = mapValues(value.stories, (story) => {
-      const { importPath } = storyIndex.entries[story.id];
+      const { importPath } = this.storyIndex.entries[story.id];
       return {
         ...pick(story, ['id', 'name', 'title']),
         importPath,
@@ -383,15 +338,22 @@ export class StoryStore<TRenderer extends Renderer> {
   };
 
   raw(): BoundStory<TRenderer>[] {
+    deprecate(
+      'StoryStore.raw() is deprecated and will be removed in 9.0, please use extract() instead'
+    );
     return Object.values(this.extract())
       .map(({ id }: { id: StoryId }) => this.fromId(id))
       .filter(Boolean) as BoundStory<TRenderer>[];
   }
 
   fromId(storyId: StoryId): BoundStory<TRenderer> | null {
-    if (!this.storyIndex) throw new Error(`fromId called before initialization`);
+    deprecate(
+      'StoryStore.fromId() is deprecated and will be removed in 9.0, please use loadStory() instead'
+    );
 
+    // Deprecated so won't make a proper error for this
     if (!this.cachedCSFFiles)
+      // eslint-disable-next-line local-rules/no-uncategorized-errors
       throw new Error('Cannot call fromId/raw() unless you call cacheAllCSFFiles() first.');
 
     let importPath;

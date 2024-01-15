@@ -4,7 +4,6 @@ import { global } from '@storybook/global';
 import type {
   Args,
   ArgsStoryFn,
-  LegacyStoryFn,
   ModuleExport,
   NormalizedComponentAnnotations,
   NormalizedProjectAnnotations,
@@ -69,12 +68,8 @@ export function prepareStory<TRenderer extends Renderer>(
     return updatedContext;
   };
 
-  const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
-    const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
-    return renderTimePassArgsFirst
-      ? (render as ArgsStoryFn<TRenderer>)(context.args, context)
-      : (render as LegacyStoryFn<TRenderer>)(context);
-  };
+  const undecoratedStoryFn = (context: StoryContext<TRenderer>) =>
+    (render as ArgsStoryFn<TRenderer>)(context.args, context);
 
   // Currently it is only possible to set these globally
   const { applyDecorators = defaultDecorateStory, runStep } = projectAnnotations;
@@ -171,9 +166,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
       componentAnnotations.render ||
       projectAnnotations.render;
 
-    const { passArgsFirst = true } = parameters;
-
-    parameters.__isArgsStory = passArgsFirst && render && render.length > 0;
+    parameters.__isArgsStory = render && render.length > 0;
   }
 
   // Pull out args[X] into initialArgs for argTypes enhancers

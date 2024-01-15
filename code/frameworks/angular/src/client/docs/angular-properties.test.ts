@@ -1,35 +1,9 @@
 import path from 'path';
 import fs from 'fs';
-import tmp from 'tmp';
-import { sync as spawnSync } from 'cross-spawn';
-
-import { findComponentByName, extractArgTypesFromData } from './compodoc';
-
-// @ts-expect-error (Converted from ts-ignore)
-const { SNAPSHOT_OS } = global;
+import { describe, expect, it } from 'vitest';
 
 // File hierarchy: __testfixtures__ / some-test-case / input.*
 const inputRegExp = /^input\..*$/;
-
-const runCompodoc = (inputPath: string) => {
-  const testDir = path.dirname(inputPath);
-  const { name: tmpDir, removeCallback } = tmp.dirSync();
-
-  // FIXME: for now, this requires a tsconfig.json for each test case. Tried generating
-  // one dynamically in tmpDir, but compodoc doesn't handle absolute paths properly
-  // (and screwed around with relative paths as well, but couldn't get it working)
-  spawnSync('yarn', ['compodoc', '-p', `${testDir}/tsconfig.json`, '-e', 'json', '-d', tmpDir], {
-    stdio: 'inherit',
-    shell: true,
-  });
-  const output = fs.readFileSync(`${tmpDir}/documentation.json`, 'utf8');
-  try {
-    removeCallback();
-  } catch (e) {
-    //
-  }
-  return output;
-};
 
 describe('angular component properties', () => {
   const fixturesDir = path.join(__dirname, '__testfixtures__');

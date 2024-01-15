@@ -9,7 +9,7 @@ import {
   provideNoopAnimations,
 } from '@angular/platform-browser/animations';
 import { NgModuleMetadata } from '../../types';
-import { PropertyExtractor, REMOVED_MODULES } from './PropertyExtractor';
+import { PropertyExtractor } from './PropertyExtractor';
 import { WithOfficialModule } from '../__testfixtures__/test.module';
 
 const TEST_TOKEN = new InjectionToken('testToken');
@@ -18,7 +18,6 @@ const TestService = Injectable()(class {});
 const TestComponent1 = Component({})(class {});
 const TestComponent2 = Component({})(class {});
 const StandaloneTestComponent = Component({ standalone: true })(class {});
-const TestDirective = Directive({})(class {});
 const StandaloneTestDirective = Directive({ standalone: true })(class {});
 const TestModuleWithDeclarations = NgModule({ declarations: [TestComponent1] })(class {});
 const TestModuleWithImportsAndProviders = NgModule({

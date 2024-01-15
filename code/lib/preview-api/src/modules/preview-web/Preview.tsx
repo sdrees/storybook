@@ -1,5 +1,5 @@
-import { dedent } from 'ts-dedent';
 import { global } from '@storybook/global';
+import { deprecate, logger } from '@storybook/client-logger';
 import {
   CONFIG_ERROR,
   FORCE_REMOUNT,
@@ -12,7 +12,6 @@ import {
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
 import type { Channel } from '@storybook/channels';
 import type {
   Renderer,
@@ -28,6 +27,12 @@ import type {
   StoryRenderOptions,
   SetGlobalsPayload,
 } from '@storybook/types';
+import {
+  CalledPreviewMethodBeforeInitializationError,
+  MissingRenderToCanvasError,
+  StoryIndexFetchError,
+  StoryStoreAccessedBeforeInitializationError,
+} from '@storybook/core-events/preview-errors';
 import { addons } from '../addons';
 import { StoryStore } from '../../store';
 
@@ -47,11 +52,7 @@ export class Preview<TRenderer extends Renderer> {
    */
   serverChannel?: Channel;
 
-  storyStore: StoryStore<TRenderer>;
-
-  getStoryIndex?: () => StoryIndex;
-
-  importFn?: ModuleImportFn;
+  protected storyStoreValue?: StoryStore<TRenderer>;
 
   renderToCanvas?: RenderToCanvas<TRenderer>;
 
@@ -59,31 +60,71 @@ export class Preview<TRenderer extends Renderer> {
 
   previewEntryError?: Error;
 
-  constructor(protected channel: Channel = addons.getChannel()) {
-    this.storyStore = new StoryStore();
+  // While we wait for the index to load (note it may error for a while), we need to store the
+  // project annotations. Once the index loads, it is stored on the store and this will get unset.
+  private projectAnnotationsBeforeInitialization?: ProjectAnnotations<TRenderer>;
+
+  protected storeInitializationPromise: Promise<void>;
+
+  protected resolveStoreInitializationPromise!: () => void;
+
+  protected rejectStoreInitializationPromise!: (err: Error) => void;
+
+  constructor(
+    public importFn: ModuleImportFn,
+
+    public getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>,
+
+    protected channel: Channel = addons.getChannel(),
+
+    shouldInitialize = true
+  ) {
+    this.storeInitializationPromise = new Promise((resolve, reject) => {
+      this.resolveStoreInitializationPromise = resolve;
+      this.rejectStoreInitializationPromise = reject;
+    });
+
+    // Cannot await this in constructor, but if you want to await it, use `ready()`
+    if (shouldInitialize) this.initialize();
+  }
+
+  // Create a proxy object for `__STORYBOOK_STORY_STORE__` and `__STORYBOOK_PREVIEW__.storyStore`
+  // That proxies through to the store once ready, and errors beforehand. This means we can set
+  // `__STORYBOOK_STORY_STORE__ = __STORYBOOK_PREVIEW__.storyStore` without having to wait, and
+  // simiarly integrators can access the `storyStore` on the preview at any time, although
+  // it is considered deprecated and we will no longer allow access in 9.0
+  get storyStore() {
+    return new Proxy(
+      {},
+      {
+        get: (_, method) => {
+          if (this.storyStoreValue) {
+            deprecate('Accessing the Story Store is deprecated and will be removed in 9.0');
+
+            // @ts-expect-error I'm not sure if there's a way to keep TS happy here
+            return this.storyStoreValue[method];
+          }
+
+          throw new StoryStoreAccessedBeforeInitializationError();
+        },
+      }
+    );
   }
 
   // INITIALIZATION
-  async initialize({
-    getStoryIndex,
-    importFn,
-    getProjectAnnotations,
-  }: {
-    // In the case of the v6 store, we can only get the index from the facade *after*
-    // getProjectAnnotations has been run, thus this slightly awkward approach
-    getStoryIndex?: () => StoryIndex;
-    importFn: ModuleImportFn;
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>;
-  }) {
-    // We save these two on initialization in case `getProjectAnnotations` errors,
-    // in which case we may need them later when we recover.
-    this.getStoryIndex = getStoryIndex;
-    this.importFn = importFn;
-
+  protected async initialize() {
     this.setupListeners();
 
-    const projectAnnotations = await this.getProjectAnnotationsOrRenderError(getProjectAnnotations);
-    return this.initializeWithProjectAnnotations(projectAnnotations);
+    try {
+      const projectAnnotations = await this.getProjectAnnotationsOrRenderError();
+      await this.initializeWithProjectAnnotations(projectAnnotations);
+    } catch (err) {
+      this.rejectStoreInitializationPromise(err as Error);
+    }
+  }
+
+  ready() {
+    return this.storeInitializationPromise;
   }
 
   setupListeners() {
@@ -95,22 +136,13 @@ export class Preview<TRenderer extends Renderer> {
     this.channel.on(FORCE_REMOUNT, this.onForceRemount.bind(this));
   }
 
-  async getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>
-  ): Promise<ProjectAnnotations<TRenderer>> {
+  async getProjectAnnotationsOrRenderError(): Promise<ProjectAnnotations<TRenderer>> {
     try {
-      const projectAnnotations = await getProjectAnnotations();
+      const projectAnnotations = await this.getProjectAnnotations();
 
       this.renderToCanvas = projectAnnotations.renderToCanvas;
-      if (!this.renderToCanvas) {
-        throw new Error(dedent`
-            Expected your framework's preset to export a \`renderToCanvas\` field.
+      if (!this.renderToCanvas) throw new MissingRenderToCanvasError();
 
-            Perhaps it needs to be upgraded for Storybook 6.4?
-
-            More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field
-          `);
-      }
       return projectAnnotations;
     } catch (err) {
       // This is an error extracting the projectAnnotations (i.e. evaluating the previewEntries) and
@@ -122,10 +154,7 @@ export class Preview<TRenderer extends Renderer> {
 
   // If initialization gets as far as project annotations, this function runs.
   async initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TRenderer>) {
-    this.storyStore.setProjectAnnotations(projectAnnotations);
-
-    this.setInitialGlobals();
-
+    this.projectAnnotationsBeforeInitialization = projectAnnotations;
     try {
       const storyIndex = await this.getStoryIndexFromServer();
       return this.initializeWithStoryIndex(storyIndex);
@@ -135,36 +164,47 @@ export class Preview<TRenderer extends Renderer> {
     }
   }
 
-  async setInitialGlobals() {
-    this.emitGlobals();
-  }
-
-  emitGlobals() {
-    if (!this.storyStore.globals || !this.storyStore.projectAnnotations)
-      throw new Error(`Cannot emit before initialization`);
-
-    const payload: SetGlobalsPayload = {
-      globals: this.storyStore.globals.get() || {},
-      globalTypes: this.storyStore.projectAnnotations.globalTypes || {},
-    };
-    this.channel.emit(SET_GLOBALS, payload);
-  }
-
   async getStoryIndexFromServer() {
     const result = await fetch(STORY_INDEX_PATH);
     if (result.status === 200) {
       return result.json() as any as StoryIndex;
     }
 
-    throw new Error(await result.text());
+    throw new StoryIndexFetchError({ text: await result.text() });
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: StoryIndex): void {
-    if (!this.importFn)
-      throw new Error(`Cannot call initializeWithStoryIndex before initialization`);
+  protected initializeWithStoryIndex(storyIndex: StoryIndex): void {
+    if (!this.projectAnnotationsBeforeInitialization)
+      // This is a protected method and so shouldn't be called out of order by users
+      // eslint-disable-next-line local-rules/no-uncategorized-errors
+      throw new Error('Cannot call initializeWithStoryIndex until project annotations resolve');
 
-    this.storyStore.initialize({ storyIndex, importFn: this.importFn });
+    this.storyStoreValue = new StoryStore(
+      storyIndex,
+      this.importFn,
+      this.projectAnnotationsBeforeInitialization
+    );
+    delete this.projectAnnotationsBeforeInitialization; // to avoid confusion
+
+    this.setInitialGlobals();
+
+    this.resolveStoreInitializationPromise();
+  }
+
+  async setInitialGlobals() {
+    this.emitGlobals();
+  }
+
+  emitGlobals() {
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'emitGlobals' });
+
+    const payload: SetGlobalsPayload = {
+      globals: this.storyStoreValue.globals.get() || {},
+      globalTypes: this.storyStoreValue.projectAnnotations.globalTypes || {},
+    };
+    this.channel.emit(SET_GLOBALS, payload);
   }
 
   // EVENT HANDLERS
@@ -176,32 +216,34 @@ export class Preview<TRenderer extends Renderer> {
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>;
   }) {
     delete this.previewEntryError;
+    this.getProjectAnnotations = getProjectAnnotations;
 
-    const projectAnnotations = await this.getProjectAnnotationsOrRenderError(getProjectAnnotations);
-    if (!this.storyStore.projectAnnotations) {
+    const projectAnnotations = await this.getProjectAnnotationsOrRenderError();
+    if (!this.storyStoreValue) {
       await this.initializeWithProjectAnnotations(projectAnnotations);
       return;
     }
 
-    this.storyStore.setProjectAnnotations(projectAnnotations);
+    this.storyStoreValue.setProjectAnnotations(projectAnnotations);
     this.emitGlobals();
   }
 
   async onStoryIndexChanged() {
     delete this.previewEntryError;
 
-    if (!this.storyStore.projectAnnotations) {
-      // We haven't successfully set project annotations yet,
-      // we need to do that before we can do anything else.
+    // We haven't successfully set project annotations yet,
+    // we need to do that before we can do anything else.
+    if (!this.storyStoreValue && !this.projectAnnotationsBeforeInitialization) {
       return;
     }
 
     try {
       const storyIndex = await this.getStoryIndexFromServer();
 
-      // This is the first time the story index worked, let's load it into the store
-      if (!this.storyStore.storyIndex) {
+      // We've been waiting for the index to resolve, now it has, so we can continue
+      if (this.projectAnnotationsBeforeInitialization) {
         this.initializeWithStoryIndex(storyIndex);
+        return;
       }
 
       // Update the store with the new stories.
@@ -220,24 +262,28 @@ export class Preview<TRenderer extends Renderer> {
     importFn?: ModuleImportFn;
     storyIndex?: StoryIndex;
   }) {
-    await this.storyStore.onStoriesChanged({ importFn, storyIndex });
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onStoriesChanged' });
+    await this.storyStoreValue.onStoriesChanged({ importFn, storyIndex });
   }
 
   async onUpdateGlobals({ globals }: { globals: Globals }) {
-    if (!this.storyStore.globals)
-      throw new Error(`Cannot call onUpdateGlobals before initialization`);
-    this.storyStore.globals.update(globals);
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onUpdateGlobals' });
+    this.storyStoreValue.globals.update(globals);
 
     await Promise.all(this.storyRenders.map((r) => r.rerender()));
 
     this.channel.emit(GLOBALS_UPDATED, {
-      globals: this.storyStore.globals.get(),
-      initialGlobals: this.storyStore.globals.initialGlobals,
+      globals: this.storyStoreValue.globals.get(),
+      initialGlobals: this.storyStoreValue.globals.initialGlobals,
     });
   }
 
   async onUpdateArgs({ storyId, updatedArgs }: { storyId: StoryId; updatedArgs: Args }) {
-    this.storyStore.args.update(storyId, updatedArgs);
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onUpdateArgs' });
+    this.storyStoreValue.args.update(storyId, updatedArgs);
 
     await Promise.all(
       this.storyRenders
@@ -247,22 +293,25 @@ export class Preview<TRenderer extends Renderer> {
 
     this.channel.emit(STORY_ARGS_UPDATED, {
       storyId,
-      args: this.storyStore.args.get(storyId),
+      args: this.storyStoreValue.args.get(storyId),
     });
   }
 
   async onResetArgs({ storyId, argNames }: { storyId: string; argNames?: string[] }) {
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onResetArgs' });
+
     // NOTE: we have to be careful here and avoid await-ing when updating a rendered's args.
     // That's because below in `renderStoryToElement` we have also bound to this event and will
     // render the story in the same tick.
     // However, we can do that safely as the current story is available in `this.storyRenders`
     const render = this.storyRenders.find((r) => r.id === storyId);
-    const story = render?.story || (await this.storyStore.loadStory({ storyId }));
+    const story = render?.story || (await this.storyStoreValue.loadStory({ storyId }));
 
     const argNamesToReset = argNames || [
       ...new Set([
         ...Object.keys(story.initialArgs),
-        ...Object.keys(this.storyStore.args.get(storyId)),
+        ...Object.keys(this.storyStoreValue.args.get(storyId)),
       ]),
     ];
 
@@ -295,12 +344,14 @@ export class Preview<TRenderer extends Renderer> {
     callbacks: RenderContextCallbacks<TRenderer>,
     options: StoryRenderOptions
   ) {
-    if (!this.renderToCanvas)
-      throw new Error(`Cannot call renderStoryToElement before initialization`);
+    if (!this.renderToCanvas || !this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({
+        methodName: 'renderStoryToElement',
+      });
 
     const render = new StoryRender<TRenderer>(
       this.channel,
-      this.storyStore,
+      this.storyStoreValue,
       this.renderToCanvas,
       callbacks,
       story.id,
@@ -326,22 +377,22 @@ export class Preview<TRenderer extends Renderer> {
   }
 
   // API
+  async loadStory({ storyId }: { storyId: StoryId }) {
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'loadStory' });
+
+    return this.storyStoreValue.loadStory({ storyId });
+  }
+
   async extract(options?: { includeDocsOnly: boolean }) {
-    if (this.previewEntryError) {
-      throw this.previewEntryError;
-    }
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'extract' });
 
-    if (!this.storyStore.projectAnnotations) {
-      // In v6 mode, if your preview.js throws, we never get a chance to initialize the preview
-      // or store, and the error is simply logged to the browser console. This is the best we can do
-      throw new Error(dedent`Failed to initialize Storybook.
+    if (this.previewEntryError) throw this.previewEntryError;
 
-      Do you have an error in your \`preview.js\`? Check your Storybook's browser console for errors.`);
-    }
+    await this.storyStoreValue.cacheAllCSFFiles();
 
-    await this.storyStore.cacheAllCSFFiles();
-
-    return this.storyStore.extract(options);
+    return this.storyStoreValue.extract(options);
   }
 
   // UTILITIES
