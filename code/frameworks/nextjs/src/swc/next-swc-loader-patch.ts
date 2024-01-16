@@ -2,7 +2,6 @@
 // we use our own patch because we need to remove tracing from the original code
 // which is not possible otherwise
 
-/* eslint-disable no-restricted-syntax */
 /*
 Copyright (c) 2017 The swc Project Developers
 Permission is hereby granted, free of charge, to any

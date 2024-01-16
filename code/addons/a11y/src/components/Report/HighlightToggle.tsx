@@ -27,7 +27,6 @@ function areAllRequiredElementsHighlighted(
     highlighted.includes(item.target[0] as any)
   ).length;
 
-  // eslint-disable-next-line no-nested-ternary
   return highlightedCount === 0
     ? CheckBoxStates.UNCHECKED
     : highlightedCount === elementsToHighlight.length

@@ -26,7 +26,6 @@ interface FibonacciMap {
 }
 
 function fibonacci(num: number, memo?: FibonacciMap): number {
-  /* eslint-disable no-param-reassign */
   if (!memo) {
     memo = {};
   }
@@ -39,7 +38,6 @@ function fibonacci(num: number, memo?: FibonacciMap): number {
 
   memo[num] = fibonacci(num - 1, memo) + fibonacci(num - 2, memo);
   return memo[num];
-  /* eslint-enable no-param-reassign */
 }
 
 type Panels = Record<string, Omit<ChildrenList[0], 'id'>>;

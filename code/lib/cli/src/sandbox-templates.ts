@@ -116,7 +116,7 @@ const baseTemplates = {
   'nextjs/13-ts': {
     name: 'Next.js v13.5 (Webpack | TypeScript)',
     script:
-      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-13/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
+      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-13/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^13.5.6" && yarn && git add . && git commit --amend --no-edit && cd ..',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -129,7 +129,6 @@ const baseTemplates = {
       extraDependencies: ['server-only'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
-    inDevelopment: true,
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
@@ -500,7 +499,6 @@ const internalTemplates = {
         ),
     },
     isInternal: true,
-    inDevelopment: true,
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'internal/react16-webpack': {

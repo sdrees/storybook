@@ -43,7 +43,7 @@ jobs:
         run: yarn local-registry --open &
         working-directory: ./code
       - name: Wait for registry
-        run: yarn wait-on http://localhost:6001
+        run: yarn wait-on tcp:127.0.0.1:6001
         working-directory: ./code
       - name: Generate
         run: yarn generate-sandboxes --local-registry

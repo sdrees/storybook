@@ -10,7 +10,7 @@ export default {
 export const DefaultActions = {
   async play({ canvasElement }) {
     const canvas = within(canvasElement);
-    // eslint-disable-next-line no-undef
+
     const initialUrl = window.location.toString();
 
     const basicHref = canvas.getByText('/basic-href');
@@ -21,7 +21,6 @@ export const DefaultActions = {
     );
     complexHref.click();
 
-    // eslint-disable-next-line no-undef
     const finalUrl = window.location.toString();
     expect(finalUrl).toBe(initialUrl);
   },

@@ -7,7 +7,6 @@ export default {
 
 export const Story1 = {};
 
-// eslint-disable-next-line import/first
 import './import';
 
 export const Story2 = {};

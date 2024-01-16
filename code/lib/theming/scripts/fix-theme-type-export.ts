@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { readFile, writeFile } from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import { join } from 'path';

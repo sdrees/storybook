@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import * as fs from 'fs';
 import type { Plugin } from 'vite';
 import type { Options } from '@storybook/types';

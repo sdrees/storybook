@@ -109,7 +109,7 @@ export const {
 // https://github.com/storybookjs/storybook/issues/25258
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type _UserEvent = typeof _userEvent;
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface UserEvent extends _UserEvent {}
 
 export const { userEvent }: { userEvent: UserEvent } = instrument(

@@ -4,7 +4,6 @@ import { FixStatus } from '../types';
 import type { InstallationMetadata } from '../../js-package-manager/types';
 
 vi.mock('boxen', () => ({
-  // eslint-disable-next-line no-control-regex
   default: vi.fn((str, { title = '' }) => `${title}\n\n${str.replace(/\x1b\[[0-9;]*[mG]/g, '')}`),
 }));
 

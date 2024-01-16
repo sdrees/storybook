@@ -134,7 +134,6 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
     case ProjectType.EMBER:
       return CoreBuilder.Webpack5;
     default:
-      // eslint-disable-next-line no-case-declarations
       const { builder } = await prompts(
         {
           type: 'select',

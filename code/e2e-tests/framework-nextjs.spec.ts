@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-disabled-tests */
 import type { Locator } from '@playwright/test';
 import { test, expect } from '@playwright/test';
 import process from 'process';
@@ -11,7 +10,6 @@ test.describe('Next.js', () => {
   // TODO: improve these E2E tests given that we have more version of Next.js to test
   // and this only tests nextjs/default-js
   test.skip(
-    // eslint-disable-next-line jest/valid-title
     !templateName?.includes('nextjs/default-js'),
     'Only run this test for the Frameworks that support next/navigation'
   );

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-
 import type { ArgType } from '../components/ArgsTable';
 
 export interface ControlProps<T> {

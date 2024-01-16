@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import type { PresetProperty } from '@storybook/types';
 import { dirname, join } from 'path';
 import type { StorybookConfig } from './types';

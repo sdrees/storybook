@@ -1,6 +1,5 @@
 /// <reference types="node" />
 
-/* eslint-disable no-console */
 import npmLog from 'npmlog';
 import prettyTime from 'pretty-hrtime';
 import chalk from 'chalk';

@@ -123,7 +123,7 @@ beforeEach(() => {
   projectAnnotations.decorators[0].mockClear();
   docsRenderer.render.mockClear();
   vi.mocked(logger.warn).mockClear();
-  // eslint-disable-next-line no-console
+
   vi.mocked(console.error).mockReset();
 
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
@@ -3325,7 +3325,6 @@ describe('PreviewWeb', () => {
     });
 
     describe('with no selection', () => {
-      // eslint-disable-next-line jest/expect-expect
       it('does not error', async () => {
         const preview = await createAndRenderPreview();
         await preview.onGetProjectAnnotationsChanged({

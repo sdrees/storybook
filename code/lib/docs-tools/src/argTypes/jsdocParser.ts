@@ -49,7 +49,6 @@ function parse(content: string | null, tags?: string[]): Annotation {
       sloppy: true,
     });
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error(e);
 
     throw new Error('Cannot parse JSDoc tags.');

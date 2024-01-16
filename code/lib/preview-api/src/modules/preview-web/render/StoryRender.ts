@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type {
   Renderer,
   RenderContext,
@@ -297,11 +296,10 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     // Note that there's a max of 5 nested timeouts before they're no longer "instant".
     for (let i = 0; i < 3; i += 1) {
       if (!this.isPending()) {
-        // eslint-disable-next-line no-await-in-loop
         await this.teardownRender();
         return;
       }
-      // eslint-disable-next-line no-await-in-loop
+
       await new Promise((resolve) => setTimeout(resolve, 0));
     }
 

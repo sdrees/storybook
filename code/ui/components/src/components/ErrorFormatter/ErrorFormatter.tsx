@@ -66,14 +66,12 @@ export const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
       <br />
       {lines.map((l, i) =>
         l.name ? (
-          // eslint-disable-next-line react/no-array-index-key
           <Fragment key={i}>
             {'  '}at <ErrorImportant>{l.name}</ErrorImportant> (
             <ErrorDetail>{l.location}</ErrorDetail>)
             <br />
           </Fragment>
         ) : (
-          // eslint-disable-next-line react/no-array-index-key
           <Fragment key={i}>
             {'  '}at <ErrorDetail>{l.location}</ErrorDetail>
             <br />

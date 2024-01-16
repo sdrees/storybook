@@ -3,11 +3,10 @@ import { getInterpretedFileWithExt } from './interpret-files';
 let registered = false;
 
 export function interopRequireDefault(filePath: string) {
-  // eslint-disable-next-line no-underscore-dangle, global-require
+  // eslint-disable-next-line no-underscore-dangle
   const hasEsbuildBeenRegistered = !!require('module')._extensions['.ts'];
 
   if (registered === false && !hasEsbuildBeenRegistered) {
-    // eslint-disable-next-line global-require
     const { register } = require('esbuild-register/dist/node');
     registered = true;
     register({
@@ -26,7 +25,6 @@ export function interopRequireDefault(filePath: string) {
     });
   }
 
-  // eslint-disable-next-line import/no-dynamic-require,global-require
   const result = require(filePath);
 
   const isES6DefaultExported =

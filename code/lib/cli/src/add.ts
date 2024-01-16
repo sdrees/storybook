@@ -16,7 +16,7 @@ interface PostinstallOptions {
 const postinstallAddon = async (addonName: string, options: PostinstallOptions) => {
   try {
     const modulePath = require.resolve(`${addonName}/postinstall`, { paths: [process.cwd()] });
-    // eslint-disable-next-line import/no-dynamic-require, global-require
+
     const postinstall = require(modulePath);
 
     try {

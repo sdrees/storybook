@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-disabled-tests,jest/valid-title */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';

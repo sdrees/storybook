@@ -34,7 +34,7 @@ export const Args = () => (
     <Node value="Hello world" />
     <Node value="https://github.com/storybookjs/storybook/blob/next/README.md" />
     <Node value="012345678901234567890123456789012345678901234567890123456789" />
-    {/* eslint-disable-next-line react/jsx-boolean-value */}
+    {}
     <Node value={true} />
     <Node value={false} />
     <Node value={12345} />

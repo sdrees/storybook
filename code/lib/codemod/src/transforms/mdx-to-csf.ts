@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment,no-param-reassign,@typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/ban-ts-comment,@typescript-eslint/no-shadow */
 import type { FileInfo } from 'jscodeshift';
 import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';

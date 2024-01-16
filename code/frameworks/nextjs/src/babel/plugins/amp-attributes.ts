@@ -1,6 +1,3 @@
-/* eslint-disable no-continue */
-/* eslint-disable no-restricted-syntax */
-
 import type { NodePath, PluginObj, types } from '@babel/core';
 
 /**

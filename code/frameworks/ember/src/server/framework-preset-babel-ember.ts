@@ -20,7 +20,6 @@ export const babel: PresetPropertyFn<'babel'> = (config: TransformOptions, optio
       if (e.preset && e.preset.emberOptions) {
         emberOptions = e.preset.emberOptions;
         if (options.presetsList) {
-          // eslint-disable-next-line no-param-reassign
           delete options.presetsList[index].preset.emberOptions;
         }
       }

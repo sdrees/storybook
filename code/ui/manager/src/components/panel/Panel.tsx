@@ -21,7 +21,7 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
 
   componentDidCatch(error: Error, info: any) {
     this.setState({ hasError: true });
-    // eslint-disable-next-line no-console
+
     console.error(error, info);
   }
 

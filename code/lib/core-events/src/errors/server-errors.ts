@@ -198,7 +198,6 @@ export class WebpackInvocationError extends StorybookError {
 }
 
 function removeAnsiEscapeCodes(input = '') {
-  // eslint-disable-next-line no-control-regex
   return input.replace(/\u001B\[[0-9;]*m/g, '');
 }
 

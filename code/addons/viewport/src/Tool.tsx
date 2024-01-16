@@ -129,7 +129,6 @@ export const ViewportTool: FC = memo(
     const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
     if (defaultViewport && !list.find((i) => i.id === defaultViewport)) {
-      // eslint-disable-next-line no-console
       console.warn(
         `Cannot find "defaultViewport" of "${defaultViewport}" in addon-viewport configs, please check the "viewports" setting in the configuration.`
       );

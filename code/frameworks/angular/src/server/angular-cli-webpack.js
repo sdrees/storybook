@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 // Private angular devkit stuff
 const {
   generateI18nBrowserWebpackConfigFromContext,

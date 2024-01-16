@@ -15,9 +15,8 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, { pr
     },
   ];
 
-  // eslint-disable-next-line no-param-reassign
   config.module = config.module || {};
-  // eslint-disable-next-line no-param-reassign
+
   config.module.rules = rules;
 
   return config;

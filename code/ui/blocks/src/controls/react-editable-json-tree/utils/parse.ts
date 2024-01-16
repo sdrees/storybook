@@ -8,7 +8,7 @@ export function parse(string: string) {
 
   // Check if string contains 'function' and start with it to eval it
   if (result.indexOf('function') === 0) {
-    return (0, eval)(`(${result})`); // eslint-disable-line no-eval
+    return (0, eval)(`(${result})`);
   }
 
   try {

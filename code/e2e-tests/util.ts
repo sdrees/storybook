@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { toId } from '@storybook/csf';

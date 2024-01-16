@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
@@ -189,7 +188,6 @@ const installStorybook = async <Project extends ProjectType>(
 const projectTypeInquirer = async (
   options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
-  // eslint-disable-next-line consistent-return
 ) => {
   const manualAnswer = options.yes
     ? true

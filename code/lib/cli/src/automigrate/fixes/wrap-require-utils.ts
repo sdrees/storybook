@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import * as t from '@babel/types';
 import type { ConfigFile } from '@storybook/csf-tools';
 
@@ -42,14 +41,15 @@ function getReferenceToRequireWrapper(config: ConfigFile, value: string) {
  * @returns Name of the require wrapper function.
  */
 export function getRequireWrapperName(config: ConfigFile) {
-  const declarationName = config.getBodyDeclarations().flatMap((node) =>
-    // eslint-disable-next-line no-nested-ternary
-    doesVariableOrFunctionDeclarationExist(node, 'wrapForPnp')
-      ? ['wrapForPnp']
-      : doesVariableOrFunctionDeclarationExist(node, defaultRequireWrapperName)
-        ? [defaultRequireWrapperName]
-        : []
-  );
+  const declarationName = config
+    .getBodyDeclarations()
+    .flatMap((node) =>
+      doesVariableOrFunctionDeclarationExist(node, 'wrapForPnp')
+        ? ['wrapForPnp']
+        : doesVariableOrFunctionDeclarationExist(node, defaultRequireWrapperName)
+          ? [defaultRequireWrapperName]
+          : []
+    );
 
   if (declarationName.length) {
     return declarationName[0];

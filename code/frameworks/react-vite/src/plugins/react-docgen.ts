@@ -56,7 +56,6 @@ export function reactDocgen({
           }
         });
 
-        // eslint-disable-next-line consistent-return
         return {
           code: s.toString(),
           map: s.generateMap(),

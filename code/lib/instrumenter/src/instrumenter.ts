@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle,no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/preview-api';
 import type { StoryId } from '@storybook/types';

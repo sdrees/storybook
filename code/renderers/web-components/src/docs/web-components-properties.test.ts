@@ -49,7 +49,6 @@ describe('web-components component properties', () => {
           const customElementsJson = runWebComponentsAnalyzer(inputPath);
           const customElements = JSON.parse(customElementsJson);
           customElements.tags.forEach((tag: any) => {
-            // eslint-disable-next-line no-param-reassign
             tag.path = 'dummy-path-to-component';
           });
           expect(customElements).toMatchFileSnapshot(

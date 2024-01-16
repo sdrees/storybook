@@ -76,7 +76,6 @@ export function createDefaultValue(defaultValue: string): PropDefaultValue | nul
         return null;
     }
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error(e);
   }
 

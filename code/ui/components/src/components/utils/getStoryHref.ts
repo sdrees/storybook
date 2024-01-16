@@ -1,7 +1,7 @@
 function parseQuery(queryString: string) {
   const query: Record<string, string> = {};
   const pairs = queryString.split('&');
-  // eslint-disable-next-line no-plusplus
+
   for (let i = 0; i < pairs.length; i++) {
     const pair = pairs[i].split('=');
     query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');

@@ -107,7 +107,6 @@ export class HooksContext<TRenderer extends Renderer, TArgs extends Args = Args>
     // trigger added effects
     this.currentEffects.forEach((effect) => {
       if (!this.prevEffects.includes(effect)) {
-        // eslint-disable-next-line no-param-reassign
         effect.destroy = effect.create();
       }
     });
@@ -291,7 +290,6 @@ function useMemoLike<T>(name: string, nextCreate: () => T, deps: any[] | undefin
   const { memoizedState } = useHook(
     name,
     (hook) => {
-      // eslint-disable-next-line no-param-reassign
       hook.memoizedState = nextCreate();
     },
     deps

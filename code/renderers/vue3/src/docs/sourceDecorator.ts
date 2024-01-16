@@ -1,4 +1,3 @@
-/* eslint-disable no-eval */
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext } from '@storybook/types';
@@ -240,7 +239,7 @@ export function generateTemplateSource(
       const slotArgs = Object.fromEntries(
         Object.entries(props ?? {}).filter(([key, value]) => slotsProps?.[key])
       );
-      // eslint-disable-next-line no-nested-ternary
+
       const childSources: string = children
         ? typeof children === 'string'
           ? children

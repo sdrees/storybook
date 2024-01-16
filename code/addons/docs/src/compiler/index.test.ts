@@ -523,7 +523,7 @@ describe('docs-mdx-compiler-plugin', () => {
             "import { Meta, Story } from '@storybook/addon-docs';",
             "import { titleFunction } from '../title-generators';",
             '',
-            // eslint-disable-next-line no-template-curly-in-string
+
             "<Meta title={`${titleFunction('template')}`} />",
           ].join('\n')
         )

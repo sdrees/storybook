@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable func-names */
+
 import { parse, stringify } from 'telejson';
 
 // setting up the store, overriding set and get to use telejson

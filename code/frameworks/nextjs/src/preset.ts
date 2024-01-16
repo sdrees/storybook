@@ -146,7 +146,6 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   const nextConfig = await configureConfig({
     baseConfig,
     nextConfigPath,
-    configDir: options.configDir,
   });
 
   const babelRCPath = join(getProjectRoot(), '.babelrc');

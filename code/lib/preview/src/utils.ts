@@ -22,7 +22,6 @@ export function prepareForTelemetry(
     browserInfo?: BrowserInfo;
   }
 ) {
-  // eslint-disable-next-line no-param-reassign
   error.browserInfo = getBrowserInfo();
 
   return error;

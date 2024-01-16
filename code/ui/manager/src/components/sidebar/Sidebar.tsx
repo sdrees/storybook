@@ -12,11 +12,10 @@ import type {
 import type { HeadingProps } from './Heading';
 import { Heading } from './Heading';
 
-// eslint-disable-next-line import/no-cycle
 import { Explorer } from './Explorer';
-// eslint-disable-next-line import/no-cycle
+
 import { Search } from './Search';
-// eslint-disable-next-line import/no-cycle
+
 import { SearchResults } from './SearchResults';
 import type { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';

@@ -1,11 +1,10 @@
 import path from 'path';
 import { DefinePlugin } from 'webpack';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
-import findUp from 'find-up';
-import { pathExists } from 'fs-extra';
 import type { Configuration as WebpackConfig } from 'webpack';
 import type { NextConfig } from 'next';
-import { pathToFileURL } from 'node:url';
+import loadConfig from 'next/dist/server/config';
+import { getProjectRoot } from '@storybook/core-common';
 
 export const configureRuntimeNextjsVersionResolution = (baseConfig: WebpackConfig): void => {
   baseConfig.plugins?.push(
@@ -17,46 +16,13 @@ export const configureRuntimeNextjsVersionResolution = (baseConfig: WebpackConfi
 
 export const getNextjsVersion = (): string => require(scopedResolve('next/package.json')).version;
 
-const findNextConfigFile = async (configDir: string) => {
-  const supportedExtensions = ['mjs', 'js'];
-  return supportedExtensions.reduce<Promise<undefined | string>>(
-    async (acc, ext: string | undefined) => {
-      const resolved = await acc;
-      if (!resolved) {
-        acc = findUp(`next.config.${ext}`, { cwd: configDir });
-      }
-
-      return acc;
-    },
-    Promise.resolve(undefined)
-  );
-};
-
 export const resolveNextConfig = async ({
-  baseConfig = {},
   nextConfigPath,
-  configDir,
 }: {
-  baseConfig?: WebpackConfig;
   nextConfigPath?: string;
-  configDir: string;
 }): Promise<NextConfig> => {
-  const nextConfigFile = nextConfigPath || (await findNextConfigFile(configDir));
-
-  if (!nextConfigFile || (await pathExists(nextConfigFile)) === false) {
-    return {};
-  }
-
-  const nextConfigExport = await import(pathToFileURL(nextConfigFile).href);
-
-  const nextConfig =
-    typeof nextConfigExport === 'function'
-      ? nextConfigExport(PHASE_DEVELOPMENT_SERVER, {
-          defaultConfig: baseConfig,
-        })
-      : nextConfigExport;
-
-  return nextConfig.default || nextConfig;
+  const dir = nextConfigPath ? path.dirname(nextConfigPath) : getProjectRoot();
+  return loadConfig(PHASE_DEVELOPMENT_SERVER, dir, undefined);
 };
 
 // This is to help the addon in development

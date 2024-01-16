@@ -93,17 +93,14 @@ describe('deepDiff', () => {
   });
 
   it('returns a sparse array when updating an array', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(deepDiff([1, 2], [1, 3])).toStrictEqual([, 3]);
   });
 
   it('returns undefined for removed array values', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(deepDiff([1, 2], [1])).toStrictEqual([, undefined]);
   });
 
   it('returns a longer array when adding to an array', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(deepDiff([1, 2], [1, 2, 3])).toStrictEqual([, , 3]);
   });
 
@@ -144,7 +141,6 @@ describe('buildArgsParam', () => {
   });
 
   it('builds sparse arrays', () => {
-    // eslint-disable-next-line no-sparse-arrays
     const param = buildArgsParam({}, { arr: ['1', , '3'] });
     expect(param).toEqual('arr[0]:1;arr[2]:3');
   });
@@ -160,7 +156,6 @@ describe('buildArgsParam', () => {
   });
 
   it('builds arrays in objects', () => {
-    // eslint-disable-next-line no-sparse-arrays
     const param = buildArgsParam({}, { obj: { foo: ['1', , '3'] } });
     expect(param).toEqual('obj.foo[0]:1;obj.foo[2]:3');
   });

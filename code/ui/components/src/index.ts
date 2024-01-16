@@ -91,7 +91,6 @@ export { withReset, codeCommon } from './components/typography/lib/common';
 
 export { ClipboardCode } from './components/clipboard/ClipboardCode';
 
-// eslint-disable-next-line prefer-destructuring
 export const components = typography.components;
 
 const resetComponents: Record<string, ElementType> = {};

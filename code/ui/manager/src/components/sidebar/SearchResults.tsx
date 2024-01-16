@@ -13,7 +13,7 @@ import { TypeIcon } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isExpandType } from './types';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
-// eslint-disable-next-line import/no-cycle
+
 import { statusMapping } from '../../utils/status';
 import { UseSymbol } from './IconSymbols';
 
@@ -212,7 +212,6 @@ const Result: FC<
         </Title>
         <Path>
           {item.path.map((group, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <span key={index}>
               <Highlight match={pathMatches.find((match: Match) => match.arrayIndex === index)}>
                 {group}

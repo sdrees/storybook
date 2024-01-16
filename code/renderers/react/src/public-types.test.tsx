@@ -1,5 +1,4 @@
 // this file tests Typescript types that's why there are no assertions
-/* eslint-disable jest/expect-expect */
 import { describe, it } from 'vitest';
 
 import { satisfies } from '@storybook/core-common';
@@ -131,7 +130,7 @@ describe('Story args can be inferred', () => {
       args: { disabled: false },
       render: (args, { component }) => {
         // component is not null as it is provided in meta
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         const Component = component!;
         return (
           <Theme theme={args.theme}>

@@ -8,7 +8,6 @@ import { useCallback, useEffect, useReducer } from 'react';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import type { Highlight } from './types';
 
-// eslint-disable-next-line import/no-cycle
 import { isAncestor, getAncestorIds, getDescendantIds, scrollIntoView } from '../../utils/tree';
 
 const { document } = global;

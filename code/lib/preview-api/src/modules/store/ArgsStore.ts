@@ -3,7 +3,6 @@ import type { StoryId, Args, PreparedStory } from '@storybook/types';
 import { combineArgs, mapArgsToTypes, validateOptions, deepDiff, DEEPLY_EQUAL } from './args';
 
 function deleteUndefined(obj: Record<string, any>) {
-  // eslint-disable-next-line no-param-reassign
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);
   return obj;
 }

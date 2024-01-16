@@ -24,7 +24,6 @@ Object.keys(PropTypes).forEach((typeName) => {
 function getPropDefs(component: Component, section: string): PropDef[] {
   let processedComponent = component;
 
-  // eslint-disable-next-line react/forbid-foreign-prop-types
   if (!hasDocgen(component) && !component.propTypes && isMemo(component)) {
     processedComponent = component.type;
   }

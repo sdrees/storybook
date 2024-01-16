@@ -121,7 +121,6 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
         <TabsWrapper>
           {tabs.map((tab, index) => (
             <Item
-              /* eslint-disable-next-line react/no-array-index-key */
               key={index}
               data-index={index}
               active={activeTab === index}

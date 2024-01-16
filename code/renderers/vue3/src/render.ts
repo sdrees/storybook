@@ -1,5 +1,5 @@
 /* eslint-disable local-rules/no-uncategorized-errors,no-underscore-dangle */
-/* eslint-disable no-param-reassign */
+
 import type { App } from 'vue';
 import { createApp, h, isReactive, isVNode, reactive } from 'vue';
 import type { ArgsStoryFn, RenderContext } from '@storybook/types';

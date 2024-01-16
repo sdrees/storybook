@@ -53,7 +53,6 @@ export function getReactScriptsPath({ noCache }: { noCache?: boolean } = {}) {
 
 export function isReactScriptsInstalled(requiredVersion = '2.0.0') {
   try {
-    // eslint-disable-next-line import/no-dynamic-require,global-require
     const reactScriptsJson = require(path.join(getReactScriptsPath(), 'package.json'));
     return !semver.gtr(requiredVersion, reactScriptsJson.version);
   } catch (e) {

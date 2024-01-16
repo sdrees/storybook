@@ -79,7 +79,6 @@ export function Result(props: ResultProps) {
       {isOpen ? (
         <Fragment>
           {failureMessages.map((msg: string, i: number) => (
-            // eslint-disable-next-line react/no-array-index-key
             <Message msg={msg} key={i} />
           ))}
         </Fragment>

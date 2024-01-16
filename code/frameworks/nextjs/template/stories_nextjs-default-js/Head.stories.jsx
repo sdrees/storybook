@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { expect } from '@storybook/test';
 import Head from 'next/head';
 import React from 'react';

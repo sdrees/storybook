@@ -86,7 +86,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         configDir: 'SBCONFIG_CONFIG_DIR',
         ci: 'CI',
       });
-      // eslint-disable-next-line no-param-reassign
+
       options.port = parseInt(`${options.port}`, 10);
 
       const {

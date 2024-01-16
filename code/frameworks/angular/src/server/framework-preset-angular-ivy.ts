@@ -33,7 +33,6 @@ function loadEsmModule<T>(modulePath: string): Promise<T> {
 export const runNgcc = async () => {
   let ngcc: any;
   try {
-    // eslint-disable-next-line global-require
     ngcc = require('@angular/compiler-cli/ngcc');
   } catch (error) {
     ngcc = await loadEsmModule('@angular/compiler-cli/ngcc');

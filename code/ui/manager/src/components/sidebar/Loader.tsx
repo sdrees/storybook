@@ -48,7 +48,6 @@ export const Loader: FC<LoaderProps> = ({ size }) => {
   return (
     <Fragment>
       {sequence.map((depth, index) => (
-        // eslint-disable-next-line react/no-array-index-key
         <Loadingitem depth={depth} key={index} />
       ))}
     </Fragment>

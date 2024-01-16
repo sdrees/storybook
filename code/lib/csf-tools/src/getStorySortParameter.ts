@@ -98,6 +98,9 @@ const parseDefault = (defaultExpr: t.Expression, program: t.Program): t.Expressi
 };
 
 export const getStorySortParameter = (previewCode: string) => {
+  // don't even try to process the file
+  if (!previewCode.includes('storySort')) return undefined;
+
   let storySort: t.Expression | undefined;
   const ast = babelParse(previewCode);
   traverse.default(ast, {
@@ -142,7 +145,7 @@ export const getStorySortParameter = (previewCode: string) => {
 
   if (t.isArrowFunctionExpression(storySort)) {
     const { code: sortCode } = generate.default(storySort, {});
-    // eslint-disable-next-line no-eval
+
     return (0, eval)(sortCode);
   }
 
@@ -154,7 +157,7 @@ export const getStorySortParameter = (previewCode: string) => {
       ${sortCode};
       return ${functionName}(a, b)
     }`;
-    // eslint-disable-next-line no-eval
+
     return (0, eval)(wrapper);
   }
 

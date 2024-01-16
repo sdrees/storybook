@@ -6,7 +6,6 @@ import { isNxProject } from '../../helpers';
 import { AngularJSON } from '../../generators/ANGULAR/helpers';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AngularBuildersMultiprojectRunOptions {}
 
 export const angularBuildersMultiproject: Fix<AngularBuildersMultiprojectRunOptions> = {

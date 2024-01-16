@@ -84,7 +84,6 @@ export const computeStorybookMetadata = async ({
     };
     // Better be safe than sorry, some codebases/paths might end up breaking with something like "spawn pnpm ENOENT"
     // so we just set the package manager if the detection is successful
-    // eslint-disable-next-line no-empty
   } catch (err) {}
 
   metadata.hasCustomBabel = !!mainConfig.babel;

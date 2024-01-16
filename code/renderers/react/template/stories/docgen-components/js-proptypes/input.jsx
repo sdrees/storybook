@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes, { string, shape } from 'prop-types';
 import { PRESET_SHAPE, SOME_PROP_TYPES } from './ext';
@@ -398,10 +396,7 @@ PropTypesProps.defaultProps = {
   string: 'Default string',
   func: () => {},
   funcWithJsDoc: (foo, bar) => {
-    // eslint-disable-next-line no-undef
     const yo = window.document;
-    // eslint-disable-next-line no-undef
-    const pouf = souffle;
 
     return { foo, bar };
   },

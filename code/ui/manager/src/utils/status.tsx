@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import type { API_HashEntry, API_StatusState, API_StatusValue } from '@storybook/types';
 
 import { styled } from '@storybook/theming';
-// eslint-disable-next-line import/no-cycle
+
 import { getDescendantIds } from './tree';
 
 const SmallIcons = styled(Icons)({

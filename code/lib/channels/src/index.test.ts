@@ -107,7 +107,6 @@ describe('Channel', () => {
       const sendSpy = vi.fn();
       // @ts-expect-error (access private property for testing purposes)
       channel.transports.forEach((t) => {
-        // eslint-disable-next-line no-param-reassign
         t.send = sendSpy;
       });
       channel.emit(eventName, ...listenerInputData);
@@ -146,7 +145,7 @@ describe('Channel', () => {
       events.forEach((event) => {
         event.listeners.forEach((listener) => {
           channel.addListener(event.eventName, listener);
-          // eslint-disable-next-line no-plusplus, no-param-reassign
+
           event.listenerCount++;
         });
       });

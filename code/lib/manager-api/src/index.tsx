@@ -53,7 +53,7 @@ import * as channel from './modules/channel';
 
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
-// eslint-disable-next-line import/no-cycle
+
 import * as stories from './modules/stories';
 
 import * as refs from './modules/refs';

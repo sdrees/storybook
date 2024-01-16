@@ -69,7 +69,6 @@ export interface ActionBarProps {
 export const ActionBar: FC<ActionBarProps> = ({ actionItems, ...props }) => (
   <Container {...props}>
     {actionItems.map(({ title, className, onClick, disabled }, index: number) => (
-      // eslint-disable-next-line react/no-array-index-key
       <ActionButton key={index} className={className} onClick={onClick} disabled={disabled}>
         {title}
       </ActionButton>

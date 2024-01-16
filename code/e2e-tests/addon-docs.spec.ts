@@ -1,6 +1,3 @@
-/* eslint-disable jest/valid-title */
-/* eslint-disable jest/no-disabled-tests */
-/* eslint-disable no-await-in-loop */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import dedent from 'ts-dedent';

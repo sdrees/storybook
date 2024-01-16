@@ -58,7 +58,6 @@ export default function transformer(file, api) {
    * @returns {ImportDeclaration.Node} the import declaration node
    */
   const updatePackageName = (declaration) => {
-    // eslint-disable-next-line no-param-reassign
     declaration.node.source.value = getNewPackageName(declaration.node.source.value);
 
     return declaration.node;

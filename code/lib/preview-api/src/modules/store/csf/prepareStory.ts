@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-syntax,no-await-in-loop,@typescript-eslint/no-loop-func,no-underscore-dangle */
+/* eslint-disable @typescript-eslint/no-loop-func,no-underscore-dangle */
 import { global } from '@storybook/global';
 
 import type {

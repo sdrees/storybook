@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import type { Listener } from '@storybook/channels';
 
 import type { API_Provider } from '@storybook/types';

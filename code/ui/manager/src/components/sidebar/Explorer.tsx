@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import React, { useRef } from 'react';
 
-// eslint-disable-next-line import/no-cycle
 import { Ref } from './Refs';
 import type { CombinedDataset, Selection } from './types';
 

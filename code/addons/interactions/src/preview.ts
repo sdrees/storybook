@@ -29,7 +29,7 @@ const instrumentSpies: LoaderFunction = ({ initialArgs }) => {
     const instrumented = instrument({ [key]: () => value }, { retain: true })[key];
     acc[key] = instrumented();
     // this enhancer is being called multiple times
-    // eslint-disable-next-line no-param-reassign
+
     value._instrumented = true;
     return acc;
   }, {} as Args);

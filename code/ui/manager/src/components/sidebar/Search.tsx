@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import type { DownshiftState, StateChangeOptions } from 'downshift';

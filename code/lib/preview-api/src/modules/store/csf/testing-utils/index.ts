@@ -43,7 +43,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   }
 
   // @TODO: Support auto title
-  // eslint-disable-next-line no-param-reassign
+
   componentAnnotations.title = componentAnnotations.title ?? 'ComposedStory';
   const normalizedComponentAnnotations =
     normalizeComponentAnnotations<TRenderer>(componentAnnotations);

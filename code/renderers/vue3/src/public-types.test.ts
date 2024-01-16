@@ -1,5 +1,4 @@
 // this file tests Typescript types that's why there are no assertions
-/* eslint-disable jest/expect-expect */
 import { describe, it } from 'vitest';
 import { satisfies } from '@storybook/core-common';
 import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';

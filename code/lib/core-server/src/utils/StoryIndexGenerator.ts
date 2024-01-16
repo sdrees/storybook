@@ -603,7 +603,7 @@ export class StoryIndexGenerator {
         dependents.forEach((dep) => {
           if (otherCache[dep]) {
             invalidated.add(dep);
-            // eslint-disable-next-line no-param-reassign
+
             otherCache[dep] = false;
           }
         });

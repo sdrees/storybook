@@ -8,7 +8,7 @@ import { ActionBar, Zoom } from '@storybook/components';
 import type { ActionItem } from '@storybook/components';
 
 import type { SourceProps } from '.';
-// eslint-disable-next-line import/no-cycle
+
 import { Source } from '.';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Toolbar } from './Toolbar';
@@ -266,7 +266,6 @@ export const Preview: FC<PreviewProps> = ({
           >
             <Zoom.Element scale={scale}>
               {Array.isArray(children) ? (
-                // eslint-disable-next-line react/no-array-index-key
                 children.map((child, i) => <div key={i}>{child}</div>)
               ) : (
                 <div>{children}</div>

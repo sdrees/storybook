@@ -86,7 +86,6 @@ function applyJsDocResult(propDef: PropDef, jsDocParsingResult?: JsDocParsingRes
     const { description, extractedTags } = jsDocParsingResult;
 
     if (description != null) {
-      // eslint-disable-next-line no-param-reassign
       propDef.description = jsDocParsingResult.description;
     }
 
@@ -101,7 +100,6 @@ function applyJsDocResult(propDef: PropDef, jsDocParsingResult?: JsDocParsingRes
     };
 
     if (Object.values(value).filter(Boolean).length > 0) {
-      // eslint-disable-next-line no-param-reassign
       propDef.jsDocTags = value;
     }
   }

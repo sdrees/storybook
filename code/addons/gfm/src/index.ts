@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { dedent } from 'ts-dedent';
 import { deprecate } from '@storybook/node-logger';
 

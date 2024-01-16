@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import type { SBType } from '@storybook/types';
 import type { TSType, TSSigType } from './types';
 import { parseLiteral } from '../utils';

@@ -3,7 +3,7 @@ import React from 'react';
 import { TabsState } from '@storybook/components';
 
 import type { ArgsTableProps, SortType } from './ArgsTable';
-// eslint-disable-next-line import/no-cycle
+
 import { ArgsTable } from './ArgsTable';
 
 export interface TabbedArgsTableProps {

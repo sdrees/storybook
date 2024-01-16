@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-restricted-syntax */
-
 /**
  * Source: https://github.com/vercel/next.js/blob/canary/packages/next/src/build/babel/plugins/jsx-pragma.ts
  */

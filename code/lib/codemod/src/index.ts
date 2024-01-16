@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint import/prefer-default-export: "off" */
 import fs from 'fs';
 import path from 'path';

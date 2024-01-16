@@ -8,7 +8,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import MySlotComponent from './MySlotComponent.vue';
 
 declare global {
-  // eslint-disable-next-line no-var,vars-on-top,@typescript-eslint/naming-convention
+  // eslint-disable-next-line no-var,@typescript-eslint/naming-convention
   var __STORYBOOK_ADDONS_CHANNEL__: Channel;
 }
 

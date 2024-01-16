@@ -186,7 +186,6 @@ describe('ArgsStore', () => {
         b: ['1', '2', '3'],
       });
 
-      // eslint-disable-next-line no-sparse-arrays
       store.updateFromPersisted(story, { b: [, , '4'] });
       expect(store.get('id')).toEqual({
         a: { foo: 'bar', baz: 'bing' },

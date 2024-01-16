@@ -39,7 +39,7 @@ export const Brand = withTheme(({ theme }) => {
   // When image is explicitly set to null, enable custom HTML support
   if (image === null) {
     if (title === null) return null;
-    // eslint-disable-next-line react/no-danger
+
     if (!url) return <div dangerouslySetInnerHTML={{ __html: title }} />;
     return <LogoLink href={url} target={targetValue} dangerouslySetInnerHTML={{ __html: title }} />;
   }

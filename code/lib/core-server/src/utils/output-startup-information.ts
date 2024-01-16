@@ -58,7 +58,6 @@ export function outputStartupInformation(options: {
     .filter(Boolean)
     .join(' and ');
 
-  // eslint-disable-next-line no-console
   console.log(
     boxen(
       dedent`

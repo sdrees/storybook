@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';

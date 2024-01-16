@@ -10,7 +10,7 @@ import type {
   API_StoryMapper,
   StoryIndex,
 } from '@storybook/types';
-// eslint-disable-next-line import/no-cycle
+
 import {
   transformSetStoriesStoryDataToPreparedStoryIndex,
   transformStoryIndexToStoriesHash,
@@ -20,7 +20,6 @@ import type { ModuleFn } from '../lib/types';
 
 const { location, fetch } = global;
 
-// eslint-disable-next-line no-useless-escape
 const findFilename = /(\/((?:[^\/]+?)\.[^\/]+?)|\/)$/;
 
 export interface SubState {
@@ -316,12 +315,10 @@ export const init: ModuleFn<SubAPI, SubState> = (
 
       updated[id] = { ...ref, ...data };
 
-      /* eslint-disable no-param-reassign */
       const ordered = Object.keys(initialState).reduce((obj: any, key) => {
         obj[key] = updated[key];
         return obj;
       }, {});
-      /* eslint-enable no-param-reassign */
 
       store.setState({
         refs: ordered,

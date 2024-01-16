@@ -122,7 +122,6 @@ export class PNPMProxy extends JsPackageManager {
 
     if (pnpapiPath) {
       try {
-        // eslint-disable-next-line import/no-dynamic-require, global-require
         const pnpApi = require(pnpapiPath);
 
         const resolvedPath = await pnpApi.resolveToUnqualified(packageName, basePath, {

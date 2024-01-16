@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import * as React from 'react';
 import { Link, Placeholder } from '@storybook/components';
 import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
@@ -103,7 +102,6 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
             controls={controls}
             controlStates={controlStates}
             status={
-              // eslint-disable-next-line no-nested-ternary
               isPlaying ? CallStates.ACTIVE : hasException ? CallStates.ERROR : CallStates.DONE
             }
             storyFileName={fileName}

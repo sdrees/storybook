@@ -75,9 +75,7 @@ describe('mapArgsToTypes', () => {
   });
 
   it('maps sparse arrays', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(mapArgsToTypes({ a: [, '2', undefined] }, { a: { type: numArrayType } })).toStrictEqual({
-      // eslint-disable-next-line no-sparse-arrays
       a: [, 2, undefined],
     });
   });
@@ -195,7 +193,6 @@ describe('combineArgs', () => {
   });
 
   it('merges sparse arrays', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(combineArgs({ foo: [1, 2, 3] }, { foo: [, 4, undefined] })).toStrictEqual({
       foo: [1, 4],
     });

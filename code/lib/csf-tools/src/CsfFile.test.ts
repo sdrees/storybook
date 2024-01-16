@@ -844,7 +844,6 @@ describe('CsfFile', () => {
         - ./Check
       `);
     });
-    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('dynamic imports', () => {
       const input = dedent`
         const Button = await import('./Button');
@@ -853,7 +852,6 @@ describe('CsfFile', () => {
       const csf = loadCsf(input, { makeTitle }).parse();
       expect(csf.imports).toMatchInlineSnapshot();
     });
-    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('requires', () => {
       const input = dedent`
         const Button = require('./Button');

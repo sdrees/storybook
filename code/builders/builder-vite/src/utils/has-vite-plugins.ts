@@ -12,9 +12,8 @@ function checkName(plugin: PluginOption, names: string[]) {
  */
 export async function hasVitePlugins(plugins: PluginOption[], names: string[]) {
   const resolvedPlugins = await Promise.all(plugins);
-  // eslint-disable-next-line no-restricted-syntax -- we need to await in the loop
+
   for (const plugin of resolvedPlugins) {
-    // eslint-disable-next-line no-await-in-loop -- we need to await in the loop
     if (Array.isArray(plugin) && Boolean(await hasVitePlugins(plugin, names))) {
       return true;
     }

@@ -178,7 +178,6 @@ export async function baseGenerator(
   const shouldApplyRequireWrapperOnPackageNames = isStorybookInMonorepository || pnp;
 
   if (!builder) {
-    // eslint-disable-next-line no-param-reassign
     builder = await detectBuilder(packageManager, projectType);
   }
 

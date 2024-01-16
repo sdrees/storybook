@@ -349,7 +349,6 @@ function generateType(type: DocgenPropType, extractedProp: ExtractedProp): TypeD
         return createTypeDef({ name: type.name, short: type.name, compact: type.name });
     }
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error(e);
   }
 
@@ -401,7 +400,6 @@ export function createType(extractedProp: ExtractedProp): PropType | null {
         return null;
     }
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error(e);
   }
 

@@ -15,13 +15,11 @@ const tryResolve = (path: string) => {
 export const configureConfig = async ({
   baseConfig,
   nextConfigPath,
-  configDir,
 }: {
   baseConfig: WebpackConfig;
   nextConfigPath?: string;
-  configDir: string;
 }): Promise<NextConfig> => {
-  const nextConfig = await resolveNextConfig({ baseConfig, nextConfigPath, configDir });
+  const nextConfig = await resolveNextConfig({ nextConfigPath });
 
   addScopedAlias(baseConfig, 'next/config');
   if (tryResolve('next/dist/compiled/react')) {

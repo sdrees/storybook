@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import mapValues from 'lodash/mapValues.js';
 import type { SBType } from '@storybook/types';
 import type { PTType } from './types';

@@ -9,7 +9,6 @@ import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';
 
 import { RefIndicator } from './RefIndicator';
 
-// eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
 
 import { DEFAULT_REF_ID } from './Sidebar';

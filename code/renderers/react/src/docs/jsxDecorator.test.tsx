@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 import type { FC, PropsWithChildren } from 'react';
 import React, { StrictMode, createElement, Profiler } from 'react';
 import type { Mock } from 'vitest';
@@ -26,7 +25,6 @@ describe('renderJsx', () => {
     `);
   });
   it('functions', () => {
-    // eslint-disable-next-line no-console
     const onClick = () => console.log('onClick');
     expect(renderJsx(<div onClick={onClick}>hello</div>, {})).toMatchInlineSnapshot(`
       <div onClick={() => {}}>

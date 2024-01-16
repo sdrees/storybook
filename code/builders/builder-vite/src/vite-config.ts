@@ -116,7 +116,6 @@ export async function pluginConfig(options: Options) {
 
   // TODO: framework doesn't exist, should move into framework when/if built
   if (frameworkName === '@storybook/glimmerx-vite') {
-    // eslint-disable-next-line global-require
     const plugin = require('vite-plugin-glimmerx/index.cjs');
     plugins.push(plugin.default());
   }

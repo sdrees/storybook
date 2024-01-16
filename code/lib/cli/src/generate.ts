@@ -239,7 +239,6 @@ command('dev')
     });
 
     if (parseInt(`${options.port}`, 10)) {
-      // eslint-disable-next-line no-param-reassign
       options.port = parseInt(`${options.port}`, 10);
     }
 

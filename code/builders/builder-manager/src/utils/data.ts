@@ -3,7 +3,7 @@ import type { Options } from '@storybook/types';
 import { getRefs } from '@storybook/core-common';
 
 import { readTemplate } from './template';
-// eslint-disable-next-line import/no-cycle
+
 import { executor, getConfig } from '../index';
 
 export const getData = async (options: Options) => {

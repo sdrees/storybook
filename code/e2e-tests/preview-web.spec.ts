@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-disabled-tests */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
@@ -15,7 +14,6 @@ test.describe('preview-web', () => {
 
   test('should pass over shortcuts, but not from play functions, story', async ({ page }) => {
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );
@@ -40,7 +38,6 @@ test.describe('preview-web', () => {
 
   test('should pass over shortcuts, but not from play functions, docs', async ({ page }) => {
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );

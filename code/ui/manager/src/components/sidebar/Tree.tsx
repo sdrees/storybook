@@ -18,7 +18,7 @@ import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons
 import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
 
 import type { ExpandAction, ExpandedState } from './useExpanded';
-// eslint-disable-next-line import/no-cycle
+
 import { useExpanded } from './useExpanded';
 import type { Highlight, Item } from './types';
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { CommonModule } from '@angular/common';
 import {
   Component,

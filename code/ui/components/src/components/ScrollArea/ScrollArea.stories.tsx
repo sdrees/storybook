@@ -24,7 +24,6 @@ const Wrapper = styled.div({
 const list = (filler: (data: number) => ReactElement) => {
   const data = [];
 
-  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < 20; i++) {
     data.push(filler(i));
   }

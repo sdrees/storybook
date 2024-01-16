@@ -380,9 +380,9 @@ describe('angular source decorator', () => {
           'a single quoted string with escaped \'single quotes\'',
           // eslint-disable-next-line prettier/prettier
           "a double quoted string with escaped \"double quotes\"",
-          // eslint-disable-next-line no-useless-escape
+
           `a string literal with \'escaped single quotes\'`,
-          // eslint-disable-next-line no-useless-escape
+
           `a string literal with \"escaped double quotes\"`,
         ],
       };

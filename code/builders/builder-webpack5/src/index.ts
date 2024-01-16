@@ -312,7 +312,6 @@ export const start = async (options: BuilderStartOptions) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 
@@ -324,7 +323,6 @@ export const build = async (options: BuilderStartOptions) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 

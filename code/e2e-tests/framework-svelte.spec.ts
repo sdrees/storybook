@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-disabled-tests */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
@@ -12,11 +11,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Svelte', () => {
-  test.skip(
-    // eslint-disable-next-line jest/valid-title
-    !templateName?.includes('svelte'),
-    'Only run this test on Svelte'
-  );
+  test.skip(!templateName?.includes('svelte'), 'Only run this test on Svelte');
 
   test('JS story has auto-generated args table', async ({ page }) => {
     const sbPage = new SbPage(page);
@@ -28,7 +23,6 @@ test.describe('Svelte', () => {
   });
 
   test('TS story has auto-generated args table', async ({ page }) => {
-    // eslint-disable-next-line jest/valid-title
     test.skip(!templateName?.endsWith('ts') || false, 'Only test TS story in TS templates');
     const sbPage = new SbPage(page);
 
@@ -66,11 +60,7 @@ test.describe('Svelte', () => {
 });
 
 test.describe('SvelteKit', () => {
-  test.skip(
-    // eslint-disable-next-line jest/valid-title
-    !templateName?.includes('svelte-kit'),
-    'Only run this test on SvelteKit'
-  );
+  test.skip(!templateName?.includes('svelte-kit'), 'Only run this test on SvelteKit');
 
   test('Links are logged in Actions panel', async ({ page }) => {
     const sbPage = new SbPage(page);

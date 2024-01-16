@@ -109,7 +109,7 @@ const isShortcut = (value?: string) => {
   return value && [PRIMARY_STORY].includes(value);
 };
 
-export const getComponent = (props: ArgsTableProps = {}, component: Component): Component => {
+export const getComponent = (props: ArgsTableProps, component: Component): Component => {
   const { of } = props as OfProps;
   const { story } = props as StoryProps;
   if (isShortcut(of) || isShortcut(story)) {

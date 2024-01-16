@@ -72,7 +72,6 @@ const isArgsStory = (init: t.Node, parent: t.Node, csf: CsfFile) => {
       const boundIdentifier = callee.object.name;
       const template = findVarInitialization(boundIdentifier, parent);
       if (template) {
-        // eslint-disable-next-line no-param-reassign
         csf._templates[boundIdentifier] = template;
         storyFn = template;
       }

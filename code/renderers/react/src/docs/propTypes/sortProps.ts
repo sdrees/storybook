@@ -8,7 +8,6 @@ export function keepOriginalDefinitionOrder(
   extractedProps: PropDef[],
   component: Component
 ): PropDef[] {
-  // eslint-disable-next-line react/forbid-foreign-prop-types
   const { propTypes } = component;
 
   if (propTypes != null) {

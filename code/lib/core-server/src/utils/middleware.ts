@@ -10,7 +10,6 @@ const fileExists = (basename: string) =>
 export function getMiddleware(configDir: string) {
   const middlewarePath = fileExists(path.resolve(configDir, 'middleware'));
   if (middlewarePath) {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
     let middlewareModule = require(middlewarePath);
     // eslint-disable-next-line no-underscore-dangle
     if (middlewareModule.__esModule) {

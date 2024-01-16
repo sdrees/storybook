@@ -65,10 +65,8 @@ export default class ActionLogger extends Component<ActionLoggerProps, ActionLog
       const actions = [...prevState.actions];
       const previous = actions.length && actions[0];
       if (previous && safeDeepEqual(previous.data, action.data)) {
-        // eslint-disable-next-line no-plusplus
         previous.count++;
       } else {
-        // eslint-disable-next-line no-param-reassign
         action.count = 1;
         actions.unshift(action);
       }

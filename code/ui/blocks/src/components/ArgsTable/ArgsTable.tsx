@@ -11,7 +11,7 @@ import { UndoIcon } from '@storybook/icons';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
 import type { ArgType, ArgTypes, Args, Globals } from './types';
-// eslint-disable-next-line import/no-cycle
+
 import { EmptyBlock } from '..';
 import { Skeleton } from './Skeleton';
 import { Empty } from './Empty';

@@ -108,7 +108,6 @@ describe('CSF3', () => {
 
 describe('ComposeStories types', () => {
   // this file tests Typescript types that's why there are no assertions
-  // eslint-disable-next-line jest/expect-expect
   it('Should support typescript operators', () => {
     type ComposeStoriesParam = Parameters<typeof composeStories>[0];
 

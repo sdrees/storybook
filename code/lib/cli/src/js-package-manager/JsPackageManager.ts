@@ -84,7 +84,6 @@ export abstract class JsPackageManager {
   public isStorybookInMonorepo() {
     let cwd = process.cwd();
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       try {
         const turboJsonPath = `${cwd}/turbo.json`;

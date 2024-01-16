@@ -189,7 +189,6 @@ export function createDefaultValueFromRawDefaultProp(
         return typeResolvers.default(rawDefaultProp, propDef);
     }
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error(e);
   }
 

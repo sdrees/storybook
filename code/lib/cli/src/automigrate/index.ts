@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
