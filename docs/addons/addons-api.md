@@ -41,7 +41,7 @@ The `add` method allows you to register the type of UI component associated with
 
 <Callout variant="info">
 
-The render function is called with `active` and `key`. The `active` value will be true when the panel is focused on the UI.
+The render function is called with `active`. The `active` value will be true when the panel is focused on the UI.
 
 </Callout>
 
