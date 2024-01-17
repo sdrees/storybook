@@ -224,5 +224,46 @@ describe('RendererFactory', () => {
         );
       });
     });
+
+    describe('when bootstrapping multiple stories in parallel', () => {
+      it('should render both stories', async () => {
+        @Component({ selector: 'foo', template: '🦊' })
+        class FooComponent {}
+
+        const render = await rendererFactory.getRendererInstance(
+          global.document.getElementById('storybook-docs')
+        );
+
+        const targetDOMNode1 = global.document.createElement('div');
+        targetDOMNode1.id = 'story-1';
+        global.document.getElementById('storybook-docs').appendChild(targetDOMNode1);
+
+        const targetDOMNode2 = global.document.createElement('div');
+        targetDOMNode2.id = 'story-2';
+        global.document.getElementById('storybook-docs').appendChild(targetDOMNode2);
+
+        await Promise.all([
+          render.render({
+            storyFnAngular: {},
+            forced: false,
+            component: FooComponent,
+            targetDOMNode: targetDOMNode1,
+          }),
+          render.render({
+            storyFnAngular: {},
+            forced: false,
+            component: FooComponent,
+            targetDOMNode: targetDOMNode2,
+          }),
+        ]);
+
+        expect(global.document.querySelector('#story-1 > story-1').innerHTML).toBe(
+          '<foo>🦊</foo><!--container-->'
+        );
+        expect(global.document.querySelector('#story-2 > story-2').innerHTML).toBe(
+          '<foo>🦊</foo><!--container-->'
+        );
+      });
+    });
   });
 });

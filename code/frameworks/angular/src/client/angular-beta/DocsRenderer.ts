@@ -44,10 +44,6 @@ export class DocsRenderer extends AbstractRenderer {
     DocsRenderer.resetApplications(domNode);
   }
 
-  async afterFullRender(): Promise<void> {
-    await AbstractRenderer.resetCompiledComponents();
-  }
-
   protected override initAngularRootElement(
     targetDOMNode: HTMLElement,
     targetSelector: string

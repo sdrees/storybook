@@ -15,8 +15,4 @@ export class CanvasRenderer extends AbstractRenderer {
   async beforeFullRender(): Promise<void> {
     CanvasRenderer.resetApplications();
   }
-
-  async afterFullRender(): Promise<void> {
-    await AbstractRenderer.resetCompiledComponents();
-  }
 }
