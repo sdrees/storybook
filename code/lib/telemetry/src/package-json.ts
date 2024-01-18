@@ -28,10 +28,8 @@ export const getActualPackageJson = async (packageName: string) => {
   return packageJson;
 };
 
-// Note that this probably doesn't work in PNPM mode
+// Note that this probably doesn't work in Yarn PNP mode because @storybook/telemetry doesn't depend on @storybook/cli
 export const getStorybookCoreVersion = async () => {
-  const coreVersions = await Promise.all(
-    ['@storybook/core-common', '@storybook/core-server'].map(getActualPackageVersion)
-  );
-  return coreVersions.find((v) => v.version)?.version;
+  const { version } = await getActualPackageVersion('@storybook/cli');
+  return version;
 };

@@ -90,7 +90,7 @@ Use this boilerplate code while writing your own preset addon.
 
 <!-- prettier-ignore-end -->
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - Types of addons for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development

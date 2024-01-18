@@ -50,7 +50,7 @@ You can use any hosting provider to deploy your documentation, for instance:
 - [Netlify](https://www.netlify.com/)
 - [S3](https://aws.amazon.com/en/s3/)
 
-#### Learn more about Storybook documentation
+**Learn more about Storybook documentation**
 
 - [Autodocs](./autodocs.md) for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation

@@ -278,7 +278,7 @@ Storybook's Doc Blocks are highly customizable and helpful building blocks to as
 
 <!-- prettier-ignore-end -->
 
-#### Learn more about Storybook documentation
+**Learn more about Storybook documentation**
 
 - [Autodocs](./autodocs.md) for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation

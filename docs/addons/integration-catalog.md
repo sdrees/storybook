@@ -104,7 +104,7 @@ Not finding the recipe that you want? If it's popular in the community, our docs
 
 If you'd like to request a recipe, open a [new discussion](https://github.com/storybookjs/storybook/discussions/new?category=ideas) in our GitHub repo. We'll review your request, and if it's popular, we'll add it to our backlog and prioritize it.
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - [Types of addons](./addon-types.md) for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development

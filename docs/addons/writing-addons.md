@@ -315,7 +315,7 @@ By default, the Addon Kit comes pre-configured with a GitHub Actions workflow, e
 
 Then, click the **New repository secret**, name it `NPM_TOKEN`, and paste the token you generated earlier. Whenever you merge a pull request to the default branch, the workflow will run and publish a new release, automatically incrementing the version number and updating the changelog.
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - [Types of addons](./addon-types.md) for other types of addons
 - Writing addons for the basics of addon development

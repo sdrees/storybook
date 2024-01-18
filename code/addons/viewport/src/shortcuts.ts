@@ -1,4 +1,4 @@
-import type { API } from '@storybook/manager-api';
+import { type API } from '@storybook/manager-api';
 import { ADDON_ID } from './constants';
 import { globals as defaultGlobals } from './preview';
 
@@ -27,7 +27,7 @@ export const registerShortcuts = async (
 ) => {
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Previous viewport',
-    defaultShortcut: ['shift', 'V'],
+    defaultShortcut: ['alt', 'shift', 'V'],
     actionName: 'previous',
     action: () => {
       updateGlobals({
@@ -38,7 +38,7 @@ export const registerShortcuts = async (
 
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Next viewport',
-    defaultShortcut: ['V'],
+    defaultShortcut: ['alt', 'V'],
     actionName: 'next',
     action: () => {
       updateGlobals({
@@ -49,7 +49,7 @@ export const registerShortcuts = async (
 
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Reset viewport',
-    defaultShortcut: ['alt', 'V'],
+    defaultShortcut: ['alt', 'control', 'V'],
     actionName: 'reset',
     action: () => {
       updateGlobals(defaultGlobals);

@@ -2,15 +2,14 @@ import type { FC } from 'react';
 import React from 'react';
 import { TabsState } from '@storybook/components';
 
-import type { ArgsTableProps, SortType } from './ArgsTable';
-
+import type { ArgsTableProps } from './ArgsTable';
 import { ArgsTable } from './ArgsTable';
 
-export interface TabbedArgsTableProps {
-  children?: React.ReactNode;
+type DistributiveOmit<T, K extends PropertyKey> = T extends any ? Omit<T, K> : never;
+
+export type TabbedArgsTableProps = DistributiveOmit<ArgsTableProps, 'rows'> & {
   tabs: Record<string, ArgsTableProps>;
-  sort?: SortType;
-}
+};
 
 export const TabbedArgsTable: FC<TabbedArgsTableProps> = ({ tabs, ...props }) => {
   const entries = Object.entries(tabs);

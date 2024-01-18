@@ -46,7 +46,7 @@ If you are interested in implementing an "active" RFC, but cannot determine if s
 
 This RFC process took heavy inspiration from the RFC processes from [Rust](https://github.com/rust-lang/rfcs) and [Gatsby](https://www.gatsbyjs.com/contributing/rfc-process/).
 
-## Learn more about contributing to Storybook
+**Learn more about contributing to Storybook**
 
 - RFC process for authoring feature requests
 - [Code](./code.md) for features and bug fixes

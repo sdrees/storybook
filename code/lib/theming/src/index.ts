@@ -4,8 +4,6 @@
 import type { FunctionInterpolation, Interpolation } from '@emotion/react';
 import type { StorybookTheme } from './types';
 
-/// <reference path="./emotionAugmentation.d.ts" />
-
 export { default as styled } from '@emotion/styled';
 
 export type { StyledComponent } from '@emotion/styled';
@@ -32,6 +30,7 @@ export type {
 
 export * from './base';
 export * from './types';
+export * from './emotionAugmentation.d';
 
 export { default as createCache } from '@emotion/cache';
 export { default as isPropValid } from '@emotion/is-prop-valid';

@@ -261,7 +261,7 @@ It's troublesome to know which packages you'll change ahead of time, and watchin
 
 </details>
 
-## Learn more about contributing to Storybook
+**Learn more about contributing to Storybook**
 
 - [RFC process](./RFC.md) for authoring feature requests
 - Code for features and bug fixes

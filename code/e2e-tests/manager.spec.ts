@@ -21,9 +21,9 @@ test.describe('Manager UI', () => {
       await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 
       // toggle with keyboard shortcut
-      await sbPage.page.locator('html').press('s');
+      await sbPage.page.locator('html').press('Alt+s');
       await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
-      await sbPage.page.locator('html').press('s');
+      await sbPage.page.locator('html').press('Alt+s');
       await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 
       // toggle with menu item
@@ -51,9 +51,9 @@ test.describe('Manager UI', () => {
       await expectToolbarVisibility(true);
 
       // toggle with keyboard shortcut
-      await sbPage.page.locator('html').press('t');
+      await sbPage.page.locator('html').press('Alt+t');
       await expectToolbarVisibility(false);
-      await sbPage.page.locator('html').press('t');
+      await sbPage.page.locator('html').press('Alt+t');
       await expectToolbarVisibility(true);
 
       // toggle with menu item
@@ -75,9 +75,9 @@ test.describe('Manager UI', () => {
         await expect(sbPage.page.locator('#storybook-panel-root')).not.toBeVisible();
 
         // toggle with keyboard shortcut
-        await sbPage.page.locator('html').press('a');
+        await sbPage.page.locator('html').press('Alt+a');
         await expect(sbPage.page.locator('#storybook-panel-root')).not.toBeVisible();
-        await sbPage.page.locator('html').press('a');
+        await sbPage.page.locator('html').press('Alt+a');
         await expect(sbPage.page.locator('#storybook-panel-root')).not.toBeVisible();
       });
 
@@ -90,9 +90,9 @@ test.describe('Manager UI', () => {
         await expect(sbPage.page.locator('#storybook-panel-root')).toBeVisible();
 
         // toggle with keyboard shortcut
-        await sbPage.page.locator('html').press('a');
+        await sbPage.page.locator('html').press('Alt+a');
         await expect(sbPage.page.locator('#storybook-panel-root')).not.toBeVisible();
-        await sbPage.page.locator('html').press('a');
+        await sbPage.page.locator('html').press('Alt+a');
         await expect(sbPage.page.locator('#storybook-panel-root')).toBeVisible();
 
         // toggle with menu item
@@ -114,16 +114,16 @@ test.describe('Manager UI', () => {
         await expect(sbPage.page.locator('#storybook-panel-root')).toBeVisible();
 
         // toggle position with keyboard shortcut
-        await sbPage.page.locator('html').press('d');
+        await sbPage.page.locator('html').press('Alt+d');
         await expect(sbPage.page.locator('#storybook-panel-root')).toBeVisible();
         // TODO: how to assert panel position?
 
         // hide with keyboard shortcut
-        await sbPage.page.locator('html').press('a');
+        await sbPage.page.locator('html').press('Alt+a');
         await expect(sbPage.page.locator('#storybook-panel-root')).not.toBeVisible();
 
         // toggling position should also show the panel again
-        await sbPage.page.locator('html').press('d');
+        await sbPage.page.locator('html').press('Alt+d');
         await expect(sbPage.page.locator('#storybook-panel-root')).toBeVisible();
       });
     });
@@ -138,11 +138,11 @@ test.describe('Manager UI', () => {
       await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 
       // toggle with keyboard shortcut
-      await sbPage.page.locator('html').press('f');
+      await sbPage.page.locator('html').press('Alt+f');
       await expect(sbPage.page.locator('#storybook-panel-root')).not.toBeVisible();
       await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
 
-      await sbPage.page.locator('html').press('f');
+      await sbPage.page.locator('html').press('Alt+f');
       await expect(sbPage.page.locator('#storybook-panel-root')).toBeVisible();
       await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 

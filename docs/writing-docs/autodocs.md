@@ -290,7 +290,7 @@ If you're still encountering issues, we recommend reaching out to the community 
 
 If you turned off inline rendering for your stories via the [`inline`](../api/doc-block-story.md#inline) configuration option, you would run into a situation where the associated controls are not updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
 
-#### Learn more about Storybook documentation
+**Learn more about Storybook documentation**
 
 - Autodocs for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation

@@ -459,7 +459,16 @@ If you're still encountering issues, we recommend reaching out to the community 
 
 If you turned off inline rendering for your stories via the [`inline`](../api/doc-block-story.md#inline) configuration option, you would run into a situation where the associated controls are not updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
 
-#### Learn more about Storybook documentation
+### The React version used is unexpected
+
+For most projects, Storybook's addon-docs uses the React version listed in your project's dependencies. If it does not find one, it will use React 18.2.0. There are two exceptions to this:
+
+- Preact projects will always use React 17
+- Next.js projects will always use the canary version that comes with the Next.js version installed, regardless of which React version is listed in the project’s dependencies.
+
+If you're having issues with the React version used, you may need to re-create your project's `node_modules` folder to ensure the correct version is used.
+
+**Learn more about Storybook documentation**
 
 - [Autodocs](./autodocs.md) for creating documentation for your stories
 - MDX for customizing your documentation

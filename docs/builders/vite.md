@@ -140,7 +140,7 @@ If you are migrating from a Webpack-based project, such as [CRA](https://create-
 
 <!-- prettier-ignore-end -->
 
-#### Learn more about builders
+**Learn more about builders**
 
 - Vite builder for bundling with Vite
 - [Webpack builder](./webpack.md) for bundling with Webpack

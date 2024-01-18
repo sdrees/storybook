@@ -143,7 +143,7 @@ Test it in a fresh project using a Storybook set up as close as possible to your
 
 Once it's fully tested and released, please let us know about your framework by either announcing it in the [`#showcase`](https://discord.com/channels/486522875931656193/1048740936953376859) Discord channel or tweeting it and mentioning `@storybookjs`. It's our hope that well-made community frameworks can eventually move into the Storybook codebase and be considered "officially" supported.
 
-## Learn more about contributing to Storybook
+**Learn more about contributing to Storybook**
 
 - [RFC process](./RFC.md) for authoring feature requests
 - [Code](./code.md) for features and bug fixes

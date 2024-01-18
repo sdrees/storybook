@@ -145,7 +145,7 @@ However, if you're working with a framework that provides a default aliasing con
 
 As Storybook relies on [esbuild](https://esbuild.github.io/) to build its internal manager, support for bundling assets with the `managerWebpack` will no longer have an impact on the Storybook UI. We recommend removing existing `managerWebpack` configuration elements from your Storybook configuration file and bundling assets other than images or CSS into JavaScript beforehand.
 
-#### Learn more about builders
+**Learn more about builders**
 
 - [Vite builder](./vite.md) for bundling with Vite
 - Webpack builder for bundling with Webpack

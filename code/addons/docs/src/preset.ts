@@ -1,6 +1,6 @@
 import { dirname, join } from 'path';
-import remarkSlug from 'remark-slug';
-import remarkExternalLinks from 'remark-external-links';
+import rehypeSlug from 'rehype-slug';
+import rehypeExternalLinks from 'rehype-external-links';
 
 import type { DocsOptions, Options, PresetProperty } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
@@ -48,9 +48,11 @@ async function webpack(
         '/dist/shims/mdx-react-shim'
       ),
       ...mdxPluginOptions.mdxCompileOptions,
-      remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
-        mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
-      ),
+      rehypePlugins: [
+        ...(mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []),
+        rehypeSlug,
+        rehypeExternalLinks,
+      ],
     },
   });
 

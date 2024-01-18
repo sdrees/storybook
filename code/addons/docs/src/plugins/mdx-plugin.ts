@@ -1,10 +1,10 @@
 import type { Options } from '@storybook/types';
 import type { Plugin } from 'vite';
-import remarkSlug from 'remark-slug';
-import remarkExternalLinks from 'remark-external-links';
+import rehypeSlug from 'rehype-slug';
+import rehypeExternalLinks from 'rehype-external-links';
 import { createFilter } from '@rollup/pluginutils';
 import { dirname, join } from 'path';
-
+import type { CompileOptions } from '../compiler';
 import { compile } from '../compiler';
 
 /**
@@ -18,7 +18,8 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
   const include = /\.mdx$/;
   const filter = createFilter(include);
   const { presets } = options;
-  const { mdxPluginOptions } = await presets.apply<Record<string, any>>('options', {});
+  const presetOptions = await presets.apply<Record<string, any>>('options', {});
+  const mdxPluginOptions = presetOptions?.mdxPluginOptions as CompileOptions;
 
   return {
     name: 'storybook:mdx-plugin',
@@ -26,7 +27,7 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
     async transform(src, id) {
       if (!filter(id)) return undefined;
 
-      const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
+      const mdxLoaderOptions: CompileOptions = await presets.apply('mdxLoaderOptions', {
         ...mdxPluginOptions,
         mdxCompileOptions: {
           providerImportSource: join(
@@ -34,17 +35,15 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
             '/dist/shims/mdx-react-shim'
           ),
           ...mdxPluginOptions?.mdxCompileOptions,
-          remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
-            mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
-          ),
+          rehypePlugins: [
+            ...(mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []),
+            rehypeSlug,
+            rehypeExternalLinks,
+          ],
         },
       });
 
-      const code = String(
-        await compile(src, {
-          ...mdxLoaderOptions,
-        })
-      );
+      const code = String(await compile(src, mdxLoaderOptions));
 
       return {
         code,
