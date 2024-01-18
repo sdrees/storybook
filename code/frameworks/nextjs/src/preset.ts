@@ -76,9 +76,6 @@ export const previewAnnotations: PresetProperty<'previewAnnotations'> = (
 ) => {
   const nextDir = dirname(require.resolve('@storybook/nextjs/package.json'));
   const result = [...entry, join(nextDir, 'dist/preview.mjs')];
-  if (features?.experimentalNextRSC) {
-    result.unshift(join(nextDir, 'dist/rsc/preview.mjs'));
-  }
   return result;
 };
 
@@ -169,7 +166,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
     configureFastRefresh(baseConfig);
   }
 
-  if (options.features?.experimentalNextRSC) {
+  if (options.features?.experimentalRSC) {
     configureRSC(baseConfig);
   }
 

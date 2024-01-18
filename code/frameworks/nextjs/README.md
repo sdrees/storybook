@@ -907,30 +907,30 @@ Storybook handles most [Typescript](https://www.typescriptlang.org/) configurati
 
 If your app uses [React Server Components (RSC)](https://nextjs.org/docs/app/building-your-application/rendering/server-components), Storybook can render them in stories in the browser.
 
-To enable this set the `experimentalNextRSC` feature flag in your `.storybook/main.js` config:
+To enable this set the `experimentalRSC` feature flag in your `.storybook/main.js` config:
 
 ```js
 // main.js
 export default {
   features: {
-    experimentalNextRSC: true,
+    experimentalRSC: true,
   },
 };
 ```
 
 Setting this flag automatically wraps your story in a [Suspense](https://react.dev/reference/react/Suspense) wrapper, which is able to render asynchronous components in NextJS's version of React.
 
-If this wrapper causes problems in any of your existing stories, you can selectively disable it using the `nextjs.rsc` [parameter](https://storybook.js.org/docs/writing-stories/parameters) at the global/component/story level:
+If this wrapper causes problems in any of your existing stories, you can selectively disable it using the `react.rsc` [parameter](https://storybook.js.org/docs/writing-stories/parameters) at the global/component/story level:
 
 ```js
 // MyServerComponent.stories.js
 export default {
   component: MyServerComponent,
-  parameters: { nextjs: { rsc: false } },
+  parameters: { react: { rsc: false } },
 };
 ```
 
-Note that wrapping your server components in Suspense does not help if your server components access server-side resources like the file system or Node-specific libraries. To deal work around this, you'll need to mock out your data access layer using [Webpack aliases](https://webpack.js.org/configuration/resolve/#resolvealias) or an addon like [storybook-addon-module-mock](https://storybook.js.org/addons/storybook-addon-module-mock).
+Note that wrapping your server components in Suspense does not help if your server components access server-side resources like the file system or Node-specific libraries. To work around this, you'll need to mock out your data access layer using [Webpack aliases](https://webpack.js.org/configuration/resolve/#resolvealias) or an addon like [storybook-addon-module-mock](https://storybook.js.org/addons/storybook-addon-module-mock).
 
 If your server components access data via the network, we recommend using the [MSW Storybook Addon](https://storybook.js.org/addons/msw-storybook-addon) to mock network requests.
 

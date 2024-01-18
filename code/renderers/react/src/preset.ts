@@ -17,7 +17,8 @@ export const previewAnnotations: PresetProperty<'previewAnnotations'> = async (
   return result
     .concat(input)
     .concat([join(__dirname, 'entry-preview.mjs')])
-    .concat(docsEnabled ? [join(__dirname, 'entry-preview-docs.mjs')] : []);
+    .concat(docsEnabled ? [join(__dirname, 'entry-preview-docs.mjs')] : [])
+    .concat(FEATURES?.experimentalRSC ? [join(__dirname, 'entry-preview-rsc.mjs')] : []);
 };
 
 /**

@@ -1,3 +1,19 @@
+## 8.0.0-alpha.11
+
+- Angular: Remove cached NgModules and introduce a global queue during bootstrapping - [#24982](https://github.com/storybookjs/storybook/pull/24982), thanks [@Marklb](https://github.com/Marklb)!
+- CLI: Fix sandbox command versioning - [#25600](https://github.com/storybookjs/storybook/pull/25600), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Support upgrading to canary versions - [#25596](https://github.com/storybookjs/storybook/pull/25596), thanks [@JReinhold](https://github.com/JReinhold)!
+- ConfigFile: Fix export specifiers - [#25590](https://github.com/storybookjs/storybook/pull/25590), thanks [@shilman](https://github.com/shilman)!
+- Interaction: Replace @storybook/jest by @storybook/test - [#25584](https://github.com/storybookjs/storybook/pull/25584), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Next.js: Pass jsConfig to SWC Loader and load config with defaults - [#25203](https://github.com/storybookjs/storybook/pull/25203), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Parameters: Remove passArgsFirst flag - [#25585](https://github.com/storybookjs/storybook/pull/25585), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Preset: Remove deprecated config preset - [#25607](https://github.com/storybookjs/storybook/pull/25607), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- React: Refactor RSC out of Next - [#25591](https://github.com/storybookjs/storybook/pull/25591), thanks [@shilman](https://github.com/shilman)!
+- Sandboxes: Update wait-on command to use TCP instead of HTTP - [#25541](https://github.com/storybookjs/storybook/pull/25541), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Telejson: Update stringify options in codebase - [#25564](https://github.com/storybookjs/storybook/pull/25564), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- UI: Fix menu icon on the sidebar - [#25587](https://github.com/storybookjs/storybook/pull/25587), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- Webpack5: Make export-order-loader compatible with both esm and cjs - [#25540](https://github.com/storybookjs/storybook/pull/25540), thanks [@mlazari](https://github.com/mlazari)!
+
 ## 8.0.0-alpha.10
 
 - API: Remove deprecations from manager and preview api - [#25536](https://github.com/storybookjs/storybook/pull/25536), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

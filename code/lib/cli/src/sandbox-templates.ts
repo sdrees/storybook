@@ -124,7 +124,7 @@ const baseTemplates = {
     },
     modifications: {
       mainConfig: {
-        features: { experimentalNextRSC: true },
+        features: { experimentalRSC: true },
       },
       extraDependencies: ['server-only'],
     },
@@ -141,7 +141,7 @@ const baseTemplates = {
     },
     modifications: {
       mainConfig: {
-        features: { experimentalNextRSC: true },
+        features: { experimentalRSC: true },
       },
       extraDependencies: ['server-only'],
     },
@@ -158,7 +158,7 @@ const baseTemplates = {
     },
     modifications: {
       mainConfig: {
-        features: { experimentalNextRSC: true },
+        features: { experimentalRSC: true },
       },
       extraDependencies: ['server-only'],
     },
@@ -175,7 +175,7 @@ const baseTemplates = {
     },
     modifications: {
       mainConfig: {
-        features: { experimentalNextRSC: true },
+        features: { experimentalRSC: true },
       },
       extraDependencies: ['server-only'],
     },

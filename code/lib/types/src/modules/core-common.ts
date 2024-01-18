@@ -373,9 +373,9 @@ export interface StorybookConfigRaw {
     disallowImplicitActionsInRenderV8?: boolean;
 
     /**
-     * Enable asynchronous component rendering in NextJS framework
+     * Enable asynchronous component rendering in React renderer
      */
-    experimentalNextRSC?: boolean;
+    experimentalRSC?: boolean;
   };
 
   build?: TestBuildConfig;

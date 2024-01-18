@@ -32,6 +32,7 @@
     - [Next.js](#nextjs)
       - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
       - [Automatic SWC mode detection](#automatic-swc-mode-detection)
+      - [RSC config moved to React renderer](#rsc-config-moved-to-react-renderer)
     - [Angular](#angular)
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
@@ -69,17 +70,17 @@
   - [Addon author changes](#addon-author-changes)
     - [Removed `config` preset](#removed-config-preset-1)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
-  - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
-  - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
-  - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
-  - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
-  - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
+    - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
+    - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
+    - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
+    - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
+    - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
-  - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
-  - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
+    - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
+    - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
-  - [Addon API is more type-strict](#addon-api-is-more-type-strict)
-  - [Addon-controls hideNoControlsWarning parameter is deprecated](#addon-controls-hidenocontrolswarning-parameter-is-deprecated)
+    - [Addon API is more type-strict](#addon-api-is-more-type-strict)
+    - [Addon-controls hideNoControlsWarning parameter is deprecated](#addon-controls-hidenocontrolswarning-parameter-is-deprecated)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
@@ -730,6 +731,12 @@ Similar to how Next.js detects if SWC should be used, Storybook will follow more
 
 - If you use Next.js 14 or higher and you don't have a .babelrc file, Storybook will use SWC to transpile your code.
 - Even if you have a .babelrc file, Storybook will still use SWC to transpile your code if you set the experimental `experimental.forceSwcTransforms` flag to `true` in your `next.config.js`.
+
+##### RSC config moved to React renderer
+
+Storybook 7.6 introduced a new feature flag, `experimentalNextRSC`, to enable React Server Components in a Next.js project. It also introduced a parameter `nextjs.rsc` to selectively disable it on particular components or stories.
+
+These flags have been renamed to `experimentalRSC` and `react.rsc`, respectively. This is a breaking change to accommodate RSC support in other, non-Next.js frameworks. For now, `@storybook/nextjs` is the only framework that supports it, and does so experimentally.
 
 #### Angular
 
