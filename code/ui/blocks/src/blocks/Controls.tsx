@@ -51,7 +51,7 @@ export const Controls: FC<ControlsProps> = (props) => {
   const exclude = props.exclude ?? controlsParameters.exclude;
   const sort = props.sort ?? controlsParameters.sort;
 
-  const [, updateArgs, resetArgs] = useArgs(story, context);
+  const [args, updateArgs, resetArgs] = useArgs(story, context);
   const [globals] = useGlobals(story, context);
 
   const filteredArgTypes = filterArgTypes(argTypes, include, exclude);
@@ -59,7 +59,16 @@ export const Controls: FC<ControlsProps> = (props) => {
   const hasSubcomponents = Boolean(subcomponents) && Object.keys(subcomponents).length > 0;
 
   if (!hasSubcomponents) {
-    return <PureArgsTable rows={filteredArgTypes} sort={sort} />;
+    return (
+      <PureArgsTable
+        rows={filteredArgTypes}
+        sort={sort}
+        args={args}
+        globals={globals}
+        updateArgs={updateArgs}
+        resetArgs={resetArgs}
+      />
+    );
   }
 
   const mainComponentName = getComponentName(component);
@@ -75,6 +84,7 @@ export const Controls: FC<ControlsProps> = (props) => {
     <TabbedArgsTable
       tabs={tabs}
       sort={sort}
+      args={args}
       globals={globals}
       updateArgs={updateArgs}
       resetArgs={resetArgs}

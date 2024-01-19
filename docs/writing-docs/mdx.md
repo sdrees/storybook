@@ -12,7 +12,7 @@ In addition, you can write pure documentation pages in MDX and add them to Story
 
 <Callout variant="info">
 
-Writing stories directly in MDX was deprecated in Storybook 7. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature.
+Writing stories directly in MDX was removed in Storybook 8, and we're no longer supporting it. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature or [migrate](../migration-guide.md#storiesmdx-to-mdxcsf) to the new format.
 
 </Callout>
 
@@ -62,12 +62,6 @@ The first thing you'll notice is that the component documentation is divided int
 
 - **CSF** is great for succinctly defining stories (component examples). If you use TypeScript, it also provides type safety and auto-completion.
 - **MDX** is great for writing structured documentation and composing it with interactive JSX elements.
-
-<Callout variant="info" icon="💡">
-
-If you’re coming from a previous version of Storybook, you might be accustomed to using MDX both for **documentation** and for defining **stories** in the same `.stories.mdx` file. We’ve deprecated this functionality and plan to remove it in a future version of Storybook. We provide [migration](#automigration) scripts to help you onto the new format.
-
-</Callout>
 
 ### Anatomy of MDX
 
@@ -210,9 +204,17 @@ The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provide
 
 To help you transition to the new version, we've created a migration helper in our CLI. We recommend using it and reaching out using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)) for problems you encounter.
 
-```shell
-npx storybook@latest automigrate mdx1to2
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-automigration-mdx-legacy.npm.mdx',
+    'common/storybook-automigration-mdx-legacy.pnpm.mdx',
+    'common/storybook-automigration-mdx-legacy.yarn.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Setup custom documentation
 
@@ -386,46 +388,11 @@ By applying this pattern with the Controls addon, all anchors will be ignored in
 
 ### The MDX documentation doesn't render in my environment
 
-As Storybook relies on MDX 2 to render documentation, some technical limitations may prevent you from migrating to this version. If that's the case, we've prepared a set of instructions to help you transition to this new version.
+As Storybook relies on the latest version of [MDX](https://mdxjs.com/) to render documentation, some technical limitations may prevent you from migrating to this version. If that's the case, we've prepared a set of instructions to help you transition to this new version.
 
 #### Storybook doesn't create documentation for my component stories
 
 If you run into a situation where Storybook is not able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
-
-#### The documentation doesn't render using `stories.mdx`
-
-Starting with Storybook 7.0, we've deprecated documenting stories with the `.stories.mdx` file extension. If you're still using the `stories.mdx` extension, we recommend [migrating](#automigration) as soon as possible to avoid any issues, as the majority of APIs and [Doc Blocks](./doc-blocks.md) used by Storybook were overhauled to support MDX 2 and the new MDX compiler (e.g., the [`Meta`](../api/doc-block-meta.md) block).
-
-#### MDX 1 fallback
-
-If you're still having issues with MDX documentation, you can enable MDX 1 as a fallback. To do so, you'll need to take some additional steps.
-
-Run the following command to install the required dependency.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-fallback-mdx-install.yarn.js.mdx',
-    'common/storybook-fallback-mdx-install.npm.js.mdx',
-    'common/storybook-fallback-mdx-install.pnpm.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Update your Storybook configuration (in `.storybook/main.js|ts`), and provide the `legacyMdx1` feature flag to enable MDX 1 support.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-legacy-mdx-1.js.mdx',
-    'common/main-config-features-legacy-mdx-1.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
 
 ### The migration seems flaky and keeps failing
 

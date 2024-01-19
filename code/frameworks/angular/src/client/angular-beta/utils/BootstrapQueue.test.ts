@@ -1,8 +1,13 @@
 import { Subject, lastValueFrom } from 'rxjs';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import assert from 'node:assert';
 
 import { queueBootstrapping } from './BootstrapQueue';
+
+const instantWaitFor = (fn: () => void) => {
+  return vi.waitFor(fn, {
+    interval: 0,
+  });
+};
 
 describe('BootstrapQueue', () => {
   beforeEach(async () => {
@@ -24,8 +29,10 @@ describe('BootstrapQueue', () => {
       bootstrapAppFinished();
     });
 
-    await vi.waitFor(() => {
-      assert(bootstrapApp.mock.calls.length === 1, 'bootstrapApp should have been called once');
+    await instantWaitFor(() => {
+      if (bootstrapApp.mock.calls.length !== 1) {
+        throw new Error('bootstrapApp should not have been called yet');
+      }
     });
 
     expect(bootstrapApp).toHaveBeenCalled();
@@ -34,11 +41,10 @@ describe('BootstrapQueue', () => {
     pendingSubject.next();
     pendingSubject.complete();
 
-    await vi.waitFor(() => {
-      assert(
-        bootstrapAppFinished.mock.calls.length === 1,
-        'bootstrapApp should have been called once'
-      );
+    await instantWaitFor(() => {
+      if (bootstrapAppFinished.mock.calls.length !== 1) {
+        throw new Error('bootstrapApp should have been called once');
+      }
     });
 
     expect(bootstrapAppFinished).toHaveBeenCalled();
@@ -67,8 +73,10 @@ describe('BootstrapQueue', () => {
     queueBootstrapping(bootstrapApp2).then(bootstrapAppFinished2);
     queueBootstrapping(bootstrapApp3).then(bootstrapAppFinished3);
 
-    await vi.waitFor(() => {
-      assert(bootstrapApp.mock.calls.length === 1, 'bootstrapApp should have been called once');
+    await instantWaitFor(() => {
+      if (bootstrapApp.mock.calls.length !== 1) {
+        throw new Error('bootstrapApp should have been called once');
+      }
     });
 
     expect(bootstrapApp).toHaveBeenCalled();
@@ -81,8 +89,10 @@ describe('BootstrapQueue', () => {
     pendingSubject.next();
     pendingSubject.complete();
 
-    await vi.waitFor(() => {
-      assert(bootstrapApp2.mock.calls.length === 1, 'bootstrapApp2 should have been called once');
+    await instantWaitFor(() => {
+      if (bootstrapApp2.mock.calls.length !== 1) {
+        throw new Error('bootstrapApp2 should have been called once');
+      }
     });
 
     expect(bootstrapApp).toHaveReturnedTimes(1);
@@ -95,8 +105,10 @@ describe('BootstrapQueue', () => {
     pendingSubject2.next();
     pendingSubject2.complete();
 
-    await vi.waitFor(() => {
-      assert(bootstrapApp3.mock.calls.length === 1, 'bootstrapApp3 should have been called once');
+    await instantWaitFor(() => {
+      if (bootstrapApp3.mock.calls.length !== 1) {
+        throw new Error('bootstrapApp3 should have been called once');
+      }
     });
 
     expect(bootstrapApp).toHaveReturnedTimes(1);
@@ -109,11 +121,10 @@ describe('BootstrapQueue', () => {
     pendingSubject3.next();
     pendingSubject3.complete();
 
-    await vi.waitFor(() => {
-      assert(
-        bootstrapAppFinished3.mock.calls.length === 1,
-        'bootstrapAppFinished3 should have been called once'
-      );
+    await instantWaitFor(() => {
+      if (bootstrapAppFinished3.mock.calls.length !== 1) {
+        throw new Error('bootstrapAppFinished3 should have been called once');
+      }
     });
 
     expect(bootstrapApp).toHaveReturnedTimes(1);
@@ -142,8 +153,10 @@ describe('BootstrapQueue', () => {
     queueBootstrapping(bootstrapApp).then(bootstrapAppFinished).catch(bootstrapAppError);
     queueBootstrapping(bootstrapApp2).then(bootstrapAppFinished2).catch(bootstrapAppError2);
 
-    await vi.waitFor(() => {
-      assert(bootstrapApp.mock.calls.length === 1, 'bootstrapApp should have been called once');
+    await instantWaitFor(() => {
+      if (bootstrapApp.mock.calls.length !== 1) {
+        throw new Error('bootstrapApp should have been called once');
+      }
     });
 
     expect(bootstrapApp).toHaveBeenCalledTimes(1);
@@ -152,11 +165,10 @@ describe('BootstrapQueue', () => {
 
     pendingSubject.error(new Error('test error'));
 
-    await vi.waitFor(() => {
-      assert(
-        bootstrapAppError.mock.calls.length === 1,
-        'bootstrapAppError should have been called once'
-      );
+    await instantWaitFor(() => {
+      if (bootstrapAppError.mock.calls.length !== 1) {
+        throw new Error('bootstrapAppError should have been called once');
+      }
     });
 
     expect(bootstrapApp).toHaveBeenCalledTimes(1);
@@ -169,11 +181,10 @@ describe('BootstrapQueue', () => {
     pendingSubject2.next();
     pendingSubject2.complete();
 
-    await vi.waitFor(() => {
-      assert(
-        bootstrapAppFinished2.mock.calls.length === 1,
-        'bootstrapAppFinished2 should have been called once'
-      );
+    await instantWaitFor(() => {
+      if (bootstrapAppFinished2.mock.calls.length !== 1) {
+        throw new Error('bootstrapAppFinished2 should have been called once');
+      }
     });
 
     expect(bootstrapApp).toHaveBeenCalledTimes(1);

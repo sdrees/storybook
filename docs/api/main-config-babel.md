@@ -27,7 +27,13 @@ Customize Storybook's [Babel](https://babeljs.io/) setup.
 
 ## `Babel.Config`
 
-See [Babel docs](https://babeljs.io/docs/options).
+The options provided by [Babel](https://babeljs.io/docs/options) are only applicable if you've enabled the [`@storybook/addon-webpack5-compiler-babel`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-babel) addon.
+
+<Callout variant="info">
+
+If you have an existing Babel configuration file (e.g., `.babelrc`), it will be automatically detected and used by Storybook without any additional configuration required.
+
+</Callout>
 
 ## `Options`
 

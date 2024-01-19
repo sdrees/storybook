@@ -101,7 +101,7 @@ Where to start looking for story files, relative to the root of your project.
 
 Type: `string`
 
-Default: `'**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))'`
+Default: `'**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))'`
 
 A glob, relative to `StoriesSpecifier.directory` (with no leading `./`), that matches the filenames to load.
 
