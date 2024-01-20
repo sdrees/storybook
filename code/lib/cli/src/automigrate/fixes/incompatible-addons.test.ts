@@ -2,7 +2,7 @@ import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
 import { incompatibleAddons } from './incompatible-addons';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 
 const check = async ({
   packageManager,

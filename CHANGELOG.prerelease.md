@@ -1,3 +1,16 @@
+## 8.0.0-alpha.12
+
+- Blocks: Fix Controls block not having controls - [#25663](https://github.com/storybookjs/storybook/pull/25663), thanks [@JReinhold](https://github.com/JReinhold)!
+- Blocks: Support `subcomponents` in `ArgTypes` and `Controls`, remove `ArgsTable` block - [#25614](https://github.com/storybookjs/storybook/pull/25614), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Fix existing version detection in `upgrade` - [#25642](https://github.com/storybookjs/storybook/pull/25642), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Add preset with experimental server API - [#25664](https://github.com/storybookjs/storybook/pull/25664), thanks [@shilman](https://github.com/shilman)!
+- MDX: Replace remark by rehype plugins - [#25615](https://github.com/storybookjs/storybook/pull/25615), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- React: Fix acorn ecma version warning - [#25634](https://github.com/storybookjs/storybook/pull/25634), thanks [@dannyhw](https://github.com/dannyhw)!
+- Shortcuts: Require modifier key to trigger shortcuts (`F`,`A`,`D`,`S`,`T`,`/`) - [#25625](https://github.com/storybookjs/storybook/pull/25625), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- Theming: Fix export of module augmentation - [#25643](https://github.com/storybookjs/storybook/pull/25643), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- UI: Add links to documentation and videos in UI - [#25565](https://github.com/storybookjs/storybook/pull/25565), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- Webpack: Use `node:assert` used in `export-order-loader` - [#25622](https://github.com/storybookjs/storybook/pull/25622), thanks [@JReinhold](https://github.com/JReinhold)!
+
 ## 8.0.0-alpha.11
 
 - Angular: Remove cached NgModules and introduce a global queue during bootstrapping - [#24982](https://github.com/storybookjs/storybook/pull/24982), thanks [@Marklb](https://github.com/Marklb)!

@@ -1,11 +1,15 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

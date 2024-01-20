@@ -12,10 +12,10 @@ import type {
   JsPackageManager,
   PackageJson,
   PackageJsonWithDepsAndDevDeps,
-} from './js-package-manager';
+} from '@storybook/core-common';
 import type { SupportedFrameworks, SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
-import storybookMonorepoPackages from './versions';
+import { versions as storybookMonorepoPackages } from '@storybook/core-common';
 
 const logger = console;
 
@@ -45,68 +45,6 @@ export const writeFileAsJson = (jsonPath: string, content: unknown) => {
   fs.writeFileSync(filePath, `${JSON.stringify(content, null, 2)}\n`);
   return true;
 };
-
-export const commandLog = (message: string) => {
-  process.stdout.write(chalk.cyan(' • ') + message);
-
-  // Need `void` to be able to use this function in a then of a Promise<void>
-  return (errorMessage?: string | void, errorInfo?: string) => {
-    if (errorMessage) {
-      process.stdout.write(`. ${chalk.red('✖')}\n`);
-      logger.error(`\n     ${chalk.red(errorMessage)}`);
-
-      if (!errorInfo) {
-        return;
-      }
-
-      const newErrorInfo = errorInfo
-        .split('\n')
-        .map((line) => `     ${chalk.dim(line)}`)
-        .join('\n');
-      logger.error(`${newErrorInfo}\n`);
-      return;
-    }
-
-    process.stdout.write(`. ${chalk.green('✓')}\n`);
-  };
-};
-
-export function paddedLog(message: string) {
-  const newMessage = message
-    .split('\n')
-    .map((line) => `    ${line}`)
-    .join('\n');
-
-  logger.log(newMessage);
-}
-
-export function getChars(char: string, amount: number) {
-  let line = '';
-  for (let lc = 0; lc < amount; lc += 1) {
-    line += char;
-  }
-
-  return line;
-}
-
-export function codeLog(codeLines: string[], leftPadAmount?: number) {
-  let maxLength = 0;
-  const newLines = codeLines.map((line) => {
-    maxLength = line.length > maxLength ? line.length : maxLength;
-    return line;
-  });
-
-  const finalResult = newLines
-    .map((line) => {
-      const rightPadAmount = maxLength - line.length;
-      let newLine = line + getChars(' ', rightPadAmount);
-      newLine = getChars(' ', leftPadAmount || 2) + chalk.inverse(` ${newLine} `);
-      return newLine;
-    })
-    .join('\n');
-
-  logger.log(finalResult);
-}
 
 /**
  * Detect if any babel dependencies need to be added to the project

@@ -4,7 +4,7 @@ import fse from 'fs-extra';
 import { sep } from 'path';
 import * as helpers from './helpers';
 import { IS_WINDOWS } from '../../../vitest.helpers';
-import type { JsPackageManager } from './js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 import type { SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
 

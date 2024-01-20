@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Link, Placeholder } from '@storybook/components';
 import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -8,6 +7,7 @@ import { Subnav } from './Subnav';
 
 import { Interaction } from './Interaction';
 import { isTestAssertionError } from '../utils';
+import { Empty } from './EmptyState';
 
 export interface Controls {
   start: (args: any) => void;
@@ -40,7 +40,7 @@ interface InteractionsPanelProps {
 }
 
 const Container = styled.div(({ theme }) => ({
-  minHeight: '100%',
+  height: '100%',
   background: theme.background.content,
 }));
 
@@ -153,18 +153,7 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
           </CaughtException>
         )}
         <div ref={endRef} />
-        {!isPlaying && !caughtException && interactions.length === 0 && (
-          <Placeholder>
-            No interactions found
-            <Link
-              href="https://storybook.js.org/docs/react/writing-stories/play-function"
-              target="_blank"
-              withArrow
-            >
-              Learn how to add interactions to your story
-            </Link>
-          </Placeholder>
-        )}
+        {!isPlaying && !caughtException && interactions.length === 0 && <Empty />}
       </Container>
     );
   }

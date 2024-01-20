@@ -24,6 +24,7 @@ import type {
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
+import { buildFrameworkGlobalsFromOptions } from './utils/framework';
 
 let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
@@ -163,6 +164,9 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
+  // Build additional global values
+  const globals: Record<string, any> = await buildFrameworkGlobalsFromOptions(options);
+
   yield;
 
   const html = await renderHTML(
@@ -177,7 +181,8 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     logLevel,
     docsOptions,
     tagsOptions,
-    options
+    options,
+    globals
   );
 
   yield;
@@ -252,6 +257,9 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   });
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
+  // Build additional global values
+  const globals: Record<string, any> = await buildFrameworkGlobalsFromOptions(options);
+
   yield;
 
   const html = await renderHTML(
@@ -266,7 +274,8 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     logLevel,
     docsOptions,
     tagsOptions,
-    options
+    options,
+    globals
   );
 
   await Promise.all([

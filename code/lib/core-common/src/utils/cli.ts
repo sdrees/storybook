@@ -2,8 +2,8 @@ import type { WriteStream } from 'fs-extra';
 import { move, remove, writeFile, readFile, createWriteStream } from 'fs-extra';
 import { join } from 'path';
 import tempy from 'tempy';
-import { rendererPackages } from '@storybook/core-common';
-import type { JsPackageManager } from './js-package-manager';
+import { rendererPackages } from './get-storybook-info';
+import type { JsPackageManager } from '../js-package-manager';
 
 export function parseList(str: string): string[] {
   return str

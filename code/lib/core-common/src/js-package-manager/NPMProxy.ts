@@ -9,7 +9,7 @@ import { logger } from '@storybook/node-logger';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
-import { createLogStream } from '../utils';
+import { createLogStream } from '../utils/cli';
 
 type NpmDependency = {
   version: string;

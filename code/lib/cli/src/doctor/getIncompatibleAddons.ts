@@ -2,7 +2,7 @@ import type { StorybookConfig } from '@storybook/types';
 import type { SemVer } from 'semver';
 import semver from 'semver';
 import { getAddonNames } from '../automigrate/helpers/mainConfigFile';
-import { JsPackageManagerFactory } from '../js-package-manager';
+import { JsPackageManagerFactory } from '@storybook/core-common';
 
 export const getIncompatibleAddons = async (
   mainConfig: StorybookConfig,

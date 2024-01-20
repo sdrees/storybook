@@ -3,7 +3,7 @@ import type { StorybookConfig } from '@storybook/types';
 import { angularBuilders } from './angular-builders';
 import * as helpers from '../../helpers';
 import * as angularHelpers from '../../generators/ANGULAR/helpers';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 
 const checkAngularBuilders = async ({
   packageManager,

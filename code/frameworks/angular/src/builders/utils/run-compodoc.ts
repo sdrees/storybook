@@ -1,7 +1,7 @@
 import { BuilderContext } from '@angular-devkit/architect';
 import { Observable } from 'rxjs';
 import * as path from 'path';
-import { JsPackageManagerFactory } from '@storybook/cli';
+import { JsPackageManagerFactory } from '@storybook/core-common';
 
 const hasTsConfigArg = (args: string[]) => args.indexOf('-p') !== -1;
 const hasOutputArg = (args: string[]) =>

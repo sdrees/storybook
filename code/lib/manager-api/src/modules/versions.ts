@@ -23,6 +23,14 @@ const getVersionCheckData = memoize(1)((): API_Versions => {
   }
 });
 
+const normalizeRendererName = (renderer: string) => {
+  if (renderer.includes('vue')) {
+    return 'vue';
+  }
+
+  return renderer;
+};
+
 export interface SubAPI {
   /**
    * Returns the current version of the Storybook Manager.
@@ -36,6 +44,12 @@ export interface SubAPI {
    * @returns {API_Version} The latest version of the Storybook Manager.
    */
   getLatestVersion: () => API_Version;
+  /**
+   * Returns the URL of the Storybook documentation for the current version.
+   *
+   * @returns {string} The URL of the Storybook Manager documentation.
+   */
+  getDocsUrl: (options: { subpath?: string; versioned?: boolean; renderer?: boolean }) => string;
   /**
    * Checks if an update is available for the Storybook Manager.
    *
@@ -72,6 +86,37 @@ export const init: ModuleFn = ({ store }) => {
         return (latest && semver.gt(latest.version, next.version) ? latest : next) as API_Version;
       }
       return latest as API_Version;
+    },
+    // TODO: Move this to it's own "info" module later
+    getDocsUrl: ({ subpath, versioned, renderer }) => {
+      const {
+        versions: { latest, current },
+      } = store.getState();
+
+      let url = 'https://storybook.js.org/docs/';
+
+      if (versioned && current?.version && latest?.version) {
+        const versionDiff = semver.diff(latest.version, current.version);
+        const isLatestDocs = versionDiff === 'patch' || versionDiff === null;
+
+        if (!isLatestDocs) {
+          url += `${semver.major(current.version)}.${semver.minor(current.version)}/`;
+        }
+      }
+
+      if (subpath) {
+        url += `${subpath}/`;
+      }
+
+      if (renderer && typeof global.STORYBOOK_RENDERER !== 'undefined') {
+        const rendererName = (global.STORYBOOK_RENDERER as string).split('/').pop()?.toLowerCase();
+
+        if (rendererName) {
+          url += `?renderer=${normalizeRendererName(rendererName)}`;
+        }
+      }
+
+      return url;
     },
     versionUpdateAvailable: () => {
       const latest = api.getLatestVersion();

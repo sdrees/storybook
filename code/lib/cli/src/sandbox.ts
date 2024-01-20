@@ -10,9 +10,9 @@ import invariant from 'tiny-invariant';
 import { lt, prerelease } from 'semver';
 import type { Template, TemplateKey } from './sandbox-templates';
 import { allTemplates as TEMPLATES } from './sandbox-templates';
-import type { PackageJson, PackageManagerName } from './js-package-manager';
-import { JsPackageManagerFactory } from './js-package-manager';
-import versions from './versions';
+import type { PackageJson, PackageManagerName } from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core-common';
+import { versions } from '@storybook/core-common';
 import { doInitiate } from './initiate';
 
 const logger = console;

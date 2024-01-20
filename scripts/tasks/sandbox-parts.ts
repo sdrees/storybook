@@ -25,21 +25,23 @@ import {
   addWorkaroundResolutions,
 } from '../utils/yarn';
 import { exec } from '../utils/exec';
-import type { ConfigFile } from '../../code/lib/csf-tools';
-import storybookPackages from '../../code/lib/cli/src/versions';
-import { writeConfig } from '../../code/lib/csf-tools';
+import type { ConfigFile } from '../../code/lib/csf-tools/src';
+import { writeConfig } from '../../code/lib/csf-tools/src';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
 import { detectLanguage } from '../../code/lib/cli/src/detect';
 import { SupportedLanguage } from '../../code/lib/cli/src/project_types';
 import { updatePackageScripts } from '../utils/package-json';
 import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
-import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
+import {
+  type JsPackageManager,
+  versions as storybookPackages,
+  JsPackageManagerFactory,
+} from '../../code/lib/core-common/src';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
 import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
-import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
 
 const logger = console;
 
@@ -378,7 +380,8 @@ export const addStories: Task['run'] = async (
   // Ensure that we match the right stories in the stories directory
   updateStoriesField(
     mainConfig,
-    (await detectLanguage(packageManager)) === SupportedLanguage.JAVASCRIPT
+    (await detectLanguage(packageManager as any as Parameters<typeof detectLanguage>[0])) ===
+      SupportedLanguage.JAVASCRIPT
   );
 
   const isCoreRenderer =

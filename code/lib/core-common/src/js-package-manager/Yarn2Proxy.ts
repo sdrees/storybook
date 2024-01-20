@@ -5,7 +5,7 @@ import path from 'path';
 import { PosixFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
 import { getLibzipSync } from '@yarnpkg/libzip';
 import semver from 'semver';
-import { createLogStream } from '../utils';
+import { createLogStream } from '../utils/cli';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';

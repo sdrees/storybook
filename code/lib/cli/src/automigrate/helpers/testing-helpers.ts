@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { JsPackageManager, PackageJson } from '@storybook/core-common';
 
 vi.mock('./mainConfigFile', async (importOriginal) => ({
   ...(await importOriginal<typeof import('./mainConfigFile')>()),

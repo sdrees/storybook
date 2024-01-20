@@ -2,7 +2,7 @@ import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { NPMProxy } from './NPMProxy';
 
 // mock createLogStream
-vi.mock('../utils', () => ({
+vi.mock('../utils/cli', () => ({
   createLogStream: vi.fn(() => ({
     logStream: '',
     readLogFile: vi.fn(),

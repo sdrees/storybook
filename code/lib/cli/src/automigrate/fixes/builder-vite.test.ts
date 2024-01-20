@@ -1,7 +1,7 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfigRaw } from '@storybook/types';
 import { makePackageManager } from '../helpers/testing-helpers';
-import type { PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '@storybook/core-common';
 import { builderVite } from './builder-vite';
 
 const checkBuilderVite = async ({

@@ -19,7 +19,7 @@ const buildMock = {
 };
 
 vi.doMock('@storybook/core-server', () => buildMock);
-vi.doMock('@storybook/cli', () => ({
+vi.doMock('@storybook/core-common', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({
       runPackageCommand: mockRunScript,

@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { logger } from '@storybook/node-logger';
 import { detect, detectFrameworkPreset, detectLanguage } from './detect';
 import { ProjectType, SupportedLanguage } from './project_types';
-import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
+import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
 
 vi.mock('./helpers', () => ({
   isNxProject: vi.fn(),

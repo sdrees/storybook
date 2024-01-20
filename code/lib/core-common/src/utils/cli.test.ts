@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isCorePackage } from './utils';
+import { isCorePackage } from './cli';
 
 describe('UTILS', () => {
   describe.each([

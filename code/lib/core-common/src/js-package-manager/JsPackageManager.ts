@@ -8,11 +8,11 @@ import fs from 'fs';
 import dedent from 'ts-dedent';
 import { readFile, writeFile, readFileSync } from 'fs-extra';
 import invariant from 'tiny-invariant';
-import { commandLog } from '../helpers';
+import { commandLog } from '../utils/log';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
 import type { InstallationMetadata } from './types';
-import { HandledError } from '../HandledError';
+import { HandledError } from '../utils/HandledError';
 
 const logger = console;
 

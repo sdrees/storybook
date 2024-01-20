@@ -1,8 +1,8 @@
-import { getStorybookInfo } from '@storybook/core-common';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
 import dedent from 'ts-dedent';
-
-import { JsPackageManagerFactory, type PackageManagerName } from './js-package-manager';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
+import type { PackageManagerName } from '../js-package-manager';
+import { JsPackageManagerFactory } from '../js-package-manager';
+import { getStorybookInfo } from './get-storybook-info';
 
 const logger = console;
 
@@ -12,7 +12,10 @@ const logger = console;
  * Usage:
  * - sb remove @storybook/addon-links
  */
-export async function remove(addon: string, options: { packageManager: PackageManagerName }) {
+export async function removeAddon(
+  addon: string,
+  options: { packageManager?: PackageManagerName } = {}
+) {
   const { packageManager: pkgMgr } = options;
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });

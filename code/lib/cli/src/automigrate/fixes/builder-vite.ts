@@ -4,7 +4,7 @@ import { dedent } from 'ts-dedent';
 import { writeConfig } from '@storybook/csf-tools';
 
 import type { Fix } from '../types';
-import type { PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '@storybook/core-common';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 import { getStorybookVersionSpecifier } from '../../helpers';
 

@@ -15,7 +15,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
 import { CLIOptions } from '@storybook/types';
-import { getEnvConfig, versions } from '@storybook/cli';
+import { getEnvConfig, versions } from '@storybook/core-common';
 import { addToGlobalContext } from '@storybook/telemetry';
 
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';

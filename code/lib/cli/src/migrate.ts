@@ -1,7 +1,7 @@
 import { listCodemods, runCodemod } from '@storybook/codemod';
 import { runFixes } from './automigrate';
 import { bareMdxStoriesGlob } from './automigrate/fixes/bare-mdx-stories-glob';
-import { JsPackageManagerFactory } from './js-package-manager';
+import { JsPackageManagerFactory } from '@storybook/core-common';
 import { getStorybookVersionSpecifier } from './helpers';
 
 const logger = console;
