@@ -152,7 +152,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
 
   const isNext14orNewer = semver.gte(nextjsVersion, '14.0.0');
   const useSWC =
-    isNext14orNewer && (nextConfig.experimental?.forceSwcTransforms ?? !hasBabelConfig);
+    isNext14orNewer && (nextConfig.experimental?.forceSwcTransforms || !hasBabelConfig);
 
   configureNextFont(baseConfig, useSWC);
   configureRuntimeNextjsVersionResolution(baseConfig);
