@@ -16,13 +16,13 @@ To help ease the pain of keeping Storybook up-to-date, we provide a command-line
   paths={[
     'common/storybook-upgrade.npm.js.mdx',
     'common/storybook-upgrade.pnpm.js.mdx',
-    'common/storybook-upgrade.yarn.js.mdx'
+    'common/storybook-upgrade.yarn.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-After running the command the script will:
+After running the command, the script will:
 
 - Upgrade all Storybook packages in your project to the latest stable version
 - Run the relevant [automigrations](../migration-guide.md#automatic-upgrade) factoring in the [breaking changes](../migration-guide.md#major-breaking-changes) between your current version and the latest stable version
@@ -33,9 +33,25 @@ In addition to running the command, we also recommend checking the [MIGRATION.md
 
 </Callout>
 
+### Verifying the upgrade
+
+To help you verify that the upgrade was completed and that your project is still working as expected, the Storybook CLI provides the [`doctor`](../api/cli-options.md#doctor) command that allows you to do a health check on your project for common issues that might arise after an upgrade, such as duplicated dependencies, incompatible addons or mismatched versions. To perform the health check, run the following command with your package manager of choice:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-doctor.npm.js.mdx',
+    'common/storybook-doctor.pnpm.js.mdx',
+    'common/storybook-doctor.yarn.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ## Automigrate script
 
-Storybook upgrades are not the only thing to consider: changes in the ecosystem also present challenges. For example, lots of frameworks ([Angular 12](https://angular.io/guide/updating-to-version-12#breaking-changes-in-angular-version-12), [Create React App v5](https://github.com/facebook/create-react-app/pull/11201), [NextJS](https://nextjs.org/docs/upgrading#webpack-5)) have recently migrated from [Webpack 4 to Webpack 5](https://webpack.js.org/migrate/5/), so even if you don't upgrade your Storybook version, you might need to update your configuration accordingly. That's what Automigrate is for:
+Storybook upgrades are not the only thing to consider: changes in the ecosystem also present challenges. For example well-known frontend frameworks, such as [Angular](https://update.angular.io/?l=2&v=16.0-17.0), [Next.js](https://nextjs.org/docs/pages/building-your-application/upgrading) or [Svelte](https://svelte.dev/docs/v4-migration-guide) have been rolling out significant changes to their ecosystem, so even if you don't upgrade your Storybook version, you might need to update your configuration accordingly. That's what Automigrate is for:
 
 <!-- prettier-ignore-start -->
 
@@ -43,7 +59,7 @@ Storybook upgrades are not the only thing to consider: changes in the ecosystem 
   paths={[
     'common/storybook-automigrate.npm.js.mdx',
     'common/storybook-automigrate.pnpm.js.mdx',
-    'common/storybook-automigrate.yarn.js.mdx'
+    'common/storybook-automigrate.yarn.js.mdx',
   ]}
 />
 

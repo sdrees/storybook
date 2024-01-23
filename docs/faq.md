@@ -21,7 +21,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [I see a "No Preview" error with a Storybook production build](#i-see-a-no-preview-error-with-a-storybook-production-build)
 - [Can I use Storybook with Vue 3?](#can-i-use-storybook-with-vue-3)
 - [Why aren't my code blocks highlighted with Storybook MDX](#why-arent-my-code-blocks-highlighted-with-storybook-mdx)
-- [Why aren't my MDX 2 stories working in Storybook?](#why-arent-my-mdx-2-stories-working-in-storybook)
+- [Why aren't my MDX stories working in Storybook?](#why-arent-my-mdx-stories-working-in-storybook)
 - [Why are my mocked GraphQL queries failing with Storybook's MSW addon?](#why-are-my-mocked-graphql-queries-failing-with-storybooks-msw-addon)
 - [Can I use other GraphQL providers with Storybook's MSW addon?](#can-i-use-other-graphql-providers-with-storybooks-msw-addon)
 - [Can I mock GraphQL mutations with Storybook's MSW addon?](#can-i-mock-graphql-mutations-with-storybooks-msw-addon)
@@ -371,9 +371,9 @@ Yes, with the release of version 6.2, Storybook now includes support for Vue 3. 
 
 Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) you can use with your code blocks. Currently, there's a known limitation when you try and register a custom language to get syntax highlighting. We're working on a fix for this And will update this section once it's available.
 
-## Why aren't my MDX 2 stories working in Storybook?
+## Why aren't my MDX stories working in Storybook?
 
-MDX 2 introduced some changes to how the code is rendered. For example, if you enabled it in your Storybook and you have the following code block:
+MDX can be picky about how your code is formatted with line breaks. This is especially true with code blocks. For example, this will break:
 
 ```
 <style>{`
@@ -388,7 +388,7 @@ MDX 2 introduced some changes to how the code is rendered. For example, if you e
 
 ```
 
-You'll need to update it to make it compatible with MDX 2.
+But this will work:
 
 ```
 <style>

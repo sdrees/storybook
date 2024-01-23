@@ -121,7 +121,7 @@ The `Meta` block defines where the document will be placed in the sidebar. In th
 
 <!-- prettier-ignore-end -->
 
-MDX2 supports standard markdown ([”commonmark”](https://commonmark.org/)) by default and can be extended to support [GitHub-flavored markdown (GFM)](https://github.github.com/gfm) and other extensions (see [Breaking changes](#breaking-changes), below).
+MDX supports standard markdown ([”commonmark”](https://commonmark.org/)) by default and can be extended to support [GitHub-flavored markdown (GFM)](https://github.github.com/gfm) and other extensions (see [Breaking changes](#breaking-changes), below).
 
 <!-- prettier-ignore-start -->
 
@@ -151,70 +151,7 @@ In addition to Doc Blocks, MDX can incorporate arbitrary React components, makin
 
 ### Known limitations
 
-While MDX2 supports a variety of runtimes ([React](https://mdxjs.com/packages/react/), [Preact](https://mdxjs.com/packages/preact/), [Vue](https://mdxjs.com/packages/vue/)), Storybook’s implementation is React-only. That means your documentation is rendered in React, while your stories render in the runtime of your choice (React, Vue, Angular, Web Components, Svelte, etc.).
-
-## Breaking changes
-
-There are many breaking changes if you move from MDX 1 to version 2. As far as we know, all of these are due to changes in the MDX library itself rather than changes to Storybook’s usage. Nevertheless, as an MDX user, you will probably need to update your MDX files as part of the upgrade. MDX has published its own [Migration guide](https://mdxjs.com/migrating/v2/#update-mdx-files). Here, we try to summarize some of the fundamental changes for Storybook users.
-
-### Custom components apply differently
-
-From the MDX migration guide:
-
-> We now “sandbox” components, for lack of a better name. It means that when you pass a component for `h1`, it does get used for `# hi` but not for `<h1>hi</h1>`
-
-This means that the first heading in the following example gets replaced, whereas the second does not. It may not sound like a significant change, but in practice, it is highly disruptive and manifests itself in various ways. Unfortunately, this cannot be automatically converted in a safe way.
-
-<!-- prettier-ignore-start -->
-
-```md
-# Some heading
-
-<h1>another heading</h1>
-```
-
-<!-- prettier-ignore-end -->
-
-### Lack of GitHub Flavored Markdown (GFM)
-
-Also, from the MDX migration guide:
-
-> We turned off GFM features in MDX by default. GFM extends CommonMark to add autolink literals, footnotes, strikethrough, tables, and task lists. If you do want these features, you can use a plugin. How to do so is described in [our guide on GFM](https://mdxjs.com/guides/gfm/).
-
-In Storybook, you can apply MDX options, including plugins, in the main configuration file:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-paths={[
-  'common/storybook-main-config-remark-options.js.mdx',
-  'common/storybook-main-config-remark-options.ts.mdx',
-]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<Callout variant="info" icon="💡">
-
-The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provided by default during migration. We recommend installing it as a development dependency if you use its features.
-
-</Callout>
-
-### Automigration
-
-To help you transition to the new version, we've created a migration helper in our CLI. We recommend using it and reaching out using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)) for problems you encounter.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-automigration-mdx-legacy.npm.mdx',
-    'common/storybook-automigration-mdx-legacy.pnpm.mdx',
-    'common/storybook-automigration-mdx-legacy.yarn.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+While MDX supports a variety of runtimes ([React](https://mdxjs.com/packages/react/), [Preact](https://mdxjs.com/packages/preact/), [Vue](https://mdxjs.com/packages/vue/)), Storybook’s implementation is React-only. That means your documentation is rendered in React, while your stories render in the runtime of your choice (React, Vue, Angular, Web Components, Svelte, etc.).
 
 ## Setup custom documentation
 
@@ -386,9 +323,34 @@ By applying this pattern with the Controls addon, all anchors will be ignored in
 
 ## Troubleshooting
 
+### Markdown tables aren't rendering correctly
+
+As of MDX 2, GFM is no longer included by default:
+
+“We turned off GFM features in MDX by default. GFM extends CommonMark to add autolink literals, footnotes, strikethrough, tables, and task lists. If you do want these features, you can use a plugin. How to do so is described in [our guide on GFM](https://mdxjs.com/guides/gfm/).”
+
+In Storybook, you can apply MDX options, including plugins, in the main configuration file:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+paths={[
+  'common/storybook-main-config-remark-options.js.mdx',
+  'common/storybook-main-config-remark-options.ts.mdx',
+]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info" icon="💡">
+
+The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provided by default during migration. We recommend installing it as a development dependency if you use its features.
+
+</Callout>
+
 ### The MDX documentation doesn't render in my environment
 
-As Storybook relies on the latest version of [MDX](https://mdxjs.com/) to render documentation, some technical limitations may prevent you from migrating to this version. If that's the case, we've prepared a set of instructions to help you transition to this new version.
+As Storybook relies on [MDX 3](https://mdxjs.com/) to render documentation, some technical limitations may prevent you from migrating to this version. If that's the case, we've prepared a set of instructions to help you transition to this new version.
 
 #### Storybook doesn't create documentation for my component stories
 

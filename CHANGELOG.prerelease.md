@@ -1,3 +1,7 @@
+## 8.0.0-alpha.13
+
+- Next.js: Fix SWC mode activation - [#25670](https://github.com/storybookjs/storybook/pull/25670), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 8.0.0-alpha.12
 
 - Blocks: Fix Controls block not having controls - [#25663](https://github.com/storybookjs/storybook/pull/25663), thanks [@JReinhold](https://github.com/JReinhold)!

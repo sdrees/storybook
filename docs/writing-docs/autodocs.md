@@ -230,7 +230,9 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 <Callout variant="info" icon="💡">
 
-This is not a Storybook issue but a breaking change introduced with MDX 2. For more information on this and other breaking changes, see our [MDX documentation](./mdx.md#breaking-changes).
+This is not a Storybook issue but a detail of how MDX works. From their [migration guide](https://mdxjs.com/migrating/v2/#update-mdx-content):
+
+“We now ‘sandbox’ components, for lack of a better name. It means that when you pass a component for h1, it does get used for `# hi` but not for `<h1>hi</h1>`”
 
 </Callout>
 
