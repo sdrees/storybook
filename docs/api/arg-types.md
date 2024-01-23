@@ -19,7 +19,7 @@ To do so, Storybook uses various static analysis tools depending on your framewo
 | Framework     | Static analysis tool                                                                                                                          |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | React         | [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript) |
-| Vue           | [vue-docgen-api](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-docgen-api)                                       |
+| Vue 3         | [vue-docgen-api](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-docgen-api)                                       |
 | Angular       | [compodoc](https://compodoc.app/)                                                                                                             |
 | WebComponents | [custom-element.json](https://github.com/webcomponents/custom-elements-json)                                                                  |
 | Ember         | [YUI doc](https://github.com/ember-learn/ember-cli-addon-docs-yuidoc#documenting-components)                                                  |

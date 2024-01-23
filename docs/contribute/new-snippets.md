@@ -10,7 +10,7 @@ Storybook maintains code snippets for a [variety of frameworks](../configure/fra
 
 We welcome community contributions to the code snippets. Here's a matrix of the frameworks we have snippets for. Help us add snippets for your favorite framework.
 
-| React                                                                        | Vue                                                                        | Angular                                                                        | Web Components                                                                        | Svelte                                                                        | Solid                                                                        | Ember | HTML | Preact |
+| React                                                                        | Vue 3                                                                      | Angular                                                                        | Web Components                                                                        | Svelte                                                                        | Solid                                                                        | Ember | HTML | Preact |
 | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----- | ---- | ------ |
 | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/react) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/vue) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/angular) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/web-components) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/svelte) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/solid) | ❌    | ❌   | ❌     |
 
@@ -48,7 +48,6 @@ Browse the documentation and look for the code snippets you're willing to contri
     'react/your-component.js.mdx',
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
-    'vue/your-component.2.js.mdx',
     'vue/your-component.3.js.mdx',
     'svelte/your-component.js.mdx',
     'web-components/your-component.js.mdx',
@@ -72,7 +71,6 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
     'react/your-component.js.mdx',
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
-    'vue/your-component.2.js.mdx',
     'vue/your-component.3.js.mdx',
     'svelte/your-component.js.mdx',
     'web-components/your-component.js.mdx',

@@ -8,7 +8,7 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 Hundreds of thousands of developers use Storybook daily to build, test, and document components. Storybook is framework agnostic and integrates with the front-end ecosystem:
 
-- **JavaScript frameworks** such as [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/) and [Solid](https://www.solidjs.com/)
+- **JavaScript frameworks** such as [React](https://reactjs.org/), [Vue 3](https://vuejs.org/), [Svelte](https://svelte.dev/) and [Solid](https://www.solidjs.com/)
 - **Libraries** such as [Styled-Components](https://styled-components.com/), [Tailwind](https://tailwindcss.com/), [Redux](https://redux.js.org/)
 - **Design tools** such as [Figma](https://figma.com/), [Sketch](https://www.sketch.com/), [Zeplin](https://zeplin.io/) and [InVision](https://www.invisionapp.com/)
 - **Workflow tools** such as [Notion](https://www.notion.so/product), [Confluence](https://www.atlassian.com/software/confluence), and [Jira](https://www.atlassian.com/software/jira)
@@ -31,7 +31,7 @@ Specifically, we track the following information in our telemetry events:
 - Storybook version.
 - Storybook metadata:
   - Language (e.g., TypeScript, JavaScript).
-  - Supported view layers (e.g., React, Vue, Angular, Svelte).
+  - Supported view layers (e.g., React, Vue 3, Angular, Svelte).
   - Builder (e.g., Webpack5, Vite).
   - Meta framework (e.g., [Next](https://nextjs.org/), [Gatsby](https://www.gatsbyjs.com/), [CRA](https://create-react-app.dev/)).
   - [Addons](https://storybook.js.org/integrations) (e.g., [Essentials](../essentials/index.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).

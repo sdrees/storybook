@@ -50,16 +50,10 @@ For example, if you're working with React's Styled Components and your component
   paths={[
     'react/storybook-preview-with-styled-components-decorator.js.mdx',
     'react/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
     'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
     'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/add-localize-package-to-polyfills.ts.mdx',
     'angular/storybook-preview-with-angular-polyfills.js.mdx',
     'solid/storybook-preview-with-styled-components-decorator.js.mdx',
@@ -82,7 +76,7 @@ The second argument to a decorator function is the **story context** which in pa
 
 <Callout variant="info" icon="💡">
 
-This pattern can also be applied to your own stories. Some of Storybook's supported frameworks already use it (e.g., vue 2).
+This pattern can also be applied to your own stories. Some of Storybook's supported frameworks already use it (e.g., Vue 3).
 
 </Callout>
 

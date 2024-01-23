@@ -92,3 +92,25 @@ If you'd like to downgrade to a stable version, manually edit the package versio
 Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
 
 </Callout>
+
+<IfRenderer renderer='vue'>
+
+## Troubleshooting
+
+### Storybook doesn't upgrade to the latest version when using Vue 2
+
+If you're attempting to upgrade Storybook to the latest version in your existing Vue 2 project, you will no longer be able to. This is because Vue 2 entered [End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31st, 2023, and will no longer receive any updates from the Vue team. We recommend you upgrade your Vue 2 project to Vue 3 and then upgrade Storybook to the latest version. If you cannot upgrade your Vue 2 project to Vue 3, you can still upgrade Storybook, but only for the latest 7.x version. You can do this by running the following command:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/upgrade-command-specific-version.npx.js.mdx',
+    'common/upgrade-command-specific-version.yarn.js.mdx',
+    'common/upgrade-command-specific-version.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>

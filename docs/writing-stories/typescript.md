@@ -68,7 +68,6 @@ Sometimes stories need to define args that aren’t included in the component's 
 <CodeSnippets
   paths={[
     'react/page-story-slots.ts.mdx',
-    'vue/page-story-slots.2.ts.mdx',
     'vue/page-story-slots.3.ts.mdx',
     'angular/page-story-slots.ts.mdx',
     'web-components/page-story-slots.ts.mdx',
@@ -80,11 +79,11 @@ Sometimes stories need to define args that aren’t included in the component's 
 
 <!-- prettier-ignore-end -->
 
-<IfRenderer renderer={['vue']}>
+<IfRenderer renderer='vue'>
 
 ### Vue specific tips
 
-Vue has excellent support for TypeScript, and we have done our utmost to take advantage of that in the stories files. For example, consider the following strongly typed Vue3 single file component (SFC):
+Vue has excellent support for TypeScript, and we have done our utmost to take advantage of that in the stories files. For example, consider the following strongly typed Vue 3 single file component (SFC):
 
 ```html
 <script setup lang="ts">
@@ -111,7 +110,7 @@ This setup will add type support for `*.vue` imports to your `*.stories.ts` file
 
 </IfRenderer>
 
-<IfRenderer renderer={['svelte']}>
+<IfRenderer renderer='svelte'>
 
 ### Svelte specific tips
 

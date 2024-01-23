@@ -17,13 +17,6 @@ type Story = StoryObj<typeof meta>;
 
 // This is an accessible story
 export const Accessible: Story = {
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      return { args };
-    },
-    template: '<Button v-bind="args" />',
-  }),
   args: {
     primary: false,
     label: 'Button',
@@ -31,13 +24,6 @@ export const Accessible: Story = {
 };
 // This is not
 export const Inaccessible: Story = {
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      return { args };
-    },
-    template: '<Button v-bind="args" />',
-  }),
   args: {
     ...Accessible.args,
     backgroundColor: 'red',

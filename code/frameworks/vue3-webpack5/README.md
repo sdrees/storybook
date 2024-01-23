@@ -20,11 +20,11 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 ---
 
 Storybook also comes with a lot of [addons](https://storybook.js.org/addons) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/docs/vue/sharing/publish-storybook) of your Storybook and deploy it anywhere you want.
+You can also build a [static version](https://storybook.js.org/docs/sharing/publish-storybook) of your Storybook and deploy it anywhere you want.
 
 ## Extending the Vue application
 
-Storybook creates a [Vue 3 application](https://v3.vuejs.org/api/application-api.html#application-api) for your component preview.
+Storybook creates a [Vue 3 application](https://vuejs.org/api/application.html#application-api) for your component preview.
 When using global custom components (`app.component`), directives (`app.directive`), extensions (`app.use`), or other application methods, you will need to configure those in the `./storybook/preview.js` file.
 
 Therefore, Storybook provides you with a `setup` function exported from this package, which receives as a callback your Storybook instance, which you can interact with and add your custom configuration.

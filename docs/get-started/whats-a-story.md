@@ -47,8 +47,6 @@ The above story definition can be further improved to take advantage of [Storybo
   paths={[
     'react/button-story-with-args.js.mdx',
     'react/button-story-with-args.ts.mdx',
-    'vue/button-story-with-args.2.js.mdx',
-    'vue/button-story-with-args.2.ts.mdx',
     'vue/button-story-with-args.3.js.mdx',
     'vue/button-story-with-args.3.ts.mdx',
     'angular/button-story-with-args.ts.mdx',

@@ -106,7 +106,6 @@ If you're working with a custom environment set up or need set up Storybook manu
 | Server         | `server`         |
 | Solid          | `solid`          |
 | Svelte         | `svelte`         |
-| Vue 2          | `vue`            |
 | Vue 3          | `vue3`           |
 | Web Components | `web-components` |
 
@@ -176,6 +175,26 @@ For more details, use ember help.
 ```
 
 It may be the case that you're using an outdated version of the package and you need to update it to the latest version to solve this issue.
+
+</IfRenderer>
+
+<IfRenderer renderer='vue'>
+
+#### Storybook doesn't work with my Vue 2 project
+
+Vue 2 entered [End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31st, 2023, and is no longer maintained by the Vue team. As a result, Storybook no longer supports Vue 2. We recommend you upgrade your project to Vue 3, which Storybook fully supports. If that's not an option, you can still use Storybook with Vue 2 by installing the latest version of Storybook 7 with the following command:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/init-command-specific-version.npx.js.mdx',
+    'common/init-command-specific-version.yarn.js.mdx',
+    'common/init-command-specific-version.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 </IfRenderer>
 
@@ -286,8 +305,6 @@ If you're still running into some issues during the installation process, we enc
 
 <IfRenderer renderer='vue'>
 
-- [Storybook's Vue 2 Webpack README](https://github.com/storybookjs/storybook/tree/main/code/frameworks/vue-webpack5) for more information on how to set up Storybook in your Vue 2 project with Webpack 5.
-- [Storybook's Vue 2 Vite README](https://github.com/storybookjs/storybook/tree/main/code/frameworks/vue-vite) for more information on how to set up Storybook in your Vue 2 project with Vite.
 - [Storybook's Vue 3 Webpack README](https://github.com/storybookjs/storybook/tree/next/code/frameworks/vue3-webpack5) for more information on how to set up Storybook in your Vue 3 project with Webpack 5.
 - [Storybook's Vue 3 Vite README](https://github.com/storybookjs/storybook/tree/next/code/frameworks/vue3-vite) for more information on how to set up Storybook in your Vue 3 project with Vite.
 - [Storybook's help documentation](https://storybook.js.org/community#support) to contact the community and ask for help.

@@ -195,8 +195,6 @@ Until now, we only used auto-generated controls based on the component for which
   paths={[
     'react/page-story-slots.js.mdx',
     'react/page-story-slots.ts.mdx',
-    'vue/page-story-slots.2.js.mdx',
-    'vue/page-story-slots.2.ts.mdx',
     'vue/page-story-slots.3.js.mdx',
     'vue/page-story-slots.3.ts.mdx',
     'angular/page-story-slots.ts.mdx',

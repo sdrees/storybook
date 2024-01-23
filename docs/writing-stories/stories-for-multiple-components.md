@@ -14,8 +14,6 @@ The simplest approach we can take is to reuse the stories of the `ListItem` in t
   paths={[
     'react/list-story-unchecked.js.mdx',
     'react/list-story-unchecked.ts.mdx',
-    'vue/list-story-unchecked.2.js.mdx',
-    'vue/list-story-unchecked.2.ts.mdx',
     'vue/list-story-unchecked.3.js.mdx',
     'vue/list-story-unchecked.3.ts.mdx',
     'angular/list-story-unchecked.ts.mdx',
@@ -78,8 +76,6 @@ Another option that is more “data”-based is to create a special “story-gen
   paths={[
     'react/list-story-template.js.mdx',
     'react/list-story-template.ts.mdx',
-    'vue/list-story-template.2.js.mdx',
-    'vue/list-story-template.2.ts.mdx',
     'vue/list-story-template.3.js.mdx',
     'vue/list-story-template.3.ts.mdx',
     'angular/list-story-template.ts.mdx',

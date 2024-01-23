@@ -19,7 +19,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [Is it possible to browse the documentation for past versions of Storybook?](#is-it-possible-to-browse-the-documentation-for-past-versions-of-storybook)
 - [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
 - [I see a "No Preview" error with a Storybook production build](#i-see-a-no-preview-error-with-a-storybook-production-build)
-- [Can I use Storybook with Vue 3?](#can-i-use-storybook-with-vue-3)
+- [Can I use Storybook with Vue 2?](#can-i-use-storybook-with-vue-2)
 - [Why aren't my code blocks highlighted with Storybook MDX](#why-arent-my-code-blocks-highlighted-with-storybook-mdx)
 - [Why aren't my MDX stories working in Storybook?](#why-arent-my-mdx-stories-working-in-storybook)
 - [Why are my mocked GraphQL queries failing with Storybook's MSW addon?](#why-are-my-mocked-graphql-queries-failing-with-storybooks-msw-addon)
@@ -363,9 +363,21 @@ Suppose you don't want to run the command above frequently. Add `http-server` as
 
 </Callout>
 
-## Can I use Storybook with Vue 3?
+## Can I use Storybook with Vue 2?
 
-Yes, with the release of version 6.2, Storybook now includes support for Vue 3. See the [install page](./get-started/install.md) for instructions.
+Vue 2 entered [End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31, 2023, and is no longer supported by the Vue team. As a result, we've stopped supporting Vue 2 in Storybook 8 and above and will not be releasing any new versions that support it. We recommend upgrading your project to Vue 3, which Storybook fully supports. If that's not an option, you can still use Storybook with Vue 2 by installing the latest version of Storybook 7 with the following command:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/init-command-specific-version.npx.js.mdx',
+    'common/init-command-specific-version.yarn.js.mdx',
+    'common/init-command-specific-version.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Why aren't my code blocks highlighted with Storybook MDX
 

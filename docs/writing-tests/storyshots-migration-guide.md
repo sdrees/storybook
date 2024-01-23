@@ -103,7 +103,7 @@ If you need project-level annotations (e.g., [decorators](../writing-stories/dec
 
 <Callout variant="info" icon="ℹ️">
 
-If you're using Vue3, you must install the [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3) package to use the `setProjectAnnotations` API in your setup file and the `composeStories` API in your existing tests.
+If you're using Vue 3, you must install the [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3) package to use the `setProjectAnnotations` API in your setup file and the `composeStories` API in your existing tests.
 
 </Callout>
 

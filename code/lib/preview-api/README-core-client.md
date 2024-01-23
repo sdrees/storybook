@@ -1,6 +1,6 @@
 # Storybook Core-Client
 
-This package contains browser-side functionality shared amongst all the frameworks (React, RN, Vue, Ember, Angular, etc) in the old "v6" story store back-compatibility layer.
+This package contains browser-side functionality shared amongst all the frameworks (React, RN, Vue 3, Ember, Angular, etc) in the old "v6" story store back-compatibility layer.
 
 A framework calls the `start(renderToCanvas, { render, decorateStory })` function and provides:
 

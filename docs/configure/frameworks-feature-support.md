@@ -10,51 +10,51 @@ Below is a comprehensive table of what’s supported in which framework integrat
 
 Core frameworks have dedicated maintainers or contributors who are responsible for maintaining the integration. As such, you can use most Storybook features in these frameworks.
 
-|                                                                                           | React | Vue | Angular | Web Components |
-| ----------------------------------------------------------------------------------------- | ----- | --- | ------- | -------------- |
-| **Essentials**                                                                            |       |     |         |                |
-| [Actions](../essentials/actions.md)                                                       | ✅    | ✅  | ✅      | ✅             |
-| [Backgrounds](../essentials/backgrounds.md)                                               | ✅    | ✅  | ✅      | ✅             |
-| [Docs](../writing-docs/index.md)                                                          | ✅    | ✅  | ✅      | ✅             |
-| [Viewport](../essentials/viewport.md)                                                     | ✅    | ✅  | ✅      | ✅             |
-| [Controls](../essentials/controls.md)                                                     | ✅    | ✅  | ✅      | ✅             |
-| [Measure](../essentials/measure-and-outline.md#measure-addon)                             | ✅    | ✅  | ✅      | ✅             |
-| [Outline](../essentials/measure-and-outline.md#outline-addon)                             | ✅    | ✅  | ✅      | ✅             |
-| **Addons**                                                                                |       |     |         |                |
-| [A11y](../writing-tests/accessibility-testing.md)                                         | ✅    | ✅  | ✅      | ✅             |
-| [Interactions](../writing-tests/interaction-testing.md)                                   | ✅    | ✅  | ✅      | ✅             |
-| [Test runner](../writing-tests/test-runner.md)                                            | ✅    | ✅  | ✅      | ✅             |
-| [Test coverage](../writing-tests/test-coverage.md)                                        | ✅    | ✅  | ✅      | ✅             |
-| [CSS resources](https://github.com/storybookjs/addon-cssresources)                        | ✅    | ✅  | ✅      | ✅             |
-| [Design assets](https://github.com/storybookjs/addon-design-assets)                       | ✅    | ✅  | ✅      | ✅             |
-| [Events](https://github.com/storybookjs/addon-events)                                     | ✅    | ✅  | ✅      | ✅             |
-| [Google analytics](https://github.com/storybookjs/addon-google-analytics)                 | ✅    | ✅  | ✅      | ✅             |
-| [GraphQL](https://github.com/storybookjs/addon-graphql)                                   | ✅    |     | ✅      |                |
-| [Jest](https://github.com/storybookjs/storybook/tree/next/code/addons/jest)               | ✅    | ✅  | ✅      | ✅             |
-| [Links](https://github.com/storybookjs/storybook/tree/next/code/addons/links)             | ✅    | ✅  | ✅      | ✅             |
-| [Queryparams](https://github.com/storybookjs/addon-queryparams)                           | ✅    | ✅  | ✅      | ✅             |
-| [Storysource](https://github.com/storybookjs/storybook/tree/next/code/addons/storysource) | ✅    | ✅  | ✅      | ✅             |
-| **Docs**                                                                                  |       |     |         |                |
-| [CSF Stories](../api/csf.md)                                                              | ✅    | ✅  | ✅      | ✅             |
-| [Autodocs](../writing-docs/autodocs.md)                                                   | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - ArgTypes](../api/doc-block-argtypes.md)                                     | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Canvas](../api/doc-block-canvas.md)                                         | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - ColorPalette](../api/doc-block-colorpalette.md)                             | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Controls](../api/doc-block-controls.md)                                     | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Description](../api/doc-block-description.md)                               | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - IconGallery](../api/doc-block-icongallery.md)                               | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Markdown](../api/doc-block-markdown.md)                                     | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Meta](../api/doc-block-meta.md)                                             | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Primary](../api/doc-block-primary.md)                                       | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Source](../api/doc-block-source.md)                                         | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Story](../api/doc-block-story.md)                                           | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Stories](../api/doc-block-stories.md)                                       | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Subtitle](../api/doc-block-subtitle.md)                                     | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Title](../api/doc-block-title.md)                                           | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Typeset](../api/doc-block-typeset.md)                                       | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - Unstyled](../api/doc-block-unstyled.md)                                     | ✅    | ✅  | ✅      | ✅             |
-| [Doc Blocks - UseOf](../api/doc-block-useof.md)                                           | ✅    | ✅  | ✅      | ✅             |
-| Inline stories                                                                            | ✅    | ✅  | ✅      | ✅             |
+|                                                                                           | React | Vue 3 | Angular | Web Components |
+| ----------------------------------------------------------------------------------------- | ----- | ----- | ------- | -------------- |
+| **Essentials**                                                                            |       |       |         |                |
+| [Actions](../essentials/actions.md)                                                       | ✅    | ✅    | ✅      | ✅             |
+| [Backgrounds](../essentials/backgrounds.md)                                               | ✅    | ✅    | ✅      | ✅             |
+| [Docs](../writing-docs/index.md)                                                          | ✅    | ✅    | ✅      | ✅             |
+| [Viewport](../essentials/viewport.md)                                                     | ✅    | ✅    | ✅      | ✅             |
+| [Controls](../essentials/controls.md)                                                     | ✅    | ✅    | ✅      | ✅             |
+| [Measure](../essentials/measure-and-outline.md#measure-addon)                             | ✅    | ✅    | ✅      | ✅             |
+| [Outline](../essentials/measure-and-outline.md#outline-addon)                             | ✅    | ✅    | ✅      | ✅             |
+| **Addons**                                                                                |       |       |         |                |
+| [A11y](../writing-tests/accessibility-testing.md)                                         | ✅    | ✅    | ✅      | ✅             |
+| [Interactions](../writing-tests/interaction-testing.md)                                   | ✅    | ✅    | ✅      | ✅             |
+| [Test runner](../writing-tests/test-runner.md)                                            | ✅    | ✅    | ✅      | ✅             |
+| [Test coverage](../writing-tests/test-coverage.md)                                        | ✅    | ✅    | ✅      | ✅             |
+| [CSS resources](https://github.com/storybookjs/addon-cssresources)                        | ✅    | ✅    | ✅      | ✅             |
+| [Design assets](https://github.com/storybookjs/addon-design-assets)                       | ✅    | ✅    | ✅      | ✅             |
+| [Events](https://github.com/storybookjs/addon-events)                                     | ✅    | ✅    | ✅      | ✅             |
+| [Google analytics](https://github.com/storybookjs/addon-google-analytics)                 | ✅    | ✅    | ✅      | ✅             |
+| [GraphQL](https://github.com/storybookjs/addon-graphql)                                   | ✅    |       | ✅      |                |
+| [Jest](https://github.com/storybookjs/storybook/tree/next/code/addons/jest)               | ✅    | ✅    | ✅      | ✅             |
+| [Links](https://github.com/storybookjs/storybook/tree/next/code/addons/links)             | ✅    | ✅    | ✅      | ✅             |
+| [Queryparams](https://github.com/storybookjs/addon-queryparams)                           | ✅    | ✅    | ✅      | ✅             |
+| [Storysource](https://github.com/storybookjs/storybook/tree/next/code/addons/storysource) | ✅    | ✅    | ✅      | ✅             |
+| **Docs**                                                                                  |       |       |         |                |
+| [CSF Stories](../api/csf.md)                                                              | ✅    | ✅    | ✅      | ✅             |
+| [Autodocs](../writing-docs/autodocs.md)                                                   | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - ArgTypes](../api/doc-block-argtypes.md)                                     | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Canvas](../api/doc-block-canvas.md)                                         | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - ColorPalette](../api/doc-block-colorpalette.md)                             | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Controls](../api/doc-block-controls.md)                                     | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Description](../api/doc-block-description.md)                               | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - IconGallery](../api/doc-block-icongallery.md)                               | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Markdown](../api/doc-block-markdown.md)                                     | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Meta](../api/doc-block-meta.md)                                             | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Primary](../api/doc-block-primary.md)                                       | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Source](../api/doc-block-source.md)                                         | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Story](../api/doc-block-story.md)                                           | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Stories](../api/doc-block-stories.md)                                       | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Subtitle](../api/doc-block-subtitle.md)                                     | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Title](../api/doc-block-title.md)                                           | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Typeset](../api/doc-block-typeset.md)                                       | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - Unstyled](../api/doc-block-unstyled.md)                                     | ✅    | ✅    | ✅      | ✅             |
+| [Doc Blocks - UseOf](../api/doc-block-useof.md)                                           | ✅    | ✅    | ✅      | ✅             |
+| Inline stories                                                                            | ✅    | ✅    | ✅      | ✅             |
 
 ## Community frameworks
 

@@ -30,6 +30,7 @@
     },
     "./manager": "./dist/manager.js",
     "./preview": "./dist/preview.js",
+    "./preset": "./dist/preset.js",
     "./register.js": "./dist/manager.js",
     "./package.json": "./package.json"
   },

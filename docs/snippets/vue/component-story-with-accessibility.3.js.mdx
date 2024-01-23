@@ -12,13 +12,6 @@ export default {
 
 // This is an accessible story
 export const Accessible = {
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      return { args };
-    },
-    template: '<Button v-bind="args" />',
-  }),
   args: {
     primary: false,
     label: 'Button',
@@ -27,13 +20,6 @@ export const Accessible = {
 
 // This is not
 export const Inaccessible = {
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      return { args };
-    },
-    template: '<Button v-bind="args" />',
-  }),
   args: {
     ...Accessible.args,
     backgroundColor: 'red',

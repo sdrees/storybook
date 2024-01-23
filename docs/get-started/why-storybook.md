@@ -6,7 +6,7 @@ title: 'Why Storybook?'
 
 The web’s universality is pushing more complexity into the frontend. It began with responsive web design, which turned every user interface from one to 10, 100, 1000 different user interfaces. Over time, additional requirements piled on like devices, browsers, accessibility, performance, and async states.
 
-Component-driven tools like React, Vue, and Angular help break down complex UIs into simple components but they’re not silver bullets. As frontends grow, the number of components swells. Mature projects can contain hundreds of components that yield thousands of discrete variations.
+Component-driven tools like React, Vue 3, and Angular help break down complex UIs into simple components but they’re not silver bullets. As frontends grow, the number of components swells. Mature projects can contain hundreds of components that yield thousands of discrete variations.
 
 To complicate matters further, those UIs are painful to debug because they’re entangled in business logic, interactive states, and app context.
 
@@ -42,8 +42,6 @@ You write stories for granular UI component variation and then use those stories
     'react/histogram-story.js.mdx',
     'react/histogram-story.ts.mdx',
     'angular/histogram-story.ts.mdx',
-    'vue/histogram-story.2.js.mdx',
-    'vue/histogram-story.2.ts.mdx',
     'vue/histogram-story.3.js.mdx',
     'vue/histogram-story.3.ts.mdx',
     'svelte/histogram-story.js.mdx',
