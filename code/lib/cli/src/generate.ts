@@ -34,12 +34,12 @@ const command = (name: string) =>
     .command(name)
     .option(
       '--disable-telemetry',
-      'disable sending telemetry data',
+      'Disable sending telemetry data',
       // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
       process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
     )
     .option('--debug', 'Get more logs in debug mode', false)
-    .option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
+    .option('--enable-crash-reports', 'Enable sending crash reports to telemetry data');
 
 command('init')
   .description('Initialize Storybook into your project.')

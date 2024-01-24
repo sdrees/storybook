@@ -18,6 +18,7 @@ import { incompatibleAddons } from './incompatible-addons';
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
 import { wrapRequire } from './wrap-require';
 import { reactDocgen } from './react-docgen';
+import { removeReactDependency } from './prompt-remove-react';
 import { storyshotsMigration } from './storyshots-migration';
 
 export * from '../types';
@@ -42,6 +43,7 @@ export const allFixes: Fix[] = [
   wrapRequire,
   reactDocgen,
   storyshotsMigration,
+  removeReactDependency,
 ];
 
 export const initFixes: Fix[] = [eslintPlugin];

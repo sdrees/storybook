@@ -1,3 +1,11 @@
+## 8.0.0-alpha.14
+
+- Addons: Remove Node.js internal aliasing for Node builds - [#25712](https://github.com/storybookjs/storybook/pull/25712), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Automigration: Add removeReactDependency fix to allFixes array - [#25717](https://github.com/storybookjs/storybook/pull/25717), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Codemods: Add support for multiple file extensions in runCodemod function - [#25708](https://github.com/storybookjs/storybook/pull/25708), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Next.js: Add webpack aliases for OpenTelemetry API - [#25652](https://github.com/storybookjs/storybook/pull/25652), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- UI: Remove `defaultProps` from `Link` component - [#25619](https://github.com/storybookjs/storybook/pull/25619), thanks [@tsvanharen](https://github.com/tsvanharen)!
+
 ## 8.0.0-alpha.13
 
 - Next.js: Fix SWC mode activation - [#25670](https://github.com/storybookjs/storybook/pull/25670), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
