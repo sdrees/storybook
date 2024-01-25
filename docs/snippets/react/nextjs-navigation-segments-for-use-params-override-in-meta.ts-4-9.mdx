@@ -1,0 +1,22 @@
+```ts
+// NavigationBasedComponent.stories.ts
+import { Meta, StoryObj } from '@storybook/react';
+
+import NavigationBasedComponent from './NavigationBasedComponent';
+
+const meta = {
+  component: NavigationBasedComponent,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: [
+          ['slug', 'hello'],
+          ['framework', 'nextjs'],
+        ],
+      },
+    },
+  },
+} satisfies Meta<typeof NavigationBasedComponent>;
+export default meta;
+```

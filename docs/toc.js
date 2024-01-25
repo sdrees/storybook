@@ -19,6 +19,18 @@ module.exports = {
           description: 'Install the Storybook package in your project',
         },
         {
+          pathSegment: '',
+          title: 'Frameworks',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'nextjs',
+              title: 'Next.js',
+              type: 'link',
+            },
+          ],
+        },
+        {
           pathSegment: 'whats-a-story',
           title: "What's a story?",
           type: 'link',
