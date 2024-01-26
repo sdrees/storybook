@@ -384,6 +384,13 @@ export class Preview<TRenderer extends Renderer> {
     return this.storyStoreValue.loadStory({ storyId });
   }
 
+  getStoryContext(story: PreparedStory<TRenderer>, { forceInitialArgs = false } = {}) {
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'getStoryContext' });
+
+    return this.storyStoreValue.getStoryContext(story, { forceInitialArgs });
+  }
+
   async extract(options?: { includeDocsOnly: boolean }) {
     if (!this.storyStoreValue)
       throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'extract' });

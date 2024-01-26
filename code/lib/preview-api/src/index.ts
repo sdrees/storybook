@@ -68,4 +68,4 @@ export type { PropDescriptor } from './store';
  * STORIES API
  */
 export { StoryStore } from './store';
-export { Preview, PreviewWeb } from './preview-web';
+export { Preview, PreviewWithSelection, PreviewWeb } from './preview-web';

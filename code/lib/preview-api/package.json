@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-api",
-  "version": "8.0.0-alpha.14",
+  "version": "8.0.0-alpha.15",
   "description": "",
   "keywords": [
     "storybook"
@@ -30,6 +30,7 @@
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "react-native": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",

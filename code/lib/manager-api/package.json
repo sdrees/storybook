@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "8.0.0-alpha.14",
+  "version": "8.0.0-alpha.15",
   "description": "Core Storybook Manager API & Context",
   "keywords": [
     "storybook"
@@ -30,6 +30,7 @@
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "react-native": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
