@@ -1,4 +1,4 @@
-import type { ComponentProps, FC, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { styled } from '@storybook/theming';
@@ -44,7 +44,7 @@ export interface WithTooltipPureProps
 }
 
 // Pure, does not bind to the body
-const WithTooltipPure: FC<WithTooltipPureProps> = ({
+const WithTooltipPure = ({
   svg,
   trigger,
   closeOnOutsideClick,
@@ -66,7 +66,7 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
   followCursor,
   onVisibleChange,
   ...props
-}) => {
+}: WithTooltipPureProps) => {
   const Container = svg ? TargetSvgContainer : TargetContainer;
   const {
     getArrowProps,
@@ -149,12 +149,16 @@ WithTooltipPure.defaultProps = {
   defaultVisible: false,
 };
 
-const WithToolTipState: FC<
-  Omit<WithTooltipPureProps, 'onVisibleChange'> & {
-    startOpen?: boolean;
-    onVisibleChange?: (visible: boolean) => void | boolean;
-  }
-> = ({ startOpen = false, onVisibleChange: onChange, ...rest }) => {
+export interface WithTooltipStateProps extends Omit<WithTooltipPureProps, 'onVisibleChange'> {
+  startOpen?: boolean;
+  onVisibleChange?: (visible: boolean) => void | boolean;
+}
+
+const WithToolTipState = ({
+  startOpen = false,
+  onVisibleChange: onChange,
+  ...rest
+}: WithTooltipStateProps) => {
   const [tooltipShown, setTooltipShown] = useState(startOpen);
   const onVisibilityChange = useCallback(
     (visibility: boolean) => {

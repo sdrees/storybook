@@ -16,6 +16,17 @@ Use the Storybook CLI to install it in a single command. Run this inside your pr
 
 <!-- prettier-ignore-end -->
 
+<details>
+<summary>Install a specific version</summary>
+
+The `init` command will use whichever version you specify. For example:
+
+- `storybook@latest init` will initialize the latest version
+- `storybook@7.6.10 init` will initialize `7.6.10`
+- `storybook@7 init` will initialize the newest `7.x.x` version
+
+</details>
+
 Storybook will look into your project's dependencies during its install process and provide you with the best configuration available.
 
 The command above will make the following changes to your local environment:

@@ -1,4 +1,4 @@
-import type { FC, HTMLProps, SelectHTMLAttributes } from 'react';
+import type { HTMLProps, SelectHTMLAttributes } from 'react';
 import React, { forwardRef } from 'react';
 import type { CSSObject, FunctionInterpolation } from '@storybook/theming';
 import { styled } from '@storybook/theming';
@@ -207,7 +207,7 @@ type TextareaProps = Omit<
   valid?: ValidationStates;
   height?: number;
 } & React.RefAttributes<HTMLTextAreaElement>;
-export const Textarea: FC<TextareaProps> = Object.assign(
+export const Textarea = Object.assign(
   styled(
     forwardRef<any, TextareaProps>(function Textarea({ size, valid, align, ...props }, ref) {
       return <TextareaAutoResize {...props} ref={ref} />;

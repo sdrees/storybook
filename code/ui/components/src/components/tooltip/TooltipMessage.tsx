@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 
@@ -41,7 +41,7 @@ export interface TooltipMessageProps {
   }[];
 }
 
-export const TooltipMessage: FC<TooltipMessageProps> = ({ title, desc, links }) => {
+export const TooltipMessage = ({ title, desc, links }: TooltipMessageProps) => {
   return (
     <MessageWrapper>
       <Message>

@@ -16,7 +16,7 @@ All of the following documentation is available in the CLI by running `storybook
 
 <Callout variant="info" icon="💡">
 
-The commands work slightly differently if you're using npm instead of Yarn to publish Storybook. For example, `npm run storybook build -- -o ./path/to/build`.
+Passing options to these commands works slightly differently if you're using npm instead of Yarn. You must prefix all of your options with `--`. For example, `npm run storybook build -- -o ./path/to/build --quiet`.
 
 </Callout>
 
@@ -84,11 +84,13 @@ Options include:
 
 ### `init`
 
-Installs Storybook into your project per specified version (e.g., `@latest`, `@next`). Read more in the [installation guide](../get-started/install.md).
+Installs and initializes the specified version (e.g., `@latest`, `@8`, `@next`) of Storybook into your project. Read more in the [installation guide](../get-started/install.md).
 
 ```shell
 storybook[@version] init [options]
 ```
+
+For example, `storybook@latest init` will install the latest version of Storybook into your project.
 
 Options include:
 
@@ -133,11 +135,13 @@ Options include:
 
 ### `upgrade`
 
-Upgrades your Storybook instance to the latest version. Read more in the [upgrade guide](../configure/upgrading.md).
+Upgrades your Storybook instance to the specified version (e.g., `@latest`, `@8`, `@next`). Read more in the [upgrade guide](../configure/upgrading.md).
 
 ```shell
-storybook upgrade [options]
+storybook[@version] upgrade [options]
 ```
+
+For example, `storybook@latest upgrade --dry-run` will perform a dry run (no actual changes) of upgrading your project to the latest version of Storybook.
 
 Options include:
 
@@ -203,17 +207,15 @@ Storybook Environment Info:
 
 ### `sandbox`
 
-Generates a local sandbox project for testing Storybook features based on the list of supported [frameworks](../configure/frameworks.md). Useful for reproducing bugs when opening an issue or a discussion.
+Generates a local sandbox project using the specified version (e.g., `@latest`, `@8`, `@next`) for testing Storybook features based on the list of supported [frameworks](../configure/frameworks.md). Useful for reproducing bugs when opening an issue or a discussion.
 
 ```shell
-storybook sandbox [framework-filter] [options]
+storybook[@version] sandbox [framework-filter] [options]
 ```
 
-<Callout variant="info">
+For example, `storybook@next sandbox` will generated sandboxes using the newest pre-release version of Storybook.
 
-The `framework-filter` argument is optional and can filter the list of available frameworks. For example, `storybook sandbox react` will only show React-based sandboxes.
-
-</Callout>
+The `framework-filter` argument is optional and can filter the list of available frameworks. For example, `storybook@next sandbox react` will only offer to generate React-based sandboxes.
 
 Options include:
 

@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 
@@ -21,6 +20,6 @@ export interface TooltipNoteProps {
   note: string;
 }
 
-export const TooltipNote: FC<TooltipNoteProps> = ({ note, ...props }) => {
+export const TooltipNote = ({ note, ...props }: TooltipNoteProps) => {
   return <Note {...props}>{note}</Note>;
 };

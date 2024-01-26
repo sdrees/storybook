@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import type { FC } from 'react';
+
 import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
 
@@ -20,7 +20,12 @@ const firstLineRegex = /(Error): (.*)\n/;
 const linesRegexChromium = /at (?:(.*) )?\(?(.+)\)?/;
 const linesRegexFirefox = /([^@]+)?(?:\/<)?@(.+)?/;
 const linesRegexSafari = /([^@]+)?@(.+)?/;
-export const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
+
+export interface ErrorFormatterProps {
+  error: Error;
+}
+
+export const ErrorFormatter = ({ error }: ErrorFormatterProps) => {
   if (!error) {
     return <Fragment>This error has no stack or message</Fragment>;
   }

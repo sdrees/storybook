@@ -1,4 +1,4 @@
-import type { FC, SyntheticEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import React, { useCallback } from 'react';
 import { styled } from '@storybook/theming';
 
@@ -23,12 +23,11 @@ export interface Link extends Omit<ListItemProps, 'onClick'> {
   onClick?: (event: SyntheticEvent, item: ListItemProps) => void;
 }
 
-export interface TooltipLinkListProps {
-  links: Link[];
-  LinkWrapper?: LinkWrapperType;
+interface ItemProps extends Link {
+  isIndented?: boolean;
 }
 
-const Item: FC<Link & { isIndented?: boolean }> = (props) => {
+const Item = (props: ItemProps) => {
   const { LinkWrapper, onClick: onClickFromProps, id, isIndented, ...rest } = props;
   const { title, href, active } = rest;
   const onClick = useCallback(
@@ -54,7 +53,12 @@ const Item: FC<Link & { isIndented?: boolean }> = (props) => {
   );
 };
 
-export const TooltipLinkList: FC<TooltipLinkListProps> = ({ links, LinkWrapper }) => {
+export interface TooltipLinkListProps {
+  links: Link[];
+  LinkWrapper?: LinkWrapperType;
+}
+
+export const TooltipLinkList = ({ links, LinkWrapper }: TooltipLinkListProps) => {
   const hasIcon = links.some((link) => link.icon);
   return (
     <List>

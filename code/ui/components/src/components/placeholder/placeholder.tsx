@@ -1,4 +1,3 @@
-import type { FunctionComponent } from 'react';
 import React, { Children } from 'react';
 import { styled } from '@storybook/theming';
 
@@ -19,7 +18,7 @@ export interface PlaceholderProps {
   children?: React.ReactNode;
 }
 
-export const Placeholder: FunctionComponent<PlaceholderProps> = ({ children, ...props }) => {
+export const Placeholder = ({ children, ...props }: PlaceholderProps) => {
   const [title, desc] = Children.toArray(children);
   return (
     <Message {...props}>

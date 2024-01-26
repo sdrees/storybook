@@ -1,4 +1,4 @@
-import type { FC, ReactNode, ComponentProps } from 'react';
+import type { ReactNode, ComponentProps } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
@@ -170,7 +170,7 @@ const getItemProps = memoize(100)((onClick, href, LinkWrapper) => {
   return result;
 });
 
-export type LinkWrapperType = FC<any>;
+export type LinkWrapperType = (props: any) => ReactNode;
 
 export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' | 'title'> {
   loading?: boolean;
@@ -185,7 +185,7 @@ export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' 
   isIndented?: boolean;
 }
 
-const ListItem: FC<ListItemProps> = ({
+const ListItem = ({
   loading,
   title,
   center,
@@ -198,7 +198,7 @@ const ListItem: FC<ListItemProps> = ({
   onClick,
   LinkWrapper,
   ...rest
-}) => {
+}: ListItemProps) => {
   const itemProps = getItemProps(onClick, href, LinkWrapper);
   const commonProps = { active, disabled };
 

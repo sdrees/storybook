@@ -1,4 +1,4 @@
-import type { ComponentProps, FC, MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
@@ -23,6 +23,7 @@ import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-ligh
 import { createElement } from 'react-syntax-highlighter/dist/esm/index';
 
 import { ActionBar } from '../ActionBar/ActionBar';
+import type { ScrollAreaProps } from '../ScrollArea/ScrollArea';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 import type {
@@ -106,7 +107,7 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({ children, className }) => (
+const UnstyledScroller = ({ children, className }: ScrollAreaProps) => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>

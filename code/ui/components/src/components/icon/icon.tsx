@@ -1,11 +1,14 @@
-import type { ComponentProps, FC } from 'react';
+import type { ComponentProps } from 'react';
 import React, { memo } from 'react';
+
 import * as StorybookIcons from '@storybook/icons';
 import { styled } from '@storybook/theming';
 import { deprecate, logger } from '@storybook/client-logger';
 
 export type IconType = keyof typeof icons;
 type NewIconTypes = (typeof icons)[IconType];
+
+const NEW_ICON_MAP = StorybookIcons as Record<NewIconTypes, (props: unknown) => React.ReactNode>;
 
 const Svg = styled.svg`
   display: inline-block;
@@ -27,7 +30,7 @@ export interface IconsProps extends ComponentProps<typeof Svg> {
  * @deprecated No longer used, will be removed in Storybook 9.0
  * Please use the `@storybook/icons` package instead.
  * */
-export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps) => {
+export const Icons = ({ icon, useSymbol, ...props }: IconsProps) => {
   deprecate(
     `Use of the deprecated Icons ${
       `(${icon})` || ''
@@ -42,8 +45,8 @@ export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps)
     );
     return null;
   }
-  // TODO: Find a better way to type this component
-  const Icon: FC = (StorybookIcons as any)[findIcon];
+
+  const Icon = NEW_ICON_MAP[findIcon];
 
   return <Icon {...props} />;
 };
