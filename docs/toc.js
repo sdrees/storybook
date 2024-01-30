@@ -582,11 +582,6 @@ module.exports = {
               pathSegment: 'main-config-webpack-final',
               type: 'link',
             },
-            {
-              title: 'config',
-              pathSegment: 'main-config-config',
-              type: 'link',
-            },
           ],
         },
         {

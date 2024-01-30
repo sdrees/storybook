@@ -1,3 +1,8 @@
+## 7.6.11
+
+- CLI: Update init for react native v7 - [#25780](https://github.com/storybookjs/storybook/pull/25780), thanks [@dannyhw](https://github.com/dannyhw)!
+- Codemods: Add support for multiple file extensions in runCodemod function - [#25708](https://github.com/storybookjs/storybook/pull/25708), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 7.6.10
 
 - CLI: Fix existing version detection in `upgrade` - [#25642](https://github.com/storybookjs/storybook/pull/25642), thanks [@JReinhold](https://github.com/JReinhold)!

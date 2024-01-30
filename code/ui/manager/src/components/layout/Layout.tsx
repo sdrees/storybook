@@ -6,6 +6,7 @@ import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
 import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 import { useLayout } from './LayoutProvider';
 import { Notifications } from '../../container/Notifications';
+import { Match } from '@storybook/router';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -145,7 +146,9 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
     >
       <Notifications />
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
-      <ContentContainer>{slots.slotMain}</ContentContainer>
+      <Match path={/(^\/story|docs|onboarding\/|^\/$)/} startsWith={false}>
+        {({ match }) => <ContentContainer shown={!!match}>{slots.slotMain}</ContentContainer>}
+      </Match>
       {isDesktop && (
         <>
           <SidebarContainer>
@@ -210,11 +213,12 @@ const SidebarContainer = styled.div(({ theme }) => ({
   borderRight: `1px solid ${theme.color.border}`,
 }));
 
-const ContentContainer = styled.div(({ theme }) => ({
+const ContentContainer = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
   flex: 1,
   position: 'relative',
   backgroundColor: theme.background.content,
-  display: 'grid', // This is needed to make the content container fill the available space
+  display: shown ? 'grid' : 'none', // This is needed to make the content container fill the available space
+  overflow: 'auto',
 
   [MEDIA_DESKTOP_BREAKPOINT]: {
     flex: 'auto',

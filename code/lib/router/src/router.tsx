@@ -3,7 +3,6 @@ import React, { useCallback } from 'react';
 import type { ReactNode, ReactElement, ComponentProps } from 'react';
 
 import * as R from 'react-router-dom';
-import { ToggleVisibility } from './visibility';
 import { queryFromString, parsePath, getMatch } from './utils';
 import type { LinkProps, NavigateOptions, RenderData } from './types';
 
@@ -31,13 +30,11 @@ interface MatchPropsDefault {
 interface RoutePropsStartsWith {
   path: string;
   startsWith?: boolean;
-  hideOnly?: boolean;
   children: ReactNode;
 }
 interface RoutePropsDefault {
   path: RegExp;
   startsWith?: false;
-  hideOnly?: boolean;
   children: ReactNode;
 }
 
@@ -128,23 +125,14 @@ Match.displayName = 'QueryMatch';
 function Route(props: RoutePropsDefault): ReactElement;
 function Route(props: RoutePropsStartsWith): ReactElement;
 function Route(input: RoutePropsDefault | RoutePropsStartsWith) {
-  const { children, hideOnly, ...rest } = input;
+  const { children, ...rest } = input;
   if (rest.startsWith === undefined) {
     rest.startsWith = false;
   }
 
   const matchProps = rest as Omit<ComponentProps<typeof Match>, 'children'>;
 
-  return (
-    <Match {...matchProps}>
-      {({ match }) => {
-        if (hideOnly) {
-          return <ToggleVisibility hidden={!match}>{children}</ToggleVisibility>;
-        }
-        return match ? children : null;
-      }}
-    </Match>
-  );
+  return <Match {...matchProps}>{({ match }) => (match ? children : null)}</Match>;
 }
 Route.displayName = 'Route';
 

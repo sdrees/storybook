@@ -11,6 +11,7 @@ const generator = async (
 
   const missingReactDom =
     !packageJson.dependencies['react-dom'] && !packageJson.devDependencies['react-dom'];
+
   const reactVersion = packageJson.dependencies.react;
 
   const packagesToResolve = [
@@ -24,25 +25,26 @@ const generator = async (
     '@storybook/react-native',
   ];
 
-  // change these to latest version once v6 stable is released
-  const packagesWithFixedVersion = [
-    '@storybook/addon-actions@^6.5.16',
-    '@storybook/addon-controls@^6.5.16',
-  ];
+  const packagesWithFixedVersion: string[] = [];
 
   const versionedPackages = await packageManager.getVersionedPackages(packagesToResolve);
 
   const babelDependencies = await getBabelDependencies(packageManager, packageJson);
 
   const packages: string[] = [];
+
   packages.push(...babelDependencies);
+
   packages.push(...packagesWithFixedVersion);
+
   packages.push(...versionedPackages);
+
   if (missingReactDom && reactVersion) {
     packages.push(`react-dom@${reactVersion}`);
   }
 
   await packageManager.addDependencies({ ...npmOptions, packageJson }, packages);
+
   packageManager.addScripts({
     'storybook-generate': 'sb-rn-get-stories',
     'storybook-watch': 'sb-rn-watcher',
@@ -53,7 +55,7 @@ const generator = async (
   await copyTemplateFiles({
     packageManager,
     renderer: 'react-native',
-    language: SupportedLanguage.JAVASCRIPT,
+    language: SupportedLanguage.TYPESCRIPT_3_8,
     destination: storybookConfigFolder,
     includeCommonAssets: false,
   });

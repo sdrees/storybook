@@ -7,6 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { Layout } from './Layout';
 import { LayoutProvider } from './LayoutProvider';
+import { LocationProvider } from '@storybook/router';
 import MobileNavigationStoriesMeta from '../mobile/navigation/MobileNavigation.stories';
 
 const PlaceholderBlock = styled.div({
@@ -67,7 +68,11 @@ const meta = {
   },
   decorators: [
     MobileNavigationStoriesMeta.decorators[0] as any,
-    (storyFn) => <LayoutProvider>{storyFn()}</LayoutProvider>,
+    (storyFn) => (
+      <LocationProvider>
+        <LayoutProvider>{storyFn()}</LayoutProvider>
+      </LocationProvider>
+    ),
   ],
   render: (args) => {
     const [managerLayoutState, setManagerLayoutState] = useState(args.managerLayoutState);

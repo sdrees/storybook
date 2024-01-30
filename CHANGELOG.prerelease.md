@@ -1,3 +1,9 @@
+## 8.0.0-alpha.16
+
+- CLI: Fix `upgrade` detecting the wrong version of existing Storybooks - [#25752](https://github.com/storybookjs/storybook/pull/25752), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Update init for react native v7 - [#25780](https://github.com/storybookjs/storybook/pull/25780), thanks [@dannyhw](https://github.com/dannyhw)!
+- UI: Improve how the addon panel work on mobile - [#25787](https://github.com/storybookjs/storybook/pull/25787), thanks [@cdedreuille](https://github.com/cdedreuille)!
+
 ## 8.0.0-alpha.15
 
 - Next.js: Add logger statements for compiler selection - [#25755](https://github.com/storybookjs/storybook/pull/25755), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

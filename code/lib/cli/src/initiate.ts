@@ -9,7 +9,6 @@ import {
   HandledError,
   JsPackageManagerFactory,
   commandLog,
-  codeLog,
   paddedLog,
 } from '@storybook/core-common';
 import type { JsPackageManager } from '@storybook/core-common';
@@ -347,15 +346,25 @@ export async function doInitiate(
   }
 
   if (projectType === ProjectType.REACT_NATIVE) {
-    logger.log();
-    logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
-    logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
-    codeLog(["export {default} from './.storybook';"]);
-    logger.log('\n Then to run your Storybook, type:\n');
-    codeLog([packageManager.getRunCommand('start')]);
-    logger.log('\n For more in information, see the github readme:\n');
-    logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
-    logger.log();
+    logger.log(dedent`
+      ${chalk.yellow('NOTE: installation is not 100% automated.')}
+
+      To run Storybook, you will need to:
+
+      1. Replace the contents of your app entry with the following
+      
+      ${chalk.inverse(' ' + "export {default} from './.storybook';" + ' ')}
+      
+      2. Enable transformer.unstable_allowRequireContext in your metro config
+      
+      For a more detailed guide go to:
+      ${chalk.cyan('https://github.com/storybookjs/react-native#existing-project')}
+      
+      Then to run your Storybook, type:
+
+      ${chalk.inverse(' ' + packageManager.getRunCommand('start') + ' ')}
+
+    `);
 
     return { shouldRunDev: false };
   }

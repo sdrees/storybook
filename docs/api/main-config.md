@@ -47,4 +47,3 @@ An object to configure Storybook containing the following properties:
 - [`typescript`](./main-config-typescript.md)
 - [`viteFinal`](./main-config-vite-final.md)
 - [`webpackFinal`](./main-config-webpack-final.md)
-- [`config`](./main-config-config.md) (⛔️ Deprecated)
