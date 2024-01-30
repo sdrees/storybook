@@ -27,9 +27,3 @@ export const getActualPackageJson = async (packageName: string) => {
   const packageJson = await fs.readJson(resolvedPackageJson);
   return packageJson;
 };
-
-// Note that this probably doesn't work in Yarn PNP mode because @storybook/telemetry doesn't depend on @storybook/cli
-export const getStorybookCoreVersion = async () => {
-  const { version } = await getActualPackageVersion('@storybook/cli');
-  return version;
-};
