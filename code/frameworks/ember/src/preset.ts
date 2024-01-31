@@ -43,7 +43,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   };
 };
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
+export const core: PresetProperty<'core'> = async (config, options) => {
   const framework = await options.presets.apply('framework');
 
   return {

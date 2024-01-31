@@ -51,9 +51,11 @@ const createTestBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
 export const build: PresetProperty<'build'> = async (value, options) => {
   return {
     ...value,
-    test: {
-      ...createTestBuildFeatures(!!options.test),
-      ...value?.test,
-    },
+    test: options.test
+      ? {
+          ...createTestBuildFeatures(!!options.test),
+          ...value?.test,
+        }
+      : createTestBuildFeatures(false),
   };
 };

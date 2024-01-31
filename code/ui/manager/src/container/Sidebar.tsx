@@ -45,9 +45,9 @@ const Sidebar = React.memo(function Sideber({ onMenuClick }: SidebarProps) {
     const bottomItems = api.getElements(Addon_TypesEnum.experimental_SIDEBAR_BOTTOM);
     const topItems = api.getElements(Addon_TypesEnum.experimental_SIDEBAR_TOP);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const bottom = useMemo(() => Object.values(bottomItems), [...Object.values(bottomItems)]);
+    const bottom = useMemo(() => Object.values(bottomItems), [Object.keys(bottomItems).join('')]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const top = useMemo(() => Object.values(topItems), [...Object.values(topItems)]);
+    const top = useMemo(() => Object.values(topItems), [Object.keys(topItems).join('')]);
 
     return {
       title: name,

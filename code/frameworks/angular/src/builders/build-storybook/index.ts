@@ -49,6 +49,7 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'configDir'
     | 'loglevel'
     | 'quiet'
+    | 'test'
     | 'webpackStatsJson'
     | 'disableTelemetry'
     | 'debugWebpack'
@@ -87,6 +88,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         configDir,
         docs,
         loglevel,
+        test,
         outputDir,
         quiet,
         enableProdMode = true,
@@ -104,6 +106,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         ...(docs ? { docs } : {}),
         loglevel,
         outputDir,
+        test,
         quiet,
         enableProdMode,
         disableTelemetry,

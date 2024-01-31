@@ -22,7 +22,7 @@ export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entries
   return annotations;
 };
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
+export const core: PresetProperty<'core'> = async (config, options) => {
   const framework = await options.presets.apply('framework');
 
   return {
@@ -34,7 +34,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   };
 };
 
-export const typescript: PresetProperty<'typescript', StorybookConfig> = async (config) => {
+export const typescript: PresetProperty<'typescript'> = async (config) => {
   return {
     ...config,
     skipCompiler: true,
