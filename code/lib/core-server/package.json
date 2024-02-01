@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "8.0.0-alpha.16",
+  "version": "8.0.0-alpha.17",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -104,7 +104,7 @@
     "@types/ip": "^1.1.0",
     "@types/node-fetch": "^2.5.7",
     "@types/ws": "^8",
-    "boxen": "^5.1.2",
+    "boxen": "^7.1.1",
     "node-fetch": "^3.3.1",
     "slash": "^5.0.0",
     "typescript": "^5.3.2"

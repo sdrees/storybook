@@ -24,7 +24,7 @@ export const ejectTool: Addon_BaseType = {
   title: 'eject',
   id: 'eject',
   type: types.TOOL,
-  match: ({ viewMode }) => viewMode === 'story',
+  match: ({ viewMode, tabId }) => viewMode === 'story' && !tabId,
   render: () => (
     <Consumer filter={ejectMapper}>
       {({ baseUrl, storyId, queryParams }) =>

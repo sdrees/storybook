@@ -34,7 +34,7 @@ export const remountTool: Addon_BaseType = {
   title: 'remount',
   id: 'remount',
   type: types.TOOL,
-  match: ({ viewMode }) => viewMode === 'story',
+  match: ({ viewMode, tabId }) => viewMode === 'story' && !tabId,
   render: () => (
     <Consumer filter={menuMapper}>
       {({ remount, storyId, api }) => {

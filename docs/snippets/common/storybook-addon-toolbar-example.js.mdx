@@ -7,13 +7,13 @@ import { addons, types } from '@storybook/manager-api';
 
 import { Icons, IconButton } from '@storybook/components';
 
-addons.register('my/toolbar', () => {
-  addons.add('my-toolbar-addon/toolbar', {
+addons.register('my-addon', () => {
+  addons.add('my-addon/toolbar', {
     title: 'Example Storybook toolbar',
     //👇 Sets the type of UI element in Storybook
     type: types.TOOL,
-    //👇 Shows the Toolbar UI element if either the Canvas or Docs tab is active
-    match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
+    //👇 Shows the Toolbar UI element if the story canvas is being viewed
+    match: ({ tabId, viewMode }) => !tabId && viewMode === 'story',
     render: ({ active }) => (
       <IconButton active={active} title="Show a Storybook toolbar">
         <OutlineIcon />

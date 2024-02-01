@@ -1,3 +1,11 @@
+## 8.0.0-alpha.17
+
+- CLI: Fix add command for non monorepo deps - [#25791](https://github.com/storybookjs/storybook/pull/25791), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Core: Fix `--test` must be passed for `build.test` values to be set. - [#25828](https://github.com/storybookjs/storybook/pull/25828), thanks [@ndelangen](https://github.com/ndelangen)!
+- Test: Fix vitest patch to work with portable stories and upgrade testing-library/jest-dom - [#25840](https://github.com/storybookjs/storybook/pull/25840), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- UI: Fix sidebar top and bottom addons not showing - [#25825](https://github.com/storybookjs/storybook/pull/25825), thanks [@ndelangen](https://github.com/ndelangen)!
+- Webpack: Update StorybookConfig import in core-webpack types.ts - [#25740](https://github.com/storybookjs/storybook/pull/25740), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 8.0.0-alpha.16
 
 - CLI: Fix `upgrade` detecting the wrong version of existing Storybooks - [#25752](https://github.com/storybookjs/storybook/pull/25752), thanks [@JReinhold](https://github.com/JReinhold)!

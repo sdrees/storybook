@@ -10,7 +10,7 @@ import invariant from 'tiny-invariant';
 import {
   getStorybookInfo,
   loadMainConfig,
-  getStorybookVersion,
+  getCoercedStorybookVersion,
   JsPackageManagerFactory,
 } from '@storybook/core-common';
 import type { PackageManagerName } from '@storybook/core-common';
@@ -156,7 +156,7 @@ export async function runFixes({
     userSpecifiedConfigDir
   );
 
-  const storybookVersion = await getStorybookVersion(packageManager);
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
 
   if (!storybookVersion) {
     logger.info(dedent`

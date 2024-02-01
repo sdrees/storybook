@@ -7,7 +7,7 @@ addons.register(ADDON_ID, () =>
   addons.add(ADDON_ID, {
     title: ADDON_ID,
     type: types.TOOL,
-    match: () => true,
+    match: ({ tabId }) => !tabId,
     render: () => <ToolbarManager />,
   })
 );

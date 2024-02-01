@@ -64,7 +64,7 @@ Use `prefers-color-scheme` media in your CSS:
 }
 @media (prefers-color-scheme: dark) {
   html {
-    --text-color: white
+    --text-color: white;
   }
 }
 ```

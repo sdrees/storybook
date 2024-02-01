@@ -4,7 +4,6 @@ import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import { PosixFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
 import { getLibzipSync } from '@yarnpkg/libzip';
-import semver from 'semver';
 import { createLogStream } from '../utils/cli';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -172,11 +171,6 @@ export class Yarn2Proxy extends JsPackageManager {
 
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
     return packageJson;
-  }
-
-  async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
-    const packageJSON = await this.getPackageJSON(packageName, basePath);
-    return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

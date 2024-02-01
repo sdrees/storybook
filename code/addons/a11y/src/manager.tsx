@@ -29,7 +29,7 @@ addons.register(ADDON_ID, (api) => {
   addons.add(PANEL_ID, {
     title: '',
     type: types.TOOL,
-    match: ({ viewMode }) => viewMode === 'story',
+    match: ({ viewMode, tabId }) => viewMode === 'story' && !tabId,
     render: () => <VisionSimulator />,
   });
 

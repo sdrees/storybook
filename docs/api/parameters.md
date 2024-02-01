@@ -2,7 +2,7 @@
 title: 'Parameters'
 ---
 
-Parameters are static metadata used to configure your [stories](../get-started/whats-a-story.md) and [addons](../addons/introduction.md) in Storybook. They are specified at the story, meta (component), project (global) levels.
+Parameters are static metadata used to configure your [stories](../get-started/whats-a-story.md) and [addons](../addons/index.md) in Storybook. They are specified at the story, meta (component), project (global) levels.
 
 ## Story parameters
 
@@ -36,7 +36,7 @@ Parameters specified at the story level apply to that story only. They are defin
 
 </div>
 
-Parameter's specified in a [CSF](../writing-stories/introduction.md#component-story-format-csf) file's meta configuration apply to all stories in that file. They are defined in the `parameters` property of the `meta` (default export):
+Parameter's specified in a [CSF](../writing-stories/index.md#component-story-format-csf) file's meta configuration apply to all stories in that file. They are defined in the `parameters` property of the `meta` (default export):
 
 <!-- prettier-ignore-start -->
 

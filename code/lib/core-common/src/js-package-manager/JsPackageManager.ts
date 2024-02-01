@@ -55,7 +55,10 @@ export abstract class JsPackageManager {
     basePath?: string
   ): Promise<PackageJson | null>;
 
-  public abstract getPackageVersion(packageName: string, basePath?: string): Promise<string | null>;
+  async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
+    const packageJSON = await this.getPackageJSON(packageName, basePath);
+    return packageJSON ? packageJSON.version ?? null : null;
+  }
 
   // NOTE: for some reason yarn prefers the npm registry in
   // local development, so always use npm

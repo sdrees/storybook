@@ -16,9 +16,10 @@ import {
 } from '@vitest/expect';
 import * as matchers from '@testing-library/jest-dom/matchers';
 import type { PromisifyObject } from './utils';
+import type { TestingLibraryMatchers } from '@testing-library/jest-dom/types/matchers';
 
 type Matchers<T> = PromisifyObject<JestAssertion<T>> &
-  matchers.TestingLibraryMatchers<ReturnType<ExpectStatic['stringContaining']>, Promise<void>>;
+  TestingLibraryMatchers<ReturnType<ExpectStatic['stringContaining']>, Promise<void>>;
 
 // We only expose the jest compatible API for now
 export interface Assertion<T> extends Matchers<T> {

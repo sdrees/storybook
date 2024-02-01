@@ -144,6 +144,12 @@ export interface SubAPI {
    * @returns {void}
    */
   setQueryParams: (input: QueryParams) => void;
+  /**
+   * Set the query parameters for the current URL & navigates.
+   * @param {QueryParams} input - An object containing the query parameters to set.
+   * @returns {void}
+   */
+  applyQueryParams: (input: QueryParams) => void;
 }
 
 export const init: ModuleFn<SubAPI, SubState> = (moduleArgs) => {
@@ -187,6 +193,12 @@ export const init: ModuleFn<SubAPI, SubState> = (moduleArgs) => {
         store.setState({ customQueryParams: update });
         provider.channel?.emit(UPDATE_QUERY_PARAMS, update);
       }
+    },
+    applyQueryParams(input) {
+      const { path, queryParams } = api.getUrlState();
+
+      navigateTo(path, { ...queryParams, ...input } as any);
+      api.setQueryParams(input);
     },
     navigateUrl(url, options) {
       navigate(url, { plain: true, ...options });

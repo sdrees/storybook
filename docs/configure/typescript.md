@@ -28,19 +28,49 @@ See the Vite builder [TypeScript documentation](https://github.com/storybookjs/b
 
 ### Extending the default configuration
 
-Out of the box, Storybook is built to work with a wide range of third-party libraries, enabling you to safely access and document metadata (e.g., props, inputs) from your components without any additional configuration. Since Storybook supports multiple frameworks, it also includes a set of third-party packages to support each framework (e.g., `ts-loader` and `ngx-template-loader` for Angular, `react-docgen-typescript-plugin` for React). If you need to customize the default configuration for a specific use case scenario, refer to the [`config.typescript` API reference](../api/main-config-typescript.md).
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik', 'solid' ]}>
 
-The above example extends the baseline configuration to remove existing props from third-party libraries. Useful if you want to document only your components. However, if you need to include them, you can do so by adjusting your configuration as follows:
+Out of the box, Storybook is built to work with a wide range of third-party libraries, enabling you to safely access and document metadata (e.g., props, inputs) from your components without any additional configuration. Since Storybook supports multiple frameworks, it also includes a set of third-party packages to support each framework (e.g., `ts-loader`, `vue-docgen-api` for Vue). If you need to customize the default configuration for a specific use case scenario, you can adjust your Storybook configuration file and provide the required options. Listed below are the available options and examples of how to use them.
+
+| Option         | Description                                                                                                                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `check`        | Available for Webpack-based projects.<br/>Enables type checking within Storybook<br/>`typescript: { check: true },`                                                                                          |
+| `checkOptions` | Requires the `check` option to be enabled.<br/>Configures the [`fork-ts-checker-webpack-plugin`](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) plugin<br/>`typescript: { checkOptions:{},},` |
+| `skipCompiler` | Disables parsing Typescript files through the compiler<br/>`typescript: { skipCompiler:false,},`                                                                                                             |
+
+</IfRenderer>
+
+<IfRenderer renderer='react'>
+
+Out of the box, Storybook is built to work with a wide range of third-party libraries, enabling you to safely access and document metadata (e.g., props) for your components without any additional configuration. It relies on [`react-docgen`](https://github.com/reactjs/react-docgen), a fast and highly customizable parser to process TypeScript files to infer the component's metadata and generate types automatically for improved performance and type safety. If you need to customize the default configuration for a specific use case scenario, you can adjust your Storybook configuration file and provide the required options. Listed below are the available options and examples of how to use them.
+
+| Option                         | Description                                                                                                                                                                                                                               |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `check`                        | Available for Webpack-based projects.<br/>Enables type checking within Storybook<br/>`typescript: { check: true },`                                                                                                                       |
+| `checkOptions`                 | Requires the `check` option to be enabled.<br/>Configures the [`fork-ts-checker-webpack-plugin`](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) plugin<br/>`typescript: { checkOptions: {},},`                             |
+| `reactDocgen`                  | Configures the TypeScript parser used by Storybook.<br/>Available options: `react-docgen` (default), `react-docgen-typescript`,` false`<br/> `typescript: { reactDocgen: 'react-docgen'},`                                                |
+| `reactDocgenTypescriptOptions` | Requires the `reactDocgen`option to be `react-docgen-typescript`.<br/> Configures the `react-docgen-typescript-plugin` plugin per builder<br/>`typescript: { reactDocgen: 'react-docgen-typescript', reactDocgenTypescriptOptions: {},},` |
+| `skipCompiler`                 | Disables parsing Typescript files through the compiler<br/>`typescript: { skipCompiler:false,},`                                                                                                                                          |
+
+</IfRenderer>
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
+    'react/storybook-main-extend-ts-config.ts.mdx',
     'common/storybook-main-extend-ts-config.ts.mdx',
   ]}
 />
 
+
 <!-- prettier-ignore-end -->
+
+<Callout>
+
+Additional options are available for the `typescript` configuration option. See the [`config.typescript` API reference](../api/main-config-typescript.md) for more information.
+
+</Callout>
 
 ## Write stories with TypeScript
 
@@ -92,6 +122,45 @@ Now, when you define a story or update an existing one, you'll automatically get
 
 Out of the box, Storybook supports the `satisfies` operator for almost every framework already using TypeScript version 4.9 or higher. However, due to the constraints of the Angular and Web Components framework, you might run into issues when applying this operator for additional type safety. This is primarily due to how both frameworks are currently implemented, making it almost impossible for Storybook to determine if the component property is required. If you encounter this issue, please open up a support request on [GitHub Discussions](https://github.com/storybookjs/storybook/discussions/new?category=help).
 
+<IfRenderer renderer={[ 'vue', 'svelte' ]}>
+
 ### The TypeScript auto-completion is not working on my editor
 
 If you're using Vue single file components and TypeScript, you can add both [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) and the [TypeScript Vue Plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) for editor support, additional type safety and auto-completion. Nevertheless, if you're working with Svelte, you can add the [Svelte for VSCode extension](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) for similar benefits.
+
+</IfRenderer>
+
+<IfRenderer renderer='react'>
+
+### Storybook doesn't create the required types for external packages
+
+If your project relies on a third-party library and the expected types are not being generated, preventing you from accurately documenting your components, you can adjust the `reactDocgen` configuration option in your Storybook configuration file to use `react-docgen-typescript` instead and include the required options. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/storybook-main-prop-filter.ts.mdx',
+  ]}
+/>
+
+
+<!-- prettier-ignore-end -->
+
+### The types are not being generated for my component
+
+If you're working with a React project, type inference is automatically enabled for your components using the `react-docgen` library for improved build times and type safety. However, you may run into a situation where some options may not work as expected (e.g., [`Enums`](https://www.typescriptlang.org/docs/handbook/enums.html), React's [`forwardRef`](https://react.dev/reference/react/forwardRef)). This is primarily due to how the `react-docgen` package is implemented, making it difficult for Storybook to infer the component's metadata and generate types automatically. To solve this, you can update the `typescript` configuration option in your Storybook configuration file to use `react-docgen-typescript` instead. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/storybook-main-react-docgen-typescript.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+If you're still encountering issues, we recommend reaching out to the community using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)).
+
+</IfRenderer>

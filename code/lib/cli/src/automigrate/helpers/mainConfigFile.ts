@@ -12,7 +12,7 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import path from 'path';
 import type { JsPackageManager } from '@storybook/core-common';
-import { getStorybookVersion } from '@storybook/core-common';
+import { getCoercedStorybookVersion } from '@storybook/core-common';
 
 const logger = console;
 
@@ -93,7 +93,7 @@ export const getStorybookData = async ({
     configDir: configDirFromScript,
     previewConfig: previewConfigPath,
   } = getStorybookInfo(packageJson, userDefinedConfigDir);
-  const storybookVersion = await getStorybookVersion(packageManager);
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
 
   const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
 

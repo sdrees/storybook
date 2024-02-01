@@ -8,7 +8,7 @@ addons.register(ADDON_ID, () => {
   addons.add(TOOL_ID, {
     type: types.TOOL,
     title: 'Measure',
-    match: ({ viewMode }) => viewMode === 'story',
+    match: ({ viewMode, tabId }) => viewMode === 'story' && !tabId,
     render: () => <Tool />,
   });
 });

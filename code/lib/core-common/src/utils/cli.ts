@@ -4,6 +4,7 @@ import { join } from 'path';
 import tempy from 'tempy';
 import { rendererPackages } from './get-storybook-info';
 import type { JsPackageManager } from '../js-package-manager';
+import versions from '../versions';
 
 export function parseList(str: string): string[] {
   return str
@@ -12,7 +13,13 @@ export function parseList(str: string): string[] {
     .filter((item) => item.length > 0);
 }
 
-export async function getStorybookVersion(packageManager: JsPackageManager) {
+/**
+ * Given a package manager, returns the coerced version of Storybook.
+ * It tries to find renderer packages in the project and returns the coerced version of the first one found.
+ * Example:
+ * If @storybook/react version 8.0.0-alpha.14 is installed, it returns the coerced version 8.0.0
+ */
+export async function getCoercedStorybookVersion(packageManager: JsPackageManager) {
   const packages = (
     await Promise.all(
       Object.keys(rendererPackages).map(async (pkg) => ({
@@ -97,34 +104,4 @@ export const createLogStream = async (
   });
 };
 
-const PACKAGES_EXCLUDED_FROM_CORE = [
-  '@storybook/addon-bench',
-  '@storybook/addon-console',
-  '@storybook/addon-onboarding',
-  '@storybook/addon-postcss',
-  '@storybook/addon-designs',
-  '@storybook/addon-styling',
-  '@storybook/addon-styling-webpack',
-  '@storybook/bench',
-  '@storybook/builder-vite',
-  '@storybook/csf',
-  '@storybook/design-system',
-  '@storybook/ember-cli-storybook',
-  '@storybook/eslint-config-storybook',
-  '@storybook/expect',
-  '@storybook/jest',
-  '@storybook/linter-config',
-  '@storybook/mdx1-csf',
-  '@storybook/mdx2-csf',
-  '@storybook/react-docgen-typescript-plugin',
-  '@storybook/storybook-deployer',
-  '@storybook/test-runner',
-  '@storybook/testing-library',
-  '@storybook/testing-react',
-  '@nrwl/storybook',
-  '@nx/storybook',
-];
-export const isCorePackage = (pkg: string) =>
-  pkg.startsWith('@storybook/') &&
-  !pkg.startsWith('@storybook/preset-') &&
-  !PACKAGES_EXCLUDED_FROM_CORE.includes(pkg);
+export const isCorePackage = (pkg: string) => Object.keys(versions).includes(pkg);

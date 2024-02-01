@@ -8,7 +8,9 @@ export default {
     builder: '@storybook/builder-vite',
   },
   typescript: {
-    reactDocgen: 'react-docgen', // 👈 react-docgen configured here.
+    // Enables the `react-docgen-typescript` parser.
+    // See https://storybook.js.org/docs/api/main-config-typescript for more information about this option.
+    reactDocgen: 'react-docgen-typescript',
   },
 };
 ```

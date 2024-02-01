@@ -26,11 +26,12 @@ export const reactDocgen: Fix<Options> = {
       but "typescript.reactDocgen" is unset.
       
       In Storybook 8.0, we changed the default React docgen analysis from 
-      "react-docgen-typescript" to "react-docgen", which dramatically faster
-      but doesn't handle all TypeScript constructs.
-
-      We can update your config to continue to use "react-docgen-typescript",
-      though we recommend giving "react-docgen" for a much faster dev experience.
+      "react-docgen-typescript" to "react-docgen". We recommend "react-docgen"
+      for most projects, since it is dramatically faster. However, it doesn't
+      handle all TypeScript constructs, and may generate different results
+      than "react-docgen-typescript".
+      
+      Should we update your config to continue to use "react-docgen-typescript"?
 
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#react-docgen-component-analysis-by-default
     `;

@@ -2,7 +2,6 @@ import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
-import semver from 'semver';
 import { createLogStream } from '../utils/cli';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -80,11 +79,6 @@ export class Yarn1Proxy extends JsPackageManager {
     }
 
     return JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
-  }
-
-  public async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
-    const packageJson = await this.getPackageJSON(packageName, basePath);
-    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
   }
 
   public async findInstallations(pattern: string[]) {

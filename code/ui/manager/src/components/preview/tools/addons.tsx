@@ -16,7 +16,7 @@ export const addonsTool: Addon_BaseType = {
   title: 'addons',
   id: 'addons',
   type: types.TOOL,
-  match: ({ viewMode }) => viewMode === 'story',
+  match: ({ viewMode, tabId }) => viewMode === 'story' && !tabId,
   render: () => (
     <Consumer filter={menuMapper}>
       {({ isVisible, toggle, singleStory, panelPosition }) =>

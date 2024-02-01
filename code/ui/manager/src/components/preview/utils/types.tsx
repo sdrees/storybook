@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import type { State, API, LeafEntry } from '@storybook/manager-api';
-import type { Addon_WrapperType, API_ViewMode, StoryId } from '@storybook/types';
+import type { Addon_BaseType, Addon_WrapperType, API_ViewMode, StoryId } from '@storybook/types';
 
 export interface PreviewProps {
   api: API;
@@ -13,13 +13,16 @@ export interface PreviewProps {
     showToolbar: boolean;
   };
   id?: string;
-  path: string;
-  location: State['location'];
   queryParams: State['customQueryParams'];
   customCanvas?: CustomCanvasRenderer;
   description: string;
   baseUrl: string;
   withLoader: boolean;
+  tabs: Addon_BaseType[];
+  tools: Addon_BaseType[];
+  toolsExtra: Addon_BaseType[];
+  tabId: string | undefined;
+  wrappers: Addon_WrapperType[];
 }
 
 export interface ApplyWrappersProps {
@@ -27,7 +30,6 @@ export interface ApplyWrappersProps {
   viewMode: State['viewMode'];
   id: string;
   storyId: StoryId;
-  active: boolean;
 }
 
 export type CustomCanvasRenderer = (

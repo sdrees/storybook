@@ -3,7 +3,6 @@ import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import path from 'path';
 import fs from 'fs';
-import semver from 'semver';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -157,12 +156,6 @@ export class PNPMProxy extends JsPackageManager {
     }
 
     return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-  }
-
-  async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
-    const packageJSON = await this.getPackageJSON(packageName, basePath);
-
-    return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

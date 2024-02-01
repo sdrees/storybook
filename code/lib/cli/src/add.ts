@@ -1,7 +1,7 @@
 import {
   getStorybookInfo,
   serverRequire,
-  getStorybookVersion,
+  getCoercedStorybookVersion,
   isCorePackage,
   JsPackageManagerFactory,
   type PackageManagerName,
@@ -107,8 +107,9 @@ export async function add(
   // add to package.json
   const isStorybookAddon = addonName.startsWith('@storybook/');
   const isAddonFromCore = isCorePackage(addonName);
-  const storybookVersion = await getStorybookVersion(packageManager);
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
   const version = versionSpecifier || (isAddonFromCore ? storybookVersion : latestVersion);
+
   const addonWithVersion = SemVer.valid(version)
     ? `${addonName}@^${version}`
     : `${addonName}@${version}`;

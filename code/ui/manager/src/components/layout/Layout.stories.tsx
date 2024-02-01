@@ -61,6 +61,7 @@ const meta = {
     slotPanel: <MockPanel />,
     slotPages: <MockPage />,
     setManagerLayoutState: fn(),
+    hasTab: false,
   },
   parameters: {
     theme: 'light',

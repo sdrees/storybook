@@ -28,7 +28,7 @@ export const copyTool: Addon_BaseType = {
   title: 'copy',
   id: 'copy',
   type: types.TOOL,
-  match: ({ viewMode }) => viewMode === 'story',
+  match: ({ viewMode, tabId }) => viewMode === 'story' && !tabId,
   render: () => (
     <Consumer filter={copyMapper}>
       {({ baseUrl, storyId, queryParams }) =>

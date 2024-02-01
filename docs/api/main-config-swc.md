@@ -6,7 +6,7 @@ Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(config: swc.Options, options: Options) => swc.Options | Promise<swc.Options>`
 
-Customize Storybook's [SWC](https://swc.rs/) setup.
+Customize Storybook's [SWC](https://swc.rs/) setup for Webpack-based projects enabled via the [`@storybook/addon-webpack5-compiler-swc`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-swc) addon based on the supported [frameworks](../configure/frameworks.md), except Angular, Create React App, Ember.js and Next.js.
 
 <!-- prettier-ignore-start -->
 

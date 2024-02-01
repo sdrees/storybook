@@ -196,7 +196,7 @@ export async function baseGenerator(
   );
 
   const {
-    extraAddons: extraAddonPackages,
+    extraAddons: extraAddonPackages = [],
     extraPackages,
     staticDir,
     addScripts,
@@ -222,21 +222,23 @@ export async function baseGenerator(
         })
       : extraAddonPackages;
 
+  extraAddonsToInstall.push(
+    '@storybook/addon-links',
+    '@storybook/addon-essentials'
+    // '@chromatic-com/storybook@^1'
+  );
+
   // added to main.js
   const addons = [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
     ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
-    ...stripVersions(extraAddonsToInstall || []),
+    ...stripVersions(extraAddonsToInstall),
   ].filter(Boolean);
 
   // added to package.json
   const addonPackages = [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
     '@storybook/blocks',
     ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
-    ...(extraAddonsToInstall || []),
+    ...extraAddonsToInstall,
   ].filter(Boolean);
 
   // TODO: migrate template stories in solid and qwik to use @storybook/test

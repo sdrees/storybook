@@ -7,7 +7,7 @@ addons.register(ADDON_ID, () => {
   addons.add(THEME_SWITCHER_ID, {
     title: 'Themes',
     type: types.TOOL,
-    match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
+    match: ({ viewMode, tabId }) => !!(viewMode && viewMode.match(/^(story|docs)$/)) && !tabId,
     render: ThemeSwitcher,
     paramKey: PARAM_KEY,
   });

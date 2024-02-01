@@ -4,7 +4,6 @@ import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
-import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -100,11 +99,6 @@ export class NPMProxy extends JsPackageManager {
 
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
     return packageJson;
-  }
-
-  public async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
-    const packageJson = await this.getPackageJSON(packageName, basePath);
-    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
   }
 
   getInstallArgs(): string[] {

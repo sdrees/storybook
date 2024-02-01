@@ -16,4 +16,9 @@ jobs:
           use-quiet-mode: 'yes'
           # output full HTTP info for broken links
           use-verbose-mode: 'yes'
-          config-file: '.github/workflows/markdown-link-check-config.json'
+          config-file: '.github/workflows/markdown-link-check-config.json'   
+      # Notify to Discord channel on failure
+      - name: Send Discord Notification
+        if: failure() # Only run this step if previous steps failed
+        run: |
+          curl -H "Content-Type: application/json" -X POST -d '{"content":"The Markdown Links Check workflow has failed in the repository: [storybook]"}' ${{ secrets.DISCORD_MONITORING_URL }}

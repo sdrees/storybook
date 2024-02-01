@@ -6,18 +6,7 @@ Javascript compilers are essential in optimizing and transforming code, enhancin
 
 ## SWC
 
-SWC is a fast, highly extensible tool for compiling and bundling modern JavaScript applications. Powered by [Rust](https://www.rust-lang.org/), it improves performance and reduces build times. Storybook includes a built-in integration with SWC, allowing zero-configuration setup and built-in types for APIs. If you've initialized Storybook in a Webpack-based project with any of the supported [frameworks](./frameworks.md), except Angular, it will automatically use SWC as its default, providing you with faster loading time. However, if you're upgrading from a previous version of Storybook, you may need to opt-in to use SWC by adjusting your Storybook configuration file (i.e., `.storybook/main.js|ts`) as follows:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-framework-options-builder-use-swc.js.mdx',
-    'common/main-config-framework-options-builder-use-swc.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+SWC is a fast, highly extensible tool for compiling and bundling modern JavaScript applications. Powered by [Rust](https://www.rust-lang.org/), it improves performance and reduces build times. Storybook includes a built-in integration with SWC, allowing zero-configuration setup and built-in types for APIs. If you've initialized Storybook in a Webpack-based project with any of the supported [frameworks](./frameworks.md), except Angular, Create React App, Ember.js and Next.js, it will automatically use SWC as its default, providing you with faster loading time.
 
 <Callout variant="info">
 

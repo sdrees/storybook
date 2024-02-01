@@ -183,6 +183,36 @@ Creating automated documentation with Storybook's Autodocs provides you with the
 
 ## Advanced configuration
 
+### Documenting multiple components
+
+Sometimes it's helpful to document multiple components together. For example, a component library’s ButtonGroup and Button components might not make sense without one another.
+
+Autodocs allows you to document your "main" component, defined by the `component` property, as well as one or more `subcomponents` related to it.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/list-story-with-subcomponents.js.mdx',
+    'react/list-story-with-subcomponents.ts.mdx',
+    'angular/list-story-with-subcomponents.ts.mdx',
+    'vue/list-story-with-sub-components.js.mdx',
+    'vue/list-story-with-sub-components.ts.mdx',
+    'web-components/list-story-with-subcomponents.js.mdx',
+    'web-components/list-story-with-subcomponents.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
+/>
+
+<!-- prettier-ignore-end -->
+
+![Subcomponents in ArgTypes doc block](../writing-stories/doc-block-arg-types-subcomponents-for-list.png)
+
+The main component and its subcomponents will show up in a tabbed version of the [`ArgTypes` doc block](./doc-blocks.md#argtypes). The tab titles will correspond to the keys of the `subcomponents` object.
+
+If you want to organize your documentation differently for component groups, we recommend [using MDX](./mdx.md). It gives you complete control over how your components are displayed and supports any configuration.
+
 ### Customize the Docs Container
 
 The Docs Container is the component that wraps up the documentation page. It's responsible for rendering the documentation page in Storybook's UI. You can customize it by creating your own component and updating your Storybook UI configuration file (i.e., `.storybook/preview.js`) to reference it.

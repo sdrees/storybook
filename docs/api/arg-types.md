@@ -16,13 +16,13 @@ If you are using the Storybook [docs](../writing-docs/index.md) addon (installed
 
 To do so, Storybook uses various static analysis tools depending on your framework.
 
-| Framework     | Static analysis tool                                                                                                                          |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| React         | [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript) |
-| Vue 3         | [vue-docgen-api](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-docgen-api)                                       |
-| Angular       | [compodoc](https://compodoc.app/)                                                                                                             |
-| WebComponents | [custom-element.json](https://github.com/webcomponents/custom-elements-json)                                                                  |
-| Ember         | [YUI doc](https://github.com/ember-learn/ember-cli-addon-docs-yuidoc#documenting-components)                                                  |
+| Framework     | Static analysis tool                                                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| React         | [react-docgen](https://github.com/reactjs/react-docgen) (default) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript) |
+| Vue           | [vue-docgen-api](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-docgen-api)                                                 |
+| Angular       | [compodoc](https://compodoc.app/)                                                                                                                       |
+| WebComponents | [custom-element.json](https://github.com/webcomponents/custom-elements-json)                                                                            |
+| Ember         | [YUI doc](https://github.com/ember-learn/ember-cli-addon-docs-yuidoc#documenting-components)                                                            |
 
 The data structure of `argTypes` is designed to match the output of the these tools. Properties specified manually will override what is inferred.
 

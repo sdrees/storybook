@@ -46,6 +46,10 @@ Use this boilerplate code to add a new `button` to Storybook's Toolbar:
 
 <Callout variant="info">
 
+The `match` property allows you to conditionally render your toolbar addon, [based on the current view](./writing-addons.md#conditionally-render-the-addon).
+
+<hr style="margin: -0.75em 0 0.75em" />
+
 The `icon` element used in the example loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
 
 </Callout>

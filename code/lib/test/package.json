@@ -1,6 +1,6 @@
 {
   "name": "@storybook/test",
-  "version": "8.0.0-alpha.16",
+  "version": "8.0.0-alpha.17",
   "description": "",
   "keywords": [
     "storybook"
@@ -48,7 +48,7 @@
     "@storybook/instrumenter": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@testing-library/dom": "^9.3.1",
-    "@testing-library/jest-dom": "^6.1.3",
+    "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/user-event": "14.3.0",
     "@vitest/expect": "1.1.3",
     "@vitest/spy": "^1.1.3",

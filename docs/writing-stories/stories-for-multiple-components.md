@@ -2,11 +2,40 @@
 title: 'Stories for multiple components'
 ---
 
-It's useful to write stories that [render two or more components](../writing-stories/index.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components.
+It's useful to write stories that [render two or more components](../writing-stories/index.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components. Here's an example with `List` and `ListItem` components:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/list-story-with-subcomponents.js.mdx',
+    'react/list-story-with-subcomponents.ts.mdx',
+    'angular/list-story-with-subcomponents.ts.mdx',
+    'vue/list-story-with-sub-components.js.mdx',
+    'vue/list-story-with-sub-components.ts.mdx',
+    'web-components/list-story-with-subcomponents.js.mdx',
+    'web-components/list-story-with-subcomponents.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
+/>
+
+<!-- prettier-ignore-end -->
+
+Note that by adding a `subcomponents` property to the default export, we get an extra panel on the [ArgTypes](../writing-docs/doc-blocks.md#argtypes) and [Controls](../essentials/controls.md#) tables, listing the props of `ListItem`:
+
+![Subcomponents in ArgTypes doc block](./doc-block-arg-types-subcomponents-for-list.png)
+
+Subcomponents are only intended for documentation purposes and have some limitations:
+
+1. The [argTypes](../api/arg-types.md) of subcomponents are [inferred (for the renderers that support that feature)](../api/arg-types.md#automatic-argtype-inference) and cannot be manually defined or overridden.
+2. The table for each documented subcomponent does _not_ include [controls](../essentials/controls.md) to change the value of the props, because controls always apply to the main component's args.
+
+Let's talk about some techniques you can use to mitigate the above, which are especially useful in more complicated situations.
 
 ## Reusing subcomponent stories
 
-The simplest approach we can take is to reuse the stories of the `ListItem` in the `List`:
+The simplest change we can make to the above is to reuse the stories of the `ListItem` in the `List`:
 
 <!-- prettier-ignore-start -->
 
