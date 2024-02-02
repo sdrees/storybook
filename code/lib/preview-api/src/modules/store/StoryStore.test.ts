@@ -28,14 +28,6 @@ vi.mock('@storybook/global', async (importOriginal) => ({
 
 vi.mock('@storybook/client-logger');
 
-const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
-  let openGate = (_?: any) => {};
-  const gate = new Promise<any | undefined>((resolve) => {
-    openGate = resolve;
-  });
-  return [gate, openGate];
-};
-
 const componentOneExports = {
   default: { title: 'Component One' },
   a: { args: { foo: 'a' } },
@@ -434,22 +426,6 @@ describe('StoryStore', () => {
         './src/ComponentOne.stories.js',
         './src/ComponentTwo.stories.js',
       ]);
-    });
-
-    it('imports in batches', async () => {
-      const [gate, openGate] = createGate();
-      const blockedImportFn = vi.fn(async (file) => {
-        await gate;
-        return importFn(file);
-      });
-      const store = new StoryStore(storyIndex, blockedImportFn, projectAnnotations);
-
-      const promise = store.loadAllCSFFiles({ batchSize: 1 });
-      expect(blockedImportFn).toHaveBeenCalledTimes(1);
-
-      openGate();
-      await promise;
-      expect(blockedImportFn).toHaveBeenCalledTimes(3);
     });
   });
 

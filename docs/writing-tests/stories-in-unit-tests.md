@@ -182,7 +182,7 @@ When using the `composeStories` or `composeStory` functions, the components bein
 
 </IfRenderer>
 
-#### Learn about other UI tests
+**Learn about other UI tests**
 
 - [Test runner](./test-runner.md) to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

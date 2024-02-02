@@ -1,3 +1,9 @@
+## 8.0.0-beta.0
+
+- CLI: Add Visual Tests addon to `init` - [#25850](https://github.com/storybookjs/storybook/pull/25850), thanks [@shilman](https://github.com/shilman)!
+- CLI: Upgrade boxen library - [#25713](https://github.com/storybookjs/storybook/pull/25713), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Fix custom tabs not showing in the manager - [#25792](https://github.com/storybookjs/storybook/pull/25792), thanks [@ndelangen](https://github.com/ndelangen)!
+
 ## 8.0.0-alpha.17
 
 - CLI: Fix add command for non monorepo deps - [#25791](https://github.com/storybookjs/storybook/pull/25791), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

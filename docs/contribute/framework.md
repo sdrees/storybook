@@ -88,7 +88,7 @@ Because a framework is a node package, it must contain a `package.json` file. He
     "test": "..."
   },
   "dependencies": {
-    "@storybook/addons": "^7.0.0",
+    "@storybook/manager-api": "^7.0.0",
     "@storybook/core-common": "^7.0.0",
     "@storybook/node-logger": "^7.0.0",
     "@storybook/<builder>": "^7.0.0",

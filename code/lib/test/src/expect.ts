@@ -16,7 +16,7 @@ import {
 } from '@vitest/expect';
 import * as matchers from '@testing-library/jest-dom/matchers';
 import type { PromisifyObject } from './utils';
-import type { TestingLibraryMatchers } from '@testing-library/jest-dom/types/matchers';
+import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
 
 type Matchers<T> = PromisifyObject<JestAssertion<T>> &
   TestingLibraryMatchers<ReturnType<ExpectStatic['stringContaining']>, Promise<void>>;

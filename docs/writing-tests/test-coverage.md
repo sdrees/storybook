@@ -193,7 +193,7 @@ If you generated a production build optimized for performance with the [`--test`
 
 As the [coverage addon](https://storybook.js.org/addons/@storybook/addon-coverage) is based on Webpack5 loaders and Vite plugins for code instrumentation, frameworks that don't rely upon these libraries (e.g., Angular configured with Webpack), will require additional configuration to enable code instrumentation. In that case, you can refer to the following [repository](https://github.com/yannbf/storybook-coverage-recipes) for more information.
 
-#### Learn about other UI tests
+**Learn about other UI tests**
 
 - [Test runner](./test-runner.md) to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

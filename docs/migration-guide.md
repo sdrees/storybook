@@ -42,10 +42,15 @@ The rest of this guide will help you upgrade successfully, either automatically 
 - [`*.stories.mdx` format has been removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support)
 - [Implicit actions (from `argTypesRegex`) can no longer be used during rendering (e.g. in a play function)](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
 - [`react-docgen` (instead of `react-docgen-typescript`) is the default for component analysis](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#react-docgen-component-analysis-by-default)
-- [Yarn 1 is no longer supported](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropping-support-for-yarn-1)
-- [Node 16 is no longer supported](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropping-support-for-nodejs-16)
 - [Storyshots has been removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storyshots-has-been-removed)
 - [Addons API introduced in Storybook 7 is now required](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-addons-api)
+- Ecosystem updates
+  - [Node 18+ is now required](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropping-support-for-nodejs-16)
+  - [Next.js 13.5+ is now required](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#require-nextjs-135-and-up)
+  - [Vue 3+ is now required](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#require-vue-3-and-up)
+  - [Angular 15+ is now required](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#require-angular-15-and-up)
+  - [Svelte 4+ is now required](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#require-svelte-4-and-up)
+  - [Yarn 1 is no longer supported](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropping-support-for-yarn-1)
 
 If any of these apply to your project, please read through the the linked migration notes before continuing. If any of these new requirements or changes do not fit your project, you should probably stick with Storybook 7.x.
 

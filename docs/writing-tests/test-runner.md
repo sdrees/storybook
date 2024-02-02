@@ -465,7 +465,7 @@ As the test runner is based on Playwright, you might need to use specific docker
 
 If you've enabled filtering tests with tags and provided similar tags to the `include` and `exclude` lists, the test-runner will execute the tests based on the `exclude` list and ignore the `include` list. To avoid this, make sure the tags provided to the `include` and `exclude` lists differ.
 
-#### Learn about other UI tests
+**Learn about other UI tests**
 
 - Test runner to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

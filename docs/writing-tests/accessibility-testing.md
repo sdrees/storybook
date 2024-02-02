@@ -252,7 +252,7 @@ Additionally, if you have already [disabled accessibility](#how-to-disable-a11y-
 
 Browser-based accessibility tests, like those found in Storybook, evaluate the rendered DOM because that gives you the highest accuracy. Auditing code that hasn't been compiled yet is one step removed from the real thing, so you won't catch everything the user might experience.
 
-#### Learn about other UI tests
+**Learn about other UI tests**
 
 - [Test runner](./test-runner.md) to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

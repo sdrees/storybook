@@ -41,9 +41,9 @@ import {
   prepareContext,
 } from './csf';
 
+// TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
-const EXTRACT_BATCH_SIZE = 20;
 
 export class StoryStore<TRenderer extends Renderer> {
   public storyIndex: StoryIndexStore;
@@ -127,32 +127,19 @@ export class StoryStore<TRenderer extends Renderer> {
     return this.processCSFFileWithCache(moduleExports, importPath, title);
   }
 
-  async loadAllCSFFiles({ batchSize = EXTRACT_BATCH_SIZE } = {}): Promise<
-    StoryStore<TRenderer>['cachedCSFFiles']
-  > {
-    const importPaths = Object.entries(this.storyIndex.entries).map(([storyId, { importPath }]) => [
-      importPath,
-      storyId,
-    ]);
+  async loadAllCSFFiles(): Promise<StoryStore<TRenderer>['cachedCSFFiles']> {
+    const importPaths: Record<Path, StoryId> = {};
+    Object.entries(this.storyIndex.entries).forEach(([storyId, { importPath }]) => {
+      importPaths[importPath] = storyId;
+    });
 
-    const loadInBatches = async (
-      remainingImportPaths: typeof importPaths
-    ): Promise<{ importPath: Path; csfFile: CSFFile<TRenderer> }[]> => {
-      if (remainingImportPaths.length === 0) return Promise.resolve([]);
+    const list = await Promise.all(
+      Object.entries(importPaths).map(async ([importPath, storyId]) => ({
+        importPath,
+        csfFile: await this.loadCSFFileByStoryId(storyId),
+      }))
+    );
 
-      const csfFilePromiseList = remainingImportPaths
-        .slice(0, batchSize)
-        .map(async ([importPath, storyId]) => ({
-          importPath,
-          csfFile: await this.loadCSFFileByStoryId(storyId),
-        }));
-
-      const firstResults = await Promise.all(csfFilePromiseList);
-      const restResults = await loadInBatches(remainingImportPaths.slice(batchSize));
-      return firstResults.concat(restResults);
-    };
-
-    const list = await loadInBatches(importPaths);
     return list.reduce(
       (acc, { importPath, csfFile }) => {
         acc[importPath] = csfFile;
