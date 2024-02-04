@@ -47,7 +47,6 @@ const generator = async (
 
   packageManager.addScripts({
     'storybook-generate': 'sb-rn-get-stories',
-    'storybook-watch': 'sb-rn-watcher',
   });
 
   const storybookConfigFolder = '.storybook';
