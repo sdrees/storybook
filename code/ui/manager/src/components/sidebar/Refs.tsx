@@ -67,6 +67,7 @@ const CollapseButton = styled.button(({ theme }) => ({
   gap: 6,
   alignItems: 'center',
   cursor: 'pointer',
+  overflow: 'hidden',
 
   '&:focus': {
     borderColor: theme.color.secondary,

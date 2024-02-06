@@ -14,12 +14,15 @@ const generator = async (
 
   const reactVersion = packageJson.dependencies.react;
 
-  const packagesToResolve = [
-    // addon-ondevice-controls peer deps
+  const controlsPeerDependencies = [
     'react-native-safe-area-context',
     '@react-native-async-storage/async-storage',
     '@react-native-community/datetimepicker',
     '@react-native-community/slider',
+  ].filter((dep) => !packageJson.dependencies[dep] && !packageJson.devDependencies[dep]);
+
+  const packagesToResolve = [
+    ...controlsPeerDependencies,
     '@storybook/addon-ondevice-controls',
     '@storybook/addon-ondevice-actions',
     '@storybook/react-native',

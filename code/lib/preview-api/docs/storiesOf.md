@@ -4,7 +4,7 @@
 
 In Storybook 5.2 we introduced a simpler and more portable [Component Story Format](https://storybook.js.org/docs/react/api/csf), and all future tools and infrastructure will be oriented towards CSF. Therefore, we recommend migrating your stories out of `storiesOf` API, and even provide [automated tools to do this](#component-story-format-migration).
 
-That said, the `storiesOf` API is not officially deprecated. For the time being we plan to support it for the foreseeable future.
+That said, the `storiesOf` API is no longer actively maintained and has been removed as part of the Storybook 8 release. If you're working with a custom indexer or similar tooling that implements this API, we encourage using custom story indexers instead. Read our [Indexer API documentation](https://storybook.js.org/docs/api/main-config-indexers) for more information.
 
 ## storiesOf API
 

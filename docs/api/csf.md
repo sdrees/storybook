@@ -8,13 +8,11 @@ Component Story Format (CSF) is the recommended way to [write stories](../writin
 
 <Callout variant="info" icon="💡">
 
-If you are writing stories in the older `storiesOf()` syntax, you can find documentation in an [advanced README](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md).
+If you have stories written in the older `storiesOf()` syntax, it was removed in Storybook 8.0 and is no longer maintained. We recommend migrating your stories to CSF. See the [migration guide](../migration-guide.md#storiesof-to-csf) for more information.
 
 </Callout>
 
 In CSF, stories and component metadata are defined as ES Modules. Every component story file consists of a required [default export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#Using_the_default_export) and one or more [named exports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export).
-
-CSF is supported in all frameworks except React Native, where you should use the [storiesOf API](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md) instead.
 
 ## Default export
 
