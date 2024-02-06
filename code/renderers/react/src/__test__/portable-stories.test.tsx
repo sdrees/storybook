@@ -1,11 +1,11 @@
 import { vi, it, expect, afterEach, describe } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
-
+import { addons } from '@storybook/preview-api';
 import type { Meta } from '@storybook/react';
 import { expectTypeOf } from 'expect-type';
-import { setProjectAnnotations, composeStories, composeStory } from '..';
 
+import { setProjectAnnotations, composeStories, composeStory } from '..';
 import type { Button } from './Button';
 import * as stories from './Button.stories';
 
@@ -106,6 +106,21 @@ describe('CSF3', () => {
   });
 });
 
+// common in addons that need to communicate between manager and preview
+it('should pass with decorators that need addons channel', () => {
+  const PrimaryWithChannels = composeStory(stories.CSF3Primary, stories.default, {
+    decorators: [
+      (StoryFn: any) => {
+        addons.getChannel();
+        return StoryFn();
+      },
+    ],
+  });
+  render(<PrimaryWithChannels>Hello world</PrimaryWithChannels>);
+  const buttonElement = screen.getByText(/Hello world/i);
+  expect(buttonElement).not.toBeNull();
+});
+
 describe('ComposeStories types', () => {
   // this file tests Typescript types that's why there are no assertions
   it('Should support typescript operators', () => {
@@ -121,4 +136,12 @@ describe('ComposeStories types', () => {
       default: stories.default satisfies Meta<typeof Button>,
     }).toMatchTypeOf<ComposeStoriesParam>();
   });
+});
+
+// Batch snapshot testing
+const testCases = Object.values(composeStories(stories)).map((Story) => [Story.storyName, Story]);
+it.each(testCases)('Renders %s story', async (_storyName, Story) => {
+  cleanup();
+  const tree = await render(<Story />);
+  expect(tree.baseElement).toMatchSnapshot();
 });

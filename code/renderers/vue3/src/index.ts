@@ -4,7 +4,7 @@ import './globals';
 
 export { setup } from './render';
 export * from './public-types';
-export * from './testing-api';
+export * from './portable-stories';
 
 // optimization: stop HMR propagation in webpack
 try {

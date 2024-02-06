@@ -15,12 +15,12 @@ import type {
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
-import { composeConfigs } from '../composeConfigs';
-import { prepareContext, prepareStory } from '../prepareStory';
-import { normalizeStory } from '../normalizeStory';
-import { normalizeComponentAnnotations } from '../normalizeComponentAnnotations';
-import { getValuesFromArgTypes } from '../getValuesFromArgTypes';
-import { normalizeProjectAnnotations } from '../normalizeProjectAnnotations';
+import { composeConfigs } from './composeConfigs';
+import { prepareContext, prepareStory } from './prepareStory';
+import { normalizeStory } from './normalizeStory';
+import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
+import { getValuesFromArgTypes } from './getValuesFromArgTypes';
+import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
 let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs([]);
 
