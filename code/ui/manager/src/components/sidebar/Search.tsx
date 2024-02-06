@@ -20,6 +20,7 @@ import { isSearchResult, isExpandType } from './types';
 
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
+import { useLayout } from '../layout/LayoutProvider';
 
 const { document } = global;
 
@@ -288,6 +289,7 @@ export const Search = React.memo<{
     },
     [inputRef, selectStory, showAllComponents]
   );
+  const { isMobile } = useLayout();
 
   return (
     <Downshift<DownshiftItem>
@@ -359,7 +361,7 @@ export const Search = React.memo<{
               </SearchIconWrapper>
               {/* @ts-expect-error (TODO) */}
               <Input {...inputProps} />
-              {enableShortcuts && !isOpen && (
+              {!isMobile && enableShortcuts && !isOpen && (
                 <FocusKey>
                   {searchShortcut === '⌘ K' ? (
                     <>

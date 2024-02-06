@@ -1,3 +1,15 @@
+## 8.0.0-beta.1
+
+- Addon-docs: Fix MDX components not applied in Vite and theme loading twice - [#25925](https://github.com/storybookjs/storybook/pull/25925), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Fix React peer dependency warnings - [#25926](https://github.com/storybookjs/storybook/pull/25926), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Remove CSF batching, as it isn't required any more - [#25872](https://github.com/storybookjs/storybook/pull/25872), thanks [@tmeasday](https://github.com/tmeasday)!
+- Next.js: Fix frameworkOptions resolution - [#25907](https://github.com/storybookjs/storybook/pull/25907), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- React Native: Fix init fails when package is already installed - [#25908](https://github.com/storybookjs/storybook/pull/25908), thanks [@dannyhw](https://github.com/dannyhw)!
+- React Native: Remove watcher from init - [#25895](https://github.com/storybookjs/storybook/pull/25895), thanks [@dannyhw](https://github.com/dannyhw)!
+- Test: Fix jest-dom matcher type imports - [#25869](https://github.com/storybookjs/storybook/pull/25869), thanks [@alitas](https://github.com/alitas)!
+- UI: Fix overlapping on the ref button in the sidebar - [#25914](https://github.com/storybookjs/storybook/pull/25914), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Remove keyboard shortcut hint in search bar on mobile viewports - [#25866](https://github.com/storybookjs/storybook/pull/25866), thanks [@tusharwebd](https://github.com/tusharwebd)!
+
 ## 8.0.0-beta.0
 
 - CLI: Add Visual Tests addon to `init` - [#25850](https://github.com/storybookjs/storybook/pull/25850), thanks [@shilman](https://github.com/shilman)!

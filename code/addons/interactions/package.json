@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "8.0.0-beta.0",
+  "version": "8.0.0-beta.1",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -50,7 +50,6 @@
   },
   "dependencies": {
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.2.3",
     "@storybook/types": "workspace:*",
     "jest-mock": "^27.0.6",
     "polished": "^4.2.2",
@@ -62,6 +61,7 @@
     "@storybook/components": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
+    "@storybook/icons": "^1.2.3",
     "@storybook/instrumenter": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
