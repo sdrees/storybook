@@ -145,7 +145,7 @@ See [the guide](../writing-stories/naming-components-and-hierarchy/#sorting-stor
 
 ### Essential addons
 
-All other parameters are contributed by addons. The [essential addon's](../addons/essentials.md) parameters are documented on their individual pages:
+All other parameters are contributed by addons. The [essential addon's](../essentials/index.md) parameters are documented on their individual pages:
 
 - [Actions](../essentials/actions.md#parameters)
 - [Backgrounds](../essentials/backgrounds.md#parameters)

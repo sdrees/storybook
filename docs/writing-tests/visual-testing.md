@@ -32,7 +32,7 @@ Add visual tests to your project by installing `@chromatic-com/storybook`, the o
 
 <Callout variant="info">
 
-Storybook 7.4 or higher is required. Read the [migration guide](../migration-guide.md) to upgrade your project.
+Storybook 7.6 or higher is required. Read the [migration guide](../migration-guide.md) to upgrade your project.
 
 </Callout>
 
