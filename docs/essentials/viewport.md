@@ -231,7 +231,7 @@ Specify the available viewports. The key is used to reference the viewport and t
 This addon contributes the following exports to Storybook:
 
 ```js
-import { INITIAL_VIEWPORTS, MINIMAL_VIEWPORTS } from '@storybook/addon-viewports';
+import { INITIAL_VIEWPORTS, MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 ```
 
 #### `INITIAL_VIEWPORTS`
