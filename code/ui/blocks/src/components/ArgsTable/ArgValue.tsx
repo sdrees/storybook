@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import memoize from 'memoizerific';
 import uniq from 'lodash/uniq.js';
 import { styled } from '@storybook/theming';
-import { WithTooltipPure, Icons, SyntaxHighlighter, codeCommon } from '@storybook/components';
+import { WithTooltipPure, SyntaxHighlighter, codeCommon } from '@storybook/components';
 import type { PropSummaryValue } from './types';
+import { ChevronSmallDownIcon, ChevronSmallUpIcon } from '@storybook/icons';
 
 interface ArgValueProps {
   value?: PropSummaryValue;
@@ -86,10 +87,11 @@ const Detail = styled.div<{ width: string }>(({ theme, width }) => ({
   },
 }));
 
-const ArrowIcon = styled(Icons)({
-  height: 10,
-  width: 10,
-  minWidth: 10,
+const ChevronUpIcon = styled(ChevronSmallUpIcon)({
+  marginLeft: 4,
+});
+
+const ChevronDownIcon = styled(ChevronSmallDownIcon)({
   marginLeft: 4,
 });
 
@@ -176,7 +178,7 @@ const ArgSummary: FC<ArgSummaryProps> = ({ value, initialExpandedArgs }) => {
     >
       <Expandable className="sbdocs-expandable">
         <span>{summaryAsString}</span>
-        <ArrowIcon icon={isOpen ? 'arrowup' : 'arrowdown'} />
+        {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
       </Expandable>
     </WithTooltipPure>
   );

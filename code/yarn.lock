@@ -4720,7 +4720,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -4767,7 +4767,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -4899,7 +4899,7 @@ __metadata:
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/instrumenter": "workspace:*"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -4925,6 +4925,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -4980,7 +4981,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
@@ -4999,7 +5000,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
@@ -5039,7 +5040,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -5072,7 +5073,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -5190,7 +5191,7 @@ __metadata:
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/test": "workspace:*"
@@ -5453,7 +5454,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/test": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
@@ -5786,13 +5787,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/icons@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "@storybook/icons@npm:1.2.3"
+"@storybook/icons@npm:^1.2.5":
+  version: 1.2.5
+  resolution: "@storybook/icons@npm:1.2.5"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 510878cc80a844eb5b83460be8e71890743fb9fd70afb3cc46658d3324574d6389542a5dd078c5f613741193d0ac1ff7d2d83b33e447ee0fc1c3699d255ba225
+  checksum: 089622af6de4ab82624d894fbe43688a0eb72f15e6bb8fc19c54fb9f9d7312ce7caf34acebcbd63319dbaef129d8547bc23a5600955d04f6034355e7d82dcfa1
   languageName: node
   linkType: hard
 
@@ -5880,7 +5881,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
     "@storybook/router": "workspace:*"
     "@storybook/test": "workspace:*"

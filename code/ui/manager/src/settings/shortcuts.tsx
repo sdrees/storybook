@@ -7,8 +7,9 @@ import {
   shortcutToHumanString,
   shortcutMatchesShortcut,
 } from '@storybook/manager-api';
-import { Button, Form, Icons } from '@storybook/components';
+import { Button, Form } from '@storybook/components';
 import SettingsFooter from './SettingsFooter';
+import { CheckIcon } from '@storybook/icons';
 
 const Header = styled.header(({ theme }) => ({
   marginBottom: 20,
@@ -80,7 +81,7 @@ export const Fade = keyframes`
   50% { opacity: 1; }
 `;
 
-export const SuccessIcon = styled(Icons)<{ valid: string }>(
+const SuccessIcon = styled(CheckIcon)<{ valid: string }>(
   ({ valid, theme }) =>
     valid === 'valid'
       ? {
@@ -283,7 +284,7 @@ class ShortcutsScreen extends Component<ShortcutsScreenProps, ShortcutsScreenSta
           readOnly
         />
 
-        <SuccessIcon valid={this.displaySuccessMessage(feature)} icon="check" />
+        <SuccessIcon valid={this.displaySuccessMessage(feature)} />
       </Row>
     ));
 

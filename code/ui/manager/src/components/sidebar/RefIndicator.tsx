@@ -3,12 +3,20 @@ import type { FC, MouseEventHandler } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
 import type { TooltipLinkListLink } from '@storybook/components';
-import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
-import { styled } from '@storybook/theming';
+import { WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
+import { styled, useTheme } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/manager-api';
 
-import { ChevronDownIcon, GlobeIcon } from '@storybook/icons';
+import {
+  AlertIcon,
+  ChevronDownIcon,
+  DocumentIcon,
+  GlobeIcon,
+  LightningIcon,
+  LockIcon,
+  TimeIcon,
+} from '@storybook/icons';
 import type { RefType } from './types';
 
 import type { getStateType } from '../../utils/tree';
@@ -114,22 +122,6 @@ export const MessageWrapper = styled.div({
   borderRadius: 8,
   overflow: 'hidden',
 });
-
-const BlueIcon = styled(Icons)(({ theme }) => ({
-  color: theme.color.secondary,
-}));
-
-const YellowIcon = styled(Icons)(({ theme }) => ({
-  color: theme.color.gold,
-}));
-
-const RedIcon = styled(Icons)(({ theme }) => ({
-  color: theme.color.negative,
-}));
-
-const GreenIcon = styled(Icons)(({ theme }) => ({
-  color: theme.color.green,
-}));
 
 const Version = styled.div(({ theme }) => ({
   display: 'flex',
@@ -243,19 +235,24 @@ const ReadyMessage: FC<{
   url: string;
   componentCount: number;
   leafCount: number;
-}> = ({ url, componentCount, leafCount }) => (
-  <Message href={url.replace(/\/?$/, '/index.html')} target="_blank">
-    <BlueIcon icon="globe" />
-    <div>
-      <MessageTitle>View external Storybook</MessageTitle>
+}> = ({ url, componentCount, leafCount }) => {
+  const theme = useTheme();
+
+  return (
+    <Message href={url.replace(/\/?$/, '/index.html')} target="_blank">
+      <GlobeIcon color={theme.color.secondary} />
       <div>
-        Explore {componentCount} components and {leafCount} stories in a new browser tab.
+        <MessageTitle>View external Storybook</MessageTitle>
+        <div>
+          Explore {componentCount} components and {leafCount} stories in a new browser tab.
+        </div>
       </div>
-    </div>
-  </Message>
-);
+    </Message>
+  );
+};
 
 const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
+  const theme = useTheme();
   const open = useCallback<MouseEventHandler>((e) => {
     e.preventDefault();
     const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
@@ -273,7 +270,7 @@ const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
 
   return (
     <Message onClick={open}>
-      <YellowIcon icon="lock" />
+      <LockIcon color={theme.color.gold} />
       <div>
         <MessageTitle>Log in required</MessageTitle>
         <div>You need to authenticate to view this Storybook's components.</div>
@@ -282,45 +279,64 @@ const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
   );
 };
 
-const ReadDocsMessage: FC = () => (
-  <Message href="https://storybook.js.org/docs/react/sharing/storybook-composition" target="_blank">
-    <GreenIcon icon="document" />
-    <div>
-      <MessageTitle>Read Composition docs</MessageTitle>
-      <div>Learn how to combine multiple Storybooks into one.</div>
-    </div>
-  </Message>
-);
+const ReadDocsMessage: FC = () => {
+  const theme = useTheme();
 
-const ErrorOccurredMessage: FC<{ url: string }> = ({ url }) => (
-  <Message href={url.replace(/\/?$/, '/index.html')} target="_blank">
-    <RedIcon icon="alert" />
-    <div>
-      <MessageTitle>Something went wrong</MessageTitle>
-      <div>This external Storybook didn't load. Debug it in a new tab now.</div>
-    </div>
-  </Message>
-);
+  return (
+    <Message
+      href="https://storybook.js.org/docs/react/sharing/storybook-composition"
+      target="_blank"
+    >
+      <DocumentIcon color={theme.color.green} />
+      <div>
+        <MessageTitle>Read Composition docs</MessageTitle>
+        <div>Learn how to combine multiple Storybooks into one.</div>
+      </div>
+    </Message>
+  );
+};
 
-const LoadingMessage: FC<{ url: string }> = ({ url }) => (
-  <Message href={url.replace(/\/?$/, '/index.html')} target="_blank">
-    <BlueIcon icon="time" />
-    <div>
-      <MessageTitle>Please wait</MessageTitle>
-      <div>This Storybook is loading.</div>
-    </div>
-  </Message>
-);
+const ErrorOccurredMessage: FC<{ url: string }> = ({ url }) => {
+  const theme = useTheme();
 
-const PerformanceDegradedMessage: FC = () => (
-  <Message
-    href="https://storybook.js.org/docs/react/sharing/storybook-composition#improve-your-storybook-composition"
-    target="_blank"
-  >
-    <YellowIcon icon="lightning" />
-    <div>
-      <MessageTitle>Reduce lag</MessageTitle>
-      <div>Learn how to speed up Composition performance.</div>
-    </div>
-  </Message>
-);
+  return (
+    <Message href={url.replace(/\/?$/, '/index.html')} target="_blank">
+      <AlertIcon color={theme.color.negative} />
+      <div>
+        <MessageTitle>Something went wrong</MessageTitle>
+        <div>This external Storybook didn't load. Debug it in a new tab now.</div>
+      </div>
+    </Message>
+  );
+};
+
+const LoadingMessage: FC<{ url: string }> = ({ url }) => {
+  const theme = useTheme();
+
+  return (
+    <Message href={url.replace(/\/?$/, '/index.html')} target="_blank">
+      <TimeIcon color={theme.color.secondary} />
+      <div>
+        <MessageTitle>Please wait</MessageTitle>
+        <div>This Storybook is loading.</div>
+      </div>
+    </Message>
+  );
+};
+
+const PerformanceDegradedMessage: FC = () => {
+  const theme = useTheme();
+
+  return (
+    <Message
+      href="https://storybook.js.org/docs/react/sharing/storybook-composition#improve-your-storybook-composition"
+      target="_blank"
+    >
+      <LightningIcon color={theme.color.gold} />
+      <div>
+        <MessageTitle>Reduce lag</MessageTitle>
+        <div>Learn how to speed up Composition performance.</div>
+      </div>
+    </Message>
+  );
+};

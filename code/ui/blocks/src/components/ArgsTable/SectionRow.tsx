@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import { transparentize, lighten } from 'polished';
 import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { ChevronDownIcon, ChevronRightIcon } from '@storybook/icons';
 
 type Level = 'section' | 'subsection';
 
@@ -14,7 +14,21 @@ export interface SectionRowProps {
   colSpan: number;
 }
 
-const ExpanderIcon = styled(Icons)(({ theme }) => ({
+const ExpanderIconDown = styled(ChevronDownIcon)(({ theme }) => ({
+  marginRight: 8,
+  marginLeft: -10,
+  marginTop: -2, // optical alignment
+  height: 12,
+  width: 12,
+  color:
+    theme.base === 'light'
+      ? transparentize(0.25, theme.color.defaultText)
+      : transparentize(0.3, theme.color.defaultText),
+  border: 'none',
+  display: 'inline-block',
+}));
+
+const ExpanderIconRight = styled(ChevronRightIcon)(({ theme }) => ({
   marginRight: 8,
   marginLeft: -10,
   marginTop: -2, // optical alignment
@@ -100,7 +114,6 @@ export const SectionRow: FC<SectionRowProps> = ({
   // @ts-expect-error (Converted from ts-ignore)
   const itemCount = children?.length || 0;
   const caption = level === 'subsection' ? `${itemCount} item${itemCount !== 1 ? 's' : ''}` : '';
-  const icon = expanded ? 'arrowdown' : 'arrowright';
 
   const helperText = `${expanded ? 'Hide' : 'Show'} ${
     level === 'subsection' ? itemCount : label
@@ -114,7 +127,7 @@ export const SectionRow: FC<SectionRowProps> = ({
             {helperText}
           </ClickIntercept>
           <FlexWrapper>
-            <ExpanderIcon icon={icon} />
+            {expanded ? <ExpanderIconDown /> : <ExpanderIconRight />}
             {label}
           </FlexWrapper>
         </Level>

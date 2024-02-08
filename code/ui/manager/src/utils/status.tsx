@@ -1,13 +1,13 @@
 import React from 'react';
-import { Icons } from '@storybook/components';
 import type { ReactElement } from 'react';
 import type { API_HashEntry, API_StatusState, API_StatusValue } from '@storybook/types';
 
 import { styled } from '@storybook/theming';
 
 import { getDescendantIds } from './tree';
+import { CircleIcon } from '@storybook/icons';
 
-const SmallIcons = styled(Icons)({
+const SmallIcons = styled(CircleIcon)({
   // specificity hack
   '&&&': {
     width: 6,
@@ -24,10 +24,10 @@ const LoadingIcons = styled(SmallIcons)(({ theme: { animation, color, base } }) 
 export const statusPriority: API_StatusValue[] = ['unknown', 'pending', 'success', 'warn', 'error'];
 export const statusMapping: Record<API_StatusValue, [ReactElement | null, string | null]> = {
   unknown: [null, null],
-  pending: [<LoadingIcons key="icon" icon="circle" />, 'currentColor'],
-  success: [<SmallIcons key="icon" icon="circle" style={{ color: 'green' }} />, 'currentColor'],
-  warn: [<SmallIcons key="icon" icon="circle" style={{ color: 'orange' }} />, '#A15C20'],
-  error: [<SmallIcons key="icon" icon="circle" style={{ color: 'red' }} />, 'brown'],
+  pending: [<LoadingIcons key="icon" />, 'currentColor'],
+  success: [<SmallIcons key="icon" style={{ color: 'green' }} />, 'currentColor'],
+  warn: [<SmallIcons key="icon" style={{ color: 'orange' }} />, '#A15C20'],
+  error: [<SmallIcons key="icon" style={{ color: 'red' }} />, 'brown'],
 };
 
 export const getHighestStatus = (statuses: API_StatusValue[]): API_StatusValue => {

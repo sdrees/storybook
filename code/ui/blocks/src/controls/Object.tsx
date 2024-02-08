@@ -3,8 +3,8 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { styled, useTheme, type Theme } from '@storybook/theming';
-import { Form, Icons, IconButton, Button } from '@storybook/components';
-import { EyeCloseIcon, EyeIcon } from '@storybook/icons';
+import { Form, IconButton, Button } from '@storybook/components';
+import { AddIcon, EyeCloseIcon, EyeIcon, SubtractIcon } from '@storybook/icons';
 import { JsonTree, getObjectType } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';
@@ -133,7 +133,7 @@ const ButtonInline = styled.button<{ primary?: boolean }>(({ theme, primary }) =
   order: primary ? 'initial' : 9,
 }));
 
-const ActionIcon = styled(Icons)<{ disabled?: boolean }>(({ theme, icon, disabled }) => ({
+const ActionAddIcon = styled(AddIcon)<{ disabled?: boolean }>(({ theme, disabled }) => ({
   display: 'inline-block',
   verticalAlign: 'middle',
   width: 15,
@@ -142,11 +142,22 @@ const ActionIcon = styled(Icons)<{ disabled?: boolean }>(({ theme, icon, disable
   marginLeft: 5,
   cursor: disabled ? 'not-allowed' : 'pointer',
   color: theme.textMutedColor,
-  '&:hover': disabled
-    ? {}
-    : {
-        color: icon === 'subtract' ? theme.color.negative : theme.color.ancillary,
-      },
+  '&:hover': disabled ? {} : { color: theme.color.ancillary },
+  'svg + &': {
+    marginLeft: 0,
+  },
+}));
+
+const ActionSubstractIcon = styled(SubtractIcon)<{ disabled?: boolean }>(({ theme, disabled }) => ({
+  display: 'inline-block',
+  verticalAlign: 'middle',
+  width: 15,
+  height: 15,
+  padding: 3,
+  marginLeft: 5,
+  cursor: disabled ? 'not-allowed' : 'pointer',
+  color: theme.textMutedColor,
+  '&:hover': disabled ? {} : { color: theme.color.negative },
   'svg + &': {
     marginLeft: 0,
   },
@@ -309,8 +320,8 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
               Save
             </ButtonInline>
           }
-          plusMenuElement={<ActionIcon icon="add" />}
-          minusMenuElement={<ActionIcon icon="subtract" />}
+          plusMenuElement={<ActionAddIcon />}
+          minusMenuElement={<ActionSubstractIcon />}
           inputElement={(_: any, __: any, ___: any, key: string) =>
             key ? <Input onFocus={selectValue} onBlur={dispatchEnterKey} /> : <Input />
           }

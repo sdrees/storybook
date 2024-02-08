@@ -90,3 +90,16 @@ export const NoLabels = (args: ComponentProps<typeof Icons>) => (
     </List>
   </>
 );
+
+export const NoDeprecateWarning = (args: ComponentProps<typeof Icons>) => (
+  <>
+    <Header>{Object.keys(icons).length} icons</Header>
+    <List>
+      {Object.keys(icons).map((key) => (
+        <Item minimal key={key}>
+          <Icons icon={key as IconType} aria-label={key} __suppressDeprecationWarning {...args} />
+        </Item>
+      ))}
+    </List>
+  </>
+);

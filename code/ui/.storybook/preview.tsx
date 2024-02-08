@@ -11,7 +11,6 @@ import {
   useTheme,
 } from '@storybook/theming';
 import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
-import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';

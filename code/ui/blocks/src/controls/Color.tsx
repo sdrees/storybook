@@ -4,10 +4,11 @@ import { HexColorPicker, HslaStringColorPicker, RgbaStringColorPicker } from 're
 import convert from 'color-convert';
 import throttle from 'lodash/throttle.js';
 import { styled } from '@storybook/theming';
-import { TooltipNote, WithTooltip, Form, Icons } from '@storybook/components';
+import { TooltipNote, WithTooltip, Form } from '@storybook/components';
 
 import type { ControlProps, ColorValue, ColorConfig, PresetColor } from './types';
 import { getControlId } from './helpers';
+import { MarkupIcon } from '@storybook/icons';
 
 const Wrapper = styled.div({
   position: 'relative',
@@ -74,7 +75,7 @@ const Input = styled(Form.Input)(({ theme }) => ({
   fontFamily: theme.typography.fonts.base,
 }));
 
-const ToggleIcon = styled(Icons)(({ theme }) => ({
+const ToggleIcon = styled(MarkupIcon)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
   top: 6,
@@ -358,7 +359,7 @@ export const ColorControl: FC<ColorControlProps> = ({
         onFocus={(e: FocusEvent<HTMLInputElement>) => e.target.select()}
         placeholder="Choose color..."
       />
-      {value ? <ToggleIcon icon="markup" onClick={cycleColorSpace} /> : null}
+      {value ? <ToggleIcon onClick={cycleColorSpace} /> : null}
     </Wrapper>
   );
 };

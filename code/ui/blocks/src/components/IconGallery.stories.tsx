@@ -1,6 +1,6 @@
 import React from 'react';
-import { Icons as ExampleIcon } from '@storybook/components';
 import { IconItem, IconGallery } from './IconGallery';
+import { AddIcon, FaceHappyIcon, HomeIcon, SubtractIcon } from '@storybook/icons';
 
 export default {
   component: IconGallery,
@@ -9,16 +9,16 @@ export default {
 export const DefaultStyle = () => (
   <IconGallery>
     <IconItem name="add">
-      <ExampleIcon icon="add" />
+      <AddIcon />
     </IconItem>
     <IconItem name="subtract">
-      <ExampleIcon icon="subtract" />
+      <SubtractIcon />
     </IconItem>
     <IconItem name="home">
-      <ExampleIcon icon="home" />
+      <HomeIcon />
     </IconItem>
     <IconItem name="facehappy">
-      <ExampleIcon icon="facehappy" />
+      <FaceHappyIcon />
     </IconItem>
     <IconItem name="bar">
       <img src="https://storybook.js.org/images/placeholders/50x50.png" alt="example" />

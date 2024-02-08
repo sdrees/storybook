@@ -24,18 +24,27 @@ export interface IconsProps extends ComponentProps<typeof Svg> {
   icon: IconType;
   useSymbol?: boolean;
   onClick?: () => void;
+  __suppressDeprecationWarning?: boolean;
 }
 
 /**
  * @deprecated No longer used, will be removed in Storybook 9.0
  * Please use the `@storybook/icons` package instead.
  * */
-export const Icons = ({ icon, useSymbol, ...props }: IconsProps) => {
-  deprecate(
-    `Use of the deprecated Icons ${
-      `(${icon})` || ''
-    } component detected. Please use the @storybook/icons component directly. For more informations, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated`
-  );
+export const Icons = ({
+  icon,
+  useSymbol,
+  __suppressDeprecationWarning = false,
+  ...props
+}: IconsProps) => {
+  if (!__suppressDeprecationWarning) {
+    deprecate(
+      `Use of the deprecated Icons ${
+        `(${icon})` || ''
+      } component detected. Please use the @storybook/icons component directly. For more informations, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated`
+    );
+  }
+
   const findIcon: NewIconTypes = icons[icon] || null;
   if (!findIcon) {
     logger.warn(
