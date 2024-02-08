@@ -30,6 +30,38 @@ describe('composeStory', () => {
     );
   });
 
+  it('should compose with a play function', async () => {
+    const spy = vi.fn();
+    const Story = () => {};
+    Story.args = {
+      primary: true,
+    };
+    Story.play = async (context: any) => {
+      spy(context);
+    };
+
+    const composedStory = composeStory(Story, meta);
+    await composedStory.play({ canvasElement: null });
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        args: {
+          ...Story.args,
+          ...meta.args,
+        },
+      })
+    );
+  });
+
+  it('should throw when executing the play function but the story does not have one', async () => {
+    const Story = () => {};
+    Story.args = {
+      primary: true,
+    };
+
+    const composedStory = composeStory(Story, meta);
+    expect(composedStory.play({ canvasElement: null })).rejects.toThrow();
+  });
+
   it('should throw an error if Story is undefined', () => {
     expect(() => {
       // @ts-expect-error (invalid input)

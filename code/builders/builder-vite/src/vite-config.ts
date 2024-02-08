@@ -20,6 +20,7 @@ import {
   injectExportOrderPlugin,
   stripStoryHMRBoundary,
   externalGlobalsPlugin,
+  pluginWebpackStats,
 } from './plugins';
 
 import type { BuilderOptions } from './types';
@@ -112,6 +113,7 @@ export async function pluginConfig(options: Options) {
       },
     },
     await externalGlobalsPlugin(externals),
+    pluginWebpackStats({ workingDir: process.cwd() }),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built

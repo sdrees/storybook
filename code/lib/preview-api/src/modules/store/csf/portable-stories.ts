@@ -12,6 +12,7 @@ import type {
   Parameters,
   ComposedStoryFn,
   StrictArgTypes,
+  ComposedStoryPlayContext,
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
@@ -74,24 +75,42 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   const defaultGlobals = getValuesFromArgTypes(projectAnnotations.globalTypes);
 
+  const context: StoryContext<TRenderer> = {
+    hooks: new HooksContext(),
+    globals: defaultGlobals,
+    args: { ...story.initialArgs },
+    viewMode: 'story',
+    loaded: {},
+    abortSignal: null as unknown as AbortSignal,
+    canvasElement: null,
+    ...story,
+  };
+
   const composedStory: ComposedStoryFn<TRenderer, Partial<TArgs>> = Object.assign(
     (extraArgs?: Partial<TArgs>) => {
-      const context: Partial<StoryContext> = {
-        ...story,
-        hooks: new HooksContext(),
-        globals: defaultGlobals,
-        args: { ...story.initialArgs, ...extraArgs },
+      const finalContext: StoryContext<TRenderer> = {
+        ...context,
+        args: { ...context.initialArgs, ...extraArgs },
       };
 
-      return story.unboundStoryFn(prepareContext(context as StoryContext<TRenderer>));
+      return story.unboundStoryFn(prepareContext(finalContext));
     },
     {
       storyName,
       args: story.initialArgs as Partial<TArgs>,
-      play: story.playFunction as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>,
       parameters: story.parameters as Parameters,
       argTypes: story.argTypes as StrictArgTypes<TArgs>,
       id: story.id,
+      play: (async (extraContext: ComposedStoryPlayContext<TRenderer, TArgs>) => {
+        if (story.playFunction === undefined) {
+          throw new Error('The story does not have a play function. Make sure to add one.');
+        }
+
+        await story.playFunction({
+          ...context,
+          ...extraContext,
+        });
+      }) as unknown as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>,
     }
   );
 

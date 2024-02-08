@@ -103,7 +103,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
           />
           <S.FrameWrap key="frame">
             {tabContent && <S.IframeWrapper>{tabContent({ active: true })}</S.IframeWrapper>}
-            <S.CanvasWrap display={!tabId}>
+            <S.CanvasWrap show={!tabId}>
               <Canvas {...{ withLoader, baseUrl }} wrappers={wrappers} />
             </S.CanvasWrap>
           </S.FrameWrap>
