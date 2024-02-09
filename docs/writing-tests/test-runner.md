@@ -465,6 +465,16 @@ As the test runner is based on Playwright, you might need to use specific docker
 
 If you've enabled filtering tests with tags and provided similar tags to the `include` and `exclude` lists, the test-runner will execute the tests based on the `exclude` list and ignore the `include` list. To avoid this, make sure the tags provided to the `include` and `exclude` lists differ.
 
+### The test runner doesn't support Yarn PnP out of the box
+
+If you've enabled the test-runner in a project running on a newer version of Yarn with Plug'n'Play (PnP) enabled, the test-runner might not work as expected and may generate the following error when running tests:
+
+```shell
+PlaywrightError: jest-playwright-preset: Cannot find playwright package to use chromium
+```
+
+This is due to the test-runner using the community-maintained package [jest-playwright-preset](https://github.com/playwright-community/jest-playwright) that still needs to support this feature. To solve this, you can either switch the [`nodeLinker`](https://yarnpkg.com/features/linkers) setting to `node-modules` or install Playwright as a direct dependency in your project, followed by adding the browser binaries via the [`install`](https://playwright.dev/docs/browsers#install-browsers) command.
+
 **Learn about other UI tests**
 
 - Test runner to automate test execution

@@ -7,6 +7,7 @@
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
   - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
   - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
+  - [TurboSnap Vite plugin is no longer needed](#turbosnap-vite-plugin-is-no-longer-needed)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [MDX related changes](#mdx-related-changes)
     - [MDX is upgraded to v3](#mdx-is-upgraded-to-v3)
@@ -459,6 +460,12 @@ export default defineConfig({
   plugins: [react()],
 });
 ```
+
+### TurboSnap Vite plugin is no longer needed
+
+At least in build mode, `builder-vite` now supports the `--webpack-stats-json` flag and will output `preview-stats.json`.
+
+This means https://github.com/IanVS/vite-plugin-turbosnap is no longer necessary, and duplicative, and the plugin will automatically be removed if found.
 
 ### Implicit actions can not be used during rendering (for example in the play function)
 

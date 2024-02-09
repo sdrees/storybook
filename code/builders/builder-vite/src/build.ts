@@ -1,10 +1,11 @@
 import type { Options } from '@storybook/types';
-import { commonConfig } from './vite-config';
+import { logger } from '@storybook/node-logger';
+import dedent from 'ts-dedent';
 
+import { commonConfig } from './vite-config';
 import { sanitizeEnvVars } from './envs';
 import type { WebpackStatsPlugin } from './plugins';
 import type { InlineConfig } from 'vite';
-import { logger } from '@storybook/node-logger';
 import { hasVitePlugins } from './utils/has-vite-plugins';
 import { withoutVitePlugins } from './utils/without-vite-plugins';
 
@@ -42,10 +43,11 @@ export async function build(options: Options) {
   const hasTurbosnapPlugin =
     finalConfig.plugins && hasVitePlugins(finalConfig.plugins, [turbosnapPluginName]);
   if (hasTurbosnapPlugin) {
-    logger.warn(`Found '${turbosnapPluginName}' which is now included by default in Storybook 8.`);
-    logger.warn(
-      `Removing from your plugins list. Ensure you pass \`--webpack-stats-json\` to generate stats.`
-    );
+    logger.warn(dedent`Found '${turbosnapPluginName}' which is now included by default in Storybook 8.
+      Removing from your plugins list. Ensure you pass \`--webpack-stats-json\` to generate stats.
+
+      For more information, see https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#turbosnap-vite-plugin-is-no-longer-needed`);
+
     finalConfig.plugins = await withoutVitePlugins(finalConfig.plugins, [turbosnapPluginName]);
   }
 

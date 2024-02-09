@@ -5267,6 +5267,7 @@ __metadata:
     glob: "npm:^10.0.0"
     magic-string: "npm:^0.30.0"
     slash: "npm:^5.0.0"
+    ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.4"
   peerDependencies:
