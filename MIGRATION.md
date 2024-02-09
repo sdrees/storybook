@@ -1500,7 +1500,7 @@ Storybook uses `react` in a variety of docs-related packages. In the past, we've
 To upgrade manually, add any version of `react` and `react-dom` as devDependencies using your package manager of choice, e.g.
 
 ```
-npm add react react-dom --dev
+npm add react react-dom --save-dev
 ```
 
 #### start-storybook / build-storybook binaries removed
