@@ -36,15 +36,10 @@ export default async function transform(info: FileInfo, api: API, options: { par
   let output = printCsf(csf).code;
 
   try {
-    const prettierConfig = (await prettier.resolveConfig(info.path)) || {
-      printWidth: 100,
-      tabWidth: 2,
-      bracketSpacing: true,
-      trailingComma: 'es5',
-      singleQuote: true,
-    };
-
-    output = await prettier.format(output, { ...prettierConfig, filepath: info.path });
+    output = await prettier.format(output, {
+      ...(await prettier.resolveConfig(info.path)),
+      filepath: info.path,
+    });
   } catch (e) {
     logger.log(`Failed applying prettier to ${info.path}.`);
   }

@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Type change in `composeStories` API](#type-change-in-composestories-api)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
@@ -391,6 +392,23 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 7.x to 8.0.0
+
+### Type change in `composeStories` API
+
+There is a TypeScript type change in the `play` function returned from `composeStories` or `composeStory` in `@storybook/react` or `@storybook/vue3`, where before it was always defined, now it is potentially undefined. This means that you might have to make a small change in your code, such as:
+
+```ts
+const { Primary } = composeStories(stories)
+
+// before
+await Primary.play(...)
+
+// after
+await Primary.play?.(...) // if you don't care whether the play function exists
+await Primary.play!(...) // if you want a runtime error when the play function does not exist
+```
+
+There are plans to make the type of the play function be inferred based on your imported story's play function in a near future, so the types will be 100% accurate.
 
 ### Tab addons are now routed to a query parameter
 

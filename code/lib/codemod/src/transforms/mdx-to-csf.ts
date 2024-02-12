@@ -291,17 +291,10 @@ export async function transform(info: FileInfo, baseName: string): Promise<[stri
   const newMdx = mdxProcessor.stringify(root);
   let output = recast.print(file.path.node).code;
 
-  const prettierConfig = (await prettier.resolveConfig(`${info.path}.jsx`)) || {
-    printWidth: 100,
-    tabWidth: 2,
-    bracketSpacing: true,
-    trailingComma: 'es5',
-    singleQuote: true,
-  };
-
+  const path = `${info.path}.jsx`;
   output = await prettier.format(output.trim(), {
-    ...prettierConfig,
-    filepath: `${info.path}.jsx`,
+    ...(await prettier.resolveConfig(path)),
+    filepath: path,
   });
 
   return [newMdx, output];
