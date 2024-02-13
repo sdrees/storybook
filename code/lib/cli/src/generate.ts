@@ -17,7 +17,7 @@ import { migrate } from './migrate';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
-import { automigrate } from './automigrate';
+import { doAutomigrate } from './automigrate';
 import { dev } from './dev';
 import { build } from './build';
 import { doctor } from './doctor';
@@ -80,6 +80,7 @@ command('upgrade')
     'Force package manager for installing dependencies'
   )
   .option('-y --yes', 'Skip prompting the user')
+  .option('-f --force', 'force the upgrade, skipping autoblockers')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
@@ -171,7 +172,7 @@ command('automigrate [fixId]')
     'The renderer package for the framework Storybook is using.'
   )
   .action(async (fixId, options) => {
-    await automigrate({ fixId, ...options }).catch((e) => {
+    await doAutomigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     });

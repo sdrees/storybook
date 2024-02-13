@@ -35,14 +35,19 @@ export enum PreCheckFailure {
   MAINJS_EVALUATION = 'mainjs_evaluation_error',
 }
 
-export interface FixOptions {
+export interface AutofixOptions extends Omit<AutofixOptionsFromCLI, 'packageManager'> {
+  packageManager: JsPackageManager;
+  mainConfigPath: string;
+  storybookVersion: string;
+}
+export interface AutofixOptionsFromCLI {
   fixId?: FixId;
   list?: boolean;
   fixes?: Fix[];
   yes?: boolean;
-  dryRun?: boolean;
   packageManager?: PackageManagerName;
-  configDir?: string;
+  dryRun?: boolean;
+  configDir: string;
   renderer?: string;
   skipInstall?: boolean;
   hideMigrationSummary?: boolean;

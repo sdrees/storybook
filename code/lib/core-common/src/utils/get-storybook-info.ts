@@ -14,9 +14,15 @@ export const rendererPackages: Record<string, string> = {
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
   '@storybook/server': 'server',
+
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',
   'storybook-solidjs': 'solid',
+
+  /**
+   * @deprecated This is deprecated.
+   */
+  '@storybook/vue': 'vue',
 };
 
 export const frameworkPackages: Record<string, string> = {

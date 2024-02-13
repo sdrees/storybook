@@ -13,13 +13,16 @@ import dedent from 'ts-dedent';
 import boxen from 'boxen';
 import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
 import {
-  JsPackageManagerFactory,
   isCorePackage,
   versions,
-  commandLog,
+  getStorybookInfo,
+  getCoercedStorybookVersion,
+  loadMainConfig,
+  JsPackageManagerFactory,
 } from '@storybook/core-common';
-import { coerceSemver } from './helpers';
-import { automigrate } from './automigrate';
+import { automigrate } from './automigrate/index';
+import { autoblock } from './autoblock/index';
+import { PreCheckFailure } from './automigrate/types';
 
 type Package = {
   package: string;
@@ -108,28 +111,32 @@ export const checkVersionConsistency = () => {
 
 export interface UpgradeOptions {
   skipCheck: boolean;
-  packageManager: PackageManagerName;
+  packageManager?: PackageManagerName;
   dryRun: boolean;
   yes: boolean;
+  force: boolean;
   disableTelemetry: boolean;
   configDir?: string;
 }
 
 export const doUpgrade = async ({
   skipCheck,
-  packageManager: pkgMgr,
+  packageManager: packageManagerName,
   dryRun,
-  configDir,
+  configDir: userSpecifiedConfigDir,
   yes,
   ...options
 }: UpgradeOptions) => {
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: packageManagerName });
 
   // If we can't determine the existing version fallback to v0.0.0 to not block the upgrade
   const beforeVersion = (await getInstalledStorybookVersion(packageManager)) ?? '0.0.0';
 
   const currentVersion = versions['@storybook/cli'];
-  const isCanary = currentVersion.startsWith('0.0.0');
+  const isCanary =
+    currentVersion.startsWith('0.0.0') ||
+    beforeVersion.startsWith('portal:') ||
+    beforeVersion.startsWith('workspace:');
 
   if (!isCanary && lt(currentVersion, beforeVersion)) {
     throw new UpgradeStorybookToLowerVersionError({ beforeVersion, currentVersion });
@@ -138,7 +145,13 @@ export const doUpgrade = async ({
     throw new UpgradeStorybookToSameVersionError({ beforeVersion });
   }
 
-  const latestVersion = await packageManager.latestVersion('@storybook/cli');
+  const [latestVersion, packageJson, storybookVersion] = await Promise.all([
+    //
+    packageManager.latestVersion('@storybook/cli'),
+    packageManager.retrievePackageJson(),
+    getCoercedStorybookVersion(packageManager),
+  ]);
+
   const isOutdated = lt(currentVersion, latestVersion);
   const isPrerelease = prerelease(currentVersion) !== null;
 
@@ -168,36 +181,74 @@ export const doUpgrade = async ({
     )
   );
 
-  const packageJson = await packageManager.retrievePackageJson();
+  let results;
 
-  const toUpgradedDependencies = (deps: Record<string, any>) => {
-    const monorepoDependencies = Object.keys(deps || {}).filter((dependency) => {
-      // don't upgrade @storybook/preset-create-react-app if react-scripts is < v5
-      if (dependency === '@storybook/preset-create-react-app') {
-        const reactScriptsVersion =
-          packageJson.dependencies['react-scripts'] ?? packageJson.devDependencies['react-scripts'];
-        if (reactScriptsVersion && lt(coerceSemver(reactScriptsVersion), '5.0.0')) {
-          return false;
-        }
-      }
+  const { configDir: inferredConfigDir, mainConfig: mainConfigPath } = getStorybookInfo(
+    packageJson,
+    userSpecifiedConfigDir
+  );
+  const configDir = userSpecifiedConfigDir || inferredConfigDir || '.storybook';
 
-      // only upgrade packages that are in the monorepo
-      return dependency in versions;
-    }) as Array<keyof typeof versions>;
-    return monorepoDependencies.map((dependency) => {
-      /* add ^ modifier to the version if this is the latest stable or prerelease version
-         example outputs: @storybook/react@^8.0.0 */
-      const maybeCaret = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
-      return `${dependency}@${maybeCaret}${versions[dependency]}`;
+  let mainConfigLoadingError = '';
+
+  const mainConfig = await loadMainConfig({ configDir }).catch((err) => {
+    mainConfigLoadingError = String(err);
+    return false;
+  });
+
+  // GUARDS
+  if (!storybookVersion) {
+    logger.info(missingStorybookVersionMessage());
+    results = { preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION };
+  } else if (
+    typeof mainConfigPath === 'undefined' ||
+    mainConfigLoadingError.includes('No configuration files have been found')
+  ) {
+    logger.info(mainjsNotFoundMessage(configDir));
+    results = { preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND };
+  } else if (typeof mainConfig === 'boolean') {
+    logger.info(mainjsExecutionFailureMessage(mainConfigPath, mainConfigLoadingError));
+    results = { preCheckFailure: PreCheckFailure.MAINJS_EVALUATION };
+  }
+
+  // BLOCKERS
+  if (
+    !results &&
+    typeof mainConfig !== 'boolean' &&
+    typeof mainConfigPath !== 'undefined' &&
+    !options.force
+  ) {
+    const blockResult = await autoblock({
+      packageManager,
+      configDir,
+      packageJson,
+      mainConfig,
+      mainConfigPath,
     });
-  };
+    if (blockResult) {
+      results = { preCheckFailure: blockResult };
+    }
+  }
 
-  const upgradedDependencies = toUpgradedDependencies(packageJson.dependencies);
-  const upgradedDevDependencies = toUpgradedDependencies(packageJson.devDependencies);
+  // INSTALL UPDATED DEPENDENCIES
+  if (!dryRun && !results) {
+    const toUpgradedDependencies = (deps: Record<string, any>) => {
+      const monorepoDependencies = Object.keys(deps || {}).filter((dependency) => {
+        // only upgrade packages that are in the monorepo
+        return dependency in versions;
+      }) as Array<keyof typeof versions>;
+      return monorepoDependencies.map((dependency) => {
+        /* add ^ modifier to the version if this is the latest stable or prerelease version
+           example outputs: @storybook/react@^8.0.0 */
+        const maybeCaret = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
+        return `${dependency}@${maybeCaret}${versions[dependency]}`;
+      });
+    };
 
-  if (!dryRun) {
-    commandLog(`Updating dependencies in ${chalk.cyan('package.json')}..`);
-    logger.plain('');
+    const upgradedDependencies = toUpgradedDependencies(packageJson.dependencies);
+    const upgradedDevDependencies = toUpgradedDependencies(packageJson.devDependencies);
+
+    logger.info(`Updating dependencies in ${chalk.cyan('package.json')}..`);
     if (upgradedDependencies.length > 0) {
       await packageManager.addDependencies(
         { installAsDevDependencies: false, skipInstall: true, packageJson },
@@ -213,25 +264,60 @@ export const doUpgrade = async ({
     await packageManager.installDependencies();
   }
 
-  let automigrationResults;
-  if (!skipCheck) {
+  // AUTOMIGRATIONS
+  if (!skipCheck && !results && mainConfigPath && storybookVersion) {
     checkVersionConsistency();
-    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
+    results = await automigrate({
+      dryRun,
+      yes,
+      packageManager,
+      configDir,
+      mainConfigPath,
+      storybookVersion,
+    });
   }
+
+  // TELEMETRY
   if (!options.disableTelemetry) {
-    const afterVersion = await getInstalledStorybookVersion(packageManager);
-    const { preCheckFailure, fixResults } = automigrationResults || {};
+    const { preCheckFailure, fixResults } = results || {};
     const automigrationTelemetry = {
       automigrationResults: preCheckFailure ? null : fixResults,
       automigrationPreCheckFailure: preCheckFailure || null,
     };
-    telemetry('upgrade', {
+
+    await telemetry('upgrade', {
       beforeVersion,
-      afterVersion,
+      afterVersion: currentVersion,
       ...automigrationTelemetry,
     });
   }
 };
+
+function missingStorybookVersionMessage(): string {
+  return dedent`
+      [Storybook automigrate] ❌ Unable to determine Storybook version so that the automigrations will be skipped.
+        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
+      `;
+}
+
+function mainjsExecutionFailureMessage(
+  mainConfigPath: string,
+  mainConfigLoadingError: string
+): string {
+  return dedent`
+    [Storybook automigrate] ❌ Failed trying to evaluate ${chalk.blue(
+      mainConfigPath
+    )} with the following error: ${mainConfigLoadingError}
+    
+    Please fix the error and try again.
+  `;
+}
+
+function mainjsNotFoundMessage(configDir: string): string {
+  return dedent`[Storybook automigrate] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
+    configDir
+  )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`;
+}
 
 export async function upgrade(options: UpgradeOptions): Promise<void> {
   await withTelemetry('upgrade', { cliOptions: options }, () => doUpgrade(options));

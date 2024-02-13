@@ -1,7 +1,11 @@
 import { listCodemods, runCodemod } from '@storybook/codemod';
 import { runFixes } from './automigrate';
 import { bareMdxStoriesGlob } from './automigrate/fixes/bare-mdx-stories-glob';
-import { JsPackageManagerFactory } from '@storybook/core-common';
+import {
+  JsPackageManagerFactory,
+  getStorybookInfo,
+  getCoercedStorybookVersion,
+} from '@storybook/core-common';
 import { getStorybookVersionSpecifier } from './helpers';
 
 const logger = console;
@@ -11,7 +15,33 @@ export async function migrate(migration: any, { glob, dryRun, list, rename, pars
     listCodemods().forEach((key: any) => logger.log(key));
   } else if (migration) {
     if (migration === 'mdx-to-csf' && !dryRun) {
-      await runFixes({ fixes: [bareMdxStoriesGlob] });
+      const packageManager = JsPackageManagerFactory.getPackageManager();
+
+      const [packageJson, storybookVersion] = await Promise.all([
+        //
+        packageManager.retrievePackageJson(),
+        getCoercedStorybookVersion(packageManager),
+      ]);
+      const { configDir: inferredConfigDir, mainConfig: mainConfigPath } =
+        getStorybookInfo(packageJson);
+      const configDir = inferredConfigDir || '.storybook';
+
+      // GUARDS
+      if (!storybookVersion) {
+        throw new Error('Could not determine Storybook version');
+      }
+
+      if (!mainConfigPath) {
+        throw new Error('Could not determine main config path');
+      }
+
+      await runFixes({
+        fixes: [bareMdxStoriesGlob],
+        configDir,
+        mainConfigPath,
+        packageManager,
+        storybookVersion,
+      });
       await addStorybookBlocksPackage();
     }
     await runCodemod(migration, { glob, dryRun, logger, rename, parser });

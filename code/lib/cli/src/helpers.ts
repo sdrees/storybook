@@ -130,7 +130,7 @@ type CopyTemplateFilesOptions = {
   destination?: string;
 };
 
-const frameworkToRenderer: Record<
+export const frameworkToRenderer: Record<
   SupportedFrameworks | SupportedRenderers,
   SupportedRenderers | 'vue'
 > = {

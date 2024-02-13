@@ -8,6 +8,12 @@
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
   - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
   - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
+    - [For React:](#for-react)
+    - [For Vue:](#for-vue)
+    - [For Svelte (without Sveltekit):](#for-svelte-without-sveltekit)
+    - [For Preact:](#for-preact)
+    - [For Solid:](#for-solid)
+    - [For Qwik:](#for-qwik)
   - [TurboSnap Vite plugin is no longer needed](#turbosnap-vite-plugin-is-no-longer-needed)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [MDX related changes](#mdx-related-changes)
@@ -469,13 +475,69 @@ This section explains the rationale, and the required changed you might have to 
 In Storybook 7, we would automatically add frameworks-specific Vite plugins, e.g. `@vitejs/plugin-react` if not installed.
 In Storybook 8 those plugins have to be added explicitly in the user's `vite.config.ts`:
 
+#### For React:
+
 ```ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+});
+```
+
+#### For Vue:
+
+```ts
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+
+export default defineConfig({
+  plugins: [vue()],
+});
+```
+
+#### For Svelte (without Sveltekit):
+
+```ts
+import { defineConfig } from "vite";
+import svelte from "@sveltejs/vite-plugin-svelte";
+
+export default defineConfig({
+  plugins: [svelte()],
+});
+```
+
+#### For Preact:
+
+```ts
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+
+export default defineConfig({
+  plugins: [preact()],
+});
+```
+
+#### For Solid:
+
+```ts
+import { defineConfig } from "vite";
+import solid from "vite-plugin-solid";
+
+export default defineConfig({
+  plugins: [solid()],
+});
+```
+
+#### For Qwik:
+
+```ts
+import { defineConfig } from "vite";
+import qwik from "vite-plugin-qwik";
+
+export default defineConfig({
+  plugins: [qwik()],
 });
 ```
 
