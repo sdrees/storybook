@@ -149,8 +149,14 @@ export const viteFinal = async (config: any, options: Options) => {
           react,
           'react-dom': reactDom,
           '@mdx-js/react': mdx,
+          /**
+           * The following aliases are used to ensure a single instance of these packages are used in situations where they are duplicated
+           * The packages will be duplicated by the package manager when the user has react installed with another version than 18.2.0
+           */
+          '@storybook/theming': dirname(require.resolve('@storybook/theming')),
+          '@storybook/components': dirname(require.resolve('@storybook/components')),
+          '@storybook/blocks': dirname(require.resolve('@storybook/blocks')),
         },
-        dedupe: ['@storybook/theming', '@storybook/components', '@storybook/blocks'],
       },
     }),
   };

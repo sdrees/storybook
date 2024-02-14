@@ -24,6 +24,8 @@ import { Button } from "@storybook/design-system";
 
 <!-- prettier-ignore-start -->
 ```md
+<!-- Header.mdx -->
+
 // DON'T do this, will error
 import ReadMe from './README.md';
 // DO this, will work
