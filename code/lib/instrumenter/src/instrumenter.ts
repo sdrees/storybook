@@ -432,7 +432,9 @@ export class Instrumenter {
         return { __element__: { prefix, localName, id, classNames, innerText } };
       }
       if (typeof value === 'function') {
-        return { __function__: { name: value.name } };
+        return {
+          __function__: { name: 'getMockName' in value ? value.getMockName() : value.name },
+        };
       }
       if (typeof value === 'symbol') {
         return { __symbol__: { description: value.description } };

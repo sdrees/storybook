@@ -127,6 +127,7 @@
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
     - [Dark mode detection](#dark-mode-detection)
+    - [`addons.setConfig` should now be imported from `@storybook/manager-api`.](#addonssetconfig-should-now-be-imported-from-storybookmanager-api)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
@@ -468,7 +469,10 @@ In Storybook 7, these packages existed for backwards compatibility, but were mar
 - `@storybook/store` - this package has been merged into `@storybook/preview-api`.
 - `@storybook/api` - this package has been replaced with `@storybook/manager-api`.
 
-This section explains the rationale, and the required changed you might have to make: [New Addons API](#new-addons-api)
+These sections explain the rationale, and the required changes you might have to make:
+
+- [New Addons API](#new-addons-api)
+- [`addons.setConfig` should now be imported from `@storybook/manager-api`.](#addonssetconfig-should-now-be-imported-from-storybookmanager-api)
 
 ### Framework-specific Vite plugins have to be explicitly added
 
@@ -2028,6 +2032,19 @@ Storybook 7 uses `prefers-color-scheme` to detects your system's dark mode prefe
 Earlier versions used the light theme by default, so if you don't set a theme and your system's settings are in dark mode, this could surprise you.
 
 To learn more about theming, read our [documentation](https://storybook.js.org/docs/react/configure/theming).
+
+#### `addons.setConfig` should now be imported from `@storybook/manager-api`.
+
+The previous package, `@storybook/addons`, is now deprecated and will be removed in 8.0.
+
+```diff
+- import { addons } from '@storybook/addons';
++ import { addons } from '@storybook/manager-api';
+
+addons.setConfig({
+  // ...
+})
+```
 
 ### 7.0 core addons changes
 
