@@ -1,6 +1,11 @@
+## 7.6.16
+
+- Addon Themes: Make type generic less strict - [#26042](https://github.com/storybookjs/storybook/pull/26042), thanks [@yannbf](https://github.com/yannbf)!
+- Interaction: Make sure that adding spies doesn't cause infinite loops with self referencing args [#26019](https://github.com/storybookjs/storybook/pull/26019), thanks @kasperpeulen!
+
 ## 7.6.15
 
-- Interaction: Make sure that adding spies doesn't cause infinite loops with self referencing args [#26019](https://github.com/storybookjs/storybook/pull/26019), thanks @kasperpeulen!
+This release accidentally didn't contain anything.
 
 ## 7.6.14
 
