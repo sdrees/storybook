@@ -56,7 +56,7 @@ type TypescriptOptions = TypescriptOptionsBase & {
  */
 export type StorybookConfig = Omit<
   StorybookConfigBase,
-  keyof StorybookConfigVite | keyof StorybookConfigFramework
+  keyof StorybookConfigVite | keyof StorybookConfigFramework | 'typescript'
 > &
   StorybookConfigVite &
   StorybookConfigFramework & {
