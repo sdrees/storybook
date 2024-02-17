@@ -1,3 +1,13 @@
+## 8.0.0-beta.3
+
+- Addon-actions: Add spy to action for explicit actions - [#26033](https://github.com/storybookjs/storybook/pull/26033), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Addon-themes: Make type generic less strict - [#26042](https://github.com/storybookjs/storybook/pull/26042), thanks [@yannbf](https://github.com/yannbf)!
+- Addon-docs: Fix pnpm+Vite failing to build with `@storybook/theming` Rollup error - [#26024](https://github.com/storybookjs/storybook/pull/26024), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Refactor to add autoblockers - [#25934](https://github.com/storybookjs/storybook/pull/25934), thanks [@ndelangen](https://github.com/ndelangen)!
+- Codemod: Migrate to test package - [#25958](https://github.com/storybookjs/storybook/pull/25958), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Portable stories: Only provide a play function wrapper if it exists - [#25974](https://github.com/storybookjs/storybook/pull/25974), thanks [@yannbf](https://github.com/yannbf)!
+- Test: Bump user-event to 14.5.2 - [#25889](https://github.com/storybookjs/storybook/pull/25889), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
 ## 8.0.0-beta.2
 
 - Core: Fix boolean `true` args in URL getting ignored - [#25950](https://github.com/storybookjs/storybook/pull/25950), thanks [@JReinhold](https://github.com/JReinhold)!

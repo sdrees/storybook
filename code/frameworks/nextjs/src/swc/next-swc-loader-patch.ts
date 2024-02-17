@@ -92,6 +92,8 @@ async function loaderTransform(this: any, parentTrace: any, source?: string, inp
     swcCacheDir,
     relativeFilePathFromRoot,
     serverComponents,
+    // @ts-expect-error Relevant for Next.js < 14.1
+    // TODO: Remove this when Next.js < 14.1 is no longer supported
     isReactServerLayer,
   });
 
