@@ -12,7 +12,7 @@ import type {
   ProjectAnnotations,
 } from '@storybook/types';
 
-import type { ComponentType, ComponentProps, SvelteComponentTyped } from 'svelte';
+import type { ComponentType, ComponentProps, SvelteComponent } from 'svelte';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { SvelteRenderer } from './types';
 
@@ -23,7 +23,7 @@ export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<CmpOrArgs = Args> = CmpOrArgs extends SvelteComponentTyped<infer Props>
+export type Meta<CmpOrArgs = Args> = CmpOrArgs extends SvelteComponent<infer Props>
   ? ComponentAnnotations<SvelteRenderer<CmpOrArgs>, Props>
   : ComponentAnnotations<SvelteRenderer, CmpOrArgs>;
 /**
@@ -31,7 +31,7 @@ export type Meta<CmpOrArgs = Args> = CmpOrArgs extends SvelteComponentTyped<infe
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends SvelteComponentTyped<infer Props>
+export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends SvelteComponent<infer Props>
   ? AnnotatedStoryFn<SvelteRenderer, Props>
   : AnnotatedStoryFn<SvelteRenderer, TCmpOrArgs>;
 
@@ -54,7 +54,7 @@ export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
         SetOptional<TArgs, Extract<keyof TArgs, keyof DefaultArgs>>
       >
     : never
-  : MetaOrCmpOrArgs extends SvelteComponentTyped
+  : MetaOrCmpOrArgs extends SvelteComponent
     ? StoryAnnotations<SvelteRenderer<MetaOrCmpOrArgs>, ComponentProps<MetaOrCmpOrArgs>>
     : StoryAnnotations<SvelteRenderer, MetaOrCmpOrArgs>;
 

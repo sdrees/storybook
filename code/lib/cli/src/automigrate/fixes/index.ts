@@ -5,6 +5,7 @@ import { webpack5 } from './webpack5';
 import { vite4 } from './vite4';
 import { vue3 } from './vue3';
 import { mdxgfm } from './mdx-gfm';
+import { removeLegacyMDX1 } from './remove-legacymdx1';
 import { eslintPlugin } from './eslint-plugin';
 import { builderVite } from './builder-vite';
 import { viteConfigFile } from './vite-config-file';
@@ -51,6 +52,7 @@ export const allFixes: Fix[] = [
   reactDocgen,
   storyshotsMigration,
   removeReactDependency,
+  removeLegacyMDX1,
   webpack5CompilerSetup,
 ];
 

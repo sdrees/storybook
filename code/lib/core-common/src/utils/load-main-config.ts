@@ -1,7 +1,12 @@
-import path from 'path';
+import path, { relative } from 'path';
 import type { StorybookConfig } from '@storybook/types';
 import { serverRequire, serverResolve } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';
+import { readFile } from 'fs/promises';
+import {
+  MainFileESMOnlyImportError,
+  MainFileEvaluationError,
+} from '@storybook/core-events/server-errors';
 
 export async function loadMainConfig({
   configDir = '.storybook',
@@ -18,5 +23,40 @@ export async function loadMainConfig({
     delete require.cache[mainJsPath];
   }
 
-  return serverRequire(mainJsPath);
+  try {
+    const out = await serverRequire(mainJsPath);
+    return out;
+  } catch (e) {
+    if (!(e instanceof Error)) {
+      throw e;
+    }
+    if (e.message.match(/Cannot use import statement outside a module/)) {
+      const location = relative(process.cwd(), mainJsPath);
+      const numFromStack = e.stack?.match(new RegExp(`${location}:(\\d+):(\\d+)`))?.[1];
+      let num;
+      let line;
+
+      if (numFromStack) {
+        const contents = await readFile(mainJsPath, 'utf-8');
+        const lines = contents.split('\n');
+        num = parseInt(numFromStack, 10) - 1;
+        line = lines[num];
+      }
+
+      const out = new MainFileESMOnlyImportError({
+        line,
+        location,
+        num,
+      });
+
+      delete out.stack;
+
+      throw out;
+    }
+
+    throw new MainFileEvaluationError({
+      location: relative(process.cwd(), mainJsPath),
+      error: e,
+    });
+  }
 }

@@ -1,3 +1,22 @@
+## 8.0.0-beta.4
+
+- Addon-actions: Warn when argTypesRegex is used together with the visual test addon - [#26094](https://github.com/storybookjs/storybook/pull/26094), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Addon-docs: Fix Table of Contents heading leak - [#23677](https://github.com/storybookjs/storybook/pull/23677), thanks [@vmizg](https://github.com/vmizg)!
+- CLI: Add `legacyMdx1` & `@storybook/mdx1-csf` automigration - [#26102](https://github.com/storybookjs/storybook/pull/26102), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Add line ignoring storybook's `.log` files upon `init` - [#26099](https://github.com/storybookjs/storybook/pull/26099), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Add support for custom vite config to autoblocker - [#26087](https://github.com/storybookjs/storybook/pull/26087), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Add webpack5 compiler automigration - [#26000](https://github.com/storybookjs/storybook/pull/26000), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Remove argTypesRegex automigration - [#26001](https://github.com/storybookjs/storybook/pull/26001), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- CLI: Remove the logging to file feature from autoblockers - [#26100](https://github.com/storybookjs/storybook/pull/26100), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Add addon removal telemetry - [#26077](https://github.com/storybookjs/storybook/pull/26077), thanks [@shilman](https://github.com/shilman)!
+- Core: Fix fail to load `main.ts` error message - [#26035](https://github.com/storybookjs/storybook/pull/26035), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Update ip version to fix CVE-2023-42282 - [#26086](https://github.com/storybookjs/storybook/pull/26086), thanks [@drik98](https://github.com/drik98)!
+- Next.js: Support getImageProps API - [#25745](https://github.com/storybookjs/storybook/pull/25745), thanks [@piratetaco](https://github.com/piratetaco)!
+- Svelte: Remove deprecated SvelteComponentTyped in favor of SvelteComponent - [#26113](https://github.com/storybookjs/storybook/pull/26113), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Vite: Fix bug that meant we always warned about TS plugin - [#26051](https://github.com/storybookjs/storybook/pull/26051), thanks [@tmeasday](https://github.com/tmeasday)!
+- Vite: Fix config typing issue of the `typescript` property - [#26046](https://github.com/storybookjs/storybook/pull/26046), thanks [@ndelangen](https://github.com/ndelangen)!
+- Vite: Fix issue getting preview stats with Vite builder - [#26093](https://github.com/storybookjs/storybook/pull/26093), thanks [@tmeasday](https://github.com/tmeasday)!
+
 ## 8.0.0-beta.3
 
 - Addon-actions: Add spy to action for explicit actions - [#26033](https://github.com/storybookjs/storybook/pull/26033), thanks [@kasperpeulen](https://github.com/kasperpeulen)!

@@ -6,6 +6,7 @@ import { withTelemetry } from '@storybook/core-server';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
+  UpgradeStorybookUnknownCurrentVersionError,
 } from '@storybook/core-events/server-errors';
 
 import chalk from 'chalk';
@@ -22,7 +23,6 @@ import {
 } from '@storybook/core-common';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
-import { PreCheckFailure } from './automigrate/types';
 
 type Package = {
   package: string;
@@ -189,26 +189,11 @@ export const doUpgrade = async ({
   );
   const configDir = userSpecifiedConfigDir || inferredConfigDir || '.storybook';
 
-  let mainConfigLoadingError = '';
-
-  const mainConfig = await loadMainConfig({ configDir }).catch((err) => {
-    mainConfigLoadingError = String(err);
-    return false;
-  });
+  const mainConfig = await loadMainConfig({ configDir });
 
   // GUARDS
   if (!storybookVersion) {
-    logger.info(missingStorybookVersionMessage());
-    results = { preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION };
-  } else if (
-    typeof mainConfigPath === 'undefined' ||
-    mainConfigLoadingError.includes('No configuration files have been found')
-  ) {
-    logger.info(mainjsNotFoundMessage(configDir));
-    results = { preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND };
-  } else if (typeof mainConfig === 'boolean') {
-    logger.info(mainjsExecutionFailureMessage(mainConfigPath, mainConfigLoadingError));
-    results = { preCheckFailure: PreCheckFailure.MAINJS_EVALUATION };
+    throw new UpgradeStorybookUnknownCurrentVersionError();
   }
 
   // BLOCKERS
@@ -292,32 +277,6 @@ export const doUpgrade = async ({
     });
   }
 };
-
-function missingStorybookVersionMessage(): string {
-  return dedent`
-      [Storybook automigrate] ❌ Unable to determine Storybook version so that the automigrations will be skipped.
-        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
-      `;
-}
-
-function mainjsExecutionFailureMessage(
-  mainConfigPath: string,
-  mainConfigLoadingError: string
-): string {
-  return dedent`
-    [Storybook automigrate] ❌ Failed trying to evaluate ${chalk.blue(
-      mainConfigPath
-    )} with the following error: ${mainConfigLoadingError}
-    
-    Please fix the error and try again.
-  `;
-}
-
-function mainjsNotFoundMessage(configDir: string): string {
-  return dedent`[Storybook automigrate] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
-    configDir
-  )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`;
-}
 
 export async function upgrade(options: UpgradeOptions): Promise<void> {
   await withTelemetry('upgrade', { cliOptions: options }, () => doUpgrade(options));

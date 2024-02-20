@@ -25,13 +25,6 @@ export interface Blocker<T> {
    * Format a message to be printed to the log-file.
    * @param context
    * @param data returned from the check method.
-   * @returns The string to print to the terminal.
-   */
-  message: (options: AutoblockOptions, data: T) => string;
-  /**
-   * Format a message to be printed to the log-file.
-   * @param context
-   * @param data returned from the check method.
    * @returns The string to print to the log-file.
    */
   log: (options: AutoblockOptions, data: T) => string;

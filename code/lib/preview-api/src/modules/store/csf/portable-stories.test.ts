@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { describe, expect, vi, it } from 'vitest';
 import { composeStory, composeStories } from './portable-stories';
 

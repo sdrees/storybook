@@ -118,7 +118,7 @@ If you're working with a custom environment set up or need set up Storybook manu
 | Solid          | `solid`          |
 | Svelte         | `svelte`         |
 | Vue 3          | `vue3`           |
-| Web Components | `web-components` |
+| Web Components | `web_components` |
 
 <!-- prettier-ignore-start -->
 

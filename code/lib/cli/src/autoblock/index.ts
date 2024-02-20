@@ -2,7 +2,6 @@ import type { AutoblockOptions, Blocker } from './types';
 import { logger } from '@storybook/node-logger';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { writeFile } from 'node:fs/promises';
 
 const excludesFalse = <T>(x: T | false): x is T => x !== false;
 
@@ -34,7 +33,6 @@ export const autoblock = async (
         return {
           id: blocker.id,
           value: true,
-          message: blocker.message(options, result),
           log: blocker.log(options, result),
         };
       } else {
@@ -46,12 +44,9 @@ export const autoblock = async (
   const faults = out.filter(excludesFalse);
 
   if (faults.length > 0) {
-    const LOG_FILE_NAME = 'migration-storybook.log';
-
     const messages = {
       welcome: `Blocking your upgrade because of the following issues:`,
       reminder: chalk.yellow('Fix the above issues and try running the upgrade command again.'),
-      logfile: chalk.yellow(`You can find more details in ./${LOG_FILE_NAME}.`),
     };
     const borderColor = '#FC521F';
 
@@ -59,20 +54,11 @@ export const autoblock = async (
     logger.plain(
       boxen(
         [messages.welcome]
-          .concat(faults.map((i) => i.message))
+          .concat(faults.map((i) => i.log))
           .concat([messages.reminder])
-          .concat([messages.logfile])
           .join('\n\n'),
         { borderStyle: 'round', padding: 1, borderColor }
       )
-    );
-
-    await writeFile(
-      LOG_FILE_NAME,
-      faults.map((i) => '(' + i.id + '):\n' + i.log).join('\n\n----\n\n'),
-      {
-        encoding: 'utf-8',
-      }
     );
 
     return faults[0].id;

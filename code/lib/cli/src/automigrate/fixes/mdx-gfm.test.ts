@@ -40,6 +40,7 @@ describe('no-ops', () => {
         packageManager: {},
         main: {
           features: {
+            // @ts-expect-error (user might be upgrading from a version that had this option)
             legacyMdx1: true,
           },
         },

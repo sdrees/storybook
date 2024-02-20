@@ -10,7 +10,6 @@ Type:
 {
   argTypeTargetsV7?: boolean;
   legacyDecoratorFileOrder?: boolean;
-  legacyMdx1?: boolean;
 }
 ```
 

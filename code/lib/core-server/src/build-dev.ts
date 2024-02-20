@@ -15,7 +15,7 @@ import { oneWayHash, telemetry } from '@storybook/telemetry';
 
 import { join, relative, resolve } from 'path';
 import { deprecate } from '@storybook/node-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { readFile } from 'fs-extra';
 import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';

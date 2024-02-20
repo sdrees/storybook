@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-events",
-  "version": "8.0.0-beta.3",
+  "version": "8.0.0-beta.4",
   "description": "Event names used in storybook core",
   "keywords": [
     "storybook"
@@ -81,6 +81,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "chalk": "^4.1.0",
     "typescript": "^5.3.2"
   },
   "publishConfig": {

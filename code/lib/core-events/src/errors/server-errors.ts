@@ -1,3 +1,4 @@
+import { bold, gray, grey, white, yellow, underline } from 'chalk';
 import dedent from 'ts-dedent';
 import { StorybookError } from './storybook-error';
 
@@ -394,6 +395,98 @@ export class NoMatchingExportError extends StorybookError {
   }
 }
 
+export class MainFileESMOnlyImportError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 5;
+
+  public documentation =
+    'https://github.com/storybookjs/storybook/issues/23972#issuecomment-1948534058';
+
+  constructor(
+    public data: { location: string; line: string | undefined; num: number | undefined }
+  ) {
+    super();
+  }
+
+  template() {
+    const message = [
+      `Storybook failed to load ${this.data.location}`,
+      '',
+      `It looks like the file tried to load/import an ESM only module.`,
+      `Support for this is currently limited in ${this.data.location}`,
+      `You can import ESM modules in your main file, but only as dynamic import.`,
+      '',
+    ];
+    if (this.data.line) {
+      message.push(
+        white(
+          `In your ${yellow(this.data.location)} file, line ${bold.cyan(
+            this.data.num
+          )} threw an error:`
+        ),
+        grey(this.data.line)
+      );
+    }
+
+    message.push(
+      '',
+      white(`Convert the static import to a dynamic import ${underline('where they are used')}.`),
+      white(`Example:`) + ' ' + gray(`await import(<your ESM only module>);`),
+      ''
+    );
+
+    return message.join('\n');
+  }
+}
+
+export class MainFileMissingError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 6;
+
+  readonly stack = '';
+
+  public readonly documentation = 'https://storybook.js.org/docs/configure';
+
+  constructor(public data: { location: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      No configuration files have been found in your configDir: ${yellow(this.data.location)}.
+      Storybook needs a "main.js" file, please add it.
+      
+      You can pass a --config-dir flag to tell Storybook, where your main.js file is located at).
+    `;
+  }
+}
+
+export class MainFileEvaluationError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 7;
+
+  readonly stack = '';
+
+  constructor(public data: { location: string; error: Error }) {
+    super();
+  }
+
+  template() {
+    const errorText = white(
+      (this.data.error.stack || this.data.error.message).replaceAll(process.cwd(), '')
+    );
+
+    return dedent`
+      Storybook couldn't evaluate your ${yellow(this.data.location)} file.
+
+      ${errorText}
+    `;
+  }
+}
+
 export class GenerateNewProjectOnInitError extends StorybookError {
   readonly category = Category.CLI_INIT;
 
@@ -465,6 +558,21 @@ export class UpgradeStorybookToSameVersionError extends StorybookError {
       If you intended to re-run automigrations, you should run the "automigrate" command directly instead:
 
       "npx storybook@${this.data.beforeVersion} automigrate"
+    `;
+  }
+}
+
+export class UpgradeStorybookUnknownCurrentVersionError extends StorybookError {
+  readonly category = Category.CLI_UPGRADE;
+
+  readonly code = 5;
+
+  template() {
+    return dedent`
+      We couldn't determine the current version of Storybook in your project.
+
+      Are you running the Storybook CLI in a project without Storybook?
+      It might help if you specify your Storybook config directory with the --config-dir flag.
     `;
   }
 }
