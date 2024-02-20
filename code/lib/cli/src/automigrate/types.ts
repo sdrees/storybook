@@ -19,9 +19,17 @@ export interface RunOptions<ResultType> {
   skipInstall?: boolean;
 }
 
+/**
+ * promptType defines how the user will be prompted to apply an automigration fix
+ * - auto: the fix will be applied automatically
+ * - manual: the user will be prompted to apply the fix
+ * - notification: the user will be notified about the some changes. A fix isn't required
+ */
+export type Prompt = 'auto' | 'manual' | 'notification';
+
 export interface Fix<ResultType = any> {
   id: string;
-  promptOnly?: boolean;
+  promptType?: Prompt | ((result: ResultType) => Promise<Prompt> | Prompt);
   check: (options: CheckOptions) => Promise<ResultType | null>;
   prompt: (result: ResultType) => string;
   run?: (options: RunOptions<ResultType>) => Promise<void>;

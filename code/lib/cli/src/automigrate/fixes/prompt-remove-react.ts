@@ -5,7 +5,7 @@ import type { Fix } from '../types';
 
 export const removeReactDependency: Fix<{}> = {
   id: 'remove-react-dependency',
-  promptOnly: true,
+  promptType: 'manual',
 
   async check({ packageManager, mainConfig, storybookVersion }) {
     // when the user is using the react renderer, we should not prompt them to remove react

@@ -34,8 +34,7 @@ test.describe('addon-docs', () => {
     await expect(anotherStory).toContainText('Another button, just to show multiple stories');
   });
 
-  // FIXME - get rid of the flake
-  test.skip('should show source=code view for stories', async ({ page }) => {
+  test('should show source=code view for stories', async ({ page }) => {
     const skipped = [
       // SSv6 does not render stories in the correct order in our sandboxes
       'internal\\/ssv6',

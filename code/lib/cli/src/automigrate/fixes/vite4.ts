@@ -5,7 +5,7 @@ import type { Fix } from '../types';
 
 const logger = console;
 
-interface Webpack5RunOptions {
+interface Vite4RunOptions {
   viteVersion: string | null;
 }
 
@@ -40,4 +40,4 @@ export const vite4 = {
       await packageManager.addDependencies({ installAsDevDependencies: true }, deps);
     }
   },
-} satisfies Fix<Webpack5RunOptions>;
+} satisfies Fix<Vite4RunOptions>;

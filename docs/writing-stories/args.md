@@ -160,7 +160,7 @@ Args are useful when writing stories for composite components that are assembled
 
 <!-- prettier-ignore-end -->
 
-<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+<IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
 <!-- Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example -->
 

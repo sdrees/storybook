@@ -42,10 +42,19 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfigRaw) => {
  * @returns - The package name of the builder. If not found, returns null.
  */
 export const getBuilderPackageName = (mainConfig?: StorybookConfigRaw) => {
-  const packageNameOrPath =
+  const frameworkOptions = getFrameworkOptions(mainConfig);
+
+  const frameworkBuilder = frameworkOptions?.builder;
+
+  const frameworkBuilderName =
+    typeof frameworkBuilder === 'string' ? frameworkBuilder : frameworkBuilder?.options?.name;
+
+  const coreBuilderName =
     typeof mainConfig?.core?.builder === 'string'
       ? mainConfig.core.builder
       : mainConfig?.core?.builder?.name;
+
+  const packageNameOrPath = coreBuilderName ?? frameworkBuilderName;
 
   if (!packageNameOrPath) {
     return null;
@@ -54,6 +63,17 @@ export const getBuilderPackageName = (mainConfig?: StorybookConfigRaw) => {
   const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
 
   return builderPackages.find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath;
+};
+
+/**
+ * Given a Storybook configuration object, retrieves the configuration for the framework.
+ * @param mainConfig - The main Storybook configuration object to lookup.
+ * @returns - The configuration for the framework. If not found, returns null.
+ */
+export const getFrameworkOptions = (
+  mainConfig?: StorybookConfigRaw
+): Record<string, any> | null => {
+  return typeof mainConfig?.framework === 'string' ? null : mainConfig?.framework?.options ?? null;
 };
 
 /**

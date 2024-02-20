@@ -204,7 +204,7 @@ A good use case for the `play` function is a form component. With previous Story
 
 When the story renders in the UI, Storybook executes each step defined in the `play` function and runs the assertions without the need for user interaction.
 
-<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+<IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
 ## Custom render functions
 
@@ -226,6 +226,7 @@ Starting in Storybook 6.4, you can write your stories as JavaScript objects, red
    'solid/component-story-with-custom-render-function.ts.mdx',
   ]}
   usesCsf3
+  csf2Path="api/csf#snippet-component-story-with-custom-render-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -430,7 +431,7 @@ Now, let's rewrite it as a story object in CSF 3 with an explicit `render` funct
   ]}
 />
 
-<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+<IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
 Learn more about [render functions](#custom-render-functions).
 
@@ -452,7 +453,7 @@ CSF 3 provides default render functions for each renderer. If all you're doing i
 
 <!-- prettier-ignore-end -->
 
-<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+<IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
 For more information, see the section on [custom render functions](#custom-render-functions).
 

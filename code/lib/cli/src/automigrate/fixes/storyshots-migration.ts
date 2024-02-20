@@ -4,7 +4,7 @@ import type { Fix } from '../types';
 
 export const storyshotsMigration: Fix = {
   id: 'storyshots-migration',
-  promptOnly: true,
+  promptType: 'manual',
 
   async check({ mainConfig, packageManager }) {
     const allDeps = await packageManager.getAllDependencies();

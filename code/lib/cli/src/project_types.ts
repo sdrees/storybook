@@ -1,4 +1,5 @@
 import { minVersion, validRange } from 'semver';
+import type { SupportedFrameworks } from '@storybook/types';
 
 function eqMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
@@ -20,9 +21,6 @@ export const externalFrameworks: ExternalFramework[] = [
   { name: 'qwik', packageName: 'storybook-framework-qwik' },
   { name: 'solid', frameworks: ['storybook-solidjs-vite'], renderer: 'storybook-solidjs' },
 ];
-
-// Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid' | 'ember';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
@@ -78,6 +76,21 @@ export enum CoreBuilder {
   Webpack5 = 'webpack5',
   Vite = 'vite',
 }
+
+export enum CoreWebpackCompilers {
+  Babel = 'babel',
+  SWC = 'swc',
+}
+
+export const compilerNameToCoreCompiler: Record<string, CoreWebpackCompilers> = {
+  '@storybook/addon-webpack5-compiler-babel': CoreWebpackCompilers.Babel,
+  '@storybook/addon-webpack5-compiler-swc': CoreWebpackCompilers.SWC,
+};
+
+export const builderNameToCoreBuilder: Record<string, CoreBuilder> = {
+  '@storybook/builder-webpack5': CoreBuilder.Webpack5,
+  '@storybook/builder-vite': CoreBuilder.Vite,
+};
 
 // The `& {}` bit allows for auto-complete, see: https://github.com/microsoft/TypeScript/issues/29729
 export type Builder = CoreBuilder | (string & {});

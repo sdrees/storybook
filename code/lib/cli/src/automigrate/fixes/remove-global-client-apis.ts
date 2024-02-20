@@ -19,7 +19,7 @@ interface GlobalClientAPIOptions {
 
 export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
   id: 'removedglobalclientapis',
-  promptOnly: true,
+  promptType: 'manual',
 
   async check({ previewConfigPath }) {
     if (previewConfigPath) {

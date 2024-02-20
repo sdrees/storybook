@@ -20,6 +20,7 @@ import type {
   FixSummary,
   PreCheckFailure,
   AutofixOptionsFromCLI,
+  Prompt,
 } from './fixes';
 import { FixStatus, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
@@ -217,15 +218,29 @@ export async function runFixes({
     }
 
     if (result) {
+      const promptType: Prompt =
+        typeof f.promptType === 'function' ? await f.promptType(result) : f.promptType ?? 'auto';
+
       logger.info(`\n🔎 found a '${chalk.cyan(f.id)}' migration:`);
       const message = f.prompt(result);
+
+      const getTitle = () => {
+        switch (promptType) {
+          case 'auto':
+            return 'Automigration detected';
+          case 'manual':
+            return 'Manual migration detected';
+          case 'notification':
+            return 'Migration notification';
+        }
+      };
 
       logger.info(
         boxen(message, {
           borderStyle: 'round',
           padding: 1,
           borderColor: '#F1618C',
-          title: f.promptOnly ? 'Manual migration detected' : 'Automigration detected',
+          title: getTitle(),
         })
       );
 
@@ -236,11 +251,11 @@ export async function runFixes({
           runAnswer = { fix: false };
         } else if (yes) {
           runAnswer = { fix: true };
-          if (f.promptOnly) {
+          if (promptType === 'manual') {
             fixResults[f.id] = FixStatus.MANUAL_SUCCEEDED;
             fixSummary.manual.push(f.id);
           }
-        } else if (f.promptOnly) {
+        } else if (promptType === 'manual') {
           fixResults[f.id] = FixStatus.MANUAL_SUCCEEDED;
           fixSummary.manual.push(f.id);
 
@@ -266,7 +281,7 @@ export async function runFixes({
             fixResults[f.id] = FixStatus.MANUAL_SKIPPED;
             break;
           }
-        } else {
+        } else if (promptType === 'auto') {
           runAnswer = await prompts(
             {
               type: 'confirm',
@@ -280,12 +295,26 @@ export async function runFixes({
               },
             }
           );
+        } else if (promptType === 'notification') {
+          runAnswer = await prompts(
+            {
+              type: 'confirm',
+              name: 'fix',
+              message: `Do you want to continue?`,
+              initial: true,
+            },
+            {
+              onCancel: () => {
+                throw new Error();
+              },
+            }
+          );
         }
       } catch (err) {
         break;
       }
 
-      if (!f.promptOnly) {
+      if (promptType === 'auto') {
         invariant(runAnswer, 'runAnswer must be defined if not promptOnly');
         if (runAnswer.fix) {
           try {

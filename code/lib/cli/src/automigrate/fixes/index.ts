@@ -21,6 +21,8 @@ import { wrapRequire } from './wrap-require';
 import { reactDocgen } from './react-docgen';
 import { removeReactDependency } from './prompt-remove-react';
 import { storyshotsMigration } from './storyshots-migration';
+import { removeArgtypesRegex } from './remove-argtypes-regex';
+import { webpack5CompilerSetup } from './webpack5-compiler-setup';
 import { removeJestTestingLibrary } from './remove-jest-testing-library';
 
 export * from '../types';
@@ -37,6 +39,7 @@ export const allFixes: Fix[] = [
   sbBinary,
   sbScripts,
   incompatibleAddons,
+  removeArgtypesRegex,
   removeJestTestingLibrary,
   removedGlobalClientAPIs,
   mdx1to2,
@@ -48,6 +51,7 @@ export const allFixes: Fix[] = [
   reactDocgen,
   storyshotsMigration,
   removeReactDependency,
+  webpack5CompilerSetup,
 ];
 
 export const initFixes: Fix[] = [eslintPlugin];

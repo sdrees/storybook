@@ -11,7 +11,7 @@ import {
 import prompts from 'prompts';
 import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
-import { telemetry, oneWayHash } from '@storybook/telemetry';
+import { oneWayHash, telemetry } from '@storybook/telemetry';
 
 import { join, relative, resolve } from 'path';
 import { deprecate } from '@storybook/node-logger';
@@ -22,9 +22,10 @@ import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
-import { getServerPort, getServerChannelUrl } from './utils/server-address';
+import { getServerChannelUrl, getServerPort } from './utils/server-address';
 import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
+import { warnWhenUsingArgTypesRegex } from './utils/warnWhenUsingArgTypesRegex';
 import { buildOrThrow } from './utils/build-or-throw';
 
 export async function buildDevStandalone(
@@ -92,6 +93,10 @@ export async function buildDevStandalone(
   } catch (e) {
     console.warn('Storybook failed to check addon compatibility', e);
   }
+
+  try {
+    await warnWhenUsingArgTypesRegex(packageJson, configDir, config);
+  } catch (e) {}
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account

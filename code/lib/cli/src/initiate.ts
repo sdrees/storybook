@@ -1,4 +1,6 @@
+import { appendFile, readFile } from 'fs/promises';
 import type { PackageJson } from 'read-pkg-up';
+import findUp from 'find-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
@@ -10,6 +12,7 @@ import {
   JsPackageManagerFactory,
   commandLog,
   paddedLog,
+  getProjectRoot,
 } from '@storybook/core-common';
 import type { JsPackageManager } from '@storybook/core-common';
 
@@ -367,6 +370,15 @@ export async function doInitiate(
     `);
 
     return { shouldRunDev: false };
+  }
+
+  const foundGitIgnoreFile = await findUp('.gitignore');
+  const rootDirectory = getProjectRoot();
+  if (foundGitIgnoreFile && foundGitIgnoreFile.includes(rootDirectory)) {
+    const contents = await readFile(foundGitIgnoreFile, 'utf-8');
+    if (!contents.includes('*storybook.log')) {
+      await appendFile(foundGitIgnoreFile, '\n*storybook.log');
+    }
   }
 
   const storybookCommand =

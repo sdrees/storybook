@@ -7,7 +7,7 @@ import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
-  removeAddon,
+  removeAddon as removeAddonBase,
 } from '@storybook/core-common';
 import type {
   CLIOptions,
@@ -162,10 +162,16 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_serverAPI = (extension: Record<string, Function>) => ({
-  ...extension,
-  removeAddon,
-});
+export const experimental_serverAPI = (extension: Record<string, Function>, options: Options) => {
+  let removeAddon = removeAddonBase;
+  if (!options.disableTelemetry) {
+    removeAddon = async (id: string, opts: any) => {
+      await telemetry('remove', { addon: id, source: 'api' });
+      return removeAddonBase(id, opts);
+    };
+  }
+  return { ...extension, removeAddon };
+};
 
 /**
  * If for some reason this config is not applied, the reason is that

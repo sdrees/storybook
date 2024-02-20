@@ -13,7 +13,9 @@ import type {
   PackageJson,
   PackageJsonWithDepsAndDevDeps,
 } from '@storybook/core-common';
-import type { SupportedFrameworks, SupportedRenderers } from './project_types';
+import type { SupportedFrameworks } from '@storybook/types';
+import type { SupportedRenderers } from './project_types';
+import { CoreBuilder } from './project_types';
 import { SupportedLanguage } from './project_types';
 import { versions as storybookMonorepoPackages } from '@storybook/core-common';
 
@@ -134,20 +136,57 @@ export const frameworkToRenderer: Record<
   SupportedFrameworks | SupportedRenderers,
   SupportedRenderers | 'vue'
 > = {
+  // frameworks
   angular: 'angular',
   ember: 'ember',
-  html: 'html',
+  'html-vite': 'html',
+  'html-webpack5': 'html',
   nextjs: 'react',
-  preact: 'preact',
+  'preact-vite': 'preact',
+  'preact-webpack5': 'preact',
   qwik: 'qwik',
-  react: 'react',
-  'react-native': 'react',
-  server: 'react',
+  'react-vite': 'react',
+  'react-webpack5': 'react',
+  'server-webpack5': 'server',
   solid: 'solid',
-  svelte: 'svelte',
+  'svelte-vite': 'svelte',
+  'svelte-webpack5': 'svelte',
   sveltekit: 'svelte',
-  vue3: 'vue',
+  'vue3-vite': 'vue3',
+  'vue3-webpack5': 'vue3',
+  'web-components-vite': 'web-components',
+  'web-components-webpack5': 'web-components',
+  // renderers
+  html: 'html',
+  preact: 'preact',
+  'react-native': 'react-native',
+  react: 'react',
+  server: 'server',
+  svelte: 'svelte',
+  vue3: 'vue3',
   'web-components': 'web-components',
+};
+
+export const frameworkToDefaultBuilder: Record<SupportedFrameworks, CoreBuilder> = {
+  angular: CoreBuilder.Webpack5,
+  ember: CoreBuilder.Webpack5,
+  'html-vite': CoreBuilder.Vite,
+  'html-webpack5': CoreBuilder.Webpack5,
+  nextjs: CoreBuilder.Webpack5,
+  'preact-vite': CoreBuilder.Vite,
+  'preact-webpack5': CoreBuilder.Webpack5,
+  qwik: CoreBuilder.Vite,
+  'react-vite': CoreBuilder.Vite,
+  'react-webpack5': CoreBuilder.Webpack5,
+  'server-webpack5': CoreBuilder.Webpack5,
+  solid: CoreBuilder.Vite,
+  'svelte-vite': CoreBuilder.Vite,
+  'svelte-webpack5': CoreBuilder.Webpack5,
+  sveltekit: CoreBuilder.Vite,
+  'vue3-vite': CoreBuilder.Vite,
+  'vue3-webpack5': CoreBuilder.Webpack5,
+  'web-components-vite': CoreBuilder.Vite,
+  'web-components-webpack5': CoreBuilder.Webpack5,
 };
 
 export async function copyTemplateFiles({

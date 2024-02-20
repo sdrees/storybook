@@ -6,13 +6,19 @@ import { sync as readUpSync } from 'read-pkg-up';
 import invariant from 'tiny-invariant';
 
 import { logger } from '@storybook/node-logger';
-import { addToGlobalContext } from '@storybook/telemetry';
-import { parseList, getEnvConfig, JsPackageManagerFactory, versions } from '@storybook/core-common';
+import { addToGlobalContext, telemetry } from '@storybook/telemetry';
+import {
+  parseList,
+  getEnvConfig,
+  JsPackageManagerFactory,
+  versions,
+  removeAddon as remove,
+} from '@storybook/core-common';
+import { withTelemetry } from '@storybook/core-server';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
-import { removeAddon as remove } from '@storybook/core-common';
 import { migrate } from './migrate';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
@@ -71,7 +77,14 @@ command('remove <addon>')
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
-  .action((addonName: string, options: any) => remove(addonName, options));
+  .action((addonName: string, options: any) =>
+    withTelemetry('remove', { cliOptions: options }, async () => {
+      await remove(addonName, options);
+      if (!options.disableTelemetry) {
+        await telemetry('remove', { addon: addonName, source: 'cli' });
+      }
+    })
+  );
 
 command('upgrade')
   .description(`Upgrade your Storybook packages to v${versions.storybook}`)
