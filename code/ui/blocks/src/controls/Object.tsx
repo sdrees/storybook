@@ -5,7 +5,7 @@ import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react'
 import { styled, useTheme, type Theme } from '@storybook/theming';
 import { Form, IconButton, Button } from '@storybook/components';
 import { AddIcon, EyeCloseIcon, EyeIcon, SubtractIcon } from '@storybook/icons';
-import { JsonTree, getObjectType } from './react-editable-json-tree';
+import { JsonTree } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';
 
@@ -247,7 +247,6 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
   const theme = useTheme();
   const data = useMemo(() => value && cloneDeep(value), [value]);
   const hasData = data !== null && data !== undefined;
-
   const [showRaw, setShowRaw] = useState(!hasData);
   const [parseError, setParseError] = useState<Error>(null);
   const updateRaw: (raw: string) => void = useCallback(
@@ -294,9 +293,12 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
     />
   );
 
+  const isObjectOrArray =
+    Array.isArray(value) || (typeof value === 'object' && value?.constructor === Object);
+
   return (
     <Wrapper>
-      {['Object', 'Array'].includes(getObjectType(data)) && (
+      {isObjectOrArray && (
         <RawButton
           onClick={(e: SyntheticEvent) => {
             e.preventDefault();
@@ -309,6 +311,8 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
       )}
       {!showRaw ? (
         <JsonTree
+          readOnly={!isObjectOrArray}
+          isCollapsed={isObjectOrArray ? /* default value */ undefined : () => true}
           data={data}
           rootName={name}
           onFullyUpdate={onChange}

@@ -260,7 +260,6 @@ export const decorators = [
 ];
 
 export const parameters = {
-  actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: (a, b) =>
       a.title === b.title ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true }),

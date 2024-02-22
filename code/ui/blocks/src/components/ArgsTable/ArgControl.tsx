@@ -65,8 +65,9 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs, isHovere
   const onBlur = useCallback(() => setFocused(false), []);
   const onFocus = useCallback(() => setFocused(true), []);
 
-  if (!control || control.disable)
-    return isHovered ? (
+  if (!control || control.disabled) {
+    const canBeSetup = control?.disabled !== true && row?.type?.name !== 'function';
+    return isHovered && canBeSetup ? (
       <Link
         href="https://storybook.js.org/docs/react/essentials/controls"
         target="_blank"
@@ -77,7 +78,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs, isHovere
     ) : (
       <NoControl />
     );
-
+  }
   // row.name is a display name and not a suitable DOM input id or name - i might contain whitespace etc.
   // row.key is a hash key and therefore a much safer choice
   const props = { name: key, argType: row, value: boxedValue.value, onChange, onBlur, onFocus };
