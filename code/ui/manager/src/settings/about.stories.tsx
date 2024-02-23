@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { AboutScreen } from './About';
 import UpgradeBlockStoriesMeta from '../components/upgrade/UpgradeBlock.stories';
+import { fn } from '@storybook/test';
 
 const meta = {
   component: AboutScreen,
@@ -20,6 +21,7 @@ const meta = {
       </div>
     ),
   ],
+  args: { onNavigateToWhatsNew: fn() },
 } satisfies Meta<typeof AboutScreen>;
 
 export default meta;
