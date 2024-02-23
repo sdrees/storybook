@@ -1,0 +1,277 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`extractArgTypes > should extract events for Vue component 1`] = `
+{
+  "bar": {
+    "control": {
+      "disabled": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "bar",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "[value: { year: number; title?: any; }]",
+      },
+    },
+    "type": {
+      "name": [
+        {
+          "kind": "object",
+          "schema": {
+            "title": {
+              "declarations": [
+                {
+                  "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
+                  "range": [
+                    269,
+                    280,
+                  ],
+                },
+              ],
+              "description": "",
+              "global": false,
+              "name": "title",
+              "required": false,
+              "schema": "any",
+              "tags": [],
+              "type": "any",
+            },
+            "year": {
+              "declarations": [
+                {
+                  "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
+                  "range": [
+                    255,
+                    268,
+                  ],
+                },
+              ],
+              "description": "",
+              "global": false,
+              "name": "year",
+              "required": true,
+              "schema": "number",
+              "tags": [],
+              "type": "number",
+            },
+          },
+          "type": "{ year: number; title?: any; }",
+        },
+      ],
+      "required": false,
+    },
+  },
+  "baz": {
+    "control": {
+      "disabled": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "baz",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "[]",
+      },
+    },
+    "type": {
+      "name": [],
+      "required": false,
+    },
+  },
+  "foo": {
+    "control": {
+      "disabled": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "foo",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "[data?: { foo: string; }]",
+      },
+    },
+    "type": {
+      "name": [
+        {
+          "kind": "enum",
+          "schema": [
+            "undefined",
+            {
+              "kind": "object",
+              "schema": {
+                "foo": {
+                  "declarations": [
+                    {
+                      "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
+                      "range": [
+                        207,
+                        218,
+                      ],
+                    },
+                  ],
+                  "description": "",
+                  "global": false,
+                  "name": "foo",
+                  "required": true,
+                  "schema": "string",
+                  "tags": [],
+                  "type": "string",
+                },
+              },
+              "type": "{ foo: string; }",
+            },
+          ],
+          "type": "{ foo: string; } | undefined",
+        },
+      ],
+      "required": false,
+    },
+  },
+}
+`;
+
+exports[`extractArgTypes > should extract slots type for Vue component 1`] = `
+{
+  "default": {
+    "control": {
+      "disabled": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "default",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "{ num: number; }",
+      },
+    },
+    "type": {
+      "name": "object",
+      "required": false,
+      "value": {
+        "num": {
+          "name": "number",
+          "required": true,
+        },
+      },
+    },
+  },
+  "named": {
+    "control": {
+      "disabled": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "named",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "{ str: string; }",
+      },
+    },
+    "type": {
+      "name": "object",
+      "required": false,
+      "value": {
+        "str": {
+          "name": "string",
+          "required": true,
+        },
+      },
+    },
+  },
+  "no-bind": {
+    "control": {
+      "disabled": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "no-bind",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "{}",
+      },
+    },
+    "type": {
+      "name": "object",
+      "required": false,
+      "value": {},
+    },
+  },
+  "vbind": {
+    "control": {
+      "disabled": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "vbind",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "{ num: number; str: string; }",
+      },
+    },
+    "type": {
+      "name": "object",
+      "required": false,
+      "value": {
+        "num": {
+          "name": "number",
+          "required": true,
+        },
+        "str": {
+          "name": "string",
+          "required": true,
+        },
+      },
+    },
+  },
+}
+`;
