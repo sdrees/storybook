@@ -182,8 +182,10 @@ export async function buildDevStandalone(
   const previewStats = previewResult?.stats;
   const managerStats = managerResult?.stats;
 
-  if (options.webpackStatsJson) {
-    const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+  const statsOption = options.webpackStatsJson || options.statsJson;
+  if (statsOption) {
+    const target = statsOption === true ? options.outputDir : statsOption;
+
     await outputStats(target, previewStats);
   }
 

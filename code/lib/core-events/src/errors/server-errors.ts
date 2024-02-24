@@ -576,3 +576,17 @@ export class UpgradeStorybookUnknownCurrentVersionError extends StorybookError {
     `;
   }
 }
+
+export class NoStatsForViteDevError extends StorybookError {
+  readonly category = Category.BUILDER_VITE;
+
+  readonly code = 1;
+
+  template() {
+    return dedent`
+      Unable to write preview stats as the Vite builder does not support stats in dev mode.
+
+      Please remove the \`--stats-json\` flag when running in dev mode.
+    `;
+  }
+}

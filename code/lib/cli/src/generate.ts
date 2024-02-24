@@ -224,7 +224,11 @@ command('dev')
   .option('--quiet', 'Suppress verbose build output')
   .option('--no-version-updates', 'Suppress update check', true)
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
-  .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option(
+    '--webpack-stats-json [directory]',
+    'Write Webpack stats JSON to disk (synonym for `--stats-json`)'
+  )
+  .option('--stats-json [directory]', 'Write stats JSON to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'
@@ -263,7 +267,11 @@ command('build')
   .option('--quiet', 'Suppress verbose build output')
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
-  .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option(
+    '--webpack-stats-json [directory]',
+    'Write Webpack stats JSON to disk (synonym for `--stats-json`)'
+  )
+  .option('--stats-json [directory]', 'Write stats JSON to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'

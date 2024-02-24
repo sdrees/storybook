@@ -186,6 +186,7 @@ export interface CLIOptions {
   test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
+  statsJson?: string | boolean;
   outputDir?: string;
 }
 

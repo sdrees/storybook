@@ -46,7 +46,7 @@ Options include:
 | `--no-open`                     | Do not open Storybook automatically in the browser<br/>`storybook dev --no-open`                                                                                          |
 | `--quiet`                       | Suppress verbose build output<br/>`storybook dev --quiet`                                                                                                                 |
 | `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`storybook dev --debug-webpack`                                                                           |
-| `--webpack-stats-json`          | Write Webpack Stats JSON to disk<br/>`storybook dev --webpack-stats-json /tmp/webpack-stats`                                                                              |
+| `--stats-json`          | Write  stats JSON to disk<br/>`storybook dev ---stats-json /tmp/stats`<br/>NOTE: only works for webpack.                                                                              |
 | `--docs`                        | Starts Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#preview-storybooks-documentation)<br/>`storybook dev --docs` |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md)<br/>`storybook dev --disable-telemetry`                                             |
 
@@ -75,7 +75,7 @@ Options include:
 | `--loglevel [level]`            | Controls level of logging during build.<br/> Available options: `silly`, `verbose`, `info` (default), `warn`, `error`, `silent`<br/>`storybook build --loglevel warn`                                 |
 | `--quiet`                       | Suppress verbose build output<br/>`storybook build --quiet`                                                                                                                                           |
 | `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`storybook build --debug-webpack`                                                                                                     |
-| `--webpack-stats-json`          | Write Webpack Stats JSON to disk<br/>`storybook build --webpack-stats-json /my-storybook/webpack-stats`                                                                                               |
+| `---stats-json`          | Write stats JSON to disk<br/>`storybook build -stats-json /my-storybook/-stats`                                                                                               |
 | `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`storybook build --docs`                           |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md).<br/>`storybook build --disable-telemetry`                                                                      |
 | `--test`                        | Optimize Storybook's production build for performance and tests by removing unnecessary features with the `test` option. Learn more [here](../api/main-config-build.md).<br/>`storybook build --test` |
