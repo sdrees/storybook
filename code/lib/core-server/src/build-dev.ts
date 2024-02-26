@@ -17,7 +17,7 @@ import { join, relative, resolve } from 'path';
 import { deprecate } from '@storybook/node-logger';
 import { dedent } from 'ts-dedent';
 import { readFile } from 'fs-extra';
-import { MissingBuilderError } from '@storybook/core-events/server-errors';
+import { MissingBuilderError, NoStatsForViteDevError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
@@ -192,7 +192,16 @@ export async function buildDevStandalone(
   if (options.smokeTest) {
     const warnings: Error[] = [];
     warnings.push(...(managerStats?.toJson()?.warnings || []));
-    warnings.push(...(previewStats?.toJson()?.warnings || []));
+    try {
+      warnings.push(...(previewStats?.toJson()?.warnings || []));
+    } catch (err) {
+      if (err instanceof NoStatsForViteDevError) {
+        // pass, the Vite builder has no warnings in the stats object anyway,
+        // but no stats at all in dev mode
+      } else {
+        throw err;
+      }
+    }
 
     const problems = warnings
       .filter((warning) => !warning.message.includes(`export 'useInsertionEffect'`))

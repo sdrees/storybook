@@ -1,8 +1,10 @@
-export const referenceTypeProps = {
-  __name: 'component',
+import { TypeSystem } from '@storybook/docs-tools';
+import type { VueDocgenInfo } from 'frameworks/vue3-vite/src';
+
+type TestComponent = { __docgenInfo: VueDocgenInfo<'vue-component-meta'> };
+
+export const referenceTypeProps: TestComponent = {
   __docgenInfo: {
-    exportName: 'default',
-    displayName: 'component',
     type: 1,
     props: [
       {
@@ -468,310 +470,7 @@ export const referenceTypeProps = {
     ],
     events: [],
     slots: [],
-    exposed: [
-      {
-        name: 'foo',
-        type: 'string',
-        description: 'string foo',
-        declarations: [],
-        schema: 'string',
-      },
-      {
-        name: 'bar',
-        type: 'number',
-        description: 'description bar is optional number',
-        declarations: [],
-        schema: 'number',
-      },
-      {
-        name: 'baz',
-        type: 'boolean',
-        description: 'description baz is required boolean',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: 'boolean',
-          schema: ['false', 'true'],
-        },
-      },
-      {
-        name: 'stringArray',
-        type: 'string[]',
-        description: 'description stringArray is string array',
-        declarations: [],
-        schema: {
-          kind: 'array',
-          type: 'string[]',
-          schema: ['string'],
-        },
-      },
-      {
-        name: 'union',
-        type: 'string | number',
-        description: 'description union is required union type',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: 'string | number',
-          schema: ['string', 'number'],
-        },
-      },
-      {
-        name: 'unionOptional',
-        type: 'string | number | boolean | undefined',
-        description: 'description unionOptional is optional union type',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: 'string | number | boolean | undefined',
-          schema: ['undefined', 'string', 'number', 'false', 'true'],
-        },
-      },
-      {
-        name: 'nested',
-        type: 'MyNestedProps',
-        description: 'description nested is required nested object',
-        declarations: [],
-        schema: {
-          kind: 'object',
-          type: 'MyNestedProps',
-          schema: {
-            nestedProp: {
-              name: 'nestedProp',
-              global: false,
-              description: 'nested prop documentation',
-              tags: [],
-              required: true,
-              type: 'string',
-              declarations: [],
-              schema: 'string',
-            },
-          },
-        },
-      },
-      {
-        name: 'nestedIntersection',
-        type: 'MyNestedProps & { additionalProp: string; }',
-        description: 'description required nested object with intersection',
-        declarations: [],
-        schema: {
-          kind: 'object',
-          type: 'MyNestedProps & { additionalProp: string; }',
-          schema: {
-            nestedProp: {
-              name: 'nestedProp',
-              global: false,
-              description: 'nested prop documentation',
-              tags: [],
-              required: true,
-              type: 'string',
-              declarations: [],
-              schema: 'string',
-            },
-            additionalProp: {
-              name: 'additionalProp',
-              global: false,
-              description: 'description required additional property',
-              tags: [],
-              required: true,
-              type: 'string',
-              declarations: [],
-              schema: 'string',
-            },
-          },
-        },
-      },
-      {
-        name: 'nestedOptional',
-        type: 'MyNestedProps | MyIgnoredNestedProps | undefined',
-        description: 'description optional nested object',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: 'MyNestedProps | MyIgnoredNestedProps | undefined',
-          schema: [
-            'undefined',
-            {
-              kind: 'object',
-              type: 'MyNestedProps',
-              schema: {
-                nestedProp: {
-                  name: 'nestedProp',
-                  global: false,
-                  description: 'nested prop documentation',
-                  tags: [],
-                  required: true,
-                  type: 'string',
-                  declarations: [],
-                  schema: 'string',
-                },
-              },
-            },
-            {
-              kind: 'object',
-              type: 'MyIgnoredNestedProps',
-              schema: {
-                nestedProp: {
-                  name: 'nestedProp',
-                  global: false,
-                  description: '',
-                  tags: [],
-                  required: true,
-                  type: 'string',
-                  declarations: [],
-                  schema: 'string',
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        name: 'array',
-        type: 'MyNestedProps[]',
-        description: 'description required array object',
-        declarations: [],
-        schema: {
-          kind: 'array',
-          type: 'MyNestedProps[]',
-          schema: [
-            {
-              kind: 'object',
-              type: 'MyNestedProps',
-              schema: {
-                nestedProp: {
-                  name: 'nestedProp',
-                  global: false,
-                  description: 'nested prop documentation',
-                  tags: [],
-                  required: true,
-                  type: 'string',
-                  declarations: [],
-                  schema: 'string',
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        name: 'arrayOptional',
-        type: 'MyNestedProps[] | undefined',
-        description: 'description optional array object',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: 'MyNestedProps[] | undefined',
-          schema: [
-            'undefined',
-            {
-              kind: 'array',
-              type: 'MyNestedProps[]',
-              schema: [
-                {
-                  kind: 'object',
-                  type: 'MyNestedProps',
-                  schema: {
-                    nestedProp: {
-                      name: 'nestedProp',
-                      global: false,
-                      description: 'nested prop documentation',
-                      tags: [],
-                      required: true,
-                      type: 'string',
-                      declarations: [],
-                      schema: 'string',
-                    },
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      },
-      {
-        name: 'enumValue',
-        type: 'MyEnum',
-        description: 'description enum value',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: 'MyEnum',
-          schema: ['MyEnum.Small', 'MyEnum.Medium', 'MyEnum.Large'],
-        },
-      },
-      {
-        name: 'literalFromContext',
-        type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
-        description: 'description literal type alias that require context',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
-          schema: [
-            '"Uncategorized"',
-            '"Content"',
-            '"Interaction"',
-            '"Display"',
-            '"Forms"',
-            '"Addons"',
-          ],
-        },
-      },
-      {
-        name: 'inlined',
-        type: '{ foo: string; }',
-        description: '',
-        declarations: [],
-        schema: {
-          kind: 'object',
-          type: '{ foo: string; }',
-          schema: {
-            foo: {
-              name: 'foo',
-              global: false,
-              description: '',
-              tags: [],
-              required: true,
-              type: 'string',
-              declarations: [],
-              schema: 'string',
-            },
-          },
-        },
-      },
-      {
-        name: 'recursive',
-        type: 'MyNestedRecursiveProps | undefined',
-        description: '',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: 'MyNestedRecursiveProps | undefined',
-          schema: [
-            'undefined',
-            {
-              kind: 'object',
-              type: 'MyNestedRecursiveProps',
-              schema: {
-                recursive: {
-                  name: 'recursive',
-                  global: false,
-                  description: '',
-                  tags: [],
-                  required: true,
-                  type: 'MyNestedRecursiveProps',
-                  declarations: [],
-                  schema: 'MyNestedRecursiveProps',
-                },
-              },
-            },
-          ],
-        },
-      },
-    ],
-    sourceFiles:
-      '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3_vue3-vite-default-ts/component-meta/reference-type-props/component.vue',
+    exposed: [],
   },
 };
 
@@ -802,7 +501,7 @@ export const mockExtractComponentPropsReturn = [
       },
       default: '1',
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -837,7 +536,7 @@ export const mockExtractComponentPropsReturn = [
       },
       default: '["foo", "bar"]',
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -864,7 +563,7 @@ export const mockExtractComponentPropsReturn = [
         schema: ['undefined', 'string', 'number', 'symbol'],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -900,7 +599,7 @@ export const mockExtractComponentPropsReturn = [
         ],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -927,7 +626,7 @@ export const mockExtractComponentPropsReturn = [
         schema: ['undefined', 'false', 'true'],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -954,7 +653,7 @@ export const mockExtractComponentPropsReturn = [
         schema: ['undefined', 'string'],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -977,7 +676,7 @@ export const mockExtractComponentPropsReturn = [
       declarations: [],
       schema: 'unknown',
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1000,7 +699,7 @@ export const mockExtractComponentPropsReturn = [
       declarations: [],
       schema: 'unknown',
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1040,7 +739,7 @@ export const mockExtractComponentPropsReturn = [
       declarations: [],
       schema: 'string',
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1067,7 +766,7 @@ export const mockExtractComponentPropsReturn = [
         schema: ['false', 'true'],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1094,7 +793,7 @@ export const mockExtractComponentPropsReturn = [
         schema: ['string', 'number'],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1121,7 +820,7 @@ export const mockExtractComponentPropsReturn = [
         schema: ['undefined', 'string', 'number', 'false', 'true'],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1159,7 +858,7 @@ export const mockExtractComponentPropsReturn = [
         },
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1207,7 +906,7 @@ export const mockExtractComponentPropsReturn = [
         },
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1268,7 +967,7 @@ export const mockExtractComponentPropsReturn = [
         ],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1312,7 +1011,7 @@ export const mockExtractComponentPropsReturn = [
         ],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1363,7 +1062,7 @@ export const mockExtractComponentPropsReturn = [
         ],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1390,7 +1089,7 @@ export const mockExtractComponentPropsReturn = [
         schema: ['MyEnum.Small', 'MyEnum.Medium', 'MyEnum.Large'],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1424,7 +1123,7 @@ export const mockExtractComponentPropsReturn = [
         ],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1462,7 +1161,7 @@ export const mockExtractComponentPropsReturn = [
         },
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1507,147 +1206,20 @@ export const mockExtractComponentPropsReturn = [
         ],
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
 ];
 
-export const referenceTypeEvents = {
-  __name: 'component',
-  emits: ['foo', 'bar', 'baz'],
-  __hmrId: '3a8b03b5',
-  __file:
-    '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
+export const referenceTypeEvents: TestComponent = {
   __docgenInfo: {
-    exportName: 'default',
-    displayName: 'component',
-    props: [
-      {
-        name: 'key',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'string | number | symbol | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47082, 47113],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'string | number | symbol | undefined',
-          schema: ['undefined', 'string', 'number', 'symbol'],
-        },
-      },
-      {
-        name: 'ref',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'VNodeRef | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47118, 47133],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'VNodeRef | undefined',
-          schema: [
-            'undefined',
-            'string',
-            'Ref<any>',
-            {
-              kind: 'event',
-              type: '(ref: Element | ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}, {}, string, {}>, {}, {}> | null, refs: Record<...>): void',
-              schema: [],
-            },
-          ],
-        },
-      },
-      {
-        name: 'ref_for',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'boolean | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47138, 47156],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'boolean | undefined',
-          schema: ['undefined', 'false', 'true'],
-        },
-      },
-      {
-        name: 'ref_key',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'string | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47161, 47178],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'string | undefined',
-          schema: ['undefined', 'string'],
-        },
-      },
-      {
-        name: 'class',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'unknown',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [52888, 52904],
-          },
-        ],
-        schema: 'unknown',
-      },
-      {
-        name: 'style',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'unknown',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [52909, 52925],
-          },
-        ],
-        schema: 'unknown',
-      },
-    ],
+    type: 1,
+    props: [],
     events: [
       {
         name: 'foo',
         type: '[data?: { foo: string; } | undefined]',
         signature: '(event: "foo", data?: { foo: string; } | undefined): void',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [4468, 4503],
-          },
-        ],
+        declarations: [],
         schema: [
           {
             kind: 'enum',
@@ -1665,12 +1237,7 @@ export const referenceTypeEvents = {
                     tags: [],
                     required: true,
                     type: 'string',
-                    declarations: [
-                      {
-                        file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                        range: [207, 218],
-                      },
-                    ],
+                    declarations: [],
                     schema: 'string',
                   },
                 },
@@ -1683,12 +1250,7 @@ export const referenceTypeEvents = {
         name: 'bar',
         type: '[value: { year: number; title?: any; }]',
         signature: '(event: "bar", value: { year: number; title?: any; }): void',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [4468, 4503],
-          },
-        ],
+        declarations: [],
         schema: [
           {
             kind: 'object',
@@ -1701,12 +1263,7 @@ export const referenceTypeEvents = {
                 tags: [],
                 required: true,
                 type: 'number',
-                declarations: [
-                  {
-                    file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                    range: [255, 268],
-                  },
-                ],
+                declarations: [],
                 schema: 'number',
               },
               title: {
@@ -1716,12 +1273,7 @@ export const referenceTypeEvents = {
                 tags: [],
                 required: false,
                 type: 'any',
-                declarations: [
-                  {
-                    file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                    range: [269, 280],
-                  },
-                ],
+                declarations: [],
                 schema: 'any',
               },
             },
@@ -1732,140 +1284,12 @@ export const referenceTypeEvents = {
         name: 'baz',
         type: '[]',
         signature: '(event: "baz"): void',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [4468, 4503],
-          },
-        ],
+        declarations: [],
         schema: [],
       },
     ],
     slots: [],
-    exposed: [
-      {
-        name: 'onFoo',
-        type: '((data?: { foo: string; } | undefined) => any) | undefined',
-        description: '',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: '((data?: { foo: string; } | undefined) => any) | undefined',
-          schema: [
-            'undefined',
-            {
-              kind: 'event',
-              type: '(data?: { foo: string; } | undefined): any',
-              schema: [
-                {
-                  kind: 'enum',
-                  type: '{ foo: string; } | undefined',
-                  schema: [
-                    'undefined',
-                    {
-                      kind: 'object',
-                      type: '{ foo: string; }',
-                      schema: {
-                        foo: {
-                          name: 'foo',
-                          global: false,
-                          description: '',
-                          tags: [],
-                          required: true,
-                          type: 'string',
-                          declarations: [
-                            {
-                              file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                              range: [207, 218],
-                            },
-                          ],
-                          schema: 'string',
-                        },
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      },
-      {
-        name: 'onBar',
-        type: '((value: { year: number; title?: any; }) => any) | undefined',
-        description: '',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: '((value: { year: number; title?: any; }) => any) | undefined',
-          schema: [
-            'undefined',
-            {
-              kind: 'event',
-              type: '(value: { year: number; title?: any; }): any',
-              schema: [
-                {
-                  kind: 'object',
-                  type: '{ year: number; title?: any; }',
-                  schema: {
-                    year: {
-                      name: 'year',
-                      global: false,
-                      description: '',
-                      tags: [],
-                      required: true,
-                      type: 'number',
-                      declarations: [
-                        {
-                          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                          range: [255, 268],
-                        },
-                      ],
-                      schema: 'number',
-                    },
-                    title: {
-                      name: 'title',
-                      global: false,
-                      description: '',
-                      tags: [],
-                      required: false,
-                      type: 'any',
-                      declarations: [
-                        {
-                          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                          range: [269, 280],
-                        },
-                      ],
-                      schema: 'any',
-                    },
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      },
-      {
-        name: 'onBaz',
-        type: '(() => any) | undefined',
-        description: '',
-        declarations: [],
-        schema: {
-          kind: 'enum',
-          type: '(() => any) | undefined',
-          schema: [
-            'undefined',
-            {
-              kind: 'event',
-              type: '(): any',
-              schema: [],
-            },
-          ],
-        },
-      },
-    ],
-    sourceFiles:
-      '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
+    exposed: [],
   },
 };
 
@@ -1883,12 +1307,7 @@ export const mockExtractComponentEventsReturn = [
       name: 'foo',
       type: '[data?: { foo: string; } | undefined]',
       signature: '(event: "foo", data?: { foo: string; } | undefined): void',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [4468, 4503],
-        },
-      ],
+      declarations: [],
       schema: [
         {
           kind: 'enum',
@@ -1906,12 +1325,7 @@ export const mockExtractComponentEventsReturn = [
                   tags: [],
                   required: true,
                   type: 'string',
-                  declarations: [
-                    {
-                      file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                      range: [207, 218],
-                    },
-                  ],
+                  declarations: [],
                   schema: 'string',
                 },
               },
@@ -1920,7 +1334,7 @@ export const mockExtractComponentEventsReturn = [
         },
       ],
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1935,12 +1349,7 @@ export const mockExtractComponentEventsReturn = [
       name: 'bar',
       type: '[value: { year: number; title?: any; }]',
       signature: '(event: "bar", value: { year: number; title?: any; }): void',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [4468, 4503],
-        },
-      ],
+      declarations: [],
       schema: [
         {
           kind: 'object',
@@ -1953,12 +1362,7 @@ export const mockExtractComponentEventsReturn = [
               tags: [],
               required: true,
               type: 'number',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                  range: [255, 268],
-                },
-              ],
+              declarations: [],
               schema: 'number',
             },
             title: {
@@ -1968,19 +1372,14 @@ export const mockExtractComponentEventsReturn = [
               tags: [],
               required: false,
               type: 'any',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue',
-                  range: [269, 280],
-                },
-              ],
+              declarations: [],
               schema: 'any',
             },
           },
         },
       ],
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -1995,142 +1394,17 @@ export const mockExtractComponentEventsReturn = [
       name: 'baz',
       type: '[]',
       signature: '(event: "baz"): void',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [4468, 4503],
-        },
-      ],
+      declarations: [],
       schema: [],
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
 ];
 
-export const templateSlots = {
-  __hmrId: 'c8033161',
-  __file:
-    '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue',
+export const templateSlots: TestComponent = {
   __docgenInfo: {
-    exportName: 'default',
-    displayName: 'component',
-    props: [
-      {
-        name: 'key',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'string | number | symbol | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47082, 47113],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'string | number | symbol | undefined',
-          schema: ['undefined', 'string', 'number', 'symbol'],
-        },
-      },
-      {
-        name: 'ref',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'VNodeRef | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47118, 47133],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'VNodeRef | undefined',
-          schema: [
-            'undefined',
-            'string',
-            'Ref<any>',
-            {
-              kind: 'event',
-              type: '(ref: Element | ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}, {}, string, {}>, {}, {}> | null, refs: Record<...>): void',
-              schema: [],
-            },
-          ],
-        },
-      },
-      {
-        name: 'ref_for',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'boolean | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47138, 47156],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'boolean | undefined',
-          schema: ['undefined', 'false', 'true'],
-        },
-      },
-      {
-        name: 'ref_key',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'string | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47161, 47178],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'string | undefined',
-          schema: ['undefined', 'string'],
-        },
-      },
-      {
-        name: 'class',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'unknown',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [52888, 52904],
-          },
-        ],
-        schema: 'unknown',
-      },
-      {
-        name: 'style',
-        global: true,
-        description: '',
-        tags: [],
-        required: false,
-        type: 'unknown',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [52909, 52925],
-          },
-        ],
-        schema: 'unknown',
-      },
-    ],
+    type: 1,
+    props: [],
     events: [],
     slots: [
       {
@@ -2204,12 +1478,7 @@ export const templateSlots = {
               tags: [],
               required: true,
               type: 'number',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue',
-                  range: [153, 161],
-                },
-              ],
+              declarations: [],
               schema: 'number',
             },
             str: {
@@ -2219,123 +1488,14 @@ export const templateSlots = {
               tags: [],
               required: true,
               type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue',
-                  range: [163, 173],
-                },
-              ],
+              declarations: [],
               schema: 'string',
             },
           },
         },
       },
     ],
-    exposed: [
-      {
-        name: '$slots',
-        type: 'Readonly<InternalSlots> & { "no-bind"?(_: {}): any; default?(_: { num: number; }): any; named?(_: { str: string; }): any; vbind?(_: { num: number; str: string; }): any; }',
-        description: '',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [8406, 8433],
-          },
-        ],
-        schema: {
-          kind: 'object',
-          type: 'Readonly<InternalSlots> & { "no-bind"?(_: {}): any; default?(_: { num: number; }): any; named?(_: { str: string; }): any; vbind?(_: { num: number; str: string; }): any; }',
-          schema: {
-            'no-bind': {
-              name: 'no-bind',
-              global: false,
-              description: '',
-              tags: [],
-              required: false,
-              type: '((_: {}) => any) | undefined',
-              declarations: [],
-              schema: {
-                kind: 'enum',
-                type: '((_: {}) => any) | undefined',
-                schema: [
-                  'undefined',
-                  {
-                    kind: 'event',
-                    type: '(_: {}): any',
-                    schema: [],
-                  },
-                ],
-              },
-            },
-            default: {
-              name: 'default',
-              global: false,
-              description: '',
-              tags: [],
-              required: false,
-              type: '((_: { num: number; }) => any) | undefined',
-              declarations: [],
-              schema: {
-                kind: 'enum',
-                type: '((_: { num: number; }) => any) | undefined',
-                schema: [
-                  'undefined',
-                  {
-                    kind: 'event',
-                    type: '(_: { num: number; }): any',
-                    schema: [],
-                  },
-                ],
-              },
-            },
-            named: {
-              name: 'named',
-              global: false,
-              description: '',
-              tags: [],
-              required: false,
-              type: '((_: { str: string; }) => any) | undefined',
-              declarations: [],
-              schema: {
-                kind: 'enum',
-                type: '((_: { str: string; }) => any) | undefined',
-                schema: [
-                  'undefined',
-                  {
-                    kind: 'event',
-                    type: '(_: { str: string; }): any',
-                    schema: [],
-                  },
-                ],
-              },
-            },
-            vbind: {
-              name: 'vbind',
-              global: false,
-              description: '',
-              tags: [],
-              required: false,
-              type: '((_: { num: number; str: string; }) => any) | undefined',
-              declarations: [],
-              schema: {
-                kind: 'enum',
-                type: '((_: { num: number; str: string; }) => any) | undefined',
-                schema: [
-                  'undefined',
-                  {
-                    kind: 'event',
-                    type: '(_: { num: number; str: string; }): any',
-                    schema: [],
-                  },
-                ],
-              },
-            },
-          },
-        },
-      },
-    ],
-    sourceFiles:
-      '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue',
+    exposed: [],
   },
 };
 
@@ -2361,7 +1521,7 @@ export const mockExtractComponentSlotsReturn = [
         schema: {},
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -2395,7 +1555,7 @@ export const mockExtractComponentSlotsReturn = [
         },
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -2429,7 +1589,7 @@ export const mockExtractComponentSlotsReturn = [
         },
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
   {
     propDef: {
@@ -2457,12 +1617,7 @@ export const mockExtractComponentSlotsReturn = [
             tags: [],
             required: true,
             type: 'number',
-            declarations: [
-              {
-                file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue',
-                range: [153, 161],
-              },
-            ],
+            declarations: [],
             schema: 'number',
           },
           str: {
@@ -2472,17 +1627,984 @@ export const mockExtractComponentSlotsReturn = [
             tags: [],
             required: true,
             type: 'string',
-            declarations: [
-              {
-                file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue',
-                range: [163, 173],
-              },
-            ],
+            declarations: [],
             schema: 'string',
           },
         },
       },
     },
-    typeSystem: 'JavaScript',
+    typeSystem: TypeSystem.JAVASCRIPT,
   },
 ];
+
+export const vueDocgenMocks = {
+  props: {
+    component: {
+      __docgenInfo: {
+        description: '',
+        tags: {},
+        props: [
+          {
+            name: 'foo',
+            description: 'string foo',
+            tags: {
+              default: [
+                {
+                  description: '"rounded"',
+                  title: 'default',
+                },
+              ],
+              since: [
+                {
+                  description: 'v1.0.0',
+                  title: 'since',
+                },
+              ],
+              see: [
+                {
+                  description: 'https://vuejs.org/',
+                  title: 'see',
+                },
+              ],
+              deprecated: [
+                {
+                  description: 'v1.1.0',
+                  title: 'deprecated',
+                },
+              ],
+            },
+            required: true,
+            type: {
+              name: 'string',
+            },
+          },
+          {
+            name: 'bar',
+            description: 'description bar is optional number',
+            required: false,
+            type: {
+              name: 'number',
+            },
+            defaultValue: {
+              func: false,
+              value: '1',
+            },
+          },
+          {
+            name: 'baz',
+            description: 'description baz is required boolean',
+            required: true,
+            type: {
+              name: 'boolean',
+            },
+          },
+          {
+            name: 'stringArray',
+            description: 'description stringArray is string array',
+            required: false,
+            type: {
+              name: 'Array',
+              elements: [
+                {
+                  name: 'string',
+                },
+              ],
+            },
+            defaultValue: {
+              func: false,
+              value: "() => ['foo', 'bar']",
+            },
+          },
+          {
+            name: 'union',
+            description: 'description union is required union type',
+            required: true,
+            type: {
+              name: 'union',
+              elements: [
+                {
+                  name: 'string',
+                },
+                {
+                  name: 'number',
+                },
+              ],
+            },
+          },
+          {
+            name: 'unionOptional',
+            description: 'description unionOptional is optional union type',
+            required: false,
+            type: {
+              name: 'union',
+              elements: [
+                {
+                  name: 'string',
+                },
+                {
+                  name: 'number',
+                },
+                {
+                  name: 'boolean',
+                },
+              ],
+            },
+          },
+          {
+            name: 'nested',
+            description: 'description nested is required nested object',
+            required: true,
+            type: {
+              name: 'MyNestedProps',
+            },
+          },
+          {
+            name: 'nestedIntersection',
+            description: 'description required nested object with intersection',
+            required: true,
+            type: {
+              name: 'intersection',
+              elements: [
+                {
+                  name: 'MyNestedProps',
+                },
+                {
+                  name: '{\n  /**\n   * description required additional property\n   */\n  additionalProp: string;\n}',
+                },
+              ],
+            },
+          },
+          {
+            name: 'nestedOptional',
+            description: 'description optional nested object',
+            required: false,
+            type: {
+              name: 'union',
+              elements: [
+                {
+                  name: 'MyNestedProps',
+                },
+                {
+                  name: 'MyIgnoredNestedProps',
+                },
+              ],
+            },
+          },
+          {
+            name: 'array',
+            description: 'description required array object',
+            required: true,
+            type: {
+              name: 'Array',
+              elements: [
+                {
+                  name: 'MyNestedProps',
+                },
+              ],
+            },
+          },
+          {
+            name: 'arrayOptional',
+            description: 'description optional array object',
+            required: false,
+            type: {
+              name: 'Array',
+              elements: [
+                {
+                  name: 'MyNestedProps',
+                },
+              ],
+            },
+          },
+          {
+            name: 'enumValue',
+            description: 'description enum value',
+            required: true,
+            type: {
+              name: 'MyEnum',
+            },
+          },
+          {
+            name: 'literalFromContext',
+            description: 'description literal type alias that require context',
+            required: true,
+            type: {
+              name: 'MyCategories',
+            },
+          },
+          {
+            name: 'inlined',
+            required: true,
+            type: {
+              name: '{ foo: string }',
+            },
+          },
+          {
+            name: 'recursive',
+            required: false,
+            type: {
+              name: 'MyNestedRecursiveProps',
+            },
+          },
+        ],
+      },
+    },
+    extractedProps: [
+      {
+        propDef: {
+          name: 'foo',
+          type: {
+            summary: 'string',
+          },
+          required: true,
+          description: 'string foo',
+          defaultValue: null,
+          sbType: {
+            name: 'string',
+          },
+        },
+        docgenInfo: {
+          name: 'foo',
+          description: 'string foo',
+          tags: {
+            default: [
+              {
+                description: '"rounded"',
+                title: 'default',
+              },
+            ],
+            since: [
+              {
+                description: 'v1.0.0',
+                title: 'since',
+              },
+            ],
+            see: [
+              {
+                description: 'https://vuejs.org/',
+                title: 'see',
+              },
+            ],
+            deprecated: [
+              {
+                description: 'v1.1.0',
+                title: 'deprecated',
+              },
+            ],
+          },
+          required: true,
+          type: {
+            name: 'string',
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'bar',
+          type: {
+            summary: 'number',
+          },
+          required: false,
+          description: 'description bar is optional number',
+          defaultValue: {
+            summary: '1',
+          },
+          sbType: {
+            name: 'number',
+          },
+        },
+        docgenInfo: {
+          name: 'bar',
+          description: 'description bar is optional number',
+          required: false,
+          type: {
+            name: 'number',
+          },
+          defaultValue: {
+            func: false,
+            value: '1',
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'baz',
+          type: {
+            summary: 'boolean',
+          },
+          required: true,
+          description: 'description baz is required boolean',
+          defaultValue: null,
+          sbType: {
+            name: 'boolean',
+          },
+        },
+        docgenInfo: {
+          name: 'baz',
+          description: 'description baz is required boolean',
+          required: true,
+          type: {
+            name: 'boolean',
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'stringArray',
+          type: {
+            summary: 'Array',
+          },
+          required: false,
+          description: 'description stringArray is string array',
+          defaultValue: {
+            summary: "() => ['foo', 'bar']",
+          },
+          sbType: {
+            name: 'other',
+            value: 'Array([object Object])',
+          },
+        },
+        docgenInfo: {
+          name: 'stringArray',
+          description: 'description stringArray is string array',
+          required: false,
+          type: {
+            name: 'Array',
+            elements: [
+              {
+                name: 'string',
+              },
+            ],
+            value: [
+              {
+                name: 'string',
+              },
+            ],
+          },
+          defaultValue: {
+            func: false,
+            value: "() => ['foo', 'bar']",
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'union',
+          type: {
+            summary: 'union',
+          },
+          required: true,
+          description: 'description union is required union type',
+          defaultValue: null,
+          sbType: {
+            name: 'union',
+            value: [
+              {
+                name: 'string',
+              },
+              {
+                name: 'number',
+              },
+            ],
+          },
+        },
+        docgenInfo: {
+          name: 'union',
+          description: 'description union is required union type',
+          required: true,
+          type: {
+            name: 'union',
+            elements: [
+              {
+                name: 'string',
+              },
+              {
+                name: 'number',
+              },
+            ],
+            value: [
+              {
+                name: 'string',
+              },
+              {
+                name: 'number',
+              },
+            ],
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'unionOptional',
+          type: {
+            summary: 'union',
+          },
+          required: false,
+          description: 'description unionOptional is optional union type',
+          defaultValue: null,
+          sbType: {
+            name: 'union',
+            value: [
+              {
+                name: 'string',
+              },
+              {
+                name: 'number',
+              },
+              {
+                name: 'boolean',
+              },
+            ],
+          },
+        },
+        docgenInfo: {
+          name: 'unionOptional',
+          description: 'description unionOptional is optional union type',
+          required: false,
+          type: {
+            name: 'union',
+            elements: [
+              {
+                name: 'string',
+              },
+              {
+                name: 'number',
+              },
+              {
+                name: 'boolean',
+              },
+            ],
+            value: [
+              {
+                name: 'string',
+              },
+              {
+                name: 'number',
+              },
+              {
+                name: 'boolean',
+              },
+            ],
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'nested',
+          type: {
+            summary: 'MyNestedProps',
+          },
+          required: true,
+          description: 'description nested is required nested object',
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+            value: 'MyNestedProps',
+          },
+        },
+        docgenInfo: {
+          name: 'nested',
+          description: 'description nested is required nested object',
+          required: true,
+          type: {
+            name: 'MyNestedProps',
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'nestedIntersection',
+          type: {
+            summary: 'intersection',
+          },
+          required: true,
+          description: 'description required nested object with intersection',
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+            value: 'intersection([object Object],[object Object])',
+          },
+        },
+        docgenInfo: {
+          name: 'nestedIntersection',
+          description: 'description required nested object with intersection',
+          required: true,
+          type: {
+            name: 'intersection',
+            elements: [
+              {
+                name: 'MyNestedProps',
+              },
+              {
+                name: '{\n  /**\n   * description required additional property\n   */\n  additionalProp: string;\n}',
+              },
+            ],
+            value: [
+              {
+                name: 'MyNestedProps',
+              },
+              {
+                name: '{\n  /**\n   * description required additional property\n   */\n  additionalProp: string;\n}',
+              },
+            ],
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'nestedOptional',
+          type: {
+            summary: 'union',
+          },
+          required: false,
+          description: 'description optional nested object',
+          defaultValue: null,
+          sbType: {
+            name: 'union',
+            value: [
+              {
+                name: 'other',
+                value: 'MyNestedProps',
+              },
+              {
+                name: 'other',
+                value: 'MyIgnoredNestedProps',
+              },
+            ],
+          },
+        },
+        docgenInfo: {
+          name: 'nestedOptional',
+          description: 'description optional nested object',
+          required: false,
+          type: {
+            name: 'union',
+            elements: [
+              {
+                name: 'MyNestedProps',
+              },
+              {
+                name: 'MyIgnoredNestedProps',
+              },
+            ],
+            value: [
+              {
+                name: 'MyNestedProps',
+              },
+              {
+                name: 'MyIgnoredNestedProps',
+              },
+            ],
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'array',
+          type: {
+            summary: 'Array',
+          },
+          required: true,
+          description: 'description required array object',
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+            value: 'Array([object Object])',
+          },
+        },
+        docgenInfo: {
+          name: 'array',
+          description: 'description required array object',
+          required: true,
+          type: {
+            name: 'Array',
+            elements: [
+              {
+                name: 'MyNestedProps',
+              },
+            ],
+            value: [
+              {
+                name: 'MyNestedProps',
+              },
+            ],
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'arrayOptional',
+          type: {
+            summary: 'Array',
+          },
+          required: false,
+          description: 'description optional array object',
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+            value: 'Array([object Object])',
+          },
+        },
+        docgenInfo: {
+          name: 'arrayOptional',
+          description: 'description optional array object',
+          required: false,
+          type: {
+            name: 'Array',
+            elements: [
+              {
+                name: 'MyNestedProps',
+              },
+            ],
+            value: [
+              {
+                name: 'MyNestedProps',
+              },
+            ],
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'enumValue',
+          type: {
+            summary: 'MyEnum',
+          },
+          required: true,
+          description: 'description enum value',
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+            value: 'MyEnum',
+          },
+        },
+        docgenInfo: {
+          name: 'enumValue',
+          description: 'description enum value',
+          required: true,
+          type: {
+            name: 'MyEnum',
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'literalFromContext',
+          type: {
+            summary: 'MyCategories',
+          },
+          required: true,
+          description: 'description literal type alias that require context',
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+            value: 'MyCategories',
+          },
+        },
+        docgenInfo: {
+          name: 'literalFromContext',
+          description: 'description literal type alias that require context',
+          required: true,
+          type: {
+            name: 'MyCategories',
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'inlined',
+          type: {
+            summary: '{ foo: string }',
+          },
+          required: true,
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+            value: '{ foo: string }',
+          },
+        },
+        docgenInfo: {
+          name: 'inlined',
+          required: true,
+          type: {
+            name: '{ foo: string }',
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'recursive',
+          type: {
+            summary: 'MyNestedRecursiveProps',
+          },
+          required: false,
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+            value: 'MyNestedRecursiveProps',
+          },
+        },
+        docgenInfo: {
+          name: 'recursive',
+          required: false,
+          type: {
+            name: 'MyNestedRecursiveProps',
+          },
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+    ],
+  },
+  events: {
+    component: {
+      __docgenInfo: {
+        exportName: 'default',
+        displayName: 'component',
+        description: '',
+        tags: {},
+        events: [
+          {
+            name: 'bar',
+            type: {
+              names: ['{ year: number; title?: any }'],
+            },
+            description: 'Test description bar',
+          },
+          {
+            name: 'baz',
+            description: 'Test description baz',
+          },
+        ],
+      },
+    },
+    extractedProps: [
+      {
+        propDef: {
+          name: 'bar',
+          type: {},
+          description: 'Test description bar',
+          defaultValue: null,
+          sbType: {
+            name: 'other',
+          },
+        },
+        docgenInfo: {
+          name: 'bar',
+          type: {
+            names: ['{ year: number; title?: any }'],
+          },
+          description: 'Test description bar',
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+      {
+        propDef: {
+          name: 'baz',
+          type: null,
+          description: 'Test description baz',
+          defaultValue: null,
+          sbType: null,
+        },
+        docgenInfo: {
+          name: 'baz',
+          description: 'Test description baz',
+        },
+        typeSystem: TypeSystem.JAVASCRIPT,
+      },
+    ],
+  },
+  slots: {
+    component: {
+      __docgenInfo: {
+        displayName: 'component',
+        exportName: 'default',
+        description: '',
+        tags: {},
+        slots: [
+          {
+            name: 'no-bind',
+          },
+          {
+            name: 'default',
+            scoped: true,
+            bindings: [
+              {
+                name: 'num',
+                title: 'binding',
+              },
+            ],
+          },
+          {
+            name: 'named',
+            scoped: true,
+            bindings: [
+              {
+                name: 'str',
+                title: 'binding',
+              },
+            ],
+          },
+          {
+            name: 'vbind',
+            scoped: true,
+            bindings: [
+              {
+                name: 'num',
+                title: 'binding',
+              },
+              {
+                name: 'str',
+                title: 'binding',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    extractedProps: [
+      {
+        propDef: {
+          name: 'no-bind',
+          type: {
+            summary: 'unknown',
+          },
+          defaultValue: null,
+        },
+        docgenInfo: {
+          name: 'no-bind',
+        },
+        typeSystem: TypeSystem.UNKNOWN,
+      },
+      {
+        propDef: {
+          name: 'default',
+          type: {
+            summary: 'unknown',
+          },
+          defaultValue: null,
+        },
+        docgenInfo: {
+          name: 'default',
+          scoped: true,
+          bindings: [
+            {
+              name: 'num',
+              title: 'binding',
+            },
+          ],
+        },
+        typeSystem: TypeSystem.UNKNOWN,
+      },
+      {
+        propDef: {
+          name: 'named',
+          type: {
+            summary: 'unknown',
+          },
+          defaultValue: null,
+        },
+        docgenInfo: {
+          name: 'named',
+          scoped: true,
+          bindings: [
+            {
+              name: 'str',
+              title: 'binding',
+            },
+          ],
+        },
+        typeSystem: TypeSystem.UNKNOWN,
+      },
+      {
+        propDef: {
+          name: 'vbind',
+          type: {
+            summary: 'unknown',
+          },
+          defaultValue: null,
+        },
+        docgenInfo: {
+          name: 'vbind',
+          scoped: true,
+          bindings: [
+            {
+              name: 'num',
+              title: 'binding',
+            },
+            {
+              name: 'str',
+              title: 'binding',
+            },
+          ],
+        },
+        typeSystem: TypeSystem.UNKNOWN,
+      },
+    ],
+  },
+  expose: {
+    component: {
+      __docgenInfo: {
+        exportName: 'default',
+        displayName: 'component',
+        description: '',
+        tags: {},
+        expose: [
+          {
+            name: 'label',
+            description: 'a label string',
+          },
+          {
+            name: 'count',
+            description: 'a count number',
+          },
+        ],
+      },
+    },
+    extractedProps: [
+      {
+        propDef: {
+          name: 'label',
+          type: {
+            summary: 'unknown',
+          },
+          description: 'a label string',
+          defaultValue: null,
+        },
+        docgenInfo: {
+          name: 'label',
+          description: 'a label string',
+        },
+        typeSystem: TypeSystem.UNKNOWN,
+      },
+      {
+        propDef: {
+          name: 'count',
+          type: {
+            summary: 'unknown',
+          },
+          description: 'a count number',
+          defaultValue: null,
+        },
+        docgenInfo: {
+          name: 'count',
+          description: 'a count number',
+        },
+        typeSystem: TypeSystem.UNKNOWN,
+      },
+    ],
+  },
+};

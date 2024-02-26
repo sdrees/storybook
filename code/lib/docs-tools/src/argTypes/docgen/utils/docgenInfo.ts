@@ -3,7 +3,9 @@
 import type { Component } from '../../types';
 import { str } from './string';
 
-export function hasDocgen(component: Component): boolean {
+export function hasDocgen<T = any>(
+  component: Component
+): component is object & { __docgenInfo: T } {
   return !!component.__docgenInfo;
 }
 

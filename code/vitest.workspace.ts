@@ -27,6 +27,7 @@ export const vitestCommonConfig = defineConfig({
     clearMocks: true,
     setupFiles: [resolve(__dirname, './vitest-setup.ts')],
     globals: true,
+    testTimeout: 10000,
     poolOptions: {
       threads: {
         minThreads: threadCount,
