@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from 'react';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 import { useMediaQuery } from '../hooks/useMedia';
 import { BREAKPOINT } from '../../constants';
 
@@ -32,22 +32,29 @@ export const LayoutProvider: FC<PropsWithChildren> = ({ children }) => {
   const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINT}px)`);
   const isMobile = !isDesktop;
 
-  return (
-    <LayoutContext.Provider
-      value={{
-        isMobileMenuOpen,
-        setMobileMenuOpen,
-        isMobileAboutOpen,
-        setMobileAboutOpen,
-        isMobilePanelOpen,
-        setMobilePanelOpen,
-        isDesktop,
-        isMobile,
-      }}
-    >
-      {children}
-    </LayoutContext.Provider>
+  const contextValue = useMemo(
+    () => ({
+      isMobileMenuOpen,
+      setMobileMenuOpen,
+      isMobileAboutOpen,
+      setMobileAboutOpen,
+      isMobilePanelOpen,
+      setMobilePanelOpen,
+      isDesktop,
+      isMobile,
+    }),
+    [
+      isMobileMenuOpen,
+      setMobileMenuOpen,
+      isMobileAboutOpen,
+      setMobileAboutOpen,
+      isMobilePanelOpen,
+      setMobilePanelOpen,
+      isDesktop,
+      isMobile,
+    ]
   );
+  return <LayoutContext.Provider value={contextValue}>{children}</LayoutContext.Provider>;
 };
 
 export const useLayout = () => useContext(LayoutContext);

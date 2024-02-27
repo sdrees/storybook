@@ -5,7 +5,7 @@ import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
-import React, { useMemo, useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { CloseIcon, SearchIcon } from '@storybook/icons';
 import { DEFAULT_REF_ID } from './Sidebar';
 import type {
@@ -176,8 +176,8 @@ export const Search = React.memo<{
     [api, inputRef, showAllComponents, DEFAULT_REF_ID]
   );
 
-  const list: SearchItem[] = useMemo(() => {
-    return dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
+  const makeFuse = useCallback(() => {
+    const list = dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
       const groupStatus = getGroupStatus(index || {}, status);
 
       if (index) {
@@ -196,12 +196,12 @@ export const Search = React.memo<{
       }
       return acc;
     }, []);
+    return new Fuse(list, options);
   }, [dataset]);
-
-  const fuse = useMemo(() => new Fuse(list, options), [list]);
 
   const getResults = useCallback(
     (input: string) => {
+      const fuse = makeFuse();
       if (!input) return [];
 
       let results: DownshiftItem[] = [];
@@ -229,7 +229,7 @@ export const Search = React.memo<{
 
       return results;
     },
-    [allComponents, fuse]
+    [allComponents, makeFuse]
   );
 
   const stateReducer = useCallback(

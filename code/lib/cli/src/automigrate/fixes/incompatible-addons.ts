@@ -10,6 +10,7 @@ interface IncompatibleAddonsOptions {
 export const incompatibleAddons: Fix<IncompatibleAddonsOptions> = {
   id: 'incompatible-addons',
   promptType: 'manual',
+  versionRange: ['*', '*'],
 
   async check({ mainConfig, packageManager }) {
     const incompatibleAddonList = await getIncompatibleAddons(mainConfig, packageManager);
@@ -20,14 +21,14 @@ export const incompatibleAddons: Fix<IncompatibleAddonsOptions> = {
     return dedent`
       ${chalk.bold(
         'Attention'
-      )}: We've detected that you're using the following addons in versions which are known to be incompatible with Storybook 7:
+      )}: We've detected that you're using the following addons in versions which are known to be incompatible with Storybook 8:
 
       ${incompatibleAddonList
         .map(({ name, version }) => `- ${chalk.cyan(`${name}@${version}`)}`)
         .join('\n')}
 
-      Please be aware they might not work in Storybook 7. Reach out to their maintainers for updates and check the following Github issue for more information:
-      ${chalk.yellow('https://github.com/storybookjs/storybook/issues/20529')}
+      Please be aware they might not work in Storybook 8. Reach out to their maintainers for updates and check the following Github issue for more information:
+      ${chalk.yellow('https://github.com/storybookjs/storybook/issues/26031')}
     `;
   },
 };

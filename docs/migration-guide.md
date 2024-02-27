@@ -145,6 +145,10 @@ Storybook now requires that MDX pages reference stories written in CSF, rather t
 
 You’ll also need to update your stories glob in `.storybook/main.js` to include the newly created .mdx and .stories.js files if it doesn’t already.
 
+#### Known limitations
+
+- The codemod does not remove the extracted stories from the `.stories.mdx` files. You will need to do this manually.
+
 **Note:** this migration supports the Storybook 6 ["CSF stories with MDX docs"](https://github.com/storybookjs/storybook/blob/6e19f0fe426d58f0f7981a42c3d0b0384fab49b1/code/addons/docs/docs/recipes.md#csf-stories-with-mdx-docs) recipe.
 
 ## Troubleshooting

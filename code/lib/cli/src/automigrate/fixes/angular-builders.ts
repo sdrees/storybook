@@ -1,5 +1,4 @@
 import { dedent } from 'ts-dedent';
-import semver from 'semver';
 import type { StorybookConfig } from '@storybook/types';
 import chalk from 'chalk';
 import prompts from 'prompts';
@@ -17,6 +16,8 @@ interface AngularBuildersRunOptions {
 export const angularBuilders: Fix<AngularBuildersRunOptions> = {
   id: 'angular-builders',
 
+  versionRange: ['<7', '>=7'],
+
   async check({ packageManager, mainConfig }) {
     const angularVersion = await packageManager.getPackageVersion('@angular/core');
 
@@ -29,13 +30,6 @@ export const angularBuilders: Fix<AngularBuildersRunOptions> = {
       framewworkPackageName !== '@storybook/angular'
     ) {
       return null;
-    }
-
-    if (semver.lt(angularVersion, '15.0.0')) {
-      throw new Error(dedent`
-      ❌ Your project uses Angular < 15.0.0. Storybook 8.0 for Angular requires Angular 15.0.0 or higher. 
-      Please upgrade your Angular version to at least version 15.0.0 to use Storybook 8.0 in your project.
-      `);
     }
 
     const angularJSON = new AngularJSON();

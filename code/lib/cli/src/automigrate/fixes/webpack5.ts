@@ -25,7 +25,9 @@ interface Webpack5RunOptions {
 export const webpack5 = {
   id: 'webpack5',
 
-  async check({ configDir, packageManager, mainConfig, storybookVersion }) {
+  versionRange: ['<7', '>=7'],
+
+  async check({ packageManager, mainConfig, storybookVersion }) {
     const webpackVersion = await packageManager.getPackageVersion('webpack');
 
     if (

@@ -20,6 +20,8 @@ interface CRA5RunOptions {
 export const cra5: Fix<CRA5RunOptions> = {
   id: 'cra5',
 
+  versionRange: ['<7', '>=7'],
+
   async check({ packageManager, mainConfig, storybookVersion }) {
     const craVersion = await packageManager.getPackageVersion('react-scripts');
 

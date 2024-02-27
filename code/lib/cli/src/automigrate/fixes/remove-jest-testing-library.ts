@@ -4,8 +4,9 @@ import type { Fix } from '../types';
 
 export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> = {
   id: 'remove-jest-testing-library',
+  versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
   promptType: 'manual',
-  async check({ mainConfig, packageManager }) {
+  async check({ packageManager }) {
     const deps = await packageManager.getAllDependencies();
 
     const incompatiblePackages = Object.keys(deps).filter(
@@ -17,7 +18,7 @@ export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> =
     return dedent`
       ${chalk.bold(
         'Attention'
-      )}: We've detected that you're using the following packages which are known to be incompatible with Storybook 8:
+      )}: We've detected that you're using the following packages which are known to be incompatible since Storybook 8:
 
       ${incompatiblePackages.map((name) => `- ${chalk.cyan(`${name}`)}`).join('\n')}
       

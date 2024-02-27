@@ -22,6 +22,8 @@ interface WrapRequireRunOptions {
 export const wrapRequire: Fix<WrapRequireRunOptions> = {
   id: 'wrap-require',
 
+  versionRange: ['<7.2.0-rc.0', '>=7.2.0-rc.0'],
+
   async check({ packageManager, storybookVersion, mainConfigPath }) {
     const isStorybookInMonorepo = await packageManager.isStorybookInMonorepo();
     const isPnp = await detectPnp();

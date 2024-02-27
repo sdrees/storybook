@@ -375,7 +375,7 @@ describe('NPM Proxy', () => {
         }      
       `);
 
-      const installations = await npmProxy.findInstallations();
+      const installations = await npmProxy.findInstallations(['@storybook/*']);
 
       expect(installations).toMatchInlineSnapshot(`
         {

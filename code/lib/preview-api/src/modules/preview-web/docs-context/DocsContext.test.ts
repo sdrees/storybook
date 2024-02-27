@@ -33,6 +33,52 @@ describe('referenceCSFFile', () => {
   });
 });
 
+describe('attachCSFFile', () => {
+  const firstCsfParts = csfFileParts('first-meta--first-story', 'first-meta');
+  const secondCsfParts = csfFileParts('second-meta--second-story', 'second-meta');
+  const store = {
+    componentStoriesFromCSFFile: ({ csfFile }: { csfFile: CSFFile }) =>
+      csfFile === firstCsfParts.csfFile ? [firstCsfParts.story] : [secondCsfParts.story],
+  } as unknown as StoryStore<Renderer>;
+
+  it('attaches multiple CSF files', () => {
+    // Arrange - create a context with both CSF files
+    const context = new DocsContext(channel, store, renderStoryToElement, [
+      firstCsfParts.csfFile,
+      secondCsfParts.csfFile,
+    ]);
+
+    // Act - attach the first CSF file
+    context.attachCSFFile(firstCsfParts.csfFile);
+
+    // Assert - the first story is now the primary story and the only component story
+    expect(context.storyById()).toEqual(firstCsfParts.story);
+    expect(context.componentStories()).toEqual([firstCsfParts.story]);
+
+    // Assert - stories from both CSF files are available
+    expect(context.componentStoriesFromCSFFile(firstCsfParts.csfFile)).toEqual([
+      firstCsfParts.story,
+    ]);
+    expect(context.componentStoriesFromCSFFile(secondCsfParts.csfFile)).toEqual([
+      secondCsfParts.story,
+    ]);
+
+    // Act - attach the second CSF file
+    context.attachCSFFile(secondCsfParts.csfFile);
+
+    // Assert - the first story is still the primary story but both stories are available
+    expect(context.storyById()).toEqual(firstCsfParts.story);
+    expect(context.componentStories()).toEqual([firstCsfParts.story, secondCsfParts.story]);
+
+    // Act - attach the second CSF file again
+    context.attachCSFFile(secondCsfParts.csfFile);
+
+    // Assert - still only two stories are available
+    expect(context.storyById()).toEqual(firstCsfParts.story);
+    expect(context.componentStories()).toEqual([firstCsfParts.story, secondCsfParts.story]);
+  });
+});
+
 describe('resolveOf', () => {
   const { story, csfFile, storyExport, metaExport, moduleExports, component } = csfFileParts();
 

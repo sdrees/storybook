@@ -51,7 +51,7 @@ it('should prompt to install the test package and run the codemod', async () => 
   });
 
   expect(await removeJestTestingLibrary.prompt(options!)).toMatchInlineSnapshot(`
-    Attention: We've detected that you're using the following packages which are known to be incompatible with Storybook 8:
+    Attention: We've detected that you're using the following packages which are known to be incompatible since Storybook 8:
 
     - @storybook/jest
     - @storybook/testing-library

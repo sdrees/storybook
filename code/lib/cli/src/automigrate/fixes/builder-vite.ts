@@ -27,6 +27,8 @@ interface BuilderViteOptions {
 export const builderVite: Fix<BuilderViteOptions> = {
   id: 'builder-vite',
 
+  versionRange: ['<7', '>=7'],
+
   async check({ packageManager, mainConfig }) {
     const packageJson = await packageManager.retrievePackageJson();
     const builder = mainConfig.core?.builder;

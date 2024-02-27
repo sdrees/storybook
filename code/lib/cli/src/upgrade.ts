@@ -17,7 +17,6 @@ import {
   isCorePackage,
   versions,
   getStorybookInfo,
-  getCoercedStorybookVersion,
   loadMainConfig,
   JsPackageManagerFactory,
 } from '@storybook/core-common';
@@ -41,15 +40,12 @@ export const getStorybookVersion = (line: string) => {
 };
 
 const getInstalledStorybookVersion = async (packageManager: JsPackageManager) => {
-  const installations = await packageManager.findInstallations(['storybook', '@storybook/cli']);
+  const installations = await packageManager.findInstallations(Object.keys(versions));
   if (!installations) {
     return;
   }
-  const cliVersion = installations.dependencies['@storybook/cli']?.[0].version;
-  if (cliVersion) {
-    return cliVersion;
-  }
-  return installations.dependencies['storybook']?.[0].version;
+
+  return Object.entries(installations.dependencies)[0]?.[1]?.[0].version;
 };
 
 const deprecatedPackages = [
@@ -145,11 +141,10 @@ export const doUpgrade = async ({
     throw new UpgradeStorybookToSameVersionError({ beforeVersion });
   }
 
-  const [latestVersion, packageJson, storybookVersion] = await Promise.all([
+  const [latestVersion, packageJson] = await Promise.all([
     //
     packageManager.latestVersion('@storybook/cli'),
     packageManager.retrievePackageJson(),
-    getCoercedStorybookVersion(packageManager),
   ]);
 
   const isOutdated = lt(currentVersion, latestVersion);
@@ -192,7 +187,7 @@ export const doUpgrade = async ({
   const mainConfig = await loadMainConfig({ configDir });
 
   // GUARDS
-  if (!storybookVersion) {
+  if (!beforeVersion) {
     throw new UpgradeStorybookUnknownCurrentVersionError();
   }
 
@@ -256,7 +251,7 @@ export const doUpgrade = async ({
   }
 
   // AUTOMIGRATIONS
-  if (!skipCheck && !results && mainConfigPath && storybookVersion) {
+  if (!skipCheck && !results && mainConfigPath) {
     checkVersionConsistency();
     results = await automigrate({
       dryRun,
@@ -264,7 +259,9 @@ export const doUpgrade = async ({
       packageManager,
       configDir,
       mainConfigPath,
-      storybookVersion,
+      beforeVersion,
+      storybookVersion: currentVersion,
+      isUpgrade: true,
     });
   }
 

@@ -1,6 +1,6 @@
 import type { CSFFile, PreparedStory } from '@storybook/types';
 
-export function csfFileParts() {
+export function csfFileParts(storyId = 'meta--story', metaId = 'meta') {
   // These compose the raw exports of the CSF file
   const component = {};
   const metaExport = { component };
@@ -9,13 +9,13 @@ export function csfFileParts() {
 
   // This is the prepared story + CSF file after SB has processed them
   const storyAnnotations = {
-    id: 'meta--story',
+    id: storyId,
     moduleExport: storyExport,
   } as CSFFile['stories'][string];
-  const story = { id: 'meta--story', moduleExport: storyExport } as PreparedStory;
-  const meta = { id: 'meta', title: 'Meta', component, moduleExports } as CSFFile['meta'];
+  const story = { id: storyId, moduleExport: storyExport } as PreparedStory;
+  const meta = { id: metaId, title: 'Meta', component, moduleExports } as CSFFile['meta'];
   const csfFile = {
-    stories: { 'meta--story': storyAnnotations },
+    stories: { [storyId]: storyAnnotations },
     meta,
     moduleExports,
   } as CSFFile;

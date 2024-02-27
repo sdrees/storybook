@@ -23,13 +23,19 @@ export interface RunOptions<ResultType> {
  * promptType defines how the user will be prompted to apply an automigration fix
  * - auto: the fix will be applied automatically
  * - manual: the user will be prompted to apply the fix
- * - notification: the user will be notified about the some changes. A fix isn't required
+ * - notification: the user will be notified about some changes. A fix isn't required, though
  */
 export type Prompt = 'auto' | 'manual' | 'notification';
 
 export interface Fix<ResultType = any> {
   id: string;
   promptType?: Prompt | ((result: ResultType) => Promise<Prompt> | Prompt);
+  /**
+   * The from/to version range of Storybook that this fix applies to. The strings are semver ranges.
+   * The versionRange will only be checked if the automigration is part of an upgrade.
+   * If the automigration is not part of an upgrade but rather called via `automigrate` CLI, the check function should handle the version check.
+   */
+  versionRange: [from: string, to: string];
   check: (options: CheckOptions) => Promise<ResultType | null>;
   prompt: (result: ResultType) => string;
   run?: (options: RunOptions<ResultType>) => Promise<void>;
@@ -46,7 +52,15 @@ export enum PreCheckFailure {
 export interface AutofixOptions extends Omit<AutofixOptionsFromCLI, 'packageManager'> {
   packageManager: JsPackageManager;
   mainConfigPath: string;
+  /**
+   * The version of Storybook before the migration.
+   */
+  beforeVersion: string;
   storybookVersion: string;
+  /**
+   * Whether the migration is part of an upgrade.
+   */
+  isUpgrade: boolean;
 }
 export interface AutofixOptionsFromCLI {
   fixId?: FixId;

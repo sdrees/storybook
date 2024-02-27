@@ -5,6 +5,7 @@ import { createWriteStream, move, remove } from 'fs-extra';
 import tempy from 'tempy';
 import { join } from 'path';
 import invariant from 'tiny-invariant';
+import semver from 'semver';
 
 import {
   JsPackageManagerFactory,
@@ -82,7 +83,15 @@ export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
     throw new Error('Could not determine main config path');
   }
 
-  return automigrate({ ...options, packageManager, storybookVersion, mainConfigPath, configDir });
+  return automigrate({
+    ...options,
+    packageManager,
+    storybookVersion,
+    beforeVersion: storybookVersion,
+    mainConfigPath,
+    configDir,
+    isUpgrade: false,
+  });
 };
 
 export const automigrate = async ({
@@ -95,6 +104,7 @@ export const automigrate = async ({
   configDir,
   mainConfigPath,
   storybookVersion,
+  beforeVersion,
   renderer: rendererPackage,
   skipInstall,
   hideMigrationSummary = false,
@@ -128,6 +138,7 @@ export const automigrate = async ({
     configDir,
     mainConfigPath,
     storybookVersion,
+    beforeVersion,
     dryRun,
     yes,
   });
@@ -171,6 +182,8 @@ export async function runFixes({
   packageManager,
   mainConfigPath,
   storybookVersion,
+  beforeVersion,
+  isUpgrade,
 }: {
   fixes: Fix[];
   yes?: boolean;
@@ -181,6 +194,8 @@ export async function runFixes({
   packageManager: JsPackageManager;
   mainConfigPath: string;
   storybookVersion: string;
+  beforeVersion: string;
+  isUpgrade?: boolean;
 }): Promise<{
   preCheckFailure?: PreCheckFailure;
   fixResults: Record<FixId, FixStatus>;
@@ -199,15 +214,22 @@ export async function runFixes({
         packageManager,
       });
 
-      result = await f.check({
-        packageManager,
-        configDir,
-        rendererPackage,
-        mainConfig,
-        storybookVersion,
-        previewConfigPath,
-        mainConfigPath,
-      });
+      if (
+        (isUpgrade &&
+          semver.satisfies(beforeVersion, f.versionRange[0], { includePrerelease: true }) &&
+          semver.satisfies(storybookVersion, f.versionRange[1], { includePrerelease: true })) ||
+        !isUpgrade
+      ) {
+        result = await f.check({
+          packageManager,
+          configDir,
+          rendererPackage,
+          mainConfig,
+          storybookVersion,
+          previewConfigPath,
+          mainConfigPath,
+        });
+      }
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);
       if (error instanceof Error) {

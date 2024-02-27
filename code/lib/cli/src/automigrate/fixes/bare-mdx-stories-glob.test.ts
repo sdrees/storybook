@@ -29,16 +29,6 @@ describe('bare-mdx fix', () => {
   });
 
   describe('should no-op', () => {
-    it('in SB < v7.0.0', async () => {
-      const packageJson = {
-        dependencies: { '@storybook/react': '^6.2.0' },
-      };
-      const main = { stories: ['../**/*.stories.mdx'] };
-      await expect(
-        checkBareMdxStoriesGlob({ packageJson, main, storybookVersion: '6.5.0' })
-      ).resolves.toBeFalsy();
-    });
-
     describe('in SB >= v7.0.0', () => {
       it('without main', async () => {
         const packageJson = {
@@ -162,7 +152,7 @@ describe('bare-mdx fix', () => {
           }
 
         In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
-
+        Now, since Storybook 8.0, we have removed support for .stories.mdx files.
         We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
         That would result in the following 'stories' config:
           "../src/**/*.mdx"
@@ -171,7 +161,6 @@ describe('bare-mdx fix', () => {
             "directory": "../src/**",
             "files": "*.mdx"
           }
-
         To learn more about this change, see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files"
       `);
     });

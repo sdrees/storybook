@@ -1,11 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
+import * as sbcc from '@storybook/core-common';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
 } from '@storybook/core-events/server-errors';
 import { doUpgrade, getStorybookVersion } from './upgrade';
-
-import type * as sbcc from '@storybook/core-common';
 
 const findInstallationsMock = vi.fn<string[], Promise<sbcc.InstallationMetadata | undefined>>();
 
@@ -66,7 +65,7 @@ describe('Upgrade errors', () => {
     });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToLowerVersionError);
-    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
+    expect(findInstallationsMock).toHaveBeenCalledWith(Object.keys(sbcc.versions));
   });
   it('should throw an error when upgrading to the same version number', async () => {
     findInstallationsMock.mockResolvedValue({
@@ -83,6 +82,6 @@ describe('Upgrade errors', () => {
     });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToSameVersionError);
-    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
+    expect(findInstallationsMock).toHaveBeenCalledWith(Object.keys(sbcc.versions));
   });
 });

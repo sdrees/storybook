@@ -92,7 +92,7 @@ export class Yarn1Proxy extends JsPackageManager {
 
     try {
       const parsedOutput = JSON.parse(commandResult);
-      return this.mapDependencies(parsedOutput);
+      return this.mapDependencies(parsedOutput, pattern);
     } catch (e) {
       return undefined;
     }
@@ -179,7 +179,7 @@ export class Yarn1Proxy extends JsPackageManager {
     }
   }
 
-  protected mapDependencies(input: Yarn1ListOutput): InstallationMetadata {
+  protected mapDependencies(input: Yarn1ListOutput, pattern: string[]): InstallationMetadata {
     if (input.type === 'tree') {
       const { trees } = input.data;
       const acc: Record<string, PackageMetadata[]> = {};
@@ -189,7 +189,10 @@ export class Yarn1Proxy extends JsPackageManager {
       const recurse = (tree: (typeof trees)[0]) => {
         const { children } = tree;
         const { name, value } = parsePackageData(tree.name);
-        if (!name || !name.includes('storybook')) return;
+        if (!name || !pattern.some((p) => new RegExp(`^${p.replace(/\*/g, '.*')}$`).test(name))) {
+          return;
+        }
+
         if (!existingVersions[name]?.includes(value.version)) {
           if (acc[name]) {
             acc[name].push(value);

@@ -58,18 +58,9 @@ interface NewFrameworkRunOptions {
 export const newFrameworks: Fix<NewFrameworkRunOptions> = {
   id: 'new-frameworks',
 
-  async check({
-    configDir,
-    packageManager,
-    storybookVersion,
-    mainConfig,
-    mainConfigPath,
-    rendererPackage,
-  }) {
-    if (!semver.gte(storybookVersion, '7.0.0')) {
-      return null;
-    }
+  versionRange: ['<7', '>=7'],
 
+  async check({ configDir, packageManager, mainConfig, mainConfigPath, rendererPackage }) {
     if (typeof configDir === 'undefined') {
       return null;
     }
@@ -219,7 +210,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           newFrameworkPackage
         )}, but we detected that you are using Vite ${chalk.bold(
           viteVersion
-        )}, which is unsupported in ${chalk.bold(
+        )}, which is unsupported since ${chalk.bold(
           'Storybook 7.0'
         )}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
       `);
@@ -406,7 +397,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     return dedent`
-      We've detected your project is not fully setup with Storybook's 7 new framework format.
+      We've detected your project is not fully setup with the new framework format, which was introduced in Storybook 7.
 
       Storybook 7 introduced the concept of frameworks, which abstracts configuration for renderers (e.g. React, Vue), builders (e.g. Webpack, Vite) and defaults to make integrations easier.
 

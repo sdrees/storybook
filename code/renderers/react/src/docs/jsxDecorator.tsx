@@ -130,7 +130,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
     return string;
   }).join('\n');
 
-  return result.replace(/function\s+noRefCheck\(\)\s+\{\}/g, '() => {}');
+  return result.replace(/function\s+noRefCheck\(\)\s*\{\}/g, '() => {}');
 };
 
 const defaultOpts = {

@@ -107,7 +107,7 @@ export class PNPMProxy extends JsPackageManager {
 
     try {
       const parsedOutput = JSON.parse(commandResult);
-      return this.mapDependencies(parsedOutput);
+      return this.mapDependencies(parsedOutput, pattern);
     } catch (e) {
       return undefined;
     }
@@ -241,7 +241,7 @@ export class PNPMProxy extends JsPackageManager {
     }
   }
 
-  protected mapDependencies(input: PnpmListOutput): InstallationMetadata {
+  protected mapDependencies(input: PnpmListOutput, pattern: string[]): InstallationMetadata {
     const acc: Record<string, PackageMetadata[]> = {};
     const existingVersions: Record<string, string[]> = {};
     const duplicatedDependencies: Record<string, string[]> = {};
@@ -252,7 +252,10 @@ export class PNPMProxy extends JsPackageManager {
     }, {} as PnpmDependencies);
 
     const recurse = ([name, packageInfo]: [string, PnpmDependency]): void => {
-      if (!name || !name.includes('storybook')) return;
+      // transform pattern into regex where `*` is replaced with `.*`
+      if (!name || !pattern.some((p) => new RegExp(`^${p.replace(/\*/g, '.*')}$`).test(name))) {
+        return;
+      }
 
       const value = {
         version: packageInfo.version,

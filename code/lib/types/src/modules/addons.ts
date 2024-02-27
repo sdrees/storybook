@@ -358,7 +358,12 @@ export interface Addon_BaseType {
    * This is called as a function, so if you want to use hooks,
    * your function needs to return a JSX.Element within which components are rendered
    */
-  render: (renderOptions: Partial<Addon_RenderOptions>) => ReactElement<any, any> | null;
+  render: (props: Partial<Addon_RenderOptions>) => ReturnType<FC<Partial<Addon_RenderOptions>>>;
+  // TODO: for Storybook 9 I'd like to change this to be:
+  // render: FC<Partial<Addon_RenderOptions>>;
+  // This would bring it in line with how every other addon is set up.
+  // We'd need to change how the render function is called in the manager:
+  // https://github.com/storybookjs/storybook/blob/4e6fc0dde0842841d99cb3cf5148ca293a950301/code/ui/manager/src/components/preview/Preview.tsx#L105
   /**
    * @unstable
    */

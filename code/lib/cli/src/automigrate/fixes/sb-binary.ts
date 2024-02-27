@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import semver from 'semver';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 import type { PackageJsonWithDepsAndDevDeps } from '@storybook/core-common';
@@ -24,6 +23,8 @@ const logger = console;
 export const sbBinary: Fix<SbBinaryRunOptions> = {
   id: 'storybook-binary',
 
+  versionRange: ['<7', '>=7'],
+
   async check({ packageManager, storybookVersion }) {
     const packageJson = await packageManager.retrievePackageJson();
 
@@ -32,7 +33,7 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
     const storybookBinaryVersion = await packageManager.getPackageVersion('storybook');
 
     // Nx provides their own binary, so we don't need to do anything
-    if (nrwlStorybookVersion || semver.lt(storybookVersion, '7.0.0')) {
+    if (nrwlStorybookVersion) {
       return null;
     }
 

@@ -71,24 +71,6 @@ describe('is not Nx project', () => {
       });
     });
 
-    describe('Angular < 15.0.0', () => {
-      const packageManager = {
-        getPackageVersion: (packageName: string) => {
-          if (packageName === '@angular/core') {
-            return Promise.resolve('14.0.0');
-          }
-
-          return null;
-        },
-      } as Partial<JsPackageManager>;
-
-      it('should throw an Error', async () => {
-        await expect(
-          checkAngularBuilders({ packageManager, mainConfig: { framework: '@storybook/angular' } })
-        ).rejects.toThrowErrorMatchingSnapshot();
-      });
-    });
-
     describe('Angular >= 16.0.0', () => {
       const packageManager = {
         getPackageVersion: (packageName) => {

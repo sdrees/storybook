@@ -28,7 +28,7 @@ type Options = {
 
 export const webpack5CompilerSetup = {
   id: 'webpack5-compiler-setup',
-
+  versionRange: ['<8.0.0-alpha.9', '>=8.0.0-alpha.9'],
   promptType(result) {
     return result.isNextJs && !result.shouldRemoveSWCFlag ? 'notification' : 'auto';
   },

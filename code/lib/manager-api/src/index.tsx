@@ -517,11 +517,8 @@ export function useArgTypes(): ArgTypes {
 
 export { addons } from './lib/addons';
 
-/**
- * We need to rename this so it's not compiled to a straight re-export
- * Our globalization plugin can't handle an import and export of the same name in different lines
- * @deprecated
- */
+// We need to rename this so it's not compiled to a straight re-export
+// Our globalization plugin can't handle an import and export of the same name in different lines
 const typesX = types;
 
 export { typesX as types };

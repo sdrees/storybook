@@ -27,7 +27,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
 
   private nameToStoryId: Map<StoryName, StoryId>;
 
-  private attachedCSFFile?: CSFFile<TRenderer>;
+  private attachedCSFFiles: Set<CSFFile<TRenderer>>;
 
   private primaryStory?: PreparedStory<TRenderer>;
 
@@ -38,11 +38,12 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     /** The CSF files known (via the index) to be refererenced by this docs file */
     csfFiles: CSFFile<TRenderer>[]
   ) {
+    this.componentStoriesValue = [];
     this.storyIdToCSFFile = new Map();
     this.exportToStory = new Map();
     this.exportsToCSFFile = new Map();
     this.nameToStoryId = new Map();
-    this.componentStoriesValue = [];
+    this.attachedCSFFiles = new Set();
 
     csfFiles.forEach((csfFile, index) => {
       this.referenceCSFFile(csfFile);
@@ -71,10 +72,15 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     if (!this.exportsToCSFFile.has(csfFile.moduleExports)) {
       throw new Error('Cannot attach a CSF file that has not been referenced');
     }
+    if (this.attachedCSFFiles.has(csfFile)) {
+      // this CSF file is already attached, don't do anything
+      return;
+    }
 
-    this.attachedCSFFile = csfFile;
+    this.attachedCSFFiles.add(csfFile);
 
     const stories = this.store.componentStoriesFromCSFFile({ csfFile });
+
     stories.forEach((story) => {
       this.nameToStoryId.set(story.name, story.id);
       this.componentStoriesValue.push(story);
@@ -115,15 +121,18 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
       return { type: 'story', story: this.primaryStory } as TResolvedExport;
     }
 
-    if (!this.attachedCSFFile)
+    if (this.attachedCSFFiles.size === 0)
       throw new Error(
         `No CSF file attached to this docs file, did you forget to use <Meta of={} />?`
       );
 
-    if (moduleExportType === 'meta')
-      return { type: 'meta', csfFile: this.attachedCSFFile } as TResolvedExport;
+    const firstAttachedCSFFile = Array.from(this.attachedCSFFiles)[0];
 
-    const { component } = this.attachedCSFFile.meta;
+    if (moduleExportType === 'meta') {
+      return { type: 'meta', csfFile: firstAttachedCSFFile } as TResolvedExport;
+    }
+
+    const { component } = firstAttachedCSFFile.meta;
     if (!component)
       throw new Error(
         `Attached CSF file does not defined a component, did you forget to export one?`

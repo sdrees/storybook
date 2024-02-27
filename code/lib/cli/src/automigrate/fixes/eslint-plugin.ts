@@ -26,6 +26,8 @@ interface EslintPluginRunOptions {
 export const eslintPlugin: Fix<EslintPluginRunOptions> = {
   id: 'eslintPlugin',
 
+  versionRange: ['<8', '>=7'],
+
   async check({ packageManager }) {
     const { hasEslint, isStorybookPluginInstalled } = await extractEslintInfo(packageManager);
 

@@ -16,6 +16,8 @@ interface AutodocsTrueFrameworkRunOptions {
 export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
   id: 'autodocsTrue',
 
+  versionRange: ['<7', '>=7'],
+
   async check({ mainConfig }) {
     const { docs } = mainConfig;
 

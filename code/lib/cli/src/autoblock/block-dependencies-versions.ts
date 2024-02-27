@@ -9,6 +9,7 @@ const minimalVersionsMap = {
   preact: '10.0.0',
   svelte: '4.0.0',
   vue: '3.0.0',
+  vite: '4.0.0',
 };
 
 type Result = {
@@ -80,7 +81,7 @@ export const blocker = createBlocker({
       default:
         return dedent`
           Support for ${data.packageName} version < ${data.minimumVersion} has been removed.
-          Storybook 8 needs minimum version of ${data.minimumVersion}, but you had version ${data.installedVersion}.
+          Since version 8, Storybook needs a minimum version of ${data.minimumVersion}, but you have version ${data.installedVersion}.
 
           Please update this dependency.
         `;

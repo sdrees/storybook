@@ -19,6 +19,8 @@ interface Vue3RunOptions {
 export const vue3: Fix<Vue3RunOptions> = {
   id: 'vue3',
 
+  versionRange: ['<7', '>=7'],
+
   async check({ packageManager, mainConfig, storybookVersion }) {
     const vueVersion = await packageManager.getPackageVersion('vue');
 

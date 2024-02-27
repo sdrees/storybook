@@ -21,6 +21,8 @@ export const removedGlobalClientAPIs: Fix<GlobalClientAPIOptions> = {
   id: 'removedglobalclientapis',
   promptType: 'manual',
 
+  versionRange: ['<7', '>=7'],
+
   async check({ previewConfigPath }) {
     if (previewConfigPath) {
       const contents = await readFile(previewConfigPath, 'utf8');

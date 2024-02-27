@@ -13,6 +13,8 @@ interface Options {
 export const reactDocgen: Fix<Options> = {
   id: 'react-docgen',
 
+  versionRange: ['<8.0.0-alpha.1', '>=8.0.0-alpha.1'],
+
   async check({ mainConfig }) {
     // @ts-expect-error assume react
     const { reactDocgenTypescriptOptions } = mainConfig.typescript || {};
@@ -25,7 +27,7 @@ export const reactDocgen: Fix<Options> = {
       You have "typescript.reactDocgenTypescriptOptions" configured in your main.js,
       but "typescript.reactDocgen" is unset.
       
-      In Storybook 8.0, we changed the default React docgen analysis from 
+      Since Storybook 8.0, we changed the default React docgen analysis from 
       "react-docgen-typescript" to "react-docgen". We recommend "react-docgen"
       for most projects, since it is dramatically faster. However, it doesn't
       handle all TypeScript constructs, and may generate different results

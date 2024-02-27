@@ -12,6 +12,8 @@ export const angularBuildersMultiproject: Fix<AngularBuildersMultiprojectRunOpti
   id: 'angular-builders-multiproject',
   promptType: 'manual',
 
+  versionRange: ['<7', '>=7'],
+
   async check({ packageManager, mainConfig }) {
     // Skip in case of NX
     const angularVersion = await packageManager.getPackageVersion('@angular/core');

@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
-import semver from 'semver';
 import type { StoriesEntry } from '@storybook/types';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
@@ -31,11 +30,8 @@ const getNextGlob = (glob: string) => {
 
 export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
   id: 'bare-mdx-stories-glob',
-  async check({ storybookVersion, mainConfig }) {
-    if (!semver.gte(storybookVersion, '7.0.0')) {
-      return null;
-    }
-
+  versionRange: ['<7', '>=7'],
+  async check({ mainConfig }) {
     const existingStoriesEntries = mainConfig.stories as StoriesEntry[];
 
     if (!existingStoriesEntries) {
@@ -45,10 +41,9 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       )}, skipping ${chalk.cyan(this.id)} fix.
       
       In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
-
+      Now, since Storybook 8.0, we have removed support for .stories.mdx files.
       We were unable to automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
       We suggest you make this change manually.
-
       To learn more about this change, see: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files'
       )}
@@ -100,11 +95,10 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       ${chalk.cyan(prettyExistingStoriesEntries)}
     
     In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
-
+    Now, since Storybook 8.0, we have removed support for .stories.mdx files.
     We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
     That would result in the following 'stories' config:
       ${chalk.cyan(prettyNextStoriesEntries)}
-
     To learn more about this change, see: ${chalk.yellow(
       'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files'
     )}

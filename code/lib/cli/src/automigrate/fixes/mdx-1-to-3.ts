@@ -31,7 +31,7 @@ export const fixMdxComments = (mdx: string) => {
 
 const logger = console;
 
-interface Mdx1to2Options {
+interface Mdx1to3Options {
   storiesMdxFiles: string[];
 }
 
@@ -40,10 +40,12 @@ interface Mdx1to2Options {
  *
  * If so:
  * - Assume they might be MDX1
- * - Offer to help migrate to MDX2
+ * - Offer to help migrate to MDX3
  */
-export const mdx1to2: Fix<Mdx1to2Options> = {
-  id: 'mdx1to2',
+export const mdx1to3: Fix<Mdx1to3Options> = {
+  id: 'mdx1to3',
+
+  versionRange: ['<7.0.0', '>=8.0.0-alpha.0'],
 
   async check() {
     const storiesMdxFiles = await globby('./!(node_modules)**/*.(story|stories).mdx');
@@ -54,8 +56,8 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
     return dedent`
       We've found ${chalk.yellow(storiesMdxFiles.length)} '.stories.mdx' files in your project.
       
-      Storybook has upgraded to MDX2 (https://mdxjs.com/blog/v2/), which contains breaking changes from MDX1.
-      We can try to automatically upgrade your MDX files to MDX2 format using some common patterns.
+      Storybook has upgraded to MDX3 (https://mdxjs.com/blog/v3/). MDX3 itself doesn't contain disruptive breaking changes, whereas the transition from MDX1 to MDX2 was a significant change.
+      We can try to automatically upgrade your MDX files to MDX3 format using some common patterns.
       
       After this install completes, and before you start Storybook, we strongly recommend reading the MDX2 section
       of the 7.0 migration guide. It contains useful tools for detecting and fixing any remaining issues.

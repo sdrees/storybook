@@ -24,6 +24,9 @@ import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
+const renameList: { original: string; baseName: string }[] = [];
+const brokenList: { original: string; baseName: string }[] = [];
+
 export default async function jscodeshift(info: FileInfo) {
   const parsed = path.parse(info.path);
 
@@ -37,18 +40,37 @@ export default async function jscodeshift(info: FileInfo) {
     baseName += '_';
   }
 
-  const result = await transform(info, path.basename(baseName));
+  try {
+    const { csf, mdx } = await transform(info, path.basename(baseName));
 
-  const [mdx, csf] = result;
+    if (csf != null) {
+      fs.writeFileSync(`${baseName}.stories.js`, csf);
+    }
 
-  if (csf != null) {
-    fs.writeFileSync(`${baseName}.stories.js`, csf);
+    renameList.push({ original: info.path, baseName });
+
+    return mdx;
+  } catch (e) {
+    brokenList.push({ original: info.path, baseName });
+    throw e;
   }
-
-  return mdx;
 }
 
-export async function transform(info: FileInfo, baseName: string): Promise<[string, string]> {
+// The JSCodeshift CLI doesn't return a list of files that were transformed or skipped.
+// This is a workaround to rename the files after the transformation, which we can remove after we switch from jscodeshift to another solution.
+process.on('exit', () => {
+  renameList.forEach((file) => {
+    fs.renameSync(file.original, `${file.baseName}.mdx`);
+  });
+  brokenList.forEach((file) => {
+    fs.renameSync(file.original, `${file.original}.broken`);
+  });
+});
+
+export async function transform(
+  info: FileInfo,
+  baseName: string
+): Promise<{ mdx: string; csf: string | null }> {
   const root = mdxProcessor.parse(info.source);
   const storyNamespaceName = nameToValidExport(`${baseName}Stories`);
 
@@ -74,25 +96,42 @@ export async function transform(info: FileInfo, baseName: string): Promise<[stri
     node.value = node.value
       .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks')
       .replaceAll('@storybook/addon-docs', '@storybook/blocks');
+
+    if (node.value.includes('@storybook/blocks')) {
+      // @ts-ignore
+      const file: BabelFile = new babel.File(
+        { filename: 'info.path' },
+        { code: node.value, ast: babelParse(node.value) }
+      );
+
+      file.path.traverse({
+        ImportDeclaration(path) {
+          if (path.node.source.value === '@storybook/blocks') {
+            path.get('specifiers').forEach((specifier) => {
+              if (specifier.isImportSpecifier()) {
+                const imported = specifier.get('imported');
+                if (imported.isIdentifier() && imported.node.name === 'ArgsTable') {
+                  imported.node.name = 'Controls';
+                }
+              }
+            });
+          }
+        },
+      });
+
+      node.value = recast.print(file.ast).code;
+    }
   });
 
   const file = getEsmAst(root);
 
   visit(root, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node, index, parent) => {
     if (node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') {
-      if (is(node, { name: 'Meta' })) {
-        metaAttributes.push(...node.attributes);
-        node.attributes = [
-          {
-            type: 'mdxJsxAttribute',
-            name: 'of',
-            value: {
-              type: 'mdxJsxAttributeValueExpression',
-              value: storyNamespaceName,
-            },
-          },
-        ];
+      if (is(node, { name: 'ArgsTable' })) {
+        node.name = 'Controls';
+        node.attributes = [];
       }
+
       if (is(node, { name: 'Story' })) {
         const nameAttribute = node.attributes.find(
           (it) => it.type === 'mdxJsxAttribute' && it.name === 'name'
@@ -167,21 +206,6 @@ export async function transform(info: FileInfo, baseName: string): Promise<[stri
     return undefined;
   });
 
-  const metaProperties = metaAttributes.flatMap((attribute) => {
-    if (attribute.type === 'mdxJsxAttribute') {
-      if (typeof attribute.value === 'string') {
-        return [t.objectProperty(t.identifier(attribute.name), t.stringLiteral(attribute.value))];
-      }
-      return [
-        t.objectProperty(
-          t.identifier(attribute.name),
-          babelParseExpression(attribute.value?.value ?? '') as any as t.Expression
-        ),
-      ];
-    }
-    return [];
-  });
-
   file.path.traverse({
     // remove mdx imports from csf
     ImportDeclaration(path) {
@@ -196,10 +220,48 @@ export async function transform(info: FileInfo, baseName: string): Promise<[stri
     },
   });
 
-  if (storiesMap.size === 0 && metaAttributes.length === 0) {
+  if (storiesMap.size === 0) {
     // A CSF file must have at least one story, so skip migrating if this is the case.
-    return [mdxProcessor.stringify(root), ''];
+    return {
+      csf: null,
+      mdx: mdxProcessor.stringify(root),
+    };
   }
+
+  // Rewrites the Meta tag to use the new story namespace
+  visit(root, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node, index, parent) => {
+    if (
+      (node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') &&
+      is(node, { name: 'Meta' })
+    ) {
+      metaAttributes.push(...node.attributes);
+      node.attributes = [
+        {
+          type: 'mdxJsxAttribute',
+          name: 'of',
+          value: {
+            type: 'mdxJsxAttributeValueExpression',
+            value: storyNamespaceName,
+          },
+        },
+      ];
+    }
+  });
+
+  const metaProperties = metaAttributes.flatMap((attribute) => {
+    if (attribute.type === 'mdxJsxAttribute') {
+      if (typeof attribute.value === 'string') {
+        return [t.objectProperty(t.identifier(attribute.name), t.stringLiteral(attribute.value))];
+      }
+      return [
+        t.objectProperty(
+          t.identifier(attribute.name),
+          babelParseExpression(attribute.value?.value ?? '') as any as t.Expression
+        ),
+      ];
+    }
+    return [];
+  });
 
   addStoriesImport(root, baseName, storyNamespaceName);
 
@@ -297,7 +359,10 @@ export async function transform(info: FileInfo, baseName: string): Promise<[stri
     filepath: path,
   });
 
-  return [newMdx, output];
+  return {
+    csf: output,
+    mdx: newMdx,
+  };
 }
 
 function getEsmAst(root: ReturnType<typeof mdxProcessor.parse>) {

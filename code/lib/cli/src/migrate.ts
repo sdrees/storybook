@@ -41,6 +41,8 @@ export async function migrate(migration: any, { glob, dryRun, list, rename, pars
         mainConfigPath,
         packageManager,
         storybookVersion,
+        beforeVersion: storybookVersion,
+        isUpgrade: false,
       });
       await addStorybookBlocksPackage();
     }

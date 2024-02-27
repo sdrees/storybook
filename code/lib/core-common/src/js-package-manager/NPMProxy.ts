@@ -130,7 +130,7 @@ export class NPMProxy extends JsPackageManager {
     });
   }
 
-  public async findInstallations() {
+  public async findInstallations(pattern: string[]) {
     const exec = async ({ depth }: { depth: number }) => {
       const pipeToNull = platform() === 'win32' ? '2>NUL' : '2>/dev/null';
       return this.executeCommand({
@@ -146,7 +146,7 @@ export class NPMProxy extends JsPackageManager {
       const commandResult = await exec({ depth: 99 });
       const parsedOutput = JSON.parse(commandResult);
 
-      return this.mapDependencies(parsedOutput);
+      return this.mapDependencies(parsedOutput, pattern);
     } catch (e) {
       // when --depth is higher than 0, npm can return a non-zero exit code
       // in case the user's project has peer dependency issues. So we try again with no depth
@@ -154,7 +154,7 @@ export class NPMProxy extends JsPackageManager {
         const commandResult = await exec({ depth: 0 });
         const parsedOutput = JSON.parse(commandResult);
 
-        return this.mapDependencies(parsedOutput);
+        return this.mapDependencies(parsedOutput, pattern);
       } catch (err) {
         logger.warn(`An issue occurred while trying to find dependencies metadata using npm.`);
         return undefined;
@@ -245,13 +245,21 @@ export class NPMProxy extends JsPackageManager {
     }
   }
 
-  protected mapDependencies(input: NpmListOutput): InstallationMetadata {
+  /**
+   *
+   * @param input The output of `npm ls --json`
+   * @param pattern A list of package names to filter the result. * can be used as a placeholder
+   */
+  protected mapDependencies(input: NpmListOutput, pattern: string[]): InstallationMetadata {
     const acc: Record<string, PackageMetadata[]> = {};
     const existingVersions: Record<string, string[]> = {};
     const duplicatedDependencies: Record<string, string[]> = {};
 
     const recurse = ([name, packageInfo]: [string, NpmDependency]): void => {
-      if (!name || !name.includes('storybook')) return;
+      // transform pattern into regex where `*` is replaced with `.*`
+      if (!name || !pattern.some((p) => new RegExp(`^${p.replace(/\*/g, '.*')}$`).test(name))) {
+        return;
+      }
 
       const value = {
         version: packageInfo.version,

@@ -598,6 +598,50 @@ it('story child is identifier', async () => {
   `);
 });
 
+it('should replace ArgsTable by Controls', async () => {
+  const input = dedent`
+      import { ArgsTable } from '@storybook/addon-docs/blocks';
+      import { Button } from './button';
+      
+      Dummy Code 
+
+      <ArgsTable of="string" />
+    `;
+
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+
+  expect(mdx).toMatchInlineSnapshot(`
+    import { Controls } from '@storybook/blocks';
+    import { Button } from './button';
+
+    Dummy Code
+
+    <Controls />
+  `);
+});
+
+it('should not create stories.js file if there are no components', async () => {
+  const input = dedent`
+  import { Meta } from '@storybook/addon-docs';
+  
+  <Meta title='Example/Introduction' />
+  
+  # Welcome to Storybook
+    `;
+
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+
+  expect(fs.writeFileSync).not.toHaveBeenCalled();
+
+  expect(mdx).toMatchInlineSnapshot(`
+  import { Meta } from '@storybook/blocks';
+  
+  <Meta title="Example/Introduction" />
+  
+  # Welcome to Storybook
+  `);
+});
+
 it('nameToValidExport', () => {
   expect(nameToValidExport('1 starts with digit')).toMatchInlineSnapshot(`$1StartsWithDigit`);
   expect(nameToValidExport('name')).toMatchInlineSnapshot(`Name`);

@@ -1,7 +1,7 @@
 import { it, expect } from 'vitest';
 
 import { dedent } from 'ts-dedent';
-import { fixMdxStyleTags, fixMdxComments } from './mdx-1-to-2';
+import { fixMdxStyleTags, fixMdxComments } from './mdx-1-to-3';
 
 it('fixMdxStyleTags fixes badly-formatted style blocks', () => {
   expect(

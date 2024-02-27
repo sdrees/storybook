@@ -9,15 +9,12 @@ const check = async ({
   main: mainConfig,
   storybookVersion = '8.0.0',
 }: {
-  packageManagerContent: Pick<
-    Partial<Awaited<ReturnType<JsPackageManager['retrievePackageJson']>>>,
-    'dependencies' | 'devDependencies' | 'peerDependencies'
-  >;
+  packageManagerContent: Partial<Awaited<ReturnType<JsPackageManager['getAllDependencies']>>>;
   main: Partial<StorybookConfig> & Record<string, unknown>;
   storybookVersion?: string;
 }) => {
   const packageManager = {
-    retrievePackageJson: async () => packageManagerContent,
+    getAllDependencies: async () => packageManagerContent,
   } as JsPackageManager;
 
   return removeReactDependency.check({
@@ -31,21 +28,6 @@ const check = async ({
 vi.mock('glob', () => ({ glob: vi.fn(() => []) }));
 
 describe('early exits', () => {
-  it('cancel if storybookVersion < 8', async () => {
-    await expect(
-      check({
-        packageManagerContent: {
-          dependencies: { react: '16.0.0' },
-        },
-        main: {
-          stories: [],
-          framework: '@storybook/vue-vite',
-        },
-        storybookVersion: '7.0.0',
-      })
-    ).resolves.toBeFalsy();
-  });
-
   it('cancel if no react deps', async () => {
     await expect(
       check({
@@ -61,9 +43,7 @@ describe('early exits', () => {
   it('cancel if react renderer', async () => {
     await expect(
       check({
-        packageManagerContent: {
-          dependencies: { react: '16.0.0' },
-        },
+        packageManagerContent: { react: '16.0.0' },
         main: {
           stories: [],
           framework: '@storybook/react-vite',
@@ -73,9 +53,7 @@ describe('early exits', () => {
 
     await expect(
       check({
-        packageManagerContent: {
-          dependencies: { react: '16.0.0' },
-        },
+        packageManagerContent: { react: '16.0.0' },
         main: {
           stories: [],
           framework: '@storybook/nextjs',
@@ -85,9 +63,7 @@ describe('early exits', () => {
 
     await expect(
       check({
-        packageManagerContent: {
-          dependencies: { react: '16.0.0' },
-        },
+        packageManagerContent: { react: '16.0.0' },
         main: {
           stories: [],
           framework: { name: '@storybook/react-webpack5' },
@@ -101,9 +77,7 @@ describe('prompts', () => {
   it('simple', async () => {
     await expect(
       check({
-        packageManagerContent: {
-          dependencies: { react: '16.0.0' },
-        },
+        packageManagerContent: { react: '16.0.0' },
         main: {
           stories: ['*.stories.ts'],
           addons: [],
@@ -115,9 +89,7 @@ describe('prompts', () => {
   it('detects addon docs', async () => {
     await expect(
       check({
-        packageManagerContent: {
-          dependencies: { react: '16.0.0' },
-        },
+        packageManagerContent: { react: '16.0.0' },
         main: {
           stories: ['*.stories.ts'],
           addons: ['@storybook/addon-docs'],
@@ -129,9 +101,7 @@ describe('prompts', () => {
   it('detects addon essentials', async () => {
     await expect(
       check({
-        packageManagerContent: {
-          dependencies: { react: '16.0.0' },
-        },
+        packageManagerContent: { react: '16.0.0' },
         main: {
           stories: ['*.stories.ts'],
           addons: ['@storybook/addon-docs', '@storybook/addon-essentials'],
@@ -145,9 +115,7 @@ describe('prompts', () => {
     glob.mockImplementationOnce(() => ['*.stories.mdx']);
     await expect(
       check({
-        packageManagerContent: {
-          dependencies: { react: '16.0.0' },
-        },
+        packageManagerContent: { react: '16.0.0' },
         main: {
           stories: ['*.stories.ts'],
           addons: ['@storybook/addon-docs', '@storybook/addon-essentials'],

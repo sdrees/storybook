@@ -18,6 +18,7 @@ interface RemoveLegacyMDX1Options {
  */
 export const removeLegacyMDX1: Fix<RemoveLegacyMDX1Options> = {
   id: 'builder-vite',
+  versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
 
   async check({ mainConfig }) {
     if (mainConfig.features) {

@@ -57,19 +57,6 @@ const getPackageManager = (packages: Record<string, string>) => {
 
 describe('new-frameworks fix', () => {
   describe('should no-op', () => {
-    it('in sb < 7', async () => {
-      const packageManager = getPackageManager({
-        '@storybook/vue': '6.2.0',
-      });
-
-      await expect(
-        checkNewFrameworks({
-          packageManager,
-          storybookVersion: '6.2.0',
-        })
-      ).resolves.toBeFalsy();
-    });
-
     it('in sb 7 with correct structure already', async () => {
       const packageManager = getPackageManager({
         '@storybook/angular': '7.0.0',
