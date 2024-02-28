@@ -34,50 +34,25 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
     return argTypesRegex ? { argTypesRegex, previewConfigPath } : null;
   },
   prompt({ argTypesRegex, previewConfigPath }) {
-    const snippet = dedent`
-      import { fn } from '@storybook/test';
-      export default {
-        args: { onClick: fn() }, // will log to the action panel when clicked
-      };`;
-
-    // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
-    const file: BabelFile = new babel.File(
-      { file: 'story.tsx' },
-      { code: snippet, ast: babelParse(snippet) }
-    );
-
-    let formattedSnippet;
-    file.path.traverse({
-      Identifier: (path) => {
-        if (path.node.name === 'fn') {
-          formattedSnippet = path.buildCodeFrameError(``).message;
-        }
-      },
-    });
-
     return dedent`
       ${chalk.bold('Attention')}: We've detected that you're using argTypesRegex:
       
       ${argTypesRegex.buildCodeFrameError(`${previewConfigPath}`).message}
 
-      Since Storybook 8, we recommend removing this regex.
-      Assign explicit spies with the ${chalk.cyan('fn')} function instead:      
-      ${formattedSnippet}
+      In Storybook you can write so-called play functions, which are used to render your stories interactively.
+      Mocking action args in play functions was done implicitly by analyzing the argTypesRegex.
+
+      Since Storybook 8, implicit action args mocking isn't supported anymore.
       
-      The above pattern is needed when using spies in the play function, ${chalk.bold(
-        'even'
-      )} if you keep using argTypesRegex.
-      Implicit spies (based on a combination of argTypesRegex and docgen) is not supported in Storybook 8.
-      
-      Use the following command to check for spy usages in your play functions:
-       ${chalk.cyan(
-         'npx storybook migrate find-implicit-spies --glob="**/*.stories.@(js|jsx|ts|tsx)"'
-       )}
+      Use the following command to check for mocked action usages in your play functions:
+      ${chalk.cyan(
+        'npx storybook migrate find-implicit-spies --glob="**/*.stories.@(js|jsx|ts|tsx)"'
+      )}
        
-      Make sure to assign an explicit ${chalk.cyan('fn')} to your args for those usages. 
-      
-      For more information please visit our docs: 
-      https://storybook.js.org/docs/8.0/essentials/actions#via-storybooktest-fn-spy-function
+      And follow the documentation to migrate your play functions:
+      ${chalk.yellow(
+        'https://storybook.js.org/docs/8.0/essentials/actions#via-storybooktest-fn-spy-function'
+      )}
     `;
   },
 };

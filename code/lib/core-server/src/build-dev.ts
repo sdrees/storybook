@@ -89,7 +89,7 @@ export async function buildDevStandalone(
   frameworkName = frameworkName || 'custom';
 
   try {
-    await warnOnIncompatibleAddons(config);
+    await warnOnIncompatibleAddons(packageJson.version);
   } catch (e) {
     console.warn('Storybook failed to check addon compatibility', e);
   }

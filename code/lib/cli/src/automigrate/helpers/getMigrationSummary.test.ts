@@ -108,7 +108,7 @@ describe('getMigrationSummary', () => {
 
       The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
 
-      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0
+      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/docs/8.0/migration-guide
       And reach out on Discord if you need help: https://discord.gg/storybook"
     `);
   });
@@ -128,7 +128,7 @@ describe('getMigrationSummary', () => {
 
       The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
 
-      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0
+      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/docs/8.0/migration-guide
       And reach out on Discord if you need help: https://discord.gg/storybook
 
       ─────────────────────────────────────────────────
@@ -152,12 +152,12 @@ describe('getMigrationSummary', () => {
 
 
 
-      You can find more information for a given dependency by running yarn why <package-name>
+      Please try de-duplicating these dependencies by running yarn dedupe
 
 
 
 
-      Please try de-duplicating these dependencies by running yarn dedupe"
+      You can find more information for a given dependency by running yarn why <package-name>"
     `);
   });
 
@@ -176,7 +176,7 @@ describe('getMigrationSummary', () => {
 
       The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
 
-      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0
+      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/docs/8.0/migration-guide
       And reach out on Discord if you need help: https://discord.gg/storybook"
     `);
   });

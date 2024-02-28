@@ -1,6 +1,7 @@
 import { createBlocker } from './types';
 import { dedent } from 'ts-dedent';
 import { lt } from 'semver';
+import chalk from 'chalk';
 
 export const blocker = createBlocker({
   id: 'minimumNode16',
@@ -16,7 +17,7 @@ export const blocker = createBlocker({
       We've detected you're using Node.js v${data.nodeVersion}.
       Storybook needs Node.js 18 or higher.
 
-      https://nodejs.org/en/download
+      ${chalk.yellow('https://nodejs.org/en/download')}
     `;
   },
 });

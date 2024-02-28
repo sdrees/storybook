@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { paddedLog } from '@storybook/core-common';
+import { commandLog } from '@storybook/core-common';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
@@ -31,7 +31,7 @@ const generator: Generator<{ projectName: string }> = async (
   }
 
   const angularProjectName = await angularJSON.getProjectName();
-  paddedLog(`Adding Storybook support to your "${angularProjectName}" project`);
+  commandLog(`Adding Storybook support to your "${angularProjectName}" project`);
 
   const angularProject = angularJSON.getProjectSettingsByName(angularProjectName);
 

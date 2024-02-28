@@ -74,11 +74,12 @@ test('1 fail', async () => {
   ]);
 
   expect(result).toBe('alwaysFail');
-  expect(logger.plain).toHaveBeenCalledWith(expect.stringContaining('Oh no..'));
-  expect(stripAnsi(logger.plain.mock.calls[1][0])).toMatchInlineSnapshot(`
-    "Blocking your upgrade because of the following issues:
+  expect(stripAnsi(logger.plain.mock.calls[0][0])).toMatchInlineSnapshot(`
+    "Storybook has found potential blockers in your project that need to be resolved before upgrading:
 
     Always fail
+
+    ─────────────────────────────────────────────────
 
     Fix the above issues and try running the upgrade command again."
   `);
@@ -90,12 +91,16 @@ test('multiple fails', async () => {
     Promise.resolve({ blocker: blockers.alwaysFail }),
     Promise.resolve({ blocker: blockers.alwaysFail2 }),
   ]);
-  expect(stripAnsi(logger.plain.mock.calls[1][0])).toMatchInlineSnapshot(`
-    "Blocking your upgrade because of the following issues:
+  expect(stripAnsi(logger.plain.mock.calls[0][0])).toMatchInlineSnapshot(`
+    "Storybook has found potential blockers in your project that need to be resolved before upgrading:
 
     Always fail
 
+    ─────────────────────────────────────────────────
+
     Always fail 2
+
+    ─────────────────────────────────────────────────
 
     Fix the above issues and try running the upgrade command again."
   `);

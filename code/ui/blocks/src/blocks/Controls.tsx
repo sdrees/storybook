@@ -59,6 +59,9 @@ export const Controls: FC<ControlsProps> = (props) => {
   const hasSubcomponents = Boolean(subcomponents) && Object.keys(subcomponents).length > 0;
 
   if (!hasSubcomponents) {
+    if (!(Object.keys(filteredArgTypes).length > 0 || Object.keys(args).length > 0)) {
+      return null;
+    }
     return (
       <PureArgsTable
         rows={filteredArgTypes}

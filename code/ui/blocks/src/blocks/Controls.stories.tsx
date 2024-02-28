@@ -6,17 +6,19 @@ import * as ExampleStories from '../examples/ControlsParameters.stories';
 import * as SubcomponentsExampleStories from '../examples/ControlsWithSubcomponentsParameters.stories';
 import { within } from '@storybook/test';
 import type { PlayFunctionContext } from '@storybook/csf';
+import * as EmptyArgTypesStories from '../examples/EmptyArgTypes.stories';
 
-const meta: Meta<typeof Controls> = {
+const meta = {
   component: Controls,
   parameters: {
     relativeCsfPaths: [
       '../examples/ControlsParameters.stories',
+      '../examples/EmptyArgTypes.stories',
       '../examples/ControlsWithSubcomponentsParameters.stories',
     ],
     docsStyles: true,
   },
-};
+} satisfies Meta<typeof Controls>;
 export default meta;
 
 type Story = StoryObj<typeof meta>;
@@ -140,5 +142,14 @@ export const SubcomponentsSortProp: Story = {
   args: {
     of: SubcomponentsExampleStories.NoParameters,
     sort: 'alpha',
+  },
+};
+
+/**
+ * When a story is defined without any argTypes or args, the Docs UI should not display the control component.
+ */
+export const EmptyArgTypes: Story = {
+  args: {
+    of: EmptyArgTypesStories.Default,
   },
 };

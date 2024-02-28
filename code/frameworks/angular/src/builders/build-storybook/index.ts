@@ -67,10 +67,12 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
 ): BuilderOutputLike => {
   const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
+      const docTSConfig = findUpSync('tsconfig.doc.json', { cwd: options.configDir });
       const runCompodoc$ = options.compodoc
-        ? runCompodoc({ compodocArgs: options.compodocArgs, tsconfig: tsConfig }, context).pipe(
-            mapTo({ tsConfig })
-          )
+        ? runCompodoc(
+            { compodocArgs: options.compodocArgs, tsconfig: docTSConfig ?? tsConfig },
+            context
+          ).pipe(mapTo({ tsConfig }))
         : of({});
 
       return runCompodoc$.pipe(mapTo({ tsConfig }));

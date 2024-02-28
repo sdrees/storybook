@@ -55,6 +55,7 @@ Addons are plugins that extend Storybook's core functionality. You can find them
 - **Controls** allows you to interact with a component’s args (inputs) dynamically. Experiment with alternate configurations of the component to discover edge cases.
 - **Actions** help you verify interactions produce the correct outputs via callbacks. For instance, if you view the “Logged In” story of the `Header` component, we can verify that clicking the “Log out” button triggers the `onLogout` callback, which would be provided by the component that made use of the Header.
 - **Interactions** provides a helpful user interface for debugging [interaction tests](../writing-tests/interaction-testing.md) with the `play` function.
+- **Visual Tests** lets you pinpoint UI bugs in your local development environment by providing instant feedback directly in Storybook.
 
 <video autoPlay muted playsInline loop>
   <source

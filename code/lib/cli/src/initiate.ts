@@ -434,7 +434,8 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
       const flags = [];
 
       // npm needs extra -- to pass flags to the command
-      if (packageManager.type === 'npm') {
+      // in the case of Angular, we are calling `ng run` which doesn't need the extra `--`
+      if (packageManager.type === 'npm' && projectType !== ProjectType.ANGULAR) {
         flags.push('--');
       }
 

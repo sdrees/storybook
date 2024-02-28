@@ -17,14 +17,14 @@ interface RemoveLegacyMDX1Options {
  * If so, prompt them to upgrade to delete it.
  */
 export const removeLegacyMDX1: Fix<RemoveLegacyMDX1Options> = {
-  id: 'builder-vite',
+  id: 'remove-legacy-mdx1',
   versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
 
   async check({ mainConfig }) {
-    if (mainConfig.features) {
+    if (mainConfig.features && Object.hasOwn(mainConfig.features, 'legacyMdx1')) {
       //
       return {
-        hasFeature: !!Object.hasOwn(mainConfig.features, 'legacyMdx1'),
+        hasFeature: true,
       };
     }
 

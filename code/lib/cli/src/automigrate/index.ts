@@ -27,6 +27,7 @@ import { FixStatus, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
+import { doctor } from '../doctor';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -83,7 +84,7 @@ export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
     throw new Error('Could not determine main config path');
   }
 
-  return automigrate({
+  await automigrate({
     ...options,
     packageManager,
     storybookVersion,
@@ -92,6 +93,8 @@ export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
     configDir,
     isUpgrade: false,
   });
+
+  await doctor({ configDir, packageManager: options.packageManager });
 };
 
 export const automigrate = async ({

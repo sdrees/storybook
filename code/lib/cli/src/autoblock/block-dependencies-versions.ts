@@ -1,6 +1,7 @@
 import { createBlocker } from './types';
 import { dedent } from 'ts-dedent';
 import { lt } from 'semver';
+import chalk from 'chalk';
 
 const minimalVersionsMap = {
   '@angular/core': '15.0.0',
@@ -48,9 +49,11 @@ export const blocker = createBlocker({
     switch (data.packageName) {
       case 'react-scripts':
         return dedent`
-          Support react-script < 5.0.0 has been removed.
+          Support for react-script < 5.0.0 has been removed.
           Please see the migration guide for more information:
-          https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#create-react-app-dropped-cra4-support
+          ${chalk.yellow(
+            'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#create-react-app-dropped-cra4-support'
+          )}
           
           Upgrade to the latest version of react-scripts.
         `;
@@ -58,7 +61,7 @@ export const blocker = createBlocker({
         return dedent`
           Support for Vue 2 has been removed.
           Please see the migration guide for more information:
-          https://v3-migration.vuejs.org/
+          ${chalk.yellow('https://v3-migration.vuejs.org/')}
 
           Please upgrade to the latest version of Vue.
         `;
@@ -66,7 +69,7 @@ export const blocker = createBlocker({
         return dedent`
           Support for Angular < 15 has been removed.
           Please see the migration guide for more information:
-          https://angular.io/guide/update-to-version-15
+          ${chalk.yellow('https://angular.io/guide/update-to-version-15')}
 
           Please upgrade to the latest version of Angular.
         `;
@@ -74,7 +77,9 @@ export const blocker = createBlocker({
         return dedent`
           Support for Next.js < 13.5 has been removed.
           Please see the migration guide for more information:
-          https://nextjs.org/docs/pages/building-your-application/upgrading/version-13
+          ${chalk.yellow(
+            'https://nextjs.org/docs/pages/building-your-application/upgrading/version-13'
+          )}
 
           Please upgrade to the latest version of Next.js.
         `;

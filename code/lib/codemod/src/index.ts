@@ -30,7 +30,16 @@ async function renameFile(file: any, from: any, to: any, { logger }: any) {
   return renameAsync(file, newFile);
 }
 
-export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, parser }: any) {
+export async function runCodemod(
+  codemod: any,
+  {
+    glob,
+    logger,
+    dryRun,
+    rename,
+    parser,
+  }: { glob: any; logger: any; dryRun?: any; rename?: any; parser?: any }
+) {
   const codemods = listCodemods();
   if (!codemods.includes(codemod)) {
     throw new Error(`Unknown codemod ${codemod}. Run --list for options.`);

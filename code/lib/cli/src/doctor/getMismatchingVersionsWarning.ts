@@ -75,7 +75,7 @@ export function getMismatchingVersionsWarnings(
     if (filteredDependencies.length > 0) {
       const packageJsonSuffix = '(in your package.json)';
       messages.push(
-        `Based on your lockfile, these dependencies should be upgraded:`,
+        `Based on your lockfile, these dependencies should be aligned:`,
         filteredDependencies
           .map(
             ([name, dep]) =>

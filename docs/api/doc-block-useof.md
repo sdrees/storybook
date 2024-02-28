@@ -56,18 +56,20 @@ import * as ButtonStories from './Button.stories';
 
 ## useOf
 
-## Signature
+### Type
 
+<!-- prettier-ignore-start -->
 ```ts
-useOf = (
+(
   moduleExportOrType: ModuleExport | 'story' | 'meta' | 'component',
   validTypes?: Array<'story' | 'meta' | 'component'>
-): EnhancedResolvedModuleExportType
+) => EnhancedResolvedModuleExportType
 ```
+<!-- prettier-ignore-end -->
 
-## Parameters
+### Parameters
 
-### `moduleExportOrType`
+#### `moduleExportOrType`
 
 (**Required**)
 
@@ -81,29 +83,29 @@ When the custom block is in an [attached doc](./doc-block-meta.md#attached-vs-un
 - `useOf('meta')` returns the annotated meta in attached mode; error in unattached mode
 - `useOf('component')` returns the annotated component specified in the meta in attached mode; error in unattached mode
 
-### `validTypes`
+#### `validTypes`
 
 Type: `Array<'story' | 'meta' | 'component'>`
 
 Optionally specify an array of valid types that your block accepts. Passing anything other than the valid type(s) will result in an error. For example, the [`Canvas`](./doc-block-canvas.md) block uses `useOf(of, ['story'])`, which ensures it only accepts a reference to a story, not a meta or component.
 
-## Return
+### Return
 
 The return value depends on the matched type:
 
-### `EnhancedResolvedModuleExportType['type'] === 'story'`
+#### `EnhancedResolvedModuleExportType['type'] === 'story'`
 
 Type: `{ type: 'story', story: PreparedStory }`
 
 For stories, annotated stories are returned as is. They are prepared, meaning that they are already merged with project and meta annotations.
 
-### `EnhancedResolvedModuleExportType['type'] === 'meta'`
+#### `EnhancedResolvedModuleExportType['type'] === 'meta'`
 
 Type: `{ type: 'meta', csfFile: CSFFile, preparedMeta: PreparedMeta }`
 
 For meta, the parsed CSF file is returned, along with prepared annotated meta. That is, project annotations merged with meta annotations, but no story annotations.
 
-### `EnhancedResolvedModuleExportType['type'] === 'component'`
+#### `EnhancedResolvedModuleExportType['type'] === 'component'`
 
 Type: `{ type: 'component', component: Component, projectAnnotations: NormalizedProjectAnnotations }`
 

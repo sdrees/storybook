@@ -1,11 +1,16 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import type { Fix } from '../types';
+import { getStorybookVersionSpecifier } from '../../helpers';
+import { runCodemod } from '@storybook/codemod';
+import prompts from 'prompts';
+
+const logger = console;
 
 export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> = {
   id: 'remove-jest-testing-library',
   versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
-  promptType: 'manual',
+  promptType: 'auto',
   async check({ packageManager }) {
     const deps = await packageManager.getAllDependencies();
 
@@ -22,12 +27,36 @@ export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> =
 
       ${incompatiblePackages.map((name) => `- ${chalk.cyan(`${name}`)}`).join('\n')}
       
-      Install the replacement for those packages: ${chalk.cyan('@storybook/test')}
-      
-      And run the following codemod:
-       ${chalk.cyan(
-         'npx storybook migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"'
-       )}     
+      We will uninstall them for you and install ${chalk.cyan('@storybook/test')} instead.
+
+      Also, we can help you migrate your stories to use the new package.
     `;
+  },
+  async run({ packageManager, dryRun }) {
+    if (!dryRun) {
+      const packageJson = await packageManager.retrievePackageJson();
+
+      await packageManager.removeDependencies({ skipInstall: true, packageJson }, [
+        '@storybook/jest',
+        '@storybook/testing-library',
+      ]);
+
+      const versionToInstall = getStorybookVersionSpecifier(packageJson);
+
+      await packageManager.addDependencies({ packageJson }, [
+        `@storybook/test@${versionToInstall}`,
+      ]);
+
+      const { glob: globString } = await prompts({
+        type: 'text',
+        name: 'glob',
+        message: 'Please enter the glob for your stories to migrate to @storybook/test',
+        initial: './src/**/*.stories.*',
+      });
+
+      if (globString) {
+        await runCodemod('migrate-to-test-package', { glob: globString, dryRun, logger });
+      }
+    }
   },
 };

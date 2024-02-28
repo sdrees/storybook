@@ -41,7 +41,7 @@ To remove your addon's peer dependency on React and reduce its install size, do 
 1. Move `react`, `react-dom`, and the globalized Storybook packages from `peerDependencies` to `devDependencies`
 2. Add the list of globalized packages to the `externals` property in the `tsup` configuration to ensure they are not part of the bundle.
 
-For an example, see [the updates we've made to the Addon Kit](https://github.com/storybookjs/addon-kit/pull/60/files#diff-8fed899bdbc24789a7bb4973574e624ed6207c6ce572338bc3c3e117672b2a20). These changes are optional but recommended.
+For an example, see [the updates we've made to the Addon Kit](https://github.com/storybookjs/addon-kit/compare/79282986..971e1bb). These changes are optional but recommended.
 
 <Callout variant="info">
 
@@ -91,7 +91,7 @@ The Addon Kit [repository](https://github.com/storybookjs/addon-kit) has already
 
 <Callout variant="info" icon="💡">
 
-If you migrate your addon to support ESM, you can safely remove any `manager.js`, `preview.js`, and `preset.js` files from the addon's root directory. For a complete overview of the changes applied to the Addon Kit to fully support Storybook 8.0, see the following [diff view](https://github.com/storybookjs/addon-kit/compare/79282986..cf0875f).
+For a complete overview of the changes applied to the Addon Kit to fully support Storybook 8.0, see the following [diff view](https://github.com/storybookjs/addon-kit/compare/79282986..cf0875f).
 
 </Callout>
 

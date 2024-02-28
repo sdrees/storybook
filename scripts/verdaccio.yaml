@@ -83,10 +83,6 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/addon-onboarding':
-    access: $all
-    publish: $all
-    proxy: npmjs
   '@storybook/expect':
     access: $all
     publish: $all
