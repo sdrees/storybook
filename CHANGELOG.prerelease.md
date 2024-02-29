@@ -1,3 +1,7 @@
+## 8.0.0-rc.0
+
+Bumping 8.0.0-beta.6 to 8.0.0-rc.0. Please refer to the changelogs of previous beta releases.
+
 ## 8.0.0-beta.6
 
 - Addon-onboarding: Move onboarding to monorepo - [#26176](https://github.com/storybookjs/storybook/pull/26176), thanks [@ndelangen](https://github.com/ndelangen)!
@@ -29,7 +33,7 @@
 - Addon-interactions: Only mutate arg keys when writable - [#26118](https://github.com/storybookjs/storybook/pull/26118), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
 - CLI: Fix logic to add `^` packages in upgrade - [#26049](https://github.com/storybookjs/storybook/pull/26049), thanks [@ndelangen](https://github.com/ndelangen)!
 - Core: Fix addon bundling script - [#26145](https://github.com/storybookjs/storybook/pull/26145), thanks [@ndelangen](https://github.com/ndelangen)!
-- Vue3: Fix SourceDecorator Exception  - [#25773](https://github.com/storybookjs/storybook/pull/25773), thanks [@chakAs3](https://github.com/chakAs3)!
+- Vue3: Fix SourceDecorator Exception - [#25773](https://github.com/storybookjs/storybook/pull/25773), thanks [@chakAs3](https://github.com/chakAs3)!
 - Vue: Replace vue-docgen-api with Volar vue-component-meta - [#22285](https://github.com/storybookjs/storybook/pull/22285), thanks [@chakAs3](https://github.com/chakAs3)!
 
 ## 8.0.0-beta.4
@@ -394,8 +398,8 @@
 
 ## 7.6.0-alpha.4
 
--  CLI: Ensure errors with opening the browser are caught - [#24668](https://github.com/storybookjs/storybook/pull/24668), thanks [@xueyawei](https://github.com/xueyawei)!
-- Babel: Update all @babel/* dependencies - [#24610](https://github.com/storybookjs/storybook/pull/24610), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Ensure errors with opening the browser are caught - [#24668](https://github.com/storybookjs/storybook/pull/24668), thanks [@xueyawei](https://github.com/xueyawei)!
+- Babel: Update all @babel/\* dependencies - [#24610](https://github.com/storybookjs/storybook/pull/24610), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
 - CLI: Catch when prettier failed to prettify main and preview config files - [#24604](https://github.com/storybookjs/storybook/pull/24604), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
 - CLI: Ignore `addon-onboarding` when checking versions - [#24634](https://github.com/storybookjs/storybook/pull/24634), thanks [@JReinhold](https://github.com/JReinhold)!
 - CLI: Use @storybook/test in template stories - [#24393](https://github.com/storybookjs/storybook/pull/24393), thanks [@yannbf](https://github.com/yannbf)!
