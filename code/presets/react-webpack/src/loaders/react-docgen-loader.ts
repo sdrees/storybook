@@ -2,7 +2,7 @@ import {
   parse,
   builtinResolvers as docgenResolver,
   builtinHandlers as docgenHandlers,
-  builtinImporters as docgenImporters,
+  makeFsImporter,
   ERROR_CODES,
   utils,
 } from 'react-docgen';
@@ -10,6 +10,12 @@ import MagicString from 'magic-string';
 import type { LoaderContext } from 'webpack';
 import type { Handler, NodePath, babelTypes as t, Documentation } from 'react-docgen';
 import { logger } from '@storybook/node-logger';
+
+import {
+  RESOLVE_EXTENSIONS,
+  ReactDocgenResolveError,
+  defaultLookupModule,
+} from './docgen-resolver';
 
 const { getNameOrValue, isReactForwardRefCall } = utils;
 
@@ -54,7 +60,6 @@ type DocObj = Documentation & { actualName: string };
 
 const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
 const defaultResolver = new docgenResolver.FindExportedDefinitionsResolver();
-const defaultImporter = docgenImporters.fsImporter;
 const handlers = [...defaultHandlers, actualNameHandler];
 
 export default async function reactDocgenLoader(
@@ -71,7 +76,15 @@ export default async function reactDocgenLoader(
       filename: this.resourcePath,
       resolver: defaultResolver,
       handlers,
-      importer: defaultImporter,
+      importer: makeFsImporter((filename, basedir) => {
+        const result = defaultLookupModule(filename, basedir);
+
+        if (RESOLVE_EXTENSIONS.find((ext) => result.endsWith(ext))) {
+          return result;
+        }
+
+        throw new ReactDocgenResolveError(filename);
+      }),
       babelOptions: {
         babelrc: false,
         configFile: false,

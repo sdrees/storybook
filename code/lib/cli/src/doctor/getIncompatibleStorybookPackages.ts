@@ -88,7 +88,7 @@ export const getIncompatibleStorybookPackages = async (
   const allDeps = await packageManager.getAllDependencies();
   const storybookLikeDeps = Object.keys(allDeps).filter((dep) => dep.includes('storybook'));
 
-  if (storybookLikeDeps.length === 0) {
+  if (storybookLikeDeps.length === 0 && !context.skipErrors) {
     throw new Error('No Storybook dependencies found in the package.json');
   }
 

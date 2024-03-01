@@ -6,18 +6,22 @@ import {
   parse,
   builtinHandlers as docgenHandlers,
   builtinResolvers as docgenResolver,
-  builtinImporters as docgenImporters,
+  makeFsImporter,
 } from 'react-docgen';
 import MagicString from 'magic-string';
 import type { PluginOption } from 'vite';
 import actualNameHandler from './docgen-handlers/actualNameHandler';
+import {
+  RESOLVE_EXTENSIONS,
+  ReactDocgenResolveError,
+  defaultLookupModule,
+} from './docgen-resolver';
 
 type DocObj = Documentation & { actualName: string };
 
 // TODO: None of these are able to be overridden, so `default` is aspirational here.
 const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
 const defaultResolver = new docgenResolver.FindExportedDefinitionsResolver();
-const defaultImporter = docgenImporters.fsImporter;
 const handlers = [...defaultHandlers, actualNameHandler];
 
 type Options = {
@@ -36,14 +40,23 @@ export function reactDocgen({
     name: 'storybook:react-docgen-plugin',
     enforce: 'pre',
     async transform(src: string, id: string) {
-      const relPath = path.relative(cwd, id);
-      if (!filter(relPath)) return;
+      if (!filter(path.relative(cwd, id))) {
+        return;
+      }
 
       try {
         const docgenResults = parse(src, {
           resolver: defaultResolver,
           handlers,
-          importer: defaultImporter,
+          importer: makeFsImporter((filename, basedir) => {
+            const result = defaultLookupModule(filename, basedir);
+
+            if (RESOLVE_EXTENSIONS.find((ext) => result.endsWith(ext))) {
+              return result;
+            }
+
+            throw new ReactDocgenResolveError(filename);
+          }),
           filename: id,
         }) as DocObj[];
         const s = new MagicString(src);
