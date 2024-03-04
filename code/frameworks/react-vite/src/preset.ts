@@ -43,7 +43,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
     // Needs to run before the react plugin, so add to the front
     plugins.unshift(
       // If react-docgen is specified, use it for everything, otherwise only use it for non-typescript files
-      reactDocgen({
+      await reactDocgen({
         include: reactDocgenOption === 'react-docgen' ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/,
       })
     );

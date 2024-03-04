@@ -111,6 +111,7 @@ export const automigrate = async ({
   renderer: rendererPackage,
   skipInstall,
   hideMigrationSummary = false,
+  isUpgrade,
 }: AutofixOptions): Promise<{
   fixResults: Record<string, FixStatus>;
   preCheckFailure?: PreCheckFailure;
@@ -142,6 +143,7 @@ export const automigrate = async ({
     mainConfigPath,
     storybookVersion,
     beforeVersion,
+    isUpgrade,
     dryRun,
     yes,
   });

@@ -1,4 +1,4 @@
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within, expect, fn } from '@storybook/test';
 import type { Meta, StoryFn as CSF2Story, StoryObj } from '../..';
 
 import Button from './Button.vue';
@@ -45,8 +45,10 @@ const getCaptionForLocale = (locale: string) => {
       return '안녕하세요!';
     case 'pt':
       return 'Olá!';
-    default:
+    case 'en':
       return 'Hello!';
+    default:
+      return undefined;
   }
 };
 
@@ -58,7 +60,7 @@ export const CSF2StoryWithLocale: CSF2Story = (args, { globals }) => ({
   },
   template: `<div>
     <p>locale: ${globals.locale}</p>
-    <Button v-bind="args" />
+    <Button v-bind="args" label="${getCaptionForLocale(globals.locale)}" />
   </div>`,
 });
 CSF2StoryWithLocale.storyName = 'WithLocale';
@@ -114,7 +116,39 @@ export const CSF3InputFieldFilled: CSF3Story = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     await step('Step label', async () => {
-      await userEvent.type(canvas.getByTestId('input'), 'Hello world!');
+      const inputEl = canvas.getByTestId('input');
+      await userEvent.type(inputEl, 'Hello world!');
+      await expect(inputEl).toHaveValue('Hello world!');
     });
+  },
+};
+
+const mockFn = fn();
+export const LoaderStory: StoryObj<{ mockFn: (val: string) => string }> = {
+  args: {
+    mockFn,
+  },
+  loaders: [
+    async () => {
+      mockFn.mockReturnValueOnce('mockFn return value');
+      return {
+        value: 'loaded data',
+      };
+    },
+  ],
+  render: (args, { loaded }) => ({
+    components: { Button },
+    setup() {
+      return { args, data: args.mockFn('render'), loaded: loaded.value };
+    },
+    template: `
+      <div>
+        <div data-testid="loaded-data">{{loaded}}</div>
+        <div data-testid="spy-data">{{data}}</div>
+      </div>
+    `,
+  }),
+  play: async () => {
+    expect(mockFn).toHaveBeenCalledWith('render');
   },
 };

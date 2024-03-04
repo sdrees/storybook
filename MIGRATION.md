@@ -1,7 +1,10 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
-  - [Type change in `composeStories` API](#type-change-in-composestories-api)
+  - [Portable stories](#portable-stories)
+    - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
+    - [Type change in `composeStories` API](#type-change-in-composestories-api)
+    - [DOM structure changed in portable stories](#dom-structure-changed-in-portable-stories)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
@@ -86,17 +89,17 @@
     - [Tab addons cannot manually route, Tool addons can filter their visibility via tabId](#tab-addons-cannot-manually-route-tool-addons-can-filter-their-visibility-via-tabid)
     - [Removed `config` preset](#removed-config-preset-1)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
-    - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
-    - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
-    - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
-    - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
-    - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
+  - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
+  - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
+  - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
+  - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
+  - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
-    - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
-    - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
+  - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
+  - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
-    - [Addon API is more type-strict](#addon-api-is-more-type-strict)
-    - [Addon-controls hideNoControlsWarning parameter is deprecated](#addon-controls-hidenocontrolswarning-parameter-is-deprecated)
+  - [Addon API is more type-strict](#addon-api-is-more-type-strict)
+  - [Addon-controls hideNoControlsWarning parameter is deprecated](#addon-controls-hidenocontrolswarning-parameter-is-deprecated)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
@@ -122,7 +125,7 @@
     - [Deploying build artifacts](#deploying-build-artifacts)
       - [Dropped support for file URLs](#dropped-support-for-file-urls)
       - [Serving with nginx](#serving-with-nginx)
-      - [Ignore story files from node\_modules](#ignore-story-files-from-node_modules)
+      - [Ignore story files from node_modules](#ignore-story-files-from-node_modules)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -136,7 +139,7 @@
     - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -186,7 +189,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -401,7 +404,24 @@
 
 ## From version 7.x to 8.0.0
 
-### Type change in `composeStories` API
+### Portable stories
+
+#### Project annotations are now merged instead of overwritten in composeStory
+
+When passing project annotations overrides via `composeStory` such as:
+
+```tsx
+const projectAnnotationOverrides = { parameters: { foo: "bar" } };
+const Primary = composeStory(
+  stories.Primary,
+  stories,
+  projectAnnotationOverrides
+);
+```
+
+they are now merged with the annotations passed via `setProjectAnnotations` rather than completely overwriting them. This was seen as a bug and it's now fixed. If you have a use case where you really need this, please open an issue to elaborate.
+
+#### Type change in `composeStories` API
 
 There is a TypeScript type change in the `play` function returned from `composeStories` or `composeStory` in `@storybook/react` or `@storybook/vue3`, where before it was always defined, now it is potentially undefined. This means that you might have to make a small change in your code, such as:
 
@@ -417,6 +437,35 @@ await Primary.play!(...) // if you want a runtime error when the play function d
 ```
 
 There are plans to make the type of the play function be inferred based on your imported story's play function in a near future, so the types will be 100% accurate.
+
+#### DOM structure changed in portable stories
+
+The portable stories API now adds a wrapper to your stories with a unique id based on your story id, such as:
+
+```html
+<div data-story="true" id="#storybook-story-button--primary">
+  <!-- your story here -->
+</div>
+```
+
+This means that if you take DOM snapshots of your stories, they will be affected and you will have to update them.
+
+The id calculation is based on different heuristics based on your Meta title and Story name. When using `composeStories`, the id can be inferred automatically. However, when using `composeStory` and your story does not explicitly have a `storyName` property, the story name can't be inferred automatically. As a result, its name will be "Unnamed Story", resulting in a wrapper id like `"#storybook-story-button--unnamed-story"`. If the id matters to you and you want to fix it, you have to specify the `exportsName` property like so:
+
+```ts
+test("snapshots the story with custom id", () => {
+  const Primary = composeStory(
+    stories.Primary,
+    stories.default,
+    undefined,
+    // If you do not want the `unnamed-story` id, you have to pass the name of the story as a parameter
+    "Primary"
+  );
+
+  const { baseElement } = render(<Primary />);
+  expect(baseElement).toMatchSnapshot();
+});
+```
 
 ### Tab addons are now routed to a query parameter
 
@@ -555,7 +604,6 @@ This means https://github.com/IanVS/vite-plugin-turbosnap is no longer necessary
 ### `--webpack-stats-json` option renamed `--stats-json`
 
 Now that both Vite and Webpack support the `preview-stats.json` file, the flag has been renamed. The old flag will continue to work.
-
 
 ### Implicit actions can not be used during rendering (for example in the play function)
 

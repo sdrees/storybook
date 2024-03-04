@@ -6,6 +6,8 @@ import {
   ERROR_CODES,
   utils,
 } from 'react-docgen';
+import * as TsconfigPaths from 'tsconfig-paths';
+import findUp from 'find-up';
 import MagicString from 'magic-string';
 import type { LoaderContext } from 'webpack';
 import type { Handler, NodePath, babelTypes as t, Documentation } from 'react-docgen';
@@ -62,6 +64,9 @@ const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
 const defaultResolver = new docgenResolver.FindExportedDefinitionsResolver();
 const handlers = [...defaultHandlers, actualNameHandler];
 
+let tsconfigPathsInitialized = false;
+let matchPath: TsconfigPaths.MatchPath | undefined;
+
 export default async function reactDocgenLoader(
   this: LoaderContext<{ debug: boolean }>,
   source: string
@@ -71,20 +76,28 @@ export default async function reactDocgenLoader(
   const options = this.getOptions() || {};
   const { debug = false } = options;
 
+  if (!tsconfigPathsInitialized) {
+    const tsconfigPath = await findUp('tsconfig.json', { cwd: process.cwd() });
+    const tsconfig = TsconfigPaths.loadConfig(tsconfigPath);
+
+    if (tsconfig.resultType === 'success') {
+      logger.info('Using tsconfig paths for react-docgen');
+      matchPath = TsconfigPaths.createMatchPath(tsconfig.absoluteBaseUrl, tsconfig.paths, [
+        'browser',
+        'module',
+        'main',
+      ]);
+    }
+
+    tsconfigPathsInitialized = true;
+  }
+
   try {
     const docgenResults = parse(source, {
       filename: this.resourcePath,
       resolver: defaultResolver,
       handlers,
-      importer: makeFsImporter((filename, basedir) => {
-        const result = defaultLookupModule(filename, basedir);
-
-        if (RESOLVE_EXTENSIONS.find((ext) => result.endsWith(ext))) {
-          return result;
-        }
-
-        throw new ReactDocgenResolveError(filename);
-      }),
+      importer: getReactDocgenImporter(matchPath),
       babelOptions: {
         babelrc: false,
         configFile: false,
@@ -121,4 +134,25 @@ export default async function reactDocgenLoader(
       callback(null, source);
     }
   }
+}
+
+export function getReactDocgenImporter(matchingPath: TsconfigPaths.MatchPath | undefined) {
+  return makeFsImporter((filename, basedir) => {
+    const mappedFilenameByPaths = (() => {
+      if (matchingPath) {
+        const match = matchingPath(filename);
+        return match || filename;
+      } else {
+        return filename;
+      }
+    })();
+
+    const result = defaultLookupModule(mappedFilenameByPaths, basedir);
+
+    if (RESOLVE_EXTENSIONS.find((ext) => result.endsWith(ext))) {
+      return result;
+    }
+
+    throw new ReactDocgenResolveError(filename);
+  });
 }

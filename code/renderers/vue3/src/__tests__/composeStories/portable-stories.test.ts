@@ -10,39 +10,58 @@ import type Button from './Button.vue';
 import { composeStories, composeStory, setProjectAnnotations } from '../../portable-stories';
 
 // example with composeStories, returns an object with all stories composed with args/decorators
-const { CSF3Primary } = composeStories(stories);
+const { CSF3Primary, LoaderStory } = composeStories(stories);
 
 // example with composeStory, returns a single story composed with args/decorators
 const Secondary = composeStory(stories.CSF2Secondary, stories.default);
 
-it('renders primary button', () => {
-  render(CSF3Primary({ label: 'Hello world' }));
-  const buttonElement = screen.getByText(/Hello world/i);
-  expect(buttonElement).toBeInTheDocument();
-});
+describe('renders', () => {
+  it('renders primary button', () => {
+    render(CSF3Primary({ label: 'Hello world' }));
+    const buttonElement = screen.getByText(/Hello world/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
 
-it('reuses args from composed story', () => {
-  render(Secondary());
-  const buttonElement = screen.getByRole('button');
-  expect(buttonElement.textContent).toEqual(Secondary.args.label);
-});
+  it('reuses args from composed story', () => {
+    render(Secondary());
+    const buttonElement = screen.getByRole('button');
+    expect(buttonElement.textContent).toEqual(Secondary.args.label);
+  });
 
-it('myClickEvent handler is called', async () => {
-  const myClickEventSpy = vi.fn();
-  render(Secondary({ onMyClickEvent: myClickEventSpy }));
-  const buttonElement = screen.getByRole('button');
-  buttonElement.click();
-  expect(myClickEventSpy).toHaveBeenCalled();
-});
+  it('myClickEvent handler is called', async () => {
+    const myClickEventSpy = vi.fn();
+    render(Secondary({ onMyClickEvent: myClickEventSpy }));
+    const buttonElement = screen.getByRole('button');
+    buttonElement.click();
+    expect(myClickEventSpy).toHaveBeenCalled();
+  });
 
-it('reuses args from composeStories', () => {
-  const { getByText } = render(CSF3Primary());
-  const buttonElement = getByText(/foo/i);
-  expect(buttonElement).toBeInTheDocument();
+  it('reuses args from composeStories', () => {
+    const { getByText } = render(CSF3Primary());
+    const buttonElement = getByText(/foo/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
+
+  it('should call and compose loaders data', async () => {
+    await LoaderStory.load();
+    const { getByTestId } = render(LoaderStory());
+    expect(getByTestId('spy-data').textContent).toEqual('mockFn return value');
+    expect(getByTestId('loaded-data').textContent).toEqual('loaded data');
+    // spy assertions happen in the play function and should work
+    await LoaderStory.play!();
+  });
 });
 
 describe('projectAnnotations', () => {
   it('renders with default projectAnnotations', () => {
+    setProjectAnnotations([
+      {
+        parameters: { injected: true },
+        globalTypes: {
+          locale: { defaultValue: 'en' },
+        },
+      },
+    ]);
     const WithEnglishText = composeStory(stories.CSF2StoryWithLocale, stories.default);
     const { getByText } = render(WithEnglishText());
     const buttonElement = getByText('Hello!');
@@ -51,7 +70,7 @@ describe('projectAnnotations', () => {
 
   it('renders with custom projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
-      globalTypes: { locale: { defaultValue: 'pt' } } as any,
+      globals: { locale: 'pt' },
     });
     const { getByText } = render(WithPortugueseText());
     const buttonElement = getByText('Olá!');
@@ -127,12 +146,14 @@ describe('ComposeStories types', () => {
 // Batch snapshot testing
 const testCases = Object.values(composeStories(stories)).map((Story) => [Story.storyName, Story]);
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
-  if (typeof Story === 'string' || _storyName === 'CSF2StoryWithParamsAndDecorator') {
+  if (typeof Story === 'string' || _storyName === 'CSF2StoryWithLocale') {
     return;
   }
 
+  await Story.load();
+  const { container, baseElement } = await render(Story());
+  await Story.play?.({ canvasElement: container as HTMLElement });
   await new Promise((resolve) => setTimeout(resolve, 0));
 
-  const tree = await render(Story());
-  expect(tree.baseElement).toMatchSnapshot();
+  expect(baseElement).toMatchSnapshot();
 });
