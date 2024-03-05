@@ -8,6 +8,14 @@ export const getEventSourceUrl = (event: MessageEvent) => {
   // This might not be cross-origin safe
   const [frame, ...remainder] = frames.filter((element) => {
     try {
+      return (
+        element.contentWindow?.location.origin === (event.source as Window).location.origin &&
+        element.contentWindow?.location.pathname === (event.source as Window).location.pathname
+      );
+    } catch (err) {
+      // continue
+    }
+    try {
       return element.contentWindow === event.source;
     } catch (err) {
       // continue

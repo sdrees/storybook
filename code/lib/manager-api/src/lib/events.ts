@@ -19,9 +19,13 @@ export const getEventMetadata = (context: Meta, fullAPI: API) => {
   const { source, refId, type } = context;
   const [sourceType, sourceLocation] = getSourceType(source!, refId);
 
-  const ref =
-    refId && fullAPI.getRefs()[refId] ? fullAPI.getRefs()[refId] : fullAPI.findRef(sourceLocation!);
-
+  let ref: API_ComposedRef | undefined;
+  if (refId || sourceType === 'external') {
+    ref =
+      refId && fullAPI.getRefs()[refId]
+        ? fullAPI.getRefs()[refId]
+        : fullAPI.findRef(sourceLocation!);
+  }
   const meta = {
     source,
     sourceType,

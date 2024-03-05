@@ -1,3 +1,19 @@
+## 8.0.0-rc.2
+
+- CLI: Add @storybook/addons automigration - [#26295](https://github.com/storybookjs/storybook/pull/26295), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Fix vite config automigration to resolve from project root - [#26262](https://github.com/storybookjs/storybook/pull/26262), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Improve `add` command & add tests - [#26298](https://github.com/storybookjs/storybook/pull/26298), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Update minimum Node.js version requirement - [#26312](https://github.com/storybookjs/storybook/pull/26312), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CSF-tools/Codemods: Upgrade recast - [#26286](https://github.com/storybookjs/storybook/pull/26286), thanks [@43081j](https://github.com/43081j)!
+- Controls: Fix type summary when table.type unset - [#26283](https://github.com/storybookjs/storybook/pull/26283), thanks [@shilman](https://github.com/shilman)!
+- Core: Add event when serverChannel disconnects - [#26322](https://github.com/storybookjs/storybook/pull/26322), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Fix composition of storybooks on same origin - [#26304](https://github.com/storybookjs/storybook/pull/26304), thanks [@ndelangen](https://github.com/ndelangen)!
+- Portable stories: Improve existing APIs, add loaders support - [#26267](https://github.com/storybookjs/storybook/pull/26267), thanks [@yannbf](https://github.com/yannbf)!
+- React: Handle TypeScript path aliases in react-docgen loader - [#26273](https://github.com/storybookjs/storybook/pull/26273), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Svelte: Support `5.0.0-next.65` prerelease - [#26188](https://github.com/storybookjs/storybook/pull/26188), thanks [@JReinhold](https://github.com/JReinhold)!
+- Upgrade: Add missing isUpgrade parameter to automigrate function - [#26293](https://github.com/storybookjs/storybook/pull/26293), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Vue: Return component from `composeStory` - [#26317](https://github.com/storybookjs/storybook/pull/26317), thanks [@JReinhold](https://github.com/JReinhold)!
+
 ## 8.0.0-rc.1
 
 - CLI: Fix addon compatibility check error reporting in storybook dev - [#26258](https://github.com/storybookjs/storybook/pull/26258), thanks [@yannbf](https://github.com/yannbf)!

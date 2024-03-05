@@ -5,13 +5,14 @@ import { global } from '@storybook/global';
 import { isJSON, parse, stringify } from 'telejson';
 import invariant from 'tiny-invariant';
 
-import type { ChannelTransport, ChannelHandler } from '../types';
+import * as EVENTS from '@storybook/core-events';
+import type { ChannelTransport, ChannelHandler, Config } from '../types';
 
 const { WebSocket } = global;
 
 type OnError = (message: Event) => void;
 
-interface WebsocketTransportArgs {
+interface WebsocketTransportArgs extends Partial<Config> {
   url: string;
   onError: OnError;
 }
@@ -25,7 +26,7 @@ export class WebsocketTransport implements ChannelTransport {
 
   private isReady = false;
 
-  constructor({ url, onError }: WebsocketTransportArgs) {
+  constructor({ url, onError, page }: WebsocketTransportArgs) {
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
       this.isReady = true;
@@ -40,6 +41,10 @@ export class WebsocketTransport implements ChannelTransport {
       if (onError) {
         onError(e);
       }
+    };
+    this.socket.onclose = () => {
+      invariant(this.handler, 'WebsocketTransport handler should be set');
+      this.handler({ type: EVENTS.CHANNEL_WS_DISCONNECT, args: [], from: page || 'preview' });
     };
   }
 

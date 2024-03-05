@@ -35,7 +35,7 @@ export function createBrowserChannel({ page, extraTransports = [] }: Options): C
     const { hostname, port } = window.location;
     const channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
 
-    transports.push(new WebsocketTransport({ url: channelUrl, onError: () => {} }));
+    transports.push(new WebsocketTransport({ url: channelUrl, onError: () => {}, page }));
   }
 
   return new Channel({ transports });

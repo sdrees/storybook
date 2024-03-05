@@ -1,14 +1,15 @@
 import program from 'commander';
-import { join } from 'path';
+import { dirname, join, relative } from 'path';
 import { existsSync } from 'fs';
 import * as tempy from 'tempy';
-import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
+import { copy, emptyDir, remove, writeFile } from 'fs-extra';
 import { execaCommand } from 'execa';
 
 import { getTemplatesData, renderTemplate } from './utils/template';
 // eslint-disable-next-line import/no-cycle
 import { commitAllToGit } from './utils/git';
 import { REPROS_DIRECTORY } from '../utils/constants';
+import { glob } from 'glob';
 
 export const logger = console;
 
@@ -31,15 +32,21 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
 
   // otherwise old files will stick around and result inconsistent states
   logger.log(`🗑 Delete existing template dirs from clone`);
-  const files = await Promise.all(
-    (
-      await readdir(REPROS_DIRECTORY)
-    ).map(async (f) => ({ path: f, stats: await stat(join(REPROS_DIRECTORY, f)) }))
-  );
+
+  // empty all existing directories for sandboxes that have a successful after-storybook directory
   await Promise.all(
-    files
-      .filter(({ stats, path }) => stats.isDirectory && !path.startsWith('.'))
-      .map(async ({ path }) => emptyDir(join(tmpFolder, path)))
+    // find all successfully generated after-storybook/README.md files
+    // eg. /home/repros/react-vite/default-ts/after-storybook/README.md
+    // README.md being the last file generated, thus representing a successful generation
+    (await glob(join(REPROS_DIRECTORY, '**', 'after-storybook/README.md'))).map((readmePath) => {
+      // get the after-storybook path relative to the source 'repros' directory
+      // eg. ./react-vite/default-ts/after-storybook
+      const pathRelativeToSource = relative(REPROS_DIRECTORY, dirname(readmePath));
+      // get the actual path to the corresponding sandbox directory in the clone
+      // eg. /home/sandboxes-clone/react-vite/default-ts
+      const sandboxDirectoryToEmpty = join(tmpFolder, pathRelativeToSource, '..');
+      return emptyDir(sandboxDirectoryToEmpty);
+    })
   );
 
   logger.log(`🚚 Moving template files into the repository`);

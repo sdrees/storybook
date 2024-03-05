@@ -27,6 +27,13 @@ import {
   REPROS_DIRECTORY,
   LOCAL_REGISTRY_URL,
 } from '../utils/constants';
+import * as ghActions from '@actions/core';
+import dedent from 'ts-dedent';
+
+const isCI = process.env.GITHUB_ACTIONS === 'true';
+
+class BeforeScriptExecutionError extends Error {}
+class StorybookInitError extends Error {}
 
 const sbInit = async (
   cwd: string,
@@ -148,76 +155,150 @@ const runGenerators = async (
 
   const limit = pLimit(1);
 
-  await Promise.all(
+  const generationResults = await Promise.allSettled(
     generators.map(({ dirName, name, script, expected, env }) =>
       limit(async () => {
-        let flags: string[] = [];
-        if (expected.renderer === '@storybook/html') flags = ['--type html'];
-        else if (expected.renderer === '@storybook/server') flags = ['--type server'];
-
-        const time = process.hrtime();
-        console.log(`🧬 Generating ${name}`);
-
         const baseDir = join(REPROS_DIRECTORY, dirName);
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);
-        await emptyDir(baseDir);
+        try {
+          let flags: string[] = [];
+          if (expected.renderer === '@storybook/html') flags = ['--type html'];
+          else if (expected.renderer === '@storybook/server') flags = ['--type server'];
 
-        // We do the creation inside a temp dir to avoid yarn container problems
-        const createBaseDir = directory();
-        if (!script.includes('pnp')) {
-          await setupYarn({ cwd: createBaseDir });
-        }
+          const time = process.hrtime();
+          console.log(`🧬 Generating ${name} (${{ dirName }})`);
+          await emptyDir(baseDir);
 
-        const createBeforeDir = join(createBaseDir, BEFORE_DIR_NAME);
+          // We do the creation inside a temp dir to avoid yarn container problems
+          const createBaseDir = directory();
+          if (!script.includes('pnp')) {
+            await setupYarn({ cwd: createBaseDir });
+          }
 
-        // Some tools refuse to run inside an existing directory and replace the contents,
-        // where as others are very picky about what directories can be called. So we need to
-        // handle different modes of operation.
-        if (script.includes('{{beforeDir}}')) {
-          const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
-          await runCommand(
-            scriptWithBeforeDir,
-            {
-              cwd: createBaseDir,
-              timeout: SCRIPT_TIMEOUT,
-            },
-            debug
+          const createBeforeDir = join(createBaseDir, BEFORE_DIR_NAME);
+
+          // Some tools refuse to run inside an existing directory and replace the contents,
+          // where as others are very picky about what directories can be called. So we need to
+          // handle different modes of operation.
+          try {
+            if (script.includes('{{beforeDir}}')) {
+              const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
+              await runCommand(
+                scriptWithBeforeDir,
+                {
+                  cwd: createBaseDir,
+                  timeout: SCRIPT_TIMEOUT,
+                },
+                debug
+              );
+            } else {
+              await ensureDir(createBeforeDir);
+              await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT }, debug);
+            }
+          } catch (error) {
+            const message = `❌ Failed to execute before-script for template: ${name} (${dirName})`;
+            if (isCI) {
+              ghActions.error(dedent`${message}
+                ${(error as any).stack}`);
+            } else {
+              console.error(message);
+              console.error(error);
+            }
+            throw new BeforeScriptExecutionError(message, { cause: error });
+          }
+
+          await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
+
+          // Now move the created before dir into it's final location and add storybook
+          await move(createBeforeDir, beforeDir);
+
+          // Make sure there are no git projects in the folder
+          await remove(join(beforeDir, '.git'));
+
+          try {
+            await addStorybook({ baseDir, localRegistry, flags, debug, env });
+          } catch (error) {
+            const message = `❌ Failed to initialize Storybook in template: ${name} (${dirName})`;
+            if (isCI) {
+              ghActions.error(dedent`${message}
+                ${(error as any).stack}`);
+            } else {
+              console.error(message);
+              console.error(error);
+            }
+            throw new StorybookInitError(message, {
+              cause: error,
+            });
+          }
+          await addDocumentation(baseDir, { name, dirName });
+
+          console.log(
+            `✅ Generated ${name} (${dirName}) in ./${relative(
+              process.cwd(),
+              baseDir
+            )} successfully in ${prettyTime(process.hrtime(time))}`
           );
-        } else {
-          await ensureDir(createBeforeDir);
-          await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT }, debug);
+        } catch (error) {
+          throw error;
+        } finally {
+          // Remove node_modules to save space and avoid GH actions failing
+          // They're not uploaded to the git sandboxes repo anyway
+          if (process.env.CLEANUP_SANDBOX_NODE_MODULES) {
+            console.log(`🗑️ Removing ${join(beforeDir, 'node_modules')}`);
+            await remove(join(beforeDir, 'node_modules'));
+            console.log(`🗑️ Removing ${join(baseDir, AFTER_DIR_NAME, 'node_modules')}`);
+            await remove(join(baseDir, AFTER_DIR_NAME, 'node_modules'));
+          }
         }
-
-        await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
-
-        // Now move the created before dir into it's final location and add storybook
-        await move(createBeforeDir, beforeDir);
-
-        // Make sure there are no git projects in the folder
-        await remove(join(beforeDir, '.git'));
-
-        await addStorybook({ baseDir, localRegistry, flags, debug, env });
-
-        await addDocumentation(baseDir, { name, dirName });
-
-        // Remove node_modules to save space and avoid GH actions failing
-        // They're not uploaded to the git sandboxes repo anyway
-        if (process.env.CLEANUP_SANDBOX_NODE_MODULES) {
-          console.log(`🗑️ Removing ${join(beforeDir, 'node_modules')}`);
-          await remove(join(beforeDir, 'node_modules'));
-          console.log(`🗑️ Removing ${join(baseDir, AFTER_DIR_NAME, 'node_modules')}`);
-          await remove(join(baseDir, AFTER_DIR_NAME, 'node_modules'));
-        }
-
-        console.log(
-          `✅ Created ${dirName} in ./${relative(
-            process.cwd(),
-            baseDir
-          )} successfully in ${prettyTime(process.hrtime(time))}`
-        );
       })
     )
   );
+
+  const hasGenerationErrors = generationResults.some((result) => result.status === 'rejected');
+
+  if (!isCI) {
+    if (hasGenerationErrors) {
+      throw new Error(`Some sandboxes failed to generate`);
+    }
+    return;
+  }
+
+  ghActions.summary.addHeading('Sandbox generation summary');
+
+  if (!hasGenerationErrors) {
+    await ghActions.summary.addRaw('✅ Success!').write();
+    return;
+  }
+
+  await ghActions.summary
+    .addRaw('Some sandboxes failed, see the job log for detailed errors')
+    .addTable([
+      [
+        { data: 'Name', header: true },
+        { data: 'Key', header: true },
+        { data: 'Result', header: true },
+      ],
+      ...generationResults.map((result, index) => {
+        const { name, dirName } = generators[index];
+        const row = [name, `\`${dirName}\``];
+        if (result.status === 'fulfilled') {
+          row.push('🟢 Pass');
+          return row;
+        }
+        const generationError = (result as PromiseRejectedResult).reason as Error;
+        if (generationError instanceof BeforeScriptExecutionError) {
+          row.push('🔴 Failed to execute before script');
+        } else if (generationError instanceof StorybookInitError) {
+          row.push('🔴 Failed to initialize Storybook');
+        } else {
+          row.push('🔴 Failed with unknown error');
+        }
+        return row;
+      }),
+    ])
+    .write();
+
+  throw new Error(`Some sandboxes failed to generate`);
 };
 
 export const options = createOptions({
@@ -278,7 +359,7 @@ if (esMain(import.meta.url)) {
     .action((optionValues) => {
       generate(optionValues)
         .catch((e) => {
-          console.trace(e);
+          console.error(e);
           process.exit(1);
         })
         .then(() => {

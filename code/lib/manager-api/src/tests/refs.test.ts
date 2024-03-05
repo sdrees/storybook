@@ -25,7 +25,7 @@ vi.mock('@storybook/global', () => {
   // Add additional variations of global.location mock return values in this array.
   // NOTE: The order must match the order that global.location is called in the unit tests.
   const edgecaseLocations = [
-    { origin: 'https://storybook.js.org', pathname: '/storybook/index.html' },
+    { origin: 'https://storybook.js.org', pathname: '/storybook/iframe.html' },
   ];
   // global.location value after all edgecaseLocations are returned
   const lastLocation = { origin: 'https://storybook.js.org', pathname: '/storybook/' };

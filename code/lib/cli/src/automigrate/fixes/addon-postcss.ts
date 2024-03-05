@@ -29,7 +29,7 @@ export const addonPostCSS: Fix<AddonPostcssRunOptions> = {
     return dedent`
       ${chalk.bold(
         'Attention'
-      )}: We've detected that you're using the following package which are incompatible with Storybook 8 and beyond:
+      )}: We've detected that you're using the following package which is incompatible with Storybook 8 and beyond:
 
       - ${chalk.cyan(`@storybook/addon-postcss`)}
       

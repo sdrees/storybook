@@ -1,8 +1,42 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import type { ChannelTransport, Listener } from '.';
-import { Channel } from '.';
+import { Channel, WebsocketTransport } from '.';
 
 vi.useFakeTimers();
+
+const MockedWebsocket = vi.hoisted(() => {
+  const ref = { current: undefined as unknown as InstanceType<typeof MyMockedWebsocket> };
+  class MyMockedWebsocket {
+    onopen: () => void;
+
+    onmessage: (event: { data: string }) => void;
+
+    onerror: (e: any) => void;
+
+    onclose: () => void;
+
+    constructor(url: string) {
+      this.onopen = vi.fn();
+      this.onmessage = vi.fn();
+      this.onerror = vi.fn();
+      this.onclose = vi.fn();
+
+      ref.current = this;
+    }
+
+    send(data: string) {
+      this.onmessage({ data });
+    }
+  }
+  return { MyMockedWebsocket, ref };
+});
+
+vi.mock('@storybook/global', () => ({
+  global: {
+    ...global,
+    WebSocket: MockedWebsocket.MyMockedWebsocket,
+  },
+}));
 
 describe('Channel', () => {
   let transport: ChannelTransport;
@@ -230,5 +264,80 @@ describe('Channel', () => {
       channel.removeListener(eventName, listenerToBeRemoved);
       expect(findListener(listenerToBeRemoved)).toBeUndefined();
     });
+  });
+});
+
+describe('WebsocketTransport', () => {
+  it('should connect', async () => {
+    const onError = vi.fn();
+    const handler = vi.fn();
+
+    const transport = new WebsocketTransport({
+      url: 'ws://localhost:6006',
+      page: 'preview',
+      onError,
+    });
+
+    transport.setHandler(handler);
+    MockedWebsocket.ref.current.onopen();
+
+    expect(handler).toHaveBeenCalledTimes(0);
+  });
+  it('should send message upon disconnect', async () => {
+    const onError = vi.fn();
+    const handler = vi.fn();
+
+    const transport = new WebsocketTransport({
+      url: 'ws://localhost:6006',
+      page: 'preview',
+      onError,
+    });
+
+    transport.setHandler(handler);
+    MockedWebsocket.ref.current.onclose();
+
+    expect(handler.mock.calls[0][0]).toMatchInlineSnapshot(`
+      {
+        "args": [],
+        "from": "preview",
+        "type": "channelWSDisconnect",
+      }
+    `);
+  });
+  it('should send message when send', async () => {
+    const onError = vi.fn();
+    const handler = vi.fn();
+
+    const transport = new WebsocketTransport({
+      url: 'ws://localhost:6006',
+      page: 'preview',
+      onError,
+    });
+
+    transport.setHandler(handler);
+    MockedWebsocket.ref.current.send('{ "type": "test", "args": [], "from": "preview" }');
+
+    expect(handler.mock.calls[0][0]).toMatchInlineSnapshot(`
+      {
+        "args": [],
+        "from": "preview",
+        "type": "test",
+      }
+    `);
+  });
+  it('should call onError handler', async () => {
+    const onError = vi.fn();
+    const handler = vi.fn();
+
+    const transport = new WebsocketTransport({
+      url: 'ws://localhost:6006',
+      page: 'preview',
+      onError,
+    });
+
+    transport.setHandler(handler);
+    MockedWebsocket.ref.current.onerror(new Error('testError'));
+
+    expect(onError.mock.calls[0][0]).toMatchInlineSnapshot(`[Error: testError]`);
   });
 });

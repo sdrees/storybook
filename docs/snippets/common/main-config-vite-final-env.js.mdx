@@ -1,14 +1,14 @@
 ```js
 // .storybook/main.js|ts
 
-import { mergeConfig } from 'vite';
-
 export default {
   stories: ['../src/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   core: {
     builder: '@storybook/builder-vite',
   },
   async viteFinal(config, { configType }) {
+    const { mergeConfig } = await import('vite');
+
     if (configType === 'DEVELOPMENT') {
       // Your development configuration goes here
     }

@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 enum events {
+  CHANNEL_WS_DISCONNECT = 'channelWSDisconnect',
   CHANNEL_CREATED = 'channelCreated',
   // There was an error executing the config, likely an bug in the user's preview.js
   CONFIG_ERROR = 'configError',
@@ -80,6 +81,7 @@ export default events;
 // Enables: `import * as Events from ...` or `import { CHANNEL_CREATED } as Events from ...`
 // This is the preferred method
 export const {
+  CHANNEL_WS_DISCONNECT,
   CHANNEL_CREATED,
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,

@@ -5,6 +5,7 @@
     - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
     - [Type change in `composeStories` API](#type-change-in-composestories-api)
     - [DOM structure changed in portable stories](#dom-structure-changed-in-portable-stories)
+    - [Composed Vue stories are now components instead of functions](#composed-vue-stories-are-now-components-instead-of-functions)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
@@ -464,6 +465,33 @@ test("snapshots the story with custom id", () => {
 
   const { baseElement } = render(<Primary />);
   expect(baseElement).toMatchSnapshot();
+});
+```
+
+#### Composed Vue stories are now components instead of functions
+
+`composeStory` (and `composeStories`) from `@storybook/vue3` now return Vue components rather than story functions that return components. This means that when rendering these composed stories you just pass the composed story _without_ first calling it.
+
+Previously when using `composeStory` from `@storybook/testing-vue3`, you would render composed stories with e.g. `render(MyStoryComposedStory({ someProp: true}))`. That is now changed to more [closely match how you would render regular Vue components](https://testing-library.com/docs/vue-testing-library/examples).
+
+When migrating from `@storybook/testing-vue3`, you will likely hit the following error:
+
+```ts
+TypeError: Cannot read properties of undefined (reading 'devtoolsRawSetupState')
+```
+
+To fix it, you should change the usage of the composed story to reference it instead of calling it as a function. Here's an example using `@testing-library/vue` and Vitest:
+
+```diff
+import { it } from 'vitest';
+import { render } from '@testing-library/vue';
+import * as stories from './Button.stories';
+import { composeStory } from '@storybook/vue3';
+
+it('renders primary button', () => {
+  const Primary = composeStory(stories.Primary, stories.default);
+-  render(Primary({ label: 'Hello world' }));
++  render(Primary, { props: { label: 'Hello world' } });
 });
 ```
 
@@ -1061,7 +1089,7 @@ The `hideNoControlsWarning` parameter is now removed. [More info here](#addon-co
 The `setGlobalConfig` (used for reusing stories in your tests) is now removed in favor of `setProjectAnnotations`.
 
 ```ts
-import { setProjectAnnotations } from `@storybook/testing-react`.
+import { setProjectAnnotations } from `@storybook/react`.
 ```
 
 #### StorybookViteConfig type from @storybook/builder-vite

@@ -2,36 +2,7 @@
 title: 'Frequently Asked Questions'
 ---
 
-Here are some answers to frequently asked questions. If you have a question, you can ask it by opening an issue on the [Storybook Repository](https://github.com/storybookjs/storybook/).
-
-- [Error: No angular.json file found](#error-no-angularjson-file-found)
-- [How can I opt-out of Angular Ivy?](#how-can-i-opt-out-of-angular-ivy)
-- [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
-- [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
-- [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
-- [How do I fix module resolution in special environments?](#how-do-i-fix-module-resolution-in-special-environments)
-- [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
-- [Why is there no addons channel?](#why-is-there-no-addons-channel)
-- [Why aren't Controls visible in the Canvas panel but visible in Docs?](#why-arent-controls-visible-in-the-canvas-panel-but-visible-in-docs)
-- [Why aren't the addons working in a composed Storybook?](#why-arent-the-addons-working-in-a-composed-storybook)
-- [Can I have a Storybook with no local stories?](#can-i-have-a-storybook-with-no-local-stories)
-- [Which community addons are compatible with the latest version of Storybook?](#which-community-addons-are-compatible-with-the-latest-version-of-storybook)
-- [Is it possible to browse the documentation for past versions of Storybook?](#is-it-possible-to-browse-the-documentation-for-past-versions-of-storybook)
-- [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
-- [I see a "No Preview" error with a Storybook production build](#i-see-a-no-preview-error-with-a-storybook-production-build)
-- [Can I use Storybook with Vue 2?](#can-i-use-storybook-with-vue-2)
-- [Why aren't my code blocks highlighted with Storybook MDX](#why-arent-my-code-blocks-highlighted-with-storybook-mdx)
-- [Why aren't my MDX stories working in Storybook?](#why-arent-my-mdx-stories-working-in-storybook)
-- [Why are my mocked GraphQL queries failing with Storybook's MSW addon?](#why-are-my-mocked-graphql-queries-failing-with-storybooks-msw-addon)
-- [Can I use other GraphQL providers with Storybook's MSW addon?](#can-i-use-other-graphql-providers-with-storybooks-msw-addon)
-- [Can I mock GraphQL mutations with Storybook's MSW addon?](#can-i-mock-graphql-mutations-with-storybooks-msw-addon)
-- [How can my code detect if it is running in Storybook?](#how-can-my-code-detect-if-it-is-running-in-storybook)
-- [Why are my stories not showing up correctly when using certain characters?](#why-are-my-stories-not-showing-up-correctly-when-using-certain-characters)
-- [Why are the TypeScript examples and documentation using `as` for type safety?](#why-are-the-typescript-examples-and-documentation-using-as-for-type-safety)
-- [Why is Storybook's source loader returning undefined with curried functions?](#why-is-storybooks-source-loader-returning-undefined-with-curried-functions)
-- [Why are my args no longer displaying the default values?](#why-are-my-args-no-longer-displaying-the-default-values)
-- [Why isn't Storybook's test runner working?](#why-isnt-storybooks-test-runner-working)
-- [How does Storybook handle environment variables?](#how-does-storybook-handle-environment-variables)
+Here are some answers to frequently asked questions. If you have a question, you can ask it in our [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help).
 
 ## Error: No angular.json file found
 
@@ -222,7 +193,7 @@ Starting with Storybook version 6.0, we've introduced some great features aimed 
 
 With this, we would like to point out that if you plan on using addons created by our fantastic community, you need to consider that some of those addons might be working with an outdated version of Storybook.
 
-We're actively working to provide a better way to address this situation, but in the meantime, we would ask for a bit of caution on your end so that you don't run into unexpected problems. Let us know by creating an issue in the [Storybook repo](https://github.com/storybookjs/storybook/issues) so that we can gather information and create a curated list with those addons to help not only you but the rest of the community.
+We're actively working to provide a better way to address this situation, but in the meantime, we'd like to ask for a bit of caution on your end so that you don't run into unexpected problems. Let us know by leaving a comment in the following [GitHub issue](https://github.com/storybookjs/storybook/issues/26031) so that we can gather information and expand the current list of addons that need to be updated to work with the latest version of Storybook.
 
 ## Is it possible to browse the documentation for past versions of Storybook?
 
@@ -464,30 +435,6 @@ You can do this by checking for the `IS_STORYBOOK` global variable, which will e
 ## Why are my stories not showing up correctly when using certain characters?
 
 Storybook allows you to use most characters while naming your stories. Still, specific characters (e.g., `#`) can lead to issues when Storybook generates the internal identifier for the story, leading to collisions and incorrectly outputting the correct story. We recommend using such characters sparsely.
-
-## Why are the TypeScript examples and documentation using `as` for type safety?
-
-We're aware that the default Typescript story construct might seem outdated and could potentially introduce a less than ideal way of handling type safety and strictness and could be rewritten as such:
-
-```ts
-// Button.stories.ts|tsx
-
-import React from 'react';
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
-
-const StoryMeta: ComponentMeta<typeof Button> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/configure/#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Button',
-  component: Button,
-};
-
-export default meta;
-```
-
-Although valid, it introduces additional boilerplate code to the story definition. Instead, we're working towards implementing a safer mechanism based on what's currently being discussed in the following [issue](https://github.com/microsoft/TypeScript/issues/7481). Once the feature is released, we'll migrate our existing examples and documentation accordingly.
 
 ## Why is Storybook's source loader returning undefined with curried functions?
 
