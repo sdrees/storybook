@@ -5671,7 +5671,7 @@ __metadata:
     mdast-util-mdx-jsx: "npm:^3.0.0"
     mdast-util-mdxjs-esm: "npm:^2.0.1"
     prettier: "npm:^3.1.1"
-    recast: "npm:^0.23.1"
+    recast: "npm:^0.23.5"
     remark: "npm:^15.0.1"
     remark-mdx: "npm:^3.0.0"
     tiny-invariant: "npm:^1.3.1"
@@ -5872,7 +5872,7 @@ __metadata:
     "@types/js-yaml": "npm:^4.0.5"
     fs-extra: "npm:^11.1.0"
     js-yaml: "npm:^4.1.0"
-    recast: "npm:^0.23.1"
+    recast: "npm:^0.23.5"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   languageName: unknown
@@ -6388,7 +6388,7 @@ __metadata:
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -6699,7 +6699,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     semver: "npm:^7.3.7"
     serve-static: "npm:^1.14.1"
-    svelte: "npm:^5.0.0-next.28"
+    svelte: "npm:^5.0.0-next.65"
     trash: "npm:^7.0.0"
     ts-dedent: "npm:^2.0.0"
     ts-node: "npm:^10.9.1"
@@ -6799,7 +6799,7 @@ __metadata:
     "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
-    svelte: "npm:^5.0.0-next.28"
+    svelte: "npm:^5.0.0-next.65"
     svelte-preprocess: "npm:^5.1.1"
     sveltedoc-parser: "npm:^4.2.1"
     ts-dedent: "npm:^2.2.0"
@@ -6807,7 +6807,7 @@ __metadata:
     vite: "npm:^4.0.0"
   peerDependencies:
     "@sveltejs/vite-plugin-svelte": ^2.0.0 || ^3.0.0
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
     vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -6824,7 +6824,7 @@ __metadata:
     svelte-loader: "npm:^3.1.9"
     typescript: "npm:^5.3.2"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -6839,16 +6839,17 @@ __metadata:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
-    "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
+    "@sveltejs/vite-plugin-svelte": "npm:^3.0.2"
     expect-type: "npm:^0.15.0"
-    svelte: "npm:^5.0.0-next.28"
-    svelte-check: "npm:^3.6.1"
+    fs-extra: "npm:^11.1.0"
+    svelte: "npm:^5.0.0-next.65"
+    svelte-check: "npm:^3.6.4"
     sveltedoc-parser: "npm:^4.2.1"
     ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
     typescript: "npm:^5.3.2"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
   languageName: unknown
   linkType: soft
 
@@ -6864,7 +6865,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
     vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -7085,7 +7086,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte-inspector@npm:^2.0.0-next.0 || ^2.0.0":
+"@sveltejs/vite-plugin-svelte-inspector@npm:^2.0.0, @sveltejs/vite-plugin-svelte-inspector@npm:^2.0.0-next.0 || ^2.0.0":
   version: 2.0.0
   resolution: "@sveltejs/vite-plugin-svelte-inspector@npm:2.0.0"
   dependencies:
@@ -7113,6 +7114,24 @@ __metadata:
     svelte: ^4.0.0 || ^5.0.0-next.0
     vite: ^5.0.0
   checksum: 889d41014d4cc5dfb578cb0a80e64f72c0f8c143e9a299c3a4e2372fd582d982ce118dad5e158e0b747d1df7354a909ed9490b1adcd1bf982b56c82fffd4652c
+  languageName: node
+  linkType: hard
+
+"@sveltejs/vite-plugin-svelte@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@sveltejs/vite-plugin-svelte@npm:3.0.2"
+  dependencies:
+    "@sveltejs/vite-plugin-svelte-inspector": "npm:^2.0.0"
+    debug: "npm:^4.3.4"
+    deepmerge: "npm:^4.3.1"
+    kleur: "npm:^4.1.5"
+    magic-string: "npm:^0.30.5"
+    svelte-hmr: "npm:^0.15.3"
+    vitefu: "npm:^0.2.5"
+  peerDependencies:
+    svelte: ^4.0.0 || ^5.0.0-next.0
+    vite: ^5.0.0
+  checksum: 7150877f61b65a51d55916fccacb7851859b0aab9c7e4f591c98b6775a7e55f5410cc854add4c427f99978f115a92ac75f116a813b67814cc7801daac1b78439
   languageName: node
   linkType: hard
 
@@ -7586,6 +7605,13 @@ __metadata:
   version: 0.0.51
   resolution: "@types/estree@npm:0.0.51"
   checksum: a70c60d5e634e752fcd45b58c9c046ef22ad59ede4bc93ad5193c7e3b736ebd6bcd788ade59d9c3b7da6eeb0939235f011d4c59bb4fc04d8c346b76035099dd1
+  languageName: node
+  linkType: hard
+
+"@types/estree@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@types/estree@npm:1.0.5"
+  checksum: b3b0e334288ddb407c7b3357ca67dbee75ee22db242ca7c56fe27db4e1a31989cb8af48a84dd401deb787fe10cc6b2ab1ee82dc4783be87ededbe3d53c79c70d
   languageName: node
   linkType: hard
 
@@ -9499,12 +9525,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn-typescript@npm:^1.4.11":
-  version: 1.4.12
-  resolution: "acorn-typescript@npm:1.4.12"
+"acorn-typescript@npm:^1.4.13":
+  version: 1.4.13
+  resolution: "acorn-typescript@npm:1.4.13"
   peerDependencies:
     acorn: ">=8.9.0"
-  checksum: a3b33ed0dc321e3364da507a3decec96423736384068c88fea5ea57aeae864ea115a6c4a20b3ace71b75f4901b0657bec82d83aab30a8ad0dfc4bfc0d8337546
+  checksum: f2f17cf03379d63beeb007f0feea02cebbd9af261f6b5619ea7345b177bd7a5f99752927cbf652baa3fc97962ae4561592093ab0a1c3e00ca4f354ba23c557ae
   languageName: node
   linkType: hard
 
@@ -9537,6 +9563,15 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: a3ed76c761b75ec54b1ec3068fb7f113a182e95aea7f322f65098c2958d232e3d211cb6dac35ff9c647024b63714bc528a26d54a925d1fef2c25585b4c8e4017
+  languageName: node
+  linkType: hard
+
+"acorn@npm:^8.11.3":
+  version: 8.11.3
+  resolution: "acorn@npm:8.11.3"
+  bin:
+    acorn: bin/acorn
+  checksum: 3ff155f8812e4a746fee8ecff1f227d527c4c45655bb1fad6347c3cb58e46190598217551b1500f18542d2bbe5c87120cb6927f5a074a59166fbdd9468f0a299
   languageName: node
   linkType: hard
 
@@ -18216,7 +18251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-reference@npm:^3.0.0, is-reference@npm:^3.0.1":
+"is-reference@npm:^3.0.0, is-reference@npm:^3.0.1, is-reference@npm:^3.0.2":
   version: 3.0.2
   resolution: "is-reference@npm:3.0.2"
   dependencies:
@@ -24994,6 +25029,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"recast@npm:^0.23.5":
+  version: 0.23.5
+  resolution: "recast@npm:0.23.5"
+  dependencies:
+    ast-types: "npm:^0.16.1"
+    esprima: "npm:~4.0.0"
+    source-map: "npm:~0.6.1"
+    tiny-invariant: "npm:^1.3.3"
+    tslib: "npm:^2.0.1"
+  checksum: 21dc93910d12c71da77072afc3d5d4cdf97783776842efa6fd2cd7c2798d3622ace5d2f05ca5133141ef93de8a0512cbe191fe835f325bd1722f186fe449d11a
+  languageName: node
+  linkType: hard
+
 "redent@npm:^3.0.0":
   version: 3.0.0
   resolution: "redent@npm:3.0.0"
@@ -27591,9 +27639,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-check@npm:^3.6.1":
-  version: 3.6.2
-  resolution: "svelte-check@npm:3.6.2"
+"svelte-check@npm:^3.6.4":
+  version: 3.6.4
+  resolution: "svelte-check@npm:3.6.4"
   dependencies:
     "@jridgewell/trace-mapping": "npm:^0.3.17"
     chokidar: "npm:^3.4.1"
@@ -27607,7 +27655,7 @@ __metadata:
     svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
   bin:
     svelte-check: bin/svelte-check
-  checksum: 3f389df29268d4df9b561d0b206566e827af84923c70150b2dadfd407bcbdaccbfd561bd8b93884597de62477d62826ff1a5108854641078b692130441a49a55
+  checksum: acbcc04c8c6ab7baee7ccf36ca134dcabe49fae103aa92661e7f80e01216623363fb794fec9a3f794f7003d55629373567ff485925dc33272f48cea63e7b2452
   languageName: node
   linkType: hard
 
@@ -27716,23 +27764,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^5.0.0-next.28":
-  version: 5.0.0-next.28
-  resolution: "svelte@npm:5.0.0-next.28"
+"svelte@npm:^5.0.0-next.65":
+  version: 5.0.0-next.65
+  resolution: "svelte@npm:5.0.0-next.65"
   dependencies:
     "@ampproject/remapping": "npm:^2.2.1"
     "@jridgewell/sourcemap-codec": "npm:^1.4.15"
-    acorn: "npm:^8.10.0"
-    acorn-typescript: "npm:^1.4.11"
+    "@types/estree": "npm:^1.0.5"
+    acorn: "npm:^8.11.3"
+    acorn-typescript: "npm:^1.4.13"
     aria-query: "npm:^5.3.0"
     axobject-query: "npm:^4.0.0"
     esm-env: "npm:^1.0.0"
     esrap: "npm:^1.2.1"
-    is-reference: "npm:^3.0.1"
+    is-reference: "npm:^3.0.2"
     locate-character: "npm:^3.0.0"
-    magic-string: "npm:^0.30.4"
-    zimmerframe: "npm:^1.1.0"
-  checksum: d309cd3d1a9fe16c67a626af867288b02f6e7c49311c851aeb0f36feb5ab9603ca5594338fb933dbbada41b26faea6dcef52ed6ab3e86f54626545e53059eb28
+    magic-string: "npm:^0.30.5"
+    zimmerframe: "npm:^1.1.2"
+  checksum: 6a686847f887d2871eabce4888916cba6aec5bae924a76fd01f4098db1c0053d4e5d6434070d0a048eac75eaddd4fd40e3fae625a0253464f7baa6b0f147f209
   languageName: node
   linkType: hard
 
@@ -28022,6 +28071,13 @@ __metadata:
   version: 1.3.1
   resolution: "tiny-invariant@npm:1.3.1"
   checksum: 5b87c1d52847d9452b60d0dcb77011b459044e0361ca8253bfe7b43d6288106e12af926adb709a6fc28900e3864349b91dad9a4ac93c39aa15f360b26c2ff4db
+  languageName: node
+  linkType: hard
+
+"tiny-invariant@npm:^1.3.3":
+  version: 1.3.3
+  resolution: "tiny-invariant@npm:1.3.3"
+  checksum: 65af4a07324b591a059b35269cd696aba21bef2107f29b9f5894d83cc143159a204b299553435b03874ebb5b94d019afa8b8eff241c8a4cfee95872c2e1c1c4a
   languageName: node
   linkType: hard
 
@@ -30844,10 +30900,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zimmerframe@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "zimmerframe@npm:1.1.0"
-  checksum: dffe3f555bb000176ed9c7577e0fb0c3eddeceb6df9bb3ff870995bac3a51b40fab5443bd3dc47ce91c1f8ecf07282742efb80771ae6a088edc0340bb217f93d
+"zimmerframe@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "zimmerframe@npm:1.1.2"
+  checksum: 8f693609c31cbb4449db223acd61661bc93b73e615f9db6fb8c86d4ceea84ca54cbbeebcf53cf74c22a1f923b92abd18e97988a5e175c76b6ab17238e5593a9d
   languageName: node
   linkType: hard
 

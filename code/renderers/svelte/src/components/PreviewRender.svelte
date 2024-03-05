@@ -3,7 +3,7 @@
   import { dedent } from 'ts-dedent';
 
   export let name;
-  export let kind;
+  export let title;
   export let storyFn;
   export let showError;
   export let storyContext;
@@ -17,22 +17,22 @@
     on,
   } = storyFn();
 
-	let firstTime = true;
+  let firstTime = true;
 
-	// the first time we don't want to call storyFn two times so we just return the values
-	// we already have from the previous call. If storyFn changes this function will run
-	// again but this time firstTime will be false
-	function getStoryFnValue(storyFn){
-		if(firstTime){
-			firstTime = false;
-			return {
-				Component,
-				props,
-				on,
-			}
-		}
-		return storyFn();
-	}
+  // the first time we don't want to call storyFn two times so we just return the values
+  // we already have from the previous call. If storyFn changes this function will run
+  // again but this time firstTime will be false
+  function getStoryFnValue(storyFn) {
+    if (firstTime) {
+      firstTime = false;
+      return {
+        Component,
+        props,
+        on,
+      };
+    }
+    return storyFn();
+  }
 
   // reactive, re-render on storyFn change
   $: ({ Component, props = {}, on } = getStoryFnValue(storyFn));
@@ -45,7 +45,7 @@
 
   if (!Component) {
     showError({
-      title: `Expecting a Svelte component from the story: "${name}" of "${kind}".`,
+      title: `Expecting a Svelte component from the story: "${name}" of "${title}".`,
       description: dedent`
         Did you forget to return the Svelte component configuration from the story?
         Use "() => ({ Component: YourComponent, props: {} })"
