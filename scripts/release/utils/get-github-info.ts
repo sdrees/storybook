@@ -73,7 +73,7 @@ function makeQuery(repos: ReposWithCommitsAndPRsToFetch) {
                       nodes {
                         name
                       }
-                    }    
+                    }
                     mergeCommit {
                       commitUrl
                       oid

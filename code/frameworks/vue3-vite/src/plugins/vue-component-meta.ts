@@ -94,7 +94,13 @@ export async function vueComponentMeta(): Promise<PluginOption> {
           // we can only add the "__docgenInfo" to variables that are actually defined in the current file
           // so e.g. re-exports like "export { default as MyComponent } from './MyComponent.vue'" must be ignored
           // to prevent runtime errors
-          if (new RegExp(`export {.*${name}.*}`).test(src)) {
+          if (
+            new RegExp(`export {.*${name}.*}`).test(src) ||
+            new RegExp(`export \\* from ['"]\\S*${name}['"]`).test(src) ||
+            // when using re-exports, some exports might be resolved via checker.getExportNames
+            // but are not directly exported inside the current file so we need to ignore them too
+            !src.includes(name)
+          ) {
             return;
           }
 
