@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { ManagerContext } from '@storybook/manager-api';
-import { within } from '@storybook/testing-library';
+import { within } from '@storybook/test';
 import { startCase } from 'lodash';
 import { MobileNavigation } from './MobileNavigation';
 import { LayoutProvider, useLayout } from '../../layout/LayoutProvider';

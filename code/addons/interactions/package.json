@@ -65,7 +65,7 @@
     "@storybook/instrumenter": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
-    "@storybook/testing-library": "next",
+    "@storybook/test": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@types/node": "^18.0.0",
     "formik": "^2.2.9",

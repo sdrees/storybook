@@ -4,9 +4,7 @@ import type { ComponentEntry, IndexHash } from '@storybook/manager-api';
 import { action } from '@storybook/addon-actions';
 
 import type { StoryObj, Meta } from '@storybook/react';
-import { within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/test';
+import { within, expect } from '@storybook/test';
 import { Tree } from './Tree';
 import { index } from './mockdata.large';
 import { DEFAULT_REF_ID } from './Sidebar';

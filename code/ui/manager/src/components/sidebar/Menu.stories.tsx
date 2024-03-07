@@ -1,11 +1,10 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { screen, userEvent, within } from '@storybook/testing-library';
+import { screen, userEvent, within, expect } from '@storybook/test';
 import type { State } from '@storybook/manager-api';
 import { LinkIcon } from '@storybook/icons';
 import { SidebarMenu } from './Menu';

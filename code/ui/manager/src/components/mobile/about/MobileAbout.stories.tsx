@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ManagerContext } from '@storybook/manager-api';
 import React, { useEffect } from 'react';
-import { within } from '@storybook/testing-library';
+import { within } from '@storybook/test';
 import { MobileAbout } from './MobileAbout';
 import { LayoutProvider, useLayout } from '../../layout/LayoutProvider';
 

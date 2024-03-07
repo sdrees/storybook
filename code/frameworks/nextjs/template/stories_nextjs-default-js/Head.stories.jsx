@@ -1,7 +1,6 @@
-import { expect } from '@storybook/test';
 import Head from 'next/head';
 import React from 'react';
-import { within, userEvent, waitFor } from '@storybook/testing-library';
+import { waitFor, expect } from '@storybook/test';
 
 function Component() {
   return (

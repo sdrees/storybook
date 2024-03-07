@@ -1,6 +1,5 @@
-import { expect } from '@storybook/test';
 import { global as globalThis } from '@storybook/global';
-import { within } from '@storybook/testing-library';
+import { within, expect } from '@storybook/test';
 import { STORY_ARGS_UPDATED, RESET_STORY_ARGS, UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { h } from 'vue';
 import type { Meta, StoryObj } from '@storybook/vue3';

@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { within, userEvent } from '@storybook/testing-library';
-import { expect } from '@storybook/test';
+import { within, userEvent, expect } from '@storybook/test';
 import { importProvidersFrom } from '@angular/core';
 import { OpenCloseComponent } from '../moduleMetadata/angular-src/open-close-component/open-close.component';
 

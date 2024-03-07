@@ -1,8 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { waitFor, within } from '@storybook/testing-library';
-import { expect, fn } from '@storybook/test';
+import { waitFor, within, expect, fn } from '@storybook/test';
 import { STORY_INDEX_INVALIDATED, STORY_RENDERED } from '@storybook/core-events';
 import { WriteStoriesModal } from './WriteStoriesModal';
 import typescriptSnippet from './code/typescript';

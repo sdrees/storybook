@@ -105,7 +105,7 @@ export const viteConfigFile = {
         If you do already have these plugins, you can ignore this message.
 
         You can find more information on how to do this here:
-        https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added  
+        https://storybook.js.org/docs/8.0/migration-guide/#missing-viteconfigjs-file
 
         This change was necessary to support newer versions of Vite.
       `;
@@ -115,7 +115,7 @@ export const viteConfigFile = {
       Please add a vite.config.js file to your project root.
 
       You can find more information on how to do this here:
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added
+      https://storybook.js.org/docs/8.0/migration-guide/#missing-viteconfigjs-file
 
       This change was necessary to support newer versions of Vite.
     `;

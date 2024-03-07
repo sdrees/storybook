@@ -1,6 +1,5 @@
-import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
-import { within, fireEvent } from '@storybook/testing-library';
+import { within, fireEvent, expect } from '@storybook/test';
 import React from 'react';
 import { Button } from './Button';
 

@@ -19,12 +19,6 @@ type Context = {
   skipErrors?: boolean;
 };
 
-const isPackageIncompatible = (installedVersion: string, currentStorybookVersion: string) => {
-  const storybookVersion = semver.coerce(currentStorybookVersion);
-  const packageVersion = semver.coerce(installedVersion);
-  return storybookVersion?.major !== packageVersion?.major;
-};
-
 export const checkPackageCompatibility = async (dependency: string, context: Context) => {
   const { currentStorybookVersion, skipErrors, packageManager } = context;
   try {
@@ -46,12 +40,12 @@ export const checkPackageCompatibility = async (dependency: string, context: Con
       ...peerDependencies,
     })
       .filter(([dep]) => storybookCorePackages[dep as keyof typeof storybookCorePackages])
-      .find(([, version]) => {
+      .find(([_, versionRange]) => {
         // prevent issues with "tag" based versions e.g. "latest" or "next" instead of actual numbers
         return (
-          version &&
-          semver.validRange(version) &&
-          isPackageIncompatible(version, currentStorybookVersion)
+          versionRange &&
+          semver.validRange(versionRange) &&
+          !semver.satisfies(currentStorybookVersion, versionRange)
         );
       });
 

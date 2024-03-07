@@ -1,7 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react';
-import { expect } from '@storybook/test';
 import { CallStates } from '@storybook/instrumenter';
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within, expect } from '@storybook/test';
 import { getCalls } from '../mocks';
 
 import { Interaction } from './Interaction';

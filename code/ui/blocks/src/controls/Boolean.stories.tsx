@@ -1,6 +1,5 @@
-import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
-import { within, fireEvent, waitFor } from '@storybook/testing-library';
+import { within, fireEvent, waitFor, expect } from '@storybook/test';
 import { addons } from '@storybook/preview-api';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { BooleanControl } from './Boolean';

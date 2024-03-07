@@ -55,7 +55,6 @@
     "@storybook/react": "workspace:*",
     "@storybook/telemetry": "workspace:*",
     "@storybook/test": "workspace:*",
-    "@storybook/testing-library": "next",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "framer-motion": "^11.0.3",

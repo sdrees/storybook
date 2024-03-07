@@ -2,11 +2,16 @@
 title: 'Migration guide for Storybook 8.0'
 ---
 
-Storybook 8 focuses on performance and stability.
+Storybook 8 focuses on improving performance, compatibility, and stability. Key features include:
 
-- 💨 [2-4x faster test builds](/blog/optimize-storybook-7-6/#2-4x-faster-builds-with-thetest-flag), [25-50% faster React docgen](/blog/optimize-storybook-7-6/#22x-faster-react-docgen), and [SWC support for Webpack projects](/blog/optimize-storybook-7-6/#using-webpack-enable-swc)
-- ✨ Improved framework support: you no longer need to install React as a peer dependency when using a non-React renderer
-- 🌐 [Support for React Server Components (RSC)](/blog/storybook-react-server-components/): our experimental solution renders async RSC in the browser and mocks Node code
+- 🩻 A new visual testing workflow via [the Visual Tests addon](https://www.chromatic.com/docs/visual-tests-addon/)
+- 💨 [2-4x faster test builds](https://storybook.js.org/blog/optimize-storybook-7-6/#2-4x-faster-builds-with-thetest-flag), [25-50% faster React docgen](https://storybook.js.org/blog/optimize-storybook-7-6/#22x-faster-react-docgen), and [SWC support for Webpack projects](https://storybook.js.org/blog/optimize-storybook-7-6/#using-webpack-enable-swc)
+- 🧩 Improved framework support: you no longer need to install React as a peer dependency when using a non-React renderer
+- 🎛️ Strengthened control generation in [React](https://storybook.js.org/blog/storybook-8-beta/#major-performance-improvements
+) and [Vue](https://storybook.js.org/blog/first-class-vue-support-storybook-8/) projects
+- ⚡️ Improved Vite architecture, Vitest testing, and Vite 5 support 
+- 🌐 [Support for React Server Components (RSC)](https://storybook.js.org/blog/storybook-react-server-components/): our experimental solution renders async RSC in the browser and mocks Node code
+- ✨ A refreshed desktop UI & mobile UX
 - ➕ Much, much more
 
 This guide is meant to help you **upgrade from Storybook 7.x to 8.0** successfully!
@@ -78,6 +83,10 @@ While we'll do our best to upgrade your project automatically, there is one issu
 If you have `storyStoreV7: false` in your `.storybook/main.js`, you will need to remove it before you're able to upgrade to Storybook 8.
 
 If you are using the `storiesOf` API (which requires `storyStoreV7: false` in Storybook 7), you will need to either [migrate your stories to CSF](../../release-7-6/docs/migration-guide.md#storiesof-to-csf) or use the [new indexer API to continue creating stories dynamically](../../release-7-6/docs/migration-guide.md#storiesof-to-dynamically-created-stories).
+
+#### Missing `vite.config.js` file
+
+If you are using Vite, you may now need to create a `vite.config.js` file in your project root to allow newer versions of Vite to work with Storybook. Additionally, you may need to install and configure a Vite plugin for your framework. More information is available in the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added).
 
 ## New projects
 
