@@ -15,7 +15,7 @@ interface Options {
 
 const predicateFor = (addon: string) => (entry: CoreCommon_AddonEntry) => {
   const name = (entry as CoreCommon_OptionsEntry).name || (entry as string);
-  return name && name.includes(addon);
+  return name && name.replaceAll(/(\\){1,2}/g, '/').includes(addon);
 };
 
 const isCorrectOrder = (

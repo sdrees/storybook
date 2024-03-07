@@ -203,9 +203,9 @@ Vue 2 entered [End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31st, 2
 
 <CodeSnippets
   paths={[
-    'common/init-command-specific-version.npx.js.mdx',
-    'common/init-command-specific-version.yarn.js.mdx',
-    'common/init-command-specific-version.pnpm.js.mdx',
+    'common/storybook-init-v7.npx.js.mdx',
+    'common/storybook-init-v7.yarn.js.mdx',
+    'common/storybook-init-v7.pnpm.js.mdx',
   ]}
 />
 

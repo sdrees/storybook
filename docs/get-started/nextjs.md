@@ -2,6 +2,8 @@
 title: Storybook for Next.js
 ---
 
+export const SUPPORTED_RENDERER = 'react';
+
 Storybook for Next.js is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Next.js](https://nextjs.org/) applications. It includes:
 
 - 🔀 Routing
@@ -11,10 +13,24 @@ Storybook for Next.js is a [framework](../contribute/framework.md) that makes it
 - 🎛 Webpack & Babel config
 - 💫 and more!
 
+<If notRenderer={SUPPORTED_RENDERER}>
+
+<Callout variant="info">
+
+Storybook for Next.js is only supported in [React](?renderer=react) projects.
+
+</Callout>
+
+<!-- End non-supported renderers -->
+
+</If>
+
+<If renderer={SUPPORTED_RENDERER}>
+
 ## Requirements
 
-- Next.js >= 13.5
-- Storybook >= 7.x
+- Next.js ≥ 13.5
+- Storybook ≥ 7.0
 
 ## Getting started
 
@@ -38,7 +54,7 @@ Follow the prompts after running this command in your Next.js project's root dir
 
 ### In a project with Storybook
 
-This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
+This framework is designed to work with Storybook 7+. If you’re not already using v7, upgrade with this command:
 
 <!-- prettier-ignore-start -->
 
@@ -97,6 +113,14 @@ Finally, if you were using Storybook plugins to integrate with Next.js, those ar
 />
 
 <!-- prettier-ignore-end -->
+
+## Run the Setup Wizard
+
+If all goes well, you should see a setup wizard that will help you get started with Storybook introducing you to the main concepts and features, including how the UI is organized, how to write your first story, and how to test your components' response to various inputs utilizing [controls](../essentials/controls).
+
+![Storybook onboarding](./example-onboarding-wizard.png)
+
+If you skipped the wizard, you can always run it again by adding the `?path=/onboarding` query parameter to the URL of your Storybook instance, provided that the example stories are still available.
 
 ## Next.js's Image component
 
@@ -920,7 +944,7 @@ The available options are:
 
 Type: `Record<string, any>`
 
-Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, that builder is Webpack 5.
+Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, available options can be found in the [Webpack builder docs](../builders/webpack.md).
 
 #### `image`
 
@@ -933,3 +957,7 @@ Props to pass to every instance of `next/image`. See [next/image docs](https://n
 Type: `string`
 
 The absolute path to the `next.config.js` file. This is necessary if you have a custom `next.config.js` file that is not in the root directory of your project.
+
+<!-- End supported renderers -->
+
+</If>

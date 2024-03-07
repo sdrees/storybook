@@ -15,7 +15,6 @@ export type ToolbarShortcuts = Record<ToolbarShortcutType, ToolbarShortcutConfig
 export interface ToolbarItem {
   value?: string;
   icon?: IconsProps['icon'];
-  left?: string;
   right?: string;
   title?: string;
   hideIcon?: boolean;

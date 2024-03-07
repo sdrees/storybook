@@ -1,5 +1,4 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import qs from 'qs';
 
 import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storybook/core-events';
 
@@ -15,7 +14,7 @@ describe('initial state', () => {
   describe('config query parameters', () => {
     it('handles full parameter', () => {
       const navigate = vi.fn();
-      const location = { search: qs.stringify({ full: '1' }) };
+      const location = { search: new URLSearchParams({ full: '1' }).toString() };
 
       const {
         state: { layout },
@@ -30,7 +29,7 @@ describe('initial state', () => {
 
     it('handles nav parameter', () => {
       const navigate = vi.fn();
-      const location = { search: qs.stringify({ nav: '0' }) };
+      const location = { search: new URLSearchParams({ nav: '0' }).toString() };
 
       const {
         state: { layout },
@@ -41,7 +40,7 @@ describe('initial state', () => {
 
     it('handles shortcuts parameter', () => {
       const navigate = vi.fn();
-      const location = { search: qs.stringify({ shortcuts: '0' }) };
+      const location = { search: new URLSearchParams({ shortcuts: '0' }).toString() };
 
       const {
         state: { ui },
@@ -52,7 +51,7 @@ describe('initial state', () => {
 
     it('handles panel parameter, bottom', () => {
       const navigate = vi.fn();
-      const location = { search: qs.stringify({ panel: 'bottom' }) };
+      const location = { search: new URLSearchParams({ panel: 'bottom' }).toString() };
 
       const {
         state: { layout },
@@ -63,7 +62,7 @@ describe('initial state', () => {
 
     it('handles panel parameter, right', () => {
       const navigate = vi.fn();
-      const location = { search: qs.stringify({ panel: 'right' }) };
+      const location = { search: new URLSearchParams({ panel: 'right' }).toString() };
 
       const {
         state: { layout },
@@ -74,7 +73,7 @@ describe('initial state', () => {
 
     it('handles panel parameter, 0', () => {
       const navigate = vi.fn();
-      const location = { search: qs.stringify({ panel: '0' }) };
+      const location = { search: new URLSearchParams({ panel: '0' }).toString() };
 
       const {
         state: { layout },

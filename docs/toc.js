@@ -28,6 +28,11 @@ module.exports = {
               title: 'Next.js',
               type: 'link',
             },
+            {
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
+              type: 'link',
+            },
           ],
         },
         {

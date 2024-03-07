@@ -1,5 +1,11 @@
 import React, { Fragment, useMemo } from 'react';
-import { useAddonState, useChannel, useGlobals, useParameter } from '@storybook/manager-api';
+import {
+  useAddonState,
+  useChannel,
+  useGlobals,
+  useParameter,
+  addons,
+} from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
@@ -20,16 +26,23 @@ const IconButtonLabel = styled.div(({ theme }) => ({
 const hasMultipleThemes = (themesList: ThemeAddonState['themesList']) => themesList.length > 1;
 const hasTwoThemes = (themesList: ThemeAddonState['themesList']) => themesList.length === 2;
 
-export const ThemeSwitcher = () => {
+export const ThemeSwitcher = React.memo(function ThemeSwitcher() {
   const { themeOverride } = useParameter<ThemeParameters>(
     PARAM_KEY,
     DEFAULT_THEME_PARAMETERS
   ) as ThemeParameters;
   const [{ theme: selected }, updateGlobals] = useGlobals();
 
+  const channel = addons.getChannel();
+  const fromLast = channel.last(THEMING_EVENTS.REGISTER_THEMES);
+  const initializeThemeState = Object.assign({}, DEFAULT_ADDON_STATE, {
+    themesList: fromLast?.[0]?.themes || [],
+    themeDefault: fromLast?.[0]?.defaultTheme || '',
+  });
+
   const [{ themesList, themeDefault }, updateState] = useAddonState<ThemeAddonState>(
     THEME_SWITCHER_ID,
-    DEFAULT_ADDON_STATE
+    initializeThemeState
   );
 
   useChannel({
@@ -103,4 +116,4 @@ export const ThemeSwitcher = () => {
   }
 
   return null;
-};
+});

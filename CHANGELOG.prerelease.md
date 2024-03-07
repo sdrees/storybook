@@ -1,3 +1,14 @@
+## 8.0.0-rc.3
+
+- Addon-themes: Fix switcher initialization after first start - [#26353](https://github.com/storybookjs/storybook/pull/26353), thanks @valentinpalkovic!
+- Build: Upgrade `esbuild` (`0.20.1`) - [#26255](https://github.com/storybookjs/storybook/pull/26255), thanks @43081j!
+- Core: Fix path separator issue in check-addon-order - [#26362](https://github.com/storybookjs/storybook/pull/26362), thanks @valentinpalkovic!
+- Dependencies: Remove `qs` from `@storybook/manager-api` & `@storybook/channels` - [#26285](https://github.com/storybookjs/storybook/pull/26285), thanks @43081j!
+- UI: Fix sidebar scrolling to selected story when state changes - [#26337](https://github.com/storybookjs/storybook/pull/26337), thanks @JReinhold!
+- UI: Remove 'left' property from TooltipLinkList and Link components - [#26324](https://github.com/storybookjs/storybook/pull/26324), thanks @valentinpalkovic!
+- Viewport: Fix editing when default viewport is set - [#26360](https://github.com/storybookjs/storybook/pull/26360), thanks @shilman!
+- Vue: Fix reference error when using re-exports with "vue-component-meta" - [#26303](https://github.com/storybookjs/storybook/pull/26303), thanks @larsrickert!
+
 ## 8.0.0-rc.2
 
 - CLI: Add @storybook/addons automigration - [#26295](https://github.com/storybookjs/storybook/pull/26295), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

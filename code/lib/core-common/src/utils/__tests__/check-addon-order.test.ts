@@ -17,6 +17,7 @@ const essentialAddons = [
   'toolbars',
   'measure',
   'outline',
+  'highlight',
 ];
 
 const pkgName = (entry: CoreCommon_AddonEntry): string => {
@@ -42,6 +43,22 @@ afterEach(() => {
 describe.each([
   ['docs', 'controls', ['docs', 'controls']],
   ['docs', 'controls', ['docs', 'foo/node_modules/@storybook/addon-controls']],
+  [
+    'actions',
+    'interactions',
+    [
+      'foo\\node_modules\\@storybook\\addon-essentials',
+      'foo\\node_modules\\@storybook\\addon-interactions',
+    ],
+  ],
+  [
+    'actions',
+    'interactions',
+    [
+      'foo\\\\node_modules\\\\@storybook\\\\addon-essentials',
+      'foo\\\\node_modules\\\\@storybook\\\\addon-interactions',
+    ],
+  ],
   ['docs', 'controls', [{ name: '@storybook/addon-docs' }, 'controls']],
   ['docs', 'controls', ['essentials', 'controls']],
   ['docs', 'controls', ['essentials']],

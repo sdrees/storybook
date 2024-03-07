@@ -5,7 +5,6 @@ import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
-import qs from 'qs';
 import invariant from 'tiny-invariant';
 import type {
   ChannelTransport,
@@ -102,13 +101,13 @@ export class PostMessageTransport implements ChannelTransport {
 
     const frames = this.getFrames(target);
 
-    const query = qs.parse(location?.search || '', { ignoreQueryPrefix: true });
+    const query = new URLSearchParams(location?.search || '');
 
     const data = stringify(
       {
         key: KEY,
         event,
-        refId: query.refId,
+        refId: query.get('refId'),
       },
       stringifyOptions
     );

@@ -136,7 +136,7 @@ export const ViewportTool: FC = memo(
 
     useEffect(() => {
       registerShortcuts(api, globals, updateGlobals, Object.keys(viewports));
-    }, [viewports, globals.viewport]);
+    }, [viewports, globals, globals.viewport, updateGlobals, api]);
 
     useEffect(() => {
       const defaultRotated = defaultOrientation === 'landscape';
@@ -150,7 +150,18 @@ export const ViewportTool: FC = memo(
           viewportRotated: defaultRotated,
         });
       }
-    }, [defaultOrientation, defaultViewport, globals, updateGlobals]);
+      // NOTE: we don't want to re-run this effect when `globals` changes
+      // due to https://github.com/storybookjs/storybook/issues/26334
+      //
+      // Also, this *will* rerun every time you change story as the parameter is briefly `undefined`.
+      // This behaviour is intentional, if a bit of a happy accident in implementation.
+      //
+      // Ultimately this process of "locking in" a parameter value should be
+      // replaced by https://github.com/storybookjs/storybook/discussions/23347
+      // or something similar.
+      //
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [defaultOrientation, defaultViewport, updateGlobals]);
 
     const item =
       list.find((i) => i.id === globals.viewport) ||

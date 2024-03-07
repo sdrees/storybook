@@ -148,7 +148,6 @@ Here's a list of the configuration options available.
 | --------- | :----: | :-------------------------------------------------------------: | :------: |
 | **value** | String |    The string value of the menu that gets set in the globals    |   Yes    |
 | **title** | String |                   The main text of the title                    |   Yes    |
-| **left**  | String |      A string that gets shown on the left side of the menu      |    No    |
 | **right** | String |   A string that gets displayed on the right side of the menu    |    No    |
 | **icon**  | String | An icon that gets shown in the toolbar if this item is selected |    No    |
 
