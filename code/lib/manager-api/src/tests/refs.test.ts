@@ -171,6 +171,9 @@ describe('Refs API', () => {
       // given
       initRefs({ provider, store } as any);
 
+      // the `runCheck` is async, so we need to wait for it to finish
+      await vi.waitFor(() => fetchMock.mock.calls.length > 0);
+
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         [
           [
@@ -206,6 +209,9 @@ describe('Refs API', () => {
         },
       };
       initRefs({ provider, store } as any);
+
+      // the `runCheck` is async, so we need to wait for it to finish
+      await vi.waitFor(() => fetchMock.mock.calls.length > 0);
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         [

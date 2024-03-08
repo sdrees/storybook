@@ -443,7 +443,7 @@ const baseTemplates = {
   },
   'qwik-vite/default-ts': {
     name: 'Qwik CLI Latest (Vite | TypeScript)',
-    script: 'yarn create qwik basic {{beforeDir}}',
+    script: 'npm create qwik basic {{beforeDir}}',
     // TODO: The community template does not provide standard stories, which is required for e2e tests. Reenable once it does.
     inDevelopment: true,
     expected: {

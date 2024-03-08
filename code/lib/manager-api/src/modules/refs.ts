@@ -43,7 +43,7 @@ export interface SubAPI {
    * @param {string} id - The ID of the composed ref.
    * @param {API_ComposedRefUpdate} ref - The update object for the composed ref.
    */
-  updateRef: (id: string, ref: API_ComposedRefUpdate) => void;
+  updateRef: (id: string, ref: API_ComposedRefUpdate) => Promise<void>;
   /**
    * Gets all composed refs.
    * @returns {API_Refs} - The composed refs object.
@@ -60,7 +60,7 @@ export interface SubAPI {
    * @param {string} id - The ID of the composed ref.
    * @param {string} url - The new URL for the composed ref.
    */
-  changeRefVersion: (id: string, url: string) => void;
+  changeRefVersion: (id: string, url: string) => Promise<void>;
   /**
    * Changes the state of a composed ref by its ID and previewInitialized flag.
    * @param {string} id - The ID of the composed ref.
@@ -168,12 +168,12 @@ export const init: ModuleFn<SubAPI, SubState> = (
 
       return Object.values(refs).find(({ url }: any) => url.match(source));
     },
-    changeRefVersion: (id, url) => {
+    changeRefVersion: async (id, url) => {
       const { versions, title } = api.getRefs()[id];
       const ref: API_SetRefData = { id, url, versions, title, index: {}, expanded: true };
 
-      api.setRef(id, { ...ref, type: 'unknown' }, false);
-      api.checkRef(ref);
+      await api.setRef(id, { ...ref, type: 'unknown' }, false);
+      await api.checkRef(ref);
     },
     changeRefState: (id, previewInitialized) => {
       const { [id]: ref, ...updated } = api.getRefs();
@@ -276,7 +276,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
       return refs;
     },
 
-    setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
+    setRef: async (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
       if (singleStory) {
         return;
       }
@@ -307,10 +307,10 @@ export const init: ModuleFn<SubAPI, SubState> = (
         index = addRefIds(index, ref);
       }
 
-      api.updateRef(id, { ...ref, ...rest, index, internal_index });
+      await api.updateRef(id, { ...ref, ...rest, index, internal_index });
     },
 
-    updateRef: (id, data) => {
+    updateRef: async (id, data) => {
       const { [id]: ref, ...updated } = api.getRefs();
 
       updated[id] = { ...ref, ...data };
@@ -320,7 +320,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
         return obj;
       }, {});
 
-      store.setState({
+      await store.setState({
         refs: ordered,
       });
     },
@@ -331,8 +331,11 @@ export const init: ModuleFn<SubAPI, SubState> = (
   const initialState: SubState['refs'] = refs;
 
   if (runCheck) {
-    Object.entries(refs).forEach(([id, ref]) => {
-      api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
+    new Promise(async (resolve) => {
+      for (const ref of Object.values(refs)) {
+        await api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
+      }
+      resolve(undefined);
     });
   }
 
