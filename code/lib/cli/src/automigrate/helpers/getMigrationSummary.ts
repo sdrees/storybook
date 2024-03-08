@@ -4,7 +4,6 @@ import dedent from 'ts-dedent';
 import type { InstallationMetadata } from '@storybook/core-common';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';
-import { getDuplicatedDepsWarnings } from '../../doctor/getDuplicatedDepsWarnings';
 
 export const messageDivider = '\n\n';
 const segmentDivider = '\n\n─────────────────────────────────────────────────\n\n';
@@ -74,14 +73,6 @@ export function getMigrationSummary({
     )}
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `);
-
-  const duplicatedDepsMessage = installationMetadata
-    ? getDuplicatedDepsWarnings(installationMetadata)
-    : getDuplicatedDepsWarnings();
-
-  if (duplicatedDepsMessage) {
-    messages.push(duplicatedDepsMessage.join(messageDivider));
-  }
 
   const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
   const hasFailures = Object.values(fixResults).some(

@@ -26,6 +26,7 @@ import { removeJestTestingLibrary } from './remove-jest-testing-library';
 import { addonsAPI } from './addons-api';
 import { mdx1to3 } from './mdx-1-to-3';
 import { addonPostCSS } from './addon-postcss';
+import { upgradeStorybookRelatedDependencies } from './upgrade-storybook-related-dependencies';
 
 export * from '../types';
 
@@ -56,6 +57,7 @@ export const allFixes: Fix[] = [
   removeLegacyMDX1,
   webpack5CompilerSetup,
   mdx1to3,
+  upgradeStorybookRelatedDependencies,
 ];
 
 export const initFixes: Fix[] = [eslintPlugin];

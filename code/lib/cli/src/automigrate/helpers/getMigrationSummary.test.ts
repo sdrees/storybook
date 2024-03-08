@@ -129,35 +129,7 @@ describe('getMigrationSummary', () => {
       The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
 
       Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/docs/8.0/migration-guide
-      And reach out on Discord if you need help: https://discord.gg/storybook
-
-      ─────────────────────────────────────────────────
-
-      Critical: The following dependencies are duplicated and WILL cause unexpected behavior:
-
-      @storybook/instrumenter:
-      6.0.0, 7.1.0
-
-      @storybook/core-common:
-      6.0.0, 7.1.0
-
-
-
-
-      Attention: The following dependencies are duplicated which might cause unexpected behavior:
-
-      @storybook/addon-essentials:
-      7.0.0, 7.1.0
-
-
-
-
-      Please try de-duplicating these dependencies by running yarn dedupe
-
-
-
-
-      You can find more information for a given dependency by running yarn why <package-name>"
+      And reach out on Discord if you need help: https://discord.gg/storybook"
     `);
   });
 

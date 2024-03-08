@@ -261,7 +261,7 @@ export const doUpgrade = async ({
       mainConfigPath,
       beforeVersion,
       storybookVersion: currentVersion,
-      isUpgrade: true,
+      isUpgrade: isOutdated ? true : 'latest',
     });
   }
 

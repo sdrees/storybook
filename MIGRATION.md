@@ -4,7 +4,6 @@
   - [Portable stories](#portable-stories)
     - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
     - [Type change in `composeStories` API](#type-change-in-composestories-api)
-    - [DOM structure changed in portable stories](#dom-structure-changed-in-portable-stories)
     - [Composed Vue stories are now components instead of functions](#composed-vue-stories-are-now-components-instead-of-functions)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
@@ -439,35 +438,6 @@ await Primary.play!(...) // if you want a runtime error when the play function d
 ```
 
 There are plans to make the type of the play function be inferred based on your imported story's play function in a near future, so the types will be 100% accurate.
-
-#### DOM structure changed in portable stories
-
-The portable stories API now adds a wrapper to your stories with a unique id based on your story id, such as:
-
-```html
-<div data-story="true" id="#storybook-story-button--primary">
-  <!-- your story here -->
-</div>
-```
-
-This means that if you take DOM snapshots of your stories, they will be affected and you will have to update them.
-
-The id calculation is based on different heuristics based on your Meta title and Story name. When using `composeStories`, the id can be inferred automatically. However, when using `composeStory` and your story does not explicitly have a `storyName` property, the story name can't be inferred automatically. As a result, its name will be "Unnamed Story", resulting in a wrapper id like `"#storybook-story-button--unnamed-story"`. If the id matters to you and you want to fix it, you have to specify the `exportsName` property like so:
-
-```ts
-test("snapshots the story with custom id", () => {
-  const Primary = composeStory(
-    stories.Primary,
-    stories.default,
-    undefined,
-    // If you do not want the `unnamed-story` id, you have to pass the name of the story as a parameter
-    "Primary"
-  );
-
-  const { baseElement } = render(<Primary />);
-  expect(baseElement).toMatchSnapshot();
-});
-```
 
 #### Composed Vue stories are now components instead of functions
 
@@ -1105,6 +1075,7 @@ const preview: Preview = {
 
 export default preview;
 ```
+
 To learn more about the available icons and their names, see the [Storybook documentation](https://storybook.js.org/docs/8.0/faq#what-icons-are-available-for-my-toolbar-or-my-addon).
 
 #### Removals in @storybook/types

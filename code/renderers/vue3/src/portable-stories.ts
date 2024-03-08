@@ -2,7 +2,6 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-  getPortableStoryWrapperId,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -13,19 +12,9 @@ import type {
 } from '@storybook/types';
 import { h } from 'vue';
 
-import * as vueProjectAnnotations from './entry-preview';
+import * as defaultProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
-
-const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
-  ...vueProjectAnnotations,
-  decorators: [
-    function (story, { id }) {
-      const wrapperProps = { 'data-story': true, id: getPortableStoryWrapperId(id) };
-      return h('div', wrapperProps, h(story()));
-    },
-  ],
-};
 
 /** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
  *

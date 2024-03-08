@@ -1,9 +1,7 @@
-import React from 'react';
 import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-  getPortableStoryWrapperId,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -13,7 +11,7 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
-import * as reactProjectAnnotations from './entry-preview';
+import * as defaultProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { ReactRenderer } from './types';
 
@@ -37,20 +35,6 @@ export function setProjectAnnotations(
 ) {
   originalSetProjectAnnotations<ReactRenderer>(projectAnnotations);
 }
-
-// This will not be necessary once we have auto preset loading
-const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
-  ...reactProjectAnnotations,
-  decorators: [
-    function addStorybookId(StoryFn, { id }) {
-      return (
-        <div data-story id={getPortableStoryWrapperId(id)}>
-          <StoryFn />
-        </div>
-      );
-    },
-  ],
-};
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)

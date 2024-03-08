@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import type { FC, PropsWithChildren } from 'react';
 import React, { StrictMode, createElement, Profiler } from 'react';
 import type { Mock } from 'vitest';
@@ -5,7 +6,7 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
-import { renderJsx, jsxDecorator } from './jsxDecorator';
+import { renderJsx, jsxDecorator, getReactSymbolName } from './jsxDecorator';
 
 vi.mock('@storybook/preview-api');
 const mockedAddons = vi.mocked(addons);
@@ -14,6 +15,18 @@ const mockedUseEffect = vi.mocked(useEffect);
 expect.addSnapshotSerializer({
   print: (val: any) => val,
   test: (val) => typeof val === 'string',
+});
+
+describe('converts React Symbol to displayName string', () => {
+  const symbolCases = [
+    ['react.suspense', 'React.Suspense'],
+    ['react.strict_mode', 'React.StrictMode'],
+    ['react.server_context.defaultValue', 'React.ServerContext.DefaultValue'],
+  ];
+
+  it.each(symbolCases)('"%s" to "%s"', (symbol, expectedValue) => {
+    expect(getReactSymbolName(Symbol(symbol))).toEqual(expectedValue);
+  });
 });
 
 describe('renderJsx', () => {
@@ -139,53 +152,71 @@ describe('renderJsx', () => {
   });
 
   it('Profiler', () => {
-    function ProfilerComponent({ children }: any) {
-      return (
+    expect(
+      renderJsx(
         <Profiler id="profiler-test" onRender={() => {}}>
-          <div>{children}</div>
-        </Profiler>
-      );
-    }
-
-    expect(renderJsx(createElement(ProfilerComponent, {}, 'I am Profiler'), {}))
-      .toMatchInlineSnapshot(`
-        <ProfilerComponent>
-          I am Profiler
-        </ProfilerComponent>
+          <div>I am in a Profiler</div>
+        </Profiler>,
+        {}
+      )
+    ).toMatchInlineSnapshot(`
+      <React.Profiler
+        id="profiler-test"
+        onRender={() => {}}
+      >
+        <div>
+          I am in a Profiler
+        </div>
+      </React.Profiler>
     `);
   });
 
   it('StrictMode', () => {
-    function StrictModeComponent({ children }: any) {
-      return (
-        <StrictMode>
-          <div>{children}</div>
-        </StrictMode>
-      );
-    }
+    expect(renderJsx(<StrictMode>I am StrictMode</StrictMode>, {})).toMatchInlineSnapshot(`
+      <React.StrictMode>
+        I am StrictMode
+      </React.StrictMode>
+    `);
+  });
 
-    expect(renderJsx(createElement(StrictModeComponent, {}, 'I am StrictMode'), {}))
-      .toMatchInlineSnapshot(`
-        <StrictModeComponent>
-          I am StrictMode
-        </StrictModeComponent>
-      `);
+  it('displayName coming from docgenInfo', () => {
+    function BasicComponent({ label }: any) {
+      return <button>{label}</button>;
+    }
+    BasicComponent.__docgenInfo = {
+      description: 'Some description',
+      methods: [],
+      displayName: 'Button',
+      props: {},
+    };
+
+    expect(
+      renderJsx(
+        createElement(
+          BasicComponent,
+          {
+            label: <p>Abcd</p>,
+          },
+          undefined
+        )
+      )
+    ).toMatchInlineSnapshot(`<Button label={<p>Abcd</p>} />`);
   });
 
   it('Suspense', () => {
-    function SuspenseComponent({ children }: any) {
-      return (
+    expect(
+      renderJsx(
         <React.Suspense fallback={null}>
-          <div>{children}</div>
-        </React.Suspense>
-      );
-    }
-
-    expect(renderJsx(createElement(SuspenseComponent, {}, 'I am Suspense'), {}))
-      .toMatchInlineSnapshot(`
-      <SuspenseComponent>
-        I am Suspense
-      </SuspenseComponent>
+          <div>I am in Suspense</div>
+        </React.Suspense>,
+        {}
+      )
+    ).toMatchInlineSnapshot(`
+      <React.Suspense fallback={null}>
+        <div>
+          I am in Suspense
+        </div>
+      </React.Suspense>
     `);
   });
 

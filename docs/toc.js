@@ -24,6 +24,11 @@ module.exports = {
           type: 'menu',
           children: [
             {
+              pathSegment: 'angular',
+              title: 'Angular',
+              type: 'link',
+            },
+            {
               pathSegment: 'nextjs',
               title: 'Next.js',
               type: 'link',

@@ -56,7 +56,6 @@ export {
   filterArgTypes,
   sanitizeStoryContextUpdate,
   setProjectAnnotations,
-  getPortableStoryWrapperId,
   inferControls,
   userOrAutoTitleFromSpecifier,
   userOrAutoTitle,
