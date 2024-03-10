@@ -64,11 +64,11 @@ With CSF, every named export in the file represents a story object by default.
 
 The exported identifiers will be converted to "start case" using Lodash's [startCase](https://lodash.com/docs/#startCase) function. For example:
 
-| Identifier       |  Transformation   |
-| ---------------- | :---------------: |
-| name             |       Name        |
-| someName         |     Some Name     |
-| someNAME         |     Some NAME     |
+| Identifier       | Transformation    |
+| ---------------- | ----------------- |
+| name             | Name              |
+| someName         | Some Name         |
+| someNAME         | Some NAME         |
 | some_custom_NAME | Some Custom NAME  |
 | someName1234     | Some Name 1 2 3 4 |
 
