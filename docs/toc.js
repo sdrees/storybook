@@ -34,6 +34,21 @@ module.exports = {
               type: 'link',
             },
             {
+              pathSegment: 'react-vite',
+              title: 'React & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-webpack5',
+              title: 'React & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'svelte-vite',
+              title: 'Svelte & Vite',
+              type: 'link',
+            },
+            {
               pathSegment: 'vue3-vite',
               title: 'Vue & Vite',
               type: 'link',
@@ -183,12 +198,12 @@ module.exports = {
           children: [
             {
               pathSegment: 'snapshot-testing',
-              title: 'Storyshots',
+              title: 'Write',
               type: 'link',
             },
             {
               pathSegment: 'storyshots-migration-guide',
-              title: 'Migration guide',
+              title: 'Storyshots migration guide',
               type: 'link',
             },
           ],

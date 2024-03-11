@@ -1,11 +1,12 @@
 import { listCodemods, runCodemod } from '@storybook/codemod';
-import { runFixes } from './automigrate';
-import { mdxToCSF } from './automigrate/fixes/mdx-to-csf';
 import {
   JsPackageManagerFactory,
-  getStorybookInfo,
   getCoercedStorybookVersion,
+  getStorybookInfo,
 } from '@storybook/core-common';
+
+import { runFixes } from './automigrate';
+import { mdxToCSF } from './automigrate/fixes/mdx-to-csf';
 import { getStorybookVersionSpecifier } from './helpers';
 
 const logger = console;

@@ -103,6 +103,7 @@ export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
     mainConfigPath,
     configDir,
     isUpgrade: false,
+    isLatest: false,
   });
 
   if (outcome) {
@@ -125,6 +126,7 @@ export const automigrate = async ({
   skipInstall,
   hideMigrationSummary = false,
   isUpgrade,
+  isLatest,
 }: AutofixOptions): Promise<{
   fixResults: Record<string, FixStatus>;
   preCheckFailure?: PreCheckFailure;
@@ -140,7 +142,7 @@ export const automigrate = async ({
       // we only allow this automigration when the user explicitly asks for it, or they are upgrading to the latest version of storybook
       if (
         fix.id === upgradeStorybookRelatedDependencies.id &&
-        isUpgrade !== 'latest' &&
+        isLatest === false &&
         fixId !== upgradeStorybookRelatedDependencies.id
       ) {
         return false;

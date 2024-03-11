@@ -148,6 +148,7 @@ export const doUpgrade = async ({
   ]);
 
   const isOutdated = lt(currentVersion, latestVersion);
+  const isExactLatest = currentVersion === latestVersion;
   const isPrerelease = prerelease(currentVersion) !== null;
 
   const borderColor = isOutdated ? '#FC521F' : '#F1618C';
@@ -261,7 +262,8 @@ export const doUpgrade = async ({
       mainConfigPath,
       beforeVersion,
       storybookVersion: currentVersion,
-      isUpgrade: isOutdated ? true : 'latest',
+      isUpgrade: isOutdated,
+      isLatest: isExactLatest,
     });
   }
 

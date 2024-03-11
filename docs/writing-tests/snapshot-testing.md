@@ -1,5 +1,5 @@
 ---
-title: 'Snapshot testing with Storyshots'
+title: 'Write snapshot tests'
 ---
 
 Snapshot tests compare the rendered markup of every story against known baselines. It’s a way to identify markup changes that trigger rendering errors and warnings.
@@ -8,40 +8,28 @@ Storybook is a helpful tool for snapshot testing because every story is essentia
 
 ![Example Snapshot test](./snapshot-test.png)
 
-## Migrating Tests
+<Callout variant="info">
 
-The Storyshots addon was the original testing solution for Storybook, offering a highly extensible API and a wide range of configuration options for testing. However, it was difficult to set up and maintain, and it needed to be compatible with the latest version of Storybook, which introduced some significant architectural changes, including a high-performance [on-demand story loading](../configure/index.md#on-demand-story-loading) feature. As a result, Storyshots is now officially deprecated, is no longer being maintained, and will be removed in the next major release of Storybook. We recommend following the [migration guide](./storyshots-migration-guide.md) we've prepared to help you during this transition period.
-
-## Set up Storyshots
-
-<Callout variant="warning">
-
-The Storyshots addon was deprecated and has been removed in Storybook 8. See the [migration guide](./storyshots-migration-guide.md) for more information.
+If you're [upgrading](../configure/upgrading.md) to Storybook 8.0 and were using the Storyshots addon for snapshot testing, it was officially deprecated and removed with this release. See the [migration guide](./storyshots-migration-guide.md) for more information.
 
 </Callout>
 
-[Storyshots](https://storybook.js.org/addons/@storybook/addon-storyshots/) is a Storybook addon that enables snapshot testing, powered by [Jest](https://jestjs.io/docs/getting-started).
+## Automate snapshot tests with the test-runner
 
-Run the following command to install Storyshots:
+Storybook test-runner turns all of your stories into executable tests. Powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/). It's a standalone, framework-agnostic utility that runs parallel to your Storybook. It enables you to run multiple testing patterns in a multi-browser environment, including interaction testing with the [play function](./interaction-testing.md), DOM snapshot, and [accessibility testing](./accessibility-testing.md).
 
-<!-- prettier-ignore-start -->
+### Setup
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-storyshots-install.yarn.js.mdx',
-    'common/storybook-addon-storyshots-install.npm.js.mdx',
-  ]}
-/>
+To enable snapshot testing with the test-runner, you'll need to take additional steps to set it up properly. We recommend you go through the [test-runner documentation](./test-runner.md) before proceeding with the rest of the required configuration to learn more about the available options and APIs.
 
-<!-- prettier-ignore-end -->
-
-Add a test file to your environment with the following contents to configure Storyshots:
+Add a new [configuration file](./test-runner.md#test-hook-api) inside your Storybook directory with the following inside:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyshots-config.js.mdx',
+    'common/test-runner-dom-snapshot-testing.js.mdx',
+    'common/test-runner-dom-snapshot-testing.ts.mdx',
   ]}
 />
 
@@ -49,77 +37,166 @@ Add a test file to your environment with the following contents to configure Sto
 
 <Callout variant="info" icon="💡">
 
-You can name the test file differently to suit your needs. Bear in mind that it requires to be picked up by Jest.
+The `postVisit` hook allows you to extend the test runner's default configuration. Read more about them [here](./test-runner.md#test-hook-api).
 
 </Callout>
 
-Run your first test. Storyshots will recognize your stories (based on [.storybook/main.js's setup](../configure/story-rendering.md)) and save them in the **snapshots** directory.
+When you execute the test-runner (for example, with `yarn test-storybook`), it will run through all of your stories and run the snapshot tests, generating a snapshot file for each story in your project located in the `__snapshots__` directory.
 
-```shell
-npm test storybook.test.js
-```
+### Configure
 
-![Successful snapshot tests](./storyshots-pass.png)
+Out of the box, the test-runner provides an inbuilt snapshot testing configuration covering most use cases. You can also fine-tune the configuration to fit your needs via `test-storybook --eject` or by creating a `test-runner-jest.config.js` file at the root of your project.
 
-When you make changes to your components or stories, rerun the test to identify the changes to the rendered markup.
+#### Override the default snapshot directory
 
-![Failing snapshots](./storyshots-fail.png)
+The test-runner uses a specific naming convention and path for the generated snapshot files by default. If you need to customize the snapshot directory, you can define a custom snapshot resolver to specify the directory where the snapshots are stored.
 
-If they're intentional, accept them as new baselines. If the changes are bugs, fix the underlying code, then rerun the snapshot tests.
-
-### Configure the snapshot's directory
-
-If your project has a custom setup for snapshot testing, you'll need to take additional steps to run Storyshots. You'll need to install both [@storybook/addon-storyshots-puppeteer](https://storybook.js.org/addons/@storybook/addon-storyshots-puppeteer) and [puppeteer](https://github.com/puppeteer/puppeteer):
-
-```shell
-# With npm
-npm i -D @storybook/addon-storyshots-puppeteer puppeteer
-
-# With yarn
-yarn add @storybook/addon-storyshots-puppeteer puppeteer
-```
-
-Next, update your test file (for example, `storybook.test.js`) to the following:
+Create a `snapshot-resolver.js` file to implement a custom snapshot resolver:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyshots-custom-directory.js.mdx',
+    'common/test-runner-snapshot-resolver-custom-directory.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-<Callout variant="info" icon="💡">
-
-Don't forget to replace your-custom-directory with your own.
-
-</Callout>
-
-When you run your tests, the snapshots will be available in your specified directory.
-
-### Framework configuration
-
-By default, Storyshots detects your project's framework. If you encounter a situation where this is not the case, you can adjust the configuration object and specify your framework. For example, if you wanted to configure the addon for a Vue 3 project:
+Update the `test-runner-jest.config.js` file and enable the `snapshotResolver` option to use the custom snapshot resolver:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyshots-custom-framework.js.mdx',
+    'common/test-runner-config-snapshot-resolver.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-These are the frameworks currently supported by Storyshots: `angular`, `html`, `preact`, `react`, `react-native`, `svelte`, `vue`, `vue3`, and `web-components`.
+When the test-runner is executed, it will cycle through all of your stories and run the snapshot tests, generating a snapshot file for each story in your project located in the custom directory you specified.
 
-### Additional customization
+#### Customize snapshot serialization
 
-Storyshots is highly customizable and includes options for various advanced use cases. You can read more in the [addon’s documentation](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-core#options).
+By default, the test-runner uses [`jest-serializer-html`](https://github.com/algolia/jest-serializer-html) to serialize HTML snapshots. This may cause issues if you use specific CSS-in-JS libraries like [Emotion](https://emotion.sh/docs/introduction), Angular's `ng` attributes, or similar libraries that generate hash-based identifiers for CSS classes. If you need to customize the serialization of your snapshots, you can define a custom snapshot serializer to specify how the snapshots are serialized.
 
----
+Create a `snapshot-serializer.js` file to implement a custom snapshot serializer:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/test-runner-custom-snapshot-serializer.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Update the `test-runner-jest.config.js` file and enable the `snapshotSerializers` option to use the custom snapshot resolver:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/test-runner-config-serializer.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+When the test-runner executes your tests, it will introspect the resulting HTML, replacing the dynamically generated attributes with the static ones provided by the regular expression in the custom serializer file before snapshotting the component. This ensures that the snapshots are consistent across different test runs.
+
+<IfRenderer renderer={['react', 'vue' ]}>
+
+<!-- Needs better heading -->
+
+## Snapshot tests with Portable Stories
+
+Storybook provides a `composeStories` utility that helps convert stories from a test file into renderable elements that can be reused in your Node tests with JSDOM. It also allows you to apply other Storybook features that you have enabled your project (e.g., [decorators](../writing-stories/decorators.md), [args](../writing-stories/args.md)) into your tests, enabling you to reuse your stories in your testing environment of choice (e.g., [Jest](https://jestjs.io/), [Vitest](https://vitest.dev/)), ensuring your tests are always in sync with your stories without having to rewrite them. This is what we refer to as portable stories in Storybook.
+
+### Configure
+
+By default, Storybook offers a zero-config setup for React, Vue, and other frameworks via addons, allowing you to run your stories as tests with your testing environment of choice. However, if you're running tests and you've set up specific configurations in your Storybook instance (e.g., global [decorators](../writing-stories/decorators.md#global-decorators), [parameters](../writing-stories/parameters.md#global-parameters)) that you want to use in your tests, you'll need to extend your test setup to include these configurations. To do so, create a `setup.js|ts` file as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/storybook-testing-addon-optional-config.js.mdx',
+    'vue/storybook-testing-addon-optional-config.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Update your test configuration file (e.g., `vite.config.js|ts`) if you're using [Vitest](https://vitest.dev/) or your test script if you're using [Jest](https://jestjs.io/):
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/react-test-scripts-optional-config-scripts.json.mdx',
+    'react/storybook-testing-addon-optional-config.vite.js.mdx',
+    'react/storybook-testing-addon-optional-config.vite.ts.mdx',
+    'vue/storybook-testing-addon-optional-config.vite.js.mdx',
+    'vue/storybook-testing-addon-optional-config.vite.ts.mdx',
+    'vue/vue-jest-optional-config-scripts.jest.js.mdx',
+    'vue/vue-jest-optional-config-scripts.jest.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Run tests on a single story
+
+If you need to run tests on a single story, you can use the `composeStories` function from the appropriate framework to process it and apply any configuration you've defined in your stories (e.g., [decorators](../writing-stories/decorators.md), [args](../writing-stories/args.md)) and combine it with your testing environment to generate a snapshot file. For example, if you're working on a component and you want to test its default state, ensuring the expected DOM structure doesn't change, here's how you could write your test:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/button-snapshot-test-portable-stories.vitest.js.mdx',
+    'react/button-snapshot-test-portable-stories.jest.js.mdx',
+    'vue/button-snapshot-test-portable-stories.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Execute tests on multiple stories
+
+You can also use the `composeStories` function to test multiple stories. This is useful when you want to extend your test coverage to generate snapshots for the different states of the components in your project. To do so, you can write your test as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/snapshot-tests-portable-stories.vitest.js.mdx',
+    'common/snapshot-tests-portable-stories.vitest.ts.mdx',
+    'common/snapshot-tests-portable-stories.jest.js.mdx',
+    'common/snapshot-tests-portable-stories.jest.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+When your tests are executed in your testing environment, they will generate a single snapshot file with all the stories in your project (i.e.,`storybook.test.ts|js.snap`). However, if you need, you can extend your test file to generate individual snapshot files for each story in your project with Vitest's [`toMatchFileSnapshot`](https://vitest.dev/guide/snapshot.html#file-snapshots) API or Jest's [`jest-specific-snapshot`](https://github.com/igor-dv/jest-specific-snapshot) package. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/individual-snapshot-tests-portable-stories.vitest.js.mdx',
+    'common/individual-snapshot-tests-portable-stories.vitest.ts.mdx',
+    'common/individual-snapshot-tests-portable-stories.jest.js.mdx',
+    'common/individual-snapshot-tests-portable-stories.jest.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
 
 #### What’s the difference between snapshot tests and visual tests?
 

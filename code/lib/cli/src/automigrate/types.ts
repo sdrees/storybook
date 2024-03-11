@@ -1,5 +1,5 @@
-import type { StorybookConfigRaw } from '@storybook/types';
 import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 export interface CheckOptions {
   packageManager: JsPackageManager;
@@ -75,7 +75,8 @@ export interface AutofixOptions extends Omit<AutofixOptionsFromCLI, 'packageMana
   /**
    * Whether the migration is part of an upgrade.
    */
-  isUpgrade: false | true | 'latest';
+  isUpgrade: boolean;
+  isLatest: boolean;
 }
 export interface AutofixOptionsFromCLI {
   fixId?: FixId;
