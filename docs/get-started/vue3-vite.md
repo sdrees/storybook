@@ -28,8 +28,8 @@ Storybook for Vue & Vite is only supported in [Vue](?renderer=vue) projects.
 ## Requirements
 
 - Vue ≥ 3
-- Vite ≥ 3.0 (4.X recommended)
-- Storybook ≥ 7.0
+- Vite ≥ 4.0
+- Storybook ≥ 8.0
 
 ## Getting started
 
