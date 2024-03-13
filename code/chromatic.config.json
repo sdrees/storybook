@@ -3,6 +3,7 @@
   "projectToken": "80b312430ec4",
   "buildScriptName": "storybook:ui:build",
   "onlyChanged": true,
-  "storybookConfigDir": "./ui/.storybook",
-  "storybookBaseDir": "./code"
+  "storybookConfigDir": "ui/.storybook",
+  "storybookBaseDir": "./code",
+  "zip": true
 }

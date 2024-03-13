@@ -111,10 +111,10 @@ const Highlight: FC<PropsWithChildren<{ match?: Match }>> = React.memo(function 
   const { value, indices } = match;
   const { nodes: result } = indices.reduce<{ cursor: number; nodes: ReactNode[] }>(
     ({ cursor, nodes }, [start, end], index, { length }) => {
-      nodes.push(<span>{value.slice(cursor, start)}</span>);
-      nodes.push(<Mark>{value.slice(start, end + 1)}</Mark>);
+      nodes.push(<span key={`${index}-1`}>{value.slice(cursor, start)}</span>);
+      nodes.push(<Mark key={`${index}-2`}>{value.slice(start, end + 1)}</Mark>);
       if (index === length - 1) {
-        nodes.push(<span>{value.slice(end + 1)}</span>);
+        nodes.push(<span key={`${index}-3`}>{value.slice(end + 1)}</span>);
       }
       return { cursor: end + 1, nodes };
     },

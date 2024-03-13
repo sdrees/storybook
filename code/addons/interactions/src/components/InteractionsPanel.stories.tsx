@@ -3,7 +3,7 @@ import type { StoryObj, Meta } from '@storybook/react';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 import { userEvent, within, waitFor, expect } from '@storybook/test';
-import isChromatic from 'chromatic/isChromatic';
+import { isChromatic } from '../../../../ui/.storybook/isChromatic';
 
 import { getCalls, getInteractions } from '../mocks';
 import { InteractionsPanel } from './InteractionsPanel';

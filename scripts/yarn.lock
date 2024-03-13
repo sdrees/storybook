@@ -2760,6 +2760,7 @@ __metadata:
     boxen: "npm:^7.1.1"
     browser-assert: "npm:^1.2.1"
     chalk: "npm:^4.1.0"
+    chromatic: "npm:^11.0.0"
     codecov: "npm:^3.8.1"
     commander: "npm:^6.2.1"
     cross-env: "npm:^7.0.3"
@@ -5203,6 +5204,25 @@ __metadata:
   version: 2.0.0
   resolution: "chownr@npm:2.0.0"
   checksum: 594754e1303672171cc04e50f6c398ae16128eb134a88f801bf5354fd96f205320f23536a045d9abd8b51024a149696e51231565891d4efdab8846021ecf88e6
+  languageName: node
+  linkType: hard
+
+"chromatic@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "chromatic@npm:11.0.0"
+  peerDependencies:
+    "@chromatic-com/cypress": ^0.5.2 || ^1.0.0
+    "@chromatic-com/playwright": ^0.5.2 || ^1.0.0
+  peerDependenciesMeta:
+    "@chromatic-com/cypress":
+      optional: true
+    "@chromatic-com/playwright":
+      optional: true
+  bin:
+    chroma: dist/bin.js
+    chromatic: dist/bin.js
+    chromatic-cli: dist/bin.js
+  checksum: edd92b3fb370c8d358cd587392686e83af34aec0e5d6592bfc637d6b6c1f670f3910ff572182192dcf1adf8e34384f785597dcdcb89196482f0c6fa55547d1bf
   languageName: node
   linkType: hard
 

@@ -113,6 +113,7 @@
     "boxen": "^7.1.1",
     "browser-assert": "^1.2.1",
     "chalk": "^4.1.0",
+    "chromatic": "^11.0.0",
     "codecov": "^3.8.1",
     "commander": "^6.2.1",
     "cross-env": "^7.0.3",

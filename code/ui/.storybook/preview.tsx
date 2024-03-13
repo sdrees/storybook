@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import React, { Fragment, useEffect } from 'react';
-import isChromatic from 'chromatic/isChromatic';
+import { isChromatic } from './isChromatic';
 import {
   Global,
   ThemeProvider,

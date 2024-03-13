@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle,  @typescript-eslint/naming-convention */
-declare module 'chromatic/isChromatic';
 
 declare var DOCS_OPTIONS: any;
 declare var CONFIG_TYPE: 'DEVELOPMENT' | 'PRODUCTION';
