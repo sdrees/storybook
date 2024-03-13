@@ -1,1 +1,1 @@
-{"version":"8.0.0-rc.5","info":{"plain":"- CLI: Automigration fix version detection of upgrading related packages - [#26410](https://github.com/storybookjs/storybook/pull/26410), thanks @ndelangen!"}}
+{"version":"8.1.0-alpha.1","info":{"plain":"- Maintenance: Fix performance regressions  - [#26411](https://github.com/storybookjs/storybook/pull/26411), thanks @kasperpeulen!"}}

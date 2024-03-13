@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-api",
-  "version": "8.1.0-alpha.0",
+  "version": "8.1.0-alpha.1",
   "description": "",
   "keywords": [
     "storybook"
@@ -60,7 +60,6 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@jest/globals": "^29.5.0",
     "@storybook/core-common": "workspace:*",
     "ansi-to-html": "^0.6.11",
     "slash": "^5.0.0"

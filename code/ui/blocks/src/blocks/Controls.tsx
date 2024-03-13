@@ -7,7 +7,6 @@ import { filterArgTypes } from '@storybook/preview-api';
 import type { PropDescriptor } from '@storybook/preview-api';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
 
-import { mapValues } from 'lodash';
 import type { SortType } from '../components';
 import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '../components';
 import { DocsContext } from './DocsContext';
@@ -75,10 +74,15 @@ export const Controls: FC<ControlsProps> = (props) => {
   }
 
   const mainComponentName = getComponentName(component);
-  const subcomponentTabs = mapValues(subcomponents, (comp) => ({
-    rows: filterArgTypes(extractComponentArgTypes(comp, parameters), include, exclude),
-    sort,
-  }));
+  const subcomponentTabs = Object.fromEntries(
+    Object.entries(subcomponents).map(([key, comp]) => [
+      key,
+      {
+        rows: filterArgTypes(extractComponentArgTypes(comp, parameters), include, exclude),
+        sort,
+      },
+    ])
+  );
   const tabs = {
     [mainComponentName]: { rows: filteredArgTypes, sort },
     ...subcomponentTabs,

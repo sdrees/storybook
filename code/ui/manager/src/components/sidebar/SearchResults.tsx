@@ -128,7 +128,6 @@ const Title = styled.div(({ theme }) => ({
   justifyContent: 'start',
   gridAutoColumns: 'auto',
   gridAutoFlow: 'column',
-  color: theme.textMutedColor,
 
   '& > span': {
     display: 'block',
@@ -143,7 +142,6 @@ const Path = styled.div(({ theme }) => ({
   justifyContent: 'start',
   gridAutoColumns: 'auto',
   gridAutoFlow: 'column',
-  color: theme.textMutedColor,
   fontSize: `${theme.typography.size.s1 - 1}px`,
 
   '& > span': {

@@ -66,7 +66,7 @@ export const NumberControl: FC<NumberProps> = ({
     }
   }, [value]);
 
-  if (!forceVisible && value === undefined) {
+  if (value === undefined) {
     return (
       <Button
         variant="outline"

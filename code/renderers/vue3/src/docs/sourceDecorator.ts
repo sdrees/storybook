@@ -15,7 +15,7 @@ import type {
 import { baseParse } from '@vue/compiler-core';
 import type { ConcreteComponent, FunctionalComponent, VNode } from 'vue';
 import { h, isVNode, watch } from 'vue';
-import { kebabCase } from 'lodash';
+import kebabCase from 'lodash/kebabCase';
 import {
   attributeSource,
   htmlEventAttributeToVueEventAttribute,

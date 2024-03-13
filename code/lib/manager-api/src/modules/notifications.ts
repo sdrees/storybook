@@ -37,11 +37,13 @@ export const init: ModuleFn = ({ store }) => {
     clearNotification: (id) => {
       const { notifications } = store.getState();
 
-      store.setState({ notifications: notifications.filter((n) => n.id !== id) });
-
       const notification = notifications.find((n) => n.id === id);
-      if (notification && notification.onClear) {
-        notification.onClear({ dismissed: false });
+
+      if (notification) {
+        store.setState({ notifications: notifications.filter((n) => n.id !== id) });
+        if (notification.onClear) {
+          notification.onClear({ dismissed: false });
+        }
       }
     },
   };
