@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { PlayFunction, Renderer, StoryId, StrictArgTypes } from '@storybook/csf';
+import type {
+  PlayFunction,
+  ProjectAnnotations,
+  Renderer,
+  StoryId,
+  StrictArgTypes,
+} from '@storybook/csf';
 
 import type {
   AnnotatedStoryFn,
@@ -10,8 +16,6 @@ import type {
   StoryAnnotations,
   StoryAnnotationsOrFn,
 } from './csf';
-
-import type { ProjectAnnotations } from './story';
 
 // TODO -- I think the name "CSFExports" overlaps here a bit with the types in csfFile.ts
 // we might want to reconcile @yannbf

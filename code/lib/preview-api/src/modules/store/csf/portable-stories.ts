@@ -5,7 +5,7 @@ import type {
   Args,
   ComponentAnnotations,
   LegacyStoryAnnotationsOrFn,
-  ProjectAnnotations,
+  NamedOrDefaultProjectAnnotations,
   ComposedStoryPlayFn,
   ComposeStoryFn,
   Store_CSFExports,
@@ -14,6 +14,7 @@ import type {
   ComposedStoryFn,
   StrictArgTypes,
   PlayFunctionContext,
+  ProjectAnnotations,
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
@@ -26,11 +27,22 @@ import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
 let globalProjectAnnotations: ProjectAnnotations<any> = {};
 
+function extractAnnotation<TRenderer extends Renderer = Renderer>(
+  annotation: NamedOrDefaultProjectAnnotations<TRenderer>
+) {
+  // support imports such as
+  // import * as annotations from '.storybook/preview'
+  // in both cases: 1 - the file has a default export; 2 - named exports only
+  return 'default' in annotation ? annotation.default : annotation;
+}
+
 export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
-  projectAnnotations: ProjectAnnotations<TRenderer> | ProjectAnnotations<TRenderer>[]
+  projectAnnotations:
+    | NamedOrDefaultProjectAnnotations<TRenderer>
+    | NamedOrDefaultProjectAnnotations<TRenderer>[]
 ) {
   const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
-  globalProjectAnnotations = composeConfigs(annotations);
+  globalProjectAnnotations = composeConfigs(annotations.map(extractAnnotation));
 }
 
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(

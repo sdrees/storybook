@@ -7,6 +7,8 @@ import type {
 } from '@storybook/types';
 
 import { composeStory, composeStories, setProjectAnnotations } from './portable-stories';
+import * as defaultExportAnnotations from './__mocks__/defaultExportAnnotations.mockfile';
+import * as namedExportAnnotations from './__mocks__/namedExportAnnotations.mockfile';
 
 type StoriesModule = Store_CSFExports & Record<string, any>;
 
@@ -22,6 +24,18 @@ describe('composeStory', () => {
       primary: true,
     },
   };
+
+  it('should compose project annotations in all module formats', () => {
+    setProjectAnnotations([defaultExportAnnotations, namedExportAnnotations]);
+
+    const Story: Story = {
+      render: () => {},
+    };
+
+    const composedStory = composeStory(Story, meta);
+    expect(composedStory.parameters.fromAnnotations.asObjectImport).toEqual(true);
+    expect(composedStory.parameters.fromAnnotations.asDefaultImport).toEqual(true);
+  });
 
   it('should return story with composed annotations from story, meta and project', () => {
     const decoratorFromProjectAnnotations = vi.fn((StoryFn) => StoryFn());

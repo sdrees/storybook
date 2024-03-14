@@ -5,6 +5,7 @@ import {
 } from '@storybook/preview-api';
 import type {
   Args,
+  NamedOrDefaultProjectAnnotations,
   ProjectAnnotations,
   StoryAnnotationsOrFn,
   Store_CSFExports,
@@ -32,7 +33,9 @@ import type { VueRenderer } from './types';
  * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
-  projectAnnotations: ProjectAnnotations<VueRenderer> | ProjectAnnotations<VueRenderer>[]
+  projectAnnotations:
+    | NamedOrDefaultProjectAnnotations<VueRenderer>
+    | NamedOrDefaultProjectAnnotations<VueRenderer>[]
 ) {
   originalSetProjectAnnotations<VueRenderer>(projectAnnotations);
 }

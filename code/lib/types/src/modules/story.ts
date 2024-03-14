@@ -47,6 +47,11 @@ export type ProjectAnnotations<TRenderer extends Renderer> = CsfProjectAnnotatio
   renderToDOM?: RenderToCanvas<TRenderer>;
 };
 
+type NamedExportsOrDefault<TExport> = TExport | { default: TExport };
+
+export type NamedOrDefaultProjectAnnotations<TRenderer extends Renderer = Renderer> =
+  NamedExportsOrDefault<ProjectAnnotations<TRenderer>>;
+
 export type NormalizedProjectAnnotations<TRenderer extends Renderer = Renderer> = Omit<
   ProjectAnnotations<TRenderer>,
   'decorators' | 'loaders'
