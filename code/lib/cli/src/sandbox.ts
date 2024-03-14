@@ -10,7 +10,7 @@ import invariant from 'tiny-invariant';
 import { lt, prerelease } from 'semver';
 import type { Template, TemplateKey } from './sandbox-templates';
 import { allTemplates as TEMPLATES } from './sandbox-templates';
-import type { PackageJson, PackageManagerName } from '@storybook/core-common';
+import type { PackageManagerName } from '@storybook/core-common';
 import { JsPackageManagerFactory } from '@storybook/core-common';
 import { versions } from '@storybook/core-common';
 import { doInitiate } from './initiate';
@@ -28,10 +28,12 @@ type Choice = keyof typeof TEMPLATES;
 
 const toChoices = (c: Choice): prompts.Choice => ({ title: TEMPLATES[c].name, value: c });
 
-export const sandbox = async (
-  { output: outputDirectory, filterValue, init, ...options }: SandboxOptions,
-  pkg: PackageJson
-) => {
+export const sandbox = async ({
+  output: outputDirectory,
+  filterValue,
+  init,
+  ...options
+}: SandboxOptions) => {
   // Either get a direct match when users pass a template id, or filter through all templates
   let selectedConfig: Template | undefined = TEMPLATES[filterValue as TemplateKey];
   let templateId: Choice | null = selectedConfig ? (filterValue as TemplateKey) : null;
@@ -222,12 +224,9 @@ export const sandbox = async (
         const before = process.cwd();
         process.chdir(templateDestination);
         // we run doInitiate, instead of initiate, to avoid sending this init event to telemetry, because it's not a real world project
-        await doInitiate(
-          {
-            ...options,
-          },
-          pkg
-        );
+        await doInitiate({
+          ...options,
+        });
         process.chdir(before);
       }
     } catch (err) {

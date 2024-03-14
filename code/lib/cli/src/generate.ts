@@ -59,7 +59,7 @@ command('init')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
   .action((options: CommandOptions) => {
-    initiate(options, pkg).catch(() => process.exit(1));
+    initiate(options).catch(() => process.exit(1));
   });
 
 command('add <addon>')
@@ -155,7 +155,7 @@ command('sandbox [filterValue]')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    sandbox({ filterValue, ...options }, pkg).catch((e) => {
+    sandbox({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })

@@ -1,5 +1,4 @@
 import { appendFile, readFile } from 'fs/promises';
-import type { PackageJson } from 'read-pkg-up';
 import findUp from 'find-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
@@ -228,10 +227,7 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-export async function doInitiate(
-  options: CommandOptions,
-  pkg: PackageJson
-): Promise<
+export async function doInitiate(options: CommandOptions): Promise<
   | {
       shouldRunDev: true;
       projectType: ProjectType;
@@ -409,14 +405,14 @@ export async function doInitiate(
   };
 }
 
-export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+export async function initiate(options: CommandOptions): Promise<void> {
   const initiateResult = await withTelemetry(
     'init',
     {
       cliOptions: options,
       printError: (err) => !err.handled && logger.error(err),
     },
-    () => doInitiate(options, pkg)
+    () => doInitiate(options)
   );
 
   if (initiateResult?.shouldRunDev) {
