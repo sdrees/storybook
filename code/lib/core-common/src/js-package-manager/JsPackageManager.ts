@@ -535,6 +535,18 @@ export abstract class JsPackageManager {
     }
   }
 
+  /**
+   * Returns the installed (within node_modules or pnp zip) version of a specified package
+   */
+  public async getInstalledVersion(packageName: string): Promise<string | null> {
+    const installations = await this.findInstallations([packageName]);
+    if (!installations) {
+      return null;
+    }
+
+    return Object.entries(installations.dependencies)[0]?.[1]?.[0].version || null;
+  }
+
   public async executeCommand({
     command,
     args = [],
