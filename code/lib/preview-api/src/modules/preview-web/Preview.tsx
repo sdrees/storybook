@@ -100,9 +100,7 @@ export class Preview<TRenderer extends Renderer> {
         get: (_, method) => {
           if (this.storyStoreValue) {
             deprecate('Accessing the Story Store is deprecated and will be removed in 9.0');
-
-            // @ts-expect-error I'm not sure if there's a way to keep TS happy here
-            return this.storyStoreValue[method];
+            return this.storyStoreValue[method as keyof StoryStore<TRenderer>];
           }
 
           throw new StoryStoreAccessedBeforeInitializationError();

@@ -21,10 +21,9 @@ const isReactSyntheticEvent = (e: unknown): e is SyntheticEvent =>
       findProto(e, (proto) => /^Synthetic(?:Base)?Event$/.test(proto.constructor.name)) &&
       typeof (e as SyntheticEvent).persist === 'function'
   );
-const serializeArg = <T>(a: T) => {
+const serializeArg = <T extends object>(a: T) => {
   if (isReactSyntheticEvent(a)) {
     const e: SyntheticEvent = Object.create(
-      // @ts-expect-error (Converted from ts-ignore)
       a.constructor.prototype,
       Object.getOwnPropertyDescriptors(a)
     );
