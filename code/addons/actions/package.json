@@ -33,8 +33,12 @@
       "require": "./dist/decorator.js",
       "import": "./dist/decorator.mjs"
     },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs"
+    },
     "./manager": "./dist/manager.js",
-    "./preview": "./dist/preview.js",
     "./register.js": "./dist/manager.js",
     "./package.json": "./package.json"
   },

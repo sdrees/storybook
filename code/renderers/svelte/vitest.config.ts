@@ -8,6 +8,7 @@ export default defineConfig(
     test: {
       environment: 'jsdom',
       name: __dirname.split(sep).slice(-2).join(posix.sep),
+      // setupFiles: ['./vitest-setup.ts'],
     },
     plugins: [
       // eslint-disable-next-line import/no-unresolved

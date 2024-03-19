@@ -30,7 +30,11 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": "./dist/preview.js",
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",

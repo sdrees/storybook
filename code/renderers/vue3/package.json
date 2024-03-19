@@ -26,6 +26,12 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./experimental-playwright": {
+      "types": "./dist/playwright.d.ts",
+      "node": "./dist/playwright.js",
+      "require": "./dist/playwright.js",
+      "import": "./dist/playwright.mjs"
+    },
     "./preset": "./preset.js",
     "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
     "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
@@ -80,7 +86,8 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/entry-preview.ts",
-      "./src/entry-preview-docs.ts"
+      "./src/entry-preview-docs.ts",
+      "./src/playwright.ts"
     ],
     "platform": "browser"
   },
