@@ -1,11 +1,12 @@
+/* eslint-disable import/namespace */
 import React from 'react';
 import { vi, it, expect, afterEach, describe } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import { addons } from '@storybook/preview-api';
 //@ts-expect-error our tsconfig.jsn#moduleResolution is set to 'node', which doesn't support this import
-// eslint-disable-next-line import/namespace
+
 import * as addonInteractionsPreview from '@storybook/addon-interactions/preview';
-// eslint-disable-next-line import/namespace
+
 import * as addonActionsPreview from '@storybook/addon-actions/preview';
 import type { Meta } from '@storybook/react';
 import { expectTypeOf } from 'expect-type';

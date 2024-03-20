@@ -1,3 +1,13 @@
+## 8.0.2
+
+- Addon Docs: Fix [Object object] displayName in some JSX components - [#26566](https://github.com/storybookjs/storybook/pull/26566), thanks @yannbf!
+- CLI: Add yarn1 package manager fallback for init in empty directory - [#26500](https://github.com/storybookjs/storybook/pull/26500), thanks @valentinpalkovic!
+- CSF: Make sure loaders/decorators can be used as array - [#26514](https://github.com/storybookjs/storybook/pull/26514), thanks @kasperpeulen!
+- Controls: Fix disable condition in ArgControl component - [#26567](https://github.com/storybookjs/storybook/pull/26567), thanks @valentinpalkovic!
+- UI: Add key property to list children in Highlight component - [#26471](https://github.com/storybookjs/storybook/pull/26471), thanks @valentinpalkovic!
+- UI: Fix theming of elements inside bars - [#26527](https://github.com/storybookjs/storybook/pull/26527), thanks @valentinpalkovic!
+- UI: Improve empty state of addon panel - [#26481](https://github.com/storybookjs/storybook/pull/26481), thanks @yannbf!
+
 ## 8.0.1
 
 - Controls: Fix type summary when table.type unset - [#26283](https://github.com/storybookjs/storybook/pull/26283), thanks @shilman!

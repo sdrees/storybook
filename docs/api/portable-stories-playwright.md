@@ -10,8 +10,6 @@ export const SUPPORTED_RENDERERS = ['react', 'vue'];
 
 <Callout variant="info">
 
-The portable stories API for Playwright CT is experimental. Playwright CT itself is also experimental. Breaking changes might occur on either libraries in upcoming releases.
-
 Portable stories are currently only supported in [React](?renderer=react) and [Vue](?renderer=vue) projects.
 
 </Callout>
@@ -21,6 +19,12 @@ Portable stories are currently only supported in [React](?renderer=react) and [V
 </If>
 
 <If renderer={SUPPORTED_RENDERERS}>
+
+<Callout variant="info">
+
+The portable stories API for Playwright CT is experimental. Playwright CT itself is also experimental. Breaking changes might occur in either library in upcoming releases.
+
+</Callout>
 
 Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments, such as [Playwright Component Tests (CT)](https://playwright.dev/docs/test-components).
 
@@ -174,8 +178,6 @@ export default composeStories(stories);
 ```
 
 You can then import the composed stories in your Playwright test file, as in the [example above](#createtest).
-
-## createTest
 
 <Callout variant="info">
 

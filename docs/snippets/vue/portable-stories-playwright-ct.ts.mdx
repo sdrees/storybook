@@ -15,7 +15,7 @@ test('renders primary button', async ({ mount }) => {
   await mount(<stories.Primary />);
 });
 
-test('renders primary button with overriden props', async ({ mount }) => {
+test('renders primary button with overridden props', async ({ mount }) => {
   // You can pass custom props to your component via JSX
   const component = await mount(<stories.Primary label="label from test" />);
   await expect(component).toContainText('label from test');
