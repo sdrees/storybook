@@ -41,13 +41,13 @@ export const convert = (type: FlowType): SBType | void => {
     case 'signature':
       return { ...base, ...convertSig(type) };
     case 'union':
-      if (type.elements.every(isLiteral)) {
-        return { ...base, name: 'enum', value: type.elements.map(toEnumOption) };
+      if (type.elements?.every(isLiteral)) {
+        return { ...base, name: 'enum', value: type.elements?.map(toEnumOption) };
       }
-      return { ...base, name, value: type.elements.map(convert) };
+      return { ...base, name, value: type.elements?.map(convert) };
 
     case 'intersection':
-      return { ...base, name, value: type.elements.map(convert) };
+      return { ...base, name, value: type.elements?.map(convert) };
     default:
       return { ...base, name: 'other', value: name };
   }

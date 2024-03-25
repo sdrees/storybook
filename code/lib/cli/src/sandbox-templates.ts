@@ -429,6 +429,9 @@ const baseTemplates = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
     },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-vite/default-ts': {
@@ -438,6 +441,9 @@ const baseTemplates = {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
+    },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },

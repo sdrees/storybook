@@ -1,5 +1,5 @@
 import type { Options } from '@storybook/types';
-import { join, dirname } from 'path';
+import { join, dirname, isAbsolute } from 'path';
 import { readFile } from 'fs/promises';
 
 /**
@@ -16,6 +16,12 @@ const getIsReactVersion18 = async (options: Options) => {
 
   const resolvedReact = await options.presets.apply<{ reactDom?: string }>('resolvedReact', {});
   const reactDom = resolvedReact.reactDom || dirname(require.resolve('react-dom/package.json'));
+
+  if (!isAbsolute(reactDom)) {
+    // if react-dom is not resolved to a file we can't be sure if the version in package.json is correct or even if package.json exists
+    // this happens when react-dom is resolved to 'preact/compat' for example
+    return false;
+  }
 
   const { version } = JSON.parse(await readFile(join(reactDom, 'package.json'), 'utf-8'));
   return version.startsWith('18') || version.startsWith('0.0.0');

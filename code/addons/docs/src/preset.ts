@@ -1,4 +1,4 @@
-import { dirname, join } from 'path';
+import { dirname, join, isAbsolute } from 'path';
 import rehypeSlug from 'rehype-slug';
 import rehypeExternalLinks from 'rehype-external-links';
 
@@ -147,6 +147,8 @@ export const viteFinal = async (config: any, options: Options) => {
       resolve: {
         alias: {
           react,
+          // Vite doesn't respect export maps when resolving an absolute path, so we need to do that manually here
+          ...(isAbsolute(reactDom) && { 'react-dom/server': `${reactDom}/server.browser.js` }),
           'react-dom': reactDom,
           '@mdx-js/react': mdx,
           /**

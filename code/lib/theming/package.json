@@ -56,8 +56,8 @@
   },
   "devDependencies": {
     "@emotion/cache": "^11.11.0",
-    "@emotion/is-prop-valid": "^1.2.1",
-    "@emotion/react": "^11.11.1",
+    "@emotion/is-prop-valid": "^1.2.2",
+    "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^18.0.0",

@@ -4,7 +4,8 @@ title: 'How to write stories'
 
 <YouTubeCallout id="P0WHt_L0-2g" title="How to write Storybook stories | Component Story Format" />
 
-A story captures the rendered state of a UI component. It’s a function that returns a component’s state given a set of arguments.
+A story captures the rendered state of a UI component. It's an object with annotations that describe the component's behavior and appearance given a set
+of arguments.
 
 Storybook uses the generic term arguments (args for short) when talking about React’s `props`, Vue’s `props`, Angular’s `@Input`, and other similar concepts.
 
@@ -169,7 +170,7 @@ Your story will now be shown in the sidebar with the given text.
 
 ## How to write stories
 
-A story is a function that describes how to render a component. You can have multiple stories per component, and the simplest way to create stories is to render a component with different arguments multiple times.
+A story is an object that describes how to render a component. You can have multiple stories per component, and the simplest way to create stories is to render a component with different arguments multiple times.
 
 <!-- prettier-ignore-start -->
 
