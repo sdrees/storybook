@@ -576,7 +576,7 @@ export class Instrumenter {
   update(call: Call) {
     this.channel.emit(EVENTS.CALL, call);
     this.setState(call.storyId, ({ calls }) => {
-      // Omit earlier calls for the same ID, which may have been superceded by a later invocation.
+      // Omit earlier calls for the same ID, which may have been superseded by a later invocation.
       // This typically happens when calls are part of a callback which runs multiple times.
       const callsById = calls
         .concat(call)

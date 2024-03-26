@@ -53,7 +53,7 @@ _this description was written as a string in \`parameters.docs.description.story
 
 /**
  * This is the large button
- * _this description was written as a comment above the story, and should never be shown because it should be overriden by the description in the parameters_
+ * _this description was written as a comment above the story, and should never be shown because it should be overridden by the description in the parameters_
  */
 export const Large: Story = {
   args: {

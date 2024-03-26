@@ -225,7 +225,7 @@ describe('stories API', () => {
         },
       });
       const { index } = store.getState();
-      // We need exact key ordering, even if in theory JS doens't guarantee it
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index!)).toEqual(['a', 'a-b', 'a-b--1']);
       expect(index!.a).toMatchObject({
         type: 'root',
@@ -264,7 +264,7 @@ describe('stories API', () => {
         },
       });
       const { index } = store.getState();
-      // We need exact key ordering, even if in theory JS doens't guarantee it
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index!)).toEqual(['a', 'a--1']);
       expect(index!.a).toMatchObject({
         type: 'component',
@@ -295,7 +295,7 @@ describe('stories API', () => {
         },
       });
       const { index } = store.getState();
-      // We need exact key ordering, even if in theory JS doens't guarantee it
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index!)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
       expect(index!.a).toMatchObject({
         type: 'component',

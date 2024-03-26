@@ -13,6 +13,7 @@ import dedent from 'ts-dedent';
 import path from 'path';
 import type { JsPackageManager } from '@storybook/core-common';
 import { getCoercedStorybookVersion } from '@storybook/core-common';
+import { frameworkToRenderer } from '../../helpers';
 
 const logger = console;
 
@@ -34,6 +35,23 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfigRaw) => {
   return (
     Object.keys(frameworkPackages).find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath
   );
+};
+
+/**
+ * Given a Storybook configuration object, retrieves the inferred renderer name from the framework.
+ * @param mainConfig - The main Storybook configuration object to lookup.
+ * @returns - The renderer name. If not found, returns null.
+ */
+export const getRendererName = (mainConfig?: StorybookConfigRaw) => {
+  const frameworkPackageName = getFrameworkPackageName(mainConfig);
+
+  if (!frameworkPackageName) {
+    return null;
+  }
+
+  const frameworkName = frameworkPackages[frameworkPackageName];
+
+  return frameworkToRenderer[frameworkName as keyof typeof frameworkToRenderer];
 };
 
 /**

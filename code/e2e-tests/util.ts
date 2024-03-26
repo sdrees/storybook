@@ -83,7 +83,7 @@ export class SbPage {
   }
 
   async waitUntilLoaded() {
-    // make sure we start every test with clean state – to avoid possible flakyness
+    // make sure we start every test with clean state – to avoid possible flakiness
     await this.page.context().addInitScript(() => {
       const storeState = {
         layout: {

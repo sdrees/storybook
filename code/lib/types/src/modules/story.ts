@@ -79,7 +79,7 @@ export type NormalizedStoryAnnotations<TRenderer extends Renderer = Renderer> = 
   'storyName' | 'story' | 'decorators' | 'loaders'
 > & {
   moduleExport: ModuleExport;
-  // You cannot actually set id on story annotations, but we normalize it to be there for convience
+  // You cannot actually set id on story annotations, but we normalize it to be there for convenience
   id: StoryId;
   argTypes?: StrictArgTypes;
   name: StoryName;

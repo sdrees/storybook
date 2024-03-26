@@ -83,7 +83,7 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
     }
 
     const channel = addons.getChannel();
-    // this makes sure that in js enviroments like react native you can still get an id
+    // this makes sure that in js environments like react native you can still get an id
     const id = generateId();
     const minDepth = 5; // anything less is really just storybook internals
     const serializedArgs = args.map(serializeArg);
