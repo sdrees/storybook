@@ -1,6 +1,5 @@
 {
   "name": "@storybook/root",
-  "type": "module",
   "scripts": {
     "i": "yarn --cwd scripts && yarn --cwd code",
     "ci-tests": "cd code; yarn ci-tests",
