@@ -126,6 +126,7 @@ command('migrate [migration]')
   .option('-l --list', 'List available migrations')
   .option('-g --glob <glob>', 'Glob for files upon which to apply the migration', '**/*.js')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option(
     '-n --dry-run',
     'Dry run: verify the migration exists and show the files to which it will be applied'
@@ -142,7 +143,6 @@ command('migrate [migration]')
       list,
       rename,
       parser,
-      logger: consoleLogger,
     }).catch((err) => {
       logger.error(err);
       process.exit(1);

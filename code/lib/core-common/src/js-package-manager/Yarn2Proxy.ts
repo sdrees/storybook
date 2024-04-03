@@ -36,6 +36,7 @@ const CRITICAL_YARN2_ERROR_CODES = {
   YN0083: 'AUTOMERGE_GIT_ERROR',
 };
 
+// @ts-expect-error The error codes might be helpful in the future
 const YARN2_ERROR_CODES = {
   ...CRITICAL_YARN2_ERROR_CODES,
   YN0000: 'UNNAMED',
@@ -306,10 +307,12 @@ export class Yarn2Proxy extends JsPackageManager {
     while ((match = regex.exec(logs)) !== null) {
       const code = match[1];
       const message = match[2].replace(/[┌│└]/g, '').trim();
-      if (CRITICAL_YARN2_ERROR_CODES[code]) {
+      if (code in CRITICAL_YARN2_ERROR_CODES) {
         errorCodesWithMessages.push({
           code,
-          message: `${CRITICAL_YARN2_ERROR_CODES[code]}\n-> ${message}\n`,
+          message: `${
+            CRITICAL_YARN2_ERROR_CODES[code as keyof typeof CRITICAL_YARN2_ERROR_CODES]
+          }\n-> ${message}\n`,
         });
       }
     }

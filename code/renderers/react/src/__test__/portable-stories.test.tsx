@@ -3,7 +3,6 @@ import React from 'react';
 import { vi, it, expect, afterEach, describe } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import { addons } from '@storybook/preview-api';
-//@ts-expect-error our tsconfig.jsn#moduleResolution is set to 'node', which doesn't support this import
 
 import * as addonInteractionsPreview from '@storybook/addon-interactions/preview';
 
@@ -92,6 +91,7 @@ describe('projectAnnotations', () => {
   });
 
   it('has spies when addon-interactions annotations are added', async () => {
+    //@ts-expect-error TODO investigate
     const Story = composeStory(stories.WithActionArg, stories.default, addonInteractionsPreview);
     expect(vi.mocked(Story.args.someActionArg!).mock).toBeDefined();
 
