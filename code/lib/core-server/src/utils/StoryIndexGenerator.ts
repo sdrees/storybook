@@ -1,7 +1,6 @@
 import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
-import glob from 'globby';
 import slash from 'slash';
 import invariant from 'tiny-invariant';
 
@@ -124,7 +123,11 @@ export class StoryIndexGenerator {
         const fullGlob = slash(
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
-        const files = await glob(fullGlob, commonGlobOptions(fullGlob));
+
+        // Dynamically import globby because it is a pure ESM module
+        const { globby } = await import('globby');
+
+        const files = await globby(fullGlob, commonGlobOptions(fullGlob));
 
         if (files.length === 0) {
           once.warn(

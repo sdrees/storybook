@@ -1,7 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { join } from 'path';
 import slash from 'slash';
-import glob from 'globby';
 import { commonGlobOptions } from '@storybook/core-common';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
@@ -46,7 +45,10 @@ export const mdxgfm: Fix<Options> = {
         return false;
       }
 
-      const files = await glob(pattern, commonGlobOptions(pattern));
+      // Dynamically import globby because it is a pure ESM module
+      const { globby } = await import('globby');
+
+      const files = await globby(pattern, commonGlobOptions(pattern));
 
       return files.some((f) => f.endsWith('.mdx'));
     }, Promise.resolve(false));

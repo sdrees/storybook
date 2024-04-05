@@ -80,7 +80,7 @@
     "fs-extra": "^11.1.0",
     "get-npm-tarball-url": "^2.0.3",
     "giget": "^1.0.0",
-    "globby": "^11.0.2",
+    "globby": "^14.0.1",
     "jscodeshift": "^0.15.1",
     "leven": "^3.1.0",
     "ora": "^5.4.1",
