@@ -596,7 +596,7 @@ jobs:
           at: .
       - run:
           name: Install dependencies
-          command: yarn install
+          command: yarn install --no-immutable
           working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
       - run:
           name: Run Jest tests

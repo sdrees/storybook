@@ -4,6 +4,7 @@ import {
   rendererPackages,
   frameworkPackages,
   builderPackages,
+  extractProperFrameworkName,
 } from '@storybook/core-common';
 import type { StorybookConfigRaw, StorybookConfig } from '@storybook/types';
 import type { ConfigFile } from '@storybook/csf-tools';
@@ -30,11 +31,7 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfigRaw) => {
     return null;
   }
 
-  const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
-
-  return (
-    Object.keys(frameworkPackages).find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath
-  );
+  return extractProperFrameworkName(packageNameOrPath);
 };
 
 /**

@@ -2583,6 +2583,10 @@ __metadata:
   resolution: "@storybook/addon-controls@portal:../../../code/addons/controls::locator=portable-stories-react%40workspace%3A."
   dependencies:
     "@storybook/blocks": "workspace:*"
+    "@storybook/core-common": "workspace:*"
+    cjs-module-lexer: "npm:^1.2.3"
+    es-module-lexer: "npm:^1.5.0"
+    globby: "npm:^14.0.1"
     lodash: "npm:^4.17.21"
     ts-dedent: "npm:^2.0.0"
   languageName: node
@@ -5117,7 +5121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cjs-module-lexer@npm:^1.0.0":
+"cjs-module-lexer@npm:^1.0.0, cjs-module-lexer@npm:^1.2.3":
   version: 1.2.3
   resolution: "cjs-module-lexer@npm:1.2.3"
   checksum: 10/f96a5118b0a012627a2b1c13bd2fcb92509778422aaa825c5da72300d6dcadfb47134dd2e9d97dfa31acd674891dd91642742772d19a09a8adc3e56bd2f5928c

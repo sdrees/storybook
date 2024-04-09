@@ -7,6 +7,7 @@ export * from './utils/cli';
 export * from './utils/check-addon-order';
 export * from './utils/envs';
 export * from './utils/common-glob-options';
+export * from './utils/framework-to-renderer';
 export * from './utils/get-builder-options';
 export * from './utils/get-framework-name';
 export * from './utils/get-renderer-name';
