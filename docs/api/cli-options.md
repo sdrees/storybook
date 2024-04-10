@@ -132,6 +132,7 @@ Options include:
 | Option                     | Description                                                                                                                                                                     |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `-h`, `--help`             | Output usage information <br/>`storybook add --help`                                                                                                                            |
+| `-c`, `--config-dir`       | Directory where to load Storybook configurations from<br/>`storybook migrate --config-dir .storybook`                                                                           |
 | `--package-manager`        | Sets the package manager to use when installing the addon.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook add [addon] --package-manager pnpm` |
 | `-s`, `--skip-postinstall` | Skips post-install configuration. Used only when you need to configure the addon yourself<br/>`storybook add [addon] --skip-postinstall`                                        |
 | `--debug`                  | Outputs more logs in the CLI to assist debugging<br/>`storybook add --debug`                                                                                                    |

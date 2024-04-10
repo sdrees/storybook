@@ -68,6 +68,7 @@ command('add <addon>')
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
 
