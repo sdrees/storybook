@@ -48,7 +48,7 @@ export const vta: Fix<Options> = {
 
       await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         logger.info(`✅ Adding "@chromatic-com/storybook" addon`);
-        main.appendValueToArray(['addons'], '@chromatic-dom/storybook');
+        main.appendValueToArray(['addons'], '@chromatic-com/storybook');
       });
     }
   },

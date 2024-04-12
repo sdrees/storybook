@@ -202,12 +202,12 @@ The test-runner renders a story and executes its [play function](../writing-stor
 The test-runner exports test hooks that can be overridden globally to enable use cases like visual or DOM snapshots. These hooks give you access to the test lifecycle _before_ and _after_ the story is rendered.
 Listed below are the available hooks and an overview of how to use them.
 
-| Hook        | Description                                                                                                     |
-| ----------- | --------------------------------------------------------------------------------------------------------------- |
-| `prepare`   | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`               |
-| `setup`     | Executes once before all the tests run<br/>`setup() {}`                                                         |
+| Hook        | Description                                                                                                  |
+| ----------- | ------------------------------------------------------------------------------------------------------------ |
+| `prepare`   | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`            |
+| `setup`     | Executes once before all the tests run<br/>`setup() {}`                                                      |
 | `preVisit`  | Executes before a story is initially visited and rendered in the browser<br/>`async preVisit(page, context) {}` |
-| `postVisit` | Executes after the story is is visited and fully rendered<br/>`async postVisit(page, context) {}`               |
+| `postVisit` | Executes after the story is visited and fully rendered<br/>`async postVisit(page, context) {}`               |
 
 <Callout variant="info" icon="💡">
 

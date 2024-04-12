@@ -509,7 +509,7 @@ export class StoryIndexGenerator {
       // Otherwise the existing entry is created by `autodocs=true` which allowed to be overridden.
     } else {
       // If both entries are templates (e.g. you have two CSF files with the same title), then
-      //   we need to merge the entries. We'll use the the first one's name and importPath,
+      //   we need to merge the entries. We'll use the first one's name and importPath,
       //   but ensure we include both as storiesImports so they are both loaded before rendering
       //   the story (for the <Stories> block & friends)
       return {

@@ -5477,7 +5477,7 @@ Currently there is no recommended way of accessing the component options of a st
 
 ## From version 4.0.x to 4.1.x
 
-There are are a few migrations you should be aware of in 4.1, including one unintentionally breaking change for advanced addon usage.
+There are a few migrations you should be aware of in 4.1, including one unintentionally breaking change for advanced addon usage.
 
 ### Private addon config
 

@@ -27,6 +27,7 @@ export enum Category {
   RENDERER_VUE = 'RENDERER_VUE',
   RENDERER_VUE3 = 'RENDERER_VUE3',
   RENDERER_WEB_COMPONENTS = 'RENDERER_WEB-COMPONENTS',
+  FRAMEWORK_NEXTJS = 'FRAMEWORK_NEXTJS',
 }
 
 export class MissingStoryAfterHmrError extends StorybookError {
@@ -233,5 +234,21 @@ export class StoryStoreAccessedBeforeInitializationError extends StorybookError 
 
     It is not recommended to use methods directly on the Story Store anyway, in Storybook 9 we will
     remove access to the store entirely`;
+  }
+}
+
+export class NextJsSharpError extends StorybookError {
+  readonly category = Category.FRAMEWORK_NEXTJS;
+
+  readonly code = 1;
+
+  readonly documentation = 'https://storybook.js.org/docs/get-started/nextjs#faq';
+
+  template() {
+    return dedent`
+    You are importing avif images, but you don't have sharp installed.
+
+    You have to install sharp in order to use image optimization features in Next.js.
+    `;
   }
 }
