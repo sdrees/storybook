@@ -250,10 +250,10 @@ export function prepareContext<
       return acc;
     }
 
-    const mappingFn = (originalValue: any) =>
-      originalValue in targetedContext.argTypes[key].mapping
-        ? targetedContext.argTypes[key].mapping[originalValue]
-        : originalValue;
+    const mappingFn = (originalValue: any) => {
+      const mapping = targetedContext.argTypes[key].mapping;
+      return mapping && originalValue in mapping ? mapping[originalValue] : originalValue;
+    };
 
     acc[key] = Array.isArray(val) ? val.map(mappingFn) : mappingFn(val);
 

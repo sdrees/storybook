@@ -66,7 +66,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract events for component 
     "name": "bar",
     "table": {
       "category": "events",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "{ year: number; title?: any }",
@@ -86,7 +86,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract events for component 
     "name": "baz",
     "table": {
       "category": "events",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": undefined,
     },
@@ -109,7 +109,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract expose for component 
     "name": "count",
     "table": {
       "category": "expose",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": undefined,
     },
@@ -126,7 +126,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract expose for component 
     "name": "label",
     "table": {
       "category": "expose",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": undefined,
     },
@@ -510,7 +510,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "array",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "MyNestedProps[]",
@@ -527,7 +527,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "arrayOptional",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "MyNestedProps[]",
@@ -562,7 +562,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "baz",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "boolean",
@@ -578,7 +578,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "enumValue",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "MyEnum",
@@ -595,7 +595,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "foo",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "string",
@@ -611,7 +611,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "inlined",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "{ foo: string }",
@@ -628,7 +628,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "literalFromContext",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "MyCategories",
@@ -645,7 +645,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "nested",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "MyNestedProps",
@@ -662,7 +662,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "nestedIntersection",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "MyNestedProps & {
@@ -684,7 +684,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "nestedOptional",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "MyNestedProps | MyIgnoredNestedProps",
@@ -710,7 +710,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "recursive",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "MyNestedRecursiveProps",
@@ -746,7 +746,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "union",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "string | number",
@@ -770,7 +770,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
     "name": "unionOptional",
     "table": {
       "category": "props",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "string | number | boolean",
@@ -802,7 +802,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
     "name": "default",
     "table": {
       "category": "slots",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "{ num: unknown }",
@@ -819,7 +819,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
     "name": "named",
     "table": {
       "category": "slots",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "{ str: unknown }",
@@ -836,7 +836,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
     "name": "no-bind",
     "table": {
       "category": "slots",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": undefined,
     },
@@ -851,7 +851,7 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
     "name": "vbind",
     "table": {
       "category": "slots",
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "summary": "{ num: unknown; str: unknown }",

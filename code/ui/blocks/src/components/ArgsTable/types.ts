@@ -46,11 +46,11 @@ export interface ArgType {
     disable?: boolean;
     subcategory?: string;
     defaultValue?: {
-      summary: string;
+      summary?: string;
       detail?: string;
     };
     type?: {
-      summary: string;
+      summary?: string;
       detail?: string;
     };
     readonly?: boolean;

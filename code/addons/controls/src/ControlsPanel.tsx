@@ -35,8 +35,10 @@ export const ControlsPanel: FC = () => {
   const hasControls = Object.values(rows).some((arg) => arg?.control);
 
   const withPresetColors = Object.entries(rows).reduce((acc, [key, arg]) => {
-    if (arg?.control?.type !== 'color' || arg?.control?.presetColors) acc[key] = arg;
-    else acc[key] = { ...arg, control: { ...arg.control, presetColors } };
+    const control = arg?.control;
+    if (typeof control !== 'object' || control?.type !== 'color' || control?.presetColors)
+      acc[key] = arg;
+    else acc[key] = { ...arg, control: { ...control, presetColors } };
     return acc;
   }, {} as ArgTypes);
 

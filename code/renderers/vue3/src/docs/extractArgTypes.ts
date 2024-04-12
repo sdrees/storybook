@@ -127,7 +127,7 @@ export const extractFromVueDocgenApi = (
     type: sbType ? { ...sbType, required } : { name: 'other', value: type ?? '' },
     table: {
       type: type ? { summary: type } : undefined,
-      defaultValue: extractedProp?.propDef.defaultValue,
+      defaultValue: extractedProp?.propDef.defaultValue ?? undefined,
       jsDocTags: extractedProp?.propDef.jsDocTags,
       category: section,
     },
