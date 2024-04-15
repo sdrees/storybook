@@ -65,6 +65,7 @@
     "node-fetch": "^2.0.0",
     "picomatch": "^2.3.0",
     "pkg-dir": "^5.0.0",
+    "prettier-fallback": "npm:prettier@^3",
     "pretty-hrtime": "^1.0.3",
     "resolve-from": "^5.0.0",
     "semver": "^7.3.7",
@@ -80,11 +81,22 @@
     "@types/node": "^18.0.0",
     "@types/node-fetch": "^2.6.4",
     "@types/picomatch": "^2.3.0",
+    "@types/prettier-v2": "npm:@types/prettier@^2",
     "@types/pretty-hrtime": "^1.0.0",
     "mock-fs": "^5.2.0",
+    "prettier-v2": "npm:prettier@^2",
+    "prettier-v3": "npm:prettier@^3",
     "slash": "^5.0.0",
     "type-fest": "~2.19",
     "typescript": "^5.3.2"
+  },
+  "peerDependencies": {
+    "prettier": "^2 || ^3"
+  },
+  "peerDependenciesMeta": {
+    "prettier": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
