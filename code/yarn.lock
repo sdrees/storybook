@@ -5903,6 +5903,7 @@ __metadata:
   dependencies:
     "@babel/preset-react": "npm:^7.23.3"
     "@storybook/core-common": "workspace:*"
+    "@storybook/core-events": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/doctrine": "npm:^0.0.3"

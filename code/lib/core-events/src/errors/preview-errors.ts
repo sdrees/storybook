@@ -11,6 +11,7 @@ import { StorybookError } from './storybook-error';
  * to prevent manager and preview errors from having the same category and error code.
  */
 export enum Category {
+  DOCS_TOOLS = 'DOCS-TOOLS',
   PREVIEW_CLIENT_LOGGER = 'PREVIEW_CLIENT-LOGGER',
   PREVIEW_CHANNELS = 'PREVIEW_CHANNELS',
   PREVIEW_CORE_EVENTS = 'PREVIEW_CORE-EVENTS',
@@ -250,5 +251,23 @@ export class NextJsSharpError extends StorybookError {
 
     You have to install sharp in order to use image optimization features in Next.js.
     `;
+  }
+}
+
+export class UnknownArgTypesError extends StorybookError {
+  readonly category = Category.DOCS_TOOLS;
+
+  readonly code = 1;
+
+  constructor(public data: { type: object; language: string }) {
+    super();
+  }
+
+  template() {
+    return `There was a failure when generating ArgTypes in ${
+      this.data.language
+    } for ${JSON.stringify(this.data.type)}
+    This type is either not supported or it is a bug in Storybook.
+    If you think this is a bug, please open an issue in Github.`;
   }
 }
