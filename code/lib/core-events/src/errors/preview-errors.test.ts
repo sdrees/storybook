@@ -8,11 +8,22 @@ describe('UnknownFlowArgTypesError', () => {
       raw: "SomeType['someProperty']",
     };
 
-    const message = `"There was a failure when generating ArgTypes in Typescript for {"name":"signature","raw":"SomeType['someProperty']"}
-    This type is either not supported or it is a bug in Storybook.
-    If you think this is a bug, please open an issue in Github."`;
-
     const typeError = new UnknownArgTypesError({ type, language: 'Typescript' });
-    expect(typeError.message).toMatchInlineSnapshot(message);
+    expect(typeError.message).toMatchInlineSnapshot(`
+      "There was a failure when generating detailed ArgTypes in Typescript for:
+
+      {
+        "name": "signature",
+        "raw": "SomeType['someProperty']"
+      } 
+
+      Storybook will fall back to use a generic type description instead.
+
+      This type is either not supported or it is a bug in the docgen generation in Storybook.
+      If you think this is a bug, please detail it as much as possible in the Github issue.
+
+      More info: https://github.com/storybookjs/storybook/issues/26606
+      "
+    `);
   });
 });

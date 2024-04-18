@@ -659,6 +659,12 @@ exports[`renders navigationStories stories renders Default 1`] = `
           /hello
         </div>
         <div>
+          segment: 
+        </div>
+        <div>
+          segments: 
+        </div>
+        <div>
           searchparams:
            
           <ul>
@@ -666,6 +672,216 @@ exports[`renders navigationStories stories renders Default 1`] = `
               foo
               : 
               bar
+            </li>
+          </ul>
+        </div>
+        <div>
+          params:
+           
+          <ul />
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Go back
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Go forward
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Prefetch
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Push HTML
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Refresh
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Replace
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`renders navigationStories stories renders WithSegmentDefined 1`] = `
+<body>
+  <div>
+    <div
+      data-testid="global-decorator"
+    >
+      Global Decorator
+      <br />
+      <div>
+        <div>
+          pathname: 
+          /hello
+        </div>
+        <div>
+          segment: 
+          dashboard
+        </div>
+        <div>
+          segments: 
+          dashboard,settings
+        </div>
+        <div>
+          searchparams:
+           
+          <ul>
+            <li>
+              foo
+              : 
+              bar
+            </li>
+          </ul>
+        </div>
+        <div>
+          params:
+           
+          <ul />
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Go back
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Go forward
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Prefetch
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Push HTML
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Refresh
+          </button>
+        </div>
+        <div
+          style="margin-bottom: 1em;"
+        >
+          <button
+            type="button"
+          >
+            Replace
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`renders navigationStories stories renders WithSegmentDefinedForParams 1`] = `
+<body>
+  <div>
+    <div
+      data-testid="global-decorator"
+    >
+      Global Decorator
+      <br />
+      <div>
+        <div>
+          pathname: 
+          /hello
+        </div>
+        <div>
+          segment: 
+          hello
+        </div>
+        <div>
+          segments: 
+          hello,nextjs
+        </div>
+        <div>
+          searchparams:
+           
+          <ul>
+            <li>
+              foo
+              : 
+              bar
+            </li>
+          </ul>
+        </div>
+        <div>
+          params:
+           
+          <ul>
+            <li>
+              slug
+              : 
+              hello
+            </li>
+            <li>
+              framework
+              : 
+              nextjs
             </li>
           </ul>
         </div>
