@@ -533,6 +533,32 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
 
   Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
 
+  const previewHeadCode = `
+    (head) => \`
+      \${head}
+      ${templateConfig.previewHead || ''}
+      <style>
+        /* explicitly set monospace font stack to workaround inconsistent fonts in Chromatic */
+        pre, code, kbd, samp {
+          font-family:
+            ui-monospace,
+            Menlo,
+            Monaco,
+            "Cascadia Mono",
+            "Segoe UI Mono",
+            "Roboto Mono",
+            "Oxygen Mono",
+            "Ubuntu Monospace",
+            "Source Code Pro",
+            "Fira Mono",
+            "Droid Sans Mono",
+            "Courier New",
+            monospace;
+        }
+      </style>
+    \``;
+  mainConfig.setFieldNode(['previewHead'], babelParse(previewHeadCode).program.body[0].expression);
+
   // Simulate Storybook Lite
   if (disableDocs) {
     const addons = mainConfig.getFieldValue(['addons']);

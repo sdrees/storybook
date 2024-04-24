@@ -2,6 +2,7 @@
 
 - [From version 8.0 to 8.1.0](#from-version-80-to-810)
   - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
+      - [Title block](#title-block)
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Portable stories](#portable-stories)
     - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
@@ -412,6 +413,12 @@
 The `Subtitle` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
 
 `parameters.componentSubtitle` has been deprecated to be consistent with other parameters related to autodocs, instead use `parameters.docs.subtitle`.
+
+##### Title block
+
+The `Title` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
+
+It still accepts being passed `children`.
 
 ## From version 7.x to 8.0.0
 
