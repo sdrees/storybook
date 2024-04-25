@@ -18,6 +18,11 @@ interface FibonacciMap {
   [key: string]: number;
 }
 
+function Counter() {
+  const [count, setCount] = React.useState(0);
+  return <button onClick={() => setCount((prev) => prev + 1)}>{count}</button>;
+}
+
 function fibonacci(num: number, memo?: FibonacciMap): number {
   if (!memo) {
     memo = {};
@@ -376,3 +381,22 @@ export const StatelessWithCustomEmpty = {
     />
   ),
 } satisfies StoryObj<typeof Tabs>;
+
+export const StatefulWithStatefulPanel = {
+  render: (args) => {
+    const [update, setUpdate] = React.useState(0);
+    return (
+      <div>
+        <button onClick={() => setUpdate((prev) => prev + 1)}>Update</button>
+        <TabsState initial="test-1" {...args}>
+          <div id="test-1" title="Test 1">
+            <Counter key={update} />
+          </div>
+          <div id="test-2" title="Test 2">
+            <Counter key={update} />
+          </div>
+        </TabsState>
+      </div>
+    );
+  },
+} satisfies Story;
