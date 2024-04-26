@@ -67,7 +67,7 @@ test.describe('addon-docs', () => {
         await new Promise(resolve => resolve('Play function'));
       }
     }`;
-    await expect(sourceCode.textContent()).resolves.toContain(expectedSource);
+    await expect(sourceCode).toHaveText(expectedSource);
   });
 
   test('should render errors', async ({ page }) => {
