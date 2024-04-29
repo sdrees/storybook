@@ -50,7 +50,7 @@ export const ActionLogger = ({ actions, onClear }: ActionLoggerProps) => (
               sortObjectKeys
               showNonenumerable={false}
               name={action.data.name}
-              data={action.data.args || action.data}
+              data={action.data.args ?? action.data}
             />
           </InspectorContainer>
         </Action>

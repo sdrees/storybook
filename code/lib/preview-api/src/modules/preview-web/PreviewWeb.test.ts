@@ -2735,6 +2735,60 @@ describe('PreviewWeb', () => {
       });
     });
 
+    describe('if called twice simultaneously', () => {
+      it('does not get renders confused', async () => {
+        const [blockImportFnGate, openBlockImportFnGate] = createGate();
+        const [importFnCalledGate, openImportFnCalledGate] = createGate();
+        const newImportFn = vi.fn(async (path) => {
+          openImportFnCalledGate();
+          await blockImportFnGate;
+          return importFn(path);
+        });
+
+        document.location.search = '?id=component-one--a';
+        const preview = await createAndRenderPreview();
+        mockChannel.emit.mockClear();
+
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await importFnCalledGate;
+        preview.onStoriesChanged({ importFn });
+
+        openBlockImportFnGate();
+        await waitForRender();
+
+        expect(preview.storyRenders.length).toEqual(1);
+      });
+
+      it('renders the second importFn', async () => {
+        const [importGate, openImportGate] = createGate();
+        const [importedGate, openImportedGate] = createGate();
+        const secondImportFn = vi.fn(async (path) => {
+          openImportedGate();
+          await importGate;
+          return importFn(path);
+        });
+
+        const thirdImportFn = vi.fn(async (path) => {
+          openImportedGate();
+          await importGate;
+          return importFn(path);
+        });
+
+        document.location.search = '?id=component-one--a';
+        const preview = await createAndRenderPreview();
+        mockChannel.emit.mockClear();
+
+        preview.onStoriesChanged({ importFn: secondImportFn });
+        await importedGate;
+        preview.onStoriesChanged({ importFn: thirdImportFn });
+
+        openImportGate();
+        await waitForRender();
+
+        expect(thirdImportFn).toHaveBeenCalled();
+      });
+    });
+
     describe('when the current story changes', () => {
       const newComponentOneExports = merge({}, componentOneExports, {
         a: { args: { foo: 'edited' } },

@@ -352,12 +352,8 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     try {
       await render.prepare();
     } catch (err) {
-      if (err !== PREPARE_ABORTED) {
-        // We are about to render an error so make sure the previous story is
-        // no longer rendered.
-        if (lastRender) await this.teardownRender(lastRender);
-        this.renderStoryLoadingException(storyId, err as Error);
-      }
+      if (lastRender) await this.teardownRender(lastRender);
+      if (err !== PREPARE_ABORTED) this.renderStoryLoadingException(storyId, err as Error);
       return;
     }
 
