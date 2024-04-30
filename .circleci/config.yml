@@ -124,7 +124,7 @@ jobs:
             yarn docs:prettier:check
   build:
     executor:
-      class: large
+      class: xlarge
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
