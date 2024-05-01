@@ -467,6 +467,12 @@ export const addStories: Task['run'] = async (
       cwd,
       disableDocs,
     });
+
+    await linkPackageStories(await workspacePath('core package', '@storybook/test'), {
+      mainConfig,
+      cwd,
+      disableDocs,
+    });
   }
 
   const mainAddons = (mainConfig.getSafeFieldValue(['addons']) || []).reduce(
@@ -579,6 +585,19 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
   if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };
+
+export async function setImportMap(cwd: string) {
+  const packageJson = await readJson(join(cwd, 'package.json'));
+
+  packageJson.imports = {
+    '#utils': {
+      storybook: './template-stories/lib/test/utils.mock.ts',
+      default: './template-stories/lib/test/utils.ts',
+    },
+  };
+
+  await writeJson(join(cwd, 'package.json'), packageJson, { spaces: 2 });
+}
 
 /**
  * Sets compodoc option in angular.json projects to false. We have to generate compodoc

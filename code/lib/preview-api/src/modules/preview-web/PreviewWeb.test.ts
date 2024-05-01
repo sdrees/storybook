@@ -911,43 +911,72 @@ describe('PreviewWeb', () => {
     });
 
     describe('while story is still rendering', () => {
-      it('runs loaders again', async () => {
+      it('runs loaders again after renderToCanvas is done', async () => {
+        // Arrange - set up a gate to control when the loaders run
         const [loadersRanGate, openLoadersRanGate] = createGate();
         const [blockLoadersGate, openBlockLoadersGate] = createGate();
 
         document.location.search = '?id=component-one--a';
-        componentOneExports.default.loaders[0].mockImplementationOnce(async () => {
+        componentOneExports.default.loaders[0].mockImplementationOnce(async (input) => {
           openLoadersRanGate();
           return blockLoadersGate;
         });
 
+        // Act - render the first time
         await new PreviewWeb(importFn, getProjectAnnotations).ready();
         await loadersRanGate;
 
+        // Assert - loader to be called the first time
+        expect(componentOneExports.default.loaders[0]).toHaveBeenCalledOnce();
         expect(componentOneExports.default.loaders[0]).toHaveBeenCalledWith(
           expect.objectContaining({
             args: { foo: 'a', one: 'mapped-1' },
           })
         );
 
-        componentOneExports.default.loaders[0].mockClear();
+        // Act - update the args (while loader is still running)
         emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { new: 'arg' },
         });
+
+        // Arrange - open the gate to let the loader finish and wait for render
+        openBlockLoadersGate({ l: 8 });
         await waitForRender();
 
-        expect(componentOneExports.default.loaders[0]).toHaveBeenCalledWith(
-          expect.objectContaining({
-            args: { foo: 'a', new: 'arg', one: 'mapped-1' },
-          })
-        );
-
-        // Story gets rendered with updated args
-        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(1);
+        // Assert - renderToCanvas to be called the first time with initial args
+        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledOnce();
         expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
           expect.objectContaining({
-            forceRemount: true, // Wasn't yet rendered so we need to force remount
+            forceRemount: true,
+            storyContext: expect.objectContaining({
+              loaded: { l: 8 }, // This is the value returned by the *first* loader call
+              args: { foo: 'a', new: 'arg', one: 'mapped-1' },
+            }),
+          }),
+          'story-element'
+        );
+        // Assert - loaders are not run again yet
+        expect(componentOneExports.default.loaders[0]).toHaveBeenCalledOnce();
+
+        // Arrange - wait for loading and rendering to finish a second time
+        mockChannel.emit.mockClear();
+        await waitForRender();
+        // Assert - loader is called a second time with updated args
+        await vi.waitFor(() => {
+          expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(2);
+          expect(componentOneExports.default.loaders[0]).toHaveBeenCalledWith(
+            expect.objectContaining({
+              args: { foo: 'a', new: 'arg', one: 'mapped-1' },
+            })
+          );
+        });
+
+        // Assert - renderToCanvas is called a second time with updated args
+        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(2);
+        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
+          expect.objectContaining({
+            forceRemount: false,
             storyContext: expect.objectContaining({
               loaded: { l: 7 }, // This is the value returned by the *second* loader call
               args: { foo: 'a', new: 'arg', one: 'mapped-1' },
@@ -955,28 +984,9 @@ describe('PreviewWeb', () => {
           }),
           'story-element'
         );
-
-        // Now let the first loader call resolve
-        mockChannel.emit.mockClear();
-        projectAnnotations.renderToCanvas.mockClear();
-        openBlockLoadersGate({ l: 8 });
-        await waitForRender();
-
-        // Now the first call comes through, but picks up the new args
-        // Note this isn't a particularly realistic case (the second loader being quicker than the first)
-        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(1);
-        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
-          expect.objectContaining({
-            storyContext: expect.objectContaining({
-              loaded: { l: 8 },
-              args: { foo: 'a', new: 'arg', one: 'mapped-1' },
-            }),
-          }),
-          'story-element'
-        );
       });
 
-      it('renders a second time if renderToCanvas is running', async () => {
+      it('renders a second time after the already running renderToCanvas is done', async () => {
         const [gate, openGate] = createGate();
 
         document.location.search = '?id=component-one--a';
@@ -990,54 +1000,27 @@ describe('PreviewWeb', () => {
           updatedArgs: { new: 'arg' },
         });
 
-        // Now let the renderToCanvas call resolve
+        // Now let the first renderToCanvas call resolve
         openGate();
+        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(1);
+        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
+          expect.objectContaining({
+            forceRemount: true,
+            storyContext: expect.objectContaining({
+              loaded: { l: 7 },
+              args: { foo: 'a', one: 'mapped-1' },
+            }),
+          }),
+          'story-element'
+        );
+
+        // Wait for the second render to finish
+        mockChannel.emit.mockClear();
         await waitForRender();
+        await waitForRenderPhase('rendering');
 
+        // Expect the second render to have the updated args
         expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(2);
-        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
-          expect.objectContaining({
-            forceRemount: true,
-            storyContext: expect.objectContaining({
-              loaded: { l: 7 },
-              args: { foo: 'a', one: 'mapped-1' },
-            }),
-          }),
-          'story-element'
-        );
-        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
-          expect.objectContaining({
-            forceRemount: false,
-            storyContext: expect.objectContaining({
-              loaded: { l: 7 },
-              args: { foo: 'a', new: 'arg', one: 'mapped-1' },
-            }),
-          }),
-          'story-element'
-        );
-      });
-
-      it('works if it is called directly from inside non async renderToCanvas', async () => {
-        document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToCanvas.mockImplementation(() => {
-          emitter.emit(UPDATE_STORY_ARGS, {
-            storyId: 'component-one--a',
-            updatedArgs: { new: 'arg' },
-          });
-        });
-        await createAndRenderPreview();
-
-        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(2);
-        expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
-          expect.objectContaining({
-            forceRemount: true,
-            storyContext: expect.objectContaining({
-              loaded: { l: 7 },
-              args: { foo: 'a', one: 'mapped-1' },
-            }),
-          }),
-          'story-element'
-        );
         expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: false,
@@ -1505,6 +1488,9 @@ describe('PreviewWeb', () => {
       // Now let the renderToCanvas call resolve
       openGate();
       await waitForRenderPhase('aborted');
+
+      // allow teardown to complete its retries
+      vi.runOnlyPendingTimers();
 
       await waitForRenderPhase('rendering');
       expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(2);
@@ -2143,39 +2129,6 @@ describe('PreviewWeb', () => {
         afterEach(() => {
           delete (window as Partial<Window>).location;
           window.location = { ...originalLocation, reload: originalLocation.reload };
-        });
-
-        it('stops initial story after loaders if running', async () => {
-          const [gate, openGate] = createGate();
-          componentOneExports.default.loaders[0].mockImplementationOnce(async () => gate);
-
-          document.location.search = '?id=component-one--a';
-          await new PreviewWeb(importFn, getProjectAnnotations).ready();
-          await waitForRenderPhase('loading');
-
-          emitter.emit(SET_CURRENT_STORY, {
-            storyId: 'component-one--b',
-            viewMode: 'story',
-          });
-          await waitForSetCurrentStory();
-          await waitForRender();
-
-          // Now let the loader resolve
-          openGate({ l: 8 });
-          await waitForRender();
-
-          // Story gets rendered with updated args
-          expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(1);
-          expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
-            expect.objectContaining({
-              forceRemount: true,
-              storyContext: expect.objectContaining({
-                id: 'component-one--b',
-                loaded: { l: 7 },
-              }),
-            }),
-            'story-element'
-          );
         });
 
         it('aborts render for initial story', async () => {

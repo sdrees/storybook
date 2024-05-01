@@ -219,7 +219,7 @@ If your stories behave differently based on [globals](../essentials/toolbars-and
 
 ```tsx
 // Button.portable.ts
-import { test } from 'vitest';
+import { test } from 'playwright';
 import { render } from '@testing-library/react';
 import { composeStory } from '@storybook/react';
 

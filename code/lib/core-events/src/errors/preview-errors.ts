@@ -254,6 +254,22 @@ export class NextJsSharpError extends StorybookError {
   }
 }
 
+export class NextjsRouterMocksNotAvailable extends StorybookError {
+  readonly category = Category.FRAMEWORK_NEXTJS;
+
+  readonly code = 2;
+
+  constructor(public data: { importType: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      Tried to access router mocks from "${this.data.importType}" but they were not created yet. You might be running code in an unsupported environment.
+    `;
+  }
+}
+
 export class UnknownArgTypesError extends StorybookError {
   readonly category = Category.DOCS_TOOLS;
 

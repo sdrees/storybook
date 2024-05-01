@@ -47,6 +47,31 @@
       "require": "./dist/next-image-loader-stub.js",
       "import": "./dist/next-image-loader-stub.mjs"
     },
+    "./export-mocks": {
+      "types": "./dist/export-mocks/index.d.ts",
+      "require": "./dist/export-mocks/index.js",
+      "import": "./dist/export-mocks/index.mjs"
+    },
+    "./cache.mock": {
+      "types": "./dist/export-mocks/cache/index.d.ts",
+      "require": "./dist/export-mocks/cache/index.js",
+      "import": "./dist/export-mocks/cache/index.mjs"
+    },
+    "./headers.mock": {
+      "types": "./dist/export-mocks/headers/index.d.ts",
+      "require": "./dist/export-mocks/headers/index.js",
+      "import": "./dist/export-mocks/headers/index.mjs"
+    },
+    "./navigation.mock": {
+      "types": "./dist/export-mocks/navigation/index.d.ts",
+      "require": "./dist/export-mocks/navigation/index.js",
+      "import": "./dist/export-mocks/navigation/index.mjs"
+    },
+    "./router.mock": {
+      "types": "./dist/export-mocks/router/index.d.ts",
+      "require": "./dist/export-mocks/router/index.js",
+      "import": "./dist/export-mocks/router/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -59,6 +84,21 @@
       ],
       "dist/image-context": [
         "dist/image-context.d.ts"
+      ],
+      "export-mocks": [
+        "dist/export-mocks/index.d.ts"
+      ],
+      "cache.mock": [
+        "dist/export-mocks/cache/index.d.ts"
+      ],
+      "headers.mock": [
+        "dist/export-mocks/headers/index.d.ts"
+      ],
+      "router.mock": [
+        "dist/export-mocks/router/index.d.ts"
+      ],
+      "navigation.mock": [
+        "dist/export-mocks/navigation/index.d.ts"
       ]
     }
   },
@@ -89,7 +129,6 @@
     "@babel/preset-typescript": "^7.23.2",
     "@babel/runtime": "^7.23.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
-    "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
@@ -97,6 +136,7 @@
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/react": "workspace:*",
+    "@storybook/test": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/node": "^18.0.0",
     "@types/semver": "^7.3.4",
@@ -160,6 +200,11 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
+      "./src/export-mocks/index.ts",
+      "./src/export-mocks/cache/index.ts",
+      "./src/export-mocks/headers/index.ts",
+      "./src/export-mocks/router/index.ts",
+      "./src/export-mocks/navigation/index.ts",
       "./src/next-image-loader-stub.ts",
       "./src/images/decorator.tsx",
       "./src/images/next-legacy-image.tsx",

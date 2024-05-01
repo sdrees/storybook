@@ -62,7 +62,7 @@
     "@storybook/channels": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/csf": "^0.1.5",
+    "@storybook/csf": "^0.1.6",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/docs-mdx": "3.0.0",
     "@storybook/global": "^5.0.0",

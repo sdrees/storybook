@@ -18,7 +18,26 @@ const logActionsWhenMockCalled: LoaderFunction = (context) => {
     typeof global.__STORYBOOK_TEST_ON_MOCK_CALL__ === 'function'
   ) {
     const onMockCall = global.__STORYBOOK_TEST_ON_MOCK_CALL__ as typeof onMockCallType;
-    onMockCall((mock, args) => action(mock.getMockName())(args));
+    onMockCall((mock, args) => {
+      const name = mock.getMockName();
+
+      // TODO: Make this a configurable API in 8.2
+      if (
+        !/^next\/.*::/.test(name) ||
+        [
+          'next/router::useRouter()',
+          'next/navigation::useRouter()',
+          'next/navigation::redirect',
+          'next/cache::',
+          'next/headers::cookies().set',
+          'next/headers::cookies().delete',
+          'next/headers::headers().set',
+          'next/headers::headers().delete',
+        ].some((prefix) => name.startsWith(prefix))
+      ) {
+        action(name)(args);
+      }
+    });
     subscribed = true;
   }
 };

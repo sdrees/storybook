@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { Addon_StoryContext } from '@storybook/types';
-import { action } from '@storybook/addon-actions';
 import { AppRouterProvider } from './app-router-provider';
 import { PageRouterProvider } from './page-router-provider';
 import type { RouteParams, NextAppDirectory } from './types';
@@ -12,7 +11,7 @@ const defaultRouterParams: RouteParams = {
 
 export const RouterDecorator = (
   Story: React.FC,
-  { globals, parameters }: Addon_StoryContext
+  { parameters }: Addon_StoryContext
 ): React.ReactNode => {
   const nextAppDirectory =
     (parameters.nextjs?.appDirectory as NextAppDirectory | undefined) ?? false;
@@ -23,7 +22,6 @@ export const RouterDecorator = (
     }
     return (
       <AppRouterProvider
-        action={action}
         routeParams={{
           ...defaultRouterParams,
           ...parameters.nextjs?.navigation,
@@ -35,14 +33,7 @@ export const RouterDecorator = (
   }
 
   return (
-    <PageRouterProvider
-      action={action}
-      globals={globals}
-      routeParams={{
-        ...defaultRouterParams,
-        ...parameters.nextjs?.router,
-      }}
-    >
+    <PageRouterProvider>
       <Story />
     </PageRouterProvider>
   );

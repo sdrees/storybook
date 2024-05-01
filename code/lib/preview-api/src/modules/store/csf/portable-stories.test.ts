@@ -167,6 +167,94 @@ describe('composeStory', () => {
     expect(spyFn).toHaveBeenCalled();
   });
 
+  it('should work with spies set up in beforeEach', async () => {
+    const spyFn = vi.fn();
+
+    const Story: Story = {
+      args: {
+        spyFn,
+      },
+      beforeEach: async () => {
+        spyFn.mockReturnValue('mockedData');
+      },
+      render: (args) => {
+        const data = args.spyFn();
+        expect(data).toBe('mockedData');
+      },
+    };
+
+    const composedStory = composeStory(Story, {});
+    await composedStory.load();
+    composedStory();
+    expect(spyFn).toHaveBeenCalled();
+  });
+
+  it('should call beforeEach from Project, Meta and Story level', async () => {
+    const beforeEachSpy = vi.fn();
+    const cleanupSpy = vi.fn();
+
+    const metaObj: Meta = {
+      beforeEach: async () => {
+        beforeEachSpy('define from meta');
+
+        return () => {
+          cleanupSpy('cleanup from meta');
+        };
+      },
+    };
+
+    const Story: Story = {
+      render: () => 'foo',
+      beforeEach: async () => {
+        beforeEachSpy('define from story');
+
+        return () => {
+          cleanupSpy('cleanup from story');
+        };
+      },
+    };
+
+    const composedStory = composeStory(Story, metaObj, {
+      beforeEach: async () => {
+        beforeEachSpy('define from project');
+
+        return () => {
+          cleanupSpy('cleanup from project');
+        };
+      },
+    });
+    await composedStory.load();
+    composedStory();
+    expect(beforeEachSpy).toHaveBeenNthCalledWith(1, 'define from project');
+    expect(beforeEachSpy).toHaveBeenNthCalledWith(2, 'define from meta');
+    expect(beforeEachSpy).toHaveBeenNthCalledWith(3, 'define from story');
+
+    // simulate the next story's load to trigger cleanup
+    await composedStory.load();
+    expect(cleanupSpy).toHaveBeenNthCalledWith(1, 'cleanup from story');
+    expect(cleanupSpy).toHaveBeenNthCalledWith(2, 'cleanup from meta');
+    expect(cleanupSpy).toHaveBeenNthCalledWith(3, 'cleanup from project');
+  });
+
+  it('should call beforeEach after loaders', async () => {
+    const spyFn = vi.fn();
+
+    const Story: Story = {
+      render: () => 'foo',
+      loaders: async () => {
+        spyFn('from loaders');
+      },
+      beforeEach: async () => {
+        spyFn('from beforeEach');
+      },
+    };
+
+    const composedStory = composeStory(Story, {});
+    await composedStory.load();
+    expect(spyFn).toHaveBeenNthCalledWith(1, 'from loaders');
+    expect(spyFn).toHaveBeenNthCalledWith(2, 'from beforeEach');
+  });
+
   it('should throw an error if Story is undefined', () => {
     expect(() => {
       // @ts-expect-error (invalid input)

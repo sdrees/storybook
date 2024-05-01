@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { isExportStory } from '@storybook/csf';
+import { type CleanupCallback, isExportStory } from '@storybook/csf';
 import dedent from 'ts-dedent';
 import type {
   Renderer,
@@ -46,6 +46,8 @@ export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
   const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
   globalProjectAnnotations = composeConfigs(annotations.map(extractAnnotation));
 }
+
+const cleanupCallbacks: CleanupCallback[] = [];
 
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
   storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
@@ -126,8 +128,14 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
       id: story.id,
       storyName,
       load: async () => {
+        // First run any registered cleanup function
+        for (const callback of [...cleanupCallbacks].reverse()) await callback();
+        cleanupCallbacks.length = 0;
+
         const loadedContext = await story.applyLoaders(context);
         context.loaded = loadedContext.loaded;
+
+        cleanupCallbacks.push(...(await story.applyBeforeEach(context)));
       },
       args: story.initialArgs as Partial<TArgs>,
       parameters: story.parameters as Parameters,

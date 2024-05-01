@@ -58,6 +58,7 @@ export function composeConfigs<TRenderer extends Renderer>(
     globals: getObjectField(moduleExportList, 'globals'),
     globalTypes: getObjectField(moduleExportList, 'globalTypes'),
     loaders: getArrayField(moduleExportList, 'loaders'),
+    beforeEach: getArrayField(moduleExportList, 'beforeEach'),
     render: getSingletonField(moduleExportList, 'render'),
     renderToCanvas: getSingletonField(moduleExportList, 'renderToCanvas'),
     renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'), // deprecated

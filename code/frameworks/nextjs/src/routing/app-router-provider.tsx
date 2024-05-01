@@ -13,9 +13,14 @@ import { type Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import { PAGE_SEGMENT_KEY } from 'next/dist/shared/lib/segment';
 import type { FlightRouterState } from 'next/dist/server/app-render/types';
 import type { RouteParams } from './types';
+// We need this import to be a singleton, and because it's used in multiple entrypoints
+// both in ESM and CJS, importing it via the package name instead of having a local import
+// is the only way to achieve it actually being a singleton
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore we must ignore types here as during compilation they are not generated yet
+import { getRouter } from '@storybook/nextjs/navigation.mock';
 
 type AppRouterProviderProps = {
-  action: (name: string) => (...args: any[]) => void;
   routeParams: RouteParams;
 };
 
@@ -57,10 +62,9 @@ const getParallelRoutes = (segmentsList: Array<string>): FlightRouterState => {
 
 export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProviderProps>> = ({
   children,
-  action,
   routeParams,
 }) => {
-  const { pathname, query, segments = [], ...restRouteParams } = routeParams;
+  const { pathname, query, segments = [] } = routeParams;
 
   const tree: FlightRouterState = [pathname, { children: getParallelRoutes([...segments]) }];
   const pathParams = useMemo(() => {
@@ -88,29 +92,7 @@ export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProvid
               nextUrl: pathname,
             }}
           >
-            <AppRouterContext.Provider
-              value={{
-                push(...args) {
-                  action('nextNavigation.push')(...args);
-                },
-                replace(...args) {
-                  action('nextNavigation.replace')(...args);
-                },
-                forward(...args) {
-                  action('nextNavigation.forward')(...args);
-                },
-                back(...args) {
-                  action('nextNavigation.back')(...args);
-                },
-                prefetch(...args) {
-                  action('nextNavigation.prefetch')(...args);
-                },
-                refresh: () => {
-                  action('nextNavigation.refresh')();
-                },
-                ...restRouteParams,
-              }}
-            >
+            <AppRouterContext.Provider value={getRouter()}>
               <LayoutRouterContext.Provider
                 value={{
                   childNodes: new Map(),
