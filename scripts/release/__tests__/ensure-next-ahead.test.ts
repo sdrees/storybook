@@ -76,7 +76,7 @@ describe('Ensure next ahead', () => {
     expect(bumpVersion.run).toHaveBeenCalledWith({ exact: '2.1.0-alpha.0' });
   });
 
-  it('should bump version to 2.1.0-alpha.0 when main is 2.0.0 and and next is 2.0.0-rc.10', async () => {
+  it('should bump version to 2.1.0-alpha.0 when main is 2.0.0 and next is 2.0.0-rc.10', async () => {
     fsExtra.__setMockFiles({
       [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '2.0.0-rc.10' }),
     });

@@ -218,7 +218,7 @@ export const BookIconLongSubHeadline: Story = {
       content: {
         headline: 'Storybook has a book icon!',
         subHeadline:
-          'Find out more! by clicking on on buttons and downloading some applications. Find out more! by clicking on buttons and downloading some applications',
+          'Find out more! by clicking on buttons and downloading some applications. Find out more! by clicking on buttons and downloading some applications',
       },
       icon: <BookIconIcon />,
       link: undefined,
