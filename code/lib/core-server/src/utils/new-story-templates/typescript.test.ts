@@ -7,12 +7,12 @@ describe('typescript', () => {
       basenameWithoutExtension: 'foo',
       componentExportName: 'default',
       componentIsDefaultExport: true,
-      frameworkPackageName: '@storybook/nextjs',
+      rendererPackage: '@storybook/react',
       exportedStoryName: 'Default',
     });
 
     expect(result).toMatchInlineSnapshot(`
-      "import type { Meta, StoryObj } from '@storybook/nextjs';
+      "import type { Meta, StoryObj } from '@storybook/react';
 
       import Foo from './foo';
 
@@ -33,12 +33,12 @@ describe('typescript', () => {
       basenameWithoutExtension: 'foo',
       componentExportName: 'Example',
       componentIsDefaultExport: false,
-      frameworkPackageName: '@storybook/nextjs',
+      rendererPackage: '@storybook/react',
       exportedStoryName: 'Default',
     });
 
     expect(result).toMatchInlineSnapshot(`
-      "import type { Meta, StoryObj } from '@storybook/nextjs';
+      "import type { Meta, StoryObj } from '@storybook/react';
 
       import { Example } from './foo';
 

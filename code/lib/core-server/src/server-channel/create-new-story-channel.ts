@@ -1,51 +1,99 @@
-import type { Options } from '@storybook/types';
+import type { CoreConfig, Options } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
-import { CREATE_NEW_STORYFILE, CREATE_NEW_STORYFILE_RESULT } from '@storybook/core-events';
+import { telemetry } from '@storybook/telemetry';
+import type {
+  CreateNewStoryErrorPayload,
+  CreateNewStoryRequestPayload,
+  CreateNewStoryResponsePayload,
+  RequestData,
+  ResponseData,
+} from '@storybook/core-events';
+import {
+  CREATE_NEW_STORYFILE_REQUEST,
+  CREATE_NEW_STORYFILE_RESPONSE,
+} from '@storybook/core-events';
 import fs from 'node:fs/promises';
-import type { NewStoryData } from '../utils/get-new-story-file';
+import { existsSync } from 'node:fs';
 import { getNewStoryFile } from '../utils/get-new-story-file';
 import { getStoryId } from '../utils/get-story-id';
+import path from 'node:path';
 
-interface CreateNewStoryPayload extends NewStoryData {}
-
-interface Result {
-  success: true | false;
-  result: null | {
-    storyId: string;
-  };
-  error: null | string;
-}
-
-export function initCreateNewStoryChannel(channel: Channel, options: Options) {
+export function initCreateNewStoryChannel(
+  channel: Channel,
+  options: Options,
+  coreOptions: CoreConfig
+) {
   /**
    * Listens for events to create a new storyfile
    */
-  channel.on(CREATE_NEW_STORYFILE, async (data: CreateNewStoryPayload) => {
-    try {
-      const { storyFilePath, exportedStoryName, storyFileContent } = await getNewStoryFile(
-        data,
-        options
-      );
+  channel.on(
+    CREATE_NEW_STORYFILE_REQUEST,
+    async (data: RequestData<CreateNewStoryRequestPayload>) => {
+      try {
+        const { storyFilePath, exportedStoryName, storyFileContent } = await getNewStoryFile(
+          data.payload,
+          options
+        );
 
-      await fs.writeFile(storyFilePath, storyFileContent, 'utf-8');
+        const relativeStoryFilePath = path.relative(process.cwd(), storyFilePath);
 
-      const storyId = await getStoryId({ storyFilePath, exportedStoryName }, options);
+        const { storyId, kind } = await getStoryId({ storyFilePath, exportedStoryName }, options);
 
-      channel.emit(CREATE_NEW_STORYFILE_RESULT, {
-        success: true,
-        result: {
-          storyId,
-        },
-        error: null,
-      } satisfies Result);
-    } catch (e: any) {
-      channel.emit(CREATE_NEW_STORYFILE_RESULT, {
-        success: false,
-        result: null,
-        error: `An error occurred while creating a new story:\n${e?.message}`,
-      } satisfies Result);
+        if (existsSync(storyFilePath)) {
+          channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
+            success: false,
+            id: data.id,
+            payload: {
+              type: 'STORY_FILE_EXISTS',
+              kind,
+            },
+            error: `A story file already exists at ${relativeStoryFilePath}`,
+          } satisfies ResponseData<CreateNewStoryResponsePayload, CreateNewStoryErrorPayload>);
+
+          if (!coreOptions.disableTelemetry) {
+            telemetry('create-new-story-file', {
+              success: false,
+              error: 'STORY_FILE_EXISTS',
+            });
+          }
+
+          return;
+        }
+
+        await fs.writeFile(storyFilePath, storyFileContent, 'utf-8');
+
+        channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
+          success: true,
+          id: data.id,
+          payload: {
+            storyId,
+            storyFilePath: path.relative(process.cwd(), storyFilePath),
+            exportedStoryName,
+          },
+          error: null,
+        } satisfies ResponseData<CreateNewStoryResponsePayload>);
+
+        if (!coreOptions.disableTelemetry) {
+          telemetry('create-new-story-file', {
+            success: true,
+          });
+        }
+      } catch (e: any) {
+        channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
+          success: false,
+          id: data.id,
+          error: e?.message,
+        } satisfies ResponseData<CreateNewStoryResponsePayload>);
+
+        if (!coreOptions.disableTelemetry) {
+          await telemetry('create-new-story-file', {
+            success: false,
+            error: e,
+          });
+        }
+      }
     }
-  });
+  );
 
   return channel;
 }

@@ -56,8 +56,8 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/types": "^7.23.0",
+    "@babel/core": "^7.24.4",
+    "@babel/types": "^7.24.0",
     "@ndelangen/get-tarball": "^3.0.7",
     "@storybook/codemod": "workspace:*",
     "@storybook/core-common": "workspace:*",

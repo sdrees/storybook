@@ -42,6 +42,7 @@ export { createCopyToClipboardFunction } from './components/syntaxhighlighter/sy
 
 // UI
 export { ActionBar } from './components/ActionBar/ActionBar';
+export { Modal } from './components/Modal/Modal';
 export { Spaced } from './components/spaced/Spaced';
 export { Placeholder } from './components/placeholder/placeholder';
 export { ScrollArea } from './components/ScrollArea/ScrollArea';

@@ -1,8 +1,7 @@
-import { parse as parseCjs, init as initCjsParser } from 'cjs-module-lexer';
-import { parse as parseEs } from 'es-module-lexer';
-import assert from 'node:assert';
+import * as babelParser from '@babel/parser';
+import { types } from '@babel/core';
 
-import type { Parser } from './types';
+import type { Parser, ParserResult } from './types';
 
 /**
  * A generic parser that can parse both ES and CJS modules.
@@ -13,41 +12,109 @@ export class GenericParser implements Parser {
    * @param content The content of the file
    * @returns The exports of the file
    */
-  async parse(content: string) {
-    try {
-      // Do NOT remove await here. The types are wrong! It has to be awaited,
-      // otherwise it will return a Promise<Promise<...>> when wasm isn't loaded.
-      const [, exports] = await parseEs(content);
+  async parse(content: string): Promise<ParserResult> {
+    const ast = babelParser.parse(content, {
+      allowImportExportEverywhere: true,
+      allowAwaitOutsideFunction: true,
+      allowNewTargetOutsideFunction: true,
+      allowReturnOutsideFunction: true,
+      allowUndeclaredExports: true,
+      plugins: [
+        // Language features
+        'typescript',
+        'jsx',
+        // Latest ECMAScript features
+        'asyncGenerators',
+        'bigInt',
+        'classProperties',
+        'classPrivateProperties',
+        'classPrivateMethods',
+        'classStaticBlock',
+        'dynamicImport',
+        'exportNamespaceFrom',
+        'logicalAssignment',
+        'moduleStringNames',
+        'nullishCoalescingOperator',
+        'numericSeparator',
+        'objectRestSpread',
+        'optionalCatchBinding',
+        'optionalChaining',
+        'privateIn',
+        'regexpUnicodeSets',
+        'topLevelAwait',
+        // ECMAScript proposals
+        'asyncDoExpressions',
+        'decimal',
+        'decorators',
+        'decoratorAutoAccessors',
+        'deferredImportEvaluation',
+        'destructuringPrivate',
+        'doExpressions',
+        'explicitResourceManagement',
+        'exportDefaultFrom',
+        'functionBind',
+        'functionSent',
+        'importAttributes',
+        'importReflection',
+        'moduleBlocks',
+        'partialApplication',
+        'recordAndTuple',
+        'sourcePhaseImports',
+        'throwExpressions',
+      ],
+    });
 
-      assert(
-        exports.length > 0,
-        'No named exports found. Very likely that this is not a ES module.'
-      );
+    const exports: ParserResult['exports'] = [];
 
-      return {
-        exports: (exports ?? []).map((e) => {
-          const name = content.substring(e.s, e.e);
-          return {
-            name,
-            default: name === 'default',
-          };
-        }),
-      };
-      // Try to parse as CJS module
-    } catch {
-      await initCjsParser();
+    ast.program.body.forEach(function traverse(node) {
+      if (types.isExportNamedDeclaration(node)) {
+        // Handles function declarations: `export function a() {}`
+        if (
+          types.isFunctionDeclaration(node.declaration) &&
+          types.isIdentifier(node.declaration.id)
+        ) {
+          exports.push({
+            name: node.declaration.id.name,
+            default: false,
+          });
+        }
+        // Handles class declarations: `export class A {}`
+        if (types.isClassDeclaration(node.declaration) && types.isIdentifier(node.declaration.id)) {
+          exports.push({
+            name: node.declaration.id.name,
+            default: false,
+          });
+        }
+        // Handles export specifiers: `export { a }`
+        if (node.declaration === null && node.specifiers.length > 0) {
+          node.specifiers.forEach((specifier) => {
+            if (types.isExportSpecifier(specifier) && types.isIdentifier(specifier.exported)) {
+              exports.push({
+                name: specifier.exported.name,
+                default: false,
+              });
+            }
+          });
+        }
+        if (types.isVariableDeclaration(node.declaration)) {
+          node.declaration.declarations.forEach((declaration) => {
+            // Handle variable declarators: `export const a = 1;`
+            if (types.isVariableDeclarator(declaration) && types.isIdentifier(declaration.id)) {
+              exports.push({
+                name: declaration.id.name,
+                default: false,
+              });
+            }
+          });
+        }
+      } else if (types.isExportDefaultDeclaration(node)) {
+        exports.push({
+          name: 'default',
+          default: true,
+        });
+      }
+    });
 
-      const { exports, reexports } = parseCjs(content);
-      const filteredExports = [...exports, ...reexports].filter((e: string) => e !== '__esModule');
-
-      assert(filteredExports.length > 0, 'No named exports found');
-
-      return {
-        exports: (filteredExports ?? []).map((name) => ({
-          name,
-          default: name === 'default',
-        })),
-      };
-    }
+    return { exports };
   }
 }

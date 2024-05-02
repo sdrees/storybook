@@ -81,7 +81,7 @@ const NotificationWithInteractiveStates = styled(Notification)(() => ({
       'rgba(2,156,253,1) 0 0 0 1px inset, 0 1px 3px 0 rgba(30,167,253,0.5), 0 2px 5px 0 rgba(0,0,0,0.05), 0 5px 15px 0 rgba(0,0,0,0.1)',
   },
 }));
-const NotificationButton = NotificationWithInteractiveStates.withComponent('button');
+const NotificationButton = NotificationWithInteractiveStates.withComponent('div');
 const NotificationLink = NotificationWithInteractiveStates.withComponent(Link);
 
 const NotificationIconWrapper = styled.div(() => ({

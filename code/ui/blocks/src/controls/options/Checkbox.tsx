@@ -27,7 +27,7 @@ const Wrapper = styled.div<{ isInline: boolean }>(
           },
         },
   (props) => {
-    if ([props['aria-readonly']]) {
+    if (props['aria-readonly'] === 'true') {
       return {
         input: {
           cursor: 'not-allowed',

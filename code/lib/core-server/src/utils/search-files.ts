@@ -3,7 +3,15 @@ export type SearchResult = Array<string>;
 /**
  * File extensions that should be searched for
  */
-const fileExtensions = ['js', 'mjs', 'cjs', 'jsx', 'mts', 'ts', 'tsx', 'cts'];
+const FILE_EXTENSIONS = ['js', 'mjs', 'cjs', 'jsx', 'mts', 'ts', 'tsx', 'cts'];
+
+const IGNORED_FILES = [
+  '**/node_modules/**',
+  '**/*.spec.*',
+  '**/*.test.*',
+  '**/*.stories.*',
+  '**/storybook-static/**',
+];
 
 /**
  * Search for files in a directory that match the search query
@@ -15,9 +23,13 @@ const fileExtensions = ['js', 'mjs', 'cjs', 'jsx', 'mts', 'ts', 'tsx', 'cts'];
 export async function searchFiles({
   searchQuery,
   cwd,
+  ignoredFiles = IGNORED_FILES,
+  fileExtensions = FILE_EXTENSIONS,
 }: {
   searchQuery: string;
   cwd: string;
+  ignoredFiles?: string[];
+  fileExtensions?: string[];
 }): Promise<SearchResult> {
   // Dynamically import globby because it is a pure ESM module
   const { globby, isDynamicPattern } = await import('globby');
@@ -38,11 +50,14 @@ export async function searchFiles({
         ];
 
   const entries = await globby(globbedSearchQuery, {
-    ignore: ['**/node_modules/**', '**/*.spec.*', '**/*.test.*'],
+    ignore: ignoredFiles,
     gitignore: true,
+    caseSensitiveMatch: false,
     cwd,
     objectMode: true,
   });
 
-  return entries.map((entry) => entry.path);
+  return entries
+    .map((entry) => entry.path)
+    .filter((entry) => fileExtensions.some((ext) => entry.endsWith(`.${ext}`)));
 }

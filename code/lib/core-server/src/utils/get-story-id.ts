@@ -2,7 +2,7 @@ import type { Options } from '@storybook/types';
 import dedent from 'ts-dedent';
 import { normalizeStories, normalizeStoryPath } from '@storybook/core-common';
 import path from 'path';
-import { storyNameFromExport, toId } from '@storybook/csf';
+import { sanitize, storyNameFromExport, toId } from '@storybook/csf';
 import { userOrAutoTitleFromSpecifier } from '@storybook/preview-api';
 import { posix } from './posix';
 
@@ -31,14 +31,14 @@ export async function getStoryId(data: StoryIdData, options: Options) {
   if (autoTitle === undefined) {
     // eslint-disable-next-line local-rules/no-uncategorized-errors
     throw new Error(dedent`
-      The generation of your new Story file was successful but it seems that we are unable to index it.
-      Please make sure that the new Story file is matched by the 'stories' glob pattern in your Storybook configuration.
-      The location of the new Story file is: ${relativePath}
+    The new story file was successfully generated, but we are unable to index it. Please ensure that the new Story file is matched by the 'stories' glob pattern in your Storybook configuration.
     `);
   }
 
   const storyName = storyNameFromExport(data.exportedStoryName);
-  const storyId = toId(autoTitle as string, storyName);
 
-  return storyId;
+  const storyId = toId(autoTitle as string, storyName);
+  const kind = sanitize(autoTitle);
+
+  return { storyId, kind };
 }

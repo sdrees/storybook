@@ -40,6 +40,7 @@ const meta = {
     refId: DEFAULT_REF_ID,
     refs: {},
     status: {},
+    showCreateStoryButton: true,
   },
   decorators: [
     (storyFn) => (
@@ -106,6 +107,12 @@ const refsEmpty = {
 };
 
 export const Simple: Story = {};
+
+export const SimpleInProduction: Story = {
+  args: {
+    showCreateStoryButton: false,
+  },
+};
 
 export const Loading: Story = {
   args: {

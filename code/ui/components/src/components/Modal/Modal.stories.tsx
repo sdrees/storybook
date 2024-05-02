@@ -3,18 +3,20 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within, expect } from '@storybook/test';
 
 import { Modal } from './Modal';
-
-const meta: Meta<typeof Modal> = {
-  component: Modal,
-  decorators: [(storyFn) => <div style={{ width: '1200px', height: '800px' }}>{storyFn()}</div>],
-};
-
-export default meta;
+import { Button } from '../Button/Button';
 
 type Story = StoryObj<typeof meta>;
 
+const meta = {
+  component: Modal,
+  decorators: [(storyFn) => <div style={{ width: '1200px', height: '800px' }}>{storyFn()}</div>],
+} satisfies Meta<typeof Modal>;
+
+export default meta;
+
 export const Default: Story = {
   args: {
+    children: undefined,
     width: undefined,
     height: undefined,
   },
@@ -24,12 +26,10 @@ export const Default: Story = {
     return (
       <>
         <Modal {...props} open={isOpen}>
-          {({ Close }) => (
-            <div style={{ padding: 15 }}>
-              <div>Hello world!</div>
-              <Close onClick={() => setOpen(false)}>Close</Close>
-            </div>
-          )}
+          <div style={{ padding: 15 }}>
+            <div>Hello world!</div>
+            <Modal.Dialog.Close onClick={() => setOpen(false)}>Close</Modal.Dialog.Close>
+          </div>
         </Modal>
         <button onClick={() => setOpen(true)}>Open modal</button>
       </>
@@ -54,12 +54,10 @@ export const FixedWidth: Story = {
     return (
       <>
         <Modal {...props} open={isOpen}>
-          {({ Close }) => (
-            <div style={{ padding: 15 }}>
-              <div>Hello world!</div>
-              <Close onClick={() => setOpen(false)}>Close</Close>
-            </div>
-          )}
+          <div style={{ padding: 15 }}>
+            <div>Hello world!</div>
+            <Modal.Dialog.Close onClick={() => setOpen(false)}>Close</Modal.Dialog.Close>
+          </div>
         </Modal>
         <button onClick={() => setOpen(true)}>Open modal</button>
       </>
@@ -84,12 +82,10 @@ export const FixedHeight: Story = {
     return (
       <>
         <Modal {...props} open={isOpen}>
-          {({ Close }) => (
-            <div style={{ padding: 15 }}>
-              <div>Hello world!</div>
-              <Close onClick={() => setOpen(false)}>Close</Close>
-            </div>
-          )}
+          <div style={{ padding: 15 }}>
+            <div>Hello world!</div>
+            <Modal.Dialog.Close onClick={() => setOpen(false)}>Close</Modal.Dialog.Close>
+          </div>
         </Modal>
         <button onClick={() => setOpen(true)}>Open modal</button>
       </>
@@ -115,12 +111,10 @@ export const FixedWidthAndHeight: Story = {
     return (
       <>
         <Modal {...props} open={isOpen}>
-          {({ Close }) => (
-            <div style={{ padding: 15 }}>
-              <div>Hello world!</div>
-              <Close onClick={() => setOpen(false)}>Close</Close>
-            </div>
-          )}
+          <div style={{ padding: 15 }}>
+            <div>Hello world!</div>
+            <Modal.Dialog.Close onClick={() => setOpen(false)}>Close</Modal.Dialog.Close>
+          </div>
         </Modal>
         <button onClick={() => setOpen(true)}>Open modal</button>
       </>
@@ -131,5 +125,50 @@ export const FixedWidthAndHeight: Story = {
     const button = canvas.getByText('Open modal');
     await userEvent.click(button);
     await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();
+  },
+};
+
+export const StyledComponents: Story = {
+  args: {
+    ...Default.args,
+    width: 500,
+  },
+  render: (props) => {
+    const [isOpen, setOpen] = useState(false);
+
+    return (
+      <>
+        <Modal {...props} open={isOpen}>
+          <Modal.Content>
+            <Modal.Header>
+              <Modal.Title>Hello</Modal.Title>
+              <Modal.Description>Lorem ipsum dolor sit amet.</Modal.Description>
+            </Modal.Header>
+            <Modal.Row>
+              <Modal.Col>
+                <span>One</span>
+                <span>Two</span>
+              </Modal.Col>
+              <Modal.Col>Right</Modal.Col>
+            </Modal.Row>
+            <Modal.Col>Another section</Modal.Col>
+            <Modal.Actions>
+              <Button variant="solid">Save</Button>
+              <Modal.Dialog.Close asChild>
+                <Button>Cancel</Button>
+              </Modal.Dialog.Close>
+            </Modal.Actions>
+          </Modal.Content>
+          <Modal.Error>Oops. Something went wrong.</Modal.Error>
+        </Modal>
+        <button onClick={() => setOpen(true)}>Open modal</button>
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement.parentElement!);
+    const button = canvas.getAllByText('Open modal')[0];
+    await userEvent.click(button);
+    await expect(canvas.findByText('Hello')).resolves.toBeInTheDocument();
   },
 };

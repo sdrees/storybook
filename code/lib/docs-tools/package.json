@@ -54,7 +54,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-react": "^7.24.1",
     "babel-plugin-react-docgen": "4.2.1",
     "require-from-string": "^2.0.2",
     "typescript": "^5.3.2"

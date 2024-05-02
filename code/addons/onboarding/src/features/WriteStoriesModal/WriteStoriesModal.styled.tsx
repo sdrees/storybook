@@ -1,4 +1,9 @@
 import { keyframes, styled } from '@storybook/theming';
+import { Modal } from '@storybook/components';
+
+export const ModalWrapper = styled(Modal)`
+  background: white;
+`;
 
 export const ModalContent = styled.div`
   display: flex;

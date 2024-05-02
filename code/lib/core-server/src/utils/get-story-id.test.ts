@@ -18,9 +18,10 @@ describe('getStoryId', () => {
     const storyFilePath = path.join(cwd, 'src', 'components', 'stories', 'Page1.stories.ts');
     const exportedStoryName = 'Default';
 
-    const storyId = await getStoryId({ storyFilePath, exportedStoryName }, options);
+    const { storyId, kind } = await getStoryId({ storyFilePath, exportedStoryName }, options);
 
     expect(storyId).toBe('components-stories-page1--default');
+    expect(kind).toBe('components-stories-page1');
   });
 
   it('should throw an error if the storyId cannot be calculated', async () => {

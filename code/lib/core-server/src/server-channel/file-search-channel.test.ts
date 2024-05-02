@@ -1,6 +1,10 @@
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
-import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '@storybook/core-events';
+import type { RequestData, FileComponentSearchRequestPayload } from '@storybook/core-events';
+import {
+  FILE_COMPONENT_SEARCH_RESPONSE,
+  FILE_COMPONENT_SEARCH_REQUEST,
+} from '@storybook/core-events';
 import { beforeEach, describe, expect, vi, it } from 'vitest';
 
 import { initFileSearchChannel } from './file-search-channel';
@@ -43,12 +47,15 @@ describe('file-search-channel', () => {
   describe('initFileSearchChannel', async () => {
     it('should emit search result event with the search result', async () => {
       const mockOptions = {};
-      const data = { searchQuery: 'commonjs' };
+      const data = { searchQuery: 'es-module' };
 
-      initFileSearchChannel(mockChannel, mockOptions as any);
+      initFileSearchChannel(mockChannel, mockOptions as any, { disableTelemetry: true });
 
-      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESULT, searchResultChannelListener);
-      mockChannel.emit(FILE_COMPONENT_SEARCH, data);
+      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
+        id: data.searchQuery,
+        payload: {},
+      } satisfies RequestData<FileComponentSearchRequestPayload>);
 
       mocks.searchFiles.mockImplementation(async (...args) => {
         // @ts-expect-error Ignore type issue
@@ -63,45 +70,41 @@ describe('file-search-channel', () => {
       );
 
       expect(searchResultChannelListener).toHaveBeenCalledWith({
+        id: data.searchQuery,
         error: null,
-        result: {
+        payload: {
           files: [
             {
               exportedComponents: [
                 {
                   default: false,
-                  name: './commonjs',
+                  name: 'p',
+                },
+                {
+                  default: false,
+                  name: 'q',
+                },
+                {
+                  default: false,
+                  name: 'C',
+                },
+                {
+                  default: false,
+                  name: 'externalName',
+                },
+                {
+                  default: false,
+                  name: 'ns',
+                },
+                {
+                  default: true,
+                  name: 'default',
                 },
               ],
-              filepath: 'src/commonjs-module-default.js',
-            },
-            {
-              exportedComponents: [
-                {
-                  default: false,
-                  name: 'a',
-                },
-                {
-                  default: false,
-                  name: 'b',
-                },
-                {
-                  default: false,
-                  name: 'c',
-                },
-                {
-                  default: false,
-                  name: 'd',
-                },
-                {
-                  default: false,
-                  name: 'e',
-                },
-              ],
-              filepath: 'src/commonjs-module.js',
+              filepath: 'src/es-module.js',
+              storyFileExists: true,
             },
           ],
-          searchQuery: 'commonjs',
         },
         success: true,
       });
@@ -111,10 +114,13 @@ describe('file-search-channel', () => {
       const mockOptions = {};
       const data = { searchQuery: 'no-file-for-search-query' };
 
-      initFileSearchChannel(mockChannel, mockOptions as any);
+      initFileSearchChannel(mockChannel, mockOptions as any, { disableTelemetry: true });
 
-      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESULT, searchResultChannelListener);
-      mockChannel.emit(FILE_COMPONENT_SEARCH, data);
+      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
+        id: data.searchQuery,
+        payload: {},
+      } satisfies RequestData<FileComponentSearchRequestPayload>);
 
       mocks.searchFiles.mockImplementation(async (...args) => {
         // @ts-expect-error Ignore type issue
@@ -129,10 +135,10 @@ describe('file-search-channel', () => {
       );
 
       expect(searchResultChannelListener).toHaveBeenCalledWith({
+        id: data.searchQuery,
         error: null,
-        result: {
+        payload: {
           files: [],
-          searchQuery: 'no-file-for-search-query',
         },
         success: true,
       });
@@ -142,11 +148,14 @@ describe('file-search-channel', () => {
       const mockOptions = {};
       const data = { searchQuery: 'commonjs' };
 
-      initFileSearchChannel(mockChannel, mockOptions as any);
+      initFileSearchChannel(mockChannel, mockOptions as any, { disableTelemetry: true });
 
-      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESULT, searchResultChannelListener);
+      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
 
-      mockChannel.emit(FILE_COMPONENT_SEARCH, data);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
+        id: data.searchQuery,
+        payload: {},
+      } satisfies RequestData<FileComponentSearchRequestPayload>);
 
       mocks.searchFiles.mockRejectedValue(new Error('ENOENT: no such file or directory'));
 
@@ -155,9 +164,9 @@ describe('file-search-channel', () => {
       });
 
       expect(searchResultChannelListener).toHaveBeenCalledWith({
+        id: data.searchQuery,
         error:
           'An error occurred while searching for components in the project.\nENOENT: no such file or directory',
-        result: null,
         success: false,
       });
     });

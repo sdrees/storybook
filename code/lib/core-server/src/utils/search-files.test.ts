@@ -66,9 +66,40 @@ describe('search-files', () => {
     expect(files).toEqual(['src/commonjs-module.js']);
   });
 
+  it('should respect glob but also the allowed file extensions', async (t) => {
+    const files = await searchFiles({
+      searchQuery: '**/*',
+      cwd: path.join(__dirname, '__search-files-tests__'),
+    });
+
+    expect(files).toEqual([
+      'src/commonjs-module-default.js',
+      'src/commonjs-module.js',
+      'src/es-module.js',
+      'src/no-export.js',
+      'src/file-extensions/extension.cjs',
+      'src/file-extensions/extension.cts',
+      'src/file-extensions/extension.js',
+      'src/file-extensions/extension.jsx',
+      'src/file-extensions/extension.mjs',
+      'src/file-extensions/extension.mts',
+      'src/file-extensions/extension.ts',
+      'src/file-extensions/extension.tsx',
+    ]);
+  });
+
   it('should ignore node_modules', async (t) => {
     const files = await searchFiles({
       searchQuery: 'file-in-common.js',
+      cwd: path.join(__dirname, '__search-files-tests__'),
+    });
+
+    expect(files).toEqual([]);
+  });
+
+  it('should ignore story files', async (t) => {
+    const files = await searchFiles({
+      searchQuery: 'es-module.stories.js',
       cwd: path.join(__dirname, '__search-files-tests__'),
     });
 
