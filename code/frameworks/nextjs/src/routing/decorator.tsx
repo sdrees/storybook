@@ -3,7 +3,6 @@ import type { Addon_StoryContext } from '@storybook/types';
 import { AppRouterProvider } from './app-router-provider';
 import { PageRouterProvider } from './page-router-provider';
 import type { RouteParams, NextAppDirectory } from './types';
-import { RedirectBoundary } from 'next/dist/client/components/redirect-boundary';
 
 const defaultRouterParams: RouteParams = {
   pathname: '/',
@@ -28,14 +27,7 @@ export const RouterDecorator = (
           ...parameters.nextjs?.navigation,
         }}
       >
-        {/*
-        The next.js RedirectBoundary causes flashing UI when used client side.
-        Possible use the implementation of the PR: https://github.com/vercel/next.js/pull/49439
-        Or wait for next to solve this on their side.
-        */}
-        <RedirectBoundary>
-          <Story />
-        </RedirectBoundary>
+        <Story />
       </AppRouterProvider>
     );
   }

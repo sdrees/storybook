@@ -74,7 +74,7 @@ export async function renderToCanvas(
     unmountElement(canvasElement);
   }
 
-  await renderElement(element, canvasElement, storyContext?.parameters?.react?.rootOptions);
+  await renderElement(element, canvasElement);
 
   return () => unmountElement(canvasElement);
 }
