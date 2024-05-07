@@ -457,7 +457,7 @@ describe('summarizeIndex', () => {
             importPath: './template-stories/addons/docs/docs2/NoTitle.mdx',
             storiesImports: [],
             type: 'docs',
-            tags: ['docs'],
+            tags: ['docs', 'attached-mdx'],
           },
           'addons-docs-yabbadabbadooo--docs': {
             id: 'addons-docs-yabbadabbadooo--docs',
@@ -466,7 +466,7 @@ describe('summarizeIndex', () => {
             importPath: './template-stories/addons/docs/docs2/Title.mdx',
             storiesImports: [],
             type: 'docs',
-            tags: ['docs'],
+            tags: ['docs', 'attached-mdx'],
           },
         },
       })

@@ -134,14 +134,14 @@ export interface TabsProps {
 export const Tabs: FC<TabsProps> = memo(
   ({
     children,
-    selected,
+    selected = null,
     actions,
-    absolute,
-    bordered,
-    tools,
+    absolute = false,
+    bordered = false,
+    tools = null,
     backgroundColor,
-    id: htmlId,
-    menuName,
+    id: htmlId = null,
+    menuName = 'Tabs',
     emptyState,
     showToolsWhenEmpty,
   }) => {
@@ -206,15 +206,6 @@ export const Tabs: FC<TabsProps> = memo(
   }
 );
 Tabs.displayName = 'Tabs';
-Tabs.defaultProps = {
-  id: null,
-  children: null,
-  tools: null,
-  selected: null,
-  absolute: false,
-  bordered: false,
-  menuName: 'Tabs',
-};
 
 export interface TabsStateProps {
   children: TabsProps['children'];

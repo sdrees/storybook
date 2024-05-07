@@ -163,7 +163,7 @@ const runGenerators = async (
           else if (expected.renderer === '@storybook/server') flags = ['--type server'];
 
           const time = process.hrtime();
-          console.log(`🧬 Generating ${name} (${{ dirName }})`);
+          console.log(`🧬 Generating ${name} (${dirName})`);
           await emptyDir(baseDir);
 
           // We do the creation inside a temp dir to avoid yarn container problems

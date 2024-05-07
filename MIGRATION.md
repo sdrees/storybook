@@ -1,10 +1,12 @@
 <h1>Migration</h1>
 
 - [From version 8.0.x to 8.1.x](#from-version-80x-to-81x)
-  - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
-      - [Title block](#title-block)
   - [Portable stories](#portable-stories)
     - [@storybook/nextjs requires specific path aliases to be setup](#storybooknextjs-requires-specific-path-aliases-to-be-setup)
+  - [main.js `docs.autodocs` is deprecated](#mainjs-docsautodocs-is-deprecated)
+  - [`docs` and `story` system tags removed](#docs-and-story-system-tags-removed)
+  - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
+  - [Title block `of` prop](#title-block-of-prop)
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Portable stories](#portable-stories-1)
     - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
@@ -430,13 +432,51 @@ module.exports = createJestConfig(customJestConfig);
 
 This will make sure you end using the correct implementation of the packages and avoid having issues in your tests.
 
+### main.js `docs.autodocs` is deprecated
+
+The `docs.autodocs` setting in `main.js` is deprecated in 8.1 and will be removed in 9.0.
+
+It has been replaced with a tags-based system which is more flexible than before.
+
+`docs.autodocs` takes three values:
+- `true`: generate autodocs for every component
+- `false`: don't generate autodocs at all
+- `tag`: generate autodocs for components that have been tagged `'autodocs'`.
+
+Starting in 8.1, to generate autodocs for every component (`docs.autodocs = true`), add the following code to `.storybook/preview.js`:
+
+```js
+// .storybook/preview.js
+export default {
+  tags: ['autodocs'],
+}
+```
+
+Tags cascade, so setting `'autodocs'` at the project level automatically propagates to every component and story. If you set autodocs globally and want to opt-out for a particular component, you can remove the `'autodocs'` tag for a component like this:
+
+```js
+// Button.stories.ts
+export default {
+  component: Button,
+  tags: ['!autodocs'],
+}
+```
+
+If you had set `docs.autodocs = 'tag'`, the default setting, you can remove the setting from `.storybook/main.js`. That is now the default behavior.
+
+If you had set `docs.autodocs = false`, this still works in 8.x, but will go away in 9.0 as a breaking change. If you don't want autodocs at all, simply remove the `'autodocs'` tag throughout your Storybook and autodocs will not be created.
+
+### `docs` and `story` system tags removed
+
+Storybook automatically added the tag `'docs'` to any docs entry in the index and `'story'` to any story entry in the index. This behavior was undocumented, and in an effort to reduce the number of tags we've removed them in 8.1. If you depended on these tags, please file an issue on the [Storybook monorepo](https://github.com/storybookjs/storybook) and let us know!
+
 ### Subtitle block and `parameters.componentSubtitle`
 
 The `Subtitle` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
 
 `parameters.componentSubtitle` has been deprecated to be consistent with other parameters related to autodocs, instead use `parameters.docs.subtitle`.
 
-##### Title block
+### Title block `of` prop
 
 The `Title` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
 
@@ -3859,7 +3899,7 @@ export default {
 We are replacing `@storybook/addon-knobs` with `@storybook/addon-controls`.
 
 - [Rationale & discussion](https://github.com/storybookjs/storybook/discussions/15060)
-- [Migration notes](https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#how-do-i-migrate-from-addon-knobs)
+- [Migration notes](https://github.com/storybookjs/storybook/blob/next/code/addons/controls/README.md#how-do-i-migrate-from-addon-knobs)
 
 #### Deprecated scoped blocks imports
 

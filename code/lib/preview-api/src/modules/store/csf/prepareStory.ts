@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-loop-func,no-underscore-dangle */
-import { global } from '@storybook/global';
+import { dedent } from 'ts-dedent';
 
+import { global } from '@storybook/global';
 import type {
   Args,
   ArgsStoryFn,
@@ -20,7 +21,9 @@ import type {
   StoryContextForLoaders,
   StrictArgTypes,
 } from '@storybook/types';
-import { type CleanupCallback, includeConditionalArg } from '@storybook/csf';
+import { type CleanupCallback, includeConditionalArg, combineTags } from '@storybook/csf';
+import { global as globalThis } from '@storybook/global';
+import { once } from '@storybook/client-logger';
 
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
@@ -155,7 +158,23 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const tags = [...(storyAnnotations?.tags || componentAnnotations.tags || []), 'story'];
+  const defaultTags = ['dev', 'test'];
+  if (typeof globalThis.DOCS_OPTIONS?.autodocs !== 'undefined') {
+    once.warn(dedent`
+      The \`docs.autodocs\` setting in '.storybook/main.js' is deprecated. Use \`tags: ['autodocs']\` in \`.storybook/preview.js\` instead.
+
+      For more info see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-docsautodocs-is-deprecated
+    `);
+  }
+  const extraTags = globalThis.DOCS_OPTIONS?.autodocs === true ? ['autodocs'] : [];
+
+  const tags = combineTags(
+    ...defaultTags,
+    ...extraTags,
+    ...(projectAnnotations.tags ?? []),
+    ...(componentAnnotations.tags ?? []),
+    ...(storyAnnotations?.tags ?? [])
+  );
 
   const parameters: Parameters = combineParameters(
     projectAnnotations.parameters,

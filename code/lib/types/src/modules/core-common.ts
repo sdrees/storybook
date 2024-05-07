@@ -280,6 +280,8 @@ export type DocsOptions = {
    * Should we generate a docs entry per CSF file?
    * Set to 'tag' (the default) to generate an entry for every CSF file with the
    * 'autodocs' tag.
+   *
+   * @deprecated Use `tags: ['autodocs']` in `.storybook/preview.js` instead
    */
   autodocs?: boolean | 'tag';
   /**

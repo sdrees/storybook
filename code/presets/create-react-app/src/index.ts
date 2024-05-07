@@ -126,6 +126,14 @@ const webpack = async (
         ...getModulePath(CWD),
       ],
       plugins: [PnpWebpackPlugin as any],
+      // manual copy from builder-webpack because defaults are disabled in this CRA preset
+      conditionNames: [
+        ...(webpackConfig.resolve?.conditionNames ?? []),
+        'storybook',
+        'stories',
+        'test',
+        '...',
+      ],
     },
     resolveLoader,
   } as Configuration;

@@ -70,7 +70,6 @@ describe('story extraction', () => {
             "name": "Story One",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "A",
             "type": "story",
@@ -82,7 +81,6 @@ describe('story extraction', () => {
             "name": "Another Story Name",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "Custom Title",
             "type": "story",
@@ -124,9 +122,7 @@ describe('story extraction', () => {
             "importPath": "./src/first-nested/deeply/F.stories.js",
             "metaId": undefined,
             "name": "Story One",
-            "tags": [
-              "story",
-            ],
+            "tags": [],
             "title": "F",
             "type": "story",
           },
@@ -173,7 +169,6 @@ describe('story extraction', () => {
             "name": "Story One",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "F",
             "type": "story",
@@ -221,7 +216,6 @@ describe('story extraction', () => {
             "name": "Story One",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "A",
             "type": "story",
@@ -287,7 +281,6 @@ describe('story extraction', () => {
             "name": "Story One",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "A",
             "type": "story",
@@ -299,7 +292,6 @@ describe('story extraction', () => {
             "name": "Custom Name For Second Story",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "Custom Title",
             "type": "story",
@@ -311,7 +303,6 @@ describe('story extraction', () => {
             "name": "Story Three",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "Custom Title",
             "type": "story",
@@ -356,7 +347,6 @@ describe('story extraction', () => {
             "name": "Story One",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "A",
             "type": "story",
@@ -400,25 +390,12 @@ describe('docs entries from story extraction', () => {
         "dependents": [],
         "entries": [
           {
-            "id": "a--docs",
-            "importPath": "./src/A.stories.js",
-            "name": "docs",
-            "storiesImports": [],
-            "tags": [
-              "docs",
-              "autodocs",
-            ],
-            "title": "A",
-            "type": "docs",
-          },
-          {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
             "name": "Story One",
             "tags": [
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "A",
             "type": "story",
@@ -465,7 +442,8 @@ describe('docs entries from story extraction', () => {
             "name": "docs",
             "storiesImports": [],
             "tags": [
-              "docs",
+              "autodocs",
+              "story-tag-from-indexer",
             ],
             "title": "A",
             "type": "docs",
@@ -478,7 +456,6 @@ describe('docs entries from story extraction', () => {
             "tags": [
               "autodocs",
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "A",
             "type": "story",
@@ -527,7 +504,6 @@ describe('docs entries from story extraction', () => {
             "tags": [
               "autodocs",
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "A",
             "type": "story",
@@ -574,7 +550,8 @@ describe('docs entries from story extraction', () => {
             "name": "docs",
             "storiesImports": [],
             "tags": [
-              "docs",
+              "stories-mdx",
+              "story-tag-from-indexer",
             ],
             "title": "A",
             "type": "docs",
@@ -587,7 +564,6 @@ describe('docs entries from story extraction', () => {
             "tags": [
               "stories-mdx",
               "story-tag-from-indexer",
-              "story",
             ],
             "title": "A",
             "type": "story",

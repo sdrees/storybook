@@ -47,6 +47,16 @@
       "require": "./dist/next-image-loader-stub.js",
       "import": "./dist/next-image-loader-stub.mjs"
     },
+    "./dist/compatibility/segment.compat": {
+      "types": "./dist/compatibility/segment.compat.d.ts",
+      "require": "./dist/compatibility/segment.compat.js",
+      "import": "./dist/compatibility/segment.compat.mjs"
+    },
+    "./dist/compatibility/redirect-status-code.compat": {
+      "types": "./dist/compatibility/redirect-status-code.compat.d.ts",
+      "require": "./dist/compatibility/redirect-status-code.compat.js",
+      "import": "./dist/compatibility/redirect-status-code.compat.mjs"
+    },
     "./export-mocks": {
       "types": "./dist/export-mocks/index.d.ts",
       "require": "./dist/export-mocks/index.js",
@@ -173,8 +183,8 @@
   },
   "peerDependencies": {
     "next": "^13.5.0 || ^14.0.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
     "webpack": "^5.0.0"
   },
   "peerDependenciesMeta": {
@@ -205,6 +215,8 @@
       "./src/export-mocks/headers/index.ts",
       "./src/export-mocks/router/index.ts",
       "./src/export-mocks/navigation/index.ts",
+      "./src/compatibility/segment.compat.ts",
+      "./src/compatibility/redirect-status-code.compat.ts",
       "./src/next-image-loader-stub.ts",
       "./src/images/decorator.tsx",
       "./src/images/next-legacy-image.tsx",

@@ -1,4 +1,4 @@
 import { fn } from '@storybook/test';
 import * as utils from './utils';
 
-export const foo = fn(utils.foo);
+export const foo = fn(utils.foo).mockName('foo');

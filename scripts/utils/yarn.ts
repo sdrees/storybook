@@ -22,6 +22,7 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   packageJson.resolutions = {
+    ...packageJson.resolutions,
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
     // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
@@ -97,7 +98,12 @@ export const configureYarn2ForVerdaccio = async ({
     `yarn config set enableImmutableInstalls false`,
   ];
 
-  if (key.includes('svelte-kit')) {
+  if (
+    key.includes('svelte-kit') ||
+    // React prereleases will have INCOMPATIBLE_PEER_DEPENDENCY errors because of transitive dependencies not allowing v19 betas
+    key.includes('react-vite/prerelease') ||
+    key.includes('react-webpack/prerelease')
+  ) {
     // Don't error with INCOMPATIBLE_PEER_DEPENDENCY for SvelteKit sandboxes, it is expected to happen with @sveltejs/vite-plugin-svelte
     command.push(
       `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`

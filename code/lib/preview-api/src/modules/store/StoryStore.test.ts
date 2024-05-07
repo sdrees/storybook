@@ -311,7 +311,8 @@ describe('StoryStore', () => {
             "story": "A",
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
           },
@@ -476,7 +477,8 @@ describe('StoryStore', () => {
             "story": "A",
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
           },
@@ -514,7 +516,8 @@ describe('StoryStore', () => {
             "story": "B",
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
           },
@@ -552,7 +555,8 @@ describe('StoryStore', () => {
             "story": "C",
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component Two",
           },
@@ -660,7 +664,8 @@ describe('StoryStore', () => {
             "storyFn": [Function],
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
             "unboundStoryFn": [Function],
@@ -706,7 +711,8 @@ describe('StoryStore', () => {
             "storyFn": [Function],
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
             "unboundStoryFn": [Function],
@@ -752,7 +758,8 @@ describe('StoryStore', () => {
             "storyFn": [Function],
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component Two",
             "unboundStoryFn": [Function],
@@ -813,7 +820,8 @@ describe('StoryStore', () => {
               "story": "A",
               "subcomponents": undefined,
               "tags": [
-                "story",
+                "dev",
+                "test",
               ],
               "title": "Component One",
             },
@@ -851,7 +859,8 @@ describe('StoryStore', () => {
               "story": "B",
               "subcomponents": undefined,
               "tags": [
-                "story",
+                "dev",
+                "test",
               ],
               "title": "Component One",
             },
@@ -889,7 +898,8 @@ describe('StoryStore', () => {
               "story": "C",
               "subcomponents": undefined,
               "tags": [
-                "story",
+                "dev",
+                "test",
               ],
               "title": "Component Two",
             },

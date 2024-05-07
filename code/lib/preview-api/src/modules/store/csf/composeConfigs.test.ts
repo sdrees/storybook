@@ -23,6 +23,7 @@ describe('composeConfigs', () => {
       loaders: [],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -48,6 +49,7 @@ describe('composeConfigs', () => {
       loaders: [],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -77,6 +79,7 @@ describe('composeConfigs', () => {
       loaders: [],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -112,6 +115,7 @@ describe('composeConfigs', () => {
       loaders: [],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -150,6 +154,7 @@ describe('composeConfigs', () => {
       loaders: [],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -179,6 +184,7 @@ describe('composeConfigs', () => {
       loaders: ['1', '2', '3', '4'],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -208,6 +214,7 @@ describe('composeConfigs', () => {
       loaders: ['1', '2', '3'],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -233,6 +240,7 @@ describe('composeConfigs', () => {
       loaders: [],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -259,6 +267,7 @@ describe('composeConfigs', () => {
       loaders: [],
       beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -291,6 +300,7 @@ describe('composeConfigs', () => {
       renderToCanvas: 'renderToCanvas-2',
       applyDecorators: 'applyDecorators-2',
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 

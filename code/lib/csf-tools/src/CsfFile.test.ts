@@ -1104,8 +1104,6 @@ describe('CsfFile', () => {
             - component-tag
             - story-tag
             - play-fn
-          metaTags: &ref_0
-            - component-tag
           __id: component-id--a
         - type: story
           importPath: foo/bar.stories.js
@@ -1117,7 +1115,6 @@ describe('CsfFile', () => {
             - component-tag
             - story-tag
             - play-fn
-          metaTags: *ref_0
           __id: component-id--b
       `);
     });
@@ -1147,8 +1144,6 @@ describe('CsfFile', () => {
           metaId: component-id
           tags:
             - component-tag
-          metaTags:
-            - component-tag
           __id: custom-story-id
       `);
     });
@@ -1177,13 +1172,11 @@ describe('CsfFile', () => {
           tags:
             - component-tag
             - component-tag-dup
+            - component-tag-dup
             - inherit-tag-dup
             - story-tag
             - story-tag-dup
-          metaTags:
-            - component-tag
-            - component-tag-dup
-            - component-tag-dup
+            - story-tag-dup
             - inherit-tag-dup
           __id: custom-foo-title--a
       `);
