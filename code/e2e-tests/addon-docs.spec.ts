@@ -201,6 +201,7 @@ test.describe('addon-docs', () => {
     } else if (templateName.includes('react16')) {
       expectedReactVersionRange = /^16/;
     } else if (
+      templateName.includes('nextjs/prerelease') ||
       templateName.includes('react-vite/prerelease') ||
       templateName.includes('react-webpack/prerelease')
     ) {

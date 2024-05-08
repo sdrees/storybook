@@ -4,6 +4,12 @@ title: Mocking modules
 
 Components can also depend on modules that are imported into the component file. These can be from external packages or internal to your project. When rendering those components in Storybook or testing them, you may want to mock those modules to control their behavior.
 
+<Callout variant="info">
+
+If you prefer learning by example, we created a [comprehensive demo project](https://github.com/storybookjs/module-mocking-demo) using the mocking strategies described here.
+
+</Callout>
+
 There are two primary approaches to mocking modules in Storybook. They both involve creating a mock file to replace the original module. The difference between the two approaches is how you import the mock file into your component.
 
 For either approach, relative imports of the mocked module are not supported.
@@ -16,6 +22,7 @@ To mock a module, create a file with the same name and in the same directory as 
   - Using a subpath or alias import would result in it importing itself.
 - It should re-export all exports from the original module.
 - It should use the `fn` utility to mock any necessary functionality from the original module.
+- It should use the [`mockName`](https://vitest.dev/api/mock.html#mockname) method to ensure the name is preserved when minified
 - It should not introduce side effects that could affect other tests or components. Mock files should be isolated and only affect the module they are mocking.
 
 Here's an example of a mock file for a module named `session`:
@@ -29,6 +36,8 @@ Here's an example of a mock file for a module named `session`:
 />
 
 <!-- prettier-ignore-end -->
+
+When you use the `fn` utility to mock a module, you create full [Vitest mock functions](https://vitest.dev/api/mock.html). See [below](#using-mocked-modules-in-stories) for examples of how you can use a mocked module in your stories.
 
 ### Mock files for external modules
 
@@ -49,7 +58,7 @@ import { fn } from '@storybook/test';
 
 import * as actual from './uuid';
 
-export const uuidv4 = fn(actual.uuidv4);
+export const uuidv4 = fn(actual.uuidv4).mockName('uuidv4');
 ```
 
 ## Subpath imports

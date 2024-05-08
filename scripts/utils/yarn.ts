@@ -101,6 +101,7 @@ export const configureYarn2ForVerdaccio = async ({
   if (
     key.includes('svelte-kit') ||
     // React prereleases will have INCOMPATIBLE_PEER_DEPENDENCY errors because of transitive dependencies not allowing v19 betas
+    key.includes('nextjs/prerelease') ||
     key.includes('react-vite/prerelease') ||
     key.includes('react-webpack/prerelease')
   ) {

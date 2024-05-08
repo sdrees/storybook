@@ -1,5 +1,6 @@
 ---
 title: 'CLI options'
+hideRendererSelector: true
 ---
 
 The Storybook command line interface (CLI) is the main tool you use to build and develop Storybook.
