@@ -101,6 +101,8 @@ export const Title = styled(Dialog.Title)(({ theme }) => ({
 }));
 
 export const Description = styled(Dialog.Description)(({ theme }) => ({
+  position: 'relative',
+  zIndex: 1,
   margin: 0,
   fontSize: theme.typography.size.s2,
 }));

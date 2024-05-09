@@ -124,6 +124,12 @@ export const WriteStoriesModal: FC<WriteStoriesModalProps> = ({
           </Button>
         )}
         <Main>
+          <Background>
+            <Circle1 />
+            <Circle2 />
+            <Circle3 />
+          </Background>
+
           <Header>
             <Modal.Title asChild>
               <ModalTitle>
@@ -280,11 +286,6 @@ export const WriteStoriesModal: FC<WriteStoriesModalProps> = ({
                 ) : null)}
             </Content>
           </Modal.Description>
-          <Background>
-            <Circle1 />
-            <Circle2 />
-            <Circle3 />
-          </Background>
         </Main>
       </ModalContent>
     </ModalWrapper>
