@@ -159,7 +159,7 @@ export class StoryIndexGenerator {
     );
 
     const previewCode = await this.getPreviewCode();
-    const projectTags = previewCode ? this.getProjectTags(previewCode) : [];
+    const projectTags = this.getProjectTags(previewCode);
 
     // Extract stories for each file
     await this.ensureExtracted({ projectTags });
@@ -556,7 +556,7 @@ export class StoryIndexGenerator {
     if (this.lastError) throw this.lastError;
 
     const previewCode = await this.getPreviewCode();
-    const projectTags = previewCode ? this.getProjectTags(previewCode) : [];
+    const projectTags = this.getProjectTags(previewCode);
 
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
@@ -665,11 +665,14 @@ export class StoryIndexGenerator {
     return previewFile && (await fs.readFile(previewFile, 'utf-8')).toString();
   }
 
-  getProjectTags(previewCode: string) {
-    const projectAnnotations = loadConfig(previewCode).parse();
+  getProjectTags(previewCode?: string) {
+    let projectTags = [];
     const defaultTags = ['dev', 'test'];
     const extraTags = this.options.docs.autodocs === true ? [AUTODOCS_TAG] : [];
-    const projectTags = projectAnnotations.getFieldValue(['tags']) ?? [];
+    if (previewCode) {
+      const projectAnnotations = loadConfig(previewCode).parse();
+      projectTags = projectAnnotations.getFieldValue(['tags']) ?? [];
+    }
     return [...defaultTags, ...projectTags, ...extraTags];
   }
 
