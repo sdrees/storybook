@@ -19,16 +19,17 @@ interface MobileNavigationProps {
  */
 const useFullStoryName = () => {
   const { index } = useStorybookState();
-  const currentStory = useStorybookApi().getCurrentStoryData();
+  const api = useStorybookApi();
+  const currentStory = api.getCurrentStoryData();
 
   if (!currentStory) return '';
 
-  let fullStoryName = currentStory.renderLabel?.(currentStory) || currentStory.name;
+  let fullStoryName = currentStory.renderLabel?.(currentStory, api) || currentStory.name;
   let node = index[currentStory.id];
 
   while ('parent' in node && node.parent && index[node.parent] && fullStoryName.length < 24) {
     node = index[node.parent];
-    const parentName = node.renderLabel?.(node) || node.name;
+    const parentName = node.renderLabel?.(node, api) || node.name;
     fullStoryName = `${parentName}/${fullStoryName}`;
   }
   return fullStoryName;
