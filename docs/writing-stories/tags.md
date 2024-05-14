@@ -2,7 +2,7 @@
 title: 'Tags'
 ---
 
-Tags allow you to control which stories are included in your Storybook, enabling many different uses of the same total set of stories. For example, you can use tags to include/exclude tests from the [test runner](../writing-tests/test-runner.md#run-tests-for-a-subset-of-stories) or display [badges](https://storybook.js.org/addons/@geometricpanda/storybook-addon-badges/). For more complex use cases, see the [recipes](#recipes) section, below.
+Tags allow you to control which stories are included in your Storybook, enabling many different uses of the same total set of stories. For example, you can use tags to include/exclude tests from the [test runner](../writing-tests/test-runner.md#run-tests-for-a-subset-of-stories). For more complex use cases, see the [recipes](#recipes) section, below.
 
 ## Built-in tags
 
@@ -51,7 +51,7 @@ Within a component stories file, you apply tags like so:
 
 ## Removing tags
 
-To remove a tag from a story, prefix it with `!`. For example, we can apply the `stable` tag to all stories in a file except one, which has the `experimental` tag:
+To remove a tag from a story, prefix it with `!`. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -66,12 +66,6 @@ To remove a tag from a story, prefix it with `!`. For example, we can apply the 
 />
 
 <!-- prettier-ignore-end -->
-
-<Callout variant="info">
-
-Tags like `stable` and `experimental` work very well with an addon like [badges](https://storybook.js.org/addons/@geometricpanda/storybook-addon-badges/).
-
-</Callout>
 
 Tags can be removed for all stories in your project (in `.storybook/preview.js|ts`), all stories for a component (in the CSF file meta), or a single story (as above).
 

@@ -126,8 +126,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'neutral',
         external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
         esbuildOptions: (options) => {
+          /* eslint-disable no-param-reassign */
           options.platform = 'neutral';
           Object.assign(options, getESBuildOptions(optimized));
+          /* eslint-enable no-param-reassign */
         },
       })
     );

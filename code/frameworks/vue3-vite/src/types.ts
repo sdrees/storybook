@@ -21,7 +21,21 @@ export type FrameworkOptions = {
    * "vue-component-meta" will become the new default in the future and "vue-docgen-api" will be removed.
    * @default "vue-docgen-api"
    */
-  docgen?: VueDocgenPlugin;
+  docgen?:
+    | VueDocgenPlugin
+    | {
+        plugin: 'vue-component-meta';
+        /**
+         * Tsconfig filename to use. Should be set if your main `tsconfig.json` includes references to other tsconfig files
+         * like `tsconfig.app.json`.
+         * Otherwise docgen might not be generated correctly (e.g. import aliases are not resolved).
+         *
+         * For further information, see our [docs](https://storybook.js.org/docs/get-started/vue3-vite#override-the-default-configuration).
+         *
+         * @default "tsconfig.json"
+         */
+        tsconfig: `tsconfig${string}.json`;
+      };
 };
 
 type StorybookConfigFramework = {

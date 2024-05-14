@@ -22,7 +22,7 @@ Portable stories in Jest are currently only supported in [React](?renderer=react
 
 Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments, such as [Jest](https://jestjs.io).
 
-Normally, Storybok composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Jest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
+Normally, Storybook composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Jest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
 
 <If renderer="react">
 

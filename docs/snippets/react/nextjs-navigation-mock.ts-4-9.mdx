@@ -2,7 +2,7 @@
 // MyForm.stories.ts
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, fireEvent, userEvent, within } from '@storybook/test';
-// 👇 Must use this import path to have mocks typed correctly
+// 👇 Must include the `.mock` portion of filename to have mocks typed correctly
 import { redirect, getRouter } from '@storybook/nextjs/navigation.mock';
 
 import MyForm from './my-form';

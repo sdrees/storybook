@@ -3,8 +3,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import MockDate from 'mockdate';
 
-// 👇 Must use this import path to have mocks typed correctly
-import { getUserFromSession } from '#api/session.mock';
+// 👇 Must include the `.mock` portion of filename to have mocks typed correctly
+import { getUserFromSession } from '../../api/session.mock';
 
 const meta: Meta = {
   component: 'my-page',

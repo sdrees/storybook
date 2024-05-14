@@ -2,10 +2,9 @@
 // Page.stories.ts
 // Replace your-renderer with the name of your renderer (e.g. react, vue3)
 import type { Meta, StoryObj } from '@storybook/your-renderer';
-import { fn } from '@storybook/test';
 
-// 👇 Must use this import path to have mocks typed correctly
-import { getUserFromSession } from '#api/session.mock';
+// 👇 Must include the `.mock` portion of filename to have mocks typed correctly
+import { getUserFromSession } from '../../api/session.mock';
 import { Page } from './Page';
 
 const meta: Meta<typeof Page> = {

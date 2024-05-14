@@ -28,13 +28,15 @@ The portable stories API for Playwright CT is experimental. Playwright CT itself
 
 Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments, such as [Playwright Component Tests (CT)](https://playwright.dev/docs/test-components).
 
-Normally, Storybok composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Playwright CT, you can use the [`createTest`](#createtest) function, which extends Playwright's test functionality to add a custom `mount` mechanism, to take care of the story pipeline for you.
+Normally, Storybook composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Playwright CT, you can use the [`createTest`](#createtest) function, which extends Playwright's test functionality to add a custom `mount` mechanism, to take care of the story pipeline for you.
 
 <If renderer="react">
 
 <Callout variant="warning">
 
-**Using `Next.js`?** Next.js requires specific configuration that is only available in [Jest](./portable-stories-jest.md). The portable stories API is not supported in Next.js with Playwright CT.
+**Using `Next.js`?** The portable stories API is not yet supported in Next.js with Playwright CT.
+
+<!-- **Using `Next.js`?** Next.js requires specific configuration that is only available in [Jest](./portable-stories-jest.md). The portable stories API is not supported in Next.js with Playwright CT. -->
 
 </Callout>
 
@@ -87,9 +89,25 @@ Instead of using Playwright's own `test` function, you can use Storybook's speci
 
 <!-- prettier-ignore-end -->
 
-<Callout variant="warning">
+<Callout icon="ℹ️">
 
-Please note the [limitations of importing stories in Playwright CT](#importing-stories-in-playwright-ct).
+The code which you write in your Playwright test file is transformed and orchestrated by Playwright, where part of the code executes in Node, while other parts execute in the browser.
+
+Because of this, you have to compose the stories _in a separate file than your own test file_:
+
+```ts
+// Button.stories.portable.ts
+// Replace <your-renderer> with your renderer, e.g. react, vue3
+import { composeStories } from '@storybook/<your-renderer>';
+
+import * as stories from './Button.stories';
+
+// This function will be executed in the browser
+// and compose all stories, exporting them in a single object
+export default composeStories(stories);
+```
+
+You can then import the composed stories in your Playwright test file, as in the example above.
 
 </Callout>
 
@@ -126,7 +144,7 @@ This API should be called once, before the tests run, in [`playwright/index.ts`]
 // Replace <your-renderer> with your renderer, e.g. react, vue3
 import { setProjectAnnotations } from '@storybook/<your-renderer>';
 import * as addonAnnotations from 'my-addon/preview';
-import * as previewAnnotations from './.storybook/preview';
+import * as previewAnnotations from '../.storybook/preview';
 
 setProjectAnnotations([previewAnnotations, addonAnnotations]);
 ```
@@ -158,26 +176,6 @@ A set of project [annotations](#annotations) (those defined in `.storybook/previ
 ## Annotations
 
 Annotations are the metadata applied to a story, like [args](../writing-stories/args.md), [decorators](../writing-stories/decorators.md), [loaders](../writing-stories/loaders.md), and [play functions](../writing-stories/play-function.md). They can be defined for a specific story, all stories for a component, or all stories in the project.
-
-## Importing stories in Playwright CT
-
-The code which you write in your Playwright test file is transformed and orchestrated by Playwright, where part of the code executes in Node, while other parts execute in the browser.
-
-Because of this, you have to compose the stories _in a separate file than your own test file_:
-
-```ts
-// Button.stories.portable.ts
-// Replace <your-renderer> with your renderer, e.g. react, vue3
-import { composeStories } from '@storybook/<your-renderer>';
-
-import * as stories from './Button.stories';
-
-// This function will be executed in the browser
-// and compose all stories, exporting them in a single object
-export default composeStories(stories);
-```
-
-You can then import the composed stories in your Playwright test file, as in the [example above](#createtest).
 
 <Callout variant="info">
 

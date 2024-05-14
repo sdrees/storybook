@@ -322,7 +322,7 @@ To override these defaults, you can use [parameters](../writing-stories/paramete
 ```ts
 // .storybook/preview.ts
 import { Preview } from '@storybook/react';
-// 👇 Must use this import path to have mocks typed correctly
+// 👇 Must include the `.mock` portion of filename to have mocks typed correctly
 import { getRouter } from '@storybook/nextjs/router.mock';
 
 const preview: Preview = {
@@ -483,7 +483,7 @@ To override these defaults, you can use [parameters](../writing-stories/paramete
 ```ts
 // .storybook/preview.ts
 import { Preview } from '@storybook/react';
-// 👇 Must use this import path to have mocks typed correctly
+// 👇 Must include the `.mock` portion of filename to have mocks typed correctly
 import { getRouter } from '@storybook/nextjs/navigation.mock';
 
 const preview: Preview = {
@@ -885,11 +885,11 @@ If your server components access data via the network, we recommend using the [M
 
 In the future we will provide better mocking support in Storybook and support for [Server Actions](https://nextjs.org/docs/app/api-reference/functions/server-actions).
 
-## Portable stories
+<!-- ## Portable stories
 
 You can test your stories in a Jest environment by using the [portable stories](../api/portable-stories-jest.md) API.
 
-When using portable stories with Next.js, you need to mock the Next.js modules on which your components depend. You can use the [`@storybook/nextjs/export-mocks` module](#storybooknextjsexport-mocks) to generate the aliases needed to set up portable stories in a Jest environment. This is needed because, to replicate Next.js configuration, Storybook sets up aliases in Webpack to make testing and developing your components easier. If you make use of the advanced functionality like the built-in mocks for common Next.js modules, you need to set up this aliasing in your Jest environment as well.
+When using portable stories with Next.js, you need to mock the Next.js modules on which your components depend. You can use the [`@storybook/nextjs/export-mocks` module](#storybooknextjsexport-mocks) to generate the aliases needed to set up portable stories in a Jest environment. This is needed because, to replicate Next.js configuration, Storybook sets up aliases in Webpack to make testing and developing your components easier. If you make use of the advanced functionality like the built-in mocks for common Next.js modules, you need to set up this aliasing in your Jest environment as well. -->
 
 ## Notes for Yarn v2 and v3 users
 
