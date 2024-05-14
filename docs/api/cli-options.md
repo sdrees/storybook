@@ -119,6 +119,7 @@ Options include:
 | `--debug`                | Outputs more logs in the CLI to assist debugging<br/>`storybook init --debug`                                                                                                               |
 | `--disable-telemetry`    | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook init --disable-telemetry`                                               |
 | `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default)<br/>`storybook init --enable-crash-reports` |
+| `--no-dev`               | Complete the initialization of Storybook without running the Storybook dev server<br/>`storybook init --no-dev`                                                                             |
 
 ### `add`
 

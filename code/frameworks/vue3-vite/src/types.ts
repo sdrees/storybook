@@ -1,10 +1,10 @@
 import type { BuilderOptions, StorybookConfigVite } from '@storybook/builder-vite';
-import type { StorybookConfig as StorybookConfigBase } from '@storybook/types';
+import type { CompatibleString, StorybookConfig as StorybookConfigBase } from '@storybook/types';
 import type { ComponentMeta } from 'vue-component-meta';
 import type { ComponentDoc } from 'vue-docgen-api';
 
-type FrameworkName = '@storybook/vue3-vite';
-type BuilderName = '@storybook/builder-vite';
+type FrameworkName = CompatibleString<'@storybook/vue3-vite'>;
+type BuilderName = CompatibleString<'@storybook/builder-vite'>;
 
 /**
  * Available docgen plugins for vue.

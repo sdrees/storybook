@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components-vite",
-  "version": "8.1.0",
+  "version": "8.2.0-alpha.0",
   "description": "Storybook for web-components and Vite: Develop Web Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -50,6 +50,7 @@
     "@storybook/builder-vite": "workspace:*",
     "@storybook/core-server": "workspace:*",
     "@storybook/node-logger": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@storybook/web-components": "workspace:*",
     "magic-string": "^0.30.0"
   },

@@ -19,7 +19,6 @@
     "local-registry": "node --loader esbuild-register/loader -r esbuild-register ./run-registry.ts",
     "publish": "node --loader esbuild-register/loader -r esbuild-register ./sandbox/publish.ts",
     "release:cancel-preparation-runs": "node --loader esbuild-register/loader -r esbuild-register ./release/cancel-preparation-runs.ts",
-    "release:ensure-next-ahead": "node --loader esbuild-register/loader -r esbuild-register ./release/ensure-next-ahead.ts",
     "release:generate-pr-description": "node --loader esbuild-register/loader -r esbuild-register ./release/generate-pr-description.ts",
     "release:get-changelog-from-file": "node --loader esbuild-register/loader -r esbuild-register ./release/get-changelog-from-file.ts",
     "release:get-current-version": "node --loader esbuild-register/loader -r esbuild-register ./release/get-current-version.ts",

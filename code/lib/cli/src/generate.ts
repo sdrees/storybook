@@ -58,6 +58,17 @@ command('init')
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
+  // due to how Commander handles default values and negated options, we have to elevate the default into Commander, and we have to specify `--dev`
+  // alongside `--no-dev` even if we are unlikely to directly use `--dev`. https://github.com/tj/commander.js/issues/2068#issuecomment-1804524585
+  .option(
+    '--dev',
+    'Launch the development server after completing initialization. Enabled by default',
+    process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true'
+  )
+  .option(
+    '--no-dev',
+    'Complete the initialization of Storybook without launching the Storybook development server'
+  )
   .action((options: CommandOptions) => {
     initiate(options).catch(() => process.exit(1));
   });

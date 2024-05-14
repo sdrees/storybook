@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server-webpack5",
-  "version": "8.1.0",
+  "version": "8.2.0-alpha.0",
   "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -51,6 +51,7 @@
     "@storybook/core-common": "workspace:*",
     "@storybook/preset-server-webpack": "workspace:*",
     "@storybook/server": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/node": "^18.0.0"
   },
   "devDependencies": {

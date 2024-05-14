@@ -154,18 +154,6 @@ jobs:
           git merge ${{ github.ref_name }}
           git push origin ${{ steps.target.outputs.target }}
 
-      - name: Ensure `next` is a minor version ahead of `main`
-        if: steps.target.outputs.target == 'main'
-        run: |
-          git checkout next
-          git pull
-
-          yarn release:ensure-next-ahead --main-version "${{ steps.version.outputs.current-version }}"
-
-          git add ..
-          git diff --staged --quiet || git commit -m "Bump next to be one minor ahead of main [skip ci]"
-          git push origin next
-
       - name: Sync CHANGELOG.md from `main` to `next`
         if: steps.target.outputs.target == 'main'
         working-directory: .

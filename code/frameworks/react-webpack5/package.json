@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-webpack5",
-  "version": "8.1.0",
+  "version": "8.2.0-alpha.0",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -50,6 +50,7 @@
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/react": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/node": "^18.0.0"
   },
   "peerDependencies": {

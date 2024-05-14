@@ -1,6 +1,6 @@
 {
   "name": "@storybook/blocks",
-  "version": "8.1.0",
+  "version": "8.2.0-alpha.0",
   "description": "Storybook Doc Blocks",
   "keywords": [
     "storybook"
@@ -60,7 +60,7 @@
     "color-convert": "^2.0.1",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
-    "markdown-to-jsx": "7.3.2",
+    "markdown-to-jsx": "^7.4.5",
     "memoizerific": "^1.11.3",
     "polished": "^4.2.2",
     "react-colorful": "^5.1.2",
