@@ -22,9 +22,7 @@ export const parameters: any = {
       filter: (story: PreparedStory) => {
         const tags = story.tags || [];
         return (
-          tags.includes('autodocs') &&
-          tags.filter((tag) => excludeTags[tag]).length === 0 &&
-          !story.parameters.docs?.disable
+          tags.filter((tag) => excludeTags[tag]).length === 0 && !story.parameters.docs?.disable
         );
       },
     },

@@ -99,6 +99,6 @@ export const OfStringMetaAttached: Story = {
   parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
 };
 export const Children: Story = {
-  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: false },
   render: () => <Subtitle>This subtitle is a string passed as a children</Subtitle>,
 };

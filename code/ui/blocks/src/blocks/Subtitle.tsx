@@ -25,8 +25,17 @@ export const Subtitle: FunctionComponent<SubtitleProps> = (props) => {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
   }
 
-  const { preparedMeta } = useOf(of || 'meta', ['meta']);
-  const { componentSubtitle, docs } = preparedMeta.parameters || {};
+  let preparedMeta;
+  try {
+    preparedMeta = useOf(of || 'meta', ['meta']).preparedMeta;
+  } catch (error) {
+    if (children && !error.message.includes('did you forget to use <Meta of={} />?')) {
+      // ignore error about unattached CSF since we can still render children
+      throw error;
+    }
+  }
+
+  const { componentSubtitle, docs } = preparedMeta?.parameters || {};
 
   if (componentSubtitle) {
     deprecate(

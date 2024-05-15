@@ -42,7 +42,7 @@ export const Title: FunctionComponent<TitleProps> = (props) => {
     }
   }
 
-  const content = children || extractTitle(preparedMeta.title);
+  const content = children || extractTitle(preparedMeta?.title);
 
   return content ? <PureTitle className="sbdocs-title sb-unstyled">{content}</PureTitle> : null;
 };
