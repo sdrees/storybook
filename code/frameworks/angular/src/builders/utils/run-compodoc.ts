@@ -1,5 +1,4 @@
 import { BuilderContext } from '@angular-devkit/architect';
-import { Observable } from 'rxjs';
 import * as path from 'path';
 import { JsPackageManagerFactory } from '@storybook/core-common';
 
