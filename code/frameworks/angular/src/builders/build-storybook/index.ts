@@ -1,18 +1,8 @@
-import {
-  BuilderContext,
-  BuilderHandlerFn,
-  BuilderOutput,
-  BuilderOutputLike,
-  Target,
-  createBuilder,
-  targetFromTargetString,
-} from '@angular-devkit/architect';
+import { BuilderContext, BuilderOutput, createBuilder } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import { from, of, throwError } from 'rxjs';
-import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
-import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
+import { StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
 import { CLIOptions } from '@storybook/types';
 import { getEnvConfig, versions } from '@storybook/core-common';
@@ -22,11 +12,13 @@ import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import {
   AssetPattern,
   SourceMapUnion,
+  StyleClass,
   StyleElement,
 } from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { errorSummary, printErrorDetails } from '../utils/error-handler';
+import { setup } from '../utils/setup';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
@@ -59,112 +51,77 @@ export type StorybookBuilderOptions = JsonObject & {
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & { [key: string]: any };
 
-type StandaloneBuildOptions = StandaloneOptions & { outputDir: string };
+type StandaloneBuildOptions = StandaloneOptions & { outputDir: string; excludeChunks: string[] };
 
-const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
-  options,
-  context
-): BuilderOutputLike => {
-  const builder = from(setup(options, context)).pipe(
-    switchMap(({ tsConfig }) => {
-      const docTSConfig = findUpSync('tsconfig.doc.json', { cwd: options.configDir });
-      const runCompodoc$ = options.compodoc
-        ? runCompodoc(
-            { compodocArgs: options.compodocArgs, tsconfig: docTSConfig ?? tsConfig },
-            context
-          ).pipe(mapTo({ tsConfig }))
-        : of({});
+const commandBuilder = async (
+  options: StorybookBuilderOptions,
+  context: BuilderContext
+): Promise<BuilderOutput> => {
+  const { tsConfig, angularBuilderContext, angularBuilderOptions } = await setup(options, context);
 
-      return runCompodoc$.pipe(mapTo({ tsConfig }));
-    }),
-    map(({ tsConfig }) => {
-      getEnvConfig(options, {
-        staticDir: 'SBCONFIG_STATIC_DIR',
-        outputDir: 'SBCONFIG_OUTPUT_DIR',
-        configDir: 'SBCONFIG_CONFIG_DIR',
-      });
+  const docTSConfig = findUpSync('tsconfig.doc.json', { cwd: options.configDir });
 
-      const {
-        browserTarget,
-        stylePreprocessorOptions,
-        styles,
-        configDir,
-        docs,
-        loglevel,
-        test,
-        outputDir,
-        quiet,
-        enableProdMode = true,
-        webpackStatsJson,
-        statsJson,
-        debugWebpack,
-        disableTelemetry,
-        assets,
-        previewUrl,
-        sourceMap = false,
-      } = options;
+  if (options.compodoc) {
+    await runCompodoc(
+      { compodocArgs: options.compodocArgs, tsconfig: docTSConfig ?? tsConfig },
+      context
+    );
+  }
 
-      const standaloneOptions: StandaloneBuildOptions = {
-        packageJson: readUpSync({ cwd: __dirname }).packageJson,
-        configDir,
-        ...(docs ? { docs } : {}),
-        loglevel,
-        outputDir,
-        test,
-        quiet,
-        enableProdMode,
-        disableTelemetry,
-        angularBrowserTarget: browserTarget,
-        angularBuilderContext: context,
-        angularBuilderOptions: {
-          ...(stylePreprocessorOptions ? { stylePreprocessorOptions } : {}),
-          ...(styles ? { styles } : {}),
-          ...(assets ? { assets } : {}),
-          sourceMap,
-        },
-        tsConfig,
-        webpackStatsJson,
-        statsJson,
-        debugWebpack,
-        previewUrl,
-      };
+  getEnvConfig(options, {
+    staticDir: 'SBCONFIG_STATIC_DIR',
+    outputDir: 'SBCONFIG_OUTPUT_DIR',
+    configDir: 'SBCONFIG_CONFIG_DIR',
+  });
 
-      return standaloneOptions;
-    }),
-    switchMap((standaloneOptions) => runInstance({ ...standaloneOptions, mode: 'static' })),
-    map(() => {
-      return { success: true };
-    })
-  );
+  const {
+    configDir,
+    docs,
+    loglevel,
+    test,
+    outputDir,
+    quiet,
+    enableProdMode = true,
+    webpackStatsJson,
+    statsJson,
+    debugWebpack,
+    disableTelemetry,
+    previewUrl,
+  } = options;
 
-  return builder as any as BuilderOutput;
+  const standaloneOptions: StandaloneBuildOptions = {
+    packageJson: readUpSync({ cwd: __dirname }).packageJson,
+    configDir,
+    ...(docs ? { docs } : {}),
+    excludeChunks: angularBuilderOptions.styles
+      ?.filter((style) => typeof style !== 'string' && style.inject === false)
+      .map((s: StyleClass) => s.bundleName),
+    loglevel,
+    outputDir,
+    test,
+    quiet,
+    enableProdMode,
+    disableTelemetry,
+    angularBrowserTarget: options.browserTarget,
+    angularBuilderContext,
+    angularBuilderOptions,
+    tsConfig,
+    webpackStatsJson,
+    statsJson,
+    debugWebpack,
+    previewUrl,
+  };
+
+  await runInstance({ ...standaloneOptions, mode: 'static' });
+
+  return { success: true };
 };
 
 export default createBuilder(commandBuilder);
 
-async function setup(options: StorybookBuilderOptions, context: BuilderContext) {
-  let browserOptions: (JsonObject & BrowserBuilderOptions) | undefined;
-  let browserTarget: Target | undefined;
-
-  if (options.browserTarget) {
-    browserTarget = targetFromTargetString(options.browserTarget);
-    browserOptions = await context.validateOptions<JsonObject & BrowserBuilderOptions>(
-      await context.getTargetOptions(browserTarget),
-      await context.getBuilderNameForTarget(browserTarget)
-    );
-  }
-
-  return {
-    tsConfig:
-      options.tsConfig ??
-      findUpSync('tsconfig.json', { cwd: options.configDir }) ??
-      browserOptions.tsConfig,
-  };
-}
-
-function runInstance(options: StandaloneBuildOptions) {
-  return from(
-    withTelemetry(
+async function runInstance(options: StandaloneBuildOptions) {
+  try {
+    await withTelemetry(
       'build',
       {
         cliOptions: options,
@@ -172,6 +129,8 @@ function runInstance(options: StandaloneBuildOptions) {
         printError: printErrorDetails,
       },
       () => buildStaticStandalone(options)
-    )
-  ).pipe(catchError((error: any) => throwError(errorSummary(error))));
+    );
+  } catch (error) {
+    throw new Error(errorSummary(error));
+  }
 }

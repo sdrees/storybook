@@ -56,6 +56,7 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
    */
   const { getCommonConfig, getStylesConfig, getDevServerConfig, getTypeScriptConfig } =
     getAngularWebpackUtils();
+
   const { config: cliConfig } = await generateI18nBrowserWebpackConfigFromContext(
     {
       // Default options
@@ -65,10 +66,15 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
 
       // Options provided by user
       ...builderOptions,
-      styles: builderOptions.styles
-        ?.map((style) => (typeof style === 'string' ? style : style.input))
-        .filter((style) => typeof style === 'string' || style.inject !== false),
-
+      styles: builderOptions.styles?.map((style) =>
+        typeof style === 'string'
+          ? {
+              input: style,
+              inject: true,
+              bundleName: style.split('/').pop(),
+            }
+          : style
+      ),
       // Fixed options
       optimization: false,
       namedChunks: false,

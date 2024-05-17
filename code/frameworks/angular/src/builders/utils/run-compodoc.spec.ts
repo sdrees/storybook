@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { vi, describe, afterEach, it, expect } from 'vitest';
 import { LoggerApi } from '@angular-devkit/core/src/logger';
-import { take } from 'rxjs/operators';
 import { BuilderContext } from '@angular-devkit/architect';
 
 import { runCompodoc } from './run-compodoc';
@@ -37,15 +36,13 @@ describe('runCompodoc', () => {
   } as BuilderContext;
 
   it('should run compodoc with tsconfig from context', async () => {
-    runCompodoc(
+    await runCompodoc(
       {
         compodocArgs: [],
         tsconfig: 'path/to/tsconfig.json',
       },
       builderContextMock
-    )
-      .pipe(take(1))
-      .subscribe();
+    );
 
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
@@ -56,15 +53,13 @@ describe('runCompodoc', () => {
   });
 
   it('should run compodoc with tsconfig from compodocArgs', async () => {
-    runCompodoc(
+    await runCompodoc(
       {
         compodocArgs: ['-p', 'path/to/tsconfig.stories.json'],
         tsconfig: 'path/to/tsconfig.json',
       },
       builderContextMock
-    )
-      .pipe(take(1))
-      .subscribe();
+    );
 
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
@@ -75,15 +70,13 @@ describe('runCompodoc', () => {
   });
 
   it('should run compodoc with default output folder.', async () => {
-    runCompodoc(
+    await runCompodoc(
       {
         compodocArgs: [],
         tsconfig: 'path/to/tsconfig.json',
       },
       builderContextMock
-    )
-      .pipe(take(1))
-      .subscribe();
+    );
 
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
@@ -94,15 +87,13 @@ describe('runCompodoc', () => {
   });
 
   it('should run with custom output folder specified with --output compodocArgs', async () => {
-    runCompodoc(
+    await runCompodoc(
       {
         compodocArgs: ['--output', 'path/to/customFolder'],
         tsconfig: 'path/to/tsconfig.json',
       },
       builderContextMock
-    )
-      .pipe(take(1))
-      .subscribe();
+    );
 
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',
@@ -113,15 +104,13 @@ describe('runCompodoc', () => {
   });
 
   it('should run with custom output folder specified with -d compodocArgs', async () => {
-    runCompodoc(
+    await runCompodoc(
       {
         compodocArgs: ['-d', 'path/to/customFolder'],
         tsconfig: 'path/to/tsconfig.json',
       },
       builderContextMock
-    )
-      .pipe(take(1))
-      .subscribe();
+    );
 
     expect(mockRunScript).toHaveBeenCalledWith(
       'compodoc',

@@ -1,9 +1,6 @@
 import webpack from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { AngularLegacyBuildOptionsError } from '@storybook/core-events/server-errors';
-import { BuilderContext, targetFromTargetString } from '@angular-devkit/architect';
-import { sync as findUpSync } from 'find-up';
-import { JsonObject, logging } from '@angular-devkit/core';
 
 import { getWebpackConfig as getCustomWebpackConfig } from './angular-cli-webpack';
 import { moduleIsAvailable } from './utils/module-is-available';
@@ -17,72 +14,13 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
 
   checkForLegacyBuildOptions(options);
 
-  const builderContext = getBuilderContext(options);
-  const builderOptions = await getBuilderOptions(options, builderContext);
-
   return getCustomWebpackConfig(baseConfig, {
     builderOptions: {
       watch: options.configType === 'DEVELOPMENT',
-      ...builderOptions,
+      ...options.angularBuilderOptions,
     },
-    builderContext,
+    builderContext: options.angularBuilderContext,
   });
-}
-
-/**
- * Get Builder Context
- * If storybook is not start by angular builder create dumb BuilderContext
- */
-function getBuilderContext(options: PresetOptions): BuilderContext {
-  return (
-    options.angularBuilderContext ??
-    ({
-      target: { project: 'noop-project', builder: '', options: {} },
-      workspaceRoot: process.cwd(),
-      getProjectMetadata: () => ({}),
-      getTargetOptions: () => ({}),
-      logger: new logging.Logger('Storybook'),
-    } as unknown as BuilderContext)
-  );
-}
-
-/**
- * Get builder options
- * Merge target options from browser target and from storybook options
- */
-async function getBuilderOptions(
-  options: PresetOptions,
-  builderContext: BuilderContext
-): Promise<JsonObject> {
-  /**
-   * Get Browser Target options
-   */
-  let browserTargetOptions: JsonObject = {};
-  if (options.angularBrowserTarget) {
-    const browserTarget = targetFromTargetString(options.angularBrowserTarget);
-
-    logger.info(
-      `=> Using angular browser target options from "${browserTarget.project}:${
-        browserTarget.target
-      }${browserTarget.configuration ? `:${browserTarget.configuration}` : ''}"`
-    );
-    browserTargetOptions = await builderContext.getTargetOptions(browserTarget);
-  }
-
-  /**
-   * Merge target options from browser target options and from storybook options
-   */
-  const builderOptions = {
-    ...browserTargetOptions,
-    ...(options.angularBuilderOptions as JsonObject),
-    tsConfig:
-      options.tsConfig ??
-      findUpSync('tsconfig.json', { cwd: options.configDir }) ??
-      browserTargetOptions.tsConfig,
-  };
-  logger.info(`=> Using angular project with "tsConfig:${builderOptions.tsConfig}"`);
-
-  return builderOptions;
 }
 
 /**

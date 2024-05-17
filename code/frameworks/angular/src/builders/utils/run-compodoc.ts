@@ -13,34 +13,30 @@ const toRelativePath = (pathToTsConfig: string) => {
   return path.isAbsolute(pathToTsConfig) ? path.relative('.', pathToTsConfig) : pathToTsConfig;
 };
 
-export const runCompodoc = (
+export const runCompodoc = async (
   { compodocArgs, tsconfig }: { compodocArgs: string[]; tsconfig: string },
   context: BuilderContext
-): Observable<void> => {
-  return new Observable<void>((observer) => {
-    const tsConfigPath = toRelativePath(tsconfig);
-    const finalCompodocArgs = [
-      ...(hasTsConfigArg(compodocArgs) ? [] : ['-p', tsConfigPath]),
-      ...(hasOutputArg(compodocArgs) ? [] : ['-d', `${context.workspaceRoot || '.'}`]),
-      ...compodocArgs,
-    ];
+): Promise<void> => {
+  const tsConfigPath = toRelativePath(tsconfig);
+  const finalCompodocArgs = [
+    ...(hasTsConfigArg(compodocArgs) ? [] : ['-p', tsConfigPath]),
+    ...(hasOutputArg(compodocArgs) ? [] : ['-d', `${context.workspaceRoot || '.'}`]),
+    ...compodocArgs,
+  ];
 
-    const packageManager = JsPackageManagerFactory.getPackageManager();
+  const packageManager = JsPackageManagerFactory.getPackageManager();
 
-    try {
-      const stdout = packageManager.runPackageCommandSync(
-        'compodoc',
-        finalCompodocArgs,
-        context.workspaceRoot,
-        'inherit'
-      );
+  try {
+    const stdout = packageManager.runPackageCommandSync(
+      'compodoc',
+      finalCompodocArgs,
+      context.workspaceRoot,
+      'inherit'
+    );
 
-      context.logger.info(stdout);
-      observer.next();
-      observer.complete();
-    } catch (e) {
-      context.logger.error(e);
-      observer.error();
-    }
-  });
+    context.logger.info(stdout);
+  } catch (e) {
+    context.logger.error(e);
+    throw e;
+  }
 };
