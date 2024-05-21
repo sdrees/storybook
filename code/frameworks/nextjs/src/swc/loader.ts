@@ -24,7 +24,7 @@ export const configureSWCLoader = async (
   );
 
   if (rawRule && typeof rawRule === 'object') {
-    rawRule.test = /^(?!__barrel_optimize__)/;
+    rawRule.exclude = /^__barrel_optimize__/;
   }
 
   baseConfig.module?.rules?.push({
