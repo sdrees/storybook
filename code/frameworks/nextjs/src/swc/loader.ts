@@ -31,7 +31,6 @@ export const configureSWCLoader = async (
     test: /\.((c|m)?(j|t)sx?)$/,
     include: [getProjectRoot()],
     exclude: [/(node_modules)/, ...Object.keys(virtualModules)],
-    enforce: 'post',
     use: {
       // we use our own patch because we need to remove tracing from the original code
       // which is not possible otherwise

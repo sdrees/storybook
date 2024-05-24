@@ -27,6 +27,12 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./dist/webpack-loader": {
+      "types": "./dist/webpack-loader.d.ts",
+      "node": "./dist/webpack-loader.js",
+      "require": "./dist/webpack-loader.js",
+      "import": "./dist/webpack-loader.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -55,7 +61,8 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/webpack-loader.ts"
     ],
     "externals": [
       "webpack",
