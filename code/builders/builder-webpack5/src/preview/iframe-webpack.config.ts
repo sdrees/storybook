@@ -2,7 +2,6 @@ import { dirname, join, resolve } from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
 // @ts-expect-error (I removed this on purpose, because it's incorrect)
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
@@ -54,11 +53,7 @@ const storybookPaths: Record<string, string> = {
 };
 
 export default async (
-  options: Options & {
-    typescriptOptions: TypescriptOptions;
-    /* Build entries, which should not be linked in the iframe HTML file */
-    excludeChunks?: string[];
-  }
+  options: Options & { typescriptOptions: TypescriptOptions }
 ): Promise<Configuration> => {
   const {
     outputDir = join('.', 'public'),
@@ -69,7 +64,6 @@ export default async (
     previewUrl,
     typescriptOptions,
     features,
-    excludeChunks = [],
   } = options;
 
   const isProd = configType === 'PRODUCTION';
@@ -178,7 +172,6 @@ export default async (
         alwaysWriteToDisk: true,
         inject: false,
         template,
-        excludeChunks,
         templateParameters: {
           version: packageJson.version,
           globals: {

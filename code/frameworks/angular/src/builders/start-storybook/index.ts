@@ -1,6 +1,15 @@
-import { BuilderHandlerFn, BuilderOutput, createBuilder } from '@angular-devkit/architect';
+import {
+  BuilderContext,
+  BuilderHandlerFn,
+  BuilderOutput,
+  Target,
+  createBuilder,
+  targetFromTargetString,
+} from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import { StylePreprocessorOptions } from '@angular-devkit/build-angular';
+import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
+import { from, Observable, of } from 'rxjs';
+import { map, switchMap, mapTo } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
@@ -11,22 +20,24 @@ import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import {
   AssetPattern,
   SourceMapUnion,
-  StyleClass,
   StyleElement,
 } from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { printErrorDetails, errorSummary } from '../utils/error-handler';
-import { AngularBuilderOptions, setup } from '../utils/setup';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-export type StorybookBuilderOptions = AngularBuilderOptions & {
+export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
   compodoc: boolean;
   compodocArgs: string[];
   enableProdMode?: boolean;
+  styles?: StyleElement[];
+  stylePreprocessorOptions?: StylePreprocessorOptions;
+  assets?: AssetPattern[];
+  sourceMap?: SourceMapUnion;
 } & Pick<
     // makes sure the option exists
     CLIOptions,
@@ -53,96 +64,131 @@ export type StorybookBuilderOptions = AngularBuilderOptions & {
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
 
-const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = async (options, context) => {
-  const { tsConfig, angularBuilderContext, angularBuilderOptions } = await setup(options, context);
+const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, context) => {
+  const builder = from(setup(options, context)).pipe(
+    switchMap(({ tsConfig }) => {
+      const docTSConfig = findUpSync('tsconfig.doc.json', { cwd: options.configDir });
 
-  const docTSConfig = findUpSync('tsconfig.doc.json', { cwd: options.configDir });
+      const runCompodoc$ = options.compodoc
+        ? runCompodoc(
+            {
+              compodocArgs: [...options.compodocArgs, ...(options.quiet ? ['--silent'] : [])],
+              tsconfig: docTSConfig ?? tsConfig,
+            },
+            context
+          ).pipe(mapTo({ tsConfig }))
+        : of({});
 
-  if (options.compodoc) {
-    await runCompodoc(
-      {
-        compodocArgs: [...options.compodocArgs, ...(options.quiet ? ['--silent'] : [])],
-        tsconfig: docTSConfig ?? tsConfig,
-      },
-      context
-    );
-  }
+      return runCompodoc$.pipe(mapTo({ tsConfig }));
+    }),
+    map(({ tsConfig }) => {
+      getEnvConfig(options, {
+        port: 'SBCONFIG_PORT',
+        host: 'SBCONFIG_HOSTNAME',
+        staticDir: 'SBCONFIG_STATIC_DIR',
+        configDir: 'SBCONFIG_CONFIG_DIR',
+        ci: 'CI',
+      });
 
-  getEnvConfig(options, {
-    port: 'SBCONFIG_PORT',
-    host: 'SBCONFIG_HOSTNAME',
-    staticDir: 'SBCONFIG_STATIC_DIR',
-    configDir: 'SBCONFIG_CONFIG_DIR',
-    ci: 'CI',
-  });
+      options.port = parseInt(`${options.port}`, 10);
 
-  options.port = parseInt(`${options.port}`, 10);
+      const {
+        browserTarget,
+        stylePreprocessorOptions,
+        styles,
+        ci,
+        configDir,
+        docs,
+        host,
+        https,
+        port,
+        quiet,
+        enableProdMode = false,
+        smokeTest,
+        sslCa,
+        sslCert,
+        sslKey,
+        disableTelemetry,
+        assets,
+        initialPath,
+        open,
+        debugWebpack,
+        loglevel,
+        webpackStatsJson,
+        statsJson,
+        previewUrl,
+        sourceMap = false,
+      } = options;
 
-  const {
-    browserTarget,
-    ci,
-    configDir,
-    docs,
-    host,
-    https,
-    port,
-    quiet,
-    enableProdMode = false,
-    smokeTest,
-    sslCa,
-    sslCert,
-    sslKey,
-    disableTelemetry,
-    initialPath,
-    open,
-    debugWebpack,
-    loglevel,
-    webpackStatsJson,
-    statsJson,
-    previewUrl,
-  } = options;
+      const standaloneOptions: StandaloneOptions = {
+        packageJson: readUpSync({ cwd: __dirname }).packageJson,
+        ci,
+        configDir,
+        ...(docs ? { docs } : {}),
+        host,
+        https,
+        port,
+        quiet,
+        enableProdMode,
+        smokeTest,
+        sslCa,
+        sslCert,
+        sslKey,
+        disableTelemetry,
+        angularBrowserTarget: browserTarget,
+        angularBuilderContext: context,
+        angularBuilderOptions: {
+          ...(stylePreprocessorOptions ? { stylePreprocessorOptions } : {}),
+          ...(styles ? { styles } : {}),
+          ...(assets ? { assets } : {}),
+          sourceMap,
+        },
+        tsConfig,
+        initialPath,
+        open,
+        debugWebpack,
+        webpackStatsJson,
+        statsJson,
+        loglevel,
+        previewUrl,
+      };
 
-  const standaloneOptions: StandaloneOptions = {
-    packageJson: readUpSync({ cwd: __dirname }).packageJson,
-    ci,
-    configDir,
-    ...(docs ? { docs } : {}),
-    excludeChunks: angularBuilderOptions.styles
-      ?.filter((style) => typeof style !== 'string' && style.inject === false)
-      .map((s: StyleClass) => s.bundleName),
-    host,
-    https,
-    port,
-    quiet,
-    enableProdMode,
-    smokeTest,
-    sslCa,
-    sslCert,
-    sslKey,
-    disableTelemetry,
-    angularBrowserTarget: browserTarget,
-    angularBuilderContext,
-    angularBuilderOptions,
-    tsConfig,
-    initialPath,
-    open,
-    debugWebpack,
-    webpackStatsJson,
-    statsJson,
-    loglevel,
-    previewUrl,
-  };
+      return standaloneOptions;
+    }),
+    switchMap((standaloneOptions) => runInstance(standaloneOptions)),
+    map((port: number) => {
+      return { success: true, info: { port } };
+    })
+  );
 
-  const devPort = await runInstance(standaloneOptions);
-
-  return { success: true, info: { port: devPort } };
+  return builder as any as BuilderOutput;
 };
 
 export default createBuilder(commandBuilder);
 
-async function runInstance(options: StandaloneOptions): Promise<number> {
-  try {
-    const { port } = await withTelemetry(
+async function setup(options: StorybookBuilderOptions, context: BuilderContext) {
+  let browserOptions: (JsonObject & BrowserBuilderOptions) | undefined;
+  let browserTarget: Target | undefined;
+
+  if (options.browserTarget) {
+    browserTarget = targetFromTargetString(options.browserTarget);
+    browserOptions = await context.validateOptions<JsonObject & BrowserBuilderOptions>(
+      await context.getTargetOptions(browserTarget),
+      await context.getBuilderNameForTarget(browserTarget)
+    );
+  }
+
+  return {
+    tsConfig:
+      options.tsConfig ??
+      findUpSync('tsconfig.json', { cwd: options.configDir }) ??
+      browserOptions.tsConfig,
+  };
+}
+function runInstance(options: StandaloneOptions) {
+  return new Observable<number>((observer) => {
+    // This Observable intentionally never complete, leaving the process running ;)
+    withTelemetry(
       'dev',
       {
         cliOptions: options,
@@ -150,9 +196,10 @@ async function runInstance(options: StandaloneOptions): Promise<number> {
         printError: printErrorDetails,
       },
       () => buildDevStandalone(options)
-    );
-    return port;
-  } catch (error) {
-    throw new Error(errorSummary(error));
-  }
+    )
+      .then(({ port }) => observer.next(port))
+      .catch((error) => {
+        observer.error(errorSummary(error));
+      });
+  });
 }
