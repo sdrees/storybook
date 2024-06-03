@@ -4,7 +4,6 @@ import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
-import { temporaryDirectory } from 'tempy';
 import { execaCommand } from 'execa';
 import { esMain } from '../utils/esmain';
 
@@ -81,6 +80,7 @@ const addStorybook = async ({
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
   const afterDir = join(baseDir, AFTER_DIR_NAME);
 
+  const { temporaryDirectory } = await import('tempy');
   const tmpDir = temporaryDirectory();
 
   try {
@@ -151,6 +151,7 @@ const runGenerators = async (
   console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${1}`);
 
   const limit = pLimit(1);
+  const { temporaryDirectory } = await import('tempy');
 
   const generationResults = await Promise.allSettled(
     generators.map(({ dirName, name, script, expected, env }) =>

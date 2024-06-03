@@ -672,8 +672,24 @@ export class StoryIndexGenerator {
     const defaultTags = ['dev', 'test'];
     const extraTags = this.options.docs.autodocs === true ? [AUTODOCS_TAG] : [];
     if (previewCode) {
-      const projectAnnotations = loadConfig(previewCode).parse();
-      projectTags = projectAnnotations.getFieldValue(['tags']) ?? [];
+      try {
+        const projectAnnotations = loadConfig(previewCode).parse();
+        projectTags = projectAnnotations.getFieldValue(['tags']) ?? [];
+      } catch (err) {
+        once.warn(dedent`
+          Unable to parse tags from project configuration. If defined, tags should be specified inline, e.g.
+      
+          export default {
+            tags: ['foo'],
+          }
+      
+          ---
+      
+          Received:
+      
+          ${previewCode}
+        `);
+      }
     }
     return [...defaultTags, ...projectTags, ...extraTags];
   }
