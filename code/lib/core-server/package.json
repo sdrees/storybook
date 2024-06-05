@@ -23,8 +23,8 @@
     ".": {
       "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     },
     "./dist/presets/common-preset": {
       "types": "./dist/presets/common-preset.d.ts",
@@ -87,7 +87,6 @@
     "express": "^4.19.2",
     "fs-extra": "^11.1.0",
     "globby": "^14.0.1",
-    "ip": "^2.0.1",
     "lodash": "^4.17.21",
     "open": "^8.4.0",
     "pretty-hrtime": "^1.0.3",
@@ -105,7 +104,6 @@
   "devDependencies": {
     "@storybook/addon-docs": "workspace:*",
     "@types/compression": "^1.7.0",
-    "@types/ip": "^1.1.0",
     "@types/node-fetch": "^2.5.7",
     "@types/ws": "^8",
     "boxen": "^7.1.1",

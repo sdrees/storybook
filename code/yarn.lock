@@ -6051,7 +6051,6 @@ __metadata:
     "@types/compression": "npm:^1.7.0"
     "@types/detect-port": "npm:^1.3.0"
     "@types/diff": "npm:^5.0.9"
-    "@types/ip": "npm:^1.1.0"
     "@types/node": "npm:^18.0.0"
     "@types/node-fetch": "npm:^2.5.7"
     "@types/pretty-hrtime": "npm:^1.0.0"
@@ -6068,7 +6067,6 @@ __metadata:
     express: "npm:^4.19.2"
     fs-extra: "npm:^11.1.0"
     globby: "npm:^14.0.1"
-    ip: "npm:^2.0.1"
     lodash: "npm:^4.17.21"
     node-fetch: "npm:^3.3.1"
     open: "npm:^8.4.0"
@@ -8044,15 +8042,6 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/06719371ece6bdf9fd28b90b03bd56e48ffca675dfaadca81ae12ca18db6e77e70a509537ebfa3b2c37810d77dc52e5a3190c09bc490668dde7e384c7b579090
-  languageName: node
-  linkType: hard
-
-"@types/ip@npm:^1.1.0":
-  version: 1.1.3
-  resolution: "@types/ip@npm:1.1.3"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: 10c0/af576e33830196be01b71c48ad5f83380a1c51d62f394a5601e8c2a5b8b31cf6dc8fe71ac39c38d806bcf1d6f1c5c8205c129eca6b6d168c0df7ab3722df23b9
   languageName: node
   linkType: hard
 
@@ -17660,7 +17649,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ip@npm:^2.0.0, ip@npm:^2.0.1":
+"ip@npm:^2.0.0":
   version: 2.0.1
   resolution: "ip@npm:2.0.1"
   checksum: 10c0/cab8eb3e88d0abe23e4724829621ec4c4c5cb41a7f936a2e626c947128c1be16ed543448d42af7cca95379f9892bfcacc1ccd8d09bc7e8bea0e86d492ce33616
