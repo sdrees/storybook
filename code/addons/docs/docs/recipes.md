@@ -269,8 +269,8 @@ export const parameters = {
       transform: (src, storyContext) => {
         const match = SOURCE_REGEX.exec(src);
         return match ? match[1] : src;
-      }
-    }
+      },
+    },
   },
 };
 ```
