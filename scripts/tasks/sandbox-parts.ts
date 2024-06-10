@@ -620,18 +620,24 @@ export async function setImportMap(cwd: string) {
   await writeJson(join(cwd, 'package.json'), packageJson, { spaces: 2 });
 }
 
-/**
- * Sets compodoc option in angular.json projects to false. We have to generate compodoc
- * manually to avoid symlink issues related to the template-stories folder.
- * In a second step a docs:json script is placed into the package.json to generate the
- * Compodoc documentation.json, which respects symlinks
- * */
 async function prepareAngularSandbox(cwd: string, templateName: string) {
   const angularJson = await readJson(join(cwd, 'angular.json'));
 
   Object.keys(angularJson.projects).forEach((projectName: string) => {
+    /**
+     * Sets compodoc option in angular.json projects to false. We have to generate compodoc
+     * manually to avoid symlink issues related to the template-stories folder.
+     * In a second step a docs:json script is placed into the package.json to generate the
+     * Compodoc documentation.json, which respects symlinks
+     */
     angularJson.projects[projectName].architect.storybook.options.compodoc = false;
     angularJson.projects[projectName].architect['build-storybook'].options.compodoc = false;
+    /**
+     * Sets preserveSymlinks option in angular.json projects to true. This is necessary to
+     * respect symlinks so that Angular doesn't complain about wrong types in @storybook/* packages
+     */
+    angularJson.projects[projectName].architect.storybook.options.preserveSymlinks = true;
+    angularJson.projects[projectName].architect['build-storybook'].options.preserveSymlinks = true;
   });
 
   await writeJson(join(cwd, 'angular.json'), angularJson, { spaces: 2 });
