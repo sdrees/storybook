@@ -1,3 +1,13 @@
+## 8.2.0-alpha.7
+
+- Angular: Allow outputPath object syntax - [#28144](https://github.com/storybookjs/storybook/pull/28144), thanks @valentinpalkovic!
+- Angular: Introduce preserveSymlink builder option - [#28145](https://github.com/storybookjs/storybook/pull/28145), thanks @valentinpalkovic!
+- CLI: Fix typo in React Docgen migration - [#27536](https://github.com/storybookjs/storybook/pull/27536), thanks @jonniebigodes!
+- CSF: Automatically extract componentPath - [#24396](https://github.com/storybookjs/storybook/pull/24396), thanks @shilman!
+- Core: Remove more `.stories.mdx` handling - [#25973](https://github.com/storybookjs/storybook/pull/25973), thanks @JReinhold!
+- Docs-tools: Replace `doctrine` with `jsdoc-type-pratt-parser` - [#26305](https://github.com/storybookjs/storybook/pull/26305), thanks @43081j!
+- Test: Display toHaveBeenCalledWith expected / received values on failure - [#28088](https://github.com/storybookjs/storybook/pull/28088), thanks @kasperpeulen!
+
 ## 8.2.0-alpha.6
 
 - Addon-actions: Only log spies with names - [#28091](https://github.com/storybookjs/storybook/pull/28091), thanks @kasperpeulen!
