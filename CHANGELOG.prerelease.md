@@ -1,3 +1,9 @@
+## 8.2.0-alpha.8
+
+- Automigrations: Make VTA "learn more" link clickable - [#28020](https://github.com/storybookjs/storybook/pull/28020), thanks @deiga!
+- CLI: Fix `init --skip-install` - [#28226](https://github.com/storybookjs/storybook/pull/28226), thanks @shilman!
+- CSF: Rename `preview.js` `globals` to `initialGlobals` - [#27517](https://github.com/storybookjs/storybook/pull/27517), thanks @shilman!
+
 ## 8.2.0-alpha.7
 
 - Angular: Allow outputPath object syntax - [#28144](https://github.com/storybookjs/storybook/pull/28144), thanks @valentinpalkovic!
