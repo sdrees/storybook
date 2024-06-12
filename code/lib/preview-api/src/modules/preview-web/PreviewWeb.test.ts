@@ -1,6 +1,4 @@
-/**
- * @vitest-environment jsdom
- */
+// @vitest-environment happy-dom
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 import { global } from '@storybook/global';
@@ -3353,7 +3351,7 @@ describe('PreviewWeb', () => {
       return {
         ...projectAnnotations,
         args: { global: 'added' },
-        globals: { a: 'edited' },
+        initialGlobals: { a: 'edited' },
         decorators: [newGlobalDecorator],
       };
     };

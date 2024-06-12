@@ -756,6 +756,42 @@ describe('ConfigFile', () => {
           };
         `);
       });
+      it('root globals as variable', () => {
+        expect(
+          removeField(
+            ['globals'],
+            dedent`
+              const preview = { globals: { a: 1 }, bar: { a: 1 } };
+              export default preview;
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          const preview = {
+            bar: { a: 1 }
+          };
+          export default preview;
+        `);
+      });
+
+      it('root globals satsifies as variable', () => {
+        expect(
+          removeField(
+            ['globals'],
+            dedent`
+              const preview = {
+                globals: { a: 1 },
+                bar: { a: 1 }
+              } satisfies Foo;
+              export default preview;
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          const preview = {
+            bar: { a: 1 }
+          } satisfies Foo;
+          export default preview;
+        `);
+      });
     });
 
     describe('quotes', () => {

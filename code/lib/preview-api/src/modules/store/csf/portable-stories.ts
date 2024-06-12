@@ -99,7 +99,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     hooks: new HooksContext(),
     globals: {
       ...globalsFromGlobalTypes,
-      ...normalizedProjectAnnotations.globals,
+      ...normalizedProjectAnnotations.initialGlobals,
     },
     args: { ...story.initialArgs },
     viewMode: 'story',

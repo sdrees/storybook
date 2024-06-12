@@ -62,7 +62,7 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@storybook/client-logger": "workspace:*",
-    "@storybook/csf": "^0.1.7",
+    "@storybook/csf": "^0.1.8",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
     "@storybook/theming": "workspace:*",
@@ -98,5 +98,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16"
 }

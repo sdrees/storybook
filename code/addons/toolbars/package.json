@@ -71,7 +71,7 @@
       "./src/manager.tsx"
     ]
   },
-  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16",
   "storybook": {
     "displayName": "Toolbars",
     "icon": "https://user-images.githubusercontent.com/263385/101991677-48cdf300-3c7c-11eb-93b4-19b0e3366959.png",

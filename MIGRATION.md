@@ -1,5 +1,7 @@
 <h1>Migration</h1>
 
+- [From version 8.1.x to 8.2.x](#from-version-81x-to-82x)
+  - [Preview.js globals renamed to initialGlobals](#previewjs-globals-renamed-to-initialglobals)
 - [From version 8.0.x to 8.1.x](#from-version-80x-to-81x)
   - [Portable stories](#portable-stories)
     - [@storybook/nextjs requires specific path aliases to be setup](#storybooknextjs-requires-specific-path-aliases-to-be-setup)
@@ -410,6 +412,20 @@
   - [Webpack upgrade](#webpack-upgrade)
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
+
+## From version 8.1.x to 8.2.x
+
+### Preview.js globals renamed to initialGlobals
+
+Starting in 8.2 `preview.js` `globals` are deprecated and have been renamed to `initialGlobals`. We will remove `preview.js` `globals` in 9.0.
+
+```diff
+// .storybook/preview.js
+export default {
+-  globals: [ a: 1, b: 2 ],
++  initiaGlobals: [ a: 1, b: 2 ],
+}
+```
 
 ## From version 8.0.x to 8.1.x
 

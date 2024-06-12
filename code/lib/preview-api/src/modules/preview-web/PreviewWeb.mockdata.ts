@@ -66,7 +66,7 @@ export const docsRenderer = {
 };
 export const teardownrenderToCanvas: Mock<[TeardownRenderToCanvas]> = vi.fn();
 export const projectAnnotations = {
-  globals: { a: 'b' },
+  initialGlobals: { a: 'b' },
   globalTypes: {},
   decorators: [vi.fn((s) => s())],
   render: vi.fn(),

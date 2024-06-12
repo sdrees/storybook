@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 
-/**
- * @vitest-environment node
- */
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import path from 'path';

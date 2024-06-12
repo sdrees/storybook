@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import type { TestCase } from 'junit-xml';
 import { getJunitXml } from 'junit-xml';
 import { outputFile, readFile, pathExists } from 'fs-extra';

@@ -63,7 +63,7 @@
     "@storybook/channels": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/csf": "^0.1.7",
+    "@storybook/csf": "^0.1.8",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/docs-mdx": "3.1.0-next.0",
     "@storybook/global": "^5.0.0",
@@ -125,5 +125,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16"
 }
