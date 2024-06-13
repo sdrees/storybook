@@ -13,6 +13,7 @@ describe('watchStorySpecifiers', () => {
     configDir: path.join(workingDir, '.storybook'),
     workingDir,
   };
+  const abspath = (filename: string) => path.join(workingDir, filename);
 
   let close: () => void;
   afterEach(() => close?.());
@@ -25,11 +26,18 @@ describe('watchStorySpecifiers', () => {
 
     expect(Watchpack).toHaveBeenCalledTimes(1);
     const watcher = Watchpack.mock.instances[0];
-    expect(watcher.watch).toHaveBeenCalledWith({ directories: ['./src'] });
+    expect(watcher.watch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        directories: expect.any(Array),
+        files: expect.any(Array),
+      })
+    );
 
     expect(watcher.on).toHaveBeenCalledTimes(2);
-    const onChange = watcher.on.mock.calls[0][1];
-    const onRemove = watcher.on.mock.calls[1][1];
+    const baseOnChange = watcher.on.mock.calls[0][1];
+    const baseOnRemove = watcher.on.mock.calls[1][1];
+    const onChange = (filename: string, ...args: any[]) => baseOnChange(abspath(filename), ...args);
+    const onRemove = (filename: string, ...args: any[]) => baseOnRemove(abspath(filename), ...args);
 
     // File changed, matching
     onInvalidate.mockClear();
@@ -72,10 +80,16 @@ describe('watchStorySpecifiers', () => {
 
     expect(Watchpack).toHaveBeenCalledTimes(1);
     const watcher = Watchpack.mock.instances[0];
-    expect(watcher.watch).toHaveBeenCalledWith({ directories: ['./src'] });
+    expect(watcher.watch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        directories: expect.any(Array),
+        files: expect.any(Array),
+      })
+    );
 
     expect(watcher.on).toHaveBeenCalledTimes(2);
-    const onChange = watcher.on.mock.calls[0][1];
+    const baseOnChange = watcher.on.mock.calls[0][1];
+    const onChange = (filename: string, ...args: any[]) => baseOnChange(abspath(filename), ...args);
 
     onInvalidate.mockClear();
     await onChange('src/nested', 1234);
@@ -90,11 +104,18 @@ describe('watchStorySpecifiers', () => {
 
     expect(Watchpack).toHaveBeenCalledTimes(1);
     const watcher = Watchpack.mock.instances[0];
-    expect(watcher.watch).toHaveBeenCalledWith({ directories: ['./src/nested'] });
+    expect(watcher.watch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        directories: expect.any(Array),
+        files: expect.any(Array),
+      })
+    );
 
     expect(watcher.on).toHaveBeenCalledTimes(2);
-    const onChange = watcher.on.mock.calls[0][1];
-    const onRemove = watcher.on.mock.calls[1][1];
+    const baseOnChange = watcher.on.mock.calls[0][1];
+    const baseOnRemove = watcher.on.mock.calls[1][1];
+    const onChange = (filename: string, ...args: any[]) => baseOnChange(abspath(filename), ...args);
+    const onRemove = (filename: string, ...args: any[]) => baseOnRemove(abspath(filename), ...args);
 
     // File changed, matching
     onInvalidate.mockClear();
@@ -131,10 +152,16 @@ describe('watchStorySpecifiers', () => {
 
     expect(Watchpack).toHaveBeenCalledTimes(1);
     const watcher = Watchpack.mock.instances[0];
-    expect(watcher.watch).toHaveBeenCalledWith({ directories: ['./src', './src/nested'] });
+    expect(watcher.watch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        directories: expect.any(Array),
+        files: expect.any(Array),
+      })
+    );
 
     expect(watcher.on).toHaveBeenCalledTimes(2);
-    const onChange = watcher.on.mock.calls[0][1];
+    const baseOnChange = watcher.on.mock.calls[0][1];
+    const onChange = (filename: string, ...args: any[]) => baseOnChange(abspath(filename), ...args);
 
     onInvalidate.mockClear();
     await onChange('src/nested/Button.stories.ts', 1234);

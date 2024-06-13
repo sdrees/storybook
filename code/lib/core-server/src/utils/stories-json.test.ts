@@ -356,12 +356,17 @@ describe('useStoriesJson', () => {
 
       expect(Watchpack).toHaveBeenCalledTimes(1);
       const watcher = Watchpack.mock.instances[0];
-      expect(watcher.watch).toHaveBeenCalledWith({ directories: ['./src'] });
+      expect(watcher.watch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          directories: expect.any(Array),
+          files: expect.any(Array),
+        })
+      );
 
       expect(watcher.on).toHaveBeenCalledTimes(2);
       const onChange = watcher.on.mock.calls[0][1];
 
-      await onChange('src/nested/Button.stories.ts');
+      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
       expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
     });
@@ -389,12 +394,17 @@ describe('useStoriesJson', () => {
 
       expect(Watchpack).toHaveBeenCalledTimes(1);
       const watcher = Watchpack.mock.instances[0];
-      expect(watcher.watch).toHaveBeenCalledWith({ directories: ['./src'] });
+      expect(watcher.watch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          directories: expect.any(Array),
+          files: expect.any(Array),
+        })
+      );
 
       expect(watcher.on).toHaveBeenCalledTimes(2);
       const onChange = watcher.on.mock.calls[0][1];
 
-      await onChange('src/nested/Button.stories.ts');
+      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
       expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
     });
@@ -423,16 +433,21 @@ describe('useStoriesJson', () => {
 
       expect(Watchpack).toHaveBeenCalledTimes(1);
       const watcher = Watchpack.mock.instances[0];
-      expect(watcher.watch).toHaveBeenCalledWith({ directories: ['./src'] });
+      expect(watcher.watch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          directories: expect.any(Array),
+          files: expect.any(Array),
+        })
+      );
 
       expect(watcher.on).toHaveBeenCalledTimes(2);
       const onChange = watcher.on.mock.calls[0][1];
 
-      await onChange('src/nested/Button.stories.ts');
-      await onChange('src/nested/Button.stories.ts');
-      await onChange('src/nested/Button.stories.ts');
-      await onChange('src/nested/Button.stories.ts');
-      await onChange('src/nested/Button.stories.ts');
+      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
+      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
+      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
+      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
+      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
 
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
       expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
