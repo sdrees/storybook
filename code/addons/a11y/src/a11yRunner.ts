@@ -29,7 +29,7 @@ const run = async (storyId: string, input: A11yParameters = defaultParameters) =
     if (!active) {
       active = true;
       channel.emit(EVENTS.RUNNING);
-      const axe = (await import('axe-core')).default;
+      const { default: axe } = await import('axe-core');
 
       const { element = '#storybook-root', config, options = {} } = input;
       const htmlElement = document.querySelector(element as string);
