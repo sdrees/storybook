@@ -187,7 +187,7 @@ export const Interaction = ({
               hasChrome={false}
               tooltip={<Note note={`${isCollapsed ? 'Show' : 'Hide'} interactions`} />}
             >
-              <StyledIconButton containsIcon onClick={toggleCollapsed}>
+              <StyledIconButton onClick={toggleCollapsed}>
                 <ListUnorderedIcon />
               </StyledIconButton>
             </WithTooltip>
