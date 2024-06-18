@@ -127,6 +127,5 @@
     "@storybook/web-components-webpack5": "portal:../../../code/frameworks/web-components-webpack5",
     "sb": "portal:../../../code/lib/cli-sb",
     "storybook": "portal:../../../code/lib/cli-storybook"
-  },
-  "packageManager": "yarn@4.1.0"
+  }
 }
