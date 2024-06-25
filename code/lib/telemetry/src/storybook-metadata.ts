@@ -104,11 +104,11 @@ export const computeStorybookMetadata = async ({
 
   try {
     const packageManagerType = await detect({ cwd: getProjectRoot() });
-    const packageManagerVerson = await getNpmVersion(packageManagerType);
+    const packageManagerVersion = await getNpmVersion(packageManagerType);
 
     metadata.packageManager = {
       type: packageManagerType,
-      version: packageManagerVerson,
+      version: packageManagerVersion,
     };
     // Better be safe than sorry, some codebases/paths might end up breaking with something like "spawn pnpm ENOENT"
     // so we just set the package manager if the detection is successful
