@@ -942,7 +942,7 @@ describe('PreviewWeb', () => {
         openBlockLoadersGate({ l: 8 });
         await waitForRender();
 
-        // Assert - renderToCanvas to be called the first time with initial args
+        // Assert - renderToCanvas to be called the first time with initial args and returned `loaded` value.
         expect(projectAnnotations.renderToCanvas).toHaveBeenCalledOnce();
         expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
           expect.objectContaining({
