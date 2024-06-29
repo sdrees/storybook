@@ -33,12 +33,12 @@ export const SecondStory: Story = {
 };
 
 export const CombinedStories: Story = {
-  play: async ({ canvasElement }) => {
+  play: async ({ context, canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Runs the FirstStory and Second story play function before running this story's play function
-    await FirstStory.play({ canvasElement });
-    await SecondStory.play({ canvasElement });
+    await FirstStory.play(context);
+    await SecondStory.play(context);
     await userEvent.type(canvas.getByTestId('another-element'), 'random value');
   },
 };
@@ -74,8 +74,8 @@ export const SecondStory = {
 };
 
 export const CombinedStories = {
-  play: async (context) => {
-    const canvas = within(context.canvasElement);
+  play: async ({ context, canvasElement }) => {
+    const canvas = within(canvasElement);
 
     // Runs the FirstStory and Second story play function before running this story's play function
     await FirstStory.play(context);
@@ -121,12 +121,12 @@ export const SecondStory: Story = {
 };
 
 export const CombinedStories: Story = {
-  play: async ({ canvasElement }) => {
+  play: async ({ context, canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Runs the FirstStory and Second story play function before running this story's play function
-    await FirstStory.play({ canvasElement });
-    await SecondStory.play({ canvasElement });
+    await FirstStory.play(context);
+    await SecondStory.play(context);
     await userEvent.type(canvas.getByTestId('another-element'), 'random value');
   },
 };
@@ -168,8 +168,8 @@ export const SecondStory: Story = {
 };
 
 export const CombinedStories: Story = {
-  play: async (context) => {
-    const canvas = within(context.canvasElement);
+  play: async ({ context, canvasElement }) => {
+    const canvas = within(canvasElement);
 
     // Runs the FirstStory and Second story play function before running this story's play function
     await FirstStory.play(context);
@@ -207,8 +207,8 @@ export const SecondStory = {
 };
 
 export const CombinedStories = {
-  play: async (context) => {
-    const canvas = within(context.canvasElement);
+  play: async ({ context, canvasElement }) => {
+    const canvas = within(canvasElement);
 
     // Runs the FirstStory and Second story play function before running this story's play function
     await FirstStory.play(context);
@@ -250,8 +250,8 @@ export const SecondStory: Story = {
 };
 
 export const CombinedStories: Story = {
-  play: async (context) => {
-    const canvas = within(context.canvasElement);
+  play: async ({ context, canvasElement }) => {
+    const canvas = within(canvasElement);
 
     // Runs the FirstStory and Second story play function before running this story's play function
     await FirstStory.play(context);

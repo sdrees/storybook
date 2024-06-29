@@ -38,7 +38,7 @@ sidebar:
 
   One way to do this is to define the decorator for each story individually. But if you imagine a scenario where you wish to create stories for each of your components in both light and dark themes, this approach can quickly become cumbersome.
 
-  For a better way, with much less repetition, you can use the [decorator function's second "context" argument](../decorators.mdx#context-for-mocking) to access a story's [`parameters`](./parameters.mdx) and adjust the provided value. This way, you can define the provider once and adjust its value for each story.
+  For a better way, with much less repetition, you can use the [decorator function's second "context" argument](../decorators.mdx#context-for-mocking) to access a story's [`parameters`](../parameters.mdx) and adjust the provided value. This way, you can define the provider once and adjust its value for each story.
 
   For example, we can adjust the decorator from above to read from `parameters.theme` to determine which theme to provide:
 

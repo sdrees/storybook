@@ -13,7 +13,7 @@ Storybook is configured via a folder called `.storybook`, which contains various
 
 ## Configure your Storybook project
 
-Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook project's behavior, including the location of your stories, the addons you use, feature flags and other project-specific settings. This file should be in the `.storybook` folder in your project's root directory. You can author this file in either JavaScript or [TypeScript](./typescript.mdx). Listed below are the available options and examples of how to use them.
+Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook project's behavior, including the location of your stories, the addons you use, feature flags and other project-specific settings. This file should be in the `.storybook` folder in your project's root directory. You can author this file in either JavaScript or [TypeScript](./integration/typescript.mdx). Listed below are the available options and examples of how to use them.
 
 {/* prettier-ignore-start */}
 
@@ -28,19 +28,19 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 | Configuration element | Description                                                                                                                                                                                                         |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `stories`             | The array of globs that indicates the [location of your story files](#configure-story-loading), relative to `main.js`                                                                                               |
-| `staticDirs`          | Sets a list of directories of [static files](./images-and-assets.md#serving-static-files-via-storybook-configuration) to be loaded by Storybook <br /> `staticDirs: ['../public']`                                   |
+| `staticDirs`          | Sets a list of directories of [static files](./integration/images-and-assets.mdx#serving-static-files-via-storybook-configuration) to be loaded by Storybook <br /> `staticDirs: ['../public']`                                   |
 | `addons`              | Sets the list of [addons](https://storybook.js.org/integrations) loaded by Storybook <br /> `addons: ['@storybook/addon-essentials']`                                                                                |
-| `typescript`          | Configures how Storybook handles [TypeScript files](./typescript.mdx) <br /> `typescript: { check: false, checkOptions: {} }`                                                                                         |
-| `framework`           | Configures Storybook based on a set of [framework-specific](./frameworks.mdx) settings <br /> `framework: { name: '@storybook/svelte-vite', options:{} }`                                                             |
-| `core`                | Configures Storybook's [internal features](../api/main-config-core.mdx) <br /> `core: { disableTelemetry: true, }`                                                                                                    |
+| `typescript`          | Configures how Storybook handles [TypeScript files](./integration/typescript.mdx) <br /> `typescript: { check: false, checkOptions: {} }`                                                                                         |
+| `framework`           | Configures Storybook based on a set of [framework-specific](./integration/frameworks.mdx) settings <br /> `framework: { name: '@storybook/svelte-vite', options:{} }`                                                             |
+| `core`                | Configures Storybook's [internal features](../api/main-config/main-config-core.mdx) <br /> `core: { disableTelemetry: true, }`                                                                                                    |
 | `docs`                | Configures Storybook's [auto-generated documentation](../writing-docs/autodocs.mdx)<br /> `docs: { autodocs: 'tag' }`                                                                                                 |
-| `features`            | Enables Storybook's [additional features](../api/main-config-features.mdx)<br /> See table below for a list of available features                                                                                     |
+| `features`            | Enables Storybook's [additional features](../api/main-config/main-config-features.mdx)<br /> See table below for a list of available features                                                                                     |
 | `refs`                | Configures [Storybook composition](../sharing/storybook-composition.mdx) <br /> `refs:{ example: { title: 'ExampleStorybook', url:'https://your-url.com' } }`                                                         |
 | `logLevel`            | Configures Storybook's logs in the browser terminal. Useful for debugging <br /> `logLevel: 'debug'`                                                                                                                 |
 | `webpackFinal`        | Customize Storybook's [Webpack](../builders/webpack.mdx) setup <br /> `webpackFinal: async (config:any) => { return config; }`                                                                                        |
 | `viteFinal`           | Customize Storybook's Vite setup when using the [vite builder](https://github.com/storybookjs/builder-vite) <br /> `viteFinal: async (config: Vite.InlineConfig, options: Options) => { return config; }`            |
-| `env`                 | Defines custom Storybook [environment variables](./environment-variables.md#using-storybook-configuration). <br /> `env: (config) => ({...config, EXAMPLE_VAR: 'Example var' }),`                                    |
-| `build`               | Optimizes Storybook's production [build](../api/main-config-build.mdx) for performance by excluding specific features from the bundle. Useful when decreased build times are a priority. <br /> `build: { test: {} }` |
+| `env`                 | Defines custom Storybook [environment variables](./environment-variables.mdx#using-storybook-configuration). <br /> `env: (config) => ({...config, EXAMPLE_VAR: 'Example var' }),`                                    |
+| `build`               | Optimizes Storybook's production [build](../api/main-config/main-config-build.mdx) for performance by excluding specific features from the bundle. Useful when decreased build times are a priority. <br /> `build: { test: {} }` |
 
 ## Configure story loading
 

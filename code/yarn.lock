@@ -2843,25 +2843,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gilbarbara/helpers@npm:^0.9.2":
-  version: 0.9.2
-  resolution: "@gilbarbara/helpers@npm:0.9.2"
-  dependencies:
-    "@gilbarbara/types": "npm:^0.2.2"
-    is-lite: "npm:^1.2.1"
-  checksum: 10c0/18aa7c59b412d3b76e84aa745595a76cba0d505af3c1bfc109993f1da99655769539296993cc2db5f78b3db260907020895bb6adec4f9ea4486532b9a255c290
-  languageName: node
-  linkType: hard
-
-"@gilbarbara/types@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "@gilbarbara/types@npm:0.2.2"
-  dependencies:
-    type-fest: "npm:^4.1.0"
-  checksum: 10c0/c998bfb41ff84b5640fcb0cd47d2bdf963c7d36792673edddc469d5a1752a5f7105697e79d34db69062562ae3506283c2474ca14785af652610d8abe17ddbef3
-  languageName: node
-  linkType: hard
-
 "@gitbeaker/core@npm:^35.8.1":
   version: 35.8.1
   resolution: "@gitbeaker/core@npm:35.8.1"
@@ -5307,7 +5288,7 @@ __metadata:
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -5373,7 +5354,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-confetti: "npm:^6.1.0"
     react-dom: "npm:^18.2.0"
-    react-joyride: "npm:^2.7.2"
+    react-joyride: "npm:^2.8.2"
     react-use-measure: "npm:^2.1.1"
     typescript: "npm:^5.3.2"
   languageName: unknown
@@ -5574,7 +5555,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.5"
@@ -5804,7 +5785,7 @@ __metadata:
     "@babel/core": "npm:^7.24.4"
     "@babel/preset-env": "npm:^7.24.4"
     "@babel/types": "npm:^7.24.0"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/types": "workspace:*"
@@ -5841,7 +5822,7 @@ __metadata:
     "@radix-ui/react-scroll-area": "npm:^1.0.5"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@storybook/client-logger": "workspace:*"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.5"
     "@storybook/test": "workspace:*"
@@ -5924,7 +5905,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-events@workspace:lib/core-events"
   dependencies:
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     chalk: "npm:^4.1.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
@@ -5944,7 +5925,7 @@ __metadata:
     "@storybook/channels": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-mdx": "npm:3.1.0-next.0"
     "@storybook/global": "npm:^5.0.0"
@@ -6026,7 +6007,7 @@ __metadata:
     "@babel/parser": "npm:^7.24.4"
     "@babel/traverse": "npm:^7.24.1"
     "@babel/types": "npm:^7.24.0"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/types": "workspace:*"
     "@types/fs-extra": "npm:^11.0.1"
     "@types/js-yaml": "npm:^4.0.5"
@@ -6038,21 +6019,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/csf@npm:0.1.10--canary.d841bb4.0":
+  version: 0.1.10--canary.d841bb4.0
+  resolution: "@storybook/csf@npm:0.1.10--canary.d841bb4.0"
+  dependencies:
+    type-fest: "npm:^2.19.0"
+  checksum: 10c0/35a9b5cf88a3378fb362d0a1988265ec218aa98d54b82b56e78a4c1142b3beed6e2ee42bd8731bac009fd8133e085c92af43541028468865b51c0b1220ded338
+  languageName: node
+  linkType: hard
+
 "@storybook/csf@npm:^0.0.1":
   version: 0.0.1
   resolution: "@storybook/csf@npm:0.0.1"
   dependencies:
     lodash: "npm:^4.17.15"
   checksum: 10c0/7b0f75763415f9147692a460b44417ee56ea9639433716a1fd4d1df4c8b0221cbc71b8da0fbed4dcecb3ccd6c7ed64be39f5c255c713539a6088a1d6488aaa24
-  languageName: node
-  linkType: hard
-
-"@storybook/csf@npm:^0.1.8":
-  version: 0.1.8
-  resolution: "@storybook/csf@npm:0.1.8"
-  dependencies:
-    type-fest: "npm:^2.19.0"
-  checksum: 10c0/4fd08bd65205395aba693f053706d5c880db5102543744c4e13768902a615df9a479ac03f80fe33297bd5457a0d0ef655cd33d41a0e379764dd6f0c6b9a7d88c
   languageName: node
   linkType: hard
 
@@ -6225,7 +6206,7 @@ __metadata:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.5"
     "@storybook/router": "workspace:*"
@@ -6565,7 +6546,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/types": "workspace:*"
     "@types/qs": "npm:^6.9.5"
@@ -6673,6 +6654,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react@workspace:renderers/react"
   dependencies:
+    "@storybook/blocks": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
@@ -6752,7 +6734,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/csf-plugin": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -6904,7 +6886,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/server@workspace:renderers/server"
   dependencies:
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/preview-api": "workspace:*"
@@ -6921,7 +6903,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/source-loader@workspace:lib/source-loader"
   dependencies:
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@storybook/types": "workspace:*"
     estraverse: "npm:^5.2.0"
     lodash: "npm:^4.17.21"
@@ -7091,7 +7073,7 @@ __metadata:
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:
     "@storybook/channels": "workspace:*"
-    "@storybook/csf": "npm:^0.1.8"
+    "@storybook/csf": "npm:0.1.10--canary.d841bb4.0"
     "@types/express": "npm:^4.17.21"
     "@types/fs-extra": "npm:^11.0.1"
     "@types/node": "npm:^18.0.0"
@@ -23637,12 +23619,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-joyride@npm:^2.7.2":
-  version: 2.7.3
-  resolution: "react-joyride@npm:2.7.3"
+"react-joyride@npm:^2.8.2":
+  version: 2.8.2
+  resolution: "react-joyride@npm:2.8.2"
   dependencies:
     "@gilbarbara/deep-equal": "npm:^0.3.1"
-    "@gilbarbara/helpers": "npm:^0.9.2"
     deep-diff: "npm:^1.0.2"
     deepmerge: "npm:^4.3.1"
     is-lite: "npm:^1.2.1"
@@ -23652,11 +23633,11 @@ __metadata:
     scroll: "npm:^3.0.1"
     scrollparent: "npm:^2.1.0"
     tree-changes: "npm:^0.11.2"
-    type-fest: "npm:^4.10.2"
+    type-fest: "npm:^4.18.2"
   peerDependencies:
     react: 15 - 18
     react-dom: 15 - 18
-  checksum: 10c0/cd68fde2ba82b771179220f5594bb145ef25e29e6a07cfd182d21cbfaf87c59a374601cf9c96f3990e992ed2e81d47ecbae37a9a5d28f387dda83da723e94332
+  checksum: 10c0/c336836d1052cbe64d12a01d34e3e09b4429be9f92741f43c838aecc09ddf01ddaae645c1bda1df97482d34fb86e37d98524cc62f079d04aa999f8ecc13b1fc1
   languageName: node
   linkType: hard
 

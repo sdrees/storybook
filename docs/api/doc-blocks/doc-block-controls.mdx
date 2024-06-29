@@ -13,7 +13,7 @@ The `Controls` block can be used to show a dynamic table of args for a given sto
   If you’re looking for a static table that shows a component's arg types with no controls, see the [`ArgTypes`](./doc-block-argtypes.mdx) block instead.
 </Callout>
 
-![Screenshot of Controls block](../_assets/doc-blocks/doc-block-controls.png)
+![Screenshot of Controls block](../../_assets/api/doc-block-controls.png)
 
 {/* prettier-ignore-start */}
 
@@ -33,7 +33,7 @@ import * as ButtonStories from './Button.stories'
 {/* prettier-ignore-end */}
 
 <Callout variant="warning">
-  The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.mdx) (included in [`@storybook/addon-essentials`](../essentials/index.mdx)) and haven't turned off inline stories with the [`inline`](./doc-block-story.md#inline) configuration option.
+  The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../../essentials/controls.mdx) (included in [`@storybook/addon-essentials`](../../essentials/index.mdx)) and haven't turned off inline stories with the [`inline`](./doc-block-story.mdx#inline) configuration option.
 </Callout>
 
 ## Controls
@@ -45,7 +45,7 @@ import { Controls } from '@storybook/blocks';
 <details>
   <summary>Configuring with props <strong>and</strong> parameters</summary>
 
-  ℹ️ Like most blocks, the `Controls` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.mdx) in the block's namespace, `parameters.docs.controls`.
+  ℹ️ Like most blocks, the `Controls` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../../writing-stories/parameters.mdx) in the block's namespace, `parameters.docs.controls`.
 
   The following `exclude` configurations are equivalent:
 
@@ -65,7 +65,7 @@ import { Controls } from '@storybook/blocks';
 
   {/* prettier-ignore-end */}
 
-  The example above applied the parameter at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level, but it could also be applied at the [project](../writing-stories/parameters.md#global-parameters) or [story](../writing-stories/parameters.md#story-parameters) level.
+  The example above applied the parameter at the [component](../../writing-stories/parameters.mdx#component-parameters) (or meta) level, but it could also be applied at the [project](../../writing-stories/parameters.mdx#global-parameters) or [story](../../writing-stories/parameters.mdx#story-parameters) level.
 </details>
 
 <Callout variant="info" icon="💡">

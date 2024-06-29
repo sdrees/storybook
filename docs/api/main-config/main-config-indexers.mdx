@@ -27,7 +27,7 @@ They are defined as a function that returns the full list of indexers, including
 
 {/* prettier-ignore-end */}
 
-Unless your indexer is doing something relatively trivial (e.g. [indexing stories with a different naming convention](../configure/sidebar-and-urls#story-indexers)), in addition to indexing the file, you will likely need to [transpile it to CSF](#transpiling-to-csf) so that Storybook can read them in the browser.
+Unless your indexer is doing something relatively trivial (e.g. [indexing stories with a different naming convention](../../configure/sidebar-and-urls#story-indexers)), in addition to indexing the file, you will likely need to [transpile it to CSF](#transpiling-to-csf) so that Storybook can read them in the browser.
 
 ## `Indexer`
 
@@ -118,7 +118,7 @@ For each `IndexInput`, the indexer will add this export (from the file found at 
 
 Type: `string`
 
-The file to import from, e.g. the [CSF](./csf.mdx) file.
+The file to import from, e.g. the [CSF](../csf.mdx) file.
 
 It is likely that the [`fileName`](#filename) being indexed is not CSF, in which you will need to [transpile it to CSF](#transpiling-to-csf) so that Storybook can read it in the browser.
 

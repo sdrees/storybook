@@ -60,7 +60,7 @@ export const uuidv4 = fn(actual.uuidv4).mockName('uuidv4');
 
 ## Subpath imports
 
-The recommended method for mocking modules is to use [subpath imports](https://nodejs.org/api/packages.html#subpath-imports), a feature of Node packages that is supported by both [Vite](../builders/vite.mdx) and [Webpack](../../builders/webpack.mdx).
+The recommended method for mocking modules is to use [subpath imports](https://nodejs.org/api/packages.html#subpath-imports), a feature of Node packages that is supported by both [Vite](../../builders/vite.mdx) and [Webpack](../../builders/webpack.mdx).
 
 To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for four internal modules:
 

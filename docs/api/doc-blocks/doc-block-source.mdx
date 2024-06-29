@@ -9,7 +9,7 @@ sidebar:
 
 The `Source` block is used to render a snippet of source code directly.
 
-![Screenshot of Source block](../_assets/doc-blocks/doc-block-source.png)
+![Screenshot of Source block](../../_assets/api/doc-block-source.png)
 
 {/* prettier-ignore-start */}
 
@@ -35,7 +35,7 @@ import { Source } from '@storybook/blocks';
 <details>
   <summary>Configuring with props <strong>and</strong> parameters</summary>
 
-  ℹ️ Like most blocks, the `Source` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.mdx) in the block's namespace, `parameters.docs.source`.
+  ℹ️ Like most blocks, the `Source` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../../writing-stories/parameters.mdx) in the block's namespace, `parameters.docs.source`.
 
   The following `language` configurations are equivalent:
 
@@ -55,7 +55,7 @@ import { Source } from '@storybook/blocks';
 
   {/* prettier-ignore-end */}
 
-  The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
+  The example above applied the parameter at the [story](../../writing-stories/parameters.mdx#story-parameters) level, but it could also be applied at the [component](../../writing-stories/parameters.mdx#component-parameters) (or meta) level or [project](../../writing-stories/parameters.mdx#global-parameters) level.
 </details>
 
 ### `code`
@@ -158,5 +158,5 @@ Specifies how the source code is rendered.
 * **dynamic**: Renders the story source with dynamically updated arg values
 
 <Callout variant="info" icon="💡">
-  Note that dynamic snippets will only work if the story uses [`args`](../writing-stories/args.mdx) and the [`Story` block](./doc-block-story.mdx) for that story is rendered along with the `Source` block.
+  Note that dynamic snippets will only work if the story uses [`args`](../../writing-stories/args.mdx) and the [`Story` block](./doc-block-story.mdx) for that story is rendered along with the `Source` block.
 </Callout>

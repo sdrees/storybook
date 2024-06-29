@@ -433,7 +433,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   ## Sass/Scss
 
-  [Global Sass/Scss stylesheets](https://nextjs.org/docs/pages/building-your-application/styling/sass) are supported without any additional configuration as well. Just import them into [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering)
+  [Global Sass/Scss stylesheets](https://nextjs.org/docs/pages/building-your-application/styling/sass) are supported without any additional configuration as well. Just import them into [`.storybook/preview.js|ts`](../../configure/index.mdx#configure-story-rendering)
 
   ```js
   // .storybook/preview.js|ts
@@ -716,7 +716,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   Next.js comes with a lot of things for free out of the box like Sass support, but sometimes you add [custom Webpack config modifications to Next.js](https://nextjs.org/docs/pages/api-reference/next-config-js/webpack). This framework takes care of most of the Webpack modifications you would want to add. If Next.js supports a feature out of the box, then that feature will work out of the box in Storybook. If Next.js doesn't support something out of the box, but makes it easy to configure, then this framework will do the same for that thing for Storybook.
 
-  Any Webpack modifications desired for Storybook should be made in [`.storybook/main.js|ts`](../builders/webpack.md#extending-storybooks-webpack-config).
+  Any Webpack modifications desired for Storybook should be made in [`.storybook/main.js|ts`](../../builders/webpack.mdx#extending-storybooks-webpack-config).
 
   Note: Not all Webpack modifications are copy/paste-able between `next.config.js` and `.storybook/main.js|ts`. It is recommended to do your research on how to properly make your modification to Storybook's Webpack config and on how [Webpack works](https://webpack.js.org/concepts/).
 
@@ -776,7 +776,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   {/* ## Portable stories
 
-  You can test your stories in a Jest environment by using the [portable stories](../api/portable-stories-jest.mdx) API.
+  You can test your stories in a Jest environment by using the [portable stories](../../api/portable-stories/portable-stories-jest.mdx) API.
 
   When using portable stories with Next.js, you need to mock the Next.js modules on which your components depend. You can use the [`@storybook/nextjs/export-mocks` module](#storybooknextjsexport-mocks) to generate the aliases needed to set up portable stories in a Jest environment. This is needed because, to replicate Next.js configuration, Storybook sets up aliases in Webpack to make testing and developing your components easier. If you make use of the advanced functionality like the built-in mocks for common Next.js modules, you need to set up this aliasing in your Jest environment as well. */}
 
@@ -919,7 +919,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   Type: `typeof import('next/cache')`
 
-  This module exports mocked implementations of the `next/cache` module's exports. You can use it to create your own mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.mdx).
+  This module exports mocked implementations of the `next/cache` module's exports. You can use it to create your own mock implementations or assert on mock calls in a story's [play function](../../writing-stories/play-function.mdx).
 
   {/* prettier-ignore-start */}
 
@@ -953,7 +953,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   Type: `typeof import('next/navigation') & getRouter: () => ReturnType<typeof import('next/navigation')['useRouter']>`
 
-  This module exports mocked implementations of the `next/navigation` module's exports. It also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter), allowing the properties to be manipulated and asserted on. You can use it mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.mdx).
+  This module exports mocked implementations of the `next/navigation` module's exports. It also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter), allowing the properties to be manipulated and asserted on. You can use it mock implementations or assert on mock calls in a story's [play function](../../writing-stories/play-function.mdx).
 
   {/* prettier-ignore-start */}
 
@@ -965,7 +965,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   Type: `typeof import('next/router') & getRouter: () => ReturnType<typeof import('next/router')['useRouter']>`
 
-  This module exports mocked implementations of the `next/router` module's exports. It also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/pages/api-reference/functions/use-router#router-object), allowing the properties to be manipulated and asserted on. You can use it mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.mdx).
+  This module exports mocked implementations of the `next/router` module's exports. It also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/pages/api-reference/functions/use-router#router-object), allowing the properties to be manipulated and asserted on. You can use it mock implementations or assert on mock calls in a story's [play function](../../writing-stories/play-function.mdx).
 
   {/* prettier-ignore-start */}
 
@@ -1001,7 +1001,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   Type: `Record<string, any>`
 
-  Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, available options can be found in the [Webpack builder docs](../builders/webpack.mdx).
+  Configure options for the [framework's builder](../../api/main-config-framework.mdx#optionsbuilder). For Next.js, available options can be found in the [Webpack builder docs](../../builders/webpack.mdx).
 
   #### `image`
 
@@ -1017,7 +1017,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   ### Parameters
 
-  This framework contributes the following [parameters](../writing-stories/parameters.mdx) to Storybook, under the `nextjs` namespace:
+  This framework contributes the following [parameters](../../writing-stories/parameters.mdx) to Storybook, under the `nextjs` namespace:
 
   #### `appDirectory`
 
@@ -1025,7 +1025,7 @@ Storybook for Next.js is a [framework](../../contribute/framework.mdx) that make
 
   Default: `false`
 
-  If your story imports components that use `next/navigation`, you need to set the parameter `nextjs.appDirectory` to `true`. Because this is a parameter, you can apply it to a [single story](../api/parameters.md#story-parameters), [all stories for a component](../api/parameters.md#meta-parameters), or [every story in your Storybook](../api/parameters.md#project-parameters). See [Next.js Navigation](#nextjs-navigation) for more details.
+  If your story imports components that use `next/navigation`, you need to set the parameter `nextjs.appDirectory` to `true`. Because this is a parameter, you can apply it to a [single story](../../api/parameters.mdx#story-parameters), [all stories for a component](../../api/parameters.mdx#meta-parameters), or [every story in your Storybook](../../api/parameters.mdx#project-parameters). See [Next.js Navigation](#nextjs-navigation) for more details.
 
   #### `navigation`
 

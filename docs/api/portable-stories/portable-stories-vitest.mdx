@@ -218,7 +218,7 @@ draft: true
 
   ### 3. Prepare
 
-  Stories can prepare data they need (e.g. setting up some mocks or fetching data) before rendering by defining [loaders](../../writing-stories/loaders.mdx) or [beforeEach](../../writing-tests/interaction-testing.md#run-code-before-each-test). In portable stories, loaders and beforeEach are not applied automatically — you have to apply them yourself.
+  Stories can prepare data they need (e.g. setting up some mocks or fetching data) before rendering by defining [loaders](../../writing-stories/loaders.mdx) or [beforeEach](../../writing-tests/interaction-testing.mdx#run-code-before-each-test). In portable stories, loaders and beforeEach are not applied automatically — you have to apply them yourself.
 
   👉 For this, you use the [`composeStories`](#composestories) or [`composeStory`](#composestory) API. The composed story will return a `load` method to be called **before** it is rendered.
 

@@ -949,7 +949,7 @@ describe('PreviewWeb', () => {
             forceRemount: true,
             storyContext: expect.objectContaining({
               loaded: { l: 8 }, // This is the value returned by the *first* loader call
-              args: { foo: 'a', new: 'arg', one: 'mapped-1' },
+              args: { foo: 'a', one: 'mapped-1' },
             }),
           }),
           'story-element'

@@ -7,7 +7,7 @@ export default {
   },
   typescript: {
     // Enables the `react-docgen-typescript` parser.
-    // See https://storybook.js.org/docs/api/main-config-typescript for more information about this option.
+    // See https://storybook.js.org/docs/api/main-config/main-config-typescript for more information about this option.
     reactDocgen: 'react-docgen-typescript',
   },
 };

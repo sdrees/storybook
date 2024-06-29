@@ -9,7 +9,7 @@ sidebar:
 
 The `Canvas` block is a wrapper around a [`Story`](./doc-block-story.mdx), featuring a toolbar that allows you to interact with its content while automatically providing the required [`Source`](./doc-block-source.mdx) snippets.
 
-![Screenshot of Canvas block](../_assets/doc-blocks/doc-block-canvas.png)
+![Screenshot of Canvas block](../../_assets/api/doc-block-canvas.png)
 
 When using the Canvas block in MDX, it references a story with the `of` prop:
 
@@ -41,7 +41,7 @@ import { Canvas } from '@storybook/blocks';
 <details>
   <summary>Configuring with props <strong>and</strong> parameters</summary>
 
-  ℹ️ Like most blocks, the `Canvas` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.mdx) in the block's namespace, `parameters.docs.canvas`.
+  ℹ️ Like most blocks, the `Canvas` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../../writing-stories/parameters.mdx) in the block's namespace, `parameters.docs.canvas`.
 
   The following `sourceState` configurations are equivalent:
 
@@ -61,7 +61,7 @@ import { Canvas } from '@storybook/blocks';
 
   {/* prettier-ignore-end */}
 
-  The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
+  The example above applied the parameter at the [story](../../writing-stories/parameters.mdx#story-parameters) level, but it could also be applied at the [component](../../writing-stories/parameters.mdx#component-parameters) (or meta) level or [project](../../writing-stories/parameters.mdx#global-parameters) level.
 </details>
 
 ### `additionalActions`
