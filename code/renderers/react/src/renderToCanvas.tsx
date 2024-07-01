@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import React, { Component as ReactComponent, StrictMode, Fragment } from 'react';
 import { renderElement, unmountElement } from '@storybook/react-dom-shim';
 
-import type { RenderContext } from '@storybook/types';
+import type { RenderContext } from 'storybook/internal/types';
 
 import type { ReactRenderer, StoryContext } from './types';
 

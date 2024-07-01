@@ -1,0 +1,36 @@
+{
+  "name": "@storybook/preview",
+  "version": "8.2.0-alpha.10",
+  "description": "",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/preview",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/lib/preview"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "README.md",
+    "*.js",
+    "*.mjs",
+    "*.cjs",
+    "*.d.ts"
+  ],
+  "peerDependencies": {
+    "storybook": "workspace:^"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

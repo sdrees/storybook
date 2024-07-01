@@ -13,11 +13,11 @@ import {
   type PackageJson,
   type PackageJsonWithDepsAndDevDeps,
   frameworkToRenderer as CoreFrameworkToRenderer,
-} from '@storybook/core-common';
-import type { SupportedFrameworks, SupportedRenderers } from '@storybook/types';
+} from '@storybook/core/common';
+import type { SupportedFrameworks, SupportedRenderers } from '@storybook/core/types';
 import { CoreBuilder } from './project_types';
 import { SupportedLanguage } from './project_types';
-import { versions as storybookMonorepoPackages } from '@storybook/core-common';
+import { versions as storybookMonorepoPackages } from '@storybook/core/common';
 
 const logger = console;
 

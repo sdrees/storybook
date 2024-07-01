@@ -60,7 +60,6 @@
   },
   "dependencies": {
     "@storybook/core-webpack": "workspace:*",
-    "@storybook/docs-tools": "workspace:*",
     "@types/node": "^18.0.0",
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.46.0",
@@ -75,6 +74,7 @@
   },
   "peerDependencies": {
     "@vue/compiler-sfc": "^3.0.0",
+    "storybook": "workspace:^",
     "vue": "^3.0.0"
   },
   "engines": {

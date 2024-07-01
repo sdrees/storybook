@@ -1,11 +1,11 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { createWriteStream, move, remove } from 'fs-extra';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { join } from 'path';
 
-import { JsPackageManagerFactory } from '@storybook/core-common';
-import type { PackageManagerName } from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core/common';
+import type { PackageManagerName } from '@storybook/core/common';
 import { getStorybookData } from '../automigrate/helpers/mainConfigFile';
 import { cleanLog } from '../automigrate/helpers/cleanLog';
 import { getMismatchingVersionsWarnings } from './getMismatchingVersionsWarning';

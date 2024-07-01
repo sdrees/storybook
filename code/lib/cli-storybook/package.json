@@ -1,5 +1,5 @@
 {
-  "name": "storybook",
+  "name": "@storybook/cli",
   "version": "8.2.0-alpha.10",
   "description": "Storybook CLI",
   "keywords": [
@@ -24,7 +24,7 @@
     "storybook": "./index.js"
   },
   "dependencies": {
-    "@storybook/cli": "workspace:*"
+    "storybook": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

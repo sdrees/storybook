@@ -14,11 +14,11 @@ import { sync as findUpSync } from 'find-up';
 import { findPackageSync } from 'fd-package-json';
 import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
-import { CLIOptions } from '@storybook/types';
-import { getEnvConfig, versions } from '@storybook/core-common';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { CLIOptions } from 'storybook/internal/types';
+import { getEnvConfig, versions } from 'storybook/internal/common';
+import { addToGlobalContext } from 'storybook/internal/telemetry';
 
-import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
+import { buildStaticStandalone, withTelemetry } from 'storybook/internal/core-server';
 import {
   AssetPattern,
   SourceMapUnion,

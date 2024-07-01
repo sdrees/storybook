@@ -1,9 +1,9 @@
 import { dedent } from 'ts-dedent';
-import { findPackageSync } from 'fd-package-json';
-import { logger, instance as npmLog } from '@storybook/node-logger';
-import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
-import { cache } from '@storybook/core-common';
-import type { CLIOptions } from '@storybook/types';
+import { findPackage } from 'fd-package-json';
+import { logger, instance as npmLog } from '@storybook/core/node-logger';
+import { buildDevStandalone, withTelemetry } from '@storybook/core/core-server';
+import { cache } from '@storybook/core/common';
+import type { CLIOptions } from '@storybook/core/types';
 import invariant from 'tiny-invariant';
 
 function printError(error: any) {
@@ -40,7 +40,7 @@ function printError(error: any) {
 export const dev = async (cliOptions: CLIOptions) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-  const packageJson = findPackageSync(__dirname);
+  const packageJson = await findPackage(__dirname);
   invariant(packageJson, 'Failed to find the closest package.json file.');
   const options = {
     ...cliOptions,

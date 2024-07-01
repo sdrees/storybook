@@ -61,16 +61,13 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/client-logger": "workspace:*",
-    "@storybook/components": "workspace:*",
     "@storybook/icons": "^1.2.5",
-    "@storybook/manager-api": "workspace:*",
-    "@storybook/preview-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
-    "@storybook/types": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.3.2"
+  },
+  "peerDependencies": {
+    "storybook": "workspace:^"
   },
   "publishConfig": {
     "access": "public"

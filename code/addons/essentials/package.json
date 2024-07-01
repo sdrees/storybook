@@ -98,14 +98,13 @@
     "@storybook/addon-outline": "workspace:*",
     "@storybook/addon-toolbars": "workspace:*",
     "@storybook/addon-viewport": "workspace:*",
-    "@storybook/core-common": "workspace:*",
-    "@storybook/manager-api": "workspace:*",
-    "@storybook/node-logger": "workspace:*",
-    "@storybook/preview-api": "workspace:*",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "typescript": "^5.3.2"
+  },
+  "peerDependencies": {
+    "storybook": "workspace:^"
   },
   "publishConfig": {
     "access": "public"

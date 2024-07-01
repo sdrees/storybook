@@ -1,5 +1,5 @@
-import type { SBScalarType, StrictArgTypes } from '@storybook/types';
-import { logger } from '@storybook/client-logger';
+import type { SBScalarType, StrictArgTypes } from 'storybook/internal/types';
+import { logger } from 'storybook/internal/client-logger';
 import type {
   SvelteComponentDoc,
   JSDocType,
@@ -7,7 +7,7 @@ import type {
   JSDocTypeConst,
 } from 'sveltedoc-parser/typings';
 
-import type { ArgTypesExtractor } from '@storybook/docs-tools';
+import type { ArgTypesExtractor } from 'storybook/internal/docs-tools';
 
 type ComponentWithDocgen = {
   __docgen: SvelteComponentDoc;

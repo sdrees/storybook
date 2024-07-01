@@ -11,7 +11,6 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
       extraPackages: async ({ builder }) => {
         return ['@nuxtjs/storybook'];
       },
-      installStorybookPackage: false,
       installFrameworkPackages: false,
       componentsDestinationPath: './components',
       extraMain: {

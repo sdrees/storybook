@@ -5,16 +5,16 @@ import leven from 'leven';
 import { findPackageSync } from 'fd-package-json';
 import invariant from 'tiny-invariant';
 
-import { logger } from '@storybook/node-logger';
-import { addToGlobalContext, telemetry } from '@storybook/telemetry';
+import { logger } from '@storybook/core/node-logger';
+import { addToGlobalContext, telemetry } from '@storybook/core/telemetry';
 import {
   parseList,
   getEnvConfig,
   JsPackageManagerFactory,
   versions,
   removeAddon as remove,
-} from '@storybook/core-common';
-import { withTelemetry } from '@storybook/core-server';
+} from '@storybook/core/common';
+import { withTelemetry } from '@storybook/core/core-server';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';

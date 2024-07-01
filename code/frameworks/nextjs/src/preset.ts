@@ -1,9 +1,9 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
 import { dirname, join } from 'path';
-import type { PresetProperty } from '@storybook/types';
+import type { PresetProperty } from 'storybook/internal/types';
 import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot } from 'storybook/internal/common';
 import fs from 'fs';
 import semver from 'semver';
 import { configureConfig } from './config/webpack';
@@ -22,7 +22,7 @@ import { configureSWCLoader } from './swc/loader';
 import { configureBabelLoader } from './babel/loader';
 import { configureFastRefresh } from './fastRefresh/webpack';
 import { configureAliases } from './aliases/webpack';
-import { logger } from '@storybook/node-logger';
+import { logger } from 'storybook/internal/node-logger';
 import { configureNextExportMocks } from './export-mocks/webpack';
 import { configureCompatibilityAliases } from './compatibility/compatibility-map';
 

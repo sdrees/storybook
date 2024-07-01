@@ -72,17 +72,12 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/client-logger": "workspace:*",
-    "@storybook/core-events": "workspace:*",
-    "@storybook/manager-api": "workspace:*",
-    "@storybook/preview-api": "workspace:*",
-    "@storybook/router": "workspace:*",
-    "@storybook/types": "workspace:*",
     "fs-extra": "^11.1.0",
     "typescript": "^5.3.2"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
+    "storybook": "workspace:^"
   },
   "peerDependenciesMeta": {
     "react": {

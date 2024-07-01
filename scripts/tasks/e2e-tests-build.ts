@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
 import { PORT } from './serve';

@@ -2,9 +2,9 @@ import { appendFile, readFile } from 'fs/promises';
 import findUp from 'find-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { telemetry } from '@storybook/telemetry';
-import { withTelemetry } from '@storybook/core-server';
-import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
+import { telemetry } from 'storybook/internal/telemetry';
+import { withTelemetry } from '@storybook/core/core-server';
+import { NxProjectDetectedError } from '@storybook/core/server-errors';
 import {
   versions,
   HandledError,
@@ -12,10 +12,10 @@ import {
   commandLog,
   paddedLog,
   getProjectRoot,
-} from '@storybook/core-common';
-import type { JsPackageManager } from '@storybook/core-common';
+} from '@storybook/core/common';
+import type { JsPackageManager } from '@storybook/core/common';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import boxen from 'boxen';
 import { lt, prerelease } from 'semver';
 import type { Builder } from './project_types';
@@ -248,8 +248,8 @@ export async function doInitiate(options: CommandOptions): Promise<
     force: pkgMgr,
   });
 
-  const latestVersion = await packageManager.latestVersion('@storybook/cli');
-  const currentVersion = versions['@storybook/cli'];
+  const latestVersion = await packageManager.latestVersion('storybook');
+  const currentVersion = versions.storybook;
   const isPrerelease = prerelease(currentVersion);
   const isOutdated = lt(currentVersion, latestVersion);
   const borderColor = isOutdated ? '#FC521F' : '#F1618C';
@@ -287,12 +287,6 @@ export async function doInitiate(options: CommandOptions): Promise<
     }
     // Prompt the user to create a new project from our list.
     await scaffoldNewProject(packageManager.type, options);
-
-    if (process.env.IN_STORYBOOK_SANDBOX === 'true' || process.env.CI === 'true') {
-      packageManager.addPackageResolutions({
-        '@storybook/telemetry': versions['@storybook/telemetry'],
-      });
-    }
   }
 
   let projectType: ProjectType;

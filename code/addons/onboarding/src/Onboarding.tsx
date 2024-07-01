@@ -1,7 +1,7 @@
-import { SyntaxHighlighter } from '@storybook/components';
-import { SAVE_STORY_RESPONSE } from '@storybook/core-events';
-import { type API } from '@storybook/manager-api';
-import { ThemeProvider, convert, styled, themes } from '@storybook/theming';
+import { SyntaxHighlighter } from 'storybook/internal/components';
+import { SAVE_STORY_RESPONSE } from 'storybook/internal/core-events';
+import { type API } from 'storybook/internal/manager-api';
+import { ThemeProvider, convert, styled, themes } from 'storybook/internal/theming';
 import React, { useCallback, useEffect, useState } from 'react';
 import type { Step } from 'react-joyride';
 

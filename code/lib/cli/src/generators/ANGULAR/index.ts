@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { commandLog } from '@storybook/core-common';
+import { commandLog } from '@storybook/core/common';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';

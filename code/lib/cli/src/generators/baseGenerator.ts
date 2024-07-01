@@ -3,9 +3,9 @@ import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import invariant from 'tiny-invariant';
-import type { JsPackageManager } from '@storybook/core-common';
-import { getPackageDetails, versions as packageVersions } from '@storybook/core-common';
-import type { SupportedFrameworks } from '@storybook/types';
+import type { JsPackageManager } from '@storybook/core/common';
+import { getPackageDetails, versions as packageVersions } from '@storybook/core/common';
+import type { SupportedFrameworks } from '@storybook/core/types';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, Builder } from '../project_types';
 import { SupportedLanguage, externalFrameworks } from '../project_types';
@@ -31,7 +31,6 @@ const defaultOptions: FrameworkOptions = {
   extensions: undefined,
   componentsDestinationPath: undefined,
   storybookConfigFolder: '.storybook',
-  installStorybookPackage: true,
   installFrameworkPackages: true,
 };
 
@@ -212,7 +211,6 @@ export async function baseGenerator(
     storybookConfigFolder,
     componentsDestinationPath,
     webpackCompiler,
-    installStorybookPackage,
     installFrameworkPackages,
   } = {
     ...defaultOptions,
@@ -285,7 +283,7 @@ export async function baseGenerator(
       : extraPackages;
 
   const allPackages = [
-    installStorybookPackage ? 'storybook' : undefined,
+    'storybook',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...(installFrameworkPackages ? frameworkPackages : []),
     ...addonPackages,

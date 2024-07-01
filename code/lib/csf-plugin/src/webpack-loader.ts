@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
-import type { EnrichCsfOptions } from '@storybook/csf-tools';
-import { loadCsf, formatCsf, enrichCsf } from '@storybook/csf-tools';
+import type { EnrichCsfOptions } from 'storybook/internal/csf-tools';
+import { loadCsf, formatCsf, enrichCsf } from 'storybook/internal/csf-tools';
 
 interface LoaderContext {
   async: () => (err: Error | null, result?: string, map?: any) => void;

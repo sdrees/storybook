@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
 import type { Step, TooltipRenderProps } from 'react-joyride';
-import { IconButton } from '@storybook/components';
+import { IconButton } from 'storybook/internal/components';
 import { CloseAltIcon } from '@storybook/icons';
-import { styled, color } from '@storybook/theming';
+import { styled, color } from 'storybook/internal/theming';
 
 import { Button } from '../../components/Button/Button';
 

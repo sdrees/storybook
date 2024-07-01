@@ -48,8 +48,7 @@
   },
   "dependencies": {
     "@storybook/builder-vite": "workspace:*",
-    "@storybook/preact": "workspace:*",
-    "@storybook/types": "workspace:*"
+    "@storybook/preact": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
@@ -58,7 +57,7 @@
   },
   "peerDependencies": {
     "preact": ">=10",
-    "vite": "^4.0.0 || ^5.0.0"
+    "storybook": "workspace:^"
   },
   "engines": {
     "node": ">=18.0.0"

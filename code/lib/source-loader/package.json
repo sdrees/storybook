@@ -46,13 +46,15 @@
   },
   "dependencies": {
     "@storybook/csf": "0.1.10--canary.d841bb4.0",
-    "@storybook/types": "workspace:*",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
     "prettier": "^3.1.1"
   },
   "devDependencies": {
     "typescript": "^5.3.2"
+  },
+  "peerDependencies": {
+    "storybook": "workspace:^"
   },
   "publishConfig": {
     "access": "public"

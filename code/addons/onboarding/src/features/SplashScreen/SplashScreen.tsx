@@ -1,5 +1,5 @@
 import { ArrowRightIcon } from '@storybook/icons';
-import { styled, keyframes } from '@storybook/theming';
+import { styled, keyframes } from 'storybook/internal/theming';
 import React, { useCallback, useEffect, useState } from 'react';
 
 const fadeIn = keyframes({
@@ -13,7 +13,7 @@ const fadeIn = keyframes({
 
 const slideIn = keyframes({
   from: {
-    transform: 'translate(0, -20px)',
+    transform: 'translate(0, 20px)',
     opacity: 0,
   },
   to: {
@@ -91,7 +91,9 @@ const Content = styled.div<{ visible: boolean }>(({ visible }) => ({
   transform: 'translate(-50%, -50%)',
   color: 'white',
   textAlign: 'center',
-  maxWidth: 400,
+  width: '90vw',
+  minWidth: 290,
+  maxWidth: 410,
   opacity: visible ? 1 : 0,
   transition: 'opacity 0.5s',
 
@@ -101,6 +103,30 @@ const Content = styled.div<{ visible: boolean }>(({ visible }) => ({
     animation: `${slideIn} 1.5s 1s backwards`,
   },
 }));
+
+const Features = styled.div({
+  display: 'flex',
+  marginTop: 40,
+  div: {
+    display: 'flex',
+    flexBasis: '33.33%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    animation: `${slideIn} 1s backwards`,
+    '&:nth-child(1)': {
+      animationDelay: '2s',
+    },
+    '&:nth-child(2)': {
+      animationDelay: '2.5s',
+    },
+    '&:nth-child(3)': {
+      animationDelay: '3s',
+    },
+  },
+  svg: {
+    marginBottom: 10,
+  },
+});
 
 const RadialButton = styled.button({
   display: 'inline-flex',
@@ -117,7 +143,7 @@ const RadialButton = styled.button({
   background: 'rgba(255, 255, 255, 0.3)',
   cursor: 'pointer',
   transition: 'background 0.2s',
-  animation: `${scaleIn} 1.5s 1.5s backwards`,
+  animation: `${scaleIn} 1.5s 4s backwards`,
 
   '&:hover, &:focus': {
     background: 'rgba(255, 255, 255, 0.4)',
@@ -151,10 +177,11 @@ const ProgressCircle = styled.svg<{ progress?: boolean; spinner?: boolean }>(({ 
 
 interface SplashScreenProps {
   onDismiss: () => void;
+  duration?: number;
 }
 
-export const SplashScreen = ({ onDismiss }: SplashScreenProps) => {
-  const [progress, setProgress] = useState(-30);
+export const SplashScreen = ({ onDismiss, duration = 6000 }: SplashScreenProps) => {
+  const [progress, setProgress] = useState((-4000 * 100) / duration); // 4 seconds delay
   const [visible, setVisible] = useState(true);
   const ready = progress >= 100;
 
@@ -165,9 +192,12 @@ export const SplashScreen = ({ onDismiss }: SplashScreenProps) => {
   }, [onDismiss]);
 
   useEffect(() => {
-    const interval = setInterval(() => setProgress((prev) => prev + 0.5), 30);
+    if (!duration) return;
+    const framelength = 1000 / 50; // 50 frames per second
+    const increment = 100 / (duration / framelength); // 0-100% at 20ms intervals
+    const interval = setInterval(() => setProgress((prev) => prev + increment), framelength);
     return () => clearInterval(interval);
-  }, []);
+  }, [duration]);
 
   useEffect(() => {
     if (ready) dismiss();
@@ -178,6 +208,36 @@ export const SplashScreen = ({ onDismiss }: SplashScreenProps) => {
       <Backdrop />
       <Content visible={visible}>
         <h1>Meet your new frontend workshop</h1>
+        <Features>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32">
+              <path
+                d="M4.06 0H32.5v28.44h-3.56V32H.5V3.56h3.56V0Zm21.33 7.11H4.06v21.33h21.33V7.11Z"
+                fill="currentColor"
+              />
+            </svg>
+            Development
+          </div>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+              <path
+                d="M15.95 32c-1.85 0-3.1-1.55-3.1-3.54 0-1.1.45-2.78 1.35-5.03.9-2.3 1.35-4.51 1.35-6.81a22.21 22.21 0 0 0-5.1 3.67c-2.5 2.47-4.95 4.9-7.55 4.9-1.6 0-2.9-1.1-2.9-2.43 0-1.46 1.35-2.91 4.3-3.62 1.45-.36 3.1-.75 4.95-1.06 1.8-.31 3.8-1.02 5.9-2.08a23.77 23.77 0 0 0-6.1-2.12C5.3 13.18 2.3 12.6 1 11.28.35 10.6 0 9.9 0 9.14 0 7.82 1.2 6.8 2.95 6.8c2.65 0 5.75 3.1 7.95 5.3 1.1 1.1 2.65 2.21 4.65 3.27v-.57c0-1.77-.15-3.23-.55-4.3-.8-2.11-2.05-5.43-2.05-6.97 0-2.04 1.3-3.54 3.1-3.54 1.75 0 3.1 1.41 3.1 3.54 0 1.06-.45 2.78-1.35 5.12-.9 2.35-1.35 4.6-1.35 6.72 2.85-1.59 2.5-1.41 4.95-3.5 2.35-2.29 4-3.7 4.9-4.23.95-.58 1.9-.84 2.9-.84 1.6 0 2.8.97 2.8 2.34 0 1.5-1.25 2.78-4.15 3.62-1.4.4-3.05.75-4.9 1.1-1.9.36-3.9 1.07-6.1 2.13a23.3 23.3 0 0 0 5.95 2.08c3.65.7 6.75 1.32 8.15 2.6.7.67 1.05 1.33 1.05 2.08 0 1.33-1.2 2.43-2.95 2.43-2.95 0-6.75-4.15-8.2-5.61-.7-.7-2.2-1.72-4.4-2.96v.57c0 1.9.45 4.03 1.3 6.32.85 2.3 1.3 3.94 1.3 4.95 0 2.08-1.35 3.54-3.1 3.54Z"
+                fill="currentColor"
+              />
+            </svg>
+            Testing
+          </div>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32">
+              <path
+                d="M.5 16a16 16 0 1 1 32 0 16 16 0 0 1-32 0Zm16 12.44A12.44 12.44 0 0 1 4.3 13.53a8 8 0 1 0 9.73-9.73 12.44 12.44 0 1 1 2.47 24.64ZM12.06 16a4.44 4.44 0 1 1 0-8.89 4.44 4.44 0 0 1 0 8.89Z"
+                fill="currentColor"
+                fillRule="evenodd"
+              />
+            </svg>
+            Documentation
+          </div>
+        </Features>
         <RadialButton onClick={dismiss}>
           <ArrowIcon />
           <ProgressCircle xmlns="http://www.w3.org/2000/svg">

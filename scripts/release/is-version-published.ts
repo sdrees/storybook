@@ -67,7 +67,7 @@ export const run = async (args: unknown[], options: unknown) => {
 
   const isAlreadyPublished = await isVersionPublished({
     version,
-    packageName: '@storybook/manager-api',
+    packageName: '@storybook/core',
     verbose,
   });
 

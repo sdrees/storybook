@@ -66,6 +66,8 @@ orbs:
   browser-tools: circleci/browser-tools@1.4.1
   discord: antonioned/discord@0.1.0
   codecov: codecov/codecov@3.2.4
+  bun-orb: cmgriffing/bun-orb@0.0.29
+  node: circleci/node@5.2.0
   nx: nrwl/nx@1.6.2
 
 commands:
@@ -129,6 +131,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - bun-orb/setup:
+          version: 1.1.1
       - restore_cache:
           name: Restore Yarn cache
           keys:
@@ -161,6 +165,7 @@ jobs:
             - code/frameworks
             - code/deprecated
             - code/lib
+            - code/core
             - code/builders
             - code/ui
             - code/renderers
@@ -189,6 +194,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - bun-orb/setup:
+          version: 1.1.1
       - attach_workspace:
           at: .
       - nx/set-shas:
@@ -260,7 +267,7 @@ jobs:
           at: .
       - codecov/upload
       - report-workflow-on-failure
-  chromatic-internal-storybooks:
+  chromatic-internal-storybook:
     executor:
       class: medium+
       name: sb_node_18_browsers
@@ -273,10 +280,8 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: |
-            cd code
-            yarn storybook:ui:chromatic
-            yarn storybook:blocks:chromatic
+          command: yarn storybook:ui:chromatic
+          working_directory: code
       - report-workflow-on-failure
       - store_test_results:
           path: test-results
@@ -339,6 +344,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - bun-orb/setup:
+          version: 1.1.1
       - attach_workspace:
           at: .
       - run:
@@ -349,13 +356,15 @@ jobs:
       - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
+          environment:
+            STORYBOOK_TELEMETRY_URL: "http://localhost:6007/event-log"
       - run:
           name: Verifying Telemetry
           command: |
             TEMPLATE=$(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
             if [[ $TEMPLATE != bench/* ]]
             then
-              node --loader esbuild-register/loader -r esbuild-register ./event-log-checker build $TEMPLATE
+              node --loader esbuild-register/loader -r esbuild-register ./event-log-checker.ts build $TEMPLATE
             fi
           working_directory: scripts
       - report-workflow-on-failure:
@@ -644,7 +653,7 @@ workflows:
       - script-checks:
           requires:
             - build
-      - chromatic-internal-storybooks:
+      - chromatic-internal-storybook:
           requires:
             - build
       - coverage:
@@ -706,7 +715,7 @@ workflows:
       - script-checks:
           requires:
             - build
-      - chromatic-internal-storybooks:
+      - chromatic-internal-storybook:
           requires:
             - build
       - coverage:
@@ -769,7 +778,7 @@ workflows:
       - script-checks:
           requires:
             - build
-      - chromatic-internal-storybooks:
+      - chromatic-internal-storybook:
           requires:
             - build
       - create-sandboxes:

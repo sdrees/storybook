@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { CallBackProps } from 'react-joyride';
 import Joyride, { ACTIONS } from 'react-joyride';
-import { useTheme } from '@storybook/theming';
+import { useTheme } from 'storybook/internal/theming';
 
 import { Tooltip } from './Tooltip';
 import type { StepDefinition, StepKey } from '../../Onboarding';
