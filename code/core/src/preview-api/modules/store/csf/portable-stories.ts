@@ -106,6 +106,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     step: (label, play) => story.runStep(label, play, context),
     canvasElement: globalThis?.document?.body,
     context: null!,
+    canvas: {},
     ...story,
   };
 

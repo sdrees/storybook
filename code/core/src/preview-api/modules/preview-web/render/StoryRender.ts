@@ -188,8 +188,8 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         loaded: {},
         step: (label, play) => runStep(label, play, context),
         context: null!,
+        canvas: {},
       };
-
       context.context = context;
 
       const renderContext: RenderContext<TRenderer> = {
