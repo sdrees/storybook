@@ -95,7 +95,10 @@ type BaseTemplates = Template & {
 const baseTemplates = {
   'cra/default-js': {
     name: 'Create React App Latest (Webpack | JavaScript)',
-    script: 'npx create-react-app {{beforeDir}}',
+    script: `
+      npx create-react-app {{beforeDir}} && cd {{beforeDir}} && \
+      jq '.browserslist.production[0] = ">0.9%"' package.json > tmp.json && mv tmp.json package.json
+    `,
     expected: {
       // TODO: change this to @storybook/cra once that package is created
       framework: '@storybook/react-webpack5',
@@ -120,7 +123,10 @@ const baseTemplates = {
   },
   'cra/default-ts': {
     name: 'Create React App Latest (Webpack | TypeScript)',
-    script: 'npx create-react-app {{beforeDir}} --template typescript',
+    script: `
+      npx create-react-app {{beforeDir}} --template typescript && cd {{beforeDir}} && \
+      jq '.browserslist.production[0] = ">0.9%"' package.json > tmp.json && mv tmp.json package.json
+    `,
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'bench'],
     expected: {
