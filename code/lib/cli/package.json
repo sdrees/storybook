@@ -140,7 +140,8 @@
     },
     "./internal/components": {
       "types": "./core/components/index.d.ts",
-      "import": "./core/components/index.js"
+      "import": "./core/components/index.js",
+      "require": "./core/components/index.cjs"
     },
     "./internal/theming": {
       "types": "./core/theming/index.d.ts",
