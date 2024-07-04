@@ -48,7 +48,6 @@ import { StoryStore } from '../../store';
 import { StoryRender } from './render/StoryRender';
 import type { CsfDocsRender } from './render/CsfDocsRender';
 import type { MdxDocsRender } from './render/MdxDocsRender';
-import { mountDestructured } from './render/mount-utils';
 
 const { fetch } = global;
 
@@ -315,7 +314,7 @@ export class Preview<TRenderer extends Renderer> {
         .map((r) =>
           // We only run the play function, with in a force remount.
           // But when mount is destructured, the rendering happens inside of the play function.
-          r.story && mountDestructured(r.story.playFunction) ? r.remount() : r.rerender()
+          r.story && r.story.usesMount ? r.remount() : r.rerender()
         )
     );
 

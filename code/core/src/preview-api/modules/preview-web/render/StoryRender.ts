@@ -8,7 +8,6 @@ import {
 import type { StoryStore } from '../../store';
 import type { Render, RenderType } from './Render';
 import { PREPARE_ABORTED } from './Render';
-import { mountDestructured } from './mount-utils';
 import { MountMustBeDestructuredError, NoStoryMountedError } from '@storybook/core/preview-errors';
 
 import type {
@@ -191,7 +190,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
 
     let mounted = false;
 
-    const isMountDestructured = playFunction && mountDestructured(playFunction);
+    const isMountDestructured = story.usesMount;
 
     try {
       const context: StoryContext<TRenderer> = {

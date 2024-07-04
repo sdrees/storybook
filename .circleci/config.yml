@@ -204,6 +204,7 @@ jobs:
       - run:
           name: Check
           command: |
+            yarn task --task compile --start-from=auto --no-link --debug
             yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
       - report-workflow-on-failure

@@ -157,6 +157,7 @@ describe('StoryRender', () => {
 
   it('does not call mount twice if mount called in play function', async () => {
     const story = buildStory({
+      usesMount: true,
       playFunction: async ({ mount }) => {
         await mount();
       },
@@ -200,6 +201,7 @@ describe('StoryRender', () => {
 
   it('errors if play function destructures mount but does not call it', async () => {
     const story = buildStory({
+      usesMount: true,
       playFunction: async ({ mount }) => {
         // forget to call mount
       },
@@ -228,6 +230,7 @@ describe('StoryRender', () => {
     });
     const story = buildStory({
       mount: (context) => () => actualMount(context) as any,
+      usesMount: true,
       playFunction: async ({ mount }) => {
         expect(render.phase).toBe('loading');
         await mount();

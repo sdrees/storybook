@@ -3664,6 +3664,7 @@ describe('PreviewWeb', () => {
             ],
             "testingLibraryRender": undefined,
             "title": "Component One",
+            "usesMount": false,
           },
           "component-one--b": {
             "argTypes": {
@@ -3713,6 +3714,7 @@ describe('PreviewWeb', () => {
             ],
             "testingLibraryRender": undefined,
             "title": "Component One",
+            "usesMount": false,
           },
           "component-one--e": {
             "argTypes": {},
@@ -3740,6 +3742,7 @@ describe('PreviewWeb', () => {
             ],
             "testingLibraryRender": undefined,
             "title": "Component One",
+            "usesMount": false,
           },
           "component-two--c": {
             "argTypes": {
@@ -3777,6 +3780,7 @@ describe('PreviewWeb', () => {
             ],
             "testingLibraryRender": undefined,
             "title": "Component Two",
+            "usesMount": false,
           },
         }
       `);
