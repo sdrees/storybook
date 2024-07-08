@@ -209,7 +209,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/core-events/src/**/*'],
+      files: ['./core/src/preview-errors.ts'],
       excludedFiles: ['**/*.test.*'],
       rules: {
         'local-rules/no-duplicated-error-codes': 'error',
