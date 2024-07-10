@@ -103,7 +103,7 @@ export function composeStory<TArgs extends Args = Args>(
   componentAnnotations: Meta<TArgs | any>,
   projectAnnotations?: ProjectAnnotations<SvelteRenderer>,
   exportsName?: string
-) {
+): ComposedStory<TArgs> {
   const composedStory = originalComposeStory<SvelteRenderer, TArgs>(
     story as StoryAnnotationsOrFn<SvelteRenderer, Args>,
     // @ts-expect-error Fix this later: Type 'Partial<{ [x: string]: any; }>' is not assignable to type 'Partial<Simplify<TArgs, {}>>'

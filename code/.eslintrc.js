@@ -209,6 +209,13 @@ module.exports = {
       },
     },
     {
+      files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
+      excludedFiles: ['**/*.test.*'],
+      rules: {
+        'local-rules/storybook-monorepo-imports': 'error',
+      },
+    },
+    {
       files: ['./core/src/preview-errors.ts'],
       excludedFiles: ['**/*.test.*'],
       rules: {

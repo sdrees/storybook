@@ -1,1 +1,1 @@
-{"version":"8.2.0-beta.3","info":{"plain":"- Addon Controls: Fix saving on Windows - [#28485](https://github.com/storybookjs/storybook/pull/28485), thanks @ghengeveld!\n- React: Export ButtonProps and HeaderProps in CLI templates - [#28487](https://github.com/storybookjs/storybook/pull/28487), thanks @valentinpalkovic!"}}
+{"version":"8.3.0-alpha.0","info":{"plain":""}}

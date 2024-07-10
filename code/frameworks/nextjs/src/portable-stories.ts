@@ -11,6 +11,7 @@ import type {
   Store_CSFExports,
   StoriesWithPartialProps,
   NamedOrDefaultProjectAnnotations,
+  ComposedStoryFn,
 } from 'storybook/internal/types';
 
 // ! ATTENTION: This needs to be a relative import so it gets prebundled. This is to avoid ESM issues in Nextjs + Jest setups
@@ -80,7 +81,7 @@ export function composeStory<TArgs extends Args = Args>(
   componentAnnotations: Meta<TArgs | any>,
   projectAnnotations?: ProjectAnnotations<ReactRenderer>,
   exportsName?: string
-) {
+): ComposedStoryFn<ReactRenderer, Partial<TArgs>> {
   return originalComposeStory<ReactRenderer, TArgs>(
     story as StoryAnnotationsOrFn<ReactRenderer, Args>,
     componentAnnotations,

@@ -38,7 +38,6 @@ const CRITICAL_YARN2_ERROR_CODES = {
   YN0083: 'AUTOMERGE_GIT_ERROR',
 };
 
-// @ts-expect-error If we want a code to be parsed, we move from the list below to the list above
 // Keep the codes here, they might be helpful in the future
 const YARN2_ERROR_CODES = {
   ...CRITICAL_YARN2_ERROR_CODES,

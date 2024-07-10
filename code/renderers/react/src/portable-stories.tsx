@@ -10,6 +10,7 @@ import type {
   Store_CSFExports,
   StoriesWithPartialProps,
   ProjectAnnotations,
+  ComposedStoryFn,
 } from 'storybook/internal/types';
 
 import * as reactProjectAnnotations from './entry-preview';
@@ -85,7 +86,7 @@ export function composeStory<TArgs extends Args = Args>(
   componentAnnotations: Meta<TArgs | any>,
   projectAnnotations?: ProjectAnnotations<ReactRenderer>,
   exportsName?: string
-) {
+): ComposedStoryFn<ReactRenderer, Partial<TArgs>> {
   return originalComposeStory<ReactRenderer, TArgs>(
     story as StoryAnnotationsOrFn<ReactRenderer, Args>,
     componentAnnotations,
