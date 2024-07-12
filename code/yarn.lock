@@ -5758,7 +5758,7 @@ __metadata:
     "@radix-ui/react-scroll-area": "npm:^1.0.5"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@storybook/csf": "npm:0.1.11"
-    "@storybook/docs-mdx": "npm:3.1.0-next.0"
+    "@storybook/docs-mdx": "npm:4.0.0-next.0"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.5"
     "@tanstack/react-virtual": "npm:^3.3.0"
@@ -5911,10 +5911,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-mdx@npm:3.1.0-next.0":
-  version: 3.1.0-next.0
-  resolution: "@storybook/docs-mdx@npm:3.1.0-next.0"
-  checksum: 10c0/7622d7c6318e842c90a71c1836d68531236c31fff7081c885803eddfafb7e3f8998689f612eaa0292209ada8352a36657dcacb5d3ef4632b8e8b8a283c39602e
+"@storybook/docs-mdx@npm:4.0.0-next.0":
+  version: 4.0.0-next.0
+  resolution: "@storybook/docs-mdx@npm:4.0.0-next.0"
+  dependencies:
+    acorn: "npm:^8.12.1"
+  checksum: 10c0/6253361e4e3c6c716c4f4c8cc30c082bcdab66b35b30183f6574d94720d875e28927916be8bda0bff4987090c3e50d348ca898160b1812a90c5afa845400414e
   languageName: node
   linkType: hard
 
@@ -9241,7 +9243,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.0.0, acorn@npm:^8.10.0, acorn@npm:^8.11.2, acorn@npm:^8.11.3, acorn@npm:^8.4.1, acorn@npm:^8.6.0, acorn@npm:^8.7.1, acorn@npm:^8.8.2, acorn@npm:^8.9.0":
+"acorn@npm:^8.0.0, acorn@npm:^8.10.0, acorn@npm:^8.11.2, acorn@npm:^8.11.3, acorn@npm:^8.12.1, acorn@npm:^8.4.1, acorn@npm:^8.6.0, acorn@npm:^8.7.1, acorn@npm:^8.8.2, acorn@npm:^8.9.0":
   version: 8.12.1
   resolution: "acorn@npm:8.12.1"
   bin:
