@@ -206,7 +206,7 @@
     "typescript": "^5.4.3",
     "util": "^0.12.4",
     "vite": "^4.0.0",
-    "vitest": "^1.2.2",
+    "vitest": "^1.6.0",
     "wait-on": "^7.0.1"
   },
   "dependenciesMeta": {
