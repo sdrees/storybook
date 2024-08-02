@@ -108,6 +108,7 @@
     "@storybook/addon-onboarding": "workspace:*",
     "@storybook/addon-outline": "workspace:*",
     "@storybook/addon-storysource": "workspace:*",
+    "@storybook/addon-themes": "workspace:*",
     "@storybook/addon-toolbars": "workspace:*",
     "@storybook/addon-viewport": "workspace:*",
     "@storybook/angular": "workspace:*",
