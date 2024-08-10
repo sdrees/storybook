@@ -1,7 +1,8 @@
-import { join } from 'path';
 import fs, { move } from 'fs-extra';
-import * as ts from 'typescript';
 import { globSync } from 'glob';
+import { join } from 'path';
+import * as ts from 'typescript';
+
 import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
