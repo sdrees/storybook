@@ -1,6 +1,7 @@
+import { readFileSync } from 'node:fs';
+
 import type { Options } from 'storybook/internal/types';
 
-import * as fs from 'fs';
 import type { Plugin } from 'vite';
 
 import { generateImportFnScriptCode } from '../codegen-importfn-script';
@@ -100,10 +101,7 @@ export function codeGeneratorPlugin(options: Options): Plugin {
       }
 
       if (id === iframeId) {
-        return fs.readFileSync(
-          require.resolve('@storybook/builder-vite/input/iframe.html'),
-          'utf-8'
-        );
+        return readFileSync(require.resolve('@storybook/builder-vite/input/iframe.html'), 'utf-8');
       }
 
       return undefined;
