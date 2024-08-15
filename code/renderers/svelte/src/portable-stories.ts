@@ -2,12 +2,13 @@ import {
   composeStories as originalComposeStories,
   composeStory as originalComposeStory,
   setProjectAnnotations as originalSetProjectAnnotations,
+  setDefaultProjectAnnotations,
 } from 'storybook/internal/preview-api';
-import { TestingLibraryMustBeConfiguredError } from 'storybook/internal/preview-errors';
 import type {
   Args,
   ComposedStoryFn,
   NamedOrDefaultProjectAnnotations,
+  NormalizedProjectAnnotations,
   ProjectAnnotations,
   Store_CSFExports,
   StoriesWithPartialProps,
@@ -55,10 +56,13 @@ type MapToComposed<TModule> = {
  */
 export function setProjectAnnotations(
   projectAnnotations:
-    | NamedOrDefaultProjectAnnotations<SvelteRenderer>
-    | NamedOrDefaultProjectAnnotations<SvelteRenderer>[]
-): ProjectAnnotations<SvelteRenderer> {
-  return originalSetProjectAnnotations<SvelteRenderer>(projectAnnotations);
+    | NamedOrDefaultProjectAnnotations<any>
+    | NamedOrDefaultProjectAnnotations<any>[]
+): NormalizedProjectAnnotations<SvelteRenderer> {
+  setDefaultProjectAnnotations(INTERNAL_DEFAULT_PROJECT_ANNOTATIONS);
+  return originalSetProjectAnnotations(
+    projectAnnotations
+  ) as NormalizedProjectAnnotations<SvelteRenderer>;
 }
 
 // This will not be necessary once we have auto preset loading
@@ -66,9 +70,7 @@ export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<SvelteRend
   ...svelteProjectAnnotations,
   renderToCanvas: (renderContext, canvasElement) => {
     if (renderContext.storyContext.testingLibraryRender == null) {
-      throw new TestingLibraryMustBeConfiguredError();
-      // Enable for 8.3
-      // return svelteProjectAnnotations.renderToCanvas(renderContext, canvasElement);
+      return svelteProjectAnnotations.renderToCanvas(renderContext, canvasElement);
     }
     const {
       storyFn,

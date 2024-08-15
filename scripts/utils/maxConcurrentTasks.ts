@@ -1,4 +1,4 @@
-import { cpus } from 'os';
+import { cpus } from 'node:os';
 
 /**
  * The maximum number of concurrent tasks we want to have on some CLI and CI tasks.

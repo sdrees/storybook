@@ -101,6 +101,7 @@ export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProvid
                   childNodes: new Map(),
                   tree,
                   url: pathname,
+                  loading: null,
                 }}
               >
                 {children}

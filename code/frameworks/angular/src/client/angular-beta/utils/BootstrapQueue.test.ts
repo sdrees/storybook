@@ -1,6 +1,7 @@
 // @vitest-environment happy-dom
-import { Subject, lastValueFrom } from 'rxjs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { Subject, lastValueFrom } from 'rxjs';
 
 import { queueBootstrapping } from './BootstrapQueue';
 

@@ -13,7 +13,7 @@ import { composeStories, composeStory, setProjectAnnotations } from '../../porta
 import * as stories from './Button.stories';
 import type Button from './Button.vue';
 
-setProjectAnnotations({ testingLibraryRender: render });
+setProjectAnnotations([]);
 
 // example with composeStories, returns an object with all stories composed with args/decorators
 const { CSF3Primary, LoaderStory } = composeStories(stories);
@@ -62,7 +62,6 @@ describe('projectAnnotations', () => {
   it('renders with default projectAnnotations', () => {
     setProjectAnnotations([
       {
-        testingLibraryRender: render,
         parameters: { injected: true },
         globalTypes: {
           locale: { defaultValue: 'en' },

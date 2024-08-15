@@ -30,6 +30,7 @@ import { smokeTest } from './tasks/smoke-test';
 import { syncDocs } from './tasks/sync-docs';
 import { testRunnerBuild } from './tasks/test-runner-build';
 import { testRunnerDev } from './tasks/test-runner-dev';
+import { vitestTests } from './tasks/vitest-test';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -107,6 +108,7 @@ export const tasks = {
   'e2e-tests': e2eTestsBuild,
   'e2e-tests-dev': e2eTestsDev,
   bench,
+  'vitest-integration': vitestTests,
 };
 type TaskKey = keyof typeof tasks;
 
@@ -186,7 +188,7 @@ export const options = createOptions({
   },
 });
 
-type PassedOptionValues = Omit<OptionValues<typeof options>, 'task' | 'startFrom' | 'junit'>;
+export type PassedOptionValues = Omit<OptionValues<typeof options>, 'task' | 'startFrom' | 'junit'>;
 
 const logger = console;
 

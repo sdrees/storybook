@@ -2,12 +2,13 @@ import {
   composeStories as originalComposeStories,
   composeStory as originalComposeStory,
   setProjectAnnotations as originalSetProjectAnnotations,
+  setDefaultProjectAnnotations,
 } from 'storybook/internal/preview-api';
-import { TestingLibraryMustBeConfiguredError } from 'storybook/internal/preview-errors';
 import type {
   Args,
   ComposedStoryFn,
   NamedOrDefaultProjectAnnotations,
+  NormalizedProjectAnnotations,
   ProjectAnnotations,
   Store_CSFExports,
   StoriesWithPartialProps,
@@ -45,10 +46,13 @@ type MapToJSXAble<T> = {
  */
 export function setProjectAnnotations(
   projectAnnotations:
-    | NamedOrDefaultProjectAnnotations<VueRenderer>
-    | NamedOrDefaultProjectAnnotations<VueRenderer>[]
-): ProjectAnnotations<VueRenderer> {
-  return originalSetProjectAnnotations<VueRenderer>(projectAnnotations);
+    | NamedOrDefaultProjectAnnotations<any>
+    | NamedOrDefaultProjectAnnotations<any>[]
+): NormalizedProjectAnnotations<VueRenderer> {
+  setDefaultProjectAnnotations(vueProjectAnnotations);
+  return originalSetProjectAnnotations(
+    projectAnnotations
+  ) as NormalizedProjectAnnotations<VueRenderer>;
 }
 
 // This will not be necessary once we have auto preset loading
@@ -56,9 +60,7 @@ export const vueProjectAnnotations: ProjectAnnotations<VueRenderer> = {
   ...defaultProjectAnnotations,
   renderToCanvas: (renderContext, canvasElement) => {
     if (renderContext.storyContext.testingLibraryRender == null) {
-      throw new TestingLibraryMustBeConfiguredError();
-      // Enable for 8.3
-      // return defaultProjectAnnotations.renderToCanvas(renderContext, canvasElement);
+      return defaultProjectAnnotations.renderToCanvas(renderContext, canvasElement);
     }
     const {
       storyFn,

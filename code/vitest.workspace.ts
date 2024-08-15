@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { defineConfig, defineWorkspace } from 'vitest/config';
 
 export default defineWorkspace([
+  '.storybook/vitest.config.ts',
   'addons/*/vitest.config.ts',
   'frameworks/*/vitest.config.ts',
   'lib/*/vitest.config.ts',

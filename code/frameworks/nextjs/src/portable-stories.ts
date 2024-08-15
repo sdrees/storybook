@@ -3,11 +3,13 @@ import {
   composeStories as originalComposeStories,
   composeStory as originalComposeStory,
   setProjectAnnotations as originalSetProjectAnnotations,
+  setDefaultProjectAnnotations,
 } from 'storybook/internal/preview-api';
 import type {
   Args,
   ComposedStoryFn,
   NamedOrDefaultProjectAnnotations,
+  NormalizedProjectAnnotations,
   ProjectAnnotations,
   Store_CSFExports,
   StoriesWithPartialProps,
@@ -16,7 +18,6 @@ import type {
 
 import type { Meta, ReactRenderer } from '@storybook/react';
 
-import * as rscAnnotations from '../../../renderers/react/src/entry-preview-rsc';
 // ! ATTENTION: This needs to be a relative import so it gets prebundled. This is to avoid ESM issues in Nextjs + Jest setups
 import { INTERNAL_DEFAULT_PROJECT_ANNOTATIONS as reactAnnotations } from '../../../renderers/react/src/portable-stories';
 import * as nextJsAnnotations from './preview';
@@ -38,16 +39,18 @@ import * as nextJsAnnotations from './preview';
  */
 export function setProjectAnnotations(
   projectAnnotations:
-    | NamedOrDefaultProjectAnnotations<ReactRenderer>
-    | NamedOrDefaultProjectAnnotations<ReactRenderer>[]
-): ProjectAnnotations<ReactRenderer> {
-  return originalSetProjectAnnotations<ReactRenderer>(projectAnnotations);
+    | NamedOrDefaultProjectAnnotations<any>
+    | NamedOrDefaultProjectAnnotations<any>[]
+): NormalizedProjectAnnotations<ReactRenderer> {
+  setDefaultProjectAnnotations(INTERNAL_DEFAULT_PROJECT_ANNOTATIONS);
+  return originalSetProjectAnnotations(
+    projectAnnotations
+  ) as NormalizedProjectAnnotations<ReactRenderer>;
 }
 
 // This will not be necessary once we have auto preset loading
-const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = composeConfigs([
+const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<ReactRenderer> = composeConfigs([
   reactAnnotations,
-  rscAnnotations,
   nextJsAnnotations,
 ]);
 
@@ -88,7 +91,7 @@ export function composeStory<TArgs extends Args = Args>(
     story as StoryAnnotationsOrFn<ReactRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
-    defaultProjectAnnotations,
+    INTERNAL_DEFAULT_PROJECT_ANNOTATIONS,
     exportsName
   );
 }

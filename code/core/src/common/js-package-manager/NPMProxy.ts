@@ -1,11 +1,11 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { platform } from 'node:os';
 import { join } from 'node:path';
 
 import { logger } from '@storybook/core/node-logger';
 import { FindPackageVersionsError } from '@storybook/core/server-errors';
 
 import { findUp } from 'find-up';
-import { platform } from 'os';
 import sort from 'semver/functions/sort.js';
 import dedent from 'ts-dedent';
 

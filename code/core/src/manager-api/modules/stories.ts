@@ -34,6 +34,7 @@ import {
   SELECT_STORY,
   SET_CONFIG,
   SET_CURRENT_STORY,
+  SET_FILTER,
   SET_INDEX,
   SET_STORIES,
   STORY_ARGS_UPDATED,
@@ -617,11 +618,14 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
       const update = typeof input === 'function' ? input(status) : input;
 
-      if (Object.keys(update).length === 0) {
+      if (!id || Object.keys(update).length === 0) {
         return;
       }
 
       Object.entries(update).forEach(([storyId, value]) => {
+        if (!storyId || typeof value !== 'object') {
+          return;
+        }
         newStatus[storyId] = { ...(newStatus[storyId] || {}) };
         if (value === null) {
           delete newStatus[storyId][id];
@@ -661,6 +665,8 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       Object.entries(refs).forEach(([refId, { internal_index, ...ref }]) => {
         fullAPI.setRef(refId, { ...ref, storyIndex: internal_index }, true);
       });
+
+      provider.channel?.emit(SET_FILTER, { id });
     },
   };
 
