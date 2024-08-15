@@ -3,13 +3,12 @@ import { dedent } from 'ts-dedent';
 import { StorybookError } from './storybook-error';
 
 /**
- * If you can't find a suitable category for your error, create one
- * based on the package name/file path of which the error is thrown.
- * For instance:
- * If it's from @storybook/client-logger, then CLIENT-LOGGER
+ * If you can't find a suitable category for your error, create one based on the package name/file
+ * path of which the error is thrown. For instance: If it's from `@storybook/client-logger`, then
+ * CLIENT-LOGGER
  *
- * Categories are prefixed by a logical grouping, e.g. PREVIEW_ or FRAMEWORK_
- * to prevent manager and preview errors from having the same category and error code.
+ * Categories are prefixed by a logical grouping, e.g. PREVIEW_ or FRAMEWORK_ to prevent manager and
+ * preview errors from having the same category and error code.
  */
 export enum Category {
   BLOCKS = 'BLOCKS',
