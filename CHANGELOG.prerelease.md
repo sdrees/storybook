@@ -1,3 +1,11 @@
+## 8.3.0-alpha.9
+
+- Addon Viewport: Add default options via parameters - [#28944](https://github.com/storybookjs/storybook/pull/28944), thanks @ndelangen!
+- CLI: Make PackageJson optional for starting a dev server - [#28594](https://github.com/storybookjs/storybook/pull/28594), thanks @tobiasdiez!
+- Svelte: Fix events not being logged in Actions when a story has decorators - [#28247](https://github.com/storybookjs/storybook/pull/28247), thanks @JReinhold!
+- Vitest: Fix default viewport - [#28943](https://github.com/storybookjs/storybook/pull/28943), thanks @kasperpeulen!
+- Vitest: Implement add command for vitest addon - [#28920](https://github.com/storybookjs/storybook/pull/28920), thanks @kasperpeulen!
+
 ## 8.3.0-alpha.8
 
 - Addon Vitest: Improve transformation logic to avoid duplicate tests - [#28929](https://github.com/storybookjs/storybook/pull/28929), thanks @yannbf!

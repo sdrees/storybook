@@ -6132,6 +6132,9 @@ __metadata:
   dependencies:
     "@storybook/csf": "npm:^0.1.11"
     "@vitest/browser": "npm:^2.0.0"
+    find-up: "npm:^7.0.0"
+    tinyrainbow: "npm:^1.2.0"
+    ts-dedent: "npm:^2.2.0"
     vitest: "npm:^2.0.0"
   peerDependencies:
     "@vitest/browser": ^2.0.0
