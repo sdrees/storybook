@@ -30,8 +30,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "node": "./dist/index.js"
+      "require": "./dist/index.js"
     },
     "./preview": {
       "types": "./dist/preview.d.ts",
