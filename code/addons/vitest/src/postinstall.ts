@@ -198,6 +198,11 @@ const getVitestPluginInfo = (framework: string) => {
     frameworkPluginCall = 'storybookSveltekitPlugin()';
   }
 
+  if (framework === '@storybook/vue3-vite') {
+    frameworkPluginImport = "import { storybookVuePlugin } from '@storybook/vue3-vite/vite'";
+    frameworkPluginCall = 'storybookVuePlugin()';
+  }
+
   return { frameworkPluginImport, frameworkPluginCall };
 };
 

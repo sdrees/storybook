@@ -6034,7 +6034,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     unique-string: "npm:^3.0.0"
     use-resize-observer: "npm:^9.1.0"
-    util: "npm:^0.12.4"
+    util: "npm:^0.12.5"
     watchpack: "npm:^2.2.0"
     ws: "npm:^8.2.3"
   languageName: unknown

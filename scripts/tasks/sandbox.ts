@@ -42,6 +42,7 @@ export const sandbox: Task = {
       install,
       addStories,
       extendMain,
+      extendPreview,
       init,
       addExtraDependencies,
       setImportMap,
@@ -119,6 +120,8 @@ export const sandbox: Task = {
     });
 
     await extendMain(details, options);
+
+    await extendPreview(details, options);
 
     await setImportMap(details.sandboxDir);
 

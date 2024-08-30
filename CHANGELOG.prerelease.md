@@ -1,3 +1,11 @@
+## 8.3.0-beta.1
+
+- ConfigFile: Fix `as const satisfies` modifiers - [#29000](https://github.com/storybookjs/storybook/pull/29000), thanks @shilman!
+- Core: Move `util` to regular dependency - [#29008](https://github.com/storybookjs/storybook/pull/29008), thanks @ndelangen!
+- Next.js-Vite: Streamline Next.js dir option - [#28995](https://github.com/storybookjs/storybook/pull/28995), thanks @valentinpalkovic!
+- Next.js: Fix wrong Next.js framework reference - [#28992](https://github.com/storybookjs/storybook/pull/28992), thanks @valentinpalkovic!
+- Vue3: Add vite plugin for portable stories - [#29004](https://github.com/storybookjs/storybook/pull/29004), thanks @yannbf!
+
 ## 8.3.0-beta.0
 
 Empty release identical to `v8.3.0-alpha.11`
