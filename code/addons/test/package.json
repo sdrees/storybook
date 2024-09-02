@@ -1,10 +1,10 @@
 {
-  "name": "@storybook/experimental-addon-vitest",
-  "version": "8.3.0-beta.1",
+  "name": "@storybook/experimental-addon-test",
+  "version": "8.3.0-beta.2",
   "description": "Integrate Vitest with Storybook",
   "keywords": [
     "storybook-addons",
-    "addon-vitest",
+    "addon-test",
     "vitest",
     "testing"
   ],
@@ -29,7 +29,7 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./plugin": {
+    "./vite-plugin": {
       "types": "./dist/plugin/index.d.ts",
       "import": "./dist/plugin/index.js",
       "require": "./dist/plugin/index.cjs"
