@@ -8,14 +8,14 @@
     "vitest",
     "testing"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/vitest",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/test",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/addons/vitest"
+    "directory": "code/addons/test"
   },
   "funding": {
     "type": "opencollective",
