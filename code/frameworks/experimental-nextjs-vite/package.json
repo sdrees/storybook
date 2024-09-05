@@ -55,8 +55,8 @@
     },
     "./vite-plugin": {
       "types": "./dist/vite-plugin/index.d.ts",
-      "import": "./dist/vite-plugin/index.js",
-      "require": "./dist/vite-plugin/index.cjs"
+      "import": "./dist/vite-plugin/index.mjs",
+      "require": "./dist/vite-plugin/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -107,6 +107,7 @@
     "typescript": "^5.3.2"
   },
   "peerDependencies": {
+    "@storybook/test": "workspace:*",
     "next": "^14.1.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
