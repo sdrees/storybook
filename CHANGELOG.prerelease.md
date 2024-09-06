@@ -1,3 +1,10 @@
+## 8.3.0-beta.3
+
+- Addon Test: Improve messages and post install script handling - [#29036](https://github.com/storybookjs/storybook/pull/29036), thanks @yannbf!
+- Next.js-Vite: Fix vite plugin exports - [#29046](https://github.com/storybookjs/storybook/pull/29046), thanks @valentinpalkovic!
+- Next.js: Update dependencies - [#29052](https://github.com/storybookjs/storybook/pull/29052), thanks @valentinpalkovic!
+- UI: Fix conditional hooks usage in sidebar - [#28979](https://github.com/storybookjs/storybook/pull/28979), thanks @JReinhold!
+
 ## 8.3.0-beta.2
 
 - Addon Vitest: Fix indentation of 'vitePluginNext' in generated Vitest config file - [#29011](https://github.com/storybookjs/storybook/pull/29011), thanks @ghengeveld!
