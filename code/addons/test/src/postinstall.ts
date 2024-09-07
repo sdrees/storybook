@@ -286,7 +286,7 @@ export default async function postInstall(options: PostinstallOptions) {
       browserWorkspaceFile,
       dedent`
         import { defineWorkspace } from 'vitest/config';
-        import { storybookTest } from '@storybook/experimental-addon-test/vite-plugin';${vitestInfo.frameworkPluginImport}
+        import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin';${vitestInfo.frameworkPluginImport}
 
         // More info at: https://storybook.js.org/docs/writing-tests/test-runner-with-vitest
         export default defineWorkspace([
@@ -325,7 +325,7 @@ export default async function postInstall(options: PostinstallOptions) {
       newVitestConfigFile,
       dedent`
         import { defineConfig } from 'vitest/config';
-        import { storybookTest } from '@storybook/experimental-addon-test/vite-plugin';${vitestInfo.frameworkPluginImport}
+        import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin';${vitestInfo.frameworkPluginImport}
 
         // More info at: https://storybook.js.org/docs/writing-tests/test-runner-with-vitest
         export default defineConfig({
