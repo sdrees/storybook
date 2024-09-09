@@ -1,3 +1,8 @@
+## 8.3.0-beta.4
+
+- Test: Rename vitest plugin entrypoint - [#29067](https://github.com/storybookjs/storybook/pull/29067), thanks @yannbf!
+- UI: Fix sidebar not wrapping - [#29055](https://github.com/storybookjs/storybook/pull/29055), thanks @JReinhold!
+
 ## 8.3.0-beta.3
 
 - Addon Test: Improve messages and post install script handling - [#29036](https://github.com/storybookjs/storybook/pull/29036), thanks @yannbf!
