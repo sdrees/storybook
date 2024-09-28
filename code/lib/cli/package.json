@@ -322,6 +322,14 @@
   "devDependencies": {
     "typescript": "^5.3.2"
   },
+  "peerDependencies": {
+    "prettier": "^2 || ^3"
+  },
+  "peerDependenciesMeta": {
+    "prettier": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
