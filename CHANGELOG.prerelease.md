@@ -1,3 +1,9 @@
+## 8.4.0-alpha.3
+
+- CLI: Migrate from `chalk` to `picocolors` - [#28262](https://github.com/storybookjs/storybook/pull/28262), thanks @43081j!
+- Core: Migrate from `qs` to `picoquery` - [#28315](https://github.com/storybookjs/storybook/pull/28315), thanks @43081j!
+- UI: Brand image css class conflict causes image to resize on hot reloads - [#29129](https://github.com/storybookjs/storybook/pull/29129), thanks @ShreySinha02!
+
 ## 8.4.0-alpha.2
 
 - CLI: Don't add `@storybook/addon-links` by default - [#29177](https://github.com/storybookjs/storybook/pull/29177), thanks @tobiasdiez!
