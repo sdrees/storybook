@@ -137,7 +137,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   }
 
   yield;
-  const modulesCount = (await options.cache?.get('modulesCount').catch(() => {})) || 1000;
+  const modulesCount = await options.cache?.get('modulesCount', 1000);
   let totalModules: number;
   let value = 0;
 
@@ -147,7 +147,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
       const progress = { value, message: message.charAt(0).toUpperCase() + message.slice(1) };
       if (message === 'building') {
         // arg3 undefined in webpack5
-        const counts = (arg3 && arg3.match(/(\d+)\/(\d+)/)) || [];
+        const counts = (arg3 && arg3.match(/entries (\d+)\/(\d+)/)) || [];
         const complete = parseInt(counts[1], 10);
         const total = parseInt(counts[2], 10);
         if (!Number.isNaN(complete) && !Number.isNaN(total)) {

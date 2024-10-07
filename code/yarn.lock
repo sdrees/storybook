@@ -6078,7 +6078,6 @@ __metadata:
     express: "npm:^4.19.2"
     fd-package-json: "npm:^1.2.0"
     fetch-retry: "npm:^6.0.0"
-    file-system-cache: "npm:^2.4.4"
     find-cache-dir: "npm:^5.0.0"
     find-up: "npm:^7.0.0"
     flush-promises: "npm:^1.0.2"
@@ -6891,6 +6890,7 @@ __metadata:
     esbuild-plugin-alias: "npm:^0.2.1"
     eslint: "npm:^8.56.0"
     eslint-import-resolver-typescript: "npm:^3.6.1"
+    eslint-plugin-depend: "npm:^0.11.0"
     eslint-plugin-local-rules: "portal:../scripts/eslint-plugin-local-rules"
     eslint-plugin-playwright: "npm:^1.6.2"
     eslint-plugin-storybook: "npm:^0.8.0"
@@ -7844,16 +7844,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fs-extra@npm:11.0.1":
-  version: 11.0.1
-  resolution: "@types/fs-extra@npm:11.0.1"
-  dependencies:
-    "@types/jsonfile": "npm:*"
-    "@types/node": "npm:*"
-  checksum: 10c0/a65f1fae47849fe1a17441dcabc9400390303405972ff3cbb3578746cea8916b23d5e7652bf57a87767f75a9b2f37caac499b78b5230ae08fef0ba58b34c3a85
-  languageName: node
-  linkType: hard
-
 "@types/fs-extra@npm:^5.0.5":
   version: 5.1.0
   resolution: "@types/fs-extra@npm:5.1.0"
@@ -7985,15 +7975,6 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 10c0/6bf5337bc447b706bb5b4431d37686aa2ea6d07cfd6f79cc31de80170d6ff9b1c7384a9c0ccbc45b3f512bae9e9f75c2e12109806a15331dc94e8a8db6dbb4ac
-  languageName: node
-  linkType: hard
-
-"@types/jsonfile@npm:*":
-  version: 6.1.2
-  resolution: "@types/jsonfile@npm:6.1.2"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: 10c0/c2943f9bfa7867b33fb362b88a932efdc00e9e5f2762b6ef912617cb0a3e3221a98920f8976a4cf817aa576e03d28a25391236e9644e2ebe648081b08df62ef5
   languageName: node
   linkType: hard
 
@@ -8161,15 +8142,6 @@ __metadata:
   version: 6.9.10
   resolution: "@types/qs@npm:6.9.10"
   checksum: 10c0/6be12e5f062d1b41eb037d59bf9cb65bc9410cedd5e6da832dfd7c8e2b3f4c91e81c9b90b51811140770e5052c6c4e8361181bd9437ddcd4515dc128b7c00353
-  languageName: node
-  linkType: hard
-
-"@types/ramda@npm:0.29.3":
-  version: 0.29.3
-  resolution: "@types/ramda@npm:0.29.3"
-  dependencies:
-    types-ramda: "npm:^0.29.4"
-  checksum: 10c0/9c62a4600f5df5e65a01ffe4a470500c98f7c0d093fde47e0d4257675f1ec50effe4696cb004a6b53227948db67ea26a2345dbc91819ecc868105c0f64cecd1e
   languageName: node
   linkType: hard
 
@@ -14336,6 +14308,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-depend@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "eslint-plugin-depend@npm:0.11.0"
+  dependencies:
+    fd-package-json: "npm:^1.2.0"
+    module-replacements: "npm:^2.1.0"
+    semver: "npm:^7.6.3"
+  checksum: 10c0/64baf4d4f5d406efa1f13bda723ff0eb5fe4cee0ae8c3679fcdfccb4d7ba3a9472416fa3c54d75f1bde3e0123e55a85774662484a5b0355812f21a8968ee784a
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-eslint-comments@npm:^3.2.0":
   version: 3.2.0
   resolution: "eslint-plugin-eslint-comments@npm:3.2.0"
@@ -15268,18 +15251,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-system-cache@npm:^2.4.4":
-  version: 2.4.4
-  resolution: "file-system-cache@npm:2.4.4"
-  dependencies:
-    "@types/fs-extra": "npm:11.0.1"
-    "@types/ramda": "npm:0.29.3"
-    fs-extra: "npm:11.1.1"
-    ramda: "npm:0.29.0"
-  checksum: 10c0/274bd9c2f8f81d0c3b2cc0d077807c969b48cac4857ae77f87b4b480548252aa42d3a43b3e9d4bb54df567eb70f0c384782514fcea74b78765543e9496e27e2d
-  languageName: node
-  linkType: hard
-
 "filelist@npm:^1.0.4":
   version: 1.0.4
   resolution: "filelist@npm:1.0.4"
@@ -15720,17 +15691,6 @@ __metadata:
   version: 0.1.0
   resolution: "fs-exists-sync@npm:0.1.0"
   checksum: 10c0/3067957c9394aabfce5f7351b6a70fcc423483131c7c0fa9ba8e48cbe00ecd866fb98e43e3c534b60e03354a520cfc27e9dc488bd057317c66b97714ad9bf673
-  languageName: node
-  linkType: hard
-
-"fs-extra@npm:11.1.1":
-  version: 11.1.1
-  resolution: "fs-extra@npm:11.1.1"
-  dependencies:
-    graceful-fs: "npm:^4.2.0"
-    jsonfile: "npm:^6.0.1"
-    universalify: "npm:^2.0.0"
-  checksum: 10c0/a2480243d7dcfa7d723c5f5b24cf4eba02a6ccece208f1524a2fbde1c629492cfb9a59e4b6d04faff6fbdf71db9fdc8ef7f396417a02884195a625f5d8dc9427
   languageName: node
   linkType: hard
 
@@ -21040,6 +21000,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"module-replacements@npm:^2.1.0":
+  version: 2.5.0
+  resolution: "module-replacements@npm:2.5.0"
+  checksum: 10c0/7fcbcb19151778a2f2fa70b7bffb134bb8922b2306e2a0d7b4a863467a9d6d9d5fed537763c43272e22b69dbddaf1610746b42a68b4663aa225e85f9ae9b03c8
+  languageName: node
+  linkType: hard
+
 "mri@npm:^1.1.0, mri@npm:^1.2.0":
   version: 1.2.0
   resolution: "mri@npm:1.2.0"
@@ -23611,13 +23578,6 @@ __metadata:
     rimraf: "npm:^2.5.4"
     underscore.string: "npm:~3.3.4"
   checksum: 10c0/3e8277a2e37db8e101fdefd59dc62050681b46d82f0c617eb700e2ef54f1c4985eff79985a24ef61834fd4c758050dbecfec7f34ed7caa6717f96de03ed9063c
-  languageName: node
-  linkType: hard
-
-"ramda@npm:0.29.0":
-  version: 0.29.0
-  resolution: "ramda@npm:0.29.0"
-  checksum: 10c0/b00eaaf1c62b06a99affa1d583e256bd65ad27ab9d0ef512f55d7d93b842e7cd244a4a09179f61fdd8548362e409323867a2b0477cbd0626b5644eb6ac7c53da
   languageName: node
   linkType: hard
 
@@ -27377,13 +27337,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-toolbelt@npm:^9.6.0":
-  version: 9.6.0
-  resolution: "ts-toolbelt@npm:9.6.0"
-  checksum: 10c0/838f9a2f0fe881d5065257a23b402c41315b33ff987b73db3e2b39fcb70640c4c7220e1ef118ed5676763543724fdbf4eda7b0e2c17acb667ed1401336af9f8c
-  languageName: node
-  linkType: hard
-
 "tsconfig-paths-webpack-plugin@npm:^4.0.1":
   version: 4.1.0
   resolution: "tsconfig-paths-webpack-plugin@npm:4.1.0"
@@ -27564,15 +27517,6 @@ __metadata:
   version: 0.0.6
   resolution: "typedarray@npm:0.0.6"
   checksum: 10c0/6005cb31df50eef8b1f3c780eb71a17925f3038a100d82f9406ac2ad1de5eb59f8e6decbdc145b3a1f8e5836e17b0c0002fb698b9fe2516b8f9f9ff602d36412
-  languageName: node
-  linkType: hard
-
-"types-ramda@npm:^0.29.4":
-  version: 0.29.10
-  resolution: "types-ramda@npm:0.29.10"
-  dependencies:
-    ts-toolbelt: "npm:^9.6.0"
-  checksum: 10c0/cc6439341a60a4f2b49e1ac447c8a0279f161464fd0a204abaa57e90e101772c0b1adc185a7c0715c3836c19594a9ec268c1e5c4394d0e409cb71d141def3963
   languageName: node
   linkType: hard
 

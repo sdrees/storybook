@@ -191,6 +191,7 @@
     "esbuild-plugin-alias": "^0.2.1",
     "eslint": "^8.56.0",
     "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-depend": "^0.11.0",
     "eslint-plugin-local-rules": "portal:../scripts/eslint-plugin-local-rules",
     "eslint-plugin-playwright": "^1.6.2",
     "eslint-plugin-storybook": "^0.8.0",
