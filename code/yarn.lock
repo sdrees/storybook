@@ -4656,6 +4656,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polka/compression@npm:^1.0.0-next.28":
+  version: 1.0.0-next.28
+  resolution: "@polka/compression@npm:1.0.0-next.28"
+  checksum: 10c0/e55912f0a8d5dfcda6f7eb9b8d87cc65782a652003f47e7caf0bd88d81f5c280d9a8310441ee34e2774662ed39369e4f9d5fdb3f3a6adc8f18bc1ee97245fff3
+  languageName: node
+  linkType: hard
+
+"@polka/url@npm:^1.0.0-next.21":
+  version: 1.0.0-next.28
+  resolution: "@polka/url@npm:1.0.0-next.28"
+  checksum: 10c0/acc5ea62597e4da2fb42dbee02749d07f102ae7d6d2c966bf7e423c79cd65d1621da305af567e6e7c232f3b565e242d1ec932cbb3dcc0db1508d02e9a2cafa2e
+  languageName: node
+  linkType: hard
+
 "@polka/url@npm:^1.0.0-next.24":
   version: 1.0.0-next.25
   resolution: "@polka/url@npm:1.0.0-next.25"
@@ -5791,15 +5805,15 @@ __metadata:
   resolution: "@storybook/builder-vite@workspace:builders/builder-vite"
   dependencies:
     "@storybook/csf-plugin": "workspace:*"
-    "@types/express": "npm:^4.17.21"
     "@types/find-cache-dir": "npm:^3.2.1"
     "@types/node": "npm:^22.0.0"
     browser-assert: "npm:^1.2.1"
     es-module-lexer: "npm:^1.5.0"
-    express: "npm:^4.19.2"
     find-cache-dir: "npm:^3.0.0"
     glob: "npm:^10.0.0"
     magic-string: "npm:^0.30.0"
+    polka: "npm:^1.0.0-next.28"
+    sirv: "npm:^2.0.4"
     slash: "npm:^5.0.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
@@ -5836,7 +5850,6 @@ __metadata:
     constants-browserify: "npm:^1.0.0"
     css-loader: "npm:^6.7.1"
     es-module-lexer: "npm:^1.5.0"
-    express: "npm:^4.19.2"
     fork-ts-checker-webpack-plugin: "npm:^8.0.0"
     html-webpack-plugin: "npm:^5.5.0"
     magic-string: "npm:^0.30.5"
@@ -5844,6 +5857,7 @@ __metadata:
     pretty-hrtime: "npm:^1.0.3"
     process: "npm:^0.11.10"
     semver: "npm:^7.3.7"
+    sirv: "npm:^2.0.4"
     slash: "npm:^5.0.0"
     style-loader: "npm:^3.3.1"
     terser-webpack-plugin: "npm:^5.3.1"
@@ -6015,6 +6029,7 @@ __metadata:
     "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.1"
     "@fal-works/esbuild-plugin-global-externals": "npm:^2.1.2"
     "@ndelangen/get-tarball": "npm:^3.0.7"
+    "@polka/compression": "npm:^1.0.0-next.28"
     "@popperjs/core": "npm:^2.6.0"
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-scroll-area": "npm:1.2.0-rc.7"
@@ -6025,12 +6040,10 @@ __metadata:
     "@storybook/icons": "npm:^1.2.10"
     "@tanstack/react-virtual": "npm:^3.3.0"
     "@testing-library/react": "npm:^14.0.0"
-    "@types/compression": "npm:^1.7.0"
     "@types/cross-spawn": "npm:^6.0.2"
     "@types/detect-port": "npm:^1.3.0"
     "@types/diff": "npm:^5.0.9"
     "@types/ejs": "npm:^3.1.1"
-    "@types/express": "npm:^4.17.21"
     "@types/find-cache-dir": "npm:^5.0.0"
     "@types/js-yaml": "npm:^4.0.5"
     "@types/node": "npm:^22.0.0"
@@ -6058,7 +6071,6 @@ __metadata:
     cli-table3: "npm:^0.6.1"
     commander: "npm:^12.1.0"
     comment-parser: "npm:^1.4.1"
-    compression: "npm:^1.7.4"
     copy-to-clipboard: "npm:^3.3.1"
     cross-spawn: "npm:^7.0.3"
     css: "npm:^3.0.0"
@@ -6075,7 +6087,6 @@ __metadata:
     esbuild-plugin-alias: "npm:^0.2.1"
     esbuild-register: "npm:^3.5.0"
     execa: "npm:^8.0.1"
-    express: "npm:^4.19.2"
     fd-package-json: "npm:^1.2.0"
     fetch-retry: "npm:^6.0.0"
     find-cache-dir: "npm:^5.0.0"
@@ -6100,6 +6111,7 @@ __metadata:
     picomatch: "npm:^2.3.0"
     picoquery: "npm:^1.4.0"
     polished: "npm:^4.2.2"
+    polka: "npm:^1.0.0-next.28"
     prettier: "npm:^3.2.5"
     pretty-hrtime: "npm:^1.0.3"
     process: "npm:^0.11.10"
@@ -6118,6 +6130,7 @@ __metadata:
     require-from-string: "npm:^2.0.2"
     resolve-from: "npm:^5.0.0"
     semver: "npm:^7.6.2"
+    sirv: "npm:^2.0.4"
     slash: "npm:^5.0.0"
     source-map: "npm:^0.7.4"
     store2: "npm:^2.14.2"
@@ -6867,7 +6880,6 @@ __metadata:
     "@testing-library/react": "npm:^16.0.0"
     "@testing-library/user-event": "npm:^14.5.2"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
-    "@types/express": "npm:^4.17.21"
     "@types/mock-require": "npm:^2.0.3"
     "@types/node": "npm:^22.0.0"
     "@types/react": "npm:^18.0.37"
@@ -7648,15 +7660,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/compression@npm:^1.7.0":
-  version: 1.7.5
-  resolution: "@types/compression@npm:1.7.5"
-  dependencies:
-    "@types/express": "npm:*"
-  checksum: 10c0/3818f3d10cede38a835b40b80c341eae162aef1691f2e8f81178a77dbc109f04234cf760b6066eaa06ecbb1da143433c00db2fd9999198b76cd5a193e1d09675
-  languageName: node
-  linkType: hard
-
 "@types/concat-stream@npm:^2.0.0":
   version: 2.0.3
   resolution: "@types/concat-stream@npm:2.0.3"
@@ -7807,7 +7810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:*, @types/express@npm:^4.17.13, @types/express@npm:^4.17.21":
+"@types/express@npm:*, @types/express@npm:^4.17.13":
   version: 4.17.21
   resolution: "@types/express@npm:4.17.21"
   dependencies:
@@ -14992,7 +14995,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:^4.17.3, express@npm:^4.19.2":
+"express@npm:^4.17.3":
   version: 4.19.2
   resolution: "express@npm:4.19.2"
   dependencies:
@@ -22771,6 +22774,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"polka@npm:^1.0.0-next.28":
+  version: 1.0.0-next.28
+  resolution: "polka@npm:1.0.0-next.28"
+  dependencies:
+    "@polka/url": "npm:^1.0.0-next.21"
+    trouter: "npm:^4.0.0"
+  checksum: 10c0/206bab3eb1c3c44c2fba9704d998b144ec36c4852b0b97192a1fd3953f215b739e2286852492c13dcc9faecea0f7825a76356d6eef7e02afd6a800d1dbb84ead
+  languageName: node
+  linkType: hard
+
 "popper.js@npm:^1.16.0":
   version: 1.16.1
   resolution: "popper.js@npm:1.16.1"
@@ -24279,6 +24292,13 @@ __metadata:
     es-errors: "npm:^1.3.0"
     set-function-name: "npm:^2.0.1"
   checksum: 10c0/0f3fc4f580d9c349f8b560b012725eb9c002f36daa0041b3fbf6f4238cb05932191a4d7d5db3b5e2caa336d5150ad0402ed2be81f711f9308fe7e1a9bf9bd552
+  languageName: node
+  linkType: hard
+
+"regexparam@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "regexparam@npm:3.0.0"
+  checksum: 10c0/a6430d7b97d5a7d5518f37a850b6b73aab479029d02f46af4fa0e8e4a1d7aad05b7a0d2d10c86ded21a14d5f0fa4c68525f873a5fca2efeefcccd93c36627459
   languageName: node
   linkType: hard
 
@@ -27233,6 +27253,15 @@ __metadata:
   version: 2.1.0
   resolution: "trough@npm:2.1.0"
   checksum: 10c0/9a973f0745fa69b9d34f29fe8123599abb6915350a5f4e9e9c9026156219f8774af062d916f4ec327b796149188719170ad87f0d120f1e94271a1843366efcc3
+  languageName: node
+  linkType: hard
+
+"trouter@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "trouter@npm:4.0.0"
+  dependencies:
+    regexparam: "npm:^3.0.0"
+  checksum: 10c0/e27326a831187c6a47a72b62212364e3f88247fa2a8723e5030e14a0002b69756fb51f97efbda2466deb05f4a78ecb83c2a1a7b343e9659cbfb3f370156f1e12
   languageName: node
   linkType: hard
 
