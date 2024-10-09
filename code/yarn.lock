@@ -5446,7 +5446,6 @@ __metadata:
     "@rollup/pluginutils": "npm:^5.0.2"
     "@storybook/blocks": "workspace:*"
     "@storybook/csf-plugin": "workspace:*"
-    "@storybook/global": "npm:^5.0.0"
     "@storybook/react-dom-shim": "workspace:*"
     "@types/react": "npm:^16.8.0 || ^17.0.0 || ^18.0.0"
     react: "npm:^18.2.0"
@@ -5764,13 +5763,11 @@ __metadata:
   dependencies:
     "@storybook/addon-actions": "workspace:*"
     "@storybook/csf": "npm:^0.1.11"
-    "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.10"
     "@storybook/react": "workspace:*"
     "@storybook/test": "workspace:*"
     "@types/color-convert": "npm:^2.0.0"
     color-convert: "npm:^2.0.1"
-    dequal: "npm:^2.0.2"
     es-toolkit: "npm:^1.21.0"
     markdown-to-jsx: "npm:^7.4.5"
     memoizerific: "npm:^1.11.3"
@@ -5779,7 +5776,6 @@ __metadata:
     telejson: "npm:^7.2.0"
     tocbot: "npm:^4.20.1"
     ts-dedent: "npm:^2.0.0"
-    util-deprecate: "npm:^1.0.2"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
@@ -5816,21 +5812,10 @@ __metadata:
     sirv: "npm:^2.0.4"
     slash: "npm:^5.0.0"
     ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
     vite: "npm:^4.0.4"
   peerDependencies:
-    "@preact/preset-vite": "*"
     storybook: "workspace:^"
-    typescript: ">= 4.3.x"
     vite: ^4.0.0 || ^5.0.0
-    vite-plugin-glimmerx: "*"
-  peerDependenciesMeta:
-    "@preact/preset-vite":
-      optional: true
-    typescript:
-      optional: true
-    vite-plugin-glimmerx:
-      optional: true
   languageName: unknown
   linkType: soft
 
