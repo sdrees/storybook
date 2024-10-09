@@ -6768,7 +6768,6 @@ __metadata:
     "@types/estree": "npm:^0.0.51"
     "@types/node": "npm:^22.0.0"
     "@types/semver": "npm:^7.3.4"
-    "@types/util-deprecate": "npm:^1.0.0"
     acorn: "npm:^7.4.1"
     acorn-jsx: "npm:^5.3.1"
     acorn-walk: "npm:^7.2.0"
@@ -6783,7 +6782,6 @@ __metadata:
     semver: "npm:^7.3.7"
     ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
-    util-deprecate: "npm:^1.0.2"
   peerDependencies:
     "@storybook/test": "workspace:*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
