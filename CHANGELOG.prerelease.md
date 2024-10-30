@@ -1,3 +1,17 @@
+## 8.4.0-beta.5
+
+- Addon Test: Improve unsupported vitest message - [#29486](https://github.com/storybookjs/storybook/pull/29486), thanks @valentinpalkovic!
+- Core: Fix race condition during empty folder init - [#29490](https://github.com/storybookjs/storybook/pull/29490), thanks @valentinpalkovic!
+
+## 8.4.0-beta.4
+
+- Addon Test: Improve Error Handling - [#29476](https://github.com/storybookjs/storybook/pull/29476), thanks @valentinpalkovic!
+- Addon Test: Improve postinstall script - [#29479](https://github.com/storybookjs/storybook/pull/29479), thanks @yannbf!
+- Addon Test: Throttle Vitest progress updates more heavily - [#29482](https://github.com/storybookjs/storybook/pull/29482), thanks @ghengeveld!
+- CLI: Refactor NPMProxy error parsing logic - [#29459](https://github.com/storybookjs/storybook/pull/29459), thanks @yannbf!
+- Core: Track test provider state in sessionStorage - [#29450](https://github.com/storybookjs/storybook/pull/29450), thanks @ghengeveld!
+- Dependencies: Upgrade VTA to v3.2.0 to resolve peerDep conflict - [#29461](https://github.com/storybookjs/storybook/pull/29461), thanks @ghengeveld!
+
 ## 8.4.0-beta.3
 
 - Addon Test: Only register testing module in Vite projects - [#29472](https://github.com/storybookjs/storybook/pull/29472), thanks @yannbf!
