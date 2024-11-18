@@ -48,6 +48,7 @@ export default {
   '@storybook/nextjs': '8.5.0-alpha.5',
   '@storybook/preact-vite': '8.5.0-alpha.5',
   '@storybook/preact-webpack5': '8.5.0-alpha.5',
+  '@storybook/react-native-web-vite': '8.5.0-alpha.5',
   '@storybook/react-vite': '8.5.0-alpha.5',
   '@storybook/react-webpack5': '8.5.0-alpha.5',
   '@storybook/server-webpack5': '8.5.0-alpha.5',
