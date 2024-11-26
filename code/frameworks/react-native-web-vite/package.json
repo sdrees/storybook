@@ -69,7 +69,7 @@
     "react-native": ">=0.74.5",
     "react-native-web": "^0.19.12",
     "storybook": "workspace:^",
-    "vite": "^5.0.0"
+    "vite": "^5.0.0 || ^6.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -1,4 +1,11 @@
-import React, { type SyntheticEvent, useEffect, useRef, useState } from 'react';
+import React, {
+  Fragment,
+  type SyntheticEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { Button, TooltipNote } from '@storybook/core/components';
 import { WithTooltip } from '@storybook/core/components';
@@ -72,7 +79,7 @@ const Card = styled.div(({ theme }) => ({
 
 const Collapsible = styled.div(({ theme }) => ({
   overflow: 'hidden',
-  transition: 'max-height 250ms',
+
   willChange: 'auto',
   boxShadow: `inset 0 -1px 0 ${theme.appBorderColor}`,
 }));
@@ -164,52 +171,89 @@ export const TestingModule = ({
   setWarningsActive,
 }: TestingModuleProps) => {
   const api = useStorybookApi();
+
   const contentRef = useRef<HTMLDivElement>(null);
-  const [collapsed, setCollapsed] = useState(false);
+  const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
+
   const [maxHeight, setMaxHeight] = useState(DEFAULT_HEIGHT);
 
+  const [isCollapsed, setCollapsed] = useState(false);
+  const [isChangingCollapse, setChangingCollapse] = useState(false);
   useEffect(() => {
-    setMaxHeight(contentRef.current?.offsetHeight || DEFAULT_HEIGHT);
+    if (contentRef.current) {
+      setMaxHeight(contentRef.current?.getBoundingClientRect().height || DEFAULT_HEIGHT);
+
+      const resizeObserver = new ResizeObserver(() => {
+        requestAnimationFrame(() => {
+          if (contentRef.current && !isCollapsed) {
+            const height = contentRef.current?.getBoundingClientRect().height || DEFAULT_HEIGHT;
+
+            setMaxHeight(height);
+          }
+        });
+      });
+      resizeObserver.observe(contentRef.current);
+      return () => resizeObserver.disconnect();
+    }
+  }, [isCollapsed]);
+
+  const toggleCollapsed = useCallback((event: SyntheticEvent) => {
+    event.stopPropagation();
+    setChangingCollapse(true);
+    setCollapsed((s) => !s);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setChangingCollapse(false);
+    }, 250);
   }, []);
 
-  const toggleCollapsed = () => {
-    setMaxHeight(contentRef.current?.offsetHeight || DEFAULT_HEIGHT);
-    setCollapsed(!collapsed);
-  };
+  const isRunning = testProviders.some((tp) => tp.running);
+  const isCrashed = testProviders.some((tp) => tp.crashed);
+  const isFailed = testProviders.some((tp) => tp.failed);
+  const hasTestProviders = testProviders.length > 0;
 
-  const running = testProviders.some((tp) => tp.running);
-  const crashed = testProviders.some((tp) => tp.crashed);
-  const failed = testProviders.some((tp) => tp.failed);
-  const testing = testProviders.length > 0;
+  if (!hasTestProviders && (!errorCount || !warningCount)) {
+    return null;
+  }
 
   return (
     <Outline
       id="storybook-testing-module"
-      running={running}
-      crashed={crashed}
-      failed={failed || errorCount > 0}
+      running={isRunning}
+      crashed={isCrashed}
+      failed={isFailed || errorCount > 0}
     >
       <Card>
-        <Collapsible
-          style={{
-            display: testing ? 'block' : 'none',
-            maxHeight: collapsed ? 0 : maxHeight,
-          }}
-        >
-          <Content ref={contentRef}>
-            {testProviders.map((state) => {
-              const { render: Render } = state;
-              return (
-                <TestProvider key={state.id} data-module-id={state.id}>
-                  {Render ? <Render {...state} /> : <LegacyRender {...state} />}
-                </TestProvider>
-              );
-            })}
-          </Content>
-        </Collapsible>
+        {hasTestProviders && (
+          <Collapsible
+            data-testid="collapse"
+            style={{
+              transition: isChangingCollapse ? 'max-height 250ms' : 'max-height 0ms',
+              display: hasTestProviders ? 'block' : 'none',
+              maxHeight: isCollapsed ? 0 : maxHeight,
+            }}
+          >
+            <Content ref={contentRef}>
+              {testProviders.map((state) => {
+                const { render: Render } = state;
+                return Render ? (
+                  <Fragment key={state.id}>
+                    <Render {...state} />
+                  </Fragment>
+                ) : (
+                  <TestProvider key={state.id}>
+                    <LegacyRender {...state} />
+                  </TestProvider>
+                );
+              })}
+            </Content>
+          </Collapsible>
+        )}
 
-        <Bar onClick={testing ? toggleCollapsed : undefined}>
-          {testing && (
+        <Bar {...(hasTestProviders ? { onClick: toggleCollapsed } : {})}>
+          {hasTestProviders && (
             <Button
               variant="ghost"
               padding="small"
@@ -219,24 +263,24 @@ export const TestingModule = ({
                   .filter((state) => !state.crashed && !state.running && state.runnable)
                   .forEach(({ id }) => api.runTestProvider(id));
               }}
-              disabled={running}
+              disabled={isRunning}
             >
               <PlayAllHollowIcon />
-              {running ? 'Running...' : 'Run tests'}
+              {isRunning ? 'Running...' : 'Run tests'}
             </Button>
           )}
           <Filters>
-            {testing && (
+            {hasTestProviders && (
               <CollapseToggle
                 variant="ghost"
                 padding="small"
                 onClick={toggleCollapsed}
                 id="testing-module-collapse-toggle"
-                aria-label={collapsed ? 'Expand testing module' : 'Collapse testing module'}
+                aria-label={isCollapsed ? 'Expand testing module' : 'Collapse testing module'}
               >
                 <ChevronSmallUpIcon
                   style={{
-                    transform: collapsed ? 'none' : 'rotate(180deg)',
+                    transform: isCollapsed ? 'none' : 'rotate(180deg)',
                     transition: 'transform 250ms',
                     willChange: 'auto',
                   }}

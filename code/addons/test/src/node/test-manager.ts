@@ -1,10 +1,12 @@
 import type { Channel } from 'storybook/internal/channels';
 import {
   TESTING_MODULE_CANCEL_TEST_RUN_REQUEST,
+  TESTING_MODULE_CONFIG_CHANGE,
   TESTING_MODULE_PROGRESS_REPORT,
   TESTING_MODULE_RUN_REQUEST,
   TESTING_MODULE_WATCH_MODE_REQUEST,
   type TestingModuleCancelTestRunRequestPayload,
+  type TestingModuleConfigChangePayload,
   type TestingModuleProgressReportPayload,
   type TestingModuleRunRequestPayload,
   type TestingModuleWatchModeRequestPayload,
@@ -28,6 +30,7 @@ export class TestManager {
     this.vitestManager = new VitestManager(channel, this);
 
     this.channel.on(TESTING_MODULE_RUN_REQUEST, this.handleRunRequest.bind(this));
+    this.channel.on(TESTING_MODULE_CONFIG_CHANGE, this.handleConfigChange.bind(this));
     this.channel.on(TESTING_MODULE_WATCH_MODE_REQUEST, this.handleWatchModeRequest.bind(this));
     this.channel.on(TESTING_MODULE_CANCEL_TEST_RUN_REQUEST, this.handleCancelRequest.bind(this));
 
@@ -40,7 +43,15 @@ export class TestManager {
     await this.vitestManager.startVitest(watchMode);
   }
 
+  async handleConfigChange(payload: TestingModuleConfigChangePayload) {
+    // TODO do something with the config
+    const config = payload.config;
+  }
+
   async handleWatchModeRequest(payload: TestingModuleWatchModeRequestPayload) {
+    // TODO do something with the config
+    const config = payload.config;
+
     try {
       if (payload.providerId !== TEST_PROVIDER_ID) {
         return;

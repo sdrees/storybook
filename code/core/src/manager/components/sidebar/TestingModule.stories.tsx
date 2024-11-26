@@ -219,3 +219,9 @@ export const Crashed: Story = {
     ],
   },
 };
+
+export const NoTestProvider: Story = {
+  args: {
+    testProviders: [],
+  },
+};

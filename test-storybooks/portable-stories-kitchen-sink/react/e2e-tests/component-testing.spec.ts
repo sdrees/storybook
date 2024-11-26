@@ -66,7 +66,7 @@ test.describe("component testing", () => {
       testStoryElement.click();
     }
     
-    const testingModuleDescription = await page.locator('[data-module-id="storybook/test/test-provider"]').locator('#testing-module-description');
+    const testingModuleDescription = await page.locator('#testing-module-description');
 
     await expect(testingModuleDescription).toContainText('Not run');
 
@@ -126,7 +126,7 @@ test.describe("component testing", () => {
 
     await expect(page.locator('#testing-module-title')).toHaveText('Component tests');
 
-    const testingModuleDescription = await page.locator('[data-module-id="storybook/test/test-provider"]').locator('#testing-module-description');
+    const testingModuleDescription = await page.locator('#testing-module-description');
 
     await expect(testingModuleDescription).toContainText('Not run');
 
