@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { AddonPanel, Button, Link as LinkComponent } from 'storybook/internal/components';
-import { TESTING_MODULE_RUN_ALL_REQUEST } from 'storybook/internal/core-events';
 import type { Combo } from 'storybook/internal/manager-api';
 import { Consumer, addons, types } from 'storybook/internal/manager-api';
 import { styled } from 'storybook/internal/theming';
@@ -83,7 +82,7 @@ addons.register(ADDON_ID, (api) => {
       watchable: true,
       name: 'Component tests',
 
-      sidebarContextMenu: ({ context, state }, { ListItem }) => {
+      sidebarContextMenu: ({ context, state }) => {
         if (context.type === 'docs') {
           return null;
         }
@@ -91,7 +90,7 @@ addons.register(ADDON_ID, (api) => {
           return null;
         }
 
-        return <ContextMenuItem context={context} state={state} ListItem={ListItem} />;
+        return <ContextMenuItem context={context} state={state} />;
       },
 
       render: (state) => {
@@ -188,9 +187,7 @@ addons.register(ADDON_ID, (api) => {
               }}
               onRerun={() => {
                 setIsModalOpen(false);
-                api
-                  .getChannel()
-                  .emit(TESTING_MODULE_RUN_ALL_REQUEST, { providerId: TEST_PROVIDER_ID });
+                api.runTestProvider(TEST_PROVIDER_ID);
               }}
             />
           </>

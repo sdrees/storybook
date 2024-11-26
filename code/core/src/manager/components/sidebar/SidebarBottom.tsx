@@ -1,17 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { styled } from '@storybook/core/theming';
-import { type API_FilterFunction, Addon_TypesEnum } from '@storybook/core/types';
+import { type API_FilterFunction } from '@storybook/core/types';
 
 import {
-  TESTING_MODULE_CANCEL_TEST_RUN_REQUEST,
   TESTING_MODULE_CRASH_REPORT,
   TESTING_MODULE_PROGRESS_REPORT,
-  TESTING_MODULE_RUN_ALL_REQUEST,
-  TESTING_MODULE_WATCH_MODE_REQUEST,
-  type TestProviderId,
   type TestProviderState,
-  type TestProviders,
   type TestingModuleCrashReportPayload,
   type TestingModuleProgressReportPayload,
 } from '@storybook/core/core-events';
@@ -145,13 +140,6 @@ export const SidebarBottomBase = ({
       });
     };
 
-    const clearState = ({ providerId }: { providerId: TestProviderId }) => {
-      api.clearTestProviderState(providerId);
-      api.experimental_updateStatus(providerId, (state = {}) =>
-        Object.fromEntries(Object.keys(state).map((key) => [key, null]))
-      );
-    };
-
     const onProgressReport = ({ providerId, ...result }: TestingModuleProgressReportPayload) => {
       if (result.status === 'failed') {
         api.updateTestProviderState(providerId, { ...result, running: false, failed: true });
@@ -168,13 +156,11 @@ export const SidebarBottomBase = ({
     };
 
     api.on(TESTING_MODULE_CRASH_REPORT, onCrashReport);
-    api.on(TESTING_MODULE_RUN_ALL_REQUEST, clearState);
     api.on(TESTING_MODULE_PROGRESS_REPORT, onProgressReport);
 
     return () => {
       api.off(TESTING_MODULE_CRASH_REPORT, onCrashReport);
       api.off(TESTING_MODULE_PROGRESS_REPORT, onProgressReport);
-      api.off(TESTING_MODULE_RUN_ALL_REQUEST, clearState);
     };
   }, [api, testProviders]);
 
