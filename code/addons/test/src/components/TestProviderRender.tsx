@@ -77,6 +77,7 @@ export const TestProviderRender: FC<{
 
   const title = state.crashed || state.failed ? 'Local tests failed' : 'Run local tests';
   const errorMessage = state.error?.message;
+  const coverageSummary = state.details?.coverageSummary;
 
   const [config, updateConfig] = useConfig(
     api,
@@ -159,8 +160,8 @@ export const TestProviderRender: FC<{
             right={
               <Checkbox
                 type="checkbox"
-                disabled // TODO: Implement coverage
-                checked={config.coverage}
+                checked={state.watching ? false : config.coverage}
+                disabled={state.watching}
                 onChange={() => updateConfig({ coverage: !config.coverage })}
               />
             }
@@ -185,11 +186,27 @@ export const TestProviderRender: FC<{
             title="Component tests"
             icon={<TestStatusIcon status="positive" aria-label="status: passed" />}
           />
-          <ListItem
-            title="Coverage"
-            icon={<TestStatusIcon percentage={60} status="warning" aria-label="status: warning" />}
-            right={`60%`}
-          />
+          {coverageSummary ? (
+            <ListItem
+              title="Coverage"
+              href={'/coverage/index.html'}
+              // @ts-expect-error ListItem doesn't include all anchor attributes in types, but it is an achor element
+              target="_blank"
+              icon={
+                <TestStatusIcon
+                  percentage={coverageSummary.percentage}
+                  status={coverageSummary.status}
+                  aria-label={`status: ${coverageSummary.status}`}
+                />
+              }
+              right={`${coverageSummary.percentage}%`}
+            />
+          ) : (
+            <ListItem
+              title="Coverage"
+              icon={<TestStatusIcon status="unknown" aria-label={`status: unknown`} />}
+            />
+          )}
           <ListItem
             title="Accessibility"
             icon={<TestStatusIcon status="negative" aria-label="status: failed" />}

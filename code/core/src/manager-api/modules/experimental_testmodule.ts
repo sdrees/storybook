@@ -57,7 +57,19 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI }) => {
     updateTestProviderState(id, update) {
       return store.setState(
         ({ testProviders }) => {
-          return { testProviders: { ...testProviders, [id]: { ...testProviders[id], ...update } } };
+          return {
+            testProviders: {
+              ...testProviders,
+              [id]: {
+                ...testProviders[id],
+                ...update,
+                details: {
+                  ...(testProviders[id].details || {}),
+                  ...(update.details || {}),
+                },
+              },
+            },
+          };
         },
         { persistence: 'session' }
       );
