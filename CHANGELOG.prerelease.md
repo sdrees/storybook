@@ -1,3 +1,8 @@
+## 8.5.0-alpha.14
+
+- RNW-Vite: Add built-in Flow support - [#29756](https://github.com/storybookjs/storybook/pull/29756), thanks @dannyhw!
+- Test: Add coverage feature - [#29713](https://github.com/storybookjs/storybook/pull/29713), thanks @ndelangen!
+
 ## 8.5.0-alpha.13
 
 - Portable stories: Support multiple annotation notations from preview - [#29733](https://github.com/storybookjs/storybook/pull/29733), thanks @yannbf!
