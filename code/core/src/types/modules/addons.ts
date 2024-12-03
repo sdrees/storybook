@@ -482,11 +482,12 @@ export interface Addon_TestProviderType<
   render?: (state: TestProviderConfig & Addon_TestProviderState<Details, Config>) => ReactNode;
   sidebarContextMenu?: (options: {
     context: API_HashEntry;
-    state: Addon_TestProviderState<Details>;
+    state: TestProviderConfig & Addon_TestProviderState<Details, Config>;
   }) => ReactNode;
-  mapStatusUpdate?: (
-    state: Addon_TestProviderState<Details>
-  ) => API_StatusUpdate | ((state: API_StatusState) => API_StatusUpdate);
+  stateUpdater?: (
+    state: TestProviderConfig & Addon_TestProviderState<Details, Config>,
+    update: Partial<Addon_TestProviderState<Details, Config>>
+  ) => void | Partial<TestProviderConfig & Addon_TestProviderState<Details, Config>>;
   runnable?: boolean;
   watchable?: boolean;
 }

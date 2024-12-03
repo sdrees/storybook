@@ -80,7 +80,11 @@ export class VitestManager {
       });
     }
 
-    await this.vitest.init();
+    try {
+      await this.vitest.init();
+    } catch (e) {
+      this.testManager.reportFatalError('Failed to init Vitest', e);
+    }
 
     if (watchMode) {
       await this.setupWatchers();
