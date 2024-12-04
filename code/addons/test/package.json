@@ -1,6 +1,6 @@
 {
   "name": "@storybook/experimental-addon-test",
-  "version": "8.5.0-alpha.14",
+  "version": "8.5.0-alpha.17",
   "description": "Integrate Vitest with Storybook",
   "keywords": [
     "storybook-addons",
@@ -103,6 +103,7 @@
     "execa": "^8.0.1",
     "find-up": "^7.0.0",
     "formik": "^2.2.9",
+    "glob": "^10.0.0",
     "istanbul-lib-report": "^3.0.1",
     "pathe": "^1.1.2",
     "picocolors": "^1.1.0",
