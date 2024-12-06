@@ -12,9 +12,8 @@ import { readConfig, vitestTransform } from 'storybook/internal/csf-tools';
 import { MainFileMissingError } from 'storybook/internal/server-errors';
 import type { DocsOptions, StoriesEntry } from 'storybook/internal/types';
 
-// eslint-disable-next-line depend/ban-dependencies
-import { escape } from 'glob';
 import { join, resolve } from 'pathe';
+import { convertPathToPattern } from 'tinyglobby';
 
 import type { InternalOptions, UserOptions } from './types';
 
@@ -121,11 +120,7 @@ export const storybookTest = (options?: UserOptions): Plugin => {
       config.test ??= {};
 
       config.test.include ??= [];
-      config.test.include.push(
-        // Escape magic characters in paths because they shouldn't be treated as glob patterns
-        // Paths are resolved using `pathe` to convert Windows paths to POSIX paths first
-        ...storiesFiles.map((path) => escape(resolve(path)))
-      );
+      config.test.include.push(...storiesFiles.map((path) => convertPathToPattern(path)));
 
       config.test.exclude ??= [];
       config.test.exclude.push('**/*.mdx');
