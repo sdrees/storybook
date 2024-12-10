@@ -1,6 +1,8 @@
 <h1>Migration</h1>
 
 - [From version 8.4.x to 8.5.x](#from-version-84x-to-85x)
+  - [Addon-a11y: Component test integration](#addon-a11y-component-test-integration)
+  - [Addon-a11y: Deprecated `parameters.a11y.manual`](#addon-a11y-deprecated-parametersa11ymanual)
   - [Indexing behavior of @storybook/experimental-addon-test is changed](#indexing-behavior-of-storybookexperimental-addon-test-is-changed)
 - [From version 8.2.x to 8.3.x](#from-version-82x-to-83x)
   - [Removed `experimental_SIDEBAR_BOTTOM` and deprecated `experimental_SIDEBAR_TOP` addon types](#removed-experimental_sidebar_bottom-and-deprecated-experimental_sidebar_top-addon-types)
@@ -422,6 +424,30 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 8.4.x to 8.5.x
+
+### Addon-a11y: Component test integration
+
+In Storybook 8.4, we introduced a new addon called [addon test](https://storybook.js.org/docs/writing-tests/test-addon). Powered by Vitest under the hood, this addon lets you watch, run, and debug your component tests directly in Storybook.
+
+In Storybook 8.5, we revamped the Accessibility addon (`@storybook/addon-a11y`) to integrate it with the component tests feature. This means you can now extend your component tests to include accessibility tests. If you upgrade to Storybook 8.5 via `npx storybook@latest upgrade`, the Accessibility addon will be automatically configured to work with the component tests. However, if you're upgrading manually and you have the [addon test](https://storybook.js.org/docs/writing-tests/test-addon) installed, adjust your configuration as follows:
+
+```diff
+// .storybook/vitest.config.ts
+...
++import * as a11yAddonAnnotations from '@storybook/addon-a11y/preview';
+
+const annotations = setProjectAnnotations([
+  previewAnnotations,
++ a11yAddonAnnotations,
+]);
+
+// Run Storybook's beforeAll hook
+beforeAll(annotations.beforeAll);
+```
+
+### Addon-a11y: Deprecated `parameters.a11y.manual`
+
+We have deprecated `parameters.a11y.manual` in 8.5. Please use `globals.a11y.manual` instead.
 
 ### Indexing behavior of @storybook/experimental-addon-test is changed
 
