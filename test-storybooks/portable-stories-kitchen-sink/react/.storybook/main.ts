@@ -14,5 +14,11 @@ const config: StorybookConfig = {
   core: {
     disableWhatsNewNotifications: true
   },
+  previewHead: (head = '') => `${head}
+  <style>
+    body {
+      border: 1px solid red;
+    }
+  </style>`,
 };
 export default config;

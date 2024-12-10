@@ -40,7 +40,7 @@ export class VitestManager {
 
   constructor(private testManager: TestManager) {}
 
-  async startVitest({ watchMode = false, coverage = false } = {}) {
+  async startVitest({ coverage = false } = {}) {
     const { createVitest } = await import('vitest/node');
 
     const storybookCoverageReporter: [string, StorybookCoverageReporterOptions] = [
@@ -55,7 +55,7 @@ export class VitestManager {
         ? {
             enabled: true,
             clean: false,
-            cleanOnRerun: !watchMode,
+            cleanOnRerun: false,
             reportOnFailure: true,
             reporter: [['html', {}], storybookCoverageReporter],
             reportsDirectory: resolvePathInStorybookCache(COVERAGE_DIRECTORY),
@@ -66,9 +66,8 @@ export class VitestManager {
     this.vitest = await createVitest(
       'test',
       {
-        watch: watchMode,
+        watch: true,
         passWithNoTests: false,
-        changed: watchMode,
         // TODO:
         // Do we want to enable Vite's default reporter?
         // The output in the terminal might be too spamy and it might be better to
@@ -110,18 +109,16 @@ export class VitestManager {
       this.testManager.reportFatalError('Failed to init Vitest', e);
     }
 
-    if (watchMode) {
-      await this.setupWatchers();
-    }
+    await this.setupWatchers();
   }
 
-  async restartVitest({ watchMode, coverage }: { watchMode: boolean; coverage: boolean }) {
+  async restartVitest({ coverage }: { coverage: boolean }) {
     await this.vitestRestartPromise;
     this.vitestRestartPromise = new Promise(async (resolve, reject) => {
       try {
         await this.vitest?.runningPromise;
         await this.closeVitest();
-        await this.startVitest({ watchMode, coverage });
+        await this.startVitest({ coverage });
         resolve();
       } catch (e) {
         reject(e);
@@ -324,6 +321,11 @@ export class VitestManager {
     this.updateLastChanged(id);
     this.storyCountForCurrentRun = 0;
 
+    // when watch mode is disabled, don't trigger any tests (below)
+    // but still invalidate the cache for the changed file, which is handled above
+    if (!this.testManager.watchMode) {
+      return;
+    }
     await this.runAffectedTests(file);
   }
 

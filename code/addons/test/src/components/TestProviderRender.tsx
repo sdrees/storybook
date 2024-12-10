@@ -1,6 +1,6 @@
 import React, { type ComponentProps, type FC, useCallback, useMemo, useRef, useState } from 'react';
 
-import { Button, ListItem } from 'storybook/internal/components';
+import { Button, ListItem, ProgressSpinner } from 'storybook/internal/components';
 import {
   TESTING_MODULE_CONFIG_CHANGE,
   type TestProviderConfig,
@@ -17,15 +17,17 @@ import {
   PlayHollowIcon,
   PointerHandIcon,
   ShieldIcon,
-  StopAltHollowIcon,
+  StopAltIcon,
 } from '@storybook/icons';
 
 import { isEqual } from 'es-toolkit';
 import { debounce } from 'es-toolkit/compat';
 
-// Relatively importing from a11y to get the ADDON_ID
-import { ADDON_ID as A11Y_ADDON_ID } from '../../../a11y/src/constants';
-import { type Config, type Details } from '../constants';
+import {
+  ADDON_ID as A11Y_ADDON_ID,
+  PANEL_ID as A11y_ADDON_PANEL_ID,
+} from '../../../a11y/src/constants';
+import { type Config, type Details, PANEL_ID } from '../constants';
 import { type TestStatus } from '../node/reporter';
 import { Description } from './Description';
 import { TestStatusIcon } from './TestStatusIcon';
@@ -66,6 +68,14 @@ const Checkbox = styled.input({
   },
 });
 
+const Progress = styled(ProgressSpinner)({
+  margin: 2,
+});
+
+const StopIcon = styled(StopAltIcon)({
+  width: 10,
+});
+
 const statusOrder: TestStatus[] = ['failed', 'warning', 'pending', 'passed', 'skipped'];
 const statusMap: Record<TestStatus, ComponentProps<typeof TestStatusIcon>['status']> = {
   failed: 'negative',
@@ -101,7 +111,8 @@ export const TestProviderRender: FC<
 
     return state.details?.testResults?.flatMap((result) =>
       result.results
-        .filter((it) => !entryId || it.storyId === entryId || it.storyId.startsWith(`${entryId}-`))
+        .filter(Boolean)
+        .filter((r) => !entryId || r.storyId === entryId || r.storyId?.startsWith(`${entryId}-`))
         .map((r) => r.reports.find((report) => report.type === 'a11y'))
     );
   }, [isA11yAddon, state.details?.testResults, entryId]);
@@ -145,6 +156,12 @@ export const TestProviderRender: FC<
 
   const status = (state.failed ? 'failed' : results[0]?.status) || 'unknown';
 
+  const openPanel = (id: string, panelId: string) => {
+    api.selectStory(id);
+    api.setSelectedPanel(panelId);
+    api.togglePanel(true);
+  };
+
   return (
     <Container {...props}>
       <Heading>
@@ -182,11 +199,13 @@ export const TestProviderRender: FC<
                 <Button
                   aria-label={`Stop ${state.name}`}
                   variant="ghost"
-                  padding="small"
+                  padding="none"
                   onClick={() => api.cancelTestProvider(state.id)}
                   disabled={state.cancelling}
                 >
-                  <StopAltHollowIcon />
+                  <Progress percentage={state.progress?.percentageCompleted}>
+                    <StopIcon />
+                  </Progress>
                 </Button>
               ) : (
                 <Button
@@ -244,6 +263,16 @@ export const TestProviderRender: FC<
         <Extras>
           <ListItem
             title="Component tests"
+            onClick={
+              (status === 'failed' || status === 'warning') && results.length
+                ? () => {
+                    const firstNotPassed = results.find(
+                      (r) => r.status === 'failed' || r.status === 'warning'
+                    );
+                    openPanel(firstNotPassed.storyId, PANEL_ID);
+                  }
+                : null
+            }
             icon={
               state.crashed ? (
                 <TestStatusIcon status="critical" aria-label="status: crashed" />
@@ -278,6 +307,20 @@ export const TestProviderRender: FC<
           {isA11yAddon && (
             <ListItem
               title="Accessibility"
+              onClick={
+                (a11yStatus === 'negative' || a11yStatus === 'warning') && a11yResults.length
+                  ? () => {
+                      const firstNotPassed = results.find((r) =>
+                        r.reports
+                          .filter((report) => report.type === 'a11y')
+                          .find(
+                            (report) => report.status === 'failed' || report.status === 'warning'
+                          )
+                      );
+                      openPanel(firstNotPassed.storyId, A11y_ADDON_PANEL_ID);
+                    }
+                  : null
+              }
               icon={<TestStatusIcon status={a11yStatus} aria-label={`status: ${a11yStatus}`} />}
               right={a11yNotPassedAmount || null}
             />
