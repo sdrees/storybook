@@ -118,6 +118,10 @@ export const TestProviderRender: FC<
   }, [isA11yAddon, state.details?.testResults, entryId]);
 
   const a11yStatus = useMemo<'positive' | 'warning' | 'negative' | 'unknown'>(() => {
+    if (state.running) {
+      return 'unknown';
+    }
+
     if (!isA11yAddon || config.a11y === false) {
       return 'unknown';
     }
@@ -136,7 +140,7 @@ export const TestProviderRender: FC<
     }
 
     return 'positive';
-  }, [a11yResults, isA11yAddon, config.a11y]);
+  }, [state.running, isA11yAddon, config.a11y, a11yResults]);
 
   const a11yNotPassedAmount = a11yResults?.filter(
     (result) => result?.status === 'failed' || result?.status === 'warning'
@@ -154,7 +158,11 @@ export const TestProviderRender: FC<
     })
     .sort((a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status));
 
-  const status = (state.failed ? 'failed' : results[0]?.status) || 'unknown';
+  const status = state.running
+    ? 'unknown'
+    : state.failed
+      ? 'failed'
+      : (results[0]?.status ?? 'unknown');
 
   const openPanel = (id: string, panelId: string) => {
     api.selectStory(id);
