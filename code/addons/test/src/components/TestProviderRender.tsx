@@ -76,6 +76,16 @@ const StopIcon = styled(StopAltIcon)({
   width: 10,
 });
 
+const ItemTitle = styled.span<{ enabled?: boolean }>(
+  ({ enabled, theme }) =>
+    !enabled && {
+      color: theme.textMutedColor,
+      '&:after': {
+        content: '" (disabled)"',
+      },
+    }
+);
+
 const statusOrder: TestStatus[] = ['failed', 'warning', 'pending', 'passed', 'skipped'];
 const statusMap: Record<TestStatus, ComponentProps<typeof TestStatusIcon>['status']> = {
   failed: 'negative',
@@ -241,7 +251,7 @@ export const TestProviderRender: FC<
           />
           <ListItem
             as="label"
-            title="Coverage"
+            title={<ItemTitle enabled={config.coverage}>Coverage</ItemTitle>}
             icon={<ShieldIcon color={theme.textMutedColor} />}
             right={
               <Checkbox
@@ -255,7 +265,7 @@ export const TestProviderRender: FC<
           {isA11yAddon && (
             <ListItem
               as="label"
-              title="Accessibility"
+              title={<ItemTitle enabled={config.a11y}>Accessibility</ItemTitle>}
               icon={<AccessibilityIcon color={theme.textMutedColor} />}
               right={
                 <Checkbox
@@ -293,7 +303,7 @@ export const TestProviderRender: FC<
           />
           {coverageSummary ? (
             <ListItem
-              title="Coverage"
+              title={<ItemTitle enabled={config.coverage}>Coverage</ItemTitle>}
               href={'/coverage/index.html'}
               // @ts-expect-error ListItem doesn't include all anchor attributes in types, but it is an achor element
               target="_blank"
@@ -308,13 +318,13 @@ export const TestProviderRender: FC<
             />
           ) : (
             <ListItem
-              title="Coverage"
+              title={<ItemTitle enabled={config.coverage}>Coverage</ItemTitle>}
               icon={<TestStatusIcon status="unknown" aria-label={`status: unknown`} />}
             />
           )}
           {isA11yAddon && (
             <ListItem
-              title="Accessibility"
+              title={<ItemTitle enabled={config.a11y}>Accessibility</ItemTitle>}
               onClick={
                 (a11yStatus === 'negative' || a11yStatus === 'warning') && a11yResults.length
                   ? () => {
