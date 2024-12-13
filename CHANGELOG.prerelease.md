@@ -1,3 +1,19 @@
+## 8.5.0-alpha.22
+
+- Addon Docs: Dynamically import rehype - [#29544](https://github.com/storybookjs/storybook/pull/29544), thanks @valentinpalkovic!
+- Addon Test: Fix duplicate `test.include` patterns - [#30029](https://github.com/storybookjs/storybook/pull/30029), thanks @JReinhold!
+- Addon Test: Fix environment variable for Vitest Storybook integration - [#30054](https://github.com/storybookjs/storybook/pull/30054), thanks @valentinpalkovic!
+- Addon Test: Use local storybook binary instead - [#30021](https://github.com/storybookjs/storybook/pull/30021), thanks @kasperpeulen!
+- Addon Test: Wait for 2 seconds before showing result mismatch warning - [#30002](https://github.com/storybookjs/storybook/pull/30002), thanks @ghengeveld!
+- Angular: Support statsJson in angular schemas - [#29233](https://github.com/storybookjs/storybook/pull/29233), thanks @yannbf!
+- Core: Fix `scrollIntoView` behavior and reimplement testing module time rendering - [#30044](https://github.com/storybookjs/storybook/pull/30044), thanks @ghengeveld!
+- Docs: Add code snippet to addons panel - [#29253](https://github.com/storybookjs/storybook/pull/29253), thanks @larsrickert!
+- Next.js: Fix webpack fsCache not working - [#29654](https://github.com/storybookjs/storybook/pull/29654), thanks @sentience!
+- Nextjs-Vite: Add TS docgen support - [#29824](https://github.com/storybookjs/storybook/pull/29824), thanks @yannbf!
+- Nextjs-Vite: Fix docgen types in main config - [#30042](https://github.com/storybookjs/storybook/pull/30042), thanks @yannbf!
+- React: Fix RSC compatibility with addon-themes and hooks - [#26243](https://github.com/storybookjs/storybook/pull/26243), thanks @shilman!
+- UI: Fix controls and parameters on tag-filtered stories - [#30038](https://github.com/storybookjs/storybook/pull/30038), thanks @shilman!
+
 ## 8.5.0-alpha.21
 
 - Addon A11y: Add typesVersions support for TypeScript definitions in a11y package - [#30005](https://github.com/storybookjs/storybook/pull/30005), thanks @valentinpalkovic!
