@@ -358,5 +358,6 @@ export const parameters = {
       opacity: 0.4,
     },
   },
-  tags: ['test', 'vitest', '!a11ytest'],
 };
+
+export const tags = ['test', 'vitest', '!a11ytest'];
