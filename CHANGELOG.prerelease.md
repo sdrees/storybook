@@ -1,3 +1,9 @@
+## 8.5.0-beta.3
+
+- Addon A11y: Fix skipped status handling in Testing Module - [#30077](https://github.com/storybookjs/storybook/pull/30077), thanks @valentinpalkovic!
+- Core: Float context menu button on top of story titles in sidebar - [#30080](https://github.com/storybookjs/storybook/pull/30080), thanks @ghengeveld!
+- Onboarding: Replace `react-confetti` with `@neoconfetti/react` - [#30098](https://github.com/storybookjs/storybook/pull/30098), thanks @ndelangen!
+
 ## 8.5.0-beta.2
 
 - Addon Test: Clear coverage data when starting or watching - [#30072](https://github.com/storybookjs/storybook/pull/30072), thanks @ghengeveld!

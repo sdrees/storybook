@@ -4118,6 +4118,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@neoconfetti/react@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@neoconfetti/react@npm:1.0.0"
+  checksum: 10c0/dfa487965b69f88b39562ccd910114cd68b00a90c7eb79cfb1a483c7ac717b720f9f095e5aea13cef8a9b9bea05533d380ddff5e44d3bc3f7dc4d5c66716765c
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:15.0.3, @next/env@npm:^15.0.3":
   version: 15.0.3
   resolution: "@next/env@npm:15.0.3"
@@ -5749,12 +5756,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-onboarding@workspace:addons/onboarding"
   dependencies:
+    "@neoconfetti/react": "npm:^1.0.0"
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@storybook/icons": "npm:^1.2.12"
     "@storybook/react": "workspace:*"
     framer-motion: "npm:^11.0.3"
     react: "npm:^18.2.0"
-    react-confetti: "npm:^6.1.0"
     react-dom: "npm:^18.2.0"
     react-joyride: "npm:^2.8.2"
     react-use-measure: "npm:^2.1.1"
