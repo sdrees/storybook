@@ -1,3 +1,10 @@
+## 8.5.0-beta.4
+
+- Addon Themes: Deprecate useThemeParameters - [#30111](https://github.com/storybookjs/storybook/pull/30111), thanks @yannbf!
+- Build: Downgrade to esbuild 0.24.0 - [#30116](https://github.com/storybookjs/storybook/pull/30116), thanks @yannbf!
+- CLI: Re-Add Nuxt support - [#28607](https://github.com/storybookjs/storybook/pull/28607), thanks @valentinpalkovic!
+- Core: Prevent infinite rerendering caused by comparison by reference - [#30081](https://github.com/storybookjs/storybook/pull/30081), thanks @ghengeveld!
+
 ## 8.5.0-beta.3
 
 - Addon A11y: Fix skipped status handling in Testing Module - [#30077](https://github.com/storybookjs/storybook/pull/30077), thanks @valentinpalkovic!
