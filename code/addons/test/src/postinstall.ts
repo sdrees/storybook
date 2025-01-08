@@ -145,6 +145,16 @@ export default async function postInstall(options: PostinstallOptions) {
       `);
     }
 
+    const mswVersionSpecifier = await packageManager.getInstalledVersion('msw');
+    const coercedMswVersion = mswVersionSpecifier ? coerce(mswVersionSpecifier) : null;
+
+    if (coercedMswVersion && !satisfies(coercedMswVersion, '>=2.0.0')) {
+      reasons.push(dedent`
+        • The addon uses Vitest behind the scenes, which supports only version 2 and above of MSW. However, we have detected version ${picocolors.bold(coercedMswVersion.version)} in this project.
+        Please update the 'msw' package and try again.
+      `);
+    }
+
     if (info.frameworkPackageName === '@storybook/nextjs') {
       const nextVersion = await packageManager.getInstalledVersion('next');
       if (!nextVersion) {
@@ -159,6 +169,7 @@ export default async function postInstall(options: PostinstallOptions) {
       reasons.unshift(
         `Storybook Test's automated setup failed due to the following package incompatibilities:`
       );
+      reasons.push('--------------------------------');
       reasons.push(
         dedent`
           You can fix these issues and rerun the command to reinstall. If you wish to roll back the installation, remove ${picocolors.bold(colors.pink(ADDON_NAME))} from the "addons" array
