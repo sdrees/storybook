@@ -4,9 +4,6 @@ import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin'
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// 👇 If you're using Next.js, apply this framework plugin as well
-// import { storybookNextJsPlugin } from '@storybook/experimental-nextjs-vite/vite-plugin';
-
 const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -24,7 +21,6 @@ export default defineWorkspace([
         // The --ci flag will skip prompts and not open a browser
         storybookScript: 'yarn storybook --ci',
       }),
-      // storybookNextJsPlugin(),
     ],
     test: {
       name: 'storybook',
@@ -45,7 +41,6 @@ export default defineWorkspace([
 ```ts filename="vitest.config.ts" renderer="vue"
 import { defineConfig, mergeConfig } from 'vitest/config';
 import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin';
-import { storybookVuePlugin } from '@storybook/vue3-vite/vite-plugin';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -68,7 +63,6 @@ export default defineWorkspace([
         // The --ci flag will skip prompts and not open a browser
         storybookScript: 'yarn storybook --ci',
       }),
-      storybookVuePlugin(),
     ],
     test: {
       name: 'storybook',
@@ -92,9 +86,6 @@ import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin'
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// 👇 If you're using Sveltekit, apply this framework plugin as well
-// import { storybookSveltekitPlugin } from '@storybook/sveltekit/vite-plugin';
-
 import viteConfig from './vite.config';
 
 const dirname =
@@ -114,7 +105,6 @@ export default defineWorkspace([
         // The --ci flag will skip prompts and not open a browser
         storybookScript: 'yarn storybook --ci',
       }),
-      // storybookSveltekitPlugin(),
     ],
     test: {
       name: 'storybook',

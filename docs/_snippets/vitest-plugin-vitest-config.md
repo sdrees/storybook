@@ -3,8 +3,6 @@ import { defineConfig, mergeConfig } from 'vitest/config';
 import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-// 👇 If you're using Next.js, apply this framework plugin as well
-// import { storybookNextJsPlugin } from '@storybook/experimental-nextjs-vite/vite-plugin';
 
 const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
@@ -22,7 +20,6 @@ export default mergeConfig(
         // The --ci flag will skip prompts and not open a browser
         storybookScript: 'yarn storybook --ci',
       }),
-      // storybookNextJsPlugin(),
     ],
     test: {
       // Enable browser mode
@@ -84,8 +81,6 @@ import { defineConfig, mergeConfig } from 'vitest/config';
 import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-// 👇 If you're using Sveltekit, apply this framework plugin as well
-// import { storybookSveltekitPlugin } from '@storybook/sveltekit/vite-plugin';
 
 const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
@@ -103,7 +98,6 @@ export default mergeConfig(
         // The --ci flag will skip prompts and not open a browser
         storybookScript: 'yarn storybook --ci',
       }),
-      // storybookSveltekitPlugin(),
     ],
     test: {
       // Enable browser mode
