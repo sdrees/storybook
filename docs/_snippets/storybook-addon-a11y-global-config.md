@@ -3,7 +3,7 @@ export default {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -43,7 +43,7 @@ const preview: Preview = {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {

@@ -13,7 +13,7 @@ type Story = StoryObj<MyComponent>;
 export const ExampleStory: Story = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -55,7 +55,7 @@ export default {
 export const ExampleStory = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -102,7 +102,7 @@ type Story = StoryObj<typeof meta>;
 export const ExampleStory: Story = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -149,7 +149,7 @@ type Story = StoryObj<typeof MyComponent>;
 export const ExampleStory: Story = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -196,7 +196,7 @@ export const ExampleStory: Story = {
   name="ExampleStory"
   parameters={{
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -238,7 +238,7 @@ export default {
 export const ExampleStory = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -285,7 +285,7 @@ export const ExampleStory = {
   name="ExampleStory"
   parameters={{
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -332,7 +332,7 @@ type Story = StoryObj<typeof meta>;
 export const ExampleStory: Story = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -379,7 +379,7 @@ export const ExampleStory: Story = {
   name="ExampleStory"
   parameters={{
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -426,7 +426,7 @@ type Story = StoryObj<typeof meta>;
 export const ExampleStory: Story = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -468,7 +468,7 @@ export default {
 export const ExampleStory = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -515,7 +515,7 @@ type Story = StoryObj<typeof meta>;
 export const ExampleStory = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -562,7 +562,7 @@ type Story = StoryObj<typeof MyComponent>;
 export const ExampleStory = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -602,7 +602,7 @@ export default {
 export const ExampleStory = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -647,7 +647,7 @@ type Story = StoryObj;
 export const ExampleStory: Story = {
   parameters: {
     a11y: {
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {

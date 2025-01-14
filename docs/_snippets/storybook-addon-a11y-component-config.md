@@ -8,7 +8,7 @@ const meta: Meta<MyComponent> = {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -52,7 +52,7 @@ export default meta;
     parameters: {
       a11y: {
         // Optional selector to inspect
-        element: '#storybook-root',
+        element: 'body',
         config: {
           rules: [
             {
@@ -92,7 +92,7 @@ export default {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -131,7 +131,7 @@ export default {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -173,7 +173,7 @@ export default {
     parameters: {
       a11y: {
         // Optional selector to inspect
-        element: '#storybook-root',
+        element: 'body',
         config: {
           rules: [
             {
@@ -215,7 +215,7 @@ const meta = {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -259,7 +259,7 @@ const meta = {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -303,7 +303,7 @@ export default meta;
     parameters: {
       a11y: {
         // Optional selector to inspect
-        element: '#storybook-root',
+        element: 'body',
         config: {
           rules: [
             {
@@ -345,7 +345,7 @@ const meta: Meta<typeof MyComponent> = {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -389,7 +389,7 @@ const meta: Meta<typeof MyComponent> = {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -428,7 +428,7 @@ export default {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
@@ -467,7 +467,7 @@ const meta: Meta = {
   parameters: {
     a11y: {
       // Optional selector to inspect
-      element: '#storybook-root',
+      element: 'body',
       config: {
         rules: [
           {
