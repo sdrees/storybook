@@ -318,7 +318,7 @@ export async function transformPreviewFile(source: string, filePath: string) {
   const indentation = lines[tagsLineIndex]?.match(/^\s*/)?.[0];
 
   // Add the comment with the same indentation level
-  const comment = `${indentation}// The \`a11y-test\` tag controls whether accessibility tests are run as part of a standalone Vitest test run\n${indentation}// For more information please visit: https://storybook.js.org/docs/writing-tests/accessibility-testing#configure-accessibility-tests-with-the-test-addon`;
+  const comment = `${indentation}// The \`a11y-test\` tag controls whether accessibility tests are run as part of a standalone Vitest test run\n${indentation}// The tag and its behavior are experimental and subject to change.\n${indentation}// For more information please see: https://storybook.js.org/docs/writing-tests/accessibility-testing#configure-accessibility-tests-with-the-test-addon`;
   lines.splice(tagsLineIndex, 0, comment);
 
   return formatFileContent(filePath, lines.join('\n'));
