@@ -90,14 +90,15 @@ export const addonA11yAddonTest: Fix<AddonA11yAddonTestOptions> = {
         .find((filePath) => existsSync(filePath)) ?? null;
 
     let skipVitestSetupTransformation = false;
-    let skipPreviewTransformation = false;
+    // TODO: Set it to false after we have decided how to deal with a11y:test tag.
+    const skipPreviewTransformation = true;
 
     if (vitestSetupFile && previewFile) {
       const vitestSetupSource = readFileSync(vitestSetupFile, 'utf8');
-      const previewSetupSource = readFileSync(previewFile, 'utf8');
+      // const previewSetupSource = readFileSync(previewFile, 'utf8');
 
       skipVitestSetupTransformation = vitestSetupSource.includes('@storybook/addon-a11y');
-      skipPreviewTransformation = previewSetupSource.includes('a11y-test');
+      // skipPreviewTransformation = previewSetupSource.includes('a11y-test');
 
       if (skipVitestSetupTransformation && skipPreviewTransformation) {
         return null;

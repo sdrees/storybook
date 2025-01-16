@@ -209,7 +209,6 @@ export const storybookTest = async (options?: UserOptions): Promise<Plugin[]> =>
               }
             : {}),
 
-          // @ts-expect-error: TODO
           browser: {
             ...inputConfig_ONLY_MUTATE_WHEN_STRICTLY_NEEDED_OR_YOU_WILL_BE_FIRED.test?.browser,
             commands: {

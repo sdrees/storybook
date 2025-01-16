@@ -1,3 +1,6 @@
+## 8.6.0-alpha.0
+
+
 ## 8.5.0-beta.11
 
 - CLI: Update a11y-test comment with experimental caveat - [#30258](https://github.com/storybookjs/storybook/pull/30258), thanks @shilman!

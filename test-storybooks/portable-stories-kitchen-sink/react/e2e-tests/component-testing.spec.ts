@@ -8,7 +8,6 @@ import { SbPage } from "../../../../code/e2e-tests/util";
 
 const STORYBOOK_URL = "http://localhost:6006";
 const TEST_STORY_PATH = path.resolve(__dirname, "..", "stories", "AddonTest.stories.tsx");
-const BUTTON_COMPONENT_PATH = path.resolve(__dirname, "..", "stories", "Button.tsx");
 
 const setForceFailureFlag = async (value: boolean) => {
   // Read the story file content asynchronously

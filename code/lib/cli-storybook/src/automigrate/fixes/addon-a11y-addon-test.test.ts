@@ -1,9 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { formatFileContent } from '@storybook/core/common';
-
-import { formatConfig, loadConfig } from '@storybook/core/csf-tools';
-
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import * as jscodeshift from 'jscodeshift';
 import path from 'path';
@@ -157,12 +153,12 @@ describe('addonA11yAddonTest', () => {
         previewFile: null,
         transformedPreviewCode: null,
         transformedSetupCode: expect.any(String),
-        skipPreviewTransformation: false,
+        skipPreviewTransformation: true,
         skipVitestSetupTransformation: false,
       });
     });
 
-    it('should return previewFile and transformedPreviewCode if preview file exists', async () => {
+    it.skip('should return previewFile and transformedPreviewCode if preview file exists', async () => {
       vi.mocked(getAddonNames).mockReturnValue([
         '@storybook/addon-a11y',
         '@storybook/experimental-addon-test',
@@ -229,7 +225,7 @@ describe('addonA11yAddonTest', () => {
         previewFile: null,
         transformedPreviewCode: null,
         transformedSetupCode: null,
-        skipPreviewTransformation: false,
+        skipPreviewTransformation: true,
         skipVitestSetupTransformation: false,
       });
     });
@@ -265,7 +261,7 @@ describe('addonA11yAddonTest', () => {
         previewFile: path.join(configDir, 'preview.js'),
         transformedPreviewCode: null,
         transformedSetupCode: null,
-        skipPreviewTransformation: false,
+        skipPreviewTransformation: true,
         skipVitestSetupTransformation: false,
       });
     });
@@ -345,14 +341,7 @@ describe('addonA11yAddonTest', () => {
         },
         configDir,
       } as any);
-      expect(result).toEqual({
-        setupFile: path.join(configDir, 'vitest.setup.js'),
-        previewFile: path.join(configDir, 'preview.js'),
-        transformedPreviewCode: expect.any(String),
-        transformedSetupCode: null,
-        skipPreviewTransformation: false,
-        skipVitestSetupTransformation: true,
-      });
+      expect(result).toEqual(null);
     });
   });
 

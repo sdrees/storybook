@@ -4,10 +4,12 @@ import type {
   CoverageOptions,
   ResolvedCoverageOptions,
   TestProject,
+  TestRunResult,
   TestSpecification,
   Vitest,
   WorkspaceProject,
 } from 'vitest/node';
+import * as vitestNode from 'vitest/node';
 
 import { resolvePathInStorybookCache } from 'storybook/internal/common';
 import type { TestingModuleRunRequestPayload } from 'storybook/internal/core-events';
@@ -16,6 +18,7 @@ import type { DocsIndexEntry, StoryIndex, StoryIndexEntry } from '@storybook/typ
 
 import { findUp } from 'find-up';
 import path, { dirname, join, normalize } from 'pathe';
+import { satisfies } from 'semver';
 import slash from 'slash';
 
 import { COVERAGE_DIRECTORY, type Config } from '../constants';
@@ -35,6 +38,11 @@ type TagsFilter = {
 
 const packageDir = dirname(require.resolve('@storybook/experimental-addon-test/package.json'));
 
+const vitestVersion = vitestNode.version;
+const isVitest3OrLater = vitestVersion
+  ? satisfies(vitestVersion, '>=3.0.0-beta.3', { includePrerelease: true })
+  : false;
+
 // We have to tell Vitest that it runs as part of Storybook
 process.env.VITEST_STORYBOOK = 'true';
 
@@ -46,6 +54,10 @@ export class VitestManager {
   vitestRestartPromise: Promise<void> | null = null;
 
   storyCountForCurrentRun: number = 0;
+
+  runningPromise: Promise<any> | null = null;
+
+  isCancelling = false;
 
   constructor(private testManager: TestManager) {}
 
@@ -123,7 +135,7 @@ export class VitestManager {
     await this.vitestRestartPromise;
     this.vitestRestartPromise = new Promise(async (resolve, reject) => {
       try {
-        await this.vitest?.runningPromise;
+        await this.runningPromise;
         await this.closeVitest();
         await this.startVitest({ coverage });
         resolve();
@@ -134,6 +146,21 @@ export class VitestManager {
       }
     });
     return this.vitestRestartPromise;
+  }
+
+  private setGlobalTestNamePattern(pattern: string | RegExp) {
+    if (isVitest3OrLater) {
+      this.vitest!.setGlobalTestNamePattern(pattern);
+    } else {
+      // @ts-expect-error vitest.configOverride is a Vitest < 3 API.
+      this.vitest!.configOverride.testNamePattern = pattern;
+    }
+  }
+
+  private resetGlobalTestNamePattern() {
+    if (this.vitest) {
+      this.setGlobalTestNamePattern('');
+    }
   }
 
   private updateLastChanged(filepath: string) {
@@ -183,6 +210,23 @@ export class VitestManager {
     return true;
   }
 
+  private get vite() {
+    // TODO: vitest.server is a Vitest < 3.0.0 API. Remove as soon as we don't support < 3.0.0 anymore.
+    return isVitest3OrLater ? this.vitest?.vite : this.vitest?.server;
+  }
+
+  async runFiles(specifications: TestSpecification[], allTestsRun?: boolean) {
+    this.isCancelling = false;
+    const runTest: (
+      specifications: TestSpecification[],
+      allTestsRun?: boolean | undefined
+      // @ts-expect-error vitest.runFiles is a Vitest < 3.0.0 API. Remove as soon as we don't support < 3.0.0 anymore.
+    ) => Promise<TestRunResult> = this.vitest!.runFiles ?? this.vitest!.runTestSpecifications;
+    this.runningPromise = runTest.call(this.vitest, specifications, allTestsRun);
+    await this.runningPromise;
+    this.runningPromise = null;
+  }
+
   async runTests(requestPayload: TestingModuleRunRequestPayload<Config>) {
     if (!this.vitest) {
       await this.startVitest();
@@ -190,7 +234,7 @@ export class VitestManager {
       await this.vitestRestartPromise;
     }
 
-    this.resetTestNamePattern();
+    this.resetGlobalTestNamePattern();
 
     const stories = await this.fetchStories(requestPayload.indexUrl, requestPayload.storyIds);
     const vitestTestSpecs = await this.getStorybookTestSpecs();
@@ -229,18 +273,19 @@ export class VitestManager {
 
     if (isSingleStoryRun) {
       const storyName = stories[0].name;
-      this.vitest!.configOverride.testNamePattern = new RegExp(
-        `^${storyName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`
-      );
+      const regex = new RegExp(`^${storyName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`);
+      this.setGlobalTestNamePattern(regex);
     }
 
-    await this.vitest!.runFiles(filteredTestFiles, true);
-    this.resetTestNamePattern();
+    await this.runFiles(filteredTestFiles, true);
+    this.resetGlobalTestNamePattern();
   }
 
   async cancelCurrentRun() {
+    this.isCancelling = true;
     await this.vitest?.cancelCurrentRun('keyboard-input');
-    await this.vitest?.runningPromise;
+    await this.runningPromise;
+    this.isCancelling = false;
   }
 
   async closeVitest() {
@@ -255,22 +300,26 @@ export class VitestManager {
   }
 
   private async getTestDependencies(spec: TestSpecification, deps = new Set<string>()) {
-    const addImports = async (project: WorkspaceProject, filepath: string) => {
+    const addImports = async (project: TestProject, filepath: string) => {
       if (deps.has(filepath)) {
         return;
       }
       deps.add(filepath);
 
-      const mod = project.server.moduleGraph.getModuleById(filepath);
-      const transformed =
-        mod?.ssrTransformResult || (await project.vitenode.transformRequest(filepath));
+      // TODO: Remove project.server once we don't support Vitest < 3.0.0 anymore
+      const server = isVitest3OrLater ? project.vite : project.server;
+
+      const mod = server.moduleGraph.getModuleById(filepath);
+      // @ts-expect-error project.vitenode is a Vitest < 3 API.
+      const viteNode = isVitest3OrLater ? project.vite : project.vitenode;
+      const transformed = mod?.ssrTransformResult || (await viteNode.transformRequest(filepath));
       if (!transformed) {
         return;
       }
       const dependencies = [...(transformed.deps || []), ...(transformed.dynamicDeps || [])];
       await Promise.all(
         dependencies.map(async (dep) => {
-          const idPath = await project.server.pluginContainer.resolveId(dep, filepath, {
+          const idPath = await server.pluginContainer.resolveId(dep, filepath, {
             ssr: true,
           });
           const fsPath = idPath && !idPath.external && idPath.id.split('?')[0];
@@ -286,7 +335,11 @@ export class VitestManager {
       );
     };
 
-    await addImports(spec.project.workspaceProject, spec.moduleId);
+    await addImports(
+      // @ts-expect-error spec.project.workspaceProject is a Vitest < 3 API.
+      isVitest3OrLater ? spec.project : spec.project.workspaceProject,
+      spec.moduleId
+    );
     deps.delete(spec.moduleId);
 
     return deps;
@@ -296,9 +349,14 @@ export class VitestManager {
     if (!this.vitest) {
       return;
     }
-    this.resetTestNamePattern();
+    this.resetGlobalTestNamePattern();
 
-    const globTestFiles = await this.vitest.globTestSpecs();
+    const globTestSpecs: (filters?: string[] | undefined) => Promise<TestSpecification[]> =
+      // TODO: vitest.globTestSpecs is a Vitest < 3.0.0 API.
+      isVitest3OrLater ? this.vitest.globTestSpecifications : this.vitest.globTestSpecs;
+
+    const globTestFiles = await globTestSpecs.call(this.vitest);
+
     const testGraphs = await Promise.all(
       globTestFiles
         .filter((workspace) => this.isStorybookProject(workspace.project))
@@ -317,8 +375,8 @@ export class VitestManager {
 
     if (triggerAffectedTests.length) {
       await this.vitest.cancelCurrentRun('keyboard-input');
-      await this.vitest.runningPromise;
-      await this.vitest.runFiles(triggerAffectedTests, false);
+      await this.runningPromise;
+      await this.runFiles(triggerAffectedTests, false);
     }
   }
 
@@ -338,9 +396,9 @@ export class VitestManager {
   }
 
   async registerVitestConfigListener() {
-    this.vitest?.server?.watcher.on('change', async (file) => {
+    this.vite?.watcher.on('change', async (file) => {
       file = normalize(file);
-      const isConfig = file === this.vitest?.server.config.configFile;
+      const isConfig = file === this.vite?.config.configFile;
       if (isConfig) {
         log('Restarting Vitest due to config change');
         await this.closeVitest();
@@ -350,18 +408,13 @@ export class VitestManager {
   }
 
   async setupWatchers() {
-    this.resetTestNamePattern();
-    this.vitest?.server?.watcher.removeAllListeners('change');
-    this.vitest?.server?.watcher.removeAllListeners('add');
-    this.vitest?.server?.watcher.on('change', this.runAffectedTestsAfterChange.bind(this));
-    this.vitest?.server?.watcher.on('add', this.runAffectedTestsAfterChange.bind(this));
+    this.resetGlobalTestNamePattern();
+    const server = this.vite;
+    server?.watcher.removeAllListeners('change');
+    server?.watcher.removeAllListeners('add');
+    server?.watcher.on('change', this.runAffectedTestsAfterChange.bind(this));
+    server?.watcher.on('add', this.runAffectedTestsAfterChange.bind(this));
     this.registerVitestConfigListener();
-  }
-
-  resetTestNamePattern() {
-    if (this.vitest) {
-      this.vitest.configOverride.testNamePattern = undefined;
-    }
   }
 
   isStorybookProject(project: TestProject | WorkspaceProject) {
