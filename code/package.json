@@ -90,7 +90,7 @@
     "type-fest": "~2.19"
   },
   "dependencies": {
-    "@chromatic-com/storybook": "^3.2.2",
+    "@chromatic-com/storybook": "^3.2.4",
     "@happy-dom/global-registrator": "^14.12.0",
     "@nx/eslint": "20.2.2",
     "@nx/vite": "20.2.2",
