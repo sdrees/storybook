@@ -1,3 +1,9 @@
+## 8.6.0-alpha.3
+
+- Core: Fix invalid Websocket termination - [#30408](https://github.com/storybookjs/storybook/pull/30408), thanks @valentinpalkovic!
+- Core: Improve type compatibility with React 19 - [#30031](https://github.com/storybookjs/storybook/pull/30031), thanks @mrginglymus!
+- Preview: Add `globals` to `extract()` - [#30415](https://github.com/storybookjs/storybook/pull/30415), thanks @ndelangen!
+
 ## 8.6.0-alpha.2
 
 - Addon Test: Support Vitest 3 browser.test.instances field - [#30309](https://github.com/storybookjs/storybook/pull/30309), thanks @valentinpalkovic!

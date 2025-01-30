@@ -345,7 +345,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         return undefined;
       }
       if (refId) {
-        // @ts-expect-error (possibly undefined)
         return refs[refId].index ? refs[refId].index[storyId] : undefined;
       }
       return index ? index[storyId] : undefined;
