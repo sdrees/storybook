@@ -85,11 +85,11 @@
     "@types/node": "^22.0.0",
     "@vitest/expect@npm:2.0.5": "patch:@vitest/expect@npm%3A2.0.5#~/.yarn/patches/@vitest-expect-npm-2.0.5-8933466cce.patch",
     "esbuild": "^0.24.0",
-    "typescript": "^5.7.3",
     "playwright": "1.48.1",
     "playwright-core": "1.48.1",
     "serialize-javascript": "^3.1.0",
-    "type-fest": "~2.19"
+    "type-fest": "~2.19",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@chromatic-com/storybook": "^3.2.4",
@@ -204,7 +204,7 @@
     "husky": "^4.3.7",
     "lint-staged": "^13.2.2",
     "mock-require": "^3.0.3",
-    "nx": "20.2.2",
+    "nx": "^20.4.0",
     "prettier": "^3.1.1",
     "prettier-plugin-brace-style": "^0.6.2",
     "prettier-plugin-css-order": "^2.1.2",
