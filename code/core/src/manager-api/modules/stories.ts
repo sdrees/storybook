@@ -345,7 +345,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         return undefined;
       }
       if (refId) {
-        return refs[refId].index ? refs[refId].index[storyId] : undefined;
+        return refs?.[refId]?.index?.[storyId] ?? undefined;
       }
       return index ? index[storyId] : undefined;
     },
