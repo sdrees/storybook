@@ -1,3 +1,4 @@
+import { sanitize, toId } from '@storybook/core/csf';
 import type {
   API_ComposedRef,
   API_DocsEntry,
@@ -22,7 +23,6 @@ import type {
   StoryName,
   StoryPreparedPayload,
 } from '@storybook/core/types';
-import { sanitize, toId } from '@storybook/csf';
 import { global } from '@storybook/global';
 
 import { logger } from '@storybook/core/client-logger';

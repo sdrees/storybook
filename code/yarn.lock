@@ -4163,6 +4163,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ngard/tiny-isequal@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@ngard/tiny-isequal@npm:1.1.0"
+  checksum: 10c0/c980ee5e3315a9bbabf4bf973940a68fe817aa490f35a2f93a45442e5606a8cc6a29fa6b767f07755b1a67f3eeea8a7da70d701e130545620b2e6e08b57fd27e
+  languageName: node
+  linkType: hard
+
 "@ngtools/webpack@npm:19.1.1":
   version: 19.1.1
   resolution: "@ngtools/webpack@npm:19.1.1"
@@ -5880,7 +5887,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-links@workspace:addons/links"
   dependencies:
-    "@storybook/csf": "npm:0.1.12"
     "@storybook/global": "npm:^5.0.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.7.3"
@@ -6109,7 +6115,6 @@ __metadata:
   resolution: "@storybook/blocks@workspace:lib/blocks"
   dependencies:
     "@storybook/addon-actions": "workspace:*"
-    "@storybook/csf": "npm:0.1.12"
     "@storybook/icons": "npm:^1.2.12"
     "@storybook/react": "workspace:*"
     "@storybook/test": "workspace:*"
@@ -6272,7 +6277,6 @@ __metadata:
     "@babel/preset-env": "npm:^7.24.4"
     "@babel/types": "npm:^7.24.0"
     "@storybook/core": "workspace:*"
-    "@storybook/csf": "npm:0.1.12"
     "@types/cross-spawn": "npm:^6.0.2"
     "@types/jscodeshift": "npm:^0.11.10"
     ansi-regex: "npm:^6.0.1"
@@ -6363,12 +6367,12 @@ __metadata:
     "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.2.0"
     "@fal-works/esbuild-plugin-global-externals": "npm:^2.1.2"
     "@ndelangen/get-tarball": "npm:^3.0.7"
+    "@ngard/tiny-isequal": "npm:^1.1.0"
     "@polka/compression": "npm:^1.0.0-next.28"
     "@popperjs/core": "npm:^2.6.0"
     "@radix-ui/react-dialog": "npm:^1.1.2"
     "@radix-ui/react-scroll-area": "npm:1.2.0-rc.7"
     "@radix-ui/react-slot": "npm:^1.0.2"
-    "@storybook/csf": "npm:0.1.12"
     "@storybook/docs-mdx": "npm:4.0.0-next.1"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.12"
@@ -6580,7 +6584,6 @@ __metadata:
   resolution: "@storybook/experimental-addon-test@workspace:addons/test"
   dependencies:
     "@devtools-ds/object-inspector": "npm:^1.1.2"
-    "@storybook/csf": "npm:0.1.12"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.12"
     "@storybook/instrumenter": "workspace:*"
@@ -7229,7 +7232,6 @@ __metadata:
     "@storybook/codemod": "workspace:*"
     "@storybook/core": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/csf": "npm:0.1.12"
     "@storybook/csf-plugin": "workspace:*"
     "@storybook/ember": "workspace:*"
     "@storybook/eslint-config-storybook": "npm:^4.0.0"
@@ -7378,7 +7380,6 @@ __metadata:
   resolution: "@storybook/server@workspace:renderers/server"
   dependencies:
     "@storybook/components": "workspace:*"
-    "@storybook/csf": "npm:0.1.12"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -7395,7 +7396,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/source-loader@workspace:lib/source-loader"
   dependencies:
-    "@storybook/csf": "npm:0.1.12"
     es-toolkit: "npm:^1.22.0"
     estraverse: "npm:^5.2.0"
     prettier: "npm:^3.1.1"
@@ -7451,6 +7451,7 @@ __metadata:
   resolution: "@storybook/svelte@workspace:renderers/svelte"
   dependencies:
     "@storybook/components": "workspace:*"
+    "@storybook/csf": "npm:0.1.12"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -7501,7 +7502,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/test@workspace:lib/test"
   dependencies:
-    "@storybook/csf": "npm:0.1.12"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/instrumenter": "workspace:*"
     "@testing-library/dom": "npm:10.4.0"
