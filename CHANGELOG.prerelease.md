@@ -1,3 +1,10 @@
+## 8.6.0-alpha.5
+
+- Core: Add `UniversalStore` API to sync state/events between multiple environments - [#30445](https://github.com/storybookjs/storybook/pull/30445), thanks @JReinhold!
+- Core: Fix statically serving single files and multiple dirs on the same endpoint - [#30467](https://github.com/storybookjs/storybook/pull/30467), thanks @JReinhold!
+- Core: Move CSF to monorepo - [#30488](https://github.com/storybookjs/storybook/pull/30488), thanks @kasperpeulen!
+- React: Update react-docgen-typescript to fix CI hanging issues - [#30422](https://github.com/storybookjs/storybook/pull/30422), thanks @yannbf!
+
 ## 8.6.0-alpha.4
 
 - Addon A11y: Make Vitest Axe optional - [#30442](https://github.com/storybookjs/storybook/pull/30442), thanks @valentinpalkovic!
