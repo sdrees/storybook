@@ -90,7 +90,7 @@ type BaseTemplates = Template & {
     | 'TypeScript'})`;
 };
 
-const baseTemplates = {
+export const baseTemplates = {
   'cra/default-js': {
     name: 'Create React App Latest (Webpack | JavaScript)',
     script: `

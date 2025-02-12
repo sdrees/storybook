@@ -31,7 +31,9 @@ export async function createViteServer(options: Options, devServer: Server) {
 
   const ipRegex = /^(?:\d{1,3}\.){3}\d{1,3}$|^(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}$/;
 
+  // @ts-expect-error (does not exist)
   config.server.allowedHosts =
+    // @ts-expect-error (does not exist)
     commonCfg.server?.allowedHosts ??
     (options.host && !ipRegex.test(options.host) ? [options.host.toLowerCase()] : true);
 

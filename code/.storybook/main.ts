@@ -4,7 +4,7 @@ import type { StorybookConfig } from '../frameworks/react-vite';
 
 const componentsPath = join(__dirname, '../core/src/components');
 const managerApiPath = join(__dirname, '../core/src/manager-api');
-const imageContextPath = join(__dirname, '..//frameworks/nextjs/src/image-context.ts');
+const imageContextPath = join(__dirname, '../frameworks/nextjs/src/image-context.ts');
 
 const config: StorybookConfig = {
   stories: [
@@ -159,6 +159,7 @@ const config: StorybookConfig = {
       build: {
         // disable sourcemaps in CI to not run out of memory
         sourcemap: process.env.CI !== 'true',
+        target: ['chrome100'],
       },
       server: {
         watch: {

@@ -29,7 +29,7 @@ export const telemetry = async (
 ) => {
   // Don't notify on boot since it can lead to double notification in `sb init`.
   // The notification will happen when the actual command runs.
-  if (eventType !== 'boot') {
+  if (eventType !== 'boot' && options.notify !== false) {
     await notify();
   }
   const telemetryData: TelemetryData = {
