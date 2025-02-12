@@ -67,6 +67,7 @@ export const sandbox: Task = {
       addExtraDependencies,
       setImportMap,
       setupVitest,
+      runMigrations,
     } = await import('./sandbox-parts');
 
     const extraDeps = [
@@ -146,8 +147,6 @@ export const sandbox: Task = {
 
     await extendMain(details, options);
 
-    await extendPreview(details, options);
-
     await setImportMap(details.sandboxDir);
 
     const { JsPackageManagerFactory } = await import('../../code/core/src/common');
@@ -156,6 +155,10 @@ export const sandbox: Task = {
 
     await remove(path.join(details.sandboxDir, 'node_modules'));
     await packageManager.installDependencies();
+
+    await runMigrations(details, options);
+
+    await extendPreview(details, options);
 
     logger.info(`✅ Storybook sandbox created at ${details.sandboxDir}`);
   },

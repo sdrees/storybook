@@ -12,6 +12,8 @@ export * from './storybook-metadata';
 
 export * from './types';
 
+export * from './sanitize';
+
 export { getPrecedingUpgrade } from './event-cache';
 
 export { addToGlobalContext } from './telemetry';

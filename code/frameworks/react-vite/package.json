@@ -30,6 +30,12 @@
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
     },
+    "./node": {
+      "types": "./dist/node/index.d.ts",
+      "node": "./dist/node/index.js",
+      "import": "./dist/node/index.mjs",
+      "require": "./dist/node/index.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -42,6 +48,9 @@
       ],
       "preset": [
         "dist/preset.d.ts"
+      ],
+      "node": [
+        "dist/node/index.d.ts"
       ]
     }
   },
@@ -93,7 +102,8 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/preset.ts"
+      "./src/preset.ts",
+      "./src/node/index.ts"
     ],
     "platform": "node"
   },

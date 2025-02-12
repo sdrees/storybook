@@ -43,6 +43,7 @@ export type RenderToCanvas<TRenderer extends Renderer> = (
 
 export interface ProjectAnnotations<TRenderer extends Renderer>
   extends BaseProjectAnnotations<TRenderer> {
+  addons?: ProjectAnnotations<TRenderer>[];
   testingLibraryRender?: (...args: never[]) => { unmount: () => void };
   renderToCanvas?: RenderToCanvas<TRenderer>;
   /* @deprecated use renderToCanvas */
@@ -95,6 +96,7 @@ export type NormalizedStoryAnnotations<TRenderer extends Renderer = Renderer> = 
 export type CSFFile<TRenderer extends Renderer = Renderer> = {
   meta: NormalizedComponentAnnotations<TRenderer>;
   stories: Record<StoryId, NormalizedStoryAnnotations<TRenderer>>;
+  projectAnnotations?: NormalizedProjectAnnotations<TRenderer>;
   moduleExports: ModuleExports;
 };
 

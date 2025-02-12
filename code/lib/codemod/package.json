@@ -89,14 +89,14 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/transforms/add-component-parameters.js",
+      "./src/transforms/storiesof-to-csf.js",
+      "./src/transforms/mdx-to-csf.ts",
       "./src/transforms/csf-2-to-3.ts",
       "./src/transforms/csf-hoist-story-annotations.js",
       "./src/transforms/find-implicit-spies.ts",
-      "./src/transforms/mdx-to-csf.ts",
+      "./src/transforms/add-component-parameters.js",
       "./src/transforms/migrate-to-test-package.ts",
       "./src/transforms/move-builtin-addons.js",
-      "./src/transforms/storiesof-to-csf.js",
       "./src/transforms/update-addon-info.js",
       "./src/transforms/update-organisation-name.js",
       "./src/transforms/upgrade-deprecated-types.ts",

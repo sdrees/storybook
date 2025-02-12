@@ -99,6 +99,11 @@
       "import": "./core/types/index.js",
       "require": "./core/types/index.cjs"
     },
+    "./internal/csf": {
+      "types": "./core/csf/index.d.ts",
+      "import": "./core/csf/index.js",
+      "require": "./core/csf/index.cjs"
+    },
     "./internal/csf-tools": {
       "types": "./core/csf-tools/index.d.ts",
       "import": "./core/csf-tools/index.js",
@@ -189,11 +194,6 @@
     },
     "./internal/preview/runtime": {
       "import": "./core/preview/runtime.js"
-    },
-    "./internal/csf": {
-      "types": "./core/csf/index.d.ts",
-      "import": "./core/csf/index.js",
-      "require": "./core/csf/index.cjs"
     }
   },
   "main": "dist/index.cjs",

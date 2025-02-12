@@ -206,7 +206,7 @@ jobs:
           name: Knip
           command: |
             cd code
-            yarn knip --no-exit-code 
+            yarn knip --no-exit-code
       - report-workflow-on-failure
       - cancel-workflow-on-failure
   bench-packages:

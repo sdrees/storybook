@@ -27,6 +27,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "import": "./dist/preview.mjs",
+      "require": "./dist/preview.js"
+    },
     "./actions/preview": {
       "types": "./dist/actions/preview.d.ts",
       "import": "./dist/actions/preview.mjs",
@@ -72,11 +77,22 @@
       "import": "./dist/viewport/preview.mjs",
       "require": "./dist/viewport/preview.js"
     },
+    "./preset": "./dist/preset.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -111,9 +127,12 @@
   },
   "bundler": {
     "nodeEntries": [
-      "./src/index.ts",
+      "./src/preset.ts",
       "./src/docs/preset.ts",
       "./src/docs/mdx-react-shim.ts"
+    ],
+    "exportEntries": [
+      "./src/index.ts"
     ],
     "entries": [
       "./src/docs/manager.ts"
@@ -129,6 +148,7 @@
       "./src/viewport/manager.ts"
     ],
     "previewEntries": [
+      "./src/preview.ts",
       "./src/actions/preview.ts",
       "./src/backgrounds/preview.ts",
       "./src/docs/preview.ts",

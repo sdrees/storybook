@@ -48,6 +48,9 @@
       "*": [
         "dist/index.d.ts"
       ],
+      "preview": [
+        "dist/preview.d.ts"
+      ],
       "react": [
         "dist/react/index.d.ts"
       ]

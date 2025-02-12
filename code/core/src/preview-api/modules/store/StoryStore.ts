@@ -215,7 +215,7 @@ export class StoryStore<TRenderer extends Renderer> {
     const story = this.prepareStoryWithCache(
       storyAnnotations,
       componentAnnotations,
-      this.projectAnnotations
+      csfFile.projectAnnotations ?? this.projectAnnotations
     );
     this.args.setInitial(story);
     this.hooks[story.id] = this.hooks[story.id] || new HooksContext();

@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { readdir } from 'node:fs/promises';
+import { readdir, rm } from 'node:fs/promises';
 import { isAbsolute, join } from 'node:path';
 
 import type { PackageManagerName } from 'storybook/internal/common';
@@ -166,6 +166,7 @@ export const sandbox = async ({
   const outputDirectoryName = outputDirectory || templateId;
   if (selectedDirectory && existsSync(`${selectedDirectory}`)) {
     logger.info(`⚠️  ${selectedDirectory} already exists! Overwriting...`);
+    await rm(selectedDirectory, { recursive: true, force: true });
   }
 
   if (!selectedDirectory) {

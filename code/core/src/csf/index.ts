@@ -88,3 +88,4 @@ export const combineTags = (...tags: string[]): string[] => {
 
 export { includeConditionalArg } from './includeConditionalArg';
 export * from './story';
+export * from './csf-factories';
