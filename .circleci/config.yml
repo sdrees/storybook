@@ -314,9 +314,9 @@ jobs:
       - cancel-workflow-on-failure
   unit-tests:
     executor:
-      class: large
+      class: xlarge
       name: sb_playwright
-    parallelism: 4
+    parallelism: 2
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
