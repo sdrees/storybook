@@ -11,11 +11,11 @@ import type {
   StoryAnnotations,
 } from 'storybook/internal/types';
 
-import type { AddMocks } from 'src/public-types';
 import type { RemoveIndexSignature, SetOptional, Simplify, UnionToIntersection } from 'type-fest';
 
 import * as reactAnnotations from './entry-preview';
 import * as reactDocsAnnotations from './entry-preview-docs';
+import type { AddMocks } from './public-types';
 import type { ReactRenderer } from './types';
 
 export function definePreview(preview: ReactPreview['input']) {
