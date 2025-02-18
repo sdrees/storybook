@@ -5,6 +5,7 @@ import { dirname, extname, join, normalize, relative, resolve, sep } from 'node:
 
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core/common';
 import { combineTags, storyNameFromExport, toId } from '@storybook/core/csf';
+import { isExampleStoryId } from '@storybook/core/telemetry';
 import type {
   DocsIndexEntry,
   DocsOptions,
@@ -269,7 +270,10 @@ export class StoryIndexGenerator {
             return item;
           }
 
-          addStats(item.extra.stats, statsSummary);
+          // don't count example stories towards feature usage stats
+          if (!isExampleStoryId(item.id)) {
+            addStats(item.extra.stats, statsSummary);
+          }
 
           // Drop extra data used for internal bookkeeping
           const { extra, ...existing } = item;
