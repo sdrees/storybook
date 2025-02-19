@@ -56,6 +56,14 @@ interface ReactMeta<
   MetaInput extends ComponentAnnotations<ReactRenderer>,
 > extends Meta<ReactRenderer, Context['args']> {
   story<
+    TInput extends StoryAnnotations<ReactRenderer, Context['args']> & {
+      render: () => ReactRenderer['storyResult'];
+    },
+  >(
+    story: TInput
+  ): ReactStory;
+
+  story<
     const TInput extends Simplify<
       StoryAnnotations<
         ReactRenderer,

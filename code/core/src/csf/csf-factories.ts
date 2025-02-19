@@ -46,7 +46,7 @@ export interface Meta<TRenderer extends Renderer, TArgs extends Args = Args> {
   composed: NormalizedComponentAnnotations<TRenderer>;
   preview: Preview<TRenderer>;
 
-  story(input: ComponentAnnotations<TRenderer, TArgs>): Story<TRenderer, TArgs>;
+  story(input: StoryAnnotations<TRenderer, TArgs>): Story<TRenderer, TArgs>;
 }
 
 export function isMeta(input: unknown): input is Meta<Renderer> {

@@ -146,6 +146,7 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
             numTotalTests: progress?.numTotalTests,
             numFailedTests: progress?.numFailedTests,
             numPassedTests: progress?.numPassedTests,
+            numSelectedStories: payload.details?.selectedStoryCount ?? 0,
           });
         }
 
@@ -157,6 +158,7 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
             ...(options.enableCrashReports && {
               error: error && sanitizeError(error),
             }),
+            numSelectedStories: payload.details?.selectedStoryCount ?? 0,
           });
         }
       }

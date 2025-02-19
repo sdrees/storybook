@@ -294,16 +294,17 @@ export async function doInitiate(options: CommandOptions): Promise<
 
   const isInteractive = process.stdout.isTTY && !process.env.CI;
 
-  const selectableFeatures: Record<GeneratorFeature, string> = {
-    docs: 'Documentation',
-    test: 'Testing',
+  const selectableFeatures: Record<GeneratorFeature, { name: string; description: string }> = {
+    docs: { name: 'Documentation', description: 'MDX, auto-generated component docs' },
+    test: { name: 'Testing', description: 'Fast browser-based component tests, watch mode' },
   };
+
   let selectedFeatures = new Set<GeneratorFeature>();
   selectedFeatures.toString = () =>
     selectedFeatures.size === 0
       ? 'none'
       : Array.from(selectedFeatures)
-          .map((f) => selectableFeatures[f])
+          .map((f) => selectableFeatures[f].name)
           .join(', ');
 
   if (options.features?.length > 0) {
@@ -326,9 +327,9 @@ export async function doInitiate(options: CommandOptions): Promise<
     const out = await prompts({
       type: 'multiselect',
       name: 'features',
-      message: `What are you using Storybook for?`,
-      choices: Object.entries(selectableFeatures).map(([value, title]) => ({
-        title,
+      message: `What do you want to use Storybook for?`,
+      choices: Object.entries(selectableFeatures).map(([value, { name, description }]) => ({
+        title: `${name}: ${description}`,
         value,
         selected: true,
       })),
