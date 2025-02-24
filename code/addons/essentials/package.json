@@ -27,7 +27,7 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./preview": {
+    "./entry-preview": {
       "types": "./dist/preview.d.ts",
       "import": "./dist/preview.mjs",
       "require": "./dist/preview.js"
@@ -88,7 +88,7 @@
       "*": [
         "dist/index.d.ts"
       ],
-      "preview": [
+      "entry-preview": [
         "dist/preview.d.ts"
       ]
     }
